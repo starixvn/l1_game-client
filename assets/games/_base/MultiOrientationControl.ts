@@ -9,7 +9,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MultiOrientationControl extends cc.Component {
-    @property({ type: MultiOrientationGame })
+    @property({ type: cc.Prefab })
+    gamePrefabs: cc.Prefab[] = [];
+
     games: MultiOrientationGame[] = [];
 
     @lazyInject(SocketIOController)
@@ -28,8 +30,18 @@ export default class MultiOrientationControl extends cc.Component {
 
     onLoad() {
         this.socket = this.socketIOController.getSocketGame(this.gameId);
+        this.initGames();
         this.initChangeOrientationCallback();
         this.updateGames();
+    }
+    initGames() {
+        this.gamePrefabs.forEach((prefab, index) => {
+            const node = cc.instantiate(prefab);
+            this.node.addChild(node);
+            node.angle = index === Orientation.Portrait ? 90 : 0;
+            const orientationGame = node.getComponent(MultiOrientationGame);
+            this.games.push(orientationGame);
+        });
     }
 
     initChangeOrientationCallback() {
