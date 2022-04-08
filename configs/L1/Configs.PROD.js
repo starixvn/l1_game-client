@@ -28,8 +28,7 @@ const configs = {
         10: true,
         22: true,
         27: true
-    },
-    enableMD5OnGame: [1, 4, 2, 9, 22, 10, 27]
+    }
 };
 
 module.exports = configs;

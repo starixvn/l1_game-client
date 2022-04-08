@@ -3,7 +3,6 @@ import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import { MenuDirectionType } from "../../../common/expandable-menu/view-models/MenuDirectionType";
 import AudioManager from "../../../common/audio/AudioManager";
-import { enableMD5OnGame } from "../../../configs/Configs";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
 
 const { ccclass, property } = cc._decorator;
@@ -56,7 +55,7 @@ export default class MD5Component extends cc.Component {
 
     private md5CopyString: string = null;
     readonly duration: number = 0.5;
-    readonly delayShowHashValue: number = 1;
+    readonly delayShowHashValue: number = 1.2;
     protected isExpanded = false;
     blockDirection = MenuDirectionType.RIGHT;
     protected md5Tooltip: MD5Tooltip = null;
@@ -164,12 +163,5 @@ export default class MD5Component extends cc.Component {
         // cc.tween(this.expandableNode)
         //     .to(0.2, { position: { value: cc.v2(-this.expandableNode.width, 0), easing: "sineIn" } })
         //     .start();
-    }
-
-    hide(gameId: number) {
-        const isShowMD5 = enableMD5OnGame.includes(gameId);
-        if (!isShowMD5 && this.node) {
-            this.node.active = false;
-        }
     }
 }

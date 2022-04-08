@@ -174,7 +174,6 @@ export default class GameBase extends BaseComponent {
         this.initGameAudios();
         this.setGameRound(0);
         this.resetDataAndUI();
-        this.hideMD5Component();
         cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
@@ -328,10 +327,6 @@ export default class GameBase extends BaseComponent {
     unlockBet() {
         this.waitingProcessing = false;
         this.unschedule(this.sendRetryMessage);
-    }
-
-    hideMD5Component() {
-        this.md5Component && this.md5Component.hide(this.gameId);
     }
 
     showUmMessage(data: any) {
