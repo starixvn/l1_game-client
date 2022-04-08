@@ -227,6 +227,7 @@ export default class GameBase extends BaseComponent {
     closeGame() {
         this.playClick();
         this.node.active = false;
+        this.md5Component && this.md5Component.resetMd5();
     }
 
     /** Clear all intervals and timeouts in game */
@@ -234,9 +235,6 @@ export default class GameBase extends BaseComponent {
         this.gameState = GameState.Stopped;
         this.clearIntervalAndTimeout();
         this.resetDataAndUI();
-        if (this.md5Component) {
-            this.md5Component.resetMd5Value();
-        }
     }
 
     disableGame() {

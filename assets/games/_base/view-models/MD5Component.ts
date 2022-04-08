@@ -53,9 +53,10 @@ export default class MD5Component extends cc.Component {
     @property(cc.Node)
     md5TooltipContainer: cc.Node = null;
 
+    public timeout: any;
     private md5CopyString: string = null;
     readonly duration: number = 0.5;
-    readonly delayShowHashValue: number = 1.2;
+    readonly delayShowHashValue: number = 1.35;
     protected isExpanded = false;
     blockDirection = MenuDirectionType.RIGHT;
     protected md5Tooltip: MD5Tooltip = null;
@@ -82,7 +83,7 @@ export default class MD5Component extends cc.Component {
 
     updateMD5String(data: MD5Type) {
         const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
             this.handleMD5Data(data);
         }, delayTime * 1000);
     }
@@ -100,8 +101,9 @@ export default class MD5Component extends cc.Component {
         this.md5Value.string = `${formatValue}`;
     }
 
-    resetMd5Value() {
+    resetMd5() {
         this.md5Value.string = "";
+        this.timeout && clearTimeout(this.timeout);
     }
 
     setCopyString(text: string) {

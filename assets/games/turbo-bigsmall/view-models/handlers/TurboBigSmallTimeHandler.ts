@@ -2,5 +2,5 @@ import BigSmallTimeHandler from '../../../bigsmall/view-models/handlers/BigSmall
 
 export default class TurboBigSmallTimeHandler extends BigSmallTimeHandler {
     protected displayResultTime = 35;
-    protected shakeThePlateTime = 32;
+    protected shakeTheBowlTime = 32;
 }

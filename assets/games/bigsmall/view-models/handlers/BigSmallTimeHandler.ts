@@ -3,7 +3,7 @@ import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BigSmall, { DishAnimation } from "../BigSmall";
 
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
-    protected shakeThePlateTime = 52;
+    protected shakeTheBowlTime = 52;
     protected displayResultTime = 59;
 
     constructor(protected readonly main: BigSmall) {
@@ -11,7 +11,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     }
 
     get isInWaitTime() {
-        return this.main.currentTimeRemaining > this.shakeThePlateTime;
+        return this.main.currentTimeRemaining > this.shakeTheBowlTime;
     }
 
     get isInBalanceBetTime() {
@@ -19,7 +19,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     }
 
     get isStartingNewGameRound() {
-        return this.main.currentTimeRemaining === this.shakeThePlateTime;
+        return this.main.currentTimeRemaining === this.shakeTheBowlTime;
     }
 
     get isDisplayResultTime() {
@@ -78,8 +78,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     showWaitTime() {
         this.main.timeWaitNode.active = true;
-        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeThePlateTime - 1);
-        this.main.thePlate.opacity = 0;
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeTheBowlTime - 1);
     }
 
     shakeThePlate() {
@@ -95,6 +94,5 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-        this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 }

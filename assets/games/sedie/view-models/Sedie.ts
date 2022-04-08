@@ -184,4 +184,9 @@ export default class Sedie extends FreeBetGameBase {
             betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
         });
     }
+
+    stopGame() {
+        super.stopGame();
+        this.md5Component && this.md5Component.resetMd5();
+    }
 }
