@@ -4,7 +4,7 @@ import configs = require("../configs/Configs");
 const { ccclass, property } = cc._decorator;
 
 export enum SiteType {
-    SC1,
+    SC1 = 0,
     SC2
 }
 
