@@ -62,7 +62,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale = 1;
-    readonly delayTurnOffMusicBg = 4;
+    readonly delayTurnOffMusicBg = 3.5;
 
     constructor() {
         super();
@@ -154,6 +154,10 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     onCloseGameClick() {
+        if (this.musicBg && this.musicBg.getComponent(cc.AudioSource)) {
+            MusicPlayer.getInstance().clearIntervalSetVolume();
+            MusicPlayer.getInstance().playMusicBgOutSwiftRoom();
+        }
         this.closeGame();
     }
 
