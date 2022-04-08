@@ -2,7 +2,7 @@ import TutorialItem from "../../../../common/tutorial/TutorialItem";
 import HoldemPokerCard from "../../../holdem-poker/components/cards/view-models/HoldemPokerCard";
 import TexasSwapCards from "../../cards-component/view-models/texas-swap-cards";
 import { CardAnimation } from "./../../texas-type";
-import TexasTurorialMain from "./TexasTutorialMain";
+import TexasTutorialMain from "./TexasTutorialMain";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,20 +23,16 @@ export default class TexasTutorialItem4 extends TutorialItem {
     @property(cc.Node)
     cardPlayer2: cc.Node = null;
 
-    componentSwap: TexasSwapCards;
+    swapCardComponent: TexasSwapCards;
     actionSwapCard: cc.Tween;
-
-    cardPlayer1Clone: any;
-    cardPlayer2Clone: any;
-
-    mainBtnSwapNode: cc.Node;
-    mainBtnHoldNode: cc.Node;
-    mainBtnCallNode: cc.Node;
-    mainBtnFoldNode: cc.Node;
+    buttonSwapMainNode: cc.Node;
+    buttonHoldMainNode: cc.Node;
+    buttonCallMainNode: cc.Node;
+    buttonFoldMainNode: cc.Node;
     timeout: any;
 
     onLoad() {
-        this.cloneNode();
+        this.cloneNodeAndComponent();
     }
 
     onHidden() {
@@ -48,87 +44,87 @@ export default class TexasTutorialItem4 extends TutorialItem {
         this.node.stopAllActions();
         this.cardPlayer1.stopAllActions();
         this.cardPlayer2.stopAllActions();
-        this.componentSwap.reset();
+        this.swapCardComponent.reset();
 
         this.infoNode.stopAllActions();
         this.infoNode.opacity = 0;
 
-        this.mainBtnSwapNode.stopAllActions();
-        this.mainBtnHoldNode.stopAllActions();
-        this.mainBtnCallNode.stopAllActions();
-        this.mainBtnFoldNode.stopAllActions();
-        this.showSwapAndHoldButton(true);
+        this.buttonSwapMainNode.stopAllActions();
+        this.buttonHoldMainNode.stopAllActions();
+        this.buttonCallMainNode.stopAllActions();
+        this.buttonFoldMainNode.stopAllActions();
+        this.setStatusSwapAndHoldButton(true);
         this.handleFaceDownCard();
-        this.showCardsInMainGuide(true);
+        this.showCardsOnMainGuide(true);
     }
 
     async show() {
         super.show();
-        this.showCardsInMainGuide(false);
+        this.showCardsOnMainGuide(false);
         this.handleFaceDownCard();
         this.infoNode.opacity = 0;
-        this.showSwapAndHoldButton(true);
+        this.setStatusSwapAndHoldButton(true);
 
         const durationOpenCard = 0.6;
         const delayDuration = 1000;
 
-        this.sleep(delayDuration).then(async () => {
-            this.opacityButtonSwapHold();
-            this.showCardsInMainGuide(false);
-            await this.componentSwap.swapCards();
+        this.waitingShowAnimSwap(delayDuration).then(async () => {
+            this.setOpacitySwapHoldButton();
+            this.showCardsOnMainGuide(false);
+            await this.swapCardComponent.swapCards();
             this.handleOpenCard(durationOpenCard);
 
             this.handleShowTextInfo(durationOpenCard, () => {
-                this.showSwapAndHoldButton(false);
-                this.opacityButtonCallCancel();
+                this.setStatusSwapAndHoldButton(false);
+                this.setOpacityCallCancelButton();
                 cc.tween(this.infoNode).to(0.2, { opacity: 255 }).start();
             });
         });
     }
 
-    sleep(time: number) {
+    waitingShowAnimSwap(time: number) {
         return new Promise((resolve) => (this.timeout = setTimeout(resolve, time)));
     }
 
-    cloneNode() {
+    cloneNodeAndComponent() {
         const parent = this.getParentNode();
-        const tutorialMain = parent.getComponent(TexasTurorialMain);
-        this.mainBtnCallNode = tutorialMain.callButton;
-        this.mainBtnFoldNode = tutorialMain.foldButton;
-        this.mainBtnHoldNode = tutorialMain.holdButton;
-        this.mainBtnSwapNode = tutorialMain.swapButton;
-        this.componentSwap = this.swapNode.getComponent(TexasSwapCards);
+        const tutorialMain = parent.getComponent(TexasTutorialMain);
+        this.buttonCallMainNode = tutorialMain.callButton;
+        this.buttonFoldMainNode = tutorialMain.foldButton;
+        this.buttonHoldMainNode = tutorialMain.holdButton;
+        this.buttonSwapMainNode = tutorialMain.swapButton;
+        this.swapCardComponent = this.swapNode.getComponent(TexasSwapCards);
     }
 
-    showSwapAndHoldButton(showSwapHold: boolean) {
-        this.mainBtnSwapNode.opacity = showSwapHold ? 255 : 0;
-        this.mainBtnSwapNode.active = showSwapHold;
-        this.mainBtnHoldNode.opacity = showSwapHold ? 255 : 0;
-        this.mainBtnHoldNode.active = showSwapHold;
-        this.mainBtnCallNode.opacity = !showSwapHold ? 255 : 0;
-        this.mainBtnCallNode.active = !showSwapHold;
-        this.mainBtnFoldNode.opacity = !showSwapHold ? 255 : 0;
-        this.mainBtnFoldNode.active = !showSwapHold;
+    setStatusSwapAndHoldButton(showSwapHold: boolean) {
+        this.buttonSwapMainNode.opacity = showSwapHold ? 255 : 0;
+        this.buttonSwapMainNode.active = showSwapHold;
+        this.buttonHoldMainNode.opacity = showSwapHold ? 255 : 0;
+        this.buttonHoldMainNode.active = showSwapHold;
+        this.buttonCallMainNode.opacity = !showSwapHold ? 255 : 0;
+        this.buttonCallMainNode.active = !showSwapHold;
+        this.buttonFoldMainNode.opacity = !showSwapHold ? 255 : 0;
+        this.buttonFoldMainNode.active = !showSwapHold;
         this.playerResult.active = !showSwapHold;
     }
 
-    opacityButtonSwapHold() {
+    setOpacitySwapHoldButton() {
         this.actionSwapCard = cc
             .tween(this.node)
             .delay(0.1)
             .call(() => {
-                cc.tween(this.mainBtnSwapNode).to(0.1, { opacity: 0 }).start();
-                cc.tween(this.mainBtnHoldNode).to(0.1, { opacity: 0 }).start();
+                cc.tween(this.buttonSwapMainNode).to(0.1, { opacity: 0 }).start();
+                cc.tween(this.buttonHoldMainNode).to(0.1, { opacity: 0 }).start();
             })
             .start();
     }
 
-    opacityButtonCallCancel() {
+    setOpacityCallCancelButton() {
         cc.tween(this.node)
             .delay(0.1)
             .call(() => {
-                cc.tween(this.mainBtnCallNode).to(0.1, { opacity: 255 }).start();
-                cc.tween(this.mainBtnFoldNode).to(0.1, { opacity: 255 }).start();
+                cc.tween(this.buttonCallMainNode).to(0.1, { opacity: 255 }).start();
+                cc.tween(this.buttonFoldMainNode).to(0.1, { opacity: 255 }).start();
             })
             .start();
     }
@@ -152,9 +148,9 @@ export default class TexasTutorialItem4 extends TutorialItem {
             .start();
     }
 
-    showCardsInMainGuide(show: boolean) {
+    showCardsOnMainGuide(show: boolean) {
         const parent = this.getParentNode();
-        const tutorialMain = parent.getComponent(TexasTurorialMain);
+        const tutorialMain = parent.getComponent(TexasTutorialMain);
         tutorialMain.playerCards[0].node.active = show;
         tutorialMain.playerCards[1].node.active = show;
         tutorialMain.dealerCards[0].node.active = show;

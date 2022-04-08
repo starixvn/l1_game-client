@@ -1,6 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import TutorialItem from "../../../../common/tutorial/TutorialItem";
-import TexasTurorialMain from "./TexasTutorialMain";
+import TexasTutorialMain from "./TexasTutorialMain";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,7 +25,7 @@ export default class TexasTutorialItem extends TutorialItem {
         super.show();
 
         const parent = this.getParentNode();
-        const tutorialMain = parent.getComponent(TexasTurorialMain);
+        const tutorialMain = parent.getComponent(TexasTutorialMain);
         this.md5Node = tutorialMain.md5Node;
         this.md5Main = tutorialMain.md5Main;
         this.showOpacity(this.md5Main);

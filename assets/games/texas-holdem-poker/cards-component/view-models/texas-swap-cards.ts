@@ -36,19 +36,18 @@ export default class TexasSwapCards extends cc.Component {
     tweenCard3DTmp: cc.Tween;
     tweenCard2DTmp: cc.Tween;
     tweenCardOrigin: cc.Tween;
-
-    dealerTmpClone: any;
-    playerTmpClone: any;
-    dealerTmpScaleClone: any;
+    dealerTmpClonePosition: cc.Vec2;
+    playerTmpClonePosition: cc.Vec2;
+    dealerTmpCloneScale: cc.Vec2;
 
     protected onLoad(): void {
         this.node.active = true;
 
         const dealerTmpScaleX = this.dealerTmp.scaleX;
         const dealerTmpScaleY = this.dealerTmp.scaleY;
-        this.dealerTmpClone = { x: this.dealerTmp.x, y: this.dealerTmp.y };
-        this.playerTmpClone = { x: this.playerTmp.x, y: this.playerTmp.y };
-        this.dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
+        this.dealerTmpClonePosition = cc.v2(this.dealerTmp.x, this.dealerTmp.y);
+        this.playerTmpClonePosition = cc.v2(this.playerTmp.x, this.playerTmp.y);
+        this.dealerTmpCloneScale = cc.v2(dealerTmpScaleX, dealerTmpScaleY);
     }
 
     protected activeCardsOrigin(status: boolean) {
@@ -76,11 +75,7 @@ export default class TexasSwapCards extends cc.Component {
 
     reset() {
         this.resetAllTween();
-        this.dealerTmp.setPosition(this.dealerTmpClone.x, this.dealerTmpClone.y);
-        this.dealerTmp.setScale(this.dealerTmpScaleClone.x, this.dealerTmpScaleClone.y);
-        this.playerTmp.setPosition(this.playerTmpClone.x, this.playerTmpClone.y);
-        this.playerTmp.scale = 1;
-
+        this.resetCard2DTmp();
         this.changeStatusCard3DTmp(false);
         this.changeStatusCard2D(false);
     }
@@ -113,12 +108,6 @@ export default class TexasSwapCards extends cc.Component {
     }
 
     moveBezierCard2DTmp(duration: number) {
-        const dealerTmpScaleX = this.dealerTmp.scaleX;
-        const dealerTmpScaleY = this.dealerTmp.scaleY;
-        const dealerTmpClone = { x: this.dealerTmp.x, y: this.dealerTmp.y };
-        const playerTmpClone = { x: this.playerTmp.x, y: this.playerTmp.y };
-        const dealerTmpScaleClone = { x: dealerTmpScaleX, y: dealerTmpScaleY };
-
         const bezierLeft = [
             cc.v2(this.desLeftControl1.x, this.desLeftControl1.y),
             cc.v2(this.desLeftControl2.x, this.desLeftControl2.y),
@@ -138,16 +127,15 @@ export default class TexasSwapCards extends cc.Component {
                 .call(() => {
                     this.dealerTmp.runAction(cc.spawn(cc.bezierTo(duration, bezierLeft), cc.scaleTo(duration * 0.8, 1, 1)));
                     this.playerTmp.runAction(
-                        cc.spawn(cc.bezierTo(duration, bezierRight), cc.scaleTo(duration * 0.8, dealerTmpScaleX, dealerTmpScaleY))
+                        cc.spawn(
+                            cc.bezierTo(duration, bezierRight),
+                            cc.scaleTo(duration * 0.8, this.dealerTmpCloneScale.x, this.dealerTmpCloneScale.y)
+                        )
                     );
                 })
                 .delay(duration)
                 .call(() => {
-                    this.resetCard2DTmp({
-                        dealerClone: dealerTmpClone,
-                        playerClone: playerTmpClone,
-                        dealerScaleClone: dealerTmpScaleClone
-                    });
+                    this.resetCard2DTmp();
                     resolve();
                 })
                 .start();
@@ -176,10 +164,10 @@ export default class TexasSwapCards extends cc.Component {
         });
     }
 
-    resetCard2DTmp({ dealerClone, playerClone, dealerScaleClone }) {
-        this.dealerTmp.setPosition(dealerClone.x, dealerClone.y);
-        this.dealerTmp.setScale(dealerScaleClone.x, dealerScaleClone.y);
-        this.playerTmp.setPosition(playerClone.x, playerClone.y);
+    resetCard2DTmp() {
+        this.dealerTmp.setPosition(this.dealerTmpClonePosition);
+        this.dealerTmp.setScale(this.dealerTmpCloneScale);
+        this.playerTmp.setPosition(this.playerTmpClonePosition);
         this.playerTmp.scale = 1;
     }
 }
