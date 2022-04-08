@@ -25,6 +25,7 @@ import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import CategoryItem from "./CategoryItem";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
+import configs = require("../../../configs/Configs");
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -328,7 +329,7 @@ export default class MainGame extends cc.Component {
         };
 
         adsBannerController.menuLoop = !showJackpotBanner;
-        const gameAds = lobbyMenuConfig.bannerAds;
+        const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
         const offerGames = cc.RedT.user.offerGames;
         const filterList = [];
         gameAds.forEach((id) => {
