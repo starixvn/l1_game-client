@@ -23,8 +23,6 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     list = [
-        GameIds.HeroesSlot,
-        GameIds.FourGuardians,
         GameIds.NightClub,
         GameIds.VipSedie,
         GameIds.SeDie,
@@ -34,6 +32,8 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.BigSmall,
         GameIds.TurboBigSmall,
         GameIds.TurboOddEven,
+        GameIds.HeroesSlot,
+        GameIds.FourGuardians,
         GameIds.KenoProMax,
         GameIds.KenoProViet,
         GameIds.VipBaccarat,
