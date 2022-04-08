@@ -9,13 +9,13 @@ export enum SiteType {
 }
 
 @ccclass
-export default class AutoSiteNode extends cc.Component {
+export default class SiteActiveNode extends cc.Component {
     @property({ type: cc.Enum(SiteType) })
-    activeSite = SiteType.SC1;
+    site = SiteType.SC1;
 
-    offeredSites = [SystemType.SC1, SystemType.SC2];
+    siteList = [SystemType.SC1, SystemType.SC2];
 
     onLoad() {
-        this.node.active = configs.systemType === this.offeredSites[this.activeSite];
+        this.node.active = configs.systemType === this.siteList[this.site];
     }
 }
