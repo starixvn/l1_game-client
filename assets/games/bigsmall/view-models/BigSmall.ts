@@ -266,12 +266,21 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     resetDataAndUI() {
         super.resetDataAndUI();
         this.resetThePlate();
+        this.disableResultNode();
         this.statusHandler.currentStatusData = null;
         this.betItems.forEach((betItem) => {
             betItem.ownBet.string = "0";
         });
         this.node.stopAllActions();
-        this.resultNode.active = false;
+    }
+
+    disableResultNode() {
+        cc.tween(this.resultNode)
+            .call(() => {
+                this.resultNode.active = false;
+                this.resultNode.opacity = 0;
+            })
+            .start();
     }
 
     resetThePlate() {

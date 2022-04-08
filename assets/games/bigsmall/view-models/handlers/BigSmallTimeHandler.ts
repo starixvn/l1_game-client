@@ -55,7 +55,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleInRoundTime() {
         this.main.setGameRound(this.main.roundId);
         this.main.resetThePlate();
-        this.main.resultNode.active = false;
+        this.main.disableResultNode();
         this.main.betItems.forEach((item) => item.resetHighlight());
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
@@ -66,7 +66,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        //this.main.thePlate.opacity = 0;
+        this.main.thePlate.opacity = 0;
         this.main.bgTimer.opacity = 0;
         cc.tween(this.main.resultNode)
             .call(() => {
