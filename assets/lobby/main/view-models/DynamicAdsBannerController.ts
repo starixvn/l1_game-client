@@ -68,7 +68,6 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     private getSpriteFrame(name: string) {
-        // return this.bannerAtlas.getSpriteFrame(name);
         return new Promise<cc.SpriteFrame>((resolve) => {
             cc.resources.load<cc.SpriteFrame>(`image/banners/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
                 resolve(spriteFrame);

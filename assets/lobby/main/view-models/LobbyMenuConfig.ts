@@ -114,7 +114,10 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             size: cc.v2(1, 2)
         }
     };
-    newGames = [GameIds.TexasHoldemPoker, GameIds.NightClub];
+    newGames = {
+        SC1: [GameIds.TexasHoldemPoker, GameIds.NightClub],
+        SC2: [GameIds.BitcoinMaster, GameIds.CasinoHoldemPoker]
+    };
 
     customizeCredit(): void {
         this.smPromotion = true;
