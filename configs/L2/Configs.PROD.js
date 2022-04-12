@@ -12,7 +12,10 @@ const configs = {
         url: "https://eb5f1c92d1da4cb6a059fa40c1276a9d@sentry.sabagame.com/48",
         env: "PRO"
     },
-    guideDomain: "https://guides.v-gaming.net"
+    guideDomain: "https://guides.v-gaming.net",
+    enableMsgpackParserOnGame: {
+        45: true
+    }
 };
 
 module.exports = configs;
