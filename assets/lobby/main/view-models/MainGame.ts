@@ -160,13 +160,12 @@ export default class MainGame extends cc.Component {
     }
 
     activeBgNewOnCategory() {
-        const newGames = lobbyMenuConfig.newGames;
-        const isTextNewSeDie = lobbyMenuConfig.seDieGames.some((r) => newGames[configs.systemType].includes(r)),
-            isTextNewCasino = lobbyMenuConfig.casinoGames.some((r) => newGames[configs.systemType].includes(r)),
-            isTextNewCard = lobbyMenuConfig.cardGames.some((r) => newGames[configs.systemType].includes(r)),
-            isTextNewSlot = lobbyMenuConfig.slotGames.some((r) => newGames[configs.systemType].includes(r)),
-            isTextNewLottery = lobbyMenuConfig.lotteryGames.some((r) => newGames[configs.systemType].includes(r)),
-            isTextNewOther = lobbyMenuConfig.othersGames.some((r) => newGames[configs.systemType].includes(r));
+        const isTextNewSeDie = lobbyMenuConfig.seDieGames.some((r) => lobbyMenuConfig.isNewGame(r)),
+            isTextNewCasino = lobbyMenuConfig.casinoGames.some((r) => lobbyMenuConfig.isNewGame(r)),
+            isTextNewCard = lobbyMenuConfig.cardGames.some((r) => lobbyMenuConfig.isNewGame(r)),
+            isTextNewSlot = lobbyMenuConfig.slotGames.some((r) => lobbyMenuConfig.isNewGame(r)),
+            isTextNewLottery = lobbyMenuConfig.lotteryGames.some((r) => lobbyMenuConfig.isNewGame(r)),
+            isTextNewOther = lobbyMenuConfig.othersGames.some((r) => lobbyMenuConfig.isNewGame(r));
 
         const categoryTextNew = [
             { [GameCategory.SeDie]: isTextNewSeDie },

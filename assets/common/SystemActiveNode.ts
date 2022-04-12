@@ -9,7 +9,7 @@ export enum SiteType {
 }
 
 @ccclass
-export default class SiteActiveNode extends cc.Component {
+export default class SystemActiveNode extends cc.Component {
     @property({ type: cc.Enum(SiteType) })
     site = SiteType.SC1;
 

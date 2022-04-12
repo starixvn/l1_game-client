@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 
 import { GameIds } from "../../../configs/SabaConfigs";
 import { ICashSystem, ICreditSystem, System } from "../../../System";
+import configs = require("../../../configs/Configs");
 
 @injectable()
 export default class LobbyMenuConfig extends System implements ICreditSystem, ICashSystem {
@@ -128,5 +129,9 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
 
     customizeCash(): void {
         this.smPromotion = false;
+    }
+
+    isNewGame(gameId: number): boolean {
+        return this.newGames[configs.systemType].includes(gameId);
     }
 }

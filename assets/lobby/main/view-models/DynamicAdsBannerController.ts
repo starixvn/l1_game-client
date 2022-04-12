@@ -26,8 +26,7 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     async createAdsItem(id: number) {
-        const isNewGame = this.lobbyMenuConfig.newGames[configs.systemType].includes(id);
-        const newSuffix = isNewGame ? "_new" : "";
+        const newSuffix = this.lobbyMenuConfig.isNewGame(id) ? "_new" : "";
         const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}${newSuffix}` : newSuffix;
         const languageBanner = await this.getSpriteFrame(`${id.toString()}${language}`);
 

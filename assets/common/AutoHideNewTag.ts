@@ -1,6 +1,5 @@
 import { lazyInject } from "../Application";
 import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
-import configs = require("../configs/Configs");
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,7 +13,7 @@ export default class AutoHideNewTag extends cc.Component {
 
     onLoad() {
         if (this.gameId) {
-            this.node.active = this.lobbyMenuConfig.newGames[configs.systemType].includes(+this.gameId);
+            this.node.active = this.lobbyMenuConfig.isNewGame(+this.gameId);
         }
     }
 }
