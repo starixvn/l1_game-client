@@ -1,8 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
-import { MenuDirectionType } from "../../../common/expandable-menu/view-models/MenuDirectionType";
-import AudioManager from "../../../common/audio/AudioManager";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
 
 const { ccclass, property } = cc._decorator;
@@ -23,29 +21,11 @@ export default class MD5Component extends cc.Component {
     @property(cc.Button)
     copyButton: cc.Button = null;
 
-    // @property(cc.Node)
-    // iconToggle: cc.Node = null;
-
-    // @property(cc.Node)
-    // bgButtonCollapse: cc.Node = null;
-
-    // @property(cc.Node)
-    // bgButtonExpand: cc.Node = null;
-
-    @property(cc.Node)
-    expandableNode: cc.Node = null;
-
     @property(cc.Node)
     hintCopyNode: cc.Node = null;
 
     @property
-    defaultExpand = false;
-
-    @property
     lengthOfMd5 = 21;
-
-    @property
-    delayShowRawValue = 0;
 
     @property(cc.Prefab)
     md5TooltipPrefab: cc.Prefab = null;
@@ -57,8 +37,7 @@ export default class MD5Component extends cc.Component {
     private md5CopyString: string = null;
     readonly duration: number = 0.5;
     readonly delayShowHashValue: number = 1.35;
-    protected isExpanded = false;
-    blockDirection = MenuDirectionType.RIGHT;
+    readonly delayShowRawValue: number = 4;
     protected md5Tooltip: MD5Tooltip = null;
     readonly maximumStringAllowed = 32;
 
@@ -68,11 +47,6 @@ export default class MD5Component extends cc.Component {
         hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
         this.showHint = this.showHint.bind(this);
-        if (this.defaultExpand) {
-            this.expandBlock();
-        } else {
-            this.collapseBlock(false);
-        }
     }
 
     initMD5Tooltip() {
@@ -125,45 +99,5 @@ export default class MD5Component extends cc.Component {
     handleTooltip(data: MD5Type) {
         !!data.hashValue && this.md5Tooltip.hideToolTip();
         this.md5Tooltip.setData(data.rawValue);
-    }
-
-    setDirection(direction: MenuDirectionType) {
-        this.blockDirection = direction;
-    }
-
-    collapseBlock(animated = true) {
-        this.isExpanded = false;
-        this.handleDirectionWhenCollapsedBlock();
-    }
-
-    expandBlock() {
-        this.isExpanded = true;
-        this.handleDirectionWhenExpandableBlock();
-    }
-
-    onMenuClick() {
-        AudioManager.getInstance().playClick();
-        this.isExpanded = !this.isExpanded;
-        this.isExpanded ? this.expandBlock() : this.collapseBlock();
-    }
-
-    handleDirectionWhenExpandableBlock() {
-        this.expandableNode.stopAllActions();
-        // this.iconToggle.scaleX = 1;
-        // this.bgButtonCollapse.active = false;
-        // this.bgButtonExpand.active = true;
-        // cc.tween(this.expandableNode)
-        //     .to(0.2, { position: { value: cc.v2(-10, 0), easing: "sineIn" } })
-        //     .start();
-    }
-
-    handleDirectionWhenCollapsedBlock() {
-        this.expandableNode.stopAllActions();
-        // this.iconToggle.scaleX = -1;
-        // this.bgButtonCollapse.active = true;
-        // this.bgButtonExpand.active = false;
-        // cc.tween(this.expandableNode)
-        //     .to(0.2, { position: { value: cc.v2(-this.expandableNode.width, 0), easing: "sineIn" } })
-        //     .start();
     }
 }

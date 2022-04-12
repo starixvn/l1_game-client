@@ -5,6 +5,7 @@ import BigSmall, { DishAnimation } from "../BigSmall";
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     protected shakeTheBowlTime = 52;
     protected displayResultTime = 59;
+    protected timeout: any;
 
     constructor(protected readonly main: BigSmall) {
         super(main);
@@ -36,9 +37,6 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
             if (this.isDisplayResultTime) {
                 cc.RedT.GAME_IS_SHOWED && this.main.showResult();
-                setTimeout(() => {
-                    this.main.showWinningAnimation(this.main.currentDataLogs[0]);
-                }, 1000);
                 this.main.currentTimeRemaining--;
             } else {
                 super.gameUpdate();
@@ -60,7 +58,12 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
             this.showRoundTime();
+        }
+
+        if (this.main.currentTimeRemaining === this.main.config.betTime) {
             cc.tween(this.main.bgTimer).to(0.3, { opacity: 255 }).start();
+        } else if (this.main.currentTimeRemaining <= this.main.config.betTime) {
+            this.main.bgTimer.opacity = 255;
         }
     }
 
@@ -68,17 +71,16 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
         super.handleWaitTime();
         this.main.thePlate.opacity = 0;
         this.main.bgTimer.opacity = 0;
-        cc.tween(this.main.resultNode)
-            .call(() => {
-                this.main.resultNode.active = true;
-                this.main.resultNode.opacity = 255;
-            })
-            .start();
+        this.main.resultNode.active = true;
+        this.main.resultNode.opacity = 255;
+        console.log("handleWaitTime", this.main.thePlate.opacity);
     }
 
     showWaitTime() {
+        this.main.thePlate.opacity = 0;
         this.main.timeWaitNode.active = true;
         this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeTheBowlTime - 1);
+        console.log("showWaitTime", this.main.thePlate.opacity);
     }
 
     shakeThePlate() {

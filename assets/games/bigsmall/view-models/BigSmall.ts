@@ -119,7 +119,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     onEnable() {
         super.onEnable();
         this.showStatistic = true;
-        this.md5Component.delayShowRawValue = 1;
         this.handleShowStatistic(this.showStatistic);
     }
 
@@ -198,15 +197,13 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
             cc.tween(this.thePlate)
                 .call(() => {
                     this.hideBalanceBetNotice();
-                })
-                .call(() => {
                     this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
                 })
+                .delay(1)
                 .call(() => {
-                    setTimeout(() => {
-                        this.updateRoundHistory();
-                        this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
-                    }, 1000);
+                    this.updateRoundHistory();
+                    this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
+                    this.showWinningAnimation(this.currentDataLogs[0]);
                     (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
                     this.finishShowResult = true;
                 })
@@ -217,12 +214,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     showWinningAnimation(data: any) {
         const currentStatusData = this.statusHandler.currentStatusData;
         currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
-        cc.tween(this.node)
-            .call(() => {
-                this.resultNode.active = true;
-                cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
-            })
-            .start();
+        this.resultNode.active = true;
+        cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
     }
 
     public openHistory() {
@@ -275,12 +268,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     disableResultNode() {
-        cc.tween(this.resultNode)
-            .call(() => {
-                this.resultNode.active = false;
-                this.resultNode.opacity = 0;
-            })
-            .start();
+        this.resultNode.active = false;
+        this.resultNode.opacity = 0;
     }
 
     resetThePlate() {

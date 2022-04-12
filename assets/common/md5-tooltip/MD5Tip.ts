@@ -7,7 +7,7 @@ export default class MD5Tip extends MiniRoundHistoryTip {
         this.result.string = `${data}`;
     }
 
-    public show(show = false) {
+    public show(show = true) {
         super.show(show);
     }
 }
