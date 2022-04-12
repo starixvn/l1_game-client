@@ -11,24 +11,30 @@ export default class DynamicAdsBannerController extends BannerController {
     @property(cc.Prefab)
     adsItemPrefab: cc.Prefab = null;
 
-    @property(cc.SpriteAtlas)
-    bannerAtlas: cc.SpriteAtlas = null;
-
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
-    setGameAds(games: number[]) {
-        games.forEach((id) => this.createAdsItem(id));
+    async setGameAds(games: number[]) {
+        for (const game of games) {
+            await this.createAdsItem(game);
+        }
+
         if (this.node.childrenCount > 0) {
             this.enableTouch();
             this.showFirstPage();
         }
     }
 
-    createAdsItem(id: number) {
+    async createAdsItem(id: number) {
         const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}` : "";
-        const getSpriteLanguage = this.getSpriteFrame(`${id.toString()}${language}`);
-        const spriteFrame = getSpriteLanguage ? getSpriteLanguage : this.getSpriteFrame(id.toString());
+        const languageBanner = await this.getSpriteFrame(`${id.toString()}${language}`);
+        let spriteFrame: cc.SpriteFrame;
+        if (languageBanner) {
+            spriteFrame = languageBanner;
+        } else {
+            spriteFrame = await this.getSpriteFrame(id.toString());
+        }
+
         if (spriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
             this.createBasicItem(id, spriteFrame, item);
@@ -62,6 +68,11 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     private getSpriteFrame(name: string) {
-        return this.bannerAtlas.getSpriteFrame(name);
+        // return this.bannerAtlas.getSpriteFrame(name);
+        return new Promise<cc.SpriteFrame>((resolve) => {
+            cc.resources.load<cc.SpriteFrame>(`image/banners/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
+                resolve(spriteFrame);
+            });
+        });
     }
 }
