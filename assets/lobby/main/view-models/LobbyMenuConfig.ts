@@ -12,7 +12,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     smPromotion: boolean;
     bannerAds = {
         SC1: [GameIds.TexasHoldemPoker, GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.SeDie],
-        SC2: [GameIds.ThreeCards, GameIds.SeDie, GameIds.BlackJack]
+        SC2: [GameIds.BitcoinMaster, GameIds.CasinoHoldemPoker, GameIds.ThreeCards, GameIds.SeDie]
     };
     bannerAdsInfo = {
         SC1: {
@@ -30,13 +30,16 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             }
         },
         SC2: {
+            [GameIds.BitcoinMaster]: {
+                displayTime: 10
+            },
+            [GameIds.CasinoHoldemPoker]: {
+                displayTime: 5
+            },
             [GameIds.ThreeCards]: {
                 displayTime: 5
             },
             [GameIds.SeDie]: {
-                displayTime: 5
-            },
-            [GameIds.BlackJack]: {
                 displayTime: 5
             }
         }

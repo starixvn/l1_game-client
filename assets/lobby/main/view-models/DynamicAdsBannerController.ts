@@ -26,18 +26,26 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     async createAdsItem(id: number) {
-        const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}` : "";
+        const isNewGame = this.lobbyMenuConfig.newGames[configs.systemType].includes(id);
+        const newSuffix = isNewGame ? "_new" : "";
+        const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}${newSuffix}` : newSuffix;
         const languageBanner = await this.getSpriteFrame(`${id.toString()}${language}`);
-        let spriteFrame: cc.SpriteFrame;
+
+        let bannerSpriteFrame: cc.SpriteFrame;
         if (languageBanner) {
-            spriteFrame = languageBanner;
+            bannerSpriteFrame = languageBanner;
         } else {
-            spriteFrame = await this.getSpriteFrame(id.toString());
+            const newSpriteFrame = await this.getSpriteFrame(`${id.toString()}${newSuffix}`);
+            if (newSpriteFrame) {
+                bannerSpriteFrame = newSpriteFrame;
+            } else {
+                bannerSpriteFrame = await this.getSpriteFrame(id.toString());
+            }
         }
 
-        if (spriteFrame) {
+        if (bannerSpriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
-            this.createBasicItem(id, spriteFrame, item);
+            this.createBasicItem(id, bannerSpriteFrame, item);
 
             const button = item.getComponent(cc.Button);
             const event = new cc.Component.EventHandler();
