@@ -159,7 +159,13 @@ window.i18n.languages.id = {
         maxBetForChoiceNotice2: "Taruhan maksimum untuk opsi ini adalah %{maxBet}",
         minBetForChoiceNotice: "Taruhan minimum untuk opsi ini adalah %{minBet}",
         disallowHedgeBet: "Dapat bertaruh pada %{betChoice1} atau %{betChoice2}.",
-        copy_success: "Salin berhasil!"
+        copy_success: "Salin berhasil!",
+        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
+        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
+        roundSettleMsg: "GOOD LUCK!",
+        FromSettleToSpin1: "SPIN TO WIN!",
+        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
+        FromSettleToSpin3: "TRY TURBO MODE!"
     },
     ui: {
         choice_red2: "2 Merah",

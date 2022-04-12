@@ -160,7 +160,13 @@ window.i18n.languages.en = {
         maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
         minBetForChoiceNotice: "Min bet for this option is %{minBet}",
         disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
-        copy_success: "Copy successful!"
+        copy_success: "Copy successful!",
+        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
+        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
+        roundSettleMsg: "GOOD LUCK!",
+        FromSettleToSpin1: "SPIN TO WIN!",
+        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
+        FromSettleToSpin3: "TRY TURBO MODE!"
     },
     ui: {
         choice_red2: "2 Red",

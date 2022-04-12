@@ -162,7 +162,13 @@ window.i18n.languages.vi = {
         maxBetForChoiceNotice2: "Tiền cược tối đa của lựa chọn là %{maxBet}",
         minBetForChoiceNotice: "Tiền cược tối thiểu của lựa chọn là %{minBet}",
         disallowHedgeBet: "Chỉ có thể đặt cược trên %{betChoice1} hoặc %{betChoice2}.",
-        copy_success: "Copy thành công!"
+        copy_success: "Copy thành công!",
+        showMsgWhenSpinDesktop: "BẤM QUAY HOẶC GIỮ PHÍM SPACE",
+        showMsgWhenSpinPhone: "BẤM QUAY ĐỂ BẮT ĐẦU",
+        roundSettleMsg: "CHÚC MAY MẮN!",
+        FromSettleToSpin1: "QUAY SẼ THẮNG!",
+        FromSettleToSpin2: "CÀNG QUAY, CÀNG THẮNG!",
+        FromSettleToSpin3: "THỬ BẬT TÍNH NĂNG SIÊU TỐC!"
     },
     ui: {
         choice_red2: "2 Đỏ",

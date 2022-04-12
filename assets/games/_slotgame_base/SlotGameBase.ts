@@ -144,6 +144,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(SpinButton)
     spinButton: SpinButton = null;
 
+    @property(cc.Label)
+    messageText: cc.Label = null;
+
     @property
     autoGenerateLines = false;
 
@@ -182,6 +185,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     public cacheApiError: any = null;
     public isShowAutoSpinSettingDialog = false;
     public isKeyDownSpace = false;
+    public isRound = false;
     protected userSettings: SlotGameUserSettings;
     private autoSpinCount = 0;
     private showingWinningLine = false;
@@ -208,6 +212,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
         this.registerKeyEvents();
+        this.initMessage();
     }
 
     showJackpotInfo(show: boolean) {
@@ -227,6 +232,27 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     protected onGameHide() {
         super.onGameHide();
         this.saveUserSetting();
+    }
+    initMessage() {
+        let msg = `messages.showMsgWhenSpinDesktop`;
+        if (GameUtils.isIpad || GameUtils.isPhone) {
+            msg = `messages.showMsgWhenSpinPhone`;
+        }
+        if (this.messageText !== null) {
+            this.messageText.string = `${i18n.t(msg)}`;
+        }
+    }
+
+    showMessageDisplay(needRandom: boolean) {
+        let msg = `messages.roundSettleMsg`;
+        if (needRandom) {
+            const items = [1, 2, 3];
+            var item = items[Math.floor(Math.random() * items.length)];
+            msg = `messages.FromSettleToSpin${item}`;
+        }
+        if (this.messageText !== null) {
+            this.messageText.string = `${i18n.t(msg)}`;
+        }
     }
 
     loadUserSetting() {
@@ -553,7 +579,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.stopAllFinishTweens();
             this.countDownAutoSpin.show(
                 autoSpinCount,
-                () => this.spin(),
+                () => {
+                    this.spin();
+                },
                 () => !this.isAutoSpinMode()
             );
             this.isShowAutoSpinSettingDialog = false;
@@ -662,6 +690,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             !this.isKeyDownSpace && this.showProcessingWarning(true);
             return success;
         }
+        this.showMessageDisplay(false);
         this.stopAllFinishTweens();
         this.hideStakeContrainer();
         this.hideWinningEffectOnItems();

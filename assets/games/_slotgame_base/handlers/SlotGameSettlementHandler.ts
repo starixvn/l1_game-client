@@ -140,13 +140,21 @@ export default class SlotGameSettlementHandler implements DataHandler {
         const delayTime = betWin > 0 && !bigWin ? this.main.getCustomDuration("win") : this.main.getCustomDuration("lose");
         this.main.settleTween = cc
             .tween(this.main)
-            .call(() => this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime))
+            .call(() => {
+                this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime);
+                if (freeSpins.count === 0 && !bigWin) {
+                    this.main.showMessageDisplay(true);
+                }
+            })
             .delay(delayTime)
             .call(async () => {
                 if (bigWin) {
                     await this.main.showEffectBigWin(betWin);
+                    this.main.showMessageDisplay(true);
                 }
+
                 if (freeSpins.count > 0) {
+                    this.main.showMessageDisplay(true);
                     this.main.updateDisplaySpinButtons();
                     this.main.showHighlightSpecialSymbols(+freeSpins.symbol);
                     await this.main.showEffectFreeSpin();
