@@ -54,6 +54,7 @@ export default class MusicPlayer {
 
     init() {
         const audioManager = AudioManager.getInstance();
+        this.playBgAudio(audioManager.musicEnabled);
         audioManager.addMusicChanged(this.musicChangedKey, (enable: boolean) => {
             this.playBgAudio(enable);
         });
