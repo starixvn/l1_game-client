@@ -61,16 +61,17 @@ export default class MusicPlayer {
     }
 
     stopMusicBgJoinRoom() {
+        this.volume = this.volumeDefault;
         this.intervalVolDecrease = setInterval(() => {
             cc.audioEngine.setVolume(this.bgMusicId, this.volume);
             this.volume -= this.stepVolume;
             if (this.volume <= 0) {
                 clearInterval(this.intervalVolDecrease);
-                const instanceAudio = AudioManager.getInstance();
-                instanceAudio.stopMusic();
-                instanceAudio.removeMusicChanged(this.musicChangedKey);
+                const audioManager = AudioManager.getInstance();
+                audioManager.stopMusic();
+                audioManager.removeMusicChanged(this.musicChangedKey);
                 this.isPlayBgMusic = false;
-                this.bgMusicId = 0;
+                this.bgMusicId = -1;
             }
         }, this.stepIntervalVolume);
     }
@@ -86,7 +87,7 @@ export default class MusicPlayer {
 
     playMusicBgOutSwiftRoom() {
         MusicPlayer.getInstance().clearIntervalSetVolume();
-        if (this.bgMusicId > 0) {
+        if (this.bgMusicId > -1) {
             this.intervalVolIncrease = setInterval(() => {
                 cc.audioEngine.setVolume(this.bgMusicId, this.volume);
                 this.volume += this.stepVolume;
