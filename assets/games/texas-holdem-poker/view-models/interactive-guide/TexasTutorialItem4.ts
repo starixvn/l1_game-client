@@ -60,25 +60,21 @@ export default class TexasTutorialItem4 extends TutorialItem {
 
     async show() {
         super.show();
+        const durationOpenCard = 0.6;
+        const delayDuration = 1000;
+
         this.showCardsOnMainGuide(false);
         this.handleFaceDownCard();
         this.infoNode.opacity = 0;
         this.setStatusSwapAndHoldButton(true);
-
-        const durationOpenCard = 0.6;
-        const delayDuration = 1000;
-
-        this.waitingShowAnimSwap(delayDuration).then(async () => {
-            this.setOpacitySwapHoldButton();
-            this.showCardsOnMainGuide(false);
-            await this.swapCardComponent.swapCards();
-            this.handleOpenCard(durationOpenCard);
-
-            this.handleShowTextInfo(durationOpenCard, () => {
-                this.setStatusSwapAndHoldButton(false);
-                this.setOpacityCallCancelButton();
-                cc.tween(this.infoNode).to(0.2, { opacity: 255 }).start();
-            });
+        await this.waitingShowAnimSwap(delayDuration);
+        this.setOpacitySwapHoldButton();
+        await this.swapCardComponent.swapCards();
+        this.handleOpenCard(durationOpenCard);
+        this.handleShowTextInfo(durationOpenCard, () => {
+            this.setStatusSwapAndHoldButton(false);
+            this.setOpacityCallCancelButton();
+            cc.tween(this.infoNode).to(0.2, { opacity: 255 }).start();
         });
     }
 
