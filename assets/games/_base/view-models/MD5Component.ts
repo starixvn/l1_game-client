@@ -96,6 +96,10 @@ export default class MD5Component extends cc.Component {
 
     setCaptionAndHintForMD5(isMD5Key: boolean) {
         this.md5Text.string = i18n.t(isMD5Key ? "ui.md5_result" : "ui.md5_string");
+        this.md5Text.node.position = cc.v3(-5, 0, 0);
+        cc.tween(this.md5Text.node)
+            .to(0.3, { position: cc.v3(0, 0, 0) })
+            .start();
     }
 
     handleTooltip(data: MD5Type) {

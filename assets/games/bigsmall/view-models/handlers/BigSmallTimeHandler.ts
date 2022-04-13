@@ -69,11 +69,10 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        this.main.thePlate.opacity = 0;
         this.main.bgTimer.opacity = 0;
         this.main.resultNode.active = true;
         this.main.resultNode.opacity = 255;
-        this.main.timeWaitNode.active = true;
+        this.showWaitTime();
     }
 
     showWaitTime() {
