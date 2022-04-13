@@ -8,6 +8,7 @@ export default class BigSmallFinishHandler extends GameBaseFinishHandler {
 
     handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {
         super.handleFinishData(dataFinish, onFinishHandlingData);
+        this.main.md5Component?.setDelayShowRawValue(4);
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.showBalanceBetNotice();

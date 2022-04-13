@@ -235,6 +235,7 @@ export default class GameBase extends BaseComponent {
         this.gameState = GameState.Stopped;
         this.clearIntervalAndTimeout();
         this.resetDataAndUI();
+        this.md5Component && this.md5Component.resetMd5();
     }
 
     disableGame() {

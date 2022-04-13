@@ -102,4 +102,8 @@ export default class MD5Component extends cc.Component {
         !!data.hashValue && this.md5Tooltip.hideToolTip();
         this.md5Tooltip.setData(data.rawValue);
     }
+
+    setDelayShowRawValue(delay: number) {
+        this.delayShowRawValue = delay;
+    }
 }
