@@ -238,7 +238,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
     initMessage() {
         let msg = `messages.showMsgWhenSpinDesktop`;
-        if (GameUtils.isIpad || GameUtils.isPhone) {
+        if (GameUtils.isIpad() || GameUtils.isPhone()) {
             msg = `messages.showMsgWhenSpinPhone`;
         }
         if (this.messageText !== null) {
