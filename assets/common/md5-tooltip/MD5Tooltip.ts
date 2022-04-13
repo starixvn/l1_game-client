@@ -31,10 +31,10 @@ export default class MD5Tooltip extends cc.Component {
     }
 
     eventOffHover() {
-        this.tip.show();
+        this.tip.show(false);
     }
 
     hideToolTip() {
-        this.tip.show();
+        this.tip.show(false);
     }
 }

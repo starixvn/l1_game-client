@@ -33,11 +33,13 @@ export default class MD5Component extends cc.Component {
     @property(cc.Node)
     md5TooltipContainer: cc.Node = null;
 
+    @property
+    delayShowRawValue = 0;
+
     public timeout: any;
     private md5CopyString: string = null;
     readonly duration: number = 0.5;
     readonly delayShowHashValue: number = 1.35;
-    readonly delayShowRawValue: number = 4;
     protected md5Tooltip: MD5Tooltip = null;
     readonly maximumStringAllowed = 32;
 
