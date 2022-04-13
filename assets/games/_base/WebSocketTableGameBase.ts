@@ -78,7 +78,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     initMusicBackground() {
         if (this.musicBg) {
-            MusicPlayer.getInstance().stopMusicBgJoinRoom();
+            MusicPlayer.getInstance().stopMusicBg();
         }
     }
 
@@ -148,7 +148,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     onCloseGameClick() {
         if (this.musicBg) {
-            MusicPlayer.getInstance().playMusicBgOutSwiftRoom();
+            MusicPlayer.getInstance().increaseVolume();
         }
         this.closeGame();
     }

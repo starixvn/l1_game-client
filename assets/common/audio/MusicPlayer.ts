@@ -60,7 +60,7 @@ export default class MusicPlayer {
         });
     }
 
-    stopMusicBgJoinRoom() {
+    stopMusicBg() {
         this.volume = this.volumeDefault;
         this.intervalVolDecrease = setInterval(() => {
             cc.audioEngine.setVolume(this.bgMusicId, this.volume);
@@ -81,11 +81,7 @@ export default class MusicPlayer {
         this.intervalVolIncrease && clearInterval(this.intervalVolIncrease);
     }
 
-    setVolumeDefaultMusicBg() {
-        cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
-    }
-
-    playMusicBgOutSwiftRoom() {
+    increaseVolume() {
         MusicPlayer.getInstance().clearIntervalSetVolume();
         if (this.bgMusicId > -1) {
             this.intervalVolIncrease = setInterval(() => {
