@@ -14,7 +14,8 @@ export default class SedieMD5 extends MD5Component {
     generateMD5Result(data: MD5Type) {
         let result = "";
         if (!!data.extraInfos) {
-            const chipResult = this.generateChips(data.extraInfos);
+            const totalRed = Object.values(data.extraInfos).filter((value) => value === true).length;
+            const chipResult = this.generateChips(totalRed);
             const suffix = data.rawValue.split("_");
             const suffixFormatLength = suffix[1].slice(0, this.lengthOfMd5) + "...";
             result = `{${chipResult}}_${suffixFormatLength}`;
@@ -26,27 +27,15 @@ export default class SedieMD5 extends MD5Component {
         this.md5Value.string = `${result}`;
     }
 
-    generateChips(extraInfos: ExtraInfos) {
-        const totalRed = Object.values(extraInfos).filter((value) => value === true).length;
-        let chips = "";
-        switch (totalRed) {
-            case 0:
-                chips = `${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
-                break;
-            case 1:
-                chips = `${this.CHIP_RED} ${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
-                break;
-            case 2:
-                chips = `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`;
-                break;
-            case 3:
-                chips = `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_WHITE}`;
-                break;
-            case 4:
-                chips = `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED}`;
-                break;
-        }
-        
-        return chips;
+    generateChips(totalRed: number) {
+        const chips = {
+            0: `${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`,
+            1: `${this.CHIP_RED} ${this.CHIP_WHITE} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`,
+            2: `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_WHITE} ${this.CHIP_WHITE}`,
+            3: `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_WHITE}`,
+            4: `${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED} ${this.CHIP_RED}`
+        };
+
+        return chips.hasOwnProperty(totalRed) ? chips[totalRed] : "";
     }
 }
