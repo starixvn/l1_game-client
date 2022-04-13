@@ -2,7 +2,6 @@ import axios from "axios";
 import i18n from "i18n/runtime-scripts/LanguageData";
 
 import configs from "../../configs/Configs";
-import MusicPlayer from "../audio/MusicPlayer";
 import ChipConfig from "../bet-chips/view-models/ChipConfig";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
 import logger from "../logger";
@@ -31,7 +30,6 @@ export function getChipSetting() {
 export function checkSSO(messageComp, onSuccessFunc) {
     const urlParams = new URLSearchParams(window.location.search);
     if (checkUMSSO(urlParams) || checkTimeOut(urlParams)) {
-        MusicPlayer.getInstance() && MusicPlayer.getInstance().stopBgAudio();
         return;
     }
     const session = sessionManager.getSession();
@@ -123,14 +121,12 @@ export function clearTokenOnUrl() {
 export function signOut() {
     cc.director.loadScene("sessiontimeout");
     sessionManager.removeSession();
-    MusicPlayer.getInstance() && MusicPlayer.getInstance().stopBgAudio();
 }
 
 function checkUM(response) {
     if (response && response.isUM) {
         window.umInfo = response.umInfo;
         cc.director.loadScene("um");
-        MusicPlayer.getInstance() && MusicPlayer.getInstance().stopBgAudio();
         return true;
     }
 

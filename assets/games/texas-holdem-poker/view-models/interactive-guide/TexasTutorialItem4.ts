@@ -29,7 +29,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
     buttonHoldMainNode: cc.Node;
     buttonCallMainNode: cc.Node;
     buttonFoldMainNode: cc.Node;
-    timeout: any;
+    waitingSwapTimeout: any;
 
     onLoad() {
         this.cloneNodeAndComponent();
@@ -37,7 +37,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
 
     onHidden() {
         this.resetActions();
-        this.timeout && clearTimeout(this.timeout);
+        this.waitingSwapTimeout && clearTimeout(this.waitingSwapTimeout);
     }
 
     resetActions() {
@@ -83,7 +83,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
     }
 
     waitingShowAnimSwap(time: number) {
-        return new Promise((resolve) => (this.timeout = setTimeout(resolve, time)));
+        return new Promise((resolve) => (this.waitingSwapTimeout = setTimeout(resolve, time)));
     }
 
     cloneNodeAndComponent() {

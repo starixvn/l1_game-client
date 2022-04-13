@@ -2,14 +2,15 @@ import AudioManager from "./AudioManager";
 
 export default class MusicPlayer {
     private readonly ListSong = ["song1", "song2", "song3", "song4", "song5", "song6"];
-    public isLoadBgMusic = false;
+    public isPlayBgMusic = false;
     protected bgMusicId: number;
     readonly volumeDefault = 0.7;
-    readonly nameMusicChanged = "lobby";
+    readonly musicChangedKey = "lobby";
     protected intervalVolDecrease: NodeJS.Timeout;
     protected intervalVolIncrease: NodeJS.Timeout;
     protected volume = 0.7;
     readonly stepVolume = 0.1;
+    readonly stepIntervalVolume = 500;
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
@@ -32,20 +33,20 @@ export default class MusicPlayer {
     playBgAudio(play: boolean) {
         if (play) {
             this.loadResourceAudio(this.getRandomNameSong());
-            this.isLoadBgMusic = true;
+            this.isPlayBgMusic = true;
         } else {
             this.stopBgAudio();
-            this.isLoadBgMusic = false;
+            this.isPlayBgMusic = false;
         }
     }
 
     loadResourceAudio(song: string) {
-        !this.isLoadBgMusic &&
+        !this.isPlayBgMusic &&
             cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
                 this.bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
                 cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
                 cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
-                    this.isLoadBgMusic = false;
+                    this.isPlayBgMusic = false;
                     this.playBgAudio(true);
                 });
             });
@@ -53,18 +54,24 @@ export default class MusicPlayer {
 
     init() {
         const audioManager = AudioManager.getInstance();
-        audioManager.addMusicChanged(this.nameMusicChanged, (enable: boolean) => {
+        audioManager.addMusicChanged(this.musicChangedKey, (enable: boolean) => {
             this.playBgAudio(enable);
         });
     }
 
     stopMusicBgJoinRoom() {
-        this.volume = this.volumeDefault;
         this.intervalVolDecrease = setInterval(() => {
             cc.audioEngine.setVolume(this.bgMusicId, this.volume);
             this.volume -= this.stepVolume;
-            this.volume <= 0 && clearInterval(this.intervalVolDecrease);
-        }, 500);
+            if (this.volume <= 0) {
+                clearInterval(this.intervalVolDecrease);
+                const instanceAudio = AudioManager.getInstance();
+                instanceAudio.stopMusic();
+                instanceAudio.removeMusicChanged(this.musicChangedKey);
+                this.isPlayBgMusic = false;
+                this.bgMusicId = 0;
+            }
+        }, this.stepIntervalVolume);
     }
 
     clearIntervalSetVolume() {
@@ -77,10 +84,13 @@ export default class MusicPlayer {
     }
 
     playMusicBgOutSwiftRoom() {
-        this.intervalVolIncrease = setInterval(() => {
-            cc.audioEngine.setVolume(this.bgMusicId, this.volume);
-            this.volume += this.stepVolume;
-            this.volume >= 0.7 && clearInterval(this.intervalVolIncrease);
-        }, 500);
+        MusicPlayer.getInstance().clearIntervalSetVolume();
+        if (this.bgMusicId > 0) {
+            this.intervalVolIncrease = setInterval(() => {
+                cc.audioEngine.setVolume(this.bgMusicId, this.volume);
+                this.volume += this.stepVolume;
+                this.volume >= 0.7 && clearInterval(this.intervalVolIncrease);
+            }, this.stepIntervalVolume);
+        }
     }
 }

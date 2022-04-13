@@ -1,7 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
-import AudioManager from "../../common/audio/AudioManager";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -78,14 +77,8 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     initMusicBackground() {
-        if (this.musicBg && this.musicBg.getComponent(cc.AudioSource)) {
-            const musicPlayer = MusicPlayer.getInstance();
-            musicPlayer.stopMusicBgJoinRoom();
-            this.scheduleOnce(() => {
-                AudioManager.getInstance().stopMusic();
-                AudioManager.getInstance().removeMusicChanged(musicPlayer.nameMusicChanged);
-                musicPlayer.isLoadBgMusic = false;
-            }, this.delayTurnOffMusicBg);
+        if (this.musicBg) {
+            MusicPlayer.getInstance().stopMusicBgJoinRoom();
         }
     }
 
@@ -154,8 +147,7 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     onCloseGameClick() {
-        if (this.musicBg && this.musicBg.getComponent(cc.AudioSource)) {
-            MusicPlayer.getInstance().clearIntervalSetVolume();
+        if (this.musicBg) {
             MusicPlayer.getInstance().playMusicBgOutSwiftRoom();
         }
         this.closeGame();

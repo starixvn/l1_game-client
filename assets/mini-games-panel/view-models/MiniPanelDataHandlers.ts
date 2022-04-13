@@ -1,5 +1,4 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import MusicPlayer from "../../common/audio/MusicPlayer";
 
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -70,7 +69,6 @@ export default class MiniPanelDataHandlers {
             cc.RedT.forceKickedOut();
             window.umInfo = data.umInfo;
             cc.director.loadScene("um");
-            MusicPlayer.getInstance() && MusicPlayer.getInstance().stopBgAudio();
         } else {
             if (data.isDisabledAccount) {
                 setTimeout(() => {

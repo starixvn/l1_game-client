@@ -2,7 +2,6 @@ import { TexasState, TexasChoicesType } from "../texas-type";
 import TexasGameDataModel from "./../event-models/texas-game-data-model";
 
 export const updateStatusGame = (gameData: TexasGameDataModel<TexasChoicesType>) => () => {
-    console.log(gameData.stateModel.state);
     switch (gameData.stateModel.state) {
         case TexasState.calling_call:
             gameData.placeBetModel.rejoinTable(gameData.placeBetModel.previousChoices);
@@ -15,9 +14,9 @@ export const updateStatusGame = (gameData: TexasGameDataModel<TexasChoicesType>)
             gameData.stateModel.callSuccess();
             break;
         case TexasState.calling_rivering:
-            const choicesRivber = gameData.placeBetModel.choices;
-            delete choicesRivber.riverBet;
-            gameData.placeBetModel.rejoinTable(choicesRivber);
+            const choicesRiver = gameData.placeBetModel.choices;
+            delete choicesRiver.riverBet;
+            gameData.placeBetModel.rejoinTable(choicesRiver);
             gameData.stateModel.turnSuccess();
             break;
         case TexasState.calling_check_turn:
