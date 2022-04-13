@@ -392,8 +392,8 @@ let WebViewImpl = cc.Class({
 
         let container = cc.game.container;
         let a = _mat4_tempm[0] * scaleX,
-            b = _mat4_tempm[1],
-            c = _mat4_tempm[4],
+            b = _mat4_tempm[1] * scaleX,
+            c = _mat4_tempm[4] * scaleY,
             d = _mat4_tempm[5] * scaleY;
 
         let offsetX = container && container.style.paddingLeft ? parseInt(container.style.paddingLeft) : 0;
