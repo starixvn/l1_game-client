@@ -1,3 +1,5 @@
+const MusicStorageKey = "SOUND_BACKGROUND";
+const SFXStorageKey = "SOUND_GAME";
 export default class AudioManager {
     public clickAudio: cc.AudioClip = null;
 
@@ -11,9 +13,13 @@ export default class AudioManager {
 
     private static instance: AudioManager;
 
+    constructor() {
+        this.init();
+    }
+
     readonly soundObservers = { music: {}, sfx: {} };
 
-    public init() {
+    private init() {
         this.initDefaultStorage();
     }
 
@@ -50,13 +56,13 @@ export default class AudioManager {
     }
 
     private initDefaultStorage() {
-        const background = cc.sys.localStorage.getItem("SOUND_BACKGROUND");
-        if (background === null || background === undefined) {
+        const background = cc.sys.localStorage.getItem(MusicStorageKey);
+        if (background === "") {
             this.musicEnabled = true;
         }
 
-        const sfx = cc.sys.localStorage.getItem("SOUND_GAME");
-        if (sfx === null || sfx === undefined) {
+        const sfx = cc.sys.localStorage.getItem(SFXStorageKey);
+        if (sfx === "") {
             this.sfxEnabled = true;
         }
     }
@@ -95,22 +101,22 @@ export default class AudioManager {
     }
 
     get musicEnabled(): boolean {
-        const check = cc.sys.localStorage.getItem("SOUND_BACKGROUND");
+        const check = cc.sys.localStorage.getItem(MusicStorageKey);
         return check === "true";
     }
 
     set musicEnabled(value: boolean) {
-        cc.sys.localStorage.setItem("SOUND_BACKGROUND", value);
+        cc.sys.localStorage.setItem(MusicStorageKey, value);
         this.onMusicChanged(value);
     }
 
     get sfxEnabled(): boolean {
-        const check = cc.sys.localStorage.getItem("SOUND_GAME");
+        const check = cc.sys.localStorage.getItem(SFXStorageKey);
         return check === "true";
     }
 
     set sfxEnabled(value: boolean) {
-        cc.sys.localStorage.setItem("SOUND_GAME", value);
+        cc.sys.localStorage.setItem(SFXStorageKey, value);
         this.onSfxChanged(value);
     }
 }
