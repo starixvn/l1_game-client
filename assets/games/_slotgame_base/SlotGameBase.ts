@@ -150,6 +150,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property
     autoGenerateLines = false;
 
+    @property
+    offerSpaceToWin = false;
+
     @property({
         type: cc.Prefab,
         visible: function (this: SlotGameBase) {
@@ -246,7 +249,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     showMessageDisplay(needRandom: boolean) {
         let msg = `messages.roundSettleMsg`;
         if (needRandom) {
-            const items = [1, 2, 3];
+            const items = this.turboToggle.isChecked ? [1, 2] : [1, 2, 3];
             var item = items[Math.floor(Math.random() * items.length)];
             msg = `messages.FromSettleToSpin${item}`;
         }
@@ -360,14 +363,14 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onKeyDown(event: cc.Event.EventKeyboard) {
-        if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
+        if (this.offerSpaceToWin && (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)) {
             this.isKeyDownSpace = true;
             this.spin();
         }
     }
 
     onKeyUp(event: cc.Event.EventKeyboard) {
-        if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
+        if (this.offerSpaceToWin && (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)) {
             this.isKeyDownSpace = false;
         }
     }
