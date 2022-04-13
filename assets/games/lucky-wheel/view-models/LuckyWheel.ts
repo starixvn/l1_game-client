@@ -365,6 +365,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         }
 
         this.umNotice.hide();
+        this.node.destroy();
     }
 
     onPressedHistory() {
