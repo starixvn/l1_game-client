@@ -4,6 +4,7 @@ import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { GameIds } from "../../../configs/SabaConfigs";
 import FreeBetGameBase from "../../_base/FreeBetGameBase";
+import { Orientation } from "../../_base/Orientation";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SedieBetHandler from "./handlers/SedieBetHandler";
@@ -13,7 +14,6 @@ import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
-import { Orientation } from "../../_base/Orientation";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -97,6 +97,9 @@ export default class Sedie extends FreeBetGameBase {
     }
 
     initGameRoomMenu() {
+        if (!this.gameRoomMenu) {
+            return;
+        }
         const events = [this.onCloseGameClick, this.openHistory, this.openGuide];
         this.gameRoomMenu.initialize(this.node, this).withEvents(events);
     }
