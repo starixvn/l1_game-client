@@ -27,14 +27,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 190
+        "__id__": 191
       },
       {
-        "__id__": 191
+        "__id__": 192
       }
     ],
     "_prefab": {
-      "__id__": 192
+      "__id__": 193
     },
     "_opacity": 255,
     "_color": {
@@ -98,17 +98,20 @@
       },
       {
         "__id__": 188
+      },
+      {
+        "__id__": 189
       }
     ],
     "_prefab": {
-      "__id__": 189
+      "__id__": 190
     },
-    "_opacity": 255,
+    "_opacity": 230,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 0,
+      "g": 0,
+      "b": 0,
       "a": 255
     },
     "_contentSize": {
@@ -419,7 +422,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 159.77,
+      "width": 146.42,
       "height": 77.6
     },
     "_anchorPoint": {
@@ -471,8 +474,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ประวัติตั๋วเดิมพัน",
-    "_N$string": "ประวัติตั๋วเดิมพัน",
+    "_string": "UI.HISTORY",
+    "_N$string": "UI.HISTORY",
     "_fontSize": 24,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1186,7 +1189,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 65.21,
+      "width": 139.42,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -1238,8 +1241,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "เวลา",
-    "_N$string": "เวลา",
+    "_string": "UI.TIME",
+    "_N$string": "UI.TIME",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1326,7 +1329,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 56.25,
+      "width": 177.42,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -1378,8 +1381,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "รอบ",
-    "_N$string": "รอบ",
+    "_string": "UI.ROUND",
+    "_N$string": "UI.ROUND",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1466,7 +1469,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105.82,
+      "width": 182.63,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -1518,8 +1521,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ผลลัพธ์",
-    "_N$string": "ผลลัพธ์",
+    "_string": "UI.RESULT",
+    "_N$string": "UI.RESULT",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1606,7 +1609,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 20.92,
+      "width": 294.73,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -1658,8 +1661,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "คุู่",
-    "_N$string": "คุู่",
+    "_string": "UI.CHOICE_EVEN",
+    "_N$string": "UI.CHOICE_EVEN",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1746,7 +1749,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 20.92,
+      "width": 279.4,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -1798,8 +1801,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "คี่",
-    "_N$string": "คี่",
+    "_string": "UI.CHOICE_ODD",
+    "_N$string": "UI.CHOICE_ODD",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -1886,7 +1889,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85.61,
+      "width": 291.81,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -1938,8 +1941,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "4 แดง",
-    "_N$string": "4 แดง",
+    "_string": "UI.CHOICE_RED4",
+    "_N$string": "UI.CHOICE_RED4",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2026,7 +2029,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85.61,
+      "width": 291.81,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -2078,8 +2081,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "3 แดง",
-    "_N$string": "3 แดง",
+    "_string": "UI.CHOICE_RED3",
+    "_N$string": "UI.CHOICE_RED3",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2166,7 +2169,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85.61,
+      "width": 275.77,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -2231,8 +2234,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "2 แดง",
-    "_N$string": "2 แดง",
+    "_string": "UI.CHOICE_RED2",
+    "_N$string": "UI.CHOICE_RED2",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2306,7 +2309,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85.61,
+      "width": 324.63,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -2371,8 +2374,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "1 แดง",
-    "_N$string": "1 แดง",
+    "_string": "UI.CHOICE_WHITE3",
+    "_N$string": "UI.CHOICE_WHITE3",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2446,7 +2449,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 81.65,
+      "width": 324.63,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -2511,8 +2514,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "4 ขาว",
-    "_N$string": "4 ขาว",
+    "_string": "UI.CHOICE_WHITE4",
+    "_N$string": "UI.CHOICE_WHITE4",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -2586,7 +2589,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 57.36,
+      "width": 119.38,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -2651,8 +2654,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ชนะ",
-    "_N$string": "ชนะ",
+    "_string": "UI.WIN",
+    "_N$string": "UI.WIN",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -6624,6 +6627,40 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "e0e2f3ec-b079-4796-8bce-80d8eef8e778"
+    },
+    "_type": 0,
+    "_sizeMode": 0,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": {
+      "__uuid__": "85dc7742-ad57-4070-8caa-54fe00ccf229"
+    },
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -6631,7 +6668,7 @@
     "asset": {
       "__uuid__": "9eadb09a-b980-4e15-8ff8-43b0a02a3cf3"
     },
-    "fileId": "68STPpX9tNgLAiAoua3Gt1",
+    "fileId": "64PKZISJxFk60pfsEPPz6I",
     "sync": false
   },
   {
