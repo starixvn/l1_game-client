@@ -61,15 +61,14 @@ export default class MusicPlayer {
     }
 
     stopMusicBg() {
+        this.clearIntervalSetVolume();
         this.volume = this.volumeDefault;
         this.intervalVolDecrease = setInterval(() => {
             cc.audioEngine.setVolume(this.bgMusicId, this.volume);
             this.volume -= this.stepVolume;
             if (this.volume <= 0) {
                 clearInterval(this.intervalVolDecrease);
-                const audioManager = AudioManager.getInstance();
-                audioManager.stopMusic();
-                audioManager.removeMusicChanged(this.musicChangedKey);
+                AudioManager.getInstance().stopMusicWithChangedKey(this.musicChangedKey);
                 this.isPlayBgMusic = false;
                 this.bgMusicId = -1;
             }
@@ -82,7 +81,7 @@ export default class MusicPlayer {
     }
 
     increaseVolume() {
-        MusicPlayer.getInstance().clearIntervalSetVolume();
+        this.clearIntervalSetVolume();
         if (this.bgMusicId > -1) {
             this.intervalVolIncrease = setInterval(() => {
                 cc.audioEngine.setVolume(this.bgMusicId, this.volume);

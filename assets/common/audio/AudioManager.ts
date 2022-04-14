@@ -119,4 +119,9 @@ export default class AudioManager {
         cc.sys.localStorage.setItem(SFXStorageKey, value);
         this.onSfxChanged(value);
     }
+
+    stopMusicWithChangedKey(musicChangedKey: string) {
+        this.stopMusic();
+        this.removeMusicChanged(musicChangedKey);
+    }
 }
