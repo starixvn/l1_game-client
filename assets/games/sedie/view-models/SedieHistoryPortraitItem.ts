@@ -1,5 +1,5 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import SedieBetOptionHistoryPortrait from "./SedieBetOptionHistoryPortrait";
+import PortraitSedieHistoryBetOption from "./PortraitSedieHistoryBetOption";
 import SedieHistoryItem from "./SedieHistoryItem";
 
 const { ccclass, property } = cc._decorator;
@@ -21,21 +21,14 @@ export default class SedieHistoryPortraitItem extends SedieHistoryItem {
         const { freeBet, settlementResult, odds } = betLog;
 
         Object.keys(settlementResult).forEach((choice) => {
-            const betOption = cc.instantiate(this.betOptionPrefab);
-            const control = betOption.getComponent(SedieBetOptionHistoryPortrait);
+            const node = cc.instantiate(this.betOptionPrefab);
+            const option = node.getComponent(PortraitSedieHistoryBetOption);
             const stake = betLog[choice];
             if (+stake > 0) {
-                control.handleBetOptionItem(choice, numberWithCommas(odds[choice]), numberWithCommas(stake));
-                this.betOption.addChild(betOption);
+                option.handleBetOptionItem(choice, numberWithCommas(odds[choice]), numberWithCommas(stake));
+                option.highlightForWinning(settlementResult[choice]);
+                this.betOption.addChild(node);
             }
-
-            // historyItem.string = freeBet ? 0 : numberWithCommas(betLog[choice]);
-
-            // if (settlementResult[choice]) {
-            //     historyItem.node.color = cc.Color.YELLOW;
-            // } else {
-            //     historyItem.node.color = cc.Color.WHITE;
-            // }
         });
         this.setSizeAndPosition(this.betOption);
     }

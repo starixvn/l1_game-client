@@ -1,13 +1,11 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SedieBetOptionHistoryPortrait extends cc.Component {
+export default class PortraitSedieHistoryBetOption extends cc.Component {
     @property(cc.Label)
     choice: cc.Label = null;
-
-    @property(cc.Label)
-    odd: cc.Label = null;
 
     @property(cc.Label)
     stake: cc.Label = null;
@@ -26,8 +24,13 @@ export default class SedieBetOptionHistoryPortrait extends cc.Component {
 
     handleBetOptionItem(choice: string, odd: string, stake: string) {
         const choiceStr = `ui.${this.convertChoiceData(choice)}`;
-        this.choice.string = `${i18n.t(choiceStr)}`;
-        this.odd.string = odd.toString();
+        this.choice.string = `${i18n.t(choiceStr)} @ ${odd}`;
         this.stake.string = stake;
+    }
+
+    highlightForWinning(win: boolean) {
+        const color = win ? cc.Color.YELLOW : cc.Color.WHITE;
+        this.choice.node.color = color;
+        this.stake.node.color = color;
     }
 }
