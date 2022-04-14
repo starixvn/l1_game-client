@@ -363,14 +363,22 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     onKeyDown(event: cc.Event.EventKeyboard) {
-        if (this.offerSpaceToWin && (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)) {
+        if (
+            this.offerSpaceToWin &&
+            !this.isAutoSpinMode() &&
+            (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
+        ) {
             this.isKeyDownSpace = true;
             this.spin();
         }
     }
 
     onKeyUp(event: cc.Event.EventKeyboard) {
-        if (this.offerSpaceToWin && (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)) {
+        if (
+            this.offerSpaceToWin &&
+            !this.isAutoSpinMode() &&
+            (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
+        ) {
             this.isKeyDownSpace = false;
         }
     }
