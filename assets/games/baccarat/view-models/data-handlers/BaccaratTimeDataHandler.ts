@@ -23,7 +23,11 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
                 cc.delayTime(0.5),
                 cc.callFunc(() => baccarat.playerCards.flySecondCard()),
                 cc.delayTime(0.5),
-                cc.callFunc(() => baccarat.bankerCards.flySecondCard())
+                cc.callFunc(() => baccarat.bankerCards.flySecondCard()),
+                cc.delayTime(0.5),
+                cc.callFunc(() => baccarat.playerCards.flyCardTmp1()),
+                cc.delayTime(0.5),
+                cc.callFunc(() => baccarat.bankerCards.flyCardTmp2())
             )
         );
 
