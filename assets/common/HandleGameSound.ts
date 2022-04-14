@@ -25,7 +25,7 @@ export default class HandleGameSound extends cc.Component {
 
     onLoad() {
         this.node.on("click", this.onClickSoundGame, this);
-        this.initSound();
+        this.updateIcon(AudioManager.getInstance()[this.getKey()]);
     }
 
     onDestroy() {
@@ -37,21 +37,21 @@ export default class HandleGameSound extends cc.Component {
         return dict[this.type];
     }
 
-    initSound() {
-        AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOn() : this.setSoundGameOff();
-    }
-
     onClickSoundGame() {
-        AudioManager.getInstance()[this.getKey()] ? this.setSoundGameOff() : this.setSoundGameOn();
+        AudioManager.getInstance()[this.getKey()] ? this.toggleSoundOff() : this.toggleSoundOn();
     }
 
-    setSoundGameOn() {
-        this.soundSprite.spriteFrame = this.soundOnFrame;
+    updateIcon(enable: boolean) {
+        this.soundSprite.spriteFrame = enable ? this.soundOnFrame : this.soundOffFrame;
+    }
+
+    toggleSoundOn() {
         AudioManager.getInstance()[this.getKey()] = true;
+        this.updateIcon(true);
     }
 
-    setSoundGameOff() {
-        this.soundSprite.spriteFrame = this.soundOffFrame;
+    toggleSoundOff() {
         AudioManager.getInstance()[this.getKey()] = false;
+        this.updateIcon(false);
     }
 }

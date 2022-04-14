@@ -1,6 +1,7 @@
 import i18n from "i18n/runtime-scripts/LanguageData";
 
 import { appContainer } from "../../Application";
+import MusicPlayer from "../../common/audio/MusicPlayer";
 import SocketIOController from "../../SocketIOController";
 
 const socketIOController = appContainer.get(SocketIOController);
@@ -29,6 +30,7 @@ cc.Class({
         }
 
         socketIOController.closeAllSocket();
+        MusicPlayer.getInstance().stopBgAudio();
     },
 
     convertToGMT8(date) {

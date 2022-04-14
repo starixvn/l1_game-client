@@ -1,7 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
-import AudioManager from "../../common/audio/AudioManager";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -62,6 +61,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale = 1;
+    readonly delayTurnOffMusicBg = 3.5;
 
     constructor() {
         super();
@@ -77,10 +77,8 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     initMusicBackground() {
-        if (this.musicBg && this.musicBg.getComponent(cc.AudioSource)) {
-            AudioManager.getInstance().stopMusic();
-            AudioManager.getInstance().removeMusicChanged("lobby");
-            MusicPlayer.getInstance().isLoadBgMusic = false;
+        if (this.musicBg) {
+            MusicPlayer.getInstance().stopMusicBg();
         }
     }
 
@@ -149,6 +147,9 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     onCloseGameClick() {
+        if (this.musicBg) {
+            MusicPlayer.getInstance().increaseVolume();
+        }
         this.closeGame();
     }
 

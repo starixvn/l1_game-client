@@ -8,6 +8,7 @@ import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import HoverItemBase from "../../common/HoverItemBase";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
+import { GameState } from "../_base/GameState";
 import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
 import LineView from "../AHCL/scripts/LineView";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
@@ -27,7 +28,6 @@ import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 import SpinButton from "./SpinButton";
-import { GameState } from "../_base/GameState";
 
 export interface LineData {
     payline: number;
@@ -201,7 +201,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             .start();
 
         const audioManager = AudioManager.getInstance();
-        audioManager.musicEnabled ? this.playMusicBackground(true) : this.playMusicBackground(false);
+        this.playMusicBackground(audioManager.musicEnabled);
         audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
 
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
@@ -1026,7 +1026,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     playMusicBackground(play: boolean) {
         if (play) {
-            this.musicBg.play();
+            this.scheduleOnce(() => {
+                this.musicBg.play();
+            }, this.delayTurnOffMusicBg);
         } else {
             this.musicBg.stop();
         }

@@ -4,7 +4,7 @@ import TutorialMain from "../../../../common/tutorial/TutorialMain";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class TexasTurorialMain extends TutorialMain {
+export default class TexasTutorialMain extends TutorialMain {
     @property({ type: NewCard })
     dealerCards: NewCard[] = [];
 
