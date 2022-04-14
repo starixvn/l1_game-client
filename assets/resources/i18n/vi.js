@@ -524,7 +524,6 @@ window.i18n.languages.vi = {
         betRiver: "Cược River",
         total: "Tổng",
         fold: "Bỏ Bài",
-        new: "Ván Mới",
         swap: "Hoán Đổi Bài",
         hold: "Giữ Bài",
         notEnoughMoney: "Bạn hiện không có đủ tiền để cược.",

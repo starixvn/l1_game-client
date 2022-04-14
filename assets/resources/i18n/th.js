@@ -518,7 +518,6 @@ window.i18n.languages.th = {
         betRiver: "Bet River",
         total: "Total",
         fold: "Fold",
-        new: "New",
         swap: "Swap Cards",
         hold: "Hold Cards",
         notEnoughMoney: "Your account has insufficient funds to complete the game round",
