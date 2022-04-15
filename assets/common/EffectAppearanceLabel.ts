@@ -14,10 +14,14 @@ export default class EffectAppearanceLabel extends cc.Component {
     @property
     speed = 400;
 
+    private _value: string;
     set string(value: string) {
+        this._value = value;
+        const updated = value !== this.label?.string || value !== this.richText?.string;
+
         this.label && (this.label.string = value);
         this.richText && (this.richText.string = value);
-        if (value.length > 0) {
+        if (updated) {
             this.playAnimation();
         }
     }
@@ -28,13 +32,17 @@ export default class EffectAppearanceLabel extends cc.Component {
 
     protected calculateDistance(): number {
         const padding = 20;
-        return this.getContentWidth() + padding;
+        return !this._value.length ? 0 : this.getContentWidth() + padding;
     }
 
     public playAnimation() {
         this.mask.node.width = 0;
 
         const width = this.calculateDistance();
+        if (!this.mask.node.activeInHierarchy) {
+            this.mask.node.width = width;
+            return;
+        }
         const duration = width / this.speed;
         cc.tween(this.mask.node).to(duration, { width: width }).start();
     }

@@ -1,4 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
@@ -59,7 +60,12 @@ export default class MD5Component extends cc.Component {
     }
 
     updateMD5String(data: MD5Type) {
-        const delayTime = !!data?.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
+        if (!this.node.activeInHierarchy) {
+            this.handleMD5Data(data);
+            return;
+        }
+
+        const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
         this.timeout = setTimeout(() => {
             this.handleMD5Data(data);
         }, delayTime * 1000);
