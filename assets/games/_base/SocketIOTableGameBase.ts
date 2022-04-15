@@ -99,4 +99,9 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
             this.socket.emit("retry");
         }
     }
+
+    outRoomGame(): Promise<void> {
+        this.socketIOController.closeSocket(this.gameId);
+        return super.outRoomGame();
+    }
 }
