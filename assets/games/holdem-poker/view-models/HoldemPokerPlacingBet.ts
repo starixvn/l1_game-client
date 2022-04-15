@@ -102,6 +102,30 @@ export default class HoldemPokerPlacingBet {
         }
     }
 
+    swap() {
+        if (this.validateAccountBalanceForFullRound(0)) {
+            this.gameData.isProcessingBet = true;
+            this.gameData.receiveUIData({
+                swap: {}
+            });
+            this.getConnection().emit(events.bet, {
+                swap: {}
+            });
+        }
+    }
+
+    hold() {
+        if (this.validateAccountBalanceForFullRound(0)) {
+            this.gameData.isProcessingBet = true;
+            this.gameData.receiveUIData({
+                hold: {}
+            });
+            this.getConnection().emit(events.bet, {
+                hold: {}
+            });
+        }
+    }
+
     private validateBet(betChoice: string, amount: number): boolean {
         if (this.gameBase.waitingProcessing) {
             return false;

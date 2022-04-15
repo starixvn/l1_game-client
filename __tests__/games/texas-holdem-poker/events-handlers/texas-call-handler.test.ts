@@ -1,9 +1,8 @@
 import { callData } from "./../_base/index";
 import TexasCallHandler, { TexasHoldemCall } from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-call-handler";
-import TexasCallModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-call-model";
 import TexasGameDataModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model";
 import TexasPlaceBetModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-place-bet-model";
-import { convertChoices } from "../../../../assets/games/texas-holdem-poker/texas-helper";
+import CallModelBase from "../../../../assets/games/_casino/event-models/CallModelBase";
 
 jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model", () => ({
     default: jest.fn().mockImplementation(() => {
@@ -29,7 +28,7 @@ describe("TexasHoldemCallEventHandler", () => {
         callHandlerHandler = new TexasCallHandler(gameData);
         callHandlerHandler.gameData = new TexasGameDataModel();
         callHandlerHandler.gameData.placeBetModel = new TexasPlaceBetModel();
-        callHandlerHandler.gameData.callModel = new TexasCallModel();
+        callHandlerHandler.gameData.callModel = new CallModelBase();
         data = callData;
     });
 
@@ -61,13 +60,18 @@ describe("TexasHoldemCallEventHandler", () => {
         it("should call callHandler.changeDataAfterCall", () => {
             // Arrange
             const changeDataBetSpy = jest.spyOn(callHandlerHandler.gameData.callModel, "changeDataAfterCall");
+            const covertData = {
+                communityCards: data.call.communityCards,
+                combinationResult: data.call.combinationResult,
+                totalAmount: data.call.totalAmount
+            };
 
             // Act
             callHandlerHandler.handle(data);
 
             // Assert
             expect(changeDataBetSpy).toBeCalledTimes(1);
-            expect(changeDataBetSpy).toBeCalledWith(data.call.communityCards, data.call.combinationResult, data.call.totalAmount);
+            expect(changeDataBetSpy).toBeCalledWith(covertData);
         });
     });
 });

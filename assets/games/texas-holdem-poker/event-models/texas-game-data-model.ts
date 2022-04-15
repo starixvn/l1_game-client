@@ -1,6 +1,8 @@
-import HoldemPockerMD5Handler from "../../holdem-poker/event-handlers/HoldemPockerMD5Handler";
+import MD5HandlerBase from "../../_casino/event-handlers/MD5HandlerBase";
+import CallModelBase from "../../_casino/event-models/CallModelBase";
+import DealModelBase from "../../_casino/event-models/DealModelBase";
+import HoldModelBase from "../../_casino/event-models/HoldModelBase";
 import { HoldemPokerGameData } from "../../holdem-poker/event-models/HoldemPokerGameData";
-import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
 import TexasAutoSettleHandler from "../event-handlers/texas-auto-settle-handler";
 import TexasCallHandler from "../event-handlers/texas-call-handler";
 import TexasConfigsHandler from "../event-handlers/texas-configs-handler";
@@ -14,17 +16,13 @@ import TexasTicketDetailHandler from "../event-handlers/texas-ticket-detail-hand
 import TexasTurnHandler from "../event-handlers/texas-turn-handler";
 import { TexasChoicesConst } from "../texas-constants";
 import TexasAutoSettleModel from "./texas-auto-settle-model";
-import TexasCallModel from "./texas-call-model";
 import TexasConfigsModel from "./texas-configs-model";
-import TexasDealModel from "./texas-deal-model";
 import TexasFinishModel from "./texas-finish-model";
-import TexasHoldModel from "./texas-hold-model";
 import TexasOwnBetModel from "./texas-own-bet-model";
 import TexasPlaceBetModel from "./texas-place-bet-model";
 import TexasRiverModel from "./texas-river-model";
 import TexasSettlementModel from "./texas-settlement-model";
 import TexasStateModel from "./texas-state-model";
-import TexasSwapModel from "./texas-swap-model";
 import TexasTicketDetailModel from "./texas-ticket-detail-model";
 import TexasTurnModel from "./texas-turn-model";
 
@@ -32,19 +30,13 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
     readonly configs: TexasConfigsModel;
     readonly placeBetModel: TexasPlaceBetModel;
     readonly stateModel: TexasStateModel;
-    readonly dealModel: TexasDealModel;
-    readonly swapModel: TexasSwapModel;
-    readonly holdModel: TexasHoldModel;
-    readonly ownBets: TexasOwnBetModel;
     readonly finishModel: TexasFinishModel;
     readonly settlement: TexasSettlementModel;
     readonly ticketDetailModel: TexasTicketDetailModel;
-
-    readonly callModel: TexasCallModel;
     readonly turnModel: TexasTurnModel;
     readonly riverModel: TexasRiverModel;
     readonly autoSettleModel: TexasAutoSettleModel;
-    readonly md5Model: HoldemPokerMD5Model;
+    ownBets: TexasOwnBetModel;
 
     constructor() {
         super();
@@ -55,16 +47,14 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
         this.settlement = new TexasSettlementModel();
         this.autoSettleModel = new TexasAutoSettleModel();
 
-        this.dealModel = new TexasDealModel();
-        this.swapModel = new TexasSwapModel();
-        this.holdModel = new TexasHoldModel();
-        this.callModel = new TexasCallModel();
+        this.dealModel = new DealModelBase();
+        this.holdModel = new HoldModelBase();
+        this.callModel = new CallModelBase();
         this.turnModel = new TexasTurnModel();
         this.riverModel = new TexasRiverModel();
         this.ownBets = new TexasOwnBetModel();
         this.finishModel = new TexasFinishModel();
         this.ticketDetailModel = new TexasTicketDetailModel();
-        this.md5Model = new HoldemPokerMD5Model();
     }
 
     // Override isProcessingBet
@@ -87,7 +77,7 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
             TexasRiverHandler,
             TexasOwnBetHandler,
             TexasFinishHandler,
-            HoldemPockerMD5Handler,
+            MD5HandlerBase,
             TexasTicketDetailHandler
         ];
 
@@ -101,11 +91,9 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
 
     receiveUIData(data: any) {
         if (!!data.bet) {
-            this.placeBetModel.isUsingHand = true;
             this.placeBetModel.placeBet(data.bet.choice, data.bet.amount);
             this.stateModel.placeBet(data.bet.choice);
         }
-
         if (!!data.deal) {
             this.stateModel.deal();
         }

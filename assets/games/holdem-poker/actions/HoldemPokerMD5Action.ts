@@ -1,15 +1,14 @@
-import { HoldemPokerMD5Model } from "../event-models/HoldemPokerMD5Model";
 import { HoldemPokerState } from "../event-models/HoldemPokerState";
 import { HoldemPokerStateModel } from "../event-models/HoldemPokerStateModel";
-import HoldemPockerMD5 from "../view-models/HoldemPockerMD5";
 import HoldemPoker from "../view-models/HoldemPoker";
+import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
+import CasinoMD5 from "../../_casino/CasinoMD5";
 
 export const handleMD5 = (main: HoldemPoker) => (stateModel: HoldemPokerStateModel) => {
     switch (stateModel.state) {
         case HoldemPokerState.replay_new:
         case HoldemPokerState.blank_new:
         case HoldemPokerState.calling_fold:
-            // case HoldemPokerState.prepare_new:
             main.md5Comp.clearMD5();
             break;
 
@@ -18,7 +17,7 @@ export const handleMD5 = (main: HoldemPoker) => (stateModel: HoldemPokerStateMod
     }
 };
 
-export const updateMD5 = (md5Comp: HoldemPockerMD5) => (model: HoldemPokerMD5Model) => {
+export const updateMD5 = (md5Comp: CasinoMD5) => (model: MD5ModelBase) => {
     if (typeof model.md5 === "string") {
         md5Comp.setMD5String(model.md5);
     }

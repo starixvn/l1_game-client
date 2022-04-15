@@ -1,15 +1,15 @@
-import { CardModel } from "../texas-type";
 import TexasEventHandler from "./texas-event-handler";
+import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
 export type TexasHoldemTurn = {
     turn: {
-        player: CardModel[];
-        communityCards: CardModel[];
+        player: OldCardModel[];
+        communityCards: OldCardModel[];
         combinationResult: {
             player: {
                 id: number;
-                combinationCards: CardModel[];
-                cards: CardModel[];
+                combinationCards: OldCardModel[];
+                cards: OldCardModel[];
             };
         };
         choices: Record<string, number>;

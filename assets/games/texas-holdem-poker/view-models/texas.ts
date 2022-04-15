@@ -1,22 +1,11 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
-import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
-import AudioManager from "../../../common/audio/AudioManager";
 import NewButton from "../../../common/custom-button/NewButton";
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
-import PrefabLoader from "../../../common/PrefabLoader";
 import TutorialMain from "../../../common/tutorial/TutorialMain";
 import { GameIds } from "../../../configs/SabaConfigs";
-import BetItem from "../../_base/view-models/BetItem";
-import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
-import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { BettingAreaEvents } from "../../_new/common/betting-area/BettingArea";
-import { events } from "../../_new/connection/SocketIOConnection";
 import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
 import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
 import { collectCards } from "../../holdem-poker/components/cards/view-models/CardWrapper";
-import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
 import TexasMicroUIAction from "../actions/texas-microUI-action";
 import { updateStatusGame } from "../actions/texas-notice-actions";
 import {
@@ -38,19 +27,14 @@ import {
     rawCardWhenRejoin,
     swapPlayerAndDealerCards
 } from "../cards-component/view-models/cards-wrapper";
-import HandleActionSwap from "../cards-component/view-models/handle-action-swap";
 import TexasCards from "../cards-component/view-models/texas-cards";
 import TexasUmHandler from "../event-handlers/texas-um-handler";
-import TexasCallModel from "../event-models/texas-call-model";
 import TexasConfigsModel from "../event-models/texas-configs-model";
-import TexasDealModel from "../event-models/texas-deal-model";
 import TexasFinishModel from "../event-models/texas-finish-model";
 import TexasGameDataModel from "../event-models/texas-game-data-model";
-import TexasHoldModel from "../event-models/texas-hold-model";
 import TexasOwnBetModel from "../event-models/texas-own-bet-model";
 import TexasPlaceBetModel from "../event-models/texas-place-bet-model";
 import TexasSettlementModel from "../event-models/texas-settlement-model";
-import TexasSwapModel from "../event-models/texas-swap-model";
 import TexasTicketDetailModel from "../event-models/texas-ticket-detail-model";
 import TexasTurnModel from "../event-models/texas-turn-model";
 import { BetAction, disableButtonText, TexasChoicesConst, TimerShowInteractiveGuide } from "../texas-constants";
@@ -66,56 +50,25 @@ import TexasStateModel from "./../event-models/texas-state-model";
 import TexasTicketHistory from "./game-history/texas-ticket-history";
 import TexasBettingArea from "./texas-betting-area";
 import TexasChips from "./texas-chips";
-import TexasMD5 from "./texas-MD5";
 import TexasMinMax from "./texas-min-max";
 import TexasOddsTable from "./texas-odds-table";
 import TexasPlacingBet from "./texas-placing-bet";
 import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";
+import HoldModelBase from "../../_casino/event-models/HoldModelBase";
+import CallModelBase from "../../_casino/event-models/CallModelBase";
+import DealModelBase from "../../_casino/event-models/DealModelBase";
+import SwapModelBase from "../../_casino/event-models/SwapModelBase";
+import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
+import CasinoGame from "../../_casino/CasinoGame";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class Texas extends NewGameRoomBase {
-    @property({ visible: false, override: true })
-    betItems: BetItem[] = [];
-
-    @property({ visible: false, override: true })
-    players: RoomPlayer[] = [];
-
-    @property({ visible: false, override: true })
-    timeWaitNode: cc.Node = null;
-
-    @property({ visible: false, override: true })
-    timeWaitLabel: cc.Label = null;
-
-    @property({ visible: false, override: true })
-    animatedTime: AnimatedTime = null;
-
-    @property({ visible: false, override: true })
-    otherPlayers: cc.Node = null;
-
-    @property({ visible: false, override: true })
-    gameAudiosPrefab: cc.Prefab = null;
-
-    @property({ type: [PrefabLoader] })
-    protected prefabLoader: PrefabLoader[] = [];
-
+export default class Texas extends CasinoGame {
     @property({ type: [cc.Component] })
     protected bettingAreas: TexasBettingArea[] = [];
 
     @property({ type: [TexasMicroUIAction] })
     protected microUIAction: TexasMicroUIAction[] = [];
-
-    @property(cc.Node)
-    doubleButton: cc.Node = null;
-
-    @property(cc.Node)
-    reBetAndDealButton: cc.Node = null;
-
-    @property(cc.Node)
-    cancelButton: cc.Node = null;
-
-    @property(cc.Node)
-    dealButton: cc.Node = null;
 
     @property(cc.Node)
     callButton: cc.Node = null;
@@ -133,55 +86,11 @@ export default class Texas extends NewGameRoomBase {
     checkTurnButton: cc.Node = null;
 
     @property(cc.Node)
-    foldButton: cc.Node = null;
-
-    @property(cc.Node)
-    newButton: cc.Node = null;
-
-    @property(cc.Node)
-    swapButton: cc.Node = null;
-
-    @property(cc.Node)
-    holdButton: cc.Node = null;
-
-    @property(cc.SpriteFrame)
-    shadowChip: cc.SpriteFrame = null;
-
     @property({ type: TexasMinMax })
     protected minMaxTable: TexasMinMax = null;
 
     @property({ type: [TexasOddsTable] })
     protected oddsTables: TexasOddsTable[] = [];
-
-    @property(cc.Node)
-    dealerChipTray: cc.Node = null;
-
-    @property(cc.Node)
-    texasSwapCards: cc.Node = null;
-
-    @property(cc.Label)
-    totalBetLabel: cc.Label = null;
-
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
-    @property(TexasMD5)
-    md5Comp: TexasMD5 = null;
-
-    @property(cc.AudioSource)
-    gameNotificationsAudio: cc.AudioSource = null;
-
-    @property(cc.AudioSource)
-    singleChipAudio: cc.AudioSource = null;
-
-    @property(cc.AudioSource)
-    startNewRoundAudio: cc.AudioSource = null;
-
-    @property(ExpandableMenu)
-    expandableMenu: ExpandableMenu = null;
-
-    @property(HandleActionSwap)
-    swapMenu: HandleActionSwap = null;
 
     @property(cc.Prefab)
     interactiveGuidePrefab: cc.Prefab = null;
@@ -197,8 +106,6 @@ export default class Texas extends NewGameRoomBase {
     protected texasChips: TexasChips;
     protected pokerCardScript: TexasCards = undefined;
     protected betHistoryController: TexasTicketHistory = null;
-    protected isSwapCard = true;
-    private statusShowSwapIcon = false;
 
     constructor() {
         super();
@@ -267,10 +174,6 @@ export default class Texas extends NewGameRoomBase {
         this.pokerCardScript = this.node.getChildByName("poker-cards-script").getComponent(TexasCards);
     }
 
-    onGameHide() {
-        // onGameHide
-    }
-
     handleStatusNodeMain(status: boolean) {
         if (status) {
             this.totalBetValue.string = "0";
@@ -297,10 +200,6 @@ export default class Texas extends NewGameRoomBase {
         });
     }
 
-    protected addHandlers(): void {
-        super.addHandlers(this.umHandler, this.noticeHandler, this.errorHandler, this.betHandler);
-    }
-
     onDataGameRoom(data: any) {
         super.onDataGameRoom(data);
         if (this.gameData) {
@@ -309,60 +208,32 @@ export default class Texas extends NewGameRoomBase {
     }
 
     public disabledButtons(status: boolean) {
-        this.dealButton.getChildByName(disableButtonText).active = status;
-        this.cancelButton.getChildByName(disableButtonText).active = status;
-        this.doubleButton.getChildByName(disableButtonText).active = status;
-        this.callButton.getChildByName(disableButtonText).active = status;
-        this.turnButton.getChildByName(disableButtonText).active = status;
-        this.checkTurnButton.getChildByName(disableButtonText).active = status;
-        this.riverButton.getChildByName(disableButtonText).active = status;
-        this.checkRiverButton.getChildByName(disableButtonText).active = status;
-        this.reBetAndDealButton.getChildByName(disableButtonText).active = status;
-        this.newButton.getChildByName(disableButtonText).active = status;
-        this.foldButton.getChildByName(disableButtonText).active = status;
-        this.swapButton.getChildByName(disableButtonText).active = status;
-        this.holdButton.getChildByName(disableButtonText).active = status;
+        super.disabledButtons(status);
+        const disableButton = "btn-disable";
+        this.callButton.getChildByName(disableButton).active = status;
+        this.turnButton.getChildByName(disableButton).active = status;
+        this.checkTurnButton.getChildByName(disableButton).active = status;
+        this.riverButton.getChildByName(disableButton).active = status;
+        this.checkRiverButton.getChildByName(disableButton).active = status;
     }
 
-    private initButtonStatus() {
-        this.dealButton.getComponent(NewButton).callback.selected = () =>
-            !this.dealButton.getChildByName(disableButtonText).active && this.onDealClick();
-
-        this.cancelButton.getComponent(NewButton).callback.selected = () =>
-            !this.cancelButton.getChildByName(disableButtonText).active && this.onClearClick();
-
-        this.doubleButton.getComponent(NewButton).callback.selected = () =>
-            !this.doubleButton.getChildByName(disableButtonText).active && this.onDoubleClick();
-
+    public initButtonStatus() {
+        super.initButtonStatus();
+        const disableButton = "btn-disable";
         this.callButton.getComponent(NewButton).callback.selected = () =>
-            !this.callButton.getChildByName(disableButtonText).active && this.onDoubleAndCallClick();
+            !this.callButton.getChildByName(disableButton).active && this.onDoubleAndCallClick();
 
         this.turnButton.getComponent(NewButton).callback.selected = () =>
-            !this.turnButton.getChildByName(disableButtonText).active && this.onTurnClick();
+            !this.turnButton.getChildByName(disableButton).active && this.onTurnClick();
 
         this.checkTurnButton.getComponent(NewButton).callback.selected = () =>
-            !this.checkTurnButton.getChildByName(disableButtonText).active && this.onCheckTurnClick();
+            !this.checkTurnButton.getChildByName(disableButton).active && this.onCheckTurnClick();
 
         this.riverButton.getComponent(NewButton).callback.selected = () =>
-            !this.riverButton.getChildByName(disableButtonText).active && this.onRiverClick();
+            !this.riverButton.getChildByName(disableButton).active && this.onRiverClick();
 
         this.checkRiverButton.getComponent(NewButton).callback.selected = () =>
-            !this.checkRiverButton.getChildByName(disableButtonText).active && this.onCheckRiverClick();
-
-        this.reBetAndDealButton.getComponent(NewButton).callback.selected = () =>
-            !this.reBetAndDealButton.getChildByName(disableButtonText).active && this.onRebetAndDeal();
-
-        this.newButton.getComponent(NewButton).callback.selected = () =>
-            !this.newButton.getChildByName(disableButtonText).active && this.onNewButtonClick();
-
-        this.foldButton.getComponent(NewButton).callback.selected = () =>
-            !this.foldButton.getChildByName(disableButtonText).active && this.onFoldClick();
-
-        this.swapButton.getComponent(NewButton).callback.selected = () =>
-            !this.swapButton.getChildByName(disableButtonText).active && this.onSwapClick();
-
-        this.holdButton.getComponent(NewButton).callback.selected = () =>
-            !this.holdButton.getChildByName(disableButtonText).active && this.onHoldClick();
+            !this.checkRiverButton.getChildByName(disableButton).active && this.onCheckRiverClick();
     }
 
     private initTicketHistory() {
@@ -374,17 +245,10 @@ export default class Texas extends NewGameRoomBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    pressedShowHistory() {
-        this.playClick();
-        this.expandableMenu.collapseMenu();
+    openHistory() {
         this.initTicketHistory();
         this.betHistoryController.setId(this.gameData.roundCounter.roundId);
         this.betHistoryController.showDialog();
-    }
-
-    openGuide() {
-        super.openGuide();
-        this.expandableMenu.collapseMenu();
     }
 
     private initPlacingBet() {
@@ -463,7 +327,7 @@ export default class Texas extends NewGameRoomBase {
                     this.gameData?.settlement.finishShowCards();
                 },
                 () => {
-                    this.md5Comp.createResultDetails(this.gameData.md5Model.md5);
+                    this.md5Comp.createResultDetails(this.gameData.md5Data.md5);
                 }
             );
         });
@@ -483,10 +347,6 @@ export default class Texas extends NewGameRoomBase {
         });
     }
 
-    public getConfigs() {
-        this.connection.emit(events.getGameConfigs);
-    }
-
     private registerStateEvents() {
         this.gameData.stateModel.on(TexasStateModel.Events.CHANGE, showHideButtons(this));
         this.gameData.stateModel.on(TexasStateModel.Events.CHANGE, showHideTooltip(this.bettingAreas));
@@ -496,7 +356,7 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private registerAfterDealEvents() {
-        this.gameData.dealModel.on(TexasDealModel.Events.CHANGE, () => {
+        this.gameData.dealModel.on(DealModelBase.Events.CHANGE, () => {
             this.isSwapCard
                 ? dealPlayerAndDealerCards(this.pokerCardScript, () => this.gameData.stateModel.afterDeal())
                 : this.afterDealWithoutSwap();
@@ -509,13 +369,13 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private registerAfterSwapEvents() {
-        this.gameData.swapModel.on(TexasSwapModel.Events.CHANGE, (swapModel: TexasSwapModel) => {
-            swapPlayerAndDealerCards(this.pokerCardScript, swapModel, this.texasSwapCards, () => this.gameData.stateModel.swapSuccess());
+        this.gameData.swapModel.on(SwapModelBase.Events.CHANGE, (swapModel: SwapModelBase) => {
+            swapPlayerAndDealerCards(this.pokerCardScript, swapModel, this.swapCardsNode, () => this.gameData.stateModel.swapSuccess());
         });
     }
 
     private registerAfterHoldEvents() {
-        this.gameData.holdModel.on(TexasHoldModel.Events.CHANGE, (holdModel: TexasHoldModel) => {
+        this.gameData.holdModel.on(HoldModelBase.Events.CHANGE, (holdModel: HoldModelBase) => {
             this.isSwapCard
                 ? holdPlayerAndDealerCards(this.pokerCardScript, holdModel, () => this.gameData.stateModel.holdSuccess())
                 : dealPlayerAndDealerCardsWithoutSwap(this.pokerCardScript, holdModel, () => this.gameData.stateModel.holdSuccess());
@@ -523,7 +383,7 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private registerAfterCallEvents() {
-        this.gameData.callModel.on(TexasCallModel.Events.CHANGE, (callModel: TexasCallModel) => {
+        this.gameData.callModel.on(CallModelBase.Events.CHANGE, (callModel: CallModelBase) => {
             dealFirstThreeCommunityCards(this.pokerCardScript, callModel, () => this.gameData.stateModel.callSuccess());
         });
     }
@@ -567,7 +427,7 @@ export default class Texas extends NewGameRoomBase {
     }
 
     private registerMD5Event() {
-        this.gameData.md5Model.on(HoldemPokerMD5Model.Events.CHANGE, (md5: HoldemPokerMD5Model) => {
+        this.gameData.md5Data.on(MD5ModelBase.Events.CHANGE, (md5: MD5ModelBase) => {
             updateMD5(this.md5Comp)(md5);
         });
     }
@@ -665,36 +525,5 @@ export default class Texas extends NewGameRoomBase {
     onHoldClick() {
         this.playClick();
         this.placingBet.handleClickOnChoice(TexasChoicesConst.hold);
-    }
-
-    private hideButtonPrepareNewRound() {
-        this.reBetAndDealButton.active = this.newButton.active = false;
-    }
-
-    playStartGameAudio() {
-        AudioManager.getInstance().playSFX(this.startNewRoundAudio.clip);
-    }
-
-    sendRetryMessage(): void {
-        this.connection.emit("retry");
-    }
-
-    set disableIconSwap(value: boolean) {
-        this.statusShowSwapIcon = value;
-    }
-
-    onIconSwapClick() {
-        if (!this.statusShowSwapIcon) {
-            this.isSwapCard = !this.isSwapCard;
-            this.swapMenu.setSwapStatus(!this.isSwapCard);
-            this.isSwapCard
-                ? this.showMiniWarning(i18n.t("texasPoker.swapCardOn"))
-                : this.showMiniWarning(i18n.t("texasPoker.swapCardOff"));
-        }
-    }
-
-    private handleDisableSwap(isDisable: boolean) {
-        this.disableIconSwap = isDisable;
-        isDisable ? this.swapMenu.setDisable() : this.swapMenu.setEnable();
     }
 }

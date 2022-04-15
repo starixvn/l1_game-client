@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class TexasShowUpCards extends cc.Component {
+export default class Simulated3DCards extends cc.Component {
     @property(cc.Node)
     cardsDealer1: cc.Node = null;
 
@@ -15,10 +15,10 @@ export default class TexasShowUpCards extends cc.Component {
     cardsPlayer2: cc.Node = null;
 
     @property
-    selectedPosZ = 60;
+    selectedPosZ = 0;
 
     @property
-    cardViewScaleY = 1.15;
+    cardViewScaleY = 1;
 
     @property
     movingOffsetX = 0;

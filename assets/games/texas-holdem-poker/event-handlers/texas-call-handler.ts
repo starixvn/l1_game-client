@@ -1,5 +1,5 @@
-import { CardModel } from "../texas-type";
 import TexasEventHandler from "./texas-event-handler";
+import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
 export type TexasHoldemCall = {
     call: {
@@ -7,11 +7,11 @@ export type TexasHoldemCall = {
         combinationResult: {
             player: {
                 id: number;
-                combinationCards: CardModel[];
-                cards: CardModel[];
+                combinationCards: OldCardModel[];
+                cards: OldCardModel[];
             };
         };
-        communityCards: CardModel[];
+        communityCards: OldCardModel[];
         totalAmount: number;
         roundId?: number;
     };
@@ -25,6 +25,6 @@ export default class TexasCallHandler<Choices> extends TexasEventHandler<TexasHo
     protected handle(event: TexasHoldemCall) {
         const { communityCards, combinationResult, totalAmount } = event.call;
 
-        this.gameData.callModel.changeDataAfterCall(communityCards, combinationResult, totalAmount);
+        this.gameData.callModel.changeDataAfterCall({ communityCards, combinationResult, totalAmount });
     }
 }

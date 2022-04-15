@@ -1,53 +1,37 @@
 import * as _ from "lodash";
-
-import { HoldemPokerCardModel } from "../event-models/HoldemPokerCardModel";
 import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
-import { CardResult, HoldemPokerCombinationResult } from "../event-models/HoldemPokerCombinationResult";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
+import { OwnBetDataType } from "../../_casino/event-models/CasinoDataType";
+import { OwnBetModelBase } from "../../_casino/event-models/OwnBetModelBase";
 
-export type HoldemPokerOwnBetType<Choices> = {
-    ownBets: {
-        roundId: number;
-        bets: Record<string, number>;
-        player: Array<Record<string, number>>;
-        communityCards: Array<Record<string, number>>;
-        combinationResult: {
-            player: {
-                id: number;
-                combinationCards: Array<Record<string, number>>;
-                cards: Array<Record<string, number>>;
-            };
-        };
-        totalAmount: number;
-    };
-};
-
-export default class HoldemPokerOwnBetHandler<Choices> extends HoldemPokerEventHandler<HoldemPokerOwnBetType<Choices>, Choices> {
-    protected verifyEvent(event: HoldemPokerOwnBetType<Choices>) {
+export default class HoldemPokerOwnBetHandler<Choices> extends HoldemPokerEventHandler<OwnBetDataType, Choices> {
+    protected verifyEvent(event: OwnBetDataType) {
         return !!event.ownBets;
     }
 
-    protected handle(event: HoldemPokerOwnBetType<Choices>) {
+    protected handle(event: OwnBetDataType) {
         this.gameData.isProcessingBet = false;
-        if (!_.isEmpty(event.ownBets)) {
-            const combinationResult = new HoldemPokerCombinationResult();
-            const { player } = event.ownBets.combinationResult;
-            combinationResult.playerResult = new CardResult();
-            combinationResult.playerResult.handResultId = player.id;
-            combinationResult.playerResult.combinationCards = player.combinationCards.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
 
-            const playerCards = event.ownBets.player.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
-            const communityCards = event.ownBets.communityCards.map((c) => new HoldemPokerCardModel(c.rank, c.suit));
+        if (!_.isEmpty(event.ownBets)) {
+            const { player, communityCards, combinationResult, roundId, totalAmount, hasSwappedOrHold } = event.ownBets;
 
             const choices = new HoldemPokerChoices();
             choices.aa = event.ownBets.bets.aa ?? 0;
             choices.ante = event.ownBets.bets.ante;
 
-            const { roundId, totalAmount } = event.ownBets;
             this.gameData.emit(HoldemPokerGameData.Events.CHOICES_RESULT, event.ownBets.bets);
-            this.gameData.emit(HoldemPokerGameData.Events.CHANGE_STATE, this);
-            this.gameData.ownBets.changeOwnBets({ bets: choices, playerCards, communityCards, combinationResult, roundId, totalAmount });
+            this.gameData.stateModel.rejoinTable(communityCards.length, hasSwappedOrHold);
+            this.gameData.roundCounter.change(roundId);
+            this.gameData.ownBets.changeOwnBets({
+                bets: choices,
+                playerCards: player ? player : null,
+                communityCards: communityCards,
+                combinationResult: combinationResult,
+                roundId: roundId,
+                totalAmount: totalAmount,
+                hasSwappedOrHold: hasSwappedOrHold
+            });
         }
     }
 }

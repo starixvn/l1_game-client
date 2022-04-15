@@ -90,8 +90,49 @@ export class HoldemPokerStateModel extends EventEmitterBase {
         this.emit(HoldemPokerStateModel.Events.CHANGE, this);
     }
 
+    swapping() {
+        this.state = HoldemPokerState.swapping;
+        this.previousRound = true;
+        this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+    }
+
+    swap() {
+        this.state = HoldemPokerState.swap;
+        this.previousRound = true;
+        this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+    }
+
+    swapSuccess() {
+        this.state = HoldemPokerState.swapped;
+        this.previousRound = true;
+        this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+    }
+
+    hold() {
+        this.state = HoldemPokerState.hold;
+        this.previousRound = true;
+        this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+    }
+
+    holding() {
+        this.state = HoldemPokerState.holding;
+        this.previousRound = true;
+        this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+    }
+
+    holdSuccess() {
+        this.state = HoldemPokerState.held;
+        this.previousRound = true;
+        this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+    }
+
     call() {
         this.state = HoldemPokerState.calling_call;
+        this.emit(HoldemPokerStateModel.Events.CHANGE, this);
+    }
+
+    callSuccess() {
+        this.state = HoldemPokerState.calling_called;
         this.emit(HoldemPokerStateModel.Events.CHANGE, this);
     }
 
@@ -132,15 +173,17 @@ export class HoldemPokerStateModel extends EventEmitterBase {
         this.state = HoldemPokerState.replay_new;
         this.emit(HoldemPokerStateModel.Events.CHANGE, this);
     }
+
+    rejoinTable(communityCardLength: number, hasSwappedOrHold: boolean) {
+        if (hasSwappedOrHold) {
+            this.swapSuccess();
+        } else {
+            this.afterDeal();
+        }
+    }
+
     turnSuccess: () => void;
     rivering: () => void;
     checkRiver: () => void;
     riveSuccess: () => void;
-    rejoinTable: (communityCardLength: number, hasSwappedOrHold: boolean) => void;
-    swapping: () => void;
-    swap: () => void;
-    swapSuccess: () => void;
-    hold: () => void;
-    holding: () => void;
-    holdSuccess: () => void;
 }

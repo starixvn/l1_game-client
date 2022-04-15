@@ -1,7 +1,8 @@
-import { Function } from "lodash";
-
 import { convertOldRank } from "../../../../../common/new-card/view-models/NewCard";
-import PokerCards from "./HoldemPokerCards";
+import HoldemPokerCards from "./HoldemPokerCards";
+import { HoldemPokerAfterDealModel } from "../../../event-models/HoldemPokerAfterDealModel";
+import HoldemPokerHoldModel from "../../../event-models/HoldemPokerHoldModel";
+import SwapCards from "../../../../_casino/SwapCards";
 
 export const convertCard = (cards) => {
     return cards.map((e) => {
@@ -12,49 +13,103 @@ export const convertCard = (cards) => {
     });
 };
 
-export const rawCardAfterClickDeal = async (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
-    pokerCardsNote.hideAllLabelIndicatorCards();
-    pokerCardsNote.hideAllIndicator();
-    const { playerCards, communityCards } = cardsData;
+export const dealPlayerAndDealerCards = async (
+    pokerCardsNote: HoldemPokerCards,
+    dealModel: HoldemPokerAfterDealModel,
+    callBack?: () => void
+) => {
+    const { communityCards, combinationResult } = dealModel;
+
+    await handleDealingCards(pokerCardsNote, communityCards, true);
+
+    const { combinationCards, id } = combinationResult.player;
+    showPlayerIndicator(pokerCardsNote, combinationCards, id);
+
+    callBack && callBack();
+};
+
+export const dealPlayerAndDealerCardsWithoutSwap = async (
+    pokerCardsNote: HoldemPokerCards,
+    holdModel: HoldemPokerHoldModel,
+    callBack?: () => void
+) => {
+    await handleDealingCards(pokerCardsNote, holdModel.communityCards, false);
+    await handleFaceUpPlayerCard(pokerCardsNote, holdModel, callBack);
+};
+
+const handleDealingCards = async (pokerCards: HoldemPokerCards, communityCards: any, isFaceDown: boolean) => {
+    pokerCards.hideAllLabelIndicatorCards();
+    pokerCards.hideAllIndicator();
+
+    const playerFakeData = [
+        { rank: "1", suit: 1 },
+        { rank: "1", suit: 1 }
+    ];
+
     const dealerFakeData = [
         { rank: "1", suit: 1 },
         { rank: "1", suit: 1 }
     ];
 
-    const playerCardsConverted = convertCard(playerCards);
-    const communityCardsConverted = convertCard(communityCards);
-
     // =>player
-    await pokerCardsNote.drawingCardToPlayer(playerCardsConverted[0], false, 0);
+    await pokerCards.drawingCardToPlayer(playerFakeData[0], true, 0);
     //=> dealer
-    await pokerCardsNote.drawingCardToDealer(dealerFakeData[0], true, 0);
+    await pokerCards.drawingCardToDealer(dealerFakeData[0], true, 0);
     // => player
-    await pokerCardsNote.drawingCardToPlayer(playerCardsConverted[1], false, 1);
+    await pokerCards.drawingCardToPlayer(playerFakeData[1], true, 1);
     //=> dealer;
-    await pokerCardsNote.drawingCardToDealer(dealerFakeData[1], true, 1);
+    await pokerCards.drawingCardToDealer(dealerFakeData[1], true, 1);
 
-    for (const element of communityCardsConverted) {
-        await pokerCardsNote.drawingCardToMiddle(element, false);
+    for (const element of communityCards) {
+        await pokerCards.drawingCardToMiddle(element, false);
+    }
+};
+
+export const handleFaceUpPlayerCard = async (pokerCardsNote: HoldemPokerCards, cardsData: any, callBack?: () => void) => {
+    const { playerCards } = cardsData;
+    for (let index = 0; index < playerCards.length; index++) {
+        const element = playerCards[index];
+        await pokerCardsNote.faceUpPlayerCard(element, index);
     }
 
     pokerCardsNote.focusPlayerCard();
     showIndicator(pokerCardsNote, cardsData, callBack, 0);
 };
 
-export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsData: any, showResultMD5?: Function, callBack?: Function) => {
+export const swapPlayerAndDealerCards = async (
+    pokerCardsNote: HoldemPokerCards,
+    cardsData: any,
+    texasSwapCards: cc.Node,
+    callBack?: () => void
+) => {
+    const componentSwap = texasSwapCards.getComponent(SwapCards);
+    await componentSwap.swapCards();
+
+    await handleFaceUpPlayerCard(pokerCardsNote, cardsData, callBack);
+};
+
+export const holdPlayerAndDealerCards = async (pokerCardsNote: HoldemPokerCards, cardsData: any, callBack?: () => void) => {
+    await handleFaceUpPlayerCard(pokerCardsNote, cardsData, callBack);
+};
+
+export const rawCardAfterClickCall = async (
+    pokerCardsNote: HoldemPokerCards,
+    cardsData: any,
+    showResultMD5?: () => void,
+    callBack?: () => void
+) => {
     const { communityCards, dealerCards } = cardsData;
-    const communityCardsConverted = convertCard(communityCards.slice(-2));
-    const dealerCardsConverted = convertCard(dealerCards);
+    const communityCardsNew = communityCards.slice(-2);
 
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
 
-    for (const element of communityCardsConverted) {
+    for (const element of communityCardsNew) {
         await pokerCardsNote.drawingCardToMiddle(element, false);
     }
 
     let index = 0;
-    for (const element of dealerCardsConverted) {
+    for (const element of dealerCards) {
         await pokerCardsNote.faceUpDealerCard(element, index);
         index++;
     }
@@ -63,72 +118,83 @@ export const rawCardAfterClickCall = async (pokerCardsNote: PokerCards, cardsDat
     showIndicator(pokerCardsNote, cardsData, callBack, 1000);
 };
 
-const showIndicator = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function, delayCallBack = 2000) => {
+const showIndicator = (pokerCardsNote: HoldemPokerCards, cardsData: any, callBack?: () => void, delayCallBack = 2000) => {
     const { combinationResult } = cardsData;
-    const { playerResult, dealerResult, isQualified } = combinationResult;
-    const playerCombinationCardsConverted: [
-        {
-            rank: string;
-            suit: number;
-        }
-    ] = convertCard(playerResult.combinationCards);
+    const { player, dealer, isQualified } = combinationResult;
 
     const dealerCombinationCardsConverted: [
         {
             rank: string;
             suit: number;
         }
-    ] = dealerResult ? convertCard(dealerResult.combinationCards) : [];
-    pokerCardsNote.showArrowIndicatorCards(playerCombinationCardsConverted, "player");
-    pokerCardsNote.showArrowIndicatorCards(dealerCombinationCardsConverted, "dealer");
+    ] = dealer ? convertCard(dealer.combinationCards) : [];
 
-    dealerResult && pokerCardsNote.showLabelIndicatorCards(isQualified ? dealerResult.handResultId : 0, "dealer");
-    pokerCardsNote.showLabelIndicatorCards(playerResult.handResultId, "player");
+    showPlayerIndicator(pokerCardsNote, player.combinationCards, player.id);
+    pokerCardsNote.showArrowIndicatorCards(dealerCombinationCardsConverted, "dealer");
+    dealer && pokerCardsNote.showLabelIndicatorCards(isQualified ? dealer.id : 0, "dealer");
 
     setTimeout(() => {
         callBack && callBack();
     }, delayCallBack);
 };
 
-export const collectCards = async (pokerCardsNote: PokerCards, callBack?: Function, delayCallBack = 0) => {
+export const collectCards = async (pokerCardsNote: HoldemPokerCards, callBack?: () => void, delayCallBack = 0) => {
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
     await pokerCardsNote.collectCardsOnTable();
     callBack && callBack();
 };
-export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any, callBack?: Function) => {
-    const { combinationResult, communityCards, playerCards } = cardsData;
-    const { playerResult } = combinationResult;
 
-    const playerCombinationCardsConverted: [
-        {
-            rank: string;
-            suit: number;
-        }
-    ] = convertCard(playerResult.combinationCards);
+export const rawCardWhenRejoin = (pokerCardsNote: HoldemPokerCards, cardsData: any, callBack?: () => void) => {
+    const { combinationResult, communityCards, hasSwappedOrHold } = cardsData;
+
+    const { combinationCards, id } = combinationResult.player;
+
+    let playerCards = [];
+    if (hasSwappedOrHold) {
+        playerCards = cardsData.playerCards;
+    } else {
+        playerCards = [
+            { rank: "6", suit: 3 },
+            { rank: "6", suit: 3 }
+        ];
+    }
 
     const dealerDataFake = [
         { rank: "6", suit: 3 },
         { rank: "6", suit: 3 }
     ];
+
     pokerCardsNote.hideAllLabelIndicatorCards();
     pokerCardsNote.hideAllIndicator();
 
-    const playerCardsConverted = convertCard(playerCards);
-    const communityCardsConverted = convertCard(communityCards);
+    for (const card of playerCards) {
+        pokerCardsNote.drawingRejoinPlayerCards(card, hasSwappedOrHold ? false : true);
+    }
 
-    playerCardsConverted.forEach((element) => {
-        pokerCardsNote.drawingRejoinPlayerCards(element, false);
-    });
+    for (const card of communityCards) {
+        pokerCardsNote.drawingRejoinMiddleCards(card, false);
+    }
 
-    communityCardsConverted.forEach((element) => {
-        pokerCardsNote.drawingRejoinMiddleCards(element, false);
-    });
+    for (const card of dealerDataFake) {
+        pokerCardsNote.drawingRejoinDealerCards(card, true);
+    }
 
-    dealerDataFake.forEach((element) => {
-        pokerCardsNote.drawingRejoinDealerCards(element, true);
-    });
+    showPlayerIndicator(pokerCardsNote, combinationCards, id);
+
+    if (hasSwappedOrHold) {
+        pokerCardsNote.focusPlayerCard();
+    }
+};
+
+export const showPlayerIndicator = async (pokerCardsNote: HoldemPokerCards, combinationCards: any, labelId: number) => {
+    const playerCombinationCardsConverted: [
+        {
+            rank: string;
+            suit: number;
+        }
+    ] = convertCard(combinationCards);
+
     pokerCardsNote.showArrowIndicatorCards(playerCombinationCardsConverted, "player");
-    pokerCardsNote.showLabelIndicatorCards(playerResult.handResultId, "player");
-    pokerCardsNote.focusPlayerCard();
+    pokerCardsNote.showLabelIndicatorCards(labelId, "player");
 };

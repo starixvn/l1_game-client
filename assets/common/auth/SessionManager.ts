@@ -60,7 +60,6 @@ export function getLocale() {
 export function updateLanguage(data) {
     const locale = data.language;
     const language = getLanguage(locale);
-    console.log(`i18n init language ${data.language} => ${language}`);
     setLanguage(language);
 }
 

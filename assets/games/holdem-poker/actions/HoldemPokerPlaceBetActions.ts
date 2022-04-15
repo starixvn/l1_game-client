@@ -48,17 +48,25 @@ export const showHideButtons = (main: HoldemPoker) => (stateModel: HoldemPokerSt
             main.disabledButtons(true);
             break;
         case HoldemPokerState.dealing:
+            main.disabledButtons(false);
             main.dealButton.active = main.doubleButton.active = main.cancelButton.active = false;
             main.reBetAndDealButton.active = main.newButton.active = false;
             break;
         case HoldemPokerState.dealt:
-            main.disabledButtons(false);
-            main.foldButton.active = main.doubleAndCallButton.active = true;
+            main.swapButton.active = main.holdButton.active = true;
             break;
         case HoldemPokerState.calling_call:
         case HoldemPokerState.calling_fold:
         case HoldemPokerState.settled:
             main.doubleAndCallButton.active = main.foldButton.active = false;
+            break;
+        case HoldemPokerState.swap:
+        case HoldemPokerState.hold:
+            main.swapButton.active = main.holdButton.active = main.doubleButton.active = false;
+            break;
+        case HoldemPokerState.swapped:
+        case HoldemPokerState.held:
+            main.doubleAndCallButton.active = main.foldButton.active = true;
             break;
     }
 };
@@ -181,9 +189,8 @@ export const updateChips =
         const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
         if (bettingArea && bettingArea.chipNode) {
             const values = GameUtils.getChipQuantity(currentAmount, betChips.chipValues);
-            console.log(values, "values");
             const keys = Object.keys(values).sort((a, b) => +b - +a);
-            console.log(keys, "keys");
+
             keys.forEach((chipValue) => {
                 const count = values[chipValue];
                 for (let i = 0; i < count; i++) {

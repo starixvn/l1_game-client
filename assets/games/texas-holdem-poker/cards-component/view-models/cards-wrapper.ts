@@ -1,7 +1,7 @@
 import { convertCard } from "../../../holdem-poker/components/cards/view-models/CardWrapper";
 import { dealerFakeData } from "../../texas-constants";
 import PokerCards from "./texas-cards";
-import TexasSwapCards from "./texas-swap-cards";
+import SwapCards from "../../../_casino/SwapCards";
 
 const handleCommunityCards = async (pokerCardsNote, communityCards) => {
     for (const element of communityCards) {
@@ -58,7 +58,7 @@ export const swapPlayerAndDealerCards = async (
     texasSwapCards: cc.Node,
     callBack?: () => void
 ) => {
-    const componentSwap = texasSwapCards.getComponent(TexasSwapCards);
+    const componentSwap = texasSwapCards.getComponent(SwapCards);
     await componentSwap.swapCards();
 
     await handleFaceUpPlayerCard(pokerCardsNote, cardsData, callBack);
