@@ -44,6 +44,12 @@ enum SlotGameSound {
     BONUS = 4
 }
 
+export enum RoundType {
+    BEFORESPIN = 0,
+    SPINNING = 1,
+    SETTLED = 2
+}
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -215,7 +221,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
         this.registerKeyEvents();
-        this.initMessage();
+        this.showMessageDisplay(RoundType.BEFORESPIN);
     }
 
     showJackpotInfo(show: boolean) {
@@ -236,26 +242,26 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         super.onGameHide();
         this.saveUserSetting();
     }
-    initMessage() {
-        let msg = `messages.showMsgWhenSpinDesktop`;
-        if (GameUtils.isIpad() || GameUtils.isPhone()) {
-            msg = `messages.showMsgWhenSpinPhone`;
-        }
-        if (this.messageText !== null) {
-            this.messageText.string = `${i18n.t(msg)}`;
-        }
-    }
 
-    showMessageDisplay(needRandom: boolean) {
+    showMessageDisplay(roundType: RoundType) {
+        if (!this.messageText) {
+            return;
+        }
+        const msgList = ["showMsgWhenSpin", "roundSettleMsg", "FromSettleToSpin"];
         let msg = `messages.roundSettleMsg`;
-        if (needRandom) {
+        if (roundType === 0) {
+            if (GameUtils.isIpad() || GameUtils.isPhone()) {
+                msg = `messages.${msgList[roundType] + "Phone"}`;
+            } else {
+                msg = `messages.${msgList[roundType] + "Desktop"}`;
+            }
+        }
+        if (roundType === 2) {
             const items = this.turboToggle.isChecked ? [1, 2] : [1, 2, 3];
             var item = items[Math.floor(Math.random() * items.length)];
             msg = `messages.FromSettleToSpin${item}`;
         }
-        if (this.messageText !== null) {
-            this.messageText.string = `${i18n.t(msg)}`;
-        }
+        this.messageText.string = `${i18n.t(msg)}`;
     }
 
     loadUserSetting() {
@@ -701,7 +707,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             !this.isKeyDownSpace && this.showProcessingWarning(true);
             return success;
         }
-        this.showMessageDisplay(false);
+        this.showMessageDisplay(RoundType.SPINNING);
         this.stopAllFinishTweens();
         this.hideStakeContrainer();
         this.hideWinningEffectOnItems();

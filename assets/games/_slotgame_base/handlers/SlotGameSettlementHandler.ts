@@ -1,5 +1,5 @@
 import DataHandler from "../../_base/handlers/DataHandler";
-import SlotGameBase, { LineData } from "../SlotGameBase";
+import SlotGameBase, { LineData, RoundType } from "../SlotGameBase";
 
 export default class SlotGameSettlementHandler implements DataHandler {
     constructor(protected readonly main: SlotGameBase) {}
@@ -143,18 +143,18 @@ export default class SlotGameSettlementHandler implements DataHandler {
             .call(() => {
                 this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime);
                 if (freeSpins.count === 0 && !bigWin) {
-                    this.main.showMessageDisplay(true);
+                    this.main.showMessageDisplay(RoundType.SETTLED);
                 }
             })
             .delay(delayTime)
             .call(async () => {
                 if (bigWin) {
                     await this.main.showEffectBigWin(betWin);
-                    this.main.showMessageDisplay(true);
+                    this.main.showMessageDisplay(RoundType.SETTLED);
                 }
 
                 if (freeSpins.count > 0) {
-                    this.main.showMessageDisplay(true);
+                    this.main.showMessageDisplay(RoundType.SETTLED);
                     this.main.updateDisplaySpinButtons();
                     this.main.showHighlightSpecialSymbols(+freeSpins.symbol);
                     await this.main.showEffectFreeSpin();
