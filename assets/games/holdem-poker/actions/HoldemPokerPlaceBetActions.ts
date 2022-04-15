@@ -9,6 +9,7 @@ import { HoldemPokerStateModel } from "../event-models/HoldemPokerStateModel";
 import HoldemPoker from "../view-models/HoldemPoker";
 import HoldemPokerBettingArea from "../view-models/HoldemPokerBettingArea";
 import HoldemPokerChips from "../view-models/HoldemPokerChips";
+import { CasinoChoices } from "./../event-models/HoldemPokerChoices";
 
 export const showHideButtons = (main: HoldemPoker) => (stateModel: HoldemPokerStateModel) => {
     switch (stateModel.state) {
@@ -176,11 +177,13 @@ export const clearAllBetChips = (bettingAreas: HoldemPokerBettingArea[]) => () =
 
 export const updateChips =
     (bettingAreas: HoldemPokerBettingArea[], betChips: BetChips, shadowChip: cc.SpriteFrame, holdemPokerChips: HoldemPokerChips) =>
-    ({ choice, totalAmount }) => {
+    ({ choice, totalAmount, currentAmount }) => {
         const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
         if (bettingArea && bettingArea.chipNode) {
-            const values = GameUtils.getChipQuantity(totalAmount, betChips.chipValues);
+            const values = GameUtils.getChipQuantity(currentAmount, betChips.chipValues);
+            console.log(values, "values");
             const keys = Object.keys(values).sort((a, b) => +b - +a);
+            console.log(keys, "keys");
             keys.forEach((chipValue) => {
                 const count = values[chipValue];
                 for (let i = 0; i < count; i++) {
@@ -193,23 +196,16 @@ export const updateChips =
 export const updateAllChips =
     (bettingAreas: HoldemPokerBettingArea[], betChips: BetChips, shadowChip: cc.SpriteFrame, holdemPokerChips: HoldemPokerChips) =>
     (placeBetModel: HoldemPokerPlaceBetModel) => {
-        if (placeBetModel.choices[HoldemPokerChoicesConst.ante] !== 0) {
-            updateChips(
-                bettingAreas,
-                betChips,
-                shadowChip,
-                holdemPokerChips
-            )({ choice: HoldemPokerChoicesConst.ante, totalAmount: placeBetModel.choices[HoldemPokerChoicesConst.ante] });
-        }
-
-        if (placeBetModel.choices[HoldemPokerChoicesConst.aa] !== 0) {
-            updateChips(
-                bettingAreas,
-                betChips,
-                shadowChip,
-                holdemPokerChips
-            )({ choice: HoldemPokerChoicesConst.aa, totalAmount: placeBetModel.choices[HoldemPokerChoicesConst.aa] });
-        }
+        CasinoChoices.forEach((choice: string) => {
+            if (placeBetModel.choices[choice] !== 0 && !placeBetModel.isUsingHand) {
+                updateChips(
+                    bettingAreas,
+                    betChips,
+                    shadowChip,
+                    holdemPokerChips
+                )({ choice: choice, totalAmount: placeBetModel.choices[choice], currentAmount: placeBetModel.choices[choice] });
+            }
+        });
     };
 
 export const updateTotalBetLabel = (totalBetLabel: cc.Label) => (placingModel: HoldemPokerPlaceBetModel) => {

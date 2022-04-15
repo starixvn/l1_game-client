@@ -49,7 +49,7 @@ export default class TexasPlacingBet {
 
     doubleBet(betChoice: string, betAmount: number) {
         if (this.validateBetting(betAmount, betChoice)) {
-            this.gameData.receiveUIData({ double: { choice: betChoice } });
+            this.gameData.receiveUIData({ double: { choice: betChoice, amount: betAmount } });
         }
     }
 
@@ -64,7 +64,7 @@ export default class TexasPlacingBet {
         if (this.validateBetting(betAmount, betChoice)) {
             this.gameData.isProcessingBet = true;
             const stateUI = {};
-            stateUI[betAction] = {};
+            stateUI[betAction] = { amount: betAmount };
             this.gameData.receiveUIData(stateUI);
             this.getConnection().emit(events.bet, {
                 action: betAction,
@@ -133,7 +133,7 @@ export default class TexasPlacingBet {
         ) {
             this.gameData.isProcessingBet = true;
             this.gameData.receiveUIData({
-                rebetAndDeal: {}
+                rebetAndDeal: { amount: currentTotal }
             });
             this.gameBase.lockBet();
             this.getConnection().emit(events.bet, {

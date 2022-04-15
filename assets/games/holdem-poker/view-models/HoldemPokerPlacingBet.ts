@@ -50,14 +50,14 @@ export default class HoldemPokerPlacingBet {
 
     doubleBet(betChoice: string, betAmount: number) {
         if (this.validateBet(betChoice, betAmount) && this.validateAccountBalance(betAmount)) {
-            this.gameData.receiveUIData({ double: { choice: betChoice } });
+            this.gameData.receiveUIData({ double: { choice: betChoice, amount: betAmount } });
         }
     }
 
     doubleAndCallBet(betChoice: string, betAmount: number) {
         if (this.validateBet(betChoice, betAmount) && this.validateAccountBalance(betAmount)) {
             this.gameData.isProcessingBet = true;
-            this.gameData.receiveUIData({ doubleAndCall: {} });
+            this.gameData.receiveUIData({ doubleAndCall: { amount: betAmount } });
             this.gameBase.lockBet();
             this.getConnection().emit(events.bet, {
                 doubleCall: {}
@@ -76,7 +76,7 @@ export default class HoldemPokerPlacingBet {
         if (this.validateAccountBalanceForFullRound(currentTotal)) {
             this.gameData.isProcessingBet = true;
             this.gameData.receiveUIData({
-                rebetAndDeal: {}
+                rebetAndDeal: { amount: currentTotal }
             });
             this.gameBase.lockBet();
             this.getConnection().emit(events.bet, {

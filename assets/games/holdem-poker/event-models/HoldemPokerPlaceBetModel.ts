@@ -32,7 +32,7 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
     previousChoices: any;
     isUsingHand = false;
 
-    placeBet(choice, amount) {
+    placeBet(choice: string, amount: number) {
         this.choices[choice] = this.choices[choice] ? this.choices[choice] + amount : amount;
         this.emit(HoldemPokerPlaceBetModel.Events.PLACE_BET, this);
         this.emit(HoldemPokerPlaceBetModel.Events.PLACE_BET_CHIPS, {
@@ -42,12 +42,13 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
         });
     }
 
-    double(choice) {
+    double(choice: string, amount: number) {
         this.choices[choice] = this.choices[choice] * 2;
         this.emit(HoldemPokerPlaceBetModel.Events.DOUBLE, this);
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_CHIPS, {
             choice: choice,
-            totalAmount: this.choices[choice]
+            totalAmount: this.choices[choice],
+            currentAmount: amount
         });
     }
 
@@ -72,34 +73,23 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
         this.emit(HoldemPokerPlaceBetModel.Events.DEAL, this);
     }
 
-    rebet(isReBetAndDeal = true, isTexas: boolean) {
+    rebet() {
         this.choices = cloneDeep(this.previousChoices);
         this.emit(HoldemPokerPlaceBetModel.Events.PLACE_BET, this);
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_GAME_ROUND, this);
-
-        if (isReBetAndDeal) {
-            !isTexas && this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_ALL_CHIPS, this);
-        } else {
-            for (const [key, value] of Object.entries(this.choices)) {
-                this.emit(HoldemPokerPlaceBetModel.Events.PLACE_BET_CHIPS, {
-                    currentChoice: key,
-                    currentAmount: value,
-                    totalAmount: value
-                });
-            }
-        }
     }
 
-    rebetAndDeal(isTexas = false) {
-        this.rebet(true, isTexas);
+    rebetAndDeal() {
+        this.rebet();
     }
 
-    doubleAndCall() {
+    doubleAndCall(amount: number) {
         this.choices[HoldemPokerChoicesConst.call] = this.choices[HoldemPokerChoicesConst.ante] * 2;
         this.emit(HoldemPokerPlaceBetModel.Events.CALL, this);
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_CHIPS, {
             choice: HoldemPokerChoicesConst.call,
-            totalAmount: this.choices[HoldemPokerChoicesConst.call]
+            totalAmount: this.choices[HoldemPokerChoicesConst.call],
+            currentAmount: amount
         });
     }
 
@@ -130,7 +120,7 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_GAME_ROUND, {});
     }
 
-    replayNew() {
+    replayNew(amount: number) {
         this.emit(HoldemPokerPlaceBetModel.Events.CLEAR_BETS, this);
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_GAME_ROUND, {});
     }

@@ -122,7 +122,7 @@ export const updateAllChips =
                     slidingChips,
                     shadowChip,
                     texasChips
-                )({ choice: choice, totalAmount: placeBetModel.choices[choice] });
+                )({ choice: choice, totalAmount: placeBetModel.choices[choice], currentAmount: placeBetModel.choices[choice] });
             }
         });
     };

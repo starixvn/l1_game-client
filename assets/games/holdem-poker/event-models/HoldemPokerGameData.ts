@@ -101,11 +101,12 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
 
     receiveUIData(data: any) {
         if (!!data.bet) {
+            this.placeBetModel.isUsingHand = true;
             this.placeBetModel.placeBet(data.bet.choice, data.bet.amount);
             this.stateModel.placeBet(data.bet.choice, this.placeBetModel);
         }
         if (!!data.double) {
-            this.placeBetModel.double(data.double.choice);
+            this.placeBetModel.double(data.double.choice, data.double.amount);
         }
         if (!!data.clear) {
             this.placeBetModel.clear(data.clear.choice);
@@ -120,12 +121,12 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         }
 
         if (!!data.rebetAndDeal) {
-            this.placeBetModel.rebetAndDeal();
+            this.placeBetModel.rebetAndDeal(data.rebetAndDeal.amount);
             this.stateModel.deal();
         }
 
         if (!!data.doubleAndCall) {
-            this.placeBetModel.doubleAndCall();
+            this.placeBetModel.doubleAndCall(data.doubleAndCall.amount);
             this.stateModel.call();
         }
         if (!!data.fold) {
@@ -136,7 +137,7 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
             this.stateModel.resetState();
         }
         if (!!data.replayNew) {
-            this.placeBetModel.replayNew();
+            this.placeBetModel.replayNew(data.replayNew.amount);
             this.stateModel.replayNew();
         }
     }

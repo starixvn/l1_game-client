@@ -1,9 +1,8 @@
 import { lazyInject } from "../../../Application";
+import configs = require("../../../configs/Configs");
 import BannerController from "./BannerController";
 import BannerItem from "./BannerItem";
 import LobbyMenuConfig from "./LobbyMenuConfig";
-import configs = require("../../../configs/Configs");
-import { reject } from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
@@ -83,7 +82,7 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     private getSpriteFrame(name: string) {
-        return new Promise<cc.SpriteFrame>((resolve, reject) => {
+        return new Promise<cc.SpriteFrame>((resolve) => {
             cc.resources.load<cc.SpriteFrame>(`image/banners/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
                 if (!this.node || !this.node.isValid) {
                     resolve(null);
