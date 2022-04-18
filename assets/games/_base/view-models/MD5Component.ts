@@ -52,7 +52,7 @@ export default class MD5Component extends cc.Component {
     }
 
     initMD5Tooltip() {
-        const mini = cc.instantiate(this.md5TooltipPrefab);
+        const mini = GameUtils.createNodeFromPrefab(this.md5TooltipPrefab);
         this.md5Tooltip = mini.getComponent(MD5Tooltip);
         this.md5TooltipContainer.addChild(mini);
     }
