@@ -12,13 +12,19 @@ export default class SedieFinishHandler extends GameBaseFinishHandler {
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.showResult();
 
-        cc.tween(this.main)
-            .call(() => this.main.openPlate(true))
-            .delay(0.5)
-            .call(() => {
-                onFinishHandlingData();
-                this.main.updateRoundHistory()
-            })
-            .start();
+        if (!this.main.node.activeInHierarchy) {
+            this.main.openPlate(false);
+            onFinishHandlingData();
+            this.main.updateRoundHistory();
+        } else {
+            cc.tween(this.main)
+                .call(() => this.main.openPlate(true))
+                .delay(0.5)
+                .call(() => {
+                    onFinishHandlingData();
+                    this.main.updateRoundHistory();
+                })
+                .start();
+        }
     }
 }

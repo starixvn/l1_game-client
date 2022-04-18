@@ -35,6 +35,7 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
             this.showRoundTime();
+            this.main.closePlate(false);
         }
     }
 
@@ -54,6 +55,11 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
     }
 
     shakeThePlate() {
+        if (!this.main.node.activeInHierarchy) {
+            this.main.closePlate(false);
+            return;
+        }
+
         cc.tween(this.main)
             .call(() => this.main.closePlate())
             .delay(0.5)
