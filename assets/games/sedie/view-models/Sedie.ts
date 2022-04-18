@@ -192,19 +192,19 @@ export default class Sedie extends FreeBetGameBase {
     }
 
     openPlate(animated: boolean) {
+        const platePos = cc.v2(50, 100);
         if (animated) {
-            cc.tween(this.thePlate)
-                .to(0.5, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
-                .to(0.2, { opacity: 0 })
-                .start();
+            cc.tween(this.thePlate).to(0.5, { position: platePos }, { easing: "sineInOut" }).to(0.2, { opacity: 0 }).start();
         } else {
-            this.thePlate.position = cc.v3(50, 150);
+            this.thePlate.position = cc.v3(platePos);
             this.thePlate.opacity = 0;
         }
     }
 
     closePlate(animated = true) {
         if (animated) {
+            const platePos = cc.v2(50, 100);
+            this.thePlate.position = cc.v3(platePos);
             cc.tween(this.thePlate)
                 .to(0, { opacity: 255 })
                 .to(0.5, { position: cc.v2(0, 0) })

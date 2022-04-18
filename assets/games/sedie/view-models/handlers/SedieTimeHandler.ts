@@ -69,8 +69,8 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
             return;
         }
 
+        this.main.closePlate();
         cc.tween(this.main)
-            .call(() => this.main.closePlate())
             .delay(0.5)
             .call(() => {
                 this.main.showHideResult(false);
