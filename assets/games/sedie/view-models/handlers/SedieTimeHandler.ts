@@ -19,6 +19,15 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
         return this.main.currentTimeRemaining === this.shakeThePlateTime;
     }
 
+    protected setCurrentTimeRemaining(data: any) {
+        this.main.currentTimeRemaining = data.remainingTime;
+    }
+
+    handleRemainingTime(data: any) {
+        super.handleRemainingTime(data);
+        this.gameUpdate();
+    }
+
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.shakeThePlate();

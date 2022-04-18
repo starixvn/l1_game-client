@@ -1,9 +1,9 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { numberPad } from "../../../common/helpers/NumberHelper";
 import GameBase from "../GameBase";
+import { GameState } from "../GameState";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
-import { GameState } from "../GameState";
 
 export interface IGameBaseTimeHandler extends DataHandler {
     playTimeInterval: number;
@@ -39,12 +39,16 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     handle(data: any) {
         if (data.remainingTime) {
             if ((data.remainingTime || data.remainingTime >= 0) && !this.main.isStopGame) {
-                this.setCurrentTimeRemaining(data);
-                this.playTime();
-                this.main.hideUmMessage();
-                this.main.gameState = GameState.Started;
+                this.handleRemainingTime(data);
             }
         }
+    }
+
+    handleRemainingTime(data: any) {
+        this.setCurrentTimeRemaining(data);
+        this.playTime();
+        this.main.hideUmMessage();
+        this.main.gameState = GameState.Started;
     }
 
     resetTime(): void {
