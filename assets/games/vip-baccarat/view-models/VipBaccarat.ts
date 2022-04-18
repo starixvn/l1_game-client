@@ -13,6 +13,7 @@ import VipBaccaratTimeDataHandler from "./data-handlers/VipBaccaratTimeDataHandl
 import VipBaccaratCards from "./VipBaccaratCards";
 import VipBaccaratHistory from "./VipBaccaratHistory";
 import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
+import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -105,6 +106,7 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         this.finishHandler = new VipBaccaratFinishHandler(this);
         this.logsHandler = new VipBaccaratLogsHandler(this);
         this.betHandler = new VipBaccaratBetHandler(this);
+        this.md5Handler = new BaccaratMd5Handler(this);
     }
 
     openHistory() {

@@ -4,8 +4,52 @@ import BaccaratLogsHandler from "./BaccaratLogsHandler";
 import BaccaratFinishHandler from "./BaccaratFinishHandler";
 
 export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
+    private dealCardsTime = 2;
+
+    get isInWaitTime() {
+        return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime;
+    }
+
+    get isStartingNewGameRound() {
+        return this.main.currentTimeRemaining === this.main.config.betTime + this.dealCardsTime;
+    }
+
+    get isInRoundTime() {
+        return this.main.currentTimeRemaining >= this.main.config.minBetTime && this.main.currentTimeRemaining <= this.main.config.betTime;
+    }
+
+    get isInEndTime() {
+        return this.main.currentTimeRemaining < this.main.config.minBetTime;
+    }
+
     protected getOwnMain(): any {
         return this.main as Baccarat;
+    }
+
+    gameUpdate(): void {
+        if (this.isInWaitTime) {
+            this.handleWaitTime();
+        } else {
+            if (this.isStartingNewGameRound) {
+                this.handleStartingNewGameRound();
+            }
+
+            if (this.isInRoundTime) {
+                this.handleInRoundTime();
+
+                if (this.isInLockBetTime) {
+                    if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
+                        this.handleAtLockBetTime();
+                    }
+                    this.handleInLockBetTime();
+                }
+            } else {
+                if (this.isInEndTime) {
+                    this.handleInEndTime();
+                }
+            }
+        }
+        this.main.currentTimeRemaining--;
     }
 
     handleStartingNewGameRound() {
@@ -16,17 +60,17 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
 
         this.main.node.runAction(
             cc.sequence(
-                cc.delayTime(0.5),
+                cc.delayTime(0.1),
                 cc.callFunc(() => baccarat.playerCards.flyFirstCard()),
-                cc.delayTime(0.5),
+                cc.delayTime(0.4),
                 cc.callFunc(() => baccarat.bankerCards.flyFirstCard()),
-                cc.delayTime(0.5),
+                cc.delayTime(0.4),
                 cc.callFunc(() => baccarat.playerCards.flySecondCard()),
-                cc.delayTime(0.5),
+                cc.delayTime(0.4),
                 cc.callFunc(() => baccarat.bankerCards.flySecondCard()),
-                cc.delayTime(0.5),
+                cc.delayTime(0.2),
                 cc.callFunc(() => baccarat.playerCards.flyCardTmp1()),
-                cc.delayTime(0.5),
+                cc.delayTime(0.2),
                 cc.callFunc(() => baccarat.bankerCards.flyCardTmp2())
             )
         );
@@ -47,6 +91,13 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
             this.main.currentDataLogs.pop();
             (this.main.logsHandler as BaccaratLogsHandler).buildLogs(this.main.currentDataLogs);
         }
+    }
+
+    showWaitTime() {
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = this.formatTime(
+            this.main.currentTimeRemaining - this.main.config.betTime - this.dealCardsTime - 1
+        );
     }
 
     protected getSettlementResult(currentData: any) {

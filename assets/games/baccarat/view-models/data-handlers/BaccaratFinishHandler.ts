@@ -5,9 +5,28 @@ import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper"
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import Baccarat from "../Baccarat";
 import BaccaratLogsHandler from "./BaccaratLogsHandler";
+import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
-    handleFinishData(dataFinish: any, onFinishHandlingData: () => void = null) {
+    handle(data: any): boolean {
+        if (data.finish) {
+            this.main.finishShowResult = false;
+            this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
+            this.setNewGameRound(data);
+            const mainRoomGame = this.main as WebSocketTableGameBase;
+            if (mainRoomGame && mainRoomGame.playerHandler) {
+                this.updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
+            }
+            this.handleFinishData(data.finish, data.resultHash, () => {
+                this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
+                this.main.finishShowResult = true;
+            });
+        }
+
+        return true;
+    }
+
+    handleFinishData(dataFinish: any, dataResultHash: any, onFinishHandlingData: () => void = null) {
         super.handleFinishData(dataFinish, onFinishHandlingData);
 
         const baccaratMain = this.getOwnMain();
@@ -15,14 +34,14 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             return;
         }
 
-        this.showCards(dataFinish, baccaratMain, onFinishHandlingData);
+        this.showCards(dataFinish, dataResultHash, baccaratMain, onFinishHandlingData);
     }
 
     protected getOwnMain(): any {
         return this.main as Baccarat;
     }
 
-    protected showCards(dataFinish: any, baccaratMain: any, onFinishHandlingData: () => void) {
+    protected showCards(dataFinish: any, dataResultHash: any, baccaratMain: any, onFinishHandlingData: () => void) {
         baccaratMain.showScoreBoardNextDot = true;
         const result = dataFinish.result;
         const settlementResult = dataFinish.settlementResult;
@@ -30,6 +49,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         const bankerCards = this.getDataFollowTypePlayer(result, true);
         const showResultFunc = () => {
             baccaratMain.showScoreBoardNextDot = false;
+            this.main.md5Component && this.main.md5Component.updateMD5String(dataResultHash);
             this.showResult(settlementResult);
             this.showWinNotice(settlementResult);
             onFinishHandlingData && onFinishHandlingData();
@@ -58,7 +78,9 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         baccaratMain.currentDataLogs.unshift(dataFinish);
     }
 
-    protected handleBuildMiniLogs(baccaratMain: any) {}
+    protected handleBuildMiniLogs(baccaratMain: any) {
+        // nothing
+    }
 
     public showResult(resultData, isAnimated = true): void {
         const keys = getLowercaseObjectKeys(resultData);
