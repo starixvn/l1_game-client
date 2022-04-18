@@ -46,6 +46,10 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
             this.showRoundTime();
             this.main.closePlate(false);
         }
+
+        if (!this.isInLockBetTime) {
+            this.main.highlightLastResult();
+        }
     }
 
     handleWaitTime() {
