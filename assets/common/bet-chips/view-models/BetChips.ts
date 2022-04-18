@@ -283,16 +283,20 @@ export default class BetChips extends cc.Component {
         const randomPosition = this.getRandomPositionChip(chipNode, destNode);
         destNode.addChild(chipNode);
 
-        chipNode.runAction(
-            cc.sequence(
-                this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
-                cc.callFunc(() => {
-                    if (onComplete) {
-                        onComplete();
-                    }
-                })
-            )
-        );
+        if (!chipNode.activeInHierarchy) {
+            chipNode.position = randomPosition;
+        } else {
+            chipNode.runAction(
+                cc.sequence(
+                    this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
+                    cc.callFunc(() => {
+                        if (onComplete) {
+                            onComplete();
+                        }
+                    })
+                )
+            );
+        }
     }
 
     public getChipNode(bet: number): cc.Node {

@@ -217,6 +217,7 @@ export default class Sedie extends FreeBetGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
+        this.node.stopAllActions();
         this.thePlate && this.thePlate.stopAllActions();
         this.closePlate(false);
         this.shakeThePlateAnimation.stop();

@@ -52,20 +52,24 @@ export default class GameBaseBetHandler implements DataHandler {
 
     handlePlayerChipAction(data: any) {
         this.playerChips.push(data.playerChip);
-        let delayTime = 0;
 
-        if (this.main.currentTimeRemaining >= this.main.config.stopBetTime + 2) {
-            delayTime = this.playerChips.length * 0.07;
+        if (!this.main.node.activeInHierarchy) {
+            this.placePlayerChip(data.playerChip);
         } else {
-            delayTime = this.playerChips.length * 0.01;
-        }
+            let delayTime = 0;
 
-        this.main.node.runAction(
-            cc.sequence(
-                cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
-                cc.callFunc(() => this.placePlayerChip(data.playerChip))
-            )
-        );
+            if (this.main.currentTimeRemaining >= this.main.config.stopBetTime + 2) {
+                delayTime = this.playerChips.length * 0.07;
+            } else {
+                delayTime = this.playerChips.length * 0.01;
+            }
+            this.main.node.runAction(
+                cc.sequence(
+                    cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
+                    cc.callFunc(() => this.placePlayerChip(data.playerChip))
+                )
+            );
+        }
     }
 
     placeOwnChip(data: any) {

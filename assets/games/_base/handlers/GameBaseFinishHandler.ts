@@ -46,14 +46,18 @@ export default class GameBaseFinishHandler implements DataHandler {
     payChips(settlementResult: any, winningPlayers: any) {
         const mainRoomGame = this.main as WebSocketTableGameBase;
 
-        if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips) {
+        if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips || !this.main.node) {
             return;
         }
         const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
         const lostBetItems = _.filter(this.main.betItems, (item) => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
         const winBetItems = _.filter(this.main.betItems, (item) => !!settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
 
-        this.main.node &&
+        if (!this.main.node.activeInHierarchy) {
+            this.dealerGetChips(mainRoomGame, lostBetItems);
+            this.dealerPayChips(mainRoomGame, winBetItems);
+            this.payChipToAllPlayers(mainRoomGame, winBetItems, winningPlayers);
+        } else {
             this.main.node.runAction(
                 cc.sequence(
                     cc.delayTime(this.main.betChips.chipDelayFlyingTime),
@@ -62,17 +66,25 @@ export default class GameBaseFinishHandler implements DataHandler {
                     cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
                     cc.delayTime(this.main.betChips.chipDelayFlyingTime),
                     cc.callFunc(() => {
-                        if (mainRoomGame.otherPlayers) {
-                            this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems, true);
-                            this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
-                        } else {
-                            this.payChipsToLoginPlayer(mainRoomGame, this.main.statusHandler.currentStatusData, winBetItems, false);
-                        }
-
-                        this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
+                        this.payChipToAllPlayers(mainRoomGame, winBetItems, winningPlayers);
                     })
                 )
             );
+        }
+    }
+
+    payChipToAllPlayers(mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[], winningPlayers): void {
+        this.payChipsToLoginPlayer(
+            mainRoomGame,
+            this.main.statusHandler.currentStatusData,
+            winBetItems,
+            mainRoomGame.otherPlayers !== null
+        );
+        if (mainRoomGame.otherPlayers) {
+            this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
+        }
+
+        this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
     }
 
     dealerGetChips(mainRoomGame: WebSocketTableGameBase, lostBetItems: BetItem[]) {
