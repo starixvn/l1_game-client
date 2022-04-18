@@ -32,8 +32,39 @@ export default class MultiOrientationControl extends cc.Component {
         this.socket = this.socketIOController.getSocketGame(this.gameId);
         this.initGames();
         this.initChangeOrientationCallback();
+        this.initShowHideEvent();
+        this.loadOrientationData();
         this.updateGames();
     }
+
+    initShowHideEvent() {
+        cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
+    }
+
+    onGameHide() {
+        this.saveOrientationData();
+    }
+
+    loadOrientationData() {
+        const content = cc.sys.localStorage.getItem(`orientation_${this.gameId}`);
+        if (!content.length) {
+            return;
+        }
+
+        const data = JSON.parse(content);
+        this._orientation = data.orientation;
+
+        cc.sys.localStorage.setItem(`orientation_${this.gameId}`, "");
+    }
+
+    saveOrientationData() {
+        const data = {
+            orientation: this._orientation
+        };
+
+        cc.sys.localStorage.setItem(`orientation_${this.gameId}`, JSON.stringify(data));
+    }
+
     initGames() {
         this.gamePrefabs.forEach((prefab, index) => {
             const node = cc.instantiate(prefab);
