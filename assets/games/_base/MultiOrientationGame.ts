@@ -8,6 +8,8 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
     @property({ type: cc.Enum(Orientation) })
     orientation = Orientation.Landscape;
 
+    onCurrentBetChange = (bet: number) => {};
+
     start() {}
 
     onDestroy() {
@@ -24,5 +26,10 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
         const betData = super.createCommonBetData();
         betData["m"] = this.orientation.toString();
         return betData;
+    }
+
+    protected onChangedBetChip(bet) {
+        super.onChangedBetChip(bet);
+        this.onCurrentBetChange(bet);
     }
 }

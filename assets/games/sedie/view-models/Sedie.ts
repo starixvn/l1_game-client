@@ -112,6 +112,11 @@ export default class Sedie extends FreeBetGameBase {
         }
     }
 
+    protected initBetChips() {
+        super.initBetChips();
+        this.betChips.setNeedResetCurrentChip(false);
+    }
+
     onData(data: any) {
         if (this.node.active) {
             super.onData(data);

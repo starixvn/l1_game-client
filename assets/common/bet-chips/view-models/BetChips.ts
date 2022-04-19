@@ -116,6 +116,7 @@ export default class BetChips extends cc.Component {
 
     createChips() {
         this.chipList.forEach((chip) => chip.destroy());
+        this.chips.removeAllChildren(true);
         this.chipList = [];
         this.chipValues.forEach((value) => {
             const node = this.createChipNode(value);
@@ -174,10 +175,8 @@ export default class BetChips extends cc.Component {
     }
 
     private updateArrowVisibility() {
-        if (this.needResetCurrentChip) {
-            this.leftButton.active = true;
-            this.rightButton.active = true;
-        }
+        this.leftButton.active = true;
+        this.rightButton.active = true;
 
         if (this.selectedIndex <= 0) {
             this.selectedIndex = 0;
@@ -193,10 +192,9 @@ export default class BetChips extends cc.Component {
 
         const min = this.snappedScrollView.getMinDisplayIndex();
         if (this.selectedIndex <= min) {
-            this.snappedScrollView.scrollTo(min > 0 ? min - 1 : 0);
-        }
-        if (this.selectedIndex >= min + this.displaySize - 1) {
-            this.snappedScrollView.scrollTo(min + 1);
+            this.snappedScrollView.scrollTo(this.selectedIndex);
+        } else if (this.selectedIndex >= min + this.displaySize - 1) {
+            this.snappedScrollView.scrollTo(this.selectedIndex - this.displaySize + 2);
         }
         this.updateSelectedChipValue();
     }
@@ -216,6 +214,10 @@ export default class BetChips extends cc.Component {
         }
         this.selectedIndex = i;
         this.scrollToSelectedIndex();
+    }
+
+    public getCurrentBet(): string {
+        return this.currentBetValue;
     }
 
     public setCurrentBet(bet: string) {

@@ -28,6 +28,8 @@ export default class MultiOrientationControl extends cc.Component {
         return this._gameId;
     }
 
+    private currentBet: number;
+
     onLoad() {
         this.socket = this.socketIOController.getSocketGame(this.gameId);
         this.initGames();
@@ -71,6 +73,8 @@ export default class MultiOrientationControl extends cc.Component {
             this.node.addChild(node);
             node.angle = index === Orientation.Portrait ? 90 : 0;
             const orientationGame = node.getComponent(MultiOrientationGame);
+            orientationGame.onCurrentBetChange = (bet) => (this.currentBet = bet);
+            this.currentBet = parseInt(orientationGame.betChips.getCurrentBet());
             this.games.push(orientationGame);
         });
     }
@@ -98,6 +102,9 @@ export default class MultiOrientationControl extends cc.Component {
                 child.stopGame();
             }
             child.node.active = show;
+            if (show) {
+                child.betChips.setSelectedIndexAndScroll(this.currentBet.toString());
+            }
         });
     }
 }
