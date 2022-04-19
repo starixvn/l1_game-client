@@ -16,5 +16,7 @@ export default class NightClub extends HeroesSlot {
         this.slotGameConfigs = new FourGuardiansSlotConfigs();
         this.slotGameConfigs.turboMode.showBigWinValueDuration = 2.02;
         this.slotGameConfigs.normalMode.showBigWinValueDuration = 2.02;
+        this.slotGameConfigs.normalMode.bonusDuration = 3.5;
+        this.slotGameConfigs.turboMode.bonusDuration = 2;
     }
 }
