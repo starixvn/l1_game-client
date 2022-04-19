@@ -426,7 +426,10 @@ window.i18n.languages.id = {
         noDataAvailable: "No data available",
         ticket_details: "Detail Tiket",
         bet_details: "Detail Bet",
-        new_year: "Happy New Year"
+        new_year: "Happy New Year",
+        md5_result: "HASIL",
+        md5_string: "MD5 TALI",
+        md5_copy: "COPY"
     },
     holdEmPoker: {
         ante: "ANTE",

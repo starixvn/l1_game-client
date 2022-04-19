@@ -427,7 +427,10 @@ window.i18n.languages.en = {
         noDataAvailable: "No data available",
         ticket_details: "Ticket details",
         bet_details: "Bet Details",
-        new_year: "Happy New Year"
+        new_year: "Happy New Year",
+        md5_result: "RESULT",
+        md5_string: "MD5 KEY",
+        md5_copy: "COPY"
     },
     holdEmPoker: {
         ante: "ANTE",

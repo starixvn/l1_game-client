@@ -11,6 +11,7 @@ import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -56,6 +57,9 @@ export default class Sedie extends FreeBetGameBase {
 
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
+
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
 
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
@@ -131,6 +135,8 @@ export default class Sedie extends FreeBetGameBase {
     }
 
     openHistory() {
+        this.playClick();
+        this.expandableMenu.collapseMenu();
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(SedieHistory);
         this.historyComponent.init(this.socket);
@@ -183,5 +189,10 @@ export default class Sedie extends FreeBetGameBase {
         this.betItems.forEach((betItem) => {
             betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
         });
+    }
+
+    openGuide() {
+        super.openGuide();
+        this.expandableMenu.collapseMenu();
     }
 }

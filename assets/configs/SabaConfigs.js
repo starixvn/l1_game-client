@@ -62,13 +62,11 @@ const configs = {
             key: "main"
         },
         1: {
-            key: "taixiu",
-            route: "bigsmall",
+            key: "BigSmall",
             mini: true
         },
         2: {
-            key: "XocXoc",
-            route: "sedie"
+            key: "SeDie"
         },
         3: {
             key: "BauCua",

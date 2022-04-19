@@ -1,15 +1,26 @@
+import AudioManager from "../../../../common/audio/AudioManager";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
-import BigSmall from "../BigSmall";
+import BigSmall, { DishAnimation } from "../BigSmall";
 
 export default class BigSmallTimeHandler extends GameBaseTimeHandler {
-    protected displayResultTime = 58;
+    protected shakeTheBowlTime = 52;
+    protected displayResultTime = 59;
+    protected timeout: any;
 
     constructor(protected readonly main: BigSmall) {
         super(main);
     }
 
+    get isInWaitTime() {
+        return this.main.currentTimeRemaining > this.shakeTheBowlTime;
+    }
+
     get isInBalanceBetTime() {
         return this.main.currentTimeRemaining > this.displayResultTime;
+    }
+
+    get isStartingNewGameRound() {
+        return this.main.currentTimeRemaining === this.shakeTheBowlTime;
     }
 
     get isDisplayResultTime() {
@@ -26,7 +37,6 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
             if (this.isDisplayResultTime) {
                 cc.RedT.GAME_IS_SHOWED && this.main.showResult();
-                this.main.showWinningAnimation(this.main.currentDataLogs[0]);
                 this.main.currentTimeRemaining--;
             } else {
                 super.gameUpdate();
@@ -37,19 +47,49 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.statusHandler.currentStatusData = null;
+        cc.RedT.GAME_IS_SHOWED && this.shakeThePlate();
     }
 
     handleInRoundTime() {
         this.main.setGameRound(this.main.roundId);
+        this.main.resetThePlate();
+        this.main.disableResultNode();
         this.main.betItems.forEach((item) => item.resetHighlight());
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
             this.showRoundTime();
         }
+
+        if (this.main.currentTimeRemaining === this.main.config.betTime) {
+            cc.tween(this.main.bgTimer).to(0.3, { opacity: 255 }).start();
+        } else if (this.main.currentTimeRemaining <= this.main.config.betTime) {
+            this.main.bgTimer.opacity = 255;
+        }
     }
 
     handleWaitTime() {
         super.handleWaitTime();
+        this.main.bgTimer.opacity = 0;
+        this.main.resultNode.active = true;
+        this.main.resultNode.opacity = 255;
+        this.showWaitTime();
+    }
+
+    showWaitTime() {
+        this.main.thePlate.opacity = 0;
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.shakeTheBowlTime - 1);
+    }
+
+    shakeThePlate() {
+        cc.tween(this.main.thePlate)
+            .call(() => {
+                this.main.shakeThePlateAnimation.playAdditive(DishAnimation.ShakeDish);
+                setTimeout(() => {
+                    AudioManager.getInstance().playSFX(this.main.shakeDishAudio.clip);
+                }, 1200);
+            })
+            .start();
     }
 
     handleInLockBetTime() {

@@ -20,7 +20,14 @@ const configs = {
     guideDomain: "https://guides.sabagame.com",
     enableMsgpackParserOnGame: {
         45: true,
-        42: true
+        42: true,
+        1: true,
+        2: true,
+        4: true,
+        9: true,
+        10: false,
+        22: true,
+        27: false
     }
 };
 

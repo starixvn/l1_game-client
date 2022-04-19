@@ -26,7 +26,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
         this.timeout && clearTimeout(this.timeout);
     }
 
-    status(win: boolean, bet: number): void {
+    status(win: boolean, bet: number, delayTime = 2e3): void {
         const mainRoomGame = this.main as WebSocketTableGameBase;
         if (mainRoomGame && mainRoomGame.enablePlaceChips) {
             return;
@@ -38,7 +38,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
         this.timeout = setTimeout(() => {
             this.showStatus(win, bet);
-        }, 2e3);
+        }, delayTime);
     }
 
     showStatus(win: boolean, bet: number) {

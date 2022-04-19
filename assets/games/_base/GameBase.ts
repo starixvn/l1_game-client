@@ -1,6 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
-
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
@@ -19,6 +18,7 @@ import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
+import GameBaseMd5Handler from "./handlers/GameBaseMd5Handler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
@@ -26,6 +26,7 @@ import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
 import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
+import MD5Component from "./view-models/MD5Component";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 import { GameState } from "./GameState";
 
@@ -55,6 +56,9 @@ export default class GameBase extends BaseComponent {
 
     @property({ type: AnimatedTime })
     animatedTime: AnimatedTime = null;
+
+    @property({ type: MD5Component })
+    md5Component: MD5Component = null;
 
     @property(cc.Label)
     gameRound: cc.Label = null;
@@ -137,6 +141,7 @@ export default class GameBase extends BaseComponent {
     public logsHandler: DataHandler;
     public finishHandler: DataHandler;
     public configsHandler: DataHandler;
+    public md5Handler: DataHandler;
 
     public betChips: BetChips;
     public currentBet: number;
@@ -184,7 +189,8 @@ export default class GameBase extends BaseComponent {
             this.timeHandler,
             this.errorHandler,
             this.logsHandler,
-            this.finishHandler
+            this.finishHandler,
+            this.md5Handler
         );
     }
 
@@ -221,6 +227,7 @@ export default class GameBase extends BaseComponent {
     closeGame() {
         this.playClick();
         this.node.active = false;
+        this.md5Component && this.md5Component.resetMd5();
     }
 
     /** Clear all intervals and timeouts in game */
@@ -228,6 +235,7 @@ export default class GameBase extends BaseComponent {
         this.gameState = GameState.Stopped;
         this.clearIntervalAndTimeout();
         this.resetDataAndUI();
+        this.md5Component && this.md5Component.resetMd5();
     }
 
     disableGame() {
@@ -424,6 +432,7 @@ export default class GameBase extends BaseComponent {
         this.logsHandler = new GameBaseLogsHandler(this);
         this.finishHandler = new GameBaseFinishHandler(this);
         this.configsHandler = new GameBaseConfigsHandler(this);
+        this.md5Handler = new GameBaseMd5Handler(this);
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {

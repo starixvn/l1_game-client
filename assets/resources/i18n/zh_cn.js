@@ -410,7 +410,10 @@ window.i18n.languages.zh_cn = {
         noDataAvailable: "No data available",
         ticket_details: "票详情",
         bet_details: "投注详情",
-        new_year: "Happy New Year"
+        new_year: "Happy New Year",
+        md5_result: "结果",
+        md5_string: "MD5 串",
+        md5_copy: "COPY"
     },
     holdEmPoker: {
         ante: "ANTE",

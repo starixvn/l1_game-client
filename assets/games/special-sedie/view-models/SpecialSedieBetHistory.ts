@@ -23,9 +23,23 @@ export default class SpecialSedieBetHistory extends GameBalancedBettingHistoryBa
     }
 
     updateDotsResult(result: any) {
-        Object.keys(result).forEach((key, index) => {
+        const totalRed = Object.values(result).filter((value) => value === true).length;
+        const resultChips = this.getResultChips(totalRed);
+        Object.keys(resultChips).forEach((key, index) => {
             const dot = this.dots.children[index]?.getComponent(cc.Sprite);
-            dot.spriteFrame = result[key] ? this.redDot : this.whiteDot;
+            dot.spriteFrame = resultChips[key] ? this.redDot : this.whiteDot;
         });
+    }
+
+    getResultChips(totalRed: number) {
+        const chips = {
+            0: { red1: false, red2: false, red3: false, red4: false },
+            1: { red1: true, red2: false, red3: false, red4: false },
+            2: { red1: true, red2: true, red3: false, red4: false },
+            3: { red1: true, red2: true, red3: true, red4: false },
+            4: { red1: true, red2: true, red3: true, red4: true }
+        };
+
+        return chips.hasOwnProperty(totalRed) ? chips[totalRed] : chips[4];
     }
 }
