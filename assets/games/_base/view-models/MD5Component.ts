@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
+import GameBase from "../GameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,8 +58,12 @@ export default class MD5Component extends cc.Component {
         this.md5TooltipContainer.addChild(mini);
     }
 
-    updateMD5String(data: MD5Type) {
-        const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
+    getDelayShowRawValue(main: GameBase) {
+        return this.delayShowRawValue;
+    }
+
+    updateMD5String(data: MD5Type, main: GameBase) {
+        const delayTime = !!data.rawValue ? this.getDelayShowRawValue(main) : this.delayShowHashValue;
         this.timeout = setTimeout(() => {
             this.handleMD5Data(data);
         }, delayTime * 1000);
