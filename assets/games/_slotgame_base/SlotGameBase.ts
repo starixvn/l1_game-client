@@ -198,6 +198,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     protected userSettings: SlotGameUserSettings;
     private autoSpinCount = 0;
     private showingWinningLine = false;
+    public spaceToSpinning = false;
 
     onLoad() {
         super.onLoad();
@@ -257,7 +258,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             }
         }
         if (roundType === 2) {
-            const items = this.turboToggle.isChecked ? [1, 2] : [1, 2, 3];
+            const items = this.isTurboMode() || this.spaceToSpinning ? [1, 2] : [1, 2, 3];
             var item = items[Math.floor(Math.random() * items.length)];
             msg = `messages.FromSettleToSpin${item}`;
         }
@@ -375,6 +376,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
             this.isKeyDownSpace = true;
+            this.spaceToSpinning = true;
             this.spin();
         }
     }

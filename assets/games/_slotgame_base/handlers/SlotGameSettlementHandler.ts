@@ -164,6 +164,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
                 this.finishAnimationResult();
                 this.checkSpinNextRound(freeSpins);
+                this.main.spaceToSpinning = false;
             })
             .start();
     }
