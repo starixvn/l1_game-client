@@ -25,7 +25,7 @@ export default class SedieHistoryPortraitItem extends SedieHistoryItem {
             const option = node.getComponent(PortraitSedieHistoryBetOption);
             const stake = betLog[choice];
             if (+stake > 0) {
-                option.handleBetOptionItem(choice, numberWithCommas(odds[choice]), numberWithCommas(stake));
+                option.handleBetOptionItem(choice, numberWithCommas(odds[choice], 2), numberWithCommas(stake));
                 option.highlightForWinning(settlementResult[choice]);
                 this.betOption.addChild(node);
             }
