@@ -6,10 +6,10 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class SicBoMD5 extends MD5Component {
-    getDelayShowRawValue(main: SicBo) {
-        console.log(main.currentTimeRemaining, "main.currentTimeRemaining");
-        const finishHandler = main.finishHandler as GameBaseFinishHandler;
-        if (main.currentTimeRemaining > main.shakeThePlateTime && main.currentTimeRemaining <= main.config.fullTime - 3) {
+    getDelayShowRawValue(mainGame: SicBo) {
+        console.log(mainGame.currentTimeRemaining, "main.currentTimeRemaining");
+        const finishHandler = mainGame.finishHandler as GameBaseFinishHandler;
+        if (mainGame.currentTimeRemaining > mainGame.shakeThePlateTime && mainGame.currentTimeRemaining <= mainGame.config.fullTime - 3) {
             return 0;
         }
         return finishHandler.getResultAnimationTime();
