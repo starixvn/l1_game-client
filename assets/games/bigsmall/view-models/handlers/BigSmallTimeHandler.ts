@@ -73,6 +73,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
         this.main.resultNode.active = true;
         this.main.resultNode.opacity = 255;
         this.showWaitTime();
+        this.main.showHideResult(true);
     }
 
     showWaitTime() {
@@ -82,12 +83,15 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     }
 
     shakeThePlate() {
+        this.main.shakeThePlateAnimation.playAdditive(DishAnimation.ShakeDish);
         cc.tween(this.main.thePlate)
+            .delay(0.2)
             .call(() => {
-                this.main.shakeThePlateAnimation.playAdditive(DishAnimation.ShakeDish);
-                setTimeout(() => {
-                    AudioManager.getInstance().playSFX(this.main.shakeDishAudio.clip);
-                }, 1200);
+                this.main.showHideResult(false);
+            })
+            .delay(1)
+            .call(() => {
+                AudioManager.getInstance().playSFX(this.main.shakeDishAudio.clip);
             })
             .start();
     }
