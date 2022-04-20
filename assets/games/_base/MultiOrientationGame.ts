@@ -8,15 +8,17 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
     @property({ type: cc.Enum(Orientation) })
     orientation = Orientation.Landscape;
 
-    onCurrentBetChange = (bet: number) => {};
+    public onCurrentBetChange = (bet: number) => {};
+    public changeOrirentationCallback = () => {};
+    public getCurrentBet = () => {
+        return 0;
+    };
 
-    start() {}
+    override start() {}
 
     onDestroy() {
         this.clearIntervalAndTimeout();
     }
-
-    changeOrirentationCallback = () => {};
 
     onClickChangeOrientation() {
         this.changeOrirentationCallback();
@@ -31,5 +33,12 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
     protected onChangedBetChip(bet) {
         super.onChangedBetChip(bet);
         this.onCurrentBetChange(bet);
+    }
+
+    public updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        if (this.node.activeInHierarchy) {
+            this.betChips.setSelectedIndexAndScroll(this.getCurrentBet().toString());
+        }
     }
 }

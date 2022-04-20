@@ -74,6 +74,9 @@ export default class MultiOrientationControl extends cc.Component {
             node.angle = index === Orientation.Portrait ? 90 : 0;
             const orientationGame = node.getComponent(MultiOrientationGame);
             orientationGame.onCurrentBetChange = (bet) => (this.currentBet = bet);
+            orientationGame.getCurrentBet = () => {
+                return this.currentBet;
+            };
             this.currentBet = parseInt(orientationGame.betChips.getCurrentBet());
             this.games.push(orientationGame);
         });
@@ -103,7 +106,7 @@ export default class MultiOrientationControl extends cc.Component {
             }
             child.node.active = show;
             if (show) {
-                child.betChips.setSelectedIndexAndScroll(this.currentBet.toString());
+                child.betChips.setCurrentBet(this.currentBet.toString());
             }
         });
     }
