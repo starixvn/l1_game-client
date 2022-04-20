@@ -71,7 +71,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.HiLo,
         GameIds.TexasHoldemPoker
     ];
-    slotGames = [GameIds.HeroesSlot, GameIds.FourGuardians];
+    slotGames = [GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians];
     lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
     miniList = [
@@ -95,7 +95,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             size: cc.v2(1, 2)
         }
     };
-    newGames = [GameIds.TexasHoldemPoker];
+    newGames = [GameIds.TexasHoldemPoker, GameIds.NightClub];
 
     customizeCredit(): void {
         this.smPromotion = true;

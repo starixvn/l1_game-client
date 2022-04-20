@@ -157,7 +157,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     autoGenerateLines = false;
 
     @property
-    offerSpaceToWin = false;
+    offerKeySpaceOrHoldSpin = false;
 
     @property({
         type: cc.Prefab,
@@ -199,6 +199,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     private autoSpinCount = 0;
     private showingWinningLine = false;
     public spaceToSpinning = false;
+    private isHoldSpinButton = false;
 
     onLoad() {
         super.onLoad();
@@ -223,6 +224,28 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
         this.registerKeyEvents();
         this.showMessageDisplay(RoundType.BEFORESPIN);
+        if ((GameUtils.isIpad() || GameUtils.isPhone()) && this.offerKeySpaceOrHoldSpin) {
+            this.spinButton.node.on(cc.Node.EventType.TOUCH_START, () => this.holdSpinButton());
+            this.spinButton.node.on(cc.Node.EventType.TOUCH_END, () => this.notHoldSpinButton());
+        }
+    }
+
+    holdSpinButton() {
+        this.isHoldSpinButton = true;
+        this.schedule(
+            () => {
+                if (this.isHoldSpinButton) {
+                    this.spin();
+                }
+            },
+            2,
+            cc.macro.REPEAT_FOREVER,
+            0
+        );
+    }
+
+    notHoldSpinButton() {
+        this.isHoldSpinButton = false;
     }
 
     showJackpotInfo(show: boolean) {
@@ -371,7 +394,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     onKeyDown(event: cc.Event.EventKeyboard) {
         if (
-            this.offerSpaceToWin &&
+            this.offerKeySpaceOrHoldSpin &&
             !this.isAutoSpinMode() &&
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
@@ -383,7 +406,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     onKeyUp(event: cc.Event.EventKeyboard) {
         if (
-            this.offerSpaceToWin &&
+            this.offerKeySpaceOrHoldSpin &&
             !this.isAutoSpinMode() &&
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
@@ -706,7 +729,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
 
         if (this.waitingProcessing) {
-            !this.isKeyDownSpace && this.showProcessingWarning(true);
+            !this.isKeyDownSpace && !this.isHoldSpinButton && this.showProcessingWarning(true);
             return success;
         }
         this.showMessageDisplay(RoundType.SPINNING);
@@ -961,7 +984,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     isTurboMode(): boolean {
-        return this.turboToggle.isChecked || this.isKeyDownSpace;
+        return this.turboToggle.isChecked || this.isKeyDownSpace || this.isHoldSpinButton;
     }
 
     getCustomDuration(type: string): number {
