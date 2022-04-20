@@ -1,6 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import NewButton from "../../../common/custom-button/NewButton";
-import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import PrefabLoader from "../../../common/PrefabLoader";
 import { GameIds } from "../../../configs/SabaConfigs";
 import DataHandler from "../../_base/handlers/DataHandler";
@@ -23,23 +22,28 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel
+    updateTotalBetLabel,
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import { collectCards, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
+import {
+    collectCards,
+    rawCardAfterClickCall,
+    rawCardAfterClickDeal,
+    rawCardWhenRejoin,
+} from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
-import { HoldemPokerMD5Model } from "../event-models/HoldemPokerMD5Model";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "../event-models/HoldemPokerAfterDealModel";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerConfigs } from "../event-models/HoldemPokerConfigs";
 import { HoldemPokerFinishModel } from "../event-models/HoldemPokerFinishModel";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
+import { HoldemPokerMD5Model } from "../event-models/HoldemPokerMD5Model";
 import { HoldemPokerOwnBet } from "../event-models/HoldemPokerOwnBet";
 import { HoldemPokerPlaceBetModel } from "../event-models/HoldemPokerPlaceBetModel";
 import { HoldemPokerRoundCounter } from "../event-models/HoldemPokerRoundCounter";
@@ -143,7 +147,6 @@ export default class HoldemPoker extends NewGameRoomBase {
     start() {
         super.start();
 
-        this.initMenu();
         this.initPlacingBet();
         this.initBettingAreas();
         this.initButtonStatus();
@@ -188,25 +191,10 @@ export default class HoldemPoker extends NewGameRoomBase {
         }
     }
 
-    private initMenu() {
-        const gameRoomMenu = this.gameMenuContainer.getComponent(GameRoomMenu);
-        const menuAction = [this.onCloseGameClick, this.pressedShowHistory, this.openGuide];
-        gameRoomMenu.initialize(this.node, this).withEvents(menuAction);
-    }
-
-    private pressedShowHistory() {
-        this.playClick();
-        const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
-        gameRomeMenuControl.collapseMenu();
+    openHistory() {
         this.initTicketHistory();
         this.betHistoryController.setId(this.gameData.roundCounter.roundId);
         this.betHistoryController.showDialog();
-    }
-
-    openGuide() {
-        super.openGuide();
-        const gameRomeMenuControl = this.gameMenuContainer.getComponent(GameRoomMenu);
-        gameRomeMenuControl.collapseMenu();
     }
 
     private initPlacingBet() {

@@ -1,5 +1,4 @@
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
-import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { GameIds } from "../../../configs/SabaConfigs";
@@ -62,8 +61,6 @@ export default class Sedie extends FreeBetGameBase {
 
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
-    @property(GameRoomMenu)
-    gameRoomMenu: GameRoomMenu = null;
 
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
@@ -93,15 +90,6 @@ export default class Sedie extends FreeBetGameBase {
 
         this.miniRoundHistory.tip.node.zIndex = 100;
         GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
-        this.initGameRoomMenu();
-    }
-
-    initGameRoomMenu() {
-        if (!this.gameRoomMenu) {
-            return;
-        }
-        const events = [this.onCloseGameClick, this.openHistory, this.openGuide];
-        this.gameRoomMenu.initialize(this.node, this).withEvents(events);
     }
 
     onEnable() {

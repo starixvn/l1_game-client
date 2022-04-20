@@ -38,7 +38,6 @@ export default class PrefabLoader extends cc.Component {
                 this.initializeFunctions.forEach((initialize) => {
                     initialize(this.prefabInstance);
                 });
-
                 this.node.addChild(this.prefabInstance);
             } catch (error) {
                 // The error occurs only during the development
