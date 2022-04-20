@@ -56,8 +56,8 @@ export default class BaccaratCards extends cc.Component {
         this.card1.children[0].getComponent(NewCard).faceDown();
         this.card2.children[0].getComponent(NewCard).faceDown();
         this.card3.children[0].getComponent(NewCard).faceDown();
-        this.cardsTmp[0].children[0].getComponent(NewCard).faceDown();
-        this.cardsTmp[1].children[0].getComponent(NewCard).faceDown();
+        this.cardsTmp[0]?.children[0].getComponent(NewCard).faceDown();
+        this.cardsTmp[1]?.children[0].getComponent(NewCard).faceDown();
     }
 
     init(playAudio, isMainPage = true) {
@@ -295,7 +295,7 @@ export default class BaccaratCards extends cc.Component {
             });
 
             newCard.faceUp();
-            if (index === 2 && !isAnimated) {
+            if (index === 2 && !isAnimated && this.isMainPage) {
                 const cardTemp = this.cardsTmp.find((tmp) => tmp.opacity !== 0);
                 if (cardTemp) {
                     cardTemp.opacity = 0;
@@ -333,11 +333,13 @@ export default class BaccaratCards extends cc.Component {
                 this.setActionCardThree(currentCard, delayTime);
             }
         } else {
-            currentCard.getComponent(BaccaratCard).numberTag.active = false;
-            if (this.isMainPage && index === 2) {
-                currentCard.opacity = 255;
-                currentCard.scale = 1;
-                currentCard.angle = this.isBanker ? 90 : -90;
+            if (this.isMainPage) {
+                currentCard.getComponent(BaccaratCard).numberTag.active = false;
+                if (index === 2) {
+                    currentCard.opacity = 255;
+                    currentCard.scale = 1;
+                    currentCard.angle = this.isBanker ? 90 : -90;
+                }
             }
         }
 
