@@ -201,6 +201,7 @@ export default class BaccaratCards extends cc.Component {
             card.angle = 0;
             card.scale = this.cardsTmp[cardTempIndex].scale;
             card.getComponent(BaccaratCard).setNumberTag(cardTempIndex === 0 ? "5" : "6");
+            card.getComponent(BaccaratCard).numberTag.scale = this.cardsTmp[cardTempIndex].getComponent(BaccaratCard).numberTag.scale;
         };
 
         if (this.isBanker) {
@@ -212,7 +213,7 @@ export default class BaccaratCards extends cc.Component {
                 cc.sequence(
                     cc.delayTime(delayTime),
                     cc.callFunc(() => setCard3LikeTmpCard()),
-                    cc.callFunc(() => this.flyCard(card, 1, cardTempPosition))
+                    cc.callFunc(() => this.flyCard(card, 1, cardTempPosition, true))
                 )
             );
         } else {
@@ -220,7 +221,7 @@ export default class BaccaratCards extends cc.Component {
                 cc.sequence(
                     cc.delayTime(delayTime),
                     cc.callFunc(() => setCard3LikeTmpCard()),
-                    cc.callFunc(() => this.flyCard(card, 1, cardTempPosition))
+                    cc.callFunc(() => this.flyCard(card, 1, cardTempPosition, true))
                 )
             );
         }
@@ -242,11 +243,14 @@ export default class BaccaratCards extends cc.Component {
         return delayTime;
     }
 
-    private flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position) {
+    private flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position, isCard3 = false) {
         const cardPosition = card.position;
         card.position = from;
         card.opacity = 255;
 
+        if (isCard3) {
+            card.getComponent(BaccaratCard).numberTag.runAction(cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(2)));
+        }
         card.runAction(
             cc.spawn(
                 cc.rotateTo(this.flyCardSecond, 0).easing(cc.easeInOut(2)),

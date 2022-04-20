@@ -41,6 +41,8 @@ export default class Baccarat extends VipBaccarat {
     handlePositionMiniRoundHistory() {}
 
     openHistory() {
+        this.playClick();
+        this.expandableMenu.collapseMenu();
         const historyNode = cc.instantiate(this.historyPrefab);
         this.historyComponent = historyNode.getComponent("BaccaratHistory") as BaccaratHistory;
         this.historyComponent.init(this.socket);
