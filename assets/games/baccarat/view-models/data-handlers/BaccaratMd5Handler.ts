@@ -11,7 +11,7 @@ export default class BaccaratMd5Handler extends GameBaseMd5Handler {
     handle(data: any): boolean {
         if (data.resultHash?.hashValue || this.isFirstLoad) {
             this.isFirstLoad = false;
-            this.main.md5Component && this.main.md5Component.updateMD5String(data.resultHash);
+            this.main.md5Component?.updateMD5String(data.resultHash);
         }
 
         return false;

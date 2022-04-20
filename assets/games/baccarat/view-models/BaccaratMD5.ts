@@ -7,6 +7,7 @@ export default class BaccaratMD5 extends MD5Component {
     readonly START_COLOR_CARD_BLACK = "<color=#050f04>";
     readonly END_COLOR_CARD = "</color>";
     readonly suffixRedSuit = ["♥", "♦"];
+    protected lengthOfMd5String = 24;
 
     generateMD5Result(data: MD5Type) {
         let result = "";
@@ -17,7 +18,7 @@ export default class BaccaratMD5 extends MD5Component {
             result = `{${cardResult}}_${suffixFormatLength}`;
         }
         if (!!data.hashValue) {
-            result = data.hashValue;
+            result = data.hashValue.slice(0, this.lengthOfMd5String) + "...";
         }
 
         this.md5Value.string = `${result}`;
@@ -34,5 +35,9 @@ export default class BaccaratMD5 extends MD5Component {
                 return result;
             }, "")
             .trim();
+    }
+
+    handleTooltip(data: MD5Type) {
+        this.md5Tooltip.setData(data.rawValue || data.hashValue);
     }
 }

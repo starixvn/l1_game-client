@@ -38,6 +38,9 @@ export default class BaccaratCards extends cc.Component {
     @property(cc.Node)
     positionCardTmp1: cc.Node = null;
 
+    @property(cc.Label)
+    numberTagCardBack: cc.Label = null;
+
     protected playGetCardAudio = () => {};
     protected readonly flyCardSecond = 0.8;
     protected readonly openCardSecond = 0.3;
@@ -195,8 +198,9 @@ export default class BaccaratCards extends cc.Component {
                 cardTempIndex === 0 && this.isBanker ? this.positionCardTmp1.position : this.cardsTmp[cardTempIndex].position;
             this.cardsTmp[cardTempIndex].opacity = 0;
             card.active = true;
-            card.angle = -180;
+            card.angle = 0;
             card.scale = this.cardsTmp[cardTempIndex].scale;
+            card.getComponent(BaccaratCard).setNumberTag(cardTempIndex === 0 ? "5" : "6");
         };
 
         if (this.isBanker) {
@@ -266,6 +270,7 @@ export default class BaccaratCards extends cc.Component {
         card.opacity = 0;
         card.scale = 0.5;
         card.angle = -135;
+        card.getComponent(BaccaratCard).numberTag.active = true;
     }
 
     protected openCard(index: number, cards: any[], isAnimated = true) {
@@ -306,11 +311,15 @@ export default class BaccaratCards extends cc.Component {
                 // 1st card
                 currentCard.scaleX = 0;
                 currentCard.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
+                this.card1.getComponent(BaccaratCard).numberTag.active = false;
                 delayTime += this.openCardSecond;
             } else {
                 this.cardBack.node.active = true;
                 const position = cc.v3(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2, 0);
                 this.cardBack.node.position = position;
+                const card = currentCard.getComponent(BaccaratCard);
+                card.numberTag.active = false;
+                this.numberTagCardBack.string = card.getNumberTag();
                 this.setActionCardBack();
 
                 delayTime += this.openSecondCardSecond;
@@ -320,6 +329,7 @@ export default class BaccaratCards extends cc.Component {
                 this.setActionCardThree(currentCard, delayTime);
             }
         } else {
+            currentCard.getComponent(BaccaratCard).numberTag.active = false;
             if (this.isMainPage && index === 2) {
                 currentCard.opacity = 255;
                 currentCard.scale = 1;

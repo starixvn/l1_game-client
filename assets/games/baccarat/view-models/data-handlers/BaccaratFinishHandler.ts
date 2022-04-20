@@ -49,7 +49,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         const bankerCards = this.getDataFollowTypePlayer(result, true);
         const showResultFunc = () => {
             baccaratMain.showScoreBoardNextDot = false;
-            this.main.md5Component && this.main.md5Component.updateMD5String(dataResultHash);
+            this.main.md5Component?.updateMD5String(dataResultHash);
             this.showResult(settlementResult);
             this.showWinNotice(settlementResult);
             onFinishHandlingData && onFinishHandlingData();
