@@ -195,10 +195,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     public isShowAutoSpinSettingDialog = false;
     public isKeyDownSpace = false;
     public isRound = false;
+    public spaceToSpinning = false;
     protected userSettings: SlotGameUserSettings;
     private autoSpinCount = 0;
     private showingWinningLine = false;
-    public spaceToSpinning = false;
     private isHoldSpinButton = false;
 
     onLoad() {
