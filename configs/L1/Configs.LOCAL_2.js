@@ -21,9 +21,9 @@ const configs = {
         1: true,
         2: false,
         4: true,
-        9: true,
+        9: false,
         10: false,
-        22: true,
+        22: false,
         27: true
     }
 };
