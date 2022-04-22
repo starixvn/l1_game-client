@@ -75,7 +75,10 @@ export default class NotificationService {
     }
 
     reconnect() {
-        this.connect();
+        this.socket = null;
+        setTimeout(() => {
+            this.connect();
+        }, 5000);
     }
 
     forceKickedOut() {
@@ -87,12 +90,6 @@ export default class NotificationService {
             this.socket.emit(eventName, data);
         } catch (err) {
             sentryLogger.logError(err);
-            if (cc.RedT.inGame && cc.RedT.inGame.loading) {
-                cc.RedT.inGame.loading.active = false;
-                cc.RedT.inGame.showNotice({
-                    text: i18n.t("messages.connectionFailed")
-                });
-            }
         }
     }
 
