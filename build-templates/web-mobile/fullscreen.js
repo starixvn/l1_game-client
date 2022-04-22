@@ -52,17 +52,11 @@ function showAddressBar() {
 function showIntruction() {
     const instruction = document.getElementById("myInstruction");
 
-    instruction.style.display = "block";
-    const isPortrait = window.outerWidth < window.outerHeight;
-    if (isPortrait) {
-        showAddressBar();
-        updateViewport();
-        instruction.style.visibility = "hidden";
-        return;
-    }
+    instruction.style.display = "flex";
 
     const navBarHeight = getMiniNavigationBarHeight();
-    const show = window.innerHeight < screen.width - navBarHeight;
+    const show = window.innerHeight < window.outerHeight - navBarHeight;
+
     if (show && !window.skipFullscreen) {
         showAddressBar();
         instruction.style.visibility = "visible";
@@ -73,7 +67,7 @@ function showIntruction() {
 }
 
 function getMiniNavigationBarHeight() {
-    let navBarHeight = 0;
+    let navBarHeight = 40; //portrait
     const isLandscape = window.outerWidth > window.outerHeight;
     if (isLandscape) {
         if (userAgent.match(/ipad/i)) {
@@ -87,17 +81,14 @@ function getMiniNavigationBarHeight() {
 
 function updateViewport() {
     if (userAgent.match(/iphone|ipad|ipod/i)) {
-        let height = screen.width; //window.innerHeight;
-        const navBarHeight = getMiniNavigationBarHeight();
-        height -= navBarHeight;
-        const vh = height * 0.01;
+        const vh = screen.width * 0.01;
+        const vw = screen.height * 0.01;
+
         document.documentElement.style.setProperty("--vh", `${vh}px`);
-    } else if (userAgent.match(/android/i)) {
-        const height = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
-        const vh = height * 0.01;
-        document.documentElement.style.setProperty("--vh", `${vh}px`);
+        document.documentElement.style.setProperty("--vw", `${vw}px`);
     } else {
         document.documentElement.style.setProperty("--vh", `1%`);
+        document.documentElement.style.setProperty("--vw", `1%`);
     }
 }
 
