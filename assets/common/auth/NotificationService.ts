@@ -26,7 +26,7 @@ export default class NotificationService {
             forceNew: false,
             transports: ["websocket"],
             upgrade: false,
-            path: `${getEnvironment()}/notification/socket.io`,
+            path: `/${getEnvironment()}notification/socket.io`,
             auth: {
                 ss: window.authData.ss,
                 username: window.authData.username
