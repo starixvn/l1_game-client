@@ -2,7 +2,6 @@ import { io, Socket } from "socket.io-client";
 import { buildUrl, getEnvironment } from "../helpers/UrlHelper";
 import { sentryLogger } from "../logger";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import * as configs from "../../configs/Configs";
 
 export default class NotificationService {
     public static getInstance(): NotificationService {
@@ -37,6 +36,7 @@ export default class NotificationService {
 
         this.socket.on("connect_failed", () => {
             this.socket.disconnect();
+            this.reconnect();
         });
 
         this.socket.on("connect_error", (error) => {
