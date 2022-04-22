@@ -3,7 +3,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class PrefabLoaderV2 extends cc.Component {
     @property(cc.Prefab)
-    private prefab: cc.Prefab = null;
+    public prefab: cc.Prefab = null;
 
     @property([cc.Component.EventHandler])
     private initializationEventHandlers: cc.Component.EventHandler[] = [];
