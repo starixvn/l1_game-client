@@ -1,3 +1,4 @@
+import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import { Orientation } from "./Orientation";
 import SocketIOTableGameBase from "./SocketIOTableGameBase";
 
@@ -40,5 +41,13 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
         if (this.node.activeInHierarchy) {
             this.betChips.setSelectedIndexAndScroll(this.getCurrentBet().toString());
         }
+    }
+
+    initEventForInGameMenu() {
+        const node = super.initEventForInGameMenu();
+
+        node.on(InGameMenuEvents.CHANGE_ORIENTATION, this.onClickChangeOrientation, this);
+
+        return node;
     }
 }
