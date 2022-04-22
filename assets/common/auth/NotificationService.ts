@@ -1,7 +1,8 @@
 import { io, Socket } from "socket.io-client";
-import { buildUrl } from "../helpers/UrlHelper";
+import { buildUrl, getEnvironment } from "../helpers/UrlHelper";
 import { sentryLogger } from "../logger";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import * as configs from "../../configs/Configs";
 
 export default class NotificationService {
     public static getInstance(): NotificationService {
@@ -25,7 +26,7 @@ export default class NotificationService {
             forceNew: false,
             transports: ["websocket"],
             upgrade: false,
-            path: "/notification/socket.io",
+            path: `${getEnvironment()}/notification/socket.io`,
             auth: {
                 ss: window.authData.ss,
                 username: window.authData.username

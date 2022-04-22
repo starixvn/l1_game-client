@@ -19,17 +19,12 @@ export function buildServerUrl(protocol = "http", path = "/", gameId = 0) {
 }
 
 export function getPath(gameId) {
-    const env = configs.env;
     const info = GameInfos[gameId];
     const key = info.key;
     const path = info.path || key.toLowerCase();
     let pathStr = "";
     if (gameId === 0) {
-        let envStr = "";
-        if (env.length > 0) {
-            envStr = `${env}/`;
-        }
-        pathStr = `/${envStr}${path}`;
+        pathStr = `/${getEnvironment()}${path}`;
     } else {
         pathStr = `/user/${path}`;
     }
@@ -38,16 +33,20 @@ export function getPath(gameId) {
 }
 
 export function getProxyRoute(gameId) {
-    const env = configs.env;
     const info = GameInfos[gameId];
     const key = info.key;
     const route = info.route || key.toLowerCase();
-    let routeStr = "";
+    routeStr = `/${getEnvironment()}${route}/socket.io`;
+
+    return routeStr;
+}
+
+export function getEnvironment() {
+    const env = configs.env;
     let envStr = "";
     if (env.length > 0) {
         envStr = `${env}/`;
     }
-    routeStr = `/${envStr}${route}/socket.io`;
 
-    return routeStr;
+    return envStr;
 }
