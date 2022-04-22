@@ -42,6 +42,7 @@ export default class NotificationService {
         this.socket.on("connect_error", (error) => {
             sentryLogger.logError(error);
             this.socket.disconnect();
+            this.reconnect();
         });
 
         this.socket.on("disconnect", (reason) => {

@@ -36,9 +36,8 @@ export function getProxyRoute(gameId) {
     const info = GameInfos[gameId];
     const key = info.key;
     const route = info.route || key.toLowerCase();
-    routeStr = `/${getEnvironment()}${route}/socket.io`;
 
-    return routeStr;
+    return `/${getEnvironment()}${route}/socket.io`;
 }
 
 export function getEnvironment() {
