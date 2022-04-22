@@ -1,7 +1,9 @@
-import { io, Socket } from "socket.io-client";
+import { io, Socket, ManagerOptions, SocketOptions } from "socket.io-client";
 import { buildUrl, getEnvironment } from "../helpers/UrlHelper";
 import { sentryLogger } from "../logger";
+import { enableMsgpackParserOnNotification } from "../../configs/Configs";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import * as MsgpackParser from "socket.io-msgpack-parser";
 
 export default class NotificationService {
     public static getInstance(): NotificationService {
@@ -21,7 +23,7 @@ export default class NotificationService {
             return;
         }
 
-        const socketOptions = {
+        const socketOptions: Partial<ManagerOptions & SocketOptions> = {
             forceNew: false,
             transports: ["websocket"],
             upgrade: false,
@@ -31,6 +33,10 @@ export default class NotificationService {
                 username: window.authData.username
             }
         };
+
+        if (enableMsgpackParserOnNotification) {
+            socketOptions.parser = MsgpackParser;
+        }
 
         this.socket = io(buildUrl(), socketOptions);
 

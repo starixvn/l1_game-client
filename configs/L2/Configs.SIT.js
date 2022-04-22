@@ -14,7 +14,8 @@ const configs = {
     guideDomain: "https://l2guidessit.sgamesuat.com",
     enableMsgpackParserOnGame: {
         45: true
-    }
+    },
+    enableMsgpackParserOnNotification: true
 };
 
 module.exports = configs;

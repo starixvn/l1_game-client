@@ -13,7 +13,8 @@ const configs = {
     guideDomain: "https://l2-guide-1.lumigame.com",
     enableMsgpackParserOnGame: {
         45: false
-    }
+    },
+    enableMsgpackParserOnNotification: false
 };
 
 module.exports = configs;

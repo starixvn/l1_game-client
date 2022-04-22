@@ -15,7 +15,8 @@ const configs = {
     guideDomain: "https://guides.v-gaming.net",
     enableMsgpackParserOnGame: {
         45: true
-    }
+    },
+    enableMsgpackParserOnNotification: true
 };
 
 module.exports = configs;
