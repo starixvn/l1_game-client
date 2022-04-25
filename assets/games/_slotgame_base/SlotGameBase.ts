@@ -812,6 +812,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     activeButtons() {
         const isFreeSpin = this.isFreeSpin();
         const isAutoSpinMode = this.isAutoSpinMode();
+        const notAutoSpinByKeySpaceOrHold = !this.isKeyDownSpace && !this.isHoldSpinButton;
 
         if (isAutoSpinMode || isFreeSpin) {
             this.deactiveSpinButton();
@@ -819,11 +820,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.activeSpinButton();
         }
 
-        const canChangeStakeAndLine = !isAutoSpinMode && !isFreeSpin;
+        const canChangeStakeAndLine = !isAutoSpinMode && !isFreeSpin && notAutoSpinByKeySpaceOrHold;
         this.lineButton.interactable = canChangeStakeAndLine;
         this.stakeButton.interactable = canChangeStakeAndLine;
 
-        this.autoSpinToggle.interactable = isAutoSpinMode || !isFreeSpin;
+        this.autoSpinToggle.interactable = (isAutoSpinMode || !isFreeSpin) && notAutoSpinByKeySpaceOrHold;
     }
 
     isAutoSpinMode() {
