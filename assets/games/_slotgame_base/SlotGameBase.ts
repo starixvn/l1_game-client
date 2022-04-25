@@ -15,6 +15,7 @@ import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import BonusDialog from "./BonusDialog";
 import CountDownWarning from "./CountDownWarning";
+import SlotGameBaseNoticeHandler from "./handlers/SlotGameBaseNoticeHandler";
 import SlotGameBetHandler from "./handlers/SlotGameBetHandler";
 import SlotGameBonusHandler from "./handlers/SlotGameBonusHandler";
 import SlotGameIngameHandler from "./handlers/SlotGameIngameHandler";
@@ -28,7 +29,6 @@ import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 import SpinButton from "./SpinButton";
-import SlotGameBaseNoticeHandler from "./handlers/SlotGameBaseNoticeHandler";
 
 export interface LineData {
     payline: number;
@@ -224,28 +224,36 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
         this.registerKeyEvents();
         this.showMessageDisplay(RoundType.BEFORESPIN);
-        if ((GameUtils.isIpad() || GameUtils.isPhone()) && this.offerKeySpaceOrHoldSpin) {
+        if (cc.sys.isMobile && this.offerKeySpaceOrHoldSpin) {
             this.spinButton.node.on(cc.Node.EventType.TOUCH_START, () => this.holdSpinButton());
-            this.spinButton.node.on(cc.Node.EventType.TOUCH_END, () => this.notHoldSpinButton());
+            this.spinButton.node.on(cc.Node.EventType.TOUCH_MOVE, (event: cc.Event.EventTouch) => {
+                const location = event.getLocation();
+                const hit = this.spinButton.node._hitTest(location);
+                if (!hit) {
+                    this.notHoldSpinButton();
+                    event.stopPropagation();
+                }
+            });
+            this.spinButton.node.on(cc.Node.EventType.TOUCH_CANCEL, this.notHoldSpinButton, this);
+            this.spinButton.node.on(cc.Node.EventType.TOUCH_END, this.notHoldSpinButton, this);
+        }
+    }
+
+    updateForHoldSpinButton() {
+        if (this.isHoldSpinButton) {
+            this.spin();
         }
     }
 
     holdSpinButton() {
         this.isHoldSpinButton = true;
-        this.schedule(
-            () => {
-                if (this.isHoldSpinButton) {
-                    this.spin();
-                }
-            },
-            2,
-            cc.macro.REPEAT_FOREVER,
-            0
-        );
+        this.updateForHoldSpinButton();
+        this.schedule(this.updateForHoldSpinButton, 1, cc.macro.REPEAT_FOREVER, 0);
     }
 
     notHoldSpinButton() {
         this.isHoldSpinButton = false;
+        this.unschedule(this.updateForHoldSpinButton);
     }
 
     showJackpotInfo(show: boolean) {
@@ -282,7 +290,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
         if (roundType === 2) {
             const items = this.isTurboMode() || this.spaceToSpinning ? [1, 2] : [1, 2, 3];
-            var item = items[Math.floor(Math.random() * items.length)];
+            const item = items[Math.floor(Math.random() * items.length)];
             msg = `messages.FromSettleToSpin${item}`;
         }
         this.messageText.string = `${i18n.t(msg)}`;
