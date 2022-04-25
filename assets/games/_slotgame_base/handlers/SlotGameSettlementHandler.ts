@@ -138,11 +138,12 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
     handlePayline(jackpot: any, betWin: number, winningLines: LineData[], bigWin: boolean, freeSpins: any) {
         const delayTime = betWin > 0 && !bigWin ? this.main.getCustomDuration("win") : this.main.getCustomDuration("lose");
+        const notWinBigEffect = freeSpins.count === 0 && !bigWin;
         this.main.settleTween = cc
             .tween(this.main)
             .call(() => {
                 this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime);
-                if (freeSpins.count === 0 && !bigWin) {
+                if (notWinBigEffect) {
                     this.main.showMessageDisplay(RoundType.SETTLED);
                 }
             })
@@ -150,11 +151,13 @@ export default class SlotGameSettlementHandler implements DataHandler {
             .call(async () => {
                 if (bigWin) {
                     await this.main.showEffectBigWin(betWin);
+                }
+
+                if (!notWinBigEffect) {
                     this.main.showMessageDisplay(RoundType.SETTLED);
                 }
 
                 if (freeSpins.count > 0) {
-                    this.main.showMessageDisplay(RoundType.SETTLED);
                     this.main.updateDisplaySpinButtons();
                     this.main.showHighlightSpecialSymbols(+freeSpins.symbol);
                     await this.main.showEffectFreeSpin();
@@ -164,7 +167,6 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
                 this.finishAnimationResult();
                 this.checkSpinNextRound(freeSpins);
-                this.main.spaceToSpinning = false;
             })
             .start();
     }

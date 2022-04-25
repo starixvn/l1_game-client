@@ -164,7 +164,7 @@ window.i18n.languages.vi = {
         disallowHedgeBet: "Chỉ có thể đặt cược trên %{betChoice1} hoặc %{betChoice2}.",
         copy_success: "Copy thành công!",
         showMsgWhenSpinDesktop: "BẤM QUAY HOẶC GIỮ PHÍM SPACE",
-        showMsgWhenSpinPhone: "BẤM QUAY ĐỂ BẮT ĐẦU",
+        showMsgWhenSpinPhone: "BẤM HOẶC GIỮ NÚT QUAY ĐỂ BẮT ĐẦU",
         roundSettleMsg: "CHÚC MAY MẮN!",
         FromSettleToSpin1: "QUAY SẼ THẮNG!",
         FromSettleToSpin2: "CÀNG QUAY, CÀNG THẮNG!",

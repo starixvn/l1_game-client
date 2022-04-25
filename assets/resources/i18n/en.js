@@ -162,7 +162,7 @@ window.i18n.languages.en = {
         disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
         copy_success: "Copy successful!",
         showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
-        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
+        showMsgWhenSpinPhone: "TAP OR HOLD SPIN TO BEGIN",
         roundSettleMsg: "GOOD LUCK!",
         FromSettleToSpin1: "SPIN TO WIN!",
         FromSettleToSpin2: "SPIN MORE, WIN MORE!",

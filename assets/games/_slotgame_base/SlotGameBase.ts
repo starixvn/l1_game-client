@@ -195,7 +195,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     public isShowAutoSpinSettingDialog = false;
     public isKeyDownSpace = false;
     public isRound = false;
-    public spaceToSpinning = false;
     protected userSettings: SlotGameUserSettings;
     private autoSpinCount = 0;
     private showingWinningLine = false;
@@ -281,15 +280,15 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
         const msgList = ["showMsgWhenSpin", "roundSettleMsg", "FromSettleToSpin"];
         let msg = `messages.roundSettleMsg`;
-        if (roundType === 0) {
+        if (roundType === RoundType.BEFORESPIN) {
             if (GameUtils.isIpad() || GameUtils.isPhone()) {
                 msg = `messages.${msgList[roundType] + "Phone"}`;
             } else {
                 msg = `messages.${msgList[roundType] + "Desktop"}`;
             }
         }
-        if (roundType === 2) {
-            const items = this.isTurboMode() || this.spaceToSpinning ? [1, 2] : [1, 2, 3];
+        if (roundType === RoundType.SETTLED) {
+            const items = this.isTurboMode() ? [1, 2] : [1, 2, 3];
             const item = items[Math.floor(Math.random() * items.length)];
             msg = `messages.FromSettleToSpin${item}`;
         }
@@ -407,7 +406,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
             this.isKeyDownSpace = true;
-            this.spaceToSpinning = true;
             this.spin();
         }
     }
