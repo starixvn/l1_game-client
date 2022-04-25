@@ -61,18 +61,20 @@ export default class DynamicAdsBannerController extends BannerController {
 
     async getBannerSpriteFrame(id: number) {
         const newSuffix = this.lobbyMenuConfig.isNewGame(id) ? "_new" : "";
-        const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}${newSuffix}` : newSuffix;
-        const languageBanner = await this.getSpriteFrame(`${id.toString()}${language}`);
+        const currentLang = window.i18n.curLang;
+        const languageAndNew = window.i18n.curLang !== "vi" ? `_${currentLang}${newSuffix}` : newSuffix;
+        const languageAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${languageAndNew}`);
 
         let bannerSpriteFrame: cc.SpriteFrame;
-        if (languageBanner) {
-            bannerSpriteFrame = languageBanner;
+        if (languageAndNewSpriteFrame) {
+            bannerSpriteFrame = languageAndNewSpriteFrame;
         } else {
-            const newSpriteFrame = await this.getSpriteFrame(`${id.toString()}${newSuffix}`);
-            if (newSpriteFrame) {
-                bannerSpriteFrame = newSpriteFrame;
+            const gameIdAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${newSuffix}`);
+            if (gameIdAndNewSpriteFrame) {
+                bannerSpriteFrame = gameIdAndNewSpriteFrame;
             } else {
-                bannerSpriteFrame = await this.getSpriteFrame(id.toString());
+                const gameIdAndLanguageSpriteFrame = currentLang !== "vi" ? `${id.toString()}_${currentLang}` : id.toString();
+                bannerSpriteFrame = await this.getSpriteFrame(gameIdAndLanguageSpriteFrame);
             }
         }
 
