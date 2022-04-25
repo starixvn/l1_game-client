@@ -72,11 +72,27 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property({ type: cc.Prefab, override: true })
     betChipsPrefab: cc.Prefab = null;
 
+    @property(cc.Animation)
+    openDiskAnimation: cc.Animation = null;
+
+    @property(cc.Animation)
+    shakeAnimation: cc.Animation = null;
+
+    @property(cc.AudioSource)
+    shakeAudio: cc.AudioSource = null;
+
+    @property(cc.Node)
+    thePlate: cc.Node = null;
+
     private readonly limitLog = 30;
+
+    public readonly shakeThePlateTime = 31;
+    public finishShakeThePlate = false;
 
     onLoad() {
         super.onLoad();
         this.logNode.active = false;
+        this.shakeAnimation.node.active = false;
     }
 
     initMiniPanel(miniPanel: MiniPanel) {
@@ -156,7 +172,7 @@ export default class BauCua extends SocketIOMiniGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-        this.animationNode.node.active = false;
+        //this.animationNode.node.active = false;
         this.hideAllDices();
         this.node.stopAllActions();
         this.resetXTimesResult();
@@ -180,6 +196,22 @@ export default class BauCua extends SocketIOMiniGameBase {
         });
     }
 
+    showResult() {
+        if (this.currentDataLogs.length > 0) {
+            //const { result, settlementResult } = this.currentDataLogs[0];
+            cc.tween(this.thePlate)
+                .call(() => {
+                    this.openPlate(true);
+                })
+                .delay(2)
+                .call(() => {
+                    this.highlightWinningBetItems(true);
+                    this.addLogs();
+                })
+                .start();
+        }
+    }
+
     highlightWinningBetItems(type: boolean) {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
@@ -195,6 +227,18 @@ export default class BauCua extends SocketIOMiniGameBase {
                     }
                 }
             });
+        }
+    }
+
+    openPlate(animated: boolean) {
+        if (animated) {
+            cc.tween(this.thePlate)
+                .to(0.5, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
+                .to(0.2, { opacity: 0 })
+                .start();
+        } else {
+            this.thePlate.position = cc.v3(50, 150, 0);
+            this.thePlate.opacity = 0;
         }
     }
 }

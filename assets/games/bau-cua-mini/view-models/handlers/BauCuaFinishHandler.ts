@@ -1,3 +1,4 @@
+import { trim } from "lodash";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import BauCua from "../BauCua";
 
@@ -14,8 +15,9 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
 
         if (cc.RedT.GAME_IS_SHOWED) {
             cc.tween(this.main.node)
-                .call(this.handleAnimation.bind(this))
-                .delay(this.playResultAnimationTime)
+                //.call(this.handleAnimation.bind(this))
+                .call(this.openDisk.bind(this))
+                .delay(1)
                 .call(() => {
                     onFinishHandlingData();
                     this.main.highlightWinningBetItems(true);
@@ -28,5 +30,11 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
     handleAnimation() {
         this.main.animationNode.node.active = true;
         this.main.animationNode.play();
+    }
+
+    openDisk() {
+        this.main.shakeAnimation.node.active = false;
+        this.main.thePlate.active = true;
+        this.main.openDiskAnimation.play();
     }
 }
