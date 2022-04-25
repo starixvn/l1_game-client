@@ -196,6 +196,13 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.resultLabel.string = dice1 + dice2 + dice3;
     }
 
+    showHideResult(show: boolean) {
+        this.dices.forEach((dice) => {
+            dice.node.active = show;
+        });
+        console.log(show ? "show" : "hide");
+    }
+
     showResult() {
         if (this.currentDataLogs.length > 0) {
             const { settlementResult } = this.currentDataLogs[0];
@@ -203,6 +210,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
             cc.tween(this.thePlate)
                 .call(() => {
                     this.hideBalanceBetNotice();
+                    this.showHideResult(true);
                     this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
                 })
                 .delay(1)

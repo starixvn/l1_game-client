@@ -58,6 +58,7 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
             .call(() => this.main.closePlate())
             .delay(0.5)
             .call(() => {
+                this.main.showHideResult(false);
                 AudioManager.getInstance().playSFX(this.main.shakeThePlateAudio.clip);
                 this.main.shakeThePlateAnimation.play();
             })

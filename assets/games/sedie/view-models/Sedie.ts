@@ -143,6 +143,13 @@ export default class Sedie extends FreeBetGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
+    showHideResult(show: boolean) {
+        this.dots.forEach((dot) => {
+            dot.node.active = show;
+        });
+        console.log(show ? "show" : "hide");
+    }
+
     setDots(result) {
         Object.keys(result).forEach((key, index) => {
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
@@ -153,6 +160,7 @@ export default class Sedie extends FreeBetGameBase {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
             this.setDots(result);
+            this.showHideResult(true);
             this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
             this.updateRoundHistory();
         }
