@@ -2,7 +2,7 @@ const configs = {
     systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
-        localhost: "lumigame.com"
+        localhost: "lumigame.com",
         "l1-games2.lumigame.com": "lumigame.com"
     },
     subDomain: "l1-proxy2",
@@ -17,9 +17,9 @@ const configs = {
     },
     guideDomain: "https://l1-guide-2.lumigame.com",
     enableMsgpackParserOnGame: {
-        45: false
+        45: false,
         9: false,
-        22: false,
+        22: false
     }
 };
 
