@@ -1,6 +1,6 @@
 import { GameIds } from "../../../configs/SabaConfigs";
 import HeroesSlot from "../../AHCL/scripts/HeroesSlot";
-import { FourGuardiansSlotConfigs } from "../../four-guardians/scripts/FourGuardiansSlotConfigs";
+import { NightClubSlotConfigs } from "./NightClubSlotConfigs";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,10 +13,6 @@ export default class NightClub extends HeroesSlot {
     }
 
     initSlotGameConfig() {
-        this.slotGameConfigs = new FourGuardiansSlotConfigs();
-        this.slotGameConfigs.turboMode.showBigWinValueDuration = 2.02;
-        this.slotGameConfigs.normalMode.showBigWinValueDuration = 2.02;
-        this.slotGameConfigs.normalMode.bonusDuration = 3.5;
-        this.slotGameConfigs.turboMode.bonusDuration = 2;
+        this.slotGameConfigs = new NightClubSlotConfigs();
     }
 }

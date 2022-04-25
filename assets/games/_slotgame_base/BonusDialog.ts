@@ -1,4 +1,5 @@
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
+import AudioManager from "../../common/audio/AudioManager";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import BonusItem from "./BonusItem";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
@@ -38,6 +39,7 @@ export default class BonusDialog extends cc.Component {
             const item = child.getComponent(BonusItem);
             item && this.items.push(item);
             child.on("click", () => {
+                AudioManager.getInstance().playClick();
                 if (this.openedBonus < this.totalBonus) {
                     this.onItemClicked(index);
                     const button = child.getComponent(cc.Button);
