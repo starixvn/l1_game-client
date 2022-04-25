@@ -2,7 +2,6 @@ import { io, Socket, ManagerOptions, SocketOptions } from "socket.io-client";
 import { buildUrl, getEnvironment } from "../helpers/UrlHelper";
 import { sentryLogger } from "../logger";
 import { enableMsgpackParserOnNotification } from "../../configs/Configs";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as MsgpackParser from "socket.io-msgpack-parser";
 
 export default class NotificationService {
@@ -17,6 +16,7 @@ export default class NotificationService {
     private static instance: NotificationService;
     private socket: Socket;
     private dataObservers = {};
+    private reConnectTimeOut;
 
     connect() {
         if (this.socket) {
@@ -41,17 +41,18 @@ export default class NotificationService {
         this.socket = io(buildUrl(), socketOptions);
 
         this.socket.on("connect_failed", () => {
-            this.socket.disconnect();
+            this.socket && this.socket.disconnect();
             this.reconnect();
         });
 
         this.socket.on("connect_error", (error) => {
             sentryLogger.logError(error);
-            this.socket.disconnect();
+            this.socket && this.socket.disconnect();
             this.reconnect();
         });
 
         this.socket.on("disconnect", (reason) => {
+            this.socket && this.socket.disconnect();
             this.reconnect();
         });
 
@@ -76,7 +77,9 @@ export default class NotificationService {
 
     reconnect() {
         this.socket = null;
-        setTimeout(() => {
+
+        this.reConnectTimeOut && clearTimeout(this.reConnectTimeOut);
+        this.reConnectTimeOut = setTimeout(() => {
             this.connect();
         }, 5000);
     }
