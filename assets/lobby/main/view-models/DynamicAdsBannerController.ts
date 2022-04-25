@@ -26,22 +26,7 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     async createAdsItem(id: number) {
-        const newSuffix = this.lobbyMenuConfig.isNewGame(id) ? "_new" : "";
-        const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}${newSuffix}` : newSuffix;
-        const languageBanner = await this.getSpriteFrame(`${id.toString()}${language}`);
-
-        let bannerSpriteFrame: cc.SpriteFrame;
-        if (languageBanner) {
-            bannerSpriteFrame = languageBanner;
-        } else {
-            const newSpriteFrame = await this.getSpriteFrame(`${id.toString()}${newSuffix}`);
-            if (newSpriteFrame) {
-                bannerSpriteFrame = newSpriteFrame;
-            } else {
-                bannerSpriteFrame = await this.getSpriteFrame(id.toString());
-            }
-        }
-
+        const bannerSpriteFrame = await this.getBannerSpriteFrame(id);
         if (bannerSpriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
             this.createBasicItem(id, bannerSpriteFrame, item);
@@ -72,6 +57,26 @@ export default class DynamicAdsBannerController extends BannerController {
 
     onLoad() {
         // override to delay enableTouch
+    }
+
+    async getBannerSpriteFrame(id: number) {
+        const newSuffix = this.lobbyMenuConfig.isNewGame(id) ? "_new" : "";
+        const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}${newSuffix}` : newSuffix;
+        const languageBanner = await this.getSpriteFrame(`${id.toString()}${language}`);
+
+        let bannerSpriteFrame: cc.SpriteFrame;
+        if (languageBanner) {
+            bannerSpriteFrame = languageBanner;
+        } else {
+            const newSpriteFrame = await this.getSpriteFrame(`${id.toString()}${newSuffix}`);
+            if (newSpriteFrame) {
+                bannerSpriteFrame = newSpriteFrame;
+            } else {
+                bannerSpriteFrame = await this.getSpriteFrame(id.toString());
+            }
+        }
+
+        return bannerSpriteFrame;
     }
 
     private getSpriteFrame(name: string) {

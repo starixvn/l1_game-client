@@ -1,8 +1,8 @@
 import { injectable } from "inversify";
 
+import configs = require("../../../configs/Configs");
 import { GameIds } from "../../../configs/SabaConfigs";
 import { ICashSystem, ICreditSystem, System } from "../../../System";
-import configs = require("../../../configs/Configs");
 
 @injectable()
 export default class LobbyMenuConfig extends System implements ICreditSystem, ICashSystem {
@@ -11,6 +11,31 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     smPromotion: boolean;
+    categoryList = {
+        seDieGames: [GameIds.VipSedie, GameIds.SeDie, GameIds.VipSedieWar, GameIds.MiniSedie, GameIds.SpecialSeDie],
+        casinoGames: [
+            GameIds.SicBo,
+            GameIds.BigSmall,
+            GameIds.TurboBigSmall,
+            GameIds.TurboOddEven,
+            GameIds.VipFishPrawnCrab,
+            GameIds.FishPrawnCrab,
+            GameIds.Roulette
+        ],
+        cardGames: [
+            GameIds.VipBaccarat,
+            GameIds.Baccarat,
+            GameIds.DragonTiger,
+            GameIds.ThreeCards,
+            GameIds.BlackJack,
+            GameIds.CasinoHoldemPoker,
+            GameIds.HiLo,
+            GameIds.TexasHoldemPoker
+        ],
+        slotGames: [GameIds.HeroesSlot, GameIds.FourGuardians],
+        lotteryGames: [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery],
+        othersGames: [GameIds.BitcoinMaster]
+    };
     bannerAds = {
         SC1: [GameIds.TexasHoldemPoker, GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.SeDie],
         SC2: [GameIds.BitcoinMaster, GameIds.CasinoHoldemPoker, GameIds.ThreeCards, GameIds.SeDie]
@@ -97,6 +122,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     slotGames = [GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians];
     lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
+
     miniList = [
         GameIds.BigSmall,
         GameIds.TurboBigSmall,

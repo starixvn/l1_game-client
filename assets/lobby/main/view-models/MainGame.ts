@@ -160,26 +160,22 @@ export default class MainGame extends cc.Component {
     }
 
     activeBgNewOnCategory() {
-        const isTextNewSeDie = lobbyMenuConfig.seDieGames.some((r) => lobbyMenuConfig.isNewGame(r)),
-            isTextNewCasino = lobbyMenuConfig.casinoGames.some((r) => lobbyMenuConfig.isNewGame(r)),
-            isTextNewCard = lobbyMenuConfig.cardGames.some((r) => lobbyMenuConfig.isNewGame(r)),
-            isTextNewSlot = lobbyMenuConfig.slotGames.some((r) => lobbyMenuConfig.isNewGame(r)),
-            isTextNewLottery = lobbyMenuConfig.lotteryGames.some((r) => lobbyMenuConfig.isNewGame(r)),
-            isTextNewOther = lobbyMenuConfig.othersGames.some((r) => lobbyMenuConfig.isNewGame(r));
+        const categoryList = {
+            seDieGames: GameCategory.SeDie,
+            casinoGames: GameCategory.Casino,
+            cardGames: GameCategory.Card,
+            slotGames: GameCategory.Slot,
+            lotteryGames: GameCategory.Lottery,
+            othersGames: GameCategory.Other
+        };
 
-        const categoryTextNew = [
-            { [GameCategory.SeDie]: isTextNewSeDie },
-            { [GameCategory.Casino]: isTextNewCasino },
-            { [GameCategory.Card]: isTextNewCard },
-            { [GameCategory.Slot]: isTextNewSlot },
-            { [GameCategory.Lottery]: isTextNewLottery },
-            { [GameCategory.Other]: isTextNewOther }
-        ];
-
-        categoryTextNew.forEach((category) => {
-            const categoryNode = this.categoryContainer.children.find((child) => child.name === `${Object.keys(category)[0]}`);
-            const newNode = categoryNode.getComponent(CategoryItem);
-            newNode.newNode.active = Object.values(category)[0];
+        Object.keys(categoryList).forEach((key) => {
+            const isNew = lobbyMenuConfig.categoryList[key].some((r) => lobbyMenuConfig.isNewGame(r));
+            const categoryNode = this.categoryContainer.children.find((child) => child.name === categoryList[key].toString());
+            if (categoryNode) {
+                const newNode = categoryNode.getComponent(CategoryItem);
+                newNode.newNode.active = isNew;
+            }
         });
     }
 
