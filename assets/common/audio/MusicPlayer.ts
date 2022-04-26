@@ -36,6 +36,7 @@ export default class MusicPlayer {
     }
 
     playBgAudio(play: boolean) {
+        this.clearIntervalSetVolume();
         if (play) {
             this.loadResourceAudio(this.getRandomNameSong());
             this.isPlayBgMusic = true;
@@ -68,6 +69,7 @@ export default class MusicPlayer {
     stopMusicBg() {
         this.clearIntervalSetVolume();
         this.volume = this.volumeDefault;
+        this.decreaseVolume();
         this.intervalVolDecrease = setInterval(() => {
             this.decreaseVolume();
         }, this.stepIntervalVolume);
