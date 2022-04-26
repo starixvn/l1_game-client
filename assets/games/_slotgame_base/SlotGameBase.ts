@@ -1140,13 +1140,15 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.showActiveFreeSpinButton();
         }
     }
+    playMusicBgCallback() {
+        this.musicBg.play();
+    }
 
     playMusicBackground(play: boolean) {
         if (play) {
-            this.scheduleOnce(() => {
-                this.musicBg.play();
-            }, this.delayTurnOffMusicBg);
+            this.scheduleOnce(this.playMusicBgCallback, this.delayTurnOffMusicBg);
         } else {
+            this.unschedule(this.playMusicBgCallback);
             this.musicBg.stop();
         }
     }
