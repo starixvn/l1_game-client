@@ -49,6 +49,7 @@ export default class MusicPlayer {
     loadResourceAudio(song: string) {
         !this.isPlayBgMusic &&
             cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
+                this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
                 this.bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
                 cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
                 cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
@@ -82,6 +83,7 @@ export default class MusicPlayer {
             clearInterval(this.intervalVolDecrease);
             AudioManager.getInstance().stopMusicWithChangedKey(this.musicChangedKey);
             this.isPlayBgMusic = false;
+            this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
             this.bgMusicId = -1;
         }
     }
