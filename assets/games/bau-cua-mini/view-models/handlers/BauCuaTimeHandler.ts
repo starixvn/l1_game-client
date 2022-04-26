@@ -42,6 +42,7 @@ export default class BauCuaTimeHandler extends GameBaseTimeHandler {
         this.main.dices.forEach((dice) => {
             dice.node.active = true;
         });
+        this.main.highlightWinningBetItems(true);
     }
 
     showWaitTime() {

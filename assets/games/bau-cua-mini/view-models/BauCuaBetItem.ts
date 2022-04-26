@@ -13,6 +13,9 @@ export default class BauCuaBetItem extends BetItem {
     @property(cc.SpriteFrame)
     x3Sprite: cc.SpriteFrame = null;
 
+    @property(cc.Sprite)
+    hashNumber: cc.Sprite = null;
+
     public resetHighlight() {
         this.highlightBorder.active = false;
         this.highlight.active = true;
@@ -34,5 +37,9 @@ export default class BauCuaBetItem extends BetItem {
 
     hideXTimesResult() {
         this.xSprite.node.active = false;
+    }
+
+    showHashNumber(show: boolean) {
+        this.hashNumber.node.active = show;
     }
 }
