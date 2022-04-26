@@ -11,7 +11,7 @@ export default class MusicPlayer {
     protected volume = 0.7;
     readonly stepVolume = 0.05;
     readonly duration = 3.5;
-    readonly stepIntervalVolume = (3.5 * 1000) / (0.7 / 0.05);
+    readonly stepIntervalVolume = (this.duration * 1000) / (this.volume / this.stepVolume);
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
