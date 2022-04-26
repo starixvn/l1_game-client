@@ -175,8 +175,4 @@ export default class SlotBoard extends cc.Component {
         this.reels.forEach((reel) => reel.hideWinningEffect());
         this.winningOverlayNode.active = false;
     }
-
-    playSound(type: SlotGameSound) {
-        AudioManager.getInstance().playSFX(this.soundSources[type].clip);
-    }
 }
