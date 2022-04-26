@@ -41,8 +41,10 @@ export default class MusicPlayer {
             this.loadResourceAudio(this.getRandomNameSong());
             this.isPlayBgMusic = true;
         } else {
-            this.stopBgAudio();
-            this.isPlayBgMusic = false;
+            if (this.isPlayBgMusic) {
+                this.stopBgAudio();
+                this.isPlayBgMusic = false;
+            }
         }
     }
 
@@ -69,11 +71,13 @@ export default class MusicPlayer {
 
     stopMusicBg() {
         this.clearIntervalSetVolume();
-        this.volume = this.volumeDefault;
-        this.decreaseVolume();
-        this.intervalVolDecrease = setInterval(() => {
+        if (this.isPlayBgMusic) {
+            this.volume = this.volumeDefault;
             this.decreaseVolume();
-        }, this.stepIntervalVolume);
+            this.intervalVolDecrease = setInterval(() => {
+                this.decreaseVolume();
+            }, this.stepIntervalVolume);
+        }
     }
 
     decreaseVolume() {

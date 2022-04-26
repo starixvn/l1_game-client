@@ -1156,7 +1156,12 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     playMusicBackground(play: boolean) {
         if (play) {
-            this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
+            const musicPlayer = MusicPlayer.getInstance();
+            if (musicPlayer.isPlayBgMusic) {
+                this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
+            } else {
+                this.playMusicBgCallback();
+            }
         } else {
             this.unschedule(this.playMusicBgCallback);
             this.musicBg.stop();
