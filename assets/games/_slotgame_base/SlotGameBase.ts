@@ -995,7 +995,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     async showEffectFreeSpin() {
-        this.playSound(SlotGameSound.FREESPIN);
+        if (this.soundSources[SlotGameSound.FREESPIN]) {
+            this.playSound(SlotGameSound.FREESPIN);
+        }
         const effect = cc.instantiate(this.effectFreeSpin);
         const animation = effect.getComponent(CallbackAnimation);
         animation.setDuration(this.getCustomDuration("freespin"));
@@ -1034,7 +1036,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     async showEffectBigWin(betWin: number) {
-        this.playSound(SlotGameSound.BIG_WIN);
+        if (this.soundSources[SlotGameSound.BIG_WIN]) {
+            this.playSound(SlotGameSound.BIG_WIN);
+        }
 
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackAnimation);
@@ -1050,7 +1054,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     async showEffectBonus(bonus: number): Promise<void> {
-        this.playSound(SlotGameSound.BONUS);
+        if (this.soundSources[SlotGameSound.BONUS]) {
+            this.playSound(SlotGameSound.BONUS);
+        }
         return new Promise<void>(async (resolve, reject) => {
             const effect = cc.instantiate(this.effectBonus);
             const animation = effect.getComponent(CallbackAnimation);

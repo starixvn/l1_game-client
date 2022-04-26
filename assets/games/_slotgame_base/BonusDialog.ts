@@ -24,7 +24,7 @@ export default class BonusDialog extends cc.Component {
     totalBonusLabel: cc.Label = null;
 
     @property({ type: cc.AudioSource })
-    soundSources: cc.AudioSource[] = [];
+    soundBigWin: cc.AudioSource = null;
 
     items: BonusItem[] = [];
 
@@ -67,7 +67,9 @@ export default class BonusDialog extends cc.Component {
     }
 
     showTotalAmount() {
-        AudioManager.getInstance().playSFX(this.soundSources[0].clip);
+        if (this.soundBigWin) {
+            AudioManager.getInstance().playSFX(this.soundBigWin.clip);
+        }
         this.hideTimer();
         this.totalBonusNode.active = true;
         this.totalBonusLabel.string = `+${numberWithCommas(this.totalValue, 2)}`;
