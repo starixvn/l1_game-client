@@ -1,5 +1,6 @@
+import _ = require("lodash");
+
 import GameUtils from "../../../common/GameUtils";
-import { CascadingSlotFinishData } from "../models/CascadingSlotFinishModel";
 import CascadeSlotReel from "./CascadeSlotReel";
 
 const { ccclass, property } = cc._decorator;
@@ -15,21 +16,26 @@ export default class CascadeSlotBoard extends cc.Component {
     itemTypeCount = 11;
 
     private reels: CascadeSlotReel[] = [];
-    private data: GenerationData[];
 
     private readonly itemDisplayCount = 5;
 
     onLoad() {
+        this.createReels();
+        this.initBoardFullItems();
+    }
+
+    private createReels() {
         this.node.children.forEach((child) => {
             const slotReel = child.getComponent(CascadeSlotReel);
-            slotReel.itemDisplayCount = this.itemDisplayCount;
             if (slotReel) {
+                slotReel.itemDisplayCount = this.itemDisplayCount;
+                slotReel.createReel();
                 this.reels.push(slotReel);
             }
         });
     }
 
-    initBoardFullItems() {
+    private initBoardFullItems() {
         const data = [];
         const itemTypeCount = this.itemTypeCount || 0;
 
@@ -43,30 +49,37 @@ export default class CascadeSlotBoard extends cc.Component {
         }
 
         const shuffleData = _.shuffle(data);
+        console.log(shuffleData);
+        this.reels.forEach((reel, index) => {
+            const start = index * reel.itemDisplayCount;
+            const end = start + reel.itemDisplayCount;
+            const itemData = shuffleData.slice(start, end);
+            console.log(itemData);
+            reel.setItemData(itemData);
+        });
     }
 
-    async setSettlement(data: CascadingSlotFinishData) {}
+    //not used
+    // async spinGenrations(data: GenerationData[]) {
+    //     let i = 0;
+    //     await this.spinResult(data[i].symbols);
 
-    async spinGenrations(data: GenerationData[]) {
-        let i = 0;
-        await this.spinResult(data[i].symbols);
+    //     while (i < data.length - 1) {
+    //         const removedSymbols = data[i].removedSymbols;
+    //         //show win items here
+    //         await GameUtils.delayTime(0.5);
+    //         await this.removeItems(removedSymbols);
+    //         const addItems = data[i + 1].symbols;
+    //         this.addItems(addItems);
+    //         await this.fallIn();
 
-        while (i < data.length - 1) {
-            const removedSymbols = data[i].removedSymbols;
-            //show win items here
-            await GameUtils.delayTime(0.5);
-            await this.removeItems(removedSymbols);
-            const addItems = data[i + 1].symbols;
-            this.addItems(addItems);
-            await this.fallIn();
+    //         i++;
+    //     }
 
-            i++;
-        }
+    //     //show total win here
+    // }
 
-        //show total win here
-    }
-
-    async spinResult(symbols: number[][]) {
+    public async spinResult(symbols: number[][]) {
         const delay = 0.1;
         for (let i = 0; i < this.reels.length; i++) {
             await GameUtils.delayTime(delay);
@@ -79,7 +92,7 @@ export default class CascadeSlotBoard extends cc.Component {
         }
     }
 
-    async removeItems(data: number[][]) {
+    public async removeItems(data: number[][]) {
         await Promise.all(
             this.reels.map(async (reel, index) => {
                 const items = data[index]
@@ -92,14 +105,14 @@ export default class CascadeSlotBoard extends cc.Component {
         );
     }
 
-    addItems(data: number[][]) {
+    public addItems(data: number[][]) {
         this.reels.forEach(async (reel, index) => {
             const items = data[index];
             reel.addItems(items);
         });
     }
 
-    async fallIn() {
+    public async fallIn() {
         await Promise.all(
             this.reels.map(async (reel) => {
                 await reel.fallIn();

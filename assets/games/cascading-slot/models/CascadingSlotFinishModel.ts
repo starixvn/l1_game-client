@@ -1,4 +1,4 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export interface Settlement {
     explode: string;
@@ -23,12 +23,7 @@ export interface CascadingSlotFinishData {
     tumbles: Tumble[];
 }
 
-export class CascadingSlotFinishModel extends EventEmitter {
-    constructor() {
-        super();
-        this.setMaxListeners(0);
-    }
-
+export class CascadingSlotFinishModel extends EventEmitterBase {
     static Events = {
         SETTLE: "finish:settle"
     };

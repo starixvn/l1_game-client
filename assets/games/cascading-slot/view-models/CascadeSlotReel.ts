@@ -20,10 +20,6 @@ export default class CascadeSlotReel extends cc.Component {
     private readonly speed = 145 / 0.1;
     private readonly delayMoveEachItem = 0.05;
 
-    onLoad() {
-        this.createReel();
-    }
-
     createReel() {
         for (let i = 0; i < this.itemDisplayCount; i++) {
             const item = this.addItem();

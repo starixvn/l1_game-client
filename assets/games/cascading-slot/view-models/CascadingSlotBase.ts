@@ -153,13 +153,13 @@ export default class CascadingSlotBase extends cc.Component {
     }
 
     onKeyDown(event: cc.Event.EventKeyboard) {
-        if (event.keyCode === cc.macro.KEY.space) {
+        if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
             this.enableAutoSpin();
         }
     }
 
     onKeyUp(event: cc.Event.EventKeyboard) {
-        if (event.keyCode === cc.macro.KEY.space) {
+        if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
             this.disableAutoSpin();
         }
     }

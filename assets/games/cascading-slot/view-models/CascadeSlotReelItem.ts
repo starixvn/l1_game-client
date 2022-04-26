@@ -8,9 +8,6 @@ export default class CascadeSlotReelItem extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    // @property(cc.Label)
-    // testLabel: cc.Label = null;
-
     public index = -1;
 
     setItem(index: number) {
@@ -25,7 +22,5 @@ export default class CascadeSlotReelItem extends cc.Component {
         this.content.removeAllChildren();
         const node = cc.instantiate(this.itemPrefabs[index]);
         this.content.addChild(node);
-
-        // this.testLabel.string = index.toString();
     }
 }
