@@ -28,6 +28,6 @@ export class NightClubSlotConfigs implements SlotGameBaseConfigs {
         freespinDuration: 2,
         bonusDuration: 2,
         jackpotDuration: 4.61,
-        showBigWinValueDuration: 2.02
+        showBigWinValueDuration: 1.2
     };
 }
