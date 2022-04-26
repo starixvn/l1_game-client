@@ -125,7 +125,8 @@ export default class SlotBoard extends cc.Component {
     }
 
     spin(duration: number, turbo: boolean): Promise<void> {
-        turbo ? this.playSound(SlotGameSound.ROLLING_TURBO) : this.playSound(SlotGameSound.ROLLING_NORMAL);
+        const sound = turbo ? SlotGameSound.ROLLING_TURBO : SlotGameSound.ROLLING_NORMAL;
+        AudioManager.getInstance().playSFX(this.soundSources[sound].clip);
         console.log(turbo);
         return new Promise<void>((resolve, reject) => {
             const actions = [];
