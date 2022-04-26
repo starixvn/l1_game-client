@@ -119,7 +119,7 @@ export default class GameUtils {
         }
         const stepTime = Math.max(duration / range, 0.05);
         const repeatCount = Math.floor(duration / stepTime);
-        const stepValue = +numberWithCommas(range / repeatCount, 2);
+        const stepValue = +(range / repeatCount).toFixed(2);
         let value = start;
         label.node.stopAllActions();
         cc.tween(label)
