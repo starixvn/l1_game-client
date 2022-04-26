@@ -238,6 +238,7 @@ window.i18n.languages.id = {
         lines: "Garis",
         total_bet: "Total Taruhan",
         bonus_count_text: "Jumlah Peti Harta Karun",
+        bonus_count_text_item: "No. of Items",
         auto_spin_guide_text: "Jumlah Putaran Otomatis",
         times: "Kali",
         bigWin: "Kemenangan Besar",

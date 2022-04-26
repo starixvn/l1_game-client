@@ -224,6 +224,7 @@ window.i18n.languages.zh_cn = {
         lines: "线",
         total_bet: "总投注",
         bonus_count_text: "宝箱数量",
+        bonus_count_text_item: "No. of Items",
         auto_spin_guide_text: "自动旋转次数",
         times: " 次",
         bigWin: "大赢",

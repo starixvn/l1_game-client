@@ -241,6 +241,7 @@ window.i18n.languages.vi = {
         lines: "Dòng Cược",
         total_bet: "Tổng Cược",
         bonus_count_text: "Số lần mở thưởng",
+        bonus_count_text_item: "Số lần mở thưởng",
         auto_spin_guide_text: "Chọn số lượt quay",
         times: "Lượt",
         bigWin: "Thắng Lớn",

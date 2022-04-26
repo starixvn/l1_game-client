@@ -41,7 +41,8 @@ enum SlotGameSound {
     WIN = 1,
     BIG_WIN = 2,
     JACKPOT = 3,
-    BONUS = 4
+    FREESPIN = 4,
+    BONUS = 5
 }
 
 export enum RoundType {
@@ -731,7 +732,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.winningBet.string = "0";
         this.slotBoard.setBoardData(data);
         this.spinButton.playAnimationSpin();
-        await this.slotBoard.spin(this.getCustomDuration("spin"), this.isAutoSpinMode());
+        await this.slotBoard.spin(this.getCustomDuration("spin"), this.isTurboMode());
         this.spinButton.playAnimationIdle();
     }
 
@@ -994,6 +995,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     async showEffectFreeSpin() {
+        this.playSound(SlotGameSound.FREESPIN);
         const effect = cc.instantiate(this.effectFreeSpin);
         const animation = effect.getComponent(CallbackAnimation);
         animation.setDuration(this.getCustomDuration("freespin"));
@@ -1048,6 +1050,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     async showEffectBonus(bonus: number): Promise<void> {
+        this.playSound(SlotGameSound.BONUS);
         return new Promise<void>(async (resolve, reject) => {
             const effect = cc.instantiate(this.effectBonus);
             const animation = effect.getComponent(CallbackAnimation);

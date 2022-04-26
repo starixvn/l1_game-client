@@ -239,6 +239,7 @@ window.i18n.languages.en = {
         lines: "Lines",
         total_bet: "Total Bet",
         bonus_count_text: "No. of Treasure Chest",
+        bonus_count_text_item: "No. of Items",
         auto_spin_guide_text: "Number of Auto Spins",
         times: "Times",
         bigWin: "Big Win",

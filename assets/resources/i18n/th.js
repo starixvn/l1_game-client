@@ -236,6 +236,7 @@ window.i18n.languages.th = {
         lines: "เส้น",
         total_bet: "เดิมพันรวม",
         bonus_count_text: "จำนวนหีบสมบัติ",
+        bonus_count_text_item: "No. of Items",
         auto_spin_guide_text: "จำนวนของสปินฟรีอัตโนมัติ",
         times: "เวลา",
         bigWin: "รางวัลใหญ่",
