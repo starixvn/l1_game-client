@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import AudioManager from "../../common/audio/AudioManager";
+import MusicPlayer from "../../common/audio/MusicPlayer";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../common/GameUtils";
@@ -29,7 +30,6 @@ import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 import SpinButton from "./SpinButton";
-import MusicPlayer from "../../common/audio/MusicPlayer";
 
 export interface LineData {
     payline: number;
@@ -294,7 +294,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         const msgList = ["showMsgWhenSpin", "roundSettleMsg", "FromSettleToSpin"];
         let msg = `messages.roundSettleMsg`;
         if (roundType === RoundType.BEFORESPIN) {
-            if (GameUtils.isIpad() || GameUtils.isPhone()) {
+            if (cc.sys.isMobile) {
                 msg = `messages.${msgList[roundType] + "Phone"}`;
             } else {
                 msg = `messages.${msgList[roundType] + "Desktop"}`;
