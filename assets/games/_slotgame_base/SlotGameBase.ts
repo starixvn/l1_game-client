@@ -223,7 +223,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
         this.registerKeyEvents();
         this.showMessageDisplay(RoundType.BEFORESPIN);
-        if (cc.sys.isMobile && this.offerKeySpaceOrHoldSpin) {
+        if (this.offerKeySpaceOrHoldSpin) {
             this.spinButton.node.on(cc.Node.EventType.TOUCH_START, () => this.holdSpinButton());
             this.spinButton.node.on(cc.Node.EventType.TOUCH_MOVE, (event: cc.Event.EventTouch) => {
                 const location = event.getLocation();
@@ -234,7 +234,19 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                 }
             });
             this.spinButton.node.on(cc.Node.EventType.TOUCH_CANCEL, this.notHoldSpinButton, this);
-            this.spinButton.node.on(cc.Node.EventType.TOUCH_END, this.notHoldSpinButton, this);
+            this.spinButton.node.on(
+                cc.Node.EventType.TOUCH_END,
+                (event: cc.Event.EventTouch) => {
+                    const location = event.getLocation();
+                    const hit = this.spinButton.node._hitTest(location);
+                    if (hit) {
+                        this.spin();
+                    }
+
+                    this.notHoldSpinButton();
+                },
+                this
+            );
         }
     }
 
@@ -246,7 +258,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     holdSpinButton() {
         this.isHoldSpinButton = true;
-        this.updateForHoldSpinButton();
         this.schedule(this.updateForHoldSpinButton, 1, cc.macro.REPEAT_FOREVER, 0);
     }
 
