@@ -29,6 +29,7 @@ import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 import SpinButton from "./SpinButton";
+import MusicPlayer from "../../common/audio/MusicPlayer";
 
 export interface LineData {
     payline: number;
@@ -1155,7 +1156,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     playMusicBackground(play: boolean) {
         if (play) {
-            this.scheduleOnce(this.playMusicBgCallback, this.delayTurnOffMusicBg);
+            this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
         } else {
             this.unschedule(this.playMusicBgCallback);
             this.musicBg.stop();

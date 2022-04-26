@@ -61,7 +61,6 @@ export default class WebSocketTableGameBase extends GameBase {
 
     playerHandler: GameBasePlayerHandler;
     private miniPanelScale = 1;
-    readonly delayTurnOffMusicBg = 3.5;
 
     constructor() {
         super();

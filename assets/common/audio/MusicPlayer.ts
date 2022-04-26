@@ -9,8 +9,9 @@ export default class MusicPlayer {
     protected intervalVolDecrease: NodeJS.Timeout;
     protected intervalVolIncrease: NodeJS.Timeout;
     protected volume = 0.7;
-    readonly stepVolume = 0.1;
-    readonly stepIntervalVolume = 500;
+    readonly stepVolume = 0.05;
+    readonly duration = 3.5;
+    readonly stepIntervalVolume = (3.5 * 1000) / (0.7 / 0.05);
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
@@ -18,6 +19,10 @@ export default class MusicPlayer {
         }
 
         return this.instanceMusic;
+    }
+
+    get delayTurnOffMusicBg() {
+        return this.duration;
     }
 
     private static instanceMusic: MusicPlayer;
@@ -64,15 +69,19 @@ export default class MusicPlayer {
         this.clearIntervalSetVolume();
         this.volume = this.volumeDefault;
         this.intervalVolDecrease = setInterval(() => {
-            cc.audioEngine.setVolume(this.bgMusicId, this.volume);
-            this.volume -= this.stepVolume;
-            if (this.volume <= 0) {
-                clearInterval(this.intervalVolDecrease);
-                AudioManager.getInstance().stopMusicWithChangedKey(this.musicChangedKey);
-                this.isPlayBgMusic = false;
-                this.bgMusicId = -1;
-            }
+            this.decreaseVolume();
         }, this.stepIntervalVolume);
+    }
+
+    decreaseVolume() {
+        cc.audioEngine.setVolume(this.bgMusicId, this.volume);
+        this.volume -= this.stepVolume;
+        if (this.volume <= 0) {
+            clearInterval(this.intervalVolDecrease);
+            AudioManager.getInstance().stopMusicWithChangedKey(this.musicChangedKey);
+            this.isPlayBgMusic = false;
+            this.bgMusicId = -1;
+        }
     }
 
     clearIntervalSetVolume() {
