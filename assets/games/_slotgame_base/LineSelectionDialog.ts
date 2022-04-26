@@ -71,10 +71,9 @@ export default class LineSelectionDialog extends cc.Component {
 
     showActiveBg(index) {
         if (this.bgActive.length > 0) {
-            this.bgActive.forEach((item) => {
-                item.active = false;
+            this.bgActive.forEach((item, i) => {
+                item.active = index === i;
             });
-            this.bgActive[index].active = true;
         }
     }
 
