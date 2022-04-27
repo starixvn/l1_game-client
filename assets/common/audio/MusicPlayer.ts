@@ -29,6 +29,7 @@ export default class MusicPlayer {
 
     stopBgAudio() {
         AudioManager.getInstance().stopMusic();
+        AudioManager.getInstance().stopMusicWithChangedKey(this.musicChangedKey);
     }
 
     getRandomNameSong() {
