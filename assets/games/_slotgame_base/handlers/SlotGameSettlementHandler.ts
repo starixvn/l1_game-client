@@ -1,5 +1,5 @@
 import DataHandler from "../../_base/handlers/DataHandler";
-import SlotGameBase, { LineData } from "../SlotGameBase";
+import SlotGameBase, { LineData, RoundType } from "../SlotGameBase";
 
 export default class SlotGameSettlementHandler implements DataHandler {
     constructor(protected readonly main: SlotGameBase) {}
@@ -81,7 +81,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
         }
 
         this.main.setTotalFreeSpins(totalOfFreeSpins);
-        const needWaitEffect = bigWin || freeSpins.count > 0 || betByFreeSpin;
+        const needWaitEffect = bigWin || freeSpins.count > 0 || betByFreeSpin || this.main.isKeyDownSpace || this.main.isHoldSpinButton;
         if (!needWaitEffect) {
             this.main.updateModeSpinButton(this.main.isFreeSpin());
             this.finishAnimationResult();
@@ -138,14 +138,25 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
     handlePayline(jackpot: any, betWin: number, winningLines: LineData[], bigWin: boolean, freeSpins: any) {
         const delayTime = betWin > 0 && !bigWin ? this.main.getCustomDuration("win") : this.main.getCustomDuration("lose");
+        const notWinBigEffect = freeSpins.count === 0 && !bigWin;
         this.main.settleTween = cc
             .tween(this.main)
-            .call(() => this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime))
+            .call(() => {
+                this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime);
+                if (notWinBigEffect) {
+                    this.main.showMessageDisplay(RoundType.SETTLED);
+                }
+            })
             .delay(delayTime)
             .call(async () => {
                 if (bigWin) {
                     await this.main.showEffectBigWin(betWin);
                 }
+
+                if (!notWinBigEffect) {
+                    this.main.showMessageDisplay(RoundType.SETTLED);
+                }
+
                 if (freeSpins.count > 0) {
                     this.main.updateDisplaySpinButtons();
                     this.main.showHighlightSpecialSymbols(+freeSpins.symbol);

@@ -39,7 +39,8 @@ window.i18n.languages.en = {
         "38_break": "The Legend of Heroes",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
-        45: "Hi-Lo"
+        45: "Hi-Lo",
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
@@ -159,7 +160,13 @@ window.i18n.languages.en = {
         maxBetForChoiceNotice2: "Max bet for this option is %{maxBet}",
         minBetForChoiceNotice: "Min bet for this option is %{minBet}",
         disallowHedgeBet: "Can bet on either %{betChoice1} or %{betChoice2}.",
-        copy_success: "Copy successful!"
+        copy_success: "Copy successful!",
+        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
+        showMsgWhenSpinPhone: "TAP OR HOLD SPIN TO BEGIN",
+        roundSettleMsg: "GOOD LUCK!",
+        FromSettleToSpin1: "SPIN TO WIN!",
+        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
+        FromSettleToSpin3: "TRY TURBO MODE!"
     },
     ui: {
         choice_red2: "2 Red",
@@ -232,6 +239,7 @@ window.i18n.languages.en = {
         lines: "Lines",
         total_bet: "Total Bet",
         bonus_count_text: "No. of Treasure Chest",
+        bonus_count_text_item: "No. of Items",
         auto_spin_guide_text: "Number of Auto Spins",
         times: "Times",
         bigWin: "Big Win",

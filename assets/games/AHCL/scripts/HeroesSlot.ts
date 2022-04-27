@@ -1,7 +1,7 @@
 import { GameIds } from "../../../configs/SabaConfigs";
 import AutoSpinSettingDialog from "../../_slotgame_base/AutoSpinSettingDialog";
 import SlotGameBase from "../../_slotgame_base/SlotGameBase";
-import { FourGuardiansSlotConfigs } from "../../four-guardians/scripts/FourGuardiansSlotConfigs";
+import { AHCLSlotConfigs } from "./AHCLSlotConfigs";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,7 +17,7 @@ export default class HeroesSlot extends SlotGameBase {
     }
 
     initSlotGameConfig() {
-        this.slotGameConfigs = new FourGuardiansSlotConfigs();
+        this.slotGameConfigs = new AHCLSlotConfigs();
     }
 
     createAutoSpinDialog(): AutoSpinSettingDialog {

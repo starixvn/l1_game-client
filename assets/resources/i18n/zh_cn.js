@@ -37,7 +37,8 @@ window.i18n.languages.zh_cn = {
         "26_break": "VIP 鱼虾蟹",
         "38_break": "英雄传说",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "发生了错误。 详情请联系CSD，谢谢。(%{errorCode})",
@@ -144,7 +145,13 @@ window.i18n.languages.zh_cn = {
         maxBetForChoiceNotice2: "此选项的最大赌注是 %{maxBet}",
         minBetForChoiceNotice: "此选项的最小赌注是 %{minBet}",
         disallowHedgeBet: "可以下注 %{betChoice1} 或 %{betChoice2}。",
-        copy_success: "复制成功！"
+        copy_success: "复制成功！",
+        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
+        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
+        roundSettleMsg: "GOOD LUCK!",
+        FromSettleToSpin1: "SPIN TO WIN!",
+        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
+        FromSettleToSpin3: "TRY TURBO MODE!"
     },
     ui: {
         choice_red2: "2 红",
@@ -217,6 +224,7 @@ window.i18n.languages.zh_cn = {
         lines: "线",
         total_bet: "总投注",
         bonus_count_text: "宝箱数量",
+        bonus_count_text_item: "No. of Items",
         auto_spin_guide_text: "自动旋转次数",
         times: " 次",
         bigWin: "大赢",

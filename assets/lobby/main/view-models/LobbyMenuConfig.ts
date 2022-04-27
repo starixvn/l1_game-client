@@ -23,8 +23,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     list = [
-        GameIds.HeroesSlot,
-        GameIds.FourGuardians,
+        GameIds.NightClub,
         GameIds.VipSedie,
         GameIds.SeDie,
         GameIds.VipSedieWar,
@@ -33,6 +32,8 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.BigSmall,
         GameIds.TurboBigSmall,
         GameIds.TurboOddEven,
+        GameIds.HeroesSlot,
+        GameIds.FourGuardians,
         GameIds.KenoProMax,
         GameIds.KenoProViet,
         GameIds.VipBaccarat,
@@ -50,7 +51,6 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.HiLo,
         GameIds.TexasHoldemPoker
     ];
-
     seDieGames = [GameIds.VipSedie, GameIds.SeDie, GameIds.VipSedieWar, GameIds.MiniSedie, GameIds.SpecialSeDie];
     casinoGames = [
         GameIds.SicBo,
@@ -71,7 +71,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.HiLo,
         GameIds.TexasHoldemPoker
     ];
-    slotGames = [GameIds.HeroesSlot, GameIds.FourGuardians];
+    slotGames = [GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians];
     lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
     miniList = [
@@ -90,9 +90,12 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         },
         [GameIds.HeroesSlot]: {
             size: cc.v2(1, 2)
+        },
+        46: {
+            size: cc.v2(1, 2)
         }
     };
-    newGames = [GameIds.TexasHoldemPoker];
+    newGames = [GameIds.TexasHoldemPoker, GameIds.NightClub];
 
     customizeCredit(): void {
         this.smPromotion = true;

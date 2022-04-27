@@ -37,7 +37,8 @@ window.i18n.languages.th = {
         "26_break": "VIP  ปลา กุ้ง ปู",
         "38_break": "เดอะ เลเจนด์\nออฟ ฮีโร่",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "เกิดข้อผิดพลาด กรุณาติดต่อแอดมินสำหรับรายละเอียดเพิ่มเติม ขอบคุณค่ะ (%{errorCode})",
@@ -156,7 +157,13 @@ window.i18n.languages.th = {
         maxBetForChoiceNotice2: "เดิมพันสูงสุดสำหรับตัวเลือกนี้คือ %{maxBet}",
         minBetForChoiceNotice: "เดิมพันขั้นต่ำสำหรับตัวเลือกนี้คือ %{minBet}",
         disallowHedgeBet: "สามารถเดิมพันได้ทั้ง %{betChoice1} หรือ %{betChoice2}",
-        copy_success: "Copy successful!"
+        copy_success: "Copy successful!",
+        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
+        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
+        roundSettleMsg: "GOOD LUCK!",
+        FromSettleToSpin1: "SPIN TO WIN!",
+        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
+        FromSettleToSpin3: "TRY TURBO MODE!"
     },
     ui: {
         choice_red2: "2 แดง",
@@ -229,6 +236,7 @@ window.i18n.languages.th = {
         lines: "เส้น",
         total_bet: "เดิมพันรวม",
         bonus_count_text: "จำนวนหีบสมบัติ",
+        bonus_count_text_item: "No. of Items",
         auto_spin_guide_text: "จำนวนของสปินฟรีอัตโนมัติ",
         times: "เวลา",
         bigWin: "รางวัลใหญ่",

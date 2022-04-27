@@ -15,6 +15,7 @@ export interface CustomDuration {
     readonly noWinningDuration: number;
     readonly bigWinDuration: number;
     readonly freespinDuration: number;
-    readonly bonusDuration: number;
     readonly jackpotDuration: number;
+    readonly bonusDuration: number;
+    readonly showBigWinValueDuration: number;
 }

@@ -1,6 +1,11 @@
+import AudioManager from "../../common/audio/AudioManager";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotReel from "./SlotReel";
 
+enum SlotGameSound {
+    ROLLING_NORMAL = 0,
+    ROLLING_TURBO = 1
+}
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -13,6 +18,9 @@ export default class SlotBoard extends cc.Component {
 
     @property(cc.Node)
     itemLocationMap: cc.Node = null;
+
+    @property({ type: cc.AudioSource })
+    soundSources: cc.AudioSource[] = [];
 
     private readonly reels: SlotReel[] = [];
 
@@ -117,6 +125,10 @@ export default class SlotBoard extends cc.Component {
     }
 
     spin(duration: number, turbo: boolean): Promise<void> {
+        if (this.soundSources.length > 0) {
+            const sound = turbo ? SlotGameSound.ROLLING_TURBO : SlotGameSound.ROLLING_NORMAL;
+            AudioManager.getInstance().playSFX(this.soundSources[sound].clip);
+        }
         return new Promise<void>((resolve, reject) => {
             const actions = [];
             this.reels.forEach((reel) => {

@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import AudioManager from "../../common/audio/AudioManager";
+import MusicPlayer from "../../common/audio/MusicPlayer";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../common/GameUtils";
@@ -15,6 +16,7 @@ import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import BonusDialog from "./BonusDialog";
 import CountDownWarning from "./CountDownWarning";
+import SlotGameBaseNoticeHandler from "./handlers/SlotGameBaseNoticeHandler";
 import SlotGameBetHandler from "./handlers/SlotGameBetHandler";
 import SlotGameBonusHandler from "./handlers/SlotGameBonusHandler";
 import SlotGameIngameHandler from "./handlers/SlotGameIngameHandler";
@@ -40,7 +42,14 @@ enum SlotGameSound {
     WIN = 1,
     BIG_WIN = 2,
     JACKPOT = 3,
-    BONUS = 4
+    FREESPIN = 4,
+    BONUS = 5
+}
+
+export enum RoundType {
+    BEFORESPIN = 0,
+    SPINNING = 1,
+    SETTLED = 2
 }
 
 const { ccclass, property } = cc._decorator;
@@ -143,8 +152,14 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(SpinButton)
     spinButton: SpinButton = null;
 
+    @property(cc.Label)
+    messageText: cc.Label = null;
+
     @property
     autoGenerateLines = false;
+
+    @property
+    offerKeySpaceOrHoldSpin = false;
 
     @property({
         type: cc.Prefab,
@@ -180,6 +195,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     public waitingSpinResult = false;
     public cacheApiError: any = null;
     public isShowAutoSpinSettingDialog = false;
+    public isKeyDownSpace = false;
+    public isHoldSpinButton = false;
+    public isRound = false;
     protected userSettings: SlotGameUserSettings;
     private autoSpinCount = 0;
     private showingWinningLine = false;
@@ -205,6 +223,49 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
 
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
+        this.registerKeyEvents();
+        this.showMessageDisplay(RoundType.BEFORESPIN);
+        if (this.offerKeySpaceOrHoldSpin) {
+            this.spinButton.node.on(cc.Node.EventType.TOUCH_START, () => this.holdSpinButton());
+            this.spinButton.node.on(cc.Node.EventType.TOUCH_MOVE, (event: cc.Event.EventTouch) => {
+                const location = event.getLocation();
+                const hit = this.spinButton.node._hitTest(location);
+                if (!hit) {
+                    this.notHoldSpinButton();
+                    event.stopPropagation();
+                }
+            });
+            this.spinButton.node.on(cc.Node.EventType.TOUCH_CANCEL, this.notHoldSpinButton, this);
+            this.spinButton.node.on(
+                cc.Node.EventType.TOUCH_END,
+                (event: cc.Event.EventTouch) => {
+                    const location = event.getLocation();
+                    const hit = this.spinButton.node._hitTest(location);
+                    if (hit) {
+                        this.spin();
+                    }
+
+                    this.notHoldSpinButton();
+                },
+                this
+            );
+        }
+    }
+
+    updateForHoldSpinButton() {
+        if (this.isHoldSpinButton) {
+            this.spin();
+        }
+    }
+
+    holdSpinButton() {
+        this.isHoldSpinButton = true;
+        this.schedule(this.updateForHoldSpinButton, 1, cc.macro.REPEAT_FOREVER, 0);
+    }
+
+    notHoldSpinButton() {
+        this.isHoldSpinButton = false;
+        this.unschedule(this.updateForHoldSpinButton);
     }
 
     showJackpotInfo(show: boolean) {
@@ -224,6 +285,27 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     protected onGameHide() {
         super.onGameHide();
         this.saveUserSetting();
+    }
+
+    showMessageDisplay(roundType: RoundType) {
+        if (!this.messageText) {
+            return;
+        }
+        const msgList = ["showMsgWhenSpin", "roundSettleMsg", "FromSettleToSpin"];
+        let msg = `messages.roundSettleMsg`;
+        if (roundType === RoundType.BEFORESPIN) {
+            if (cc.sys.isMobile) {
+                msg = `messages.${msgList[roundType] + "Phone"}`;
+            } else {
+                msg = `messages.${msgList[roundType] + "Desktop"}`;
+            }
+        }
+        if (roundType === RoundType.SETTLED) {
+            const items = this.isTurboMode() ? [1, 2] : [1, 2, 3];
+            const item = items[Math.floor(Math.random() * items.length)];
+            msg = `messages.FromSettleToSpin${item}`;
+        }
+        this.messageText.string = `${i18n.t(msg)}`;
     }
 
     loadUserSetting() {
@@ -320,6 +402,36 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
     }
 
+    registerKeyEvents() {
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    }
+
+    removeKeyEvents() {
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    }
+
+    onKeyDown(event: cc.Event.EventKeyboard) {
+        if (
+            this.offerKeySpaceOrHoldSpin &&
+            !this.isAutoSpinMode() &&
+            (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
+        ) {
+            this.isKeyDownSpace = true;
+            this.spin();
+        }
+    }
+
+    onKeyUp(event: cc.Event.EventKeyboard) {
+        if (
+            this.offerKeySpaceOrHoldSpin &&
+            !this.isAutoSpinMode() &&
+            (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
+        ) {
+            this.isKeyDownSpace = false;
+        }
+    }
     createLineView(child: cc.Node) {
         const node = new cc.Node();
         const view = node.addComponent(LineView);
@@ -358,6 +470,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     setUpHandlers() {
         this.initHandlers();
+        this.noticeHandler = new SlotGameBaseNoticeHandler(this);
         this.umHandler = new SlotGameUmHandler(this);
         this.ingameHandler = new SlotGameIngameHandler(this);
         this.settlementHandler = new SlotGameSettlementHandler(this);
@@ -527,7 +640,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.stopAllFinishTweens();
             this.countDownAutoSpin.show(
                 autoSpinCount,
-                () => this.spin(),
+                () => {
+                    this.spin();
+                },
                 () => !this.isAutoSpinMode()
             );
             this.isShowAutoSpinSettingDialog = false;
@@ -606,7 +721,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     onSpinClick() {
         AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
-
         const success = this.spin();
         if (success) {
             this.lineButton.interactable = false;
@@ -619,7 +733,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.winningBet.string = "0";
         this.slotBoard.setBoardData(data);
         this.spinButton.playAnimationSpin();
-        await this.slotBoard.spin(this.getCustomDuration("spin"), this.isAutoSpinMode());
+        await this.slotBoard.spin(this.getCustomDuration("spin"), this.isTurboMode());
         this.spinButton.playAnimationIdle();
     }
 
@@ -628,17 +742,16 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         if (this.betChoices.length === 0 || this.isAnimatingResult || !this.isReadyBet()) {
             return success;
         }
-
         if (!this.checkAvailableBalance()) {
             this.resetStateButtons();
             return success;
         }
 
         if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
+            !this.isKeyDownSpace && !this.isHoldSpinButton && this.showProcessingWarning(true);
             return success;
         }
-
+        this.showMessageDisplay(RoundType.SPINNING);
         this.stopAllFinishTweens();
         this.hideStakeContrainer();
         this.hideWinningEffectOnItems();
@@ -712,6 +825,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     activeButtons() {
         const isFreeSpin = this.isFreeSpin();
         const isAutoSpinMode = this.isAutoSpinMode();
+        const notAutoSpinByKeySpaceOrHold = !this.isKeyDownSpace && !this.isHoldSpinButton;
 
         if (isAutoSpinMode || isFreeSpin) {
             this.deactiveSpinButton();
@@ -719,11 +833,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.activeSpinButton();
         }
 
-        const canChangeStakeAndLine = !isAutoSpinMode && !isFreeSpin;
+        const canChangeStakeAndLine = !isAutoSpinMode && !isFreeSpin && notAutoSpinByKeySpaceOrHold;
         this.lineButton.interactable = canChangeStakeAndLine;
         this.stakeButton.interactable = canChangeStakeAndLine;
 
-        this.autoSpinToggle.interactable = isAutoSpinMode || !isFreeSpin;
+        this.autoSpinToggle.interactable = (isAutoSpinMode || !isFreeSpin) && notAutoSpinByKeySpaceOrHold;
     }
 
     isAutoSpinMode() {
@@ -882,6 +996,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     async showEffectFreeSpin() {
+        if (this.soundSources[SlotGameSound.FREESPIN]) {
+            this.playSound(SlotGameSound.FREESPIN);
+        }
         const effect = cc.instantiate(this.effectFreeSpin);
         const animation = effect.getComponent(CallbackAnimation);
         animation.setDuration(this.getCustomDuration("freespin"));
@@ -890,7 +1007,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     isTurboMode(): boolean {
-        return this.turboToggle.isChecked;
+        return this.turboToggle.isChecked || this.isKeyDownSpace || this.isHoldSpinButton;
     }
 
     getCustomDuration(type: string): number {
@@ -899,6 +1016,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         switch (type) {
             case "bigwin":
                 return info.bigWinDuration;
+            case "showBigWinValue":
+                return info.showBigWinValueDuration;
             case "freespin":
                 return info.freespinDuration;
             case "bonus":
@@ -918,20 +1037,27 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     async showEffectBigWin(betWin: number) {
-        this.playSound(SlotGameSound.BIG_WIN);
+        if (this.soundSources[SlotGameSound.BIG_WIN]) {
+            this.playSound(SlotGameSound.BIG_WIN);
+        }
 
         const effect = cc.instantiate(this.effectBigWin);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("bigwin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setDuration(this.getCustomDuration("bigwin"));
-        bigWinAnimation.setAmount(betWin);
+        const showBigWinValueTime = this.getCustomDuration("showBigWinValue");
+        bigWinAnimation.setAmount(betWin, showBigWinValueTime);
         cc.tween(this)
-            .delay(bigWinAnimation.textAnimationDuration)
+            .delay(showBigWinValueTime)
             .call(() => this.updateWinningBetLabel(betWin))
             .start();
         await this.showEffect(effect);
     }
 
     async showEffectBonus(bonus: number): Promise<void> {
+        if (this.soundSources[SlotGameSound.BONUS]) {
+            this.playSound(SlotGameSound.BONUS);
+        }
         return new Promise<void>(async (resolve, reject) => {
             const effect = cc.instantiate(this.effectBonus);
             const animation = effect.getComponent(CallbackAnimation);
@@ -956,9 +1082,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.playSound(SlotGameSound.JACKPOT);
 
         const effect = cc.instantiate(this.effectJackpot);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("jackpot"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setDuration(this.getCustomDuration("jackpot"));
-        bigWinAnimation.setAmount(amount);
+        bigWinAnimation.setAmount(amount, 0);
         await this.showEffect(effect);
     }
 
@@ -1023,13 +1150,20 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.showActiveFreeSpinButton();
         }
     }
+    playMusicBgCallback() {
+        this.musicBg.play();
+    }
 
     playMusicBackground(play: boolean) {
         if (play) {
-            this.scheduleOnce(() => {
-                this.musicBg.play();
-            }, this.delayTurnOffMusicBg);
+            const musicPlayer = MusicPlayer.getInstance();
+            if (musicPlayer.isPlayBgMusic) {
+                this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
+            } else {
+                this.playMusicBgCallback();
+            }
         } else {
+            this.unschedule(this.playMusicBgCallback);
             this.musicBg.stop();
         }
     }

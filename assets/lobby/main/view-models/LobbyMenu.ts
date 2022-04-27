@@ -34,7 +34,76 @@ export default class LobbyMenu extends GameIconMenu {
         //override super
     }
 
+    private splitWhenever<T>(filter: (element: T) => boolean, list: T[]) {
+        const result = [];
+        let current = [];
+
+        for (let i = 0; i < list.length; i = i + 1) {
+            if (!filter(list[i])) {
+                current.push(list[i]);
+            } else {
+                result.push([list[i]]);
+            }
+
+            if (((i < list.length - 1 && filter(list[i + 1])) || i === list.length - 1) && current.length > 0) {
+                result.push(current);
+                current = [];
+            }
+        }
+
+        return result;
+    }
+
+    private getNextArea(index: number, list: number[][], needNext: (games: number[]) => boolean) {
+        if (list.length - 1 <= index) {
+            return [];
+        } else if (needNext(list[index + 1])) {
+            return this.getNextArea(index + 1, list, needNext);
+        } else {
+            return list[index + 1];
+        }
+    }
+
+    private arrangeGames(games: number[][]) {
+        const hasBigSize = (list: number[]) => list && list.length === 1 && this.isBigSize(list[0]);
+        const result = [];
+
+        for (let index = 0; index < games.length; index++) {
+            const gameIds = games[index];
+            const passed = hasBigSize(gameIds) || gameIds.length % 2 === 0 || index === games.length - 1;
+
+            if (!passed) {
+                const nextGames = this.getNextArea(index, games, hasBigSize);
+
+                if (nextGames.length !== 0) {
+                    const ids = nextGames.splice(0, 1);
+
+                    gameIds.push(...ids);
+                } else {
+                    const ids = gameIds.splice(gameIds.length - 1, 1);
+
+                    games[games.length - 1].push(...ids);
+                }
+            }
+
+            result.push(...gameIds);
+        }
+
+        return result;
+    }
+
+    private isBigSize(id: number) {
+        return this.getItemSize(id).y > 1;
+    }
+
     getList() {
+        const games = this.getListGamesFromCurrentCategory();
+        const splittedGames = this.splitWhenever(this.isBigSize.bind(this), games);
+
+        return this.arrangeGames(splittedGames);
+    }
+
+    getListGamesFromCurrentCategory() {
         if (this.currentCategory === GameCategory.All) {
             return cc.RedT.user.offerGames;
         }

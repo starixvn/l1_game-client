@@ -9,8 +9,9 @@ export default class MusicPlayer {
     protected intervalVolDecrease: NodeJS.Timeout;
     protected intervalVolIncrease: NodeJS.Timeout;
     protected volume = 0.7;
-    readonly stepVolume = 0.1;
-    readonly stepIntervalVolume = 500;
+    readonly stepVolume = 0.05;
+    readonly duration = 3.5;
+    readonly stepIntervalVolume = (this.duration * 1000) / (this.volume / this.stepVolume);
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
@@ -18,6 +19,10 @@ export default class MusicPlayer {
         }
 
         return this.instanceMusic;
+    }
+
+    get delayTurnOffMusicBg() {
+        return this.duration;
     }
 
     private static instanceMusic: MusicPlayer;
@@ -31,18 +36,22 @@ export default class MusicPlayer {
     }
 
     playBgAudio(play: boolean) {
+        this.clearIntervalSetVolume();
         if (play) {
             this.loadResourceAudio(this.getRandomNameSong());
             this.isPlayBgMusic = true;
         } else {
-            this.stopBgAudio();
-            this.isPlayBgMusic = false;
+            if (this.isPlayBgMusic) {
+                this.stopBgAudio();
+                this.isPlayBgMusic = false;
+            }
         }
     }
 
     loadResourceAudio(song: string) {
         !this.isPlayBgMusic &&
             cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
+                this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
                 this.bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
                 cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
                 cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
@@ -62,17 +71,25 @@ export default class MusicPlayer {
 
     stopMusicBg() {
         this.clearIntervalSetVolume();
-        this.volume = this.volumeDefault;
-        this.intervalVolDecrease = setInterval(() => {
-            cc.audioEngine.setVolume(this.bgMusicId, this.volume);
-            this.volume -= this.stepVolume;
-            if (this.volume <= 0) {
-                clearInterval(this.intervalVolDecrease);
-                AudioManager.getInstance().stopMusicWithChangedKey(this.musicChangedKey);
-                this.isPlayBgMusic = false;
-                this.bgMusicId = -1;
-            }
-        }, this.stepIntervalVolume);
+        if (this.isPlayBgMusic) {
+            this.volume = this.volumeDefault;
+            this.decreaseVolume();
+            this.intervalVolDecrease = setInterval(() => {
+                this.decreaseVolume();
+            }, this.stepIntervalVolume);
+        }
+    }
+
+    decreaseVolume() {
+        cc.audioEngine.setVolume(this.bgMusicId, this.volume);
+        this.volume -= this.stepVolume;
+        if (this.volume <= 0) {
+            clearInterval(this.intervalVolDecrease);
+            AudioManager.getInstance().stopMusicWithChangedKey(this.musicChangedKey);
+            this.isPlayBgMusic = false;
+            this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
+            this.bgMusicId = -1;
+        }
     }
 
     clearIntervalSetVolume() {

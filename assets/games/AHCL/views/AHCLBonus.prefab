@@ -27,14 +27,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 145
+        "__id__": 143
       },
       {
-        "__id__": 146
+        "__id__": 144
       }
     ],
     "_prefab": {
-      "__id__": 147
+      "__id__": 145
     },
     "_opacity": 255,
     "_color": {
@@ -262,11 +262,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 143
+        "__id__": 141
       }
     ],
     "_prefab": {
-      "__id__": 144
+      "__id__": 142
     },
     "_opacity": 255,
     "_color": {
@@ -829,7 +829,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 237.34,
+      "width": 292.14,
       "height": 60.7
     },
     "_anchorPoint": {
@@ -894,8 +894,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "BONUS GAME",
-    "_N$string": "BONUS GAME",
+    "_string": "UI.BONUS_GAME",
+    "_N$string": "UI.BONUS_GAME",
     "_fontSize": 40,
     "_lineHeight": 45,
     "_enableWrapText": true,
@@ -2678,7 +2678,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 269.32,
+      "width": 368.78999999999996,
       "height": 30
     },
     "_anchorPoint": {
@@ -2745,7 +2745,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 106.82,
+      "width": 206.29,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -2757,7 +2757,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        42.16,
+        91.89500000000001,
         0,
         0,
         0,
@@ -2797,8 +2797,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "寶箱數量:",
-    "_N$string": "寶箱數量:",
+    "_string": "ui.bonus_count_text:",
+    "_N$string": "ui.bonus_count_text:",
     "_fontSize": 25,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2880,7 +2880,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        52.16,
+        101.89500000000001,
         0,
         0,
         0,
@@ -2961,7 +2961,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 269.32,
+      "width": 368.78999999999996,
       "height": 30
     },
     "_resize": 1,
@@ -4270,11 +4270,11 @@
     "_active": false,
     "_components": [
       {
-        "__id__": 141
+        "__id__": 139
       }
     ],
     "_prefab": {
-      "__id__": 142
+      "__id__": 140
     },
     "_opacity": 255,
     "_color": {
@@ -4838,16 +4838,10 @@
       },
       {
         "__id__": 137
-      },
-      {
-        "__id__": 138
-      },
-      {
-        "__id__": 139
       }
     ],
     "_prefab": {
-      "__id__": 140
+      "__id__": 138
     },
     "_opacity": 255,
     "_color": {
@@ -4859,8 +4853,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 414.06,
-      "height": 54.4
+      "width": 395.02,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4897,20 +4891,7 @@
     "_id": ""
   },
   {
-    "__type__": "148dec5uTNPMq+vU3F1WigD",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 135
-    },
-    "_enabled": true,
-    "_dataId": "ui.total_bonus_win",
-    "format": 1,
-    "suffix": "",
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Label",
+    "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -4924,82 +4905,30 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TOTAL BONUS MENANG",
-    "_N$string": "TOTAL BONUS MENANG",
-    "_fontSize": 40,
-    "_lineHeight": 40,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "827e5536-ad68-4e1d-b08a-3ed7355cf670"
+    "_type": 0,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
     },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 0,
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_atlas": null,
     "_id": ""
   },
   {
-    "__type__": "cc.LabelOutline",
+    "__type__": "0bde3O9bClKXIxG+2F+cIaH",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 135
     },
     "_enabled": true,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 148,
-      "g": 1,
-      "b": 1,
-      "a": 255
-    },
-    "_width": 2,
-    "_id": ""
-  },
-  {
-    "__type__": "05576aY10ZCs4XpEkhUIX+E",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 135
-    },
-    "_enabled": true,
-    "_colors": [
-      {
-        "__type__": "cc.Color",
-        "r": 255,
-        "g": 233,
-        "b": 106,
-        "a": 255
-      },
-      {
-        "__type__": "cc.Color",
-        "r": 255,
-        "g": 233,
-        "b": 106,
-        "a": 255
-      },
-      {
-        "__type__": "cc.Color",
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      },
-      {
-        "__type__": "cc.Color",
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      }
-    ],
+    "gameId": 38,
+    "nameImage": "total_bonus_win_text",
     "_id": ""
   },
   {

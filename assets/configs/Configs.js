@@ -18,13 +18,8 @@ const configs = {
     guideDomain: "https://l1-guide-2.lumigame.com",
     enableMsgpackParserOnGame: {
         45: false,
-        1: true,
-        2: false,
-        4: true,
         9: false,
-        10: false,
-        22: false,
-        27: true
+        22: false
     }
 };
 

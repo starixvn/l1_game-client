@@ -37,7 +37,8 @@ window.i18n.languages.id = {
         "26_break": "VIP Ikan\nUdang Kepiting",
         "38_break": "Legenda Pahlawan",
         39: "Casino Hold'em",
-        42: "Texas Hold'em"
+        42: "Texas Hold'em",
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
@@ -158,7 +159,13 @@ window.i18n.languages.id = {
         maxBetForChoiceNotice2: "Taruhan maksimum untuk opsi ini adalah %{maxBet}",
         minBetForChoiceNotice: "Taruhan minimum untuk opsi ini adalah %{minBet}",
         disallowHedgeBet: "Dapat bertaruh pada %{betChoice1} atau %{betChoice2}.",
-        copy_success: "Salin berhasil!"
+        copy_success: "Salin berhasil!",
+        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
+        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
+        roundSettleMsg: "GOOD LUCK!",
+        FromSettleToSpin1: "SPIN TO WIN!",
+        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
+        FromSettleToSpin3: "TRY TURBO MODE!"
     },
     ui: {
         choice_red2: "2 Merah",
@@ -231,6 +238,7 @@ window.i18n.languages.id = {
         lines: "Garis",
         total_bet: "Total Taruhan",
         bonus_count_text: "Jumlah Peti Harta Karun",
+        bonus_count_text_item: "No. of Items",
         auto_spin_guide_text: "Jumlah Putaran Otomatis",
         times: "Kali",
         bigWin: "Kemenangan Besar",

@@ -1,4 +1,5 @@
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
+import AudioManager from "../../common/audio/AudioManager";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import BonusItem from "./BonusItem";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
@@ -22,6 +23,9 @@ export default class BonusDialog extends cc.Component {
     @property(cc.Label)
     totalBonusLabel: cc.Label = null;
 
+    @property({ type: cc.AudioSource })
+    soundBigWin: cc.AudioSource = null;
+
     items: BonusItem[] = [];
 
     public onBonusFinished = () => {};
@@ -38,6 +42,7 @@ export default class BonusDialog extends cc.Component {
             const item = child.getComponent(BonusItem);
             item && this.items.push(item);
             child.on("click", () => {
+                AudioManager.getInstance().playClick();
                 if (this.openedBonus < this.totalBonus) {
                     this.onItemClicked(index);
                     const button = child.getComponent(cc.Button);
@@ -62,6 +67,9 @@ export default class BonusDialog extends cc.Component {
     }
 
     showTotalAmount() {
+        if (this.soundBigWin) {
+            AudioManager.getInstance().playSFX(this.soundBigWin.clip);
+        }
         this.hideTimer();
         this.totalBonusNode.active = true;
         this.totalBonusLabel.string = `+${numberWithCommas(this.totalValue, 2)}`;

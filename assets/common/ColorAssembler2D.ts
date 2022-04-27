@@ -17,6 +17,9 @@ export default class ColorAssembler2D extends cc.Component {
         this._colors = colors;
         this.updateColors();
     }
+    onLoad() {
+        this.node.on(cc.Node.EventType.SCALE_CHANGED, this.updateColors, this);
+    }
 
     onEnable() {
         cc.director.once(cc.Director.EVENT_AFTER_DRAW, this.updateColors, this);

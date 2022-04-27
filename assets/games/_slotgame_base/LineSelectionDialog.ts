@@ -20,6 +20,9 @@ export default class LineSelectionDialog extends cc.Component {
     @property(cc.Button)
     confirmButton: cc.Button = null;
 
+    @property({ type: cc.Node })
+    bgActive: cc.Node[] = [];
+
     private readonly items: LineItem[] = [];
 
     private timer = 0;
@@ -59,14 +62,24 @@ export default class LineSelectionDialog extends cc.Component {
 
     selectAllEvenLine() {
         AudioManager.getInstance().playClick();
+        this.showActiveBg(0);
 
         this.items.forEach((item, index) => {
             item.setChecked(index % 2 !== 0);
         });
     }
 
+    showActiveBg(index) {
+        if (this.bgActive.length > 0) {
+            this.bgActive.forEach((item, i) => {
+                item.active = index === i;
+            });
+        }
+    }
+
     selectAllOddLine() {
         AudioManager.getInstance().playClick();
+        this.showActiveBg(1);
 
         this.items.forEach((item, index) => {
             item.setChecked(index % 2 === 0);
@@ -75,6 +88,7 @@ export default class LineSelectionDialog extends cc.Component {
 
     selectAll() {
         AudioManager.getInstance().playClick();
+        this.showActiveBg(2);
 
         this.items.forEach((item) => {
             item.setChecked(true);
@@ -83,6 +97,7 @@ export default class LineSelectionDialog extends cc.Component {
 
     unSelectAll() {
         AudioManager.getInstance().playClick();
+        this.showActiveBg(3);
 
         this.items.forEach((item) => {
             item.setChecked(false);

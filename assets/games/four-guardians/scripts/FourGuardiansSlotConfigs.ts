@@ -13,7 +13,8 @@ export class FourGuardiansSlotConfigs implements SlotGameBaseConfigs {
         bigWinDuration: 3.5,
         freespinDuration: 3.5,
         bonusDuration: 4.61,
-        jackpotDuration: 4.61
+        jackpotDuration: 4.61,
+        showBigWinValueDuration: 2.61
     };
 
     turboMode = {
@@ -23,6 +24,7 @@ export class FourGuardiansSlotConfigs implements SlotGameBaseConfigs {
         bigWinDuration: 2,
         freespinDuration: 2,
         bonusDuration: 4.61,
-        jackpotDuration: 4.61
+        jackpotDuration: 4.61,
+        showBigWinValueDuration: 1.2
     };
 }
