@@ -28,6 +28,7 @@ export default class MusicPlayer {
     private static instanceMusic: MusicPlayer;
 
     stopBgAudio() {
+        this.isPlayBgMusic = false;
         AudioManager.getInstance().stopMusic();
     }
 
@@ -43,7 +44,6 @@ export default class MusicPlayer {
         } else {
             if (this.isPlayBgMusic) {
                 this.stopBgAudio();
-                this.isPlayBgMusic = false;
             }
         }
     }
@@ -77,6 +77,8 @@ export default class MusicPlayer {
             this.intervalVolDecrease = setInterval(() => {
                 this.decreaseVolume();
             }, this.stepIntervalVolume);
+        } else {
+            this.stopBgAudio();
         }
     }
 

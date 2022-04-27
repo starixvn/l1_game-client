@@ -78,10 +78,8 @@ export default class WebSocketTableGameBase extends GameBase {
 
     initMusicBackground() {
         const musicPlayer = MusicPlayer.getInstance();
-        if (this.musicBg && MusicPlayer.getInstance().isPlayBgMusic) {
+        if (this.musicBg) {
             musicPlayer.stopMusicBg();
-        } else {
-            AudioManager.getInstance().stopMusicWithChangedKey(musicPlayer.musicChangedKey);
         }
     }
 
