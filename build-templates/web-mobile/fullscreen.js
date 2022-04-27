@@ -75,7 +75,10 @@ function getMiniNavigationBarHeight() {
         } else if (userAgent.match(/crios/i)) {
             navBarHeight = 20;
         }
+    } else {
+        navBarHeight = isNotchDevice() ? 64 : 40;
     }
+
     return navBarHeight;
 }
 
@@ -83,6 +86,14 @@ function updateViewport() {
     if (userAgent.match(/iphone|ipad|ipod/i)) {
         const vh = screen.width * 0.01;
         const vw = screen.height * 0.01;
+        document.documentElement.style.setProperty("--vh", `${vh}px`);
+        document.documentElement.style.setProperty("--vw", `${vw}px`);
+    } else if (userAgent.match(/android/i)) {
+        const height = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
+        const vh = height * 0.01;
+
+        const width = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
+        const vw = width * 0.01;
 
         document.documentElement.style.setProperty("--vh", `${vh}px`);
         document.documentElement.style.setProperty("--vw", `${vw}px`);

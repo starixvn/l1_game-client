@@ -84,7 +84,7 @@ window.boot = function () {
                 h -= navBarHeight;
             } else {
                 w = screen.width;
-                h = screen.height - 40;
+                h = isNotchDevice() ? screen.height - 64 : screen.height - 40;
             }
 
             if (
