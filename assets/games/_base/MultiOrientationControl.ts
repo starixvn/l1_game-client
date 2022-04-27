@@ -48,23 +48,25 @@ export default class MultiOrientationControl extends cc.Component {
     }
 
     loadOrientationData() {
-        const content = cc.sys.localStorage.getItem(`orientation_${this.gameId}`);
+        const content = cc.sys.localStorage.getItem(`orientation`);
         if (!content.length) {
             return;
         }
 
         const data = JSON.parse(content);
-        this._orientation = data.orientation;
+        this._orientation = data.orientation[this.gameId];
 
-        cc.sys.localStorage.setItem(`orientation_${this.gameId}`, "");
+        cc.sys.localStorage.setItem(`orientation`, "");
     }
 
     saveOrientationData() {
         const data = {
-            orientation: this._orientation
+            orientation: {
+                [this.gameId]: this._orientation
+            }
         };
 
-        cc.sys.localStorage.setItem(`orientation_${this.gameId}`, JSON.stringify(data));
+        cc.sys.localStorage.setItem(`orientation`, JSON.stringify(data));
     }
 
     initGames() {
