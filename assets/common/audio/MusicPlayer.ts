@@ -104,6 +104,7 @@ export default class MusicPlayer {
 
     decreaseVolumeAndStopBackgroundMusic() {
         this.clearIntervalSetVolume();
+        AudioManager.getInstance().removeMusicChanged(this.musicChangedKey);
         if (this.isPlayBgMusic) {
             this.volume = this.volumeDefault;
             this.handleDecreaseVolume();
