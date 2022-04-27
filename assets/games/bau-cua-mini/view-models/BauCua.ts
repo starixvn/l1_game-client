@@ -165,9 +165,14 @@ export default class BauCua extends SocketIOMiniGameBase {
             const dices = _.values(result);
             dices.forEach((dice, index) => {
                 this.dices[index].spriteFrame = this.iconLV[dice];
-                this.dices[index].node.active = true;
             });
         }
+    }
+
+    showDiceResult(show: boolean) {
+        this.dices.forEach((dice) => {
+            dice.node.active = show;
+        });
     }
 
     resetDataAndUI() {

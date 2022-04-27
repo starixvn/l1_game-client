@@ -21,6 +21,7 @@ export default class BauCuaTimeHandler extends GameBaseTimeHandler {
             this.main.finishShakeThePlate = false;
             this.main.shakeAnimation.node.active = true;
             this.main.shakeAnimation.play();
+            this.main.showDiceResult(false);
             AudioManager.getInstance().playSFX(this.main.shakeAudio.clip);
             this.main.finishShakeThePlate = true;
         }

@@ -15,8 +15,9 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
 
         if (cc.RedT.GAME_IS_SHOWED) {
             cc.tween(this.main.node)
-                //.call(this.handleAnimation.bind(this))
                 .call(this.openDisk.bind(this))
+                .delay(0.1)
+                .call(() => this.main.showDiceResult(true))
                 .delay(1)
                 .call(() => {
                     onFinishHandlingData();
