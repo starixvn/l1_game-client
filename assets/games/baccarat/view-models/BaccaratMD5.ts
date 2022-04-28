@@ -15,7 +15,7 @@ export default class BaccaratMD5 extends MD5Component {
         const mini = GameUtils.createNodeFromPrefab(this.md5TooltipPrefab);
         mini.setContentSize(cc.size(this.md5TooltipContainer.getContentSize()));
         this.md5Tooltip = mini.getComponent(MD5Tooltip);
-        mini.children[0].x = 50;
+        mini.children[0].x = 30;
         this.md5TooltipContainer.addChild(mini);
     }
 
@@ -48,6 +48,7 @@ export default class BaccaratMD5 extends MD5Component {
     }
 
     handleTooltip(data: MD5Type) {
+        !!data && this.md5Tooltip.hideToolTip();
         this.md5Tooltip.setData(data.rawValue || data.hashValue);
     }
 }

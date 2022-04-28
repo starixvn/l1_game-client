@@ -15,6 +15,10 @@ export default class SicBoMD5 extends MD5Component {
         return finishHandler.getResultAnimationTime();
     }
 
+    handleTooltip(data: MD5Type) {
+        this.md5Tooltip.hideToolTip();
+    }
+
     generateMD5Result(data: MD5Type) {
         const value = data.hashValue || data.rawValue;
         this.md5Value.string = `${value}`;

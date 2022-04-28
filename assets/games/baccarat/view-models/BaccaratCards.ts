@@ -363,7 +363,16 @@ export default class BaccaratCards extends cc.Component {
     }
 
     setActionCardThree(currentCard: cc.Node, delayTime: number) {
-        currentCard.runAction(cc.sequence(cc.delayTime(delayTime), cc.rotateBy(0.5, this.isBanker ? 270 : -270).easing(cc.easeSineOut())));
+        const currentX = this.card3.x;
+        //this.card3.y = 0;
+        console.log("x: ", currentX, "y: ", this.card3.y);
+        currentCard.runAction(
+            cc.sequence(
+                cc.delayTime(delayTime),
+                cc.rotateBy(0.5, this.isBanker ? 270 : -270).easing(cc.easeSineOut())
+                //cc.moveTo(0.5, cc.v2(currentX, -15)).easing(cc.easeSineOut())
+            )
+        );
     }
 
     private handleSetPoint(data: any, delayTime: number, currentCard: cc.Node) {
