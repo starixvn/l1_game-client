@@ -1,5 +1,5 @@
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import MD5Component from "../../_base/view-models/MD5Component";
+import MD5Component, { MD5Type } from "../../_base/view-models/MD5Component";
 import SicBo from "./SicBo";
 
 const { ccclass } = cc._decorator;
@@ -13,5 +13,10 @@ export default class SicBoMD5 extends MD5Component {
             return 0;
         }
         return finishHandler.getResultAnimationTime();
+    }
+
+    generateMD5Result(data: MD5Type) {
+        const value = data.hashValue || data.rawValue;
+        this.md5Value.string = `${value}`;
     }
 }
