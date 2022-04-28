@@ -1165,7 +1165,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         } else {
             this.unschedule(this.playMusicBgCallback);
             this.musicBg.stop();
-            musicPlayer.stopBgAudio();
         }
     }
 

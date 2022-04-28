@@ -3,6 +3,7 @@ import AudioManager from "./AudioManager";
 export default class MusicPlayer {
     private readonly ListSong = ["song1", "song2", "song3", "song4", "song5", "song6"];
     public isPlayBgMusic = false;
+    public isJoinRoomMusic = false;
     protected bgMusicId: number;
     readonly volumeDefault = 0.7;
     readonly musicChangedKey = "lobby";
@@ -12,6 +13,7 @@ export default class MusicPlayer {
     readonly stepVolume = 0.05;
     readonly duration = 3.5;
     readonly stepIntervalVolume = (this.duration * 1000) / (this.volume / this.stepVolume);
+    private static instanceMusic: MusicPlayer;
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
@@ -25,34 +27,42 @@ export default class MusicPlayer {
         return this.duration;
     }
 
-    private static instanceMusic: MusicPlayer;
-
-    stopBgAudio() {
-        this.isPlayBgMusic = false;
-        AudioManager.getInstance().stopMusic();
+    private get audioManager() {
+        return AudioManager.getInstance();
     }
 
-    getRandomNameSong() {
+    set joinRoomMusic(status: boolean) {
+        this.isJoinRoomMusic = status;
+    }
+
+    stopBackgroundAudio() {
+        this.isPlayBgMusic = false;
+        this.audioManager.stopMusic();
+        this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
+        this.bgMusicId = -1;
+    }
+
+    private getRandomNameSong() {
         return this.ListSong[Math.floor(Math.random() * this.ListSong.length)];
     }
 
-    playBgAudio(play: boolean) {
+    private playBgAudio(play: boolean) {
         this.clearIntervalSetVolume();
-        if (play) {
+        this.isJoinRoomMusic && this.audioManager.removeMusicChanged(this.musicChangedKey);
+        if (play && !this.isJoinRoomMusic) {
             this.loadResourceAudio(this.getRandomNameSong());
             this.isPlayBgMusic = true;
-        } else {
-            if (this.isPlayBgMusic) {
-                this.stopBgAudio();
-            }
+        }
+        if (!play && this.isPlayBgMusic) {
+            this.stopBackgroundAudio();
         }
     }
 
-    loadResourceAudio(song: string) {
+    private loadResourceAudio(song: string) {
         !this.isPlayBgMusic &&
             cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
                 this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
-                this.bgMusicId = AudioManager.getInstance().playMusic(audioClip, false);
+                this.bgMusicId = this.audioManager.playMusic(audioClip, false);
                 cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
                 cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
                     this.isPlayBgMusic = false;
@@ -62,44 +72,39 @@ export default class MusicPlayer {
     }
 
     init() {
-        const audioManager = AudioManager.getInstance();
-        this.playBgAudio(audioManager.musicEnabled);
-        audioManager.addMusicChanged(this.musicChangedKey, (enable: boolean) => {
+        this.joinRoomMusic = false;
+        this.playBgAudio(this.audioManager.musicEnabled);
+        this.audioManager.addMusicChanged(this.musicChangedKey, (enable: boolean) => {
             this.playBgAudio(enable);
         });
     }
 
-    stopMusicBg() {
+    decreaseVolumeAndStopBackgroundMusic() {
         this.clearIntervalSetVolume();
         if (this.isPlayBgMusic) {
             this.volume = this.volumeDefault;
-            this.decreaseVolume();
+            this.handleDecreaseVolume();
             this.intervalVolDecrease = setInterval(() => {
-                this.decreaseVolume();
+                this.handleDecreaseVolume();
             }, this.stepIntervalVolume);
-        } else {
-            this.stopBgAudio();
         }
     }
 
-    decreaseVolume() {
+    private handleDecreaseVolume() {
         cc.audioEngine.setVolume(this.bgMusicId, this.volume);
         this.volume -= this.stepVolume;
         if (this.volume <= 0) {
             clearInterval(this.intervalVolDecrease);
-            AudioManager.getInstance().stopMusicWithChangedKey(this.musicChangedKey);
-            this.isPlayBgMusic = false;
-            this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
-            this.bgMusicId = -1;
+            this.stopBackgroundAudio();
         }
     }
 
-    clearIntervalSetVolume() {
+    private clearIntervalSetVolume() {
         this.intervalVolDecrease && clearInterval(this.intervalVolDecrease);
         this.intervalVolIncrease && clearInterval(this.intervalVolIncrease);
     }
 
-    increaseVolume() {
+    handleIncreaseVolume() {
         this.clearIntervalSetVolume();
         if (this.bgMusicId > -1) {
             this.intervalVolIncrease = setInterval(() => {
