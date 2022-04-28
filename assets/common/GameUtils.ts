@@ -1,7 +1,8 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { GameInfos } from "../configs/SabaConfigs";
-import { numberWithCommas } from "./helpers/NumberHelper";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
+import { numberWithCommas } from "./helpers/NumberHelper";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -210,7 +211,7 @@ export default class GameUtils {
 
     public static isPhone(): boolean {
         const userAgent = window.navigator.userAgent.toLowerCase();
-        return /Mobi|Android/i.test(userAgent);
+        return /mobile|android|iphone/i.test(userAgent);
     }
 
     public static createNodeFromPrefab(prefab: cc.Prefab) {
