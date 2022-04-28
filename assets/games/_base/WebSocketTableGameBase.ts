@@ -78,10 +78,9 @@ export default class WebSocketTableGameBase extends GameBase {
 
     initMusicBackground() {
         const musicPlayer = MusicPlayer.getInstance();
-        if (this.musicBg && MusicPlayer.getInstance().isPlayBgMusic) {
-            musicPlayer.stopMusicBg();
-        } else {
-            AudioManager.getInstance().stopMusicWithChangedKey(musicPlayer.musicChangedKey);
+        if (this.musicBg) {
+            musicPlayer.joinRoomMusic = true;
+            musicPlayer.decreaseVolumeAndStopBackgroundMusic();
         }
     }
 
@@ -151,7 +150,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     onCloseGameClick() {
         if (this.musicBg) {
-            MusicPlayer.getInstance().increaseVolume();
+            MusicPlayer.getInstance().handleIncreaseVolume();
         }
         this.closeGame();
     }

@@ -30,7 +30,7 @@ cc.Class({
         }
 
         socketIOController.closeAllSocket();
-        MusicPlayer.getInstance().stopBgAudio();
+        MusicPlayer.getInstance().stopBackgroundAudio();
     },
 
     convertToGMT8(date) {
