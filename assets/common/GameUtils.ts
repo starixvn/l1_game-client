@@ -211,7 +211,7 @@ export default class GameUtils {
 
     public static isPhone(): boolean {
         const userAgent = window.navigator.userAgent.toLowerCase();
-        return /mobile|android|iphone/i.test(userAgent);
+        return /android|iphone/i.test(userAgent);
     }
 
     public static createNodeFromPrefab(prefab: cc.Prefab) {
