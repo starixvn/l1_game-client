@@ -14,6 +14,7 @@ export default class MusicPlayer {
     readonly duration = 3.5;
     readonly stepIntervalVolume = (this.duration * 1000) / (this.volume / this.stepVolume);
     private static instanceMusic: MusicPlayer;
+    private lastLoadSongTask: { promise: Promise<cc.AudioClip>; cancel: () => void };
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
@@ -49,26 +50,48 @@ export default class MusicPlayer {
     private playBgAudio(play: boolean) {
         this.clearIntervalSetVolume();
         this.isJoinRoomMusic && this.audioManager.removeMusicChanged(this.musicChangedKey);
+
         if (play && !this.isJoinRoomMusic) {
             this.loadResourceAudio(this.getRandomNameSong());
             this.isPlayBgMusic = true;
-        }
-        if (!play && this.isPlayBgMusic) {
+        } else {
             this.stopBackgroundAudio();
         }
     }
 
-    private loadResourceAudio(song: string) {
-        !this.isPlayBgMusic &&
+    private loadAudio(song: string) {
+        let reject;
+        const promise = new Promise<cc.AudioClip>((resolve, rejectInPromise) => {
+            reject = rejectInPromise;
             cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
-                this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
-                this.bgMusicId = this.audioManager.playMusic(audioClip, false);
-                cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
-                cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
-                    this.isPlayBgMusic = false;
-                    this.playBgAudio(true);
-                });
+                resolve(audioClip);
             });
+        });
+
+        return {
+            promise,
+            cancel: () => {
+                reject && reject();
+            }
+        };
+    }
+
+    private async loadResourceAudio(song: string) {
+        if (this.lastLoadSongTask) {
+            this.lastLoadSongTask.cancel();
+        }
+        this.lastLoadSongTask = this.loadAudio(song);
+
+        const audioClip = await this.lastLoadSongTask.promise;
+        if (this.isPlayBgMusic) {
+            this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
+            this.bgMusicId = this.audioManager.playMusic(audioClip, false);
+            cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
+            cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
+                this.stopBackgroundAudio();
+                this.playBgAudio(true);
+            });
+        }
     }
 
     init() {
