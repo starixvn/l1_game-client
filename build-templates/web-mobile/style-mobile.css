@@ -73,7 +73,6 @@ body {
     height: calc(var(--vh, 1vh) * 100) !important;
 
     width: 100vw !important;
-    width: calc(var(--vw, 1vw) * 100) !important;
 }
 
 #Cocos2dGameContainer > div[style*="overflow-x"] {
@@ -118,7 +117,7 @@ p.footer {
         width: 100vh;
         transform: rotate(90deg);
     }
-    /* 
+    /*
     .instruction {
         height: 100vh !important;
         transform: rotate(90deg);
@@ -353,13 +352,16 @@ p.footer {
     position: absolute;
     z-index: 9999;
 
-    left: 0px;
-    right: 0px;
-    bottom: -1000px;
-    top: -1000px;
+    height: 150vh;
+    width: 100%;
+    padding-top: 10vh;
     background: rgba(0, 0, 0, 1);
-    justify-content: center;
-    align-items: center;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+    .instruction {
+        height: 101vh;
+    }
 }
 
 .ldBar {

@@ -16,6 +16,10 @@ window.mobilecheck = function () {
 
 const userAgent = window.navigator.userAgent;
 const ios15 = /OS 15/.test(userAgent);
+let showIntructionNumber = 0;
+let isChangeOrientation = false;
+const gameCanvas = document.getElementById("GameCanvas");
+const instruction = document.getElementById("myInstruction");
 
 function toggleFullScreen() {
     const doc = window.document;
@@ -49,14 +53,58 @@ function showAddressBar() {
     }, 0);
 }
 
-function showIntruction() {
-    const instruction = document.getElementById("myInstruction");
+function getInRoomGameId() {
+    let sessionIdStorageName = "scss";
+    if (window.location && window.location.hostname) {
+        sessionIdStorageName = `${window.location.hostname}.${sessionIdStorageName}`;
+    }
+    const session = JSON.parse(localStorage.getItem(sessionIdStorageName));
 
-    instruction.style.display = "flex";
+    const key = session ? `${session.ss}_inroomgame` : "";
+    return localStorage.getItem(key);
+}
+
+function checkSediePortrait() {
+    if (getInRoomGameId() !== "2") {
+        // others
+        return false;
+    }
+
+    if (window.gameOrientation !== undefined) {
+        return window.gameOrientation;
+    }
+
+    const localStorageOrientation = localStorage.getItem("orientation");
+    let isSediePortrait = false;
+    if (localStorageOrientation && localStorageOrientation.length) {
+        isSediePortrait = JSON.parse(localStorageOrientation).orientation["2"]; // sedie game
+    }
+    return isSediePortrait;
+}
+
+function checkPortraitModeWhenOpenSedie() {
+    return window.innerHeight > window.innerWidth && checkSediePortrait();
+}
+
+function showIntruction() {
+    showIntructionNumber += 1;
+    instruction.style.display = "block";
+    const isPortrait = window.innerHeight > window.innerWidth;
+    if (isPortrait) {
+        updateViewport();
+        if (!checkSediePortrait()) {
+            console.log("hide & focus");
+            gameCanvas.focus();
+            instruction.style.visibility = "hidden";
+        } else {
+            console.log("show Intruction & focus");
+            instruction.style.visibility = "visible";
+        }
+        return;
+    }
 
     const navBarHeight = getMiniNavigationBarHeight();
-    const show = window.innerHeight < window.outerHeight - navBarHeight;
-
+    const show = window.innerHeight < screen.width - navBarHeight;
     if (show && !window.skipFullscreen) {
         showAddressBar();
         instruction.style.visibility = "visible";
@@ -75,8 +123,6 @@ function getMiniNavigationBarHeight() {
         } else if (userAgent.match(/crios/i)) {
             navBarHeight = 20;
         }
-    } else {
-        navBarHeight = isNotchDevice() ? 64 : 40;
     }
 
     return navBarHeight;
@@ -85,27 +131,22 @@ function getMiniNavigationBarHeight() {
 function updateViewport() {
     if (userAgent.match(/iphone|ipad|ipod/i)) {
         const vh = screen.width * 0.01;
-        const vw = screen.height * 0.01;
+
         document.documentElement.style.setProperty("--vh", `${vh}px`);
-        document.documentElement.style.setProperty("--vw", `${vw}px`);
     } else if (userAgent.match(/android/i)) {
         const height = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
         const vh = height * 0.01;
 
-        const width = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
-        const vw = width * 0.01;
-
         document.documentElement.style.setProperty("--vh", `${vh}px`);
-        document.documentElement.style.setProperty("--vw", `${vw}px`);
     } else {
         document.documentElement.style.setProperty("--vh", `1%`);
-        document.documentElement.style.setProperty("--vw", `1%`);
     }
 }
 
 function updateFullScreen() {
     showIntruction();
     const gameContainer = document.getElementById("Cocos2dGameContainer");
+    console.log("window.scrollY", window.scrollY);
     if (gameContainer) {
         gameContainer.style.top = window.scrollY + "px";
     }
@@ -118,30 +159,50 @@ function handleFullScreen() {
         updateViewport();
         var timeoutScroll;
         var timeoutResize;
+        var timeoutOrientationChange;
 
-        const canvas = document.getElementById("GameCanvas");
-        canvas.onfocus = () => {
+        gameCanvas.onfocus = () => {
             showIntruction();
         };
-        canvas.onblur = () => {
+        gameCanvas.onblur = () => {
             showIntruction();
         };
 
-        window.addEventListener("orientationchange", function () {
-            setTimeout(function () {
-                updateFullScreen();
-            }, 100);
-        });
         window.addEventListener("resize", function () {
             clearTimeout(timeoutResize);
+            console.log("resize");
             timeoutResize = setTimeout(function () {
-                updateFullScreen();
+                if (!instruction.style.visibility === "hidden") {
+                    updateFullScreen();
+                }
+                console.log("---end resize");
             }, 100);
         });
+
         window.addEventListener("scroll", () => {
             clearTimeout(timeoutScroll);
             timeoutScroll = setTimeout(function () {
+                console.log("scroll");
                 updateFullScreen();
+                if (checkPortraitModeWhenOpenSedie() && window.scrollY > 20) {
+                    if (showIntructionNumber > 2) {
+                        console.log("scroll & focus");
+                        gameCanvas.focus();
+                        instruction.style.visibility = "hidden";
+                    }
+                }
+                console.log("--- end scroll");
+            }, 10);
+        });
+
+        window.addEventListener("orientationchange", function () {
+            clearTimeout(timeoutOrientationChange);
+            isChangeOrientation = true;
+            timeoutOrientationChange = setTimeout(function () {
+                updateFullScreen();
+                if (window.innerHeight > window.innerWidth && !checkSediePortrait()) {
+                    instruction.style.visibility = "visible";
+                }
             }, 100);
         });
 

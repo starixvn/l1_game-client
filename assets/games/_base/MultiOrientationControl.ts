@@ -7,6 +7,12 @@ import { Orientation } from "./Orientation";
 
 const { ccclass, property } = cc._decorator;
 
+declare global {
+    interface Window {
+        gameOrientation: number;
+    }
+}
+
 @ccclass
 export default class MultiOrientationControl extends cc.Component {
     @property({ type: cc.Prefab })
@@ -19,6 +25,11 @@ export default class MultiOrientationControl extends cc.Component {
     protected socket: Socket;
     protected _gameId: number;
     protected _orientation = Orientation.Landscape;
+
+    set orientation(orientation: Orientation) {
+        this._orientation = orientation;
+        window.gameOrientation = orientation;
+    }
 
     public set gameId(value: number) {
         this._gameId = value;
@@ -54,8 +65,9 @@ export default class MultiOrientationControl extends cc.Component {
         }
 
         const data = JSON.parse(content);
-        this._orientation = data.orientation[this.gameId];
+        this.orientation = data.orientation[this.gameId];
 
+        // TODO: this
         cc.sys.localStorage.setItem(`orientation`, "");
     }
 
@@ -96,7 +108,7 @@ export default class MultiOrientationControl extends cc.Component {
         if (this.games.length < 2) {
             return;
         }
-        this._orientation = this._orientation === Orientation.Landscape ? Orientation.Portrait : Orientation.Landscape;
+        this.orientation = this._orientation === Orientation.Landscape ? Orientation.Portrait : Orientation.Landscape;
         this.updateGames();
     }
 
