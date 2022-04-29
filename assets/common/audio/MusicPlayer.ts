@@ -1,4 +1,4 @@
-import AudioManager from "./AudioManager";
+import AudioManager from './AudioManager';
 
 export default class MusicPlayer {
     private readonly ListSong = ["song1", "song2", "song3", "song4", "song5", "song6"];
@@ -96,7 +96,9 @@ export default class MusicPlayer {
 
     init() {
         this.joinRoomMusic = false;
-        this.playBgAudio(this.audioManager.musicEnabled);
+        if (!this.isPlayBgMusic) {
+            this.playBgAudio(this.audioManager.musicEnabled);
+        }
         this.audioManager.addMusicChanged(this.musicChangedKey, (enable: boolean) => {
             this.playBgAudio(enable);
         });
@@ -104,7 +106,6 @@ export default class MusicPlayer {
 
     decreaseVolumeAndStopBackgroundMusic() {
         this.clearIntervalSetVolume();
-        AudioManager.getInstance().removeMusicChanged(this.musicChangedKey);
         if (this.isPlayBgMusic) {
             this.volume = this.volumeDefault;
             this.handleDecreaseVolume();
