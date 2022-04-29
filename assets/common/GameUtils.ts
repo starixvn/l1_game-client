@@ -205,4 +205,13 @@ export default class GameUtils {
     public static createNodeFromPrefab(prefab: cc.Prefab) {
         return cc.instantiate(prefab);
     }
+
+    public static delayTime(time: number) {
+        return new Promise<void>((resolve) => {
+            cc.tween({})
+                .delay(time)
+                .call(() => resolve())
+                .start();
+        });
+    }
 }

@@ -61,15 +61,22 @@ export default class SlotReel extends cc.Component {
         return -(this.node.height - offsetHeight);
     }
 
-    spin(spinDuration = 1) {
-        const offset = this.getMovingOffset();
-        const moving = cc.moveTo(spinDuration, cc.v2(this.node.x, offset)).easing(cc.easeInOut(3));
-        this.node.runAction(
-            cc.sequence(
-                moving,
-                cc.callFunc(() => this.onSpinFinish())
-            )
-        );
+    spinWithData(spinDuration = 1, data: number[]) {
+        return new Promise<void>((resolve) => {
+            const offset = this.getMovingOffset();
+
+            cc.tween(this.node)
+                .delay(0.2 * spinDuration)
+                .call(() => this.setReelData(data))
+                .start();
+            cc.tween(this.node)
+                .to(spinDuration, { position: cc.v2(this.node.x, offset) }, { easing: (dt) => cc.easeInOut(3).easing(dt) })
+                .call(() => {
+                    this.onSpinFinish();
+                    resolve();
+                })
+                .start();
+        });
     }
 
     stop() {
