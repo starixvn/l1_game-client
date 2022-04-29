@@ -1,4 +1,5 @@
 import AudioManager from "../../common/audio/AudioManager";
+import GameUtils from "../../common/GameUtils";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotReel from "./SlotReel";
 
@@ -108,7 +109,7 @@ export default class SlotBoard extends cc.Component {
         return { col, row };
     }
 
-    applyData(data: number[]) {
+    convertDataToColumns(data: number[]) {
         const columns = [
             [0, 0, 0],
             [0, 0, 0],
@@ -121,42 +122,33 @@ export default class SlotBoard extends cc.Component {
             columns[col][row] = data[i];
         }
 
+        return columns;
+    }
+
+    applyData(data: number[]) {
+        const columns = this.convertDataToColumns(data);
         this.reels.forEach((reel, index) => reel.setReelData(columns[index]));
     }
 
-    spin(duration: number, turbo: boolean): Promise<void> {
+    async spin(duration: number, turbo: boolean) {
         if (this.soundSources.length > 0) {
             const sound = turbo ? SlotGameSound.ROLLING_TURBO : SlotGameSound.ROLLING_NORMAL;
             AudioManager.getInstance().playSFX(this.soundSources[sound].clip);
         }
-        return new Promise<void>((resolve, reject) => {
-            const actions = [];
-            this.reels.forEach((reel) => {
-                actions.push(() => {
-                    reel.spin(duration);
-                });
-            });
-            let count = 0;
-            const timeGap = 0.1 * duration;
-            cc.tween(this.node)
-                .repeat(
-                    actions.length,
-                    cc
-                        .tween()
-                        .call(() => {
-                            actions[count]();
-                            count++;
-                        })
-                        .delay(timeGap)
-                )
-                .delay(0.2 * duration)
-                .call(() => {
-                    this.applyData(this.data);
-                })
-                .delay(0.8 * duration)
-                .call(resolve)
-                .start();
-        });
+        const columns = this.convertDataToColumns(this.data);
+        const timeGap = 0.1 * duration;
+        for (let i = 0; i < this.reels.length; i++) {
+            const reel = this.reels[i];
+
+            if (i > 0) {
+                await GameUtils.delayTime(timeGap);
+            }
+            if (i < this.reels.length - 1) {
+                reel.spinWithData(duration, columns[i]);
+            } else {
+                await reel.spinWithData(duration, columns[i]);
+            }
+        }
     }
 
     showWinningEffect(positions: number[], symbol: number) {
