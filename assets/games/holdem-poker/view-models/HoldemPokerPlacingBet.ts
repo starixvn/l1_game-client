@@ -4,7 +4,10 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
-import HoldemPokerChoices, { HoldemPokerChoicesConst, HoldemPokerMaxBetChoicesConst } from "../event-models/HoldemPokerChoices";
+import HoldemPokerChoices, {
+    HoldemPokerChoicesConst,
+    HoldemPokerMaxBetChoicesConst,
+} from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerState } from "../event-models/HoldemPokerState";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
@@ -108,7 +111,7 @@ export default class HoldemPokerPlacingBet {
             {
                 condition: this.checkMinBetPerChoice(betChoice, amount),
                 message: i18n.t("messages.minBetForChoiceNotice", {
-                    maxBet: numberWithCommas(this.gameBase.getMinBet())
+                    minBet: numberWithCommas(this.gameBase.getMinBet())
                 })
             },
             {

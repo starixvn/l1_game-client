@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
-import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "./HoldemPokerChoices";
 
 export class HoldemPokerPlaceBetModel extends EventEmitterBase {
@@ -100,6 +100,11 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
             choice: HoldemPokerChoicesConst.call,
             totalAmount: this.choices[HoldemPokerChoicesConst.call]
         });
+    }
+
+    updateDeal(choices: any) {
+        this.choices = cloneDeep(choices);
+        this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_ALL_CHIPS, this);
     }
 
     rejoinTable(rejoinChoices: any) {

@@ -106,7 +106,7 @@ export const validateBet = (props: {
         {
             condition: checkMinBetPerChoice(minBet, chipAmount, currentBettedAmount),
             message: i18n.t("messages.minBetForChoiceNotice", {
-                maxBet: numberWithCommas(minBetPerRound)
+                minBet: numberWithCommas(minBetPerRound)
             })
         },
         {
