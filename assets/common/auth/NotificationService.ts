@@ -17,9 +17,10 @@ export default class NotificationService {
     private socket: Socket;
     private dataObservers = {};
     private reConnectTimeOut;
+    private isForceKickedOut = false;
 
     connect() {
-        if (this.socket) {
+        if (this.socket || this.isForceKickedOut) {
             return;
         }
 
@@ -85,6 +86,7 @@ export default class NotificationService {
     }
 
     forceKickedOut() {
+        this.isForceKickedOut = true;
         this.socket && this.socket.disconnect();
     }
 
