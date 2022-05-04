@@ -1,7 +1,7 @@
-import AudioManager from "../../common/audio/AudioManager";
-import GameUtils from "../../common/GameUtils";
-import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
-import SlotReel from "./SlotReel";
+import AudioManager from '../../common/audio/AudioManager';
+import GameUtils from '../../common/GameUtils';
+import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
+import SlotReel from './SlotReel';
 
 enum SlotGameSound {
     ROLLING_NORMAL = 0,
@@ -140,7 +140,7 @@ export default class SlotBoard extends cc.Component {
         for (let i = 0; i < this.reels.length; i++) {
             const reel = this.reels[i];
 
-            if (i > 0) {
+            if (i > 0 && !turbo) {
                 await GameUtils.delayTime(timeGap);
             }
             if (i < this.reels.length - 1) {

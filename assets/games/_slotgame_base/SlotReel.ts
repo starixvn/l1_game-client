@@ -1,6 +1,6 @@
-import GameUtils from "../../common/GameUtils";
-import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
-import SlotReelItem from "./SlotReelItem";
+import GameUtils from '../../common/GameUtils';
+import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
+import SlotReelItem from './SlotReelItem';
 
 const { ccclass, property } = cc._decorator;
 

@@ -1,4 +1,4 @@
-import { SlotGameBaseConfigs } from "../../_slotgame_base/SlotGameBaseConfigs";
+import { SlotGameBaseConfigs } from '../../_slotgame_base/SlotGameBaseConfigs';
 
 const { ccclass, property } = cc._decorator;
 
@@ -10,18 +10,7 @@ export class NightClubSlotConfigs implements SlotGameBaseConfigs {
     bonusTimeOut = 120;
 
     normalMode = {
-        spinDuration: 1.25,
-        winningDuration: 1.5,
-        noWinningDuration: 1,
-        bigWinDuration: 3.5,
-        freespinDuration: 3.5,
-        bonusDuration: 3.5,
-        jackpotDuration: 4.61,
-        showBigWinValueDuration: 2.02
-    };
-
-    turboMode = {
-        spinDuration: 0.5,
+        spinDuration: 0.75,
         winningDuration: 1,
         noWinningDuration: 0.75,
         bigWinDuration: 2,
@@ -29,5 +18,16 @@ export class NightClubSlotConfigs implements SlotGameBaseConfigs {
         bonusDuration: 2,
         jackpotDuration: 4.61,
         showBigWinValueDuration: 1.2
+    };
+
+    turboMode = {
+        spinDuration: 0.2,
+        winningDuration: 0.75,
+        noWinningDuration: 0.5,
+        bigWinDuration: 1.5,
+        freespinDuration: 1.5,
+        bonusDuration: 1.5,
+        jackpotDuration: 4.61,
+        showBigWinValueDuration: 0.8
     };
 }

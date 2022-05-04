@@ -1,35 +1,35 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-import * as _ from "lodash";
+import * as i18n from 'i18n/runtime-scripts/LanguageData';
+import * as _ from 'lodash';
 
-import AudioManager from "../../common/audio/AudioManager";
-import MusicPlayer from "../../common/audio/MusicPlayer";
-import CallbackAnimation from "../../common/CallbackAnimation";
-import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableMenu";
-import GameUtils from "../../common/GameUtils";
-import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import HoverItemBase from "../../common/HoverItemBase";
-import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
-import { GameState } from "../_base/GameState";
-import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
-import LineView from "../AHCL/scripts/LineView";
-import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
-import BigWinAnimation from "./BigWinAnimation";
-import BonusDialog from "./BonusDialog";
-import CountDownWarning from "./CountDownWarning";
-import SlotGameBaseNoticeHandler from "./handlers/SlotGameBaseNoticeHandler";
-import SlotGameBetHandler from "./handlers/SlotGameBetHandler";
-import SlotGameBonusHandler from "./handlers/SlotGameBonusHandler";
-import SlotGameIngameHandler from "./handlers/SlotGameIngameHandler";
-import SlotGameJackpotHandler from "./handlers/SlotGameJackpotHandler";
-import SlotGameSettlementHandler from "./handlers/SlotGameSettlementHandler";
-import SlotGameUmHandler from "./handlers/SlotGameUmHandler";
-import LineSelectionDialog from "./LineSelectionDialog";
-import SlotBoard from "./SlotBoard";
-import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
-import SlotGameHistory from "./SlotGameHistory";
-import SlotGameTopWinner from "./SlotGameTopWinner";
-import SlotGameUserSettings from "./SlotGameUserSettings";
-import SpinButton from "./SpinButton";
+import AudioManager from '../../common/audio/AudioManager';
+import MusicPlayer from '../../common/audio/MusicPlayer';
+import CallbackAnimation from '../../common/CallbackAnimation';
+import ExpandableMenu from '../../common/expandable-menu/view-models/ExpandableMenu';
+import GameUtils from '../../common/GameUtils';
+import { numberWithCommas } from '../../common/helpers/NumberHelper';
+import HoverItemBase from '../../common/HoverItemBase';
+import JackpotPoolInfoBase from '../../lobby/main/view-models/JackpotPoolInfoBase';
+import { GameState } from '../_base/GameState';
+import SocketIOTableGameBase from '../_base/SocketIOTableGameBase';
+import LineView from '../AHCL/scripts/LineView';
+import AutoSpinSettingDialog from './AutoSpinSettingDialog';
+import BigWinAnimation from './BigWinAnimation';
+import BonusDialog from './BonusDialog';
+import CountDownWarning from './CountDownWarning';
+import SlotGameBaseNoticeHandler from './handlers/SlotGameBaseNoticeHandler';
+import SlotGameBetHandler from './handlers/SlotGameBetHandler';
+import SlotGameBonusHandler from './handlers/SlotGameBonusHandler';
+import SlotGameIngameHandler from './handlers/SlotGameIngameHandler';
+import SlotGameJackpotHandler from './handlers/SlotGameJackpotHandler';
+import SlotGameSettlementHandler from './handlers/SlotGameSettlementHandler';
+import SlotGameUmHandler from './handlers/SlotGameUmHandler';
+import LineSelectionDialog from './LineSelectionDialog';
+import SlotBoard from './SlotBoard';
+import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
+import SlotGameHistory from './SlotGameHistory';
+import SlotGameTopWinner from './SlotGameTopWinner';
+import SlotGameUserSettings from './SlotGameUserSettings';
+import SpinButton from './SpinButton';
 
 export interface LineData {
     payline: number;
@@ -908,6 +908,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     showLoopWinningLines(winningLines: LineData[]) {
         const length = winningLines.length;
+        const timeShowPayline = this.isTurboMode ? 0.75 : 1;
         if (length === 0) {
             return;
         }
@@ -928,7 +929,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                         this.slotBoard.showWinningEffect(line.positions, +line.symbol);
                         index++;
                     })
-                    .delay(1)
+                    .delay(timeShowPayline)
             )
             .start();
     }
