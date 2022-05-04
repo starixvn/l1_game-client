@@ -213,10 +213,11 @@ function handleResponse(session, response) {
     sessionManager.storeSessionData(session);
 
     if (response.apiError) {
-        if (response.isDisableAccount) {
-            handleDisableAccount();
+        const errorCode = response.apiError.errorCode.toString();
+        const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
+        if (response.isDisableAccount || expiredTokenErrorCode) {
+            showMessageAndRemoveSessionInMinutes(errorCode);
         } else {
-            const errorCode = response.apiError.errorCode;
             const message = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
             const noticeData = { text: message };
             cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData);
@@ -234,10 +235,10 @@ export function updateUserBalance(data) {
     }
 }
 
-function handleDisableAccount() {
+export function showMessageAndRemoveSessionInMinutes(errorCode) {
     setTimeout(signOut, 10000);
     const noticeData = {
-        text: i18n.t("messages.accountClosed")
+        text: i18n.t("messages.accountClosed", { errorCode: errorCode })
     };
     cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
 }

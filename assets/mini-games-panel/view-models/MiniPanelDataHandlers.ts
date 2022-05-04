@@ -1,13 +1,14 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import NotificationService from "../../common/auth/NotificationService";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
+import { showMessageAndRemoveSessionInMinutes } from "./../../common/auth/AuthManager";
 import { removeInRoomGameId } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
-import NotificationService from "../../common/auth/NotificationService";
 
 declare global {
     interface Window {
@@ -104,6 +105,13 @@ export default class MiniPanelDataHandlers {
     handleDataApiError(apiErrorData: any) {
         const error = apiErrorData.apiError;
         const gameId = error.gameTypeId;
+
+        const errorCode = error.errorCode.toString();
+        const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
+        if (expiredTokenErrorCode) {
+            showMessageAndRemoveSessionInMinutes(errorCode);
+            return;
+        }
 
         if (this.main.skipShowApiErrorGameIds.includes(gameId)) {
             return;
