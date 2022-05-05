@@ -161,8 +161,8 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "AudioBackground",
-    "_objFlags": 0,
+    "_name": "NotAllowEditAudio",
+    "_objFlags": 512,
     "_parent": {
       "__id__": 2
     },
@@ -230,10 +230,10 @@
     },
     "_enabled": true,
     "_clip": {
-      "__uuid__": "ed63afc2-c978-40e4-8c6f-be7e77d89824"
+      "__uuid__": "8bc12ebc-21df-44b4-83c4-4fb6a7127f19"
     },
     "_volume": 0,
-    "_mute": false,
+    "_mute": true,
     "_loop": true,
     "_firstlyEnabled": true,
     "playOnLoad": true,
