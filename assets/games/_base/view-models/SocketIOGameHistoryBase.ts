@@ -2,8 +2,8 @@ import { Socket } from "socket.io-client";
 
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
-import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,6 +20,9 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
 
     @property(cc.Node)
     mainFrame: cc.Node = null;
+
+    @property(cc.ScrollView)
+    scrollView: cc.ScrollView = null;
 
     protected socket: Socket;
 
@@ -50,6 +53,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         const { page, pageSize, total, betLogs } = data;
         this.pagination.onSet(page, pageSize, total);
         this.content.destroyAllChildren();
+        this.scrollView && this.scrollView.scrollToTop(0.1);
 
         if (!betLogs || !betLogs.length) {
             return;
