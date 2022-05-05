@@ -1,4 +1,5 @@
 import AudioManager from "../audio/AudioManager";
+import ExpandableMenu from "../expandable-menu/view-models/ExpandableMenu";
 
 const { ccclass, property } = cc._decorator;
 export enum InGameMenuEvents {
@@ -14,8 +15,12 @@ export enum InGameMenuEvents {
 
 @ccclass
 export default class InGameMenu extends cc.Component {
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
+
     protected doCommons() {
         AudioManager.getInstance().playClick();
+        this.expandableMenu && this.expandableMenu.collapseMenu();
     }
 
     collapseMenu(animated: boolean) {}
