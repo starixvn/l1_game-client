@@ -262,7 +262,7 @@ export default class MiniPanel extends BaseComponent {
 
     showErrorNotice(error): Notice {
         if (!this.node.activeInHierarchy) {
-            return;
+            return null;
         }
         const node = cc.instantiate(this.noticePrefab);
         const notice = node.getComponent(Notice);
