@@ -93,6 +93,7 @@ export default class MD5Component extends cc.Component {
 
     onClickCopyButton() {
         GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
+        this.md5Tooltip.hideToolTip();
     }
 
     showHint() {

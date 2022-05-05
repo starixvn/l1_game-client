@@ -200,7 +200,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.dices.forEach((dice) => {
             dice.node.active = show;
         });
-        console.log(show ? "show" : "hide");
     }
 
     showResult() {
