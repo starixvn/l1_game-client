@@ -166,7 +166,6 @@ export default class Sedie extends FreeBetGameBase {
         this.dots.forEach((dot) => {
             dot.node.active = show;
         });
-        console.log(show ? "show" : "hide");
     }
 
     setDots(result) {
@@ -179,12 +178,13 @@ export default class Sedie extends FreeBetGameBase {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
             this.setDots(result);
-            this.showHideResult(true);
             this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
         }
     }
 
     openPlate(animated: boolean) {
+        this.showHideResult(true);
+
         const platePos = cc.v2(50, 100);
         if (animated) {
             cc.tween(this.thePlate).to(0.5, { position: platePos }, { easing: "sineInOut" }).to(0.2, { opacity: 0 }).start();
