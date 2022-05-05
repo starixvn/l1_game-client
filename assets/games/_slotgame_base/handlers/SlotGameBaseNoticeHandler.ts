@@ -1,4 +1,3 @@
-import GameUtils from "../../../common/GameUtils";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import SlotGameBase from "../SlotGameBase";
@@ -11,9 +10,9 @@ export default class SlotGameBaseNoticeHandler extends GameBaseNoticeHandler {
         super(main);
     }
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (!data.notice) {
-            return false;
+            return;
         }
 
         const { errorCode } = data.notice;

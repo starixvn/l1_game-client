@@ -10,7 +10,7 @@ import BlackJackUtils from "../BlackJackUtils";
 export default class DealHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.deal) {
             this.processDealSuccess(data.deal);
             this.main.showProcessingWarning(false);
@@ -19,7 +19,6 @@ export default class DealHandler implements DataHandler {
         if (data.blackjackNotice) {
             this.processFailedDealHands(data.blackjackNotice);
         }
-        return true;
     }
 
     processDealSuccess(data: any) {

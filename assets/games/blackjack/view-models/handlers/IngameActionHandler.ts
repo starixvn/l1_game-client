@@ -6,7 +6,7 @@ import BlackJackUtils from "../BlackJackUtils";
 export default class IngameActionHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.hit) {
             this.processHitAction(data.hit);
             this.main.showProcessingWarning(false);
@@ -26,7 +26,6 @@ export default class IngameActionHandler implements DataHandler {
             this.processSplitAction(data.split);
             this.main.updateAvailableActions();
         }
-        return true;
     }
 
     processSplitAction(split: any) {

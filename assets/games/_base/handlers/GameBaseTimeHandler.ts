@@ -36,19 +36,15 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
         return this.main.currentTimeRemaining >= this.main.config.minBetTime;
     }
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.remainingTime) {
             if ((data.remainingTime || data.remainingTime >= 0) && !this.main.isStopGame) {
                 this.setCurrentTimeRemaining(data);
                 this.playTime();
                 this.main.hideUmMessage();
                 this.main.gameState = GameState.Started;
-
-                return true;
             }
         }
-
-        return false;
     }
 
     resetTime(): void {

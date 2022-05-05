@@ -4,7 +4,7 @@ import DataHandler from "./DataHandler";
 export default class GameBaseLogsHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.roundId) {
             this.main.roundId = data.roundId;
         }
@@ -15,8 +15,6 @@ export default class GameBaseLogsHandler implements DataHandler {
                 this.buildLogs(this.main.currentDataLogs);
             }
         }
-
-        return true;
     }
 
     buildLogs(dataLogs) {}

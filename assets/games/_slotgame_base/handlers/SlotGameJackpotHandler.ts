@@ -4,7 +4,7 @@ import SlotGameBase from "../SlotGameBase";
 export default class SlotGameJackpotHandler implements DataHandler {
   constructor(protected readonly main: SlotGameBase) {}
 
-  handle(data: any): boolean {
+  handle(data: any) {
     if (data.jackpotPool) {
       this.main.updatePoolData(data.jackpotPool);
     }
@@ -12,7 +12,5 @@ export default class SlotGameJackpotHandler implements DataHandler {
     if (data.jackpotPools) {
       data.jackpotPools.forEach((pool: any) => this.main.updatePoolData(pool));
     }
-
-    return true;
   }
 }

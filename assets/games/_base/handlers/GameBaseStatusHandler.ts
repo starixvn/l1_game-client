@@ -13,13 +13,11 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
     protected timeout: any;
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.status) {
             this.currentStatusData = data.status;
             this.status(this.currentStatusData.win, this.currentStatusData.bet);
         }
-
-        return true;
     }
 
     clearTimeout() {

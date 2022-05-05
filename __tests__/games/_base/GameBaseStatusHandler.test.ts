@@ -24,17 +24,6 @@ describe("Test class GameBaseStatusHandler", () => {
         };
     });
 
-    it("GameBaseStatusHandler.handle()", () => {
-        // Arrange
-        const data = {};
-
-        // Act
-        gameBaseStatusHandler.handle(data);
-
-        // Assert
-        expect(gameBaseStatusHandler.handle(data)).toEqual(true);
-    });
-
     describe("gameBaseStatusHandler.clearTimeout()", () => {
         it("Case 1: when has not timeout should not call global.clearTimeout", () => {
             // Arrange

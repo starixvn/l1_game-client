@@ -1,3 +1,3 @@
 export default interface DataHandler {
-    handle(data: any): boolean;
+    handle(data: any);
 }

@@ -8,11 +8,10 @@ import BlackJackUtils from "../BlackJackUtils";
 export default class BlackJackIngameHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.ownBets) {
             this.processIngame(data.ownBets);
         }
-        return true;
     }
 
     processIngame(ownBets: any) {
