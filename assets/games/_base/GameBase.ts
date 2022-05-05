@@ -345,6 +345,9 @@ export default class GameBase extends BaseComponent {
     }
 
     showMiniWarning(data): cc.Node {
+        if (!this.node.activeInHierarchy) {
+            return null;
+        }
         const notice = cc.instantiate(this.miniNoticePrefab);
         const noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;

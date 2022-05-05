@@ -614,7 +614,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         const key = toggle.isChecked ? "enableTurboMode" : "disableTurboMode";
         const message = i18n.t(`messages.${key}`);
         const notice = this.showMiniWarning(message);
-        notice.name = turboWarningName;
+        notice && (notice.name = turboWarningName);
     }
 
     onAutoSpinChanged() {
