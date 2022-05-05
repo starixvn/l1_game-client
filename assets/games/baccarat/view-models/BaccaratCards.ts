@@ -364,8 +364,6 @@ export default class BaccaratCards extends cc.Component {
 
     setActionCardThree(currentCard: cc.Node, delayTime: number) {
         const currentX = this.card3.x;
-        //this.card3.y = 0;
-        console.log("x: ", currentX, "y: ", this.card3.y);
         currentCard.runAction(
             cc.sequence(
                 cc.delayTime(delayTime),

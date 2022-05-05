@@ -1,10 +1,13 @@
 import GameUtils from "../../../common/GameUtils";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
 import MD5Component, { MD5Type } from "../../_base/view-models/MD5Component";
-const { ccclass } = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BaccaratMD5 extends MD5Component {
+    @property
+    tooltipPosition = 30;
+
     readonly START_COLOR_CARD_RED = "<color=#ff2626>";
     readonly START_COLOR_CARD_BLACK = "<color=#050f04>";
     readonly END_COLOR_CARD = "</color>";
@@ -15,7 +18,7 @@ export default class BaccaratMD5 extends MD5Component {
         const mini = GameUtils.createNodeFromPrefab(this.md5TooltipPrefab);
         mini.setContentSize(cc.size(this.md5TooltipContainer.getContentSize()));
         this.md5Tooltip = mini.getComponent(MD5Tooltip);
-        mini.children[0].x = 30;
+        mini.children[0].x = this.tooltipPosition;
         this.md5TooltipContainer.addChild(mini);
     }
 
