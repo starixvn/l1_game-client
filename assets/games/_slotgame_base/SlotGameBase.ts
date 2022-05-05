@@ -12,6 +12,7 @@ import JackpotPoolInfoBase from '../../lobby/main/view-models/JackpotPoolInfoBas
 import { GameState } from '../_base/GameState';
 import SocketIOTableGameBase from '../_base/SocketIOTableGameBase';
 import LineView from '../AHCL/scripts/LineView';
+import { FourGuardiansSlotConfigs } from '../four-guardians/scripts/FourGuardiansSlotConfigs';
 import AutoSpinSettingDialog from './AutoSpinSettingDialog';
 import BigWinAnimation from './BigWinAnimation';
 import BonusDialog from './BonusDialog';
@@ -371,7 +372,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.currentMiniPanel.miniMenu.position = cc.v3(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
     }
 
-    initSlotGameConfig() {}
+    initSlotGameConfig() {
+        this.slotGameConfigs = new FourGuardiansSlotConfigs();
+    }
 
     loadSlotGameConfig() {
         if (!this.slotGameConfigs) {

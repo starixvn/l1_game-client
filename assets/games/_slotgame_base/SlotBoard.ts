@@ -143,6 +143,7 @@ export default class SlotBoard extends cc.Component {
             if (i > 0 && !turbo) {
                 await GameUtils.delayTime(timeGap);
             }
+
             if (i < this.reels.length - 1) {
                 reel.spinWithData(duration, columns[i]);
             } else {

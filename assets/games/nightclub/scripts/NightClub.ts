@@ -1,6 +1,5 @@
-import { GameIds } from "../../../configs/SabaConfigs";
-import HeroesSlot from "../../AHCL/scripts/HeroesSlot";
-import { NightClubSlotConfigs } from "./NightClubSlotConfigs";
+import { GameIds } from '../../../configs/SabaConfigs';
+import HeroesSlot from '../../AHCL/scripts/HeroesSlot';
 
 const { ccclass, property } = cc._decorator;
 
@@ -10,9 +9,5 @@ export default class NightClub extends HeroesSlot {
         super();
         this.gameId = GameIds.NightClub;
         this.setMiniPanelScale(1);
-    }
-
-    initSlotGameConfig() {
-        this.slotGameConfigs = new NightClubSlotConfigs();
     }
 }

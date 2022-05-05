@@ -1,7 +1,6 @@
-import { GameIds } from "../../../configs/SabaConfigs";
-import AutoSpinSettingDialog from "../../_slotgame_base/AutoSpinSettingDialog";
-import SlotGameBase from "../../_slotgame_base/SlotGameBase";
-import { AHCLSlotConfigs } from "./AHCLSlotConfigs";
+import { GameIds } from '../../../configs/SabaConfigs';
+import AutoSpinSettingDialog from '../../_slotgame_base/AutoSpinSettingDialog';
+import SlotGameBase from '../../_slotgame_base/SlotGameBase';
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,10 +13,6 @@ export default class HeroesSlot extends SlotGameBase {
         super();
         this.gameId = GameIds.HeroesSlot;
         this.setMiniPanelScale(1);
-    }
-
-    initSlotGameConfig() {
-        this.slotGameConfigs = new AHCLSlotConfigs();
     }
 
     createAutoSpinDialog(): AutoSpinSettingDialog {
