@@ -6,7 +6,7 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
-import { showMessageAndRemoveSessionInMinutes } from "./../../common/auth/AuthManager";
+import { showMessageForExpiredToken } from "./../../common/auth/AuthManager";
 import { removeInRoomGameId } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
 
@@ -109,7 +109,7 @@ export default class MiniPanelDataHandlers {
         const errorCode = error.errorCode.toString();
         const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
         if (expiredTokenErrorCode) {
-            showMessageAndRemoveSessionInMinutes(errorCode);
+            showMessageForExpiredToken(errorCode);
             return;
         }
 
