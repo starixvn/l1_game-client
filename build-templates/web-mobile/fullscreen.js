@@ -17,6 +17,7 @@ window.mobilecheck = function () {
 const userAgent = window.navigator.userAgent;
 const ios15 = /OS 15/.test(userAgent);
 let showIntructionNumber = 0;
+const portraitSedieId = "2"; // sedie
 
 function toggleFullScreen() {
     const doc = window.document;
@@ -61,8 +62,8 @@ function getInRoomGameId() {
     return localStorage.getItem(key);
 }
 
-function checkSediePortrait() {
-    if (getInRoomGameId() !== "2") {
+function checkPortraitGame() {
+    if (getInRoomGameId() !== portraitSedieId) {
         // others
         return false;
     }
@@ -74,31 +75,27 @@ function checkSediePortrait() {
     const localStorageOrientation = localStorage.getItem("orientation");
     let isSediePortrait = false;
     if (localStorageOrientation && localStorageOrientation.length) {
-        isSediePortrait = JSON.parse(localStorageOrientation).orientation["2"]; // sedie game
+        isSediePortrait = JSON.parse(localStorageOrientation).orientation[portraitSedieId]; // sedie game
     }
     return isSediePortrait;
 }
 
-function checkPortraitModeWhenOpenSedie() {
-    return window.innerHeight > window.innerWidth && checkSediePortrait();
+function checkPortraitModeWhenOpenGame() {
+    return window.innerHeight > window.innerWidth && checkPortraitGame();
 }
 
 function showIntruction() {
     showIntructionNumber += 1;
     const instruction = document.getElementById("myInstruction");
-
     instruction.style.display = "block";
-
     const isPortrait = window.innerHeight > window.innerWidth;
 
     if (isPortrait) {
         updateViewport();
-        if (!checkSediePortrait()) {
-            instruction.style.display = "none";
+        if (!checkPortraitGame()) {
             instruction.style.visibility = "hidden";
         } else {
             if (instruction.style.visibility !== "hidden") {
-                instruction.style.display = "block";
                 instruction.style.visibility = "visible";
             }
         }
@@ -109,12 +106,9 @@ function showIntruction() {
     const show = window.innerHeight < screen.width - navBarHeight;
     if (show && !window.skipFullscreen) {
         showAddressBar();
-
         document.body.style.scroll = "scroll";
-        instruction.style.display = "block";
         instruction.style.visibility = "visible";
     } else {
-        instruction.style.display = "none";
         instruction.style.visibility = "hidden";
         updateViewport();
     }
@@ -152,6 +146,7 @@ function updateViewport() {
 function updateFullScreen() {
     showIntruction();
     const gameContainer = document.getElementById("Cocos2dGameContainer");
+    console.log("window.scrollY", window.scrollY);
     if (gameContainer) {
         gameContainer.style.top = window.scrollY + "px";
     }
@@ -174,6 +169,7 @@ function handleFullScreen() {
         var timeoutScroll;
         var timeoutResize;
         var timeoutOrientationChange;
+        var isChangeOrientation = false;
 
         const instruction = document.getElementById("myInstruction");
         const canvas = document.getElementById("GameCanvas");
@@ -186,37 +182,38 @@ function handleFullScreen() {
 
         window.addEventListener("resize", function () {
             clearTimeout(timeoutResize);
-
+            console.log("resize");
             timeoutResize = setTimeout(function () {
                 updateFullScreen();
             }, 100);
 
-            if (checkPortraitModeWhenOpenSedie()) {
+            if (checkPortraitModeWhenOpenGame()) {
                 handleFullScreenIOS();
             }
         });
 
         window.addEventListener("scroll", () => {
             clearTimeout(timeoutScroll);
+
             timeoutScroll = setTimeout(function () {
                 updateFullScreen();
-
-                if (checkPortraitModeWhenOpenSedie() && window.scrollY > 20) {
-                    if (showIntructionNumber > 2) {
-                        instruction.style.display = "none";
-                        instruction.style.visibility = "hidden";
-                        handleFullScreenIOS();
-                    }
+                if (checkPortraitModeWhenOpenGame()) {
+                    console.log("scroll instruction hidden");
+                    instruction.style.visibility = "hidden";
+                    handleFullScreenIOS();
                 }
+                isChangeOrientation = false;
             }, 100);
         });
 
         window.addEventListener("orientationchange", function () {
             clearTimeout(timeoutOrientationChange);
+            console.log("orientationchange");
             timeoutOrientationChange = setTimeout(function () {
                 updateFullScreen();
-                if (window.innerHeight > window.innerWidth && !checkSediePortrait()) {
-                    instruction.style.display = "block";
+                if (window.innerHeight > window.innerWidth && checkPortraitGame()) {
+                    console.log("sedie orientationchange");
+                    window.scrollY = 0;
                     instruction.style.visibility = "visible";
                 }
             }, 100);
