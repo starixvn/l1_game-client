@@ -92,7 +92,14 @@ function showIntruction() {
     const isPortrait = window.innerHeight > window.innerWidth;
 
     if (isPortrait) {
-        instruction.style.visibility = "visible";
+        updateViewport();
+        if (!checkSediePortrait()) {
+            instruction.style.visibility = "hidden";
+        } else {
+            if (instruction.style.visibility !== "hidden") {
+                instruction.style.visibility = "visible";
+            }
+        }
         return;
     }
 
@@ -164,6 +171,7 @@ function handleFullScreen() {
 
         window.addEventListener("resize", function () {
             clearTimeout(timeoutResize);
+
             timeoutResize = setTimeout(function () {
                 updateFullScreen();
             }, 100);
