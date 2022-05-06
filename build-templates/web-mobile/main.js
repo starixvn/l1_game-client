@@ -85,6 +85,7 @@ window.boot = function () {
             } else {
                 w = screen.width;
                 h = window.innerHeight;
+                document.body.style.height = window.innerHeight + "px";
             }
 
             if (
