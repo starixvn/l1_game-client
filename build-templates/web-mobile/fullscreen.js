@@ -17,9 +17,6 @@ window.mobilecheck = function () {
 const userAgent = window.navigator.userAgent;
 const ios15 = /OS 15/.test(userAgent);
 let showIntructionNumber = 0;
-let isChangeOrientation = false;
-const gameCanvas = document.getElementById("GameCanvas");
-const instruction = document.getElementById("myInstruction");
 
 function toggleFullScreen() {
     const doc = window.document;
@@ -88,18 +85,14 @@ function checkPortraitModeWhenOpenSedie() {
 
 function showIntruction() {
     showIntructionNumber += 1;
+    const instruction = document.getElementById("myInstruction");
+
     instruction.style.display = "block";
+
     const isPortrait = window.innerHeight > window.innerWidth;
+
     if (isPortrait) {
-        updateViewport();
-        if (!checkSediePortrait()) {
-            console.log("hide & focus");
-            gameCanvas.focus();
-            instruction.style.visibility = "hidden";
-        } else {
-            console.log("show Intruction & focus");
-            instruction.style.visibility = "visible";
-        }
+        instruction.style.visibility = "visible";
         return;
     }
 
@@ -146,7 +139,6 @@ function updateViewport() {
 function updateFullScreen() {
     showIntruction();
     const gameContainer = document.getElementById("Cocos2dGameContainer");
-    console.log("window.scrollY", window.scrollY);
     if (gameContainer) {
         gameContainer.style.top = window.scrollY + "px";
     }
@@ -161,43 +153,44 @@ function handleFullScreen() {
         var timeoutResize;
         var timeoutOrientationChange;
 
-        gameCanvas.onfocus = () => {
+        const instruction = document.getElementById("myInstruction");
+        const canvas = document.getElementById("GameCanvas");
+        canvas.onfocus = () => {
             showIntruction();
         };
-        gameCanvas.onblur = () => {
+        canvas.onblur = () => {
             showIntruction();
         };
 
         window.addEventListener("resize", function () {
             clearTimeout(timeoutResize);
-            console.log("resize");
             timeoutResize = setTimeout(function () {
-                if (!instruction.style.visibility === "hidden") {
-                    updateFullScreen();
-                }
-                console.log("---end resize");
+                updateFullScreen();
             }, 100);
         });
 
         window.addEventListener("scroll", () => {
             clearTimeout(timeoutScroll);
             timeoutScroll = setTimeout(function () {
-                console.log("scroll");
                 updateFullScreen();
+
                 if (checkPortraitModeWhenOpenSedie() && window.scrollY > 20) {
+                    document.body.style.position = "fixed";
                     if (showIntructionNumber > 2) {
-                        console.log("scroll & focus");
-                        gameCanvas.focus();
+                        document.body.style.position = "fixed";
                         instruction.style.visibility = "hidden";
+
+                        setTimeout(function () {
+                            document.body.style.scroll = "hidden";
+                            document.body.style.position = "absolute";
+                        }, 10);
                     }
                 }
-                console.log("--- end scroll");
-            }, 10);
+            }, 100);
         });
 
         window.addEventListener("orientationchange", function () {
             clearTimeout(timeoutOrientationChange);
-            isChangeOrientation = true;
             timeoutOrientationChange = setTimeout(function () {
                 updateFullScreen();
                 if (window.innerHeight > window.innerWidth && !checkSediePortrait()) {
