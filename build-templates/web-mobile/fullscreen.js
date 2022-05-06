@@ -94,9 +94,11 @@ function showIntruction() {
     if (isPortrait) {
         updateViewport();
         if (!checkSediePortrait()) {
+            instruction.style.display = "none";
             instruction.style.visibility = "hidden";
         } else {
             if (instruction.style.visibility !== "hidden") {
+                instruction.style.display = "block";
                 instruction.style.visibility = "visible";
             }
         }
@@ -107,8 +109,12 @@ function showIntruction() {
     const show = window.innerHeight < screen.width - navBarHeight;
     if (show && !window.skipFullscreen) {
         showAddressBar();
+
+        document.body.style.scroll = "scroll";
+        instruction.style.display = "block";
         instruction.style.visibility = "visible";
     } else {
+        instruction.style.display = "none";
         instruction.style.visibility = "hidden";
         updateViewport();
     }
@@ -151,6 +157,15 @@ function updateFullScreen() {
     }
 }
 
+function handleFullScreenIOS() {
+    document.body.style.position = "fixed";
+
+    setTimeout(function () {
+        document.body.style.scroll = "hidden";
+        document.body.style.position = "absolute";
+    }, 10);
+}
+
 function handleFullScreen() {
     if (userAgent.match(/iPad|iPhone|iPod/i)) {
         document.body.style.overflowY = "scroll";
@@ -175,6 +190,10 @@ function handleFullScreen() {
             timeoutResize = setTimeout(function () {
                 updateFullScreen();
             }, 100);
+
+            if (checkPortraitModeWhenOpenSedie()) {
+                handleFullScreenIOS();
+            }
         });
 
         window.addEventListener("scroll", () => {
@@ -183,15 +202,10 @@ function handleFullScreen() {
                 updateFullScreen();
 
                 if (checkPortraitModeWhenOpenSedie() && window.scrollY > 20) {
-                    document.body.style.position = "fixed";
                     if (showIntructionNumber > 2) {
-                        document.body.style.position = "fixed";
+                        instruction.style.display = "none";
                         instruction.style.visibility = "hidden";
-
-                        setTimeout(function () {
-                            document.body.style.scroll = "hidden";
-                            document.body.style.position = "absolute";
-                        }, 10);
+                        handleFullScreenIOS();
                     }
                 }
             }, 100);
@@ -202,6 +216,7 @@ function handleFullScreen() {
             timeoutOrientationChange = setTimeout(function () {
                 updateFullScreen();
                 if (window.innerHeight > window.innerWidth && !checkSediePortrait()) {
+                    instruction.style.display = "block";
                     instruction.style.visibility = "visible";
                 }
             }, 100);
