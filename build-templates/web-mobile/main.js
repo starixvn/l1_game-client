@@ -158,6 +158,7 @@ window.boot = function () {
     function setLoadingDisplay() {
         // Loading splash scene
         var splash = document.getElementById("splash");
+        var conner = document.getElementById("conner");
         var progressBar = splash.querySelector(".progress-bar span");
         var loadingBar = new ldBar(".ldBar");
         onProgress = function (completedCount, totalCount, item) {
@@ -172,6 +173,7 @@ window.boot = function () {
 
         cc.director.once(cc.Director.EVENT_AFTER_SCENE_LAUNCH, function () {
             splash.style.display = "none";
+            conner.style.display = "none";
             document.body.style.background = "#000";
         });
     }
