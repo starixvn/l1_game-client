@@ -60,7 +60,7 @@ export default class CascadingSlotBase extends cc.Component {
     spin() {
         const data: CascadingSlotFinishData = {
             roundId: 0,
-            result: "8,8,8,3,8,9,8,8,8,9,5,9,8,10,10,9,5,8,10,7,10,6,7,8,10,7,7,6,7,7", // 30 items on board
+            result: "8,8,8,3,8,9,8,8,8,9,5,9,8,1,1,9,5,8,1,7,5,6,7,8,5,7,7,6,7,7", // 30 items on board
             win: 30,
             bigWin: true,
             freeSpins: 0,

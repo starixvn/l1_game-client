@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "diamond-anim-purple",
+  "_name": "winning_item",
   "_objFlags": 0,
   "_native": "",
   "_duration": 2.3,
@@ -9,7 +9,7 @@
   "wrapMode": 2,
   "curveData": {
     "paths": {
-      "3": {
+      "normal": {
         "props": {
           "scale": [
             {
@@ -120,20 +120,10 @@
               "frame": 1.95,
               "value": 0
             }
-          ],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -12.155,
-                0,
-                0
-              ]
-            }
           ]
         }
       },
-      "frame_00000": {
+      "frame": {
         "comps": {
           "cc.Sprite": {
             "spriteFrame": [
@@ -593,7 +583,7 @@
           ]
         }
       },
-      "3a": {
+      "glow": {
         "props": {
           "opacity": [
             {
@@ -732,20 +722,10 @@
               "frame": 2.05,
               "value": 334.0848485
             }
-          ],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -12.155,
-                0,
-                0
-              ]
-            }
           ]
         }
       },
-      "fire2": {
+      "fire": {
         "comps": {
           "cc.Sprite": {
             "spriteFrame": [
@@ -885,16 +865,6 @@
                 "x": 0.8,
                 "y": 0.8
               }
-            }
-          ],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -11.439,
-                -3.039,
-                0
-              ]
             }
           ]
         }
