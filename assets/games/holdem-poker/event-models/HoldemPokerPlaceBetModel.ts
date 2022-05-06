@@ -30,6 +30,7 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
 
     choices: any;
     previousChoices: any;
+    isUsingHand = false;
 
     placeBet(choice, amount) {
         this.choices[choice] = this.choices[choice] ? this.choices[choice] + amount : amount;
@@ -105,6 +106,7 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
     updateDeal(choices: any) {
         this.choices = cloneDeep(choices);
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_ALL_CHIPS, this);
+        this.isUsingHand = false;
     }
 
     rejoinTable(rejoinChoices: any) {
