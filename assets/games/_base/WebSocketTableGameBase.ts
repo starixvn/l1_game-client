@@ -1,7 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
-import AudioManager from "../../common/audio/AudioManager";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -16,7 +15,7 @@ import RoomPlayer from "./view-models/RoomPlayer";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class WebSocketTableGameBase extends GameBase {
+export default abstract class WebSocketTableGameBase extends GameBase {
     @property({ type: UmWarning, visible: false, override: true })
     umNotice: UmWarning = null;
 

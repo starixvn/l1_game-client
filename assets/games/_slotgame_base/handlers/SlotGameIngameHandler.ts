@@ -4,7 +4,7 @@ import SlotGameBase from '../SlotGameBase';
 export default class SlotGameIngameHandler implements DataHandler {
   constructor(protected readonly main: SlotGameBase) {}
 
-  handle(data: any): boolean {
+  handle(data: any) {
     if (data.freeSpins && data.freeSpins.total) {
       const { bet, total, paylines } = data.freeSpins;
       this.main.setTotalFreeSpins(total);
@@ -16,6 +16,5 @@ export default class SlotGameIngameHandler implements DataHandler {
       this.main.lineButton.interactable = false;
       this.main.autoSpinToggle.interactable = false;
     }
-    return true;
   }
 }

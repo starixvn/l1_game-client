@@ -94,7 +94,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         sessionManager.removeInRoomGameId();
     }
 
-    sendRetryMessage() {
+    sendRetryMessage(): void {
         if (this.socket) {
             this.socket.emit("retry");
         }

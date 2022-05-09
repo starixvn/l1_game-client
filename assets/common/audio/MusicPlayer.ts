@@ -1,4 +1,4 @@
-import AudioManager from './AudioManager';
+import AudioManager from "./AudioManager";
 
 export default class MusicPlayer {
     private readonly ListSong = ["song1", "song2", "song3", "song4", "song5", "song6"];

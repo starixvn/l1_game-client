@@ -16,7 +16,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     constructor(protected readonly main: GameBase, protected readonly playResultAnimationTime: number = 0) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.finish) {
             this.main.finishShowResult = false;
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
@@ -30,8 +30,6 @@ export default class GameBaseFinishHandler implements DataHandler {
                 this.main.finishShowResult = true;
             });
         }
-
-        return true;
     }
 
     protected setNewGameRound(data: any) {

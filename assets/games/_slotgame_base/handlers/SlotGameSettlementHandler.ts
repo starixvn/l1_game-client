@@ -4,7 +4,7 @@ import SlotGameBase, { LineData, RoundType } from "../SlotGameBase";
 export default class SlotGameSettlementHandler implements DataHandler {
     constructor(protected readonly main: SlotGameBase) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.apiError) {
             this.handleApiError(data);
         }
@@ -20,7 +20,6 @@ export default class SlotGameSettlementHandler implements DataHandler {
         if (data.finish) {
             this.handleFinish(data.finish);
         }
-        return true;
     }
 
     handleApiError(data: any) {

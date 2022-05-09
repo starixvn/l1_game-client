@@ -12,7 +12,7 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
 
     constructor(protected readonly main: WebSocketTableGameBase) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (data.player) {
             this.addPlayer(data.player);
         }
@@ -24,8 +24,6 @@ export class GameBasePlayerHandler implements IGameBasePlayerHandler {
         if (data.outgame) {
             this.removePlayer(data.outgame);
         }
-
-        return true;
     }
 
     removePlayer(playerData: any) {

@@ -7,7 +7,7 @@ import SabaConfigs = require("../../configs/SabaConfigs");
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 
-export default abstract class SocketIOMiniGameBase extends GameBase {
+export default class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
     public readonly socketIOController: SocketIOController;
 
@@ -123,7 +123,7 @@ export default abstract class SocketIOMiniGameBase extends GameBase {
         }
     }
 
-    sendRetryMessage() {
+    sendRetryMessage(): void {
         if (this.socket) {
             this.socket.emit("retry");
         }

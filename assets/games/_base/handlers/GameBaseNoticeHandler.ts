@@ -7,9 +7,9 @@ import DataHandler from "./DataHandler";
 export default class GameBaseNoticeHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (!data.notice) {
-            return false;
+            return;
         }
 
         const { errorCode, hedgeBetGroup, minBet, maxBet, gameRoundId, gameTypeId } = data.notice;
@@ -29,7 +29,5 @@ export default class GameBaseNoticeHandler implements DataHandler {
                 this.main.showMiniWarning(text);
             }
         }
-
-        return true;
     }
 }

@@ -10,9 +10,9 @@ export default class GameBaseBetHandler implements DataHandler {
     protected playerChips = [];
     constructor(protected readonly main: GameBase) {}
 
-    handle(data: any): boolean {
+    handle(data: any) {
         if (this.main.isStopGame || this.main.isDisableGame) {
-            return true;
+            return;
         }
 
         if (data.totalBets || data.ownBets) {
@@ -24,8 +24,6 @@ export default class GameBaseBetHandler implements DataHandler {
         if (this.main.gameConfigs) {
             this.handleChipInMainRoom(data);
         }
-
-        return false;
     }
 
     handleEndBet(data: any) {
