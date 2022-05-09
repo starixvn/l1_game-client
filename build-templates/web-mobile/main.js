@@ -82,10 +82,6 @@ window.boot = function () {
                     navBarHeight = 20;
                 }
                 h -= navBarHeight;
-            } else {
-                w = screen.width;
-                h = window.innerHeight;
-                document.body.style.height = window.innerHeight + "px";
             }
 
             if (
