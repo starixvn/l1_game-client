@@ -1,9 +1,9 @@
-import { appContainer } from "../../Application";
-import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
-import logger from "../../common/logger";
-import * as authManager from "./../../common/auth/AuthManager";
-import RandonWaitingMessage from "./RandonWaitingMessage";
-import SplashConfig from "./SplashConfig";
+import { appContainer } from '../../Application';
+import { getCacheLanguage, getLanguage, setLanguage } from '../../common/auth/SessionManager';
+import logger from '../../common/logger';
+import * as authManager from './../../common/auth/AuthManager';
+import RandonWaitingMessage from './RandonWaitingMessage';
+import SplashConfig from './SplashConfig';
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
