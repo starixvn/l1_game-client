@@ -1,4 +1,4 @@
-import { SlotGameBaseConfigs } from '../../_slotgame_base/SlotGameBaseConfigs';
+import { SlotGameBaseConfigs } from "../../_slotgame_base/SlotGameBaseConfigs";
 
 export class FourGuardiansSlotConfigs implements SlotGameBaseConfigs {
     wildSymbol = 9;

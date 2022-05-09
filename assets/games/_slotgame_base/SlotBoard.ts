@@ -1,7 +1,7 @@
-import AudioManager from '../../common/audio/AudioManager';
-import GameUtils from '../../common/GameUtils';
-import { SlotGameBaseConfigs } from './SlotGameBaseConfigs';
-import SlotReel from './SlotReel';
+import AudioManager from "../../common/audio/AudioManager";
+import GameUtils from "../../common/GameUtils";
+import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
+import SlotReel from "./SlotReel";
 
 enum SlotGameSound {
     ROLLING_NORMAL = 0,

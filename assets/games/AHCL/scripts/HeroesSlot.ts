@@ -1,6 +1,6 @@
-import { GameIds } from '../../../configs/SabaConfigs';
-import AutoSpinSettingDialog from '../../_slotgame_base/AutoSpinSettingDialog';
-import SlotGameBase from '../../_slotgame_base/SlotGameBase';
+import { GameIds } from "../../../configs/SabaConfigs";
+import AutoSpinSettingDialog from "../../_slotgame_base/AutoSpinSettingDialog";
+import SlotGameBase from "../../_slotgame_base/SlotGameBase";
 
 const { ccclass, property } = cc._decorator;
 

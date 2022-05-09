@@ -1,5 +1,5 @@
-import { GameIds } from '../../../configs/SabaConfigs';
-import HeroesSlot from '../../AHCL/scripts/HeroesSlot';
+import { GameIds } from "../../../configs/SabaConfigs";
+import HeroesSlot from "../../AHCL/scripts/HeroesSlot";
 
 const { ccclass, property } = cc._decorator;
 
