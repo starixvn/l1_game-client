@@ -13,6 +13,7 @@ import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
+import IOSPortraitGuide from "./IOSPortraitGuide";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -62,8 +63,15 @@ export default class Sedie extends FreeBetGameBase {
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
 
+    @property(cc.Node)
+    IOSPortraitGuideNode: cc.Node = null;
+
+    @property(cc.Prefab)
+    IOSPortraitGuide: cc.Prefab = null;
+
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
+    private iosPortraitGuideComp: IOSPortraitGuide;
 
     constructor() {
         super();
@@ -90,6 +98,11 @@ export default class Sedie extends FreeBetGameBase {
 
         this.miniRoundHistory.tip.node.zIndex = 100;
         GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
+    }
+
+    start() {
+        super.start();
+        this.handleIOSPortraitGuide();
     }
 
     onEnable() {
@@ -229,5 +242,42 @@ export default class Sedie extends FreeBetGameBase {
         this.betItems.forEach((betItem) => {
             betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
         });
+    }
+
+    handleIOSPortraitGuide() {
+        if (!this.IOSPortraitGuideNode || !this.IOSPortraitGuide || this.IOSPortraitGuideNode.childrenCount > 0) {
+            return;
+        }
+
+        if (window.gameOrientation === Orientation.Portrait) {
+            this.initIOSPortraitGuide();
+        }
+
+        window.addEventListener("orientationchange", () => {
+            window.innerHeight < window.innerWidth ? this.initIOSPortraitGuide() : this.iosPortraitGuideComp.node.destroy();
+        });
+    }
+
+    initIOSPortraitGuide() {
+        const storageKey = "IOS_portrait_guide";
+        const storage = cc.sys.localStorage.getItem(storageKey);
+        const data = storage
+            ? JSON.parse(storage)
+            : {
+                  enabled: true
+              };
+
+        if (!data.enabled) {
+            return;
+        }
+
+        const guideNode = cc.instantiate(this.IOSPortraitGuide);
+        this.iosPortraitGuideComp = guideNode.getComponent(IOSPortraitGuide);
+        this.IOSPortraitGuideNode.addChild(guideNode);
+
+        this.iosPortraitGuideComp.toggleCallback = (dontShow: boolean) => {
+            data.enabled = !dontShow;
+            cc.sys.localStorage.setItem(storageKey, JSON.stringify(data));
+        };
     }
 }

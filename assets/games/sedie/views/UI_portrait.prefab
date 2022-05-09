@@ -54,14 +54,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 943
+        "__id__": 942
       },
       {
-        "__id__": 944
+        "__id__": 943
       }
     ],
     "_prefab": {
-      "__id__": 945
+      "__id__": 944
     },
     "_opacity": 255,
     "_color": {
@@ -33316,7 +33316,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "PrefabLoaderV2",
+    "_name": "menuContainer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -34157,22 +34157,18 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "7",
+    "_name": "iosPortraitGuide",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
     },
     "_children": [],
-    "_active": false,
-    "_components": [
-      {
-        "__id__": 941
-      }
-    ],
+    "_active": true,
+    "_components": [],
     "_prefab": {
-      "__id__": 942
+      "__id__": 941
     },
-    "_opacity": 100,
+    "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -34182,8 +34178,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 786,
-      "height": 1398
+      "width": 0,
+      "height": 0
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -34220,38 +34216,6 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 940
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "3740ddd6-fa51-4813-95dc-89f46cd4167c"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": ""
-  },
-  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -34259,7 +34223,7 @@
     "asset": {
       "__uuid__": "9b1df1e7-5722-4c3c-bc08-96d047f1da04"
     },
-    "fileId": "9ca/ZPFixBDJGFWCavCngq",
+    "fileId": "91NawmF2dPdodDHY7gHn2y",
     "sync": false
   },
   {
@@ -34437,6 +34401,12 @@
       "__id__": 648
     },
     "expandableMenu": null,
+    "IOSPortraitGuideNode": {
+      "__id__": 940
+    },
+    "IOSPortraitGuide": {
+      "__uuid__": "4502203e-057a-4949-aa88-2dcb18639118"
+    },
     "_id": ""
   },
   {
