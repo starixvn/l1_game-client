@@ -15,7 +15,7 @@ import RoomPlayer from "./view-models/RoomPlayer";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class WebSocketTableGameBase extends GameBase {
+export default abstract class WebSocketTableGameBase extends GameBase {
     @property({ type: UmWarning, visible: false, override: true })
     umNotice: UmWarning = null;
 
