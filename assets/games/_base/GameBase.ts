@@ -211,11 +211,9 @@ export default class GameBase extends BaseComponent {
     onData(data: any) {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             const handler = this.dataHandlers[index];
-            if (index === 0 && handler && handler.handle(data)) {
-                //um handler
+            handler && handler.handle(data);
+            if (index === 0 && data.um) {
                 break;
-            } else {
-                handler && handler.handle(data);
             }
         }
     }
