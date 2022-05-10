@@ -57,6 +57,7 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
         const baccarat = this.getOwnMain();
         baccarat.bankerCards.resetCards();
         baccarat.playerCards.resetCards();
+        this.main.setGameRound(this.main.roundId);
 
         this.main.node.runAction(
             cc.sequence(
