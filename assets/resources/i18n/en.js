@@ -478,7 +478,8 @@ window.i18n.languages.en = {
         stake: "Stake",
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
         md5String: "MD5 Key",
-        md5Key: "Result"
+        md5Key: "Result",
+        totalWin: "Total Win"
     },
     hiLo: {
         collect: "Collect",
@@ -544,5 +545,21 @@ window.i18n.languages.en = {
         guideContentEnd: "Let's play and experience the new features now.",
         skip: "Skip",
         notShow: " Don’t show again"
+    },
+    treasureIsland: {
+        tumpleWin: "Tumble Win",
+        totalWin: "Total Win",
+        turboMode: "Turbo Mode",
+        trialMode: "Trial Mode",
+        betMultiplierX: "Bet Multiplier 20x",
+        betLevel: "Bet Level",
+        coinValue: "Coin Value",
+        congratulation: "Congratulation",
+        youWinFreeSpin: 'You win "%{n}" Free Spins',
+        multiplier: "Multiplier",
+        totalMultiplier: "Total Multiplier",
+        no: "No.",
+        resultBoard: "Result Board",
+        symbolAndNumber: "Symbol & Number of Symbols"
     }
 };

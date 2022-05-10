@@ -545,5 +545,21 @@ window.i18n.languages.vi = {
         guideContentEnd: "Vào game & trải nghiệm ngay thôi!",
         skip: "Bỏ Qua",
         notShow: "Không hiển thị lại"
+    },
+    treasureIsland: {
+        tumpleWin: "Thắng Tumble",
+        totalWin: "Tổng Thắng",
+        turboMode: "Siêu Tốc",
+        trialMode: "Chơi Thử",
+        betMultiplierX: "Hệ Số Cược 20X",
+        betLevel: "Mức Cược",
+        coinValue: "Giá trị cược",
+        congratulation: "Chúc Mừng",
+        youWinFreeSpin: 'Bạn đã thắng "%{n}" Free Spins',
+        multiplier: "Số Nhân",
+        totalMultiplier: "Tổng Số Nhân",
+        no: "Stt",
+        resultBoard: "Bản Kết Quả",
+        symbolAndNumber: "Biếu Tượng & Số Lượng"
     }
 };
