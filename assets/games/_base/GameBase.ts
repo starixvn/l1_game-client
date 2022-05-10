@@ -32,7 +32,7 @@ import { GameState } from "./GameState";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default abstract class GameBase extends BaseComponent {
+export default class GameBase extends BaseComponent {
     @property({ type: BetItem })
     betItems: BetItem[] = [];
 
@@ -313,7 +313,9 @@ export default abstract class GameBase extends BaseComponent {
         }
     }
 
-    abstract sendRetryMessage(): void;
+    sendRetryMessage(): void {
+        // handle
+    }
 
     lockBet() {
         this.waitingProcessing = true;
