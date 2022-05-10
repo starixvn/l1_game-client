@@ -92,12 +92,11 @@ export default class CascadeSlotReel extends cc.Component {
 
     async removeItem(index: number) {
         const item = this.items[index];
-        const hideDuration = 0.3;
-        cc.tween(item.node)
-            .to(hideDuration, { scale: 0 })
-            .call(() => item.destroy())
-            .start();
-        await GameUtils.delayTime(hideDuration);
+        const animation = item.getComponentInChildren(cc.Animation);
+        animation.play();
+        const duration = animation.defaultClip.duration;
+        await GameUtils.delayTime(duration);
+        item.destroy();
     }
 
     async removeItemsByIndex(list: number[]) {

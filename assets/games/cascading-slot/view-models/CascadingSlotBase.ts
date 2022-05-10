@@ -111,6 +111,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         return success;
     }
 
+    getCustomDuration(key: string): number {
+        const config = this.isTurboMode() ? this.cascadingSlotConfig.turbo : this.cascadingSlotConfig.normal;
+        return config[key];
+    }
+
     isTurboMode(): boolean {
         return this.turboToggle.isChecked || this.holdActionButton.isAutoAction;
     }

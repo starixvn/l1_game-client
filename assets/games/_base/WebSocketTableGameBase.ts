@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
 import MusicPlayer from "../../common/audio/MusicPlayer";
+import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
@@ -73,9 +74,9 @@ export default class WebSocketTableGameBase extends GameBase {
 
     onLoad() {
         super.onLoad();
-        cc.RedT.inGame = this;
+        cc.RedT && (cc.RedT.inGame = this);
         this.loadMiniPanel();
-        this.loadUserData(cc.RedT.user);
+        this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
         this.initMusicBackground();
     }
@@ -160,6 +161,7 @@ export default class WebSocketTableGameBase extends GameBase {
             MusicPlayer.getInstance().handleIncreaseVolume();
         }
         this.closeGame();
+        sessionManager.removeInRoomGameId();
     }
 
     closeGame() {
@@ -252,9 +254,13 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     protected loadMiniPanel() {
+        if (!this.miniPanelPrefab) {
+            return;
+        }
         const miniPanel = cc.instantiate(this.miniPanelPrefab);
         this.currentMiniPanel = miniPanel.getComponent("MiniPanel");
         this.currentMiniPanel.currentGameRoomId = this.gameId;
+        sessionManager.storeInRoomGameId(this.gameId);
         this.miniPanelContainer.addChild(miniPanel);
 
         if (!cc.sys.isMobile) {
@@ -263,6 +269,9 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     protected loadUserData(user) {
+        if (!user) {
+            return;
+        }
         if (!this.isAlive()) {
             return;
         }

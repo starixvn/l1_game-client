@@ -271,6 +271,8 @@ export default class GameBase extends BaseComponent {
         this.registerViewGame();
     }
 
+    sendData(payload: any) {}
+
     showAcceptedBet(bet: number) {
         GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }

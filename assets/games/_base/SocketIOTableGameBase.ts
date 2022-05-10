@@ -1,6 +1,5 @@
 import { Socket } from "socket.io-client";
 
-import * as sessionManager from "../../common/auth/SessionManager";
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
 
 const { ccclass } = cc._decorator;
@@ -11,8 +10,6 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
 
     onLoad() {
         super.onLoad();
-
-        sessionManager.storeInRoomGameId(this.gameId);
         this.initForSocket();
     }
 
@@ -98,11 +95,6 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
             amount: this.currentBet,
             username: cc.RedT.user.name
         };
-    }
-
-    onCloseGameClick() {
-        super.onCloseGameClick();
-        sessionManager.removeInRoomGameId();
     }
 
     sendRetryMessage(): void {

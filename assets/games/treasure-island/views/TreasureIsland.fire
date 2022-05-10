@@ -2992,8 +2992,8 @@
       "__id__": 2
     },
     "component": "",
-    "_componentId": "b06b1hzAUdMh5ZXHwfXIIVz",
-    "handler": "onSpinClick",
+    "_componentId": "5a0b3XPw/pCdr4l1RQF4eCR",
+    "handler": "test",
     "customEventData": ""
   },
   {
@@ -8226,26 +8226,74 @@
     "_id": "29zXboiXFBKoIV4PQ2liTe"
   },
   {
-    "__type__": "b06b1hzAUdMh5ZXHwfXIIVz",
+    "__type__": "5a0b3XPw/pCdr4l1RQF4eCR",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 2
     },
     "_enabled": true,
-    "players": [],
-    "otherPlayers": null,
-    "userName": null,
-    "userAvatar": null,
-    "winningPlayerEffectPrefab": null,
     "betItems": [],
+    "processWarningPrefab": {
+      "__uuid__": "fd5fde1e-3092-4df5-b560-35786915c6e2"
+    },
+    "miniNoticePrefab": {
+      "__uuid__": "33b0ebea-3392-4bf8-aa8c-7ea614252597"
+    },
+    "noticeNode": {
+      "__id__": 161
+    },
+    "umNotice": null,
     "timeWaitNode": null,
     "timeWaitLabel": null,
     "animatedTime": null,
+    "md5Component": null,
+    "gameRound": {
+      "__id__": 109
+    },
     "enableChips": false,
+    "betChipsContainer": null,
+    "betChipsPrefab": null,
+    "enablePlaceChips": false,
+    "dealerChipBox": null,
     "gameAudiosPrefab": null,
+    "guidePrefab": null,
+    "players": [],
+    "otherPlayers": null,
+    "miniPanelPrefab": null,
+    "miniPanelContainer": {
+      "__id__": 159
+    },
+    "noticePrefab": {
+      "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
+    },
+    "loading": {
+      "__id__": 164
+    },
+    "userName": null,
+    "userBalance": {
+      "__id__": 105
+    },
+    "userAvatar": null,
+    "winningPlayerEffectPrefab": null,
+    "musicBg": null,
+    "autoSpinToggle": {
+      "__id__": 75
+    },
+    "turboToggle": {
+      "__id__": 85
+    },
+    "autoSpinDialogPrefab": {
+      "__uuid__": "9393d323-55bb-4e91-906f-71c4218cdab4"
+    },
+    "countDownAutoSpin": null,
+    "spinButton": null,
+    "messageText": null,
     "board": {
       "__id__": 37
+    },
+    "holdActionButton": {
+      "__id__": 64
     },
     "_id": "c83FPtP2hEULzYv4R4mYbF"
   }

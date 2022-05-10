@@ -36,9 +36,11 @@ const configs = {
         TexasHoldemPoker: 42,
         BitcoinMaster: 43,
         HiLo: 45,
-        NightClub: 46
+        NightClub: 46,
+        TreasureIsland: 47
     },
     GameInfos: {
+        47: { key: "TreasureIsland" },
         45: {
             key: "Hilo",
             mini: true

@@ -11,3 +11,7 @@ export class CascadingSlotBaseConfig {
 export interface CascadingSlotConfigDuration {
     highlightWinItemsDuration: number;
 }
+
+export enum ConfigDurationEnum {
+    highlightWinItemsDuration = "highlightWinItemsDuration"
+}
