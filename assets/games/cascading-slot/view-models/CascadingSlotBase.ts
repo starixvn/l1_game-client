@@ -1,15 +1,19 @@
 import { result } from "lodash";
 
+import AudioManager from "../../../common/audio/AudioManager";
+import { events } from "../../_new/connection/SocketIOConnection";
+import FeatureSlotGameBase, { RoundType } from "../../_slotgame_base/FeatureSlotGameBase";
+import HoldActionButton from "../../_slotgame_base/HoldActionButton";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 import CascadeSlotBoard from "./CascadeSlotBoard";
+import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-// export default class CascadingSlotBase extends NewGameRoomBase {
-export default class CascadingSlotBase extends cc.Component {
+export default class CascadingSlotBase extends FeatureSlotGameBase {
     //#region override some properties to hide them
     @property({ visible: false, override: true })
     players: any[] = [];
@@ -49,15 +53,24 @@ export default class CascadingSlotBase extends cc.Component {
     @property(CascadeSlotBoard)
     board: CascadeSlotBoard = null;
 
+    @property(HoldActionButton)
+    holdActionButton: HoldActionButton = null;
+
     protected gameData: CascadingSlotGameData<void>;
+    protected cascadingSlotConfig: CascadingSlotBaseConfig;
     protected isAutoSpin = false;
     protected isSpinning = false;
 
     async onSpinClick() {
+        AudioManager.getInstance().playClick();
         this.spin();
     }
 
-    spin() {
+    getCurrentTotalBet(): number {
+        return this.gameData.placeBetModel.data.totalBet;
+    }
+
+    test() {
         const data: CascadingSlotFinishData = {
             roundId: 0,
             result: "8,8,8,3,8,9,8,8,8,9,5,9,8,1,1,9,5,8,1,7,5,6,7,8,5,7,7,6,7,7", // 30 items on board
@@ -79,65 +92,42 @@ export default class CascadingSlotBase extends cc.Component {
         handleSettle(this)(data);
     }
 
-    onLoad() {
-        // super.onLoad();
-        this.registerKeyEvents();
+    spin(): boolean {
+        let success = false;
+        if (!this.isReadyBet() || !this.checkAvailableBalance()) {
+            return success;
+        }
+        const autoSpinAction = this.holdActionButton.isAutoAction;
+        if (this.waitingProcessing && !autoSpinAction) {
+            this.showProcessingWarning(true);
+            return success;
+        }
+        this.showMessageDisplay(RoundType.SPINNING);
+        //TODO: stop tween for result
+        this.lockBet();
+        //TODO: cosume auto spin count
+        this.connection.emit(events.bet, this.gameData.placeBetModel.data);
+        success = true;
+        return success;
     }
 
-    initGameDataEvents() {
+    isTurboMode(): boolean {
+        return this.turboToggle.isChecked || this.holdActionButton.isAutoAction;
+    }
+
+    onLoad() {
+        super.onLoad();
+        this.initCascadingSlotConfig();
+        this.initGameDataEvents();
+    }
+
+    protected initCascadingSlotConfig() {
+        this.cascadingSlotConfig = new CascadingSlotBaseConfig();
+    }
+
+    protected initGameDataEvents() {
         this.gameData = new CascadingSlotGameData(this);
 
         this.gameData.finishModel.on(CascadingSlotFinishModel.Events.SETTLE, handleSettle(this));
-    }
-
-    registerKeyEvents() {
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-    }
-
-    removeKeyEvents() {
-        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-    }
-
-    onKeyDown(event: cc.Event.EventKeyboard) {
-        if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
-            this.enableAutoSpin();
-        }
-    }
-
-    onKeyUp(event: cc.Event.EventKeyboard) {
-        if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
-            this.disableAutoSpin();
-        }
-    }
-
-    enableAutoSpin() {
-        if (this.isAutoSpin) {
-            return;
-        }
-
-        this.isAutoSpin = true;
-        this.spin();
-        this.schedule(this.onScheduleAutoSpin, 1, cc.macro.REPEAT_FOREVER);
-    }
-
-    disableAutoSpin() {
-        this.isAutoSpin = false;
-
-        this.unschedule(this.onScheduleAutoSpin);
-    }
-
-    onScheduleAutoSpin() {
-        if (this.isSpinning) {
-            return;
-        }
-
-        if (!this.isAutoSpin) {
-            this.disableAutoSpin();
-            return;
-        }
-
-        this.spin();
     }
 }
