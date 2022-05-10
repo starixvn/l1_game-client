@@ -16,16 +16,7 @@ const configs = {
     },
     guideDomain: "https://l1-guide-3.lumigame.com",
     kenoVietLotUrl: "https://vietlott.vn/vi/trung-thuong/ket-qua-trung-thuong/winning-number-keno",
-    enableMsgpackParserOnGame: {
-        45: false,
-        1: true,
-        2: false,
-        4: true,
-        9: true,
-        10: false,
-        22: true,
-        27: true
-    }
+    enableMsgpackParserOnGame: {}
 };
 
 module.exports = configs;

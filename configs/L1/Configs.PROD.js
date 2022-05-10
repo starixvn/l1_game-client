@@ -23,11 +23,13 @@ const configs = {
         42: true,
         1: true,
         2: true,
+        3: true,
         4: true,
         9: true,
-        10: false,
+        10: true,
         22: true,
-        27: false,
+        25: true,
+        27: true,
         46: true
     }
 };
