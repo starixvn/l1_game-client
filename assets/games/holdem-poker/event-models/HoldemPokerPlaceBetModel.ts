@@ -72,13 +72,13 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
         this.emit(HoldemPokerPlaceBetModel.Events.DEAL, this);
     }
 
-    rebet(isReBetAndDeal = true) {
+    rebet(isReBetAndDeal = true, isTexas: boolean) {
         this.choices = cloneDeep(this.previousChoices);
         this.emit(HoldemPokerPlaceBetModel.Events.PLACE_BET, this);
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_GAME_ROUND, this);
 
         if (isReBetAndDeal) {
-            this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_ALL_CHIPS, this);
+            !isTexas && this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_ALL_CHIPS, this);
         } else {
             for (const [key, value] of Object.entries(this.choices)) {
                 this.emit(HoldemPokerPlaceBetModel.Events.PLACE_BET_CHIPS, {
@@ -90,8 +90,8 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
         }
     }
 
-    rebetAndDeal() {
-        this.rebet(true);
+    rebetAndDeal(isTexas = false) {
+        this.rebet(true, isTexas);
     }
 
     doubleAndCall() {

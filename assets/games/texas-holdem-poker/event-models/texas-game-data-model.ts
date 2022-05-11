@@ -163,7 +163,7 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
             this.stateModel.rebet();
         }
         if (!!data.rebetAndDeal) {
-            this.placeBetModel.rebetAndDeal();
+            this.placeBetModel.rebetAndDeal(true);
             this.stateModel.deal();
         }
     }
