@@ -1,5 +1,3 @@
-import { result } from "lodash";
-
 import AudioManager from "../../../common/audio/AudioManager";
 import { events } from "../../_new/connection/SocketIOConnection";
 import FeatureSlotGameBase, { RoundType } from "../../_slotgame_base/FeatureSlotGameBase";
@@ -9,6 +7,8 @@ import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/Cas
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 import CascadeSlotBoard from "./CascadeSlotBoard";
 import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
+import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -47,6 +47,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     @property({ visible: false, override: true })
     gameAudiosPrefab: cc.Prefab = null;
+
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
+
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
 
     //#endregion
 
@@ -134,5 +140,15 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData = new CascadingSlotGameData(this);
 
         this.gameData.finishModel.on(CascadingSlotFinishModel.Events.SETTLE, handleSettle(this));
+    }
+
+    onClickShowHistory() {
+        AudioManager.getInstance().playClick();
+        this.expandableMenu.collapseMenu();
+
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(CascadingSlotGameHistory);
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.addDialog(dialog);
     }
 }
