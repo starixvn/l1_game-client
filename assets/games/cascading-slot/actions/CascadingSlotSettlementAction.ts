@@ -1,4 +1,4 @@
-import { CascadingSlotFinishData } from "../models/CascadingSlotFinishModel";
+import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertStringToArray } from "../view-models/CascadingSlotUtils";
 
@@ -18,8 +18,13 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         const explode = convertData(settlement.explode);
         const newItems = convertData(settlement.new);
 
-        // show win for every icon
         if (tumble.win > 0) {
+            Object.keys(tumble.icons).forEach((iconKey) => {
+                const winIconDetail: WinIconDetail = tumble.icons[iconKey];
+                const node = mainGame.board.getRandomWinItem(explode, +iconKey);
+                const position = mainGame.effectContainer.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0)));
+                mainGame.createFlyWinLabel(mainGame.effectContainer, position, winIconDetail.win);
+            });
             mainGame.gameData.uiModel.increaseTumbleWin(tumble.win);
             mainGame.gameData.uiModel.increaseTotalWin(tumble.win);
         }

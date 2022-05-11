@@ -92,6 +92,21 @@ export default class CascadeSlotBoard extends cc.Component {
         }
     }
 
+    getRandomWinItem(data: number[][], winIcon: number): cc.Node {
+        const list = [];
+        for (let i = 0; i < this.reels.length; i++) {
+            const reelData = data[i];
+            for (let j = 0; j < reelData.length; j++) {
+                if (reelData[j] === winIcon) {
+                    list.push({ i, j });
+                }
+            }
+        }
+        const randomIndex = _.random(0, list.length - 1, false);
+        const randomItem = list[randomIndex];
+        return this.reels[randomItem.i].getItemNode(randomItem.j);
+    }
+
     public async removeItems(data: number[][]) {
         await Promise.all(
             this.reels.map(async (reel, index) => {
@@ -106,7 +121,7 @@ export default class CascadeSlotBoard extends cc.Component {
     }
 
     public addItems(data: number[][]) {
-        this.reels.forEach(async (reel, index) => {
+        this.reels.forEach((reel, index) => {
             const items = data[index];
             reel.addItems(items);
         });

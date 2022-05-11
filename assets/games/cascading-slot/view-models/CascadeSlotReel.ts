@@ -90,6 +90,11 @@ export default class CascadeSlotReel extends cc.Component {
         await this.fallWithOffset(0);
     }
 
+    getItemNode(index: number): cc.Node {
+        const item = this.items[index];
+        return item.node;
+    }
+
     async removeItem(index: number) {
         const item = this.items[index];
         const animation = item.getComponentInChildren(cc.Animation);

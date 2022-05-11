@@ -101,7 +101,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             freeSpins: 0,
             tumbles: [
                 {
-                    icons: {},
+                    icons: { "8": { win: 100, count: 10 } },
                     win: 30,
                     settlement: {
                         explode: "8,8,8,,8,,8,8,8,,,,8,,,,,8,,,,,,8,,,,,,", // 30 icons
@@ -179,6 +179,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                 cc.tween().to(0.2, { scale: 1.1 }, { easing: "sineOut" }).to(0.3, { scale: 1 }, { easing: "sineOut" }),
                 cc.tween().by(0.5, { y: 100 })
             )
+            .to(0.2, { opacity: 0 })
+            .call(() => {
+                node.destroy();
+            })
             .start();
     }
 

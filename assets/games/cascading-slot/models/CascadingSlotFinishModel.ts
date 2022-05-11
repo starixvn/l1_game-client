@@ -12,6 +12,11 @@ export interface Tumble {
     result: string;
 }
 
+export interface WinIconDetail {
+    count: number;
+    win: number;
+}
+
 export interface CascadingSlotFinishData {
     roundId: number;
     result: string;
