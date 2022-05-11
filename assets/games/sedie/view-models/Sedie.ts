@@ -14,6 +14,8 @@ import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
 import IOSPortraitGuide from "./IOSPortraitGuide";
+import PortraitModeIntroduction from "./PortraitModeIntroduction";
+import SedieTutorial from "./SedieTutorial";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -64,14 +66,14 @@ export default class Sedie extends FreeBetGameBase {
     expandableMenu: ExpandableMenu = null;
 
     @property(cc.Node)
-    IOSPortraitGuideNode: cc.Node = null;
+    portraitGuideNode: cc.Node = null;
 
     @property(cc.Prefab)
-    IOSPortraitGuide: cc.Prefab = null;
+    portraitGuide: cc.Prefab = null;
 
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
-    private iosPortraitGuideComp: IOSPortraitGuide;
+    private sedieTutorialComp: SedieTutorial;
 
     constructor() {
         super();
@@ -98,11 +100,14 @@ export default class Sedie extends FreeBetGameBase {
 
         this.miniRoundHistory.tip.node.zIndex = 100;
         GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
+        if (GameUtils.isIOSPhone() && this.orientation === Orientation.Portrait) {
+            this.initTutorial();
+        }
     }
 
     start() {
         super.start();
-        this.handleIOSPortraitGuide();
+        this.handleTutorial();
     }
 
     onEnable() {
@@ -244,40 +249,39 @@ export default class Sedie extends FreeBetGameBase {
         });
     }
 
-    handleIOSPortraitGuide() {
-        if (!this.IOSPortraitGuideNode || !this.IOSPortraitGuide || this.IOSPortraitGuideNode.childrenCount > 0) {
+    handleTutorial() {
+        if (!this.portraitGuideNode || !this.portraitGuide || this.portraitGuideNode.childrenCount > 0) {
             return;
         }
-
-        if (window.gameOrientation === Orientation.Portrait) {
-            this.initIOSPortraitGuide();
+        if (GameUtils.isPhone() && this.orientation === Orientation.Landscape) {
+            this.initTutorial();
+            return;
         }
-
         window.addEventListener("orientationchange", () => {
-            window.innerHeight < window.innerWidth ? this.initIOSPortraitGuide() : this.iosPortraitGuideComp.node.destroy();
+            if (GameUtils.isIOSPhone() && this.orientation === Orientation.Portrait) {
+                this.initTutorial();
+            }
         });
     }
 
-    initIOSPortraitGuide() {
-        const storageKey = "IOS_portrait_guide";
-        const storage = cc.sys.localStorage.getItem(storageKey);
-        const data = storage
-            ? JSON.parse(storage)
-            : {
-                  enabled: true
-              };
+    initTutorial() {
+        this.portraitGuideNode.destroyAllChildren();
+        const guideNode = cc.instantiate(this.portraitGuide);
+        this.sedieTutorialComp =
+            this.orientation === Orientation.Landscape
+                ? guideNode.getComponent(PortraitModeIntroduction)
+                : guideNode.getComponent(IOSPortraitGuide);
+
+        const data = this.sedieTutorialComp.getLocalStorageData();
 
         if (!data.enabled) {
             return;
         }
 
-        const guideNode = cc.instantiate(this.IOSPortraitGuide);
-        this.iosPortraitGuideComp = guideNode.getComponent(IOSPortraitGuide);
-        this.IOSPortraitGuideNode.addChild(guideNode);
-
-        this.iosPortraitGuideComp.toggleCallback = (dontShow: boolean) => {
+        this.portraitGuideNode.addChild(guideNode);
+        this.sedieTutorialComp.dontShowAgainCallback = (dontShow: boolean) => {
             data.enabled = !dontShow;
-            cc.sys.localStorage.setItem(storageKey, JSON.stringify(data));
+            this.sedieTutorialComp.setLocalStorageData(data);
         };
     }
 }

@@ -1,25 +1,19 @@
-import AudioManager from "../../../common/audio/AudioManager";
+import SedieTutorial from "./SedieTutorial";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class IOSPortraitGuide extends cc.Component {
-    toggleCallback = (value: boolean) => {
-        // toggleCallback
-    };
+export default class IOSPortraitGuide extends SedieTutorial {
+    protected storageKey = "IOS_portrait_guide";
 
-    onClickSkip() {
+    onClickClose() {
         this.playClick();
         this.node.destroy();
     }
 
-    onToggleChanged(toggle: cc.Toggle) {
+    onClickDontShowAgain() {
         this.playClick();
-
-        const checked = toggle.isChecked;
-        this.toggleCallback(checked);
-    }
-
-    private playClick() {
-        AudioManager.getInstance().playClick();
+        this.dontShowAgainCallback(true);
+        this.node.destroy();
     }
 }

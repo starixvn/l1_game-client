@@ -40,19 +40,22 @@
       },
       {
         "__id__": 972
+      },
+      {
+        "__id__": 989
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 989
+        "__id__": 992
       },
       {
-        "__id__": 990
+        "__id__": 993
       }
     ],
     "_prefab": {
-      "__id__": 991
+      "__id__": 994
     },
     "_opacity": 255,
     "_color": {
@@ -36145,6 +36148,108 @@
     "sync": false
   },
   {
+    "__type__": "cc.Node",
+    "_name": "intro-portrait-feature",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 990
+      }
+    ],
+    "_prefab": {
+      "__id__": 991
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 1398,
+      "height": 786
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 989
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "1f61ac7f-a992-4a3c-86e2-92c9969eded1"
+    },
+    "fileId": "76f8+wiZxOvZKIFncBxz4e",
+    "sync": false
+  },
+  {
     "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
@@ -36365,8 +36470,12 @@
       "__id__": 588
     },
     "expandableMenu": null,
-    "IOSPortraitGuideNode": null,
-    "IOSPortraitGuide": null,
+    "portraitGuideNode": {
+      "__id__": 989
+    },
+    "portraitGuide": {
+      "__uuid__": "200f8b12-a80b-4d14-9f87-99b5e4d0ca90"
+    },
     "_id": ""
   },
   {
