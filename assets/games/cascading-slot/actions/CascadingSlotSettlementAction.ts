@@ -1,6 +1,5 @@
 import { CascadingSlotFinishData } from "../models/CascadingSlotFinishModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
-import { ConfigDurationEnum } from "../view-models/CascadingSlotBaseConfig";
 import { convertBoardValue, convertStringToArray } from "../view-models/CascadingSlotUtils";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
@@ -13,13 +12,18 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
 
     let i = 0;
     const tumbles = data.tumbles;
-    const highlightWinItemsDuration = mainGame.getCustomDuration(ConfigDurationEnum.highlightWinItemsDuration);
     while (i < tumbles.length) {
-        const settlement = tumbles[i].settlement;
+        const tumble = tumbles[i];
+        const settlement = tumble.settlement;
         const explode = convertData(settlement.explode);
         const newItems = convertData(settlement.new);
 
-        // await GameUtils.delayTime(highlightWinItemsDuration);
+        // show win for every icon
+        if (tumble.win > 0) {
+            mainGame.gameData.uiModel.increaseTumbleWin(tumble.win);
+            mainGame.gameData.uiModel.increaseTotalWin(tumble.win);
+        }
+
         await mainGame.board.removeItems(explode);
         mainGame.board.addItems(newItems);
         await mainGame.board.fallIn();
@@ -27,9 +31,12 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         i++;
     }
 
-    // handle big win
+    // if isFreeSpin add total multiplier
+    // increase Multiplier
 
-    //handle freeSpins here
+    // show effect big win
 
-    //handle auto spin next
+    // show effect freeSpins here
+
+    // handle auto spin next
 };
