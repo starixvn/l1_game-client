@@ -100,9 +100,6 @@ export default class Sedie extends FreeBetGameBase {
 
         this.miniRoundHistory.tip.node.zIndex = 100;
         GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
-        if (GameUtils.isIOSPhone() && this.orientation === Orientation.Portrait) {
-            this.initTutorial();
-        }
     }
 
     start() {
@@ -250,30 +247,29 @@ export default class Sedie extends FreeBetGameBase {
     }
 
     handleTutorial() {
-        if (!this.portraitGuideNode || !this.portraitGuide || this.portraitGuideNode.childrenCount > 0) {
+        if (!this.portraitGuideNode || !this.portraitGuide) {
             return;
         }
+
         if (GameUtils.isPhone() && this.orientation === Orientation.Landscape) {
             this.initTutorial();
             return;
         }
-        window.addEventListener("orientationchange", () => {
-            if (GameUtils.isIOSPhone() && this.orientation === Orientation.Portrait) {
-                this.initTutorial();
-            }
-        });
+
+        if (GameUtils.isIOSPhone() && this.orientation === Orientation.Portrait) {
+            this.initTutorial();
+
+            window.addEventListener("orientationchange", () => {
+                window.innerHeight < window.innerWidth ? this.initTutorial() : this.portraitGuideNode.destroyAllChildren();
+            });
+        }
     }
 
     initTutorial() {
         this.portraitGuideNode.destroyAllChildren();
         const guideNode = cc.instantiate(this.portraitGuide);
-        this.sedieTutorialComp =
-            this.orientation === Orientation.Landscape
-                ? guideNode.getComponent(PortraitModeIntroduction)
-                : guideNode.getComponent(IOSPortraitGuide);
-
+        this.sedieTutorialComp = guideNode.getComponent(SedieTutorial);
         const data = this.sedieTutorialComp.getLocalStorageData();
-
         if (!data.enabled) {
             return;
         }
