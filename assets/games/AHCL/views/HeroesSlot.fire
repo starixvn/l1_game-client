@@ -4319,6 +4319,7 @@
     "itemLocationMap": {
       "__id__": 50
     },
+    "soundSources": [],
     "_id": "47hU61nRhHnowaX9CQe7DL"
   },
   {
@@ -14216,7 +14217,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        548,
+        372,
         0,
         0,
         0,
@@ -14419,7 +14420,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        372,
+        546,
         0,
         0,
         0,
@@ -17078,7 +17079,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        372,
+        546,
         0,
         0,
         0,
@@ -19721,7 +19722,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        546,
+        372,
         0,
         0,
         0,
@@ -22357,6 +22358,7 @@
     "timeWaitNode": null,
     "timeWaitLabel": null,
     "animatedTime": null,
+    "md5Component": null,
     "gameRound": {
       "__id__": 194
     },
@@ -22389,6 +22391,9 @@
     },
     "userAvatar": null,
     "winningPlayerEffectPrefab": null,
+    "musicBg": {
+      "__id__": 6
+    },
     "slotBoard": {
       "__id__": 99
     },
@@ -22468,9 +22473,6 @@
     },
     "effectJackpot": null,
     "jackpotPoolInfo": null,
-    "musicBg": {
-      "__id__": 6
-    },
     "soundSources": [
       {
         "__id__": 9
@@ -22491,7 +22493,9 @@
     "spinButton": {
       "__id__": 294
     },
+    "messageText": null,
     "autoGenerateLines": true,
+    "offerKeySpaceOrHoldSpin": false,
     "linePrefab": {
       "__uuid__": "6057247a-3fae-4a2b-a54e-ec3acb3c4d6e"
     },
