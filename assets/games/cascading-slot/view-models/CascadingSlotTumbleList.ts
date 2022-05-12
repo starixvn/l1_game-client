@@ -12,8 +12,9 @@ export default class CascadingSlotTumbleList extends cc.Component {
 
     onLoad() {
         const icons = {
-            "8": { count: 6, win: 10 },
-            "9": { count: 6, win: 10 }
+            "1": { count: 10, win: 0.55 },
+            "2": { count: 19, win: 0.55 },
+            "3": { count: 8, win: 1.28 }
         };
         this.handleTumbleList(icons);
     }
@@ -30,6 +31,6 @@ export default class CascadingSlotTumbleList extends cc.Component {
             this.content.addChild(tumbleNode);
             index++;
         });
-        this.content.height = 50 * index;
+        this.content.height = 37 * index;
     }
 }
