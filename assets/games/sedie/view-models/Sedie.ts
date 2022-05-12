@@ -269,4 +269,15 @@ export default class Sedie extends FreeBetGameBase {
             tutorialComp.setLocalStorageData(data);
         };
     }
+
+    showWinningBet(bet: number) {
+        let winningBet;
+        if (this.orientation === Orientation.Landscape) {
+            winningBet = GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, this.WinningAnimationDuration, 80, 10);
+        } else {
+            winningBet = GameUtils.addFlyingText(this.userBalance.node, true, bet, this.WinningAnimationDuration, 40, 10);
+        }
+
+        winningBet.name = "winningBet";
+    }
 }
