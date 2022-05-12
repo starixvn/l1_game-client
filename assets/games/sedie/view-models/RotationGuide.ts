@@ -13,7 +13,7 @@ export default class RotationGuide extends SedieTutorial {
             if (data.enabled) {
                 this.closeIntroduction();
             }
-        }, 8000);
+        }, 6000);
     }
 
     onClickOK() {
