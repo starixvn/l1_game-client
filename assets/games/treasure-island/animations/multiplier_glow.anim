@@ -1,12 +1,12 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "Multiplier-idle",
+  "_name": "multiplier_glow",
   "_objFlags": 0,
   "_native": "",
   "_duration": 1.5,
   "sample": 40,
   "speed": 1,
-  "wrapMode": 2,
+  "wrapMode": 1,
   "curveData": {
     "paths": {
       "wing": {
@@ -60,20 +60,10 @@
                 "y": 1
               }
             }
-          ],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -12.155,
-                0,
-                0
-              ]
-            }
           ]
         }
       },
-      "gem": {
+      "value": {
         "props": {
           "scale": [
             {
@@ -116,159 +106,10 @@
                 "y": 1
               }
             }
-          ],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -12.155,
-                0,
-                0
-              ]
-            }
           ]
         }
       },
-      "gem1": {
-        "props": {
-          "opacity": [
-            {
-              "frame": 0.25,
-              "value": 0
-            },
-            {
-              "frame": 0.5,
-              "value": 255
-            },
-            {
-              "frame": 0.75,
-              "value": 0
-            },
-            {
-              "frame": 1,
-              "value": 255
-            },
-            {
-              "frame": 1.25,
-              "value": 0
-            },
-            {
-              "frame": 1.5,
-              "value": 0
-            }
-          ],
-          "scale": [
-            {
-              "frame": 0.75,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 0.875,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0.9,
-                "y": 0.9
-              }
-            },
-            {
-              "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.2,
-                "y": 1.2
-              }
-            },
-            {
-              "frame": 1.375,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.05,
-                "y": 1.05
-              }
-            },
-            {
-              "frame": 1.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            }
-          ],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -12.155,
-                0,
-                0
-              ]
-            }
-          ]
-        }
-      },
-      "text": {
-        "props": {
-          "scale": [
-            {
-              "frame": 0.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 0.625,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0.9,
-                "y": 0.9
-              }
-            },
-            {
-              "frame": 0.75,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.2,
-                "y": 1.2
-              }
-            },
-            {
-              "frame": 1.4,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.05,
-                "y": 1.05
-              }
-            },
-            {
-              "frame": 1.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            }
-          ],
-          "opacity": [],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -12.155,
-                0,
-                0
-              ]
-            }
-          ]
-        }
-      },
-      "fire1": {
+      "fire": {
         "props": {
           "opacity": [
             {
@@ -348,7 +189,7 @@
           }
         }
       },
-      "gem-yellow": {
+      "normal": {
         "props": {
           "scale": [
             {
@@ -391,20 +232,10 @@
                 "y": 1
               }
             }
-          ],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -12.155,
-                0,
-                0
-              ]
-            }
           ]
         }
       },
-      "gem-yellow-glow": {
+      "glow": {
         "props": {
           "opacity": [
             {
@@ -472,16 +303,6 @@
                 "x": 1,
                 "y": 1
               }
-            }
-          ],
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                -12.155,
-                0,
-                0
-              ]
             }
           ]
         }

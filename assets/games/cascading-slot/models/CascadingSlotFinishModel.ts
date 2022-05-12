@@ -26,6 +26,7 @@ export interface CascadingSlotFinishData {
     freeSpins: number;
 
     tumbles: Tumble[];
+    m: number[];
 }
 
 export class CascadingSlotFinishModel extends EventEmitterBase {

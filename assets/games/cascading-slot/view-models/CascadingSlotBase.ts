@@ -102,7 +102,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     test() {
         const data: CascadingSlotFinishData = {
             roundId: 0,
-            result: "8,8,8,3,8,9,8,8,8,9,5,9,8,1,1,9,5,8,1,7,5,6,7,8,5,7,7,6,7,7", // 30 items on board
+            result: "8,8,8,3,8,9,8,8,8,9,5,10,8,1,1,9,5,8,1,7,5,6,7,8,5,7,7,6,7,7", // 30 items on board
             win: 30,
             bigWin: true,
             freeSpins: 0,
@@ -112,11 +112,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     win: 30,
                     settlement: {
                         explode: "8,8,8,,8,,8,8,8,,,,8,,,,,8,,,,,,8,,,,,,", // 30 icons
-                        new: "4,5,9,,1,2,3,6,9,,,3,1,,,,,,,,,,,,,,,,," // 30 icons
+                        new: "4,5,9,,10,2,3,6,9,,,10,1,,,,,,,,,,,,,,,,," // 30 icons
                     },
                     result: ""
                 }
-            ]
+            ],
+            m: [5, 2, 3]
         };
         handleSettle(this)(data);
     }

@@ -8,7 +8,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     };
 
     const result = convertData(data.result);
-    await mainGame.board.spinResult(result);
+    const multiplier = data.m;
+    await mainGame.board.spinResult(result, multiplier);
 
     let i = 0;
     const tumbles = data.tumbles;
@@ -30,7 +31,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         }
 
         await mainGame.board.removeItems(explode);
-        mainGame.board.addItems(newItems);
+        mainGame.board.addItems(newItems, multiplier);
         await mainGame.board.fallIn();
 
         i++;
