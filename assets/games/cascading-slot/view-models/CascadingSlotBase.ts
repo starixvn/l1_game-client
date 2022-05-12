@@ -1,3 +1,4 @@
+import { CascadingSlotConfigModel } from "./../models/CascadingSlotConfigModel";
 import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
@@ -13,6 +14,8 @@ import CascadeSlotBoard from "./CascadeSlotBoard";
 import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 import TumbleWinView from "./TumbleWinView";
+import CascadingBetMultiplier from "./CascadingBetMultiplier";
+import { handleConfig } from "../actions/CascadingSlotConfigAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -58,6 +61,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    multiplierPrefab: cc.Prefab = null;
+
     //#endregion
 
     @property(CascadeSlotBoard)
@@ -82,6 +88,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected cascadingSlotConfig: CascadingSlotBaseConfig;
     protected isAutoSpin = false;
     protected isSpinning = false;
+    multiplierComponent: CascadingBetMultiplier;
 
     async onSpinClick() {
         AudioManager.getInstance().playClick();
@@ -146,6 +153,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.onLoad();
         this.initCascadingSlotConfig();
         this.initGameDataEvents();
+        this.initBetMultiplier();
     }
 
     protected initCascadingSlotConfig() {
@@ -164,6 +172,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
             this.tumbleWinView.setValue(value, true);
         });
+
+        this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, handleConfig(this));
     }
 
     createFlyWinLabel(container: cc.Node, position: cc.Vec3, value: number) {
@@ -193,6 +203,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(CascadingSlotGameHistory);
         this.historyComponent.init(this.socket);
+        this.currentMiniPanel.addDialog(dialog);
+    }
+
+    initBetMultiplier() {
+        const dialog = cc.instantiate(this.multiplierPrefab);
+        this.multiplierComponent = dialog.getComponent(CascadingBetMultiplier);
         this.currentMiniPanel.addDialog(dialog);
     }
 }

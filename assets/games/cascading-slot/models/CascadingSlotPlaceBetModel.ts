@@ -4,8 +4,8 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export interface PlaceBetData {
     betLevel: number;
-    coin: number;
-    freeSpin: boolean;
+    coinValues: number;
+    freeSpin?: boolean;
     totalBet: number;
 }
 
