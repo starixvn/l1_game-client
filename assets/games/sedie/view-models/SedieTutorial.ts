@@ -3,7 +3,8 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class SedieTutorial extends cc.Component {
-    protected storageKey;
+    storageKey;
+
     dontShowAgainCallback = (value: boolean) => {
         // toggleCallback
     };

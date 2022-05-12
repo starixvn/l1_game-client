@@ -4,7 +4,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class IOSPortraitGuide extends SedieTutorial {
-    protected storageKey = "IOS_portrait_guide";
+    storageKey = "IOS_portrait_guide";
 
     onClickClose() {
         this.playClick();

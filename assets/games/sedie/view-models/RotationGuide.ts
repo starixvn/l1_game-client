@@ -3,9 +3,9 @@ import SedieTutorial from "./SedieTutorial";
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class PortraitModeIntroduction extends SedieTutorial {
+export default class RotationGuide extends SedieTutorial {
     private isHideIntro;
-    protected storageKey = "portrait_mode_intro";
+    storageKey = "portrait_mode_intro";
 
     onLoad() {
         setTimeout(() => {

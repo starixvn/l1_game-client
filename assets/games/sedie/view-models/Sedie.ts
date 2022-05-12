@@ -13,8 +13,6 @@ import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
-import IOSPortraitGuide from "./IOSPortraitGuide";
-import PortraitModeIntroduction from "./PortraitModeIntroduction";
 import SedieTutorial from "./SedieTutorial";
 
 const { ccclass, property } = cc._decorator;
@@ -104,7 +102,9 @@ export default class Sedie extends FreeBetGameBase {
 
     start() {
         super.start();
-        this.handleTutorial();
+        if (GameUtils.isPhone() && this.orientation === Orientation.Landscape) {
+            this.addTutorial("RotationGuide");
+        }
     }
 
     onEnable() {
@@ -112,6 +112,10 @@ export default class Sedie extends FreeBetGameBase {
         this.loading.active = true;
         if (this.orientation === Orientation.Portrait) {
             this.currentMiniPanel.miniMenu.active = false;
+        }
+
+        if (GameUtils.isIOSPhone && this.orientation === Orientation.Portrait) {
+            this.addTutorial("IOSPortraitGuide");
         }
     }
 
@@ -246,36 +250,23 @@ export default class Sedie extends FreeBetGameBase {
         });
     }
 
-    handleTutorial() {
+    addTutorial(componentName) {
         if (!this.portraitGuideNode || !this.portraitGuide) {
             return;
         }
 
-        if (GameUtils.isPhone() && this.orientation === Orientation.Landscape) {
-            this.initTutorial();
-            return;
-        }
-
-        if (GameUtils.isIOSPhone() && this.orientation === Orientation.Portrait) {
-            window.addEventListener("orientationchange", () => {
-                window.innerHeight < window.innerWidth ? this.initTutorial() : this.portraitGuideNode.destroyAllChildren();
-            });
-        }
-    }
-
-    initTutorial() {
         this.portraitGuideNode.destroyAllChildren();
         const guideNode = cc.instantiate(this.portraitGuide);
-        this.sedieTutorialComp = guideNode.getComponent(SedieTutorial);
-        const data = this.sedieTutorialComp.getLocalStorageData();
+        const tutorialComp: SedieTutorial = guideNode.getComponent(componentName);
+        const data = tutorialComp.getLocalStorageData();
         if (!data.enabled) {
             return;
         }
 
         this.portraitGuideNode.addChild(guideNode);
-        this.sedieTutorialComp.dontShowAgainCallback = (dontShow: boolean) => {
+        tutorialComp.dontShowAgainCallback = (dontShow: boolean) => {
             data.enabled = !dontShow;
-            this.sedieTutorialComp.setLocalStorageData(data);
+            tutorialComp.setLocalStorageData(data);
         };
     }
 }
