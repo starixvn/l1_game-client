@@ -37,6 +37,8 @@ export default class CascadingSlotHistoryItem extends cc.Component {
 
     bgHighlightColor: cc.Color = cc.Color.WHITE;
 
+    data: any = null;
+
     setData(betLog, index) {
         // handle
         const win = betLog.totalTumbleWin;
@@ -64,4 +66,8 @@ export default class CascadingSlotHistoryItem extends cc.Component {
     public showTicketDetail = (data: any) => {
         // handle
     };
+
+    openTicketDetail() {
+        this.showTicketDetail(this.data);
+    }
 }
