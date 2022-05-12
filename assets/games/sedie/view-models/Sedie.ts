@@ -257,8 +257,6 @@ export default class Sedie extends FreeBetGameBase {
         }
 
         if (GameUtils.isIOSPhone() && this.orientation === Orientation.Portrait) {
-            this.initTutorial();
-
             window.addEventListener("orientationchange", () => {
                 window.innerHeight < window.innerWidth ? this.initTutorial() : this.portraitGuideNode.destroyAllChildren();
             });

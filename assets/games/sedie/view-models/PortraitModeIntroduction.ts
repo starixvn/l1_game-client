@@ -8,12 +8,12 @@ export default class PortraitModeIntroduction extends SedieTutorial {
     protected storageKey = "portrait_mode_intro";
 
     onLoad() {
-        // setTimeout(() => {
-        //     const data = this.getLocalStorageData();
-        //     if (data.enabled) {
-        //         this.closeIntroduction();
-        //     }
-        // }, 4000);
+        setTimeout(() => {
+            const data = this.getLocalStorageData();
+            if (data.enabled) {
+                this.closeIntroduction();
+            }
+        }, 4000);
     }
 
     onClickOK() {
