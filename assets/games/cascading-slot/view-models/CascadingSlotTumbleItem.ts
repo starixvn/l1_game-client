@@ -20,6 +20,5 @@ export default class CascadingSlotTumbleItem extends cc.Component {
         this.numberIcon.string = count.toString();
         this.winningValue.string = win.toString();
         this.symbol.spriteFrame = this.mainAtlas.getSpriteFrame("symbol_" + icon);
-        this.symbol.node.scale = 0.2;
     }
 }
