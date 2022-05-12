@@ -243,7 +243,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                     const location = event.getLocation();
                     const hit = this.spinButton.node._hitTest(location);
                     if (hit) {
-                        this.onSpinClick();
+                        this.spinAction();
                     }
 
                     this.notHoldSpinButton();
@@ -422,7 +422,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
             this.isKeyDownSpace = true;
-            this.onSpinClick();
+            this.spinAction();
         }
     }
 
@@ -723,6 +723,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     onSpinClick() {
         AudioManager.getInstance().playClick();
+        this.spinAction();
+    }
+
+    spinAction() {
         this.expandableMenu.collapseMenu();
         const success = this.spin();
         if (success) {
