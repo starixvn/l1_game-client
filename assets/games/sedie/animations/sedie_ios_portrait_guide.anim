@@ -1,40 +1,14 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "ios-portrait-guide",
+  "_name": "Se Die Portrait Fullscreen Popup Guide",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 9,
+  "_duration": 11,
   "sample": 60,
   "speed": 1,
   "wrapMode": 2,
   "curveData": {
     "paths": {
-      "Screen2": {
-        "props": {
-          "opacity": [
-            {
-              "frame": 0,
-              "value": 0
-            },
-            {
-              "frame": 3,
-              "value": 0
-            },
-            {
-              "frame": 3.533333333333333,
-              "value": 255
-            },
-            {
-              "frame": 8.5,
-              "value": 255
-            },
-            {
-              "frame": 9,
-              "value": 0
-            }
-          ]
-        }
-      },
       "Arrow 1": {
         "props": {
           "opacity": [
@@ -875,6 +849,176 @@
             {
               "frame": 8,
               "value": 0
+            }
+          ]
+        }
+      },
+      "Mask Screen/Screen2": {
+        "comps": {},
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 3,
+              "value": 0
+            },
+            {
+              "frame": 3.3333333333333335,
+              "value": 255
+            },
+            {
+              "frame": 8.5,
+              "value": 255
+            },
+            {
+              "frame": 9,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "Mask Screen/Screen 1": {
+        "comps": {},
+        "props": {
+          "scale": [
+            {
+              "frame": 9,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 9.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 0.92
+              }
+            },
+            {
+              "frame": 9.516666666666667,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 9,
+              "value": 255
+            },
+            {
+              "frame": 9.5,
+              "value": 0
+            }
+          ],
+          "y": [
+            {
+              "frame": 9,
+              "value": 354
+            },
+            {
+              "frame": 9.5,
+              "value": 368.418
+            }
+          ]
+        }
+      },
+      "Mask Screen/Screen 1 movin": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 8.983333333333333,
+              "value": 0
+            },
+            {
+              "frame": 9,
+              "value": 255
+            }
+          ],
+          "y": [
+            {
+              "frame": 9,
+              "value": -89
+            },
+            {
+              "frame": 9.25,
+              "value": -36.827
+            },
+            {
+              "frame": 11,
+              "value": -36.827
+            }
+          ]
+        }
+      },
+      "Mask Screen/screen1 hide address": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 8.983333333333333,
+              "value": 0
+            },
+            {
+              "frame": 9,
+              "value": 255
+            }
+          ],
+          "y": [
+            {
+              "frame": 9,
+              "value": -107.657
+            },
+            {
+              "frame": 9.5,
+              "value": -65.713
+            }
+          ]
+        }
+      },
+      "web address": {
+        "props": {
+          "scale": [
+            {
+              "frame": 9.083333333333334,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 9.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.6,
+                "y": 0.6
+              }
+            }
+          ],
+          "y": [
+            {
+              "frame": 9.083333333333334,
+              "value": 312.56
+            },
+            {
+              "frame": 9.5,
+              "value": 334.175
+            },
+            {
+              "frame": 11,
+              "value": 334.175
             }
           ]
         }
