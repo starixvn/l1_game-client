@@ -79,15 +79,15 @@ export default class CascadeSlotBoard extends cc.Component {
     //     //show total win here
     // }
 
-    public async spinResult(symbols: number[][], multilipler: number[]) {
+    public async spinResult(symbols: number[][], multiplier: number[]) {
         const delay = 0.1;
         for (let i = 0; i < this.reels.length; i++) {
             await GameUtils.delayTime(delay);
             const waitToChangeItem = delay * (this.reels.length - 1 - i);
             if (i < this.reels.length - 1) {
-                this.reels[i].spin(symbols[i], waitToChangeItem, multilipler);
+                this.reels[i].spin(symbols[i], waitToChangeItem, multiplier);
             } else {
-                await this.reels[i].spin(symbols[i], waitToChangeItem, multilipler);
+                await this.reels[i].spin(symbols[i], waitToChangeItem, multiplier);
             }
         }
     }
@@ -120,10 +120,10 @@ export default class CascadeSlotBoard extends cc.Component {
         );
     }
 
-    public addItems(data: number[][], multilipler: number[]) {
+    public addItems(data: number[][], multiplier: number[]) {
         this.reels.forEach((reel, index) => {
             const items = data[index];
-            reel.addItems(items, multilipler);
+            reel.addItems(items, multiplier);
         });
     }
 

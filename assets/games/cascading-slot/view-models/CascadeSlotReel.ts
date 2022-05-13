@@ -40,10 +40,10 @@ export default class CascadeSlotReel extends cc.Component {
         return node;
     }
 
-    async spin(data: number[], delay: number, multilipler: number[]) {
+    async spin(data: number[], delay: number, multiplier: number[]) {
         await this.fallOut();
         await GameUtils.delayTime(delay);
-        this.setItemData(data, multilipler);
+        this.setItemData(data, multiplier);
         this.setStartPositionForItems();
         await this.fallIn();
     }
@@ -58,9 +58,9 @@ export default class CascadeSlotReel extends cc.Component {
         return height / this.speed;
     }
 
-    setItemData(data: number[], multilipler: number[]) {
+    setItemData(data: number[], multiplier: number[]) {
         this.items.forEach((item, index) => {
-            item.setItem(data[index], multilipler);
+            item.setItem(data[index], multiplier);
         });
     }
 
@@ -116,14 +116,14 @@ export default class CascadeSlotReel extends cc.Component {
         this.items = this.items.filter((item, index) => !list.includes(index));
     }
 
-    addItems(data: number[], multilipler: number[]) {
+    addItems(data: number[], multiplier: number[]) {
         let i = 0;
         data.forEach((value) => {
             if (value === null) {
                 return;
             }
             const item = this.addItem();
-            item.setItem(value, multilipler);
+            item.setItem(value, multiplier);
             item.node.y = this.getItemPosY(this.itemDisplayCount + i);
             i++;
         });

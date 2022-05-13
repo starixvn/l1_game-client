@@ -19,6 +19,12 @@ export default class MultiplierItem extends cc.Component {
     @property(cc.Animation)
     animation: cc.Animation = null;
 
+    private _multiplierValue = 1;
+
+    get multiplier() {
+        return this._multiplierValue;
+    }
+
     playAnimationGlow() {
         this.animation.play();
     }
@@ -30,6 +36,7 @@ export default class MultiplierItem extends cc.Component {
     }
 
     setValue(value: number) {
+        this._multiplierValue = value;
         this.value.string = `x${value}`;
         this.updateColor(value);
     }
