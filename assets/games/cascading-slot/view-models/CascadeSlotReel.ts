@@ -17,8 +17,8 @@ export default class CascadeSlotReel extends cc.Component {
     itemDisplayCount = 5;
 
     private items: CascadeSlotReelItem[] = [];
-    private readonly speed = 145 / 0.1;
-    private readonly delayMoveEachItem = 0.05;
+    private readonly pixelPerSecond = 600;
+    private readonly delayMoveEachItem = 0.0;
 
     createReel() {
         for (let i = 0; i < this.itemDisplayCount; i++) {
@@ -57,11 +57,6 @@ export default class CascadeSlotReel extends cc.Component {
         return start + index * (this.spacing + this.itemSize);
     }
 
-    get duration() {
-        const height = (this.itemSize + this.spacing) * this.itemDisplayCount + this.spacing;
-        return height / this.speed;
-    }
-
     setItemData(data: number[], multiplier: number[]) {
         this.items.forEach((item, index) => {
             item.setItem(data[index], multiplier);
@@ -78,12 +73,33 @@ export default class CascadeSlotReel extends cc.Component {
         for (let i = 0; i < this.items.length; i++) {
             await GameUtils.delayTime(this.delayMoveEachItem * i);
             const item = this.items[i];
+            const posY = this.getItemPosY(i + offset);
+            const distance = Math.abs(posY - item.node.y);
+            const duration = distance / this.pixelPerSecond;
             cc.tween(item.node)
-                .to(this.duration, { y: this.getItemPosY(i + offset) })
+                .to(
+                    duration,
+                    { y: posY },
+                    {
+                        easing: (dt) => {
+                            const kOut = 1.525;
+                            const kIn = 0;
+                            dt = dt * 2;
+                            if (dt < 1) {
+                                return (dt * dt * ((kIn + 1) * dt - kIn)) / 2;
+                            } else {
+                                dt = dt - 2;
+                                return (dt * dt * ((kOut + 1) * dt + kOut)) / 2 + 1;
+                            }
+                        }
+                    }
+                )
                 .start();
-        }
 
-        await GameUtils.delayTime(this.duration);
+            if (i === this.items.length - 1) {
+                await GameUtils.delayTime(duration);
+            }
+        }
     }
 
     async fallOut() {
