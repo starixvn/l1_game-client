@@ -72,8 +72,8 @@ export default class FreeBetGameBase extends MultiOrientationGame {
     focusWallet(isFreeBet: boolean) {
         this.walletNode.getComponent(cc.Layout).enabled = false;
         this.scoinNode.getChildByName("overlay").active = !isFreeBet;
+        this.dollarNode.getChildByName("active").active = true;
         this.dollarNode.getChildByName("overlay").active = isFreeBet;
-        this.dollarNode.getChildByName("active").active = !isFreeBet;
     }
 
     createCommonBetData() {
