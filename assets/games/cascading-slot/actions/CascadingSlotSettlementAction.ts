@@ -1,6 +1,9 @@
+import _ = require("lodash");
+
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertStringToArray } from "../view-models/CascadingSlotUtils";
+import MultiplierItem from "../view-models/MultiplierItem";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
     const convertData = (value: string) => {
@@ -8,7 +11,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     };
 
     const result = convertData(data.result);
-    const multiplier = data.m;
+    const multiplier = _.cloneDeep(data.m);
     await mainGame.board.spinResult(result, multiplier);
 
     let i = 0;
@@ -37,6 +40,20 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         i++;
     }
 
+    // show total tumble win
+    if (data.m.length > 0) {
+        const items = mainGame.board.getItems();
+        const multiplierItems = items.flatMap((item) => {
+            const comp = item.content.children[0].getComponent(MultiplierItem);
+            return comp ? [comp] : [];
+        });
+        for (const mItem of multiplierItems) {
+            mItem.hideMultiplier();
+            await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
+            mainGame.gameData.uiModel.increaseMultiplier(mItem.multiplier);
+        }
+    }
+
     // if isFreeSpin add total multiplier
     // increase Multiplier
 
@@ -45,4 +62,30 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     // show effect freeSpins here
 
     // handle auto spin next
+};
+
+const movingMultiplier = (multiplierNode: cc.Node, container: cc.Node, destNode: cc.Node) => {
+    return new Promise<void>((resolve) => {
+        const node = cc.instantiate(multiplierNode);
+        node.active = true;
+        const startPos = container.convertToNodeSpaceAR(multiplierNode.convertToWorldSpaceAR(cc.v3(0)));
+        const destPos = container.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v3(0)));
+        container.addChild(node);
+        node.position = startPos;
+
+        const distance = startPos.sub(destPos).mag();
+        const pixelPerSecond = 500;
+        const duration = distance / pixelPerSecond;
+        cc.tween(node)
+            .to(duration, { position: destPos }, { easing: "sineOut" })
+            .call(() => {
+                resolve();
+                node.destroy();
+            })
+            .start();
+        cc.tween(node)
+            .to(duration * 0.5, { scale: 1.1 })
+            .to(duration * 0.5, { scale: 1 })
+            .start();
+    });
 };

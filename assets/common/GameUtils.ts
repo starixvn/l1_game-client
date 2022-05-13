@@ -113,8 +113,9 @@ export default class GameUtils {
         node.parent = destNode;
         node.position = position;
     }
-    public static floatToNumber(label: cc.Label, end: number, duration: number, start?: number, noZeroSuffix = true) {
-        start = start || parseFloat(label.string.replace(/,/g, "")) || 0;
+    public static floatToNumber(label: cc.Label, end: number, duration: number, start?: number, noZeroSuffix = true, prefixStr = "") {
+        const startStr = label.string.replace(prefixStr, "");
+        start = start || parseFloat(startStr.replace(/,/g, "")) || 0;
         const range = Math.abs(end - start);
         if (!range) {
             return;
@@ -130,13 +131,13 @@ export default class GameUtils {
                 cc
                     .tween(label)
                     .call(() => {
-                        label.string = numberWithCommas(value, 2, noZeroSuffix);
+                        label.string = prefixStr + numberWithCommas(value, 2, noZeroSuffix);
                         value += stepValue;
                     })
                     .delay(stepTime)
             )
             .call(() => {
-                label.string = numberWithCommas(end, 2, noZeroSuffix);
+                label.string = prefixStr + numberWithCommas(end, 2, noZeroSuffix);
             })
             .start();
     }

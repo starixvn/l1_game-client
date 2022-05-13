@@ -27,6 +27,10 @@ export default class CascadeSlotReel extends cc.Component {
         }
     }
 
+    getItems() {
+        return this.items;
+    }
+
     addItem() {
         const node = this.createReelItem();
         const item = node.getComponent(CascadeSlotReelItem);

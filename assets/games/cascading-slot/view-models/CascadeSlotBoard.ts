@@ -49,35 +49,13 @@ export default class CascadeSlotBoard extends cc.Component {
         }
 
         const shuffleData = _.shuffle(data);
-        console.log(shuffleData);
         this.reels.forEach((reel, index) => {
             const start = index * reel.itemDisplayCount;
             const end = start + reel.itemDisplayCount;
             const itemData = shuffleData.slice(start, end);
-            console.log(itemData);
             reel.setItemData(itemData, []);
         });
     }
-
-    //not used
-    // async spinGenrations(data: GenerationData[]) {
-    //     let i = 0;
-    //     await this.spinResult(data[i].symbols);
-
-    //     while (i < data.length - 1) {
-    //         const removedSymbols = data[i].removedSymbols;
-    //         //show win items here
-    //         await GameUtils.delayTime(0.5);
-    //         await this.removeItems(removedSymbols);
-    //         const addItems = data[i + 1].symbols;
-    //         this.addItems(addItems);
-    //         await this.fallIn();
-
-    //         i++;
-    //     }
-
-    //     //show total win here
-    // }
 
     public async spinResult(symbols: number[][], multiplier: number[]) {
         const delay = 0.1;
@@ -118,6 +96,14 @@ export default class CascadeSlotBoard extends cc.Component {
                 await reel.removeItemsByIndex(items);
             })
         );
+    }
+
+    public getItems() {
+        const items = this.reels.flatMap((reel) => {
+            return reel.getItems();
+        });
+
+        return items;
     }
 
     public addItems(data: number[][], multiplier: number[]) {

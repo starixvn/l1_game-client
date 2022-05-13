@@ -25,6 +25,11 @@ export default class MultiplierItem extends cc.Component {
         return this._multiplierValue;
     }
 
+    hideMultiplier() {
+        this.value.node.active = false;
+        this.animation.stop();
+    }
+
     playAnimationGlow() {
         this.animation.play();
     }

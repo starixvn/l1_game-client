@@ -8,11 +8,82 @@ export default class TumbleWinView extends cc.Component {
     @property(cc.Label)
     tumbleLabel: cc.Label = null;
 
-    setValue(value: number, animated: boolean) {
+    @property(cc.Label)
+    multiplier: cc.Label = null;
+
+    @property(cc.Layout)
+    tumbleLayout: cc.Layout = null;
+
+    @property(cc.Label)
+    totalWin: cc.Label = null;
+
+    onLoad() {
+        this.showView(false);
+        this.showTotalWin(false);
+    }
+
+    setTumbleWinValue(value: number, animated: boolean) {
+        this.showView(true);
         if (animated) {
             GameUtils.floatToNumber(this.tumbleLabel, value, 0.5);
         } else {
             this.tumbleLabel.string = numberWithCommas(value);
+        }
+    }
+
+    showView(show: boolean) {
+        const duration = 0.2;
+        if (show) {
+            cc.tween(this.node).to(duration, { opacity: 255 }).start();
+        } else {
+            cc.tween(this.node)
+                .to(duration, { opacity: 0 })
+                .call(() => {
+                    this.showTotalWin(false);
+                    this.resetPositionTumbleLabel();
+                })
+                .start();
+        }
+    }
+
+    setTotalWinValue(value: number) {
+        this.totalWin.string = numberWithCommas(value);
+        this.showTotalWin(true);
+    }
+
+    showTotalWin(show: boolean) {
+        if (show) {
+            this.showNodeAndHideOther(this.totalWin.node, this.tumbleLayout.node);
+        } else {
+            this.showNodeAndHideOther(this.tumbleLayout.node, this.totalWin.node);
+        }
+    }
+
+    resetPositionTumbleLabel() {
+        this.multiplier.node.active = false;
+        this.tumbleLabel.node.x = 0;
+        this.tumbleLayout.enabled = false;
+    }
+
+    private showNodeAndHideOther(node: cc.Node, otherNode: cc.Node) {
+        node.opacity = 0;
+        const duration = 0.2;
+        cc.tween(node).to(duration, { opacity: 255 }).start();
+        cc.tween(otherNode).to(duration, { opacity: 0 }).start();
+    }
+
+    setMultiplier(value: number) {
+        GameUtils.floatToNumber(this.multiplier, value, 0.5, null, true, "x");
+        const isActive = this.multiplier.node.active;
+        if (!isActive) {
+            const width = this.multiplier.node.width;
+            cc.tween(this.tumbleLabel.node)
+                .by(0.1, { x: -width / 2 })
+                .call(() => {
+                    this.multiplier.node.active = true;
+                    this.tumbleLayout.enabled = true;
+                })
+                .start();
         }
     }
 }

@@ -1,4 +1,3 @@
-import { CascadingSlotConfigModel } from "./../models/CascadingSlotConfigModel";
 import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
@@ -6,16 +5,17 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { events } from "../../_new/connection/SocketIOConnection";
 import FeatureSlotGameBase, { RoundType } from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
+import { handleConfig } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 import CascadingUIModel from "../models/CascadingUIModel";
+import { CascadingSlotConfigModel } from "./../models/CascadingSlotConfigModel";
 import CascadeSlotBoard from "./CascadeSlotBoard";
+import CascadingBetMultiplier from "./CascadingBetMultiplier";
 import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 import TumbleWinView from "./TumbleWinView";
-import CascadingBetMultiplier from "./CascadingBetMultiplier";
-import { handleConfig } from "../actions/CascadingSlotConfigAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -119,6 +119,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             ],
             m: [5, 2, 3]
         };
+        this.tumbleWinView.showView(false);
         handleSettle(this)(data);
     }
 
@@ -132,6 +133,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.showProcessingWarning(true);
             return success;
         }
+        this.tumbleWinView.showView(false);
         this.showMessageDisplay(RoundType.SPINNING);
         //TODO: stop tween for result
         this.lockBet();
@@ -171,7 +173,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
-            this.tumbleWinView.setValue(value, true);
+            this.tumbleWinView.setTumbleWinValue(value, true);
+        });
+
+        this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_MULTIPLIER, (value: number) => {
+            this.tumbleWinView.setMultiplier(value);
         });
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, handleConfig(this));
@@ -208,6 +214,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     initBetMultiplier() {
+        if (!this.multiplierPrefab) {
+            return;
+        }
         const dialog = cc.instantiate(this.multiplierPrefab);
         this.multiplierComponent = dialog.getComponent(CascadingBetMultiplier);
         this.currentMiniPanel.addDialog(dialog);
