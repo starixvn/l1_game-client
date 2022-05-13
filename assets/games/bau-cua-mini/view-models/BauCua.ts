@@ -73,9 +73,6 @@ export default class BauCua extends SocketIOMiniGameBase {
     betChipsPrefab: cc.Prefab = null;
 
     @property(cc.Animation)
-    openDiskAnimation: cc.Animation = null;
-
-    @property(cc.Animation)
     shakeAnimation: cc.Animation = null;
 
     @property(cc.AudioSource)
@@ -83,6 +80,15 @@ export default class BauCua extends SocketIOMiniGameBase {
 
     @property(cc.Node)
     thePlate: cc.Node = null;
+
+    @property(cc.Node)
+    bgOverlay: cc.Node = null;
+
+    @property(cc.Node)
+    openPlateEffect: cc.Node = null;
+
+    @property(sp.Skeleton)
+    effectOpenSpine: sp.Skeleton = null;
 
     private readonly limitLog = 30;
 
@@ -92,7 +98,7 @@ export default class BauCua extends SocketIOMiniGameBase {
     onLoad() {
         super.onLoad();
         this.logNode.active = false;
-        this.shakeAnimation.node.active = false;
+        this.showOpenPlateEffect(false);
     }
 
     initMiniPanel(miniPanel: MiniPanel) {
@@ -177,7 +183,6 @@ export default class BauCua extends SocketIOMiniGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-        this.thePlate.active = false;
         this.hideAllDices();
         this.node.stopAllActions();
         this.resetXTimesResult();
@@ -204,11 +209,7 @@ export default class BauCua extends SocketIOMiniGameBase {
 
     showResult() {
         if (this.currentDataLogs.length > 0) {
-            //const { result, settlementResult } = this.currentDataLogs[0];
             cc.tween(this.thePlate)
-                .call(() => {
-                    this.openPlate(true);
-                })
                 .delay(2)
                 .call(() => {
                     this.highlightWinningBetItems(true);
@@ -237,15 +238,16 @@ export default class BauCua extends SocketIOMiniGameBase {
         }
     }
 
-    openPlate(animated: boolean) {
-        if (animated) {
-            cc.tween(this.thePlate)
-                .to(0.5, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
-                .to(0.2, { opacity: 0 })
-                .start();
-        } else {
-            this.thePlate.position = cc.v3(50, 150, 0);
-            this.thePlate.opacity = 0;
+    showOpenPlateEffect(show: boolean) {
+        this.openPlateEffect.active = show;
+        if (show) {
+            this.playEffectOpenPlateSpine();
+        }
+    }
+
+    playEffectOpenPlateSpine() {
+        if (this.effectOpenSpine) {
+            this.effectOpenSpine.setAnimation(0, this.effectOpenSpine.animation, false);
         }
     }
 }

@@ -11,11 +11,13 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
         super.handleFinishData(dataFinish, onFinishHandlingData);
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+        cc.tween(this.main.bgOverlay).to(0.3, { opacity: 0 }).start();
         this.main.setDiceResult();
+        this.main.thePlate.opacity = 0;
 
         if (cc.RedT.GAME_IS_SHOWED) {
             cc.tween(this.main.node)
-                .call(this.openDisk.bind(this))
+                .call(() => this.main.showOpenPlateEffect(true))
                 .delay(0.1)
                 .call(() => this.main.showDiceResult(true))
                 .delay(1)
@@ -26,16 +28,5 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
                 })
                 .start();
         }
-    }
-
-    handleAnimation() {
-        this.main.animationNode.node.active = true;
-        this.main.animationNode.play();
-    }
-
-    openDisk() {
-        this.main.shakeAnimation.node.active = false;
-        this.main.thePlate.active = true;
-        this.main.openDiskAnimation.play();
     }
 }
