@@ -32,7 +32,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             GameIds.HiLo,
             GameIds.TexasHoldemPoker
         ],
-        slotGames: [GameIds.HeroesSlot, GameIds.FourGuardians],
+        slotGames: [GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians],
         lotteryGames: [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery],
         othersGames: [GameIds.BitcoinMaster]
     };
