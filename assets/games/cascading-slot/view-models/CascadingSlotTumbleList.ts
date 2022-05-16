@@ -30,11 +30,8 @@ export default class CascadingSlotTumbleList extends cc.Component {
         Object.entries(icons).forEach(([key, value]) => {
             const tumbleNode = cc.instantiate(this.tumbleItem);
             const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
-            const subArr = [];
-            for (let subValue of Object.values(value)) {
-                subArr.push(subValue);
-            }
-            control.setData(+key, subArr[0], subArr[1]);
+            let { count, win } = value as any;
+            control.setData(+key, count, win);
             this.content.addChild(tumbleNode);
             index++;
         });

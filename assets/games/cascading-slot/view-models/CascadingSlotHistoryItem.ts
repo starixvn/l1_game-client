@@ -41,6 +41,7 @@ export default class CascadingSlotHistoryItem extends cc.Component {
 
     setData(betLog, index) {
         // handle
+        this.data = betLog;
         const win = betLog.totalTumbleWin;
         this.node.active = true;
         this.bg.active = index % 2 > 0;

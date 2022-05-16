@@ -560,6 +560,7 @@ window.i18n.languages.en = {
         totalMultiplier: "Total Multiplier",
         no: "No.",
         resultBoard: "Result Board",
-        symbolAndNumber: "Symbol & Number of Symbols"
+        symbolAndNumber: "Symbol & Number of Symbols",
+        winAmount: "Win Amount"
     }
 };
