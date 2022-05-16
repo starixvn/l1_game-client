@@ -58,12 +58,8 @@ export default class MD5Component extends cc.Component {
         this.md5TooltipContainer.addChild(mini);
     }
 
-    getDelayShowRawValue(mainGame: GameBase) {
-        return this.delayShowRawValue;
-    }
-
-    updateMD5String(data: MD5Type, mainGame?: GameBase) {
-        const delayTime = !!data.rawValue ? this.getDelayShowRawValue(mainGame) : this.delayShowHashValue;
+    updateMD5String(data: MD5Type) {
+        const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
         this.timeout = setTimeout(() => {
             this.handleMD5Data(data);
         }, delayTime * 1000);
