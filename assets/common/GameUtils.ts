@@ -214,8 +214,8 @@ export default class GameUtils {
         return /android|iphone/i.test(userAgent);
     }
 
-    public static isIOSPhone(): boolean {
-        return cc.sys.os === cc.sys.OS_IOS;
+    public static isSafariIOSPhone(): boolean {
+        return cc.sys.os === cc.sys.OS_IOS && !window.navigator.userAgent.match(/CriOS/i);
     }
 
     public static createNodeFromPrefab(prefab: cc.Prefab) {

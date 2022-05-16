@@ -55,7 +55,6 @@ export default class MultiOrientationControl extends cc.Component {
 
         const data = JSON.parse(content);
         this._orientation = data.orientation[this.gameId];
-        console.log("game loadOrientationData", data.orientation[this.gameId]);
 
         cc.sys.localStorage.setItem(`orientation`, "");
     }

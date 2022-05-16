@@ -113,7 +113,7 @@ export default class Sedie extends FreeBetGameBase {
             this.currentMiniPanel.miniMenu.active = false;
         }
 
-        if (GameUtils.isIOSPhone && this.orientation === Orientation.Portrait) {
+        if (GameUtils.isSafariIOSPhone() && this.orientation === Orientation.Portrait) {
             this.addTutorial("IOSPortraitGuide");
         }
     }
