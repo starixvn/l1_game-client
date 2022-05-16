@@ -166,7 +166,8 @@ window.i18n.languages.en = {
         roundSettleMsg: "GOOD LUCK!",
         FromSettleToSpin1: "SPIN TO WIN!",
         FromSettleToSpin2: "SPIN MORE, WIN MORE!",
-        FromSettleToSpin3: "TRY TURBO MODE!"
+        FromSettleToSpin3: "TRY TURBO MODE!",
+        copyMD5Failed: "Copy function is temporarily unavailable."
     },
     ui: {
         choice_red2: "2 Red",

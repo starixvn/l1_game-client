@@ -47,7 +47,7 @@ export default class MD5Component extends cc.Component {
     onLoad() {
         this.initMD5Tooltip();
         const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
-        hintLabel.string = i18n.t("messages.copy_success");
+        GameUtils.getMesageCopy(hintLabel);
         this.setCaptionAndHintForMD5(false);
         this.showHint = this.showHint.bind(this);
     }

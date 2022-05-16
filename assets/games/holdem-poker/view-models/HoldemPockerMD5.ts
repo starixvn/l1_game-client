@@ -24,7 +24,7 @@ export default class HoldemPockerMD5 extends cc.Component {
 
     onLoad() {
         const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
-        hintLabel.string = i18n.t("messages.copy_success");
+        GameUtils.getMesageCopy(hintLabel);
         this.setCaptionAndHintForMD5(false);
         this.enableCopyButton(false);
         this.showHint = this.showHint.bind(this);

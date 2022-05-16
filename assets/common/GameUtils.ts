@@ -1,9 +1,15 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import { GameInfos } from "../configs/SabaConfigs";
-import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
 
+export const events = {
+    clipboardWrite: "clipboard-write"
+};
+
+export const PermisstionState = {
+    GRANTED: "granted",
+    DENIED: "denied"
+};
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);
@@ -190,10 +196,25 @@ export default class GameUtils {
     }
 
     public static copyToClipboard(data: string, callback): void {
-        navigator.clipboard.writeText(data).then(() => {
-            if (callback) {
-                callback();
+        navigator.permissions.query({ name: events.clipboardWrite }).then(function (result) {
+            if (result.state === PermisstionState.DENIED) {
+                if (callback) {
+                    callback();
+                }
+            } else {
+                navigator.clipboard.writeText(data).then(() => {
+                    if (callback) {
+                        callback();
+                    }
+                });
             }
+        });
+    }
+
+    public static getMesageCopy(hintLabel: cc.Label) {
+        navigator.permissions.query({ name: events.clipboardWrite }).then(function (result) {
+            const copy_message = result.state === PermisstionState.DENIED ? "messages.copyMD5Failed" : "messages.copy_success";
+            hintLabel.string = i18n.t(copy_message);
         });
     }
 
