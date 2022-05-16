@@ -1,5 +1,5 @@
-import GameBaseFinishHandler from '../../../_base/handlers/GameBaseFinishHandler';
-import SicBo from '../SicBo';
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
+import SicBo from "../SicBo";
 
 export default class SicBoFinishHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: SicBo) {
@@ -10,8 +10,9 @@ export default class SicBoFinishHandler extends GameBaseFinishHandler {
         super.handleFinishData(dataFinish, onFinishHandlingData);
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
-
         this.main.setResult();
+        const finishHandler = this.main.finishHandler as GameBaseFinishHandler;
+        this.main.md5Component?.setDelayShowRawValue(finishHandler.getResultAnimationTime());
 
         if (cc.RedT.GAME_IS_SHOWED) {
             cc.tween(this.main.node)

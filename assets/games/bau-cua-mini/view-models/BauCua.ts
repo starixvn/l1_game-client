@@ -72,11 +72,33 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property({ type: cc.Prefab, override: true })
     betChipsPrefab: cc.Prefab = null;
 
+    @property(cc.Animation)
+    shakeAnimation: cc.Animation = null;
+
+    @property(cc.AudioSource)
+    shakeAudio: cc.AudioSource = null;
+
+    @property(cc.Node)
+    thePlate: cc.Node = null;
+
+    @property(cc.Node)
+    bgOverlay: cc.Node = null;
+
+    @property(cc.Node)
+    openPlateEffect: cc.Node = null;
+
+    @property(sp.Skeleton)
+    effectOpenSpine: sp.Skeleton = null;
+
     private readonly limitLog = 30;
+
+    public readonly shakeThePlateTime = 31;
+    public finishShakeThePlate = false;
 
     onLoad() {
         super.onLoad();
         this.logNode.active = false;
+        this.showOpenPlateEffect(false);
     }
 
     initMiniPanel(miniPanel: MiniPanel) {
@@ -149,14 +171,18 @@ export default class BauCua extends SocketIOMiniGameBase {
             const dices = _.values(result);
             dices.forEach((dice, index) => {
                 this.dices[index].spriteFrame = this.iconLV[dice];
-                this.dices[index].node.active = true;
             });
         }
     }
 
+    showDiceResult(show: boolean) {
+        this.dices.forEach((dice) => {
+            dice.node.active = show;
+        });
+    }
+
     resetDataAndUI() {
         super.resetDataAndUI();
-        this.animationNode.node.active = false;
         this.hideAllDices();
         this.node.stopAllActions();
         this.resetXTimesResult();
@@ -171,6 +197,7 @@ export default class BauCua extends SocketIOMiniGameBase {
     resetXTimesResult() {
         this.betItems.forEach((betItem: BauCuaBetItem) => {
             betItem.hideXTimesResult();
+            betItem.showHashNumber(false);
         });
     }
 
@@ -180,6 +207,18 @@ export default class BauCua extends SocketIOMiniGameBase {
         });
     }
 
+    showResult() {
+        if (this.currentDataLogs.length > 0) {
+            cc.tween(this.thePlate)
+                .delay(2)
+                .call(() => {
+                    this.highlightWinningBetItems(true);
+                    this.addLogs();
+                })
+                .start();
+        }
+    }
+
     highlightWinningBetItems(type: boolean) {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
@@ -187,6 +226,7 @@ export default class BauCua extends SocketIOMiniGameBase {
                 const choice = betItem.node.name;
                 betItem.updateHighlight(false);
                 betItem.setHighlight(settlementResult[choice], type);
+                betItem.showHashNumber(true);
 
                 if (_.keys(vipFishPrawnCrabConstants.resultMapper).indexOf(choice) >= 0) {
                     const xValue = _.values(result).filter((value) => value === vipFishPrawnCrabConstants.resultMapper[choice]).length;
@@ -195,6 +235,19 @@ export default class BauCua extends SocketIOMiniGameBase {
                     }
                 }
             });
+        }
+    }
+
+    showOpenPlateEffect(show: boolean) {
+        this.openPlateEffect.active = show;
+        if (show) {
+            this.playEffectOpenPlateSpine();
+        }
+    }
+
+    playEffectOpenPlateSpine() {
+        if (this.effectOpenSpine) {
+            this.effectOpenSpine.setAnimation(0, this.effectOpenSpine.animation, false);
         }
     }
 }

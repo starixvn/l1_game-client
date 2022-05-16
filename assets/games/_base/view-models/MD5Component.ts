@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
+import GameBase from "../GameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -88,6 +89,7 @@ export default class MD5Component extends cc.Component {
 
     onClickCopyButton() {
         GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
+        this.md5Tooltip.hideToolTip();
     }
 
     showHint() {

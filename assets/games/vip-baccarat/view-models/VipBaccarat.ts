@@ -13,6 +13,8 @@ import VipBaccaratTimeDataHandler from "./data-handlers/VipBaccaratTimeDataHandl
 import VipBaccaratCards from "./VipBaccaratCards";
 import VipBaccaratHistory from "./VipBaccaratHistory";
 import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
+import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -62,6 +64,9 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
+
     basicHistoryBoard: BasicHistoryBoard;
     detailHistoryBoard: DragonScoreBoard;
     showScoreBoardNextDot = false;
@@ -105,9 +110,12 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         this.finishHandler = new VipBaccaratFinishHandler(this);
         this.logsHandler = new VipBaccaratLogsHandler(this);
         this.betHandler = new VipBaccaratBetHandler(this);
+        this.md5Handler = new BaccaratMd5Handler(this);
     }
 
     openHistory() {
+        this.playClick();
+        this.expandableMenu.collapseMenu();
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(VipBaccaratHistory);
         this.historyComponent.init(this.socket);
@@ -158,5 +166,10 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         this.miniRoundHistory = mini.getComponent(VipBaccaratMiniRoundHistory);
         this.miniRoundHistory.init(condition);
         this.miniRoundHistoryContainer.addChild(mini);
+    }
+
+    openGuide() {
+        super.openGuide();
+        this.expandableMenu.collapseMenu();
     }
 }

@@ -119,7 +119,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     onEnable() {
         super.onEnable();
         this.showStatistic = true;
-        this.md5Component?.setDelayShowRawValue(1);
         this.handleShowStatistic(this.showStatistic);
     }
 
@@ -130,7 +129,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     stopGame() {
         super.stopGame();
-        this.md5Component?.setDelayShowRawValue(1);
     }
 
     onData(data: any) {
@@ -200,7 +198,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.dices.forEach((dice) => {
             dice.node.active = show;
         });
-        console.log(show ? "show" : "hide");
     }
 
     showResult() {

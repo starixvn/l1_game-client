@@ -32,6 +32,15 @@ export default class BaccaratCards extends cc.Component {
     @property(cc.Label)
     point: cc.Label = null;
 
+    @property(cc.Node)
+    cardsTmp: cc.Node[] = [null, null];
+
+    @property(cc.Node)
+    positionCardTmp1: cc.Node = null;
+
+    @property(cc.Label)
+    numberTagCardBack: cc.Label = null;
+
     protected playGetCardAudio = () => {};
     protected readonly flyCardSecond = 0.8;
     protected readonly openCardSecond = 0.3;
@@ -47,6 +56,8 @@ export default class BaccaratCards extends cc.Component {
         this.card1.children[0].getComponent(NewCard).faceDown();
         this.card2.children[0].getComponent(NewCard).faceDown();
         this.card3.children[0].getComponent(NewCard).faceDown();
+        this.cardsTmp[0]?.children[0].getComponent(NewCard).faceDown();
+        this.cardsTmp[1]?.children[0].getComponent(NewCard).faceDown();
     }
 
     init(playAudio, isMainPage = true) {
@@ -63,6 +74,8 @@ export default class BaccaratCards extends cc.Component {
         this.resetCard(this.card1);
         this.resetCard(this.card2);
         this.resetCard(this.card3);
+        this.resetCard(this.cardsTmp[0]);
+        this.resetCard(this.cardsTmp[1]);
         this.card3.active = false;
         this.showHighlightCards(false);
     }
@@ -142,6 +155,14 @@ export default class BaccaratCards extends cc.Component {
         this.flyCard(this.card2);
     }
 
+    flyCardTmp1() {
+        this.flyCard(this.cardsTmp[0], 0.6);
+    }
+
+    flyCardTmp2() {
+        this.flyCard(this.cardsTmp[1], 0.6);
+    }
+
     protected setPoint(point: number) {
         this.point.node.active = true;
         this.point.node.parent.active = true;
@@ -169,7 +190,19 @@ export default class BaccaratCards extends cc.Component {
 
     private flyAndOpenCard3(cards: any[], delayTime: number, playerHasCard3: boolean) {
         const card = this.card3;
-        card.active = true;
+        let cardTempPosition = cc.Vec3.ZERO;
+
+        const setCard3LikeTmpCard = () => {
+            const cardTempIndex = this.cardsTmp.findIndex((tmp) => tmp.opacity !== 0);
+            cardTempPosition =
+                cardTempIndex === 0 && this.isBanker ? this.positionCardTmp1.position : this.cardsTmp[cardTempIndex].position;
+            this.cardsTmp[cardTempIndex].opacity = 0;
+            card.active = true;
+            card.angle = 0;
+            card.scale = this.cardsTmp[cardTempIndex].scale;
+            card.getComponent(BaccaratCard).setNumberTag(cardTempIndex === 0 ? "5" : "6");
+            card.getComponent(BaccaratCard).numberTag.scale = this.cardsTmp[cardTempIndex].getComponent(BaccaratCard).numberTag.scale;
+        };
 
         if (this.isBanker) {
             if (playerHasCard3) {
@@ -179,14 +212,16 @@ export default class BaccaratCards extends cc.Component {
             this.node.runAction(
                 cc.sequence(
                     cc.delayTime(delayTime),
-                    cc.callFunc(() => this.flyCard(card, 0))
+                    cc.callFunc(() => setCard3LikeTmpCard()),
+                    cc.callFunc(() => this.flyCard(card, 1, cardTempPosition, true))
                 )
             );
         } else {
             this.node.runAction(
                 cc.sequence(
                     cc.delayTime(delayTime),
-                    cc.callFunc(() => this.flyCard(card, 0))
+                    cc.callFunc(() => setCard3LikeTmpCard()),
+                    cc.callFunc(() => this.flyCard(card, 1, cardTempPosition, true))
                 )
             );
         }
@@ -208,15 +243,18 @@ export default class BaccaratCards extends cc.Component {
         return delayTime;
     }
 
-    private flyCard(card: cc.Node, angle = 0) {
+    private flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position, isCard3 = false) {
         const cardPosition = card.position;
-        card.position = this.cardsBox.position;
+        card.position = from;
         card.opacity = 255;
 
+        if (isCard3) {
+            card.getComponent(BaccaratCard).numberTag.runAction(cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(2)));
+        }
         card.runAction(
             cc.spawn(
-                cc.rotateTo(this.flyCardSecond, angle).easing(cc.easeInOut(2)),
-                cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(2)),
+                cc.rotateTo(this.flyCardSecond, 0).easing(cc.easeInOut(2)),
+                cc.scaleTo(this.flyCardSecond, scale).easing(cc.easeInOut(2)),
                 cc.moveTo(this.flyCardSecond, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
             )
         );
@@ -236,6 +274,7 @@ export default class BaccaratCards extends cc.Component {
         card.opacity = 0;
         card.scale = 0.5;
         card.angle = -135;
+        card.getComponent(BaccaratCard).numberTag.active = true;
     }
 
     protected openCard(index: number, cards: any[], isAnimated = true) {
@@ -256,6 +295,12 @@ export default class BaccaratCards extends cc.Component {
             });
 
             newCard.faceUp();
+            if (index === 2 && !isAnimated && this.isMainPage) {
+                const cardTemp = this.cardsTmp.find((tmp) => tmp.opacity !== 0);
+                if (cardTemp) {
+                    cardTemp.opacity = 0;
+                }
+            }
             delayTime = this.handleCardWithAnimated(isAnimated, index, currentCard, delayTime);
 
             if (this.point) {
@@ -270,11 +315,15 @@ export default class BaccaratCards extends cc.Component {
                 // 1st card
                 currentCard.scaleX = 0;
                 currentCard.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
+                this.card1.getComponent(BaccaratCard).numberTag.active = false;
                 delayTime += this.openCardSecond;
             } else {
                 this.cardBack.node.active = true;
                 const position = cc.v3(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2, 0);
                 this.cardBack.node.position = position;
+                const card = currentCard.getComponent(BaccaratCard);
+                card.numberTag.active = false;
+                this.numberTagCardBack.string = card.getNumberTag();
                 this.setActionCardBack();
 
                 delayTime += this.openSecondCardSecond;
@@ -284,10 +333,13 @@ export default class BaccaratCards extends cc.Component {
                 this.setActionCardThree(currentCard, delayTime);
             }
         } else {
-            if (this.isMainPage && index === 2) {
-                currentCard.opacity = 255;
-                currentCard.scale = 1;
-                currentCard.angle = this.isBanker ? 90 : -90;
+            if (this.isMainPage) {
+                currentCard.getComponent(BaccaratCard).numberTag.active = false;
+                if (index === 2) {
+                    currentCard.opacity = 255;
+                    currentCard.scale = 1;
+                    currentCard.angle = this.isBanker ? 90 : -90;
+                }
             }
         }
 
@@ -311,7 +363,14 @@ export default class BaccaratCards extends cc.Component {
     }
 
     setActionCardThree(currentCard: cc.Node, delayTime: number) {
-        currentCard.runAction(cc.sequence(cc.delayTime(delayTime), cc.rotateBy(0.5, this.isBanker ? 270 : -270).easing(cc.easeSineOut())));
+        const currentX = this.card3.x;
+        currentCard.runAction(
+            cc.sequence(
+                cc.delayTime(delayTime),
+                cc.rotateBy(0.5, this.isBanker ? 270 : -270).easing(cc.easeSineOut())
+                //cc.moveTo(0.5, cc.v2(currentX, -15)).easing(cc.easeSineOut())
+            )
+        );
     }
 
     private handleSetPoint(data: any, delayTime: number, currentCard: cc.Node) {
