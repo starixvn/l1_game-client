@@ -12,6 +12,7 @@ import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBas
 import { GameState } from "../_base/GameState";
 import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
 import LineView from "../AHCL/scripts/LineView";
+import { FourGuardiansSlotConfigs } from "../four-guardians/scripts/FourGuardiansSlotConfigs";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import BonusDialog from "./BonusDialog";
@@ -242,7 +243,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                     const location = event.getLocation();
                     const hit = this.spinButton.node._hitTest(location);
                     if (hit) {
-                        this.spin();
+                        this.spinAction();
                     }
 
                     this.notHoldSpinButton();
@@ -260,7 +261,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     holdSpinButton() {
         this.isHoldSpinButton = true;
-        this.schedule(this.updateForHoldSpinButton, 1, cc.macro.REPEAT_FOREVER, 0);
+        this.schedule(this.updateForHoldSpinButton, 0.3, cc.macro.REPEAT_FOREVER, 0);
     }
 
     notHoldSpinButton() {
@@ -371,7 +372,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.currentMiniPanel.miniMenu.position = cc.v3(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
     }
 
-    initSlotGameConfig() {}
+    initSlotGameConfig() {
+        this.slotGameConfigs = new FourGuardiansSlotConfigs();
+    }
 
     loadSlotGameConfig() {
         if (!this.slotGameConfigs) {
@@ -419,7 +422,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
             this.isKeyDownSpace = true;
-            this.spin();
+            this.spinAction();
         }
     }
 
@@ -720,6 +723,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     onSpinClick() {
         AudioManager.getInstance().playClick();
+        this.spinAction();
+    }
+
+    spinAction() {
         this.expandableMenu.collapseMenu();
         const success = this.spin();
         if (success) {
@@ -908,6 +915,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     showLoopWinningLines(winningLines: LineData[]) {
         const length = winningLines.length;
+        const timeShowPayline = this.isTurboMode ? 0.75 : 1;
         if (length === 0) {
             return;
         }
@@ -928,7 +936,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                         this.slotBoard.showWinningEffect(line.positions, +line.symbol);
                         index++;
                     })
-                    .delay(1)
+                    .delay(timeShowPayline)
             )
             .start();
     }
