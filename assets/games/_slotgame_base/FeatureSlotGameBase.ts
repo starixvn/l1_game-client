@@ -1,8 +1,10 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../common/audio/AudioManager";
+import CallbackAnimation from "../../common/CallbackAnimation";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
+import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
 import SpinButton from "./SpinButton";
 
@@ -34,7 +36,18 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Label)
     messageText: cc.Label = null;
 
+    @property(cc.Node)
+    effectContainer: cc.Node = null;
+
+    @property(cc.Prefab)
+    effectBigWin: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    effectFreeSpin: cc.Prefab = null;
+
     private autoSpinCount = 0;
+    private totalFreeSpins = 0;
+    private cacheApiError: any = null;
 
     abstract getCurrentTotalBet(): number;
     abstract spin(): boolean;
@@ -101,6 +114,14 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         return this.turboToggle.isChecked;
     }
 
+    isFreeSpin(): boolean {
+        return this.totalFreeSpins > 0;
+    }
+
+    stillAutoSpin() {
+        return this.autoSpinCount > 0;
+    }
+
     consumeAutoSpinCount() {
         if (this.autoSpinCount > 0) {
             this.setAutoSpinCount(this.autoSpinCount - 1);
@@ -131,5 +152,47 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             msg = `messages.FromSettleToSpin${item}`;
         }
         this.messageText.string = `${i18n.t(msg)}`;
+    }
+
+    showEffect(effect: cc.Node): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            this.effectContainer.addChild(effect);
+
+            const animation = effect.getComponent(CallbackAnimation);
+            animation.onFinishedCallback = () => resolve();
+            animation.play();
+        });
+    }
+
+    abstract getCustomDuration(type: string): number;
+
+    async showEffectBigWin(betWin: number) {
+        const effect = cc.instantiate(this.effectBigWin);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("bigwin"));
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        const floatNumberDuration = this.getCustomDuration("showBigWinValue");
+        bigWinAnimation.setAmount(betWin, floatNumberDuration);
+        await this.showEffect(effect);
+    }
+
+    async showEffectFreeSpins(count: number) {
+        const effect = cc.instantiate(this.effectFreeSpin);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("freespin"));
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        bigWinAnimation.setAmount(count);
+        await this.showEffect(effect);
+    }
+
+    showNoticeForCacheApiError() {
+        if (this.cacheApiError) {
+            const error = this.cacheApiError;
+            this.currentMiniPanel.showErrorNotice(error);
+            this.cacheApiError = null;
+
+            return true;
+        }
+        return false;
     }
 }

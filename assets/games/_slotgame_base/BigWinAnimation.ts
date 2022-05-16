@@ -7,7 +7,7 @@ export default class BigWinAnimation extends cc.Component {
     @property(cc.Label)
     amountLabel: cc.Label = null;
 
-    setAmount(amount: number, showBigWinValue: number) {
-        GameUtils.floatToNumber(this.amountLabel, amount, showBigWinValue);
+    setAmount(amount: number, duration = 0) {
+        GameUtils.floatToNumber(this.amountLabel, amount, duration);
     }
 }

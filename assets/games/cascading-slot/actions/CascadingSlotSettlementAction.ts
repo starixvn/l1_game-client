@@ -6,6 +6,9 @@ import { convertBoardValue, convertStringToArray } from "../view-models/Cascadin
 import MultiplierItem from "../view-models/MultiplierItem";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
+    const { bigWin, roundId, totalOfFreeSpins, freeSpins } = data;
+    mainGame.setGameRound(roundId);
+
     const convertData = (value: string) => {
         return convertBoardValue(convertStringToArray(value));
     };
@@ -57,11 +60,19 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     // if isFreeSpin add total multiplier
     // increase Multiplier
 
-    // show effect big win
+    if (bigWin) {
+        await mainGame.showEffectBigWin(data.win);
+    }
 
-    // show effect freeSpins here
+    if (freeSpins > 0) {
+        await mainGame.showEffectFreeSpins(freeSpins);
+    }
 
-    // handle auto spin next
+    if (!mainGame.showNoticeForCacheApiError()) {
+        if ((mainGame.isAutoSpinMode() && mainGame.stillAutoSpin()) || mainGame.isFreeSpin()) {
+            mainGame.spin();
+        }
+    }
 };
 
 const movingMultiplier = (multiplierNode: cc.Node, container: cc.Node, destNode: cc.Node) => {

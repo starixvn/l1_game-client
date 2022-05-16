@@ -78,9 +78,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     @property(TumbleWinView)
     tumbleWinView: TumbleWinView = null;
 
-    @property(cc.Node)
-    effectContainer: cc.Node = null;
-
     @property(cc.Prefab)
     flyWinLabelPrefab: cc.Prefab = null;
 

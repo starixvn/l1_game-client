@@ -441,7 +441,66 @@
           ]
         }
       },
-      "textfreespin": {
+      "textyouwin": {
+        "props": {
+          "position": [
+            {
+              "frame": 0.016666666666666666,
+              "value": [
+                0,
+                -620,
+                0
+              ]
+            },
+            {
+              "frame": 0.4,
+              "value": [
+                0,
+                8.813,
+                0
+              ]
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0.016666666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.8,
+                "y": 0.8
+              }
+            },
+            {
+              "frame": 0.4,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 4.016666666666667,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.1,
+                "y": 1.1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0.23333333333333334,
+              "value": 0
+            },
+            {
+              "frame": 0.4,
+              "value": 255
+            }
+          ]
+        }
+      },
+      "container": {
+        "comps": {},
         "props": {
           "position": [
             {
@@ -522,64 +581,6 @@
           "opacity": [
             {
               "frame": 0.3,
-              "value": 0
-            },
-            {
-              "frame": 0.4,
-              "value": 255
-            }
-          ]
-        }
-      },
-      "textyouwin": {
-        "props": {
-          "position": [
-            {
-              "frame": 0.016666666666666666,
-              "value": [
-                0,
-                -620,
-                0
-              ]
-            },
-            {
-              "frame": 0.4,
-              "value": [
-                0,
-                8.813,
-                0
-              ]
-            }
-          ],
-          "scale": [
-            {
-              "frame": 0.016666666666666666,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0.8,
-                "y": 0.8
-              }
-            },
-            {
-              "frame": 0.4,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 4.016666666666667,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1.1,
-                "y": 1.1
-              }
-            }
-          ],
-          "opacity": [
-            {
-              "frame": 0.23333333333333334,
               "value": 0
             },
             {
