@@ -12,7 +12,7 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
     public onCurrentBetChange = (bet: number) => {};
     public changeOrirentationCallback = () => {};
     public getCurrentBet = () => {
-        return 0;
+        return this.betChips ? this.betChips.getCurrentBet() : 0;
     };
 
     override start() {}

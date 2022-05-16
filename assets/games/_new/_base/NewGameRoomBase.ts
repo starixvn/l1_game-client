@@ -1,5 +1,4 @@
 import MultiOrientationGame from "../../_base/MultiOrientationGame";
-import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import SocketIOConnection from "../connection/SocketIOConnection";
 
 const { ccclass } = cc._decorator;
