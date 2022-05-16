@@ -108,7 +108,9 @@ export default class MultiOrientationControl extends cc.Component {
                 child.stopGame();
             }
             child.node.active = show;
+
             if (show) {
+                cc.RedT.inGame = child;
                 child.betChips.setCurrentBet(this.currentBet.toString());
             }
         });
