@@ -140,7 +140,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         [GameIds.HeroesSlot]: {
             size: cc.v2(1, 2)
         },
-        46: {
+        [GameIds.NightClub]: {
             size: cc.v2(1, 2)
         }
     };
