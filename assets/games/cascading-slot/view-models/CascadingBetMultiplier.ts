@@ -1,3 +1,5 @@
+import CascadingSlotBase from "./CascadingSlotBase";
+
 const { ccclass, property } = cc._decorator;
 
 export type BetMultiplier = {
@@ -41,13 +43,15 @@ export default class CascadingBetMultiplier extends cc.Component {
     private coinValues: number[];
     private betLevels: number[];
     private betMultiplier: number;
+    private mainNode: CascadingSlotBase;
 
     onEnable() {
         this.handleFirstLoadUI();
         this.handleFirstLoadLabel();
     }
 
-    onSetData(data: BetMultiplier) {
+    onSetData(data: BetMultiplier, mainGame: CascadingSlotBase) {
+        this.mainNode = mainGame;
         if (data) {
             this.handleFirstLoadData(data);
         }
@@ -113,6 +117,7 @@ export default class CascadingBetMultiplier extends cc.Component {
             this.handleTotalBet(valueBet, valueCoin);
         }
         this.handleStatusBetButton();
+        this.updatePlaceBetModel();
     }
 
     onClickIncreaseBetLevel() {
@@ -125,6 +130,7 @@ export default class CascadingBetMultiplier extends cc.Component {
         }
 
         this.handleStatusBetButton();
+        this.updatePlaceBetModel();
     }
 
     onClickDecreaseCoinValue() {
@@ -136,6 +142,7 @@ export default class CascadingBetMultiplier extends cc.Component {
             this.handleTotalBet(valueBet, valueCoin);
         }
         this.handleStatusCoinButton();
+        this.updatePlaceBetModel();
     }
 
     onClickIncreaseCoinValue() {
@@ -147,6 +154,7 @@ export default class CascadingBetMultiplier extends cc.Component {
             this.handleTotalBet(valueBet, valueCoin);
         }
         this.handleStatusCoinButton();
+        this.updatePlaceBetModel();
     }
 
     onClickDecreaseTotalBet() {
@@ -157,6 +165,7 @@ export default class CascadingBetMultiplier extends cc.Component {
         this.handleStatusCoinButton();
         this.handleStatusBetButton();
         this.handleStatusTotalButton();
+        this.updatePlaceBetModel();
     }
 
     onClickIncreaseTotalBet() {
@@ -167,6 +176,7 @@ export default class CascadingBetMultiplier extends cc.Component {
         this.handleStatusCoinButton();
         this.handleStatusBetButton();
         this.handleStatusTotalButton();
+        this.updatePlaceBetModel();
     }
 
     handleTotalBet(valueBet: number, valueCoin: number) {
@@ -252,5 +262,13 @@ export default class CascadingBetMultiplier extends cc.Component {
 
     calculateTotalBet(level: number, coin: number) {
         return +(level * coin * this.betMultiplier).toFixed(1);
+    }
+
+    updatePlaceBetModel() {
+        this.mainNode.gameData.placeBetModel.change({
+            betLevel: this.betLevels[this.currentLevelIndex],
+            coinValues: this.coinValues[this.currentCoinIndex],
+            totalBet: this.totalBetCurrent
+        });
     }
 }

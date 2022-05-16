@@ -5,6 +5,7 @@ import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { CascadingSlotFinishModel } from "./CascadingSlotFinishModel";
 import CascadingSlotPlaceBetModel from "./CascadingSlotPlaceBetModel";
 import CascadingUIModel from "./CascadingUIModel";
+import CascadingSlotConfigHandler from "../handlers/CascadingSlotConfigHandler";
 
 export default class CascadingSlotGameData<Choices> extends GameData<Choices> {
     static Events = {};
@@ -23,7 +24,7 @@ export default class CascadingSlotGameData<Choices> extends GameData<Choices> {
     }
 
     protected registerEventHandlers() {
-        const handlers = [CascadingSlotFinishHandler];
+        const handlers = [CascadingSlotFinishHandler, CascadingSlotConfigHandler];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
 }
