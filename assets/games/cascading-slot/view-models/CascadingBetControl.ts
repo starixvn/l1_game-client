@@ -18,7 +18,7 @@ enum OrderButtonNode {
 }
 
 @ccclass
-export default class CascadingBetMultiplier extends cc.Component {
+export default class CascadingBetControl extends cc.Component {
     @property(cc.Label)
     betLevel: cc.Label = null;
 

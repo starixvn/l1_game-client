@@ -12,7 +12,7 @@ import CascadingSlotGameData from "../models/CascadingSlotGameData";
 import CascadingUIModel from "../models/CascadingUIModel";
 import { CascadingSlotConfigModel } from "./../models/CascadingSlotConfigModel";
 import CascadeSlotBoard from "./CascadeSlotBoard";
-import CascadingBetMultiplier from "./CascadingBetMultiplier";
+import CascadingBetControl from "./CascadingBetControl";
 import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 import TumbleWinView from "./TumbleWinView";
@@ -62,7 +62,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     historyPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    multiplierPrefab: cc.Prefab = null;
+    betControlPrefab: cc.Prefab = null;
 
     //#endregion
 
@@ -85,7 +85,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected cascadingSlotConfig: CascadingSlotBaseConfig;
     protected isAutoSpin = false;
     protected isSpinning = false;
-    multiplierComponent: CascadingBetMultiplier;
+    betControl: CascadingBetControl;
 
     async onSpinClick() {
         AudioManager.getInstance().playClick();
@@ -211,11 +211,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     initBetMultiplier() {
-        if (!this.multiplierPrefab) {
+        if (!this.betControlPrefab) {
             return;
         }
-        const dialog = cc.instantiate(this.multiplierPrefab);
-        this.multiplierComponent = dialog.getComponent(CascadingBetMultiplier);
+        const dialog = cc.instantiate(this.betControlPrefab);
+        this.betControl = dialog.getComponent(CascadingBetControl);
         this.currentMiniPanel.addDialog(dialog);
     }
 }
