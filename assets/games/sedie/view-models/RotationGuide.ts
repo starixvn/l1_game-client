@@ -5,7 +5,7 @@ const { ccclass } = cc._decorator;
 @ccclass
 export default class RotationGuide extends SedieTutorial {
     private isHideIntro;
-    storageKey = "portrait_mode_intro";
+    storageKey = "rotation_guide";
 
     onLoad() {
         setTimeout(() => {
