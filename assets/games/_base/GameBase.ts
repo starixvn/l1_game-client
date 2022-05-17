@@ -212,7 +212,11 @@ export default class GameBase extends BaseComponent {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             const handler = this.dataHandlers[index];
             handler && handler.handle(data);
-            if (index === 0 && data.um) {
+            if (
+                index === 0 &&
+                data.um &&
+                (this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime)
+            ) {
                 break;
             }
         }
