@@ -6,7 +6,7 @@ import { convertBoardValue, convertStringToArray } from "../view-models/Cascadin
 import MultiplierItem from "../view-models/MultiplierItem";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
-    const { bigWin, roundId, totalOfFreeSpins, freeSpins } = data;
+    const { bigWin, roundId, totalOfFreeSpins, freeSpins, isFreeSpin, totalMultiplier } = data;
     mainGame.setGameRound(roundId);
 
     const convertData = (value: string) => {
@@ -43,7 +43,18 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         i++;
     }
 
-    // show total tumble win
+    if (isFreeSpin) {
+        const currentTotalMultiplier = mainGame.gameData.uiModel.totalMultiplier;
+        if (currentTotalMultiplier > 0) {
+            await movingMultiplier(
+                mainGame.totalMultiplierView.total.node,
+                mainGame.effectContainer,
+                mainGame.tumbleWinView.multiplier.node
+            );
+            mainGame.gameData.uiModel.increaseMultiplier(currentTotalMultiplier);
+        }
+    }
+
     if (data.m.length > 0) {
         const items = mainGame.board.getItems();
         const multiplierItems = items.flatMap((item) => {
@@ -55,10 +66,11 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
             await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
             mainGame.gameData.uiModel.increaseMultiplier(mItem.multiplier);
         }
-    }
 
-    // if isFreeSpin add total multiplier
-    // increase Multiplier
+        if (isFreeSpin) {
+            mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
+        }
+    }
 
     if (bigWin) {
         await mainGame.showEffectBigWin(data.win);

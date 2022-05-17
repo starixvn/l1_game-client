@@ -1,10 +1,11 @@
+import FadeAppearanceNode from "../../../common/FadeAppearanceNode";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class TumbleWinView extends cc.Component {
+export default class TumbleWinView extends FadeAppearanceNode {
     @property(cc.Label)
     tumbleLabel: cc.Label = null;
 
@@ -18,6 +19,10 @@ export default class TumbleWinView extends cc.Component {
     totalWin: cc.Label = null;
 
     onLoad() {
+        this.onHidden = () => {
+            this.showTotalWin(false);
+            this.resetPositionTumbleLabel();
+        };
         this.showView(false);
         this.showTotalWin(false);
     }
@@ -28,21 +33,6 @@ export default class TumbleWinView extends cc.Component {
             GameUtils.floatToNumber(this.tumbleLabel, value, 0.5);
         } else {
             this.tumbleLabel.string = numberWithCommas(value);
-        }
-    }
-
-    showView(show: boolean) {
-        const duration = 0.2;
-        if (show) {
-            cc.tween(this.node).to(duration, { opacity: 255 }).start();
-        } else {
-            cc.tween(this.node)
-                .to(duration, { opacity: 0 })
-                .call(() => {
-                    this.showTotalWin(false);
-                    this.resetPositionTumbleLabel();
-                })
-                .start();
         }
     }
 

@@ -15,6 +15,7 @@ import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingBetControl from "./CascadingBetControl";
 import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
+import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 
 const { ccclass, property } = cc._decorator;
@@ -77,6 +78,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     @property(TumbleWinView)
     tumbleWinView: TumbleWinView = null;
+
+    @property(TotalMultiplierView)
+    totalMultiplierView: TotalMultiplierView = null;
 
     @property(cc.Prefab)
     flyWinLabelPrefab: cc.Prefab = null;
@@ -153,7 +157,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.onLoad();
         this.initCascadingSlotConfig();
         this.initGameDataEvents();
-        this.initBetMultiplier();
+        // this.initBetControl();
     }
 
     protected initCascadingSlotConfig() {
@@ -175,6 +179,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_MULTIPLIER, (value: number) => {
             this.tumbleWinView.setMultiplier(value);
+        });
+
+        this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_MULTIPLIER, (value: number) => {
+            this.totalMultiplierView.setValue(value, true);
         });
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, handleConfig(this));
@@ -210,7 +218,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    initBetMultiplier() {
+    initBetControl() {
         if (!this.betControlPrefab) {
             return;
         }

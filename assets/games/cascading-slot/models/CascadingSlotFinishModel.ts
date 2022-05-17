@@ -21,9 +21,13 @@ export interface CascadingSlotFinishData {
     roundId: number;
     result: string;
 
+    multiplier: number;
+    totalMultiplier: number;
+
     win: number;
     bigWin: boolean;
     freeSpins: number;
+    isFreeSpin: boolean;
 
     tumbles: Tumble[];
     m: number[];
