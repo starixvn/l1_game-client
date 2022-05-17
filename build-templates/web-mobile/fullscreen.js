@@ -196,38 +196,21 @@ function initGameEngine() {
 }
 
 function initGA() {
-    console.log("initGA");
-    const domains = [
-        "www.sabagame.com",
-        "sabagame.com",
-        "www.gamesaba.com",
-        "gamesaba.com",
-        "www.sabagame.net",
-        "sabagame.net",
-        "www.gamesaba.net",
-        "gamesaba.net"
-    ];
-
-    if (
-        domains.some((domain) => {
-            return window.location.hostname === domain;
-        })
-    ) {
-        loadScript("https://www.googletagmanager.com/gtag/js?id=UA-161943539-1").then(
-            () => {
-                console.log("Init GA");
-                window.dataLayer = window.dataLayer || [];
-                function gtag() {
-                    dataLayer.push(arguments);
-                }
-                gtag("js", new Date());
-                gtag("config", "UA-161943539-1");
-            },
-            (reason) => {
-                console.log("Init GA failed with" + reason);
+    const gaCode = configs.site === "SC1" ? "G-GJDD3FENTH" : "G-JHKMX35LM3";
+    loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
+        () => {
+            console.log("Init GA");
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
             }
-        );
-    }
+            gtag("js", new Date());
+            gtag("config", gaCode);
+        },
+        (reason) => {
+            console.log("Init GA failed with" + reason);
+        }
+    );
 
     function loadScript(src) {
         return new Promise(function (resolve, reject) {
