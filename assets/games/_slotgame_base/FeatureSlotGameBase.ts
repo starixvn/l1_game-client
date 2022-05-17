@@ -169,9 +169,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     async showEffectBigWin(betWin: number) {
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackAnimation);
-        callbackAnim.setDuration(this.getCustomDuration("bigwin"));
+        callbackAnim.setDuration(this.getCustomDuration("bigWin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        const floatNumberDuration = this.getCustomDuration("showBigWinValue");
+        const floatNumberDuration = this.getCustomDuration("bigWinFloatNumber");
         bigWinAnimation.setAmount(betWin, floatNumberDuration);
         await this.showEffect(effect);
     }
@@ -179,7 +179,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     async showEffectFreeSpins(count: number) {
         const effect = cc.instantiate(this.effectFreeSpin);
         const callbackAnim = effect.getComponent(CallbackAnimation);
-        callbackAnim.setDuration(this.getCustomDuration("freespin"));
+        callbackAnim.setDuration(this.getCustomDuration("freeSpin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
         bigWinAnimation.setAmount(count);
         await this.showEffect(effect);

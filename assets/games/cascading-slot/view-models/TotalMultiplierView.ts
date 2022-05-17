@@ -9,7 +9,7 @@ export default class TotalMultiplierView extends FadeAppearanceNode {
     total: cc.Label = null;
 
     onLoad() {
-        this.showView(false);
+        this.showView(false, true);
     }
 
     setValue(value: number, animated: boolean) {

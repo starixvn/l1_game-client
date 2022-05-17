@@ -103,10 +103,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     test() {
         const data: CascadingSlotFinishData = {
             roundId: 0,
+            totalMultiplier: 10,
             result: "8,8,8,3,8,9,8,8,8,9,5,10,8,1,1,9,5,8,1,7,5,6,7,8,5,7,7,6,7,7", // 30 items on board
             win: 30,
             bigWin: true,
             freeSpins: 0,
+            isFreeSpin: true,
             tumbles: [
                 {
                     icons: { "8": { win: 100, count: 10 } },

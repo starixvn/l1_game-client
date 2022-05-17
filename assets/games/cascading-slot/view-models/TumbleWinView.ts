@@ -23,7 +23,7 @@ export default class TumbleWinView extends FadeAppearanceNode {
             this.showTotalWin(false);
             this.resetPositionTumbleLabel();
         };
-        this.showView(false);
+        this.showView(false, true);
         this.showTotalWin(false);
     }
 
