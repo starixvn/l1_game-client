@@ -272,6 +272,12 @@ function updateLocalizedImages() {
     const suffixLang = language;
     const className = `splash_text${suffixSite}_${suffixLang}`;
     splashText.className += ` ${className}`;
+
+    if (language === "vi") {
+        document.title = "Cổng Game SABA";
+    } else {
+        document.title = "SABA.games";
+    }
 }
 
 function updateSplashLogo() {
