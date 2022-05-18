@@ -251,16 +251,21 @@ function getCurrentLanguage() {
 function updateLocalizedImages() {
     const splashText = document.getElementById("splash_text");
     const language = getCurrentLanguage();
-    const suffixSite = configs.site === "SC2" ? "_sc2" : "_sc1";
-    const suffixLang = language;
-    const className = `splash_text${suffixSite}_${suffixLang}`;
-    splashText.className += ` ${className}`;
-
-    if (language === "vi") {
-        document.title = "Cổng Game SABA";
+    let suffixSite;
+    if (configs.site === "SC2") {
+        document.title = "Vgaming";
+        suffixSite = "_sc2";
     } else {
-        document.title = "SABA.games";
+        if (language === "vi") {
+            document.title = "Cổng Game SABA";
+        } else {
+            document.title = "SABA.games";
+        }
+        suffixSite = "_sc1";
     }
+
+    const className = `splash_text${suffixSite}_${language}`;
+    splashText.className += ` ${className}`;
 }
 
 function updateSplashLogo() {
