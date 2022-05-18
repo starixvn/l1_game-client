@@ -208,15 +208,17 @@ export default class GameBase extends BaseComponent {
         this.stopGame();
     }
 
+    isShowingUM(data) {
+        return data.um && (this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime);
+    }
+
     onData(data: any) {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             const handler = this.dataHandlers[index];
             handler && handler.handle(data);
-            if (
-                index === 0 &&
-                data.um &&
-                (this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime)
-            ) {
+            if (index === 0 && this.isShowingUM(data)) {
+                this.showUmMessage(data);
+                this.disableGame();
                 break;
             }
         }
