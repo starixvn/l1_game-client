@@ -30,23 +30,24 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
 
     setData(tumble: any, index: number) {
         let numberOfIcon = 0;
-        if (Object.keys(tumble.icons).length <= 0) {
-            this.win.string = tumble.win;
-            const noTumbleNode = cc.instantiate(this.noTumbleWinDetailPrefab);
-            this.content.addChild(noTumbleNode);
-            return;
-        }
-        this.win.string = tumble.win;
-        this.index.string = (index + 1).toString();
-        Object.entries(tumble.icons).forEach(([key, value]) => {
-            const tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
-            const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
-            let { count, win } = value as any;
-            control.setData(+key, count, win);
+        let tumbleNode: cc.Node;
+        if (tumble.win > 0) {
+            Object.entries(tumble.icons).forEach(([key, value]) => {
+                tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
+                const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
+                let { count, win } = value as any;
+                control.setData(+key, count, win);
+                numberOfIcon++;
+                this.content.addChild(tumbleNode);
+            });
+            this.calculateHeightRow(numberOfIcon);
+        } else {
+            tumbleNode = cc.instantiate(this.noTumbleWinDetailPrefab);
             this.content.addChild(tumbleNode);
-            numberOfIcon++;
-        });
-        this.calculateHeightRow(numberOfIcon);
+        }
+
+        this.win.string = tumble.win;
+        this.index.string = index.toString();
     }
 
     calculateHeightRow(numberOfIcon: number) {
