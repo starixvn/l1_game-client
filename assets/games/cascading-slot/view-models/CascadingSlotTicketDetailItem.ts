@@ -16,11 +16,26 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     @property(cc.Prefab)
     tumbleWinDetailItemPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    noTumbleWinDetailPrefab: cc.Prefab = null;
+
     @property(cc.Node)
     content: cc.Node = null;
 
+    @property({ type: cc.Node })
+    lines: cc.Node[] = [];
+
+    private MIN_HEIGHT_TOTALROW = 178;
+    private HEIGHT_ROW = 89;
+
     setData(tumble: any, index: number) {
-        let no = 0;
+        let numberOfIcon = 0;
+        if (Object.keys(tumble.icons).length <= 0) {
+            this.win.string = tumble.win;
+            const noTumbleNode = cc.instantiate(this.noTumbleWinDetailPrefab);
+            this.content.addChild(noTumbleNode);
+            return;
+        }
         this.win.string = tumble.win;
         this.index.string = (index + 1).toString();
         Object.entries(tumble.icons).forEach(([key, value]) => {
@@ -29,8 +44,20 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
             let { count, win } = value as any;
             control.setData(+key, count, win);
             this.content.addChild(tumbleNode);
-            no++;
+            numberOfIcon++;
         });
-        this.node.height = no * 70;
+        this.calculateHeightRow(numberOfIcon);
+    }
+
+    calculateHeightRow(numberOfIcon: number) {
+        const heightTotalRow = numberOfIcon * this.HEIGHT_ROW;
+        if (heightTotalRow > this.MIN_HEIGHT_TOTALROW) {
+            this.node.height = heightTotalRow;
+            this.lines.forEach((line) => {
+                line.height = heightTotalRow;
+            });
+        } else {
+            this.node.height = this.MIN_HEIGHT_TOTALROW;
+        }
     }
 }

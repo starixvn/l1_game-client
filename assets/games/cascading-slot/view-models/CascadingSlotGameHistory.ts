@@ -28,6 +28,18 @@ export default class CascadingSlotGameHistory extends SocketIOGameHistoryBase {
                             win: 30,
                             originalBoard: "8,8,8,3,8,9,8,8,8,9,5,9,8,10,10,9,5,8,10,11,10,6,11,8,10,11,11,6,11,7",
                             newBoard: "4,5,9,3,9,10,9,9,9,9,5,3,1,4,10,9,5,9,2,3,2,5,7,9,2,1,1,6,3,7"
+                        },
+                        {
+                            icons: { "8": { count: 10, odds: 3, win: 0.15 }, "7": { count: 10, odds: 3, win: 0.15 } },
+                            win: 30,
+                            originalBoard: "8,8,8,3,8,9,8,8,8,9,5,9,8,10,10,9,5,8,10,11,10,6,11,8,10,11,11,6,11,7",
+                            newBoard: "4,5,9,3,9,10,9,9,9,9,5,3,1,4,10,9,5,9,2,3,2,5,7,9,2,1,1,6,3,7"
+                        },
+                        {
+                            icons: {},
+                            win: 0.6,
+                            originalBoard: "8,8,8,3,8,9,8,8,8,9,5,9,8,10,10,9,5,8,10,11,10,6,11,8,10,11,11,6,11,7",
+                            newBoard: "4,5,9,3,9,10,9,9,9,9,5,3,1,4,10,9,5,9,2,3,2,5,7,9,2,1,1,6,3,7"
                         }
                     ],
                     freeSpins: { count: 0, odds: 0 },
@@ -42,6 +54,20 @@ export default class CascadingSlotGameHistory extends SocketIOGameHistoryBase {
                             prevTotalMultiplier: 0,
                             totalMultiplier: 2,
                             multiplier: 2
+                        },
+                        {
+                            time: "2022/04/12",
+                            roundId: 125,
+                            prevTotalMultiplier: 2,
+                            totalMultiplier: 5,
+                            multiplier: 3
+                        },
+                        {
+                            time: "2022/04/12",
+                            roundId: 125,
+                            prevTotalMultiplier: 2,
+                            totalMultiplier: 5,
+                            multiplier: 3
                         },
                         {
                             time: "2022/04/12",

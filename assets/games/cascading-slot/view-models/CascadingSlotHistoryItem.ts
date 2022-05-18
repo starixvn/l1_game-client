@@ -26,21 +26,12 @@ export default class CascadingSlotHistoryItem extends cc.Component {
     @property(cc.Label)
     totalWin: cc.Label = null;
 
-    @property
-    textHighlightColor: cc.Color = cc.Color.WHITE.fromHEX("#fffc00");
-
-    @property
-    textNormalColor: cc.Color = cc.Color.WHITE;
-
-    @property
-    enableHighlightBg = false;
-
-    bgHighlightColor: cc.Color = cc.Color.WHITE;
+    // @property
+    // textHighlightColor: cc.Color = cc.Color.WHITE.fromHEX("#fffc00");
 
     data: any = null;
 
     setData(betLog, index) {
-        // handle
         this.data = betLog;
         const win = betLog.totalTumbleWin;
         this.node.active = true;
@@ -51,22 +42,13 @@ export default class CascadingSlotHistoryItem extends cc.Component {
         this.coinValue.string = betLog.coinValue;
         this.totalBet.string = betLog.totalAmount;
         this.totalWin.string = numberWithCommas(win, 2);
-
-        const highlight = win > 0;
-        const highlightColor = highlight ? this.textHighlightColor : this.textNormalColor;
-        this.time.node.color = highlightColor;
-        this.betLevel.node.color = highlightColor;
-        this.coinValue.node.color = highlightColor;
-
-        if (this.enableHighlightBg && highlight) {
-            this.bg.active = true;
-            this.bg.color = this.bgHighlightColor;
-        }
+        // if (win > 0) {
+        //     this.betLevel.node.color = this.textHighlightColor;
+        //     this.coinValue.node.color = this.textHighlightColor;
+        // }
     }
 
-    public showTicketDetail = (data: any) => {
-        // handle
-    };
+    public showTicketDetail = (data: any) => {};
 
     openTicketDetail() {
         this.showTicketDetail(this.data);
