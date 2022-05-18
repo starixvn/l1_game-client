@@ -40,7 +40,8 @@ window.i18n.languages.th = {
         42: "Texas Hold'em",
         45: "Hi-Lo",
         46: "Nightclub Lady",
-        47: "Treasure Island"
+        47: "Treasure Island",
+        48: "Blockchain Baccarat"
     },
     messages: {
         accountNotExist: "เกิดข้อผิดพลาด กรุณาติดต่อแอดมินสำหรับรายละเอียดเพิ่มเติม ขอบคุณค่ะ (%{errorCode})",

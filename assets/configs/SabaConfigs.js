@@ -37,7 +37,8 @@ const configs = {
         BitcoinMaster: 43,
         HiLo: 45,
         NightClub: 46,
-        TreasureIsland: 47
+        TreasureIsland: 47,
+        BlockchainBaccarat: 48
     },
     GameInfos: {
         47: {
@@ -186,6 +187,9 @@ const configs = {
         },
         46: {
             key: "NightClub"
+        },
+        48: {
+            key: "BlockchainBaccarat"
         }
     },
     desktopMiniGameScale: 0.8

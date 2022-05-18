@@ -41,7 +41,8 @@ window.i18n.languages.en = {
         42: "Texas Hold'em",
         45: "Hi-Lo",
         46: "Nightclub Lady",
-        47: "Treasure Island"
+        47: "Treasure Island",
+        48: "Blockchain Baccarat"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
