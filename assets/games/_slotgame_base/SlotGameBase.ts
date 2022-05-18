@@ -242,11 +242,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                 (event: cc.Event.EventTouch) => {
                     const location = event.getLocation();
                     const hit = this.spinButton.node._hitTest(location);
+                    this.notHoldSpinButton();
                     if (hit) {
                         this.spinAction();
                     }
-
-                    this.notHoldSpinButton();
                 },
                 this
             );
