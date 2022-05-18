@@ -504,6 +504,7 @@ export default class MainGame extends cc.Component {
 
     openGameSSO() {
         if (window.openGameId) {
+            //TODO: set orientation is null
             cc.sys.localStorage.setItem(`orientation`, "");
             const gameId = parseInt(window.openGameId);
             GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));

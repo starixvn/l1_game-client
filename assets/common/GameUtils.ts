@@ -78,6 +78,8 @@ export default class GameUtils {
         const info = GameInfos[gameId];
 
         if (!info.mini && gameId > 0) {
+            //TODO: set orientation is null
+            cc.sys.localStorage.setItem(`orientation`, "");
             miniPanel.openNewSocketTableGame(null, gameId);
             return;
         }
