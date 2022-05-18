@@ -195,27 +195,19 @@ export default class GameUtils {
         return values.map((a) => +a).filter((value) => value >= minBet && value <= maxBet);
     }
 
-    public static copyToClipboard(data: string, callback): void {
-        navigator.permissions.query({ name: events.clipboardWrite }).then(function (result) {
-            if (result.state === PermisstionState.DENIED) {
+    public static async copyToClipboard(data: string, hintLabel: cc.Label, callback): Promise<void> {
+        try {
+            await navigator.clipboard.writeText(data).then(() => {
                 if (callback) {
                     callback();
                 }
-            } else {
-                navigator.clipboard.writeText(data).then(() => {
-                    if (callback) {
-                        callback();
-                    }
-                });
+            });
+        } catch {
+            hintLabel.string = i18n.t("messages.copyMD5Failed");
+            if (callback) {
+                callback();
             }
-        });
-    }
-
-    public static getMesageCopy(hintLabel: cc.Label) {
-        navigator.permissions.query({ name: events.clipboardWrite }).then(function (result) {
-            const copy_message = result.state === PermisstionState.DENIED ? "messages.copyMD5Failed" : "messages.copy_success";
-            hintLabel.string = i18n.t(copy_message);
-        });
+        }
     }
 
     public static isIpad(): boolean {

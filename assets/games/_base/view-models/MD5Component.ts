@@ -43,11 +43,12 @@ export default class MD5Component extends cc.Component {
     readonly delayShowHashValue: number = 1.35;
     protected md5Tooltip: MD5Tooltip = null;
     readonly maximumStringAllowed = 32;
+    public hintLabel: cc.Label = null;
 
     onLoad() {
         this.initMD5Tooltip();
-        const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
-        GameUtils.getMesageCopy(hintLabel);
+        this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
+        this.hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
         this.showHint = this.showHint.bind(this);
     }
@@ -88,7 +89,7 @@ export default class MD5Component extends cc.Component {
     }
 
     onClickCopyButton() {
-        GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
+        GameUtils.copyToClipboard(this.md5CopyString, this.hintLabel, this.showHint);
         this.md5Tooltip.hideToolTip();
     }
 
