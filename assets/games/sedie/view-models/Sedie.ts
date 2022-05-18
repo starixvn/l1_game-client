@@ -162,7 +162,6 @@ export default class Sedie extends FreeBetGameBase {
             this.setDots(result);
             this.showHideResult(true);
             this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
-            this.updateRoundHistory();
         }
     }
 

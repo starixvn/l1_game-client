@@ -15,6 +15,7 @@ export default class VipSedieWarFinishHandler extends SedieFinishHandler {
             .delay(1)
             .call(() => {
                 this.main.showResultOnTable();
+                this.main.updateRoundHistory();
                 onFinishHandlingData();
             })
             .start();

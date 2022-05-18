@@ -135,7 +135,6 @@ export default class VipSedieWar extends VipSedie {
             this.dishes[1].setDots(result.banker, this.roundId);
 
             this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name], true));
-            this.updateRoundHistory();
         }
     }
 
