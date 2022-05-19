@@ -15,6 +15,7 @@ import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingBetControl from "./CascadingBetControl";
 import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
+import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 
@@ -89,7 +90,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected cascadingSlotConfig: CascadingSlotBaseConfig;
     protected isAutoSpin = false;
     protected isSpinning = false;
-    betControl: CascadingBetControl;
+    public betControl: CascadingBetControl;
+    public freeSpinView: FreeSpinView;
 
     async onSpinClick() {
         AudioManager.getInstance().playClick();
@@ -187,6 +189,15 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.totalMultiplierView.setValue(value, true);
         });
 
+        this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
+            this.freeSpinView.showView(true);
+            this.freeSpinView.setValue(value);
+        });
+
+        this.gameData.uiModel.on(CascadingUIModel.Events.INCREASE_FREESPINS, (value: number) => {
+            this.freeSpinView.setValue(value);
+        });
+
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, handleConfig(this));
     }
 
@@ -227,5 +238,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         const dialog = cc.instantiate(this.betControlPrefab);
         this.betControl = dialog.getComponent(CascadingBetControl);
         this.currentMiniPanel.addDialog(dialog);
+    }
+
+    initFreeSpinView(node: cc.Node) {
+        this.freeSpinView = node.getComponent(FreeSpinView);
+        this.freeSpinView.showView(false, true);
     }
 }

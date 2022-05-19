@@ -85,6 +85,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         await mainGame.showEffectFreeSpins(freeSpins);
     }
 
+    mainGame.gameData.uiModel.setFreeSpins(totalOfFreeSpins);
+
     if (!mainGame.showNoticeForCacheApiError()) {
         if ((mainGame.isAutoSpinMode() && mainGame.stillAutoSpin()) || mainGame.isFreeSpin()) {
             mainGame.spin();

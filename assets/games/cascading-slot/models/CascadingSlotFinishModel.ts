@@ -26,6 +26,7 @@ export interface CascadingSlotFinishData {
 
     win: number;
     bigWin: boolean;
+    totalOfFreeSpins: number;
     freeSpins: number;
     isFreeSpin: boolean;
 
