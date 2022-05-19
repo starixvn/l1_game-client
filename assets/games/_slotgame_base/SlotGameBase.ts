@@ -640,14 +640,17 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.updateModeSpinButton(false);
             this.hideWinningEffectOnItems();
             this.stopAllFinishTweens();
-            this.countDownAutoSpin.show(
-                autoSpinCount,
-                () => {
-                    this.spin();
-                },
-                () => !this.isAutoSpinMode()
-            );
+
+            const onFinished = () => {
+                this.spinButton.active();
+                this.spin();
+            };
+            const checkCancel = () => !this.isAutoSpinMode();
+            const onCancel = () => this.spinButton.active();
+
+            this.countDownAutoSpin.show(autoSpinCount, onFinished, checkCancel, onCancel);
             this.isShowAutoSpinSettingDialog = false;
+            this.spinButton.deactive();
         };
 
         dialog.onCancelCallback = () => {
