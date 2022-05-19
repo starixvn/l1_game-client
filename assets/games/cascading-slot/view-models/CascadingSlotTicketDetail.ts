@@ -36,12 +36,18 @@ export default class CascadingSlotTicketDetail extends cc.Component {
     setData(data: any) {
         this.data = data;
         const tumbles = data.settlementResult.tumbles;
+        const isFreeSpin = data.freeSpin || data.settlementResult.freeSpins.count > 0;
         tumbles.forEach((tumble, index) => {
             const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
             control.setData(tumble, index);
             this.content.addChild(detailItem);
         });
+        if (isFreeSpin) {
+            const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
+            const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
+            control.setDataHaveFreeSpin(data.settlementResult.freeSpins.count, data.settlementResult.freeSpins.odds);
+        }
         this.multiplierTotal.string = data.totalMultiplier;
         this.winTotal.string = data.totalTumbleWin;
 

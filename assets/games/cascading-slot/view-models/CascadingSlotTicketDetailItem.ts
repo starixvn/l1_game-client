@@ -19,6 +19,9 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     @property(cc.Prefab)
     noTumbleWinDetailPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    tumbleWinDetailFreeSpinPrefab: cc.Prefab = null;
+
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -48,6 +51,12 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
 
         this.win.string = tumble.win;
         this.index.string = index.toString();
+    }
+
+    setDataHaveFreeSpin(count: number, odd: number) {
+        const tumbleNode = cc.instantiate(this.tumbleWinDetailFreeSpinPrefab);
+        const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
+        control.setData(10, count, odd);
     }
 
     calculateHeightRow(numberOfIcon: number) {

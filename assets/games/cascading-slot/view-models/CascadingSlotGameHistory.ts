@@ -56,7 +56,7 @@ export default class CascadingSlotGameHistory extends SocketIOGameHistoryBase {
                             multipliers: [5, 3]
                         }
                     ],
-                    freeSpins: { count: 0, odds: 0 },
+                    freeSpins: { count: 6, odds: 10 },
                     additionalFreeSpins: { count: 0, odds: 0 } // nếu là freespin
                 },
                 totalMultipliers: {
