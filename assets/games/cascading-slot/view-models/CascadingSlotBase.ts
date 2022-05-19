@@ -5,7 +5,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { events } from "../../_new/connection/SocketIOConnection";
 import FeatureSlotGameBase, { RoundType } from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
-import { handleConfig } from "../actions/CascadingSlotConfigAction";
+import { handleBetControl, handleTotalBet } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
@@ -198,7 +198,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.freeSpinView.setValue(value);
         });
 
-        this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, handleConfig(this));
+        this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, () => {
+            handleBetControl(this);
+            handleTotalBet(this);
+        });
     }
 
     createFlyWinLabel(container: cc.Node, position: cc.Vec3, value: number) {
