@@ -6,7 +6,7 @@ export default class GameBaseMd5Handler implements DataHandler {
 
     handle(data: any) {
         if (data.md5 || data.resultHash) {
-            this.main.md5Component && this.main.md5Component.updateMD5String(data.md5 || data.resultHash, this.main);
+            this.main.md5Component?.updateMD5String(data.md5 || data.resultHash);
         }
     }
 }

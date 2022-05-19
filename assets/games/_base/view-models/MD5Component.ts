@@ -2,7 +2,6 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
-import GameBase from "../GameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -60,21 +59,21 @@ export default class MD5Component extends cc.Component {
     }
 
     updateMD5String(data: MD5Type) {
-        const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
+        const delayTime = !!data?.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
         this.timeout = setTimeout(() => {
             this.handleMD5Data(data);
         }, delayTime * 1000);
     }
 
     handleMD5Data(data: MD5Type) {
-        this.setCaptionAndHintForMD5(!!data.rawValue);
+        this.setCaptionAndHintForMD5(!!data?.rawValue);
         this.generateMD5Result(data);
-        this.setCopyString(data.hashValue || data.rawValue);
+        this.setCopyString(data?.hashValue || data?.rawValue);
         this.handleTooltip(data);
     }
 
     generateMD5Result(data: MD5Type) {
-        const value = data.hashValue || data.rawValue;
+        const value = data?.hashValue || data?.rawValue;
         const formatValue = value.length > this.maximumStringAllowed ? value.slice(0, this.lengthOfMd5) + "..." : value;
         this.md5Value.string = `${formatValue}`;
     }
