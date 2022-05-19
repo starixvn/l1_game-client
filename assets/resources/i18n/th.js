@@ -158,12 +158,12 @@ window.i18n.languages.th = {
         minBetForChoiceNotice: "เดิมพันขั้นต่ำสำหรับตัวเลือกนี้คือ %{minBet}",
         disallowHedgeBet: "สามารถเดิมพันได้ทั้ง %{betChoice1} หรือ %{betChoice2}",
         copy_success: "Copy successful!",
-        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
-        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
-        roundSettleMsg: "GOOD LUCK!",
-        FromSettleToSpin1: "SPIN TO WIN!",
-        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
-        FromSettleToSpin3: "TRY TURBO MODE!"
+        showMsgWhenSpinDesktop: "กดที่สเปคบาร์หรือคลิกสปิน",
+        showMsgWhenSpinPhone: "คลิกสปินเพื่อเริ่มต้น",
+        roundSettleMsg: "โชคดี!",
+        FromSettleToSpin1: "หมุนเพื่อชนะ!",
+        FromSettleToSpin2: "หมุนมากขึ้น ชนะมากขึ้น!",
+        FromSettleToSpin3: "ลองใช้โหมดเทอร์โบ!"
     },
     ui: {
         choice_red2: "2 แดง",
