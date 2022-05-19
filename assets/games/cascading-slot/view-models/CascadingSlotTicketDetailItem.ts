@@ -53,10 +53,13 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
         this.index.string = index.toString();
     }
 
-    setDataHaveFreeSpin(count: number, odd: number) {
+    setDataHaveFreeSpin(count: number, odd: number, index: number, win: number, extraFreeSpin: boolean) {
         const tumbleNode = cc.instantiate(this.tumbleWinDetailFreeSpinPrefab);
         const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
-        control.setData(10, count, odd);
+        control.setDataForFreeSpinTumble(count, odd, extraFreeSpin);
+        this.content.addChild(tumbleNode);
+        this.win.string = win.toString();
+        this.index.string = index.toString();
     }
 
     calculateHeightRow(numberOfIcon: number) {

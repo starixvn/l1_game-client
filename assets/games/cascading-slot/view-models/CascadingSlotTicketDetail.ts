@@ -22,6 +22,9 @@ export default class CascadingSlotTicketDetail extends cc.Component {
     multiplierTotal: cc.Label = null;
 
     @property(cc.Label)
+    textMultiplier: cc.Label = null;
+
+    @property(cc.Label)
     winTotal: cc.Label = null;
 
     data: any = null;
@@ -36,23 +39,25 @@ export default class CascadingSlotTicketDetail extends cc.Component {
     setData(data: any) {
         this.data = data;
         const tumbles = data.settlementResult.tumbles;
-        const isFreeSpin = data.freeSpin || data.settlementResult.freeSpins.count > 0;
+        const freeSpin = data.freeSpin;
+        const normalFreeSpins = data.settlementResult.freeSpins;
+        const extraFreeSpin = data.settlementResult.additionalFreeSpins;
+        const isFreeSpin = freeSpin || normalFreeSpins.count > 0;
+        const countScatter = (freeSpin ? extraFreeSpin : normalFreeSpins).count;
+        const countFreeSpin = (freeSpin ? extraFreeSpin : normalFreeSpins).odds;
         tumbles.forEach((tumble, index) => {
             const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
-            control.setData(tumble, index);
+            if (index === tumbles.length - 1 && isFreeSpin) {
+                control.setDataHaveFreeSpin(countScatter, countFreeSpin, index, tumble.win, freeSpin);
+            } else {
+                control.setData(tumble, index);
+            }
             this.content.addChild(detailItem);
         });
-        if (isFreeSpin) {
-            const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
-            const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
-            control.setDataHaveFreeSpin(data.settlementResult.freeSpins.count, data.settlementResult.freeSpins.odds);
-        }
+        this.textMultiplier.string = (freeSpin ? "Total " : "") + "Multiplier";
         this.multiplierTotal.string = data.totalMultiplier;
         this.winTotal.string = data.totalTumbleWin;
-
-        var freeSpinCount = (data.freeSpin ? data.settlementResult.additionalFreeSpins : data.settlementResult.freeSpins).count;
-        var textFreeSpin = data.freeSpin ? "Extra Free Spin" : "Free Spin";
     }
 
     onClickMultiplier() {
