@@ -4,6 +4,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import { GameState } from "../../_base/GameState";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";
 import RoundHistory from "../../keno-pro/view-models/RoundHistory";
@@ -17,7 +18,6 @@ import MiniKenoLogsHandler from "./handlers/MiniKenoLogsHandler";
 import MiniKenoStatusHandler from "./handlers/MiniKenoStatusHandler";
 import MiniKenoTimeHandler from "./handlers/MiniKenoTimeHandler";
 import { KenoType } from "./KenoUtils";
-import { GameState } from "../../_base/GameState";
 
 const { ccclass, property } = cc._decorator;
 
@@ -185,7 +185,6 @@ export default class MiniKeno extends SocketIOMiniGameBase {
         this.betBoard.destroy();
         this.roundHistory.destroy();
         this.roundResult.destroy();
-        cc.RedT.removeDataObserver(this.gameName);
         super.onDestroy();
     }
 
