@@ -27,9 +27,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Prefab)
     autoSpinDialogPrefab: cc.Prefab = null;
 
-    @property(CountDownWarning)
-    countDownAutoSpin: CountDownWarning = null;
-
     @property(SpinButton)
     spinButton: SpinButton = null;
 
@@ -44,6 +41,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     @property(cc.Prefab)
     effectFreeSpin: cc.Prefab = null;
+
+    countDownAutoSpin: CountDownWarning = null;
 
     private autoSpinCount = 0;
     private totalFreeSpins = 0;
@@ -194,5 +193,10 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             return true;
         }
         return false;
+    }
+
+    initCountDownWarning(node: cc.Node) {
+        this.countDownAutoSpin = node.getComponent(CountDownWarning);
+        this.countDownAutoSpin.node.active = false;
     }
 }
