@@ -57,6 +57,12 @@ export default class CascadeSlotBoard extends cc.Component {
         });
     }
 
+    public setData(symbols: number[][], multiplier: number[]) {
+        for (let i = 0; i < this.reels.length; i++) {
+            this.reels[i].setItemData(symbols[i], multiplier);
+        }
+    }
+
     public async spinResult(symbols: number[][], multiplier: number[]) {
         const delay = 0.1;
         for (let i = 0; i < this.reels.length; i++) {
