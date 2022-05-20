@@ -1,4 +1,6 @@
+import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingSlotTumbleItem from "./CascadingSlotTumbleItem";
+import { convertData } from "./CascadingSlotUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -7,8 +9,8 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     @property(cc.Label)
     index: cc.Label = null;
 
-    @property(cc.Node)
-    resultBoard: cc.Node = null;
+    @property(CascadeSlotBoard)
+    resultBoard: CascadeSlotBoard = null;
 
     @property(cc.Label)
     win: cc.Label = null;
@@ -18,9 +20,6 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
 
     @property(cc.Prefab)
     noTumbleWinDetailPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    tumbleWinDetailFreeSpinPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     content: cc.Node = null;
@@ -39,7 +38,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
                 tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
                 const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
                 let { count, win } = value as any;
-                control.setData(+key, count, win);
+                control.setData(+key + 1, count, win);
                 numberOfIcon++;
                 this.content.addChild(tumbleNode);
             });
@@ -54,12 +53,18 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     }
 
     setDataHaveFreeSpin(count: number, odd: number, index: number, win: number, extraFreeSpin: boolean) {
-        const tumbleNode = cc.instantiate(this.tumbleWinDetailFreeSpinPrefab);
+        const tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
         const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
         control.setDataForFreeSpinTumble(count, odd, extraFreeSpin);
         this.content.addChild(tumbleNode);
         this.win.string = win.toString();
         this.index.string = index.toString();
+        this.calculateHeightRow(1);
+    }
+
+    setDataResultBoard(symbols: string, multiplier: number[]) {
+        const board = convertData(symbols);
+        this.resultBoard.setData(board, multiplier);
     }
 
     calculateHeightRow(numberOfIcon: number) {
@@ -69,8 +74,12 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
             this.lines.forEach((line) => {
                 line.height = heightTotalRow;
             });
-        } else {
+        } else if (heightTotalRow === this.MIN_HEIGHT_TOTALROW) {
             this.node.height = this.MIN_HEIGHT_TOTALROW;
+        } else {
+            const symbolChilds = this.content.children;
+            const detail = symbolChilds[0].children;
+            symbolChilds[0].height = detail[0].getChildByName("line").height = this.MIN_HEIGHT_TOTALROW;
         }
     }
 }

@@ -2,16 +2,12 @@ import _ = require("lodash");
 
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
-import { convertBoardValue, convertStringToArray } from "../view-models/CascadingSlotUtils";
+import { convertData } from "../view-models/CascadingSlotUtils";
 import MultiplierItem from "../view-models/MultiplierItem";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
     const { bigWin, roundId, totalOfFreeSpins, freeSpins, isFreeSpin, totalMultiplier } = data;
     mainGame.setGameRound(roundId);
-
-    const convertData = (value: string) => {
-        return convertBoardValue(convertStringToArray(value));
-    };
 
     const result = convertData(data.result);
     const multiplier = _.cloneDeep(data.m);

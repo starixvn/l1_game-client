@@ -19,3 +19,7 @@ export const convertStringToArray = (data: string) => {
         return value !== "" ? +value : null;
     });
 };
+
+export const convertData = (value: string) => {
+    return convertBoardValue(convertStringToArray(value));
+};

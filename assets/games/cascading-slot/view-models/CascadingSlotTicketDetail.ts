@@ -54,6 +54,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
                 control.setData(tumble, index);
             }
             this.content.addChild(detailItem);
+            control.setDataResultBoard(tumble.originalBoard, tumble.multipliers);
         });
         this.textMultiplier.string = (freeSpin ? "Total " : "") + "Multiplier";
         this.multiplierTotal.string = data.totalMultiplier;
