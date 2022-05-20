@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import CascadingSlotTicketDetailItem from "./CascadingSlotTicketDetailItem";
 import CascadingSlotTotalMultiplier from "./CascadingSlotTotalMultiplier";
@@ -29,8 +31,6 @@ export default class CascadingSlotTicketDetail extends cc.Component {
 
     data: any = null;
 
-    private HEIGHT_CONTENT = 380;
-
     onLoad() {
         this.commonDialog.addOnDidHide(() => {
             this.node.destroy();
@@ -56,7 +56,8 @@ export default class CascadingSlotTicketDetail extends cc.Component {
             this.content.addChild(detailItem);
             control.setDataResultBoard(tumble.originalBoard, tumble.multipliers);
         });
-        this.textMultiplier.string = (freeSpin ? "Total " : "") + "Multiplier";
+        const lbMulti = `treasureIsland.${freeSpin ? "totalMultiplier" : "multiplier"}`;
+        this.textMultiplier.string = `${i18n.t(lbMulti)}` + ":";
         this.multiplierTotal.string = data.totalMultiplier;
         this.winTotal.string = data.totalTumbleWin;
     }
