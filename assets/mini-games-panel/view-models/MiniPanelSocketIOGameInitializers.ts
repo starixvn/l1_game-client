@@ -19,6 +19,7 @@ export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIO
             sessionManager.removeInRoomGameId();
             this.openNewSocket(gameId);
         });
+        console.log("Open game");
     }
 
     private openNewSocket(gameId) {

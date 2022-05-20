@@ -170,7 +170,8 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async addItem(id: number): Promise<cc.Node> {
-        const prefab = await GameUtils.loadResource(`lobby/games/${id}`);
+        const assetPath = this.lobbyMenuConfig.preLoadGameIcons.includes(id) ? `lobby/games/pre-load/${id}` : `lobby/games/${id}`;
+        const prefab = await GameUtils.loadResource(assetPath);
         if (!this.isAlive()) {
             return null;
         }

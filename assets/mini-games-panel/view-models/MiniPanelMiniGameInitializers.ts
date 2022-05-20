@@ -56,6 +56,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         } else {
             this.showGame(gameBase.node);
         }
+        console.log("Open game");
     }
 
     openGame(id) {
