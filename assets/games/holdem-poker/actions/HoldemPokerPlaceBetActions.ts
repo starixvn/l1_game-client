@@ -59,6 +59,7 @@ export const showHideButtons = (main: HoldemPoker) => (stateModel: HoldemPokerSt
         case HoldemPokerState.calling_fold:
         case HoldemPokerState.settled:
             main.doubleAndCallButton.active = main.foldButton.active = false;
+            main.swapButton.active = main.holdButton.active = false;
             break;
         case HoldemPokerState.swap:
         case HoldemPokerState.hold:

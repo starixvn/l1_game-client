@@ -175,9 +175,46 @@ export default class CasinoGame extends NewGameRoomBase {
 
     initEventForInGameMenu() {
         const node = super.initEventForInGameMenu();
-
         node.on(InGameMenuEvents.CHANGE_SWAP_CARD, this.onIconSwapClick, this);
-
         return node;
+    }
+
+    onDealClick() {
+        this.playClick();
+        this.handleDisableSwap(true);
+    }
+
+    onDoubleClick() {
+        this.playClick();
+    }
+
+    onCancelClick() {
+        this.playClick();
+        this.handleDisableSwap(false);
+    }
+
+    onRebetAndDeal() {
+        this.playClick();
+        this.handleDisableSwap(true);
+        this.clearWinningBet();
+        this.hideButtonPrepareNewRound();
+    }
+
+    onFoldClick() {
+        this.playClick();
+    }
+
+    onNewButtonClick() {
+        this.playClick();
+        this.hideButtonPrepareNewRound();
+        this.clearWinningBet();
+    }
+
+    onSwapClick() {
+        this.playClick();
+    }
+
+    onHoldClick() {
+        this.playClick();
     }
 }

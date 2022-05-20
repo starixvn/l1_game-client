@@ -433,19 +433,17 @@ export default class Texas extends CasinoGame {
     }
 
     onDealClick() {
-        this.playClick();
-        this.handleDisableSwap(true);
+        super.onDealClick();
         this.placingBet.handleClickDeal();
     }
 
     onDoubleClick() {
-        this.playClick();
+        super.onDoubleClick();
         this.placingBet.doubleBet(TexasChoicesConst.anteBet, this.gameData.placeBetModel.choices[TexasChoicesConst.anteBet]);
     }
 
-    onClearClick() {
-        this.playClick();
-        this.handleDisableSwap(false);
+    onCancelClick() {
+        super.onCancelClick();
         this.placingBet.clear();
     }
 
@@ -487,18 +485,14 @@ export default class Texas extends CasinoGame {
     }
 
     onRebetAndDeal() {
-        this.playClick();
-        this.handleDisableSwap(true);
-        this.hideButtonPrepareNewRound();
+        super.onRebetAndDeal();
         collectCards(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
         clearAllBetChips(this.bettingAreas)();
         this.texasChips.stopWinningEffect();
-        this.clearWinningBet();
     }
 
     onNewButtonClick() {
-        this.playClick();
-        this.hideButtonPrepareNewRound();
+        super.onNewButtonClick();
         collectCards(
             this.pokerCardScript,
             () =>
@@ -509,21 +503,20 @@ export default class Texas extends CasinoGame {
         );
         clearAllBetChips(this.bettingAreas)();
         this.texasChips.stopWinningEffect();
-        this.clearWinningBet();
     }
 
     onFoldClick() {
-        this.playClick();
+        super.onFoldClick();
         this.placingBet.handleClickButtonNoneBet(TexasChoicesConst.fold);
     }
 
     onSwapClick() {
-        this.playClick();
+        super.onSwapClick();
         this.placingBet.handleClickOnChoice(TexasChoicesConst.swap);
     }
 
     onHoldClick() {
-        this.playClick();
+        super.onHoldClick();
         this.placingBet.handleClickOnChoice(TexasChoicesConst.hold);
     }
 }

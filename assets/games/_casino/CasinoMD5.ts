@@ -55,6 +55,7 @@ export default class CasinoMD5 extends cc.Component {
         this.setCaptionAndHintForMD5(false);
         this.md5Value.string = data === "" ? "" : `<color=#ffffff>${data}</color>`;
         this.setCopyString(data);
+        this.md5Tooltip.setData("");
     }
 
     initMD5Tooltip() {

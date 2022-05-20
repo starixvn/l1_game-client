@@ -3,7 +3,6 @@ import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
 import { OwnBetDataType } from "../../_casino/event-models/CasinoDataType";
-import { OwnBetModelBase } from "../../_casino/event-models/OwnBetModelBase";
 
 export default class HoldemPokerOwnBetHandler<Choices> extends HoldemPokerEventHandler<OwnBetDataType, Choices> {
     protected verifyEvent(event: OwnBetDataType) {

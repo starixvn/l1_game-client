@@ -7,7 +7,6 @@ export default class InGameMenuHasSwap extends InGameMenu {
     swapComp: HandleActionSwap = null;
 
     onClickSwapCard() {
-        this.doCommons();
         this.node.emit(InGameMenuEvents.CHANGE_SWAP_CARD);
     }
 }

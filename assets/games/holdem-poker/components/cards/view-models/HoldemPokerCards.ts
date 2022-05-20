@@ -113,6 +113,9 @@ export default class HoldemPokerCards extends cc.Component {
 
     showArrowIndicatorCards(combineCard: CardModel[], whose: string) {
         switch (whose) {
+            case "community":
+                this.showIndicatorCard(combineCard, [{ row: this.middleCards, position: "bot", whose: "player" }]);
+                break;
             case "player":
                 this.showIndicatorCard(combineCard, [
                     { row: this.playerCards, position: "top", whose: "player" },

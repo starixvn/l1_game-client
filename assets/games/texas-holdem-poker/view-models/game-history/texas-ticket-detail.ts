@@ -14,10 +14,6 @@ export default class TexasTicketDetail extends HoldemPokerTicketDetail {
         return `holdEmPoker.${CombineCardResultLabel[dealerCards.handResultId].dataId}`;
     }
 
-    protected checkFaceDownPlayerCard(isSwappedOrHold) {
-        return isSwappedOrHold;
-    }
-
     handleColorNodePlayerDealer({ isPlayerWin }) {
         if (isPlayerWin > 0) {
             this.playerRank.node.color = cc.Color.YELLOW;

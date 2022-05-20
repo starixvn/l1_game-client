@@ -330,29 +330,27 @@ export default class HoldemPoker extends CasinoGame {
     }
 
     onDealClick() {
-        this.playClick();
+        super.onDealClick();
         this.placingBet.dealBet();
     }
 
     onDoubleClick() {
-        this.playClick();
+        super.onDoubleClick();
         this.placingBet.doubleBet(HoldemPokerChoicesConst.ante, this.gameData.placeBetModel.choices[HoldemPokerChoicesConst.ante]);
     }
 
     onCancelClick() {
-        this.playClick();
+        super.onCancelClick();
         this.gameData.receiveUIData({
             cancel: {}
         });
     }
 
     onRebetAndDeal() {
-        this.playClick();
-        this.hideButtonPrepareNewRound();
+        super.onRebetAndDeal();
         collectCards(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
         clearAllBetChips(this.bettingAreas)();
         this.holdemPokerChips.stopWinningEffect();
-        this.clearWinningBet();
     }
 
     onDoubleAndCallClick() {
@@ -364,7 +362,7 @@ export default class HoldemPoker extends CasinoGame {
     }
 
     onFoldClick() {
-        this.playClick();
+        super.onFoldClick();
         this.gameData.receiveUIData({
             fold: {}
         });
@@ -376,8 +374,7 @@ export default class HoldemPoker extends CasinoGame {
     }
 
     onNewButtonClick() {
-        this.playClick();
-        this.hideButtonPrepareNewRound();
+        super.onNewButtonClick();
         collectCards(
             this.pokerCardScript,
             () =>
@@ -388,16 +385,15 @@ export default class HoldemPoker extends CasinoGame {
         );
         clearAllBetChips(this.bettingAreas)();
         this.holdemPokerChips.stopWinningEffect();
-        this.clearWinningBet();
     }
 
     onSwapClick() {
-        this.playClick();
+        super.onSwapClick();
         this.placingBet.swap();
     }
 
     onHoldClick() {
-        this.playClick();
+        super.onHoldClick();
         this.placingBet.hold();
     }
 
