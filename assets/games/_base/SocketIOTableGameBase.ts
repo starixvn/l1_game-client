@@ -42,6 +42,12 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         }
     }
 
+    protected override onGameShow() {
+        this.startGame();
+        // dont registerViewGame here
+        // this.registerViewGame();
+    }
+
     public registerViewGame() {
         this.socket && this.socket.connected && this.socket.emit("inGame");
     }
