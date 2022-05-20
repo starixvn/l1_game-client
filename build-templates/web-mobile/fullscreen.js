@@ -62,7 +62,8 @@ function showIntruction() {
     }
 
     const navBarHeight = getMiniNavigationBarHeight();
-    const show = window.innerHeight < screen.width - navBarHeight;
+    const deltaHeight = window.outerHeight - window.innerHeight;
+    const show = deltaHeight > navBarHeight;
     if (show && !window.skipFullscreen) {
         showAddressBar();
         instruction.style.visibility = "visible";
@@ -76,10 +77,10 @@ function getMiniNavigationBarHeight() {
     let navBarHeight = 0;
     const isLandscape = window.outerWidth > window.outerHeight;
     if (isLandscape) {
+        navBarHeight = 20;
+
         if (userAgent.match(/ipad/i)) {
             navBarHeight = 40;
-        } else if (userAgent.match(/crios/i)) {
-            navBarHeight = 20;
         }
     }
     return navBarHeight;
