@@ -1,8 +1,10 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { events } from "../../_new/connection/SocketIOConnection";
+import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase, { RoundType } from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
 import { handleBetControl, handleTotalBet } from "../actions/CascadingSlotConfigAction";
@@ -246,5 +248,18 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     initFreeSpinView(node: cc.Node) {
         this.freeSpinView = node.getComponent(FreeSpinView);
         this.freeSpinView.showView(false, true);
+    }
+
+    override async showEffectBigWin(betWin: number) {
+        const effect = cc.instantiate(this.effectBigWin);
+        const callbackAnim = effect.getComponent(CallbackLoopAnimation);
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        bigWinAnimation.setAmountSlow(betWin);
+
+        callbackAnim.skipCallback = () => {
+            bigWinAnimation.setAmount(betWin, 0);
+        };
+
+        await this.showEffect(effect);
     }
 }

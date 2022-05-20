@@ -120,16 +120,25 @@ export default class GameUtils {
         if (!range) {
             return;
         }
-        const stepTime = Math.max(duration / range, 0.05);
-        const repeatCount = Math.floor(duration / stepTime);
-        const stepValue = +(range / repeatCount).toFixed(2);
+
+        let stepTime, repeatCount, stepValue;
+        if (duration !== undefined) {
+            stepTime = Math.max(duration / range, 0.05);
+            repeatCount = Math.floor(duration / stepTime);
+            stepValue = +(range / repeatCount).toFixed(2);
+        } else {
+            stepValue = 0.01;
+            stepTime = 0.1;
+            repeatCount = Math.floor(range / stepValue);
+        }
+
         let value = start;
         label.node.stopAllActions();
-        cc.tween(label)
+        cc.tween(label.node)
             .repeat(
                 repeatCount,
                 cc
-                    .tween(label)
+                    .tween(label.node)
                     .call(() => {
                         label.string = prefixStr + numberWithCommas(value, 2, noZeroSuffix);
                         value += stepValue;
