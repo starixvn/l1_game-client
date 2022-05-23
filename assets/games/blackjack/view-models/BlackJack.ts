@@ -16,7 +16,7 @@ import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
-import MultiOrientationGame from "../../_base/MultiOrientationGame";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
 import BlackJackHistory from "./BlackJackHistory";
@@ -31,7 +31,7 @@ import HandPlace from "./HandPlace";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlackJack extends MultiOrientationGame {
+export default class BlackJack extends SocketIOTableGameBase {
     @property({ type: cc.Node, visible: false, override: true })
     timeWaitNode: cc.Node = null;
 
@@ -253,7 +253,7 @@ export default class BlackJack extends MultiOrientationGame {
                 const chipNode = this.betChips.createBigChip(this.currentBet);
                 const destNode = this.chipContainers[index];
                 const startNode = this.betChips.getChipNode(this.currentBet);
-                chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0)));
+                chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
                 destNode.addChild(chipNode);
 
                 let destPosition = cc.v2(0, 0);
