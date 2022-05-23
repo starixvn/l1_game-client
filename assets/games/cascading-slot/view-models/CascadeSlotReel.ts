@@ -8,6 +8,9 @@ export default class CascadeSlotReel extends cc.Component {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    effectContainer: cc.Node = null;
+
     @property
     spacing = 15;
 
@@ -117,6 +120,7 @@ export default class CascadeSlotReel extends cc.Component {
 
     async removeItem(index: number) {
         const item = this.items[index];
+        GameUtils.moveToOtherNode(item.node, this.effectContainer);
         const animation = item.getComponentInChildren(cc.Animation);
         animation.play();
         const duration = animation.defaultClip.duration;
