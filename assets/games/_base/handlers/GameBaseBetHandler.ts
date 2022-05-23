@@ -81,24 +81,7 @@ export default class GameBaseBetHandler implements DataHandler {
     }
 
     placePlayerChip(data: any) {
-        console.error("Please check function placePlayerChip");
-        // const gameRoomMain = this.main as WebSocketTableGameBase;
-        // if (gameRoomMain) {
-        //     const betOption = data.box.toLowerCase();
-        //     const bet = data.bet;
-        //     let startNode: cc.Node;
-        //     const playerSlot = gameRoomMain.playerHandler.getPlayerSlot(data.playerId);
-        //     const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betOption);
-        //     if (playerSlot) {
-        //         this.updatePlayerSlotDataStorage(data, playerSlot);
-        //         startNode = playerSlot.avatar.node;
-        //     } else {
-        //         startNode = gameRoomMain.otherPlayers;
-        //         this.updateOtherDataStorage(data);
-        //     }
-        //     this.main.betChips.placeChipToChipBox(bet, betItem.chipNode, startNode, null);
-        //     this.playerChips.pop();
-        // }
+        // placePlayerChip
     }
 
     updatePlayerSlotDataStorage(data: any, playerSlot: any) {
