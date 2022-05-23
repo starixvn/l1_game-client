@@ -1,3 +1,4 @@
+import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { GameInfos } from "../configs/SabaConfigs";
@@ -74,8 +75,14 @@ export default class GameUtils {
         return { values, chipTotal };
     }
 
-    public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}, callBackLobby = () => {}) {
+    public static async openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}, callBackLobby = () => {}) {
         const info = GameInfos[gameId];
+
+        if (info.remote && !info.mini) {
+            const bundleManager = BundleManager.getInstance();
+
+            await bundleManager.loadBundle(info.key);
+        }
 
         if (!info.mini && gameId > 0) {
             cc.sys.localStorage.setItem(`orientation`, "");

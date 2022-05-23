@@ -40,7 +40,10 @@ const configs = {
         TreasureIsland: 47
     },
     GameInfos: {
-        47: { key: "TreasureIsland" },
+        47: {
+            key: "TreasureIsland",
+            remote: true
+        },
         45: {
             key: "Hilo",
             mini: true
