@@ -463,11 +463,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         });
     }
 
-    onEnable() {}
-
-    onDisable() {}
-
-    stopGame() {}
+    override stopGame() {}
 
     disableGame() {
         this.gameState = GameState.Disabled;

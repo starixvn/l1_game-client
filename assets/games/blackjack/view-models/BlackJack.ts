@@ -17,7 +17,6 @@ import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler"
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import MultiOrientationGame from "../../_base/MultiOrientationGame";
-import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
 import BlackJackHistory from "./BlackJackHistory";
@@ -170,17 +169,7 @@ export default class BlackJack extends MultiOrientationGame {
         this.stopIntervalReminder();
     }
 
-    onEnable() {
-        //this.initMenu();
-    }
-
-    onDisable() {}
-
-    start() {
-        this.socketSendData("inGame", {});
-    }
-
-    stopGame() {}
+    override stopGame() {}
 
     disableGame() {
         this.gameState = GameState.Disabled;
