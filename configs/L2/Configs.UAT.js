@@ -14,7 +14,17 @@ const configs = {
     guideDomain: "https://l2guidesuat.sgamesuat.com",
     enableMsgpackParserOnGame: {
         45: true,
-        42: true
+        42: true,
+        1: true,
+        2: true,
+        3: true,
+        4: true,
+        9: true,
+        10: true,
+        22: true,
+        25: true,
+        27: true,
+        46: true
     },
     enableMsgpackParserOnNotification: true
 };
