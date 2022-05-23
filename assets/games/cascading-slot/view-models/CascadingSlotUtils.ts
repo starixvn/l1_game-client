@@ -7,7 +7,7 @@ export const convertBoardValue = (data: number[]): number[][] => {
     for (let i = 0; i < column; i++) {
         result.push([]);
         for (let j = 0; j < row; j++) {
-            result[i].push(data[i + column * (row - 1 - j)]);
+            result[i].push(data[i * row + j]);
         }
     }
 
