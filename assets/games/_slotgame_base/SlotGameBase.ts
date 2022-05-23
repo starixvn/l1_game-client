@@ -834,7 +834,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     activeButtons() {
         const isFreeSpin = this.isFreeSpin();
         const isAutoSpinMode = this.isAutoSpinMode();
-        const notAutoSpinByKeySpaceOrHold = !this.isKeyDownSpace || !this.isHoldSpinButton;
+        const notAutoSpinByKeySpaceOrHold = !this.isKeyDownSpace && !this.isHoldSpinButton;
 
         if (isAutoSpinMode || isFreeSpin) {
             this.deactiveSpinButton();
