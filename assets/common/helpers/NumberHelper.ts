@@ -4,13 +4,18 @@ const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
         result[0] = result[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         if (noZeroSuffix) {
-            const arrChar = result[1].split("");
+            let arrChar = result[1].split("");
             result[1] = "";
-            arrChar.forEach((char) => {
-                if (+char !== 0) {
-                    result[1] += char;
+            let index = 0;
+            for (let i = arrChar.length - 1; i >= 0; i--) {
+                if (+arrChar[i] !== 0) {
+                    index = i;
+                    break;
                 }
-            });
+            }
+            arrChar = arrChar.slice(0, index + 1);
+            result[1] = arrChar.join("");
+
             return +result[1] !== 0 ? result.join(".") : result[0];
         } else {
             return result.join(".");
