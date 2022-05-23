@@ -60,9 +60,6 @@ export default class Sedie extends FreeBetGameBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
-    @property(ExpandableMenu)
-    expandableMenu: ExpandableMenu = null;
-
     @property(cc.Node)
     portraitGuideNode: cc.Node = null;
 

@@ -27,6 +27,9 @@ export default class VipSedieWar extends VipSedie {
     @property(cc.Node)
     betChoicesNode: cc.Node = null;
 
+    @property(ExpandableMenu)
+    expandableMenu: ExpandableMenu = null;
+
     protected internalInit() {
         this.gameId = GameIds.VipSedieWar;
         this.setConfig(new VipSedieWarConfigs());
