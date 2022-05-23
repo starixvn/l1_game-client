@@ -432,7 +432,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
             this.isKeyDownSpace = false;
-            this.activeButtons();
+            if (!this.isAnimatingResult) {
+                this.activeButtons();
+            }
         }
     }
     createLineView(child: cc.Node) {
