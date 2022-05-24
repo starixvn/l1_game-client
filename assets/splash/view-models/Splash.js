@@ -89,10 +89,8 @@ cc.Class({
         this.updateProgress(percent);
     },
     onLoaded: function (err, asset) {
-        cc.resources.loadDir("lobby/games", (e, r, u) => {
-            cc.resources.loadDir("minipanel/games", (error, resource, urls) => {
-                cc.director.loadScene("MainGame");
-            });
+        cc.resources.loadDir("lobby/games/skeleton-icon", (e, r, u) => {
+            cc.director.loadScene("MainGame");
         });
     },
     onFakeGameLoaded: function (err, asset) {
