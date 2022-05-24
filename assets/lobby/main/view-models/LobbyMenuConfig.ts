@@ -142,6 +142,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         SC1: [GameIds.NightClub],
         SC2: [GameIds.NightClub]
     };
+    iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
 
     preLoadGameIcons = [GameIds.SeDie, GameIds.BigSmall, GameIds.MiniSedie, GameIds.VipSedie, GameIds.VipSedieWar, GameIds.SicBo];
 

@@ -2,6 +2,8 @@ import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
+import SkeletonIcon from "./SkeletonIcon";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export enum GameCategory {
     All = 0,
@@ -170,17 +172,26 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async addItem(id: number): Promise<cc.Node> {
-        const assetPath = this.lobbyMenuConfig.preLoadGameIcons.includes(id) ? `lobby/games/pre-load/${id}` : `lobby/games/${id}`;
-        const prefab = await GameUtils.loadResource(assetPath);
-        if (!this.isAlive()) {
-            return null;
-        }
+        const skeletonIconPath = this.lobbyMenuConfig.iconBigSize.includes(id)
+            ? `lobby/games/skeleton-icon/icon-big`
+            : `lobby/games/skeleton-icon/icon-small`;
+        const prefab = await GameUtils.loadResource(skeletonIconPath);
+
         const node = cc.instantiate(prefab);
+        const nodeComponent = node.getComponent("SkeletonIcon") as SkeletonIcon;
+        const gameName = i18n.t(`gameNames.${id}`).toUpperCase();
+        nodeComponent.setGameName(gameName);
+        nodeComponent.setGameContent(id);
+
         const favoriteList = this.getFavoriteList();
         const isFavorite = favoriteList.includes(id);
         this.addHandleFavorite(node, id, isFavorite);
 
         const size = this.getItemSize(id);
+        if (!this.isAlive()) {
+            return null;
+        }
+
         if (!this.currentColumn || size.y > 1) {
             this.createNewColumn();
         }
