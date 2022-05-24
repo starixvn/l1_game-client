@@ -14,6 +14,12 @@ export default class BannerController extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
+    @property(cc.Toggle)
+    adsToggle: cc.Toggle = null;
+
+    @property(cc.Toggle)
+    jackpotToggle: cc.Toggle = null;
+
     @property
     intervalChangeImage = 4;
 

@@ -53,18 +53,6 @@ export default class MainGame extends cc.Component {
     bannerContainer: cc.Node = null;
 
     @property(cc.Node)
-    adsBannerContainer: cc.Node = null;
-
-    @property(cc.Node)
-    jackpotBannerContainer: cc.Node = null;
-
-    @property(cc.Toggle)
-    adsToggle: cc.Toggle = null;
-
-    @property(cc.Toggle)
-    jackpotToggle: cc.Toggle = null;
-
-    @property(cc.Node)
     scrollContent: cc.Node = null;
 
     @property(cc.Node)
@@ -99,6 +87,10 @@ export default class MainGame extends cc.Component {
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
     signName: any;
+    private adsBannerContainer: cc.Node = null;
+    private jackpotBannerContainer: cc.Node = null;
+    private adsToggle: cc.Toggle = null;
+    private jackpotToggle: cc.Toggle = null;
 
     onDestroy() {
         cc.RedT.MiniPanel.destroy();
@@ -260,11 +252,15 @@ export default class MainGame extends cc.Component {
     }
 
     onSignIn() {
+        const delayLoadLobby = this.openGameSSO();
         if (!this.initializedLobby) {
-            this.initLobby();
+            setTimeout(
+                () => {
+                    this.initLobby();
+                },
+                delayLoadLobby ? 3000 : 0
+            );
         }
-
-        this.openGameSSO();
     }
 
     loadLobbyMenuFromStorage() {
@@ -307,47 +303,58 @@ export default class MainGame extends cc.Component {
     }
 
     initBanners() {
-        if (this.adsBannerContainer.childrenCount > 0) {
+        if (this.adsBannerContainer && this.adsBannerContainer.childrenCount > 0) {
             return;
         }
-        const showJackpotBanner = cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
-        this.jackpotToggle.node.parent.active = showJackpotBanner;
 
-        const jpBannerController = this.jackpotBannerContainer.getComponent(BannerController);
-        const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
+        GameUtils.loadResource(`lobby/banner/bannerContainer`).then((prefab) => {
+            this.bannerContainer.getChildByName("Loading").active = false;
 
-        jpBannerController.onEndingRound = () => {
-            this.jackpotToggle.isChecked = false;
-            this.adsToggle.isChecked = true;
+            const bannerPrefabNode = cc.instantiate(prefab);
+            this.bannerContainer.addChild(bannerPrefabNode);
+            this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
+            this.jackpotBannerContainer = bannerPrefabNode.getChildByName("jackpotBannerController");
+            const jpBannerController = this.jackpotBannerContainer.getComponent(BannerController);
+            const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
+            this.jackpotToggle = jpBannerController.adsToggle;
+            this.adsToggle = jpBannerController.adsToggle;
+            const showJackpotBanner =
+                cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
+            this.jackpotToggle.node.parent.active = showJackpotBanner;
 
-            this.switchBanner(false);
-        };
+            jpBannerController.onEndingRound = () => {
+                this.jackpotToggle.isChecked = false;
+                this.adsToggle.isChecked = true;
 
-        adsBannerController.menuLoop = !showJackpotBanner;
-        const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
-        const offerGames = cc.RedT.user.offerGames;
-        const filterList = [];
-        gameAds.forEach((id) => {
-            if (offerGames.includes(id)) {
-                filterList.push(id);
+                this.switchBanner(false);
+            };
+
+            adsBannerController.menuLoop = !showJackpotBanner;
+            const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
+            const offerGames = cc.RedT.user.offerGames;
+            const filterList = [];
+            gameAds.forEach((id) => {
+                if (offerGames.includes(id)) {
+                    filterList.push(id);
+                }
+            });
+
+            if (lobbyMenuConfig.smPromotion) {
+                // Add SM promotion banner at page 2
+                filterList.splice(1, 0, 0);
             }
+
+            adsBannerController.setGameAds(filterList);
+            adsBannerController.onEndingRound = () => {
+                if (showJackpotBanner) {
+                    this.adsToggle.isChecked = false;
+                    this.jackpotToggle.isChecked = true;
+
+                    this.switchBanner(true);
+                }
+            };
+            adsBannerController.showFirstPage();
         });
-
-        if (lobbyMenuConfig.smPromotion) {
-            // Add SM promotion banner at page 2
-            filterList.splice(1, 0, 0);
-        }
-
-        adsBannerController.setGameAds(filterList);
-        adsBannerController.onEndingRound = () => {
-            if (showJackpotBanner) {
-                this.adsToggle.isChecked = false;
-                this.jackpotToggle.isChecked = true;
-
-                this.switchBanner(true);
-            }
-        };
-        adsBannerController.showFirstPage();
     }
 
     switchBanner(showJackpot: boolean, reset = false) {
@@ -370,23 +377,6 @@ export default class MainGame extends cc.Component {
                 }
             })
             .start();
-    }
-
-    repositionMenu() {
-        const adsWidth = this.bannerContainer.width;
-        const scrollContentWidth = this.scrollContent.width + adsWidth;
-        const scrollView = this.mainScroll;
-        const adsWidget = this.bannerContainer.getComponent(cc.Widget);
-        if (scrollContentWidth < this.center.width) {
-            scrollView.enabled = false;
-            this.scrollContent.position = cc.v3(-scrollContentWidth / 2 + adsWidth / 2, this.scrollContent.position.y);
-            adsWidget.enabled = false;
-            this.bannerContainer.position = cc.v3(-scrollContentWidth / 2 + adsWidth / 2, this.bannerContainer.position.y);
-        } else {
-            scrollView.enabled = true;
-            adsWidget.enabled = true;
-            scrollView.scrollTo(cc.v2(0, 0), 0);
-        }
     }
 
     onBannerTypeChanged(e, param) {
@@ -505,21 +495,24 @@ export default class MainGame extends cc.Component {
     }
 
     openGameSSO() {
+        const delayLoadLobby = true;
         if (window.openGameId) {
             cc.sys.localStorage.setItem(`orientation`, "");
             const gameId = parseInt(window.openGameId);
             GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
-            return;
+            return delayLoadLobby;
         }
 
         this.inRoomGameId = sessionManager.getInRoomGameId();
         if (this.inRoomGameId) {
             this.openInRoomGame(this.inRoomGameId);
+            return delayLoadLobby;
         } else {
             window.isSSO && this.openLuckyWheel();
         }
+        return !delayLoadLobby;
     }
 
     openInRoomGame(gameId: string) {
