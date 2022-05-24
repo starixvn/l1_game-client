@@ -676,7 +676,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     getCurrentTotalBet() {
-        return this.stake * this.betChoices.length;
+        const total = this.stake * this.betChoices.length;
+        return +total.toFixed(1);
     }
 
     updateTotalBetLabel() {
