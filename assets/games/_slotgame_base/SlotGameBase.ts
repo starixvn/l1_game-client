@@ -1096,9 +1096,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         const effect = cc.instantiate(this.effectJackpot);
         const callbackAnim = effect.getComponent(CallbackAnimation);
-        callbackAnim.setDuration(this.getCustomDuration("jackpot"));
+        const jackpotDuration = this.getCustomDuration("jackpot");
+        callbackAnim.setDuration(jackpotDuration);
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setAmount(amount, 0);
+        bigWinAnimation.setAmount(amount, jackpotDuration - 1);
         await this.showEffect(effect);
     }
 
