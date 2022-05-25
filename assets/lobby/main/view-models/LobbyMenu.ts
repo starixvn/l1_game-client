@@ -166,7 +166,7 @@ export default class LobbyMenu extends GameIconMenu {
     onInitialized() {
         const layout = this.content.getComponent(cc.Layout);
         layout.updateLayout();
-        this.initializedCallback();
+        this.initializedCallback && this.initializedCallback();
     }
 
     getItemSize(id: number): cc.Vec2 {

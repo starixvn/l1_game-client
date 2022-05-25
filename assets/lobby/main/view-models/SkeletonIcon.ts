@@ -18,6 +18,6 @@ export default class SkeletonIcon extends cc.Component {
         const gamePath = `lobby/games/${id}`;
         const prefab = await GameUtils.loadResource(gamePath);
         const gameNode = cc.instantiate(prefab);
-        this.gameContent.addChild(gameNode);
+        this.gameContent?.addChild(gameNode);
     }
 }
