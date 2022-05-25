@@ -4,6 +4,7 @@ import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 import SkeletonIcon from "./SkeletonIcon";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import { indexOf } from "lodash";
 
 export enum GameCategory {
     All = 0,
@@ -178,7 +179,7 @@ export default class LobbyMenu extends GameIconMenu {
         const prefab = await GameUtils.loadResource(skeletonIconPath);
 
         const node = cc.instantiate(prefab);
-        const nodeComponent = node.getComponent("SkeletonIcon") as SkeletonIcon;
+        const nodeComponent = node.getComponent(SkeletonIcon);
         const gameName = i18n.t(`gameNames.${id}`).toUpperCase();
         nodeComponent.setGameName(gameName);
         nodeComponent.setGameContent(id);
@@ -218,6 +219,25 @@ export default class LobbyMenu extends GameIconMenu {
         }
         node.name = `${id}`;
         return node;
+    }
+
+    async initItems() {
+        const list = this.getList();
+        const timeGap = 1;
+
+        for (let i = 0; i < list.length; i++) {
+            const id = list[i];
+            const node = await this.addItem(id);
+
+            if (i % 8 === 0) {
+                await GameUtils.delayTime(timeGap);
+            }
+
+            if (node) {
+                node.on("click", this.itemPressed.bind(this, id));
+            }
+        }
+        this.onInitialized();
     }
 
     clearRow() {
