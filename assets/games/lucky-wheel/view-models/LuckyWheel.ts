@@ -12,6 +12,7 @@ import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import LuckyWheelHistory from "./LuckyWheelHistory";
 import LuckyWheelWinning from "./LuckyWheelWinning";
+import UserService from "../../../common/auth/UserService";
 
 const { ccclass, property } = cc._decorator;
 
@@ -136,7 +137,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
     }
 
     requestUpdateUserCoin() {
-        cc.RedT.send({ user: { updateCoin: true } });
+        UserService.getBalance();
     }
 
     onData(data: any) {
@@ -365,6 +366,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         }
 
         this.umNotice.hide();
+        this.node.destroy();
     }
 
     onPressedHistory() {

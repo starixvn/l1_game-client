@@ -101,9 +101,11 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
 
     receiveUIData(data: any) {
         if (!!data.bet) {
+            this.placeBetModel.isUsingHand = true;
             this.placeBetModel.placeBet(data.bet.choice, data.bet.amount);
             this.stateModel.placeBet(data.bet.choice);
         }
+
         if (!!data.deal) {
             this.stateModel.deal();
         }
@@ -161,7 +163,7 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
             this.stateModel.rebet();
         }
         if (!!data.rebetAndDeal) {
-            this.placeBetModel.rebetAndDeal();
+            this.placeBetModel.rebetAndDeal(true);
             this.stateModel.deal();
         }
     }

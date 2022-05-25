@@ -15,6 +15,7 @@ export default class CountDownWarning extends cc.Component {
 
     private isShowing = false;
     private checkCancel = () => false;
+    private onCancel = () => {};
 
     onLoad() {
         const txtSpin = this.node.getChildByName("txt_quaytudong");
@@ -22,9 +23,10 @@ export default class CountDownWarning extends cc.Component {
         componentSpin && (componentSpin.spriteFrame = null);
     }
 
-    show(spinCount: number, onFinished = () => {}, checkCancel = () => false) {
+    show(spinCount: number, onFinished = () => {}, checkCancel = () => false, onCancel = () => {}) {
         this.spinCount.string = spinCount.toString();
         this.checkCancel = checkCancel;
+        this.onCancel = onCancel;
         this.node.active = true;
         this.setTime(this.duration);
         let count = 1;
@@ -56,6 +58,7 @@ export default class CountDownWarning extends cc.Component {
         }
 
         if (this.checkCancel()) {
+            this.onCancel();
             this.unschedule(this.updateInterval);
             this.node.stopAllActions();
             this.node.active = false;

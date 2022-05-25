@@ -160,12 +160,12 @@ window.i18n.languages.id = {
         minBetForChoiceNotice: "Taruhan minimum untuk opsi ini adalah %{minBet}",
         disallowHedgeBet: "Dapat bertaruh pada %{betChoice1} atau %{betChoice2}.",
         copy_success: "Salin berhasil!",
-        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
-        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
-        roundSettleMsg: "GOOD LUCK!",
-        FromSettleToSpin1: "SPIN TO WIN!",
-        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
-        FromSettleToSpin3: "TRY TURBO MODE!"
+        showMsgWhenSpinDesktop: "TAHAN SPASI ATAU KLIK SPIN",
+        showMsgWhenSpinPhone: "TAP SPIN UNTUK MEMULAI",
+        roundSettleMsg: "SEMOGA BERUNTUNG!",
+        FromSettleToSpin1: "PUTAR UNTUK MENANG!",
+        FromSettleToSpin2: "PUTAR LEBIH BANYAK, MENANG LEBIH BANYAK!",
+        FromSettleToSpin3: "COBA MODE TURBO!"
     },
     ui: {
         choice_red2: "2 Merah",

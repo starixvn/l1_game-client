@@ -116,7 +116,7 @@ export const updateAllChips =
     (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasChips: TexasChips) =>
     (placeBetModel: TexasPlaceBetModel) => {
         TexasChoices.forEach((choice: string) => {
-            if (placeBetModel.choices[choice] !== 0) {
+            if (placeBetModel.choices[choice] !== 0 && !placeBetModel.isUsingHand) {
                 updateChips(
                     bettingAreas,
                     slidingChips,

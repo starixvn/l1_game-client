@@ -1,4 +1,5 @@
 import NoticeUtil from "../../common/utils/NoticeUtil";
+import NotificationService from "../../common/auth/NotificationService";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,9 +13,15 @@ export default class NewsContent extends cc.Component {
 
     private readonly colors = ["#F24647", "#33D3E9", "#F8E49D"];
     private fonts = {};
+    private readonly dataKey = "marquee";
 
     onLoad(): void {
+        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.onData.bind(this));
         this.initData();
+    }
+
+    onDestroy() {
+        NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
     initData() {

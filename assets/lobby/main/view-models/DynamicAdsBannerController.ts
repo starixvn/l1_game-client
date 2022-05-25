@@ -2,6 +2,7 @@ import { lazyInject } from "../../../Application";
 import BannerController from "./BannerController";
 import BannerItem from "./BannerItem";
 import LobbyMenuConfig from "./LobbyMenuConfig";
+import configs = require("../../../configs/Configs");
 
 const { ccclass, property } = cc._decorator;
 
@@ -10,27 +11,25 @@ export default class DynamicAdsBannerController extends BannerController {
     @property(cc.Prefab)
     adsItemPrefab: cc.Prefab = null;
 
-    @property(cc.SpriteAtlas)
-    bannerAtlas: cc.SpriteAtlas = null;
-
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
-    setGameAds(games: number[]) {
-        games.forEach((id) => this.createAdsItem(id));
+    async setGameAds(games: number[]) {
+        for (const game of games) {
+            await this.createAdsItem(game);
+        }
+
         if (this.node.childrenCount > 0) {
             this.enableTouch();
             this.showFirstPage();
         }
     }
 
-    createAdsItem(id: number) {
-        const language = window.i18n.curLang !== "vi" ? `_${window.i18n.curLang}` : "";
-        const getSpriteLanguage = this.getSpriteFrame(`${id.toString()}${language}`);
-        const spriteFrame = getSpriteLanguage ? getSpriteLanguage : this.getSpriteFrame(id.toString());
-        if (spriteFrame) {
+    async createAdsItem(id: number) {
+        const bannerSpriteFrame = await this.getBannerSpriteFrame(id);
+        if (bannerSpriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
-            this.createBasicItem(id, spriteFrame, item);
+            this.createBasicItem(id, bannerSpriteFrame, item);
 
             const button = item.getComponent(cc.Button);
             const event = new cc.Component.EventHandler();
@@ -48,7 +47,7 @@ export default class DynamicAdsBannerController extends BannerController {
         this.node.addChild(item);
 
         const bannerItem = item.getComponent(BannerItem);
-        const adsInfo = this.lobbyMenuConfig.bannerAdsInfo[id];
+        const adsInfo = this.lobbyMenuConfig.bannerAdsInfo[configs.systemType][id];
         if (adsInfo) {
             bannerItem.displayTime = adsInfo.displayTime;
         } else {
@@ -60,7 +59,33 @@ export default class DynamicAdsBannerController extends BannerController {
         // override to delay enableTouch
     }
 
+    async getBannerSpriteFrame(id: number) {
+        const newSuffix = this.lobbyMenuConfig.isNewGame(id) ? "_new" : "";
+        const currentLang = window.i18n.curLang;
+        const languageAndNew = window.i18n.curLang !== "vi" ? `_${currentLang}${newSuffix}` : newSuffix;
+        const languageAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${languageAndNew}`);
+
+        let bannerSpriteFrame: cc.SpriteFrame;
+        if (languageAndNewSpriteFrame) {
+            bannerSpriteFrame = languageAndNewSpriteFrame;
+        } else {
+            const gameIdAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${newSuffix}`);
+            if (gameIdAndNewSpriteFrame) {
+                bannerSpriteFrame = gameIdAndNewSpriteFrame;
+            } else {
+                const gameIdAndLanguageSpriteFrame = currentLang !== "vi" ? `${id.toString()}_${currentLang}` : id.toString();
+                bannerSpriteFrame = await this.getSpriteFrame(gameIdAndLanguageSpriteFrame);
+            }
+        }
+
+        return bannerSpriteFrame;
+    }
+
     private getSpriteFrame(name: string) {
-        return this.bannerAtlas.getSpriteFrame(name);
+        return new Promise<cc.SpriteFrame>((resolve) => {
+            cc.resources.load<cc.SpriteFrame>(`image/banners/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
+                resolve(spriteFrame);
+            });
+        });
     }
 }

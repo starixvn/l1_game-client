@@ -1,4 +1,3 @@
-import GameHistoryBase from "../../_base/view-models/GameHistoryBase";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import SicBoHistoryItem from "./SicBoHistoryItem";
 import SicBoTicketDetail from "./SicBoTicketDetail";
@@ -17,7 +16,7 @@ export default class SicBoHistory extends SocketIOGameHistoryBase {
         const item = historyItemPrefab.getComponent(SicBoHistoryItem);
         this.content.addChild(historyItemPrefab);
         item.setData(log, this.dices);
-        GameHistoryBase.handleSomeItemRowData(this, item, log);
+        this.handleSomeItemRowData(this, item, log);
     }
 
     showTicketDetail(round: number, time: string, result: any, betLogDetails: any, settlementResult: any) {

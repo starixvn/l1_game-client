@@ -1,9 +1,9 @@
-import { appContainer } from '../../Application';
-import { getCacheLanguage, getLanguage, setLanguage } from '../../common/auth/SessionManager';
-import logger from '../../common/logger';
-import * as authManager from './../../common/auth/AuthManager';
-import RandonWaitingMessage from './RandonWaitingMessage';
-import SplashConfig from './SplashConfig';
+import { appContainer } from "../../Application";
+import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
+import logger from "../../common/logger";
+import * as authManager from "./../../common/auth/AuthManager";
+import RandonWaitingMessage from "./RandonWaitingMessage";
+import SplashConfig from "./SplashConfig";
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
@@ -17,7 +17,6 @@ cc.Class({
             type: cc.Asset
         },
         progressBar: cc.ProgressBar,
-        progressLabel: cc.Label,
         sloganSC1: cc.Node,
         sloganSC2: cc.Node,
         _am: null,
@@ -108,17 +107,11 @@ cc.Class({
     updateProgress: function (progress) {
         if (this) {
             this.updateProgressBar(progress);
-            this.updateProgessLabel(progress);
         }
     },
     updateProgressBar: function (progress) {
         if (this.progressBar) {
             this.progressBar.progress = progress;
-        }
-    },
-    updateProgessLabel: function (progress) {
-        if (this.progressLabel) {
-            this.progressLabel.string = `${Math.round(progress * 100)}%`;
         }
     }
 });

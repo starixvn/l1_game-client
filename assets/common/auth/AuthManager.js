@@ -213,10 +213,13 @@ function handleResponse(session, response) {
     sessionManager.storeSessionData(session);
 
     if (response.apiError) {
+        const errorCode = response.apiError.errorCode.toString();
+        const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
         if (response.isDisableAccount) {
-            handleDisableAccount();
+            showMessageForAccountClosed(errorCode);
+        } else if (expiredTokenErrorCode) {
+            showMessageForExpiredToken(errorCode);
         } else {
-            const errorCode = response.apiError.errorCode;
             const message = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
             const noticeData = { text: message };
             cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData);
@@ -226,7 +229,7 @@ function handleResponse(session, response) {
     }
 }
 
-function updateUserBalance(data) {
+export function updateUserBalance(data) {
     if (cc.RedT.user) {
         cc.RedT.user.red = data.balance;
         cc.RedT.userData(data);
@@ -234,10 +237,22 @@ function updateUserBalance(data) {
     }
 }
 
-function handleDisableAccount() {
-    setTimeout(signOut, 10000);
+export function showMessageForAccountClosed(errorCode) {
     const noticeData = {
-        text: i18n.t("messages.accountClosed")
+        text: i18n.t("messages.accountClosed", { errorCode: errorCode })
     };
+    showMessageAndAutoSignOut(noticeData);
+}
+
+export function showMessageForExpiredToken(errorCode) {
+    const text = `${i18n.t("messages.sessionTimeout")} (${errorCode})`;
+    const noticeData = {
+        text
+    };
+    showMessageAndAutoSignOut(noticeData);
+}
+
+function showMessageAndAutoSignOut(noticeData) {
+    setTimeout(signOut, 10000);
     cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
 }

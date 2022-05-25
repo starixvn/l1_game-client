@@ -11,7 +11,11 @@ const configs = {
         url: "https://b015ef787273452c8fce4af733e62d59@sentry.lumigame.com/29",
         env: "LOCAL"
     },
-    guideDomain: "https://l2-guide.lumigame.com"
+    guideDomain: "https://l2-guide.lumigame.com",
+    enableMsgpackParserOnGame: {
+        45: false
+    },
+    enableMsgpackParserOnNotification: false
 };
 
 module.exports = configs;

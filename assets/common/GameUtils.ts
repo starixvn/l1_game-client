@@ -1,8 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import { GameInfos } from "../configs/SabaConfigs";
-import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
+import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -189,12 +188,19 @@ export default class GameUtils {
         return values.map((a) => +a).filter((value) => value >= minBet && value <= maxBet);
     }
 
-    public static copyToClipboard(data: string, callback): void {
-        navigator.clipboard.writeText(data).then(() => {
+    public static async copyToClipboard(data: string, hintLabel: cc.Label, callback): Promise<void> {
+        try {
+            await navigator.clipboard.writeText(data).then(() => {
+                if (callback) {
+                    callback();
+                }
+            });
+        } catch {
+            hintLabel.string = i18n.t("messages.copyMD5Failed");
             if (callback) {
                 callback();
             }
-        });
+        }
     }
 
     public static isIpad(): boolean {

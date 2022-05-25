@@ -3,11 +3,14 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { appContainer } from "../../../Application";
 import * as baseControl from "../../../BaseController";
 import AudioManager from "../../../common/audio/AudioManager";
+import MusicPlayer from "../../../common/audio/MusicPlayer";
+import NotificationService from "../../../common/auth/NotificationService";
+import UserService from "../../../common/auth/UserService";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import Loading from "../../../common/loading/view-models/Loading";
 import logger from "../../../common/logger";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import configs = require("../../../configs/Configs");
 import * as SabaConfigs from "../../../configs/SabaConfigs";
 import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
@@ -20,11 +23,10 @@ import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
 import BannerController from "./BannerController";
+import CategoryItem from "./CategoryItem";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import CategoryItem from "./CategoryItem";
-import MusicPlayer from "../../../common/audio/MusicPlayer";
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -94,7 +96,6 @@ export default class MainGame extends cc.Component {
 
     private inRoomGameId: string;
     private initializedLobby = false;
-    private loadingComponent: Loading;
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
     signName: any;
@@ -106,7 +107,6 @@ export default class MainGame extends cc.Component {
     }
 
     onLoad() {
-        this.loadingComponent = this.loading.getComponent(Loading);
         document.cookie = "redT=1702;path=/";
 
         this.initRedT();
@@ -114,7 +114,7 @@ export default class MainGame extends cc.Component {
 
         this.initAppEvent();
 
-        cc.RedT.reconnect();
+        NotificationService.getInstance().connect();
 
         this.initMiniPanel();
         this.callTriggerSignIn();
@@ -159,27 +159,22 @@ export default class MainGame extends cc.Component {
     }
 
     activeBgNewOnCategory() {
-        const newGames = lobbyMenuConfig.newGames;
-        const isTextNewSeDie = lobbyMenuConfig.seDieGames.some((r) => newGames.includes(r)),
-            isTextNewCasino = lobbyMenuConfig.casinoGames.some((r) => newGames.includes(r)),
-            isTextNewCard = lobbyMenuConfig.cardGames.some((r) => newGames.includes(r)),
-            isTextNewSlot = lobbyMenuConfig.slotGames.some((r) => newGames.includes(r)),
-            isTextNewLottery = lobbyMenuConfig.lotteryGames.some((r) => newGames.includes(r)),
-            isTextNewOther = lobbyMenuConfig.othersGames.some((r) => newGames.includes(r));
+        const categoryList = {
+            seDieGames: GameCategory.SeDie,
+            casinoGames: GameCategory.Casino,
+            cardGames: GameCategory.Card,
+            slotGames: GameCategory.Slot,
+            lotteryGames: GameCategory.Lottery,
+            othersGames: GameCategory.Other
+        };
 
-        const categoryTextNew = [
-            { [GameCategory.SeDie]: isTextNewSeDie },
-            { [GameCategory.Casino]: isTextNewCasino },
-            { [GameCategory.Card]: isTextNewCard },
-            { [GameCategory.Slot]: isTextNewSlot },
-            { [GameCategory.Lottery]: isTextNewLottery },
-            { [GameCategory.Other]: isTextNewOther }
-        ];
-
-        categoryTextNew.forEach((category) => {
-            const categoryNode = this.categoryContainer.children.find((child) => child.name === `${Object.keys(category)[0]}`);
-            const newNode = categoryNode.getComponent(CategoryItem);
-            newNode.newNode.active = Object.values(category)[0];
+        Object.keys(categoryList).forEach((key) => {
+            const isNew = lobbyMenuConfig.categoryList[key].some((r) => lobbyMenuConfig.isNewGame(r));
+            const categoryNode = this.categoryContainer.children.find((child) => child.name === categoryList[key].toString());
+            if (categoryNode) {
+                const newNode = categoryNode.getComponent(CategoryItem);
+                newNode.newNode.active = isNew;
+            }
         });
     }
 
@@ -233,7 +228,7 @@ export default class MainGame extends cc.Component {
             cc.game.EVENT_SHOW,
             function () {
                 cc.RedT.GAME_IS_SHOWED = true;
-                cc.RedT.IS_LOGIN && cc.RedT.send({ user: { updateCoin: true } });
+                UserService.getBalance();
             }.bind(this)
         );
     }
@@ -252,7 +247,6 @@ export default class MainGame extends cc.Component {
 
     onLoadLobby() {
         if (cc.RedT.IS_LOGIN) {
-            cc.RedT.send({ scene: "home" });
             this.onSignIn();
             this.header.setUserName(cc.RedT.user.name);
             this.header.setBalance(this.formatUserCurrency(cc.RedT.user.red));
@@ -328,7 +322,7 @@ export default class MainGame extends cc.Component {
         };
 
         adsBannerController.menuLoop = !showJackpotBanner;
-        const gameAds = lobbyMenuConfig.bannerAds;
+        const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
         const offerGames = cc.RedT.user.offerGames;
         const filterList = [];
         gameAds.forEach((id) => {
@@ -407,60 +401,13 @@ export default class MainGame extends cc.Component {
         });
     }
 
-    unAuthorized(data) {
-        if (this.loading) {
-            this.loading.active = false;
-        }
-
-        if (void 0 !== data["message"]) {
-            this.showNotice({
-                text: data.isSessionExpired || data.noPassword ? i18n.t("messages.sessionExpired") : i18n.t("messages.errorOccurred")
-            });
-        } else {
-            this.showNotice(data);
-        }
-    }
-
-    Authorized(Authorized) {
-        this.getJackpotInfo();
-    }
-
     serviceAuthorized(Authorized) {
         this.loading.active = false;
 
         if (!Authorized) {
             this.showSignName();
         } else {
-            cc.RedT.callAuthentication();
             this.signIn();
-        }
-    }
-
-    onData(data) {
-        if (void 0 !== data["unauth"]) {
-            this.unAuthorized(data["unauth"]);
-        }
-
-        if (void 0 !== data.user) {
-            this.handleUserData(data.user);
-        }
-
-        if (void 0 !== data.Authorized) {
-            this.Authorized(data.Authorized);
-        }
-
-        cc.RedT.MiniPanel.onGeneralData(data);
-
-        if (void 0 !== data.marqueeMsg && this.newsContents) {
-            this.newsContents.onData(data.marqueeMsg);
-        }
-
-        if (void 0 !== data.loading) {
-            this.loadingComponent.onData(data.loading);
-        }
-
-        if (!!data.removeIsLoading && this.loading) {
-            this.loading.active = false;
         }
     }
 
@@ -553,15 +500,6 @@ export default class MainGame extends cc.Component {
 
         cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         this.onSignIn();
-        this.getJackpotInfo();
-    }
-
-    getJackpotInfo() {
-        cc.RedT.send({
-            jackpot: {
-                getPools: true
-            }
-        });
     }
 
     openGameSSO() {

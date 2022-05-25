@@ -98,10 +98,6 @@ export default class WebSocketTableGameBase extends GameBase {
         this.playerHandler = new GameBasePlayerHandler(this);
     }
 
-    start() {
-        cc.RedT.send({ scene: this.gameName, g: { [this.gameName]: { ingame: true } } });
-    }
-
     onDisconnected() {
         this.closeGame();
     }
@@ -165,7 +161,6 @@ export default class WebSocketTableGameBase extends GameBase {
 
     outRoomGame() {
         return new Promise<void>((resolve) => {
-            this.sendData({ outgame: true });
             this.node.runAction(
                 cc.sequence(
                     cc.delayTime(1),

@@ -1,7 +1,8 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../common/audio/AudioManager";
-import * as sessionManager from "../../common/auth/SessionManager";
+import NotificationService from "../../common/auth/NotificationService";
+import UserService from "../../common/auth/UserService";
 import BaseComponent from "../../common/BaseComponent";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
@@ -68,6 +69,9 @@ export default class MiniPanel extends BaseComponent {
     private miniGamesCache = {};
     private newLayerCallbacks = {};
     public chartsWebView = {};
+    private readonly kickedOutKey = "kickedOut";
+    private readonly reloadKey = "reload";
+    private readonly authKey = "auth";
 
     addNewLayerCallback(key: string, callback: NewLayerCallback) {
         this.newLayerCallbacks[key] = callback;
@@ -111,6 +115,18 @@ export default class MiniPanel extends BaseComponent {
         this.guideContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
         this.dialog.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.dialog.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
+
+        NotificationService.getInstance().addDataObserver(this.kickedOutKey, this.kickedOutKey, (data) =>
+            this.dataHandlers.handleDataKickedOut(data)
+        );
+        NotificationService.getInstance().addDataObserver(this.authKey, this.authKey, (data) => this.dataHandlers.handleAuth(data));
+        NotificationService.getInstance().addDataObserver(this.reloadKey, this.reloadKey, this.onForceReload.bind(this));
+    }
+
+    onDestroy() {
+        NotificationService.getInstance().removeDataObserver(this.kickedOutKey, this.kickedOutKey);
+        NotificationService.getInstance().removeDataObserver(this.authKey, this.authKey);
+        NotificationService.getInstance().removeDataObserver(this.reloadKey, this.reloadKey);
     }
 
     onGeneralData(data: any) {
@@ -119,11 +135,6 @@ export default class MiniPanel extends BaseComponent {
         }
 
         this.dataHandlers.handleData(data);
-        // open result page
-        if (data.gameResult) {
-            const { redirectUrl } = data.gameResult;
-            this.redirectToResultPage(redirectUrl);
-        }
     }
 
     handleUmMessage(data) {
@@ -150,11 +161,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openResultPage(gameId: number = undefined) {
-        const data = { language: sessionManager.getLocale() };
-        if (gameId) {
-            data["gameId"] = gameId;
-        }
-        cc.RedT.send({ gameResult: data });
+        UserService.getGameResult(gameId);
     }
 
     addMiniGame(game: any, gameId: number) {
@@ -199,7 +206,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     forceKickedOut() {
-        cc.RedT.forceKickedOut();
+        NotificationService.getInstance().forceKickedOut();
         authManager.signOut();
     }
 

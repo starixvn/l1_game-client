@@ -20,7 +20,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
 
     get isInLockBetTime() {
         return (
-            this.main.currentTimeRemaining < this.main.config.stopBetTime && //
+            this.main.currentTimeRemaining <= this.main.config.stopBetTime && //
             this.main.currentTimeRemaining >= this.main.config.minBetTime
         );
     }

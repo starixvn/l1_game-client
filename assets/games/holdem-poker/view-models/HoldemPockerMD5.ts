@@ -1,5 +1,4 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import { FormatMD5Result } from "../../_casino/MD5Format";
@@ -21,10 +20,11 @@ export default class HoldemPockerMD5 extends cc.Component {
     hintCopyNode: cc.Node = null;
 
     private md5CopyString: string = null;
+    public hintLabel: cc.Label = null;
 
     onLoad() {
-        const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
-        hintLabel.string = i18n.t("messages.copy_success");
+        this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
+        this.hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
         this.enableCopyButton(false);
         this.showHint = this.showHint.bind(this);
@@ -71,7 +71,7 @@ export default class HoldemPockerMD5 extends cc.Component {
     }
 
     onClickCopyButton() {
-        GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
+        GameUtils.copyToClipboard(this.md5CopyString, this.hintLabel, this.showHint);
     }
 
     showHint() {

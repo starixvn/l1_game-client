@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
+import UserService from "../../common/auth/UserService";
 import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../common/GameUtils";
@@ -12,6 +13,7 @@ import UmWarning from "../../common/um-warning/UmWarning";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { GameInfos } from "../../configs/SabaConfigs";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import { GameState } from "./GameState";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
@@ -28,7 +30,6 @@ import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
-import { GameState } from "./GameState";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -253,9 +254,7 @@ export default class GameBase extends BaseComponent {
     }
 
     /** Register with game on server */
-    public registerViewGame() {
-        this.sendData({ view: true, get_time: true, getLogs: true });
-    }
+    public registerViewGame() {}
 
     onSignIn() {
         if (!this.node.active) {
@@ -263,14 +262,6 @@ export default class GameBase extends BaseComponent {
         }
 
         this.registerViewGame();
-    }
-
-    sendData(payload: any) {
-        cc.RedT.send({
-            g: {
-                [this.gameName]: payload
-            }
-        });
     }
 
     showAcceptedBet(bet: number) {
@@ -469,11 +460,7 @@ export default class GameBase extends BaseComponent {
     }
 
     public updateUserBalance() {
-        cc.RedT.send({
-            user: {
-                updateCoin: true
-            }
-        });
+        UserService.getBalance();
     }
 
     public isUsingMaxStakeLevel() {

@@ -1,10 +1,12 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import NotificationService from "../../common/auth/NotificationService";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
+import { showMessageForExpiredToken } from "./../../common/auth/AuthManager";
 import { removeInRoomGameId } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
 
@@ -66,7 +68,7 @@ export default class MiniPanelDataHandlers {
 
     handleDataKickedOut(data: any) {
         if (data.umInfo) {
-            cc.RedT.forceKickedOut();
+            NotificationService.getInstance().forceKickedOut();
             window.umInfo = data.umInfo;
             cc.director.loadScene("um");
         } else {
@@ -86,9 +88,30 @@ export default class MiniPanelDataHandlers {
         }
     }
 
+    handleAuth(data: any) {
+        if (data.authorized) {
+            cc.RedT.MiniPanel.onSignIn();
+        } else {
+            if (data.umInfo) {
+                NotificationService.getInstance().forceKickedOut();
+                window.umInfo = data.umInfo;
+                cc.director.loadScene("um");
+            } else {
+                this.main.forceKickedOut();
+            }
+        }
+    }
+
     handleDataApiError(apiErrorData: any) {
         const error = apiErrorData.apiError;
         const gameId = error.gameTypeId;
+
+        const errorCode = error.errorCode.toString();
+        const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
+        if (expiredTokenErrorCode) {
+            showMessageForExpiredToken(errorCode);
+            return;
+        }
 
         if (this.main.skipShowApiErrorGameIds.includes(gameId)) {
             return;

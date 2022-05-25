@@ -29,7 +29,8 @@ const configs = {
         25: true,
         27: true,
         46: true
-    }
+    },
+    enableMsgpackParserOnNotification: true
 };
 
 module.exports = configs;

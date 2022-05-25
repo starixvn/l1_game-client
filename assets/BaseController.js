@@ -1,6 +1,3 @@
-import i18n from "i18n/runtime-scripts/LanguageData";
-
-import { buildServerUrl } from "./common/helpers/UrlHelper";
 import logger from "./common/logger";
 import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
 
@@ -8,129 +5,15 @@ const sentryLogger = logger();
 
 module.exports = {
     IS_LOGIN: false,
-    IS_SOUND: true,
-    isConnected: false,
     GAME_IS_SHOWED: true,
-    _socket: null,
-    loading: null,
-    isForceKickedOut: false,
     user: {},
-    prefab: {},
     setting: {},
     util: {},
-    gameSockets: {},
 
-    dataObservers: {},
-    soundObservers: {},
     userStakeLevel: {},
 
-    connect: function () {
-        if (!this.isConnected && !this.isForceKickedOut) {
-            this._socket = new WebSocket(buildServerUrl("ws", "/websocket"));
-            this._socket.onopen = this._onSocketConnect;
-            this._socket.onclose = this._onSocketDisconnect;
-            this._socket.onmessage = this._onSocketData;
-            this._socket.onerror = this._onSocketError;
-
-            if (this.loading) {
-                this.loading.active = false;
-            }
-        }
-    },
-    forceKickedOut: function () {
-        this.isForceKickedOut = true;
-        this._socket.close();
-    },
-    disconnect: function () {
-        this.isConnected = !1;
-        this._socket.close();
-    },
-    send: function (message) {
-        try {
-            this._socket.readyState === 1 && this._socket.send(this._encodeMessage(message));
-        } catch (err) {
-            sentryLogger.logError(err);
-            if (this.inGame && this.inGame.loading) {
-                this.inGame.loading.active = false;
-                this.inGame.showNotice({
-                    text: i18n.t("messages.connectionFailed")
-                });
-            }
-        }
-    },
-    _decodeMessage: function (message) {
-        return JSON.parse(message);
-    },
-    _encodeMessage: function (message) {
-        return JSON.stringify(message);
-    },
-    callAuthentication: function () {
-        if (!!window.authData) {
-            const authentication = {
-                username: window.authData.username,
-                data: window.authData
-            };
-
-            setTimeout(() => {
-                cc.RedT.send({ authentication });
-            }, 500);
-        }
-    },
-    _onSocketConnect: function () {
-        cc.RedT.isConnected = true;
-        if (cc.RedT.inGame && cc.RedT.inGame.loading) {
-            cc.RedT.inGame.loading.active = true;
-        }
-
-        setTimeout(function () {
-            if (cc.RedT.inGame && cc.RedT.inGame.loading) {
-                cc.RedT.inGame.loading.active = false;
-            }
-        }, 3000);
-    },
-    _onSocketDisconnect: function () {
-        cc.RedT.isConnected = false;
-        if (cc.RedT.inGame) {
-            if (cc.RedT.IS_LOGIN) {
-                cc.RedT.inGame.onDisconnected();
-            }
-            // else if (cc.RedT.inGame.dialog) {
-            //     cc.RedT.inGame.dialog.onCloseDialog();
-            // }
-        }
-        cc.RedT.reconnect();
-    },
-    _onSocketError: function (message) {
-        cc.RedT.isConnected = false;
-    },
-    _onSocketData: function (message) {
-        var data = message.data;
-        data = cc.RedT._decodeMessage(data);
-        cc.RedT.inGame && cc.RedT.inGame.onData(data);
-
-        Object.keys(cc.RedT.dataObservers).forEach((key) => {
-            var observer = cc.RedT.dataObservers[key];
-            observer && observer(data);
-        });
-
-        if (data.userStakeLevel) {
-            cc.RedT.userStakeLevelData(data.userStakeLevel);
-        }
-    },
-    addDataObserver(key, observer) {
-        this.dataObservers[key] = observer;
-    },
-    removeDataObserver(key) {
-        delete this.dataObservers[key];
-    },
-
-    reconnect: function () {
-        this.connect();
-    },
     init: function (loading) {
         this.initPrototype();
-        this.loading = loading;
-        this.dataObservers = {};
 
         const menuConfig = new LobbyMenuConfig();
         this.user.offerGames = menuConfig.list;
@@ -144,14 +27,6 @@ module.exports = {
                 });
             };
         }
-    },
-    // Function localStorage
-    setAutoLogin: function (bool) {
-        cc.sys.localStorage.setItem("AUTO_LOGIN", bool);
-    },
-    isAutoLogin: function () {
-        var check = cc.sys.localStorage.getItem("AUTO_LOGIN");
-        return check === "true";
     },
     userData: function (data) {
         if (void 0 !== data.offerGames) {

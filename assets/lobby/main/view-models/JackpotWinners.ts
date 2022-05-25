@@ -1,4 +1,5 @@
 import PlayerInfo from "./PlayerInfo";
+import NotificationService from "../../../common/auth/NotificationService";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,6 +14,8 @@ export default class JackpotWinners extends cc.Component {
     @property(cc.Node)
     noUserNode: cc.Node = null;
 
+    private readonly dataKey = "jackpotWinners";
+
     setData(data: any) {
         data.forEach((playerData, index) => {
             const player = this.players[index];
@@ -24,7 +27,7 @@ export default class JackpotWinners extends cc.Component {
     }
 
     onLoad() {
-        cc.RedT.addDataObserver("jackpot_winners", (data) => this.onReceivedData(data));
+        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.onReceivedData.bind(this));
         cc.tween(this)
             .repeatForever(
                 cc
@@ -39,17 +42,11 @@ export default class JackpotWinners extends cc.Component {
     }
 
     onDestroy() {
-        cc.RedT.removeDataObserver(`jackpot_winners`);
+        NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
     requestData() {
-        cc.RedT.send({
-            jackpot: {
-                getWinners: {
-                    limit: 3 // optional
-                }
-            }
-        });
+        NotificationService.getInstance().emitEvent("getWinners", { limit: 3 });
     }
 
     handleNoUserAd(status = true) {
@@ -58,11 +55,7 @@ export default class JackpotWinners extends cc.Component {
     }
 
     onReceivedData(data: any) {
-        if (!data.jackpotWinners || data.jackpotWinners.length === 0) {
-            return;
-        }
-
         this.handleNoUserAd(false);
-        this.setData(data.jackpotWinners);
+        this.setData(data);
     }
 }

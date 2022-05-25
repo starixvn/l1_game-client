@@ -168,7 +168,8 @@ window.i18n.languages.vi = {
         roundSettleMsg: "CHÚC MAY MẮN!",
         FromSettleToSpin1: "QUAY SẼ THẮNG!",
         FromSettleToSpin2: "CÀNG QUAY, CÀNG THẮNG!",
-        FromSettleToSpin3: "THỬ BẬT TÍNH NĂNG SIÊU TỐC!"
+        FromSettleToSpin3: "THỬ BẬT TÍNH NĂNG SIÊU TỐC!",
+        copyMD5Failed: "Chức năng Copy tạm thời không hoạt động."
     },
     ui: {
         choice_red2: "2 Đỏ",

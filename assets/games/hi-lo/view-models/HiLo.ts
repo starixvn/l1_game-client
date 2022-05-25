@@ -370,7 +370,7 @@ export default class HiLo extends NewMiniGameBase {
         this.betBoardComp.disableBetBoard(false);
         this.gameRound.string = "";
         this.resetStakesAndBetWin();
-        this.betBoardComp.setCurrentBet(this.currentBet.toString());
+        this.currentBet && this.betBoardComp.setCurrentBet(this.currentBet.toString());
     }
 
     resetCountdownTimer() {

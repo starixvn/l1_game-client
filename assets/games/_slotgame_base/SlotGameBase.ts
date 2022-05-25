@@ -242,11 +242,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
                 (event: cc.Event.EventTouch) => {
                     const location = event.getLocation();
                     const hit = this.spinButton.node._hitTest(location);
+                    this.notHoldSpinButton();
                     if (hit) {
                         this.spinAction();
                     }
-
-                    this.notHoldSpinButton();
                 },
                 this
             );
@@ -433,6 +432,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
             this.isKeyDownSpace = false;
+            if (!this.isAnimatingResult) {
+                this.activeButtons();
+            }
         }
     }
     createLineView(child: cc.Node) {
@@ -641,14 +643,17 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             this.updateModeSpinButton(false);
             this.hideWinningEffectOnItems();
             this.stopAllFinishTweens();
-            this.countDownAutoSpin.show(
-                autoSpinCount,
-                () => {
-                    this.spin();
-                },
-                () => !this.isAutoSpinMode()
-            );
+
+            const onFinished = () => {
+                this.spinButton.active();
+                this.spin();
+            };
+            const checkCancel = () => !this.isAutoSpinMode();
+            const onCancel = () => this.spinButton.active();
+
+            this.countDownAutoSpin.show(autoSpinCount, onFinished, checkCancel, onCancel);
             this.isShowAutoSpinSettingDialog = false;
+            this.spinButton.deactive();
         };
 
         dialog.onCancelCallback = () => {
@@ -671,7 +676,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     getCurrentTotalBet() {
-        return this.stake * this.betChoices.length;
+        const total = this.stake * this.betChoices.length;
+        return +total.toFixed(1);
     }
 
     updateTotalBetLabel() {
@@ -1091,9 +1097,10 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
         const effect = cc.instantiate(this.effectJackpot);
         const callbackAnim = effect.getComponent(CallbackAnimation);
-        callbackAnim.setDuration(this.getCustomDuration("jackpot"));
+        const jackpotDuration = this.getCustomDuration("jackpot");
+        callbackAnim.setDuration(jackpotDuration);
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setAmount(amount, 0);
+        bigWinAnimation.setAmount(amount, jackpotDuration - 1);
         await this.showEffect(effect);
     }
 

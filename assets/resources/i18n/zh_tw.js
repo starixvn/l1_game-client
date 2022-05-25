@@ -146,12 +146,12 @@ window.i18n.languages.zh_tw = {
         minBetForChoiceNotice: "此選項的最小賭注是 %{minBet}",
         disallowHedgeBet: "可以下注 %{betChoice1} 或 %{betChoice2}。",
         copy_success: "複製成功！",
-        showMsgWhenSpinDesktop: "HOLD SPACE OR CLICK SPIN",
-        showMsgWhenSpinPhone: "TAP SPIN TO BEGIN",
-        roundSettleMsg: "GOOD LUCK!",
-        FromSettleToSpin1: "SPIN TO WIN!",
-        FromSettleToSpin2: "SPIN MORE, WIN MORE!",
-        FromSettleToSpin3: "TRY TURBO MODE!"
+        showMsgWhenSpinDesktop: "按住空格鍵或點擊旋轉",
+        showMsgWhenSpinPhone: "點擊旋轉開始",
+        roundSettleMsg: "祝你好運！",
+        FromSettleToSpin1: "旋轉獲勝！",
+        FromSettleToSpin2: "旋轉更多，贏得更多！",
+        FromSettleToSpin3: "嘗試渦輪模式！"
     },
     ui: {
         choice_red2: "2 紅",

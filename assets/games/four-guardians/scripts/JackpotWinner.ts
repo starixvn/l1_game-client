@@ -1,6 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
+import NotificationService from "../../../common/auth/NotificationService";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,7 +16,7 @@ export default class JackpotWinner extends cc.Component {
     @property(cc.Label)
     gameName: cc.Label = null;
 
-    private readonly dataObserverKey = "JackpotWinner";
+    private readonly dataKey = "jackpotWinner";
     popupMiniGame: PopupMinigames = null;
 
     onLoad() {
@@ -30,21 +31,11 @@ export default class JackpotWinner extends cc.Component {
     }
 
     addDataObserver() {
-        cc.RedT.addDataObserver(this.dataObserverKey, this.receivedData.bind(this));
-    }
-
-    receivedData(data) {
-        if (data["jackpotWinner"]) {
-            this.onData(data["jackpotWinner"]);
-        }
+        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.onData.bind(this));
     }
 
     onDestroy() {
-        this.removeDataObserver();
-    }
-
-    removeDataObserver() {
-        cc.RedT.removeDataObserver(this.dataObserverKey);
+        NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
     onData(data: any) {

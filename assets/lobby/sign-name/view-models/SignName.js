@@ -105,8 +105,6 @@ cc.Class({
         if (this.validateUsername(this.username.string)) {
             this.errorMessage.string = i18n.t(InvalidUserNameKey);
         } else {
-            //Ricky: Client SignName
-            //cc.RedT.send({ signName: this.username.string });
             const authData = window.authData;
             UserService.getInstance().auth.signName(authData.ss, authData.username, this.username.string).then(this.onSuccessFunc);
         }

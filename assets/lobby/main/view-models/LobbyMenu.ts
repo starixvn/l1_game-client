@@ -109,12 +109,12 @@ export default class LobbyMenu extends GameIconMenu {
         }
 
         const dict = {};
-        dict[GameCategory.SeDie] = this.lobbyMenuConfig.seDieGames;
-        dict[GameCategory.Casino] = this.lobbyMenuConfig.casinoGames;
-        dict[GameCategory.Card] = this.lobbyMenuConfig.cardGames;
-        dict[GameCategory.Slot] = this.lobbyMenuConfig.slotGames;
-        dict[GameCategory.Lottery] = this.lobbyMenuConfig.lotteryGames;
-        dict[GameCategory.Other] = this.lobbyMenuConfig.othersGames;
+        dict[GameCategory.SeDie] = this.lobbyMenuConfig.categoryList.seDieGames;
+        dict[GameCategory.Casino] = this.lobbyMenuConfig.categoryList.casinoGames;
+        dict[GameCategory.Card] = this.lobbyMenuConfig.categoryList.cardGames;
+        dict[GameCategory.Slot] = this.lobbyMenuConfig.categoryList.slotGames;
+        dict[GameCategory.Lottery] = this.lobbyMenuConfig.categoryList.lotteryGames;
+        dict[GameCategory.Other] = this.lobbyMenuConfig.categoryList.othersGames;
         const list = dict[this.currentCategory];
         return list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
     }
