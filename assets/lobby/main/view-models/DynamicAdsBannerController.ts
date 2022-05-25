@@ -14,10 +14,11 @@ export default class DynamicAdsBannerController extends BannerController {
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
-    async setGameAds(games: number[]) {
+    async setGameAds(games: number[], callBackActiveNode: () => void) {
         for (const gameId of games) {
             await this.createAdsItem(gameId);
         }
+        callBackActiveNode();
         if (this.node.childrenCount > 0) {
             this.enableTouch();
             this.showFirstPage();

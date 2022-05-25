@@ -14,12 +14,6 @@ export default class BannerController extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(cc.Toggle)
-    adsToggle: cc.Toggle = null;
-
-    @property(cc.Toggle)
-    jackpotToggle: cc.Toggle = null;
-
     @property
     intervalChangeImage = 4;
 
@@ -212,6 +206,7 @@ export default class BannerController extends cc.Component {
             currentNode.position = cc.v3(direction * distance, currentNode.position.y);
 
             this.intervalChangeImage = currentNode.getComponent(BannerItem).displayTime;
+
             this.moveToCenter(currentNode, 0.6);
         }
     }

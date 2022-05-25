@@ -27,6 +27,7 @@ import CategoryItem from "./CategoryItem";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
+import JackpotNavigation from "./JackpotNavigation";
 
 const socketIOController = appContainer.get(SocketIOController);
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
@@ -89,6 +90,7 @@ export default class MainGame extends cc.Component {
     signName: any;
     private adsBannerContainer: cc.Node = null;
     private jackpotBannerContainer: cc.Node = null;
+    private jackpotNavigationContainer: cc.Node = null;
     private adsToggle: cc.Toggle = null;
     private jackpotToggle: cc.Toggle = null;
 
@@ -307,27 +309,15 @@ export default class MainGame extends cc.Component {
             return;
         }
 
-        GameUtils.loadResource(`lobby/banner/bannerContainer`).then((prefab) => {
-            this.bannerContainer.getChildByName("Loading").active = false;
-
+        GameUtils.loadResource(`lobby/banner/bannerContainer`).then(async (prefab) => {
             const bannerPrefabNode = cc.instantiate(prefab);
             this.bannerContainer.addChild(bannerPrefabNode);
             this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
-            this.jackpotBannerContainer = bannerPrefabNode.getChildByName("jackpotBannerController");
-            const jpBannerController = this.jackpotBannerContainer.getComponent(BannerController);
             const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
-            this.jackpotToggle = jpBannerController.adsToggle;
-            this.adsToggle = jpBannerController.adsToggle;
+
             const showJackpotBanner =
                 cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
-            this.jackpotToggle.node.parent.active = showJackpotBanner;
-
-            jpBannerController.onEndingRound = () => {
-                this.jackpotToggle.isChecked = false;
-                this.adsToggle.isChecked = true;
-
-                this.switchBanner(false);
-            };
+            showJackpotBanner && (await this.handleJackpotBanner(bannerPrefabNode));
 
             adsBannerController.menuLoop = !showJackpotBanner;
             const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
@@ -344,7 +334,9 @@ export default class MainGame extends cc.Component {
                 filterList.splice(1, 0, 0);
             }
 
-            adsBannerController.setGameAds(filterList);
+            adsBannerController.setGameAds(filterList, () => {
+                this.bannerContainer.getChildByName("skeleton").active = false;
+            });
             adsBannerController.onEndingRound = () => {
                 if (showJackpotBanner) {
                     this.adsToggle.isChecked = false;
@@ -355,6 +347,42 @@ export default class MainGame extends cc.Component {
             };
             adsBannerController.showFirstPage();
         });
+    }
+
+    async handleJackpotBanner(bannerPrefabNode: cc.Node) {
+        const jackpotContainer = bannerPrefabNode.getChildByName("jackpotController");
+        this.jackpotNavigationContainer = bannerPrefabNode.getChildByName("jackpotNavigationController");
+        await this.setJackpotContainer(jackpotContainer);
+        await this.setJackpotNavigation();
+    }
+
+    async setJackpotContainer(container: cc.Node) {
+        const pathPrefab = `lobby/banner/jackpotController`;
+        const prefab = await GameUtils.loadResource(pathPrefab);
+        const gameNode = cc.instantiate(prefab);
+        container.addChild(gameNode);
+        const bannerNode = container?.children[0];
+        this.jackpotBannerContainer = bannerNode;
+
+        bannerNode.getComponent(BannerController).onEndingRound = () => {
+            this.jackpotToggle.isChecked = false;
+            this.adsToggle.isChecked = true;
+
+            this.switchBanner(false);
+        };
+    }
+
+    async setJackpotNavigation() {
+        const pathPrefab = `lobby/banner/jackpotNavigation`;
+        const prefab = await GameUtils.loadResource(pathPrefab);
+        const gameNode = cc.instantiate(prefab);
+        this.jackpotNavigationContainer.addChild(gameNode);
+
+        const navigatioNComponent = this.jackpotNavigationContainer?.children[0]?.getComponent(JackpotNavigation);
+        navigatioNComponent.onInit(this);
+        this.jackpotToggle = navigatioNComponent.jackpotToggle;
+        this.adsToggle = navigatioNComponent.adsToggle;
+        navigatioNComponent.node.active = true;
     }
 
     switchBanner(showJackpot: boolean, reset = false) {
@@ -377,12 +405,6 @@ export default class MainGame extends cc.Component {
                 }
             })
             .start();
-    }
-
-    onBannerTypeChanged(e, param) {
-        const type = +param;
-        const showJackpot = type === 1;
-        this.switchBanner(showJackpot, true);
     }
 
     outRoomGame() {
