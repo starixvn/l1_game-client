@@ -204,7 +204,7 @@ export default class HoldemPokerPlacingBet {
         ) {
             total = amount;
         } else {
-            total = isClickDeal ? this.getTotalBetWhenClickDeal() : this.getTotalBet() + amount;
+            total = isClickDeal ? this.getTotalBetWhenClickDeal() : this.gameData.placeBetModel.choices[HoldemPokerChoicesConst.ante] * 2;
         }
 
         return total > this.gameBase.getUserBalance();
