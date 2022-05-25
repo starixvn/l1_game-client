@@ -27,7 +27,9 @@ export default class LobbyMenu extends GameIconMenu {
     currentColumn: cc.Node = null;
     currentRow: cc.Node = null;
     rowChildrenCount = 0;
-    public initializedCallback = () => {};
+    public initializedCallback = () => {
+        //initializedCallback
+    };
     currentCategory = GameCategory.All;
 
     @lazyInject(LobbyMenuConfig)
@@ -284,7 +286,8 @@ export default class LobbyMenu extends GameIconMenu {
         }
     }
 
-    setCategory(category: number) {
+    setCategory(category: number, callbackLoadBanner: () => void) {
+        this.initializedCallback = callbackLoadBanner;
         this.currentCategory = category;
         this.saveCategory();
         this.updateIcons();

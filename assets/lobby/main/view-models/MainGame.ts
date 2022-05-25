@@ -280,7 +280,7 @@ export default class MainGame extends cc.Component {
             this.showNotice({ text: i18n.t("messages.noGameOffer") });
         }
         this.initLobbyMenu();
-        this.initBanners();
+
         this.initializedLobby = true;
     }
 
@@ -301,7 +301,9 @@ export default class MainGame extends cc.Component {
         }
         this.activeBgNewOnCategory();
 
-        this.lobbyMenu.setCategory(category);
+        this.lobbyMenu.setCategory(category, () => {
+            this.initBanners();
+        });
     }
 
     initBanners() {
