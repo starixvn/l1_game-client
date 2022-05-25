@@ -22,19 +22,14 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel,
+    updateTotalBetLabel
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import {
-    collectCards,
-    rawCardAfterClickCall,
-    rawCardAfterClickDeal,
-    rawCardWhenRejoin,
-} from "../components/cards/view-models/CardWrapper";
+import { collectCards, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
 import PokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
@@ -145,13 +140,9 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     start() {
-        super.start();
-
         this.initPlacingBet();
         this.initBettingAreas();
         this.initButtonStatus();
-
-        this.prefabLoader.forEach((loader) => loader.initialize());
 
         this.registerBettingAreasEvents();
         this.registerPlaceBetEvents();
