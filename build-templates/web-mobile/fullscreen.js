@@ -264,9 +264,9 @@ function updateLocalizedImages() {
     if (configs.site === "SC2") {
         document.title = "Vgaming";
         suffixSite = "_sc2";
-        rel.href = "favicon_vgaming.ico?v=2";
+        rel.href = "favicon_vgaming.ico?v=3";
     } else {
-        rel.href = "favicon.ico?v=2";
+        rel.href = "favicon.ico?v=3";
         if (language === "vi") {
             document.title = "Cổng Game SABA";
         } else {
