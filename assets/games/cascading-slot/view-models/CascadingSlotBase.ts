@@ -17,6 +17,7 @@ import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingBetControl from "./CascadingBetControl";
 import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
+import CascadingSlotMascot from "./CascadingSlotMascot";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
@@ -94,6 +95,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected isSpinning = false;
     public betControl: CascadingBetControl;
     public freeSpinView: FreeSpinView;
+    public mascot: CascadingSlotMascot;
 
     async onSpinClick() {
         AudioManager.getInstance().playClick();
@@ -250,6 +252,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     initFreeSpinView(node: cc.Node) {
         this.freeSpinView = node.getComponent(FreeSpinView);
         this.freeSpinView.showView(false, true);
+    }
+
+    initMascot(node: cc.Node) {
+        this.mascot = node.getComponent(CascadingSlotMascot);
     }
 
     override async showEffectBigWin(betWin: number) {
