@@ -93,6 +93,7 @@ export default class MainGame extends cc.Component {
     private jackpotNavigationContainer: cc.Node = null;
     private adsToggle: cc.Toggle = null;
     private jackpotToggle: cc.Toggle = null;
+    private miniPanel: MiniPanel;
 
     onDestroy() {
         cc.RedT.MiniPanel.destroy();
@@ -105,12 +106,12 @@ export default class MainGame extends cc.Component {
 
         this.initRedT();
         cc.RedT.inGame = this;
-
         this.initAppEvent();
 
         NotificationService.getInstance().connect();
 
         this.initMiniPanel();
+
         this.callTriggerSignIn();
         this.onLoadLobby();
         MusicPlayer.getInstance().init();
@@ -232,6 +233,7 @@ export default class MainGame extends cc.Component {
     initMiniPanel() {
         const miniPanelNode = cc.instantiate(this.miniPanelPrefab);
         cc.RedT.MiniPanel = miniPanelNode.getComponent(MiniPanel);
+        this.miniPanel = miniPanelNode.getComponent(MiniPanel);
         this.redhat.insertChild(miniPanelNode, 1);
     }
 
@@ -254,14 +256,16 @@ export default class MainGame extends cc.Component {
     }
 
     onSignIn() {
-        const delayLoadLobby = this.openGameSSO();
+        if (window.openGameId || sessionManager.getInRoomGameId()) {
+            this.openGameSSO();
+        } else {
+            this.loadLobby();
+        }
+    }
+
+    loadLobby() {
         if (!this.initializedLobby) {
-            setTimeout(
-                () => {
-                    this.initLobby();
-                },
-                delayLoadLobby ? 3000 : 0
-            );
+            this.initLobby();
         }
     }
 
@@ -519,24 +523,22 @@ export default class MainGame extends cc.Component {
     }
 
     openGameSSO() {
-        const delayLoadLobby = true;
+        this.miniPanel.setData(this);
         if (window.openGameId) {
             cc.sys.localStorage.setItem(`orientation`, "");
             const gameId = parseInt(window.openGameId);
             GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
-            return delayLoadLobby;
+            return;
         }
 
         this.inRoomGameId = sessionManager.getInRoomGameId();
         if (this.inRoomGameId) {
             this.openInRoomGame(this.inRoomGameId);
-            return delayLoadLobby;
         } else {
             window.isSSO && this.openLuckyWheel();
         }
-        return !delayLoadLobby;
     }
 
     openInRoomGame(gameId: string) {

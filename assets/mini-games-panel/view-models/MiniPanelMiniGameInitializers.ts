@@ -51,6 +51,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     this.main.addMiniGame(gameComponent, gameId);
                     gameComponent.openGame();
                     this.main.loading.node.active = false;
+                    this.main.mainGame?.loadLobby();
                 }
             );
         } else {

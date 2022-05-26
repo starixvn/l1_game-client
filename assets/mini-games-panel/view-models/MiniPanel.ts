@@ -12,6 +12,7 @@ import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
+import MainGame from "../../lobby/main/view-models/MainGame";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
@@ -87,6 +88,10 @@ export default class MiniPanel extends BaseComponent {
 
     onNewLayerCallback() {
         Object.values(this.newLayerCallbacks).forEach((callback: NewLayerCallback) => callback());
+    }
+
+    setData(data: MainGame) {
+        this.mainGame = data;
     }
 
     onLoad() {
