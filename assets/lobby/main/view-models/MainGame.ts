@@ -350,9 +350,9 @@ export default class MainGame extends cc.Component {
     }
 
     private getGameIdOfferBanner(filterList: number[]) {
-        const gameAds = lobbyMenuConfig.bannerAds;
+        const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
         const offerGames = cc.RedT.user.offerGames;
-        gameAds.forEach((id) => {
+        gameAds.forEach((id: number) => {
             if (offerGames.includes(id)) {
                 filterList.push(id);
             }
