@@ -286,8 +286,7 @@ export default class LobbyMenu extends GameIconMenu {
         }
     }
 
-    setCategory(category: number, callbackLoadBanner: () => void) {
-        this.initializedCallback = callbackLoadBanner;
+    setCategory(category: number) {
         this.currentCategory = category;
         this.saveCategory();
         this.updateIcons();

@@ -14,18 +14,24 @@ export default class DynamicAdsBannerController extends BannerController {
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
+    private isFirstLoadBanner = false;
+
     async setGameAds(games: number[], callBackActiveNode: () => void) {
         for (const gameId of games) {
-            await this.createAdsItem(gameId);
-        }
-        callBackActiveNode();
-        if (this.node.childrenCount > 0) {
-            this.enableTouch();
-            this.showFirstPage();
+            await this.createAdsItem(gameId, callBackActiveNode);
         }
     }
 
-    async createAdsItem(id: number) {
+    private handleShowBanner(callback: () => void) {
+        callback();
+        if (this.node.childrenCount > 0 && !this.isFirstLoadBanner) {
+            this.enableTouch();
+            this.showFirstPage();
+            this.isFirstLoadBanner = true;
+        }
+    }
+
+    async createAdsItem(id: number, callback: () => void) {
         const bannerSpriteFrame = await this.getBannerSpriteFrame(id);
         if (bannerSpriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
@@ -38,6 +44,7 @@ export default class DynamicAdsBannerController extends BannerController {
             event.handler = "openGame";
             event.customEventData = id.toString();
             button.clickEvents.push(event);
+            this.handleShowBanner(callback);
         }
     }
 

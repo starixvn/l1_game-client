@@ -284,6 +284,7 @@ export default class MainGame extends cc.Component {
             this.showNotice({ text: i18n.t("messages.noGameOffer") });
         }
         this.initLobbyMenu();
+        this.initBanners();
 
         this.initializedLobby = true;
     }
@@ -305,12 +306,10 @@ export default class MainGame extends cc.Component {
         }
         this.activeBgNewOnCategory();
 
-        this.lobbyMenu.setCategory(category, () => {
-            this.initBanners();
-        });
+        this.lobbyMenu.setCategory(category);
     }
 
-    initBanners() {
+    private initBanners() {
         if (this.adsBannerContainer && this.adsBannerContainer.childrenCount > 0) {
             return;
         }
@@ -326,14 +325,8 @@ export default class MainGame extends cc.Component {
             showJackpotBanner && (await this.handleJackpotBanner(bannerPrefabNode));
 
             adsBannerController.menuLoop = !showJackpotBanner;
-            const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
-            const offerGames = cc.RedT.user.offerGames;
             const filterList = [];
-            gameAds.forEach((id) => {
-                if (offerGames.includes(id)) {
-                    filterList.push(id);
-                }
-            });
+            this.getGameIdOfferBanner(filterList);
 
             if (lobbyMenuConfig.smPromotion) {
                 // Add SM promotion banner at page 2
@@ -343,6 +336,7 @@ export default class MainGame extends cc.Component {
             adsBannerController.setGameAds(filterList, () => {
                 this.bannerContainer.getChildByName("skeleton").active = false;
             });
+
             adsBannerController.onEndingRound = () => {
                 if (showJackpotBanner) {
                     this.adsToggle.isChecked = false;
@@ -355,14 +349,26 @@ export default class MainGame extends cc.Component {
         });
     }
 
-    async handleJackpotBanner(bannerPrefabNode: cc.Node) {
+    private getGameIdOfferBanner(filterList: number[]) {
+        const gameAds = lobbyMenuConfig.bannerAds;
+        const offerGames = cc.RedT.user.offerGames;
+        gameAds.forEach((id) => {
+            if (offerGames.includes(id)) {
+                filterList.push(id);
+            }
+        });
+
+        return filterList;
+    }
+
+    private async handleJackpotBanner(bannerPrefabNode: cc.Node) {
         const jackpotContainer = bannerPrefabNode.getChildByName("jackpotController");
         this.jackpotNavigationContainer = bannerPrefabNode.getChildByName("jackpotNavigationController");
         await this.setJackpotContainer(jackpotContainer);
         await this.setJackpotNavigation();
     }
 
-    async setJackpotContainer(container: cc.Node) {
+    private async setJackpotContainer(container: cc.Node) {
         const pathPrefab = `lobby/banner/jackpotController`;
         const prefab = await GameUtils.loadResource(pathPrefab);
         const gameNode = cc.instantiate(prefab);
@@ -378,17 +384,17 @@ export default class MainGame extends cc.Component {
         };
     }
 
-    async setJackpotNavigation() {
+    private async setJackpotNavigation() {
         const pathPrefab = `lobby/banner/jackpotNavigation`;
         const prefab = await GameUtils.loadResource(pathPrefab);
         const gameNode = cc.instantiate(prefab);
         this.jackpotNavigationContainer.addChild(gameNode);
 
-        const navigatioNComponent = this.jackpotNavigationContainer?.children[0]?.getComponent(JackpotNavigation);
-        navigatioNComponent.onInit(this);
-        this.jackpotToggle = navigatioNComponent.jackpotToggle;
-        this.adsToggle = navigatioNComponent.adsToggle;
-        navigatioNComponent.node.active = true;
+        const navigationComponent = this.jackpotNavigationContainer?.children[0]?.getComponent(JackpotNavigation);
+        navigationComponent.onInit(this);
+        this.jackpotToggle = navigationComponent.jackpotToggle;
+        this.adsToggle = navigationComponent.adsToggle;
+        navigationComponent.node.active = true;
     }
 
     switchBanner(showJackpot: boolean, reset = false) {
