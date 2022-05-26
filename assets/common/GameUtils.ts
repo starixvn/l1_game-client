@@ -74,7 +74,7 @@ export default class GameUtils {
         return { values, chipTotal };
     }
 
-    public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}) {
+    public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}, callBackLobby = () => {}) {
         const info = GameInfos[gameId];
 
         if (!info.mini && gameId > 0) {
@@ -86,6 +86,7 @@ export default class GameUtils {
         openLuckyWheelFunc && openLuckyWheelFunc();
 
         if (gameId === 0) {
+            callBackLobby && callBackLobby();
             return;
         }
 

@@ -420,7 +420,7 @@ export default class MainGame extends cc.Component {
         if (window.openGameId) {
             cc.sys.localStorage.setItem(`orientation`, "");
             const gameId = parseInt(window.openGameId);
-            GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this));
+            GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
             return;
