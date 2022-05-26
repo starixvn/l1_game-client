@@ -32,7 +32,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             GameIds.HiLo,
             GameIds.TexasHoldemPoker
         ],
-        slotGames: [GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians],
+        slotGames: [GameIds.TreasureIsland, GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians],
         lotteryGames: [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery],
         othersGames: [GameIds.BitcoinMaster]
     };
@@ -65,6 +65,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     list = [
+        GameIds.TreasureIsland,
         GameIds.NightClub,
         GameIds.VipSedie,
         GameIds.SeDie,
@@ -113,7 +114,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.HiLo,
         GameIds.TexasHoldemPoker
     ];
-    slotGames = [GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians];
+    slotGames = [GameIds.TreasureIsland, GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians];
     lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
 
@@ -136,10 +137,13 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         },
         [GameIds.NightClub]: {
             size: cc.v2(1, 2)
+        },
+        [GameIds.TreasureIsland]: {
+            size: cc.v2(1, 2)
         }
     };
     newGames = {
-        SC1: [GameIds.NightClub],
+        SC1: [GameIds.TreasureIsland],
         SC2: [GameIds.NightClub]
     };
     iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
