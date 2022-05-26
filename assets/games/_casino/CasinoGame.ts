@@ -5,11 +5,11 @@ import DataHandler from "../_base/handlers/DataHandler";
 import NewButton from "../../common/custom-button/NewButton";
 import { events } from "../_new/connection/SocketIOConnection";
 import AudioManager from "../../common/audio/AudioManager";
-import InGameMenuHasSwap from "../../common/in-game-menu/InGameMenuHasSwap";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import BetItem from "../_base/view-models/BetItem";
 import RoomPlayer from "../_base/view-models/RoomPlayer";
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
+import InGameSwapMenu from "../../common/in-game-menu/InGameSwapMenu";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -159,7 +159,7 @@ export default class CasinoGame extends NewGameRoomBase {
     onIconSwapClick() {
         if (!this.statusShowSwapIcon) {
             this.isSwapCard = !this.isSwapCard;
-            const inGameMenuHasSwap = this.inGameMenu as InGameMenuHasSwap;
+            const inGameMenuHasSwap = this.inGameMenu as InGameSwapMenu;
             inGameMenuHasSwap.swapComp.setSwapStatus(!this.isSwapCard);
             this.isSwapCard
                 ? this.showMiniWarning(i18n.t("texasPoker.swapCardOn"))
@@ -169,7 +169,7 @@ export default class CasinoGame extends NewGameRoomBase {
 
     protected handleDisableSwap(isDisable: boolean) {
         this.disableIconSwap = isDisable;
-        const inGameMenuHasSwap = this.inGameMenu as InGameMenuHasSwap;
+        const inGameMenuHasSwap = this.inGameMenu as InGameSwapMenu;
         isDisable ? inGameMenuHasSwap.swapComp.setDisable() : inGameMenuHasSwap.swapComp.setEnable();
     }
 

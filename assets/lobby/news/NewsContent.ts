@@ -58,7 +58,7 @@ export default class NewsContent extends cc.Component {
             return;
         }
 
-        if (void 0 !== data) {
+        if (data) {
             this.addMarqueeMessage(NoticeUtil.getMessageByLocale(data));
         }
     }

@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class HandleActionSwap extends cc.Component {
+export default class HandleSwapAction extends cc.Component {
     @property(cc.Sprite)
     swapSprite: cc.Sprite = null;
 
