@@ -21,7 +21,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     openMiniGame(gameId) {
-        this.main.popupMiniGame.hideListGame();
+        this.main.popupMiniGame?.hideListGame();
         const prefabPath = `games/minigame/${this.getGameName(gameId)}`;
 
         const gameBase = this.main.getGameMini(gameId);

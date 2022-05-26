@@ -9,8 +9,6 @@ export default class PopupMinigames extends cc.Component {
     @property(cc.Node)
     panel: cc.Node = null;
     @property(cc.Node)
-    background: cc.Node = null;
-    @property(cc.Node)
     menuIcon: cc.Node = null;
 
     @property(cc.Node)
@@ -22,11 +20,10 @@ export default class PopupMinigames extends cc.Component {
     private ttOffset = cc.v2(0, 0);
     private ttOffset2 = cc.v2(0, 0);
     private toggleRuning = false;
+    public background: cc.Node = null;
 
     onLoad() {
         cc.RedT.setting.popupMini = cc.RedT.setting.popupMini || {};
-        this.background.active = false;
-        this.background.opacity = 0;
         this.list.active = false;
         this.list.scale = 0;
 
