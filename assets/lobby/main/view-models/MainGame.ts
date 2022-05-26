@@ -10,9 +10,7 @@ import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
-import configs = require("../../../configs/Configs");
 import * as SabaConfigs from "../../../configs/SabaConfigs";
-import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -22,15 +20,12 @@ import NewsContent from "../../news/NewsContent";
 import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
-import BannerController from "./BannerController";
 import CategoryItem from "./CategoryItem";
-import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import JackpotNavigation from "./JackpotNavigation";
+import Banner from "./Banner";
 
 const socketIOController = appContainer.get(SocketIOController);
-const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 const sentryLogger = logger();
 
@@ -50,8 +45,8 @@ export default class MainGame extends cc.Component {
     @property(cc.ScrollView)
     mainScroll: cc.ScrollView = null;
 
-    @property(cc.Node)
-    bannerContainer: cc.Node = null;
+    @property(Banner)
+    banner: Banner = null;
 
     @property(cc.Node)
     scrollContent: cc.Node = null;
@@ -88,11 +83,6 @@ export default class MainGame extends cc.Component {
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
     signName: any;
-    private adsBannerContainer: cc.Node = null;
-    private jackpotBannerContainer: cc.Node = null;
-    private jackpotNavigationContainer: cc.Node = null;
-    private adsToggle: cc.Toggle = null;
-    private jackpotToggle: cc.Toggle = null;
     private miniPanel: MiniPanel;
 
     onDestroy() {
@@ -311,113 +301,9 @@ export default class MainGame extends cc.Component {
     }
 
     private initBanners() {
-        if (this.adsBannerContainer && this.adsBannerContainer.childrenCount > 0) {
-            return;
-        }
-
         GameUtils.loadResource(`lobby/banner/bannerContainer`).then(async (prefab) => {
-            const bannerPrefabNode = cc.instantiate(prefab);
-            this.bannerContainer.addChild(bannerPrefabNode);
-            this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
-            const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
-
-            const showJackpotBanner =
-                cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
-            showJackpotBanner && (await this.handleJackpotBanner(bannerPrefabNode));
-
-            adsBannerController.menuLoop = !showJackpotBanner;
-            const filterList = [];
-            this.getGameIdOfferBanner(filterList);
-
-            if (lobbyMenuConfig.smPromotion) {
-                // Add SM promotion banner at page 2
-                filterList.splice(1, 0, 0);
-            }
-
-            adsBannerController.setGameAds(filterList, () => {
-                this.bannerContainer.getChildByName("skeleton").active = false;
-            });
-
-            adsBannerController.onEndingRound = () => {
-                if (showJackpotBanner) {
-                    this.adsToggle.isChecked = false;
-                    this.jackpotToggle.isChecked = true;
-
-                    this.switchBanner(true);
-                }
-            };
-            adsBannerController.showFirstPage();
+            this.banner.handleBanner(prefab);
         });
-    }
-
-    private getGameIdOfferBanner(filterList: number[]) {
-        const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
-        const offerGames = cc.RedT.user.offerGames;
-        gameAds.forEach((id: number) => {
-            if (offerGames.includes(id)) {
-                filterList.push(id);
-            }
-        });
-
-        return filterList;
-    }
-
-    private async handleJackpotBanner(bannerPrefabNode: cc.Node) {
-        const jackpotContainer = bannerPrefabNode.getChildByName("jackpotController");
-        this.jackpotNavigationContainer = bannerPrefabNode.getChildByName("jackpotNavigationController");
-        await this.setJackpotContainer(jackpotContainer);
-        await this.setJackpotNavigation();
-    }
-
-    private async setJackpotContainer(container: cc.Node) {
-        const pathPrefab = `lobby/banner/jackpotController`;
-        const prefab = await GameUtils.loadResource(pathPrefab);
-        const gameNode = cc.instantiate(prefab);
-        container.addChild(gameNode);
-        const bannerNode = container?.children[0];
-        this.jackpotBannerContainer = bannerNode;
-
-        bannerNode.getComponent(BannerController).onEndingRound = () => {
-            this.jackpotToggle.isChecked = false;
-            this.adsToggle.isChecked = true;
-
-            this.switchBanner(false);
-        };
-    }
-
-    private async setJackpotNavigation() {
-        const pathPrefab = `lobby/banner/jackpotNavigation`;
-        const prefab = await GameUtils.loadResource(pathPrefab);
-        const gameNode = cc.instantiate(prefab);
-        this.jackpotNavigationContainer.addChild(gameNode);
-
-        const navigationComponent = this.jackpotNavigationContainer?.children[0]?.getComponent(JackpotNavigation);
-        navigationComponent.onInit(this);
-        this.jackpotToggle = navigationComponent.jackpotToggle;
-        this.adsToggle = navigationComponent.adsToggle;
-        navigationComponent.node.active = true;
-    }
-
-    switchBanner(showJackpot: boolean, reset = false) {
-        cc.tween(this.node)
-            .delay(0.1)
-            .call(() => {
-                this.adsBannerContainer.active = !showJackpot;
-                this.jackpotBannerContainer.active = showJackpot;
-
-                const currentContainer = showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
-                const newContainer = !showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
-
-                const currentController = currentContainer.getComponent(BannerController);
-                const newController = newContainer.getComponent(BannerController);
-
-                if (currentController.currentIndex > 0 || reset) {
-                    newController.showFirstPage();
-                } else {
-                    newController.showLastPage();
-                }
-            })
-            .start();
     }
 
     outRoomGame() {

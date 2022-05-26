@@ -1,4 +1,4 @@
-import MainGame from "./MainGame";
+import Banner from "./Banner";
 
 const { ccclass, property } = cc._decorator;
 
@@ -10,15 +10,15 @@ export default class JackpotNavigation extends cc.Component {
     @property(cc.Toggle)
     jackpotToggle: cc.Toggle = null;
 
-    mainGame: MainGame;
+    banner: Banner;
 
-    public onInit(main: MainGame): void {
-        this.mainGame = main;
+    public onInit(banner: Banner): void {
+        this.banner = banner;
     }
 
     onBannerTypeChanged(e, param) {
         const type = +param;
         const showJackpot = type === 1;
-        this.mainGame.switchBanner(showJackpot, true);
+        this.banner.switchBanner(showJackpot, true);
     }
 }
