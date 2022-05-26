@@ -180,15 +180,16 @@ export default class LobbyMenu extends GameIconMenu {
             : `lobby/games/skeleton-icon/icon-small`;
         const prefab = await GameUtils.loadResource(skeletonIconPath);
 
-        const node = cc.instantiate(prefab);
-        const nodeComponent = node.getComponent(SkeletonIcon);
+        const iconNode = cc.instantiate(prefab);
+        const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
         const gameName = i18n.t(`gameNames.${id}`).toUpperCase();
-        nodeComponent.setGameName(gameName);
-        nodeComponent.setGameContent(id);
+        const gameList = this.getList();
+        skeletonIconComponent.setGameName(gameName);
+        skeletonIconComponent.setGameContent(id, gameList);
 
         const favoriteList = this.getFavoriteList();
         const isFavorite = favoriteList.includes(id);
-        this.addHandleFavorite(node, id, isFavorite);
+        this.addHandleFavorite(iconNode, id, isFavorite);
 
         const size = this.getItemSize(id);
         if (!this.isAlive()) {
@@ -203,13 +204,13 @@ export default class LobbyMenu extends GameIconMenu {
             if (!this.currentRow) {
                 this.createNewRow();
             }
-            this.currentRow.addChild(node);
+            this.currentRow.addChild(iconNode);
 
             if (this.currentRow.childrenCount === this.rowChildrenCount) {
                 this.clearRow();
             }
         } else {
-            this.currentColumn.addChild(node);
+            this.currentColumn.addChild(iconNode);
             if (size.x > 1) {
                 this.rowChildrenCount = size.x;
             }
@@ -219,27 +220,8 @@ export default class LobbyMenu extends GameIconMenu {
             this.currentColumn = null;
             this.clearRow();
         }
-        node.name = `${id}`;
-        return node;
-    }
-
-    async initItems() {
-        const list = this.getList();
-        const timeGap = 1;
-
-        for (let i = 0; i < list.length; i++) {
-            const id = list[i];
-            const node = await this.addItem(id);
-
-            if (i % 8 === 0) {
-                await GameUtils.delayTime(timeGap);
-            }
-
-            if (node) {
-                node.on("click", this.itemPressed.bind(this, id));
-            }
-        }
-        this.onInitialized();
+        iconNode.name = `${id}`;
+        return iconNode;
     }
 
     clearRow() {
