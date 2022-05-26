@@ -4,7 +4,7 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export interface PlaceBetData {
     betLevel: number;
-    coinValues: number;
+    coinValue: number;
     freeSpin?: boolean;
     totalBet: number;
 }
@@ -14,7 +14,7 @@ export default class CascadingSlotPlaceBetModel extends EventEmitterBase {
         CHANGE: "bet:change"
     };
 
-    data: PlaceBetData;
+    data: PlaceBetData = { betLevel: 1, coinValue: 0.1, totalBet: 2, freeSpin: false };
 
     change(data: PlaceBetData) {
         this.data = _.cloneDeep(data);

@@ -253,7 +253,7 @@ export default class CascadingBetControl extends cc.Component {
     updatePlaceBetModel() {
         this.placeBetModel.change({
             betLevel: this.betLevels[this.currentLevelIndex],
-            coinValues: this.coinValues[this.currentCoinIndex],
+            coinValue: this.coinValues[this.currentCoinIndex],
             totalBet: this.totalBetCurrent
         });
 
