@@ -147,7 +147,6 @@ export default class MiniPanel extends BaseComponent {
                 clickEventHandler.handler = "toggle";
                 backgroundPopUpMiniGameNode.getComponent(cc.Button).clickEvents.push(clickEventHandler);
                 this.popupMiniGame.background = backgroundPopUpMiniGameNode;
-                this.popupMiniGame.background.active = false;
                 this.popupMiniGame.background.opacity = 0;
             }
             const gameMenu = popUpMiniGameNode.getChildByName("list")?.getComponent(CircleMenu);
