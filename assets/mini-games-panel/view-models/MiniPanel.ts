@@ -72,6 +72,7 @@ export default class MiniPanel extends BaseComponent {
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
     public miniMenu: cc.Node = null;
+    public mainGame: MainGame;
 
     addNewLayerCallback(key: string, callback: NewLayerCallback) {
         this.newLayerCallbacks[key] = callback;
@@ -280,7 +281,9 @@ export default class MiniPanel extends BaseComponent {
                     this.loading.node.active = false;
                     this.onForceReload();
                 } else {
-                    cc.director.loadScene(name);
+                    cc.director.loadScene(name, () => {
+                        cc.resources.loadDir(`lobby`);
+                    });
                 }
             }
         );
@@ -332,6 +335,7 @@ export default class MiniPanel extends BaseComponent {
         }
 
         this.addNotice(node);
+        this.mainGame?.loadLobby();
     }
 
     onConnectSocketFailed(gameName, isGameRoom = true) {

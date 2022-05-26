@@ -265,6 +265,7 @@ export default class MainGame extends cc.Component {
 
     loadLobby() {
         if (!this.initializedLobby) {
+            console.log("load Lobby");
             this.initLobby();
         }
     }
