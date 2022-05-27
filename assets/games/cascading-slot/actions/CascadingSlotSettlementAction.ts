@@ -1,39 +1,36 @@
-import _ = require("lodash");
-
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertData } from "../view-models/CascadingSlotUtils";
 import MultiplierItem from "../view-models/MultiplierItem";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
-    const { bigWin, roundId, totalOfFreeSpins, freeSpins, isFreeSpin, totalMultiplier } = data;
+    const { bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier, tumbles } = data;
     mainGame.setGameRound(roundId);
 
     const result = convertData(data.result);
-    const multiplier = _.cloneDeep(data.m);
-    await mainGame.board.spinResult(result, multiplier);
+    const multipliers = tumbles[0].multipliers;
+    await mainGame.board.spinResult(result, multipliers);
 
     let i = 0;
-    const tumbles = data.tumbles;
     while (i < tumbles.length - 1) {
         const tumble = tumbles[i];
-        const settlement = tumble.settlement;
+        const { icons, win, settlement, multipliers } = tumble;
         const explode = convertData(settlement.explode);
         const newItems = convertData(settlement.new);
 
-        if (tumble.win > 0) {
-            Object.keys(tumble.icons).forEach((iconKey) => {
-                const winIconDetail: WinIconDetail = tumble.icons[iconKey];
+        if (win > 0) {
+            Object.keys(icons).forEach((iconKey) => {
+                const winIconDetail: WinIconDetail = icons[iconKey];
                 const node = mainGame.board.getRandomWinItem(explode, +iconKey);
                 const position = mainGame.effectContainer.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0)));
                 mainGame.createFlyWinLabel(mainGame.effectContainer, position, winIconDetail.win);
             });
-            mainGame.gameData.uiModel.increaseTumbleWin(tumble.win);
-            mainGame.gameData.uiModel.increaseTotalWin(tumble.win);
+            mainGame.gameData.uiModel.increaseTumbleWin(win);
+            mainGame.gameData.uiModel.increaseTotalWin(win);
         }
 
         await mainGame.board.removeItems(explode);
-        mainGame.board.addItems(newItems, multiplier);
+        mainGame.board.addItems(newItems, multipliers);
         await mainGame.board.fallIn();
 
         i++;
@@ -51,7 +48,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         }
     }
 
-    if (data.m.length > 0) {
+    if (multiplier > 0) {
         const items = mainGame.board.getItems();
         const multiplierItems = items.flatMap((item) => {
             const comp = item.content.children[0].getComponent(MultiplierItem);
@@ -81,7 +78,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         await mainGame.showEffectFreeSpins(freeSpins);
     }
 
-    mainGame.gameData.uiModel.setFreeSpins(totalOfFreeSpins);
+    mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
 
     if (!mainGame.showNoticeForCacheApiError()) {
         if ((mainGame.isAutoSpinMode() && mainGame.stillAutoSpin()) || mainGame.isFreeSpin()) {

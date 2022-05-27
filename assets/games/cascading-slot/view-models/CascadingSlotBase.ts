@@ -132,7 +132,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             win: 30,
             bigWin: true,
             freeSpins: 3,
-            totalOfFreeSpins: 10,
+            totalFreeSpins: 10,
             multiplier: 2,
             isFreeSpin: true,
             tumbles: [

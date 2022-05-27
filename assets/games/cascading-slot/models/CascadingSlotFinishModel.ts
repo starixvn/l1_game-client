@@ -10,6 +10,7 @@ export interface Tumble {
     win: number;
     settlement: Settlement;
     result: string;
+    multipliers: number[];
 }
 
 export interface WinIconDetail {
@@ -26,7 +27,7 @@ export interface CascadingSlotFinishData {
 
     win: number;
     bigWin: boolean;
-    totalOfFreeSpins: number;
+    totalFreeSpins: number;
     freeSpins: number;
     isFreeSpin: boolean;
 
