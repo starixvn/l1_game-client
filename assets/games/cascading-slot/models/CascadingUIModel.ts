@@ -10,6 +10,8 @@ export default class CascadingUIModel extends EventEmitterBase {
         SET_FREESPINS: "ui:set_freespins",
         INCREASE_FREESPINS: "ui:increase_frespins",
 
+        CHANGE_TOTAL_BET: "ui:change_total_bet",
+
         RESET_TUMBLE: "ui:reset_tumble_win"
     };
 

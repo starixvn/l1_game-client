@@ -211,7 +211,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.finishModel.on(CascadingSlotFinishModel.Events.SETTLE, handleSettle(this));
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_WIN, (value: number) => {
-            GameUtils.floatToNumber(this.totalBetLabel, value, 0.5);
+            GameUtils.floatToNumber(this.totalWinLabel, value, 0.5);
+        });
+
+        this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_BET, (value: number) => {
+            this.totalBetLabel.string = value.toString();
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {

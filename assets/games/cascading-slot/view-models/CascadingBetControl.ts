@@ -283,6 +283,6 @@ export default class CascadingBetControl extends cc.Component {
         this.currentCoinValue = this.coinValues[this.currentCoinIndex];
         this.currentLevelValue = this.betLevels[this.currentLevelIndex];
 
-        this.uiModel.emit(CascadingUIModel.Events.CHANGE_TOTAL_WIN, this.currentTotalBet);
+        this.uiModel.emit(CascadingUIModel.Events.CHANGE_TOTAL_BET, this.currentTotalBet);
     }
 }
