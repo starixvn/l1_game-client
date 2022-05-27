@@ -1,5 +1,5 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { Symbols, FreeSpin } from "../handlers/CascadingSlotConfigHandler";
+import { Odd, FreeSpin } from "../handlers/CascadingSlotConfigHandler";
 export type CascadingSlotConfigData = {
     betLevels: number[];
     coinValues: number[];
@@ -7,7 +7,7 @@ export type CascadingSlotConfigData = {
     maxWinPerRound: number;
     odds: {
         freeSpins: FreeSpin;
-        symbols: any;
+        symbols: Record<string, Array<Odd>>;
     };
 };
 export class CascadingSlotConfigModel extends EventEmitterBase {
