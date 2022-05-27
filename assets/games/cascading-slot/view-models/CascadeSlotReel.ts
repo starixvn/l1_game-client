@@ -143,7 +143,7 @@ export default class CascadeSlotReel extends cc.Component {
     addItems(data: number[], multiplier: number[]) {
         let i = 0;
         data.forEach((value) => {
-            if (value === null) {
+            if (value === -1) {
                 return;
             }
             const item = this.addItem();

@@ -126,27 +126,41 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     test() {
         const data: CascadingSlotFinishData = {
-            roundId: 0,
-            totalMultiplier: 10,
-            result: "8,8,8,3,8,9,8,8,8,9,5,10,8,1,1,9,5,8,1,7,5,6,7,8,5,7,7,6,7,7", // 30 items on board
-            win: 30,
-            bigWin: true,
-            freeSpins: 3,
-            totalFreeSpins: 10,
-            multiplier: 2,
-            isFreeSpin: true,
+            roundId: 163625,
+            result: "1,2,3,0,3,1,0,1,3,4,0,4,0,3,2,4,6,2,2,0,0,7,6,0,2,2,1,0,0,0",
+            win: 10,
+            bigWin: false,
+            freeSpins: 0,
+            totalFreeSpins: 0,
             tumbles: [
                 {
-                    icons: { "8": { win: 100, count: 10 } },
-                    win: 30,
-                    settlement: {
-                        explode: "8,8,8,,8,,8,8,8,,,,8,,,,,8,,,,,,8,,,,,,", // 30 icons
-                        new: "4,5,9,,10,2,3,6,9,,,10,1,,,,,,,,,,,,,,,,," // 30 icons
+                    icons: {
+                        "0": {
+                            count: 10,
+                            odds: 10,
+                            win: 10
+                        }
                     },
-                    result: ""
+                    win: 10,
+                    result: "1,1,2,3,3,1,7,0,1,3,4,4,6,3,2,4,6,2,2,1,6,2,7,6,3,4,8,2,2,1",
+                    settlement: {
+                        explode: [
+                            -1, -1, -1, 0, -1, -1, 0, -1, -1, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, 0, -1, -1, -1, 0, 0, 0
+                        ],
+                        new: [1, -1, -1, -1, -1, -1, 7, 0, -1, -1, -1, -1, 6, -1, -1, -1, -1, -1, 2, 1, 6, -1, -1, -1, 3, 4, 8, -1, -1, -1]
+                    },
+                    multipliers: []
+                },
+                {
+                    icons: {},
+                    win: 0,
+                    result: "1,1,2,3,3,1,7,0,1,3,4,4,6,3,2,4,6,2,2,1,6,2,7,6,3,4,8,2,2,1",
+                    settlement: {},
+                    multipliers: []
                 }
             ],
-            m: [5, 2, 3]
+            multiplier: 0,
+            totalMultiplier: 0
         };
         this.tumbleWinView.showView(false);
         handleSettle(this)(data);

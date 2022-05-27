@@ -1,8 +1,8 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export interface Settlement {
-    explode: string;
-    new: string;
+    explode: number[];
+    new: number[];
 }
 
 export interface Tumble {

@@ -96,7 +96,7 @@ export default class CascadeSlotBoard extends cc.Component {
             this.reels.map(async (reel, index) => {
                 const items = data[index]
                     .map((item, index) => {
-                        return item !== null ? index : -1;
+                        return item !== -1 ? index : -1;
                     })
                     .filter((value) => value > -1);
                 await reel.removeItemsByIndex(items);
@@ -115,6 +115,7 @@ export default class CascadeSlotBoard extends cc.Component {
     public addItems(data: number[][], multiplier: number[]) {
         this.reels.forEach((reel, index) => {
             const items = data[index];
+            console.log(`add items ${index} `, items);
             reel.addItems(items, multiplier);
         });
     }

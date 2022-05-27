@@ -27,6 +27,10 @@ export default class CascadeSlotReelItem extends cc.Component {
 
     private replaceItem(index: number) {
         this.content.removeAllChildren();
+        if (index < 0 || index >= this.itemPrefabs.length) {
+            console.error("replaceItem wrong index: " + index);
+            return;
+        }
         const node = cc.instantiate(this.itemPrefabs[index]);
         this.content.addChild(node);
     }

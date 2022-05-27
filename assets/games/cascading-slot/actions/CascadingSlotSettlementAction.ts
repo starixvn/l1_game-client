@@ -1,6 +1,6 @@
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
-import { convertData } from "../view-models/CascadingSlotUtils";
+import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
 import MultiplierItem from "../view-models/MultiplierItem";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
@@ -15,8 +15,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     while (i < tumbles.length - 1) {
         const tumble = tumbles[i];
         const { icons, win, settlement, multipliers } = tumble;
-        const explode = convertData(settlement.explode);
-        const newItems = convertData(settlement.new);
+        const explode = convertBoardValue(settlement.explode);
+        const newItems = convertBoardValue(settlement.new);
 
         if (win > 0) {
             Object.keys(icons).forEach((iconKey) => {
