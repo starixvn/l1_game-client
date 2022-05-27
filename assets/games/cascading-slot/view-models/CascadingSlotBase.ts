@@ -105,6 +105,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     initHandlers() {
         super.initHandlers();
         this.timeHandler = null;
+        this.betHandler = null;
+        this.finishHandler = null;
     }
 
     getCurrentTotalBet(): number {

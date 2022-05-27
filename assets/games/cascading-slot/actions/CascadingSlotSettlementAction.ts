@@ -15,7 +15,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
 
     let i = 0;
     const tumbles = data.tumbles;
-    while (i < tumbles.length) {
+    while (i < tumbles.length - 1) {
         const tumble = tumbles[i];
         const settlement = tumble.settlement;
         const explode = convertData(settlement.explode);

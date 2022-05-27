@@ -1,5 +1,6 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { Odds, FreeSpin } from "../handlers/CascadingSlotConfigHandler";
+import { FreeSpin, Odds } from "../handlers/CascadingSlotConfigHandler";
+
 export type CascadingSlotConfigData = {
     mode: number;
     multiplierBonus: {
@@ -23,6 +24,6 @@ export class CascadingSlotConfigModel extends EventEmitterBase {
     change(data: CascadingSlotConfigData) {
         this.data = data;
 
-        this.emit(CascadingSlotConfigModel.Events.CHANGE, configs);
+        this.emit(CascadingSlotConfigModel.Events.CHANGE, data);
     }
 }
