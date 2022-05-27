@@ -7,7 +7,7 @@ import { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase, { RoundType } from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
-import { handleBetControl, handleTotalBet } from "../actions/CascadingSlotConfigAction";
+import { HandleBetControl } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
@@ -80,6 +80,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     @property(cc.Label)
     totalWinLabel: cc.Label = null;
 
+    @property(cc.Label)
+    totalBetLabel: cc.Label = null;
+
     @property(TumbleWinView)
     tumbleWinView: TumbleWinView = null;
 
@@ -96,10 +99,18 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public betControl: CascadingBetControl;
     public freeSpinView: FreeSpinView;
     public mascot: CascadingSlotMascot;
+    protected isOpenBetControl = false;
 
     async onSpinClick() {
         AudioManager.getInstance().playClick();
         this.spin();
+    }
+
+    onDataGameRoom(data: any) {
+        super.onDataGameRoom(data);
+        if (this.gameData) {
+            this.gameData.receiveData(data);
+        }
     }
 
     initHandlers() {
@@ -174,7 +185,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.onLoad();
         this.initCascadingSlotConfig();
         this.initGameDataEvents();
-        // this.initBetControl();
     }
 
     protected initCascadingSlotConfig() {
@@ -187,7 +197,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.finishModel.on(CascadingSlotFinishModel.Events.SETTLE, handleSettle(this));
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_WIN, (value: number) => {
-            GameUtils.floatToNumber(this.totalWinLabel, value, 0.5);
+            GameUtils.floatToNumber(this.totalBetLabel, value, 0.5);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
@@ -211,9 +221,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.freeSpinView.setValue(value);
         });
 
-        this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, () => {
-            handleBetControl(this);
-            handleTotalBet(this);
+        this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
+            HandleBetControl(this)(data);
         });
     }
 
@@ -247,13 +256,18 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    initBetControl() {
-        if (!this.betControlPrefab) {
-            return;
-        }
-        const dialog = cc.instantiate(this.betControlPrefab);
-        this.betControl = dialog.getComponent(CascadingBetControl);
-        this.currentMiniPanel.addDialog(dialog);
+    initBetControl(node: cc.Node) {
+        this.betControl = node.getComponent(CascadingBetControl);
+        this.betControl.showView(false, () => {
+            this.onClickOpenBetControl();
+        });
+    }
+
+    onClickOpenBetControl() {
+        this.betControl.showView(!this.isOpenBetControl, () => {
+            this.onClickOpenBetControl();
+        });
+        this.isOpenBetControl = !this.isOpenBetControl;
     }
 
     initFreeSpinView(node: cc.Node) {

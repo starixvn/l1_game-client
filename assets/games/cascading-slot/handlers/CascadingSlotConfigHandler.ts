@@ -4,7 +4,10 @@ import CascadingSlotGameData from "../models/CascadingSlotGameData";
 
 const { ccclass } = cc._decorator;
 
-export type Odds = {
+export type Symbols = {
+    symbols: any;
+};
+export type Odd = {
     from: number;
     to: number;
     odds: number;
@@ -22,17 +25,14 @@ type FreeSpinDetail = {
 
 export type ConfigsType<Choices> = {
     gameConfigs: {
-        mode: number;
-        multiplierBonus: {
-            min: number;
-            max: number;
-        };
         betLevels: number[];
         coinValues: number[];
         betMultiplier: number;
         maxWinPerRound: number;
-        oddsByCounts: Record<number, Array<Odds>>;
-        freeSpins: FreeSpin;
+        odds: {
+            freeSpins: FreeSpin;
+            symbols: Symbols;
+        };
     };
 };
 

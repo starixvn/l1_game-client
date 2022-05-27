@@ -14,7 +14,7 @@ export default class CascadingSlotPlaceBetModel extends EventEmitterBase {
         CHANGE: "bet:change"
     };
 
-    data: PlaceBetData = { betLevel: 1, coinValue: 0.1, totalBet: 2, freeSpin: false };
+    data: PlaceBetData;
 
     change(data: PlaceBetData) {
         this.data = _.cloneDeep(data);
