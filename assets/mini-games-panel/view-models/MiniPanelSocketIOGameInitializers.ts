@@ -14,7 +14,6 @@ export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIO
             return;
         }
 
-        this.main.loading.node.active = true;
         cc.RedT.inGame.outRoomGame().then(() => {
             sessionManager.removeInRoomGameId();
             this.openNewSocket(gameId);

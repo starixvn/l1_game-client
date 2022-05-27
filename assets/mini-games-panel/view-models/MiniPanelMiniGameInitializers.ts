@@ -11,7 +11,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         if (node) {
             node.active = true;
             this.main.miniGames && this.main.miniGames.insertChild(node, this.main.miniGames.children.length - 1);
-
             this.main.loading.node.active = false;
         }
     }
@@ -61,17 +60,14 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     openGame(id) {
-        this.main.loading.node.active = true;
         this.openMiniGame(parseInt(id));
     }
 
     openMiniContainerGame(id: string) {
-        this.main.loading.node.active = true;
         this.openMiniGame(parseInt(id));
     }
 
     openNewSocket(gameId) {
-        this.main.loading.node.active = true;
         const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
 
         if (currentSocket && currentSocket.connected) {

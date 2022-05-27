@@ -241,18 +241,21 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openGame(e, id) {
+        this.loading.node.active = true;
         cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
             this.gameMiniInitializers.openGame(id);
         });
     }
 
     openMiniContainerGame(id) {
+        this.loading.node.active = true;
         cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
             this.gameMiniInitializers.openMiniContainerGame(id);
         });
     }
 
     openNewSocketMiniGame(e, id) {
+        this.loading.node.active = true;
         cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
             this.gameMiniInitializers.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
@@ -262,6 +265,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openNewSocketTableGame(event, gameId) {
+        this.loading.node.active = true;
         cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, () => {
             this.socketIOGameInitializers.openGame(gameId);
         });
