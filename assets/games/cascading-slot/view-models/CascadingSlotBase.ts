@@ -104,13 +104,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     async onSpinClick() {
         AudioManager.getInstance().playClick();
         this.spin();
-    }
-
-    onDataGameRoom(data: any) {
-        super.onDataGameRoom(data);
-        if (this.gameData) {
-            this.gameData.receiveData(data);
-        }
+        // this.test();
     }
 
     initHandlers() {
@@ -126,35 +120,57 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     test() {
         const data: CascadingSlotFinishData = {
-            roundId: 163625,
-            result: "1,2,3,0,3,1,0,1,3,4,0,4,0,3,2,4,6,2,2,0,0,7,6,0,2,2,1,0,0,0",
-            win: 10,
+            roundId: 183704,
+            result: "0,8,3,2,6,1,0,0,0,4,5,7,5,5,2,1,3,4,0,2,8,2,2,0,3,2,7,2,2,0",
+            win: 20,
             bigWin: false,
             freeSpins: 0,
             totalFreeSpins: 0,
             tumbles: [
                 {
                     icons: {
-                        "0": {
-                            count: 10,
-                            odds: 10,
-                            win: 10
+                        "2": {
+                            count: 8,
+                            odds: 15,
+                            win: 15
                         }
                     },
-                    win: 10,
-                    result: "1,1,2,3,3,1,7,0,1,3,4,4,6,3,2,4,6,2,2,1,6,2,7,6,3,4,8,2,2,1",
+                    win: 15,
+                    result: "1,0,8,3,6,1,0,0,0,4,4,5,7,5,5,9,1,3,4,0,0,2,8,0,3,7,3,1,7,0",
                     settlement: {
                         explode: [
-                            -1, -1, -1, 0, -1, -1, 0, -1, -1, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, 0, -1, -1, -1, 0, 0, 0
+                            -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2, -1, -1, -1, -1, 2, -1, 2, 2, -1, -1, 2, -1, 2, 2, -1
                         ],
-                        new: [1, -1, -1, -1, -1, -1, 7, 0, -1, -1, -1, -1, 6, -1, -1, -1, -1, -1, 2, 1, 6, -1, -1, -1, 3, 4, 8, -1, -1, -1]
+                        new: [
+                            1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, 9, -1, -1, -1, -1, 0, 2, -1, -1, -1, 7, 3, 1, -1, -1
+                        ]
+                    },
+                    multipliers: []
+                },
+                {
+                    icons: {
+                        "0": {
+                            count: 8,
+                            odds: 5,
+                            win: 5
+                        }
+                    },
+                    win: 5,
+                    result: "2,1,8,3,6,3,4,7,1,4,4,5,7,5,5,4,9,1,3,4,6,0,2,8,3,3,7,3,1,7",
+                    settlement: {
+                        explode: [
+                            -1, 0, -1, -1, -1, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, 0, -1, -1, -1, -1, -1, 0
+                        ],
+                        new: [
+                            2, -1, -1, -1, -1, 3, 4, 7, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, 6, 0, -1, -1, -1, 3, -1, -1, -1, -1
+                        ]
                     },
                     multipliers: []
                 },
                 {
                     icons: {},
                     win: 0,
-                    result: "1,1,2,3,3,1,7,0,1,3,4,4,6,3,2,4,6,2,2,1,6,2,7,6,3,4,8,2,2,1",
+                    result: "2,1,8,3,6,3,4,7,1,4,4,5,7,5,5,4,9,1,3,4,6,0,2,8,3,3,7,3,1,7",
                     settlement: {},
                     multipliers: []
                 }
