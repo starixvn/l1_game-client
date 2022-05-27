@@ -4,7 +4,6 @@ import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 import SkeletonIcon from "./SkeletonIcon";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import { indexOf } from "lodash";
 
 export enum GameCategory {
     All = 0,
@@ -124,11 +123,6 @@ export default class LobbyMenu extends GameIconMenu {
         return list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
     }
 
-    getFavoriteList(): number[] {
-        const list = JSON.parse(cc.sys.localStorage.getItem("favor_games")) || [];
-        return this.sortForLayout(list);
-    }
-
     sortForLayout(list: number[]): number[] {
         const weight = {};
         list.forEach((id) => {
@@ -144,23 +138,6 @@ export default class LobbyMenu extends GameIconMenu {
 
         list.sort((a, b) => weight[a] - weight[b]);
         return list;
-    }
-
-    saveFavoriteList(list: number[]) {
-        cc.sys.localStorage.setItem("favor_games", JSON.stringify(list));
-    }
-
-    addHandleFavorite(node: cc.Node, gameId: number, isFavorite: boolean) {}
-
-    addFavoriteGame(gameId: number) {
-        const list = this.getFavoriteList();
-        list.push(gameId);
-        this.saveFavoriteList(list);
-    }
-
-    removeFavoriteGame(gameId: number) {
-        const list = this.getFavoriteList();
-        this.saveFavoriteList(list.filter((id) => id !== gameId));
     }
 
     onInitialized() {
@@ -186,10 +163,6 @@ export default class LobbyMenu extends GameIconMenu {
         const gameIds = this.getList();
         skeletonIconComponent.setGameName(gameName);
         skeletonIconComponent.setGameContent(id, gameIds);
-
-        const favoriteList = this.getFavoriteList();
-        const isFavorite = favoriteList.includes(id);
-        this.addHandleFavorite(iconNode, id, isFavorite);
 
         const size = this.getItemSize(id);
         if (!this.isAlive()) {
