@@ -4,7 +4,10 @@ import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtil
 import MultiplierItem from "../view-models/MultiplierItem";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
-    const { bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier, tumbles } = data;
+    const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier, tumbles } = data;
+    mainGame.showProcessingWarning(false);
+
+    mainGame.processingSettlement = true;
     mainGame.setGameRound(roundId);
 
     const result = convertData(data.result);
@@ -14,19 +17,19 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     let i = 0;
     while (i < tumbles.length - 1) {
         const tumble = tumbles[i];
-        const { icons, win, settlement, multipliers } = tumble;
+        const { icons, win: tumbleWin, settlement, multipliers } = tumble;
         const explode = convertBoardValue(settlement.explode);
         const newItems = convertBoardValue(settlement.new);
 
-        if (win > 0) {
+        if (tumbleWin > 0) {
             Object.keys(icons).forEach((iconKey) => {
                 const winIconDetail: WinIconDetail = icons[iconKey];
                 const node = mainGame.board.getRandomWinItem(explode, +iconKey);
                 const position = mainGame.effectContainer.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0)));
                 mainGame.createFlyWinLabel(mainGame.effectContainer, position, winIconDetail.win);
             });
-            mainGame.gameData.uiModel.increaseTumbleWin(win);
-            mainGame.gameData.uiModel.increaseTotalWin(win);
+            mainGame.gameData.uiModel.increaseTumbleWin(tumbleWin);
+            mainGame.gameData.uiModel.increaseTotalWin(tumbleWin);
         }
 
         await mainGame.board.removeItems(explode);
@@ -48,7 +51,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         }
     }
 
-    if (multiplier > 0) {
+    if (multiplier > 0 && win > 0) {
         const items = mainGame.board.getItems();
         const multiplierItems = items.flatMap((item) => {
             const comp = item.content.children[0].getComponent(MultiplierItem);
@@ -79,6 +82,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     }
 
     mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
+
+    mainGame.processingSettlement = false;
 
     if (!mainGame.showNoticeForCacheApiError()) {
         if ((mainGame.isAutoSpinMode() && mainGame.stillAutoSpin()) || mainGame.isFreeSpin()) {

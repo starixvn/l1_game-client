@@ -115,7 +115,6 @@ export default class CascadeSlotBoard extends cc.Component {
     public addItems(data: number[][], multiplier: number[]) {
         this.reels.forEach((reel, index) => {
             const items = data[index];
-            console.log(`add items ${index} `, items);
             reel.addItems(items, multiplier);
         });
     }
