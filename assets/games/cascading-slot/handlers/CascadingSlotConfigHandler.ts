@@ -2,8 +2,6 @@ import { BaseEventHandler } from "../../_new/_base/game-data-management/event-ha
 import { CascadingSlotConfigData } from "../models/CascadingSlotConfigModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 
-const { ccclass } = cc._decorator;
-
 export type Odd = {
     from: number;
     to: number;
@@ -33,7 +31,6 @@ export type ConfigsType<Choices> = {
     };
 };
 
-@ccclass
 export default class CascadingSlotConfigHandler<Choices> extends BaseEventHandler<ConfigsType<Choices>, Choices> {
     protected readonly gameData: CascadingSlotGameData<Choices>;
 
