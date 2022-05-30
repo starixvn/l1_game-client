@@ -12,6 +12,7 @@ import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 import CascadingUIModel from "../models/CascadingUIModel";
+import SpinButtonStateModel, { SpinButtonState } from "../models/SpinButtonStateModel";
 import { CascadingSlotConfigModel } from "./../models/CascadingSlotConfigModel";
 import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingBetControl from "./CascadingBetControl";
@@ -213,8 +214,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     onLoad() {
         super.onLoad();
-        this.initCascadingSlotConfig();
         this.initGameDataEvents();
+        this.initCascadingSlotConfig();
     }
 
     protected initCascadingSlotConfig() {
@@ -257,6 +258,17 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
             HandleBetControl(this)(data);
+        });
+
+        this.gameData.spinButtonStateModel.on(SpinButtonStateModel.Events.CHANGE, (state: SpinButtonState) => {
+            switch (state) {
+                case SpinButtonState.Normal:
+                    this.spinButton.showNormalMode();
+                    break;
+                case SpinButtonState.AutoSpin:
+                    this.spinButton.showAutoSpinMode();
+                    break;
+            }
         });
     }
 

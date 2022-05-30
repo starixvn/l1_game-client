@@ -3,6 +3,8 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
+import FeatureSlotGameData from "../cascading-slot/models/FeatureSlotGameData";
+import { SpinButtonState } from "../cascading-slot/models/SpinButtonStateModel";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
@@ -51,6 +53,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     abstract getCurrentTotalBet(): number;
     abstract spin(): boolean;
 
+    public gameData: FeatureSlotGameData<void>;
+
     onTurboModeChanged(toggle: cc.Toggle) {
         AudioManager.getInstance().playClick();
 
@@ -71,13 +75,18 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         AudioManager.getInstance().playClick();
 
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
-            // this.resetStateButtons();
+            this.setAutoSpinCount(0);
+            this.onAutoSpinOff();
             return;
         }
 
         if (!this.isFreeSpin()) {
             this.createAutoSpinDialog();
         }
+    }
+
+    onAutoSpinOff() {
+        this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
     }
 
     checkAvailableBalance(): boolean {
@@ -96,6 +105,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const dialog = node.getComponent(AutoSpinSettingDialog);
         dialog.onConfirmCallback = (autoSpinCount: number) => {
             this.setAutoSpinCount(autoSpinCount);
+            this.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
             this.countDownAutoSpin.show(
                 autoSpinCount,
                 () => {
