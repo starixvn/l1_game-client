@@ -32,6 +32,12 @@ const withProductionMode = (url) =>
     }, {});
 
 const environmentConfigs = [
+    {
+        proxy: `l1-proxy.`,
+        game: `games.`,
+        domain: "lumigame.com",
+        path: ""
+    },
     ...[
         ["l1", ""],
         ["l1", 1],
