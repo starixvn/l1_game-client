@@ -437,16 +437,9 @@ export default class MainGame extends cc.Component {
 
         this.inRoomGameId = sessionManager.getInRoomGameId();
         if (this.inRoomGameId) {
-            this.openInRoomGame(this.inRoomGameId);
+            GameUtils.openGame(+this.inRoomGameId, cc.RedT.MiniPanel, null);
         } else {
             window.isSSO && this.openLuckyWheel();
-        }
-    }
-
-    openInRoomGame(gameId: string) {
-        const info = SabaConfigs.GameInfos[gameId];
-        if (info) {
-            cc.RedT.MiniPanel.openNewSocketTableGame(null, +gameId);
         }
     }
 
