@@ -3,19 +3,19 @@ const configs = {
     ssl: true,
     serverDomainMapper: {
         localhost: "lumigame.com",
-        "l1-games1.lumigame.com": "lumigame.com"
+        "l1-games2.lumigame.com": "lumigame.com"
     },
-    subDomain: "l1-proxy",
+    subDomain: "l1-proxy2",
     env: "",
     sentry: {
         url: "https://2af29bdacdbf4d9ba2db6600b450541f@sentry.lumigame.com/28",
-        env: "LOCAL1"
+        env: "LOCAL2"
     },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
-    guideDomain: "http://localhost:3001",
+    guideDomain: "https://l1-guide-2.lumigame.com",
     enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false
 };

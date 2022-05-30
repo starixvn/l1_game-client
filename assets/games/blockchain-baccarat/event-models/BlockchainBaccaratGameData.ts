@@ -1,7 +1,11 @@
 import BlockchainBaccaratConfigsHandler from "../event-handlers/BlockchainBaccaratConfigsHandler";
+import BlockchainBaccaratHandler from "../event-handlers/BlockchainBaccaratHandler";
+import BlockchainBaccaratRoundHistoryHandler from "../event-handlers/BlockchainBaccratRoundHistoryHandler";
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 import { GameData } from "./../../_new/_base/game-data-management/models/game-data";
 import BlockchainBaccaratConfigsModel from "./BlockchainBaccaratConfigsModel";
+import BlockchainBaccaratModel from "./BlockchainBaccaratModel";
+import BlockchainBaccaratRoundHistoryModel from "./BlockchainBaccaratRoundHistoryModel";
 const { ccclass } = cc._decorator;
 
 @ccclass
@@ -9,14 +13,18 @@ export default class BlockchainBaccaratGameData<Choices> extends GameData<Choice
     static Events = {};
 
     readonly configs: BlockchainBaccaratConfigsModel;
+    readonly blockchain: BlockchainBaccaratModel;
+    readonly roundHistory: BlockchainBaccaratRoundHistoryModel;
 
     constructor(mainGame: BlockchainBaccarat) {
         super();
         this.configs = new BlockchainBaccaratConfigsModel();
+        this.blockchain = new BlockchainBaccaratModel();
+        this.roundHistory = new BlockchainBaccaratRoundHistoryModel();
     }
 
     protected registerEventHandlers() {
-        const handlers = [BlockchainBaccaratConfigsHandler];
+        const handlers = [BlockchainBaccaratConfigsHandler, BlockchainBaccaratHandler, BlockchainBaccaratRoundHistoryHandler];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
 }
