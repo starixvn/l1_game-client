@@ -11,6 +11,7 @@ import { HandleBetControl } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
+import { CascadingSlotState, CascadingSlotStateModel } from "../models/CascadingSlotStateModel";
 import CascadingUIModel from "../models/CascadingUIModel";
 import SpinButtonStateModel, { SpinButtonState } from "../models/SpinButtonStateModel";
 import { CascadingSlotConfigModel } from "./../models/CascadingSlotConfigModel";
@@ -193,11 +194,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.showProcessingWarning(true);
             return success;
         }
-        this.tumbleWinView.showView(false);
-        this.showMessageDisplay(RoundType.SPINNING);
-        //TODO: stop tween for result
         this.lockBet();
-        //TODO: cosume auto spin count
+        this.gameData.stateModel.change(CascadingSlotState.New);
+
         this.connection.emit(events.bet, this.gameData.placeBetModel.data);
         success = true;
         return success;
@@ -216,6 +215,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.onLoad();
         this.initGameDataEvents();
         this.initCascadingSlotConfig();
+
+        this.gameData.uiModel.resetNewRound();
     }
 
     protected initCascadingSlotConfig() {
@@ -256,6 +257,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.freeSpinView.setValue(value);
         });
 
+        this.gameData.uiModel.on(CascadingUIModel.Events.RESET_NEW_ROUND, (value: CascadingUIModel) => {
+            this.totalWinLabel.string = "0";
+            this.tumbleWinView.showView(false);
+        });
+
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
             HandleBetControl(this)(data);
         });
@@ -267,6 +273,21 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     break;
                 case SpinButtonState.AutoSpin:
                     this.spinButton.showAutoSpinMode();
+                    break;
+            }
+        });
+
+        this.gameData.stateModel.on(CascadingSlotStateModel.Events.CHANGE, (state) => {
+            switch (state) {
+                case CascadingSlotState.New:
+                    this.gameData.uiModel.resetNewRound();
+                    this.showMessageDisplay(RoundType.SPINNING);
+                    this.consumeAutoSpinCount();
+                    //TODO: stop tween for result
+                    break;
+                case CascadingSlotState.Spinning:
+                    break;
+                case CascadingSlotState.Settled:
                     break;
             }
         });

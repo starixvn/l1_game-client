@@ -1,9 +1,11 @@
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
+import { CascadingSlotState } from "../models/CascadingSlotStateModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
     const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier, tumbles } = data;
+    mainGame.gameData.stateModel.change(CascadingSlotState.Spinning);
     mainGame.showProcessingWarning(false);
 
     mainGame.processingSettlement = true;
@@ -82,7 +84,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
 
     mainGame.processingSettlement = false;
-
+    mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
     if (!mainGame.showNoticeForCacheApiError()) {
         if ((mainGame.isAutoSpinMode() && mainGame.stillAutoSpin()) || mainGame.isFreeSpin()) {
             mainGame.spin();

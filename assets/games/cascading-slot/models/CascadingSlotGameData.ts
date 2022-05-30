@@ -4,6 +4,7 @@ import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { CascadingSlotConfigModel } from "./CascadingSlotConfigModel";
 import { CascadingSlotFinishModel } from "./CascadingSlotFinishModel";
 import CascadingSlotPlaceBetModel from "./CascadingSlotPlaceBetModel";
+import { CascadingSlotStateModel } from "./CascadingSlotStateModel";
 import CascadingUIModel from "./CascadingUIModel";
 import FeatureSlotGameData from "./FeatureSlotGameData";
 
@@ -14,6 +15,7 @@ export default class CascadingSlotGameData<Choices> extends FeatureSlotGameData<
     placeBetModel: CascadingSlotPlaceBetModel;
     uiModel: CascadingUIModel;
     gameConfig: CascadingSlotConfigModel;
+    stateModel: CascadingSlotStateModel;
 
     constructor(mainGame: CascadingSlotBase) {
         super(mainGame);
@@ -21,6 +23,7 @@ export default class CascadingSlotGameData<Choices> extends FeatureSlotGameData<
         this.placeBetModel = new CascadingSlotPlaceBetModel();
         this.uiModel = new CascadingUIModel();
         this.gameConfig = new CascadingSlotConfigModel();
+        this.stateModel = new CascadingSlotStateModel();
     }
 
     protected registerEventHandlers() {
