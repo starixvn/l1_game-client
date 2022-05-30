@@ -249,7 +249,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
-            this.freeSpinView.showView(true);
+            this.freeSpinView.showView(value > 0);
             this.freeSpinView.setValue(value);
         });
 
