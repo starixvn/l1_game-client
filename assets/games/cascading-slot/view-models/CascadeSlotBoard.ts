@@ -2,6 +2,7 @@ import _ = require("lodash");
 
 import GameUtils from "../../../common/GameUtils";
 import CascadeSlotReel from "./CascadeSlotReel";
+import MultiplierItem from "./MultiplierItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -112,11 +113,20 @@ export default class CascadeSlotBoard extends cc.Component {
         return items;
     }
 
-    public addItems(data: number[][], multiplier: number[]) {
+    public addItems(data: number[][]) {
         this.reels.forEach((reel, index) => {
             const items = data[index];
-            reel.addItems(items, multiplier);
+            reel.addItems(items);
         });
+    }
+
+    public getMultiplierItems() {
+        const items = this.getItems();
+        const multiplierItems = items.flatMap((item) => {
+            const comp = item.content.children[0].getComponent(MultiplierItem);
+            return comp ? [comp] : [];
+        });
+        return multiplierItems;
     }
 
     public async fallIn() {

@@ -1,7 +1,6 @@
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
-import MultiplierItem from "../view-models/MultiplierItem";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
     const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier, tumbles } = data;
@@ -17,7 +16,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     let i = 0;
     while (i < tumbles.length - 1) {
         const tumble = tumbles[i];
-        const { icons, win: tumbleWin, settlement, multipliers } = tumble;
+        const { icons, win: tumbleWin, settlement } = tumble;
+        const tumbleMultipliers = [...tumble.multipliers];
         const explode = convertBoardValue(settlement.explode);
         const newItems = convertBoardValue(settlement.new);
 
@@ -33,7 +33,9 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         }
 
         await mainGame.board.removeItems(explode);
-        mainGame.board.addItems(newItems, multipliers);
+        mainGame.board.addItems(newItems);
+        const multiplierItems = mainGame.board.getMultiplierItems();
+        multiplierItems.forEach((multiplierItem, index) => multiplierItem.setValue(tumbleMultipliers[index]));
         await mainGame.board.fallIn();
 
         i++;
@@ -52,11 +54,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     }
 
     if (multiplier > 0 && win > 0) {
-        const items = mainGame.board.getItems();
-        const multiplierItems = items.flatMap((item) => {
-            const comp = item.content.children[0].getComponent(MultiplierItem);
-            return comp ? [comp] : [];
-        });
+        const multiplierItems = mainGame.board.getMultiplierItems();
         for (const mItem of multiplierItems) {
             mItem.hideMultiplier();
             await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
