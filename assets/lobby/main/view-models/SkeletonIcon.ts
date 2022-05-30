@@ -10,6 +10,9 @@ export default class SkeletonIcon extends cc.Component {
     @property(cc.Node)
     gameContent: cc.Node = null;
 
+    @property(cc.Node)
+    lightTop: cc.Node = null;
+
     setGameName(text: string) {
         this.gameName.string = text;
     }
@@ -23,6 +26,7 @@ export default class SkeletonIcon extends cc.Component {
             const prefab = await GameUtils.loadResource(gamePath);
             const gameNode = cc.instantiate(prefab);
             this.gameContent?.addChild(gameNode);
+            this.lightTop.active = false;
         }, batchIndex * this.timeGap);
     }
 }
