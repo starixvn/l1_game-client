@@ -70,11 +70,14 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     onAutoSpinChanged() {
         AudioManager.getInstance().playClick();
 
-        if (!this.checkAvailableBalance()) {
+        if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
+            // this.resetStateButtons();
             return;
         }
 
-        this.createAutoSpinDialog();
+        if (!this.isFreeSpin()) {
+            this.createAutoSpinDialog();
+        }
     }
 
     checkAvailableBalance(): boolean {

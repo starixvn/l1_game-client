@@ -8,6 +8,7 @@ import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableM
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import HoverItemBase from "../../common/HoverItemBase";
+import UserProfile from "../../common/user-profile/UserProfile";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { GameState } from "../_base/GameState";
 import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
@@ -16,6 +17,7 @@ import { FourGuardiansSlotConfigs } from "../four-guardians/scripts/FourGuardian
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import BonusDialog from "./BonusDialog";
+import ClassicSpinButton from "./ClassicSpinButton";
 import CountDownWarning from "./CountDownWarning";
 import SlotGameBaseNoticeHandler from "./handlers/SlotGameBaseNoticeHandler";
 import SlotGameBetHandler from "./handlers/SlotGameBetHandler";
@@ -30,8 +32,6 @@ import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
-import SpinButton from "./SpinButton";
-import UserProfile from "../../common/user-profile/UserProfile";
 
 export interface LineData {
     payline: number;
@@ -151,8 +151,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(cc.Prefab)
     autoSpinDialogPrefab: cc.Prefab = null;
 
-    @property(SpinButton)
-    spinButton: SpinButton = null;
+    @property(ClassicSpinButton)
+    spinButton: ClassicSpinButton = null;
 
     @property(cc.Label)
     messageText: cc.Label = null;
