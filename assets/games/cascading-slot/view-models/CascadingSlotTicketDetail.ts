@@ -42,7 +42,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         const freeSpin = data.freeSpin;
         const normalFreeSpins = data.settlementResult.freeSpins;
         const extraFreeSpin = data.settlementResult.additionalFreeSpins;
-        const isFreeSpin = freeSpin || normalFreeSpins.count > 0;
+        const isFreeSpin = freeSpin || normalFreeSpins.count > 3;
         const countScatter = (freeSpin ? extraFreeSpin : normalFreeSpins).count;
         const countFreeSpin = (freeSpin ? extraFreeSpin : normalFreeSpins).odds;
         tumbles.forEach((tumble, index) => {

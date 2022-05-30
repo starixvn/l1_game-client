@@ -561,6 +561,7 @@ window.i18n.languages.vi = {
         totalMultiplier: "Tổng Số Nhân",
         no: "Stt",
         resultBoard: "Bản Kết Quả",
-        symbolAndNumber: "Biếu Tượng & Số Lượng"
+        symbolAndNumber: "Biếu Tượng & Số Lượng",
+        winAmount: "Win Amount"
     }
 };
