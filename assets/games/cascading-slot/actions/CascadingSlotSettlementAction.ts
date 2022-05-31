@@ -1,5 +1,6 @@
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import { CascadingSlotState } from "../models/CascadingSlotStateModel";
+import { SpinButtonState } from "../models/SpinButtonStateModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
 
@@ -88,6 +89,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     if (!mainGame.showNoticeForCacheApiError()) {
         if ((mainGame.isAutoSpinMode() && mainGame.stillAutoSpin()) || mainGame.isFreeSpin()) {
             mainGame.spin();
+        } else {
+            mainGame.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
         }
     }
 };
