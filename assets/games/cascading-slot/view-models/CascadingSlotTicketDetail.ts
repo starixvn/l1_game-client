@@ -45,13 +45,15 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         const isFreeSpin = freeSpin || normalFreeSpins.count > 3;
         const countScatter = (freeSpin ? extraFreeSpin : normalFreeSpins).count;
         const countFreeSpin = (freeSpin ? extraFreeSpin : normalFreeSpins).odds;
+        let currWinTumble = 0;
         tumbles.forEach((tumble, index) => {
             const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
+            currWinTumble += tumble.win;
             if (index === tumbles.length - 1 && isFreeSpin) {
-                control.setDataHaveFreeSpin(countScatter, countFreeSpin, index, tumble.win, freeSpin);
+                control.setDataHaveFreeSpin(countScatter, countFreeSpin, index, currWinTumble, freeSpin);
             } else {
-                control.setData(tumble, index);
+                control.setData(tumble, index, currWinTumble);
             }
             this.content.addChild(detailItem);
             control.setDataResultBoard(tumble.originalBoard, tumble.multipliers);
@@ -59,7 +61,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         const lbMulti = `treasureIsland.${freeSpin ? "totalMultiplier" : "multiplier"}`;
         this.textMultiplier.string = `${i18n.t(lbMulti)}` + ":";
         this.multiplierTotal.string = data.totalMultiplier;
-        this.winTotal.string = data.totalTumbleWin;
+        this.winTotal.string = data.betwin;
     }
 
     onClickMultiplier() {

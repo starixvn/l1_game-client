@@ -30,7 +30,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     private MIN_HEIGHT_TOTALROW = 178;
     private HEIGHT_ROW = 89;
 
-    setData(tumble: any, index: number) {
+    setData(tumble: any, index: number, currWinTumble: number) {
         let numberOfIcon = 0;
         let tumbleNode: cc.Node;
         if (tumble.win > 0) {
@@ -48,7 +48,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
             this.content.addChild(tumbleNode);
         }
 
-        this.win.string = tumble.win;
+        this.win.string = currWinTumble.toString();
         this.index.string = index.toString();
     }
 
