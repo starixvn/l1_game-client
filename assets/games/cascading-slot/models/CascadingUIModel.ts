@@ -41,6 +41,11 @@ export default class CascadingUIModel extends EventEmitterBase {
         this.emit(CascadingUIModel.Events.CHANGE_TOTAL_WIN, this.totalWin);
     }
 
+    setTotalWin(value: number) {
+        this.totalWin = value;
+        this.emit(CascadingUIModel.Events.CHANGE_TOTAL_WIN, this.totalWin);
+    }
+
     increaseMultiplier(value: number) {
         this.multiplier += value;
         this.emit(CascadingUIModel.Events.CHANGE_MULTIPLIER, this.multiplier);

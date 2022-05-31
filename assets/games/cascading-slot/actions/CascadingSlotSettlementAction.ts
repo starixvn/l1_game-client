@@ -65,6 +65,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
             mainGame.gameData.uiModel.increaseMultiplier(mItem.multiplier);
         }
 
+        mainGame.gameData.uiModel.setTotalWin(win);
+
         if (isFreeSpin) {
             await movingMultiplier(
                 mainGame.tumbleWinView.multiplier.node,
