@@ -20,6 +20,9 @@ export default class CascadingSlotTicketDetail extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
+    @property(cc.Node)
+    multiplierNode: cc.Node = null;
+
     @property(cc.Label)
     multiplierTotal: cc.Label = null;
 
@@ -58,9 +61,21 @@ export default class CascadingSlotTicketDetail extends cc.Component {
             this.content.addChild(detailItem);
             control.setDataResultBoard(tumble.originalBoard, tumble.multipliers);
         });
-        const lbMulti = `treasureIsland.${freeSpin ? "totalMultiplier" : "multiplier"}`;
+        let lbMulti = "";
+        if (freeSpin) {
+            lbMulti = `treasureIsland.totalMultiplier`;
+            this.multiplierTotal.string = data.totalMultiplier;
+            this.textMultiplier.node.color = this.multiplierTotal.node.color = cc.color(66, 190, 254);
+            this.multiplierNode.active = +data.totalMultiplier > 0;
+        } else {
+            lbMulti = `treasureIsland.multiplier`;
+            this.multiplierTotal.string = data.multiplier;
+            this.multiplierNode.active = +data.multiplier > 0;
+        }
         this.textMultiplier.string = `${i18n.t(lbMulti)}` + ":";
-        this.multiplierTotal.string = data.totalMultiplier;
+        const btnTextMulti = this.textMultiplier.getComponent(cc.Button);
+        const btnValueMulti = this.multiplierTotal.getComponent(cc.Button);
+        btnTextMulti.interactable = btnValueMulti.interactable = freeSpin;
         this.winTotal.string = data.betwin;
     }
 

@@ -3127,9 +3127,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 66,
-      "g": 190,
-      "b": 254,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -3322,9 +3322,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 66,
-      "g": 190,
-      "b": 254,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -3418,7 +3418,7 @@
         "__id__": 96
       }
     ],
-    "_N$interactable": true,
+    "_N$interactable": false,
     "_N$enableAutoGrayEffect": false,
     "_N$transition": 3,
     "transition": 3,
@@ -3506,7 +3506,7 @@
     "_target": null,
     "_alignFlags": 32,
     "_left": 0,
-    "_right": -0.024999999999977263,
+    "_right": -0.025,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -4283,6 +4283,9 @@
     },
     "content": {
       "__id__": 67
+    },
+    "multiplierNode": {
+      "__id__": 87
     },
     "multiplierTotal": {
       "__id__": 94
