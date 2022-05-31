@@ -30,11 +30,12 @@ export default class CasinoMD5 extends cc.Component {
     private md5CopyString: string = null;
     protected md5Tooltip: MD5Tooltip = null;
     readonly maximumStringAllowed = 352;
+    public hintLabel: cc.Label = null;
 
     onLoad() {
         this.initMD5Tooltip();
-        const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
-        hintLabel.string = i18n.t("messages.copy_success");
+        this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
+        this.hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
         this.enableCopyButton(false);
         this.showHint = this.showHint.bind(this);
@@ -95,7 +96,7 @@ export default class CasinoMD5 extends cc.Component {
     }
 
     onClickCopyButton() {
-        GameUtils.copyToClipboard(this.md5CopyString, this.showHint);
+        GameUtils.copyToClipboard(this.md5CopyString, this.hintLabel, this.showHint);
         this.md5Tooltip.hideToolTip();
     }
 
