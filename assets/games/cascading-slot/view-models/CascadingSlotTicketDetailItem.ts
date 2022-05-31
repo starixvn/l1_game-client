@@ -38,7 +38,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
                 tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
                 const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
                 let { count, win } = value as any;
-                control.setData(+key + 1, count, win);
+                control.setData(+key, count, win);
                 numberOfIcon++;
                 this.content.addChild(tumbleNode);
             });
