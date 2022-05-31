@@ -230,6 +230,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.finishModel.on(CascadingSlotFinishModel.Events.SETTLE, handleSettle(this));
 
+        this.gameData.uiModel.on(CascadingUIModel.Events.GET_MULTIPLIER, () => {
+            this.mascot.playAnimationForMultiplier();
+        });
+
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_WIN, (value: number) => {
             GameUtils.floatToNumber(this.totalWinLabel, value, 0.5);
         });

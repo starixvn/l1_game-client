@@ -5,7 +5,8 @@ import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
-    const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier, tumbles } = data;
+    const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier } = data;
+    const tumbles = data.tumbles;
     mainGame.gameData.stateModel.change(CascadingSlotState.Spinning);
     mainGame.showProcessingWarning(false);
 
@@ -16,13 +17,26 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
 
     const result = convertData(data.result);
     const multipliers = tumbles[0].multipliers;
+    let multiplierCount = multipliers.length;
+    const getMultiplier = multiplierCount > 0;
     await mainGame.board.spinResult(result, multipliers, isTurbo);
 
+    if (getMultiplier) {
+        mainGame.gameData.uiModel.getMultiplier();
+    }
+
     let i = 0;
+
     while (i < tumbles.length - 1) {
         const tumble = tumbles[i];
         const { icons, win: tumbleWin, settlement } = tumble;
-        const tumbleMultipliers = [...tumbles[i + 1].multipliers];
+
+        const newTumbleMultipliers = [...tumbles[i + 1].multipliers];
+        const getMoreMultiplier = newTumbleMultipliers.length > multiplierCount;
+        if (getMoreMultiplier) {
+            multiplierCount = newTumbleMultipliers.length;
+        }
+        const tumbleMultipliers = newTumbleMultipliers;
         const explode = convertBoardValue(settlement.explode);
         const newItems = convertBoardValue(settlement.new);
 
@@ -43,7 +57,9 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         const multiplierItems = mainGame.board.getMultiplierItems();
         multiplierItems.forEach((multiplierItem, index) => multiplierItem.setValue(tumbleMultipliers[index]));
         await mainGame.board.fallIn();
-
+        if (getMoreMultiplier) {
+            mainGame.gameData.uiModel.getMultiplier();
+        }
         i++;
     }
 

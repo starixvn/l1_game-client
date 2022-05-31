@@ -12,7 +12,9 @@ export default class CascadingUIModel extends EventEmitterBase {
 
         CHANGE_TOTAL_BET: "ui:change_total_bet",
 
-        RESET_NEW_ROUND: "ui:reset_new_round"
+        RESET_NEW_ROUND: "ui:reset_new_round",
+
+        GET_MULTIPLIER: "ui:get_multiplier"
     };
 
     totalTumbleWin = 0;
@@ -44,6 +46,10 @@ export default class CascadingUIModel extends EventEmitterBase {
     setTotalWin(value: number) {
         this.totalWin = value;
         this.emit(CascadingUIModel.Events.CHANGE_TOTAL_WIN, this.totalWin);
+    }
+
+    getMultiplier() {
+        this.emit(CascadingUIModel.Events.GET_MULTIPLIER);
     }
 
     increaseMultiplier(value: number) {
