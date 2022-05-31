@@ -91,6 +91,7 @@ export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Cho
 
     receiveUIData(data: any) {
         if (!!data.bet) {
+            this.placeBetModel.isUsingHand = true;
             this.placeBetModel.placeBet(data.bet.choice, data.bet.amount);
             this.stateModel.placeBet(data.bet.choice);
         }

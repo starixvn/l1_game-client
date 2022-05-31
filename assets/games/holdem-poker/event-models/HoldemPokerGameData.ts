@@ -140,7 +140,7 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         }
 
         if (!!data.rebetAndDeal) {
-            this.placeBetModel.rebetAndDeal(data.rebetAndDeal.amount);
+            this.placeBetModel.rebetAndDeal();
             this.stateModel.deal();
         }
 

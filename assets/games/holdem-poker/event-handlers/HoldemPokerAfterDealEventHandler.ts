@@ -24,8 +24,9 @@ export default class HoldemPokerAfterDealEventHandler<Choices> extends HoldemPok
     }
 
     protected handle(event: HoldemPokerAfterDeal) {
-        const { roundId, communityCards, combinationResult } = event.deal;
+        const { roundId, communityCards, combinationResult, choices } = event.deal;
         this.gameData.stateModel.dealing();
+        this.gameData.placeBetModel.updateDeal(choices);
         this.gameData.emit(HoldemPokerGameData.Events.CHOICES_RESULT, event.deal.choices);
         const data = { roundId, communityCards, combinationResult };
         this.gameData.roundCounter.change(roundId);

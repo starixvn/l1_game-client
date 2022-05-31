@@ -1,6 +1,5 @@
 import TexasGameDataModel from "../event-models/texas-game-data-model";
 import { convertChoices } from "../texas-helper";
-import { CardModel } from "../texas-type";
 import TexasEventHandler from "./texas-event-handler";
 
 export type TexasDeal = {

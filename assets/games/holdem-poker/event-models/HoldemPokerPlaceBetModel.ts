@@ -124,16 +124,4 @@ export class HoldemPokerPlaceBetModel extends EventEmitterBase {
         this.emit(HoldemPokerPlaceBetModel.Events.CLEAR_BETS, this);
         this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_GAME_ROUND, {});
     }
-
-    updateBetsInfo(choices) {
-        for (const [key, value] of Object.entries(choices)) {
-            this.choices[key] = value;
-            this.emit(HoldemPokerPlaceBetModel.Events.UPDATE_CHIPS, {
-                choice: key,
-                totalAmount: value
-            });
-        }
-
-        this.emit(HoldemPokerPlaceBetModel.Events.PLACE_BET, this);
-    }
 }
