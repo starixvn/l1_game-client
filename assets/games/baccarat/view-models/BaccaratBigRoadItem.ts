@@ -1,0 +1,73 @@
+import { BigRoadScoreboardPoint } from "sc-scoreboards";
+import { BaccaratSettlementResult } from "./event-models/BaccaratSettlementResult";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class BaccaratBigRoadItem extends cc.Component {
+    private readonly NodeItems = {
+        BANKER: "banker",
+        PLAYER: "player",
+        NATURAL: "natural",
+        BANKERPAIR: "bankerPair",
+        PLAYERPAIR: "playerPair",
+        TIE: "tie",
+        COUNT: "count",
+        NEXT: "next"
+    };
+
+    @property([cc.Node])
+    nodes: cc.Node[] = [];
+
+    private hasValueArray: boolean[] = [];
+
+    protected onLoad(): void {
+        this.hasValueArray = this.nodes.map((node) => false);
+    }
+
+    resetNode(bigRoadScoreboardPoint: BigRoadScoreboardPoint<BaccaratSettlementResult>) {
+        const node = this.nodes[bigRoadScoreboardPoint.y];
+        node.getChildByName(this.NodeItems.BANKER).active = false;
+        node.getChildByName(this.NodeItems.PLAYER).active = false;
+        node.getChildByName(this.NodeItems.BANKERPAIR).active = false;
+        node.getChildByName(this.NodeItems.PLAYERPAIR).active = false;
+        node.getChildByName(this.NodeItems.NATURAL).active = false;
+        node.getChildByName(this.NodeItems.TIE).active = false;
+        node.getChildByName(this.NodeItems.NEXT).active = false;
+        node.getChildByName(this.NodeItems.COUNT).getComponent(cc.Label).string = "";
+        this.hasValueArray[bigRoadScoreboardPoint.y] = false;
+    }
+
+    renderNode(bigRoadScoreboardPoint: BigRoadScoreboardPoint<BaccaratSettlementResult>) {
+        const node = this.nodes[bigRoadScoreboardPoint.y];
+        const baccaratSettleResult = bigRoadScoreboardPoint.data;
+
+        node.getChildByName(this.NodeItems.BANKER).active = baccaratSettleResult[0].banker;
+        node.getChildByName(this.NodeItems.PLAYER).active = baccaratSettleResult[0].player;
+        node.getChildByName(this.NodeItems.NATURAL).active = baccaratSettleResult[0].natural;
+        node.getChildByName(this.NodeItems.BANKERPAIR).active = baccaratSettleResult[0].bankerPair;
+        node.getChildByName(this.NodeItems.PLAYERPAIR).active = baccaratSettleResult[0].playerPair;
+
+        const tieCount = baccaratSettleResult.length - 1;
+
+        if (tieCount >= 1) {
+            node.getChildByName(this.NodeItems.TIE).active = true;
+        }
+
+        if (tieCount > 1) {
+            node.getChildByName(this.NodeItems.COUNT).active = true;
+            node.getChildByName(this.NodeItems.COUNT).getComponent(cc.Label).string = tieCount.toString();
+        }
+        this.hasValueArray[bigRoadScoreboardPoint.y] = true;
+    }
+
+    renderNextNode() {
+        const row = this.hasValueArray.findIndex((value) => !value);
+        const node = this.nodes[row];
+        node.getChildByName(this.NodeItems.NEXT).active = true;
+    }
+
+    isFilledColumn() {
+        return this.hasValueArray.every((value) => value);
+    }
+}

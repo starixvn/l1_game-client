@@ -4,7 +4,6 @@ import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import Baccarat from "../Baccarat";
-import BaccaratDragonScoreBoard, { BaccaratDragonScoreBoardItemData } from "../BaccaratDragonScoreBoard";
 import { TotalHistoryData } from "../TotalHistoryBoard";
 import BaccaratFinishHandler from "./BaccaratFinishHandler";
 
@@ -17,6 +16,8 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
         super.handle(data);
 
         if (data.roundHistory && data.roundHistory[0]) {
+            const ownMain = this.getOwnMain();
+            ownMain.bigRoad.renderScoreBoardInGame(data.roundHistory);
             const lastLog = data.roundHistory[0];
             const settlementResult = this.getSettlementResult(lastLog);
             const finishHandler = this.getOwnFinishHandle();
@@ -25,7 +26,6 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
                 const playerCards = this.getLogDataFollowTypePlayer(false, lastLog);
                 const bankerCards = this.getLogDataFollowTypePlayer(true, lastLog);
 
-                const ownMain = this.getOwnMain();
                 ownMain.playerCards.showCardsWithoutAnimation(playerCards);
                 ownMain.bankerCards.showCardsWithoutAnimation(bankerCards);
                 finishHandler.showWinNotice(settlementResult);
@@ -68,7 +68,6 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
 
         this.buildBasicScoreBoard(dataLogs);
         this.buildTotalScoreBoard(dataLogs);
-        this.buildDragonScoreBoard(dataLogs);
         this.updateMiniHistoryLogs(dataLogs);
     }
 
@@ -132,66 +131,6 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
 
         const ownMain = this.getOwnMain();
         ownMain.totalHistoryBoard.setData(totalHistoryData);
-    }
-
-    protected buildDragonScoreBoard(dataLogs: any) {
-        const ownMain = this.getOwnMain();
-        dataLogs = _.map(dataLogs, (log, index) => {
-            const previousLog = dataLogs[parseInt(index) + 1];
-            log.result.tieCount = 0;
-
-            if (previousLog) {
-                log.previousLog = previousLog;
-            } else {
-                if (log.result.tie) {
-                    log.result.firstTie = true;
-                }
-            }
-
-            return log;
-        });
-
-        _.forEach(dataLogs, (log) => {
-            log.result.tie && this.setTieLog(log, log.previousLog);
-        });
-
-        const noTieDataLogs = _.filter(dataLogs, (log) => !log.result.tie || log.result.firstTie);
-        const detailHistoryBoardData = _.map(noTieDataLogs, (log, index) => {
-            const result = log.result;
-
-            if (result.banker) {
-                return new BaccaratDragonScoreBoardItemData(
-                    BaccaratDragonScoreBoard.BANKER,
-                    result.playerPair,
-                    result.bankerPair,
-                    result.natural,
-                    result.isTie,
-                    result.tieCount
-                );
-            } else if (result.player) {
-                return new BaccaratDragonScoreBoardItemData(
-                    BaccaratDragonScoreBoard.PLAYER,
-                    result.playerPair,
-                    result.bankerPair,
-                    result.natural,
-                    result.isTie,
-                    result.tieCount
-                );
-            } else {
-                return new BaccaratDragonScoreBoardItemData(
-                    BaccaratDragonScoreBoard.BANKER,
-                    result.playerPair,
-                    result.bankerPair,
-                    result.natural,
-                    result.isTie || result.tie,
-                    result.tieCount,
-                    result.firstTie
-                );
-            }
-        });
-
-        const tmpData = [...detailHistoryBoardData].reverse(); // de-structure and create a new array, so reverse doesn't impact 'a'
-        ownMain.detailHistoryBoard.setData(tmpData);
     }
 
     protected setTieLog(log, previousLog) {

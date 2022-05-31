@@ -6,6 +6,7 @@ import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler
 import Baccarat from "../Baccarat";
 import BaccaratLogsHandler from "./BaccaratLogsHandler";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
+import BaccaratBigRoad from "../BaccaratBigRoad";
 
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     handle(data: any): boolean {
@@ -56,6 +57,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             this.insertCurrentDataLogs(baccaratMain, dataFinish);
             baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
             (baccaratMain.logsHandler as BaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
+            (baccaratMain.bigRoad as BaccaratBigRoad).renderScoreBoardEachRound(settlementResult);
             this.handleBuildMiniLogs(baccaratMain);
         };
 

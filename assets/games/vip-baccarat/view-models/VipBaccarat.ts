@@ -3,7 +3,6 @@ import GameUtils from "../../../common/GameUtils";
 import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
-import DragonScoreBoard from "../../_base/view-models/DragonScoreBoard";
 import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
 import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
 import VipBaccaratBetHandler from "./data-handlers/VipBaccaratBetHandler";
@@ -14,6 +13,8 @@ import VipBaccaratCards from "./VipBaccaratCards";
 import VipBaccaratHistory from "./VipBaccaratHistory";
 import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
+import BaccaratBigRoad from "../../baccarat/view-models/BaccaratBigRoad";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -31,10 +32,10 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     basicHistoryBoardPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    detailHistoryBoardNode: cc.Node = null;
+    bigRoadNode: cc.Node = null;
 
     @property(cc.Prefab)
-    detailHistoryBoardPrefab: cc.Prefab = null;
+    bigRoadPrefab: cc.Prefab = null;
 
     @property(TotalHistoryBoard)
     totalHistoryBoard: TotalHistoryBoard = null;
@@ -64,7 +65,7 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     ownBetContainer: cc.Node = null;
 
     basicHistoryBoard: BasicHistoryBoard;
-    detailHistoryBoard: DragonScoreBoard;
+    bigRoad: BaccaratBigRoad;
     showScoreBoardNextDot = false;
     protected miniRoundHistory: VipBaccaratMiniRoundHistory;
 
@@ -119,8 +120,8 @@ export default class VipBaccarat extends SocketIOTableGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
+
         this.winNoticeLabel.node.parent.active = false;
-        this.needHideNextDotRoundHistory = false;
     }
 
     playGetCardAudio() {
@@ -136,26 +137,29 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         });
     }
 
-    normalShowNextDotCondition() {
-        return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
-    }
-
     private initScoreBoards() {
+        const condition = () => {
+            return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
+        };
+
         const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
         this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
-        this.basicHistoryBoard.init(this.needShowNextDot.bind(this));
+        this.basicHistoryBoard.init(condition);
         this.basicHistoryBoardNode.addChild(historyBoardNode);
 
-        const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
-        this.detailHistoryBoard = detailHistoryBoardNode.getComponent("BaccaratDragonScoreBoard");
-        this.detailHistoryBoard.init(this.needShowNextDot.bind(this));
-        this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
+        const bigRoadNode = cc.instantiate(this.bigRoadPrefab);
+        this.bigRoad = bigRoadNode.getComponent("BaccaratBigRoad");
+        this.bigRoadNode.addChild(bigRoadNode);
     }
 
     initMiniRoundHistory() {
+        const condition = () => {
+            return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
+        };
+
         const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(VipBaccaratMiniRoundHistory);
-        this.miniRoundHistory.init(this.needShowNextDot.bind(this));
+        this.miniRoundHistory.init(condition);
         this.miniRoundHistoryContainer.addChild(mini);
     }
 }
