@@ -183,7 +183,7 @@ export const showPlayerIndicator = async (pokerCardsNote: HoldemPokerCards, card
         }
     ] = convertCard(player.combinationCards);
 
-    if (cardsData.playerCards) {
+    if (cardsData.playerCards || cardsData.communityCards.length > 3) {
         pokerCardsNote.showArrowIndicatorCards(playerCombinationCardsConverted, "player");
     } else {
         pokerCardsNote.showArrowIndicatorCards(playerCombinationCardsConverted, "community");
