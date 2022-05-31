@@ -36,6 +36,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         }
 
         await mainGame.board.removeItems(explode);
+        mainGame.tumbleList.addIcons(icons);
         mainGame.board.addItems(newItems);
         const multiplierItems = mainGame.board.getMultiplierItems();
         multiplierItems.forEach((multiplierItem, index) => multiplierItem.setValue(tumbleMultipliers[index]));

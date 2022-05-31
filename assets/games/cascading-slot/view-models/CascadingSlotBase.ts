@@ -20,6 +20,7 @@ import CascadingBetControl from "./CascadingBetControl";
 import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 import CascadingSlotMascot from "./CascadingSlotMascot";
+import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
@@ -101,6 +102,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public betControl: CascadingBetControl;
     public freeSpinView: FreeSpinView;
     public mascot: CascadingSlotMascot;
+    public tumbleList: CascadingSlotTumbleList;
     protected isOpenBetControl = false;
 
     async onSpinClick() {
@@ -280,6 +282,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.stateModel.on(CascadingSlotStateModel.Events.CHANGE, (state) => {
             switch (state) {
                 case CascadingSlotState.New:
+                    this.tumbleList.clear();
                     this.gameData.uiModel.resetNewRound();
                     this.showMessageDisplay(RoundType.SPINNING);
                     this.consumeAutoSpinCount();
@@ -344,6 +347,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     initMascot(node: cc.Node) {
         this.mascot = node.getComponent(CascadingSlotMascot);
+    }
+
+    initTumbleList(node: cc.Node) {
+        this.tumbleList = node.getComponent(CascadingSlotTumbleList);
     }
 
     override async showEffectBigWin(betWin: number) {

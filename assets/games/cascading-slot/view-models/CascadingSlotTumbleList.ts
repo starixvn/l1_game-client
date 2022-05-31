@@ -10,31 +10,28 @@ export default class CascadingSlotTumbleList extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    private HEIGHT_PER_ROW = 35;
-
+    scrollView: cc.ScrollView = null;
     onLoad() {
-        const icons = {
-            "1": { count: 10, win: 0.55 },
-            "2": { count: 19, win: 0.55 },
-            "3": { count: 8, win: 1.28 },
-            "4": { count: 8, win: 1.28 },
-            "5": { count: 8, win: 1.28 },
-            "6": { count: 8, win: 1.28 },
-            "7": { count: 8, win: 1.28 },
-            "8": { count: 8, win: 1.28 }
-        };
-        this.handleTumbleList(icons);
+        this.scrollView = this.getComponent(cc.ScrollView);
     }
-    handleTumbleList(icons: any) {
-        let index = 0;
+
+    addIcons(icons: any) {
         Object.entries(icons).forEach(([key, value]) => {
             const tumbleNode = cc.instantiate(this.tumbleItem);
             const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
-            let { count, win } = value as any;
+            const { count, win } = value as any;
             control.setData(+key, count, win);
             this.content.addChild(tumbleNode);
-            index++;
         });
-        this.content.height = this.HEIGHT_PER_ROW * index;
+
+        if (this.scrollView && this.content.childrenCount > 0) {
+            const itemHeight = this.content.children[0].height;
+            const contentHeight = this.content.childrenCount * itemHeight;
+            this.scrollView.enabled = contentHeight > this.scrollView.node.height;
+        }
+    }
+
+    clear() {
+        this.content.destroyAllChildren();
     }
 }
