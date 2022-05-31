@@ -5,7 +5,6 @@ import { HoldemPokerStateModel } from "../event-models/HoldemPokerStateModel";
 import HoldemPoker from "../view-models/HoldemPoker";
 
 export const handleMD5 = (main: HoldemPoker) => (stateModel: HoldemPokerStateModel) => {
-    console.log(stateModel.state);
     switch (stateModel.state) {
         case HoldemPokerState.replay_new:
         case HoldemPokerState.blank_new:
