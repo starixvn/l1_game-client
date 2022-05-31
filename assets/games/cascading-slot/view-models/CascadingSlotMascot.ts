@@ -1,5 +1,10 @@
 const { ccclass, property } = cc._decorator;
 
+enum MascotAnimation {
+    Idle = "Idle",
+    Gunshot = "gunshot2"
+}
+
 @ccclass
 export default class CascadingSlotMascot extends cc.Component {
     @property(sp.Skeleton)
@@ -7,17 +12,17 @@ export default class CascadingSlotMascot extends cc.Component {
 
     onLoad() {
         this.animation.setEndListener(() => {
-            if (this.animation.animation === "gunshot") {
+            if (this.animation.animation === MascotAnimation.Gunshot) {
                 this.playAnimationIdle();
             }
         });
     }
 
     playAnimationForMultiplier() {
-        this.animation.setAnimation(0, "gunshot", false);
+        this.animation.setAnimation(0, MascotAnimation.Gunshot, false);
     }
 
     playAnimationIdle() {
-        this.animation.setAnimation(0, "Idle", true);
+        this.animation.setAnimation(0, MascotAnimation.Idle, true);
     }
 }
