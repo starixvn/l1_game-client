@@ -19,7 +19,11 @@ export const dealPlayerAndDealerCards = async (
     callBack?: () => void
 ) => {
     const { communityCards } = dealModel;
-    await handleDealingCards(pokerCardsNote, communityCards, true);
+    const playerFakeData = [
+        { rank: "1", suit: 1 },
+        { rank: "1", suit: 1 }
+    ];
+    await handleDealingCards(pokerCardsNote, playerFakeData, communityCards, true);
     showPlayerIndicator(pokerCardsNote, dealModel);
     callBack && callBack();
 };
@@ -29,19 +33,14 @@ export const dealPlayerAndDealerCardsWithoutSwap = async (
     holdModel: HoldemPokerHoldModel,
     callBack?: () => void
 ) => {
-    await handleDealingCards(pokerCardsNote, holdModel.communityCards, false);
+    await handleDealingCards(pokerCardsNote, holdModel.playerCards, holdModel.communityCards, false);
     pokerCardsNote.focusPlayerCard();
     showIndicator(pokerCardsNote, holdModel, callBack, 0);
 };
 
-const handleDealingCards = async (pokerCards: HoldemPokerCards, communityCards: any, isFaceDown: boolean) => {
+const handleDealingCards = async (pokerCards: HoldemPokerCards, playerCards: any, communityCards: any, isFaceDown: boolean) => {
     pokerCards.hideAllLabelIndicatorCards();
     pokerCards.hideAllIndicator();
-
-    const playerFakeData = [
-        { rank: "1", suit: 1 },
-        { rank: "1", suit: 1 }
-    ];
 
     const dealerFakeData = [
         { rank: "1", suit: 1 },
@@ -49,11 +48,11 @@ const handleDealingCards = async (pokerCards: HoldemPokerCards, communityCards: 
     ];
 
     // =>player
-    await pokerCards.drawingCardToPlayer(playerFakeData[0], isFaceDown, 0);
+    await pokerCards.drawingCardToPlayer(playerCards[0], isFaceDown, 0);
     //=> dealer
     await pokerCards.drawingCardToDealer(dealerFakeData[0], true, 0);
     // => player
-    await pokerCards.drawingCardToPlayer(playerFakeData[1], isFaceDown, 1);
+    await pokerCards.drawingCardToPlayer(playerCards[1], isFaceDown, 1);
     //=> dealer;
     await pokerCards.drawingCardToDealer(dealerFakeData[1], true, 1);
 
