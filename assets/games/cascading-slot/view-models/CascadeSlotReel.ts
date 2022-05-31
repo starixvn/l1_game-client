@@ -20,7 +20,7 @@ export default class CascadeSlotReel extends cc.Component {
     itemDisplayCount = 5;
 
     private items: CascadeSlotReelItem[] = [];
-    private readonly pixelPerSecond = 700;
+    private readonly pixelPerSecond = 1200;
     private readonly delayMoveEachItem = 0.0;
 
     createReel() {
@@ -47,9 +47,8 @@ export default class CascadeSlotReel extends cc.Component {
         return node;
     }
 
-    async spin(data: number[], delay: number, multiplier: number[]) {
+    async spin(data: number[], multiplier: number[]) {
         await this.fallOut();
-        await GameUtils.delayTime(delay);
         this.setItemData(data, multiplier);
         this.setStartPositionForItems();
         await this.fallIn();
@@ -73,28 +72,32 @@ export default class CascadeSlotReel extends cc.Component {
     }
 
     async fallWithOffset(offset: number) {
+        const inEasing = (dt) => {
+            const kOut = 1.525;
+            const kIn = 0;
+            dt = dt * 2;
+            if (dt < 1) {
+                return (dt * dt * ((kIn + 1) * dt - kIn)) / 2;
+            } else {
+                dt = dt - 2;
+                return (dt * dt * ((kOut + 1) * dt + kOut)) / 2 + 1;
+            }
+        };
+        const outEasing = (dt) => cc.easeSineOut().easing(dt);
+        const easing = offset < 0 ? outEasing : inEasing;
+        const speed = offset < 0 ? this.pixelPerSecond * 1.3 : this.pixelPerSecond;
         for (let i = 0; i < this.items.length; i++) {
             await GameUtils.delayTime(this.delayMoveEachItem * i);
             const item = this.items[i];
             const posY = this.getItemPosY(i + offset);
             const distance = Math.abs(posY - item.node.y);
-            const duration = distance / this.pixelPerSecond;
+            const duration = distance / speed;
             cc.tween(item.node)
                 .to(
                     duration,
                     { y: posY },
                     {
-                        easing: (dt) => {
-                            const kOut = 1.525;
-                            const kIn = 0;
-                            dt = dt * 2;
-                            if (dt < 1) {
-                                return (dt * dt * ((kIn + 1) * dt - kIn)) / 2;
-                            } else {
-                                dt = dt - 2;
-                                return (dt * dt * ((kOut + 1) * dt + kOut)) / 2 + 1;
-                            }
-                        }
+                        easing: easing
                     }
                 )
                 .start();

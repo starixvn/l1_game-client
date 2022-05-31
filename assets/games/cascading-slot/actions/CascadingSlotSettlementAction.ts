@@ -12,9 +12,11 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     mainGame.processingSettlement = true;
     mainGame.setGameRound(roundId);
 
+    const isTurbo = mainGame.isTurboMode();
+
     const result = convertData(data.result);
     const multipliers = tumbles[0].multipliers;
-    await mainGame.board.spinResult(result, multipliers);
+    await mainGame.board.spinResult(result, multipliers, isTurbo);
 
     let i = 0;
     while (i < tumbles.length - 1) {

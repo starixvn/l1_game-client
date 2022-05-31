@@ -64,15 +64,16 @@ export default class CascadeSlotBoard extends cc.Component {
         }
     }
 
-    public async spinResult(symbols: number[][], multiplier: number[]) {
-        const delay = 0.1;
+    public async spinResult(symbols: number[][], multiplier: number[], isTurbo: boolean) {
+        const delay = 0;
         for (let i = 0; i < this.reels.length; i++) {
-            await GameUtils.delayTime(delay);
-            const waitToChangeItem = delay * (this.reels.length - 1 - i);
+            if (!isTurbo) {
+                await GameUtils.delayTime(delay);
+            }
             if (i < this.reels.length - 1) {
-                this.reels[i].spin(symbols[i], waitToChangeItem, multiplier);
+                this.reels[i].spin(symbols[i], multiplier);
             } else {
-                await this.reels[i].spin(symbols[i], waitToChangeItem, multiplier);
+                await this.reels[i].spin(symbols[i], multiplier);
             }
         }
     }
