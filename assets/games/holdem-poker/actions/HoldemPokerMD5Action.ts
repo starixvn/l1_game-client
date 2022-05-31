@@ -8,6 +8,7 @@ export const handleMD5 = (main: HoldemPoker) => (stateModel: HoldemPokerStateMod
     switch (stateModel.state) {
         case HoldemPokerState.replay_new:
         case HoldemPokerState.blank_new:
+        case HoldemPokerState.prepare_new:
         case HoldemPokerState.calling_fold:
         case HoldemPokerState.calling_deal:
             main.md5Comp.clearMD5();
