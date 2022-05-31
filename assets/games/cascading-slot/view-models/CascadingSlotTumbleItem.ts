@@ -17,7 +17,7 @@ export default class CascadingSlotTumbleItem extends cc.Component {
     setData(icon: number, count: number, win: number) {
         this.numberIcon.string = count.toString();
         this.winningValue.string = win.toString();
-        this.symbol.spriteFrame = this.mainAtlas.getSpriteFrame("symbol_" + icon);
+        this.symbol.spriteFrame = this.mainAtlas.getSpriteFrame("symbol_" + (icon + 1));
     }
 
     setDataForFreeSpinTumble(count: number, win: number, freeSpin: boolean) {
