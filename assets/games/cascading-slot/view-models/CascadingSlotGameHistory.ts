@@ -1,3 +1,4 @@
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import CascadingSlotHistoryItem from "./CascadingSlotHistoryItem";
 import CascadingSlotTicketDetail from "./CascadingSlotTicketDetail";
@@ -6,11 +7,17 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CascadingSlotGameHistory extends SocketIOGameHistoryBase {
+    @property(CommonDialog)
+    commonDialog: CommonDialog = null;
+
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
     betLogs: any;
 
     onLoad() {
+        this.commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
         this.betLogs = [
             {
                 time: "2022-03-15T04:16:02.382Z",
