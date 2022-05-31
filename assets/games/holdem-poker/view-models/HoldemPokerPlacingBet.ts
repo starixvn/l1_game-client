@@ -4,10 +4,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
-import HoldemPokerChoices, {
-    HoldemPokerChoicesConst,
-    HoldemPokerMaxBetChoicesConst,
-} from "../event-models/HoldemPokerChoices";
+import HoldemPokerChoices, { HoldemPokerChoicesConst, HoldemPokerMaxBetChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerState } from "../event-models/HoldemPokerState";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
@@ -197,14 +194,17 @@ export default class HoldemPokerPlacingBet {
 
     private checkBalance(amount: number, isClickDeal = false) {
         let total: number;
+
         if (
             this.gameData.stateModel.state === HoldemPokerState.dealt ||
             this.gameData.stateModel.state === HoldemPokerState.prepare_new ||
-            this.gameData.stateModel.state === HoldemPokerState.replay_new
+            this.gameData.stateModel.state === HoldemPokerState.replay_new ||
+            this.gameData.stateModel.state === HoldemPokerState.held ||
+            this.gameData.stateModel.state === HoldemPokerState.swapped
         ) {
             total = amount;
         } else {
-            total = isClickDeal ? this.getTotalBetWhenClickDeal() : this.gameData.placeBetModel.choices[HoldemPokerChoicesConst.ante] * 2;
+            total = isClickDeal ? this.getTotalBetWhenClickDeal() : this.getTotalBet() + amount;
         }
 
         return total > this.gameBase.getUserBalance();
