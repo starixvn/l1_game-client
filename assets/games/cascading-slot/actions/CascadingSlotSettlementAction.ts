@@ -25,9 +25,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         mainGame.gameData.uiModel.getMultiplier();
     }
 
-    let i = 0;
-
-    while (i < tumbles.length - 1) {
+    for (let i = 0; i < tumbles.length - 1; i++) {
         const tumble = tumbles[i];
         const { icons, win: tumbleWin, settlement } = tumble;
 
@@ -60,9 +58,43 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         if (getMoreMultiplier) {
             mainGame.gameData.uiModel.getMultiplier();
         }
-        i++;
     }
 
+    handleMultiplier(mainGame, isFreeSpin, totalMultiplier, multiplier, win);
+
+    if (bigWin) {
+        await mainGame.showEffectBigWin(data.win);
+    }
+
+    if (freeSpins > 0) {
+        await mainGame.showEffectFreeSpins(freeSpins);
+    }
+
+    mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
+
+    mainGame.processingSettlement = false;
+    mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
+    handleAutoSpin(mainGame);
+};
+
+const handleAutoSpin = (mainGame: CascadingSlotBase) => {
+    if (!mainGame.showNoticeForCacheApiError()) {
+        const autoSpin = mainGame.isAutoSpinMode() && mainGame.stillAutoSpin();
+        if (autoSpin || mainGame.isFreeSpin()) {
+            mainGame.spin();
+        } else {
+            mainGame.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
+        }
+    }
+};
+
+const handleMultiplier = async (
+    mainGame: CascadingSlotBase,
+    isFreeSpin: boolean,
+    totalMultiplier: number,
+    multiplier: number,
+    win: number
+) => {
     if (isFreeSpin) {
         const currentTotalMultiplier = mainGame.gameData.uiModel.totalMultiplier;
         if (currentTotalMultiplier > 0) {
@@ -92,26 +124,6 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
                 mainGame.totalMultiplierView.total.node
             );
             mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
-        }
-    }
-
-    if (bigWin) {
-        await mainGame.showEffectBigWin(data.win);
-    }
-
-    if (freeSpins > 0) {
-        await mainGame.showEffectFreeSpins(freeSpins);
-    }
-
-    mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
-
-    mainGame.processingSettlement = false;
-    mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
-    if (!mainGame.showNoticeForCacheApiError()) {
-        if ((mainGame.isAutoSpinMode() && mainGame.stillAutoSpin()) || mainGame.isFreeSpin()) {
-            mainGame.spin();
-        } else {
-            mainGame.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
         }
     }
 };
