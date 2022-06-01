@@ -7,10 +7,10 @@ export default class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandl
     }
 
     handleStartingNewGameRound() {
-        super.handleStartingNewGameRound();
+        // super.handleStartingNewGameRound();
     }
 
     handleInLockBetTime() {
-        super.handleInLockBetTime();
+        // super.handleInLockBetTime();
     }
 }

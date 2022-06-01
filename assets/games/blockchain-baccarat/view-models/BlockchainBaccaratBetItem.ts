@@ -1,9 +1,12 @@
 import BetItem from "../../_base/view-models/BetItem";
 
-const { ccclass } = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BlockchainBetItem extends BetItem {
+    @property(cc.Label)
+    betPercent: cc.Label = null;
+
     public resetHighlight() {
         this.highlight.active = false;
         if (this.highlightBackground) {
