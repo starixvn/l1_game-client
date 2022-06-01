@@ -228,7 +228,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected initGameDataEvents() {
         this.gameData = new CascadingSlotGameData(this);
 
-        this.gameData.finishModel.on(CascadingSlotFinishModel.Events.SETTLE, handleSettle(this));
+        this.gameData.finishModel.on(CascadingSlotFinishModel.Events.SETTLE, (data: CascadingSlotFinishData) => {
+            try {
+                handleSettle(this)(data);
+            } catch (err) {
+                console.warn(err);
+            }
+        });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.GET_MULTIPLIER, () => {
             this.mascot.playAnimationForMultiplier();

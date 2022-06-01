@@ -31,7 +31,14 @@ export default class MultiplierItem extends cc.Component {
     }
 
     playAnimationGlow() {
-        this.animation.play();
+        return new Promise<void>((resolve) => {
+            this.animation.play();
+            const duration = this.animation.defaultClip.duration;
+            this.scheduleOnce(() => {
+                this.hideMultiplier();
+                resolve();
+            }, duration);
+        });
     }
 
     setRandomValue() {

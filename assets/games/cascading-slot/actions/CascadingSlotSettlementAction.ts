@@ -60,7 +60,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         }
     }
 
-    handleMultiplier(mainGame, isFreeSpin, totalMultiplier, multiplier, win);
+    await handleMultiplier(mainGame, isFreeSpin, totalMultiplier, multiplier, win);
 
     if (bigWin) {
         await mainGame.showEffectBigWin(data.win);
@@ -110,7 +110,7 @@ const handleMultiplier = async (
     if (multiplier > 0 && win > 0) {
         const multiplierItems = mainGame.board.getMultiplierItems();
         for (const mItem of multiplierItems) {
-            mItem.hideMultiplier();
+            await mItem.playAnimationGlow();
             await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
             mainGame.gameData.uiModel.increaseMultiplier(mItem.multiplier);
         }
