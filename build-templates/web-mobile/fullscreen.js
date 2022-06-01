@@ -88,10 +88,11 @@ function getMiniNavigationBarHeight() {
 
 function updateViewport() {
     if (userAgent.match(/iphone|ipad|ipod/i)) {
-        let height = screen.width; //window.innerHeight;
-        const navBarHeight = getMiniNavigationBarHeight();
-        height -= navBarHeight;
-        const vh = height * 0.01;
+        let width = screen.width;
+        if (window.innerWidth > window.innerHeight) {
+            width = window.innerHeight;
+        }
+        const vh = width * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
     } else if (userAgent.match(/android/i)) {
         const height = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
