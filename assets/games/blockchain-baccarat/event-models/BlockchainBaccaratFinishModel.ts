@@ -1,5 +1,5 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { BlockchainBaccaratResult } from "./BlockchainBaccaratResult";
+import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 
 export class BlockchainBaccaratFinishModel extends EventEmitterBase {
     static Events = {
@@ -7,9 +7,9 @@ export class BlockchainBaccaratFinishModel extends EventEmitterBase {
         SHOWED_ANIMATION: "animation:showed"
     };
 
-    settlementResult: BlockchainBaccaratResult;
+    settlementResult: BlockchainBaccaratChoicesType;
 
-    changeSettlementResult(settlementResult: BlockchainBaccaratResult) {
+    changeSettlementResult(settlementResult: BlockchainBaccaratChoicesType) {
         this.settlementResult = settlementResult;
         this.emit(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, this);
     }

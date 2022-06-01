@@ -8,11 +8,11 @@ export type BlockchainBaccaratChoicesType = {
     tie: number;
 };
 
-export type CardModel = { value: number; suit: number };
+export type CardModel = { value: string; suit: number };
 
-export type CardChain = {
+export class CardChain {
     card: CardModel;
     hashValue: string;
     rawValue: string;
     revealedRawValue: string;
-};
+}

@@ -1,7 +1,9 @@
 import * as _ from "lodash";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
+import { CardModel } from "../../BlockchainBaccaratType";
 import { BlockchainBaccarat } from "../../event-models/BlockchainBaccaratCardListModel";
+import CardChain from "./CardChain";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,7 +22,7 @@ export default class BlockchainCardList extends cc.Component {
     rowMax = 35;
 
     @property(cc.Size)
-    itemSize: cc.Size = new cc.Size(120, 240);
+    itemSize: cc.Size = new cc.Size(100, 120);
 
     @property(cc.Size)
     padding: cc.Size = new cc.Size(2, 2);
@@ -33,7 +35,6 @@ export default class BlockchainCardList extends cc.Component {
     onLoad() {
         const itemsNode = GameUtils.createNodeFromPrefab(this.itemsPrefab);
         this.items = itemsNode.children;
-        console.log("ahihi", this.items);
     }
 
     showDialog() {
@@ -47,8 +48,6 @@ export default class BlockchainCardList extends cc.Component {
         const { chain } = cardList;
         const itemsNode = GameUtils.createNodeFromPrefab(this.itemsPrefab);
         this.items = itemsNode.children;
-        console.log("cardlist", cardList);
-        console.log("card chain", this.items);
         this.cards.forEach((dot) => {
             dot.removeFromParent();
             dot.destroy();
@@ -59,13 +58,25 @@ export default class BlockchainCardList extends cc.Component {
         this.nextMark = null;
 
         chain.forEach((card) => {
-            const cardItem = _.find(this.items, (item) => item.name.toLowerCase() === "card");
-            const historyDot = cc.instantiate(cardItem);
+            const historyDot = this.createCard(card.card, 1, 1);
             this.content.addChild(historyDot);
             this.cards.push(historyDot);
         });
 
         this.addNextMark();
+    }
+
+    protected createCard(card: CardModel, scaleX: number, scaleY: number, isFaceUp = true): cc.Node {
+        const node = cc.instantiate(this.itemsPrefab);
+        const cardComponent = node.getComponent(CardChain);
+        cardComponent.setCardOldStyle({
+            rank: card?.value,
+            suit: card?.suit
+        });
+        cardComponent.setFaceUp(isFaceUp);
+        node.scaleX = scaleX;
+        node.scaleY = scaleY;
+        return node;
     }
 
     private addNextMark() {
