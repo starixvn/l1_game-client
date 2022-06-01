@@ -1,20 +1,12 @@
 import { BaseEventHandler } from "../../_new/_base/game-data-management/event-handlers/base-handler";
+import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 
 export type BlockchainBaccaratRoundHistoryType<Choices> = {
     roundHistory: {
         roundId: number;
-        result: {
-            banker: boolean;
-            bankerPair: boolean;
-            big: boolean;
-            natural: boolean;
-            player: boolean;
-            playerPair: boolean;
-            small: boolean;
-            tie: boolean;
-        };
+        result: BlockchainBaccaratChoicesType;
     }[];
 };
 

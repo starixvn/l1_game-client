@@ -1,13 +1,14 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
+import { CardChain } from "../BlockchainBaccaratType";
 
 export type BlockchainBaccarat = {
     burnedCards: number;
-    chain: string[];
+    chain: CardChain[];
     currentIndex: number;
     cutCardIndex: number;
 };
 
-export default class BlockchainBaccaratModel extends EventEmitterBase {
+export default class BlockchainBaccaratCardListModel extends EventEmitterBase {
     static Events = {
         CHANGE: "configs:change"
     };
@@ -16,6 +17,6 @@ export default class BlockchainBaccaratModel extends EventEmitterBase {
 
     change(blockchain: BlockchainBaccarat) {
         this.blockchain = blockchain;
-        this.emit(BlockchainBaccaratModel.Events.CHANGE, blockchain);
+        this.emit(BlockchainBaccaratCardListModel.Events.CHANGE, blockchain);
     }
 }

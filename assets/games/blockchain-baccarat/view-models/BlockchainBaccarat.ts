@@ -10,6 +10,7 @@ import BlockchainBaccaratConfigsModel from "../event-models/BlockchainBaccaratCo
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BlockchainBaccaratConfig } from "./BlockchainBaccaratConfig";
 import BlockchainBaccaratBetHandler from "../event-handlers/BlockchainBaccaratBetHandler";
+import BlockchainCardList from "./card-list/BlockchainCardList";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,7 +34,11 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    cardListPrefab: cc.Prefab = null;
+
     private gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
+    private cardList: BlockchainCardList = null;
 
     constructor() {
         super();
@@ -49,7 +54,20 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
 
     start(): void {
         super.start();
+        this.initCardList();
         this.registerGameConfigsEvents();
+    }
+
+    private initCardList() {
+        const dialog = cc.instantiate(this.cardListPrefab);
+        this.cardList = dialog.getComponent(BlockchainCardList);
+        this.cardList.node.active = false;
+        this.currentMiniPanel.addDialog(dialog);
+    }
+
+    openCardList() {
+        this.cardList.setData(this.gameData.cardList.blockchain);
+        this.cardList.showDialog();
     }
 
     initHandlers() {

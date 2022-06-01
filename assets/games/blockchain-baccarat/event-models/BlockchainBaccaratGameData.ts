@@ -1,12 +1,12 @@
 import BlockchainBaccaratConfigsHandler from "../event-handlers/BlockchainBaccaratConfigsHandler";
-import BlockchainBaccaratHandler from "../event-handlers/BlockchainBaccaratHandler";
+import BlockchainBaccaratCardListHandler from "../event-handlers/BlockchainBaccaratCardListHandler";
 import BlockchainBaccaratRoundHistoryHandler from "../event-handlers/BlockchainBaccratRoundHistoryHandler";
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 import { GameData } from "./../../_new/_base/game-data-management/models/game-data";
 import BlockchainBaccaratConfigsModel from "./BlockchainBaccaratConfigsModel";
 import { BlockchainBaccaratFinishModel } from "./BlockchainBaccaratFinishModel";
-import BlockchainBaccaratModel from "./BlockchainBaccaratModel";
 import BlockchainBaccaratRoundHistoryModel from "./BlockchainBaccaratRoundHistoryModel";
+import BlockchainBaccaratCardListModel from "./BlockchainBaccaratCardListModel";
 const { ccclass } = cc._decorator;
 
 @ccclass
@@ -16,20 +16,20 @@ export default class BlockchainBaccaratGameData<Choices> extends GameData<Choice
     };
 
     readonly configs: BlockchainBaccaratConfigsModel;
-    readonly blockchain: BlockchainBaccaratModel;
+    readonly cardList: BlockchainBaccaratCardListModel;
     readonly roundHistory: BlockchainBaccaratRoundHistoryModel;
     readonly finishModel: BlockchainBaccaratFinishModel;
 
     constructor(mainGame: BlockchainBaccarat) {
         super();
         this.configs = new BlockchainBaccaratConfigsModel();
-        this.blockchain = new BlockchainBaccaratModel();
+        this.cardList = new BlockchainBaccaratCardListModel();
         this.roundHistory = new BlockchainBaccaratRoundHistoryModel();
         this.finishModel = new BlockchainBaccaratFinishModel();
     }
 
     protected registerEventHandlers() {
-        const handlers = [BlockchainBaccaratConfigsHandler, BlockchainBaccaratHandler, BlockchainBaccaratRoundHistoryHandler];
+        const handlers = [BlockchainBaccaratConfigsHandler, BlockchainBaccaratCardListHandler, BlockchainBaccaratRoundHistoryHandler];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
 }

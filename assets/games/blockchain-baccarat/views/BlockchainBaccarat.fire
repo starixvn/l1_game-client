@@ -1887,7 +1887,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 47.89,
+      "width": 201.2,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -1939,8 +1939,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "BIG",
-    "_N$string": "BIG",
+    "_string": "UI.CHOICE_BIG",
+    "_N$string": "UI.CHOICE_BIG",
     "_fontSize": 26,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -3004,7 +3004,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 93.56,
+      "width": 246.87,
       "height": 75.6
     },
     "_anchorPoint": {
@@ -3056,8 +3056,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "SMALL",
-    "_N$string": "SMALL",
+    "_string": "UI.CHOICE_SMALL",
+    "_N$string": "UI.CHOICE_SMALL",
     "_fontSize": 26,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -4137,7 +4137,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 62.02,
+      "width": 262.5,
       "height": 67
     },
     "_anchorPoint": {
@@ -4189,8 +4189,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TIE",
-    "_N$string": "TIE",
+    "_string": "UI.CHOICE_TIE",
+    "_N$string": "UI.CHOICE_TIE",
     "_fontSize": 34,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -5360,7 +5360,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 147.75,
+      "width": 348.23,
       "height": 77.6
     },
     "_anchorPoint": {
@@ -5412,8 +5412,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "BANKER",
-    "_N$string": "BANKER",
+    "_string": "UI.CHOICE_BANKER",
+    "_N$string": "UI.CHOICE_BANKER",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -6635,7 +6635,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 140.95,
+      "width": 341.43,
       "height": 67
     },
     "_anchorPoint": {
@@ -6687,8 +6687,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "PLAYER",
-    "_N$string": "PLAYER",
+    "_string": "UI.CHOICE_PLAYER",
+    "_N$string": "UI.CHOICE_PLAYER",
     "_fontSize": 34,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -7936,8 +7936,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "PLAYER PAIR",
-    "_N$string": "PLAYER PAIR",
+    "_string": "UI.PLAYER_PAIR",
+    "_N$string": "UI.PLAYER_PAIR",
     "_fontSize": 19,
     "_lineHeight": 23,
     "_enableWrapText": true,
@@ -9038,8 +9038,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "BANKER PAIR",
-    "_N$string": "BANKER PAIR",
+    "_string": "UI.BANKER_PAIR",
+    "_N$string": "UI.BANKER_PAIR",
     "_fontSize": 19,
     "_lineHeight": 23,
     "_enableWrapText": true,
@@ -12756,9 +12756,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "ffe4bfe6-81d4-4d30-9d4b-c4e35746189f"
-    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -17444,9 +17441,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "11ea60ca-bd31-407d-98b7-c108be0f06fe"
-    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -24880,6 +24874,9 @@
       "__id__": 594
     },
     "historyPrefab": null,
+    "cardListPrefab": {
+      "__uuid__": "fc7c64be-e3bd-4424-a3ff-8af6c2bda0b4"
+    },
     "_id": "8dYogYxYhHTYozDN8inzvC"
   },
   {
@@ -27089,8 +27086,8 @@
       "__id__": 5
     },
     "component": "",
-    "_componentId": "6a29f6600tAa62MYhYxI93H",
-    "handler": "openHistory",
+    "_componentId": "32432AjZeVA7IfLH/D2p1Sb",
+    "handler": "openCardList",
     "customEventData": ""
   },
   {
