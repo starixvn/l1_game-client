@@ -7,14 +7,9 @@ export default class MD5CasinoTooltip extends MD5Tooltip {
     @property(cc.Node)
     blockInputNode: cc.Node = null;
 
-    eventOnHover() {
-        super.eventOnHover();
+    eventOnTouchStart() {
+        super.eventOnTouchStart();
         this.blockInputNode.active = true;
-    }
-
-    eventOffHover() {
-        super.eventOffHover();
-        this.blockInputNode.active = false;
     }
 
     hideToolTip() {
