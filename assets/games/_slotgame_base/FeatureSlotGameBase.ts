@@ -75,7 +75,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         AudioManager.getInstance().playClick();
 
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
-            this.setAutoSpinCount(0);
             this.onAutoSpinOff();
             return;
         }
@@ -86,6 +85,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     onAutoSpinOff() {
+        this.autoSpinToggle.isChecked = false;
+        this.setAutoSpinCount(0);
         this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
     }
 
@@ -106,15 +107,14 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         dialog.onConfirmCallback = (autoSpinCount: number) => {
             this.setAutoSpinCount(autoSpinCount);
             this.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
-            this.countDownAutoSpin.show(
-                autoSpinCount,
-                () => {
-                    this.spin();
-                },
-                () => !this.isAutoSpinMode()
-            );
+
+            const onFinished = () => this.spin();
+            const checkCancel = () => !this.isAutoSpinMode();
+            const onCancel = () => this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
+            this.countDownAutoSpin.show(autoSpinCount, onFinished, checkCancel, onCancel);
         };
 
+        dialog.onCancelCallback = () => this.onAutoSpinOff();
         return dialog;
     }
 

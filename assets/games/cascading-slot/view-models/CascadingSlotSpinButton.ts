@@ -20,9 +20,11 @@ export default class CascadingSlotSpinButton extends SpinButton {
 
     override showAutoSpinMode() {
         this.autoSpinNode.active = true;
+        this.spinButton.interactable = false;
     }
 
     override showNormalMode() {
         this.autoSpinNode.active = false;
+        this.spinButton.interactable = true;
     }
 }
