@@ -1,5 +1,6 @@
 import CascadingSlotConfigHandler from "../handlers/CascadingSlotConfigHandler";
 import CascadingSlotFinishHandler from "../handlers/CascadingSlotFinishHandler";
+import { CascadingSlotIngameHandler } from "../handlers/CascadingSlotIngameHandler";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { CascadingSlotConfigModel } from "./CascadingSlotConfigModel";
 import { CascadingSlotFinishModel } from "./CascadingSlotFinishModel";
@@ -27,7 +28,7 @@ export default class CascadingSlotGameData<Choices> extends FeatureSlotGameData<
     }
 
     protected registerEventHandlers() {
-        const handlers = [CascadingSlotFinishHandler, CascadingSlotConfigHandler];
+        const handlers = [CascadingSlotIngameHandler, CascadingSlotFinishHandler, CascadingSlotConfigHandler];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
 }

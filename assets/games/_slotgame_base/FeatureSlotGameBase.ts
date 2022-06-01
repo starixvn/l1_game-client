@@ -46,8 +46,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     countDownAutoSpin: CountDownWarning = null;
 
-    private autoSpinCount = 0;
-    private totalFreeSpins = 0;
+    protected autoSpinCount = 0;
+    protected totalFreeSpins = 0;
     private cacheApiError: any = null;
 
     abstract getCurrentTotalBet(): number;

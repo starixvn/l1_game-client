@@ -3,22 +3,22 @@ import CascadingSlotGameData from "../models/CascadingSlotGameData";
 
 type IngameEventType = {
     totalMultiplier: number;
-    totalOfFreeSpin: number;
+    freeSpins: { total: number };
 };
 
 export class CascadingSlotIngameHandler<Choices> extends BaseEventHandler<IngameEventType, Choices> {
     protected readonly gameData: CascadingSlotGameData<Choices>;
     protected verifyEvent(event: IngameEventType) {
-        return !!event.totalMultiplier;
+        return !!event.totalMultiplier || !!event.freeSpins;
     }
 
     protected handle(event: IngameEventType) {
-        const { totalMultiplier, totalOfFreeSpin } = event;
+        const { totalMultiplier, freeSpins } = event;
         if (totalMultiplier > 0) {
             this.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
         }
-        if (totalOfFreeSpin > 0) {
-            this.gameData.uiModel.setFreeSpins(totalOfFreeSpin);
+        if (freeSpins && freeSpins.total > 0) {
+            this.gameData.uiModel.setFreeSpins(freeSpins.total);
         }
     }
 }

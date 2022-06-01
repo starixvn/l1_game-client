@@ -198,7 +198,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         }
         this.lockBet();
         this.gameData.stateModel.change(CascadingSlotState.New);
-
+        this.gameData.placeBetModel.updateFreeSpin(this.isFreeSpin());
         this.connection.emit(events.bet, this.gameData.placeBetModel.data);
         success = true;
         return success;
@@ -255,6 +255,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
+            this.totalFreeSpins = value;
             this.freeSpinView.showView(value > 0);
             this.freeSpinView.setValue(value);
         });
@@ -289,7 +290,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     this.tumbleList.clear();
                     this.gameData.uiModel.resetNewRound();
                     this.showMessageDisplay(RoundType.SPINNING);
-                    this.consumeAutoSpinCount();
+                    if (!this.isFreeSpin()) {
+                        this.consumeAutoSpinCount();
+                    }
                     //TODO: stop tween for result
                     break;
                 case CascadingSlotState.Spinning:
