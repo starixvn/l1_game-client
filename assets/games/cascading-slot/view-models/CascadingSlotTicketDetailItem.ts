@@ -49,7 +49,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
         }
 
         this.win.string = currWinTumble.toString();
-        this.index.string = index.toString();
+        this.index.string = (index + 1).toString();
     }
 
     setDataHaveFreeSpin(count: number, odd: number, index: number, win: number, extraFreeSpin: boolean) {
@@ -58,7 +58,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
         control.setDataForFreeSpinTumble(count, odd, extraFreeSpin);
         this.content.addChild(tumbleNode);
         this.win.string = win.toString();
-        this.index.string = index.toString();
+        this.index.string = (index + 1).toString();
         this.calculateHeightRow(1);
     }
 

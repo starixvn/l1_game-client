@@ -11,6 +11,9 @@ export default class CascadingSlotTicketDetail extends cc.Component {
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
 
+    @property(cc.Label)
+    roundId: cc.Label = null;
+
     @property(cc.Prefab)
     ticketDetailItemPrefab: cc.Prefab = null;
 
@@ -41,13 +44,14 @@ export default class CascadingSlotTicketDetail extends cc.Component {
     }
     setData(data: any) {
         this.data = data;
+        this.roundId.string = data.id;
         const tumbles = data.settlementResult.tumbles;
         const freeSpin = data.freeSpin;
-        const normalFreeSpins = data.settlementResult.freeSpins;
-        const extraFreeSpin = data.settlementResult.additionalFreeSpins;
-        const isFreeSpin = freeSpin || normalFreeSpins.count > 3;
-        const countScatter = (freeSpin ? extraFreeSpin : normalFreeSpins).count;
-        const countFreeSpin = (freeSpin ? extraFreeSpin : normalFreeSpins).odds;
+        const countScatter = data.settlementResult.freeSpins.count;
+        const countFreeSpin = data.settlementResult.freeSpins.odds;
+        const isFreeSpin = countScatter > 3;
+        let lbMulti = "";
+
         let currWinTumble = 0;
         tumbles.forEach((tumble, index) => {
             const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
@@ -61,7 +65,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
             this.content.addChild(detailItem);
             control.setDataResultBoard(tumble.originalBoard, tumble.multipliers);
         });
-        let lbMulti = "";
+
         if (freeSpin) {
             lbMulti = `treasureIsland.totalMultiplier`;
             this.multiplierTotal.string = data.totalMultiplier;

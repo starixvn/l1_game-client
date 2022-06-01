@@ -33,5 +33,6 @@ export default class CascadingSlotTumbleList extends cc.Component {
 
     clear() {
         this.content.destroyAllChildren();
+        this.scrollView && !this.scrollView.enabled;
     }
 }
