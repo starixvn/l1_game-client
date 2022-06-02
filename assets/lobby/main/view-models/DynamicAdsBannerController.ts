@@ -62,7 +62,7 @@ export default class DynamicAdsBannerController extends BannerController {
     async getBannerSpriteFrame(id: number) {
         const newSuffix = this.lobbyMenuConfig.isNewGame(id) ? "_new" : "";
         const currentLang = window.i18n.curLang;
-        const systemSuffix = configs.systemType === "SC1" ? "_SC1" : "";
+        const systemSuffix = configs.systemType === "SC1" ? "" : "_SC2";
         const languageAndNew = window.i18n.curLang !== "vi" ? `_${currentLang}${newSuffix}` : newSuffix;
         const languageAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${languageAndNew}${systemSuffix}`);
 
@@ -78,6 +78,7 @@ export default class DynamicAdsBannerController extends BannerController {
                 bannerSpriteFrame = await this.getSpriteFrame(gameIdAndLanguageSpriteFrame);
             }
         }
+
         return bannerSpriteFrame;
     }
 

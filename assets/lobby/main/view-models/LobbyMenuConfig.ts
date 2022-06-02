@@ -142,8 +142,8 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     newGames = {
-        SC1: [GameIds.TexasHoldemPoker, GameIds.NightClub],
-        SC2: [GameIds.TexasHoldemPoker, GameIds.NightClub]
+        SC1: [GameIds.NightClub],
+        SC2: [GameIds.NightClub]
     };
 
     customizeCredit(): void {
