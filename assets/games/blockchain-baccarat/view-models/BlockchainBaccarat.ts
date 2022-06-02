@@ -11,6 +11,10 @@ import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameDa
 import { BlockchainBaccaratConfig } from "./BlockchainBaccaratConfig";
 import BlockchainBaccaratBetHandler from "../event-handlers/BlockchainBaccaratBetHandler";
 import BlockchainCardList from "./card-list/BlockchainCardList";
+import BlockchainBaccaratCardsUI from "./BlockchainBaccaratCardsUI";
+import BlockchainBaccaratTotalBetModel from "../event-models/BlockchainBaccaratTotalBetModel";
+import { handlePercentBet } from "../actions/BlockchainBaccaratTotalBetAction";
+import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -37,8 +41,12 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     @property(cc.Prefab)
     cardListPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    cardsContainer: cc.Node = null;
+
     private gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     private cardList: BlockchainCardList = null;
+    private cardsComponent: BlockchainBaccaratCardsUI = null;
 
     constructor() {
         super();
@@ -55,7 +63,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     start(): void {
         super.start();
         this.initCardList();
-        this.registerGameConfigsEvents();
+        this.registerGameEvents();
     }
 
     private initCardList() {
@@ -65,13 +73,16 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
+    private initCardComponent(node: cc.Node) {
+        this.cardsComponent = node.getComponent(BlockchainBaccaratCardsUI);
+    }
+
     openCardList() {
         this.cardList.setData(this.gameData.cardList.blockchain);
         this.cardList.showDialog();
     }
 
     initHandlers() {
-        //initHandlers
         super.initHandlers();
         this.timeHandler = new BlockchainBaccaratTimeHandler(this);
         this.betHandler = new BlockchainBaccaratBetHandler(this);
@@ -97,7 +108,10 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.currentMiniPanel.node.addChild(historyNode);
     }
 
-    private registerGameConfigsEvents() {
+    private registerGameEvents() {
         this.gameData.configs.on(BlockchainBaccaratConfigsModel.Events.CHANGE, updateGameConfigs(this));
+        this.gameData.totalBet.on(BlockchainBaccaratTotalBetModel.Events.CHANGE, (totalBet) => {
+            handlePercentBet(this.betItems as BlockchainBaccaratBetItem[])(totalBet);
+        });
     }
 }

@@ -7,6 +7,8 @@ import BlockchainBaccaratConfigsModel from "./BlockchainBaccaratConfigsModel";
 import { BlockchainBaccaratFinishModel } from "./BlockchainBaccaratFinishModel";
 import BlockchainBaccaratRoundHistoryModel from "./BlockchainBaccaratRoundHistoryModel";
 import BlockchainBaccaratCardListModel from "./BlockchainBaccaratCardListModel";
+import BlockchainBaccaratTotalBetModel from "./BlockchainBaccaratTotalBetModel";
+import BlockchainBaccaratTotalBetHandler from "../event-handlers/BlockchainBaccaratTotalBetHandler";
 const { ccclass } = cc._decorator;
 
 @ccclass
@@ -19,6 +21,7 @@ export default class BlockchainBaccaratGameData<Choices> extends GameData<Choice
     readonly cardList: BlockchainBaccaratCardListModel;
     readonly roundHistory: BlockchainBaccaratRoundHistoryModel;
     readonly finishModel: BlockchainBaccaratFinishModel;
+    readonly totalBet: BlockchainBaccaratTotalBetModel;
 
     constructor(mainGame: BlockchainBaccarat) {
         super();
@@ -26,10 +29,16 @@ export default class BlockchainBaccaratGameData<Choices> extends GameData<Choice
         this.cardList = new BlockchainBaccaratCardListModel();
         this.roundHistory = new BlockchainBaccaratRoundHistoryModel();
         this.finishModel = new BlockchainBaccaratFinishModel();
+        this.totalBet = new BlockchainBaccaratTotalBetModel();
     }
 
     protected registerEventHandlers() {
-        const handlers = [BlockchainBaccaratConfigsHandler, BlockchainBaccaratCardListHandler, BlockchainBaccaratRoundHistoryHandler];
+        const handlers = [
+            BlockchainBaccaratConfigsHandler,
+            BlockchainBaccaratCardListHandler,
+            BlockchainBaccaratRoundHistoryHandler,
+            BlockchainBaccaratTotalBetHandler
+        ];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
 }

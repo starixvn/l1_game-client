@@ -3,7 +3,7 @@ import BetItem from "../../_base/view-models/BetItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlockchainBetItem extends BetItem {
+export default class BlockchainBaccaratBetItem extends BetItem {
     @property(cc.Label)
     betPercent: cc.Label = null;
 
