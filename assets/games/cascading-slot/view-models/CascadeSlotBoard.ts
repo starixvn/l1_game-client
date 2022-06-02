@@ -79,7 +79,7 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public async spinResult(symbols: number[][], multiplier: number[], isTurbo: boolean) {
         const duration = (5 * 145) / this.reels[0].pixelPerSecond;
-        const delay = 0.32 * duration;
+        const delay = 0.2 * duration;
 
         await this.fallOut(isTurbo, delay);
 

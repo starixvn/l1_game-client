@@ -20,7 +20,7 @@ export default class CascadeSlotReel extends cc.Component {
     itemDisplayCount = 5;
 
     private items: CascadeSlotReelItem[] = [];
-    public readonly pixelPerSecond = 145 * 8;
+    public readonly pixelPerSecond = 145 * 11;
     private readonly delayMoveEachItem = 0.0;
 
     createReel() {
@@ -71,11 +71,12 @@ export default class CascadeSlotReel extends cc.Component {
     }
 
     async fallWithOffset(offset: number) {
-        const inEasing = (x: number) => {
-            const c1 = 0.8;
-            const c3 = c1 + 1;
-            return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
-        };
+        // const inEasing = (x: number) => {
+        //     const c1 = 0.7;
+        //     const c3 = c1 + 1;
+        //     return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+        // };
+        const inEasing = (dt) => cc.easeBezierAction(0, 0, 1.1, 1).easing(dt);
         const outEasing = (x: number) => {
             return 1 - Math.cos((x * Math.PI) / 2);
         };
