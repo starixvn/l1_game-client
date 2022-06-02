@@ -20,7 +20,7 @@ export default class CascadeSlotReel extends cc.Component {
     itemDisplayCount = 5;
 
     private items: CascadeSlotReelItem[] = [];
-    private readonly pixelPerSecond = 1200;
+    public readonly pixelPerSecond = 145 * 8;
     private readonly delayMoveEachItem = 0.0;
 
     createReel() {
@@ -48,7 +48,6 @@ export default class CascadeSlotReel extends cc.Component {
     }
 
     async spin(data: number[], multiplier: number[]) {
-        await this.fallOut();
         this.setItemData(data, multiplier);
         this.setStartPositionForItems();
         await this.fallIn();
@@ -72,40 +71,29 @@ export default class CascadeSlotReel extends cc.Component {
     }
 
     async fallWithOffset(offset: number) {
-        const inEasing = (dt) => {
-            const kOut = 1.525;
-            const kIn = 0;
-            dt = dt * 2;
-            if (dt < 1) {
-                return (dt * dt * ((kIn + 1) * dt - kIn)) / 2;
-            } else {
-                dt = dt - 2;
-                return (dt * dt * ((kOut + 1) * dt + kOut)) / 2 + 1;
-            }
+        const inEasing = (x: number) => {
+            const c1 = 0.8;
+            const c3 = c1 + 1;
+            return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
         };
-        const outEasing = (dt) => cc.easeSineOut().easing(dt);
+        const outEasing = (x: number) => {
+            return 1 - Math.cos((x * Math.PI) / 2);
+        };
         const easing = offset < 0 ? outEasing : inEasing;
-        const speed = offset < 0 ? this.pixelPerSecond * 1.3 : this.pixelPerSecond;
+        const speed = offset < 0 ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
+        const opts = { easing };
+        let duration;
         for (let i = 0; i < this.items.length; i++) {
-            await GameUtils.delayTime(this.delayMoveEachItem * i);
             const item = this.items[i];
             const posY = this.getItemPosY(i + offset);
             const distance = Math.abs(posY - item.node.y);
-            const duration = distance / speed;
-            cc.tween(item.node)
-                .to(
-                    duration,
-                    { y: posY },
-                    {
-                        easing: easing
-                    }
-                )
-                .start();
+            duration = distance / speed;
+            const delay = 0.08 * duration;
+            await GameUtils.delayTime(delay);
 
-            if (i === this.items.length - 1) {
-                await GameUtils.delayTime(duration);
-            }
+            cc.tween(item.node).to(duration, { y: posY }, opts).start();
         }
+        await GameUtils.delayTime(duration);
     }
 
     async fallOut() {

@@ -64,8 +64,25 @@ export default class CascadeSlotBoard extends cc.Component {
         }
     }
 
+    protected async fallOut(isTurbo: boolean, delay: number) {
+        for (let i = 0; i < this.reels.length; i++) {
+            if (!isTurbo) {
+                await GameUtils.delayTime(delay);
+            }
+            if (i < this.reels.length - 1) {
+                this.reels[i].fallOut();
+            } else {
+                await this.reels[i].fallOut();
+            }
+        }
+    }
+
     public async spinResult(symbols: number[][], multiplier: number[], isTurbo: boolean) {
-        const delay = 0;
+        const duration = (5 * 145) / this.reels[0].pixelPerSecond;
+        const delay = 0.32 * duration;
+
+        await this.fallOut(isTurbo, delay);
+
         for (let i = 0; i < this.reels.length; i++) {
             if (!isTurbo) {
                 await GameUtils.delayTime(delay);
