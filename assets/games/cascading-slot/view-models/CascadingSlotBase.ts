@@ -5,8 +5,9 @@ import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
-import FeatureSlotGameBase, { RoundType } from "../../_slotgame_base/FeatureSlotGameBase";
+import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
+import SlotGameBottomMessage, { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
 import { HandleBetControl } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
@@ -103,6 +104,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public freeSpinView: FreeSpinView;
     public mascot: CascadingSlotMascot;
     public tumbleList: CascadingSlotTumbleList;
+
+    bottomMessage: SlotGameBottomMessage = null;
     protected isOpenBetControl = false;
 
     async onSpinClick() {
@@ -295,7 +298,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                 case CascadingSlotState.New:
                     this.tumbleList.clear();
                     this.gameData.uiModel.resetNewRound();
-                    this.showMessageDisplay(RoundType.SPINNING);
+                    this.bottomMessage.showMessageDisplay(RoundType.SPINNING, this.isTurboMode());
                     if (!this.isFreeSpin()) {
                         this.consumeAutoSpinCount();
                     }
@@ -304,6 +307,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                 case CascadingSlotState.Spinning:
                     break;
                 case CascadingSlotState.Settled:
+                    this.bottomMessage.showMessageDisplay(RoundType.SETTLED, this.isTurboMode());
                     break;
             }
         });
@@ -356,6 +360,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     initFreeSpinView(node: cc.Node) {
         this.freeSpinView = node.getComponent(FreeSpinView);
         this.freeSpinView.showView(false, true);
+    }
+
+    initShowMessage(node: cc.Node) {
+        this.bottomMessage = node.getComponent(SlotGameBottomMessage);
     }
 
     initMascot(node: cc.Node) {

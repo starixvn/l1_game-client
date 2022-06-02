@@ -10,12 +10,6 @@ import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
 import SpinButton from "./SpinButton";
 
-export enum RoundType {
-    BEFORESPIN = 0,
-    SPINNING = 1,
-    SETTLED = 2
-}
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -43,6 +37,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     @property(cc.Prefab)
     effectFreeSpin: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    mainMessagePrefab: cc.Prefab = null;
 
     countDownAutoSpin: CountDownWarning = null;
 
@@ -143,27 +140,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     setAutoSpinCount(count: number) {
         this.autoSpinCount = count;
         this.spinButton.setAutoSpinCount(count);
-    }
-
-    showMessageDisplay(roundType: RoundType) {
-        if (!this.messageText) {
-            return;
-        }
-        const msgList = ["showMsgWhenSpin", "roundSettleMsg", "FromSettleToSpin"];
-        let msg = `messages.roundSettleMsg`;
-        if (roundType === RoundType.BEFORESPIN) {
-            if (cc.sys.isMobile) {
-                msg = `messages.${msgList[roundType] + "Phone"}`;
-            } else {
-                msg = `messages.${msgList[roundType] + "Desktop"}`;
-            }
-        }
-        if (roundType === RoundType.SETTLED) {
-            const items = this.isTurboMode() ? [1, 2] : [1, 2, 3];
-            const item = items[Math.floor(Math.random() * items.length)];
-            msg = `messages.FromSettleToSpin${item}`;
-        }
-        this.messageText.string = `${i18n.t(msg)}`;
     }
 
     showEffect(effect: cc.Node): Promise<void> {
