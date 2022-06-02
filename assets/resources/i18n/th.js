@@ -38,6 +38,7 @@ window.i18n.languages.th = {
         "38_break": "เดอะ เลเจนด์\nออฟ ฮีโร่",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
+        45: "Hi-Lo",
         46: "Nightclub Lady"
     },
     messages: {
