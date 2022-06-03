@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import { CascadingSlotState } from "../models/CascadingSlotStateModel";
 import { SpinButtonState } from "../models/SpinButtonStateModel";
@@ -74,6 +75,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
 
     mainGame.processingSettlement = false;
     mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
+
+    await GameUtils.delayTime(0.3);
     handleAutoSpin(mainGame);
 };
 
@@ -114,7 +117,7 @@ const handleMultiplier = async (
             await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
             mainGame.gameData.uiModel.increaseMultiplier(mItem.multiplier);
         }
-
+        await GameUtils.delayTime(0.3);
         mainGame.gameData.uiModel.setTotalWin(win);
 
         if (isFreeSpin) {

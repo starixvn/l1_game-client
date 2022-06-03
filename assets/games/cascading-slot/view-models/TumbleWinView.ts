@@ -63,17 +63,23 @@ export default class TumbleWinView extends FadeAppearanceNode {
     }
 
     setMultiplier(value: number) {
-        GameUtils.floatToNumber(this.multiplier, value, 0.5, null, true, "x");
+        const changeMultiplier = () => {
+            this.multiplier.string = `x${value}`;
+            this.multiplier.node.active = true;
+            cc.tween(this.multiplier.node).to(0.1, { scale: 1.2 }, { easing: "sineOut" }).to(0.1, { scale: 1 }, { easing: "sine" }).start();
+        };
         const isActive = this.multiplier.node.active;
         if (!isActive) {
             const width = this.multiplier.node.width;
             cc.tween(this.tumbleLabel.node)
                 .by(0.1, { x: -width / 2 })
                 .call(() => {
-                    this.multiplier.node.active = true;
                     this.tumbleLayout.enabled = true;
+                    changeMultiplier();
                 })
                 .start();
+        } else {
+            changeMultiplier();
         }
     }
 }
