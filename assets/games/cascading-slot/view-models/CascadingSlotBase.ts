@@ -339,9 +339,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     //TODO: stop tween for result
                     break;
                 case CascadingSlotState.Spinning:
+                    this.disabledButtons();
                     break;
                 case CascadingSlotState.Settled:
                     this.bottomMessage.showMessageDisplay(RoundType.SETTLED, this.isTurboMode());
+                    break;
+                case CascadingSlotState.PrepareNew:
+                    //this.activeButtons();
                     break;
             }
         });

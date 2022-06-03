@@ -1,7 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import { CascadingSlotState } from "../models/CascadingSlotStateModel";
-import { SpinButtonState } from "../models/SpinButtonStateModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
 
@@ -86,7 +85,8 @@ const handleAutoSpin = (mainGame: CascadingSlotBase) => {
         if (autoSpin || mainGame.isFreeSpin()) {
             mainGame.spin();
         } else {
-            mainGame.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
+            mainGame.onAutoSpinOff();
+            mainGame.gameData.stateModel.change(CascadingSlotState.PrepareNew);
         }
     }
 };

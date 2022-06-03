@@ -3,7 +3,8 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 export enum CascadingSlotState {
     New = 0,
     Spinning,
-    Settled
+    Settled,
+    PrepareNew
 }
 
 export class CascadingSlotStateModel extends EventEmitterBase {
@@ -12,7 +13,7 @@ export class CascadingSlotStateModel extends EventEmitterBase {
     };
 
     state: CascadingSlotState;
-    
+
     change(state: CascadingSlotState) {
         this.state = state;
         this.emit(CascadingSlotStateModel.Events.CHANGE, state);

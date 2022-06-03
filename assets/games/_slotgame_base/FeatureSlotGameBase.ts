@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
+import StatusButton from "../../common/custom-button/StatusButton";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import FeatureSlotGameData from "../cascading-slot/models/FeatureSlotGameData";
 import { SpinButtonState } from "../cascading-slot/models/SpinButtonStateModel";
@@ -41,6 +42,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Prefab)
     mainMessagePrefab: cc.Prefab = null;
 
+    @property(StatusButton)
+    totalBetNode: StatusButton = null;
+
     countDownAutoSpin: CountDownWarning = null;
 
     protected autoSpinCount = 0;
@@ -78,12 +82,15 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
         if (!this.isFreeSpin()) {
             this.createAutoSpinDialog();
+            this.totalBetNode.interactable = false;
         }
     }
 
     onAutoSpinOff() {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
+        this.totalBetNode.interactable = true;
+        this.autoSpinToggle.interactable = true;
         this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
     }
 
@@ -187,5 +194,16 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     initCountDownWarning(node: cc.Node) {
         this.countDownAutoSpin = node.getComponent(CountDownWarning);
         this.countDownAutoSpin.node.active = false;
+    }
+
+    disabledButtons() {
+        const autoSpin = this.isAutoSpinMode() && this.stillAutoSpin();
+        this.totalBetNode.interactable = false;
+        this.autoSpinToggle.interactable = autoSpin;
+    }
+
+    activeButtons() {
+        this.totalBetNode.interactable = true;
+        this.autoSpinToggle.interactable = true;
     }
 }
