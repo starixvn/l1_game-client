@@ -4,9 +4,7 @@ const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
             const trimZeroNumber = +(+number).toFixed(toFixed);
             return trimZeroNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         } else {
-            return parseFloat(number)
-                .toFixed(toFixed)
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return (+number).toFixed(toFixed).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     }
 
