@@ -1,11 +1,12 @@
 const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
     if (number) {
         if (noZeroSuffix) {
-            const formatNum = +(+number).toFixed(toFixed);
-            return formatNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            const trimZeroNumber = +(+number).toFixed(toFixed);
+            return trimZeroNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         } else {
-            const result = parseFloat(number).toFixed(toFixed).toString().split(".");
-            return result.join(".").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return parseFloat(number)
+                .toFixed(toFixed)
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     }
 
