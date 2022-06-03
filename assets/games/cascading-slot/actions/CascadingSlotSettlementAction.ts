@@ -120,7 +120,7 @@ const handleMultiplier = async (
         }
     }
 
-    await GameUtils.delayTime(0.3);
+    await GameUtils.delayTime(1);
     mainGame.gameData.uiModel.setTotalWin(win);
     if (!mainGame.isTrialMode) {
         mainGame.updateUserBalance();
