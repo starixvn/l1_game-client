@@ -16,6 +16,7 @@ window.mobilecheck = function () {
 
 const userAgent = window.navigator.userAgent;
 const ios15 = /OS 15/.test(userAgent);
+const instruction = document.getElementById("myInstruction");
 
 function toggleFullScreen() {
     const doc = window.document;
@@ -50,13 +51,12 @@ function showAddressBar() {
 }
 
 function showIntruction() {
-    const instruction = document.getElementById("myInstruction");
     instruction.style.display = "block";
     const isPortrait = window.outerWidth < window.outerHeight;
     if (isPortrait) {
         showAddressBar();
         updateViewport();
-        hideInstructionAndScroll();
+        showInstructionAndScroll(false);
         return;
     }
 
@@ -65,16 +65,21 @@ function showIntruction() {
     const show = deltaHeight > navBarHeight;
     if (show && !window.skipFullscreen) {
         showAddressBar();
-        instruction.style.visibility = "visible";
+        showInstructionAndScroll();
     } else {
-        hideInstructionAndScroll();
+        showInstructionAndScroll(false);
         updateViewport();
     }
 }
 
-function hideInstructionAndScroll() {
-    document.getElementById("myInstruction").style.visibility = "hidden";
-    document.body.style.overflowY = "hidden";
+function showInstructionAndScroll(isShow = true) {
+    if (isShow) {
+        instruction.style.visibility = "visible";
+        document.body.style.overflowY = "scroll";
+    } else {
+        instruction.style.visibility = "hidden";
+        document.body.style.overflow = "hidden";
+    }
 }
 
 function getMiniNavigationBarHeight() {
@@ -117,7 +122,6 @@ function updateFullScreen() {
 
 function handleFullScreen() {
     if (userAgent.match(/iPad|iPhone|iPod/i)) {
-        document.body.style.overflowY = "scroll";
         showIntruction();
         updateViewport();
         var timeoutScroll;
@@ -132,7 +136,6 @@ function handleFullScreen() {
         };
 
         window.addEventListener("orientationchange", function () {
-            document.body.style.overflowY = "scroll";
             setTimeout(function () {
                 updateFullScreen();
             }, 100);
