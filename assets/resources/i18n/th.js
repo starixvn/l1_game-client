@@ -165,7 +165,11 @@ window.i18n.languages.th = {
         roundSettleMsg: "โชคดี!",
         FromSettleToSpin1: "หมุนเพื่อชนะ!",
         FromSettleToSpin2: "หมุนมากขึ้น ชนะมากขึ้น!",
-        FromSettleToSpin3: "ลองใช้โหมดเทอร์โบ!"
+        FromSettleToSpin3: "ลองใช้โหมดเทอร์โบ!",
+        topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
+        topMessage2a: "HIT",
+        topMessage2b: "TO MULTIPLY TUMBLE WIN",
+        topMessage3: "WIN UP TO 2000X BET"
     },
     ui: {
         choice_red2: "2 แดง",

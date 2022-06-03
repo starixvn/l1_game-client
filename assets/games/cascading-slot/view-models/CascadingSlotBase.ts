@@ -8,6 +8,7 @@ import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
 import SlotGameBottomMessage, { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
+import SlotGameTopMessage from "../../_slotgame_base/SlotGameTopMessage";
 import { HandleBetControl } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
@@ -104,8 +105,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public freeSpinView: FreeSpinView;
     public mascot: CascadingSlotMascot;
     public tumbleList: CascadingSlotTumbleList;
-
     bottomMessage: SlotGameBottomMessage = null;
+    topMessage: SlotGameTopMessage = null;
     protected isOpenBetControl = false;
 
     async onSpinClick() {
@@ -220,7 +221,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.onLoad();
         this.initGameDataEvents();
         this.initCascadingSlotConfig();
+    }
 
+    start() {
+        super.start();
         this.gameData.uiModel.resetNewRound();
     }
 
@@ -253,11 +257,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
+            this.topMessage.hideTopMessage();
             this.tumbleWinView.setTumbleWinValue(value, true);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_MULTIPLIER, (value: number) => {
             this.tumbleWinView.setMultiplier(value);
+            this.topMessage.hideTopMessage();
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_MULTIPLIER, (value: number) => {
@@ -276,6 +282,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.uiModel.on(CascadingUIModel.Events.RESET_NEW_ROUND, (value: CascadingUIModel) => {
             this.totalWinLabel.string = "0";
+            this.topMessage.showTopMessage();
             this.tumbleWinView.showView(false);
         });
 
@@ -363,8 +370,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.freeSpinView.showView(false, true);
     }
 
-    initShowMessage(node: cc.Node) {
+    initShowBottomMessage(node: cc.Node) {
         this.bottomMessage = node.getComponent(SlotGameBottomMessage);
+    }
+
+    initShowTopMessage(node: cc.Node) {
+        this.topMessage = node.getComponent(SlotGameTopMessage);
     }
 
     initMascot(node: cc.Node) {

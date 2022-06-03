@@ -153,7 +153,11 @@ window.i18n.languages.zh_tw = {
         roundSettleMsg: "祝你好運！",
         FromSettleToSpin1: "旋轉獲勝！",
         FromSettleToSpin2: "旋轉更多，贏得更多！",
-        FromSettleToSpin3: "嘗試渦輪模式！"
+        FromSettleToSpin3: "嘗試渦輪模式！",
+        topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
+        topMessage2a: "HIT",
+        topMessage2b: "TO MULTIPLY TUMBLE WIN",
+        topMessage3: "WIN UP TO 2000X BET"
     },
     ui: {
         choice_red2: "2 紅",

@@ -167,7 +167,11 @@ window.i18n.languages.id = {
         roundSettleMsg: "SEMOGA BERUNTUNG!",
         FromSettleToSpin1: "PUTAR UNTUK MENANG!",
         FromSettleToSpin2: "PUTAR LEBIH BANYAK, MENANG LEBIH BANYAK!",
-        FromSettleToSpin3: "COBA MODE TURBO!"
+        FromSettleToSpin3: "COBA MODE TURBO!",
+        topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
+        topMessage2a: "HIT",
+        topMessage2b: "TO MULTIPLY TUMBLE WIN",
+        topMessage3: "WIN UP TO 2000X BET"
     },
     ui: {
         choice_red2: "2 Merah",

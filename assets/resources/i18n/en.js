@@ -168,7 +168,11 @@ window.i18n.languages.en = {
         FromSettleToSpin1: "SPIN TO WIN!",
         FromSettleToSpin2: "SPIN MORE, WIN MORE!",
         FromSettleToSpin3: "TRY TURBO MODE!",
-        copyMD5Failed: "Copy function is temporarily unavailable."
+        copyMD5Failed: "Copy function is temporarily unavailable.",
+        topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
+        topMessage2a: "HIT",
+        topMessage2b: "TO MULTIPLY TUMBLE WIN",
+        topMessage3: "WIN UP TO 2000X BET"
     },
     ui: {
         choice_red2: "2 Red",
