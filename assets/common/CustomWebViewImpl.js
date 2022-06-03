@@ -413,6 +413,7 @@ let WebViewImpl = cc.Class({
         this._div.style["-webkit-transform"] = matrix;
         this._div.style["transform-origin"] = "0px 100% 0px";
         this._div.style["-webkit-transform-origin"] = "0px 100% 0px";
+        this._div.style["overflow"] = "";
 
         // chagned iframe opacity
         this._setOpacity(node.opacity);
