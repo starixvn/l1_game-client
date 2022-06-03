@@ -344,9 +344,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                 case CascadingSlotState.Settled:
                     this.bottomMessage.showMessageDisplay(RoundType.SETTLED, this.isTurboMode());
                     break;
-                case CascadingSlotState.PrepareNew:
-                    //this.activeButtons();
-                    break;
             }
         });
     }

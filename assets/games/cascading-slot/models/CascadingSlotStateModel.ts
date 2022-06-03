@@ -3,8 +3,7 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 export enum CascadingSlotState {
     New = 0,
     Spinning,
-    Settled,
-    PrepareNew
+    Settled
 }
 
 export class CascadingSlotStateModel extends EventEmitterBase {
