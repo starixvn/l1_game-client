@@ -214,8 +214,6 @@ export default class Texas extends NewGameRoomBase {
     }
 
     start() {
-        super.start();
-
         this.initPlacingBet();
         this.initButtonStatus();
         this.registerStateEvents();

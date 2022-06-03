@@ -397,7 +397,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     start() {
-        super.start();
         this.setBoardFullItems();
         if (this.autoGenerateLines) {
             this.createAllLines();
