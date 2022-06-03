@@ -66,7 +66,10 @@ export default class TumbleWinView extends FadeAppearanceNode {
         const changeMultiplier = () => {
             this.multiplier.string = `x${value}`;
             this.multiplier.node.active = true;
-            cc.tween(this.multiplier.node).to(0.1, { scale: 1.2 }, { easing: "sineOut" }).to(0.1, { scale: 1 }, { easing: "sine" }).start();
+            cc.tween(this.multiplier.node)
+                .to(0.1, { scale: 1.2 }, { easing: "sineOut" })
+                .to(0.1, { scale: 1 }, { easing: "sineIn" })
+                .start();
         };
         const isActive = this.multiplier.node.active;
         if (!isActive) {

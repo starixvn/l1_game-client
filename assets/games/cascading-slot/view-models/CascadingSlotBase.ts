@@ -105,6 +105,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public freeSpinView: FreeSpinView;
     public mascot: CascadingSlotMascot;
     public tumbleList: CascadingSlotTumbleList;
+    public isTrialMode = false;
+
     bottomMessage: SlotGameBottomMessage = null;
     topMessage: SlotGameTopMessage = null;
     protected isOpenBetControl = false;
@@ -258,6 +260,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
             this.topMessage.hideTopMessage();
+            GameUtils.floatToNumber(this.totalWinLabel, value, 0.5);
             this.tumbleWinView.setTumbleWinValue(value, true);
         });
 

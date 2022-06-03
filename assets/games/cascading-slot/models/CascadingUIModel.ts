@@ -39,11 +39,6 @@ export default class CascadingUIModel extends EventEmitterBase {
         this.emit(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, this.totalTumbleWin);
     }
 
-    increaseTotalWin(value: number) {
-        this.totalWin += value;
-        this.emit(CascadingUIModel.Events.CHANGE_TOTAL_WIN, this.totalWin);
-    }
-
     setTotalWin(value: number) {
         this.totalWin = value;
         this.emit(CascadingUIModel.Events.CHANGE_TOTAL_WIN, this.totalWin);

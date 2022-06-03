@@ -47,7 +47,6 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
                 mainGame.createFlyWinLabel(mainGame.effectContainer, position, winIconDetail.win);
             });
             mainGame.gameData.uiModel.increaseTumbleWin(tumbleWin);
-            mainGame.gameData.uiModel.increaseTotalWin(tumbleWin);
         }
 
         mainGame.gameData.uiModel.getTumble();
@@ -111,24 +110,25 @@ const handleMultiplier = async (
         }
     }
 
-    if (multiplier > 0 && win > 0) {
+    const winMultiplier = multiplier > 0 && win > 0;
+    if (winMultiplier) {
         const multiplierItems = mainGame.board.getMultiplierItems();
         for (const mItem of multiplierItems) {
             await mItem.playAnimationGlow();
             await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
             mainGame.gameData.uiModel.increaseMultiplier(mItem.multiplier);
         }
-        await GameUtils.delayTime(0.3);
-        mainGame.gameData.uiModel.setTotalWin(win);
+    }
 
-        if (isFreeSpin) {
-            await movingMultiplier(
-                mainGame.tumbleWinView.multiplier.node,
-                mainGame.effectContainer,
-                mainGame.totalMultiplierView.total.node
-            );
-            mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
-        }
+    await GameUtils.delayTime(0.3);
+    mainGame.gameData.uiModel.setTotalWin(win);
+    if (!mainGame.isTrialMode) {
+        mainGame.updateUserBalance();
+    }
+
+    if (winMultiplier && isFreeSpin) {
+        await movingMultiplier(mainGame.tumbleWinView.multiplier.node, mainGame.effectContainer, mainGame.totalMultiplierView.total.node);
+        mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
     }
 };
 
