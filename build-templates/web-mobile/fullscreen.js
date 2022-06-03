@@ -51,13 +51,12 @@ function showAddressBar() {
 
 function showIntruction() {
     const instruction = document.getElementById("myInstruction");
-
     instruction.style.display = "block";
     const isPortrait = window.outerWidth < window.outerHeight;
     if (isPortrait) {
         showAddressBar();
         updateViewport();
-        instruction.style.visibility = "hidden";
+        hideInstructionAndScroll();
         return;
     }
 
@@ -68,9 +67,14 @@ function showIntruction() {
         showAddressBar();
         instruction.style.visibility = "visible";
     } else {
-        instruction.style.visibility = "hidden";
+        hideInstructionAndScroll();
         updateViewport();
     }
+}
+
+function hideInstructionAndScroll() {
+    document.getElementById("myInstruction").style.visibility = "hidden";
+    document.body.style.overflowY = "hidden";
 }
 
 function getMiniNavigationBarHeight() {
@@ -128,6 +132,7 @@ function handleFullScreen() {
         };
 
         window.addEventListener("orientationchange", function () {
+            document.body.style.overflowY = "scroll";
             setTimeout(function () {
                 updateFullScreen();
             }, 100);
@@ -144,8 +149,6 @@ function handleFullScreen() {
                 updateFullScreen();
             }, 100);
         });
-
-        // setInterval(updateFullScreen, 1000);
     }
 
     if (userAgent.match(/android/i)) {
