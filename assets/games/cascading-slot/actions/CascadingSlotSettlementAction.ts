@@ -50,6 +50,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
             mainGame.gameData.uiModel.increaseTotalWin(tumbleWin);
         }
 
+        mainGame.gameData.uiModel.getTumble();
         await mainGame.board.removeItems(explode);
         mainGame.tumbleList.addIcons(icons);
         mainGame.board.addItems(newItems);

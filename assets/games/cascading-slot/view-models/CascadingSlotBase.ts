@@ -239,8 +239,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             }
         });
 
-        this.gameData.uiModel.on(CascadingUIModel.Events.GET_MULTIPLIER, () => {
-            this.mascot.playAnimationForMultiplier();
+        this.gameData.uiModel.on(CascadingUIModel.Events.GET_TUMBLE, () => {
+            this.mascot.playAnimationForTumble();
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_WIN, (value: number) => {

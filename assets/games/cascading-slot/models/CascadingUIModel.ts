@@ -14,7 +14,8 @@ export default class CascadingUIModel extends EventEmitterBase {
 
         RESET_NEW_ROUND: "ui:reset_new_round",
 
-        GET_MULTIPLIER: "ui:get_multiplier"
+        GET_MULTIPLIER: "ui:get_multiplier",
+        GET_TUMBLE: "ui:get_tumble"
     };
 
     totalTumbleWin = 0;
@@ -50,6 +51,10 @@ export default class CascadingUIModel extends EventEmitterBase {
 
     getMultiplier() {
         this.emit(CascadingUIModel.Events.GET_MULTIPLIER);
+    }
+
+    getTumble() {
+        this.emit(CascadingUIModel.Events.GET_TUMBLE);
     }
 
     increaseMultiplier(value: number) {

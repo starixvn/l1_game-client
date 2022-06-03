@@ -18,7 +18,7 @@ export default class CascadingSlotMascot extends cc.Component {
         });
     }
 
-    playAnimationForMultiplier() {
+    playAnimationForTumble() {
         this.animation.setAnimation(0, MascotAnimation.Gunshot, false);
     }
 
