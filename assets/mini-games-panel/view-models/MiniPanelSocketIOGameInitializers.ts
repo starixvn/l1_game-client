@@ -22,23 +22,28 @@ export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIO
 
     private openNewSocket(gameId) {
         this.socketIOController.closeSocket(gameId).then(() => {
-            const gameName = GameUtils.getGameNameString(gameId);
-            const proxyRoute = getProxyRoute(gameId);
             const gameServerUrl = buildServerUrl("http", "", gameId);
-
-            const option = {
-                socketUri: gameServerUrl,
-                gameName,
-                proxyRoute,
-                onConnectFailed: this.main.onConnectSocketFailed.bind(this.main),
-                isGameRoom: true,
-                forceNew: true,
-                gameContainer: null,
-                enableMsgpackParser: enableMsgpackParserAllGames
-            };
-            const socket = this.socketIOController.connectGameSocket(option);
+            const socket = this.openSocketByUri(gameId, gameServerUrl);
             this.handleSocket(socket, gameId);
             this.socketIOController.assignSocket(gameId, socket);
         });
+    }
+
+    public openSocketByUri(gameId, socketUri) {
+        const gameName = GameUtils.getGameNameString(gameId);
+        const proxyRoute = getProxyRoute(gameId);
+
+        const option = {
+            socketUri,
+            gameName,
+            proxyRoute,
+            onConnectFailed: this.main.onConnectSocketFailed.bind(this.main),
+            isGameRoom: true,
+            forceNew: true,
+            gameContainer: null,
+            enableMsgpackParser: enableMsgpackParserAllGames
+        };
+        const socket = this.socketIOController.connectGameSocket(option);
+        return socket;
     }
 }

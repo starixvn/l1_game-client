@@ -3,7 +3,8 @@ import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { events } from "../../_new/connection/SocketIOConnection";
+import { getTrialSocket } from "../../../common/helpers/UrlHelper";
+import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
@@ -110,11 +111,32 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     bottomMessage: SlotGameBottomMessage = null;
     topMessage: SlotGameTopMessage = null;
     protected isOpenBetControl = false;
+    protected trialConnection: SocketIOConnection;
 
     async onSpinClick() {
         AudioManager.getInstance().playClick();
         this.spin();
         // this.test();
+    }
+
+    initTrialConnection() {
+        if (!this.trialConnection) {
+            const socketUri = getTrialSocket(this.gameId);
+            const socket = this.currentMiniPanel.openSocketByUri(this.gameId, socketUri);
+            this.trialConnection = new SocketIOConnection();
+            this.trialConnection.setSocket(socket, this.gameName);
+        }
+    }
+
+    onTrialModeChanged(toggle: cc.Toggle) {
+        const checked = toggle.isChecked;
+        this.isTrialMode = checked;
+        if (checked) {
+            this.initTrialConnection();
+            this.trialConnection.emit("inGame");
+        } else {
+            this.registerViewGame();
+        }
     }
 
     initHandlers() {
@@ -205,7 +227,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.lockBet();
         this.gameData.stateModel.change(CascadingSlotState.New);
         this.gameData.placeBetModel.updateFreeSpin(this.isFreeSpin());
-        this.connection.emit(events.bet, this.gameData.placeBetModel.data);
+        const connection = this.isTrialMode ? this.trialConnection : this.connection;
+        connection.emit(events.bet, this.gameData.placeBetModel.data);
         success = true;
         return success;
     }

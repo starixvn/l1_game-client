@@ -271,6 +271,12 @@ export default class MiniPanel extends BaseComponent {
         cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, onComplete);
     }
 
+    openSocketByUri(gameId, socketUri) {
+        const socket = this.socketIOGameInitializers.openSocketByUri(gameId, socketUri);
+        this.socketIOGameInitializers.handleSocket(socket, gameId);
+        return socket;
+    }
+
     loadGameRoom(name) {
         this.loading.setDefaultPercent();
 

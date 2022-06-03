@@ -8,7 +8,7 @@ export default class MiniPanelSocketIOInitializers {
 
     constructor(protected readonly main: MiniPanel) {}
 
-    protected handleSocket(socket, gameId) {
+    public handleSocket(socket, gameId) {
         socket.on("message", (data) => {
             if (data.um) {
                 this.socketIOController.closeSocket(gameId);
