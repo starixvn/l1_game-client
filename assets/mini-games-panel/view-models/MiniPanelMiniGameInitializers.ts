@@ -106,6 +106,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         const socket = this.socketIOController.connectGameSocket(option);
 
         this.handleSocket(socket, gameId);
+        this.socketIOController.assignSocket(gameId, socket);
         return socket;
     }
 }
