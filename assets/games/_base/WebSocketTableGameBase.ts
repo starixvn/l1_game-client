@@ -286,6 +286,10 @@ export default class WebSocketTableGameBase extends GameBase {
             this?.userProfile && this.userProfile.setUserBalance(numberWithCommas(user.red, 2));
         }
 
+        if (void 0 !== user.balance) {
+            this.userBalance.string = numberWithCommas(user.balance, 2);
+        }
+
         if (void 0 !== user.avatarId) {
             GameUtils.getAvatarSprite(user.avatarId).then((frame) => {
                 if (this && this.userContainer && frame) {

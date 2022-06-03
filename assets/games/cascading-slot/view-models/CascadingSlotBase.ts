@@ -125,7 +125,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             const socket = this.currentMiniPanel.openSocketByUri(this.gameId, socketUri);
             this.trialConnection = new SocketIOConnection();
             this.trialConnection.setSocket(socket, this.gameName);
+            this.initGameEvents(socket);
         }
+    }
+
+    registerTrialMode() {
+        this.trialConnection.emit("inGame");
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
@@ -133,8 +138,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.isTrialMode = checked;
         if (checked) {
             this.initTrialConnection();
-            this.trialConnection.emit("inGame");
+            this.scheduleOnce(this.registerTrialMode, 1);
         } else {
+            this.unschedule(this.registerTrialMode);
             this.registerViewGame();
         }
     }

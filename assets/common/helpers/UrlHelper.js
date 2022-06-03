@@ -23,7 +23,7 @@ export function getTrialSocket(gameId) {
     const key = info.key;
     const path = info.path || key.toLowerCase();
     const pathStr = `/trial/${path}`;
-    return buildUrl("http", `${pathStr}/`);
+    return buildUrl("http", `${pathStr}`);
 }
 
 export function getPath(gameId) {

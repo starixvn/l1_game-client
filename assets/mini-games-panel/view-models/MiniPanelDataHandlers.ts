@@ -37,7 +37,7 @@ export default class MiniPanelDataHandlers {
             this.main.onForceReload();
         }
 
-        if (data.toGame) {
+        if (data.toGame && data.toGame !== cc.director.getScene().name) {
             this.main.loadGameRoom(data.toGame);
         }
 

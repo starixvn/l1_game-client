@@ -18,25 +18,29 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         if (!this.socket) {
             this.closeGame();
         } else {
-            this.socket.on(this.gameName, (data) => {
-                if (!this.isAlive()) {
-                    return;
-                }
-                this.onDataGameRoom(data);
-            });
-            this.socket.on("disconnect", () => {
-                if (!this.isAlive()) {
-                    return;
-                }
-                this.closeGame();
-            });
-            this.socket.on("message", (data) => {
-                if (!this.isAlive()) {
-                    return;
-                }
-                this.currentMiniPanel.onGeneralData(data);
-            });
+            this.initGameEvents(this.socket);
         }
+    }
+
+    initGameEvents(socket) {
+        socket.on(this.gameName, (data) => {
+            if (!this.isAlive()) {
+                return;
+            }
+            this.onDataGameRoom(data);
+        });
+        socket.on("disconnect", () => {
+            if (!this.isAlive()) {
+                return;
+            }
+            this.closeGame();
+        });
+        socket.on("message", (data) => {
+            if (!this.isAlive()) {
+                return;
+            }
+            this.currentMiniPanel.onGeneralData(data);
+        });
     }
 
     protected override onGameShow() {
