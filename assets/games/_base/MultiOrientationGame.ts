@@ -15,8 +15,6 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
         return this.betChips ? this.betChips.getCurrentBet() : 0;
     };
 
-    override start() {}
-
     onDestroy() {
         this.clearIntervalAndTimeout();
     }

@@ -97,7 +97,6 @@ export default class Sedie extends FreeBetGameBase {
     }
 
     start() {
-        super.start();
         if (GameUtils.isPhone() && this.orientation === Orientation.Landscape) {
             this.addTutorial("RotationGuide");
         }
