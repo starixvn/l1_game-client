@@ -527,7 +527,8 @@ export default class GameBase extends BaseComponent {
 
     updateUserStakeLevel(data): boolean {
         let updated = false;
-        if (data.maxBet && data.minBet) {
+
+        if (data.maxBet && data.minBet && this.node.activeInHierarchy) {
             updated = cc.RedT.userStakeLevelData(data);
         }
         return updated;

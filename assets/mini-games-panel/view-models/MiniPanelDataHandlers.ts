@@ -61,7 +61,7 @@ export default class MiniPanelDataHandlers {
             this.main.onForceReload(true, message);
         }
 
-        if (data.userStakeLevel) {
+        if (data.userStakeLevel && this.main.node.activeInHierarchy) {
             cc.RedT.userStakeLevelData(data.userStakeLevel);
         }
     }
@@ -117,7 +117,7 @@ export default class MiniPanelDataHandlers {
             return;
         }
 
-        if (error.maxBet && error.maxBet > 0) {
+        if (error.maxBet && error.maxBet > 0 && this.main.node.activeInHierarchy) {
             cc.RedT.userStakeLevelData(error);
         }
 
