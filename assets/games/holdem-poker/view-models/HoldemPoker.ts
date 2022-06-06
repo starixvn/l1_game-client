@@ -137,9 +137,10 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.gameData = new HoldemPokerGameData<HoldemPokerChoices>();
         this.holdemPokerChips = new HoldemPokerChips();
         super.onLoad();
+        this.initGeneralEvents();
     }
 
-    start() {
+    initGeneralEvents() {
         this.initPlacingBet();
         this.initBettingAreas();
         this.initButtonStatus();
