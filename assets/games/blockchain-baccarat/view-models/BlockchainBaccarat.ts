@@ -74,6 +74,8 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.betOptionsUI.initBetOptions(this);
     }
 
+    initScoreBoardUI(node: cc.Node) {}
+
     initCardsUI(node: cc.Node) {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
     }
