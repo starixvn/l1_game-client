@@ -3,7 +3,7 @@ import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import { CardModel } from "../../BlockchainBaccaratType";
 import { BlockchainBaccarat } from "../../event-models/BlockchainBaccaratCardListModel";
-import CardChain from "./CardChain";
+import BlockchainCard from "./BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -45,45 +45,56 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     public setData(cardList: BlockchainBaccarat) {
-        const { chain } = cardList;
+        const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
         const itemsNode = GameUtils.createNodeFromPrefab(this.itemsPrefab);
         this.items = itemsNode.children;
-        this.cards.forEach((dot) => {
-            dot.removeFromParent();
-            dot.destroy();
+        this.cards.forEach((card) => {
+            card.removeFromParent();
+            card.destroy();
         });
 
         this.cards = [];
 
         this.nextMark = null;
-
+        let index = 1;
         chain.forEach((card) => {
-            const historyDot = this.createCard(card.card, 1, 1);
+            const historyDot = this.createCard(card.card, index);
             this.content.addChild(historyDot);
             this.cards.push(historyDot);
+            index++;
         });
 
         this.addNextMark();
     }
 
-    protected createCard(card: CardModel, scaleX: number, scaleY: number, isFaceUp = true): cc.Node {
+    protected createCard(card: CardModel, index, isFaceUp = true): cc.Node {
         const node = cc.instantiate(this.itemsPrefab);
-        const cardComponent = node.getComponent(CardChain);
+        const cardComponent = node.getComponent(BlockchainCard);
         cardComponent.setCardOldStyle({
-            rank: card?.value,
+            rank: card?.rank,
             suit: card?.suit
         });
-        cardComponent.setFaceUp(isFaceUp);
-        node.scaleX = scaleX;
-        node.scaleY = scaleY;
+        !!card ? cardComponent.setFaceUp(isFaceUp) : cardComponent.setFaceUp(!isFaceUp);
+        cardComponent.indexNumber.string = this.convertIndexNumber(index);
         return node;
     }
 
     private addNextMark() {
-        const dot = cc.instantiate(this.itemNext);
-        dot.active = false;
-        this.content.addChild(dot);
-        this.nextMark = dot;
-        this.cards.push(dot);
+        const card = cc.instantiate(this.itemNext);
+        card.active = false;
+        this.content.addChild(card);
+        this.nextMark = card;
+        this.cards.push(card);
+    }
+
+    private convertIndexNumber(index: number) {
+        switch (true) {
+            case index < 10:
+                return `00${index}`;
+            case index < 100:
+                return `0${index}`;
+            default:
+                return index.toString();
+        }
     }
 }

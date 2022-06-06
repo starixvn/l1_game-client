@@ -446,7 +446,8 @@ window.i18n.languages.en = {
         new_year: "Happy New Year",
         md5_result: "RESULT",
         md5_string: "MD5 KEY",
-        md5_copy: "COPY"
+        md5_copy: "COPY",
+        cardList: "Card list"
     },
     holdEmPoker: {
         ante: "ANTE",
@@ -576,5 +577,10 @@ window.i18n.languages.en = {
         bigWinTextNotify: "Press anywhere to continue",
         reachMaxWin: "You reached the Max Win",
         warningTrialMode: "Play Real,\nWin Real"
+    },
+    blockChainBaccarat: {
+        headerContent:
+            "'Serial Number' for each card is generated at the beginning of the new shoe. Players can check the fairness and transparency of card result by comparing...",
+        verifyCards: "Verify Cards"
     }
 };
