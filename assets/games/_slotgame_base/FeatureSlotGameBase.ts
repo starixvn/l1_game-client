@@ -105,7 +105,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     checkAvailableBalance(): boolean {
         const total = this.getCurrentTotalBet();
-        if (cc.RedT.user.red < total) {
+        if (this.getUserBalance() < total) {
             this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
             this.autoSpinToggle.isChecked = false;
             return false;

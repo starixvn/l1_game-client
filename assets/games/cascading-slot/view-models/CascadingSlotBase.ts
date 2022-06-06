@@ -103,6 +103,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public mascot: CascadingSlotMascot;
     public tumbleList: CascadingSlotTumbleList;
     public isTrialMode = false;
+    public trialData: any;
 
     bottomMessage: SlotGameBottomMessage = null;
     topMessage: SlotGameTopMessage = null;
@@ -125,8 +126,17 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         }
     }
 
+    onDestroy() {
+        this.trialConnection.close();
+        super.onDestroy();
+    }
+
     registerTrialMode() {
         this.trialConnection.emit("inGame");
+    }
+
+    getUserBalance() {
+        return this.isTrialMode ? this.trialData.user.balance || 0 : super.getUserBalance();
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
