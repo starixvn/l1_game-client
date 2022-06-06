@@ -3,7 +3,8 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 export enum RoundType {
     BEFORESPIN = 0,
     SPINNING = 1,
-    SETTLED = 2
+    SETTLED = 2,
+    TUMBLEWIN = 3
 }
 
 const { ccclass, property } = cc._decorator;
@@ -34,6 +35,9 @@ export default class SlotGameBottomMessage extends cc.Component {
             const items = isTurboMode ? [1, 2] : [1, 2, 3];
             const item = items[Math.floor(Math.random() * items.length)];
             msg = `messages.FromSettleToSpin${item}`;
+        }
+        if (roundType === RoundType.TUMBLEWIN) {
+            msg = `messages.winTumbleMsg`;
         }
         this.msgText.string = `${i18n.t(msg)}`;
     }

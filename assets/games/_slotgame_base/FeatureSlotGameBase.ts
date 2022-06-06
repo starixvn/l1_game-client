@@ -28,9 +28,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(SpinButton)
     spinButton: SpinButton = null;
 
-    @property(cc.Label)
-    messageText: cc.Label = null;
-
     @property(cc.Node)
     effectContainer: cc.Node = null;
 
@@ -39,9 +36,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     @property(cc.Prefab)
     effectFreeSpin: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    mainMessagePrefab: cc.Prefab = null;
 
     @property(StatusButton)
     totalBetNode: StatusButton = null;

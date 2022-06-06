@@ -157,7 +157,8 @@ window.i18n.languages.zh_cn = {
         topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
         topMessage2a: "HIT",
         topMessage2b: "TO MULTIPLY TUMBLE WIN",
-        topMessage3: "WIN UP TO 2000X BET"
+        topMessage3: "WIN UP TO 2000X BET",
+        winTumbleMsg: "CONGRATULATION!"
     },
     ui: {
         choice_red2: "2 红",

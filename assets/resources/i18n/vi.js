@@ -171,7 +171,7 @@ window.i18n.languages.vi = {
         FromSettleToSpin2: "CÀNG QUAY, CÀNG THẮNG!",
         FromSettleToSpin3: "THỬ BẬT TÍNH NĂNG SIÊU TỐC!",
         copyMD5Failed: "Chức năng Copy tạm thời không hoạt động.",
-        topMessage1: "CÁC BIỂU TƯỢNG ĐƯỢC TRẢ Ở BẤT CỨ ĐÂU TRÊN MÀN HÌNH",
+        topMessage1: "BIỂU TƯỢNG ĐƯỢC TÍNH THẮNG NẰM Ở VỊ TRÍ BẤT KỲ",
         topMessage2a: "QUAY TRÚNG",
         topMessage2b: "ĐỂ NHÂN GIÁ TRỊ TIỀN THẮNG",
         topMessage3: "THẮNG LÊN ĐẾN 2000X TIỀN CƯỢC",
