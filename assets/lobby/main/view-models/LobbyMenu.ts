@@ -159,7 +159,8 @@ export default class LobbyMenu extends GameIconMenu {
 
         const iconNode = cc.instantiate(prefab);
         const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
-        const gameName = i18n.t(`gameNames.${id}`).toUpperCase();
+        const convertedId = id === 12 ? (id = 11) : id;
+        const gameName = i18n.t(`gameNames.${convertedId}`).toUpperCase();
         const gameIds = this.getList();
         skeletonIconComponent.setGameName(gameName);
         skeletonIconComponent.setGameContent(id, gameIds);
