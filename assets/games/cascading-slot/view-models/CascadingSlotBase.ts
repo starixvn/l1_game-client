@@ -24,6 +24,7 @@ import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 import CascadingSlotMascot from "./CascadingSlotMascot";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
+import CascadingTotalBet, { TotalBetType } from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
@@ -83,8 +84,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     @property(cc.Label)
     totalWinLabel: cc.Label = null;
 
-    @property(cc.Label)
-    totalBetLabel: cc.Label = null;
+    @property(CascadingTotalBet)
+    totalBet: CascadingTotalBet = null;
 
     @property(TumbleWinView)
     tumbleWinView: TumbleWinView = null;
@@ -298,8 +299,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.tumbleWinView.setTotalWinValue(value);
         });
 
-        this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_BET, (value: number) => {
-            this.totalBetLabel.string = value.toString();
+        this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_BET, (data: TotalBetType) => {
+            this.totalBet.totalBetLabel.string = data.totalBet.toString();
+            this.totalBet.buttonDecrease.interactable = data.decrease;
+            this.totalBet.buttonIncrease.interactable = data.increase;
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
@@ -415,6 +418,17 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.betControl.showView(!this.isOpenBetControl, () => {
             this.onClickOpenBetControl();
         });
+        this.isOpenBetControl = !this.isOpenBetControl;
+    }
+
+    onHandleStatusBetControl(event: Event, customEventData: string) {
+        this.betControl.showView(
+            !this.isOpenBetControl,
+            () => {
+                this.onClickOpenBetControl();
+            },
+            customEventData
+        );
         this.isOpenBetControl = !this.isOpenBetControl;
     }
 

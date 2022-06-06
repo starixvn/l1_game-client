@@ -19,6 +19,11 @@ enum OrderButtonNode {
     totalIncrease
 }
 
+enum StatusAction {
+    decrease = "decrease",
+    increase = "increase"
+}
+
 export const CalculateTotalBet = (level: number, coin: number, betMultiplier: number) => {
     return +(level * coin * betMultiplier).toFixed(1);
 };
@@ -49,6 +54,8 @@ export default class CascadingBetControl extends cc.Component {
     private betMultiplier: number;
     private placeBetModel: CascadingSlotPlaceBetModel;
     private uiModel: CascadingUIModel;
+    private isActiveDecreaseTotalBet = false;
+    private isActiveIncreaseTotalBet = true;
 
     closeBetControl: () => void;
 
@@ -56,9 +63,11 @@ export default class CascadingBetControl extends cc.Component {
         this.handleFirstLoadUI();
     }
 
-    showView(status: boolean, callback: () => void) {
+    showView(status: boolean, callback: () => void, action?: string) {
         this.node.active = status;
         this.closeBetControl = callback;
+        action === StatusAction.increase && this.onClickIncreaseTotalBet();
+        action === StatusAction.decrease && this.onClickDecreaseTotalBet();
     }
 
     onCloseBetControl() {
@@ -262,16 +271,19 @@ export default class CascadingBetControl extends cc.Component {
     private handleStatusTotalButton() {
         if (this.currentTotalBet === +Object.keys(this.totalUnique[0])[0]) {
             this.nodeButtons[OrderButtonNode.totalDecrease].interactable = false;
+            this.handleStatusButtonTotalBet({ status: false, isDecrease: true });
             return;
         }
 
         if (this.currentTotalBet === +Object.keys(this.totalUnique[this.totalUnique.length - 1])[0]) {
             this.nodeButtons[OrderButtonNode.totalIncrease].interactable = false;
+            this.handleStatusButtonTotalBet({ status: false, isIncrease: true });
             return;
         }
 
         this.nodeButtons[OrderButtonNode.totalDecrease].interactable = true;
         this.nodeButtons[OrderButtonNode.totalIncrease].interactable = true;
+        this.handleStatusButtonTotalBet({ status: true, isIncrease: true, isDecrease: true });
     }
 
     private updatePlaceBetModel() {
@@ -283,6 +295,23 @@ export default class CascadingBetControl extends cc.Component {
         this.currentCoinValue = this.coinValues[this.currentCoinIndex];
         this.currentLevelValue = this.betLevels[this.currentLevelIndex];
 
-        this.uiModel.emit(CascadingUIModel.Events.CHANGE_TOTAL_BET, this.currentTotalBet);
+        this.uiModel.emit(CascadingUIModel.Events.CHANGE_TOTAL_BET, { ...this.getStatusButtonTotalBet(), totalBet: this.currentTotalBet });
+    }
+
+    private handleStatusButtonTotalBet({
+        status,
+        isIncrease,
+        isDecrease
+    }: {
+        status: boolean;
+        isIncrease?: boolean;
+        isDecrease?: boolean;
+    }) {
+        isIncrease && (this.isActiveIncreaseTotalBet = status);
+        isDecrease && (this.isActiveDecreaseTotalBet = status);
+    }
+
+    getStatusButtonTotalBet() {
+        return { increase: this.isActiveIncreaseTotalBet, decrease: this.isActiveDecreaseTotalBet };
     }
 }
