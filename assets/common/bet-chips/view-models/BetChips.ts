@@ -326,7 +326,7 @@ export default class BetChips extends cc.Component {
                 chip = chips[0];
                 bet = +chip.name;
             }
-            chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
+            chipPosition = chip.parent.convertToWorldSpaceAR(chip.position.add(cc.v3(0, chip.height / 2)));
         }
 
         return chipPosition;
