@@ -33,6 +33,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.reload) {
+            this.main.loading.node.active = false;
             this.main.onForceReload();
         }
 
@@ -45,6 +46,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.unauthorized) {
+            this.main.loading.node.active = false;
             this.main.forceKickedOut();
         }
 
@@ -53,6 +55,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.notPermittedToPlay) {
+            this.main.loading.node.active = false;
             removeInRoomGameId();
 
             const gameId = data.gameId;
@@ -67,6 +70,7 @@ export default class MiniPanelDataHandlers {
     }
 
     handleDataKickedOut(data: any) {
+        this.main.loading.node.active = false;
         if (data.umInfo) {
             NotificationService.getInstance().forceKickedOut();
             window.umInfo = data.umInfo;
@@ -103,6 +107,7 @@ export default class MiniPanelDataHandlers {
     }
 
     handleDataApiError(apiErrorData: any) {
+        this.main.loading.node.active = false;
         const error = apiErrorData.apiError;
         const gameId = error.gameTypeId;
 
