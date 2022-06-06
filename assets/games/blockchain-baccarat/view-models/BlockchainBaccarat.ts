@@ -15,6 +15,7 @@ import BlockchainBaccaratCardsUI from "./BlockchainBaccaratCardsUI";
 import BlockchainBaccaratTotalBetModel from "../event-models/BlockchainBaccaratTotalBetModel";
 import { handlePercentBet } from "../actions/BlockchainBaccaratTotalBetAction";
 import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
+import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
 
 const { ccclass, property } = cc._decorator;
 
@@ -41,6 +42,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     private gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     private cardList: BlockchainCardList = null;
     cardsUI: BlockchainBaccaratCardsUI = null;
+    betOptionsUI: BlockchainBetOptionsUI = null;
 
     constructor() {
         super();
@@ -67,8 +69,12 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
+    initBetOptionsUI(node: cc.Node) {
+        this.betOptionsUI = node.getComponent(BlockchainBetOptionsUI);
+        this.betOptionsUI.initBetOptions(this);
+    }
+
     initCardsUI(node: cc.Node) {
-        console.log(node, "node");
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
     }
 
