@@ -14,6 +14,7 @@ import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 import { CascadingSlotState, CascadingSlotStateModel } from "../models/CascadingSlotStateModel";
+import { CascadingSlotTrialModel } from "../models/CascadingSlotTrialModel";
 import CascadingUIModel from "../models/CascadingUIModel";
 import SpinButtonStateModel, { SpinButtonState } from "../models/SpinButtonStateModel";
 import { CascadingSlotConfigModel } from "./../models/CascadingSlotConfigModel";
@@ -103,7 +104,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public mascot: CascadingSlotMascot;
     public tumbleList: CascadingSlotTumbleList;
     public isTrialMode = false;
-    public trialData: any;
+    public trialUserBalance: number;
 
     bottomMessage: SlotGameBottomMessage = null;
     topMessage: SlotGameTopMessage = null;
@@ -136,7 +137,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     getUserBalance() {
-        return this.isTrialMode ? this.trialData.user.balance || 0 : super.getUserBalance();
+        return this.isTrialMode ? this.trialUserBalance || 0 : super.getUserBalance();
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
@@ -357,6 +358,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     this.bottomMessage.showMessageDisplay(RoundType.SETTLED, this.isTurboMode());
                     break;
             }
+        });
+
+        this.gameData.trialModel.on(CascadingSlotTrialModel.Events.CHANGE_USER_BALANCE, (value) => {
+            this.trialUserBalance = value;
+            this.userBalance.string = numberWithCommas(value);
         });
     }
 

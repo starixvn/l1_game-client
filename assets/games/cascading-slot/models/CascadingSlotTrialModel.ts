@@ -2,14 +2,14 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export class CascadingSlotTrialModel extends EventEmitterBase {
     static Events = {
-        CHANGE: "trial:change_user_balance",
+        CHANGE_USER_BALANCE: "trial:change_user_balance",
         UPDATE_SETTLED_BALANCE: "trial: update_settled_balance"
     };
 
     settleBalance: number;
 
     setUserBalance(balance: number) {
-        this.emit(CascadingSlotTrialModel.Events.CHANGE, balance);
+        this.emit(CascadingSlotTrialModel.Events.CHANGE_USER_BALANCE, balance);
     }
 
     cacheSettledBalance(balance: number) {
@@ -17,6 +17,6 @@ export class CascadingSlotTrialModel extends EventEmitterBase {
     }
 
     updateSettledBalance() {
-        this.emit(CascadingSlotTrialModel.Events.CHANGE, this.settleBalance);
+        this.emit(CascadingSlotTrialModel.Events.CHANGE_USER_BALANCE, this.settleBalance);
     }
 }

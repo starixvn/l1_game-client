@@ -5,6 +5,7 @@ type TrialEventType = {
     trialUser: { balance: number };
     gameConfigs?: any;
     finish?: any;
+    endBet?: number;
 };
 
 export class CascadingSlotTrialHandler<Choices> extends BaseEventHandler<TrialEventType, Choices> {
@@ -21,6 +22,10 @@ export class CascadingSlotTrialHandler<Choices> extends BaseEventHandler<TrialEv
 
         if (!!data.finish) {
             this.gameData.trialModel.cacheSettledBalance(data.trialUser.balance);
+        }
+
+        if (!!data.endBet) {
+            this.gameData.trialModel.setUserBalance(data.trialUser.balance);
         }
     }
 }
