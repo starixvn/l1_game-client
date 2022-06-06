@@ -128,7 +128,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     onDestroy() {
-        this.trialConnection.close();
+        this.trialConnection && this.trialConnection.close();
         super.onDestroy();
     }
 
@@ -322,7 +322,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.uiModel.on(CascadingUIModel.Events.RESET_NEW_ROUND, (value: CascadingUIModel) => {
             this.totalWinLabel.string = "0";
             this.topMessage.showTopMessage();
-            this.tumbleWinView.showView(false);
+            this.tumbleWinView.showView(false, true);
         });
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
