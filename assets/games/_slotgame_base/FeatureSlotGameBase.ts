@@ -9,6 +9,7 @@ import { SpinButtonState } from "../cascading-slot/models/SpinButtonStateModel";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
+import HoldActionButton from "./HoldActionButton";
 import SpinButton from "./SpinButton";
 
 const { ccclass, property } = cc._decorator;
@@ -44,6 +45,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     @property(StatusButton)
     totalBetNode: StatusButton = null;
+
+    @property(HoldActionButton)
+    holdActionButton: HoldActionButton = null;
 
     countDownAutoSpin: CountDownWarning = null;
 
@@ -89,8 +93,13 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     onAutoSpinOff() {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
-        this.totalBetNode.interactable = true;
-        this.autoSpinToggle.interactable = true;
+        if (this.holdActionButton.isAutoAction) {
+            this.totalBetNode.interactable = false;
+            this.autoSpinToggle.interactable = false;
+        } else {
+            this.totalBetNode.interactable = true;
+            this.autoSpinToggle.interactable = true;
+        }
         this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
     }
 
@@ -200,10 +209,5 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const autoSpin = this.isAutoSpinMode() && this.stillAutoSpin();
         this.totalBetNode.interactable = false;
         this.autoSpinToggle.interactable = autoSpin;
-    }
-
-    activeButtons() {
-        this.totalBetNode.interactable = true;
-        this.autoSpinToggle.interactable = true;
     }
 }

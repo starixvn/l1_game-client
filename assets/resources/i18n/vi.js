@@ -174,7 +174,8 @@ window.i18n.languages.vi = {
         topMessage1: "CÁC BIỂU TƯỢNG ĐƯỢC TRẢ Ở BẤT CỨ ĐÂU TRÊN MÀN HÌNH",
         topMessage2a: "QUAY TRÚNG",
         topMessage2b: "ĐỂ NHÂN GIÁ TRỊ TIỀN THẮNG",
-        topMessage3: "THẮNG LÊN ĐẾN 2000X TIỀN CƯỢC"
+        topMessage3: "THẮNG LÊN ĐẾN 2000X TIỀN CƯỢC",
+        winTumbleMsg: "CHÚC MỪNG!"
     },
     ui: {
         choice_red2: "2 Đỏ",

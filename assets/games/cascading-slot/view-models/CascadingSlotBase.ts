@@ -7,7 +7,6 @@ import { getTrialSocket } from "../../../common/helpers/UrlHelper";
 import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
-import HoldActionButton from "../../_slotgame_base/HoldActionButton";
 import SlotGameBottomMessage, { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
 import SlotGameTopMessage from "../../_slotgame_base/SlotGameTopMessage";
 import { HandleBetControl } from "../actions/CascadingSlotConfigAction";
@@ -79,9 +78,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     @property(CascadeSlotBoard)
     board: CascadeSlotBoard = null;
-
-    @property(HoldActionButton)
-    holdActionButton: HoldActionButton = null;
 
     @property(cc.Label)
     totalWinLabel: cc.Label = null;
