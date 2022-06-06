@@ -136,6 +136,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.trialConnection.emit("inGame");
     }
 
+    protected override loadUserData(user) {
+        if (this.isTrialMode) {
+            return;
+        }
+        super.loadUserData(user);
+    }
+
     getUserBalance() {
         return this.isTrialMode ? this.trialUserBalance || 0 : super.getUserBalance();
     }
