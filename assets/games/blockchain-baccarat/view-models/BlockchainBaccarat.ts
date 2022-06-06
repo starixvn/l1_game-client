@@ -20,12 +20,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BlockchainBaccarat extends SocketIOTableGameBase {
-    @property({ type: BaccaratCards, override: true })
-    playerCards: BaccaratCards = null;
-
-    @property({ type: BaccaratCards, override: true })
-    bankerCards: BaccaratCards = null;
-
     @property({ type: cc.Prefab, visible: false, override: true })
     miniRoundHistoryPrefab: cc.Prefab = null;
 
@@ -46,7 +40,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
 
     private gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     private cardList: BlockchainCardList = null;
-    private cardsComponent: BlockchainBaccaratCardsUI = null;
+    cardsUI: BlockchainBaccaratCardsUI = null;
 
     constructor() {
         super();
@@ -73,8 +67,9 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    private initCardComponent(node: cc.Node) {
-        this.cardsComponent = node.getComponent(BlockchainBaccaratCardsUI);
+    initCardsUI(node: cc.Node) {
+        console.log(node, "node");
+        this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
     }
 
     openCardList() {

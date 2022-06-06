@@ -1,5 +1,19 @@
+import { BlockchainBaccarat } from "./BlockchainBaccaratCardListModel";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
+import { BlockchainBaccaratChoicesType, CardValue } from "../BlockchainBaccaratType";
+
+export type CardChainResult = {
+    player: CardValue;
+    banker: CardValue;
+};
+
+export type BlockchainBaccaratFinish = {
+    result: CardChainResult;
+    settlementResult: BlockchainBaccaratChoicesType;
+    winningPlayers: any[];
+    roundId: number;
+    blockchain: BlockchainBaccarat;
+};
 
 export class BlockchainBaccaratFinishModel extends EventEmitterBase {
     static Events = {
@@ -7,10 +21,10 @@ export class BlockchainBaccaratFinishModel extends EventEmitterBase {
         SHOWED_ANIMATION: "animation:showed"
     };
 
-    settlementResult: BlockchainBaccaratChoicesType;
+    finishData: BlockchainBaccaratFinish;
 
-    changeSettlementResult(settlementResult: BlockchainBaccaratChoicesType) {
-        this.settlementResult = settlementResult;
+    changeFinishResult(finish: BlockchainBaccaratFinish) {
+        this.finishData = finish;
         this.emit(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, this);
     }
 

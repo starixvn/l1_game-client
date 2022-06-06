@@ -58,11 +58,14 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
+        this.handleFlyCards();
+    }
+
+    handleFlyCards() {
         const baccarat = this.getOwnMain();
         baccarat.bankerCards.resetCards();
         baccarat.playerCards.resetCards();
         this.main.setGameRound(this.main.roundId);
-
         this.main.node.runAction(
             cc.sequence(
                 cc.delayTime(0.1),
@@ -79,7 +82,6 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
                 cc.callFunc(() => baccarat.bankerCards.flyCardTmp2())
             )
         );
-
         if (this.main.currentDataLogs[0]) {
             const currentData = this.main.currentDataLogs[0];
             const finishHandler = this.main.finishHandler as BaccaratFinishHandler;
