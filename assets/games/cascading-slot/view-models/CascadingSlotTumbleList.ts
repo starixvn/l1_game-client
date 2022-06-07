@@ -42,14 +42,14 @@ export default class CascadingSlotTumbleList extends cc.Component {
     }
 
     clear() {
-        this.content.children.forEach((child, index) => {
-            child.position = cc.v3(0, 17.5, 0);
-            cc.tween(child)
-                .to(0.2, { position: cc.v3(0, -18.5, 0), opacity: 0, easing: "backOut" })
-                .start();
-            child.destroy();
-        });
-        //this.content.destroyAllChildren();
+        // this.content.children.forEach((child, index) => {
+        //     cc.tween(child)
+        //         .to(0.2, { position: cc.v3(0, 17.5, 0), easing: "backOut" })
+        //         .to(0.2, {scale: ()})
+        //         .start();
+        //     child.destroy();
+        // });
+        this.content.destroyAllChildren();
         this.scrollView && !this.scrollView.enabled;
         this.content.position.y = -125;
         this.content.anchorY = 0;
