@@ -144,8 +144,6 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     };
     iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
 
-    preLoadGameIcons = [GameIds.SeDie, GameIds.BigSmall, GameIds.MiniSedie, GameIds.VipSedie, GameIds.VipSedieWar, GameIds.SicBo];
-
     customizeCredit(): void {
         this.smPromotion = true;
     }
