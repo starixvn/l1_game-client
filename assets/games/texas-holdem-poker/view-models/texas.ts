@@ -307,7 +307,6 @@ export default class Texas extends CasinoGame {
     private registerSettlementEvents() {
         this.gameData.on(TexasGameDataModel.Events.SETTLED, () => {
             this.gameData.stateModel.settle();
-            this.handleDisableSwap(false);
         });
 
         this.gameData.finishModel.on(TexasFinishModel.Events.CHANGE_SETTLEMENT, () => {
@@ -350,7 +349,10 @@ export default class Texas extends CasinoGame {
     private registerStateEvents() {
         this.gameData.stateModel.on(TexasStateModel.Events.CHANGE, showHideButtons(this));
         this.gameData.stateModel.on(TexasStateModel.Events.CHANGE, showHideTooltip(this.bettingAreas));
-        this.gameData.stateModel.on(TexasStateModel.Events.PREPARE_NEW_ROUND, prepareNewRound(this.gameData.placeBetModel));
+        this.gameData.stateModel.on(TexasStateModel.Events.PREPARE_NEW_ROUND, () => {
+            prepareNewRound(this.gameData.placeBetModel);
+            this.handleDisableSwap(false);
+        });
         this.gameData.stateModel.on(TexasStateModel.Events.FORCE_UPDATE_BALANCE, () => this.updateUserBalance());
         this.gameData.stateModel.on(TexasStateModel.Events.CHANGE, handleMD5(this));
     }
