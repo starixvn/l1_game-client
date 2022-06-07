@@ -387,19 +387,6 @@ export default class GameBase extends BaseComponent {
         this.registerViewGame();
     }
 
-    protected bet(betData) {
-        if (!this.isReadyBet()) {
-            return;
-        }
-
-        if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
-        } else {
-            this.lockBet();
-            this.sendData(betData);
-        }
-    }
-
     protected initBetChips() {
         if (this.enableChips) {
             const betChipsNode = cc.instantiate(this.betChipsPrefab);
