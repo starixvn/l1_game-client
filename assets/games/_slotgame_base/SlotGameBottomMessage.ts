@@ -1,5 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import GameUtils from "../../common/GameUtils";
+
 export enum RoundType {
     BEFORESPIN = 0,
     SPINNING = 1,
@@ -39,6 +41,6 @@ export default class SlotGameBottomMessage extends cc.Component {
         if (roundType === RoundType.TUMBLEWIN) {
             msg = `messages.winTumbleMsg`;
         }
-        this.msgText.string = `${i18n.t(msg)}`;
+        this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(msg)}`);
     }
 }

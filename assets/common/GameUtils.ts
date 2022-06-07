@@ -39,6 +39,11 @@ export default class GameUtils {
         });
     }
 
+    public static capitalizeWordIntoString(str: string) {
+        const words = str.split(" ");
+        return words.map((word) => word[0] + word.substring(1).toLowerCase()).join(" ");
+    }
+
     public static loadResource(path: string): Promise<cc.Prefab> {
         return new Promise((resolve) => {
             cc.resources.load(path, (err, prefab: cc.Prefab) => {
