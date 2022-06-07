@@ -3,7 +3,7 @@ import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import Sedie from "../Sedie";
 
 export default class SedieTimeHandler extends GameBaseTimeHandler {
-    private get shakeThePlateTime() {
+    public get shakeThePlateTime() {
         return this.main.config.betTime + 2;
     }
 
@@ -17,6 +17,15 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
 
     get isStartingNewGameRound() {
         return this.main.currentTimeRemaining === this.shakeThePlateTime;
+    }
+
+    protected setCurrentTimeRemaining(data: any) {
+        this.main.currentTimeRemaining = data.remainingTime;
+    }
+
+    handleRemainingTime(data: any) {
+        super.handleRemainingTime(data);
+        this.gameUpdate();
     }
 
     handleStartingNewGameRound() {
@@ -35,16 +44,11 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
 
         if (this.main.currentTimeRemaining <= this.main.config.betTime) {
             this.showRoundTime();
+            this.main.closePlate(false);
         }
-    }
 
-    handleWaitTime() {
-        super.handleWaitTime();
-
-        if (this.main.currentTimeRemaining > this.shakeThePlateTime && !this.main.finishShowResult) {
-            this.main.showResult();
-            this.main.openPlate(false);
-            this.main.finishShowResult = true;
+        if (!this.isInLockBetTime) {
+            this.main.highlightLastResult();
         }
     }
 
@@ -54,8 +58,13 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
     }
 
     shakeThePlate() {
+        if (!this.main.node.activeInHierarchy) {
+            this.main.closePlate(false);
+            return;
+        }
+
+        this.main.closePlate(true);
         cc.tween(this.main)
-            .call(() => this.main.closePlate())
             .delay(0.5)
             .call(() => {
                 this.main.showHideResult(false);

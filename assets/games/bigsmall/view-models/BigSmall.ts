@@ -6,9 +6,9 @@ import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBetti
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BigSmallBetHistory from "./BigSmallBetHistory";
 import { BigSmallConfigs } from "./BigSmallConfigs";
+import BigSmallDicesStatistic from "./BigSmallDicesStatistic";
 import BigSmallHistory from "./BigSmallHistory";
 import BigSmallMiniRoundHistory from "./BigSmallMiniRoundHistory";
-import BigSmallDicesStatistic from "./BigSmallDicesStatistic";
 import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
 import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
@@ -125,10 +125,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     onDestroy() {
         super.onDestroy();
         this.miniRoundHistoryContainer.isValid && this.miniRoundHistoryContainer.destroyAllChildren();
-    }
-
-    stopGame() {
-        super.stopGame();
     }
 
     onData(data: any) {

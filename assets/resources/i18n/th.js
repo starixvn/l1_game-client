@@ -159,7 +159,7 @@ window.i18n.languages.th = {
         disallowHedgeBet: "สามารถเดิมพันได้ทั้ง %{betChoice1} หรือ %{betChoice2}",
         copy_success: "Copy successful!",
         showMsgWhenSpinDesktop: "กดที่สเปคบาร์หรือคลิกสปิน",
-        showMsgWhenSpinPhone: "คลิกสปินเพื่อเริ่มต้น",
+        showMsgWhenSpinPhone: "TAP OR HOLD SPIN TO BEGIN",
         roundSettleMsg: "โชคดี!",
         FromSettleToSpin1: "หมุนเพื่อชนะ!",
         FromSettleToSpin2: "หมุนมากขึ้น ชนะมากขึ้น!",

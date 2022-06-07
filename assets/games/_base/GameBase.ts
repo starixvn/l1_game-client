@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
+
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
@@ -7,6 +8,7 @@ import UserService from "../../common/auth/UserService";
 import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../common/GameUtils";
+import InGameMenu, { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
@@ -144,6 +146,7 @@ export default class GameBase extends BaseComponent {
     public configsHandler: DataHandler;
     public md5Handler: DataHandler;
 
+    inGameMenu: InGameMenu;
     public betChips: BetChips;
     public currentBet: number;
     public gameAudios: GameAudios;
@@ -342,6 +345,9 @@ export default class GameBase extends BaseComponent {
     }
 
     showMiniWarning(data): cc.Node {
+        if (!this.node.activeInHierarchy) {
+            return null;
+        }
         const notice = cc.instantiate(this.miniNoticePrefab);
         const noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;
@@ -379,19 +385,6 @@ export default class GameBase extends BaseComponent {
     protected onGameShow() {
         this.startGame();
         this.registerViewGame();
-    }
-
-    protected bet(betData) {
-        if (!this.isReadyBet()) {
-            return;
-        }
-
-        if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
-        } else {
-            this.lockBet();
-            this.sendData(betData);
-        }
     }
 
     protected initBetChips() {
@@ -521,7 +514,8 @@ export default class GameBase extends BaseComponent {
 
     updateUserStakeLevel(data): boolean {
         let updated = false;
-        if (data.maxBet && data.minBet) {
+
+        if (data.maxBet && data.minBet && this.node.activeInHierarchy) {
             updated = cc.RedT.userStakeLevelData(data);
         }
         return updated;
@@ -534,4 +528,25 @@ export default class GameBase extends BaseComponent {
     getBetChoiceString(choice: string): string {
         return GameUtils.getBetChoiceString(choice);
     }
+
+    onIngameMenuInitialized(node: cc.Node) {
+        const inGameMenu = node.getComponent(InGameMenu);
+        if (inGameMenu) {
+            this.inGameMenu = inGameMenu;
+            this.initEventForInGameMenu();
+        }
+    }
+
+    initEventForInGameMenu(): cc.Node {
+        const node = this.inGameMenu.node;
+
+        node.on(InGameMenuEvents.OPEN_HISTORY, this.openHistory, this);
+        node.on(InGameMenuEvents.OPEN_GUIDE, this.openGuide, this);
+        node.on(InGameMenuEvents.CLOSE_GAME, this.onCloseGame, this);
+        return node;
+    }
+
+    openHistory() {}
+
+    onCloseGame() {}
 }

@@ -161,7 +161,7 @@ window.i18n.languages.id = {
         disallowHedgeBet: "Dapat bertaruh pada %{betChoice1} atau %{betChoice2}.",
         copy_success: "Salin berhasil!",
         showMsgWhenSpinDesktop: "TAHAN SPASI ATAU KLIK SPIN",
-        showMsgWhenSpinPhone: "TAP SPIN UNTUK MEMULAI",
+        showMsgWhenSpinPhone: "TAP OR HOLD SPIN TO BEGIN",
         roundSettleMsg: "SEMOGA BERUNTUNG!",
         FromSettleToSpin1: "PUTAR UNTUK MENANG!",
         FromSettleToSpin2: "PUTAR LEBIH BANYAK, MENANG LEBIH BANYAK!",

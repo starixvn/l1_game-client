@@ -1,14 +1,13 @@
 const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
     if (number) {
-        const result = parseFloat(number).toFixed(toFixed).toString().split(".");
-        result[0] = result[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
         if (noZeroSuffix) {
-            return +result[1] !== 0 ? result.join(".") : result[0];
+            const trimZeroNumber = +(+number).toFixed(toFixed);
+            return trimZeroNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         } else {
-            return result.join(".");
+            return (+number).toFixed(toFixed).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     }
+
     return "0";
 };
 

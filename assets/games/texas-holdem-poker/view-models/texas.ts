@@ -211,11 +211,10 @@ export default class Texas extends NewGameRoomBase {
         this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
 
         super.onLoad();
+        this.initGeneralEvents();
     }
 
-    start() {
-        super.start();
-
+    initGeneralEvents() {
         this.initPlacingBet();
         this.initButtonStatus();
         this.registerStateEvents();

@@ -16,6 +16,7 @@ window.mobilecheck = function () {
 
 const userAgent = window.navigator.userAgent;
 const ios15 = /OS 15/.test(userAgent);
+const instruction = document.getElementById("myInstruction");
 
 function toggleFullScreen() {
     const doc = window.document;
@@ -50,25 +51,34 @@ function showAddressBar() {
 }
 
 function showIntruction() {
-    const instruction = document.getElementById("myInstruction");
-
     instruction.style.display = "block";
     const isPortrait = window.outerWidth < window.outerHeight;
     if (isPortrait) {
         showAddressBar();
         updateViewport();
-        instruction.style.visibility = "hidden";
+        showInstructionAndScroll(false);
         return;
     }
 
     const navBarHeight = getMiniNavigationBarHeight();
-    const show = window.innerHeight < screen.width - navBarHeight;
+    const deltaHeight = window.outerHeight - window.innerHeight;
+    const show = deltaHeight > navBarHeight;
     if (show && !window.skipFullscreen) {
         showAddressBar();
+        showInstructionAndScroll();
+    } else {
+        showInstructionAndScroll(false);
+        updateViewport();
+    }
+}
+
+function showInstructionAndScroll(isShow = true) {
+    if (isShow) {
         instruction.style.visibility = "visible";
+        document.body.style.overflowY = "scroll";
     } else {
         instruction.style.visibility = "hidden";
-        updateViewport();
+        document.body.style.overflow = "hidden";
     }
 }
 
@@ -76,10 +86,10 @@ function getMiniNavigationBarHeight() {
     let navBarHeight = 0;
     const isLandscape = window.outerWidth > window.outerHeight;
     if (isLandscape) {
+        navBarHeight = 20;
+
         if (userAgent.match(/ipad/i)) {
             navBarHeight = 40;
-        } else if (userAgent.match(/crios/i)) {
-            navBarHeight = 20;
         }
     }
     return navBarHeight;
@@ -87,10 +97,11 @@ function getMiniNavigationBarHeight() {
 
 function updateViewport() {
     if (userAgent.match(/iphone|ipad|ipod/i)) {
-        let height = screen.width; //window.innerHeight;
-        const navBarHeight = getMiniNavigationBarHeight();
-        height -= navBarHeight;
-        const vh = height * 0.01;
+        let width = screen.width;
+        if (window.innerWidth > window.innerHeight) {
+            width = window.innerHeight;
+        }
+        const vh = width * 0.01;
         document.documentElement.style.setProperty("--vh", `${vh}px`);
     } else if (userAgent.match(/android/i)) {
         const height = window.innerHeight < window.innerWidth ? window.innerHeight : window.innerWidth;
@@ -111,7 +122,6 @@ function updateFullScreen() {
 
 function handleFullScreen() {
     if (userAgent.match(/iPad|iPhone|iPod/i)) {
-        document.body.style.overflowY = "scroll";
         showIntruction();
         updateViewport();
         var timeoutScroll;
@@ -142,8 +152,6 @@ function handleFullScreen() {
                 updateFullScreen();
             }, 100);
         });
-
-        // setInterval(updateFullScreen, 1000);
     }
 
     if (userAgent.match(/android/i)) {

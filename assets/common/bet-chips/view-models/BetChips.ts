@@ -58,7 +58,9 @@ export default class BetChips extends cc.Component {
 
     public enableStakeLevel = true;
 
-    public chipConfig: ChipConfig;
+    public get chipConfig() {
+        return ChipConfig.getInstance();
+    }
     public selectedIndex = 0;
     public chipList: cc.Node[] = [];
 
@@ -66,7 +68,7 @@ export default class BetChips extends cc.Component {
     protected needResetCurrentChip = true;
 
     onLoad() {
-        this.chipConfig = ChipConfig.getInstance();
+        // this.chipConfig = ChipConfig.getInstance();
         this.leftButton.active = false;
         this.snappedScrollView.onScrollEnded = () => {
             const min = this.snappedScrollView.getMinDisplayIndex();
@@ -104,6 +106,9 @@ export default class BetChips extends cc.Component {
             this.chipValues.findIndex((value) => parseInt(value.toString()) === parseInt(this.currentBetValue)) !== -1
                 ? this.currentBetValue
                 : this.chipValues[0] && this.chipValues[0].toString();
+        if (currentBet === undefined) {
+            return;
+        }
         const needResetScrollOffset = currentBet !== this.currentBetValue;
         this.setCurrentBet(currentBet);
         this.snappedScrollView.initCalculatedPercent();
@@ -114,6 +119,7 @@ export default class BetChips extends cc.Component {
 
     createChips() {
         this.chipList.forEach((chip) => chip.destroy());
+        this.chips.removeAllChildren(true);
         this.chipList = [];
         this.chipValues.forEach((value) => {
             const node = this.createChipNode(value);
@@ -172,10 +178,8 @@ export default class BetChips extends cc.Component {
     }
 
     private updateArrowVisibility() {
-        if (this.needResetCurrentChip) {
-            this.leftButton.active = true;
-            this.rightButton.active = true;
-        }
+        this.leftButton.active = true;
+        this.rightButton.active = true;
 
         if (this.selectedIndex <= 0) {
             this.selectedIndex = 0;
@@ -191,10 +195,9 @@ export default class BetChips extends cc.Component {
 
         const min = this.snappedScrollView.getMinDisplayIndex();
         if (this.selectedIndex <= min) {
-            this.snappedScrollView.scrollTo(min > 0 ? min - 1 : 0);
-        }
-        if (this.selectedIndex >= min + this.displaySize - 1) {
-            this.snappedScrollView.scrollTo(min + 1);
+            this.snappedScrollView.scrollTo(this.selectedIndex);
+        } else if (this.selectedIndex >= min + this.displaySize - 1) {
+            this.snappedScrollView.scrollTo(this.selectedIndex - this.displaySize + 2);
         }
         this.updateSelectedChipValue();
     }
@@ -214,6 +217,10 @@ export default class BetChips extends cc.Component {
         }
         this.selectedIndex = i;
         this.scrollToSelectedIndex();
+    }
+
+    public getCurrentBet(): string {
+        return this.currentBetValue;
     }
 
     public setCurrentBet(bet: string) {
@@ -281,16 +288,20 @@ export default class BetChips extends cc.Component {
         const randomPosition = this.getRandomPositionChip(chipNode, destNode);
         destNode.addChild(chipNode);
 
-        chipNode.runAction(
-            cc.sequence(
-                this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
-                cc.callFunc(() => {
-                    if (onComplete) {
-                        onComplete();
-                    }
-                })
-            )
-        );
+        if (!chipNode.activeInHierarchy) {
+            chipNode.position = randomPosition;
+        } else {
+            chipNode.runAction(
+                cc.sequence(
+                    this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
+                    cc.callFunc(() => {
+                        if (onComplete) {
+                            onComplete();
+                        }
+                    })
+                )
+            );
+        }
     }
 
     public getChipNode(bet: number): cc.Node {
@@ -315,7 +326,7 @@ export default class BetChips extends cc.Component {
                 chip = chips[0];
                 bet = +chip.name;
             }
-            chipPosition = chip.parent.convertToWorldSpaceAR(chip.position);
+            chipPosition = chip.parent.convertToWorldSpaceAR(chip.position.add(cc.v3(0, chip.height / 2)));
         }
 
         return chipPosition;
@@ -479,6 +490,8 @@ export default class BetChips extends cc.Component {
             return;
         }
         const item = this.chipList[this.selectedIndex].name;
-        this.setCurrentBet(item);
+        if (item) {
+            this.setCurrentBet(item);
+        }
     }
 }

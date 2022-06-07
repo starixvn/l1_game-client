@@ -1,7 +1,9 @@
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { GameIds } from "../../../configs/SabaConfigs";
 import FreeBetGameBase from "../../_base/FreeBetGameBase";
+import { Orientation } from "../../_base/Orientation";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
 import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SedieBetHandler from "./handlers/SedieBetHandler";
@@ -11,7 +13,7 @@ import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
+import SedieTutorial from "./SedieTutorial";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -58,8 +60,11 @@ export default class Sedie extends FreeBetGameBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
-    @property(ExpandableMenu)
-    expandableMenu: ExpandableMenu = null;
+    @property(cc.Node)
+    portraitGuideNode: cc.Node = null;
+
+    @property(cc.Prefab)
+    portraitGuide: cc.Prefab = null;
 
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
@@ -89,6 +94,35 @@ export default class Sedie extends FreeBetGameBase {
 
         this.miniRoundHistory.tip.node.zIndex = 100;
         GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
+    }
+
+    start() {
+        if (GameUtils.isPhone() && this.orientation === Orientation.Landscape) {
+            this.addTutorial("RotationGuide");
+        }
+    }
+
+    onEnable() {
+        super.onEnable();
+        this.loading.active = true;
+        if (this.orientation === Orientation.Portrait) {
+            this.currentMiniPanel.miniMenu.active = false;
+        }
+
+        if (GameUtils.isSafariIOSPhone() && this.orientation === Orientation.Portrait) {
+            this.addTutorial("IOSPortraitGuide");
+        }
+    }
+
+    protected initBetChips() {
+        super.initBetChips();
+        this.betChips.setNeedResetCurrentChip(false);
+    }
+
+    onData(data: any) {
+        if (this.node.active) {
+            super.onData(data);
+        }
     }
 
     initHandlers() {
@@ -136,7 +170,6 @@ export default class Sedie extends FreeBetGameBase {
 
     openHistory() {
         this.playClick();
-        this.expandableMenu.collapseMenu();
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(SedieHistory);
         this.historyComponent.init(this.socket);
@@ -147,7 +180,6 @@ export default class Sedie extends FreeBetGameBase {
         this.dots.forEach((dot) => {
             dot.node.active = show;
         });
-        console.log(show ? "show" : "hide");
     }
 
     setDots(result) {
@@ -160,28 +192,43 @@ export default class Sedie extends FreeBetGameBase {
         if (this.currentDataLogs.length > 0) {
             const { result, settlementResult } = this.currentDataLogs[0];
             this.setDots(result);
-            this.showHideResult(true);
             this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
         }
     }
 
     openPlate(animated: boolean) {
+        this.showHideResult(true);
+
+        const platePos = cc.v2(50, 100);
         if (animated) {
-            cc.tween(this.thePlate)
-                .to(0.5, { position: cc.v2(50, 100) }, { easing: "sineInOut" })
-                .to(0.2, { opacity: 0 })
-                .start();
+            cc.tween(this.thePlate).to(0.5, { position: platePos }, { easing: "sineInOut" }).to(0.2, { opacity: 0 }).start();
         } else {
-            this.thePlate.position = cc.v2(50, 150);
+            this.thePlate.position = cc.v3(platePos);
             this.thePlate.opacity = 0;
         }
     }
 
-    closePlate() {
-        cc.tween(this.thePlate)
-            .to(0, { opacity: 255 })
-            .to(0.5, { position: cc.v2(0, 0) })
-            .start();
+    closePlate(animated = true) {
+        if (animated) {
+            const platePos = cc.v2(50, 100);
+            this.thePlate.position = cc.v3(platePos);
+            cc.tween(this.thePlate)
+                .to(0, { opacity: 255 })
+                .to(0.5, { position: cc.v2(0, 0) })
+                .start();
+        } else {
+            this.thePlate.opacity = 255;
+            this.thePlate.position = cc.v3(0, 0);
+        }
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+        this.node.stopAllActions();
+        this.thePlate && this.thePlate.stopAllActions();
+        this.closePlate(false);
+        this.shakeThePlateAnimation.stop();
+        this.chipContainer.children.forEach((child) => child.destroyAllChildren());
     }
 
     highlightLastResult() {
@@ -198,8 +245,42 @@ export default class Sedie extends FreeBetGameBase {
         });
     }
 
-    openGuide() {
-        super.openGuide();
-        this.expandableMenu.collapseMenu();
+    addTutorial(componentName) {
+        if (!this.portraitGuideNode || !this.portraitGuide) {
+            return;
+        }
+
+        this.portraitGuideNode.destroyAllChildren();
+        const guideNode = cc.instantiate(this.portraitGuide);
+        const tutorialComp: SedieTutorial = guideNode.getComponent(componentName);
+        const data = tutorialComp.getLocalStorageData();
+        if (!data.enabled) {
+            return;
+        }
+
+        this.portraitGuideNode.addChild(guideNode);
+        tutorialComp.dontShowAgainCallback = (dontShow: boolean) => {
+            data.enabled = !dontShow;
+            tutorialComp.setLocalStorageData(data);
+        };
+    }
+
+    showWinningBet(bet: number) {
+        let winningBet;
+        if (this.orientation === Orientation.Landscape) {
+            winningBet = GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, this.WinningAnimationDuration, 80, 10);
+        } else {
+            winningBet = GameUtils.addFlyingText(this.userBalance.node, true, bet, this.WinningAnimationDuration, 20, 40);
+        }
+
+        winningBet.name = "winningBet";
+    }
+
+    showAcceptedBet(bet: number) {
+        if (this.orientation === Orientation.Landscape) {
+            GameUtils.addFlyingText(this.userAvatar.node.parent, false, bet, 1, 80);
+        } else {
+            GameUtils.addFlyingText(this.userBalance.node, false, bet, 1, 40);
+        }
     }
 }

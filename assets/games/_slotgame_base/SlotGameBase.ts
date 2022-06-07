@@ -397,7 +397,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     start() {
-        super.start();
         this.setBoardFullItems();
         if (this.autoGenerateLines) {
             this.createAllLines();
@@ -463,11 +462,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         });
     }
 
-    onEnable() {}
-
-    onDisable() {}
-
-    stopGame() {}
+    override stopGame() {}
 
     disableGame() {
         this.gameState = GameState.Disabled;
@@ -614,7 +609,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         const key = toggle.isChecked ? "enableTurboMode" : "disableTurboMode";
         const message = i18n.t(`messages.${key}`);
         const notice = this.showMiniWarning(message);
-        notice.name = turboWarningName;
+        notice && (notice.name = turboWarningName);
     }
 
     onAutoSpinChanged() {

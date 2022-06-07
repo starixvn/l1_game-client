@@ -6,11 +6,11 @@ import AudioManager from "../../../common/audio/AudioManager";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
-import GameRoomMenu from "../../../common/expandable-menu/view-models/GameRoomMenu";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { GameIds } from "../../../configs/SabaConfigs";
+import { GameState } from "../../_base/GameState";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
@@ -27,7 +27,6 @@ import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
-import { GameState } from "../../_base/GameState";
 
 const { ccclass, property } = cc._decorator;
 
@@ -114,9 +113,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     @property(cc.Prefab)
     blackjackHistory: cc.Prefab = null;
 
-    @property(GameRoomMenu)
-    gameRoomMenu: GameRoomMenu = null;
-
     @property(cc.SpriteFrame)
     shadowChip: cc.SpriteFrame = null;
 
@@ -173,17 +169,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.stopIntervalReminder();
     }
 
-    onEnable() {
-        this.initMenu();
-    }
-
-    onDisable() {}
-
-    start() {
-        this.socketSendData("inGame", {});
-    }
-
-    stopGame() {}
+    override stopGame() {}
 
     disableGame() {
         this.gameState = GameState.Disabled;
@@ -267,7 +253,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                 const chipNode = this.betChips.createBigChip(this.currentBet);
                 const destNode = this.chipContainers[index];
                 const startNode = this.betChips.getChipNode(this.currentBet);
-                chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0)));
+                chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
                 destNode.addChild(chipNode);
 
                 let destPosition = cc.v2(0, 0);
@@ -648,21 +634,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.handPlaces.forEach((place) => place.onClearBetClick());
     }
 
-    onLobbyClick() {
-        AudioManager.getInstance().playClick();
-
-        this.onCloseGameClick();
-    }
-
-    openGuide() {
-        super.openGuide();
-        this.gameRoomMenu.collapseMenu();
-    }
-
-    onHistoryClick() {
-        AudioManager.getInstance().playClick();
-        this.gameRoomMenu.collapseMenu();
-
+    openHistory() {
         const history = cc.instantiate(this.blackjackHistory);
         this.historyComponent = history.getComponent(BlackJackHistory);
         this.historyComponent.init(this.socket);
@@ -715,7 +687,7 @@ export default class BlackJack extends SocketIOTableGameBase {
             .setActive(!this.activeHand.isStand && this.activeHand.canSplit && !this.doubleButton.active);
 
         if (this.doubleButton.active || this.bigSplitButton.active || this.smallSplitButton.active) {
-            this.gameRoomMenu.expandableMenu && this.gameRoomMenu.expandableMenu.collapseMenu(false);
+            this.inGameMenu && this.inGameMenu.collapseMenu(false);
         }
     }
 
@@ -757,10 +729,5 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     playSingleChipsSound() {
         AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
-    }
-
-    private initMenu() {
-        const menuAction = [this.onLobbyClick, this.onHistoryClick, this.openGuide];
-        this.gameRoomMenu.initialize(this.node, this).addCommonIcon().withEvents(menuAction);
     }
 }

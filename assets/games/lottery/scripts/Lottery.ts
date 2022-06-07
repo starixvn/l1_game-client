@@ -126,7 +126,6 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     start() {
-        super.start();
         this.loadPreviousSelection();
     }
 

@@ -1,12 +1,12 @@
 import { Socket } from "socket.io-client";
 
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import SocketIOTableGameBase from "./SocketIOTableGameBase";
+import MultiOrientationGame from "./MultiOrientationGame";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class FreeBetGameBase extends SocketIOTableGameBase {
+export default class FreeBetGameBase extends MultiOrientationGame {
     @property(cc.Label)
     userSCoin: cc.Label = null;
 
@@ -71,42 +71,15 @@ export default class FreeBetGameBase extends SocketIOTableGameBase {
 
     focusWallet(isFreeBet: boolean) {
         this.walletNode.getComponent(cc.Layout).enabled = false;
-        const walletSprite = this.walletNode.getComponent(cc.Sprite);
-        const dollarActiveNode = this.dollarNode.getChildByName("active");
-
-        this.scoinNode.getChildByName("active").active = isFreeBet;
         this.scoinNode.getChildByName("overlay").active = !isFreeBet;
+        this.dollarNode.getChildByName("active").active = true;
         this.dollarNode.getChildByName("overlay").active = isFreeBet;
-        dollarActiveNode.active = false;
-        walletSprite.spriteFrame = this.dollarBackground;
-
-        if (isFreeBet) {
-            this.scoinNode.zIndex = 2;
-            this.dollarNode.zIndex = 1;
-        } else {
-            walletSprite.spriteFrame = this.scoinNode.active ? this.scoinBackground : this.dollarBackground;
-            dollarActiveNode.active = this.scoinNode.active ? true : false;
-            this.scoinNode.zIndex = 1;
-            this.dollarNode.zIndex = 2;
-        }
     }
 
-    onBetItemClick(event) {
-        if (!this.isReadyBet()) {
-            return;
-        }
-
-        if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
-        } else {
-            this.lockBet();
-            const betData = {
-                amount: this.currentBet,
-                betChoice: event.target.name,
-                freeBet: this.isFreeBet
-            };
-            this.socket && this.socket.emit("bet", betData);
-        }
+    createCommonBetData() {
+        const betData = super.createCommonBetData();
+        betData["freeBet"] = this.isFreeBet;
+        return betData;
     }
 
     updateWalletWidth() {

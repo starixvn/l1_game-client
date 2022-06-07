@@ -1,0 +1,40 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import PortraitSedieHistoryBetOption from "./PortraitSedieHistoryBetOption";
+import SedieHistoryItem from "./SedieHistoryItem";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class SedieHistoryPortraitItem extends SedieHistoryItem {
+    @property(cc.Node)
+    betOption: cc.Node = null;
+
+    @property(cc.Prefab)
+    betOptionPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    lineBottom: cc.Node = null;
+
+    private heightEachBetOption = 35;
+
+    setData(betLog: any) {
+        const { freeBet, settlementResult, odds } = betLog;
+
+        Object.keys(settlementResult).forEach((choice) => {
+            const node = cc.instantiate(this.betOptionPrefab);
+            const option = node.getComponent(PortraitSedieHistoryBetOption);
+            const stake = betLog[choice];
+            if (+stake > 0) {
+                option.handleBetOptionItem(choice, numberWithCommas(odds[choice], 2), numberWithCommas(stake));
+                option.highlightForWinning(settlementResult[choice]);
+                this.betOption.addChild(node);
+            }
+        });
+        this.setSizeAndPosition(this.betOption);
+    }
+    setSizeAndPosition(betOption: cc.Node) {
+        if (betOption.children.length >= 2) {
+            this.node.height = 70 + (this.betOption.children.length - 2) * this.heightEachBetOption;
+        }
+    }
+}

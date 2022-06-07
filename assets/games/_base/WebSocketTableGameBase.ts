@@ -4,6 +4,7 @@ import { lazyInject } from "../../Application";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import NoticeUtil from "../../common/utils/NoticeUtil";
@@ -271,5 +272,13 @@ export default class WebSocketTableGameBase extends GameBase {
                 }
             });
         }
+    }
+
+    initEventForInGameMenu() {
+        const node = super.initEventForInGameMenu();
+
+        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGameClick, this);
+
+        return node;
     }
 }

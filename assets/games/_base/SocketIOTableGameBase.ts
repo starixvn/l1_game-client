@@ -13,8 +13,10 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         super.onLoad();
 
         sessionManager.storeInRoomGameId(this.gameId);
-        this.currentMiniPanel.currentGameRoomId = this.gameId;
+        this.initForSocket();
+    }
 
+    initForSocket() {
         this.socket = this.socketIOController.getSocketGame(this.gameId);
         if (!this.socket) {
             this.closeGame();
@@ -40,12 +42,18 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         }
     }
 
-    start() {
+    protected override onGameShow() {
+        this.startGame();
+        // dont registerViewGame here
+        // this.registerViewGame();
+    }
+
+    public registerViewGame() {
         this.socket && this.socket.connected && this.socket.emit("inGame");
     }
 
     onDestroy() {
-        super.destroy();
+        super.onDestroy();
         this.socketIOController.closeSocket(this.gameId);
     }
 
@@ -62,7 +70,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     }
 
     onDataGameRoom(data) {
-        if (data.history && this.historyComponent) {
+        if (data.history && this.historyComponent && this.historyComponent.node) {
             this.historyComponent.onData(data.history);
         }
         this.onDataGameRoomGeneral(data);
@@ -79,13 +87,17 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
             this.showProcessingWarning(true);
         } else {
             this.lockBet();
-            const betData = {
-                amount: this.currentBet,
-                betChoice: event.target.name,
-                username: cc.RedT.user.name
-            };
+            const betData = this.createCommonBetData();
+            betData["betChoice"] = event.target.name;
             this.socket && this.socket.connected && this.socket.emit("bet", betData);
         }
+    }
+
+    createCommonBetData() {
+        return {
+            amount: this.currentBet,
+            username: cc.RedT.user.name
+        };
     }
 
     onCloseGameClick() {

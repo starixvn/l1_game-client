@@ -287,6 +287,19 @@ export default class MiniKeno extends SocketIOMiniGameBase {
         this.roundHistory.setData(this.currentDataLogs);
     }
 
+    protected bet(betData) {
+        if (!this.isReadyBet()) {
+            return;
+        }
+
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        } else {
+            this.lockBet();
+            this.sendData(betData);
+        }
+    }
+
     protected sendBet(betAmount, betChoice) {
         this.bet({ amount: betAmount, betChoice: betChoice });
     }

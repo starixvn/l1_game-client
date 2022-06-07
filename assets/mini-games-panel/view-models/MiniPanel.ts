@@ -261,6 +261,9 @@ export default class MiniPanel extends BaseComponent {
     }
 
     showErrorNotice(error): Notice {
+        if (!this.node.activeInHierarchy) {
+            return null;
+        }
         const node = cc.instantiate(this.noticePrefab);
         const notice = node.getComponent(Notice);
 
@@ -285,6 +288,9 @@ export default class MiniPanel extends BaseComponent {
     }
 
     showNotice(noticeData: NoticeData, handleClickButton: () => void = null, handleClose: () => void = null) {
+        if (!this.node.activeInHierarchy) {
+            return;
+        }
         const node = cc.instantiate(this.noticePrefab);
         const notice = node.getComponent(Notice);
 

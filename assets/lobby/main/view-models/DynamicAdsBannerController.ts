@@ -3,6 +3,7 @@ import BannerController from "./BannerController";
 import BannerItem from "./BannerItem";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 import configs = require("../../../configs/Configs");
+import { reject } from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,7 +20,7 @@ export default class DynamicAdsBannerController extends BannerController {
             await this.createAdsItem(game);
         }
 
-        if (this.node.childrenCount > 0) {
+        if (this.node && this.node.childrenCount > 0) {
             this.enableTouch();
             this.showFirstPage();
         }
@@ -82,8 +83,12 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     private getSpriteFrame(name: string) {
-        return new Promise<cc.SpriteFrame>((resolve) => {
+        return new Promise<cc.SpriteFrame>((resolve, reject) => {
             cc.resources.load<cc.SpriteFrame>(`image/banners/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
+                if (!this.node || !this.node.isValid) {
+                    resolve(null);
+                    return;
+                }
                 resolve(spriteFrame);
             });
         });
