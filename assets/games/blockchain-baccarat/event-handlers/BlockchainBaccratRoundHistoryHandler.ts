@@ -1,13 +1,9 @@
 import { BaseEventHandler } from "../../_new/_base/game-data-management/event-handlers/base-handler";
-import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 
 export type BlockchainBaccaratRoundHistoryType<Choices> = {
-    roundHistory: {
-        roundId: number;
-        result: BlockchainBaccaratChoicesType;
-    }[];
+    roundHistory: BlockchainBaccaratRoundHistory[];
 };
 
 export default class BlockchainBaccaratRoundHistoryHandler<Choices> extends BaseEventHandler<
@@ -21,18 +17,7 @@ export default class BlockchainBaccaratRoundHistoryHandler<Choices> extends Base
     }
 
     protected handle(event: BlockchainBaccaratRoundHistoryType<Choices>) {
-        const rounds = this.transformToRound(event);
-
         this.gameData.roundHistory.cleanWithoutTriggerEvent();
-        this.gameData.roundHistory.push(...rounds);
-    }
-
-    transformToRound(event: BlockchainBaccaratRoundHistoryType<Choices>): BlockchainBaccaratRoundHistory[] {
-        return event.roundHistory.map((round) => {
-            const newRound = new BlockchainBaccaratRoundHistory();
-            newRound.roundId = round.roundId;
-            newRound.result = round.result;
-            return newRound;
-        });
+        this.gameData.roundHistory.push(...event.roundHistory);
     }
 }

@@ -35,6 +35,7 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
         const node = _.find(this.items, (item) => item.name.toLowerCase() === history.name);
         const dot = cc.instantiate(node);
         dot.active = true;
+        dot.getChildByName(this.childrenItemKey.value).getComponent(cc.Label).string = history.value;
         this.content.addChild(dot);
         this.dots.push(dot);
     }

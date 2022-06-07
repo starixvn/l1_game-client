@@ -5,4 +5,6 @@ export class BaccaratSettlementResult {
     playerPair: boolean;
     natural: boolean;
     tie: boolean;
+    big: boolean;
+    small: boolean;
 }

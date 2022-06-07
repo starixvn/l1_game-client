@@ -16,6 +16,9 @@ import BlockchainBaccaratTotalBetModel from "../event-models/BlockchainBaccaratT
 import { handlePercentBet } from "../actions/BlockchainBaccaratTotalBetAction";
 import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
 import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
+import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
+import BlockchainBaccaratRoundHistoryModel from "../event-models/BlockchainBaccaratRoundHistoryModel";
+import { renderScoreBoardInGame } from "../components/score-board/actions/BlockchainBaccaratScoreboardActions";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,6 +46,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     private cardList: BlockchainCardList = null;
     cardsUI: BlockchainBaccaratCardsUI = null;
     betOptionsUI: BlockchainBetOptionsUI = null;
+    scoreboard: BlockchainBaccaratScoreboard = null;
 
     constructor() {
         super();
@@ -74,7 +78,9 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.betOptionsUI.initBetOptions(this);
     }
 
-    initScoreBoardUI(node: cc.Node) {}
+    initScoreBoardUI(node: cc.Node) {
+        this.scoreboard = node.getComponent(BlockchainBaccaratScoreboard);
+    }
 
     initCardsUI(node: cc.Node) {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
@@ -115,6 +121,9 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.gameData.configs.on(BlockchainBaccaratConfigsModel.Events.CHANGE, updateGameConfigs(this));
         this.gameData.totalBet.on(BlockchainBaccaratTotalBetModel.Events.CHANGE, (totalBet) => {
             handlePercentBet(this.betItems as BlockchainBaccaratBetItem[])(totalBet);
+        });
+        this.gameData.roundHistory.on(BlockchainBaccaratRoundHistoryModel.Events.CHANGE, (roundHistory) => {
+            renderScoreBoardInGame(this.scoreboard)(roundHistory);
         });
     }
 }

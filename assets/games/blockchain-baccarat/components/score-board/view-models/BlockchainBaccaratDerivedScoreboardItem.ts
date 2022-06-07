@@ -24,4 +24,12 @@ export default class BlockchainBaccaratDerivedScoreboardItem extends cc.Componen
         node.getChildByName(this.NodeItems.RED).active = point.status;
         node.getChildByName(this.NodeItems.BLUE).active = !point.status;
     }
+
+    resetAll() {
+        for (const node of this.nodes) {
+            for (const name in this.NodeItems) {
+                node.getChildByName(name).active = false;
+            }
+        }
+    }
 }

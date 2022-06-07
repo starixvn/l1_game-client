@@ -1,10 +1,11 @@
+import { BlockchainBaccaratPrediction } from "./BlockchainBaccaratPrediction";
 import { BaccaratSettlementResult } from "./../../../../baccarat/view-models/event-models/BaccaratSettlementResult";
 import BlockchainBaccaratBeadRoad from "./BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "./BlockchainBaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboard from "./BlockchainBaccaratDerivedScoreboard";
-import BlockchainBaccaratScoreboardModel from "../event-model/BlockchainBaccaratScoreboardModel";
 import { DerivedScoreboards } from "sc-scoreboards";
 import { BasicHistoryData } from "../../../../_base/view-models/BasicHistoryBoard";
+import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,34 +20,52 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     @property(BlockchainBaccaratBeadRoad)
     beadRoad: BlockchainBaccaratBeadRoad = null;
 
-    model: BlockchainBaccaratScoreboardModel;
+    @property(BlockchainBaccaratPrediction)
+    prediction: BlockchainBaccaratPrediction = null;
+
+    @property(cc.Node)
+    statistic: cc.Node = null;
 
     derivedScoreBoardController: DerivedScoreboards<BaccaratSettlementResult>;
 
-    constructor() {
-        super();
-        // this.model = new BlockchainBaccaratScoreboardModel();
+    private roundHistory: BlockchainBaccaratRoundHistory[] = [];
+    private readonly statisticChildrenName = {
+        player: "player",
+        banker: "banker",
+        tie: "tie",
+        playerPair: "playerPair",
+        bankerPair: "bankerPair",
+        big: "big",
+        small: "small"
+    };
 
-        // this.model.on(BlockchainBaccaratScoreboardModel.Events.IN_GAME, (roundHistory) => {
-        //     this.renderScoreBoardInGame(roundHistory);
-        // });
-
-        // this.model.on(BlockchainBaccaratScoreboardModel.Events.UPDATE_RESULT, (result) => {
-        //     this.renderScoreBoardEachRound(result);
-        // });
+    resetScoreboard(): void {
+        // reset
+        this.bigRoad.resetBoard();
+        this.derivedScoreboards.forEach((scoreboard) => {
+            scoreboard.resetBoard();
+        });
+        this.beadRoad.resetBoard();
+        this.prediction.resetItem();
+        this.resetStatistic();
     }
 
-    renderScoreBoardInGame(roundHistory: any[]) {
+    renderScoreBoardInGame(roundHistory: BlockchainBaccaratRoundHistory[]) {
+        this.roundHistory = roundHistory;
         this.bigRoad.renderScoreBoardInGame(roundHistory);
         this.derivedScoreBoardController = this.bigRoad.derivedScoreboards;
         this.renderDerivedScoreboard();
         this.renderBeadRoadInGame(roundHistory);
+        this.renderPrediction();
+        this.renderStatistic();
     }
 
-    renderScoreBoardEachRound(lastRound: any) {
-        this.bigRoad.renderScoreBoardEachRound(lastRound);
+    renderScoreBoardEachRound(lastRound: BlockchainBaccaratRoundHistory) {
+        this.roundHistory.push(lastRound);
+        this.bigRoad.renderScoreBoardEachRound(lastRound.settlementResult);
         this.renderDerivedScoreboard();
         this.renderBeadRoadEachRound(lastRound);
+        this.renderPrediction();
     }
 
     renderDerivedScoreboard() {
@@ -56,7 +75,45 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         });
     }
 
-    renderBeadRoadInGame(roundHistory: any[]) {
+    private renderPrediction() {
+        this.prediction.resetItem();
+        const bankerData = this.derivedScoreBoardController.getPrediction(true);
+        const playerData = this.derivedScoreBoardController.getPrediction(false);
+        this.prediction.setBanker(bankerData);
+        this.prediction.setPlayer(playerData);
+    }
+
+    private renderStatistic() {
+        const data = this.roundHistory.reduce(
+            (total, round) => {
+                for (const key in total) {
+                    total[key] += +round.settlementResult[key];
+                }
+                return total;
+            },
+            {
+                player: 0,
+                banker: 0,
+                tie: 0,
+                playerPair: 0,
+                bankerPair: 0,
+                big: 0,
+                small: 0
+            }
+        );
+
+        for (const childName in this.statisticChildrenName) {
+            this.statistic.getChildByName(childName).getComponent(cc.Label).string = data[childName].toString();
+        }
+    }
+
+    private resetStatistic() {
+        for (const childName in this.statisticChildrenName) {
+            this.statistic.getChildByName(childName).getComponent(cc.Label).string = "0";
+        }
+    }
+
+    private renderBeadRoadInGame(roundHistory: BlockchainBaccaratRoundHistory[]) {
         const historyData = roundHistory.map((round) => {
             const result = round.result;
             const settlementResult = round.settlementResult;
@@ -76,7 +133,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         this.beadRoad.render(historyData);
     }
 
-    renderBeadRoadEachRound(lastRound: any) {
+    private renderBeadRoadEachRound(lastRound: BlockchainBaccaratRoundHistory) {
         let item;
         const result = lastRound.result;
         const settlementResult = lastRound.settlementResult;
@@ -103,7 +160,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     }
 
     getValueCard(card) {
-        const value = card?.card;
+        const value = card?.rank;
         return value > 10 || !value ? 0 : value;
     }
 }
