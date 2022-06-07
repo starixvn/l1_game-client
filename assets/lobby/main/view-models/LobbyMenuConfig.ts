@@ -53,16 +53,13 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             }
         },
         SC2: {
-            [GameIds.HiLo]: {
+            [GameIds.SeDie]: {
                 displayTime: 10
             },
             [GameIds.TexasHoldemPoker]: {
                 displayTime: 5
             },
-            [GameIds.CasinoHoldemPoker]: {
-                displayTime: 5
-            },
-            [GameIds.SeDie]: {
+            [GameIds.HiLo]: {
                 displayTime: 5
             }
         }
