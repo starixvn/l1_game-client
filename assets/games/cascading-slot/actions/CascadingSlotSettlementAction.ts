@@ -18,6 +18,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     const result = convertData(data.result);
     const multipliers = tumbles[0].multipliers;
     let multiplierCount = multipliers.length;
+    let countIconPerRound = 0;
     const getMultiplier = multiplierCount > 0;
     await mainGame.board.spinResult(result, multipliers, isTurbo);
 
@@ -50,7 +51,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
 
         mainGame.gameData.uiModel.getTumble();
         await mainGame.board.removeItems(explode);
-        mainGame.tumbleList.addIcons(icons);
+        countIconPerRound = mainGame.tumbleList.addIcons(icons, countIconPerRound);
         mainGame.board.addItems(newItems);
         const multiplierItems = mainGame.board.getMultiplierItems();
         multiplierItems.forEach((multiplierItem, index) => multiplierItem.setValue(tumbleMultipliers[index]));
