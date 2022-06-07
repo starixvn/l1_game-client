@@ -80,9 +80,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     @property(cc.Label)
     totalWinLabel: cc.Label = null;
 
-    @property(CascadingTotalBet)
-    totalBet: CascadingTotalBet = null;
-
     @property(TumbleWinView)
     tumbleWinView: TumbleWinView = null;
 
@@ -105,8 +102,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     bottomMessage: SlotGameBottomMessage = null;
     topMessage: SlotGameTopMessage = null;
-    protected isOpenBetControl = false;
     protected trialConnection: SocketIOConnection;
+    protected totalBet: CascadingTotalBet;
 
     async onSpinClick() {
         AudioManager.getInstance().playClick();
@@ -399,29 +396,23 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
+    initTotalBet(node: cc.Node) {
+        this.totalBet = node.getComponent(CascadingTotalBet);
+        this.checkExistNodeBet();
+    }
+
     initBetControl(node: cc.Node) {
         this.betControl = node.getComponent(CascadingBetControl);
-        this.betControl.showView(false, () => {
-            this.onClickOpenBetControl();
-        });
+        this.checkExistNodeBet();
     }
 
-    onClickOpenBetControl() {
-        this.betControl.showView(!this.isOpenBetControl, () => {
-            this.onClickOpenBetControl();
-        });
-        this.isOpenBetControl = !this.isOpenBetControl;
-    }
-
-    onHandleStatusBetControl(event: Event, customEventData: string) {
-        this.betControl.showView(
-            !this.isOpenBetControl,
-            () => {
-                this.onClickOpenBetControl();
-            },
-            customEventData
-        );
-        this.isOpenBetControl = !this.isOpenBetControl;
+    checkExistNodeBet() {
+        if (this.totalBet && this.betControl) {
+            this.totalBet.initData(this.betControl);
+            this.betControl.showView(false, () => {
+                this.totalBet.onClickOpenBetControl();
+            });
+        }
     }
 
     initFreeSpinView(node: cc.Node) {
