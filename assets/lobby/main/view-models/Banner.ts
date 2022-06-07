@@ -34,11 +34,14 @@ export default class Banner extends cc.Component {
         this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
         const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
         const showJackpotBanner = cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
-        showJackpotBanner && (await this.handleJackpotBanner(bannerPrefabNode));
+        showJackpotBanner &&
+            (await this.handleJackpotBanner(bannerPrefabNode, () => {
+                this.inactiveLoadingSkeleton();
+            }));
         adsBannerController.menuLoop = !showJackpotBanner;
         const filterList: number[] = this.getGameIdOfferBanner();
         adsBannerController.setGameAds(filterList, () => {
-            this.skeleton.active = false;
+            this.inactiveLoadingSkeleton();
         });
         adsBannerController.onEndingRound = () => {
             if (showJackpotBanner) {
@@ -50,11 +53,12 @@ export default class Banner extends cc.Component {
         adsBannerController.showFirstPage();
     }
 
-    private async handleJackpotBanner(bannerPrefabNode: cc.Node) {
+    private async handleJackpotBanner(bannerPrefabNode: cc.Node, callBackActiveNode: () => void) {
         const jackpotContainer = bannerPrefabNode.getChildByName("jackpotController");
         this.jackpotNavigationContainer = bannerPrefabNode.getChildByName("jackpotNavigationController");
         await this.setJackpotContainer(jackpotContainer);
         await this.setJackpotNavigation();
+        callBackActiveNode();
     }
 
     private async setJackpotContainer(container: cc.Node) {
@@ -124,5 +128,9 @@ export default class Banner extends cc.Component {
                 }
             })
             .start();
+    }
+
+    private inactiveLoadingSkeleton() {
+        this.skeleton.active = false;
     }
 }
