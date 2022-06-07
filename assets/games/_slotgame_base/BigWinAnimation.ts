@@ -14,7 +14,7 @@ export default class BigWinAnimation extends cc.Component {
 
     setAmountSlow(amount: number, turbo: boolean) {
         if (turbo) {
-            GameUtils.floatToNumber2(this.amountLabel, amount, undefined, "", (value) => numberWithCommas(value, 2, true), {
+            GameUtils.floatToNumber2(this.amountLabel, amount, undefined, "", (value) => numberWithCommas(value, 2, false), {
                 stepValue: 0.03,
                 stepTime: 0.02
             });

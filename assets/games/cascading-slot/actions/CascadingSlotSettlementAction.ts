@@ -76,7 +76,8 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     mainGame.processingSettlement = false;
     mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
 
-    await GameUtils.delayTime(0.3);
+    const delayForNextSpin = mainGame.getCustomDuration("delayForNextSpin");
+    await GameUtils.delayTime(delayForNextSpin);
     handleAutoSpin(mainGame);
 };
 

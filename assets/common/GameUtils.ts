@@ -131,7 +131,7 @@ export default class GameUtils {
         end: number,
         start?: number,
         prefixStr = "",
-        formatNumber = (value) => numberWithCommas(value, 2, true),
+        formatNumber = (value) => numberWithCommas(value, 2, false),
         options = {
             stepValue: 0.01,
             stepTime: 0.02
