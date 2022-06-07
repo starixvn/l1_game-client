@@ -145,15 +145,15 @@ const movingMultiplier = (multiplierNode: cc.Node, container: cc.Node, destNode:
         const pixelPerSecond = 500;
         const duration = distance / pixelPerSecond;
         cc.tween(node)
+            .to(duration * 0.49, { scale: 1.1 })
+            .to(duration * 0.49, { scale: 1 })
+            .start();
+        cc.tween(node)
             .to(duration, { position: destPos }, { easing: "sineOut" })
             .call(() => {
                 resolve();
                 node.destroy();
             })
-            .start();
-        cc.tween(node)
-            .to(duration * 0.5, { scale: 1.1 })
-            .to(duration * 0.5, { scale: 1 })
             .start();
     });
 };
