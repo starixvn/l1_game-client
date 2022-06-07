@@ -62,27 +62,26 @@ export default class TumbleWinView extends FadeAppearanceNode {
         cc.tween(otherNode).to(duration, { opacity: 0 }).start();
     }
 
-    setMultiplier(value: number) {
-        const changeMultiplier = () => {
-            this.multiplier.string = `x${value}`;
-            this.multiplier.node.active = true;
-            cc.tween(this.multiplier.node)
-                .to(0.1, { scale: 1.2 }, { easing: "sineOut" })
-                .to(0.1, { scale: 1 }, { easing: "sineIn" })
-                .start();
-        };
-        const isActive = this.multiplier.node.active;
-        if (!isActive) {
+    shiftRightTumbleWin() {
+        return new Promise<void>((resolve) => {
+            if (this.tumbleLayout.enabled) {
+                resolve();
+                return;
+            }
             const width = this.multiplier.node.width;
             cc.tween(this.tumbleLabel.node)
                 .by(0.1, { x: -width / 2 })
                 .call(() => {
                     this.tumbleLayout.enabled = true;
-                    changeMultiplier();
+                    resolve();
                 })
                 .start();
-        } else {
-            changeMultiplier();
-        }
+        });
+    }
+
+    setMultiplier(value: number) {
+        this.multiplier.string = `x${value}`;
+        this.multiplier.node.active = true;
+        cc.tween(this.multiplier.node).to(0.1, { scale: 1.2 }, { easing: "sineOut" }).to(0.1, { scale: 1 }, { easing: "sineIn" }).start();
     }
 }

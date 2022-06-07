@@ -98,19 +98,19 @@ const handleMultiplier = async (
     multiplier: number,
     win: number
 ) => {
-    if (isFreeSpin) {
-        const currentTotalMultiplier = mainGame.gameData.uiModel.totalMultiplier;
-        if (currentTotalMultiplier > 0) {
-            await movingMultiplier(
-                mainGame.totalMultiplierView.total.node,
-                mainGame.effectContainer,
-                mainGame.tumbleWinView.multiplier.node
-            );
-            mainGame.gameData.uiModel.increaseMultiplier(currentTotalMultiplier);
-        }
+    const currentTotalMultiplier = mainGame.gameData.uiModel.totalMultiplier;
+    const needMoveTotalMultiplier = isFreeSpin && currentTotalMultiplier > 0;
+    const winMultiplier = multiplier > 0 && win > 0;
+
+    if (needMoveTotalMultiplier || winMultiplier) {
+        mainGame.tumbleWinView.shiftRightTumbleWin();
     }
 
-    const winMultiplier = multiplier > 0 && win > 0;
+    if (needMoveTotalMultiplier) {
+        await movingMultiplier(mainGame.totalMultiplierView.total.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
+        mainGame.gameData.uiModel.increaseMultiplier(currentTotalMultiplier);
+    }
+
     if (winMultiplier) {
         const multiplierItems = mainGame.board.getMultiplierItems();
         for (const mItem of multiplierItems) {
