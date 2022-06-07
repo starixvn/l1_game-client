@@ -41,14 +41,22 @@ export default class CascadingSlotTumbleList extends cc.Component {
         return countPerRound;
     }
 
-    clear() {
-        // this.content.children.forEach((child, index) => {
-        //     cc.tween(child)
-        //         .to(0.2, { position: cc.v3(0, 17.5, 0), easing: "backOut" })
-        //         .to(0.2, {scale: ()})
-        //         .start();
-        //     child.destroy();
-        // });
+    fall(node: cc.Node) {
+        return new Promise<void>((resolve) => {
+            cc.tween(node)
+                .to(0.05, { position: cc.v3(0, 17.5, 0) }, { easing: "sineOut" })
+                .to(0.05, { opacity: 0 }, { easing: "sineOut" })
+                .call(() => {
+                    resolve();
+                })
+                .start();
+        });
+    }
+
+    async clear() {
+        for (let i = 0; i < this.content.childrenCount; i++) {
+            await this.fall(this.content.children[i]);
+        }
         this.content.destroyAllChildren();
         this.scrollView && !this.scrollView.enabled;
         this.content.position.y = -125;
@@ -66,9 +74,9 @@ export default class CascadingSlotTumbleList extends cc.Component {
 
         const y = 17.5 + (index - 1) * 35;
         cc.tween(node)
-            .to(0.2, { position: cc.v3(0, y, 0), easing: "backOut" })
-            .to(0.1, { position: cc.v3(0, y + 2, 0), easing: "backOut" })
-            .to(0.1, { position: cc.v3(0, y, 0), easing: "backOut" })
+            .to(0.2, { position: cc.v3(0, y, 0) }, { easing: "sineOut" })
+            .to(0.1, { position: cc.v3(0, y + 2, 0) }, { easing: "sineOut" })
+            .to(0.1, { position: cc.v3(0, y, 0) }, { easing: "sineOut" })
             .start();
     }
 }
