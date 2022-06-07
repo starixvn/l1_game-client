@@ -1,4 +1,4 @@
-import CardChain from "./../card-list/CardChain";
+import BlockchainCard from "../card-list/BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,7 +43,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     };
 
     onFaceDown(node: cc.Node) {
-        node.getComponent(CardChain).faceDown();
+        node.getComponent(BlockchainCard).faceDown();
     }
 
     resetCards() {
@@ -61,7 +61,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
 
     resetCard(card: cc.Node) {
         console.log("resetCard");
-        card?.getComponent(CardChain)?.faceDown();
+        card?.getComponent(BlockchainCard)?.faceDown();
         card.opacity = 0;
         card.scale = 0.5;
         card.angle = -135;

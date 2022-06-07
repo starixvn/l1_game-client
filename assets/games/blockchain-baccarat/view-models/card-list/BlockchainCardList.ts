@@ -56,9 +56,8 @@ export default class BlockchainCardList extends cc.Component {
         this.cards = [];
 
         this.nextMark = null;
-        let index = 1;
-        chain.forEach((card) => {
-            const historyDot = this.createCard(card.card, index);
+        chain.forEach((card, index) => {
+            const historyDot = this.createCard(card.card, index + 1);
             this.content.addChild(historyDot);
             this.cards.push(historyDot);
             index++;
