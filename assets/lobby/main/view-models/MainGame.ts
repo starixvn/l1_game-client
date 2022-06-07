@@ -169,7 +169,9 @@ export default class MainGame extends cc.Component {
         };
 
         Object.keys(categoryList).forEach((key) => {
-            const isNew = lobbyMenuConfig.categoryList[key].some((r) => lobbyMenuConfig.isNewGame(r));
+            const isNew = lobbyMenuConfig.categoryList[key].some(
+                (gameId) => lobbyMenuConfig.isNewGame(gameId) && cc.RedT.user?.offerGames?.includes(gameId)
+            );
             const categoryNode = this.categoryContainer.children.find((child) => child.name === categoryList[key].toString());
             if (categoryNode) {
                 const newNode = categoryNode.getComponent(CategoryItem);
