@@ -59,10 +59,6 @@ export default class CascadingBetControl extends cc.Component {
 
     closeBetControl: () => void;
 
-    onEnable() {
-        this.handleFirstLoadUI();
-    }
-
     showView(status: boolean, callback: () => void, action?: string) {
         this.node.active = status;
         this.closeBetControl = callback;
@@ -118,12 +114,6 @@ export default class CascadingBetControl extends cc.Component {
             });
     }
 
-    private handleFirstLoadUI() {
-        this.nodeButtons[OrderButtonNode.betDecrease].interactable = false;
-        this.nodeButtons[OrderButtonNode.coinDecrease].interactable = false;
-        this.nodeButtons[OrderButtonNode.totalDecrease].interactable = false;
-    }
-
     private handleDataOnLabel() {
         let betValue = this.betLevels[0] ?? 0;
         let coinValue = this.coinValues[0] ?? 0;
@@ -143,6 +133,7 @@ export default class CascadingBetControl extends cc.Component {
         this.betLevel.string = betValue.toString();
         this.coinValue.string = coinValue.toString();
         this.handleTotalBet(betValue, coinValue);
+        this.handleStatusButton();
     }
 
     protected onClickDecreaseBetLevel() {
@@ -153,7 +144,7 @@ export default class CascadingBetControl extends cc.Component {
             this.betLevel.string = valueBet.toString();
             this.handleTotalBet(valueBet, valueCoin);
         }
-        this.handleStatusBetButton();
+        this.handleStatusButton();
         this.updatePlaceBetModel();
     }
 
@@ -166,7 +157,7 @@ export default class CascadingBetControl extends cc.Component {
             this.handleTotalBet(valueBet, valueCoin);
         }
 
-        this.handleStatusBetButton();
+        this.handleStatusButton();
         this.updatePlaceBetModel();
     }
 
@@ -178,7 +169,7 @@ export default class CascadingBetControl extends cc.Component {
             this.coinValue.string = valueCoin.toString();
             this.handleTotalBet(valueBet, valueCoin);
         }
-        this.handleStatusCoinButton();
+        this.handleStatusButton();
         this.updatePlaceBetModel();
     }
 
@@ -190,7 +181,7 @@ export default class CascadingBetControl extends cc.Component {
             this.coinValue.string = valueCoin.toString();
             this.handleTotalBet(valueBet, valueCoin);
         }
-        this.handleStatusCoinButton();
+        this.handleStatusButton();
         this.updatePlaceBetModel();
     }
 
@@ -199,8 +190,7 @@ export default class CascadingBetControl extends cc.Component {
             this.currentTotalIndex--;
             this.handleClickTotalBet();
         }
-        this.handleStatusCoinButton();
-        this.handleStatusBetButton();
+        this.handleStatusButton();
         this.updatePlaceBetModel();
     }
 
@@ -209,8 +199,7 @@ export default class CascadingBetControl extends cc.Component {
             this.currentTotalIndex++;
             this.handleClickTotalBet();
         }
-        this.handleStatusCoinButton();
-        this.handleStatusBetButton();
+        this.handleStatusButton();
         this.updatePlaceBetModel();
     }
 
@@ -235,8 +224,13 @@ export default class CascadingBetControl extends cc.Component {
         this.currentTotalBet = CalculateTotalBet(total.level, total.coin, this.betMultiplier);
     }
 
-    private handleStatusBetButton() {
+    private handleStatusButton() {
+        this.handleStatusCoinButton();
+        this.handleStatusBetButton();
         this.handleStatusTotalButton();
+    }
+
+    private handleStatusBetButton() {
         if (this.currentLevelIndex === 0) {
             this.nodeButtons[OrderButtonNode.betDecrease].interactable = false;
             return;
@@ -252,8 +246,6 @@ export default class CascadingBetControl extends cc.Component {
     }
 
     private handleStatusCoinButton() {
-        this.handleStatusTotalButton();
-
         if (this.currentCoinIndex === 0) {
             this.nodeButtons[OrderButtonNode.coinDecrease].interactable = false;
             return;
