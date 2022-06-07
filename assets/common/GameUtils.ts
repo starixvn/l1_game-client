@@ -120,6 +120,46 @@ export default class GameUtils {
         node.parent = destNode;
         node.position = position;
     }
+
+    public static floatToNumber2(
+        label: cc.Label,
+        end: number,
+        start?: number,
+        prefixStr = "",
+        formatNumber = (value) => numberWithCommas(value, 2, true),
+        options = {
+            stepValue: 0.01,
+            stepTime: 0.02
+        }
+    ) {
+        const startStr = label.string.replace(prefixStr, "");
+        start = start || parseFloat(startStr.replace(/,/g, "")) || 0;
+        const range = Math.abs(end - start);
+        if (!range) {
+            return;
+        }
+
+        const { stepValue, stepTime } = options;
+        const repeatCount = Math.floor(range / stepValue);
+
+        let value = start;
+        label.node.stopAllActions();
+        const formatText = (value) => prefixStr + formatNumber(value);
+        cc.tween(label.node)
+            .repeat(
+                repeatCount,
+                cc
+                    .tween(label.node)
+                    .call(() => {
+                        label.string = formatText(value);
+                        value += stepValue;
+                    })
+                    .delay(stepTime)
+            )
+            .call(() => (label.string = formatText(end)))
+            .start();
+    }
+
     public static floatToNumber(label: cc.Label, end: number, duration: number, start?: number, noZeroSuffix = true, prefixStr = "") {
         const startStr = label.string.replace(prefixStr, "");
         start = start || parseFloat(startStr.replace(/,/g, "")) || 0;

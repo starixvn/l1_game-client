@@ -1,4 +1,5 @@
 import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,7 +12,14 @@ export default class BigWinAnimation extends cc.Component {
         GameUtils.floatToNumber(this.amountLabel, amount, duration);
     }
 
-    setAmountSlow(amount: number) {
-        GameUtils.floatToNumber(this.amountLabel, amount, undefined);
+    setAmountSlow(amount: number, turbo: boolean) {
+        if (turbo) {
+            GameUtils.floatToNumber2(this.amountLabel, amount, undefined, "", (value) => numberWithCommas(value, 2, true), {
+                stepValue: 0.03,
+                stepTime: 0.02
+            });
+        } else {
+            GameUtils.floatToNumber2(this.amountLabel, amount);
+        }
     }
 }
