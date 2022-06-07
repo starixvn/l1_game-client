@@ -564,6 +564,6 @@ window.i18n.languages.id = {
         totalMultiplier: "Total Multiplier",
         no: "No.",
         resultBoard: "Result Board",
-        symbolAndNumber: "Symbol & Number of Symbols"
+        symbolAndNumber: "Win Symbols"
     }
 };

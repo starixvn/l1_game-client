@@ -562,6 +562,6 @@ window.i18n.languages.th = {
         totalMultiplier: "Total Multiplier",
         no: "No.",
         resultBoard: "Result Board",
-        symbolAndNumber: "Symbol & Number of Symbols"
+        symbolAndNumber: "Win Symbols"
     }
 };

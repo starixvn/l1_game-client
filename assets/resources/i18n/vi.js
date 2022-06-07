@@ -565,8 +565,8 @@ window.i18n.languages.vi = {
         multiplier: "Số Nhân",
         totalMultiplier: "Tổng Số Nhân",
         no: "Stt",
-        resultBoard: "Bản Kết Quả",
-        symbolAndNumber: "Biếu Tượng & Số Lượng",
+        resultBoard: "Bảng Kết Quả",
+        symbolAndNumber: "Biếu Tượng Thắng",
         winAmount: "Thắng"
     }
 };

@@ -1,6 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getTrialSocket } from "../../../common/helpers/UrlHelper";
@@ -66,9 +65,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     @property({ visible: false, override: true })
     gameAudiosPrefab: cc.Prefab = null;
-
-    @property(ExpandableMenu)
-    expandableMenu: ExpandableMenu = null;
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
@@ -270,7 +266,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     start() {
-        super.start();
         this.gameData.uiModel.resetNewRound();
     }
 
@@ -397,10 +392,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             .start();
     }
 
-    onClickShowHistory() {
-        AudioManager.getInstance().playClick();
-        this.expandableMenu.collapseMenu();
-
+    openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(CascadingSlotGameHistory);
         this.historyComponent.init(this.socket);
