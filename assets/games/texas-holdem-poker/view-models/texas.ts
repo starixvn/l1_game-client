@@ -85,7 +85,6 @@ export default class Texas extends CasinoGame {
     @property(cc.Node)
     checkTurnButton: cc.Node = null;
 
-    @property(cc.Node)
     @property({ type: TexasMinMax })
     protected minMaxTable: TexasMinMax = null;
 
