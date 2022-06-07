@@ -248,14 +248,20 @@ export default class MainGame extends cc.Component {
     onSignIn() {
         if (window.openGameId || sessionManager.getInRoomGameId()) {
             this.openGameSSO();
+            this.setCategoryOnSSOGame();
         } else {
             this.loadLobby();
         }
     }
 
+    setCategoryOnSSOGame() {
+        this.initLobbyMenu();
+        const category = GameCategory.All;
+        this.lobbyMenu?.setCategory(category, false);
+    }
+
     loadLobby() {
         if (!this.initializedLobby) {
-            console.log("load Lobby");
             this.initLobby();
         }
     }
@@ -275,6 +281,7 @@ export default class MainGame extends cc.Component {
             this.showNotice({ text: i18n.t("messages.noGameOffer") });
         }
         this.initLobbyMenu();
+        this.initCategory();
         this.initBanners();
 
         this.initializedLobby = true;
@@ -290,14 +297,15 @@ export default class MainGame extends cc.Component {
         lobbyMenu.miniPanel = cc.RedT.MiniPanel;
 
         this.lobbyMenu = lobbyMenu;
+    }
 
+    initCategory() {
         let category = GameCategory.All;
         if (!window.isSSO) {
             category = this.activeCategoryFromStorage();
         }
         this.activeBgNewOnCategory();
-
-        this.lobbyMenu.setCategory(category);
+        this.lobbyMenu?.setCategory(category);
     }
 
     private initBanners() {

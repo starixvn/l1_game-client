@@ -242,10 +242,10 @@ export default class LobbyMenu extends GameIconMenu {
         }
     }
 
-    setCategory(category: number) {
+    setCategory(category: number, isUpdateIcons = true) {
         this.currentCategory = category;
         this.saveCategory();
-        this.updateIcons();
+        !!isUpdateIcons && this.updateIcons();
     }
 
     updateIcons() {
