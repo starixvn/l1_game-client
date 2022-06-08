@@ -2,8 +2,10 @@ import * as _ from "lodash";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import { CardModel } from "../../BlockchainBaccaratType";
-import { BlockchainBaccarat } from "../../event-models/BlockchainBaccaratCardListModel";
+import { Blockchain } from "../../event-models/BlockchainBaccaratCardListModel";
+import BlockchainBaccarat from "../BlockchainBaccarat";
 import BlockchainCard from "./BlockchainCard";
+import BlockchainCardVerification from "./BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,10 +29,21 @@ export default class BlockchainCardList extends cc.Component {
     @property(cc.Size)
     padding: cc.Size = new cc.Size(2, 2);
 
+    @property(cc.Prefab)
+    cardVerificationPrefab: cc.Prefab = null;
+
     items: cc.Node[];
     cards: cc.Node[] = [];
 
-    nextMark: cc.Node = null;
+    protected nextMark: cc.Node = null;
+    protected cutCard: number;
+    protected burnedCard: number;
+    protected cardVerificationComponent: BlockchainCardVerification = null;
+    protected root: BlockchainBaccarat;
+
+    init(root: BlockchainBaccarat) {
+        this.root = root;
+    }
 
     onLoad() {
         const itemsNode = GameUtils.createNodeFromPrefab(this.itemsPrefab);
@@ -44,8 +57,10 @@ export default class BlockchainCardList extends cc.Component {
         }
     }
 
-    public setData(cardList: BlockchainBaccarat) {
+    public setData(cardList: Blockchain) {
         const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
+        this.cutCard = cutCardIndex;
+        this.burnedCard = burnedCards;
         const itemsNode = GameUtils.createNodeFromPrefab(this.itemsPrefab);
         this.items = itemsNode.children;
         this.cards.forEach((card) => {
@@ -57,7 +72,7 @@ export default class BlockchainCardList extends cc.Component {
 
         this.nextMark = null;
         chain.forEach((card, index) => {
-            const historyDot = this.createCard(card.card, index + 1);
+            const historyDot = this.createCard(card.card, index);
             this.content.addChild(historyDot);
             this.cards.push(historyDot);
             index++;
@@ -73,9 +88,29 @@ export default class BlockchainCardList extends cc.Component {
             rank: card?.rank,
             suit: card?.suit
         });
+        
         !!card ? cardComponent.setFaceUp(isFaceUp) : cardComponent.setFaceUp(!isFaceUp);
-        cardComponent.indexNumber.string = this.convertIndexNumber(index);
+        if (this.cutCard === index) {
+            cardComponent.setKeyCard();
+        }
+
+        cardComponent.openCardVerification = () => {
+            this.initCardVerification();
+        };
+
+        cardComponent.indexNumber.string = this.convertIndexNumber(index + 1);
         return node;
+    }
+
+    private initCardVerification() {
+        const ticketDetail = this.node.getChildByName(this.cardVerificationPrefab.name);
+        if (ticketDetail) {
+            ticketDetail.removeFromParent(true);
+            ticketDetail.destroy();
+        }
+        const ticketDetailPrefab = cc.instantiate(this.cardVerificationPrefab);
+        this.cardVerificationComponent = ticketDetailPrefab.getComponent(BlockchainCardVerification);
+        this.root.currentMiniPanel.addDialog(ticketDetailPrefab);
     }
 
     private addNextMark() {

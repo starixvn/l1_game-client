@@ -5,19 +5,45 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class BlockchainCard extends NewCard {
     @property(cc.Node)
-    highlight: cc.Node = null;
+    highLight: cc.Node = null;
 
     @property(cc.Node)
     shadow: cc.Node = null;
+
+    @property(cc.Node)
+    keyCard: cc.Node = null;
 
     @property(cc.Label)
     indexNumber: cc.Label = null;
 
     setHighlight() {
-        this.highlight.active = true;
+        this.highLight.active = true;
     }
 
     resetHighlight() {
-        this.highlight.active = false;
+        this.highLight.active = false;
+    }
+
+    setKeyCard() {
+        this.keyCard.active = true;
+    }
+
+    resetKeyCard() {
+        this.keyCard.active = false;
+    }
+
+    setShadow() {
+        this.shadow.active = false;
+    }
+
+    resetShadow() {
+        this.shadow.active = true;
+    }
+
+    openCardVerification() {}
+
+    closeCardVerification() {
+        this.resetShadow();
+        this.resetHighlight();
     }
 }

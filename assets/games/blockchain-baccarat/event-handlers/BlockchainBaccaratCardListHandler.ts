@@ -1,6 +1,6 @@
 import { BaseEventHandler } from "../../_new/_base/game-data-management/event-handlers/base-handler";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
-import { BlockchainBaccarat } from "../event-models/BlockchainBaccaratCardListModel";
+import { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
 import { CardChain } from "../BlockchainBaccaratType";
 
 export type BlockchainBaccaratCardListType<Choices> = {
@@ -20,6 +20,6 @@ export default class BlockchainBaccaratCardListHandler<Choices> extends BaseEven
     }
 
     protected handle(event: BlockchainBaccaratCardListType<Choices>) {
-        this.gameData.cardList.change(event.blockchain as BlockchainBaccarat);
+        this.gameData.cardList.change(event.blockchain as Blockchain);
     }
 }

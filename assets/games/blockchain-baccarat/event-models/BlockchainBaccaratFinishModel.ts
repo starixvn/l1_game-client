@@ -1,4 +1,4 @@
-import { BlockchainBaccarat } from "./BlockchainBaccaratCardListModel";
+import { Blockchain } from "./BlockchainBaccaratCardListModel";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { BlockchainBaccaratChoicesType, CardValue } from "../BlockchainBaccaratType";
 
@@ -12,7 +12,7 @@ export type BlockchainBaccaratFinish = {
     settlementResult: BlockchainBaccaratChoicesType;
     winningPlayers: any[];
     roundId: number;
-    blockchain: BlockchainBaccarat;
+    blockchain: Blockchain;
 };
 
 export class BlockchainBaccaratFinishModel extends EventEmitterBase {

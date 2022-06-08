@@ -70,6 +70,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         const dialog = cc.instantiate(this.cardListPrefab);
         this.cardList = dialog.getComponent(BlockchainCardList);
         this.cardList.node.active = false;
+        this.cardList.init(this);
         this.currentMiniPanel.addDialog(dialog);
     }
 
