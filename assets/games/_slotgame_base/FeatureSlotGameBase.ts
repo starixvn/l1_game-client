@@ -2,7 +2,6 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
-import StatusButton from "../../common/custom-button/StatusButton";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import FeatureSlotGameData from "../cascading-slot/models/FeatureSlotGameData";
 import { SpinButtonState } from "../cascading-slot/models/SpinButtonStateModel";
@@ -36,9 +35,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     @property(cc.Prefab)
     effectFreeSpin: cc.Prefab = null;
-
-    @property(StatusButton)
-    totalBetNode: StatusButton = null;
 
     @property(HoldActionButton)
     holdActionButton: HoldActionButton = null;
@@ -80,7 +76,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
         if (!this.isFreeSpin()) {
             this.createAutoSpinDialog();
-            this.totalBetNode.interactable = false;
+            this.setAllowChangeBet(false);
         }
     }
 
@@ -88,10 +84,10 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
         if (this.holdActionButton.isAutoAction) {
-            this.totalBetNode.interactable = false;
+            this.setAllowChangeBet(false);
             this.autoSpinToggle.interactable = false;
         } else {
-            this.totalBetNode.interactable = true;
+            this.setAllowChangeBet(true);
             this.autoSpinToggle.interactable = true;
         }
         this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
@@ -201,7 +197,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     disabledButtons() {
         const autoSpin = this.isAutoSpinMode() && this.stillAutoSpin();
-        this.totalBetNode.interactable = false;
+        this.setAllowChangeBet(false);
         this.autoSpinToggle.interactable = autoSpin;
     }
+
+    abstract setAllowChangeBet(allow: boolean);
 }

@@ -103,7 +103,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     bottomMessage: SlotGameBottomMessage = null;
     topMessage: SlotGameTopMessage = null;
     protected trialConnection: SocketIOConnection;
-    protected totalBet: CascadingTotalBet;
+    protected miniBetControl: CascadingTotalBet;
 
     async onSpinClick() {
         AudioManager.getInstance().playClick();
@@ -292,9 +292,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_BET, (data: TotalBetType) => {
-            this.totalBet.totalBetLabel.string = data.totalBet.toString();
-            this.totalBet.buttonDecrease.interactable = data.decrease;
-            this.totalBet.buttonIncrease.interactable = data.increase;
+            this.miniBetControl.totalBetLabel.string = data.totalBet.toString();
+            this.miniBetControl.buttonDecrease.interactable = data.decrease;
+            this.miniBetControl.buttonIncrease.interactable = data.increase;
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
@@ -397,7 +397,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     initTotalBet(node: cc.Node) {
-        this.totalBet = node.getComponent(CascadingTotalBet);
+        this.miniBetControl = node.getComponent(CascadingTotalBet);
         this.checkExistNodeBet();
     }
 
@@ -407,10 +407,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     checkExistNodeBet() {
-        if (this.totalBet && this.betControl) {
-            this.totalBet.initData(this.betControl);
+        if (this.miniBetControl && this.betControl) {
+            this.miniBetControl.initData(this.betControl);
             this.betControl.showView(false, () => {
-                this.totalBet.onClickOpenBetControl();
+                this.miniBetControl.onClickOpenBetControl();
             });
         }
     }
@@ -447,5 +447,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         };
 
         await this.showEffect(effect);
+    }
+
+    setAllowChangeBet(allow: boolean) {
+        if (this.miniBetControl) {
+            this.miniBetControl.setStatusTotalBet(allow);
+        }
     }
 }
