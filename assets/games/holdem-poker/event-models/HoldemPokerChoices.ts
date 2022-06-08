@@ -15,3 +15,5 @@ export const HoldemPokerMaxBetChoicesConst = {
     aa: "aaBet",
     call: "callBet"
 };
+
+export const CasinoChoices = ["ante", "aa", "call"];

@@ -1,10 +1,9 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import NewButton from "../../../common/custom-button/NewButton";
-import PrefabLoader from "../../../common/PrefabLoader";
 import { GameIds } from "../../../configs/SabaConfigs";
-import DataHandler from "../../_base/handlers/DataHandler";
+import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
+import SwapModelBase from "../../_casino/event-models/SwapModelBase";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
-import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { BettingAreaEvents } from "../../_new/common/betting-area/BettingArea";
 import { events } from "../../_new/connection/SocketIOConnection";
 import { updateAaOdds, updateAnteOdds, updateMinMax } from "../actions/HoldemPokerConfigActions";
@@ -25,12 +24,20 @@ import {
     updateTotalBetLabel
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
-import { updateRoundCounter, updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
+import { updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
 import { showWinningOption } from "../actions/HoldemPokerSettlementActions";
 import { renderTicketDetail } from "../actions/HoldemPokerTicketDetailActions";
 import { handleUM } from "../actions/HoldemPokerUmAction";
-import { collectCards, rawCardAfterClickCall, rawCardAfterClickDeal, rawCardWhenRejoin } from "../components/cards/view-models/CardWrapper";
-import PokerCards from "../components/cards/view-models/HoldemPokerCards";
+import {
+    collectCards,
+    dealPlayerAndDealerCards,
+    dealPlayerAndDealerCardsWithoutSwap,
+    holdPlayerAndDealerCards,
+    rawCardAfterClickCall,
+    rawCardWhenRejoin,
+    swapPlayerAndDealerCards
+} from "../components/cards/view-models/CardWrapper";
+import HoldemPokerCards from "../components/cards/view-models/HoldemPokerCards";
 import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "../event-models/HoldemPokerAfterDealModel";
@@ -38,7 +45,7 @@ import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/Hol
 import { HoldemPokerConfigs } from "../event-models/HoldemPokerConfigs";
 import { HoldemPokerFinishModel } from "../event-models/HoldemPokerFinishModel";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
-import { HoldemPokerMD5Model } from "../event-models/HoldemPokerMD5Model";
+import HoldemPokerHoldModel from "../event-models/HoldemPokerHoldModel";
 import { HoldemPokerOwnBet } from "../event-models/HoldemPokerOwnBet";
 import { HoldemPokerPlaceBetModel } from "../event-models/HoldemPokerPlaceBetModel";
 import { HoldemPokerRoundCounter } from "../event-models/HoldemPokerRoundCounter";
@@ -46,49 +53,22 @@ import { HoldemPokerSettlement } from "../event-models/HoldemPokerSettlement";
 import { HoldemPokerStateModel } from "../event-models/HoldemPokerStateModel";
 import { HoldemPokerTicketDetailModel } from "../event-models/HoldemPokerTicketDetailModel";
 import HoldemPokerTicketHistory from "./history/HoldemPokerTicketHistory";
-import HoldemPockerMD5 from "./HoldemPockerMD5";
 import HoldemPokerAaOddsTable from "./HoldemPokerAaOddsTable";
 import HoldemPokerAnteOddsTable from "./HoldemPokerAnteOddsTable";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
 import HoldemPokerChips from "./HoldemPokerChips";
 import HoldemPokerMinMaxTable from "./HoldemPokerMinMaxTable";
 import HoldemPokerPlacingBet from "./HoldemPokerPlacingBet";
+import CasinoGame from "../../_casino/CasinoGame";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class HoldemPoker extends NewGameRoomBase {
-    @property({ type: [PrefabLoader] })
-    protected prefabLoader: PrefabLoader[] = [];
-
-    @property(cc.Node)
-    gameMenuContainer: cc.Node = null;
-
+export default class HoldemPoker extends CasinoGame {
     @property({ type: [cc.Component] })
     protected bettingAreas: HoldemPokerBettingArea[] = [];
 
     @property(cc.Node)
-    doubleButton: cc.Node = null;
-
-    @property(cc.Node)
-    reBetAndDealButton: cc.Node = null;
-
-    @property(cc.Node)
-    cancelButton: cc.Node = null;
-
-    @property(cc.Node)
-    dealButton: cc.Node = null;
-
-    @property(cc.Node)
     doubleAndCallButton: cc.Node = null;
-
-    @property(cc.Node)
-    foldButton: cc.Node = null;
-
-    @property(cc.Node)
-    newButton: cc.Node = null;
-
-    @property(cc.SpriteFrame)
-    shadowChip: cc.SpriteFrame = null;
 
     @property({ type: HoldemPokerMinMaxTable })
     protected minMaxTable: HoldemPokerMinMaxTable = null;
@@ -99,33 +79,10 @@ export default class HoldemPoker extends NewGameRoomBase {
     @property({ type: HoldemPokerAaOddsTable })
     protected aaOddsTable: HoldemPokerAaOddsTable = null;
 
-    @property(cc.Node)
-    dealerChipTray: cc.Node = null;
-
-    @property(cc.Label)
-    totalBetLabel: cc.Label = null;
-
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
-    @property(HoldemPockerMD5)
-    md5Comp: HoldemPockerMD5 = null;
-
-    @property(cc.AudioSource)
-    gameNotificationsAudio: cc.AudioSource = null;
-
-    @property(cc.AudioSource)
-    singleChipAudio: cc.AudioSource = null;
-
-    @property(cc.AudioSource)
-    startNewRoundAudio: cc.AudioSource = null;
-
-    protected colorItem = "#4d2a0e";
-    protected colorIconMain = "#4d2a0e";
     private placingBet: HoldemPokerPlacingBet = null;
     private holdemPokerChips: HoldemPokerChips;
     private gameData: HoldemPokerGameData<HoldemPokerChoices> = null;
-    pokerCardScript: PokerCards = undefined;
+    pokerCardScript: HoldemPokerCards = undefined;
     private betHistoryController: HoldemPokerTicketHistory = null;
 
     constructor() {
@@ -149,8 +106,10 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.registerPlaceBetEvents();
         this.registerConfigsEvents();
         this.registerStateEvents();
-        this.registerAfterCallEvents();
         this.registerAfterDealEvents();
+        this.registerAfterSwapEvents();
+        this.registerAfterHoldEvents();
+        this.registerAfterCallEvents();
         this.registerBetEvents();
         this.registerSettlementEvents();
         this.initPokerCardScript();
@@ -161,19 +120,13 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     initPokerCardScript() {
-        this.pokerCardScript = this.node.getChildByName("PokerCardScript").getComponent(PokerCards);
+        this.pokerCardScript = this.node.getChildByName("PokerCardScript").getComponent(HoldemPokerCards);
     }
-
-    onGameHide() {}
 
     initHandlers() {
         super.initHandlers();
 
         this.umHandler = new HoldemPokerUmHandler(this);
-    }
-
-    protected addHandlers(...handlers: DataHandler[]): void {
-        super.addHandlers(this.umHandler, this.noticeHandler, this.errorHandler, this.betHandler);
     }
 
     onDataGameRoom(data: any) {
@@ -200,32 +153,14 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     public disabledButtons(status: boolean) {
-        const disableButton = "btn-disable";
-        this.dealButton.getChildByName(disableButton).active = status;
-        this.cancelButton.getChildByName(disableButton).active = status;
-        this.doubleButton.getChildByName(disableButton).active = status;
-        this.reBetAndDealButton.getChildByName(disableButton).active = status;
-        this.foldButton.getChildByName(disableButton).active = status;
-        this.doubleAndCallButton.getChildByName(disableButton).active = status;
-        this.newButton.getChildByName(disableButton).active = status;
+        super.disabledButtons(status);
+        this.doubleAndCallButton.getChildByName("btn-disable").active = status;
     }
 
-    private initButtonStatus() {
-        const disableButton = "btn-disable";
-        this.dealButton.getComponent(NewButton).callback.selected = () =>
-            !this.dealButton.getChildByName(disableButton).active && this.onDealClick();
-        this.doubleButton.getComponent(NewButton).callback.selected = () =>
-            !this.doubleButton.getChildByName(disableButton).active && this.onDoubleClick();
-        this.cancelButton.getComponent(NewButton).callback.selected = () =>
-            !this.cancelButton.getChildByName(disableButton).active && this.onCancelClick();
-        this.reBetAndDealButton.getComponent(NewButton).callback.selected = () =>
-            !this.reBetAndDealButton.getChildByName(disableButton).active && this.onRebetAndDeal();
-        this.foldButton.getComponent(NewButton).callback.selected = () =>
-            !this.foldButton.getChildByName(disableButton).active && this.onFoldClick();
+    public initButtonStatus() {
+        super.initButtonStatus();
         this.doubleAndCallButton.getComponent(NewButton).callback.selected = () =>
-            !this.doubleAndCallButton.getChildByName(disableButton).active && this.onDoubleAndCallClick();
-        this.newButton.getComponent(NewButton).callback.selected = () =>
-            !this.newButton.getChildByName(disableButton).active && this.onNewButtonClick();
+            !this.doubleAndCallButton.getChildByName("btn-disable").active && this.onDoubleAndCallClick();
     }
 
     private initTicketHistory() {
@@ -288,7 +223,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     private registerMD5Event() {
-        this.gameData.md5Model.on(HoldemPokerMD5Model.Events.CHANGE, (md5: HoldemPokerMD5Model) => {
+        this.gameData.md5Data.on(MD5ModelBase.Events.CHANGE, (md5: MD5ModelBase) => {
             updateMD5(this.md5Comp)(md5);
         });
     }
@@ -297,7 +232,10 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideButtons(this));
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideTooltip(this.bettingAreas));
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideClearIcon(this.bettingAreas));
-        this.gameData.stateModel.on(HoldemPokerStateModel.Events.PREPARE_NEW_ROUND, prepareNewRound(this.gameData.placeBetModel));
+        this.gameData.stateModel.on(HoldemPokerStateModel.Events.PREPARE_NEW_ROUND, () => {
+            prepareNewRound(this.gameData.placeBetModel)();
+            this.handleDisableSwap(false);
+        });
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, handleMD5(this));
     }
 
@@ -308,12 +246,30 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     private registerAfterDealEvents() {
-        this.gameData.dealModel.on(HoldemPokerAfterDealModel.Events.CHANGE, (dealModel: HoldemPokerAfterCallModel) => {
-            rawCardAfterClickDeal(this.pokerCardScript, dealModel, () => this.gameData.stateModel.afterDeal());
+        this.gameData.dealModel.on(HoldemPokerAfterDealModel.Events.CHANGE, (dealModel) => {
+            this.isSwapCard
+                ? dealPlayerAndDealerCards(this.pokerCardScript, dealModel, () => this.gameData.stateModel.afterDeal())
+                : this.afterDealWithoutSwap();
         });
-        this.gameData.dealModel.on(HoldemPokerAfterDealModel.Events.CHANGE, () =>
-            this.gameData.roundCounter.change(this.gameData.dealModel.roundId)
-        );
+    }
+
+    private afterDealWithoutSwap() {
+        this.gameData.stateModel.afterDeal();
+        this.placingBet.hold();
+    }
+
+    private registerAfterSwapEvents() {
+        this.gameData.swapModel.on(SwapModelBase.Events.CHANGE, (swapModel: SwapModelBase) => {
+            swapPlayerAndDealerCards(this.pokerCardScript, swapModel, this.swapCardsNode, () => this.gameData.stateModel.swapSuccess());
+        });
+    }
+
+    private registerAfterHoldEvents() {
+        this.gameData.holdModel.on(HoldemPokerHoldModel.Events.CHANGE, (holdModel: HoldemPokerHoldModel) => {
+            this.isSwapCard
+                ? holdPlayerAndDealerCards(this.pokerCardScript, holdModel, () => this.gameData.stateModel.holdSuccess())
+                : dealPlayerAndDealerCardsWithoutSwap(this.pokerCardScript, holdModel, () => this.gameData.stateModel.holdSuccess());
+        });
     }
 
     private registerBetEvents() {
@@ -323,9 +279,9 @@ export default class HoldemPoker extends NewGameRoomBase {
         this.gameData.on(HoldemPokerGameData.Events.HIDE_PROCESSING_BET, () => this.showProcessingWarning(false));
         this.gameData.ownBets.on(HoldemPokerOwnBet.Events.OWN_BETS, showRejoinOwnBets(this.gameData));
         this.gameData.ownBets.on(HoldemPokerOwnBet.Events.OWN_BETS, showRejoinTotalBet(this.totalBetLabel));
-        this.gameData.ownBets.on(HoldemPokerOwnBet.Events.OWN_BETS, updateRoundCounter(this.gameData.roundCounter));
         this.gameData.ownBets.on(HoldemPokerOwnBet.Events.OWN_BETS, (ownBets: HoldemPokerOwnBet) => {
             rawCardWhenRejoin(this.pokerCardScript, ownBets);
+            this.handleDisableSwap(true);
         });
     }
 
@@ -334,22 +290,24 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     private registerSettlementEvents() {
-        this.gameData.on(HoldemPokerGameData.Events.SETTLED, () => this.gameData.stateModel.settle());
+        this.gameData.on(HoldemPokerGameData.Events.SETTLED, () => {
+            this.gameData.stateModel.settle();
+        });
         this.gameData.finishModel.on(HoldemPokerFinishModel.Events.CHANGE_SETTLEMENT, () => {
-            this.gameData.settlement.startSettlement();
+            this.gameData?.settlement.startSettlement();
         });
 
-        this.gameData.settlement.on(
+        this.gameData?.settlement.on(
             HoldemPokerSettlement.Events.START_SETTLEMENT,
             showWinningOption(this.bettingAreas, this.holdemPokerChips, this.betChips, this.gameData, this)
         );
 
-        this.gameData.settlement.on(HoldemPokerSettlement.Events.START_SHOW_CARDS, () => {
+        this.gameData?.settlement.on(HoldemPokerSettlement.Events.START_SHOW_CARDS, () => {
             rawCardAfterClickCall(
                 this.pokerCardScript,
                 this.gameData.callModel,
                 () => {
-                    this.md5Comp.createResultDetails(this.gameData.md5Model.md5);
+                    this.md5Comp.createResultDetails(this.gameData.md5Data.md5);
                 },
                 () => {
                     this.gameData.settlement.finishShowCards();
@@ -374,29 +332,27 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     onDealClick() {
-        this.playClick();
+        super.onDealClick();
         this.placingBet.dealBet();
     }
 
     onDoubleClick() {
-        this.playClick();
+        super.onDoubleClick();
         this.placingBet.doubleBet(HoldemPokerChoicesConst.ante, this.gameData.placeBetModel.choices[HoldemPokerChoicesConst.ante]);
     }
 
     onCancelClick() {
-        this.playClick();
+        super.onCancelClick();
         this.gameData.receiveUIData({
             cancel: {}
         });
     }
 
     onRebetAndDeal() {
-        this.playClick();
-        this.hideButtonPrepareNewRound();
+        super.onRebetAndDeal();
         collectCards(this.pokerCardScript, () => this.placingBet && this.placingBet.rebetAndDeal());
         clearAllBetChips(this.bettingAreas)();
         this.holdemPokerChips.stopWinningEffect();
-        this.clearWinningBet();
     }
 
     onDoubleAndCallClick() {
@@ -407,12 +363,8 @@ export default class HoldemPoker extends NewGameRoomBase {
         );
     }
 
-    sendRetryMessage(): void {
-        this.connection.emit("retry");
-    }
-
     onFoldClick() {
-        this.playClick();
+        super.onFoldClick();
         this.gameData.receiveUIData({
             fold: {}
         });
@@ -424,8 +376,7 @@ export default class HoldemPoker extends NewGameRoomBase {
     }
 
     onNewButtonClick() {
-        this.playClick();
-        this.hideButtonPrepareNewRound();
+        super.onNewButtonClick();
         collectCards(
             this.pokerCardScript,
             () =>
@@ -436,19 +387,16 @@ export default class HoldemPoker extends NewGameRoomBase {
         );
         clearAllBetChips(this.bettingAreas)();
         this.holdemPokerChips.stopWinningEffect();
-        this.clearWinningBet();
     }
 
-    private hideButtonPrepareNewRound() {
-        this.reBetAndDealButton.active = this.newButton.active = false;
+    onSwapClick() {
+        super.onSwapClick();
+        this.placingBet.swap();
     }
 
-    public getConfigs() {
-        this.connection.emit(events.getGameConfigs);
-    }
-
-    playStartGameAudio() {
-        AudioManager.getInstance().playSFX(this.startNewRoundAudio.clip);
+    onHoldClick() {
+        super.onHoldClick();
+        this.placingBet.hold();
     }
 
     playSingleChipsSound() {

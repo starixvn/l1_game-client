@@ -1,21 +1,21 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { CardModel } from "../texas-type";
+import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
 export default class TexasAutoSettleModel extends EventEmitterBase {
     static Events = {
         CHANGE: "afterRiver:change"
     };
 
-    dealerCards: CardModel[];
-    communityCards: CardModel[];
+    dealerCards: OldCardModel[];
+    communityCards: OldCardModel[];
     combinationResult: any;
     roundId: number;
     totalAmount: number;
     step: string;
 
     updateModel(props: {
-        dealerCards: CardModel[];
-        communityCards: CardModel[];
+        dealerCards: OldCardModel[];
+        communityCards: OldCardModel[];
         combinationResult: any;
         totalAmount: number;
         step: string;

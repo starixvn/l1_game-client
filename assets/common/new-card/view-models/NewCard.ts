@@ -5,6 +5,8 @@ export interface CardModel {
     suit: number;
 }
 
+export type OldCardModel = { rank: number; suit: number };
+
 export enum CardAnimation {
     DealerToHand = "chia-bai",
     DropCard = "thu-bai",

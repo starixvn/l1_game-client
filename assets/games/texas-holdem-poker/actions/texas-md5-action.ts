@@ -1,14 +1,15 @@
-import { HoldemPokerMD5Model } from "../../holdem-poker/event-models/HoldemPokerMD5Model";
+import CasinoMD5 from "../../_casino/CasinoMD5";
+import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
 import { TexasState } from "../texas-type";
-import TexasStateModel from "./../event-models/texas-state-model";
 import Texas from "../view-models/texas";
-import TexasMD5 from "../view-models/texas-MD5";
+import TexasStateModel from "./../event-models/texas-state-model";
 
 export const handleMD5 = (main: Texas) => (stateModel: TexasStateModel) => {
     switch (stateModel.state) {
         case TexasState.replay_new:
         case TexasState.blank_new:
         case TexasState.calling_fold:
+        case TexasState.calling_deal:
             main.md5Comp.clearMD5();
             break;
         default:
@@ -16,7 +17,7 @@ export const handleMD5 = (main: Texas) => (stateModel: TexasStateModel) => {
     }
 };
 
-export const updateMD5 = (md5Comp: TexasMD5) => (model: HoldemPokerMD5Model) => {
+export const updateMD5 = (md5Comp: CasinoMD5) => (model: MD5ModelBase) => {
     if (typeof model.md5 === "string") {
         md5Comp.setMD5String(model.md5);
     }

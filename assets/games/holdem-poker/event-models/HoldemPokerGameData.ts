@@ -1,5 +1,3 @@
-import { EventEmitter } from "events";
-
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import HoldemPokerAfterCallEventHandler from "../event-handlers/HoldemPokerAfterCallEventHandler";
 import HoldemPokerAfterDealEventHandler from "../event-handlers/HoldemPokerAfterDealEventHandler";
@@ -7,7 +5,6 @@ import HoldemPokerConfigsHandler from "../event-handlers/HoldemPokerConfigsHandl
 import HoldemPokerFinishHandler from "../event-handlers/HoldemPokerFinishHandler";
 import HoldemPokerOwnBetHandler from "../event-handlers/HoldemPokerOwnBetHandler";
 import HoldemPokerTicketDetailEventHandler from "../event-handlers/HoldemPokerTicketDetailHandler";
-import { HoldemPokerAfterCallModel } from "./HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "./HoldemPokerAfterDealModel";
 import { HoldemPokerConfigs } from "./HoldemPokerConfigs";
 import { HoldemPokerFinishModel } from "./HoldemPokerFinishModel";
@@ -17,8 +14,16 @@ import { HoldemPokerRoundCounter } from "./HoldemPokerRoundCounter";
 import { HoldemPokerSettlement } from "./HoldemPokerSettlement";
 import { HoldemPokerStateModel } from "./HoldemPokerStateModel";
 import { HoldemPokerTicketDetailModel } from "./HoldemPokerTicketDetailModel";
-import { HoldemPokerMD5Model } from "./HoldemPokerMD5Model";
-import HoldemPockerMD5Handler from "../event-handlers/HoldemPockerMD5Handler";
+import HoldemPokerHoldModel from "./HoldemPokerHoldModel";
+import HoldemPokerSwapHandler from "../event-handlers/HoldemPokerSwapHandler";
+import HoldemPokerHoldHandler from "../event-handlers/HoldemPokerHoldHandler";
+import HoldModelBase from "../../_casino/event-models/HoldModelBase";
+import CallModelBase from "../../_casino/event-models/CallModelBase";
+import { HoldemPokerAfterCallModel } from "./HoldemPokerAfterCallModel";
+import DealModelBase from "../../_casino/event-models/DealModelBase";
+import SwapModelBase from "../../_casino/event-models/SwapModelBase";
+import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
+import MD5HandlerBase from "../../_casino/event-handlers/MD5HandlerBase";
 
 export class HoldemPokerGameData<Choices> extends GameData<Choices> {
     //base for Poker
@@ -33,13 +38,15 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
     readonly configs: HoldemPokerConfigs;
     readonly placeBetModel: HoldemPokerPlaceBetModel;
     readonly stateModel: HoldemPokerStateModel;
-    readonly dealModel: HoldemPokerAfterDealModel;
-    readonly callModel: EventEmitter;
-    readonly ownBets: HoldemPokerOwnBet;
     readonly finishModel: HoldemPokerFinishModel;
     readonly settlement: HoldemPokerSettlement;
     readonly ticketDetailModel: HoldemPokerTicketDetailModel;
-    readonly md5Model: HoldemPokerMD5Model;
+    ownBets: HoldemPokerOwnBet;
+    md5Data: MD5ModelBase;
+    swapModel: SwapModelBase;
+    dealModel: DealModelBase;
+    holdModel: HoldModelBase;
+    callModel: CallModelBase;
     //end base for Poker
 
     readonly roundCounter: HoldemPokerRoundCounter;
@@ -57,7 +64,9 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         this.roundCounter = new HoldemPokerRoundCounter();
         this.settlement = new HoldemPokerSettlement();
         this.ticketDetailModel = new HoldemPokerTicketDetailModel();
-        this.md5Model = new HoldemPokerMD5Model();
+        this.md5Data = new MD5ModelBase();
+        this.swapModel = new SwapModelBase();
+        this.holdModel = new HoldemPokerHoldModel();
     }
 
     // Override isProcessingBet
@@ -84,11 +93,13 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         const handlers = [
             HoldemPokerConfigsHandler,
             HoldemPokerAfterDealEventHandler,
+            HoldemPokerSwapHandler,
+            HoldemPokerHoldHandler,
             HoldemPokerAfterCallEventHandler,
             HoldemPokerOwnBetHandler,
             HoldemPokerFinishHandler,
             HoldemPokerTicketDetailEventHandler,
-            HoldemPockerMD5Handler
+            MD5HandlerBase
         ];
 
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
@@ -101,11 +112,12 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
 
     receiveUIData(data: any) {
         if (!!data.bet) {
+            this.placeBetModel.isUsingHand = true;
             this.placeBetModel.placeBet(data.bet.choice, data.bet.amount);
             this.stateModel.placeBet(data.bet.choice, this.placeBetModel);
         }
         if (!!data.double) {
-            this.placeBetModel.double(data.double.choice);
+            this.placeBetModel.double(data.double.choice, data.double.amount);
         }
         if (!!data.clear) {
             this.placeBetModel.clear(data.clear.choice);
@@ -114,6 +126,14 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         if (!!data.deal) {
             this.stateModel.deal();
         }
+
+        if (!!data.swap) {
+            this.stateModel.swap();
+        }
+        if (!!data.hold) {
+            this.stateModel.hold();
+        }
+
         if (!!data.cancel) {
             this.placeBetModel.resetBets();
             this.stateModel.cancelBet();
@@ -125,7 +145,7 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
         }
 
         if (!!data.doubleAndCall) {
-            this.placeBetModel.doubleAndCall();
+            this.placeBetModel.doubleAndCall(data.doubleAndCall.amount);
             this.stateModel.call();
         }
         if (!!data.fold) {
@@ -136,7 +156,7 @@ export class HoldemPokerGameData<Choices> extends GameData<Choices> {
             this.stateModel.resetState();
         }
         if (!!data.replayNew) {
-            this.placeBetModel.replayNew();
+            this.placeBetModel.replayNew(data.replayNew.amount);
             this.stateModel.replayNew();
         }
     }

@@ -111,7 +111,7 @@ export default class HoldemPokerTicketDetail extends cc.Component {
     }
 
     protected checkFaceDownPlayerCard(isSwappedOrHold: boolean) {
-        return true;
+        return isSwappedOrHold;
     }
 
     protected renderCardPlayer(playerCards, isSwappedOrHold) {

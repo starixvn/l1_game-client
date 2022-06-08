@@ -37,21 +37,18 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         othersGames: [GameIds.BitcoinMaster]
     };
     bannerAds = {
-        SC1: [GameIds.TexasHoldemPoker, GameIds.HiLo, GameIds.CasinoHoldemPoker, GameIds.SeDie],
+        SC1: [GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo],
         SC2: [GameIds.HiLo, GameIds.TexasHoldemPoker, GameIds.CasinoHoldemPoker, GameIds.SeDie]
     };
     bannerAdsInfo = {
         SC1: {
-            [GameIds.TexasHoldemPoker]: {
+            [GameIds.SeDie]: {
                 displayTime: 10
             },
+            [GameIds.TexasHoldemPoker]: {
+                displayTime: 5
+            },
             [GameIds.HiLo]: {
-                displayTime: 5
-            },
-            [GameIds.CasinoHoldemPoker]: {
-                displayTime: 5
-            },
-            [GameIds.SeDie]: {
                 displayTime: 5
             }
         },
@@ -145,8 +142,8 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     newGames = {
-        SC1: [GameIds.TexasHoldemPoker, GameIds.NightClub],
-        SC2: [GameIds.TexasHoldemPoker, GameIds.NightClub]
+        SC1: [GameIds.NightClub],
+        SC2: [GameIds.NightClub]
     };
 
     customizeCredit(): void {

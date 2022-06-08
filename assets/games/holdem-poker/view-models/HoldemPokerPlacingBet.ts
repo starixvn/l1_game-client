@@ -4,10 +4,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
-import HoldemPokerChoices, {
-    HoldemPokerChoicesConst,
-    HoldemPokerMaxBetChoicesConst,
-} from "../event-models/HoldemPokerChoices";
+import HoldemPokerChoices, { HoldemPokerChoicesConst, HoldemPokerMaxBetChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerState } from "../event-models/HoldemPokerState";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
@@ -50,14 +47,14 @@ export default class HoldemPokerPlacingBet {
 
     doubleBet(betChoice: string, betAmount: number) {
         if (this.validateBet(betChoice, betAmount) && this.validateAccountBalance(betAmount)) {
-            this.gameData.receiveUIData({ double: { choice: betChoice } });
+            this.gameData.receiveUIData({ double: { choice: betChoice, amount: betAmount } });
         }
     }
 
     doubleAndCallBet(betChoice: string, betAmount: number) {
         if (this.validateBet(betChoice, betAmount) && this.validateAccountBalance(betAmount)) {
             this.gameData.isProcessingBet = true;
-            this.gameData.receiveUIData({ doubleAndCall: {} });
+            this.gameData.receiveUIData({ doubleAndCall: { amount: betAmount } });
             this.gameBase.lockBet();
             this.getConnection().emit(events.bet, {
                 doubleCall: {}
@@ -76,7 +73,7 @@ export default class HoldemPokerPlacingBet {
         if (this.validateAccountBalanceForFullRound(currentTotal)) {
             this.gameData.isProcessingBet = true;
             this.gameData.receiveUIData({
-                rebetAndDeal: {}
+                rebetAndDeal: { amount: currentTotal }
             });
             this.gameBase.lockBet();
             this.getConnection().emit(events.bet, {
@@ -98,6 +95,30 @@ export default class HoldemPokerPlacingBet {
             this.gameBase.lockBet();
             this.getConnection().emit(events.bet, {
                 deal: this.gameData.placeBetModel.choices
+            });
+        }
+    }
+
+    swap() {
+        if (this.validateAccountBalanceForFullRound(0)) {
+            this.gameData.isProcessingBet = true;
+            this.gameData.receiveUIData({
+                swap: {}
+            });
+            this.getConnection().emit(events.bet, {
+                swap: {}
+            });
+        }
+    }
+
+    hold() {
+        if (this.validateAccountBalanceForFullRound(0)) {
+            this.gameData.isProcessingBet = true;
+            this.gameData.receiveUIData({
+                hold: {}
+            });
+            this.getConnection().emit(events.bet, {
+                hold: {}
             });
         }
     }
@@ -173,10 +194,13 @@ export default class HoldemPokerPlacingBet {
 
     private checkBalance(amount: number, isClickDeal = false) {
         let total: number;
+
         if (
             this.gameData.stateModel.state === HoldemPokerState.dealt ||
             this.gameData.stateModel.state === HoldemPokerState.prepare_new ||
-            this.gameData.stateModel.state === HoldemPokerState.replay_new
+            this.gameData.stateModel.state === HoldemPokerState.replay_new ||
+            this.gameData.stateModel.state === HoldemPokerState.held ||
+            this.gameData.stateModel.state === HoldemPokerState.swapped
         ) {
             total = amount;
         } else {

@@ -8,12 +8,12 @@ export default class RotationGuide extends SedieTutorial {
     storageKey = "rotation_guide";
 
     onLoad() {
-        setTimeout(() => {
+        this.scheduleOnce(() => {
             const data = this.getLocalStorageData();
             if (data.enabled) {
                 this.closeIntroduction();
             }
-        }, 6000);
+        }, 6);
     }
 
     onClickOK() {

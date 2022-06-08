@@ -1,32 +1,14 @@
 import TexasGameDataModel from "../event-models/texas-game-data-model";
 import { cloneDeepChoiceData } from "../texas-helper";
-import { CardModel } from "../texas-type";
 import TexasEventHandler from "./texas-event-handler";
+import { OwnBetDataType } from "../../_casino/event-models/CasinoDataType";
 
-export type TexasHoldemPokerOwnBetType = {
-    ownBets: {
-        roundId: number;
-        bets: Record<string, number>;
-        player: CardModel[];
-        communityCards: CardModel[];
-        combinationResult: {
-            player: {
-                id: number;
-                combinationCards: CardModel[];
-                cards: CardModel[];
-            };
-        };
-        totalAmount: number;
-        hasSwappedOrHold: boolean;
-    };
-};
-
-export default class TexasOwnBetHandler<Choices> extends TexasEventHandler<TexasHoldemPokerOwnBetType, Choices> {
-    protected verifyEvent(event: TexasHoldemPokerOwnBetType) {
+export default class TexasOwnBetHandler<Choices> extends TexasEventHandler<OwnBetDataType, Choices> {
+    protected verifyEvent(event: OwnBetDataType) {
         return !!event.ownBets;
     }
 
-    protected handle(event: TexasHoldemPokerOwnBetType) {
+    protected handle(event: OwnBetDataType) {
         this.gameData.isProcessingBet = false;
         const { bets, combinationResult, communityCards, roundId, player, totalAmount, hasSwappedOrHold } = event.ownBets;
 

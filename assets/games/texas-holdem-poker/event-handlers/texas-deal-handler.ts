@@ -1,11 +1,9 @@
 import TexasGameDataModel from "../event-models/texas-game-data-model";
 import { convertChoices } from "../texas-helper";
-import { CardModel } from "../texas-type";
 import TexasEventHandler from "./texas-event-handler";
 
 export type TexasDeal = {
     deal: {
-        communityCards: CardModel[];
         choices: Record<string, number>;
         roundId: number;
         totalAmount: number;
@@ -24,7 +22,7 @@ export default class TexasDealHandler<Choices> extends TexasEventHandler<TexasDe
         this.gameData.placeBetModel.updateDeal(choiceProcess);
         this.gameData.stateModel.dealing();
         this.gameData.ownBets.updateRoundId(roundId);
-        this.gameData.dealModel.changeDataAfterDeal([], [], [], roundId);
+        this.gameData.dealModel.changeDataAfterDeal({ roundId });
         this.gameData.emit(TexasGameDataModel.Events.CHOICES_RESULT, choiceProcess);
     }
 }

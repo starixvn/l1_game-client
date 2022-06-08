@@ -9,16 +9,17 @@ export default class TexasPlaceBetModel extends HoldemPokerPlaceBetModel {
         this.previousChoices = new TexasChoicesModel();
     }
 
-    doubleAndCall() {
+    doubleAndCall(amount: number) {
         this.choices[TexasChoicesConst.callBet] = this.choices[TexasChoicesConst.anteBet] * 2;
         this.emit(TexasPlaceBetModel.Events.CALL, this);
         this.emit(TexasPlaceBetModel.Events.UPDATE_CHIPS, {
             choice: TexasChoicesConst.callBet,
-            totalAmount: this.choices[TexasChoicesConst.callBet]
+            totalAmount: this.choices[TexasChoicesConst.callBet],
+            currentAmount: amount
         });
     }
 
-    updateBetModel(betChoice: string, betEvent: string, choiceRef = TexasChoicesConst.anteBet, rate = 1) {
+    updateBetModel(betChoice: string, betEvent: string, amount: number, choiceRef = TexasChoicesConst.anteBet, rate = 1) {
         if (rate <= 0) {
             return;
         }
@@ -28,7 +29,8 @@ export default class TexasPlaceBetModel extends HoldemPokerPlaceBetModel {
         this.emit(betEvent, this);
         this.emit(TexasPlaceBetModel.Events.UPDATE_CHIPS, {
             choice: betChoice,
-            totalAmount: betValue
+            totalAmount: betValue,
+            currentAmount: amount
         });
     }
 }

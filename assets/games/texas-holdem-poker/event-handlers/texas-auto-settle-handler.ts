@@ -1,20 +1,20 @@
-import { CardModel } from "../texas-type";
 import TexasEventHandler from "./texas-event-handler";
+import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
 export type TexasHoldemAutoSettle = {
     autoSettle: {
-        dealer: CardModel[];
-        communityCards: CardModel[];
+        dealer: OldCardModel[];
+        communityCards: OldCardModel[];
         combinationResult: {
             player: {
                 id: number;
-                combinationCards: CardModel[];
-                cards: CardModel[];
+                combinationCards: OldCardModel[];
+                cards: OldCardModel[];
             };
             dealer: {
                 id: number;
-                combinationCards: CardModel[];
-                cards: CardModel[];
+                combinationCards: OldCardModel[];
+                cards: OldCardModel[];
             };
         };
         totalAmount: number;

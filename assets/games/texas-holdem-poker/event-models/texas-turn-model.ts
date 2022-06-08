@@ -1,17 +1,17 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { CardModel } from "../texas-type";
+import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
 export default class TexasTurnModel extends EventEmitterBase {
     static Events = {
         CHANGE: "afterTurn:change"
     };
 
-    communityCards: CardModel[];
+    communityCards: OldCardModel[];
     combinationResult: any;
     roundId: number;
     totalAmount: number;
 
-    updateModel(communityCards: CardModel[], combinationResult: any, totalAmount: number) {
+    updateModel(communityCards: OldCardModel[], combinationResult: any, totalAmount: number) {
         this.combinationResult = combinationResult;
         this.communityCards = communityCards;
         this.totalAmount = totalAmount;

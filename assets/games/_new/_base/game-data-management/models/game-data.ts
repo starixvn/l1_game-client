@@ -18,6 +18,7 @@ export class GameData<Choices> extends EventEmitter {
     readonly totalBets: TotalBets<Choices>;
     readonly eventHandlers: BaseEventHandler<any, Choices>[] = [];
     readonly userHandler: UserHandler;
+    md5Data: any;
 
     get isUnderMaintenance() {
         return this.underMaintenanceFlag;

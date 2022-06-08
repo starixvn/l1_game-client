@@ -38,6 +38,7 @@ window.i18n.languages.zh_tw = {
         "38_break": "英雄傳說",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
+        45: "Hi-Lo",
         46: "Nightclub Lady"
     },
     messages: {
@@ -504,7 +505,6 @@ window.i18n.languages.zh_tw = {
         betRiver: "Bet River",
         total: "Total",
         fold: "Fold",
-        new: "New",
         swap: "Swap Cards",
         hold: "Hold Cards",
         notEnoughMoney: "Your account has insufficient funds to complete the game round",

@@ -1,30 +1,23 @@
-import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
+import DealModelBase, { DealModelType } from "../../_casino/event-models/DealModelBase";
+import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
-import { HoldemPokerCardModel } from "./HoldemPokerCardModel";
-import { HoldemPokerCombinationResult } from "./HoldemPokerCombinationResult";
-
-export class HoldemPokerAfterDealModel extends EventEmitterBase {
-    static Events = {
-        CHANGE: "afterDeal:change"
+interface HoldemPokerDealModelType extends DealModelType {
+    communityCards: OldCardModel[];
+    combinationResult: {
+        player: {
+            id: number;
+            combinationCards: OldCardModel[];
+            cards: OldCardModel[];
+        };
     };
+}
+export class HoldemPokerAfterDealModel extends DealModelBase {
+    communityCards: OldCardModel[];
+    combinationResult: any;
 
-    playerCards: HoldemPokerCardModel[];
-    communityCards: HoldemPokerCardModel[];
-    combinationResult: HoldemPokerCombinationResult;
-    roundId: number;
-
-    changeDataAfterDeal(
-        playerCards: HoldemPokerCardModel[],
-        communityCards: HoldemPokerCardModel[],
-        combinationResult: HoldemPokerCombinationResult,
-        roundId: number,
-        totalAmount: number
-    ) {
-        this.playerCards = playerCards;
-        this.roundId = roundId;
-        this.combinationResult = combinationResult;
-        this.communityCards = communityCards;
-
-        this.emit(HoldemPokerAfterDealModel.Events.CHANGE, this);
+    changeDataAfterDeal(options: HoldemPokerDealModelType) {
+        this.communityCards = options.communityCards;
+        this.combinationResult = options.combinationResult;
+        super.changeDataAfterDeal(options);
     }
 }

@@ -4,7 +4,7 @@ import BaccaratLogsHandler from "./BaccaratLogsHandler";
 import BaccaratFinishHandler from "./BaccaratFinishHandler";
 
 export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
-    private dealCardsTime = 2;
+    private readonly dealCardsTime = 2;
 
     get isInWaitTime() {
         return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime;

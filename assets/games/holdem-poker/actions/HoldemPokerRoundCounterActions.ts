@@ -1,5 +1,4 @@
 import GameUtils from "../../../common/GameUtils";
-import { HoldemPokerOwnBet } from "../event-models/HoldemPokerOwnBet";
 import { HoldemPokerRoundCounter } from "../event-models/HoldemPokerRoundCounter";
 
 export const updateRoundId = (gameRound: cc.Label) => (roundCounter: HoldemPokerRoundCounter) => {
@@ -8,8 +7,4 @@ export const updateRoundId = (gameRound: cc.Label) => (roundCounter: HoldemPoker
         const newPosX = GameUtils.isIpad() ? gameRound.node.position.x + 70 : gameRound.node.position.x;
         gameRound.node.position = cc.v3(newPosX, gameRound.node.position.y, gameRound.node.position.z);
     }
-};
-
-export const updateRoundCounter = (roundCounter: HoldemPokerRoundCounter) => (ownBets: HoldemPokerOwnBet) => {
-    roundCounter.change(ownBets.roundId);
 };

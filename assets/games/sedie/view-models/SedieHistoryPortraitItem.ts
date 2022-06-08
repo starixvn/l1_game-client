@@ -15,10 +15,10 @@ export default class SedieHistoryPortraitItem extends SedieHistoryItem {
     @property(cc.Node)
     lineBottom: cc.Node = null;
 
-    private heightEachBetOption = 35;
+    private readonly heightEachBetOption = 35;
 
     setData(betLog: any) {
-        const { freeBet, settlementResult, odds } = betLog;
+        const { settlementResult, odds } = betLog;
 
         Object.keys(settlementResult).forEach((choice) => {
             const node = cc.instantiate(this.betOptionPrefab);

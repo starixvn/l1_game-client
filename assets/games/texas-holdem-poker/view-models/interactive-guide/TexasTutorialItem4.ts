@@ -1,7 +1,8 @@
+import { CardAnimation } from "../../../../common/new-card/view-models/NewCard";
 import TutorialItem from "../../../../common/tutorial/TutorialItem";
 import HoldemPokerCard from "../../../holdem-poker/components/cards/view-models/HoldemPokerCard";
-import TexasSwapCards from "../../cards-component/view-models/texas-swap-cards";
-import { CardAnimation } from "./../../texas-type";
+import SwapCards from "../../../_casino/SwapCards";
+
 import TexasTutorialMain from "./TexasTutorialMain";
 
 const { ccclass, property } = cc._decorator;
@@ -23,7 +24,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
     @property(cc.Node)
     cardPlayer2: cc.Node = null;
 
-    swapCardComponent: TexasSwapCards;
+    swapCardComponent: SwapCards;
     actionSwapCard: cc.Tween;
     buttonSwapMainNode: cc.Node;
     buttonHoldMainNode: cc.Node;
@@ -89,7 +90,7 @@ export default class TexasTutorialItem4 extends TutorialItem {
         this.buttonFoldMainNode = tutorialMain.foldButton;
         this.buttonHoldMainNode = tutorialMain.holdButton;
         this.buttonSwapMainNode = tutorialMain.swapButton;
-        this.swapCardComponent = this.swapNode.getComponent(TexasSwapCards);
+        this.swapCardComponent = this.swapNode.getComponent(SwapCards);
     }
 
     setStatusSwapAndHoldButton(showSwapHold: boolean) {

@@ -68,7 +68,6 @@ export default class BetChips extends cc.Component {
     protected needResetCurrentChip = true;
 
     onLoad() {
-        // this.chipConfig = ChipConfig.getInstance();
         this.leftButton.active = false;
         this.snappedScrollView.onScrollEnded = () => {
             const min = this.snappedScrollView.getMinDisplayIndex();

@@ -6,7 +6,7 @@ export default class PrefabLoaderV2 extends cc.Component {
     public prefab: cc.Prefab = null;
 
     @property([cc.Component.EventHandler])
-    private initializationEventHandlers: cc.Component.EventHandler[] = [];
+    private readonly initializationEventHandlers: cc.Component.EventHandler[] = [];
 
     public instance: cc.Node;
 

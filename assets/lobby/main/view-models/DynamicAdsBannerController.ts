@@ -1,9 +1,8 @@
 import { lazyInject } from "../../../Application";
+import configs = require("../../../configs/Configs");
 import BannerController from "./BannerController";
 import BannerItem from "./BannerItem";
 import LobbyMenuConfig from "./LobbyMenuConfig";
-import configs = require("../../../configs/Configs");
-import { reject } from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
@@ -63,14 +62,15 @@ export default class DynamicAdsBannerController extends BannerController {
     async getBannerSpriteFrame(id: number) {
         const newSuffix = this.lobbyMenuConfig.isNewGame(id) ? "_new" : "";
         const currentLang = window.i18n.curLang;
+        const systemSuffix = configs.systemType === "SC1" ? "" : "_SC2";
         const languageAndNew = window.i18n.curLang !== "vi" ? `_${currentLang}${newSuffix}` : newSuffix;
-        const languageAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${languageAndNew}`);
+        const languageAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${languageAndNew}${systemSuffix}`);
 
         let bannerSpriteFrame: cc.SpriteFrame;
         if (languageAndNewSpriteFrame) {
             bannerSpriteFrame = languageAndNewSpriteFrame;
         } else {
-            const gameIdAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${newSuffix}`);
+            const gameIdAndNewSpriteFrame = await this.getSpriteFrame(`${id.toString()}${newSuffix}${systemSuffix}`);
             if (gameIdAndNewSpriteFrame) {
                 bannerSpriteFrame = gameIdAndNewSpriteFrame;
             } else {
@@ -83,7 +83,7 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     private getSpriteFrame(name: string) {
-        return new Promise<cc.SpriteFrame>((resolve, reject) => {
+        return new Promise<cc.SpriteFrame>((resolve) => {
             cc.resources.load<cc.SpriteFrame>(`image/banners/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
                 if (!this.node || !this.node.isValid) {
                     resolve(null);

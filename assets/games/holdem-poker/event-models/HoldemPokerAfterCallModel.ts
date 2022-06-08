@@ -1,28 +1,15 @@
-import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { HoldemPokerCardModel } from "./HoldemPokerCardModel";
-import { HoldemPokerCombinationResult } from "./HoldemPokerCombinationResult";
+import CallModelBase, { CallModelBaseType } from "../../_casino/event-models/CallModelBase";
+import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
-export class HoldemPokerAfterCallModel extends EventEmitterBase {
-    static Events = {
-        CHANGE: "afterCall:change"
-    };
+export interface CasinoHoldemCallModelBaseType extends CallModelBaseType {
+    dealerCards: OldCardModel[];
+}
 
-    dealerCards: HoldemPokerCardModel[];
-    communityCards: HoldemPokerCardModel[];
-    combinationResult: HoldemPokerCombinationResult;
-    totalAmount: number;
+export class HoldemPokerAfterCallModel extends CallModelBase {
+    dealerCards: OldCardModel[];
 
-    changeDataAfterCall(
-        dealerCards: HoldemPokerCardModel[],
-        communityCards: HoldemPokerCardModel[],
-        combinationResult: HoldemPokerCombinationResult,
-        totalAmount: number
-    ) {
-        this.dealerCards = dealerCards;
-        this.combinationResult = combinationResult;
-        this.communityCards = communityCards;
-        this.totalAmount = totalAmount;
-
-        this.emit(HoldemPokerAfterCallModel.Events.CHANGE, this);
+    changeDataAfterCall(options: CasinoHoldemCallModelBaseType) {
+        this.dealerCards = options.dealerCards;
+        super.changeDataAfterCall(options);
     }
 }

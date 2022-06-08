@@ -66,7 +66,7 @@ export default class HoldemPokerCards extends cc.Component {
     protected createCard(card: CardModel, scaleX: number, scaleY: number): cc.Node {
         const node = cc.instantiate(this.cardPrefab);
         const cardComponent = node.getComponent(HoldemPokerCard);
-        cardComponent.setCard(card);
+        cardComponent.setCardOldStyle(card);
         node.scaleX = scaleX;
         node.scaleY = scaleY;
         return node;
@@ -113,6 +113,9 @@ export default class HoldemPokerCards extends cc.Component {
 
     showArrowIndicatorCards(combineCard: CardModel[], whose: string) {
         switch (whose) {
+            case "community":
+                this.showIndicatorCard(combineCard, [{ row: this.middleCards, position: "bot", whose: "player" }]);
+                break;
             case "player":
                 this.showIndicatorCard(combineCard, [
                     { row: this.playerCards, position: "top", whose: "player" },
@@ -199,13 +202,16 @@ export default class HoldemPokerCards extends cc.Component {
 
     protected faceUpCard(cardInfo: CardModel, cardHand: HandPlace, indexCard: number): Promise<void> {
         const selectedCard = cardHand.getCards()[indexCard];
+        if (!selectedCard) {
+            return null;
+        }
         const duration = 0.6;
         const cardComponent = selectedCard.getComponent(HoldemPokerCard);
 
         return new Promise((resolve) => {
             cc.tween(selectedCard)
                 .call(() => {
-                    cardComponent.setCard(cardInfo);
+                    cardComponent.setCardOldStyle(cardInfo);
                     cardComponent.playAnimation(CardAnimation.DealerOpenCard, duration);
                 })
                 .delay(duration)

@@ -10,7 +10,8 @@ export enum InGameMenuEvents {
     CLOSE_GAME = "close_game",
 
     GO_TO_LOBBY = "go_to_lobby",
-    CHANGE_ORIENTATION = "change_orientation"
+    CHANGE_ORIENTATION = "change_orientation",
+    CHANGE_SWAP_CARD = "change_swap_card"
 }
 
 @ccclass
