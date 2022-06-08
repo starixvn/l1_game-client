@@ -17,6 +17,11 @@ export default class CallbackLoopAnimation extends CallbackAnimation {
         this.animation.on("finished", () => this.changeToLoopAnimation());
     }
 
+    skipTouchToContinue(duration: number) {
+        this.node.off(cc.Node.EventType.TOUCH_START, this.handleTouch, this);
+        this.animation.on("finished", () => this.scheduleOnce(this.finish, duration));
+    }
+
     initHandleTouch() {
         this.node.on(cc.Node.EventType.TOUCH_START, this.handleTouch, this);
     }
