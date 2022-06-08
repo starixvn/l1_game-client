@@ -567,6 +567,7 @@ window.i18n.languages.en = {
         no: "No.",
         resultBoard: "Result Board",
         symbolAndNumber: "Win Symbols",
-        winAmount: "Win Amount"
+        winAmount: "Win Amount",
+        trialModeText: "You are in the Trial Mode"
     }
 };

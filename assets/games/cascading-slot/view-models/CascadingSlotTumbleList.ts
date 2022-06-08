@@ -11,10 +11,7 @@ export default class CascadingSlotTumbleList extends cc.Component {
     content: cc.Node = null;
 
     @property(cc.Node)
-    animArea: cc.Node = null;
-
-    @property(cc.Node)
-    tempNode: cc.Node = null;
+    trialModeNode: cc.Node = null;
 
     scrollView: cc.ScrollView = null;
     onLoad() {
@@ -78,5 +75,9 @@ export default class CascadingSlotTumbleList extends cc.Component {
             .to(0.1, { position: cc.v3(0, y + 2, 0) }, { easing: "sineOut" })
             .to(0.1, { position: cc.v3(0, y, 0) }, { easing: "sineOut" })
             .start();
+    }
+
+    offerTrialMode(isTrialMode: boolean) {
+        this.trialModeNode.active = isTrialMode;
     }
 }

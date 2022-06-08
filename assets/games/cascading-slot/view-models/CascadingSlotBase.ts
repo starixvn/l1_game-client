@@ -151,6 +151,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.unschedule(this.registerTrialMode);
             this.registerViewGame();
         }
+        this.tumbleList.offerTrialMode(this.isTrialMode);
     }
 
     initHandlers() {

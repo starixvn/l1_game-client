@@ -567,6 +567,7 @@ window.i18n.languages.vi = {
         no: "Stt",
         resultBoard: "Bảng Kết Quả",
         symbolAndNumber: "Biếu Tượng Thắng",
-        winAmount: "Thắng"
+        winAmount: "Thắng",
+        trialModeText: "Bạn Đang Chơi Thử"
     }
 };
