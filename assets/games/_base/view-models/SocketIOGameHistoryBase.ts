@@ -2,7 +2,6 @@ import { Socket } from "socket.io-client";
 
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
