@@ -47,10 +47,10 @@ export default class CascadeSlotReel extends cc.Component {
         return node;
     }
 
-    async spin(data: number[], multiplier: number[]) {
+    async spin(data: number[], multiplier: number[], isTurbo: boolean) {
         this.setItemData(data, multiplier);
         this.setStartPositionForItems();
-        await this.fallIn();
+        await this.fallIn(isTurbo);
     }
 
     getItemPosY(index: number) {
@@ -70,7 +70,7 @@ export default class CascadeSlotReel extends cc.Component {
         });
     }
 
-    async fallWithOffset(offset: number) {
+    async fallWithOffset(offset: number, isTurbo: boolean) {
         const speed = offset < 0 ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
         let duration;
         const backOffsetY = this.itemSize * 0.2;
@@ -84,7 +84,9 @@ export default class CascadeSlotReel extends cc.Component {
             }
             duration = distance / speed;
             const delay = 0.08 * duration;
-            await GameUtils.delayTime(delay);
+            if (!isTurbo) {
+                await GameUtils.delayTime(delay);
+            }
 
             cc.tween(item.node)
                 .to(duration, { y: posY - backOffsetY }, { easing: "sineIn" })
@@ -94,12 +96,12 @@ export default class CascadeSlotReel extends cc.Component {
         await GameUtils.delayTime(duration + backDuration);
     }
 
-    async fallOut() {
-        await this.fallWithOffset(-this.itemDisplayCount);
+    async fallOut(isTurbo: boolean) {
+        await this.fallWithOffset(-this.itemDisplayCount, isTurbo);
     }
 
-    async fallIn() {
-        await this.fallWithOffset(0);
+    async fallIn(isTurbo: boolean) {
+        await this.fallWithOffset(0, isTurbo);
     }
 
     getItemNode(index: number): cc.Node {

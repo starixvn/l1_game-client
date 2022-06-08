@@ -70,9 +70,9 @@ export default class CascadeSlotBoard extends cc.Component {
                 await GameUtils.delayTime(delay);
             }
             if (i < this.reels.length - 1) {
-                this.reels[i].fallOut();
+                this.reels[i].fallOut(isTurbo);
             } else {
-                await this.reels[i].fallOut();
+                await this.reels[i].fallOut(isTurbo);
             }
         }
     }
@@ -88,9 +88,9 @@ export default class CascadeSlotBoard extends cc.Component {
                 await GameUtils.delayTime(delay);
             }
             if (i < this.reels.length - 1) {
-                this.reels[i].spin(symbols[i], multiplier);
+                this.reels[i].spin(symbols[i], multiplier, isTurbo);
             } else {
-                await this.reels[i].spin(symbols[i], multiplier);
+                await this.reels[i].spin(symbols[i], multiplier, isTurbo);
             }
         }
     }
@@ -147,10 +147,10 @@ export default class CascadeSlotBoard extends cc.Component {
         return multiplierItems;
     }
 
-    public async fallIn() {
+    public async fallIn(isTurbo: boolean) {
         await Promise.all(
             this.reels.map(async (reel) => {
-                await reel.fallIn();
+                await reel.fallIn(isTurbo);
             })
         );
     }
