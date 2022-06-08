@@ -367,8 +367,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     setDefaultPositionForMiniMenu() {
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
-        const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
-        this.currentMiniPanel.miniMenu.position = cc.v3(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
+        const localPosition = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(wPosition);
+        this.currentMiniPanel.miniMenu.getChildByName("PopUpMiniGame").position = cc.v3(
+            this.currentMiniPanel.miniMenu.getChildByName("PopUpMiniGame").position.x,
+            localPosition.y
+        );
     }
 
     initSlotGameConfig() {
