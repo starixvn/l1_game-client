@@ -448,8 +448,7 @@ window.i18n.languages.vi = {
         new_year: "Phúc Lộc An Khang",
         md5_result: "KẾT QUẢ",
         md5_string: "CHUỖI MD5",
-        md5_copy: "COPY",
-        cardList: "Danh sách thẻ bài"
+        md5_copy: "COPY"
     },
     holdEmPoker: {
         ante: "ANTE",
@@ -581,6 +580,11 @@ window.i18n.languages.vi = {
     blockChainBaccarat: {
         headerContent:
             "'Serial Number' for each card is generated at the beginning of the new shoe. Players can check the fairness and transparency of card result by comparing...",
-        verifyCards: "Verify Cards"
+        verifyCards: "Verify Cards",
+        cardVerification: "Card Verification",
+        verify: "Verify",
+        cardList: "Danh sách thẻ bài",
+        privateKey: "Private Key",
+        serialNumber: "Serial Number"
     }
 };

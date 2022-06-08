@@ -58,6 +58,7 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     public setData(cardList: Blockchain) {
+        console.log("carlist", cardList);
         const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
         this.cutCard = cutCardIndex;
         this.burnedCard = burnedCards;
@@ -88,7 +89,7 @@ export default class BlockchainCardList extends cc.Component {
             rank: card?.rank,
             suit: card?.suit
         });
-        
+
         !!card ? cardComponent.setFaceUp(isFaceUp) : cardComponent.setFaceUp(!isFaceUp);
         if (this.cutCard === index) {
             cardComponent.setKeyCard();
