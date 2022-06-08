@@ -71,30 +71,27 @@ export default class CascadeSlotReel extends cc.Component {
     }
 
     async fallWithOffset(offset: number) {
-        // const inEasing = (x: number) => {
-        //     const c1 = 0.7;
-        //     const c3 = c1 + 1;
-        //     return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
-        // };
-        const inEasing = (dt) => cc.easeBezierAction(0, 0, 1.1, 1).easing(dt);
-        const outEasing = (x: number) => {
-            return 1 - Math.cos((x * Math.PI) / 2);
-        };
-        const easing = offset < 0 ? outEasing : inEasing;
         const speed = offset < 0 ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
-        const opts = { easing };
         let duration;
+        const backOffsetY = this.itemSize * 0.2;
+        const backDuration = 0.2;
         for (let i = 0; i < this.items.length; i++) {
             const item = this.items[i];
             const posY = this.getItemPosY(i + offset);
             const distance = Math.abs(posY - item.node.y);
+            if (distance < 1) {
+                continue;
+            }
             duration = distance / speed;
             const delay = 0.08 * duration;
             await GameUtils.delayTime(delay);
 
-            cc.tween(item.node).to(duration, { y: posY }, opts).start();
+            cc.tween(item.node)
+                .to(duration, { y: posY - backOffsetY }, { easing: "sineIn" })
+                .by(backDuration, { y: +backOffsetY }, { easing: "sineOut" })
+                .start();
         }
-        await GameUtils.delayTime(duration);
+        await GameUtils.delayTime(duration + backDuration);
     }
 
     async fallOut() {
