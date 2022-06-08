@@ -70,7 +70,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         AudioManager.getInstance().playClick();
 
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
-            this.onAutoSpinOff();
+            this.setAutoSpinCount(0);
+            this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
+
             return;
         }
 
@@ -83,13 +85,13 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     onAutoSpinOff() {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
-        if (this.holdActionButton.isAutoAction) {
-            this.setAllowChangeBet(false);
-            this.autoSpinToggle.interactable = false;
-        } else {
-            this.setAllowChangeBet(true);
-            this.autoSpinToggle.interactable = true;
-        }
+        // if (this.holdActionButton.isAutoAction) {
+        //     this.setAllowChangeBet(false);
+        //     this.autoSpinToggle.interactable = false;
+        // } else {
+        //     this.setAllowChangeBet(true);
+        //     this.autoSpinToggle.interactable = true;
+        // }
         this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
     }
 
@@ -97,7 +99,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const total = this.getCurrentTotalBet();
         if (this.getUserBalance() < total) {
             this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
-            this.autoSpinToggle.isChecked = false;
             return false;
         }
         return true;
@@ -193,12 +194,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     initCountDownWarning(node: cc.Node) {
         this.countDownAutoSpin = node.getComponent(CountDownWarning);
         this.countDownAutoSpin.node.active = false;
-    }
-
-    disabledButtons() {
-        const autoSpin = this.isAutoSpinMode() && this.stillAutoSpin();
-        this.setAllowChangeBet(false);
-        this.autoSpinToggle.interactable = autoSpin;
     }
 
     abstract setAllowChangeBet(allow: boolean);

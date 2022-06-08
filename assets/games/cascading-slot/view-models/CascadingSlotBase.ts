@@ -89,6 +89,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     @property(cc.Prefab)
     flyWinLabelPrefab: cc.Prefab = null;
 
+    @property(cc.Toggle)
+    trialToggle: cc.Toggle = null;
+
     public gameData: CascadingSlotGameData<void>;
     protected cascadingSlotConfig: CascadingSlotBaseConfig;
     protected isAutoSpin = false;
@@ -315,7 +318,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
             this.totalFreeSpins = value;
-            this.freeSpinView.showView(value > 0);
+            const show = value > 0;
+            if (show) {
+                this.gameData.spinButtonStateModel.change(SpinButtonState.FreeSpin);
+            }
+            this.freeSpinView.showView(show);
             this.freeSpinView.setValue(value);
         });
 
@@ -331,7 +338,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
             HandleBetControl(this)(data);
-            this.miniBetControl.setAllowChangeBet(true);
+            this.setAllowChangeBet(true);
         });
 
         this.gameData.spinButtonStateModel.on(SpinButtonStateModel.Events.CHANGE, (state: SpinButtonState) => {
@@ -343,6 +350,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     this.spinButton.showAutoSpinMode();
                     break;
             }
+
+            this.updateButtonsInteract();
         });
 
         this.gameData.stateModel.on(CascadingSlotStateModel.Events.CHANGE, (state) => {
@@ -354,15 +363,15 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     if (!this.isFreeSpin()) {
                         this.consumeAutoSpinCount();
                     }
-                    //TODO: stop tween for result
                     break;
                 case CascadingSlotState.Spinning:
-                    this.disabledButtons();
                     break;
                 case CascadingSlotState.Settled:
                     this.bottomMessage.showMessageDisplay(RoundType.SETTLED, this.isTurboMode());
                     break;
             }
+
+            this.updateButtonsInteract();
         });
 
         this.gameData.trialModel.on(CascadingSlotTrialModel.Events.CHANGE_USER_BALANCE, (value) => {
@@ -466,5 +475,39 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         if (this.miniBetControl) {
             this.miniBetControl.setAllowChangeBet(allow);
         }
+    }
+
+    updateButtonsInteract() {
+        const state = this.gameData.stateModel.state;
+        const spinButtonState = this.gameData.spinButtonStateModel.state;
+
+        if (spinButtonState === SpinButtonState.FreeSpin) {
+            this.trialToggle.interactable = false;
+            this.setAllowChangeBet(false);
+            this.spinButton.spinButton.interactable = false;
+            this.autoSpinToggle.interactable = false;
+            return;
+        }
+
+        if (spinButtonState === SpinButtonState.AutoSpin) {
+            this.trialToggle.interactable = false;
+            this.setAllowChangeBet(false);
+            this.spinButton.spinButton.interactable = false;
+            this.autoSpinToggle.interactable = true;
+            return;
+        }
+
+        if (state === CascadingSlotState.Spinning) {
+            this.trialToggle.interactable = false;
+            this.setAllowChangeBet(false);
+            this.spinButton.spinButton.interactable = false;
+            this.autoSpinToggle.interactable = false;
+            return;
+        }
+
+        this.trialToggle.interactable = true;
+        this.setAllowChangeBet(true);
+        this.spinButton.spinButton.interactable = true;
+        this.autoSpinToggle.interactable = true;
     }
 }
