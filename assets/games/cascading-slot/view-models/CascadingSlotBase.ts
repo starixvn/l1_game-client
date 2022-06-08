@@ -330,6 +330,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
             HandleBetControl(this)(data);
+            this.miniBetControl.setAllowChangeBet(true);
         });
 
         this.gameData.spinButtonStateModel.on(SpinButtonStateModel.Events.CHANGE, (state: SpinButtonState) => {
@@ -451,7 +452,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     setAllowChangeBet(allow: boolean) {
         if (this.miniBetControl) {
-            this.miniBetControl.setStatusTotalBet(allow);
+            this.miniBetControl.setAllowChangeBet(allow);
         }
     }
 }

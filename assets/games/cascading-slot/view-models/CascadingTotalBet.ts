@@ -27,9 +27,12 @@ export default class CascadingTotalBet extends cc.Component {
     protected isOpenBetControl = false;
     protected mainGame: CascadingSlotBase;
 
+    onLoad() {
+        this.setAllowChangeBet(false);
+    }
+
     initData(betControl: CascadingBetControl) {
         this.betControl = betControl;
-        this.setStatusTotalBet(false);
     }
 
     onClickOpenBetControl() {
@@ -50,7 +53,7 @@ export default class CascadingTotalBet extends cc.Component {
         this.isOpenBetControl = !this.isOpenBetControl;
     }
 
-    setStatusTotalBet(status: boolean) {
+    setAllowChangeBet(status: boolean) {
         this.totalBetImg.interactable = status;
         this.buttonIncrease.interactable = status;
         this.buttonDecrease.interactable = status;
