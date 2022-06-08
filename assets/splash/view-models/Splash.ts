@@ -19,7 +19,7 @@ declare global {
 @ccclass
 export default class Splash extends cc.Component {
     @property(RandomWaitingMessage)
-    messageComp: RandomWaitingMessage;
+    messageComp: RandomWaitingMessage = null;
 
     @property(cc.Asset)
     manifestUrl: cc.Asset = null;
@@ -28,10 +28,10 @@ export default class Splash extends cc.Component {
     progressBar: cc.ProgressBar = null;
 
     @property(cc.Node)
-    sloganSC1: cc.Node;
+    sloganSC1: cc.Node = null;
 
     @property(cc.Node)
-    sloganSC2: cc.Node;
+    sloganSC2: cc.Node = null;
 
     private loadSceneTimeout: any;
 

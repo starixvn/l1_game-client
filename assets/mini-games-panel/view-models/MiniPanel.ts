@@ -35,7 +35,7 @@ export default class MiniPanel extends BaseComponent {
     miniGames: cc.Node = null;
 
     @property(cc.Node)
-    popUpMiniMenu: cc.Node = null;
+    miniMenu: cc.Node = null;
 
     @property(cc.Node)
     dialog: cc.Node = null;
@@ -71,7 +71,6 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
-    public miniMenu: cc.Node = null;
     public mainGame: MainGame;
 
     addNewLayerCallback(key: string, callback: NewLayerCallback) {
@@ -137,10 +136,9 @@ export default class MiniPanel extends BaseComponent {
     initPopUpMiniGames() {
         GameUtils.loadResource(`minipanel/popup-mini-game/PopUpMiniGame`).then((prefab) => {
             const popUpMiniGameNode = cc.instantiate(prefab);
-            this.miniMenu = popUpMiniGameNode;
             this.popupMiniGame = popUpMiniGameNode.getComponent(PopupMinigames);
             if (this.popupMiniGame) {
-                const backgroundPopUpMiniGameNode = this.popUpMiniMenu.getChildByName("frame");
+                const backgroundPopUpMiniGameNode = this.miniMenu.getChildByName("frame");
                 const clickEventHandler = new cc.Component.EventHandler();
                 clickEventHandler.target = popUpMiniGameNode;
                 clickEventHandler.component = "PopupMinigames";
@@ -151,7 +149,7 @@ export default class MiniPanel extends BaseComponent {
             }
             const gameMenu = popUpMiniGameNode.getChildByName("list")?.getComponent(CircleMenu);
             if (gameMenu) gameMenu.miniPanel = this;
-            this.popUpMiniMenu.addChild(popUpMiniGameNode);
+            this.miniMenu.addChild(popUpMiniGameNode);
         });
     }
 
@@ -369,7 +367,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     setIconOverMiniGame(over: boolean) {
-        this.miniMenu.getParent().setSiblingIndex(over ? 1 : 0);
+        this.miniMenu.setSiblingIndex(over ? 1 : 0);
         this.miniGames.setSiblingIndex(!over ? 1 : 0);
     }
 }
