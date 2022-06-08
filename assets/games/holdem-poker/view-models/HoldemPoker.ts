@@ -233,7 +233,7 @@ export default class HoldemPoker extends CasinoGame {
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideTooltip(this.bettingAreas));
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, showHideClearIcon(this.bettingAreas));
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.PREPARE_NEW_ROUND, () => {
-            prepareNewRound(this.gameData.placeBetModel);
+            prepareNewRound(this.gameData.placeBetModel)();
             this.handleDisableSwap(false);
         });
         this.gameData.stateModel.on(HoldemPokerStateModel.Events.CHANGE, handleMD5(this));

@@ -349,7 +349,7 @@ export default class Texas extends CasinoGame {
         this.gameData.stateModel.on(TexasStateModel.Events.CHANGE, showHideButtons(this));
         this.gameData.stateModel.on(TexasStateModel.Events.CHANGE, showHideTooltip(this.bettingAreas));
         this.gameData.stateModel.on(TexasStateModel.Events.PREPARE_NEW_ROUND, () => {
-            prepareNewRound(this.gameData.placeBetModel);
+            prepareNewRound(this.gameData.placeBetModel)();
             this.handleDisableSwap(false);
         });
         this.gameData.stateModel.on(TexasStateModel.Events.FORCE_UPDATE_BALANCE, () => this.updateUserBalance());
