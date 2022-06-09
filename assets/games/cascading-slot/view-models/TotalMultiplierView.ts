@@ -18,6 +18,5 @@ export default class TotalMultiplierView extends FadeAppearanceNode {
         } else {
             this.total.string = `x${value}`;
         }
-        this.showView(true);
     }
 }
