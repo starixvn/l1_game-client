@@ -386,20 +386,28 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         const label = node.getComponent(cc.Label);
         label.string = numberWithCommas(value, 2, false);
-        node.scale = 0.4;
+        node.scale = 0;
         node.opacity = 0;
         cc.tween(node)
 
             .parallel(
                 cc
                     .tween()
-                    .to(0.2, { opacity: 255 })
-                    .to(0.2, { opacity: 220 })
-                    .to(0.4, { opacity: 200 })
-                    .to(0.6, { opacity: 180 })
+                    .to(0.02, { opacity: 130 })
+                    .to(0.02, { opacity: 200 })
+                    .to(0.02, { opacity: 255 })
+                    .delay(1)
+                    .to(0.2, { opacity: 190 })
+                    .to(0.2, { opacity: 120 })
                     .to(0.2, { opacity: 0 }, { easing: "sineOut" }),
-                cc.tween().to(0.2, { scale: 1.2 }).to(1.4, { scale: 0.9 }, { easing: "sineOut" }),
-                cc.tween().by(0.2, { y: -20 }).by(1.4, { y: 100 }, { easing: "sineOut" })
+                cc
+                    .tween()
+                    .to(0.02, { scale: 0.4 })
+                    .to(0.02, { scale: 0.7 })
+                    .to(0.02, { scale: 1 })
+                    .to(0.2, { scale: 1.3 })
+                    .to(1.4, { scale: 0.9 }, { easing: "sineOut" }),
+                cc.tween().delay(0.06).by(1.6, { y: 60 }, { easing: "sineOut" })
             )
             .call(() => {
                 node.destroy();
