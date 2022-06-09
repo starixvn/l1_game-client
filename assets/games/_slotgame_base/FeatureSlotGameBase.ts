@@ -39,6 +39,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(HoldActionButton)
     holdActionButton: HoldActionButton = null;
 
+    @property(cc.Node)
+    defaultMiniMenu: cc.Node = null;
+
     countDownAutoSpin: CountDownWarning = null;
 
     protected autoSpinCount = 0;
@@ -49,6 +52,10 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     abstract spin(): boolean;
 
     public gameData: FeatureSlotGameData<void>;
+
+    start() {
+        this.schedule(this.setDefaultPositionForMiniMenu, 0.1);
+    }
 
     onTurboModeChanged(toggle: cc.Toggle) {
         AudioManager.getInstance().playClick();
@@ -197,4 +204,10 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     abstract setAllowChangeBet(allow: boolean);
+
+    setDefaultPositionForMiniMenu() {
+        const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
+        const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
+        this.currentMiniPanel.miniMenu.position = cc.v3(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
+    }
 }

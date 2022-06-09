@@ -267,6 +267,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     start() {
+        super.start();
         this.gameData.uiModel.resetNewRound();
     }
 
