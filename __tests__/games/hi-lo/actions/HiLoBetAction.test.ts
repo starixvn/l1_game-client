@@ -16,7 +16,8 @@ jest.mock("../../../../assets/games/hi-lo/view-models/HiLo", () => ({
 
             betBoardComp: {
                 setCurrentBet: jest.fn(),
-                disableBetBoard: jest.fn()
+                disableBetBoard: jest.fn(),
+                setNeedResetCurrentChip: jest.fn()
             },
             currentBet: 1,
             isStopSchedule: false
