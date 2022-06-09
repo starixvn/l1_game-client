@@ -12,22 +12,13 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class BlockchainCardList extends cc.Component {
     @property({ type: cc.Prefab })
-    itemsPrefab: cc.Prefab = null;
+    cardPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     content: cc.Node = null;
 
     @property(cc.Node)
-    itemNext: cc.Node = null;
-
-    @property({ type: cc.Integer })
-    rowMax = 35;
-
-    @property(cc.Size)
-    itemSize: cc.Size = new cc.Size(100, 120);
-
-    @property(cc.Size)
-    padding: cc.Size = new cc.Size(2, 2);
+    cardNext: cc.Node = null;
 
     @property(cc.Prefab)
     cardVerificationPrefab: cc.Prefab = null;
@@ -38,16 +29,12 @@ export default class BlockchainCardList extends cc.Component {
     protected nextMark: cc.Node = null;
     protected cutCard: number;
     protected burnedCard: number;
+    protected currentCardIndex: number;
     protected cardVerificationComponent: BlockchainCardVerification = null;
     protected root: BlockchainBaccarat;
 
     init(root: BlockchainBaccarat) {
         this.root = root;
-    }
-
-    onLoad() {
-        const itemsNode = GameUtils.createNodeFromPrefab(this.itemsPrefab);
-        this.items = itemsNode.children;
     }
 
     showDialog() {
@@ -57,12 +44,10 @@ export default class BlockchainCardList extends cc.Component {
         }
     }
 
-    public setData(cardList: Blockchain) {
-        console.log("carlist", cardList);
+    public updateData(cardList: Blockchain) {
         const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
         this.cutCard = cutCardIndex;
-        this.burnedCard = burnedCards;
-        const itemsNode = GameUtils.createNodeFromPrefab(this.itemsPrefab);
+        const itemsNode = GameUtils.createNodeFromPrefab(this.cardPrefab);
         this.items = itemsNode.children;
         this.cards.forEach((card) => {
             card.removeFromParent();
@@ -70,20 +55,21 @@ export default class BlockchainCardList extends cc.Component {
         });
 
         this.cards = [];
-
         this.nextMark = null;
+
         chain.forEach((card, index) => {
-            const historyDot = this.createCard(card.card, index);
-            this.content.addChild(historyDot);
-            this.cards.push(historyDot);
-            index++;
+            const isFlipCard = index > this.currentCardIndex && index <= currentIndex;
+            const cardNode = this.createCard(card.card, index, isFlipCard);
+            this.content.addChild(cardNode);
+            this.cards.push(cardNode);
         });
 
+        this.currentCardIndex = currentIndex;
         this.addNextMark();
     }
 
-    protected createCard(card: CardModel, index, isFaceUp = true): cc.Node {
-        const node = cc.instantiate(this.itemsPrefab);
+    protected createCard(card: CardModel, index, isFlipping = false, isFaceUp = true): cc.Node {
+        const node = cc.instantiate(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
         cardComponent.setCardOldStyle({
             rank: card?.rank,
@@ -100,6 +86,7 @@ export default class BlockchainCardList extends cc.Component {
         };
 
         cardComponent.indexNumber.string = this.convertIndexNumber(index + 1);
+        !!isFlipping && cardComponent.animation.play();
         return node;
     }
 
@@ -115,7 +102,7 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     private addNextMark() {
-        const card = cc.instantiate(this.itemNext);
+        const card = cc.instantiate(this.cardNext);
         card.active = false;
         this.content.addChild(card);
         this.nextMark = card;

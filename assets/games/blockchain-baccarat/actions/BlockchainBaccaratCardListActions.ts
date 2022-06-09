@@ -2,5 +2,5 @@ import { BlockchainBaccaratFinishModel } from "../event-models/BlockchainBaccara
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 
 export const updateCardList = (mainGame: BlockchainBaccarat) => (finishModel: BlockchainBaccaratFinishModel) => {
-    mainGame.cardList?.setData(finishModel.finishData.blockchain);
+    mainGame.cardList?.updateData(finishModel.finishData.blockchain);
 };
