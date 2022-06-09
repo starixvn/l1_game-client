@@ -235,6 +235,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     spin(): boolean {
         let success = false;
         if (!this.isReadyBet() || !this.checkAvailableBalance() || this.processingSettlement) {
+            this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
             return success;
         }
         const autoSpinAction = this.holdActionButton.isAutoAction;
@@ -519,6 +520,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.trialToggle.interactable = true;
         this.setAllowChangeBet(true);
         this.spinButton.spinButton.interactable = true;
-        this.autoSpinToggle.interactable = true;
+        this.autoSpinToggle.interactable = !this.holdActionButton.isAutoAction;
     }
 }

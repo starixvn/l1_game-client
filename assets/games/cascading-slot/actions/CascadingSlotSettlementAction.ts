@@ -89,6 +89,8 @@ const handleAutoSpin = (mainGame: CascadingSlotBase) => {
         } else {
             mainGame.onAutoSpinOff();
         }
+    } else {
+        mainGame.onAutoSpinOff();
     }
 };
 

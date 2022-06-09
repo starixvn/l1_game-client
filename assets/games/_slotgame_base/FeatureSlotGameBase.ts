@@ -92,13 +92,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     onAutoSpinOff() {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
-        // if (this.holdActionButton.isAutoAction) {
-        //     this.setAllowChangeBet(false);
-        //     this.autoSpinToggle.interactable = false;
-        // } else {
-        //     this.setAllowChangeBet(true);
-        //     this.autoSpinToggle.interactable = true;
-        // }
         this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
     }
 
