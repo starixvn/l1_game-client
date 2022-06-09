@@ -18,6 +18,7 @@ export default class TumbleWinView extends FadeAppearanceNode {
     @property(cc.Label)
     totalWin: cc.Label = null;
 
+    readonly mulitiplierEffectDuration = 0.2;
     onLoad() {
         this.onHidden = () => {
             this.showTotalWin(false);
@@ -85,6 +86,9 @@ export default class TumbleWinView extends FadeAppearanceNode {
         this.multiplier.string = `x${value}`;
         this.multiplier.node.opacity = 255;
         this.tumbleLayout.enabled = true;
-        cc.tween(this.multiplier.node).to(0.1, { scale: 1.2 }, { easing: "sineOut" }).to(0.1, { scale: 1 }, { easing: "sineIn" }).start();
+        cc.tween(this.multiplier.node)
+            .to(0.5 * this.mulitiplierEffectDuration, { scale: 1.2 }, { easing: "sineOut" })
+            .to(0.5 * this.mulitiplierEffectDuration, { scale: 1 }, { easing: "sineIn" })
+            .start();
     }
 }

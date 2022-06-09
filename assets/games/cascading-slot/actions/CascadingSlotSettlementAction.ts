@@ -117,9 +117,10 @@ const handleMultiplier = async (
             await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
             mainGame.gameData.uiModel.increaseMultiplier(mItem.multiplier);
         }
+
+        await GameUtils.delayTime(mainGame.tumbleWinView.mulitiplierEffectDuration);
     }
 
-    await GameUtils.delayTime(1);
     mainGame.gameData.uiModel.setTotalWin(win);
     if (mainGame.isTrialMode) {
         mainGame.gameData.trialModel.updateSettledBalance();
