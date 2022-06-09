@@ -5,8 +5,8 @@ export const showCards = (cardsUI: BlockchainBaccaratCardsUI) => (dataFinish: an
     const playerCards = getDataFollowTypePlayer(result, false);
     const bankerCards = getDataFollowTypePlayer(result, true);
 
-    cardsUI.playerCard.showCards(playerCards, bankerCards.length === 3 ? null : showResultFunc);
-    cardsUI.bankerCard.showCards(bankerCards, bankerCards.length === 3 ? showResultFunc : null, playerCards.length === 3);
+    cardsUI.playerCards.showCards(playerCards, bankerCards.length === 3 ? null : showResultFunc);
+    cardsUI.bankerCards.showCards(bankerCards, bankerCards.length === 3 ? showResultFunc : null, playerCards.length === 3);
 };
 
 const getDataFollowTypePlayer = (data: any, isBanker: boolean) => {

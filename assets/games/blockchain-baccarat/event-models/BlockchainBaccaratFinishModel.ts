@@ -24,8 +24,9 @@ export class BlockchainBaccaratFinishModel extends EventEmitterBase {
     finishData: BlockchainBaccaratFinish;
 
     changeFinishResult(finish: BlockchainBaccaratFinish) {
+        console.log(finish, "finish");
         this.finishData = finish;
-        this.emit(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, this);
+        this.emit(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, finish);
     }
 
     finishAnimationWinning() {

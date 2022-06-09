@@ -18,7 +18,7 @@ export default class BlockchainBaccaratFinishHandler<Choices> extends BaseEventH
     protected readonly gameData: BlockchainBaccaratGameData<Choices>;
 
     protected verifyEvent(event: BlockchainBaccaratFinish<Choices>) {
-        return !!event.finish;
+        return event.finish != null;
     }
 
     protected handle(event: BlockchainBaccaratFinish<Choices>) {

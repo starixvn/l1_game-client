@@ -1,7 +1,6 @@
 import { updateGameConfigs } from "../actions/BlockchainBaccaratConfigsAction";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import { GameIds } from "../../../configs/SabaConfigs";
-import BaccaratCards from "../../baccarat/view-models/BaccaratCards";
 import BaccaratHistory from "../../baccarat/view-models/BaccaratHistory";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
@@ -19,8 +18,9 @@ import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
 import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
 import BlockchainBaccaratRoundHistoryModel from "../event-models/BlockchainBaccaratRoundHistoryModel";
 import { renderScoreBoardInGame } from "../components/score-board/actions/BlockchainBaccaratScoreboardActions";
-import { BlockchainBaccaratFinishModel } from "../event-models/BlockchainBaccaratFinishModel";
 import { updateCardList } from "../actions/BlockchainBaccaratCardListActions";
+import { BlockchainBaccaratFinish, BlockchainBaccaratFinishModel } from "../event-models/BlockchainBaccaratFinishModel";
+import BlockchainBaccaratCardListModel, { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,7 +44,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     @property(cc.Node)
     cardsContainer: cc.Node = null;
 
-    private gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
+    gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
     cardsUI: BlockchainBaccaratCardsUI = null;
     betOptionsUI: BlockchainBetOptionsUI = null;
@@ -60,13 +60,13 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     onLoad() {
         this.gameData = new BlockchainBaccaratGameData<BlockchainBaccaratChoicesType>(this);
         super.onLoad();
+        this.registerGameEvents();
+        this.registerFinishEvents();
     }
 
     start(): void {
         super.start();
         this.initCardList();
-        this.registerGameEvents();
-        this.registerFinishEvents();
     }
 
     private initCardList() {
@@ -128,6 +128,13 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         });
         this.gameData.roundHistory.on(BlockchainBaccaratRoundHistoryModel.Events.CHANGE, (roundHistory) => {
             renderScoreBoardInGame(this.scoreboard)(roundHistory);
+        });
+
+        this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
+            this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
+        });
+        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.CHANGE, (blockchain: Blockchain) => {
+            this.cardsUI.handleNumberIndex(blockchain.currentIndex);
         });
     }
 
