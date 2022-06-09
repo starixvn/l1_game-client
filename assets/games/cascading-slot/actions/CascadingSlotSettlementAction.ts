@@ -121,7 +121,11 @@ const handleMultiplier = async (
         await GameUtils.delayTime(mainGame.tumbleWinView.mulitiplierEffectDuration);
     }
 
-    mainGame.gameData.uiModel.setTotalWin(win);
+    if (win > 0) {
+        await mainGame.tumbleWinView.setTotalWinValue(win);
+        mainGame.gameData.uiModel.setTotalWin(win);
+    }
+
     if (mainGame.isTrialMode) {
         mainGame.gameData.trialModel.updateSettledBalance();
     } else {
@@ -144,11 +148,11 @@ const movingMultiplier = (multiplierNode: cc.Node, container: cc.Node, destNode:
         node.position = startPos;
 
         const distance = startPos.sub(destPos).mag();
-        const pixelPerSecond = 500;
+        const pixelPerSecond = 750;
         const duration = distance / pixelPerSecond;
         cc.tween(node)
-            .to(duration * 0.49, { scale: 1.1 })
-            .to(duration * 0.49, { scale: 1 })
+            .to(duration * 0.49, { scale: 1.5 }, { easing: "sineOut" })
+            .to(duration * 0.49, { scale: 1 }, { easing: "sineIn" })
             .start();
         cc.tween(node)
             .to(duration, { position: destPos }, { easing: "sineOut" })

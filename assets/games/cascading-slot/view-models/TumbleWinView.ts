@@ -38,8 +38,16 @@ export default class TumbleWinView extends FadeAppearanceNode {
     }
 
     setTotalWinValue(value: number) {
-        this.totalWin.string = numberWithCommas(value);
-        this.showTotalWin(true);
+        return new Promise<void>((resolve) => {
+            this.totalWin.string = numberWithCommas(value);
+            this.showTotalWin(true);
+
+            cc.tween(this.totalWin.node)
+                .to(0.1, { scale: 1.5 }, { easing: "sineOut" })
+                .to(0.3, { scale: 1 }, { easing: "sineIn" })
+                .call(() => resolve())
+                .start();
+        });
     }
 
     showTotalWin(show: boolean) {
