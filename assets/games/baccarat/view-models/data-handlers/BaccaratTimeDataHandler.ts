@@ -30,26 +30,30 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
         if (this.isInWaitTime) {
             this.handleWaitTime();
         } else {
-            if (this.isStartingNewGameRound) {
-                this.handleStartingNewGameRound();
-            }
-
-            if (this.isInRoundTime) {
-                this.handleInRoundTime();
-
-                if (this.isInLockBetTime) {
-                    if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
-                        this.handleAtLockBetTime();
-                    }
-                    this.handleInLockBetTime();
-                }
-            } else {
-                if (this.isInEndTime) {
-                    this.handleInEndTime();
-                }
-            }
+            this.handleNotWaitTime();
         }
         this.main.currentTimeRemaining--;
+    }
+
+    handleNotWaitTime() {
+        if (this.isStartingNewGameRound) {
+            this.handleStartingNewGameRound();
+        }
+
+        if (this.isInRoundTime) {
+            this.handleInRoundTime();
+
+            if (this.isInLockBetTime) {
+                if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
+                    this.handleAtLockBetTime();
+                }
+                this.handleInLockBetTime();
+            }
+        } else {
+            if (this.isInEndTime) {
+                this.handleInEndTime();
+            }
+        }
     }
 
     handleStartingNewGameRound() {

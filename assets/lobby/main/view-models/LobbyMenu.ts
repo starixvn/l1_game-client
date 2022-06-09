@@ -157,11 +157,18 @@ export default class LobbyMenu extends GameIconMenu {
             : `lobby/games/skeleton-icon/icon-small`;
         const prefab = await GameUtils.loadResource(skeletonIconPath);
 
-        const iconNode = cc.instantiate(prefab);
-        const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
-        const convertedId = id === 12 ? (id = 11) : id;
+        let convertedId;
+        if (id === 12) {
+            convertedId = id = 11;
+        } else {
+            convertedId = id;
+        }
+
         const gameName = i18n.t(`gameNames.${convertedId}`).toUpperCase();
         const gameIds = this.getList();
+
+        const iconNode = cc.instantiate(prefab);
+        const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
         skeletonIconComponent.setGameName(gameName);
         skeletonIconComponent.setGameContent(id, gameIds);
 
@@ -174,21 +181,7 @@ export default class LobbyMenu extends GameIconMenu {
             this.createNewColumn();
         }
 
-        if (this.rowChildrenCount > 0) {
-            if (!this.currentRow) {
-                this.createNewRow();
-            }
-            this.currentRow.addChild(iconNode);
-
-            if (this.currentRow.childrenCount === this.rowChildrenCount) {
-                this.clearRow();
-            }
-        } else {
-            this.currentColumn.addChild(iconNode);
-            if (size.x > 1) {
-                this.rowChildrenCount = size.x;
-            }
-        }
+        this.handleNewRow(iconNode, size);
 
         if ((this.currentColumn.childrenCount === 2 && !this.currentRow) || size.y > 1) {
             this.currentColumn = null;
@@ -229,6 +222,24 @@ export default class LobbyMenu extends GameIconMenu {
 
         this.currentColumn.addChild(node);
         this.currentRow = node;
+    }
+
+    handleNewRow(iconNode: cc.Node, size: cc.Vec2) {
+        if (this.rowChildrenCount > 0) {
+            if (!this.currentRow) {
+                this.createNewRow();
+            }
+            this.currentRow.addChild(iconNode);
+
+            if (this.currentRow.childrenCount === this.rowChildrenCount) {
+                this.clearRow();
+            }
+        } else {
+            this.currentColumn.addChild(iconNode);
+            if (size.x > 1) {
+                this.rowChildrenCount = size.x;
+            }
+        }
     }
 
     saveCategory() {

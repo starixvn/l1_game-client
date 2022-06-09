@@ -12,7 +12,6 @@ import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
-import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
 import MainGame from "../../lobby/main/view-models/MainGame";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
@@ -148,7 +147,9 @@ export default class MiniPanel extends BaseComponent {
                 this.popupMiniGame.background.opacity = 0;
             }
             const gameMenu = popUpMiniGameNode.getChildByName("list")?.getComponent(CircleMenu);
-            if (gameMenu) gameMenu.miniPanel = this;
+            if (gameMenu) {
+                gameMenu.miniPanel = this;
+            }
             this.miniMenu.addChild(popUpMiniGameNode);
         });
     }

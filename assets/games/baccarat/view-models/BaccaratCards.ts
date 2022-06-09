@@ -312,9 +312,6 @@ export default class BaccaratCards extends cc.Component {
     private handleCardWithAnimated(isAnimated: boolean, index: number, currentCard: cc.Node, delayTime: number): number {
         if (isAnimated) {
             delayTime = this.calculateDelayTimeWithAnimation(index, currentCard, delayTime);
-            if (index === 2) {
-                this.setActionCardThree(currentCard, delayTime);
-            }
         } else {
             if (this.isMainPage) {
                 currentCard.getComponent(BaccaratCard).numberTag.active = false;
@@ -346,6 +343,10 @@ export default class BaccaratCards extends cc.Component {
             this.setActionCardBack();
 
             delayTime += this.openSecondCardSecond;
+        }
+
+        if (index === 2) {
+            this.setActionCardThree(currentCard, delayTime);
         }
 
         return delayTime;
