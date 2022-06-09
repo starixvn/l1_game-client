@@ -11,11 +11,12 @@ export default class PrefabLoaderV2 extends cc.Component {
     public instance: cc.Node;
 
     protected onLoad() {
-        this.instance = cc.instantiate(this.prefab);
+        this.createInstance();
+        this.initialize();
     }
 
-    protected start() {
-        this.initialize();
+    protected createInstance() {
+        this.instance = cc.instantiate(this.prefab);
     }
 
     private initialize() {

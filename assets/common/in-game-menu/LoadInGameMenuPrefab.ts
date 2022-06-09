@@ -1,5 +1,5 @@
-import PrefabLoaderV2 from "../PrefabLoaderV2";
 import GameUtils from "../GameUtils";
+import PrefabLoaderV2 from "../PrefabLoaderV2";
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,7 +8,7 @@ export default class LoadInGameMenuPrefab extends PrefabLoaderV2 {
     @property(cc.Prefab)
     mobilePrefab: cc.Prefab = null;
 
-    onLoad() {
+    protected createInstance() {
         if (GameUtils.isPhone() && this.mobilePrefab) {
             this.instance = cc.instantiate(this.mobilePrefab);
         } else {
