@@ -55,7 +55,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         mainGame.board.addItems(newItems);
         const multiplierItems = mainGame.board.getMultiplierItems();
         multiplierItems.forEach((multiplierItem, index) => multiplierItem.setValue(tumbleMultipliers[index]));
-        await mainGame.board.fallIn();
+        await mainGame.board.fallIn(isTurbo);
         if (getMoreMultiplier) {
             mainGame.gameData.uiModel.getMultiplier();
         }
