@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import CascadingSlotTicketDetailItem from "./CascadingSlotTicketDetailItem";
 import CascadingSlotTotalMultiplier from "./CascadingSlotTotalMultiplier";
 
@@ -80,7 +81,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         const btnTextMulti = this.textMultiplier.getComponent(cc.Button);
         const btnValueMulti = this.multiplierTotal.getComponent(cc.Button);
         btnTextMulti.interactable = btnValueMulti.interactable = freeSpin;
-        this.winTotal.string = data.betwin;
+        this.winTotal.string = numberWithCommas(data.betwin, 2, false);
     }
 
     onClickMultiplier() {

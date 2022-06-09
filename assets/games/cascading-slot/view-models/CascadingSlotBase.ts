@@ -424,6 +424,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
+    openGuide() {
+        super.openGuide();
+        AudioManager.getInstance().playClick();
+        //this.expandableMenu.collapseMenu();
+    }
+
     initTotalBet(node: cc.Node) {
         this.miniBetControl = node.getComponent(CascadingTotalBet);
         this.checkExistNodeBet();
