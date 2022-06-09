@@ -1,5 +1,6 @@
 import { BaseEventHandler } from "../../_new/_base/game-data-management/event-handlers/base-handler";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
+import { SpinButtonState } from "../models/SpinButtonStateModel";
 
 type IngameEventType = {
     totalMultiplier: number;
@@ -19,6 +20,7 @@ export class CascadingSlotIngameHandler<Choices> extends BaseEventHandler<Ingame
         }
         if (freeSpins && freeSpins.total > 0) {
             this.gameData.uiModel.setFreeSpins(freeSpins.total);
+            this.gameData.spinButtonStateModel.change(SpinButtonState.ResumeWithFreeSpin);
         }
     }
 }

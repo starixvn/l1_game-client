@@ -3,7 +3,8 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 export enum SpinButtonState {
     Normal = 0,
     AutoSpin,
-    FreeSpin
+    FreeSpin,
+    ResumeWithFreeSpin
 }
 
 export default class SpinButtonStateModel extends EventEmitterBase {

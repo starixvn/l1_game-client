@@ -245,7 +245,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         }
         this.lockBet();
         this.gameData.stateModel.change(CascadingSlotState.New);
-        this.gameData.placeBetModel.updateFreeSpin(this.isFreeSpin());
+        const isFreeSpin = this.isFreeSpin();
+        if (isFreeSpin) {
+            this.gameData.spinButtonStateModel.change(SpinButtonState.FreeSpin);
+        }
+        this.gameData.placeBetModel.updateFreeSpin(isFreeSpin);
         const connection = this.isTrialMode ? this.trialConnection : this.connection;
         connection.emit(events.bet, this.gameData.placeBetModel.data);
         success = true;
@@ -320,9 +324,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
             this.totalFreeSpins = value;
             const show = value > 0;
-            if (show) {
-                this.gameData.spinButtonStateModel.change(SpinButtonState.FreeSpin);
-            }
             this.freeSpinView.showView(show);
             this.freeSpinView.setValue(value);
         });
@@ -339,7 +340,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
             HandleBetControl(this)(data);
-            this.setAllowChangeBet(true);
         });
 
         this.gameData.spinButtonStateModel.on(SpinButtonStateModel.Events.CHANGE, (state: SpinButtonState) => {
@@ -506,6 +506,14 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.setAllowChangeBet(false);
             this.spinButton.spinButton.interactable = false;
             this.autoSpinToggle.interactable = true;
+            return;
+        }
+
+        if (spinButtonState === SpinButtonState.ResumeWithFreeSpin) {
+            this.trialToggle.interactable = false;
+            this.setAllowChangeBet(false);
+            this.spinButton.spinButton.interactable = true;
+            this.autoSpinToggle.interactable = false;
             return;
         }
 
