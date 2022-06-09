@@ -3,10 +3,10 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export class BlockchainBaccaratPrediction extends cc.Component {
     @property(cc.Node)
-    banker: cc.Node;
+    banker: cc.Node = null;
 
     @property(cc.Node)
-    player: cc.Node;
+    player: cc.Node = null;
 
     private readonly itemKey = {
         bigEyeBoyItem: "bigEyeBoyItem",

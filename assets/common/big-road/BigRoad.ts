@@ -10,17 +10,17 @@ export default class BigRoad extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(Number)
+    @property(cc.Integer)
     minColumn = 15;
 
-    @property(Number)
+    @property(cc.Integer)
     scoreboardItemWidth = 22;
 
-    @property(Number)
+    @property(cc.Integer)
     scoreboardHeight = 133;
 
     @property(cc.Prefab)
-    scoreboardItem: cc.Prefab;
+    scoreboardItem: cc.Prefab = null;
 
     protected bigRoad: any;
     protected firstRender = true;
@@ -61,8 +61,8 @@ export default class BigRoad extends cc.Component {
             const scoreboardItem = cc.instantiate(this.scoreboardItem);
             this.content.addChild(scoreboardItem);
             contentWidth += this.scoreboardItemWidth;
-            this.content.setContentSize(contentWidth, this.scoreboardHeight);
         }
+        this.content.setContentSize(contentWidth, this.scoreboardHeight);
     }
 
     protected updateContentChild(numberColumnDifferent: number) {
@@ -72,7 +72,6 @@ export default class BigRoad extends cc.Component {
                 const scoreboardItem = cc.instantiate(this.scoreboardItem);
                 this.content.addChild(scoreboardItem);
                 contentWidth += this.scoreboardItemWidth;
-                this.content.setContentSize(contentWidth, this.scoreboardHeight);
             }
         }
 
@@ -81,8 +80,8 @@ export default class BigRoad extends cc.Component {
                 if (this.content.childrenCount <= this.minColumn) return;
                 this.content.children.pop();
                 contentWidth -= this.scoreboardItemWidth;
-                this.content.setContentSize(contentWidth, this.scoreboardHeight);
             }
         }
+        this.content.setContentSize(contentWidth, this.scoreboardHeight);
     }
 }

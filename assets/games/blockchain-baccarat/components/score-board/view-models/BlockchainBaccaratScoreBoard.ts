@@ -3,16 +3,15 @@ import { BaccaratSettlementResult } from "./../../../../baccarat/view-models/eve
 import BlockchainBaccaratBeadRoad from "./BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "./BlockchainBaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboard from "./BlockchainBaccaratDerivedScoreboard";
-import { DerivedScoreboards } from "sc-scoreboards";
+import { BigRoadScoreboardPoint, DerivedScoreboards } from "sc-scoreboards";
 import { BasicHistoryData } from "../../../../_base/view-models/BasicHistoryBoard";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BlockchainBaccaratScoreboard extends cc.Component {
-    @property(BlockChainBaccaratBigRoad)
-    bigRoad: BlockChainBaccaratBigRoad = null;
+    @property([BlockChainBaccaratBigRoad])
+    bigRoads: BlockChainBaccaratBigRoad[] = [];
 
     @property([BlockchainBaccaratDerivedScoreboard])
     derivedScoreboards: BlockchainBaccaratDerivedScoreboard[] = [];
@@ -29,6 +28,14 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     derivedScoreBoardController: DerivedScoreboards<BaccaratSettlementResult>;
 
     private roundHistory: BlockchainBaccaratRoundHistory[] = [];
+    private bigRoadData: BigRoadScoreboardPoint<BaccaratSettlementResult>[][];
+
+    private zoomModes = {
+        normal: "normal",
+        zoomInBigRoad: "zoomInBigRoad",
+        zoomInDerivedScoreboards: "zoomInDerivedScoreboards"
+    };
+
     private readonly statisticChildrenName = {
         player: "player",
         banker: "banker",
@@ -39,9 +46,19 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         small: "small"
     };
 
+    protected onLoad(): void {
+        this.derivedScoreBoardController = new DerivedScoreboards({ height: 6 });
+    }
+
+    protected start(): void {
+        this.zoom(undefined, this.zoomModes.normal);
+    }
+
     resetScoreboard(): void {
         // reset
-        this.bigRoad.resetBoard();
+        this.bigRoads.forEach((board) => {
+            board.resetBoard();
+        });
         this.derivedScoreboards.forEach((scoreboard) => {
             scoreboard.resetBoard();
         });
@@ -52,8 +69,10 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
 
     renderScoreBoardInGame(roundHistory: BlockchainBaccaratRoundHistory[]) {
         this.roundHistory = roundHistory;
-        this.bigRoad.renderScoreBoardInGame(roundHistory);
-        this.derivedScoreBoardController = this.bigRoad.derivedScoreboards;
+        this.bigRoads.forEach((board) => {
+            board.renderScoreBoardInGame(roundHistory);
+        });
+        this.bigRoadData = this.bigRoads[0].getData();
         this.renderDerivedScoreboard();
         this.renderBeadRoadInGame(roundHistory);
         this.renderPrediction();
@@ -62,15 +81,19 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
 
     renderScoreBoardEachRound(lastRound: BlockchainBaccaratRoundHistory) {
         this.roundHistory.push(lastRound);
-        this.bigRoad.renderScoreBoardEachRound(lastRound.settlementResult);
+        this.bigRoads.forEach((board) => {
+            board.renderScoreBoardEachRound(lastRound.settlementResult);
+        });
+        this.bigRoadData = this.bigRoads[0].getData();
         this.renderDerivedScoreboard();
         this.renderBeadRoadEachRound(lastRound);
         this.renderPrediction();
     }
 
-    renderDerivedScoreboard() {
+    private renderDerivedScoreboard() {
+        this.derivedScoreBoardController.update(this.bigRoadData);
         this.derivedScoreboards.forEach((scoreboard) => {
-            const data = this.derivedScoreBoardController?.getScoreboardData(scoreboard.nameBoard as any);
+            const data = this.derivedScoreBoardController.getScoreboardData(scoreboard.nameBoard as any);
             scoreboard.renderScoreBoard(data);
         });
     }
@@ -107,51 +130,33 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         }
     }
 
-    private resetStatistic() {
-        for (const childName in this.statisticChildrenName) {
-            this.statistic.getChildByName(childName).getComponent(cc.Label).string = "0";
-        }
-    }
-
     private renderBeadRoadInGame(roundHistory: BlockchainBaccaratRoundHistory[]) {
         const historyData = roundHistory.map((round) => {
-            const result = round.result;
-            const settlementResult = round.settlementResult;
-            if (settlementResult?.player) {
-                return new BasicHistoryData("player", this.calculateTotalScore(result.player));
-            } else {
-                if (settlementResult?.banker) {
-                    return new BasicHistoryData("banker", this.calculateTotalScore(result.banker));
-                } else {
-                    if (settlementResult?.tie) {
-                        return new BasicHistoryData("tie", this.calculateTotalScore(result.player));
-                    }
-                }
-            }
-            return new BasicHistoryData("0", "0");
+            return this.convertToBasicHistoryData(round);
         });
         this.beadRoad.render(historyData);
     }
 
     private renderBeadRoadEachRound(lastRound: BlockchainBaccaratRoundHistory) {
-        let item;
-        const result = lastRound.result;
-        const settlementResult = lastRound.settlementResult;
-        if (settlementResult?.player) {
-            item = new BasicHistoryData("player", this.calculateTotalScore(result.player));
-        } else {
-            if (settlementResult?.banker) {
-                item = new BasicHistoryData("banker", this.calculateTotalScore(result.banker));
-            } else {
-                if (settlementResult?.tie) {
-                    item = new BasicHistoryData("tie", this.calculateTotalScore(result.player));
-                }
-            }
-        }
+        const item = this.convertToBasicHistoryData(lastRound);
         this.beadRoad.addNewItem(item);
     }
 
-    calculateTotalScore(hand) {
+    private convertToBasicHistoryData(round: BlockchainBaccaratRoundHistory) {
+        const result = round.result;
+        const settlementResult = round.settlementResult;
+        if (settlementResult?.player) {
+            return new BasicHistoryData("player", this.calculateTotalScore(result.player));
+        } else {
+            if (settlementResult?.banker) {
+                return new BasicHistoryData("banker", this.calculateTotalScore(result.banker));
+            } else {
+                return new BasicHistoryData("tie", this.calculateTotalScore(result.player));
+            }
+        }
+    }
+
+    private calculateTotalScore(hand) {
         let value = 0;
         value += this.getValueCard(hand.card1);
         value += this.getValueCard(hand.card2);
@@ -159,8 +164,36 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         return (value % 10).toString();
     }
 
-    getValueCard(card) {
+    private getValueCard(card) {
         const value = card?.rank;
         return value > 10 || !value ? 0 : value;
+    }
+
+    private resetStatistic() {
+        for (const childName in this.statisticChildrenName) {
+            this.statistic.getChildByName(childName).getComponent(cc.Label).string = "0";
+        }
+    }
+
+    zoom(event: any, mode: string) {
+        switch (mode) {
+            case this.zoomModes.normal:
+                this.node.getChildByName(this.zoomModes.normal).active = true;
+                this.node.getChildByName(this.zoomModes.zoomInBigRoad).active = false;
+                this.node.getChildByName(this.zoomModes.zoomInDerivedScoreboards).active = false;
+                break;
+
+            case this.zoomModes.zoomInBigRoad:
+                this.node.getChildByName(this.zoomModes.normal).active = false;
+                this.node.getChildByName(this.zoomModes.zoomInBigRoad).active = true;
+                this.node.getChildByName(this.zoomModes.zoomInDerivedScoreboards).active = false;
+                break;
+
+            case this.zoomModes.zoomInDerivedScoreboards:
+                this.node.getChildByName(this.zoomModes.normal).active = false;
+                this.node.getChildByName(this.zoomModes.zoomInBigRoad).active = false;
+                this.node.getChildByName(this.zoomModes.zoomInDerivedScoreboards).active = true;
+                break;
+        }
     }
 }

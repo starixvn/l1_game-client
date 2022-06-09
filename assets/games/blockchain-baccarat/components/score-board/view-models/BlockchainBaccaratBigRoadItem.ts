@@ -1,5 +1,5 @@
 import BaccaratBigRoadItem from "../../../../baccarat/view-models/BaccaratBigRoadItem";
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class BlockchainBaccaratBigRoadItem extends BaccaratBigRoadItem {
