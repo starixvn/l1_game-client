@@ -71,7 +71,9 @@ export default class CascadeSlotReel extends cc.Component {
     }
 
     async fallWithOffset(offset: number, isTurbo: boolean) {
-        const speed = offset < 0 ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
+        const isFallOut = offset < 0;
+        const baseSpeed = isFallOut ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
+        const speed = isTurbo ? baseSpeed * 1.3 : baseSpeed;
         let duration;
         const backOffsetY = this.itemSize * 0.2;
         const backDuration = 0.2;
@@ -88,12 +90,21 @@ export default class CascadeSlotReel extends cc.Component {
                 await GameUtils.delayTime(delay);
             }
 
-            cc.tween(item.node)
-                .to(duration, { y: posY - backOffsetY }, { easing: "sineIn" })
-                .by(backDuration, { y: +backOffsetY }, { easing: "sineOut" })
-                .start();
+            if (isFallOut) {
+                cc.tween(item.node).to(duration, { y: posY }, { easing: "sineIn" }).start();
+            } else {
+                cc.tween(item.node)
+                    .to(duration, { y: posY - backOffsetY }, { easing: "sineIn" })
+                    .by(backDuration, { y: +backOffsetY }, { easing: "sineOut" })
+                    .start();
+            }
         }
-        await GameUtils.delayTime(duration + backDuration);
+
+        if (isFallOut) {
+            await GameUtils.delayTime(duration);
+        } else {
+            await GameUtils.delayTime(duration + backDuration);
+        }
     }
 
     async fallOut(isTurbo: boolean) {
