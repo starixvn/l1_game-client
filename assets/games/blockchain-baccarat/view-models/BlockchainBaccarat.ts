@@ -91,7 +91,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     }
 
     openCardList() {
-        this.cardList.updateData(this.gameData.cardList.blockchain);
+        this.cardList.setData(this.gameData.cardList.blockchain);
         this.cardList.showDialog();
     }
 

@@ -26,6 +26,9 @@ export default class BlockchainCardList extends cc.Component {
     items: cc.Node[];
     cards: cc.Node[] = [];
 
+    @property(cc.ScrollView)
+    statsScrollView: cc.ScrollView = null;
+
     protected nextMark: cc.Node = null;
     protected cutCard: number;
     protected burnedCard: number;
@@ -44,9 +47,10 @@ export default class BlockchainCardList extends cc.Component {
         }
     }
 
-    public updateData(cardList: Blockchain) {
+    public setData(cardList: Blockchain) {
         const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
         this.cutCard = cutCardIndex;
+        this.currentCardIndex = currentIndex;
         const itemsNode = GameUtils.createNodeFromPrefab(this.cardPrefab);
         this.items = itemsNode.children;
         this.cards.forEach((card) => {
@@ -58,17 +62,36 @@ export default class BlockchainCardList extends cc.Component {
         this.nextMark = null;
 
         chain.forEach((card, index) => {
-            const isFlipCard = index > this.currentCardIndex && index <= currentIndex;
-            const cardNode = this.createCard(card.card, index, isFlipCard);
+            const cardNode = this.createCard(card.card, index);
             this.content.addChild(cardNode);
             this.cards.push(cardNode);
         });
 
-        this.currentCardIndex = currentIndex;
         this.addNextMark();
     }
 
-    protected createCard(card: CardModel, index, isFlipping = false, isFaceUp = true): cc.Node {
+    public updateData(cardList: Blockchain) {
+        const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
+        chain.forEach((card, index) => {
+            if (index >= this.currentCardIndex && index < currentIndex) {
+                this.flipCard(this.cards[index].getComponent(BlockchainCard), card.card);
+            }
+        });
+
+        this.currentCardIndex = currentIndex;
+    }
+
+    protected flipCard(cardComp: BlockchainCard, cardModel: CardModel) {
+        cardComp.setCardOldStyle({
+            rank: cardModel?.rank,
+            suit: cardModel?.suit
+        });
+
+        cardComp.setFaceUp(true);
+        cardComp.animation.play();
+    }
+
+    protected createCard(card: CardModel, index, isFaceUp = true): cc.Node {
         const node = cc.instantiate(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
         cardComponent.setCardOldStyle({
@@ -86,7 +109,7 @@ export default class BlockchainCardList extends cc.Component {
         };
 
         cardComponent.indexNumber.string = this.convertIndexNumber(index + 1);
-        !!isFlipping && cardComponent.animation.play();
+        cardComponent.animation.play();
         return node;
     }
 
