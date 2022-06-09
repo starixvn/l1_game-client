@@ -73,7 +73,7 @@ export default class CascadeSlotReel extends cc.Component {
     async fallWithOffset(offset: number, isTurbo: boolean) {
         const isFallOut = offset < 0;
         const baseSpeed = isFallOut ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
-        const speed = isTurbo ? baseSpeed * 1.3 : baseSpeed;
+        const speed = isTurbo ? baseSpeed * 1.5 : baseSpeed;
         let duration;
         const backOffsetY = this.itemSize * 0.2;
         const backDuration = 0.2;
