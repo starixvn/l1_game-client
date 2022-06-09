@@ -84,8 +84,15 @@ export default class CascadingBetControl extends cc.Component {
         const uniqueIds = [];
         const totalIncrease = [];
         this.totalUnique = [];
-        this.coinValues = data.coinValues;
-        this.betLevels = data.betLevels;
+
+        this.coinValues = [...data.coinValues];
+        this.coinValues.sort((a, b) => {
+            return a - b;
+        });
+        this.betLevels = [...data.betLevels];
+        this.betLevels.sort((a, b) => {
+            return a - b;
+        });
         this.betMultiplier = data.betMultiplier;
 
         this.coinValues.forEach((coin, indexCoin) => {
