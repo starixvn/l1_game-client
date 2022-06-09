@@ -102,8 +102,8 @@ const handleMultiplier = async (
     win: number
 ) => {
     const currentTotalMultiplier = mainGame.gameData.uiModel.totalMultiplier;
-    const needMoveTotalMultiplier = isFreeSpin && currentTotalMultiplier > 0;
     const winMultiplier = multiplier > 0 && win > 0;
+    const needMoveTotalMultiplier = isFreeSpin && winMultiplier && currentTotalMultiplier > 0;
 
     if (needMoveTotalMultiplier) {
         await mainGame.tumbleWinView.shiftRightTumbleWin(currentTotalMultiplier);
