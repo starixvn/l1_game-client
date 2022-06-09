@@ -151,8 +151,8 @@ const movingMultiplier = (multiplierNode: cc.Node, container: cc.Node, destNode:
         const pixelPerSecond = 750;
         const duration = distance / pixelPerSecond;
         cc.tween(node)
-            .to(duration * 0.49, { scale: 1.5 }, { easing: "sineOut" })
-            .to(duration * 0.49, { scale: 1 }, { easing: "sineIn" })
+            .to(duration * 0.3, { scale: 1.5 }, { easing: "sineOut" })
+            .to(duration * 0.69, { scale: 1 }, { easing: "sineIn" })
             .start();
         cc.tween(node)
             .to(duration, { position: destPos }, { easing: "sineOut" })
