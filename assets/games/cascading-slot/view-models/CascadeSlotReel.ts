@@ -20,8 +20,7 @@ export default class CascadeSlotReel extends cc.Component {
     itemDisplayCount = 5;
 
     private items: CascadeSlotReelItem[] = [];
-    public readonly pixelPerSecond = 145 * 11;
-    private readonly delayMoveEachItem = 0.0;
+    public readonly pixelPerSecond = 145 * 15;
 
     createReel() {
         for (let i = 0; i < this.itemDisplayCount; i++) {
