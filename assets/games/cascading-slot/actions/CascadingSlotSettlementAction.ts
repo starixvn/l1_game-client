@@ -83,9 +83,13 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
 
 const handleAutoSpin = (mainGame: CascadingSlotBase) => {
     if (!mainGame.showNoticeForCacheApiError()) {
-        const autoSpin = mainGame.isAutoSpinMode() && mainGame.stillAutoSpin();
+        const isAutoSpinMode = mainGame.isAutoSpinMode();
+        const stillAutoSpin = mainGame.stillAutoSpin();
+        const autoSpin = isAutoSpinMode && stillAutoSpin;
         if (autoSpin || mainGame.isFreeSpin()) {
             mainGame.spin();
+        } else if (isAutoSpinMode && !stillAutoSpin) {
+            mainGame.createAutoSpinDialog();
         } else {
             mainGame.onAutoSpinOff();
         }
