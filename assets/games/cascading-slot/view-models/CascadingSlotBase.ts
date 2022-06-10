@@ -106,7 +106,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public gameData: CascadingSlotGameData<void>;
     protected cascadingSlotConfig: CascadingSlotBaseConfig;
     protected isAutoSpin = false;
-    public processingSettlement = false;
     public betControl: CascadingBetControl;
     public freeSpinView: FreeSpinView;
     public mascot: CascadingSlotMascot;
@@ -179,10 +178,15 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     spin(): boolean {
         let success = false;
-        if (!this.isReadyBet() || !this.checkAvailableBalance() || this.processingSettlement) {
+        if (!this.isReadyBet() || !this.checkAvailableBalance()) {
             this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
             return success;
         }
+
+        if (this.gameData.stateModel.state === CascadingSlotState.Spinning) {
+            return success;
+        }
+
         const autoSpinAction = this.holdActionButton.isAutoAction;
         if (this.waitingProcessing && !autoSpinAction) {
             this.showProcessingWarning(true);
