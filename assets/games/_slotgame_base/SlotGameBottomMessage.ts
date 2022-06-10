@@ -16,31 +16,47 @@ export default class SlotGameBottomMessage extends cc.Component {
     @property(cc.Label)
     msgText: cc.Label = null;
 
+    isTurboAutoSpin = false;
+    autoSpinCount = 0;
+
     onLoad() {
         this.showMessageDisplay(RoundType.BEFORESPIN, false);
     }
 
     showMessageDisplay(roundType: RoundType, isTurboMode: boolean) {
-        // if (!this.msgText) {
-        //     return;
-        // }
-        const msgList = ["showMsgWhenSpin", "roundSettleMsg", "FromSettleToSpin"];
-        let msg = `messages.roundSettleMsg`;
-        if (roundType === RoundType.BEFORESPIN) {
-            if (cc.sys.isMobile) {
-                msg = `messages.${msgList[roundType] + "Phone"}`;
-            } else {
-                msg = `messages.${msgList[roundType] + "Desktop"}`;
-            }
+        if (this.isTurboAutoSpin) {
+            this.handleTurboAutoSpin();
+            return;
         }
-        if (roundType === RoundType.SETTLED) {
-            const items = isTurboMode ? [1, 2] : [1, 2, 3];
-            const item = items[Math.floor(Math.random() * items.length)];
-            msg = `messages.FromSettleToSpin${item}`;
-        }
-        if (roundType === RoundType.TUMBLEWIN) {
-            msg = `messages.winTumbleMsg`;
+        let msg: string;
+        switch (roundType) {
+            case RoundType.SPINNING:
+                msg = `messages.roundSettleMsg`;
+                break;
+            case RoundType.BEFORESPIN:
+                const deviceSuffix = cc.sys.isMobile ? "Phone" : "Desktop";
+                msg = `messages.showMsgWhenSpin${deviceSuffix}`;
+                break;
+            case RoundType.SETTLED:
+                msg = this.getRandomMessageForSettled(isTurboMode);
+                break;
+            case RoundType.TUMBLEWIN:
+                msg = `messages.winTumbleMsg`;
+                break;
+
+            default:
+                break;
         }
         this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(msg)}`);
+    }
+
+    protected handleTurboAutoSpin() {
+        this.msgText.string = GameUtils.capitalizeWordIntoString("Số lượt tự quay còn lại " + this.autoSpinCount);
+    }
+
+    protected getRandomMessageForSettled(isTurboMode: boolean) {
+        const items = isTurboMode ? [1, 2] : [1, 2, 3];
+        const item = items[Math.floor(Math.random() * items.length)];
+        return `messages.FromSettleToSpin${item}`;
     }
 }

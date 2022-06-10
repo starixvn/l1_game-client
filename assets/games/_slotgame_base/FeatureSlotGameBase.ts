@@ -11,7 +11,7 @@ import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
-import SlotGameBottomMessage from "./SlotGameBottomMessage";
+import SlotGameBottomMessage, { RoundType } from "./SlotGameBottomMessage";
 import SpinButton from "./SpinButton";
 
 const { ccclass, property } = cc._decorator;
@@ -88,6 +88,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const message = i18n.t(`messages.${key}`);
         const notice = this.showMiniWarning(message);
         notice.name = turboWarningName;
+        this.updateBottomMessageStatus();
     }
 
     onAutoSpinChanged() {
@@ -104,6 +105,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             this.createAutoSpinDialog();
             this.setAllowChangeBet(false);
         }
+        this.updateBottomMessageStatus();
     }
 
     onAutoSpinOff() {
@@ -127,6 +129,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const dialog = node.getComponent(AutoSpinSettingDialog);
         dialog.onConfirmCallback = (autoSpinCount: number) => {
             this.setAutoSpinCount(autoSpinCount);
+            this.bottomMessage.showMessageDisplay(RoundType.SPINNING, this.isTurboMode());
             this.lastAutoSpinCount = autoSpinCount;
             this.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
 
@@ -174,6 +177,11 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     setAutoSpinCount(count: number) {
         this.autoSpinCount = count;
         this.spinButton.setAutoSpinCount(count);
+        this.bottomMessage.autoSpinCount = count;
+    }
+
+    updateBottomMessageStatus() {
+        this.bottomMessage.isTurboAutoSpin = this.isAutoSpinMode() && this.isTurboMode();
     }
 
     showEffect(effect: cc.Node): Promise<void> {
