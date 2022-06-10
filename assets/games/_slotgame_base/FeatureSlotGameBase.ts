@@ -11,6 +11,7 @@ import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
 import SpinButton from "./SpinButton";
+import MusicPlayer from "../../common/audio/MusicPlayer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,6 +44,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Node)
     defaultMiniMenu: cc.Node = null;
 
+    @property({ type: cc.AudioSource })
+    soundSources: cc.AudioSource[] = [];
+
     countDownAutoSpin: CountDownWarning = null;
 
     protected autoSpinCount = 0;
@@ -54,6 +58,13 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     abstract spin(): boolean;
 
     public gameData: FeatureSlotGameData<void>;
+
+    onLoad() {
+        super.onLoad();
+        const audioManager = AudioManager.getInstance();
+        this.playMusicBackground(audioManager.musicEnabled);
+        audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
+    }
 
     start() {
         this.schedule(this.setDefaultPositionForMiniMenu, 0.1);
@@ -214,5 +225,23 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
         this.currentMiniPanel.miniMenu.position = cc.v3(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
+    }
+
+    playMusicBgCallback() {
+        this.musicBg.play();
+    }
+
+    playMusicBackground(play: boolean) {
+        const musicPlayer = MusicPlayer.getInstance();
+        if (play) {
+            if (musicPlayer.isPlayBgMusic) {
+                this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
+            } else {
+                this.playMusicBgCallback();
+            }
+        } else {
+            this.unschedule(this.playMusicBgCallback);
+            this.musicBg.stop();
+        }
     }
 }

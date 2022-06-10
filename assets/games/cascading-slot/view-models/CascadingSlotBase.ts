@@ -28,6 +28,17 @@ import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 
+enum CascadingSlotGameSound {
+    SPIN_BUTTON = 0,
+    OTHERS_BUTTON = 1,
+    SYMBOL_FALL_OUT = 2,
+    SYMBOL_DROP_IN = 3,
+    SYMBOL_MATCHED = 4,
+    MULTIPLIER_SYMBOL_APPEAR = 5,
+    BIG_WIN = 6,
+    FREESPIN = 7
+}
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -109,9 +120,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected miniBetControl: CascadingTotalBet;
 
     async onSpinClick() {
-        AudioManager.getInstance().playClick();
+        this.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.spin();
-        // this.test();
     }
 
     initTrialConnection() {
@@ -166,70 +176,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     getCurrentTotalBet(): number {
         return this.gameData.placeBetModel.data.totalBet;
-    }
-
-    test() {
-        const data: CascadingSlotFinishData = {
-            roundId: 183704,
-            result: "0,8,3,2,6,1,0,0,0,4,5,7,5,5,2,1,3,4,0,2,8,2,2,0,3,2,7,2,2,0",
-            win: 20,
-            bigWin: false,
-            freeSpins: 0,
-            totalFreeSpins: 0,
-            tumbles: [
-                {
-                    icons: {
-                        "2": {
-                            count: 8,
-                            odds: 15,
-                            win: 15
-                        }
-                    },
-                    win: 15,
-                    result: "1,0,8,3,6,1,0,0,0,4,4,5,7,5,5,9,1,3,4,0,0,2,8,0,3,7,3,1,7,0",
-                    settlement: {
-                        explode: [
-                            -1, -1, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 2, -1, -1, -1, -1, 2, -1, 2, 2, -1, -1, 2, -1, 2, 2, -1
-                        ],
-                        new: [
-                            1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, 9, -1, -1, -1, -1, 0, 2, -1, -1, -1, 7, 3, 1, -1, -1
-                        ]
-                    },
-                    multipliers: []
-                },
-                {
-                    icons: {
-                        "0": {
-                            count: 8,
-                            odds: 5,
-                            win: 5
-                        }
-                    },
-                    win: 5,
-                    result: "2,1,8,3,6,3,4,7,1,4,4,5,7,5,5,4,9,1,3,4,6,0,2,8,3,3,7,3,1,7",
-                    settlement: {
-                        explode: [
-                            -1, 0, -1, -1, -1, -1, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, -1, -1, 0, -1, -1, -1, -1, -1, 0
-                        ],
-                        new: [
-                            2, -1, -1, -1, -1, 3, 4, 7, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, 6, 0, -1, -1, -1, 3, -1, -1, -1, -1
-                        ]
-                    },
-                    multipliers: []
-                },
-                {
-                    icons: {},
-                    win: 0,
-                    result: "2,1,8,3,6,3,4,7,1,4,4,5,7,5,5,4,9,1,3,4,6,0,2,8,3,3,7,3,1,7",
-                    settlement: {},
-                    multipliers: []
-                }
-            ],
-            multiplier: 0,
-            totalMultiplier: 0
-        };
-        this.tumbleWinView.showView(false);
-        handleSettle(this)(data);
     }
 
     spin(): boolean {
@@ -537,5 +483,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.setAllowChangeBet(true);
         this.spinButton.spinButton.interactable = true;
         this.autoSpinToggle.interactable = !this.holdActionButton.isAutoAction;
+    }
+
+    playSound(type: CascadingSlotGameSound) {
+        AudioManager.getInstance().playSFX(this.soundSources[type].clip);
     }
 }
