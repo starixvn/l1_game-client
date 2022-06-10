@@ -46,19 +46,19 @@ export default class BlockchainBaccaratCards extends cc.Component {
     protected playGetCardAudio = () => {
         //playGetCardAudio
     };
-    readonly flyCardSecond = 0.4;
+    readonly flyCardSecond = 0.8;
     readonly flyCardThree = 0.3;
     readonly openCardSecond = 0.3;
-    readonly openSecondCardSecond = 0.8;
+    readonly openSecondCardSecond = 1.6;
     readonly setPointSecond = 0.2;
     protected isMainPage = false;
     protected SET_POINT = 3;
-    cloneCardsPosition: cc.Node[] = [];
+    cloneCardsPosition: cc.Vec3[] = [];
 
     onLoad = () => {
         //onLoad
         this.cards.forEach((card, index) => {
-            this.cloneCardsPosition[index] = cloneDeep(card);
+            this.cloneCardsPosition[index] = card.position;
         });
     };
 
@@ -203,7 +203,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     }
 
     protected setPositionCardsAfterDrop(cardComponent: cc.Component, cardNode: cc.Node, index: number) {
-        cardNode.position = this.cloneCardsPosition[index].position;
+        cardNode.position = this.cloneCardsPosition[index];
         cardComponent.node.children[0].position = cc.v3(0, 0, 0);
         cardComponent.node.children[0].scale = 0.5;
         cardComponent.node.children[0].skewX = 0;
