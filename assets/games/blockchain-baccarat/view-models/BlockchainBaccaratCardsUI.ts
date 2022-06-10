@@ -8,12 +8,12 @@ enum CardsOrder {
     card3
 }
 
-type OrderCard = {
+type OrderCardValue = {
     node: BlockchainBaccaratCards;
     key: number;
 };
 
-enum CardFly {
+enum CardFlied {
     Four = 4,
     Five,
     Six
@@ -36,7 +36,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     @property(cc.Node)
     playerPoint: cc.Node = null;
 
-    protected orderCard: OrderCard[];
+    protected orderCard: OrderCardValue[];
 
     onLoad() {
         this.orderCard = [
@@ -58,7 +58,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     async handleFlyCards(currentIndex: number, numberCardsFlied: number) {
         switch (numberCardsFlied) {
-            case CardFly.Four:
+            case CardFlied.Four:
                 this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
                 await this.reserveCards.flyCard1Reserve(
                     currentIndex,
@@ -76,7 +76,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.reserveCards.flyCard1(currentIndex + 4);
                 await this.reserveCards.flyCard2(currentIndex + 5);
                 break;
-            case CardFly.Five:
+            case CardFlied.Five:
                 this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
                 await this.reserveCards.flyCard1Reserve(
                     currentIndex,
@@ -102,11 +102,11 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     handleResetCards(numberCardsFlied: number) {
         switch (numberCardsFlied) {
-            case CardFly.Four:
+            case CardFlied.Four:
                 this.playerCards.resetCards();
                 this.bankerCards.resetCards();
                 break;
-            case CardFly.Five:
+            case CardFlied.Five:
                 this.playerCards.resetCards();
                 this.bankerCards.resetCards();
                 this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
@@ -119,17 +119,14 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         }
     }
 
-    protected async flyCard3(playerHasCard3: boolean, delayTime = this.playerCards.openSecondCardSecond) {
+    protected async flyCard3(playerHasCard3 = false) {
         if (playerHasCard3) {
             this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
             await this.reserveCards.flyCard3(this.playerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card1]);
-            await this.playerCards.openCard3(this.playerCards.cards[CardsOrder.card3], 0.2);
+        } else {
+            this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
+            await this.reserveCards.flyCard3(this.bankerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card2]);
         }
-
-        this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
-        await this.reserveCards.flyCard3(this.bankerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card2]);
-        await this.playerCards.openCard3(this.bankerCards.cards[CardsOrder.card3], 0.2);
-        // openCard3()
     }
 
     async onClick() {
@@ -150,13 +147,88 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     }
 
     onClickDropCards() {
-        //onClickDropCards
-        // this.bankerCards.collectCards();
-        // this.playerCards.collectCards();
         this.collectCardsOnTable();
     }
 
     public async collectCardsOnTable() {
         await Promise.all([this.bankerCards.collectCards(), this.playerCards.collectCards()]);
+    }
+
+    async openCards() {
+        const result = {
+            player: {
+                card1: {
+                    rank: 8,
+                    suit: 2
+                },
+                card2: {
+                    rank: 7,
+                    suit: 3
+                },
+                card3: {
+                    rank: 9,
+                    suit: 2
+                }
+            },
+            banker: {
+                card1: {
+                    rank: 3,
+                    suit: 2
+                },
+                card2: {
+                    rank: 5,
+                    suit: 2
+                },
+                card3: {
+                    rank: 7,
+                    suit: 2
+                }
+            },
+            cards: [
+                {
+                    rank: 11,
+                    suit: 2
+                },
+                {
+                    rank: 3,
+                    suit: 2
+                },
+                {
+                    rank: 11,
+                    suit: 3
+                },
+                {
+                    rank: 5,
+                    suit: 2
+                },
+                {
+                    rank: 9,
+                    suit: 2
+                },
+                {
+                    rank: 1,
+                    suit: 1
+                }
+            ]
+        };
+        await this.playerCards.openCard(CardsOrder.card1, this.playerCards.cards[CardsOrder.card1], result.player.card1, true);
+        await this.playerCards.openCard(CardsOrder.card2, this.playerCards.cards[CardsOrder.card2], result.player.card2, true);
+
+        await this.bankerCards.openCard(CardsOrder.card1, this.bankerCards.cards[CardsOrder.card1], result.banker.card1, true);
+        await this.bankerCards.openCard(CardsOrder.card2, this.bankerCards.cards[CardsOrder.card2], result.banker.card2, true);
+
+        if (!!result.player.card3) {
+            await this.flyCard3(true);
+            await this.playerCards.openCard(CardsOrder.card3, this.playerCards.cards[CardsOrder.card3], result.player.card3, true);
+        }
+
+        if (!!result.banker.card3) {
+            await this.flyCard3();
+            await this.bankerCards.openCard(CardsOrder.card3, this.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
+        }
+    }
+
+    async onSettle4Card() {
+        this.openCards();
     }
 }

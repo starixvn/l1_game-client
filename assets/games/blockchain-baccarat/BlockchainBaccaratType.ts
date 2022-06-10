@@ -9,6 +9,7 @@ export type BlockchainBaccaratChoicesType = {
 };
 
 export type CardModel = { rank: string; suit: number };
+export type CardModelNew = { rank: number; suit: number };
 
 export class CardChain {
     card: CardModel;
