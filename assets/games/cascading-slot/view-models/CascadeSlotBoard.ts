@@ -3,20 +3,20 @@ import _ = require("lodash");
 import GameUtils from "../../../common/GameUtils";
 import CascadeSlotReel from "./CascadeSlotReel";
 import MultiplierItem from "./MultiplierItem";
+import SlotGameSound, { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 
 const { ccclass, property } = cc._decorator;
-
-interface GenerationData {
-    symbols: number[][];
-    removedSymbols: number[][];
-}
 
 @ccclass
 export default class CascadeSlotBoard extends cc.Component {
     @property
     itemTypeCount = 11;
 
+    @property(cc.Node)
+    soundList: cc.Node = null;
+
     private readonly reels: CascadeSlotReel[] = [];
+    private boardSound: SlotGameSound;
 
     private readonly itemDisplayCount = 5;
 
@@ -69,6 +69,7 @@ export default class CascadeSlotBoard extends cc.Component {
             if (!isTurbo) {
                 await GameUtils.delayTime(delay);
             }
+
             if (i < this.reels.length - 1) {
                 this.reels[i].fallOut(isTurbo);
             } else {
@@ -80,8 +81,10 @@ export default class CascadeSlotBoard extends cc.Component {
     public async spinResult(symbols: number[][], multiplier: number[], isTurbo: boolean) {
         const duration = (5 * 145) / this.reels[0].pixelPerSecond;
         const delay = 0.2 * duration;
+        this.playBoardSound(CascadingSlotGameSound.SYMBOL_FALL_OUT);
 
         await this.fallOut(isTurbo, delay);
+        this.playBoardSound(CascadingSlotGameSound.SYMBOL_DROP_IN);
 
         for (let i = 0; i < this.reels.length; i++) {
             if (!isTurbo) {
@@ -111,6 +114,7 @@ export default class CascadeSlotBoard extends cc.Component {
     }
 
     public async removeItems(data: number[][]) {
+        this.playBoardSound(CascadingSlotGameSound.SYMBOL_MATCHED);
         await Promise.all(
             this.reels.map(async (reel, index) => {
                 const items = data[index]
@@ -118,6 +122,7 @@ export default class CascadeSlotBoard extends cc.Component {
                         return item !== -1 ? index : -1;
                     })
                     .filter((value) => value > -1);
+
                 await reel.removeItemsByIndex(items);
             })
         );
@@ -148,5 +153,13 @@ export default class CascadeSlotBoard extends cc.Component {
                 await reel.fallIn(isTurbo);
             })
         );
+    }
+
+    playBoardSound(type: CascadingSlotGameSound) {
+        if (!this.boardSound) {
+            this.boardSound = this.soundList.children[0].getComponent(SlotGameSound);
+        }
+
+        this.boardSound.playSound(type);
     }
 }

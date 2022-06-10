@@ -3,6 +3,7 @@ import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotF
 import { CascadingSlotState } from "../models/CascadingSlotStateModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
+import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
     const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier } = data;
@@ -115,6 +116,7 @@ const handleMultiplier = async (
     if (winMultiplier) {
         const multiplierItems = mainGame.board.getMultiplierItems();
         for (const mItem of multiplierItems) {
+            mainGame.gameSound.playSound(CascadingSlotGameSound.MULTIPLIER_SYMBOL_APPEAR);
             await mItem.playAnimationGlow();
             await mainGame.tumbleWinView.shiftRightTumbleWin(mItem.multiplier);
             await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);

@@ -1,4 +1,3 @@
-import AudioManager from "../../../common/audio/AudioManager";
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
@@ -27,17 +26,7 @@ import CascadingTotalBet, { TotalBetType } from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
-
-enum CascadingSlotGameSound {
-    SPIN_BUTTON = 0,
-    OTHERS_BUTTON = 1,
-    SYMBOL_FALL_OUT = 2,
-    SYMBOL_DROP_IN = 3,
-    SYMBOL_MATCHED = 4,
-    MULTIPLIER_SYMBOL_APPEAR = 5,
-    BIG_WIN = 6,
-    FREESPIN = 7
-}
+import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 
 const { ccclass, property } = cc._decorator;
 
@@ -118,7 +107,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected miniBetControl: CascadingTotalBet;
 
     async onSpinClick() {
-        this.playSound(CascadingSlotGameSound.SPIN_BUTTON);
+        this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.spin();
     }
 
@@ -412,6 +401,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     override async showEffectBigWin(betWin: number) {
+        this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN);
+
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackLoopAnimation);
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
@@ -428,6 +419,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         };
 
         await this.showEffect(effect);
+    }
+
+    async showEffectFreeSpins(count: number) {
+        super.showEffectFreeSpins(count);
+        this.gameSound.playSound(CascadingSlotGameSound.FREE_SPIN);
     }
 
     setAllowChangeBet(allow: boolean) {
@@ -483,7 +479,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.holdActionButton.interactable = value;
     }
 
-    playSound(type: CascadingSlotGameSound) {
-        AudioManager.getInstance().playSFX(this.soundSources[type].clip);
+    onTurboModeChanged(toggle: cc.Toggle) {
+        super.onTurboModeChanged(toggle);
+        this.gameSound.playSound(CascadingSlotGameSound.OTHERS_BUTTON);
+    }
+
+    onAutoSpinChanged() {
+        super.onAutoSpinChanged();
+        this.gameSound.playSound(CascadingSlotGameSound.OTHERS_BUTTON);
     }
 }

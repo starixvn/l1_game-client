@@ -13,6 +13,7 @@ import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
 import SlotGameBottomMessage, { RoundType } from "./SlotGameBottomMessage";
 import SpinButton from "./SpinButton";
+import SlotGameSound from "./SlotGameSound";
 
 const { ccclass, property } = cc._decorator;
 
@@ -45,12 +46,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Node)
     defaultMiniMenu: cc.Node = null;
 
-    @property({ type: cc.AudioSource })
-    soundSources: cc.AudioSource[] = [];
-
     countDownAutoSpin: CountDownWarning = null;
     bottomMessage: SlotGameBottomMessage = null;
-
+    gameSound: SlotGameSound;
     protected autoSpinCount = 0;
     protected lastAutoSpinCount: number;
     protected totalFreeSpins = 0;
@@ -75,8 +73,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     onTurboModeChanged(toggle: cc.Toggle) {
-        AudioManager.getInstance().playClick();
-
         const turboWarningName = "turbo_warning";
         this.noticeNode.children.forEach((child) => {
             if (child.name === turboWarningName) {
@@ -92,8 +88,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     onAutoSpinChanged() {
-        AudioManager.getInstance().playClick();
-
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
             this.setAutoSpinCount(0);
             this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
@@ -255,5 +249,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     initShowBottomMessage(node: cc.Node) {
         this.bottomMessage = node.getComponent(SlotGameBottomMessage);
+    }
+
+    onSoundListInitialized(node: cc.Node) {
+        this.gameSound = node.getComponent(SlotGameSound);
     }
 }
