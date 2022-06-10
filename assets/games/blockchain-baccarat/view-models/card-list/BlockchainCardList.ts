@@ -37,6 +37,7 @@ export default class BlockchainCardList extends cc.Component {
     protected root: BlockchainBaccarat;
     protected cardHeight = 120;
     protected numberOfCardsPerRow = 12;
+    protected rowDefault: 3;
 
     init(root: BlockchainBaccarat) {
         this.root = root;
@@ -73,8 +74,9 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     protected showLatestCard(currentIndex: number) {
-        const percentVertical =
-            ((currentIndex / this.numberOfCardsPerRow) * this.cardHeight) / (this.content.height - this.statsScrollView.node.height);
+        const rowDisplayCard = currentIndex / this.numberOfCardsPerRow;
+        const countRow = rowDisplayCard < this.rowDefault ? 0 : rowDisplayCard;
+        const percentVertical = (countRow * this.cardHeight) / (this.content.height - this.statsScrollView.node.height);
         this.statsScrollView.scrollToPercentVertical(1 - percentVertical);
     }
 
@@ -82,7 +84,7 @@ export default class BlockchainCardList extends cc.Component {
         const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
         chain.forEach((card, index) => {
             if (index >= this.currentCardIndex && index < currentIndex) {
-                this.flipCard(this.cards[index].getComponent(BlockchainCard), card.card);
+                this.flipCard(this.cards[index]?.getComponent(BlockchainCard), card.card);
             }
         });
 

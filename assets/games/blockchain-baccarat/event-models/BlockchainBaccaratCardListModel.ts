@@ -10,10 +10,12 @@ export type Blockchain = {
 
 export default class BlockchainBaccaratCardListModel extends EventEmitterBase {
     static Events = {
-        CHANGE: "configs:change"
+        CHANGE: "cardList:change",
+        UPDATE_NEW_BLOCKCHAIN: "cardList:updateNewBlockchain"
     };
 
     blockchain: Blockchain;
+    newBlockchain: Blockchain;
     currentIndex: number;
     numberCardsFly = 6;
 
@@ -22,6 +24,11 @@ export default class BlockchainBaccaratCardListModel extends EventEmitterBase {
         this.currentIndex = blockchain.currentIndex;
         console.log(blockchain.currentIndex, "blockchain.currentIndex");
         this.emit(BlockchainBaccaratCardListModel.Events.CHANGE, blockchain);
+    }
+
+    updateNewBlockchain(newBlockchain: Blockchain) {
+        this.newBlockchain = newBlockchain;
+        this.emit(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, newBlockchain);
     }
 
     handleCurrentIndex(index: number) {

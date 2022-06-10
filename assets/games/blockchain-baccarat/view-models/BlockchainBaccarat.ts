@@ -18,7 +18,7 @@ import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
 import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
 import BlockchainBaccaratRoundHistoryModel from "../event-models/BlockchainBaccaratRoundHistoryModel";
 import { renderScoreBoardInGame } from "../components/score-board/actions/BlockchainBaccaratScoreboardActions";
-import { updateCardList } from "../actions/BlockchainBaccaratCardListActions";
+import { renderCardSettlement, updateBlockchainCardList } from "../actions/BlockchainBaccaratCardListActions";
 import { BlockchainBaccaratFinish, BlockchainBaccaratFinishModel } from "../event-models/BlockchainBaccaratFinishModel";
 import BlockchainBaccaratCardListModel, { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
 
@@ -62,6 +62,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         super.onLoad();
         this.registerGameEvents();
         this.registerFinishEvents();
+        this.registerNewBlockchainEvents();
     }
 
     start(): void {
@@ -139,6 +140,10 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     }
 
     private registerFinishEvents() {
-        this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, updateCardList(this));
+        this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, renderCardSettlement(this));
+    }
+
+    private registerNewBlockchainEvents() {
+        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, updateBlockchainCardList(this));
     }
 }
