@@ -27,7 +27,8 @@ const configs = {
         22: true,
         25: true,
         27: true,
-        46: true
+        46: true,
+        39: true
     },
     enableMsgpackParserOnNotification: true
 };
