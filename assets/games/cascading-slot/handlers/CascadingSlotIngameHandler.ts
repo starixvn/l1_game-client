@@ -21,6 +21,8 @@ export class CascadingSlotIngameHandler<Choices> extends BaseEventHandler<Ingame
         if (freeSpins && freeSpins.total > 0) {
             this.gameData.uiModel.setFreeSpins(freeSpins.total);
             this.gameData.spinButtonStateModel.change(SpinButtonState.ResumeWithFreeSpin);
+        } else {
+            this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
         }
     }
 }
