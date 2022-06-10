@@ -10,6 +10,8 @@ export default class HoldActionButton extends cc.Component {
     private isKeyPressing = false;
     private _actions = [];
 
+    interactable = true;
+
     get isAutoAction() {
         return this.isTouching || this.isKeyPressing;
     }
@@ -50,6 +52,9 @@ export default class HoldActionButton extends cc.Component {
     }
 
     private doAction() {
+        if (!this.interactable) {
+            return;
+        }
         cc.Component.EventHandler.emitEvents(this.clickEvents);
         this._actions.forEach((action) => action && action());
     }

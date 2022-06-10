@@ -443,7 +443,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         if (spinButtonState === SpinButtonState.FreeSpin) {
             this.trialToggle.interactable = false;
             this.setAllowChangeBet(false);
-            this.spinButton.spinButton.interactable = false;
+            this.enableSpinButton(false);
             this.autoSpinToggle.interactable = false;
             return;
         }
@@ -451,7 +451,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         if (spinButtonState === SpinButtonState.AutoSpin) {
             this.trialToggle.interactable = false;
             this.setAllowChangeBet(false);
-            this.spinButton.spinButton.interactable = false;
+            this.enableSpinButton(false);
             this.autoSpinToggle.interactable = true;
             return;
         }
@@ -459,7 +459,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         if (spinButtonState === SpinButtonState.ResumeWithFreeSpin) {
             this.trialToggle.interactable = false;
             this.setAllowChangeBet(false);
-            this.spinButton.spinButton.interactable = true;
+            this.enableSpinButton(true);
             this.autoSpinToggle.interactable = false;
             return;
         }
@@ -467,15 +467,20 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         if (state === CascadingSlotState.Spinning) {
             this.trialToggle.interactable = false;
             this.setAllowChangeBet(false);
-            this.spinButton.spinButton.interactable = false;
+            this.enableSpinButton(false);
             this.autoSpinToggle.interactable = false;
             return;
         }
 
         this.trialToggle.interactable = true;
         this.setAllowChangeBet(true);
-        this.spinButton.spinButton.interactable = true;
+        this.enableSpinButton(true);
         this.autoSpinToggle.interactable = !this.holdActionButton.isAutoAction;
+    }
+
+    protected enableSpinButton(value: boolean) {
+        this.spinButton.spinButton.interactable = value;
+        this.holdActionButton.interactable = value;
     }
 
     playSound(type: CascadingSlotGameSound) {
