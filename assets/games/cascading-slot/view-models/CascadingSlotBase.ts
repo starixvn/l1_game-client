@@ -6,7 +6,7 @@ import { getTrialSocket } from "../../../common/helpers/UrlHelper";
 import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
-import SlotGameBottomMessage, { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
+import { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
 import SlotGameTopMessage from "../../_slotgame_base/SlotGameTopMessage";
 import { HandleBetControl } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
@@ -114,7 +114,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public isTrialMode = false;
     public trialUserBalance: number;
 
-    bottomMessage: SlotGameBottomMessage = null;
     topMessage: SlotGameTopMessage = null;
     protected trialConnection: SocketIOConnection;
     protected miniBetControl: CascadingTotalBet;
@@ -372,12 +371,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    openGuide() {
-        super.openGuide();
-        AudioManager.getInstance().playClick();
-        //this.expandableMenu.collapseMenu();
-    }
-
     initTotalBet(node: cc.Node) {
         this.miniBetControl = node.getComponent(CascadingTotalBet);
         this.checkExistNodeBet();
@@ -400,10 +393,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     initFreeSpinView(node: cc.Node) {
         this.freeSpinView = node.getComponent(FreeSpinView);
         this.freeSpinView.showView(false, true);
-    }
-
-    initShowBottomMessage(node: cc.Node) {
-        this.bottomMessage = node.getComponent(SlotGameBottomMessage);
     }
 
     initShowTopMessage(node: cc.Node) {

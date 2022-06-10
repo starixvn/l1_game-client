@@ -4,7 +4,7 @@ import CascadingSlotTotalMultiplierItem from "./CascadingSlotTotalMultiplierItem
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CascadingSlotTotalMultilier extends cc.Component {
+export default class CascadingSlotTotalMultiplier extends cc.Component {
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
 

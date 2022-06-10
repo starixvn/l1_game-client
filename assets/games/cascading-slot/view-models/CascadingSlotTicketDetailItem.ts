@@ -27,17 +27,17 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     @property({ type: cc.Node })
     lines: cc.Node[] = [];
 
-    private MIN_HEIGHT_TOTALROW = 178;
-    private HEIGHT_ROW = 89;
+    private readonly MIN_HEIGHT_TOTALROW = 178;
+    private readonly HEIGHT_ROW = 89;
 
     setData(tumble: any, index: number, currWinTumble: number) {
         let numberOfIcon = 0;
         let tumbleNode: cc.Node;
         if (tumble.win > 0) {
-            Object.entries(tumble.icons).forEach(([key, value]) => {
+            Object.entries<{ count; win }>(tumble.icons).forEach(([key, value]) => {
                 tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
                 const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
-                let { count, win } = value as any;
+                const { count, win } = value;
                 control.setData(+key, count, win);
                 numberOfIcon++;
                 this.content.addChild(tumbleNode);

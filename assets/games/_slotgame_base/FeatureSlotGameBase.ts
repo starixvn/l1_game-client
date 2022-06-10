@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../common/audio/AudioManager";
+import MusicPlayer from "../../common/audio/MusicPlayer";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import FeatureSlotGameData from "../cascading-slot/models/FeatureSlotGameData";
@@ -10,8 +11,8 @@ import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
+import SlotGameBottomMessage from "./SlotGameBottomMessage";
 import SpinButton from "./SpinButton";
-import MusicPlayer from "../../common/audio/MusicPlayer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -48,16 +49,19 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     soundSources: cc.AudioSource[] = [];
 
     countDownAutoSpin: CountDownWarning = null;
+    bottomMessage: SlotGameBottomMessage = null;
 
     protected autoSpinCount = 0;
     protected lastAutoSpinCount: number;
     protected totalFreeSpins = 0;
     private cacheApiError: any = null;
 
+    public gameData: FeatureSlotGameData<void>;
+
     abstract getCurrentTotalBet(): number;
     abstract spin(): boolean;
-
-    public gameData: FeatureSlotGameData<void>;
+    abstract setAllowChangeBet(allow: boolean);
+    abstract getCustomDuration(type: string): number;
 
     onLoad() {
         super.onLoad();
@@ -182,8 +186,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         });
     }
 
-    abstract getCustomDuration(type: string): number;
-
     async showEffectBigWin(betWin: number) {
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackAnimation);
@@ -219,8 +221,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.countDownAutoSpin.node.active = false;
     }
 
-    abstract setAllowChangeBet(allow: boolean);
-
     setDefaultPositionForMiniMenu() {
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
@@ -243,5 +243,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             this.unschedule(this.playMusicBgCallback);
             this.musicBg.stop();
         }
+    }
+
+    initShowBottomMessage(node: cc.Node) {
+        this.bottomMessage = node.getComponent(SlotGameBottomMessage);
     }
 }

@@ -108,17 +108,16 @@ export default class CascadingBetControl extends cc.Component {
             });
         });
 
-        totalIncrease
-            .sort((a, b) => {
-                return +Object.keys(a)[0] - +Object.keys(b)[0];
-            })
-            .forEach((element) => {
-                const isDuplicate = uniqueIds.includes(Object.keys(element)[0]);
-                if (!isDuplicate) {
-                    uniqueIds.push(Object.keys(element)[0]);
-                    this.totalUnique.push(element);
-                }
-            });
+        totalIncrease.sort((a, b) => {
+            return +Object.keys(a)[0] - +Object.keys(b)[0];
+        });
+        totalIncrease.forEach((element) => {
+            const isDuplicate = uniqueIds.includes(Object.keys(element)[0]);
+            if (!isDuplicate) {
+                uniqueIds.push(Object.keys(element)[0]);
+                this.totalUnique.push(element);
+            }
+        });
     }
 
     private handleDataOnLabel() {

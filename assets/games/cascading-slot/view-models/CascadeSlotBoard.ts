@@ -16,7 +16,7 @@ export default class CascadeSlotBoard extends cc.Component {
     @property
     itemTypeCount = 11;
 
-    private reels: CascadeSlotReel[] = [];
+    private readonly reels: CascadeSlotReel[] = [];
 
     private readonly itemDisplayCount = 5;
 
@@ -124,11 +124,7 @@ export default class CascadeSlotBoard extends cc.Component {
     }
 
     public getItems() {
-        const items = this.reels.flatMap((reel) => {
-            return reel.getItems();
-        });
-
-        return items;
+        return this.reels.flatMap((reel) => reel.getItems());
     }
 
     public addItems(data: number[][]) {
@@ -140,11 +136,10 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public getMultiplierItems() {
         const items = this.getItems();
-        const multiplierItems = items.flatMap((item) => {
+        return items.flatMap((item) => {
             const comp = item.content.children[0].getComponent(MultiplierItem);
             return comp ? [comp] : [];
         });
-        return multiplierItems;
     }
 
     public async fallIn(isTurbo: boolean) {
