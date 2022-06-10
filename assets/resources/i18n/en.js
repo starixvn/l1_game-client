@@ -585,6 +585,8 @@ window.i18n.languages.en = {
         verify: "Verify",
         cardList: "Card list",
         privateKey: "Private Key",
-        serialNumber: "Serial Number"
+        serialNumber: "Serial Number",
+        verifiedSerial: "Verified Serial Number",
+        copy: "Copy"
     }
 };

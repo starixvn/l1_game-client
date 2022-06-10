@@ -75,7 +75,7 @@ export default class BlockchainCardList extends cc.Component {
 
     protected showLatestCard(currentIndex: number) {
         const rowDisplayCard = currentIndex / this.numberOfCardsPerRow;
-        const countRow = rowDisplayCard < this.rowDefault ? 0 : rowDisplayCard;
+        const countRow = rowDisplayCard <= this.rowDefault ? 0 : rowDisplayCard;
         const percentVertical = (countRow * this.cardHeight) / (this.content.height - this.statsScrollView.node.height);
         this.statsScrollView.scrollToPercentVertical(1 - percentVertical);
     }

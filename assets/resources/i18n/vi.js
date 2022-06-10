@@ -585,6 +585,8 @@ window.i18n.languages.vi = {
         verify: "Verify",
         cardList: "Danh sách thẻ bài",
         privateKey: "Private Key",
-        serialNumber: "Serial Number"
+        serialNumber: "Serial Number",
+        verifiedSerial: "Verified Serial Number",
+        copy: "Copy"
     }
 };
