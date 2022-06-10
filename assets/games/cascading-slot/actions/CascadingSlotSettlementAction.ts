@@ -136,8 +136,8 @@ const handleMultiplier = async (
 
     if (winMultiplier && isFreeSpin) {
         await movingMultiplier(mainGame.tumbleWinView.multiplier.node, mainGame.effectContainer, mainGame.totalMultiplierView.total.node);
-        mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
     }
+    mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
 };
 
 const movingMultiplier = (multiplierNode: cc.Node, container: cc.Node, destNode: cc.Node) => {
