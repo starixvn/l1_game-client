@@ -1,6 +1,5 @@
 import { CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "../card-list/BlockchainCard";
-import { cloneDeep } from "lodash";
 
 const { ccclass, property } = cc._decorator;
 
@@ -53,12 +52,12 @@ export default class BlockchainBaccaratCards extends cc.Component {
     readonly setPointSecond = 0.2;
     protected isMainPage = false;
     protected SET_POINT = 3;
-    cloneCardsPosition: cc.Vec3[] = [];
+    clonePositionCards: cc.Vec3[] = [];
 
     onLoad = () => {
         //onLoad
         this.cards.forEach((card, index) => {
-            this.cloneCardsPosition[index] = card.position;
+            this.clonePositionCards[index] = card.position;
         });
     };
 
@@ -203,7 +202,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     }
 
     protected setPositionCardsAfterDrop(cardComponent: cc.Component, cardNode: cc.Node, index: number) {
-        cardNode.position = this.cloneCardsPosition[index];
+        cardNode.position = this.clonePositionCards[index];
         cardComponent.node.children[0].position = cc.v3(0, 0, 0);
         cardComponent.node.children[0].scale = 0.5;
         cardComponent.node.children[0].skewX = 0;
