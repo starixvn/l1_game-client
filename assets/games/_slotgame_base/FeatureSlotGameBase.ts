@@ -5,6 +5,7 @@ import CallbackAnimation from "../../common/CallbackAnimation";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import FeatureSlotGameData from "../cascading-slot/models/FeatureSlotGameData";
 import { SpinButtonState } from "../cascading-slot/models/SpinButtonStateModel";
+import TurboAutoSpinSettingDialog from "../cascading-slot/view-models/TurboAutoSpinSettingDialog";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
@@ -45,6 +46,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     countDownAutoSpin: CountDownWarning = null;
 
     protected autoSpinCount = 0;
+    protected lastAutoSpinCount: number;
     protected totalFreeSpins = 0;
     private cacheApiError: any = null;
 
@@ -110,6 +112,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const dialog = node.getComponent(AutoSpinSettingDialog);
         dialog.onConfirmCallback = (autoSpinCount: number) => {
             this.setAutoSpinCount(autoSpinCount);
+            this.lastAutoSpinCount = autoSpinCount;
             this.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
 
             const onFinished = () => this.spin();
@@ -117,6 +120,15 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             const onCancel = () => this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
             this.countDownAutoSpin.show(autoSpinCount, onFinished, checkCancel, onCancel);
         };
+        if (this.lastAutoSpinCount) {
+            dialog.setLastSelected(this.lastAutoSpinCount);
+        }
+
+        const turboDialog = node.getComponent(TurboAutoSpinSettingDialog);
+        if (turboDialog) {
+            turboDialog.syncTurboToggle(this.turboToggle.isChecked);
+            turboDialog.turboChangedCallback = (value: boolean) => (this.turboToggle.isChecked = value);
+        }
 
         dialog.onCancelCallback = () => this.onAutoSpinOff();
         return dialog;

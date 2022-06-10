@@ -26,9 +26,17 @@ export default class AutoSpinSettingDialog extends cc.Component {
         });
     }
 
-    onChoiceClick(event: cc.Event, param: string) {
+    setLastSelected(value: number) {
+        const node = this.choicesContainer.children.find((child) => value === +child.name);
+        if (node) {
+            const toggle = node.getComponent(cc.Toggle);
+            toggle && (toggle.isChecked = true);
+        }
+    }
+
+    onChoiceClick(toggle: cc.Toggle) {
         AudioManager.getInstance().playClick();
-        this.autoSpinCount = +param;
+        this.autoSpinCount = +toggle.node.name;
     }
 
     onCloseClick() {
