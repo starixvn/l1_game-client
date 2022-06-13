@@ -6,6 +6,7 @@ import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnec
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
 import { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
+import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import SlotGameTopMessage from "../../_slotgame_base/SlotGameTopMessage";
 import { HandleBetControl } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
@@ -26,7 +27,6 @@ import CascadingTotalBet, { TotalBetType } from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
-import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 
 const { ccclass, property } = cc._decorator;
 
@@ -335,21 +335,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             .parallel(
                 cc
                     .tween()
-                    .to(0.02, { opacity: 130 })
-                    .to(0.02, { opacity: 200 })
-                    .to(0.02, { opacity: 255 })
+                    .to(0.05, { opacity: 255 })
                     .delay(1)
-                    .to(0.2, { opacity: 190 })
-                    .to(0.2, { opacity: 120 })
+                    .to(0.1, { opacity: 190 })
+                    .to(0.1, { opacity: 120 })
                     .to(0.2, { opacity: 0 }, { easing: "sineOut" }),
-                cc
-                    .tween()
-                    .to(0.02, { scale: 0.4 })
-                    .to(0.02, { scale: 0.7 })
-                    .to(0.02, { scale: 1 })
-                    .to(0.2, { scale: 1.3 })
-                    .to(1.4, { scale: 0.9 }, { easing: "sineOut" }),
-                cc.tween().delay(0.06).by(1.6, { y: 60 }, { easing: "sineOut" })
+                cc.tween().to(0.05, { scale: 1 }).to(0.1, { scale: 1.3 }).to(1.3, { scale: 0.9 }, { easing: "sineOut" }),
+                cc.tween().by(0.15, { y: -10 }).by(1.3, { y: 60 }, { easing: "sineOut" })
             )
             .call(() => {
                 node.destroy();
