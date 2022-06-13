@@ -16,7 +16,7 @@ const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 @ccclass
 export default class Banner extends cc.Component {
     @property(cc.Node)
-    skeleton: cc.Node = null;
+    loading: cc.Node = null;
 
     private adsBannerContainer: cc.Node = null;
     private jackpotBannerContainer: cc.Node = null;
@@ -131,6 +131,6 @@ export default class Banner extends cc.Component {
     }
 
     private inactiveLoadingSkeleton() {
-        this.skeleton.active = false;
+        this.loading.active = false;
     }
 }
