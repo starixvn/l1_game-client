@@ -20,6 +20,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     let multiplierCount = multipliers.length;
     let countIconPerRound = 0;
     const getMultiplier = multiplierCount > 0;
+    !mainGame.board.boardSound && (mainGame.board.boardSound = mainGame.gameSound);
     await mainGame.board.spinResult(result, multipliers, isTurbo);
 
     if (getMultiplier) {
