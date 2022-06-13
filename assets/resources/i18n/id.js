@@ -564,6 +564,9 @@ window.i18n.languages.id = {
         totalMultiplier: "Total Multiplier",
         no: "No.",
         resultBoard: "Result Board",
-        symbolAndNumber: "Win Symbols"
+        symbolAndNumber: "Win Symbols",
+        freeSpin: "Free Spin",
+        extraFreeSpin: "Extra Free Spin",
+        autoSpinLeft: "Auto Spins Left"
     }
 };

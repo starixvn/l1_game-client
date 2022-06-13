@@ -568,6 +568,9 @@ window.i18n.languages.vi = {
         resultBoard: "Bảng Kết Quả",
         symbolAndNumber: "Biếu Tượng Thắng",
         winAmount: "Thắng",
-        trialModeText: "Bạn Đang Chơi Thử"
+        trialModeText: "Bạn Đang Chơi Thử",
+        freeSpin: "Free Spin",
+        extraFreeSpin: "Free Spin Thêm",
+        autoSpinLeft: "Lượt Quay Tự Động Còn Lại"
     }
 };

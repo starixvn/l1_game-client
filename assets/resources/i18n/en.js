@@ -568,6 +568,9 @@ window.i18n.languages.en = {
         resultBoard: "Result Board",
         symbolAndNumber: "Win Symbols",
         winAmount: "Win Amount",
-        trialModeText: "You are in the Trial Mode"
+        trialModeText: "You are in the Trial Mode",
+        freeSpin: "Free Spin",
+        extraFreeSpin: "Extra Free Spin",
+        autoSpinLeft: "Auto Spins Left"
     }
 };

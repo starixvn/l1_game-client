@@ -548,6 +548,9 @@ window.i18n.languages.zh_cn = {
         totalMultiplier: "Total Multiplier",
         no: "No.",
         resultBoard: "Result Board",
-        symbolAndNumber: "Win Symbols"
+        symbolAndNumber: "Win Symbols",
+        freeSpin: "Free Spin",
+        extraFreeSpin: "Extra Free Spin",
+        autoSpinLeft: "Auto Spins Left"
     }
 };

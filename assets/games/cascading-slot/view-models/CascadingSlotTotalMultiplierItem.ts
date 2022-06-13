@@ -23,7 +23,7 @@ export default class CascadingSlotTotalMultiplierItem extends cc.Component {
     bg: cc.Node = null;
 
     setData(round: any, index: number) {
-        let { time, roundId, totalMultiplier, multiplier } = round as any;
+        const { time, roundId, totalMultiplier, multiplier } = round;
         this.index.string = index.toString();
         this.time.string = getStringDateByTime(time);
         this.roundId.string = roundId;

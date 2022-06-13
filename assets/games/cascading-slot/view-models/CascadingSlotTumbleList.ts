@@ -55,7 +55,7 @@ export default class CascadingSlotTumbleList extends cc.Component {
             await this.fall(this.content.children[i]);
         }
         this.content.destroyAllChildren();
-        this.scrollView && !this.scrollView.enabled;
+        //this.scrollView && !this.scrollView.enabled;
         this.content.position.y = -125;
         this.content.anchorY = 0;
         this.content.active = false;
