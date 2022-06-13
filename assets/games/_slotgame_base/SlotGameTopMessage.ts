@@ -11,7 +11,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SlotGameTopMessage extends cc.Component {
     onLoad() {
-        this.showTopMessage();
+        this.schedule(this.updateTopMessage, 5, cc.macro.REPEAT_FOREVER, 0);
     }
 
     updateTopMessage() {
@@ -25,11 +25,9 @@ export default class SlotGameTopMessage extends cc.Component {
 
     showTopMessage() {
         this.node.active = true;
-        this.schedule(this.updateTopMessage, 5, cc.macro.REPEAT_FOREVER, 0);
     }
 
     hideTopMessage() {
         this.node.active = false;
-        this.unschedule(this.updateTopMessage);
     }
 }
