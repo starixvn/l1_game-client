@@ -1,13 +1,13 @@
 import { CardChainResult } from "./../event-models/BlockchainBaccaratFinishModel";
-import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BaseEventHandler } from "./../../_new/_base/game-data-management/event-handlers/base-handler";
+import { BaccaratSettlementResult } from "../../baccarat/view-models/event-models/BaccaratSettlementResult";
 
 export type BlockchainBaccaratFinish<Choices> = {
     finish: {
         result: CardChainResult;
-        settlementResult: BlockchainBaccaratChoicesType;
+        settlementResult: BaccaratSettlementResult;
         winningPlayers: any[];
         roundId: number;
         blockchain: Blockchain;

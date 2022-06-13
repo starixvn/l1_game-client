@@ -19,6 +19,8 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
     private isSymbolMode = true;
     private items = null;
     private dots: cc.Node[] = [];
+    private isRenderNext = false;
+    private maxItems = 60;
 
     onLoad(): void {
         const itemsNode = cc.instantiate(this.beadRoadItem);
@@ -26,16 +28,44 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
     }
 
     render(data: BasicHistoryData[]) {
+        while (data.length > this.maxItems) {
+            data.pop();
+        }
+        data.reverse();
         data.forEach((history) => {
             this.addNewItem(history);
         });
     }
 
     addNewItem(history: BasicHistoryData) {
+        if (this.isRenderNext) {
+            this.dots[this.dots.length - 1].removeFromParent();
+            this.dots[this.dots.length - 1].destroy();
+            this.dots.pop();
+            this.isRenderNext = false;
+        }
         const node = _.find(this.items, (item) => item.name.toLowerCase() === history.name);
         const dot = cc.instantiate(node);
         dot.active = true;
         dot.getChildByName(this.childrenItemKey.value).getComponent(cc.Label).string = history.value;
+        dot.getChildByName(this.childrenItemKey.symbol).active = this.isSymbolMode;
+        dot.getChildByName(this.childrenItemKey.number).active = !this.isSymbolMode;
+        dot.getChildByName(this.childrenItemKey.value).active = !this.isSymbolMode;
+        this.content.addChild(dot);
+        this.dots.push(dot);
+    }
+
+    addNextNode() {
+        if (this.isRenderNext) return;
+        while (this.dots.length > this.maxItems - 1) {
+            this.dots[0].removeFromParent();
+            this.dots[0].destroy();
+            this.dots.shift();
+        }
+        this.isRenderNext = true;
+        const node = _.find(this.items, (item) => item.name.toLowerCase() === "next");
+        const dot = cc.instantiate(node);
+        dot.active = true;
         this.content.addChild(dot);
         this.dots.push(dot);
     }
@@ -45,6 +75,7 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
             dot.removeFromParent();
             dot.destroy();
         });
+        this.dots = [];
     }
 
     changeMode() {

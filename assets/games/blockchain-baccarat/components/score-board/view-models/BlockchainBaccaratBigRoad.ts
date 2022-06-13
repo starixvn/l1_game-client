@@ -1,4 +1,5 @@
 import BaccaratBigRoad from "../../../../baccarat/view-models/BaccaratBigRoad";
+import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratBigRoadItem from "./BlockchainBaccaratBigRoadItem";
 const { ccclass } = cc._decorator;
 
@@ -8,10 +9,15 @@ export default class BlockChainBaccaratBigRoad extends BaccaratBigRoad {
         return this.bigRoadData;
     }
 
+    public renderScoreBoardInGame(data: BlockchainBaccaratRoundHistory[]) {
+        this.firstRender = false;
+        this.isRenderedNext = false;
+        super.renderScoreBoardInGame(data);
+    }
+
     public resetBoard() {
-        const contentLength = this.content.childrenCount;
-        this.updateContentChild(this.minColumn - contentLength);
-        for (let index; index < contentLength; index++) {
+        this.updateContentChild(this.minColumn - this.content.childrenCount);
+        for (let index = 0; index < this.content.childrenCount; index++) {
             this.content.children[index].getComponent(BlockchainBaccaratBigRoadItem).resetAll();
         }
     }

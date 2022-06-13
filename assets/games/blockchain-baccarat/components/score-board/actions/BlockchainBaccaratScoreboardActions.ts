@@ -5,6 +5,10 @@ export const renderScoreBoardInGame = (scoreboard: BlockchainBaccaratScoreboard)
     scoreboard?.renderScoreBoardInGame(roundHistory);
 };
 
-export const renderScoreBoardEachRound = (scoreboard: BlockchainBaccaratScoreboard) => (settlementResult: any) => {
-    scoreboard?.renderScoreBoardEachRound(settlementResult);
+export const renderScoreBoardEachRound = (scoreboard: BlockchainBaccaratScoreboard) => (roundHistory: BlockchainBaccaratRoundHistory) => {
+    scoreboard?.renderScoreBoardEachRound(roundHistory);
+};
+
+export const resetScoreBoard = (scoreboard: BlockchainBaccaratScoreboard) => () => {
+    scoreboard.resetScoreboard();
 };

@@ -55,7 +55,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     }
 
     resetScoreboard(): void {
-        // reset
+        this.roundHistory = [];
         this.bigRoads.forEach((board) => {
             board.resetBoard();
         });
@@ -80,14 +80,25 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     }
 
     renderScoreBoardEachRound(lastRound: BlockchainBaccaratRoundHistory) {
-        this.roundHistory.push(lastRound);
+        this.roundHistory.unshift(lastRound);
         this.bigRoads.forEach((board) => {
-            board.renderScoreBoardEachRound(lastRound.settlementResult);
+            board.renderScoreBoardInGame(this.roundHistory);
         });
         this.bigRoadData = this.bigRoads[0].getData();
         this.renderDerivedScoreboard();
         this.renderBeadRoadEachRound(lastRound);
         this.renderPrediction();
+        this.renderStatistic();
+    }
+
+    renderNextNode() {
+        this.bigRoads.forEach((board) => {
+            board.renderNextNode();
+        });
+        this.derivedScoreboards.forEach((board, index) => {
+            index >= 3 && board.addNextNode();
+        });
+        this.beadRoad.addNextNode();
     }
 
     private renderDerivedScoreboard() {

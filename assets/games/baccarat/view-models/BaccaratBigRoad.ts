@@ -9,7 +9,7 @@ class BaccaratBigRoadConverter extends Converter<BaccaratSettlementResult> {}
 
 @ccclass
 export default class BaccaratBigRoad extends BigRoad {
-    private isRenderedNext: boolean;
+    protected isRenderedNext: boolean;
 
     onLoad() {
         super.onLoad();

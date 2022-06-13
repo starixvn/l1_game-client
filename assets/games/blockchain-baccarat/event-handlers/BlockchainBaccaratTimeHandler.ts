@@ -10,7 +10,7 @@ export type CardPrepare = {
 };
 
 export default class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
-    protected getOwnMain(): any {
+    protected getOwnMain(): BlockchainBaccarat {
         return this.main as BlockchainBaccarat;
     }
 
@@ -24,6 +24,8 @@ export default class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandl
     }
 
     handleInLockBetTime() {
+        const main = this.getOwnMain();
+        main.scoreboard.renderNextNode();
         // super.handleInLockBetTime();
     }
 }

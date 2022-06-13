@@ -3,12 +3,18 @@ import { BlockchainBaccaratRoundHistory } from "./BlockchainBaccaratRoundHistory
 
 export default class BlockchainBaccaratRoundHistoryModel extends HistoryBase<BlockchainBaccaratRoundHistory> {
     static RoundHistoryEvents = {
-        CHANGE: "RoundHistory:change"
+        CHANGE: "RoundHistory:change",
+        CLEAR: "RoundHistory:clear"
     };
 
     protected dispatchChangeEvent() {
         super.dispatchChangeEvent();
         this.emit(BlockchainBaccaratRoundHistoryModel.RoundHistoryEvents.CHANGE, this);
+    }
+
+    clear() {
+        super.cleanWithoutTriggerEvent();
+        this.emit(BlockchainBaccaratRoundHistoryModel.RoundHistoryEvents.CLEAR);
     }
 
     fifo(model: BlockchainBaccaratRoundHistory) {

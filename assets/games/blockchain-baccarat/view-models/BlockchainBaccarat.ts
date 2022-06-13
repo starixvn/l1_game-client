@@ -17,10 +17,14 @@ import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
 import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
 import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
 import BlockchainBaccaratRoundHistoryModel from "../event-models/BlockchainBaccaratRoundHistoryModel";
-import { renderScoreBoardInGame } from "../components/score-board/actions/BlockchainBaccaratScoreboardActions";
 import { renderCardSettlement, updateBlockchainCardList } from "../actions/BlockchainBaccaratCardListActions";
 import { BlockchainBaccaratFinish, BlockchainBaccaratFinishModel } from "../event-models/BlockchainBaccaratFinishModel";
 import BlockchainBaccaratCardListModel, { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
+import {
+    renderScoreBoardEachRound,
+    renderScoreBoardInGame,
+    resetScoreBoard
+} from "../components/score-board/actions/BlockchainBaccaratScoreboardActions";
 
 const { ccclass, property } = cc._decorator;
 
@@ -130,9 +134,13 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.gameData.roundHistory.on(BlockchainBaccaratRoundHistoryModel.Events.CHANGE, (roundHistory) => {
             renderScoreBoardInGame(this.scoreboard)(roundHistory);
         });
+        this.gameData.roundHistory.on(BlockchainBaccaratRoundHistoryModel.RoundHistoryEvents.CLEAR, () => {
+            resetScoreBoard(this.scoreboard)();
+        });
 
         this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
             this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
+            renderScoreBoardEachRound(this.scoreboard)(finishData);
         });
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.CHANGE, (blockchain: Blockchain) => {
             this.cardsUI.handleNumberIndex(blockchain.currentIndex);
