@@ -12,8 +12,8 @@ import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
 import SlotGameBottomMessage, { RoundType } from "./SlotGameBottomMessage";
-import SpinButton from "./SpinButton";
 import SlotGameSound from "./SlotGameSound";
+import SpinButton from "./SpinButton";
 
 const { ccclass, property } = cc._decorator;
 
@@ -175,7 +175,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     updateBottomMessageStatus() {
-        this.bottomMessage.isTurboAutoSpin = this.isAutoSpinMode() && this.isTurboMode();
+        this.bottomMessage.isTurboAutoSpin = this.isAutoSpinMode();
     }
 
     showEffect(effect: cc.Node): Promise<void> {
