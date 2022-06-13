@@ -53,7 +53,7 @@ export default class SlotGameBottomMessage extends cc.Component {
 
     protected handleTurboAutoSpin() {
         const leftAutoSpin = `treasureIsland.autoSpinLeft`;
-        this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(leftAutoSpin)}` + " " + this.autoSpinCount);
+        this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(leftAutoSpin)} ${this.autoSpinCount}`);
     }
 
     protected getRandomMessageForSettled(isTurboMode: boolean) {
