@@ -10,12 +10,9 @@ export default class TreasureIslandSpinButton extends CascadingSlotSpinButton {
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
-    showAutoSpinMode() {
-        super.showAutoSpinMode();
-        this.spinButtonSprite.spriteFrame = this.mainAtlas.getSpriteFrame("spin-button-autospin");
-    }
+    override showAutoSpinMode() {}
 
-    showNormalMode() {
+    override showNormalMode() {
         super.showNormalMode();
         this.spinButtonSprite.spriteFrame = this.mainAtlas.getSpriteFrame("spin-button");
     }
