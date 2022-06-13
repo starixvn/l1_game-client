@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
-import { CardModel } from "../../BlockchainBaccaratType";
+import { CardChain, CardModel } from "../../BlockchainBaccaratType";
 import { Blockchain } from "../../event-models/BlockchainBaccaratCardListModel";
 import BlockchainBaccarat from "../BlockchainBaccarat";
 import BlockchainCard from "./BlockchainCard";
@@ -51,7 +51,7 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     public setData(cardList: Blockchain) {
-        const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
+        const { chain, cutCardIndex, currentIndex } = cardList;
         this.cutCard = cutCardIndex;
         this.currentCardIndex = currentIndex;
         const itemsNode = GameUtils.createNodeFromPrefab(this.cardPrefab);
@@ -66,6 +66,9 @@ export default class BlockchainCardList extends cc.Component {
 
         chain.forEach((card, index) => {
             const cardNode = this.createCard(card.card, index);
+            cardNode.getComponent(BlockchainCard).openCardVerification = () => {
+                this.initCardVerification(card, index);
+            };
             this.content.addChild(cardNode);
             this.cards.push(cardNode);
         });
@@ -74,34 +77,37 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     protected showLatestCard(currentIndex: number) {
-        const rowDisplayCard = currentIndex / this.numberOfCardsPerRow;
+        const rowDisplayCard = Math.round(currentIndex / this.numberOfCardsPerRow);
         const countRow = rowDisplayCard <= this.rowDefault ? 0 : rowDisplayCard;
         const percentVertical = (countRow * this.cardHeight) / (this.content.height - this.statsScrollView.node.height);
         this.statsScrollView.scrollToPercentVertical(1 - percentVertical);
     }
 
     public updateData(cardList: Blockchain) {
-        const { chain, burnedCards, cutCardIndex, currentIndex } = cardList;
+        const { chain, currentIndex } = cardList;
         chain.forEach((card, index) => {
             if (index >= this.currentCardIndex && index < currentIndex) {
                 this.flipCard(this.cards[index]?.getComponent(BlockchainCard), card.card);
             }
+            this.cards[index].getComponent(BlockchainCard).openCardVerification = () => {
+                this.initCardVerification(card, index);
+            };
         });
 
         this.currentCardIndex = currentIndex;
     }
 
     protected flipCard(cardComp: BlockchainCard, cardModel: CardModel) {
-        cardComp.setCardOldStyle({
+        cardComp?.setCardOldStyle({
             rank: cardModel?.rank,
             suit: cardModel?.suit
         });
 
-        cardComp.setFaceUp(true);
-        cardComp.animation.play();
+        cardComp?.setFaceUp(true);
+        cardComp?.animation.play();
     }
 
-    protected createCard(card: CardModel, index, isFaceUp = true): cc.Node {
+    public createCard(card: CardModel, index, isFaceUp = true): cc.Node {
         const node = cc.instantiate(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
         cardComponent.setCardOldStyle({
@@ -114,23 +120,21 @@ export default class BlockchainCardList extends cc.Component {
             cardComponent.setKeyCard();
         }
 
-        cardComponent.openCardVerification = () => {
-            this.initCardVerification();
-        };
-
         cardComponent.indexNumber.string = this.convertIndexNumber(index + 1);
         cardComponent.animation.play();
         return node;
     }
 
-    private initCardVerification() {
-        const ticketDetail = this.node.getChildByName(this.cardVerificationPrefab.name);
-        if (ticketDetail) {
-            ticketDetail.removeFromParent(true);
-            ticketDetail.destroy();
+    private initCardVerification(card: CardChain, index: number) {
+        const cardVerificationPrefab = this.node.getChildByName(this.cardVerificationPrefab.name);
+        if (cardVerificationPrefab) {
+            cardVerificationPrefab.removeFromParent(true);
+            cardVerificationPrefab.destroy();
         }
         const ticketDetailPrefab = cc.instantiate(this.cardVerificationPrefab);
         this.cardVerificationComponent = ticketDetailPrefab.getComponent(BlockchainCardVerification);
+        this.cardVerificationComponent.init(this);
+        this.cardVerificationComponent.renderData(card, index);
         this.root.currentMiniPanel.addDialog(ticketDetailPrefab);
     }
 
@@ -142,7 +146,7 @@ export default class BlockchainCardList extends cc.Component {
         this.cards.push(card);
     }
 
-    private convertIndexNumber(index: number) {
+    public convertIndexNumber(index: number) {
         switch (true) {
             case index < 10:
                 return `00${index}`;
