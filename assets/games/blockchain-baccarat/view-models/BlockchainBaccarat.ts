@@ -91,6 +91,10 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.scoreboard = node.getComponent(BlockchainBaccaratScoreboard);
     }
 
+    initLastRoundInfo(node: cc.Node) {
+        //
+    }
+
     initCardsUI(node: cc.Node) {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
     }
