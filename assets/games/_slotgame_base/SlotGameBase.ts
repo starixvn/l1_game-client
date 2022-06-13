@@ -306,7 +306,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
         if (roundType === RoundType.SETTLED) {
             const items = this.isTurboMode() ? [1, 2] : [1, 2, 3];
-            const item = items[Math.floor(Math.random() * items.length)];
+            const item = items[_.random(items.length - 1)];
             msg = `messages.FromSettleToSpin${item}`;
         }
         this.messageText.string = `${i18n.t(msg)}`;
@@ -720,7 +720,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             if (i < itemTypeCount) {
                 data.push(i);
             } else {
-                data.push(Math.floor(Math.random() * itemTypeCount));
+                data.push(_.random(itemTypeCount));
             }
         }
 

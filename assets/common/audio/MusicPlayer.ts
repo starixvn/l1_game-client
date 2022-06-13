@@ -1,3 +1,5 @@
+import _ = require("lodash");
+
 import AudioManager from "./AudioManager";
 
 export default class MusicPlayer {
@@ -44,7 +46,7 @@ export default class MusicPlayer {
     }
 
     private getRandomNameSong() {
-        return this.ListSong[Math.floor(Math.random() * this.ListSong.length)];
+        return this.ListSong[_.random(this.ListSong.length - 1)];
     }
 
     private playBgAudio(play: boolean) {

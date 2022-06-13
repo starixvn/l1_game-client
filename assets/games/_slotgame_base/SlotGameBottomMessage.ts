@@ -1,4 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import _ = require("lodash");
 
 import GameUtils from "../../common/GameUtils";
 
@@ -57,7 +58,7 @@ export default class SlotGameBottomMessage extends cc.Component {
 
     protected getRandomMessageForSettled(isTurboMode: boolean) {
         const items = isTurboMode ? [1, 2] : [1, 2, 3];
-        const item = items[Math.floor(Math.random() * items.length)];
+        const item = items[_.random(items.length - 1)];
         return `messages.FromSettleToSpin${item}`;
     }
 }

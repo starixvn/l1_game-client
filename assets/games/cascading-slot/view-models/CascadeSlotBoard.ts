@@ -1,9 +1,9 @@
 import _ = require("lodash");
 
 import GameUtils from "../../../common/GameUtils";
+import SlotGameSound, { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import CascadeSlotReel from "./CascadeSlotReel";
 import MultiplierItem from "./MultiplierItem";
-import SlotGameSound, { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 
 const { ccclass, property } = cc._decorator;
 
@@ -42,7 +42,7 @@ export default class CascadeSlotBoard extends cc.Component {
             if (i < itemTypeCount) {
                 data.push(i);
             } else {
-                data.push(Math.floor(Math.random() * itemTypeCount));
+                data.push(_.random(itemTypeCount - 1));
             }
         }
 

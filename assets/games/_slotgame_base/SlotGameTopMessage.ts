@@ -1,3 +1,5 @@
+import _ = require("lodash");
+
 export enum RoundType {
     BEFORESPIN = 0,
     SPINNING = 1,
@@ -17,7 +19,7 @@ export default class SlotGameTopMessage extends cc.Component {
             child.active = false;
         });
         const items = [1, 2, 3];
-        const item = items[Math.floor(Math.random() * items.length)];
+        const item = items[_.random(items.length - 1)];
         this.node.children[item - 1].active = true;
     }
 
