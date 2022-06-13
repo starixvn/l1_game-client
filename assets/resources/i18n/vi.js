@@ -571,6 +571,7 @@ window.i18n.languages.vi = {
         trialModeText: "Bạn Đang Chơi Thử",
         freeSpin: "Free Spin",
         extraFreeSpin: "Free Spin Thêm",
-        autoSpinLeft: "Lượt Quay Tự Động Còn Lại"
+        autoSpinLeft: "Lượt Quay Tự Động Còn Lại",
+        bigWinTextNotify: "Bấm vào bất cứ đâu để tiếp tục"
     }
 };

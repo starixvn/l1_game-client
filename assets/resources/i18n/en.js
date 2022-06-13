@@ -571,6 +571,7 @@ window.i18n.languages.en = {
         trialModeText: "You are in the Trial Mode",
         freeSpin: "Free Spin",
         extraFreeSpin: "Extra Free Spin",
-        autoSpinLeft: "Auto Spins Left"
+        autoSpinLeft: "Auto Spins Left",
+        bigWinTextNotify: "Press anywhere to continue"
     }
 };

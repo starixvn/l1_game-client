@@ -567,6 +567,7 @@ window.i18n.languages.id = {
         symbolAndNumber: "Win Symbols",
         freeSpin: "Free Spin",
         extraFreeSpin: "Extra Free Spin",
-        autoSpinLeft: "Auto Spins Left"
+        autoSpinLeft: "Auto Spins Left",
+        bigWinTextNotify: "Press anywhere to continue"
     }
 };
