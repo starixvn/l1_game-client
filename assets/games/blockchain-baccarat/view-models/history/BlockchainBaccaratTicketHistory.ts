@@ -1,0 +1,108 @@
+import BetHistory from "../../../_new/common/BetHistory";
+import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
+import BlockchainBaccarat from "../BlockchainBaccarat";
+import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
+import { events } from "../../../_new/connection/SocketIOConnection";
+
+const { ccclass, property } = cc._decorator;
+
+export interface BetLog {
+    dealerHandId: number;
+    playerHandId: number;
+    isFold: boolean;
+    roundId: number;
+    stake: number;
+    time: Date;
+    betWin: number;
+    isQualified: boolean;
+    isPlayerWin: number;
+}
+
+type HistoryDataType = {
+    history: {
+        page: number;
+        pageSize: number;
+        total: number;
+        betLogs: BetLog[];
+    };
+};
+
+@ccclass
+export default class BlockchainBaccaratTicketHistory extends BetHistory {
+    @property(PaginationCommon)
+    pages: PaginationCommon = null;
+
+    @property(cc.Node)
+    content: cc.Node = null;
+
+    @property(cc.Prefab)
+    prefabItem: cc.Prefab = null;
+
+    @property([cc.SpriteFrame])
+    cardTypes: Array<cc.SpriteFrame> = [];
+
+    @property(cc.Prefab)
+    ticketDetailPrefab: cc.Prefab = null;
+
+    historyData: BetLog[] = null;
+
+    protected root: BlockchainBaccarat;
+
+    init(root: BlockchainBaccarat) {
+        this.root = root;
+    }
+
+    onLoad() {
+        this.pages.init(this);
+        const commonDialog = this.getComponent(CommonDialog);
+        commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
+    }
+
+    showDialog() {
+        const commonDialog = this.getComponent(CommonDialog);
+        if (commonDialog) {
+            this.get_data();
+            commonDialog.showDialog();
+        }
+    }
+
+    getHistory(page = 1) {
+        this.connection.emit(events.getHistory, { page });
+    }
+
+    getTicketDetail(roundId = 1) {
+        this.connection.emit(events.getTicketDetail, { roundId });
+    }
+
+    get_data(page = 1) {
+        this.getHistory(page);
+    }
+
+    onData(data: HistoryDataType) {
+        if (!data.history) {
+            return;
+        }
+        this.historyData = data.history.betLogs;
+
+        this.pages.onSet(data.history.page, data.history.pageSize, data.history.total);
+        this.content.children.forEach((child) => child.destroy());
+
+        this.handleHistoryData(this.historyData);
+    }
+
+    handleHistoryData(data: any) {
+        data.forEach((log, index) => {
+            const historyItemPrefab = cc.instantiate(this.prefabItem);
+            const historyControl = historyItemPrefab.getComponent(HoldemPokerTicketHistoryItem);
+            historyControl.renderTicketHistoryItem(log, index);
+            historyControl.openTicketDetail = () => {
+                AudioManager.getInstance().playClick();
+                this.getTicketDetail(log.roundId);
+                this.initTicketDetail(log.roundId, log.time);
+            };
+            this.content.addChild(historyItemPrefab);
+        });
+    }
+}
