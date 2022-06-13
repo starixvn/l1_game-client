@@ -27,6 +27,9 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property({ type: cc.Sprite })
     dices: cc.Sprite[] = [];
 
+    @property({ type: cc.SpriteAtlas })
+    diceAtlas: cc.SpriteAtlas = null;
+
     @property({ type: cc.Label })
     characterCountLabels: cc.Label[] = [];
 
@@ -177,6 +180,13 @@ export default class BauCua extends SocketIOMiniGameBase {
                 this.dices[index].spriteFrame = this.iconLV[dice];
             });
         }
+    }
+
+    setDices(result) {
+        const { dice1, dice2, dice3 } = result;
+        this.dices[0].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice1}-2`);
+        this.dices[1].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice2}-1`);
+        this.dices[2].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice3}-1`);
     }
 
     showDiceResult(show: boolean) {
