@@ -1,5 +1,4 @@
-import { callData } from "./../../../../../__tests__/games/texas-holdem-poker/_base/index";
-import { CardModel, CardModelNew as CardModelOld } from "../../BlockchainBaccaratType";
+import { CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "../card-list/BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
@@ -46,13 +45,11 @@ export default class BlockchainBaccaratCards extends cc.Component {
     protected playGetCardAudio = () => {
         //playGetCardAudio
     };
-    readonly flyCardSecond = 0.8;
-    readonly flyCardThree = 0.3;
-    readonly openSecondCardSecond = 1.6;
+    readonly durationFlyCard = 0.5;
+    readonly durationFlyCard3 = 0.2;
     readonly setPointSecond = 0.2;
     protected SET_POINT = 3;
     clonePositionCards: cc.Vec3[] = [];
-    clonePostionCardBack: cc.Vec3 = null;
 
     onLoad = () => {
         //onLoad
@@ -62,15 +59,11 @@ export default class BlockchainBaccaratCards extends cc.Component {
     };
 
     private onFaceDown(node: cc.Node) {
-        if (node?.getComponent(BlockchainCard)) {
-            const componentCard = node.getComponent(BlockchainCard);
-            componentCard.cardBack.active = true;
-            this.clonePostionCardBack = componentCard.cardBack.position;
-        }
+        // onFaceDown
     }
 
     setTagIndex(index: number, card: cc.Node) {
-        card.getComponentInChildren(BlockchainCard).indexNumber.string = index.toString();
+        card.getComponentInChildren(BlockchainCard).setIndexNumer(index);
     }
 
     resetCards() {
@@ -79,14 +72,13 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.cards.forEach((card: cc.Node) => {
             this.resetCard(card);
         });
-
-        // this.showHighlightCards(false);
     }
 
     resetCard(card: cc.Node) {
         const cardNode = card?.getComponentInChildren(BlockchainCard);
         if (cardNode) {
             cardNode.faceDown();
+            cardNode.resetHighlight();
             card.opacity = 0;
             card.scale = 0.5;
             card.angle = -135;
@@ -100,37 +92,47 @@ export default class BlockchainBaccaratCards extends cc.Component {
         }
     }
 
-    async flyCard1(numberTag: number, delay = this.flyCardSecond) {
+    async flyCard1(numberTag: number, delay = this.durationFlyCard) {
         await this.flyCard(this.cards[OrderCards.card1], delay, numberTag);
     }
 
-    async flyCard2(numberTag: number, delay = this.flyCardSecond) {
+    async flyCard2(numberTag: number, delay = this.durationFlyCard) {
         await this.flyCard(this.cards[OrderCards.card2], delay, numberTag);
     }
 
-    async flyCard3(node: cc.Node, start: cc.Node, delay = this.flyCardThree) {
-        await this.flyCard(node, delay, 0, start);
+    async flyCard3(node: cc.Node, start: cc.Node, delay = this.durationFlyCard3) {
+        await this.flyCard(node, delay, 0, start, true);
     }
 
-    async flyCard1Reserve(numberTag: number, card: cc.Node, start: cc.Node, delay = this.flyCardThree) {
+    async flyCard1Reserve(numberTag: number, card: cc.Node, start: cc.Node, delay = this.durationFlyCard) {
         await this.flyCardReserve(card, delay, numberTag, start);
     }
 
-    private flyCard(card: cc.Node, delay: number, numberTag?: number, start = this.cardsBox, scale = 1): Promise<void> {
+    private flyCard(
+        card: cc.Node,
+        delay: number,
+        numberTag?: number,
+        start = this.cardsBox,
+        isCardThree = false,
+        scale = 1
+    ): Promise<void> {
         return new Promise((resolve) => {
+            const cardComponent = card.getComponentInChildren(BlockchainCard);
             cc.tween(card)
                 .delay(delay)
                 .call(() => {
-                    numberTag > 0 && (card.getComponentInChildren(BlockchainCard).indexNumber.string = numberTag.toString());
+                    numberTag > 0 && cardComponent.setIndexNumer(numberTag);
+                    cardComponent.setStatusInfoTag(true);
+                    cardComponent.setStatusIndexNumber(true);
                     const convertCardBox: cc.Vec3 = cc.v3(card.parent.convertToNodeSpaceAR(start.convertToWorldSpaceAR(cc.v2(0, 0))));
                     const cardPosition = card.position;
                     card.position = convertCardBox;
                     card.opacity = 255;
                     card.runAction(
                         cc.spawn(
-                            cc.rotateTo(this.flyCardSecond, 0).easing(cc.easeInOut(2)),
-                            cc.scaleTo(this.flyCardSecond, scale).easing(cc.easeInOut(2)),
-                            cc.moveTo(this.flyCardSecond, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
+                            cc.rotateTo(this.durationFlyCard, isCardThree ? (this.isBanker ? -90 : 90) : 0).easing(cc.easeInOut(2)),
+                            cc.scaleTo(this.durationFlyCard, scale).easing(cc.easeInOut(2)),
+                            cc.moveTo(this.durationFlyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
                         )
                     );
                 })
@@ -141,49 +143,59 @@ export default class BlockchainBaccaratCards extends cc.Component {
 
     private flyCardReserve(card: cc.Node, delay: number, numberTag: number, start: cc.Node): Promise<void> {
         return new Promise((resolve) => {
+            const cardComponent = card.getComponentInChildren(BlockchainCard);
             cc.tween(card)
                 .delay(delay)
                 .call(() => {
-                    card.getComponentInChildren(BlockchainCard).indexNumber.string = numberTag.toString();
+                    numberTag > 0 && cardComponent.setIndexNumer(numberTag);
+                    cardComponent.setStatusInfoTag(true);
+                    cardComponent.setStatusIndexNumber(true);
                     const convertCardBox: cc.Vec3 = cc.v3(card.parent.convertToNodeSpaceAR(start.convertToWorldSpaceAR(cc.v2(0, 0))));
                     const cardPosition = card.position;
                     card.position = convertCardBox;
                     card.opacity = 255;
                     card.scale = 1;
                     card.rotation = 0;
-                    card.runAction(cc.moveTo(this.flyCardSecond, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2)));
+                    card.runAction(cc.moveTo(this.durationFlyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2)));
                 })
                 .call(() => resolve())
                 .start();
         });
     }
 
-    async collectCards() {
+    async collectCards(duration = 0.5) {
         const worldPosition = this.cardsDrop.convertToWorldSpaceAR(cc.v2(0, 0));
         this.resetPoint();
-
         this.cards.forEach((card, index) => {
             const destPosition = card.parent.convertToNodeSpaceAR(worldPosition);
-            this.dropCards(card, destPosition, index, 0.5);
+            this.dropCards(card, destPosition, index, 0.5, 0.2);
         });
     }
 
-    private dropCards(cardNode: cc.Node, destPosition: cc.Vec2, index: number, durationJumpToBoxCard: number): Promise<void> {
+    private dropCards(
+        cardNode: cc.Node,
+        destPosition: cc.Vec2,
+        index: number,
+        durationJumpToBoxCard: number,
+        duration: number
+    ): Promise<void> {
         return new Promise<void>((resolve) => {
             const cardComponent: BlockchainCard = cardNode.getComponentInChildren(BlockchainCard);
-            cardComponent.indexNumber.node.active = true;
+            cardComponent.setStatusInfoTag(false);
             cc.tween(cardNode)
                 .to(0.3, { position: cc.v2(0, 0) })
                 .call(() => {
                     cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
                 })
                 .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
-                .delay(0.2)
+                .delay(duration)
                 .call(() => {
                     this.resetCard(cardNode);
-
-                    this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
                     resolve();
+                })
+                .delay(duration)
+                .call(() => {
+                    this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
                 })
                 .start();
         });
@@ -199,64 +211,38 @@ export default class BlockchainBaccaratCards extends cc.Component {
         cardComponent.node.getChildByName("card").rotation = 0;
     }
 
-    async openCard(index: number, card: cc.Node, cardData: CardModelOld, isAnimated = true, delayTime = 0) {
-        const blockChainCard = card.getComponentInChildren(BlockchainCard);
-        blockChainCard.setCardOldStyle({
-            rank: cardData.rank.toString(),
-            suit: cardData.suit
-        });
-        blockChainCard.faceUp();
-        await this.actionOpenCards(isAnimated, index, card);
-        this.handleSetPoint(cardData, delayTime, card);
+    async openCard(card: cc.Node, cardData: CardModel, isAnimated = true) {
+        await this.actionOpenCards(cardData, card, isAnimated);
+        this.handleSetPoint(cardData, card);
     }
 
-    async actionOpenCards(isAnimated: boolean, index: number, currentCard: cc.Node) {
-        const blockchainCard = currentCard.getComponentInChildren(BlockchainCard);
+    async actionOpenCards(cardData: CardModel, currentCard: cc.Node, isAnimated = true) {
         if (isAnimated) {
-            blockchainCard.indexNumber.node.active = false;
-
-            if (index < 2) {
-                await this.actionCardBack(blockchainCard.cardBack);
-                return;
-            } else {
-                blockchainCard.hideCardBack();
-                await this.openCard3(currentCard);
-            }
+            await this.faceUpCard(cardData, currentCard);
         }
     }
 
-    private actionCardBack(cardBack: cc.Node): Promise<void> {
-        return new Promise<void>((resolve) => {
-            cc.tween(cardBack)
-                .to(0.8, { position: cc.v2(10, -10) }, { easing: "easeSineOut" })
-                .parallel(
-                    cc.moveBy(0.8, cc.v2(150, -150)).easing(cc.easeExponentialInOut()),
-                    cc.fadeOut(0.8).easing(cc.easeExponentialInOut())
-                )
-                .call(() => {
-                    cardBack.active = false;
-                    cardBack.opacity = 255;
-                })
-                .call(() => {
-                    cardBack.position = this.clonePostionCardBack;
-                    resolve();
-                })
-                .start();
-        });
-    }
-
-    private openCard3(card: cc.Node): Promise<void> {
+    protected faceUpCard(cardInfo: CardModel, card: cc.Node): Promise<void> {
+        const duration = 0.6;
+        const cardComponent = card.getComponentInChildren(BlockchainCard);
         return new Promise((resolve) => {
             cc.tween(card)
+                .delay(duration)
                 .call(() => {
-                    card.runAction(cc.rotateBy(0.5, this.isBanker ? -90 : 90).easing(cc.easeSineOut()));
+                    cardComponent.setCardOldStyle({
+                        rank: cardInfo.rank.toString(),
+                        suit: cardInfo.suit
+                    });
+                    cardComponent.setStatusIndexNumber(false);
+                    cardComponent.playAnimation(CardAnimation.DealerOpenCard, duration);
                 })
+
                 .call(() => resolve())
                 .start();
         });
     }
 
-    private handleSetPoint(data: any, delayTime: number, currentCard: cc.Node) {
+    private handleSetPoint(data: any, currentCard: cc.Node, delayTime = this.setPointSecond) {
         const pointValue: number = data.rank + 1;
         const setPoint = cc.sequence(
             cc.delayTime(delayTime),

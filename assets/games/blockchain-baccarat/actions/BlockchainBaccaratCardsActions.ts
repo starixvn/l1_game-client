@@ -1,17 +1,38 @@
+import { CardsOrder } from "./../view-models/BlockchainBaccaratCardsUI";
+import { BlockchainBaccaratFinish } from "./../event-models/BlockchainBaccaratFinishModel";
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
+import BlockchainCard from "../view-models/card-list/BlockchainCard";
+import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 
-export const showCards = (cardsUI: BlockchainBaccaratCardsUI) => (dataFinish: any, showResultFunc: () => void) => {
+export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFinish: BlockchainBaccaratFinish) => {
     const result = dataFinish.result;
-    const playerCards = getDataFollowTypePlayer(result, false);
-    const bankerCards = getDataFollowTypePlayer(result, true);
+    await cardsUI.playerCards.openCard(cardsUI.playerCards.cards[CardsOrder.card1], result.player.card1, true);
+    await cardsUI.playerCards.openCard(cardsUI.playerCards.cards[CardsOrder.card2], result.player.card2, true);
 
-    cardsUI.playerCards.showCards(playerCards, bankerCards.length === 3 ? null : showResultFunc);
-    cardsUI.bankerCards.showCards(bankerCards, bankerCards.length === 3 ? showResultFunc : null, playerCards.length === 3);
+    await cardsUI.bankerCards.openCard(cardsUI.bankerCards.cards[CardsOrder.card1], result.banker.card1, true);
+    await cardsUI.bankerCards.openCard(cardsUI.bankerCards.cards[CardsOrder.card2], result.banker.card2, true);
+
+    if (result?.player?.card3?.rank) {
+        await cardsUI.flyCard3(true);
+        await cardsUI.playerCards.openCard(cardsUI.playerCards.cards[CardsOrder.card3], result.player.card3, true);
+    }
+
+    if (result?.banker?.card3?.rank) {
+        await cardsUI.flyCard3();
+        await cardsUI.bankerCards.openCard(cardsUI.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
+    }
+    showHighlight(cardsUI, dataFinish.settlementResult);
 };
 
-const getDataFollowTypePlayer = (data: any, isBanker: boolean) => {
-    if (isBanker) {
-        return Object.values(data.banker).filter((value) => value != null);
+const showHighlight = (cardsUI: BlockchainBaccaratCardsUI, settlementResult: BlockchainBaccaratChoicesType) => {
+    let cards: cc.Node[] = [];
+    if (settlementResult.banker) {
+        cards = cardsUI.bankerCards.cards;
+    } else if (settlementResult.player) {
+        cards = cardsUI.playerCards.cards;
     }
-    return Object.values(data.player).filter((value) => value != null);
+
+    cards.forEach((card: cc.Node) => {
+        card.getComponentInChildren(BlockchainCard).setHighlight();
+    });
 };

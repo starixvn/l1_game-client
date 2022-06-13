@@ -2,7 +2,7 @@ import BlockchainBaccaratCards from "./card/BlockchainBaccaratCards";
 
 const { ccclass, property } = cc._decorator;
 
-enum CardsOrder {
+export enum CardsOrder {
     card1 = 0,
     card2,
     card3
@@ -100,38 +100,42 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         }
     }
 
-    handleResetCards(numberCardsFlied: number) {
+    async handleResetCards(numberCardsFlied: number) {
+        await this.collectCardsOnTable();
         switch (numberCardsFlied) {
             case CardFlied.Four:
-                this.playerCards.resetCards();
-                this.bankerCards.resetCards();
+                this.bankerCards.collectCards();
+                this.playerCards.collectCards();
                 break;
             case CardFlied.Five:
-                this.playerCards.resetCards();
-                this.bankerCards.resetCards();
+                this.bankerCards.collectCards();
+                this.playerCards.collectCards();
                 this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
                 break;
             default:
-                this.playerCards.resetCards();
-                this.bankerCards.resetCards();
-                this.reserveCards.resetCards();
+                this.bankerCards.collectCards();
+                this.playerCards.collectCards();
+                this.reserveCards.collectCards();
                 break;
         }
     }
 
-    protected async flyCard3(playerHasCard3 = false) {
+    async flyCard3(playerHasCard3 = false) {
         if (playerHasCard3) {
             this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
             await this.reserveCards.flyCard3(this.playerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card1]);
         } else {
-            this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
-            await this.reserveCards.flyCard3(this.bankerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card2]);
+            this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
+            await this.reserveCards.flyCard3(this.bankerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card1]);
         }
     }
 
     async onClick() {
-        this.handleResetCards(6);
-        this.handleFlyCards(1, 6);
+        await this.handleResetCards(4);
+        // await this.collectCardsOnTable();
+        // this.bankerCards.collectCards();
+        // this.playerCards.collectCards();
+        await this.handleFlyCards(1, 4);
     }
 
     async onClickFlyCard3() {
@@ -211,20 +215,20 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 }
             ]
         };
-        await this.playerCards.openCard(CardsOrder.card1, this.playerCards.cards[CardsOrder.card1], result.player.card1, true);
-        await this.playerCards.openCard(CardsOrder.card2, this.playerCards.cards[CardsOrder.card2], result.player.card2, true);
+        await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card1], result.player.card1, true);
+        await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card2], result.player.card2, true);
 
-        await this.bankerCards.openCard(CardsOrder.card1, this.bankerCards.cards[CardsOrder.card1], result.banker.card1, true);
-        await this.bankerCards.openCard(CardsOrder.card2, this.bankerCards.cards[CardsOrder.card2], result.banker.card2, true);
+        await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card1], result.banker.card1, true);
+        await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card2], result.banker.card2, true);
 
         if (!!result.player.card3) {
             await this.flyCard3(true);
-            await this.playerCards.openCard(CardsOrder.card3, this.playerCards.cards[CardsOrder.card3], result.player.card3, true);
+            await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card3], result.player.card3, true);
         }
 
         if (!!result.banker.card3) {
             await this.flyCard3();
-            await this.bankerCards.openCard(CardsOrder.card3, this.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
+            await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
         }
     }
 
