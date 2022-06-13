@@ -557,7 +557,7 @@ window.i18n.languages.th = {
         betLevel: "Bet Level",
         coinValue: "Coin Value",
         congratulation: "Congratulation",
-        youWinFreeSpin: 'You win "%{n}" Free Spins',
+        youWinFreeSpin: "You won",
         multiplier: "Multiplier",
         totalMultiplier: "Total Multiplier",
         no: "No.",

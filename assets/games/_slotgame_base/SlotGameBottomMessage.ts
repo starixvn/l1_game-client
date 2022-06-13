@@ -51,7 +51,8 @@ export default class SlotGameBottomMessage extends cc.Component {
     }
 
     protected handleTurboAutoSpin() {
-        this.msgText.string = GameUtils.capitalizeWordIntoString("Số lượt tự quay còn lại " + this.autoSpinCount);
+        const leftAutoSpin = `treasureIsland.autoSpinLeft`;
+        this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(leftAutoSpin)}` + " " + this.autoSpinCount);
     }
 
     protected getRandomMessageForSettled(isTurboMode: boolean) {

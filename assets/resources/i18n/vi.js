@@ -561,7 +561,7 @@ window.i18n.languages.vi = {
         betLevel: "Mức Cược",
         coinValue: "Giá trị cược",
         congratulation: "Chúc Mừng",
-        youWinFreeSpin: 'Bạn đã thắng "%{n}" Free Spins',
+        youWinFreeSpin: "Bạn đã thắng",
         multiplier: "Số Nhân",
         totalMultiplier: "Tổng Số Nhân",
         no: "Stt",
