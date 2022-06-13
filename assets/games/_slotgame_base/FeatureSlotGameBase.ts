@@ -117,6 +117,13 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         return true;
     }
 
+    createAutoSpinCountDown(autoSpinCount: number) {
+        const onFinished = () => this.spin();
+        const checkCancel = () => !this.isAutoSpinMode();
+        const onCancel = () => this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
+        this.countDownAutoSpin.show(autoSpinCount, onFinished, checkCancel, onCancel);
+    }
+
     createAutoSpinDialog(): AutoSpinSettingDialog {
         const node = cc.instantiate(this.autoSpinDialogPrefab);
         this.currentMiniPanel.addDialog(node);
@@ -127,10 +134,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             this.lastAutoSpinCount = autoSpinCount;
             this.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
 
-            const onFinished = () => this.spin();
-            const checkCancel = () => !this.isAutoSpinMode();
-            const onCancel = () => this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
-            this.countDownAutoSpin.show(autoSpinCount, onFinished, checkCancel, onCancel);
+            this.spin();
         };
         if (this.lastAutoSpinCount) {
             dialog.setLastSelected(this.lastAutoSpinCount);
