@@ -43,7 +43,6 @@ export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIO
             gameContainer: null,
             enableMsgpackParser: enableMsgpackParserAllGames
         };
-        const socket = this.socketIOController.connectGameSocket(option);
-        return socket;
+        return this.socketIOController.connectGameSocket(option);
     }
 }

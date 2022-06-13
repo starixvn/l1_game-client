@@ -8,7 +8,7 @@ export default class HoldActionButton extends cc.Component {
 
     private isTouching = false;
     private isKeyPressing = false;
-    private _actions = [];
+    private readonly _actions = [];
 
     interactable = true;
 
