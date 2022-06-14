@@ -9,15 +9,11 @@ export default class SedieWallet extends cc.Component {
     balance: cc.Label = null;
 
     focus(status: boolean) {
-        this.showOverlayBackground(!status);
+        this.overlay.active = !status;
         this.showActiveBackground(true);
     }
 
     showActiveBackground(status: boolean) {
         this.getComponent(cc.Sprite).enabled = status;
-    }
-
-    showOverlayBackground(status: boolean) {
-        this.overlay.active = status;
     }
 }
