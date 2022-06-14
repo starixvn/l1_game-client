@@ -251,6 +251,7 @@ export default class MainGame extends cc.Component {
             window.isSSO && this.setCategoryOnSSOGame();
         } else {
             this.loadLobby();
+            window.isSSO && this.openLuckyWheel();
         }
     }
 
