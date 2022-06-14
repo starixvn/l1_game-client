@@ -248,7 +248,7 @@ export default class MainGame extends cc.Component {
     onSignIn() {
         if (window.openGameId || sessionManager.getInRoomGameId()) {
             this.openGameSSO();
-            this.setCategoryOnSSOGame();
+            window.isSSO && this.setCategoryOnSSOGame();
         } else {
             this.loadLobby();
         }
