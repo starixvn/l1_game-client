@@ -10,7 +10,6 @@ import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
-import * as SabaConfigs from "../../../configs/SabaConfigs";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -20,10 +19,10 @@ import NewsContent from "../../news/NewsContent";
 import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
+import Banner from "./Banner";
 import CategoryItem from "./CategoryItem";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import Banner from "./Banner";
 
 const socketIOController = appContainer.get(SocketIOController);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -82,11 +81,12 @@ export default class MainGame extends cc.Component {
     private initializedLobby = false;
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
+    private miniPanel: MiniPanel;
     signName: any;
     private miniPanel: MiniPanel;
 
     onDestroy() {
-        cc.RedT.MiniPanel.destroy();
+        cc.RedT.MiniPanel = null;
         cc.RedT.inGame = null;
         window.isSSO = false;
     }
@@ -222,8 +222,8 @@ export default class MainGame extends cc.Component {
 
     initMiniPanel() {
         const miniPanelNode = cc.instantiate(this.miniPanelPrefab);
-        cc.RedT.MiniPanel = miniPanelNode.getComponent(MiniPanel);
         this.miniPanel = miniPanelNode.getComponent(MiniPanel);
+        cc.RedT.MiniPanel = this.miniPanel;
         this.redhat.insertChild(miniPanelNode, 1);
     }
 
@@ -295,7 +295,7 @@ export default class MainGame extends cc.Component {
         }
         lobbyMenu = this.mainScroll.addComponent(LobbyMenu);
         lobbyMenu.content = this.scrollContent;
-        lobbyMenu.miniPanel = cc.RedT.MiniPanel;
+        lobbyMenu.miniPanel = this.miniPanel;
 
         this.lobbyMenu = lobbyMenu;
     }
@@ -369,7 +369,7 @@ export default class MainGame extends cc.Component {
     }
 
     showNotice(noticeData: any, onClickButton: () => void = null, onClose: () => void = null) {
-        cc.RedT.MiniPanel.showNotice(noticeData, onClickButton, onClose);
+        this.miniPanel.showNotice(noticeData, onClickButton, onClose);
     }
 
     loadUserData(data: any) {
@@ -420,7 +420,7 @@ export default class MainGame extends cc.Component {
             commonDialog.closeDialog(false);
         }
 
-        cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
+        this.miniPanel && this.miniPanel.onSignIn();
         this.onSignIn();
     }
 
@@ -429,7 +429,7 @@ export default class MainGame extends cc.Component {
         if (window.openGameId) {
             cc.sys.localStorage.setItem(`orientation`, "");
             const gameId = parseInt(window.openGameId);
-            GameUtils.openGame(gameId, cc.RedT.MiniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
+            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
             return;
@@ -437,7 +437,7 @@ export default class MainGame extends cc.Component {
 
         this.inRoomGameId = sessionManager.getInRoomGameId();
         if (this.inRoomGameId) {
-            GameUtils.openGame(+this.inRoomGameId, cc.RedT.MiniPanel, null);
+            GameUtils.openGame(+this.inRoomGameId, this.miniPanel, null);
         } else {
             window.isSSO && this.openLuckyWheel();
         }
@@ -461,7 +461,7 @@ export default class MainGame extends cc.Component {
     }
 
     onGameResultClick() {
-        cc.RedT.MiniPanel.openResultPage();
+        this.miniPanel.openResultPage();
     }
 
     renderLuckyWheelIcon() {
@@ -472,7 +472,7 @@ export default class MainGame extends cc.Component {
                         const node = cc.instantiate(prefab);
                         this.redhat.insertChild(node, 0);
                         this.luckyWheelIcon = node.getComponent(LuckyWheelIcon);
-                        this.luckyWheelIcon.init(cc.RedT.MiniPanel);
+                        this.luckyWheelIcon.init(this.miniPanel);
                     }
                     resolve();
                 });
@@ -502,7 +502,7 @@ export default class MainGame extends cc.Component {
             const node = cc.instantiate(this.signNamePrefab);
             this.signName = node.getComponent("SignName");
             this.signName.init(this.handleSignName.bind(this));
-            cc.RedT.MiniPanel.addDialog(node);
+            this.miniPanel.addDialog(node);
         }
     }
 

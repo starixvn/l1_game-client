@@ -94,7 +94,7 @@ export default class MiniPanelDataHandlers {
 
     handleAuth(data: any) {
         if (data.authorized) {
-            cc.RedT.MiniPanel.onSignIn();
+            cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
         } else {
             if (data.umInfo) {
                 NotificationService.getInstance().forceKickedOut();
