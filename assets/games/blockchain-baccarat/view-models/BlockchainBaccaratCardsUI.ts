@@ -13,10 +13,10 @@ type OrderCardValue = {
     key: number;
 };
 
-enum CardFlied {
-    Four = 4,
-    Five,
-    Six
+enum CountCardFlied {
+    FourCards = 4,
+    FiveCards,
+    SixCards
 }
 
 @ccclass
@@ -57,9 +57,8 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     }
 
     async handleFlyCards(currentIndex: number, numberCardsFlied: number) {
-        const durationFlyCard3 = 0.2;
         switch (numberCardsFlied) {
-            case CardFlied.Four:
+            case CountCardFlied.FourCards:
                 this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
                 await this.reserveCards.flyCard1Reserve(
                     currentIndex,
@@ -74,10 +73,10 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 );
                 await this.playerCards.flyCard2(currentIndex + 2);
                 await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4, durationFlyCard3);
-                await this.reserveCards.flyCard2(currentIndex + 5, durationFlyCard3);
+                await this.reserveCards.flyCard1(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
-            case CardFlied.Five:
+            case CountCardFlied.FiveCards:
                 this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
                 await this.reserveCards.flyCard1Reserve(
                     currentIndex,
@@ -87,38 +86,25 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.bankerCards.flyCard1(currentIndex + 1);
                 await this.playerCards.flyCard2(currentIndex + 2);
                 await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4, durationFlyCard3);
-                await this.reserveCards.flyCard2(currentIndex + 5, durationFlyCard3);
+                await this.reserveCards.flyCard1(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
             default:
                 await this.playerCards.flyCard1(currentIndex);
                 await this.bankerCards.flyCard1(currentIndex + 1);
                 await this.playerCards.flyCard2(currentIndex + 2);
                 await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4, durationFlyCard3);
-                await this.reserveCards.flyCard2(currentIndex + 5, durationFlyCard3);
+                await this.reserveCards.flyCard1(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
         }
     }
 
-    async handleResetCards(numberCardsFlied: number) {
-        await this.collectCardsOnTable();
-        switch (numberCardsFlied) {
-            case CardFlied.Four:
-                this.bankerCards.collectCards();
-                this.playerCards.collectCards();
-                break;
-            case CardFlied.Five:
-                this.bankerCards.collectCards();
-                this.playerCards.collectCards();
-                this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
-                break;
-            default:
-                this.bankerCards.collectCards();
-                this.playerCards.collectCards();
-                this.reserveCards.collectCards();
-                break;
-        }
+    public async collectCardsOnTable() {
+        await Promise.all([
+            this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
+            this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
+        ]);
     }
 
     async flyCard3(playerHasCard3 = false) {
@@ -129,34 +115,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
             await this.reserveCards.flyCard3(this.bankerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card1]);
         }
-    }
-
-    async onClick() {
-        await this.handleResetCards(4);
-        // await this.collectCardsOnTable();
-        // this.bankerCards.collectCards();
-        // this.playerCards.collectCards();
-        await this.handleFlyCards(1, 4);
-    }
-
-    async onClickFlyCard3() {
-        this.resetCard3();
-        this.flyCard3(true);
-    }
-
-    resetCard3() {
-        this.playerCards.cards[CardsOrder.card3].rotation = 0;
-        this.playerCards.cards[CardsOrder.card3].opacity = 0;
-        this.bankerCards.cards[CardsOrder.card3].rotation = 0;
-        this.bankerCards.cards[CardsOrder.card3].opacity = 0;
-    }
-
-    onClickDropCards() {
-        this.collectCardsOnTable();
-    }
-
-    public async collectCardsOnTable() {
-        await Promise.all([this.bankerCards.collectCards(), this.playerCards.collectCards()]);
     }
 
     async openCards() {
@@ -216,21 +174,21 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 }
             ]
         };
-        await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card1], result.player.card1, true);
-        await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card2], result.player.card2, true);
+        // await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card1], result.player.card1, true);
+        // await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card2], result.player.card2, true);
 
-        await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card1], result.banker.card1, true);
-        await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card2], result.banker.card2, true);
+        // await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card1], result.banker.card1, true);
+        // await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card2], result.banker.card2, true);
 
-        if (!!result.player.card3) {
-            await this.flyCard3(true);
-            await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card3], result.player.card3, true);
-        }
+        // if (!!result.player.card3) {
+        //     await this.flyCard3(true);
+        //     await this.playerCards.openCard(this.playerCards.cards[CardsOrder.card3], result.player.card3, true);
+        // }
 
-        if (!!result.banker.card3) {
-            await this.flyCard3();
-            await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
-        }
+        // if (!!result.banker.card3) {
+        //     await this.flyCard3();
+        //     await this.bankerCards.openCard(this.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
+        // }
     }
 
     async onSettle4Card() {

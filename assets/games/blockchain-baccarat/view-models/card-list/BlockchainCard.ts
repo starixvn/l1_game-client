@@ -19,9 +19,6 @@ export default class BlockchainCard extends NewCard {
     @property(cc.Node)
     infoTag: cc.Node = null;
 
-    @property(cc.Node)
-    infoTag: cc.Node = null;
-
     setHighlight() {
         this.highLight.active = true;
     }
@@ -72,7 +69,9 @@ export default class BlockchainCard extends NewCard {
     setStatusInfoTag(status: boolean) {
         this.infoTag.active = status;
     }
+
     setStatusIndexNumber(status: boolean) {
         this.indexNumber.node.active = status;
+        this.indexNumber.node?.parent && (this.indexNumber.node.parent.active = status);
     }
 }

@@ -21,9 +21,7 @@ export default class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandl
         const cardContainer = blockchainBaccarat.cardsUI;
 
         await cardContainer.collectCardsOnTable();
-        setTimeout(async function () {
-            await cardContainer.handleFlyCards(currentCardIndex, numberCardsFlied);
-        }, 1000);
+        await cardContainer.handleFlyCards(currentCardIndex, numberCardsFlied);
     }
 
     handleInLockBetTime() {
