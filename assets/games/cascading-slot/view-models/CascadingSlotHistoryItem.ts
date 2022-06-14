@@ -41,7 +41,7 @@ export default class CascadingSlotHistoryItem extends cc.Component {
         this.betLevel.string = betLog.betLevel;
         this.coinValue.string = betLog.coinValue;
         this.totalBet.string = betLog.totalAmount;
-        this.totalWin.string = numberWithCommas(win, 2, false);
+        this.totalWin.string = numberWithCommas(win, 2);
     }
 
     public showTicketDetail = (data: any) => {};

@@ -49,7 +49,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
             this.content.addChild(tumbleNode);
         }
 
-        this.win.string = numberWithCommas(currWinTumble, 2, false);
+        this.win.string = numberWithCommas(currWinTumble, 2);
         this.index.string = (index + 1).toString();
     }
 
@@ -58,7 +58,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
         const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
         control.setDataForFreeSpinTumble(count, odd, extraFreeSpin);
         this.content.addChild(tumbleNode);
-        this.win.string = numberWithCommas(win, 2, false);
+        this.win.string = numberWithCommas(win, 2);
         this.index.string = (index + 1).toString();
         this.calculateHeightRow(1);
     }

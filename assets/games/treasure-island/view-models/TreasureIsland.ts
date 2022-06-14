@@ -9,8 +9,4 @@ export default class TreasureIsland extends CascadingSlotBase {
         super();
         this.gameId = GameIds.TreasureIsland;
     }
-
-    protected formatGameRound(gameRoundId: any) {
-        return gameRoundId ? `${gameRoundId}` : "";
-    }
 }
