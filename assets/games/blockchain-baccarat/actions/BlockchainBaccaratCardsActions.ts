@@ -6,6 +6,8 @@ import BlockchainCard from "../view-models/card-list/BlockchainCard";
 
 export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFinish: BlockchainBaccaratFinish) => {
     const result = dataFinish.result;
+    let isFlyCard3Player = false;
+
     await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card1], result.player.card1, true);
     await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card2], result.player.card2, true);
 
@@ -13,12 +15,13 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
     await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card2], result.banker.card2, true);
 
     if (result?.player?.card3?.rank) {
+        isFlyCard3Player = true;
         await cardsUI.flyCard3(true);
         await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card3], result.player.card3, true);
     }
 
     if (result?.banker?.card3?.rank) {
-        await cardsUI.flyCard3();
+        await cardsUI.flyCard3(false, isFlyCard3Player);
         await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
     }
     showHighlight(cardsUI, dataFinish.settlementResult);

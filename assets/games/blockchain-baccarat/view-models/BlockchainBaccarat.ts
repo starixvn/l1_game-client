@@ -147,24 +147,19 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
             resetScoreBoard(this.scoreboard)();
         });
 
-        this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
-            this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
-            openCards(this.cardsUI)(finishData);
-            renderScoreBoardEachRound(this.scoreboard)(finishData);
-        });
-        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.CHANGE, (blockchain: Blockchain) => {
+        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, (blockchain: Blockchain) => {
+            console.log("BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX");
             this.cardsUI.handleNumberIndex(blockchain.currentIndex);
         });
     }
 
     private registerFinishEvents() {
         this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, renderCardSettlement(this));
-        // this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
-        //     this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
-        // });
-        // this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) =>
-        //     openCards(this.cardsUI)(finishData)
-        // );
+        this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
+            this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
+            openCards(this.cardsUI)(finishData);
+            renderScoreBoardEachRound(this.scoreboard)(finishData);
+        });
     }
 
     private registerNewBlockchainEvents() {

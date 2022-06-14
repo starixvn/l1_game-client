@@ -47,13 +47,14 @@ export default class BlockchainBaccaratCards extends cc.Component {
     @property
     isBanker = false;
 
-    readonly durationFlyCard = 0.5;
+    private readonly durationFlyCard = 0.5;
     readonly durationFlyCard3 = 0.2;
     readonly durationDropCard = 0.2;
     readonly durationJumpDrop = 0.4;
-    readonly setPointSecond = 0.2;
-    protected SET_POINT = 3;
-    clonePositionCards: cc.Vec3[] = [];
+    private readonly setPointSecond = 0.2;
+    private readonly durationFaceUp = 0.6;
+    private readonly SET_POINT = 3;
+    private clonePositionCards: cc.Vec3[] = [];
 
     onLoad = () => {
         this.cards.forEach((card, index) => {
@@ -119,7 +120,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
             cc.tween(card)
                 .delay(delay)
                 .call(() => {
-                    this.setInfoCardFly(cardComponent, numberTag);
+                    this.setInfoCardFly(cardComponent, numberTag, isCardThree);
                     this.actionCardFly({
                         card,
                         start,
@@ -150,8 +151,8 @@ export default class BlockchainBaccaratCards extends cc.Component {
         });
     }
 
-    setInfoCardFly(cardComponent: BlockchainCard, numberTag: number) {
-        numberTag > 0 && cardComponent.setIndexNumber(numberTag);
+    setInfoCardFly(cardComponent: BlockchainCard, numberTag: number, isCardThree = false) {
+        numberTag > 0 && !isCardThree && cardComponent.setIndexNumber(numberTag);
         cardComponent.setStatusInfoTag(true);
         cardComponent.setStatusIndexNumber(true);
     }
@@ -226,18 +227,17 @@ export default class BlockchainBaccaratCards extends cc.Component {
     }
 
     private faceUpCard(cardInfo: CardModel, card: cc.Node): Promise<void> {
-        const duration = 0.6;
         const cardComponent = card.getComponentInChildren(BlockchainCard);
         return new Promise((resolve) => {
             cc.tween(card)
-                .delay(duration)
+                .delay(this.durationFaceUp)
                 .call(() => {
                     cardComponent.setCardOldStyle({
                         rank: cardInfo.rank.toString(),
                         suit: cardInfo.suit
                     });
                     cardComponent.setStatusIndexNumber(false);
-                    cardComponent.playAnimation(CardAnimation.DealerOpenCard, duration);
+                    cardComponent.playAnimation(CardAnimation.DealerOpenCard, this.durationFaceUp);
                 })
 
                 .call(() => resolve())

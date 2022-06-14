@@ -108,12 +108,16 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         ]);
     }
 
-    async flyCard3(playerHasCard3 = false) {
-        if (playerHasCard3) {
-            this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
-            await this.reserveCards.flyCard3(this.playerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card1]);
+    async flyCard3(playerHasCard3 = false, isFlyCard3Player = false) {
+        if (isFlyCard3Player) {
+            this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
         } else {
             this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
+        }
+
+        if (playerHasCard3) {
+            await this.reserveCards.flyCard3(this.playerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card1]);
+        } else {
             await this.reserveCards.flyCard3(this.bankerCards.cards[CardsOrder.card3], this.reserveCards.cards[CardsOrder.card1]);
         }
     }
