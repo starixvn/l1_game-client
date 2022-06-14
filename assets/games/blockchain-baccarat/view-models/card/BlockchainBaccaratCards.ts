@@ -130,7 +130,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                     card.opacity = 255;
                     card.runAction(
                         cc.spawn(
-                            cc.rotateTo(this.durationFlyCard, isCardThree ? (this.isBanker ? -90 : 90) : 0).easing(cc.easeInOut(2)),
+                            cc.rotateTo(this.durationFlyCard, isCardThree ? (this.isBanker ? 90 : -90) : 0).easing(cc.easeInOut(2)),
                             cc.scaleTo(this.durationFlyCard, scale).easing(cc.easeInOut(2)),
                             cc.moveTo(this.durationFlyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
                         )

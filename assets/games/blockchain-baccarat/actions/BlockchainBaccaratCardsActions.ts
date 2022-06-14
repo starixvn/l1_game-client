@@ -1,8 +1,8 @@
+import { BaccaratSettlementResult } from "./../../baccarat/view-models/event-models/BaccaratSettlementResult";
 import { CardsOrder } from "./../view-models/BlockchainBaccaratCardsUI";
 import { BlockchainBaccaratFinish } from "./../event-models/BlockchainBaccaratFinishModel";
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
 import BlockchainCard from "../view-models/card-list/BlockchainCard";
-import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 
 export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFinish: BlockchainBaccaratFinish) => {
     const result = dataFinish.result;
@@ -24,7 +24,7 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
     showHighlight(cardsUI, dataFinish.settlementResult);
 };
 
-const showHighlight = (cardsUI: BlockchainBaccaratCardsUI, settlementResult: BlockchainBaccaratChoicesType) => {
+const showHighlight = (cardsUI: BlockchainBaccaratCardsUI, settlementResult: BaccaratSettlementResult) => {
     let cards: cc.Node[] = [];
     if (settlementResult.banker) {
         cards = cardsUI.bankerCards.cards;

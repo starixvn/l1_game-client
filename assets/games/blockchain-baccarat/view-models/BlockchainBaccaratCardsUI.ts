@@ -57,6 +57,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     }
 
     async handleFlyCards(currentIndex: number, numberCardsFlied: number) {
+        const durationFlyCard3 = 0.2;
         switch (numberCardsFlied) {
             case CardFlied.Four:
                 this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
@@ -73,8 +74,8 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 );
                 await this.playerCards.flyCard2(currentIndex + 2);
                 await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4);
-                await this.reserveCards.flyCard2(currentIndex + 5);
+                await this.reserveCards.flyCard1(currentIndex + 4, durationFlyCard3);
+                await this.reserveCards.flyCard2(currentIndex + 5, durationFlyCard3);
                 break;
             case CardFlied.Five:
                 this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
@@ -86,16 +87,16 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.bankerCards.flyCard1(currentIndex + 1);
                 await this.playerCards.flyCard2(currentIndex + 2);
                 await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4);
-                await this.reserveCards.flyCard2(currentIndex + 5);
+                await this.reserveCards.flyCard1(currentIndex + 4, durationFlyCard3);
+                await this.reserveCards.flyCard2(currentIndex + 5, durationFlyCard3);
                 break;
             default:
                 await this.playerCards.flyCard1(currentIndex);
                 await this.bankerCards.flyCard1(currentIndex + 1);
                 await this.playerCards.flyCard2(currentIndex + 2);
                 await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4);
-                await this.reserveCards.flyCard2(currentIndex + 5);
+                await this.reserveCards.flyCard1(currentIndex + 4, durationFlyCard3);
+                await this.reserveCards.flyCard2(currentIndex + 5, durationFlyCard3);
                 break;
         }
     }
