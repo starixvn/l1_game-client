@@ -21,24 +21,29 @@ export class BlockchainBaccaratPrediction extends cc.Component {
             this.banker.getChildByName(childName).getChildByName(this.itemValueKey.red).active = false;
             this.banker.getChildByName(childName).getChildByName(this.itemValueKey.blue).active = false;
             this.player.getChildByName(childName).getChildByName(this.itemValueKey.red).active = false;
-            this.player.getChildByName(childName).getChildByName(this.itemValueKey.red).active = false;
+            this.player.getChildByName(childName).getChildByName(this.itemValueKey.blue).active = false;
         }
     }
 
     setBanker(data: boolean[]) {
         for (let index = 0; index < data.length; index++) {
-            data[index] !== undefined && this.setData(data[index], index, this.banker);
+            this.setData(data[index], index, this.banker);
         }
     }
 
     setPlayer(data: boolean[]) {
         for (let index = 0; index < data.length; index++) {
-            data[index] !== undefined && this.setData(data[index], index, this.player);
+            this.setData(data[index], index, this.player);
         }
     }
 
-    private setData(isRed: boolean, index: number, node: cc.Node) {
-        node.children[index].getChildByName(this.itemValueKey.red).active = isRed;
-        node.children[index].getChildByName(this.itemValueKey.blue).active = !isRed;
+    private setData(isRed: boolean | undefined, index: number, node: cc.Node) {
+        if (isRed === undefined) {
+            node.children[index].getChildByName(this.itemValueKey.red).active = false;
+            node.children[index].getChildByName(this.itemValueKey.blue).active = false;
+        } else {
+            node.children[index].getChildByName(this.itemValueKey.red).active = isRed;
+            node.children[index].getChildByName(this.itemValueKey.blue).active = !isRed;
+        }
     }
 }

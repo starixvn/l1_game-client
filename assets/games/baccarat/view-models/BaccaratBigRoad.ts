@@ -34,24 +34,26 @@ export default class BaccaratBigRoad extends BigRoad {
 
     public renderNextNode() {
         if (this.isRenderedNext) return;
-
-        const emptyIndex = this.bigRoadData[0].findIndex((data) => data.status === undefined);
         let lastCol = 0;
-        if (emptyIndex !== -1) {
-            if (emptyIndex > 0 && !this.content.children[emptyIndex - 1].getComponent(BaccaratBigRoadItem).isFilledColumn()) {
-                lastCol = emptyIndex - 1;
-            } else {
-                lastCol = emptyIndex;
-            }
-        } else {
-            lastCol = this.bigRoadData[0].length - 1;
-        }
-        this.content.children[lastCol].getComponent(BaccaratBigRoadItem).isFilledColumn() && lastCol++;
 
-        if (this.content.children[this.content.childrenCount - 1].getComponent(BaccaratBigRoadItem).isFilledColumn()) {
-            this.updateContentChild(1);
-            lastCol = this.content.childrenCount - 1;
-            this.container.getComponent(cc.ScrollView).scrollToRight();
+        if (this.bigRoadData.length) {
+            const emptyIndex = this.bigRoadData[0].findIndex((data) => data.status === undefined);
+            if (emptyIndex !== -1) {
+                if (emptyIndex > 0 && !this.content.children[emptyIndex - 1].getComponent(BaccaratBigRoadItem).isFilledColumn()) {
+                    lastCol = emptyIndex - 1;
+                } else {
+                    lastCol = emptyIndex;
+                }
+            } else {
+                lastCol = this.bigRoadData[0].length - 1;
+            }
+            this.content.children[lastCol].getComponent(BaccaratBigRoadItem).isFilledColumn() && lastCol++;
+
+            if (this.content.children[this.content.childrenCount - 1].getComponent(BaccaratBigRoadItem).isFilledColumn()) {
+                this.updateContentChild(1);
+                lastCol = this.content.childrenCount - 1;
+                this.container.getComponent(cc.ScrollView).scrollToRight();
+            }
         }
 
         const scoreBoardItem = this.content.children[lastCol].getComponent(BaccaratBigRoadItem);

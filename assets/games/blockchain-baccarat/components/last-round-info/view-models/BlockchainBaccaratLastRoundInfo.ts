@@ -28,15 +28,14 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
     winNoticeLabel: cc.Label = null;
 
     private readonly winNotice = {
-        banker: "banker_win",
-        player: "player_win",
-        tie: "tie_win"
+        banker: "ui.banker_win",
+        player: "ui.player_win",
+        tie: "ui.tie_win"
     };
 
     onLoad() {
         this.playerLabel.string = i18n.t("ui.choice_player").toUpperCase();
         this.bankerLabel.string = i18n.t("ui.choice_banker").toUpperCase();
-        this.lastRoundLabel.string = "Last Round" + ":";
     }
 
     updateUI(lastRound: BlockchainBaccaratRoundHistory, currentIndex: number) {
@@ -53,5 +52,16 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
         }
 
         this.cardsUI.getComponent(BlockchainBaccaratCardsUI).showCardsWithoutAnimation(lastRound, currentIndex);
+
+        const settlementResult = lastRound.settlementResult;
+        let key = this.winNotice.tie;
+        if (settlementResult.banker) {
+            key = this.winNotice.banker;
+        } else {
+            if (settlementResult.player) {
+                key = this.winNotice.player;
+            }
+        }
+        this.winNoticeLabel.string = i18n.t(key).toUpperCase();
     }
 }
