@@ -89,9 +89,11 @@ export default class BlockchainCardList extends cc.Component {
             if (index >= this.currentCardIndex && index < currentIndex) {
                 this.flipCard(this.cards[index]?.getComponent(BlockchainCard), card.card);
             }
-            this.cards[index].getComponent(BlockchainCard).openCardVerification = () => {
-                this.initCardVerification(card, index);
-            };
+            if (!!this.cards[index]) {
+                this.cards[index].getComponent(BlockchainCard).openCardVerification = () => {
+                    this.initCardVerification(card, index);
+                };
+            }
         });
 
         this.currentCardIndex = currentIndex;

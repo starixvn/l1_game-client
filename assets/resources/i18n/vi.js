@@ -579,7 +579,7 @@ window.i18n.languages.vi = {
     },
     blockChainBaccarat: {
         headerContent:
-            "'Serial Number' for each card is generated at the beginning of the new shoe. Players can check the fairness and transparency of card results by comparing...",
+            "“Serial Number” for each card is generated at the beginning of the new shoe. Players can check the fairness and transparency of card results by comparing...",
         verifyCards: "Verify Cards",
         cardVerification: "Card Verification",
         verify: "Verify",
@@ -587,6 +587,8 @@ window.i18n.languages.vi = {
         privateKey: "Private Key",
         serialNumber: "Serial Number",
         verifiedSerial: "Verified Serial Number",
-        copy: "Copy"
+        copy: "Copy",
+        verifiedValue:
+            "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number"
     }
 };

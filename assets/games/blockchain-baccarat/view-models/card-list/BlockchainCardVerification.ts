@@ -1,7 +1,8 @@
-import { FormatMD5Result, formatPrivateKey } from "../../../_casino/MD5Format";
+import { formatPrivateKey } from "../../../_casino/MD5Format";
 import { CardChain, CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "./BlockchainCard";
 import BlockchainCardList from "./BlockchainCardList";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,8 +35,8 @@ export default class BlockchainCardVerification extends cc.Component {
     @property(cc.Label)
     indexNumber2: cc.Label = null;
 
-    private hashValueLabel: cc.Label = null;
-    private rawValueLabel: cc.RichText = null;
+    private hashValue: cc.Label = null;
+    private rawValue: cc.RichText = null;
     private verifiedValue: cc.Label = null;
 
     private verifiedSerialCopyButton: cc.Button = null;
@@ -48,11 +49,10 @@ export default class BlockchainCardVerification extends cc.Component {
     private privateKey = "************************************************************************************************************";
 
     renderData(card: CardChain, index: number) {
-        this.hashValueLabel.string = card.hashValue;
-        this.rawValueLabel.string = card?.rawValue
-            ? this.setPrivateKey(card.rawValue, card.card)
-            : `${this.privateKey}${card.revealedRawValue}`;
+        this.hashValue.string = card.hashValue;
+        this.rawValue.string = card?.rawValue ? this.setPrivateKey(card.rawValue, card.card) : `${this.privateKey}${card.revealedRawValue}`;
         this.indexNumber.string = this.indexNumber2.string = this.root.convertIndexNumber(index + 1);
+        this.verifiedValue.string = i18n.t("blockchainBaccarat.verifiedValue");
         if (!card.rawValue) {
             this.privateKeyCopyButton.node.getChildByName(this.disableButton).active = true;
             this.verifyButton.node.getChildByName(this.disableButton).active = true;
@@ -68,8 +68,9 @@ export default class BlockchainCardVerification extends cc.Component {
 
     init(root: BlockchainCardList) {
         this.root = root;
-        this.hashValueLabel = this.serialNode.getChildByName("value").getComponent(cc.Label);
-        this.rawValueLabel = this.privateKeyNode.getChildByName("value").getComponent(cc.RichText);
+        this.hashValue = this.serialNode.getChildByName("value").getComponent(cc.Label);
+        this.rawValue = this.privateKeyNode.getChildByName("value").getComponent(cc.RichText);
+        this.verifiedValue = this.verifiedSerialNode.getChildByName("value").getComponent(cc.Label);
         this.privateKeyCopyButton = this.privateKeyNode.getChildByName("copy-button").getComponent(cc.Button);
         this.verifiedSerialCopyButton = this.verifiedSerialNode.getChildByName("copy-button").getComponent(cc.Button);
         this.verifyButton = this.verifyNode.getComponent(cc.Button);
