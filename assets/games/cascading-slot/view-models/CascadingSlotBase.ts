@@ -105,6 +105,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     topMessage: SlotGameTopMessage = null;
     protected trialConnection: SocketIOConnection;
     protected miniBetControl: CascadingTotalBet;
+    private historyBtn: cc.Button;
 
     async onSpinClick() {
         this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
@@ -152,6 +153,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.registerViewGame();
         }
         this.tumbleList.offerTrialMode(this.isTrialMode);
+        this.historyBtn.interactable = !this.isTrialMode;
     }
 
     initHandlers() {
@@ -388,6 +390,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     initTumbleList(node: cc.Node) {
         this.tumbleList = node.getComponent(CascadingSlotTumbleList);
+    }
+
+    onIngameMenuInitialized(node: cc.Node) {
+        super.onIngameMenuInitialized(node);
+        if (this.inGameMenu) {
+            this.historyBtn = this.inGameMenu.expandableMenu.node.getChildByName("btn-history").getComponent(cc.Button);
+        }
     }
 
     override async showEffectBigWin(betWin: number) {
