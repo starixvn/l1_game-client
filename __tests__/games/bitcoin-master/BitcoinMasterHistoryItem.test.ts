@@ -6,6 +6,7 @@
 import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import BitcoinMasterHistoryItem from "../../../assets/games/bitcoin-master/view-models/BitcoinMasterHistoryItem";
+import BitcoinMasterUtils from "../../../assets/games/bitcoin-master/view-models/BitcoinMasterUtils";
 
 describe("Test class BitcoinMasterHistoryItem", () => {
     let node: cc.Node;
@@ -71,8 +72,6 @@ describe("Test class BitcoinMasterHistoryItem", () => {
                     }
                 ]
             };
-            const anyComp = comp as any;
-            const setGrossWinLossSpy = jest.spyOn(anyComp, "setGrossWinLoss");
 
             // Act
             comp.setData(data, 1);
@@ -81,10 +80,9 @@ describe("Test class BitcoinMasterHistoryItem", () => {
             expect(comp.background.active).toEqual(true);
             expect(comp.time.string).toMatch(getStringDateByTime(data.time));
             expect(comp.roundId.string).toMatch(data.phien.toString());
-            expect(comp.win.string).toMatch("19.70");
+            expect(comp.win.string).toMatch(numberWithCommas(BitcoinMasterUtils.setGrossWinLoss(data)));
             expect(comp.totalBet.string).toMatch(numberWithCommas(data.totalAmount));
             expect(comp.refund.string).toMatch(numberWithCommas(data.refund));
-            expect(setGrossWinLossSpy).toBeCalledWith(data);
         });
     });
 });

@@ -206,6 +206,7 @@ export default class BannerController extends cc.Component {
             currentNode.position = cc.v3(direction * distance, currentNode.position.y);
 
             this.intervalChangeImage = currentNode.getComponent(BannerItem).displayTime;
+
             this.moveToCenter(currentNode, 0.6);
         }
     }

@@ -19,7 +19,7 @@ export default class MiniPanelSocketIOInitializers {
             if (!this.main.isAlive()) {
                 return;
             }
-            this.main.loading.node.active = false;
+
             this.main.onGeneralData(data);
         });
 

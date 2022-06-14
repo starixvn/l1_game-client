@@ -2,6 +2,8 @@ import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
+import SkeletonIcon from "./SkeletonIcon";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 export enum GameCategory {
     All = 0,
@@ -24,7 +26,9 @@ export default class LobbyMenu extends GameIconMenu {
     currentColumn: cc.Node = null;
     currentRow: cc.Node = null;
     rowChildrenCount = 0;
-    public initializedCallback = () => {};
+    public initializedCallback = () => {
+        //initializedCallback
+    };
     currentCategory = GameCategory.All;
 
     @lazyInject(LobbyMenuConfig)
@@ -119,11 +123,6 @@ export default class LobbyMenu extends GameIconMenu {
         return list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
     }
 
-    getFavoriteList(): number[] {
-        const list = JSON.parse(cc.sys.localStorage.getItem("favor_games")) || [];
-        return this.sortForLayout(list);
-    }
-
     sortForLayout(list: number[]): number[] {
         const weight = {};
         list.forEach((id) => {
@@ -141,27 +140,10 @@ export default class LobbyMenu extends GameIconMenu {
         return list;
     }
 
-    saveFavoriteList(list: number[]) {
-        cc.sys.localStorage.setItem("favor_games", JSON.stringify(list));
-    }
-
-    addHandleFavorite(node: cc.Node, gameId: number, isFavorite: boolean) {}
-
-    addFavoriteGame(gameId: number) {
-        const list = this.getFavoriteList();
-        list.push(gameId);
-        this.saveFavoriteList(list);
-    }
-
-    removeFavoriteGame(gameId: number) {
-        const list = this.getFavoriteList();
-        this.saveFavoriteList(list.filter((id) => id !== gameId));
-    }
-
     onInitialized() {
         const layout = this.content.getComponent(cc.Layout);
         layout.updateLayout();
-        this.initializedCallback();
+        this.initializedCallback && this.initializedCallback();
     }
 
     getItemSize(id: number): cc.Vec2 {
@@ -170,42 +152,43 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async addItem(id: number): Promise<cc.Node> {
-        const prefab = await GameUtils.loadResource(`lobby/games/${id}`);
+        const skeletonIconPath = this.lobbyMenuConfig.iconBigSize.includes(id)
+            ? `lobby/games/skeleton-icon/icon-big`
+            : `lobby/games/skeleton-icon/icon-small`;
+        const prefab = await GameUtils.loadResource(skeletonIconPath);
+
+        let convertedId;
+        if (id === 12) {
+            convertedId = id = 11;
+        } else {
+            convertedId = id;
+        }
+
+        const gameName = i18n.t(`gameNames.${convertedId}`).toUpperCase();
+        const gameIds = this.getList();
+
+        const iconNode = cc.instantiate(prefab);
+        const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
+        skeletonIconComponent.setGameName(gameName);
+        skeletonIconComponent.setGameContent(id, gameIds);
+
+        const size = this.getItemSize(id);
         if (!this.isAlive()) {
             return null;
         }
-        const node = cc.instantiate(prefab);
-        const favoriteList = this.getFavoriteList();
-        const isFavorite = favoriteList.includes(id);
-        this.addHandleFavorite(node, id, isFavorite);
 
-        const size = this.getItemSize(id);
         if (!this.currentColumn || size.y > 1) {
             this.createNewColumn();
         }
 
-        if (this.rowChildrenCount > 0) {
-            if (!this.currentRow) {
-                this.createNewRow();
-            }
-            this.currentRow.addChild(node);
-
-            if (this.currentRow.childrenCount === this.rowChildrenCount) {
-                this.clearRow();
-            }
-        } else {
-            this.currentColumn.addChild(node);
-            if (size.x > 1) {
-                this.rowChildrenCount = size.x;
-            }
-        }
+        this.handleNewRow(iconNode, size);
 
         if ((this.currentColumn.childrenCount === 2 && !this.currentRow) || size.y > 1) {
             this.currentColumn = null;
             this.clearRow();
         }
-        node.name = `${id}`;
-        return node;
+        iconNode.name = `${id}`;
+        return iconNode;
     }
 
     clearRow() {
@@ -241,6 +224,24 @@ export default class LobbyMenu extends GameIconMenu {
         this.currentRow = node;
     }
 
+    handleNewRow(iconNode: cc.Node, size: cc.Vec2) {
+        if (this.rowChildrenCount > 0) {
+            if (!this.currentRow) {
+                this.createNewRow();
+            }
+            this.currentRow.addChild(iconNode);
+
+            if (this.currentRow.childrenCount === this.rowChildrenCount) {
+                this.clearRow();
+            }
+        } else {
+            this.currentColumn.addChild(iconNode);
+            if (size.x > 1) {
+                this.rowChildrenCount = size.x;
+            }
+        }
+    }
+
     saveCategory() {
         cc.sys.localStorage.setItem("current_game_category", this.currentCategory);
     }
@@ -252,10 +253,10 @@ export default class LobbyMenu extends GameIconMenu {
         }
     }
 
-    setCategory(category: number) {
+    setCategory(category: number, isUpdateIcons = true) {
         this.currentCategory = category;
         this.saveCategory();
-        this.updateIcons();
+        !!isUpdateIcons && this.updateIcons();
     }
 
     updateIcons() {

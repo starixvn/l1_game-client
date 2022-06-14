@@ -27,6 +27,14 @@ export default class BitcoinMasterUtils {
         }
     }
 
+    public static setGrossWinLoss(data: any): number {
+        let winloss = 0;
+        data.betLogDetails.forEach((log) => {
+            winloss += this.calcGrossWinLoss(log);
+        });
+        return winloss;
+    }
+
     public static moveAnimation(duration: number, node: cc.Node, toPosition: cc.Vec3, fromPosition: cc.Vec3) {
         node.position = fromPosition;
         node.opacity = 0;

@@ -52,7 +52,7 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         this.background.active = index % 2 !== 0;
         this.time.string = getStringDateByTime(data.time);
         this.roundId.string = data.phien.toString();
-        this.win.string = numberWithCommas(this.setGrossWinLoss(data), 2);
+        this.win.string = numberWithCommas(BitcoinMasterUtils.setGrossWinLoss(data), 2);
         this.totalBet.string = numberWithCommas(data.totalAmount);
         this.refund.string = numberWithCommas(data.refund, 2);
 
@@ -61,13 +61,5 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         } else {
             this.view = BMHeaderMenu.EvenOdd;
         }
-    }
-
-    protected setGrossWinLoss(data: any): number {
-        let winloss = 0;
-        data.betLogDetails.forEach((log) => {
-            winloss += BitcoinMasterUtils.calcGrossWinLoss(log);
-        });
-        return winloss;
     }
 }

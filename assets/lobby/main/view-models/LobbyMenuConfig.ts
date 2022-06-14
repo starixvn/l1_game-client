@@ -38,7 +38,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     };
     bannerAds = {
         SC1: [GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo],
-        SC2: [GameIds.HiLo, GameIds.TexasHoldemPoker, GameIds.CasinoHoldemPoker, GameIds.SeDie]
+        SC2: [GameIds.HiLo, GameIds.TexasHoldemPoker, GameIds.SeDie]
     };
     bannerAdsInfo = {
         SC1: {
@@ -53,16 +53,13 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             }
         },
         SC2: {
-            [GameIds.HiLo]: {
+            [GameIds.SeDie]: {
                 displayTime: 10
             },
             [GameIds.TexasHoldemPoker]: {
                 displayTime: 5
             },
-            [GameIds.CasinoHoldemPoker]: {
-                displayTime: 5
-            },
-            [GameIds.SeDie]: {
+            [GameIds.HiLo]: {
                 displayTime: 5
             }
         }
@@ -145,6 +142,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         SC1: [GameIds.NightClub],
         SC2: [GameIds.NightClub]
     };
+    iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
 
     customizeCredit(): void {
         this.smPromotion = true;

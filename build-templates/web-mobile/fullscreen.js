@@ -260,10 +260,13 @@ function updateLocalizedImages() {
     const splashText = document.getElementById("splash_text");
     const language = getCurrentLanguage();
     let suffixSite;
+    let rel = document.getElementById("favicon");
     if (configs.site === "SC2") {
         document.title = "Vgaming";
         suffixSite = "_sc2";
+        rel.href = "favicon_vgaming.ico?v=3";
     } else {
+        rel.href = "favicon.ico?v=3";
         if (language === "vi") {
             document.title = "Cổng Game SABA";
         } else {

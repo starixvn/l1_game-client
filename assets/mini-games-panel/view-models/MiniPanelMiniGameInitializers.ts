@@ -11,7 +11,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         if (node) {
             node.active = true;
             this.main.miniGames && this.main.miniGames.insertChild(node, this.main.miniGames.children.length - 1);
-
             this.main.loading.node.active = false;
         }
     }
@@ -21,7 +20,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     openMiniGame(gameId) {
-        this.main.popupMiniGame.hideListGame();
+        this.main.popupMiniGame?.hideListGame();
         const prefabPath = `games/minigame/${this.getGameName(gameId)}`;
 
         const gameBase = this.main.getGameMini(gameId);
@@ -51,25 +50,24 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     this.main.addMiniGame(gameComponent, gameId);
                     gameComponent.openGame();
                     this.main.loading.node.active = false;
+                    this.main.mainGame?.loadLobby();
                 }
             );
         } else {
             this.showGame(gameBase.node);
         }
+        console.log("Open game");
     }
 
     openGame(id) {
-        this.main.loading.node.active = true;
         this.openMiniGame(parseInt(id));
     }
 
     openMiniContainerGame(id: string) {
-        this.main.loading.node.active = true;
         this.openMiniGame(parseInt(id));
     }
 
     openNewSocket(gameId) {
-        this.main.loading.node.active = true;
         const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
 
         if (currentSocket && currentSocket.connected) {

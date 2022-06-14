@@ -3,6 +3,7 @@ import MD5Tooltip from "../../../../assets/common/md5-tooltip/MD5Tooltip";
 import MD5Component from "../../../../assets/games/_base/view-models/MD5Component";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { mockFuntions } from "../../../mocks/TestUtils";
+
 jest.mock("../../../../assets/common/GameUtils", () => ({
     default: class {
         public static createNodeFromPrefab() {
@@ -90,6 +91,7 @@ describe("Test class MD5Component", () => {
                 hashValue: "a3958g78e8798g9s8d7g98989"
             };
             jest.spyOn(global, "clearTimeout");
+            jest.spyOn(md5Component.node, "activeInHierarchy", "get").mockImplementationOnce(() => true);
             md5Component.updateMD5String(data);
 
             // Act
@@ -101,12 +103,30 @@ describe("Test class MD5Component", () => {
     });
 
     describe("Test method updateMD5String", () => {
-        it("Case 1: setTimeout 1.3s when have hashValue", () => {
+        it("Case 1: not call setTimeOut when have hashValue", () => {
             // Arrange
             const data = {
                 hashValue: "132354813esther147test"
             };
             jest.spyOn(global, "setTimeout");
+            jest.spyOn(md5Component, "handleMD5Data");
+            jest.spyOn(md5Component.node, "activeInHierarchy", "get").mockImplementationOnce(() => false);
+
+            // Act
+            md5Comp.updateMD5String(data);
+
+            // Assert
+            expect(md5Comp.handleMD5Data).toBeCalledTimes(1);
+            expect(global.setTimeout).not.toBeCalledTimes(1);
+        });
+
+        it("Case 2: call setTimeOut when have hashValue", () => {
+            // Arrange
+            const data = {
+                hashValue: "132354813esther147test"
+            };
+            jest.spyOn(global, "setTimeout");
+            jest.spyOn(md5Comp.node, "activeInHierarchy", "get").mockImplementationOnce(() => true);
 
             // Act
             md5Comp.updateMD5String(data);

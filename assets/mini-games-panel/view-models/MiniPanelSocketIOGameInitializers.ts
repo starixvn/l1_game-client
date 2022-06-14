@@ -8,17 +8,17 @@ import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIOInitializers {
     public openGame(gameId) {
         AudioManager.getInstance().playClick();
-        this.main.popupMiniGame.hideListGame();
+        this.main.popupMiniGame?.hideListGame();
 
         if (this.main.currentGameRoomId === gameId) {
             return;
         }
 
-        this.main.loading.node.active = true;
         cc.RedT.inGame.outRoomGame().then(() => {
             sessionManager.removeInRoomGameId();
             this.openNewSocket(gameId);
         });
+        console.log("Open game");
     }
 
     private openNewSocket(gameId) {

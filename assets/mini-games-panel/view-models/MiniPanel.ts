@@ -11,7 +11,8 @@ import LoadWebView from "../../common/LoadWebView";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
-import GameIconMenu from "../../lobby/main/view-models/GameIconMenu";
+import CircleMenu from "../../lobby/main/view-models/CircleMenu";
+import MainGame from "../../lobby/main/view-models/MainGame";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
@@ -47,9 +48,6 @@ export default class MiniPanel extends BaseComponent {
     @property(cc.Prefab)
     loadingPrefab: cc.Prefab = null;
 
-    @property(GameIconMenu)
-    gameMenu: GameIconMenu = null;
-
     @property(cc.Node)
     noticeContainer: cc.Node = null;
 
@@ -72,6 +70,7 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
+    public mainGame: MainGame;
 
     addNewLayerCallback(key: string, callback: NewLayerCallback) {
         this.newLayerCallbacks[key] = callback;
@@ -89,6 +88,10 @@ export default class MiniPanel extends BaseComponent {
         Object.values(this.newLayerCallbacks).forEach((callback: NewLayerCallback) => callback());
     }
 
+    setData(data: MainGame) {
+        this.mainGame = data;
+    }
+
     onLoad() {
         if (void 0 === cc.RedT.util.fontCong) {
             cc.RedT.util.fontCong = this.fontCong;
@@ -100,11 +103,11 @@ export default class MiniPanel extends BaseComponent {
         loadingNode.active = false;
         this.node.addChild(loadingNode);
 
-        this.popupMiniGame = this.miniMenu.getComponent(PopupMinigames);
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
-        this.gameMenu.miniPanel = this;
+
+        this.initPopUpMiniGames();
 
         this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.miniGames.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
@@ -127,6 +130,28 @@ export default class MiniPanel extends BaseComponent {
         NotificationService.getInstance().removeDataObserver(this.kickedOutKey, this.kickedOutKey);
         NotificationService.getInstance().removeDataObserver(this.authKey, this.authKey);
         NotificationService.getInstance().removeDataObserver(this.reloadKey, this.reloadKey);
+    }
+
+    initPopUpMiniGames() {
+        GameUtils.loadResource(`minipanel/popup-mini-game/PopUpMiniGame`).then((prefab) => {
+            const popUpMiniGameNode = cc.instantiate(prefab);
+            this.popupMiniGame = popUpMiniGameNode.getComponent(PopupMinigames);
+            if (this.popupMiniGame) {
+                const backgroundPopUpMiniGameNode = this.miniMenu.getChildByName("frame");
+                const clickEventHandler = new cc.Component.EventHandler();
+                clickEventHandler.target = popUpMiniGameNode;
+                clickEventHandler.component = "PopupMinigames";
+                clickEventHandler.handler = "toggle";
+                backgroundPopUpMiniGameNode.getComponent(cc.Button).clickEvents.push(clickEventHandler);
+                this.popupMiniGame.background = backgroundPopUpMiniGameNode;
+                this.popupMiniGame.background.opacity = 0;
+            }
+            const gameMenu = popUpMiniGameNode.getChildByName("list")?.getComponent(CircleMenu);
+            if (gameMenu) {
+                gameMenu.miniPanel = this;
+            }
+            this.miniMenu.addChild(popUpMiniGameNode);
+        });
     }
 
     onGeneralData(data: any) {
@@ -215,19 +240,19 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openGame(e, id) {
-        cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
+        this.loadGame(id, () => {
             this.gameMiniInitializers.openGame(id);
         });
     }
 
     openMiniContainerGame(id) {
-        cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
+        this.loadGame(id, () => {
             this.gameMiniInitializers.openMiniContainerGame(id);
         });
     }
 
     openNewSocketMiniGame(e, id) {
-        cc.resources.loadDir(`image/${window.i18n.curLang}/${id}`, cc.Texture2D, null, () => {
+        this.loadGame(id, () => {
             this.gameMiniInitializers.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
                 chartWebView && chartWebView.hideWebView();
@@ -236,9 +261,14 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openNewSocketTableGame(event, gameId) {
-        cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, () => {
+        this.loadGame(gameId, () => {
             this.socketIOGameInitializers.openGame(gameId);
         });
+    }
+
+    loadGame(gameId, onComplete: () => void) {
+        this.loading.node.active = true;
+        cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, onComplete);
     }
 
     loadGameRoom(name) {
@@ -254,7 +284,9 @@ export default class MiniPanel extends BaseComponent {
                     this.loading.node.active = false;
                     this.onForceReload();
                 } else {
-                    cc.director.loadScene(name);
+                    cc.director.loadScene(name, () => {
+                        cc.resources.loadDir(`lobby`);
+                    });
                 }
             }
         );
@@ -306,6 +338,7 @@ export default class MiniPanel extends BaseComponent {
         }
 
         this.addNotice(node);
+        this.mainGame?.loadLobby();
     }
 
     onConnectSocketFailed(gameName, isGameRoom = true) {
@@ -335,7 +368,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     setIconOverMiniGame(over: boolean) {
-        this.miniMenu.getParent().setSiblingIndex(over ? 1 : 0);
+        this.miniMenu.setSiblingIndex(over ? 1 : 0);
         this.miniGames.setSiblingIndex(!over ? 1 : 0);
     }
 }

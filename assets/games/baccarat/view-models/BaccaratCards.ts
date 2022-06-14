@@ -311,27 +311,7 @@ export default class BaccaratCards extends cc.Component {
 
     private handleCardWithAnimated(isAnimated: boolean, index: number, currentCard: cc.Node, delayTime: number): number {
         if (isAnimated) {
-            if (index === 0) {
-                // 1st card
-                currentCard.scaleX = 0;
-                currentCard.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
-                this.card1.getComponent(BaccaratCard).numberTag.active = false;
-                delayTime += this.openCardSecond;
-            } else {
-                this.cardBack.node.active = true;
-                const position = cc.v3(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2, 0);
-                this.cardBack.node.position = position;
-                const card = currentCard.getComponent(BaccaratCard);
-                card.numberTag.active = false;
-                this.numberTagCardBack.string = card.getNumberTag();
-                this.setActionCardBack();
-
-                delayTime += this.openSecondCardSecond;
-            }
-
-            if (index === 2) {
-                this.setActionCardThree(currentCard, delayTime);
-            }
+            delayTime = this.calculateDelayTimeWithAnimation(index, currentCard, delayTime);
         } else {
             if (this.isMainPage) {
                 currentCard.getComponent(BaccaratCard).numberTag.active = false;
@@ -341,6 +321,32 @@ export default class BaccaratCards extends cc.Component {
                     currentCard.angle = this.isBanker ? 90 : -90;
                 }
             }
+        }
+
+        return delayTime;
+    }
+
+    private calculateDelayTimeWithAnimation(index: number, currentCard: cc.Node, delayTime: number) {
+        if (index === 0) {
+            // 1st card
+            currentCard.scaleX = 0;
+            currentCard.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
+            this.card1.getComponent(BaccaratCard).numberTag.active = false;
+            delayTime += this.openCardSecond;
+        } else {
+            this.cardBack.node.active = true;
+            const position = cc.v3(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2, 0);
+            this.cardBack.node.position = position;
+            const card = currentCard.getComponent(BaccaratCard);
+            card.numberTag.active = false;
+            this.numberTagCardBack.string = card.getNumberTag();
+            this.setActionCardBack();
+
+            delayTime += this.openSecondCardSecond;
+        }
+
+        if (index === 2) {
+            this.setActionCardThree(currentCard, delayTime);
         }
 
         return delayTime;

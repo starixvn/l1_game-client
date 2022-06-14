@@ -25,8 +25,8 @@ export default class GameIconMenu extends BaseComponent {
     }
 
     async initItems() {
-        const list = this.getList();
-        for (const id of list) {
+        const gameIds = this.getList();
+        for (const id of gameIds) {
             const node = await this.addItem(id);
             if (node) {
                 node.on("click", this.itemPressed.bind(this, id));
@@ -50,5 +50,6 @@ export default class GameIconMenu extends BaseComponent {
         AudioManager.getInstance().playClick();
         cc.sys.localStorage.setItem(`UserSetting_game_${id}`, "");
         GameUtils.openGame(id, this.miniPanel);
+        console.log(`open game ${id}`);
     }
 }
