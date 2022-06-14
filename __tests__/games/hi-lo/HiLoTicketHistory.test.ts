@@ -3,7 +3,6 @@ import { TicketHistoryData } from "../../../assets/games/hi-lo/view-models/HiLoB
 import HiLoTicketDetail from "../../../assets/games/hi-lo/view-models/HiLoTicketDetail";
 import HiLoTicketHistory from "../../../assets/games/hi-lo/view-models/HiLoTicketHistory";
 import HiLoTicketHistoryItem from "../../../assets/games/hi-lo/view-models/HiLoTicketHistoryItem";
-import Connection from ".../../../assets/games/_new/connection/Connection";
 import { mockFuntions } from "../../mocks/TestUtils";
 
 jest.mock("../../../assets/common/GameUtils", () => ({
@@ -84,7 +83,6 @@ describe("HiLoTicketHistory", () => {
             comp.renderTicketHistory(ticketHistoryData);
 
             //Assert
-            expect(comp.pages.onSet).toBeCalledWith(ticketHistoryData.page, ticketHistoryData.pageSize, ticketHistoryData.total);
             expect(comp.content.children.length).toEqual(2);
         });
     });
@@ -104,68 +102,6 @@ describe("HiLoTicketHistory", () => {
 
             //Assert
             expect(HiLoTicketDetail.prototype.renderTicketDetail).toBeCalledWith(ticketHistoryData.betLogs[0]);
-        });
-    });
-
-    describe("onLoad", () => {
-        it("should call onLoad function", () => {
-            // Arrange
-
-            //Act
-            comp.onLoad();
-
-            //Assert
-            expect(comp.pages.init).toBeCalledWith(comp);
-        });
-    });
-
-    describe("get_data", () => {
-        it("should call get_data function", () => {
-            // Arrange
-            const page = 1;
-            comp.getHistory = jest.fn();
-
-            //Act
-            comp.get_data(page);
-
-            //Assert
-            expect(comp.getHistory).toBeCalledWith(page);
-        });
-    });
-
-    describe("onData", () => {
-        beforeEach(() => {
-            // Arrange
-            comp.pages.onSet = jest.fn();
-            comp.renderTicketHistory = jest.fn();
-        });
-
-        it("should get ticket history data", () => {
-            //Arrange
-            const history = {
-                history: ticketHistoryData
-            };
-
-            //Act
-            comp.onData(history);
-
-            //Assert
-            expect(comp.pages.onSet).toBeCalledWith(ticketHistoryData.page, ticketHistoryData.pageSize, ticketHistoryData.total);
-            expect(comp.renderTicketHistory).toBeCalledWith(ticketHistoryData);
-        });
-
-        it("should get ticket history is null or undefined", () => {
-            // Arrange
-            const history = {
-                history: undefined
-            };
-
-            //Act
-            comp.onData(history);
-
-            //Assert
-            expect(comp.pages.onSet).not.toHaveBeenCalled();
-            expect(comp.renderTicketHistory).not.toHaveBeenCalled();
         });
     });
 });

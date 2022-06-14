@@ -285,4 +285,12 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.point.node.parent.active = true;
         this.point.string = (point % 10).toString();
     }
+
+    showCardsWithoutInfoAndIndex(cards: CardModel[]) {
+        cards.forEach((card, index) => {
+            const cardNode = this.cards[index].getComponent(BlockchainCard);
+            cardNode.setCardOldStyle(card);
+            cardNode.faceUp();
+        });
+    }
 }

@@ -62,8 +62,6 @@ export default class HoldemPokerTicketHistory extends BetHistory {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
-    historyData: BetLog[] = null;
-
     protected root: HoldemPoker;
     protected ticketDetailComponent: HoldemPokerTicketDetail = null;
 
@@ -71,48 +69,13 @@ export default class HoldemPokerTicketHistory extends BetHistory {
         this.root = root;
     }
 
-    onLoad() {
-        this.pages.init(this);
-        const commonDialog = this.getComponent(CommonDialog);
-        commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
-    }
-
-    showDialog() {
-        const commonDialog = this.getComponent(CommonDialog);
-        if (commonDialog) {
-            this.get_data();
-            commonDialog.showDialog();
-        }
-    }
-
-    getHistory(page = 1) {
-        this.connection.emit(events.getHistory, { page });
-    }
-
     getTicketDetail(roundId = 1) {
         this.connection.emit(events.getTicketDetail, { roundId });
     }
 
-    get_data(page = 1) {
-        this.getHistory(page);
-    }
-
-    onData(data: HistoryDataType) {
-        if (!data.history) {
-            return;
-        }
-        this.historyData = data.history.betLogs;
-
-        this.pages.onSet(data.history.page, data.history.pageSize, data.history.total);
-        this.content.children.forEach((child) => child.destroy());
-
-        this.handleHistoryData(this.historyData);
-    }
-
-    handleHistoryData(data: any) {
-        data.forEach((log, index) => {
+    renderTicketHistory(data: any) {
+        const betLogs = data.betLogs;
+        betLogs.forEach((log, index) => {
             const historyItemPrefab = cc.instantiate(this.prefabItem);
             const historyControl = historyItemPrefab.getComponent(HoldemPokerTicketHistoryItem);
             historyControl.renderTicketHistoryItem(log, index);

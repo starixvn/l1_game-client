@@ -1,7 +1,6 @@
 import { updateGameConfigs } from "../actions/BlockchainBaccaratConfigsAction";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import { GameIds } from "../../../configs/SabaConfigs";
-import BaccaratHistory from "../../baccarat/view-models/BaccaratHistory";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import BlockchainBaccaratTimeHandler from "../event-handlers/BlockchainBaccaratTimeHandler";
@@ -27,12 +26,13 @@ import {
 } from "../components/score-board/actions/BlockchainBaccaratScoreboardActions";
 import { openCards } from "../actions/BlockchainBaccaratCardsActions";
 import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
-import BlockchainBaccaratRoundHistoryHandler from "../event-handlers/BlockchainBaccratRoundHistoryHandler";
+import BlockchainBaccaratTicketHistory from "./history/BlockchainBaccaratTicketHistory";
+import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlockchainBaccarat extends SocketIOTableGameBase {
+export default class BlockchainBaccarat extends NewGameRoomBase {
     @property({ type: cc.Prefab, visible: false, override: true })
     miniRoundHistoryPrefab: cc.Prefab = null;
 
@@ -57,6 +57,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     betOptionsUI: BlockchainBetOptionsUI = null;
     scoreboard: BlockchainBaccaratScoreboard = null;
     lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
+    private betHistoryController: BlockchainBaccaratTicketHistory = null;
 
     constructor() {
         super();
@@ -129,9 +130,10 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         this.playClick();
         this.expandableMenu.collapseMenu();
         const historyNode = cc.instantiate(this.historyPrefab);
-        this.historyComponent = historyNode.getComponent("BaccaratHistory") as BaccaratHistory;
-        this.historyComponent.init(this.socket);
-        this.currentMiniPanel.node.addChild(historyNode);
+        this.betHistoryController = historyNode.getComponent(BlockchainBaccaratTicketHistory);
+        this.betHistoryController.setConnection(this.connection, this.gameName);
+        this.currentMiniPanel.addDialog(historyNode);
+        this.betHistoryController.showDialog();
     }
 
     private registerGameEvents() {
