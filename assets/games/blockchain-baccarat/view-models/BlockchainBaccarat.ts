@@ -26,6 +26,8 @@ import {
     resetScoreBoard
 } from "../components/score-board/actions/BlockchainBaccaratScoreboardActions";
 import { openCards } from "../actions/BlockchainBaccaratCardsActions";
+import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
+import BlockchainBaccaratRoundHistoryHandler from "../event-handlers/BlockchainBaccratRoundHistoryHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -54,6 +56,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     cardsUI: BlockchainBaccaratCardsUI = null;
     betOptionsUI: BlockchainBetOptionsUI = null;
     scoreboard: BlockchainBaccaratScoreboard = null;
+    lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
 
     constructor() {
         super();
@@ -93,7 +96,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     }
 
     initLastRoundInfo(node: cc.Node) {
-        //
+        this.lastRoundIfo = node.getComponent(BlockchainBaccaratLastRoundInfo);
     }
 
     initCardsUI(node: cc.Node) {
@@ -138,6 +141,7 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
         });
         this.gameData.roundHistory.on(BlockchainBaccaratRoundHistoryModel.Events.CHANGE, (roundHistory) => {
             renderScoreBoardInGame(this.scoreboard)(roundHistory);
+            this.lastRoundIfo.updateUI(roundHistory[0], this.gameData.cardList.currentIndex);
         });
         this.gameData.roundHistory.on(BlockchainBaccaratRoundHistoryModel.RoundHistoryEvents.CLEAR, () => {
             resetScoreBoard(this.scoreboard)();

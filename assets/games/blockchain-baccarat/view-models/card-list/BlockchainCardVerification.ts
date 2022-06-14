@@ -95,7 +95,7 @@ export default class BlockchainCardVerification extends cc.Component {
 
         cardComponent.setInfoTag();
         cardComponent.setShadow();
-        cardComponent.setIndexNumber();
+        cardComponent.resetIndexNumber();
         return node;
     }
 

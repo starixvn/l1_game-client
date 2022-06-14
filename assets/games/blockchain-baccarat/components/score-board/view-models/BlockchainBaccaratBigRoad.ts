@@ -16,6 +16,7 @@ export default class BlockChainBaccaratBigRoad extends BaccaratBigRoad {
     }
 
     public resetBoard() {
+        this.bigRoadData = [];
         this.updateContentChild(this.minColumn - this.content.childrenCount);
         for (let index = 0; index < this.content.childrenCount; index++) {
             this.content.children[index].getComponent(BlockchainBaccaratBigRoadItem).resetAll();

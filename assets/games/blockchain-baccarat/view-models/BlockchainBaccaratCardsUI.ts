@@ -1,3 +1,4 @@
+import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratCards from "./card/BlockchainBaccaratCards";
 
 const { ccclass, property } = cc._decorator;
@@ -193,5 +194,13 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     async onSettle4Card() {
         this.openCards();
+    }
+
+    showCardsWithoutAnimation(lastRound: BlockchainBaccaratRoundHistory, currentIndex: number) {
+        const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);
+        const bankerCards = Object.values(lastRound.result.banker).filter((card) => card != null);
+        const startIndex = currentIndex - playerCards.length - bankerCards.length;
+        this.playerCards.showCardsWithoutAnimation(playerCards, startIndex);
+        this.bankerCards.showCardsWithoutAnimation(bankerCards, startIndex + 1, currentIndex - 1);
     }
 }

@@ -62,7 +62,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     };
 
     setTagIndex(index: number, card: cc.Node) {
-        card.getComponentInChildren(BlockchainCard).setIndexNumer(index);
+        card.getComponentInChildren(BlockchainCard).setIndexNumber(index);
     }
 
     resetCards() {
@@ -151,7 +151,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     }
 
     setInfoCardFly(cardComponent: BlockchainCard, numberTag: number) {
-        numberTag > 0 && cardComponent.setIndexNumer(numberTag);
+        numberTag > 0 && cardComponent.setIndexNumber(numberTag);
         cardComponent.setStatusInfoTag(true);
         cardComponent.setStatusIndexNumber(true);
     }
@@ -265,5 +265,24 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.point.node.parent.runAction(cc.sequence(cc.scaleTo(this.setPointSecond, 1.1, 1.1), cc.scaleTo(this.setPointSecond, 1, 1)));
 
         this.point.string = ((currentPoint + point) % 10).toString();
+    }
+
+    showCardsWithoutAnimation(cards: CardModel[], startIndex: number, lastIndex?: number) {
+        let point = 0;
+        cards.forEach((card, index) => {
+            const value = +card.rank + 1;
+            point += value > 10 || !value ? 0 : value;
+            const cardNode = this.cards[index].getComponent(BlockchainCard);
+            cardNode.setCardOldStyle(card);
+            if (index == 2 && lastIndex) {
+                cardNode.setIndexNumber(lastIndex);
+            } else {
+                cardNode.setIndexNumber(startIndex + index * 2);
+            }
+            cardNode.setFaceUp(true);
+        });
+        this.point.node.active = true;
+        this.point.node.parent.active = true;
+        this.point.string = (point % 10).toString();
     }
 }

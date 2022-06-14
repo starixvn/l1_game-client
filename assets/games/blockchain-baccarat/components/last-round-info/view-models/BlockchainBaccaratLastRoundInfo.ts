@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
+import BlockchainBaccaratCardsUI from "../../../view-models/BlockchainBaccaratCardsUI";
 import BlockchainCard from "../../../view-models/card-list/BlockchainCard";
 const { ccclass, property } = cc._decorator;
 
@@ -14,11 +15,14 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
     @property(cc.Label)
     bankerLabel: cc.Label = null;
 
-    @property([cc.Node])
-    playerCards: cc.Node[] = [];
+    @property(cc.Node)
+    cardsUI: cc.Node = null;
 
-    @property([cc.Node])
-    bankerCards: cc.Node[] = [];
+    @property(cc.Node)
+    playerCard3: cc.Node = null;
+
+    @property(cc.Node)
+    bankerCard3: cc.Node = null;
 
     @property(cc.Label)
     winNoticeLabel: cc.Label = null;
@@ -35,5 +39,19 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
         this.lastRoundLabel.string = "Last Round" + ":";
     }
 
-    updateUI(lastRound: BlockchainBaccaratRoundHistory) {}
+    updateUI(lastRound: BlockchainBaccaratRoundHistory, currentIndex: number) {
+        this.cardsUI.active = true;
+        if (lastRound.result.player.card3) {
+            this.playerCard3.active = true;
+        } else {
+            this.playerCard3.active = false;
+        }
+        if (lastRound.result.banker.card3) {
+            this.bankerCard3.active = true;
+        } else {
+            this.bankerCard3.active = false;
+        }
+
+        this.cardsUI.getComponent(BlockchainBaccaratCardsUI).showCardsWithoutAnimation(lastRound, currentIndex);
+    }
 }

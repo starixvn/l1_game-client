@@ -1,3 +1,4 @@
+import { CardModel } from "./../../../../common/new-card/view-models/NewCard";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
 
 const { ccclass, property } = cc._decorator;
@@ -47,7 +48,7 @@ export default class BlockchainCard extends NewCard {
         this.infoTag.active = false;
     }
 
-    setIndexNumber() {
+    resetIndexNumber() {
         this.indexNumber.string = "";
     }
 
@@ -58,11 +59,11 @@ export default class BlockchainCard extends NewCard {
         this.resetHighlight();
     }
 
-    getIndexNumer() {
+    getIndexNumber() {
         return this.indexNumber.toString();
     }
 
-    setIndexNumer(number: number) {
+    setIndexNumber(number: number) {
         this.indexNumber.string = number.toString();
     }
 

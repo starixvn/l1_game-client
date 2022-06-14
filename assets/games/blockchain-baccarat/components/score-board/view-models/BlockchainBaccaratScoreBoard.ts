@@ -56,6 +56,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
 
     resetScoreboard(): void {
         this.roundHistory = [];
+        this.bigRoadData = [];
         this.bigRoads.forEach((board) => {
             board.resetBoard();
         });
@@ -176,7 +177,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     }
 
     private getValueCard(card) {
-        const value = card?.rank;
+        const value = card?.rank + 1;
         return value > 10 || !value ? 0 : value;
     }
 
