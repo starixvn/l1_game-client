@@ -421,8 +421,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     async showEffectFreeSpins(count: number) {
-        super.showEffectFreeSpins(count);
         this.gameSound.playSound(CascadingSlotGameSound.FREE_SPIN);
+        await super.showEffectFreeSpins(count);
     }
 
     setAllowChangeBet(allow: boolean) {
