@@ -54,7 +54,7 @@ export default class NotificationService {
         });
 
         this.socket.on("disconnect", (reason, detail: { description }) => {
-            sentryLogger.log(`socket disconnect - NotificationService - ${reason}:   ${detail.description}`);
+            sentryLogger.log(`socket disconnect - NotificationService - ${reason}:   ${detail?.description}`);
             this.socket && this.socket.disconnect();
             this.reconnect();
         });

@@ -71,7 +71,7 @@ export default class SocketIOController {
         });
 
         socket.on("disconnect", (reason, detail: { description }) => {
-            sentryLogger.log(`socket disconnect - ${gameName} - ${reason}:   ${detail.description}`);
+            sentryLogger.log(`socket disconnect - ${gameName} - ${reason}:   ${detail?.description}`);
         });
 
         return socket;
