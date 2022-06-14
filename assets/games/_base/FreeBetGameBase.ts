@@ -2,38 +2,35 @@ import { Socket } from "socket.io-client";
 
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import MultiOrientationGame from "./MultiOrientationGame";
+import SedieWallet from "../sedie/view-models/SedieWallet";
+import { Orientation } from "./Orientation";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FreeBetGameBase extends MultiOrientationGame {
-    @property(cc.Label)
-    userSCoin: cc.Label = null;
-
-    @property(cc.SpriteFrame)
-    dollarBackground: cc.SpriteFrame = null;
-
-    @property(cc.SpriteFrame)
-    scoinBackground: cc.SpriteFrame = null;
-
     @property(cc.Node)
-    walletNode: cc.Node = null;
+    walletWrapper: cc.Node = null;
 
-    @property(cc.Node)
-    dollarNode: cc.Node = null;
+    @property(SedieWallet)
+    dollarWallet: SedieWallet = null;
 
-    @property(cc.Node)
-    scoinNode: cc.Node = null;
+    @property(SedieWallet)
+    userScoinWallet: SedieWallet = null;
 
     private isFreeBet = false;
     private isFocusScoin = false;
-
     protected socket: Socket;
+    protected wrapperLayout: cc.Layout = null;
+
+    onLoad() {
+        super.onLoad();
+        this.loadDollarWalletUI();
+    }
 
     onChangeWalletClick(e, isFreeBet) {
         if (this.gameConfigs.enableFreeBet) {
             this.isFreeBet = isFreeBet === "true";
-
             this.focusWallet(this.isFreeBet);
         }
     }
@@ -47,16 +44,16 @@ export default class FreeBetGameBase extends MultiOrientationGame {
 
     updateDisplayScoinUI(scoins) {
         if (this.gameConfigs && this.gameConfigs.enableFreeBet) {
-            this.userSCoin.string = numberWithCommas(scoins);
+            this.userScoinWallet.balance.string = numberWithCommas(scoins);
             if (!this.isFocusScoin && scoins > 0) {
                 this.isFocusScoin = true;
                 this.isFreeBet = true;
-                this.scoinNode.active = true;
 
-                this.updateWalletWidth();
-                const walletLayout = this.walletNode.getComponent(cc.Layout);
-                this.walletNode.getComponent(cc.Layout).enabled = true;
-                walletLayout.updateLayout();
+                this.walletWrapper.getComponent(cc.Sprite).enabled = false;
+                this.wrapperLayout.enabled = true;
+                this.wrapperLayout.updateLayout();
+                this.userScoinWallet.node.active = true;
+
                 this.focusWallet(this.isFreeBet);
             }
         }
@@ -64,31 +61,36 @@ export default class FreeBetGameBase extends MultiOrientationGame {
 
     loadUserData(user) {
         super.loadUserData(user);
+
         if (void 0 !== user.scoins) {
             this.updateDisplayScoinUI(user.scoins);
         }
     }
 
+    loadDollarWalletUI() {
+        this.wrapperLayout = this.walletWrapper.getComponent(cc.Layout);
+        this.dollarWallet.node.active = true;
+        this.dollarWallet.overlay.active = false;
+        this.userScoinWallet.node.active = false;
+
+        if (this.orientation === Orientation.Landscape) {
+            this.walletWrapper.getComponent(cc.Sprite).enabled = true;
+            this.wrapperLayout.enabled = false;
+            this.walletWrapper.width = 175;
+        } else {
+            this.dollarWallet.showActiveBackground(false);
+        }
+    }
+
     focusWallet(isFreeBet: boolean) {
-        this.walletNode.getComponent(cc.Layout).enabled = false;
-        this.scoinNode.getChildByName("overlay").active = !isFreeBet;
-        this.dollarNode.getChildByName("active").active = true;
-        this.dollarNode.getChildByName("overlay").active = isFreeBet;
+        this.wrapperLayout.enabled = isFreeBet;
+        this.userScoinWallet.focus(isFreeBet);
+        this.dollarWallet.focus(!isFreeBet);
     }
 
     createCommonBetData() {
         const betData = super.createCommonBetData();
         betData["freeBet"] = this.isFreeBet;
         return betData;
-    }
-
-    updateWalletWidth() {
-        const activeDollarWidth = this.dollarNode.getChildByName("active").width;
-        const dollarLblWidth = this.userBalance.node.width;
-        const activeScoinWidth = this.scoinNode.getChildByName("active").width;
-        const scoinLblWidth = this.userSCoin.node.width;
-
-        this.dollarNode.width = dollarLblWidth > activeDollarWidth ? dollarLblWidth + 20 : activeDollarWidth;
-        this.scoinNode.width = scoinLblWidth > activeScoinWidth ? scoinLblWidth + 20 : activeScoinWidth;
     }
 }
