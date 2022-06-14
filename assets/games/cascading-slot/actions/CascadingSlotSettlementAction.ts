@@ -1,9 +1,10 @@
 import GameUtils from "../../../common/GameUtils";
+import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import { CascadingSlotState } from "../models/CascadingSlotStateModel";
+import { SpinButtonState } from "../models/SpinButtonStateModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
-import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
     const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier } = data;
@@ -85,7 +86,10 @@ const handleAutoSpin = (mainGame: CascadingSlotBase) => {
         const isAutoSpinMode = mainGame.isAutoSpinMode();
         const stillAutoSpin = mainGame.stillAutoSpin();
         const autoSpin = isAutoSpinMode && stillAutoSpin;
-        if (autoSpin || mainGame.isFreeSpin()) {
+        if (autoSpin) {
+            mainGame.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
+            mainGame.spin();
+        } else if (mainGame.isFreeSpin()) {
             mainGame.spin();
         } else if (isAutoSpinMode && !stillAutoSpin) {
             mainGame.createAutoSpinDialog();
