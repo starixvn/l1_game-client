@@ -127,7 +127,7 @@ export default class BlockchainCardList extends cc.Component {
         return node;
     }
 
-    private initCardVerification(card: CardChain, index: number) {
+    public initCardVerification(card: CardChain, index: number) {
         const cardVerificationPrefab = this.node.getChildByName(this.cardVerificationPrefab.name);
         if (cardVerificationPrefab) {
             cardVerificationPrefab.removeFromParent(true);

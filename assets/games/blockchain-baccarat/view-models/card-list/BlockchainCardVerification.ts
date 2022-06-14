@@ -3,6 +3,7 @@ import { CardChain, CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "./BlockchainCard";
 import BlockchainCardList from "./BlockchainCardList";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import GameUtils from "../../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,6 +39,7 @@ export default class BlockchainCardVerification extends cc.Component {
     private hashValue: cc.Label = null;
     private rawValue: cc.RichText = null;
     private verifiedValue: cc.Label = null;
+    public hintLabel: cc.Label = null;
 
     private verifiedSerialCopyButton: cc.Button = null;
     private privateKeyCopyButton: cc.Button = null;
@@ -95,5 +97,31 @@ export default class BlockchainCardVerification extends cc.Component {
         cardComponent.setShadow();
         cardComponent.setIndexNumber();
         return node;
+    }
+
+    onClickCopyButton(event, customEventData) {
+        const values = {
+            hashValue: this.hashValue.string,
+            rawValue: this.rawValue.string,
+            verifiedValue: this.verifiedValue
+        };
+
+        const hintNodes = {
+            hashValue: this.serialNode,
+            rawValue: this.privateKeyNode,
+            verifiedValue: this.verifiedSerialNode
+        };
+
+        const copyValue = values.hasOwnProperty(customEventData) ? values[customEventData] : "";
+        const hintCopy = hintNodes[customEventData].getChildByName("hint-copy");
+        this.hintLabel = hintCopy.getChildByName("content").getComponent(cc.Label);
+        this.hintLabel.string = i18n.t("messages.copy_success");
+        this.showHint = this.showHint.bind(this);
+        GameUtils.copyToClipboard(copyValue, this.hintLabel, this.showHint(hintCopy));
+    }
+
+    showHint(hintCopy: cc.Node) {
+        console.log("show hint");
+        cc.tween(hintCopy).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }
 }
