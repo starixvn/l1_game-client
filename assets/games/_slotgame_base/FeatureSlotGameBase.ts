@@ -52,7 +52,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     protected autoSpinCount = 0;
     protected lastAutoSpinCount: number;
     protected totalFreeSpins = 0;
-    private cacheApiError: any = null;
+    protected cacheApiError: any = null;
 
     public gameData: FeatureSlotGameData<void>;
 
@@ -105,6 +105,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
         this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
+        this.updateBottomMessageStatus();
+        this.bottomMessage.showMessageDisplay(RoundType.BEFORESPIN, this.isTurboMode());
     }
 
     checkAvailableBalance(): boolean {

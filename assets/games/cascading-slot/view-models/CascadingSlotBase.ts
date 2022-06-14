@@ -2,6 +2,7 @@ import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getTrialSocket } from "../../../common/helpers/UrlHelper";
+import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
 import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
@@ -184,7 +185,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             return success;
         }
         this.lockBet();
-        this.gameData.stateModel.change(CascadingSlotState.New);
+        this.gameData.stateModel.change(CascadingSlotState.Start_Round);
         const isFreeSpin = this.isFreeSpin();
         if (isFreeSpin) {
             this.gameData.spinButtonStateModel.change(SpinButtonState.FreeSpin);
@@ -209,6 +210,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.onLoad();
         this.initGameDataEvents();
         this.initCascadingSlotConfig();
+        this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
     }
 
     start() {
@@ -297,7 +299,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.stateModel.on(CascadingSlotStateModel.Events.CHANGE, (state) => {
             switch (state) {
-                case CascadingSlotState.New:
+                case CascadingSlotState.Start_Round:
                     this.tumbleList.clear();
                     this.gameData.uiModel.resetNewRound();
                     if (!this.isFreeSpin()) {
@@ -318,6 +320,19 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.trialModel.on(CascadingSlotTrialModel.Events.CHANGE_USER_BALANCE, (value) => {
             this.trialUserBalance = value;
             this.userBalance.string = numberWithCommas(value);
+        });
+
+        this.gameData.on(CommonEvents.API_ERROR, (error) => {
+            this.currentMiniPanel.showErrorNotice(error);
+            if (this.isFreeSpin()) {
+                this.gameData.spinButtonStateModel.change(SpinButtonState.ResumeWithFreeSpin);
+            } else {
+                this.onAutoSpinOff();
+            }
+        });
+
+        this.gameData.on(CommonEvents.SETTLE_API_ERROR, (error) => {
+            this.cacheApiError = error;
         });
     }
 

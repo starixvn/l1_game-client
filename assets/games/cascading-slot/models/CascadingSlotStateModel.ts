@@ -1,7 +1,8 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export enum CascadingSlotState {
-    New = 0,
+    None = 0,
+    Start_Round,
     Spinning,
     Settled
 }
