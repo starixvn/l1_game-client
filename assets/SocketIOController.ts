@@ -70,8 +70,8 @@ export default class SocketIOController {
             }
         });
 
-        socket.on("disconnect", (reason) => {
-            sentryLogger.log(reason);
+        socket.on("disconnect", (reason, detail: { description }) => {
+            sentryLogger.log(`socket disconnect - ${gameName} - ${reason}:   ${detail.description}`);
         });
 
         return socket;

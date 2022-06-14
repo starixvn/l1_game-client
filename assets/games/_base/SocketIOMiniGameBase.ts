@@ -39,7 +39,7 @@ export default class SocketIOMiniGameBase extends GameBase {
     initSocketListenter() {
         if (this.socket) {
             this.socket.off(this.gameName).on(this.gameName, this.onData.bind(this));
-            this.socket.off("disconnect").on("disconnect", this.onDisconnected.bind(this));
+            this.socket.on("disconnect", this.onDisconnected.bind(this));
         }
     }
 

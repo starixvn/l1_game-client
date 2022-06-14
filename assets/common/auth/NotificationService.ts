@@ -1,8 +1,9 @@
-import { io, Socket, ManagerOptions, SocketOptions } from "socket.io-client";
+import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
+import * as MsgpackParser from "socket.io-msgpack-parser";
+
+import { enableMsgpackParserOnNotification } from "../../configs/Configs";
 import { buildUrl, getEnvironment } from "../helpers/UrlHelper";
 import { sentryLogger } from "../logger";
-import { enableMsgpackParserOnNotification } from "../../configs/Configs";
-import * as MsgpackParser from "socket.io-msgpack-parser";
 
 export default class NotificationService {
     public static getInstance(): NotificationService {
@@ -52,7 +53,8 @@ export default class NotificationService {
             this.reconnect();
         });
 
-        this.socket.on("disconnect", (reason) => {
+        this.socket.on("disconnect", (reason, detail: { description }) => {
+            sentryLogger.log(`socket disconnect - NotificationService - ${reason}:   ${detail.description}`);
             this.socket && this.socket.disconnect();
             this.reconnect();
         });
