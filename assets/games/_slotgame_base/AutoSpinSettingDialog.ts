@@ -27,6 +27,7 @@ export default class AutoSpinSettingDialog extends cc.Component {
     }
 
     setLastSelected(value: number) {
+        this.autoSpinCount = value;
         const node = this.choicesContainer.children.find((child) => value === +child.name);
         if (node) {
             const toggle = node.getComponent(cc.Toggle);
