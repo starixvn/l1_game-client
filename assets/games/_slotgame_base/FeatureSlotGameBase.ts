@@ -84,10 +84,10 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const message = i18n.t(`messages.${key}`);
         const notice = this.showMiniWarning(message);
         notice.name = turboWarningName;
-        this.updateBottomMessageStatus();
     }
 
     onAutoSpinChanged() {
+        this.updateBottomMessageStatus();
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
             this.setAutoSpinCount(0);
             this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
@@ -99,7 +99,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             this.createAutoSpinDialog();
             this.setAllowChangeBet(false);
         }
-        this.updateBottomMessageStatus();
     }
 
     onAutoSpinOff() {
