@@ -145,7 +145,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     newGames = {
         SC1: [GameIds.TreasureIsland]
     };
-    iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
+    iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub, GameIds.TreasureIsland];
 
     customizeCredit(): void {
         this.smPromotion = true;
