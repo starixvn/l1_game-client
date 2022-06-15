@@ -24,20 +24,20 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 43
+        "__id__": 42
+      },
+      {
+        "__id__": 44
       },
       {
         "__id__": 45
       },
       {
-        "__id__": 46
-      },
-      {
-        "__id__": 44
+        "__id__": 43
       }
     ],
     "_prefab": {
-      "__id__": 48
+      "__id__": 47
     },
     "_opacity": 255,
     "_color": {
@@ -81,7 +81,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": true,
+    "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
@@ -101,7 +101,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 42
+      "__id__": 41
     },
     "_opacity": 255,
     "_color": {
@@ -163,13 +163,9 @@
       }
     ],
     "_active": true,
-    "_components": [
-      {
-        "__id__": 40
-      }
-    ],
+    "_components": [],
     "_prefab": {
-      "__id__": 41
+      "__id__": 40
     },
     "_opacity": 255,
     "_color": {
@@ -302,7 +298,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": true,
+    "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
@@ -366,7 +362,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": true,
+    "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
@@ -481,7 +477,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": true,
+    "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
@@ -545,7 +541,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": true,
+    "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
@@ -654,7 +650,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": true,
+    "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
@@ -763,7 +759,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": true,
+    "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
@@ -992,7 +988,7 @@
     },
     "_skewX": 0,
     "_skewY": 0,
-    "_is3DNode": true,
+    "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
     "_id": ""
@@ -1355,8 +1351,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 56.33,
-      "height": 26
+      "width": 0,
+      "height": 32.76
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1413,7 +1409,7 @@
     "_lineHeight": 26,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "70605777-ac16-43e7-aefa-1ce119a40f0e"
+      "__uuid__": "37c28de1-9817-4b7f-aef1-bf1ba7186e3e"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -1548,38 +1544,6 @@
     "sync": false
   },
   {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 3
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "8cdb44ac-a3f6-449f-b354-7cd48cf84061"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": ""
-  },
-  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -1616,7 +1580,7 @@
       "__id__": 37
     },
     "animation": {
-      "__id__": 44
+      "__id__": 43
     },
     "description": {
       "__id__": 8
@@ -1738,7 +1702,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 47
+        "__id__": 46
       }
     ],
     "_N$interactable": true,
@@ -1795,7 +1759,7 @@
     "_N$disabledSprite": null,
     "_N$target": null,
     "collider": {
-      "__id__": 45
+      "__id__": 44
     },
     "_id": ""
   },
@@ -1807,7 +1771,7 @@
     "component": "",
     "_componentId": "48ba4dgPOJJ15ps6t4BCtuY",
     "handler": "openCardVerification",
-    "customEventData": "BlockChainCard"
+    "customEventData": ""
   },
   {
     "__type__": "cc.PrefabInfo",

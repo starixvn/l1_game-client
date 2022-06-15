@@ -74,7 +74,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private initCardList() {
         const dialog = cc.instantiate(this.cardListPrefab);
         this.cardList = dialog.getComponent(BlockchainCardList);
-        this.cardList.node.active = false;
         this.cardList.init(this);
         this.currentMiniPanel.addDialog(dialog);
     }
@@ -97,6 +96,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     openCardList() {
+        this.initCardList();
         this.cardList.setData(this.gameData.cardList.blockchain);
         this.cardList.showDialog();
     }

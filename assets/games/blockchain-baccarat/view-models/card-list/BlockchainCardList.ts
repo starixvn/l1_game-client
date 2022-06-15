@@ -39,6 +39,13 @@ export default class BlockchainCardList extends cc.Component {
         this.root = root;
     }
 
+    onLoad() {
+        const commonDialog = this.getComponent(CommonDialog);
+        commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
+    }
+
     showDialog() {
         const commonDialog = this.getComponent(CommonDialog);
         if (commonDialog) {
@@ -47,6 +54,9 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     public setData(cardList: Blockchain) {
+        if (!cardList) {
+            return;
+        }
         const { chain, cutCardIndex, currentIndex } = cardList;
         this.cutCard = cutCardIndex;
         this.currentCardIndex = currentIndex;
@@ -56,6 +66,7 @@ export default class BlockchainCardList extends cc.Component {
             card.destroy();
         });
 
+        this.content.children.forEach((child) => child.destroy());
         this.cards = [];
 
         chain.forEach((card, index) => {
@@ -76,6 +87,10 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     public updateData(cardList: Blockchain) {
+        if (!this.cards) {
+            return;
+        }
+
         const { chain, currentIndex } = cardList;
         chain.forEach((card, index) => {
             if (index >= this.currentCardIndex && index < currentIndex) {
