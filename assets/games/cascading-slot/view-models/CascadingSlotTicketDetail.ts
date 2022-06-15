@@ -73,13 +73,12 @@ export default class CascadingSlotTicketDetail extends cc.Component {
                 lbMulti = `treasureIsland.totalMultiplier`;
                 this.multiplierTotal.string = data.totalMultiplier;
                 this.multiplierTotal.node.color = this.textMultiplier.node.color = cc.color(66, 190, 254);
-                this.multiplierNode.active = +data.totalMultiplier > 0;
                 this.multiplierNode.active = true;
             }
         } else {
             lbMulti = `treasureIsland.multiplier`;
             this.multiplierTotal.string = data.multiplier;
-            this.multiplierNode.active = +data.multiplier > 0;
+            this.multiplierNode.active = tumbles.length > 1 && +data.multiplier > 0;
         }
         this.textMultiplier.string = `${i18n.t(lbMulti)}:`;
         const btnTextMulti = this.textMultiplier.getComponent(cc.Button);
