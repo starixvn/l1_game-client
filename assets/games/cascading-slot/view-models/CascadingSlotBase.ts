@@ -392,7 +392,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     initFreeSpinView(node: cc.Node) {
         this.freeSpinView = node.getComponent(FreeSpinView);
-        this.freeSpinView.showView(false, true);
+        this.freeSpinView.showViewQuickly(false);
     }
 
     initShowTopMessage(node: cc.Node) {

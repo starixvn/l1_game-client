@@ -10,6 +10,11 @@ export default class FadeAppearanceNode extends cc.Component {
 
     private appearanceTween: cc.Tween;
 
+    showViewQuickly(show: boolean) {
+        this.isShowing = show;
+        this.node.opacity = show ? 255 : 0;
+    }
+
     showView(show: boolean, force = false) {
         return new Promise<void>((resolve) => {
             const duration = this.appearanceDuration;
