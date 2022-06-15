@@ -2,13 +2,13 @@ import { injectable } from "inversify";
 import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
 import * as MsgpackParser from "socket.io-msgpack-parser";
 
-import { getSession } from "./common/auth/SessionManager.js";
+import { getSession } from "./common/auth/SessionManager";
 import GameUtils from "./common/GameUtils.js";
 import { getProxyRoute } from "./common/helpers/UrlHelper.js";
 import { sentryLogger } from "./common/logger.js";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
 import { GameInfos } from "./configs/SabaConfigs";
-import MiniPanel from "./mini-games-panel/view-models/MiniPanel.js";
+import MiniPanel from "./mini-games-panel/view-models/MiniPanel";
 
 @injectable()
 export default class SocketIOController {
