@@ -1,4 +1,3 @@
-import { CardModel } from "./../../../../common/new-card/view-models/NewCard";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
 
 const { ccclass, property } = cc._decorator;

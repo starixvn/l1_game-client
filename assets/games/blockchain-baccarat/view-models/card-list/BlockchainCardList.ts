@@ -17,13 +17,9 @@ export default class BlockchainCardList extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(cc.Node)
-    cardNext: cc.Node = null;
-
     @property(cc.Prefab)
     cardVerificationPrefab: cc.Prefab = null;
 
-    items: cc.Node[];
     cards: cc.Node[] = [];
 
     @property(cc.ScrollView)
@@ -37,7 +33,7 @@ export default class BlockchainCardList extends cc.Component {
     protected root: BlockchainBaccarat;
     protected cardHeight = 120;
     protected numberOfCardsPerRow = 12;
-    protected rowDefault: 3;
+    protected rowDefault = 3;
 
     init(root: BlockchainBaccarat) {
         this.root = root;
@@ -54,33 +50,29 @@ export default class BlockchainCardList extends cc.Component {
         const { chain, cutCardIndex, currentIndex } = cardList;
         this.cutCard = cutCardIndex;
         this.currentCardIndex = currentIndex;
-        const itemsNode = GameUtils.createNodeFromPrefab(this.cardPrefab);
-        this.items = itemsNode.children;
+
         this.cards.forEach((card) => {
             card.removeFromParent();
             card.destroy();
         });
 
         this.cards = [];
-        this.nextMark = null;
 
         chain.forEach((card, index) => {
-            const cardNode = this.createCard(card.card, index);
-            cardNode.getComponent(BlockchainCard).openCardVerification = () => {
-                this.initCardVerification(card, index);
-            };
+            const cardNode = this.createCard(card, index);
             this.content.addChild(cardNode);
             this.cards.push(cardNode);
         });
-        this.addNextMark();
+
         this.showLatestCard(currentIndex);
     }
 
     protected showLatestCard(currentIndex: number) {
         const rowDisplayCard = Math.round(currentIndex / this.numberOfCardsPerRow);
         const countRow = rowDisplayCard <= this.rowDefault ? 0 : rowDisplayCard;
-        const percentVertical = (countRow * this.cardHeight) / (this.content.height - this.statsScrollView.node.height);
-        this.statsScrollView.scrollToPercentVertical(1 - percentVertical);
+        const ratioVertical = (countRow * this.cardHeight) / (this.content.height - this.statsScrollView.node.height);
+        const ratioCardDisplay = Math.round((1 - ratioVertical) * 100) / 100;
+        this.statsScrollView.scrollToPercentVertical(ratioCardDisplay);
     }
 
     public updateData(cardList: Blockchain) {
@@ -109,8 +101,9 @@ export default class BlockchainCardList extends cc.Component {
         cardComp?.animation.play();
     }
 
-    public createCard(card: CardModel, index, isFaceUp = true): cc.Node {
-        const node = cc.instantiate(this.cardPrefab);
+    public createCard(cardChain: CardChain, index, isFaceUp = true): cc.Node {
+        const { card } = cardChain;
+        const node = GameUtils.createNodeFromPrefab(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
         cardComponent.setCardOldStyle({
             rank: card?.rank,
@@ -122,8 +115,11 @@ export default class BlockchainCardList extends cc.Component {
             cardComponent.setKeyCard();
         }
 
-        cardComponent.indexNumber.string = this.convertIndexNumber(index + 1);
-        cardComponent.animation.play();
+        cardComponent.openCardVerification = () => {
+            this.initCardVerification(cardChain, index);
+        };
+
+        cardComponent.setIndexNumber(index + 1);
         return node;
     }
 
@@ -138,14 +134,6 @@ export default class BlockchainCardList extends cc.Component {
         this.cardVerificationComponent.init(this);
         this.cardVerificationComponent.renderData(card, index);
         this.root.currentMiniPanel.addDialog(ticketDetailPrefab);
-    }
-
-    private addNextMark() {
-        const card = cc.instantiate(this.cardNext);
-        card.active = false;
-        this.content.addChild(card);
-        this.nextMark = card;
-        this.cards.push(card);
     }
 
     public convertIndexNumber(index: number) {
