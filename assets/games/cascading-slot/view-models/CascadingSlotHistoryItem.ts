@@ -26,13 +26,9 @@ export default class CascadingSlotHistoryItem extends cc.Component {
     @property(cc.Label)
     totalWin: cc.Label = null;
 
-    // @property
-    // textHighlightColor: cc.Color = cc.Color.WHITE.fromHEX("#fffc00");
-
     data: any = null;
 
     setData(betLog, index) {
-        this.data = betLog;
         const win = betLog.betwin;
         this.node.active = true;
         this.bg.active = index % 2 > 0;
@@ -41,7 +37,8 @@ export default class CascadingSlotHistoryItem extends cc.Component {
         this.betLevel.string = betLog.betLevel;
         this.coinValue.string = betLog.coinValue;
         this.totalBet.string = betLog.totalAmount;
-        this.totalWin.string = numberWithCommas(win, 2);
+        this.totalWin.string = numberWithCommas(win, 2, false);
+        this.data = betLog;
     }
 
     public showTicketDetail = (data: any) => {};

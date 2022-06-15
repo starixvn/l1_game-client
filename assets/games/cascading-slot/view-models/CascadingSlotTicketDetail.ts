@@ -64,20 +64,23 @@ export default class CascadingSlotTicketDetail extends cc.Component {
                 control.setData(tumble, index, currWinTumble);
             }
             this.content.addChild(detailItem);
-            control.setDataResultBoard(tumble.originalBoard, tumble.multipliers);
+            control.setDataResultBoard(tumble.originalBoard, [...tumble.multipliers]);
         });
 
         if (freeSpin) {
-            lbMulti = `treasureIsland.totalMultiplier`;
-            this.multiplierTotal.string = data.totalMultiplier;
-            this.textMultiplier.node.color = this.multiplierTotal.node.color = cc.color(66, 190, 254);
-            this.multiplierNode.active = +data.totalMultiplier > 0;
+            if (data.totalMultipliers) {
+                lbMulti = `treasureIsland.totalMultiplier`;
+                this.multiplierTotal.string = data.totalMultiplier;
+                this.multiplierTotal.node.color = this.textMultiplier.node.color = cc.color(66, 190, 254);
+                this.multiplierNode.active = +data.totalMultiplier > 0;
+                this.multiplierNode.active = true;
+            }
         } else {
             lbMulti = `treasureIsland.multiplier`;
             this.multiplierTotal.string = data.multiplier;
             this.multiplierNode.active = +data.multiplier > 0;
         }
-        this.textMultiplier.string = `${i18n.t(lbMulti)}` + ":";
+        this.textMultiplier.string = `${i18n.t(lbMulti)}:`;
         const btnTextMulti = this.textMultiplier.getComponent(cc.Button);
         const btnValueMulti = this.multiplierTotal.getComponent(cc.Button);
         btnTextMulti.interactable = btnValueMulti.interactable = freeSpin;

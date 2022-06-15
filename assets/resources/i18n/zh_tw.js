@@ -549,8 +549,8 @@ window.i18n.languages.zh_tw = {
         no: "No.",
         resultBoard: "Result Board",
         symbolAndNumber: "Win Symbols",
-        freeSpin: "Free Spin",
-        extraFreeSpin: "Extra Free Spin",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Extra Free Spins",
         autoSpinLeft: "Auto Spins Left",
         bigWinTextNotify: "Press anywhere to continue"
     }

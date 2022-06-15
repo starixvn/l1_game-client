@@ -569,8 +569,8 @@ window.i18n.languages.en = {
         symbolAndNumber: "Win Symbols",
         winAmount: "Win Amount",
         trialModeText: "You are in the Trial Mode",
-        freeSpin: "Free Spin",
-        extraFreeSpin: "Extra Free Spin",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Extra Free Spins",
         autoSpinLeft: "Auto Spins Left",
         bigWinTextNotify: "Press anywhere to continue"
     }

@@ -569,8 +569,8 @@ window.i18n.languages.vi = {
         symbolAndNumber: "Biếu Tượng Thắng",
         winAmount: "Thắng",
         trialModeText: "Bạn Đang Chơi Thử",
-        freeSpin: "Free Spin",
-        extraFreeSpin: "Free Spin Thêm",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Free Spins Thêm",
         autoSpinLeft: "Lượt Quay Tự Động Còn Lại",
         bigWinTextNotify: "Bấm vào bất cứ đâu để tiếp tục"
     }
