@@ -1,15 +1,10 @@
 import { BaseEventHandler } from "../../_new/_base/game-data-management/event-handlers/base-handler";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
-import { CardChain } from "../BlockchainBaccaratType";
 
 export type BlockchainBaccaratNewBlockchainType<Choices> = {
-    newBlockchain: {
-        burnedCards: number;
-        currentIndex: number;
-        cutCardIndex: number;
-        chain: CardChain[];
-    };
+    newBlockchain: Blockchain;
+    updatedBlockchain: any;
 };
 
 export default class BlockchainBaccaratNewBlockchainHandler<Choices> extends BaseEventHandler<
@@ -19,10 +14,11 @@ export default class BlockchainBaccaratNewBlockchainHandler<Choices> extends Bas
     protected readonly gameData: BlockchainBaccaratGameData<Choices>;
 
     protected verifyEvent(event: BlockchainBaccaratNewBlockchainType<Choices>) {
-        return event.newBlockchain != null;
+        return event.newBlockchain != null || event.updatedBlockchain != null;
     }
 
     protected handle(event: BlockchainBaccaratNewBlockchainType<Choices>) {
         this.gameData.cardList.updateNewBlockchain(event.newBlockchain as Blockchain);
+        this.gameData.roundHistory.cleanWithoutTriggerEvent();
     }
 }

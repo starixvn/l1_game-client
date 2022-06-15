@@ -30,7 +30,7 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
             }
         } else {
             lastCol = Math.floor(this.data[0].length / 2);
-            if (this.data[0].length % 2 == 0) lastCol -= 1;
+            if (this.data[0].length % 2 == 0 && lastCol > 0) lastCol -= 1;
         }
         this.content.children[lastCol].getComponent(BlockchainBaccaratDerivedScoreboardItem).isFilledColumn() && lastCol++;
 

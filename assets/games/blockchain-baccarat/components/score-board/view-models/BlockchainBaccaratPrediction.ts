@@ -38,12 +38,7 @@ export class BlockchainBaccaratPrediction extends cc.Component {
     }
 
     private setData(isRed: boolean | undefined, index: number, node: cc.Node) {
-        if (isRed === undefined) {
-            node.children[index].getChildByName(this.itemValueKey.red).active = false;
-            node.children[index].getChildByName(this.itemValueKey.blue).active = false;
-        } else {
-            node.children[index].getChildByName(this.itemValueKey.red).active = isRed;
-            node.children[index].getChildByName(this.itemValueKey.blue).active = !isRed;
-        }
+        node.children[index].getChildByName(this.itemValueKey.red).active = isRed === undefined ? false : isRed;
+        node.children[index].getChildByName(this.itemValueKey.blue).active = isRed === undefined ? false : !isRed;
     }
 }

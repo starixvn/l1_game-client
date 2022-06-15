@@ -193,19 +193,33 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
                 this.node.getChildByName(this.zoomModes.normal).active = true;
                 this.node.getChildByName(this.zoomModes.zoomInBigRoad).active = false;
                 this.node.getChildByName(this.zoomModes.zoomInDerivedScoreboards).active = false;
+                this.runActionZoom(this.node.getChildByName(this.zoomModes.normal));
                 break;
 
             case this.zoomModes.zoomInBigRoad:
                 this.node.getChildByName(this.zoomModes.normal).active = false;
                 this.node.getChildByName(this.zoomModes.zoomInBigRoad).active = true;
                 this.node.getChildByName(this.zoomModes.zoomInDerivedScoreboards).active = false;
+                this.runActionZoom(this.node.getChildByName(this.zoomModes.zoomInBigRoad));
                 break;
 
             case this.zoomModes.zoomInDerivedScoreboards:
                 this.node.getChildByName(this.zoomModes.normal).active = false;
                 this.node.getChildByName(this.zoomModes.zoomInBigRoad).active = false;
                 this.node.getChildByName(this.zoomModes.zoomInDerivedScoreboards).active = true;
+                this.runActionZoom(this.node.getChildByName(this.zoomModes.zoomInDerivedScoreboards));
                 break;
         }
+    }
+
+    runActionZoom(node: cc.Node) {
+        node.runAction(
+            cc.sequence(
+                cc.callFunc(() => {
+                    node.setScale(0.5, 0.5);
+                }),
+                cc.scaleTo(0.2, 1, 1)
+            )
+        );
     }
 }

@@ -143,9 +143,6 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
             renderScoreBoardInGame(this.scoreboard)(roundHistory);
             this.lastRoundIfo.updateUI(roundHistory[0], this.gameData.cardList.currentIndex);
         });
-        this.gameData.roundHistory.on(BlockchainBaccaratRoundHistoryModel.RoundHistoryEvents.CLEAR, () => {
-            resetScoreBoard(this.scoreboard)();
-        });
 
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, (blockchain: Blockchain) => {
             console.log("BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX");
@@ -163,6 +160,10 @@ export default class BlockchainBaccarat extends SocketIOTableGameBase {
     }
 
     private registerNewBlockchainEvents() {
-        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, updateBlockchainCardList(this));
+        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, () => {
+            updateBlockchainCardList(this);
+            resetScoreBoard(this.scoreboard)();
+            this.lastRoundIfo.reset();
+        });
     }
 }
