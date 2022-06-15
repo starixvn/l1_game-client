@@ -155,6 +155,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         }
         this.tumbleList.offerTrialMode(this.isTrialMode);
         this.historyBtn.interactable = !this.isTrialMode;
+        this.clearGameRound();
     }
 
     initHandlers() {

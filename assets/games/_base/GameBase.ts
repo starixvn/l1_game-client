@@ -282,6 +282,10 @@ export default class GameBase extends BaseComponent {
         winningBet.name = "winningBet";
     }
 
+    clearGameRound() {
+        this.gameRound && (this.gameRound.string = "");
+    }
+
     setGameRound(gameRoundId) {
         if (!this.gameRound || gameRoundId < 0) {
             return;
