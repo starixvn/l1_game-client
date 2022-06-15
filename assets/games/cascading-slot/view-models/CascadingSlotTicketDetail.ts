@@ -64,7 +64,8 @@ export default class CascadingSlotTicketDetail extends cc.Component {
                 control.setData(tumble, index, currWinTumble);
             }
             this.content.addChild(detailItem);
-            control.setDataResultBoard(tumble.originalBoard, [...tumble.multipliers]);
+            const newTumbleMultipliers = index < tumbles.length - 1 ? [...tumbles[index + 1].multipliers] : [...tumble.multipliers];
+            control.setDataResultBoard(tumble.originalBoard, newTumbleMultipliers);
         });
 
         if (freeSpin) {
