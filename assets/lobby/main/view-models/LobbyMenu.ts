@@ -30,7 +30,6 @@ export default class LobbyMenu extends GameIconMenu {
         //initializedCallback
     };
     currentCategory = GameCategory.All;
-    gameIconCache = {};
 
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
@@ -192,8 +191,7 @@ export default class LobbyMenu extends GameIconMenu {
         const iconNode = cc.instantiate(prefab);
         const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
         skeletonIconComponent.setGameName(gameName);
-        skeletonIconComponent.setGameContent(gameId);
-        this.gameIconCache[gameId] = iconNode;
+        skeletonIconComponent.setGameContent(gameId, this.getList());
         return iconNode;
     }
 
