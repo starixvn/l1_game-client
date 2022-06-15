@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class HiLoTicketHistory extends BetHistory {
     @property(cc.Prefab)
-    ticketHistoryItemPrefab: cc.Prefab = null;
+    prefabItem: cc.Prefab = null;
 
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
@@ -20,7 +20,7 @@ export default class HiLoTicketHistory extends BetHistory {
 
     renderTicketHistory(data: TicketHistoryData) {
         data.betLogs.forEach((item) => {
-            const itemNode = GameUtils.createNodeFromPrefab(this.ticketHistoryItemPrefab);
+            const itemNode = GameUtils.createNodeFromPrefab(this.prefabItem);
             const control = itemNode.getComponent(HiLoTicketHistoryItem);
             control.renderTicketItem(item);
             control.openTicketDetail = () => {

@@ -15,6 +15,9 @@ export default class BetHistory extends cc.Component {
     @property(cc.Prefab)
     prefabItem: cc.Prefab = null;
 
+    @property(CommonDialog)
+    commonDialog: CommonDialog = null;
+
     protected connection: Connection;
     protected gameName: string;
     protected currentRoundId: number;
@@ -23,8 +26,7 @@ export default class BetHistory extends cc.Component {
 
     onLoad() {
         this.pages.init(this);
-        const commonDialog = this.getComponent(CommonDialog);
-        commonDialog.addOnDidHide(() => {
+        this.commonDialog.addOnDidHide(() => {
             this.node.destroy();
         });
     }
@@ -63,10 +65,9 @@ export default class BetHistory extends cc.Component {
     }
 
     showDialog() {
-        const commonDialog = this.getComponent(CommonDialog);
-        if (commonDialog) {
+        if (this.commonDialog) {
             this.get_data();
-            commonDialog.showDialog();
+            this.commonDialog.showDialog();
         }
     }
 

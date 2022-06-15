@@ -1,7 +1,6 @@
 import { updateGameConfigs } from "../actions/BlockchainBaccaratConfigsAction";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import { GameIds } from "../../../configs/SabaConfigs";
-import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import BlockchainBaccaratTimeHandler from "../event-handlers/BlockchainBaccaratTimeHandler";
 import BlockchainBaccaratConfigsModel from "../event-models/BlockchainBaccaratConfigsModel";
@@ -38,9 +37,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     @property({ type: cc.Node, visible: false, override: true })
     miniRoundHistoryContainer: cc.Node = null;
-
-    @property(ExpandableMenu)
-    expandableMenu: ExpandableMenu = null;
 
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
@@ -124,7 +120,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     openHistory() {
         this.playClick();
-        this.expandableMenu.collapseMenu();
         const historyNode = cc.instantiate(this.historyPrefab);
         this.betHistoryController = historyNode.getComponent(BlockchainBaccaratTicketHistory);
         this.betHistoryController.setConnection(this.connection, this.gameName);
