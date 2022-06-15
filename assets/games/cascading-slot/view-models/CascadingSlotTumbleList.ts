@@ -30,10 +30,14 @@ export default class CascadingSlotTumbleList extends cc.Component {
             this.content.addChild(tumbleNode);
         });
         const itemHeight = this.content.children[0].height;
-        const contentHeight = this.content.childrenCount * itemHeight;
+        const numberChild = this.content.childrenCount;
+        const contentHeight = numberChild * itemHeight;
         this.content.height = contentHeight;
-        if (this.scrollView && this.content.childrenCount > 0) {
+        if (this.scrollView && numberChild > 0) {
             this.scrollView.enabled = contentHeight > this.scrollView.node.height;
+            if (this.scrollView.enabled) {
+                this.scrollView.scrollToTop(0);
+            }
         }
         return countPerRound;
     }
