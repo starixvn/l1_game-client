@@ -78,6 +78,8 @@ export default class HoldActionButton extends cc.Component {
     registerKeyEvents() {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+
+        cc.game.canvas.onblur = () => this.disableAutoAction();
     }
 
     removeKeyEvents() {
