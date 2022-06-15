@@ -3,7 +3,7 @@ import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
 import * as MsgpackParser from "socket.io-msgpack-parser";
 
 import { getSession } from "./common/auth/SessionManager";
-import GameUtils from "./common/GameUtils.js";
+import GameUtils from "./common/GameUtils";
 import { getProxyRoute } from "./common/helpers/UrlHelper.js";
 import { sentryLogger } from "./common/logger.js";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
