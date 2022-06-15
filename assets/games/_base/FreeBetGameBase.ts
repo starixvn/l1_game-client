@@ -9,13 +9,31 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FreeBetGameBase extends MultiOrientationGame {
-    @property(cc.Node)
+    @property
+    enabledFreeBet = false;
+
+    @property({
+        type: cc.Node,
+        visible: function () {
+            return this.enabledFreeBet;
+        }
+    })
     walletWrapper: cc.Node = null;
 
-    @property(SedieWallet)
+    @property({
+        type: SedieWallet,
+        visible: function () {
+            return this.enabledFreeBet;
+        }
+    })
     dollarWallet: SedieWallet = null;
 
-    @property(SedieWallet)
+    @property({
+        type: SedieWallet,
+        visible: function () {
+            return this.enabledFreeBet;
+        }
+    })
     userScoinWallet: SedieWallet = null;
 
     private isFreeBet = false;
@@ -68,6 +86,10 @@ export default class FreeBetGameBase extends MultiOrientationGame {
     }
 
     loadDollarWalletUI() {
+        if (!this.enabledFreeBet || !this.walletWrapper || !this.dollarWallet || !this.userScoinWallet) {
+            return;
+        }
+
         this.wrapperLayout = this.walletWrapper.getComponent(cc.Layout);
         this.dollarWallet.node.active = true;
         this.dollarWallet.overlay.active = false;
