@@ -17,7 +17,7 @@ export default class SkeletonIcon extends cc.Component {
         this.gameName.string = text;
     }
 
-    private readonly timeGap = 0.125;
+    private readonly timeGap = 0.025;
 
     async setGameContent(id: number, gameList: number[]) {
         const batchIndex = Math.floor(gameList.findIndex((n) => n === id) / 5);
