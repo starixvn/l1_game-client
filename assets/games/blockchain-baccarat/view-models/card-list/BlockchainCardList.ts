@@ -94,26 +94,27 @@ export default class BlockchainCardList extends cc.Component {
         const { chain, currentIndex } = cardList;
         chain.forEach((card, index) => {
             if (index >= this.currentCardIndex && index < currentIndex) {
-                this.flipCard(this.cards[index]?.getComponent(BlockchainCard), card.card);
-            }
-            if (!!this.cards[index]) {
-                this.cards[index].getComponent(BlockchainCard).openCardVerification = () => {
-                    this.initCardVerification(card, index);
-                };
+                this.flipCard(this.cards[index]?.getComponent(BlockchainCard), card, index);
             }
         });
 
         this.currentCardIndex = currentIndex;
     }
 
-    protected flipCard(cardComp: BlockchainCard, cardModel: CardModel) {
-        cardComp?.setCardOldStyle({
-            rank: cardModel?.rank,
-            suit: cardModel?.suit
-        });
+    protected flipCard(cardComp: BlockchainCard, cardChain: CardChain, index: number) {
+        const { card } = cardChain;
+        if (!!cardComp) {
+            cardComp.setCardOldStyle({
+                rank: card?.rank,
+                suit: card?.suit
+            });
 
-        cardComp?.setFaceUp(true);
-        cardComp?.animation.play();
+            cardComp.openCardVerification = () => {
+                this.initCardVerification(cardChain, index);
+            };
+            cardComp?.setFaceUp(true);
+            cardComp?.animation.play();
+        }
     }
 
     public createCard(cardChain: CardChain, index, isFaceUp = true): cc.Node {
