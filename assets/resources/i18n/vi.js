@@ -554,7 +554,7 @@ window.i18n.languages.vi = {
     },
     treasureIsland: {
         tumpleWin: "Thắng Tumble",
-        totalWin: "Tổng Thắng",
+        totalWin: "Thắng",
         turboMode: "Siêu Tốc",
         trialMode: "Chơi Thử",
         betMultiplierX: "Hệ Số Cược 20X",
@@ -567,7 +567,7 @@ window.i18n.languages.vi = {
         no: "Stt",
         resultBoard: "Bảng Kết Quả",
         symbolAndNumber: "Biếu Tượng Thắng",
-        winAmount: "Thắng",
+        winAmount: "Tiền Thắng",
         trialModeText: "Bạn Đang Chơi Thử",
         freeSpin: "Free Spins",
         extraFreeSpin: "Free Spins Thêm",

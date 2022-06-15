@@ -45,9 +45,9 @@ export default class CascadingSlotTicketDetail extends cc.Component {
     }
     setData(data: any) {
         this.data = data;
-        this.roundId.string = data.id;
-        const tumbles = data.settlementResult.tumbles;
         const freeSpin = data.freeSpin;
+        this.roundId.string = freeSpin ? `${data.id} (Free Spin)` : `${data.id}`;
+        const tumbles = data.settlementResult.tumbles;
         const countScatter = data.settlementResult.freeSpins.count;
         const countFreeSpin = data.settlementResult.freeSpins.odds;
         const isFreeSpin = countScatter > 3;

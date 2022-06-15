@@ -554,7 +554,7 @@ window.i18n.languages.en = {
     },
     treasureIsland: {
         tumpleWin: "Tumble Win",
-        totalWin: "Total Win",
+        totalWin: "Win",
         turboMode: "Turbo Mode",
         trialMode: "Trial Mode",
         betMultiplierX: "Bet Multiplier 20x",
