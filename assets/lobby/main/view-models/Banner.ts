@@ -51,7 +51,7 @@ export default class Banner extends cc.Component {
         );
 
         adsBannerController.onEndingRound = () => {
-            if (showJackpotBanner) {
+            if (showJackpotBanner && this.adsToggle && this.jackpotToggle) {
                 this.adsToggle.isChecked = false;
                 this.jackpotToggle.isChecked = true;
                 this.switchBanner(true);
