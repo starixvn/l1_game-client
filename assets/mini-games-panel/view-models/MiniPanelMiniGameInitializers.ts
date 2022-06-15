@@ -1,6 +1,7 @@
 import { Socket } from "socket.io-client";
 
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
+import { getSession } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import { GameIds, GameInfos } from "../../configs/SabaConfigs";
@@ -91,6 +92,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             socketUri: gameServerUrl,
             gameName,
             proxyRoute,
+            onConnectCallback: (returnedSocket) => returnedSocket.emit("signin", getSession()),
             onConnectFailed: (name, isGameRoom) => {
                 this.main.onConnectSocketFailed(name, isGameRoom);
 

@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import { lazyInject } from "../../Application";
 import AudioManager from "../../common/audio/AudioManager";
 import NotificationService from "../../common/auth/NotificationService";
 import UserService from "../../common/auth/UserService";
@@ -13,6 +14,7 @@ import ScaleActiveController from "../../common/scale-active-item/ScaleActiveCon
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
 import MainGame from "../../lobby/main/view-models/MainGame";
+import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
@@ -71,6 +73,9 @@ export default class MiniPanel extends BaseComponent {
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
     public mainGame: MainGame;
+
+    @lazyInject(SocketIOController)
+    protected readonly socketIOController: SocketIOController;
 
     addNewLayerCallback(key: string, callback: NewLayerCallback) {
         this.newLayerCallbacks[key] = callback;
@@ -271,8 +276,8 @@ export default class MiniPanel extends BaseComponent {
         cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, onComplete);
     }
 
-    openSocketByUri(gameId, socketUri) {
-        const socket = this.socketIOGameInitializers.openSocketByUri(gameId, socketUri);
+    openSocketByUri(gameId, socketUri, onConnectCallback) {
+        const socket = this.socketIOController.openSocketByUri(this, gameId, socketUri, onConnectCallback);
         this.socketIOGameInitializers.handleSocket(socket, gameId);
         return socket;
     }
