@@ -32,7 +32,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             GameIds.HiLo,
             GameIds.TexasHoldemPoker
         ],
-        slotGames: [GameIds.TreasureIsland, GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians],
+        slotGames: [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub],
         lotteryGames: [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery],
         othersGames: [GameIds.BitcoinMaster]
     };
@@ -74,9 +74,9 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.BigSmall,
         GameIds.TurboBigSmall,
         GameIds.TurboOddEven,
-        GameIds.NightClub,
-        GameIds.HeroesSlot,
         GameIds.FourGuardians,
+        GameIds.HeroesSlot,
+        GameIds.NightClub,
         GameIds.KenoProMax,
         GameIds.KenoProViet,
         GameIds.VipBaccarat,
@@ -114,7 +114,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.HiLo,
         GameIds.TexasHoldemPoker
     ];
-    slotGames = [GameIds.TreasureIsland, GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians];
+    slotGames = [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
     lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
 
