@@ -27,6 +27,7 @@ import { openCards } from "../actions/BlockchainBaccaratCardsActions";
 import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
 import BlockchainBaccaratTicketHistory from "./history/BlockchainBaccaratTicketHistory";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
+import { showResult } from "../actions/BlockchainBaccaratWinningAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -46,6 +47,9 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     @property(cc.Node)
     cardsContainer: cc.Node = null;
+
+    @property(cc.Label)
+    winNoticeLabel: cc.Label = null;
 
     gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
@@ -69,6 +73,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.registerGameEvents();
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+
+        this.winNoticeLabel.node.parent.active = false;
     }
 
     private initCardList() {
@@ -147,7 +157,10 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, renderCardSettlement(this));
         this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
             this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
-            openCards(this.cardsUI)(finishData);
+            openCards(this.cardsUI)(finishData, () => {
+                //show winning
+                showResult(this)(finishData.settlementResult);
+            });
             renderScoreBoardEachRound(this.scoreboard)(finishData);
         });
     }

@@ -4,7 +4,7 @@ import { BlockchainBaccaratFinish } from "./../event-models/BlockchainBaccaratFi
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
 import BlockchainCard from "../view-models/card-list/BlockchainCard";
 
-export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFinish: BlockchainBaccaratFinish) => {
+export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFinish: BlockchainBaccaratFinish, callback: () => void) => {
     const result = dataFinish.result;
     let isFlyCard3Player = false;
 
@@ -24,6 +24,7 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
         await cardsUI.flyCard3(false, isFlyCard3Player);
         await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
     }
+    callback();
     showHighlight(cardsUI, dataFinish.settlementResult);
 };
 
