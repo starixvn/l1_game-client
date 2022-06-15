@@ -16,10 +16,11 @@ export default class DynamicAdsBannerController extends BannerController {
 
     private isFirstLoadBanner = false;
 
-    async setGameAds(games: number[], callBackActiveNode: () => void) {
+    async setGameAds(games: number[], initJackpot: () => void, callback: () => void) {
         for (const gameId of games) {
-            await this.createAdsItem(gameId, callBackActiveNode);
+            await this.createAdsItem(gameId, callback);
         }
+        initJackpot();
     }
 
     private handleShowBanner(callback: () => void) {
