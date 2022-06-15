@@ -42,15 +42,6 @@ type HistoryDataType = {
 
 @ccclass
 export default class BlockchainBaccaratTicketHistory extends BetHistory {
-    @property(PaginationCommon)
-    pages: PaginationCommon = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
-
-    @property(cc.Prefab)
-    prefabItem: cc.Prefab = null;
-
     renderTicketHistory(data: any) {
         const betLogs = data.betLogs;
         betLogs.forEach((log, index) => {

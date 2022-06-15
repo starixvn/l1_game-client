@@ -47,15 +47,6 @@ export const HandResultConst = {
 @ccclass
 @menu("Games/HolemPoker/HoldemPokerTicketHistory")
 export default class HoldemPokerTicketHistory extends BetHistory {
-    @property(PaginationCommon)
-    pages: PaginationCommon = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
-
-    @property(cc.Prefab)
-    prefabItem: cc.Prefab = null;
-
     @property([cc.SpriteFrame])
     cardTypes: Array<cc.SpriteFrame> = [];
 

@@ -9,14 +9,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class HiLoTicketHistory extends BetHistory {
-    @property(PaginationCommon)
-    pages: PaginationCommon = null;
-
     @property(cc.Prefab)
     ticketHistoryItemPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
 
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
