@@ -72,6 +72,12 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.schedule(this.setDefaultPositionForMiniMenu, 0.1);
     }
 
+    onDestroy() {
+        super.onDestroy();
+        const audioManager = AudioManager.getInstance();
+        audioManager.removeMusicChanged(`${this.gameId}`);
+    }
+
     onTurboModeChanged(toggle: cc.Toggle) {
         const turboWarningName = "turbo_warning";
         this.noticeNode.children.forEach((child) => {
@@ -248,7 +254,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             }
         } else {
             this.unschedule(this.playMusicBgCallback);
-            this.musicBg.stop();
+            this.musicBg?.stop();
         }
     }
 
