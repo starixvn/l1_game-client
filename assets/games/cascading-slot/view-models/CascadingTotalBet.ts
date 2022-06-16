@@ -1,6 +1,7 @@
 import StatusButton from "../../../common/custom-button/StatusButton";
 import CascadingBetControl from "./CascadingBetControl";
 import CascadingSlotBase from "./CascadingSlotBase";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,6 +44,8 @@ export default class CascadingTotalBet extends cc.Component {
     }
 
     onHandleStatusBetControl(event: Event, customEventData: string) {
+        AudioManager.getInstance().playClick();
+
         this.betControl.showView(
             !this.isOpenBetControl,
             () => {

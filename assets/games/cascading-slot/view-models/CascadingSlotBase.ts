@@ -28,6 +28,7 @@ import CascadingTotalBet, { TotalBetType } from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -150,6 +151,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
+        AudioManager.getInstance().playClick();
+
         const checked = toggle.isChecked;
         this.isTrialMode = checked;
         if (checked) {
@@ -500,15 +503,5 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected enableSpinButton(value: boolean) {
         this.spinButton.spinButton.interactable = value;
         this.holdActionButton.interactable = value;
-    }
-
-    onTurboModeChanged(toggle: cc.Toggle) {
-        super.onTurboModeChanged(toggle);
-        this.gameSound.playSound(CascadingSlotGameSound.OTHERS_BUTTON);
-    }
-
-    onAutoSpinChanged() {
-        super.onAutoSpinChanged();
-        this.gameSound.playSound(CascadingSlotGameSound.OTHERS_BUTTON);
     }
 }

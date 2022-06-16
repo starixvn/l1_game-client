@@ -2,7 +2,6 @@ import AudioManager from "../../common/audio/AudioManager";
 
 export enum CascadingSlotGameSound {
     SPIN_BUTTON = 0,
-    OTHERS_BUTTON = 1,
     SYMBOL_FALL_OUT = 2,
     SYMBOL_DROP_IN = 3,
     SYMBOL_MATCHED = 4,

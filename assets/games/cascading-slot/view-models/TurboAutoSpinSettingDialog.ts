@@ -1,4 +1,5 @@
 import AutoSpinSettingDialog from "../../_slotgame_base/AutoSpinSettingDialog";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,6 +15,7 @@ export default class TurboAutoSpinSettingDialog extends AutoSpinSettingDialog {
     }
 
     onTurboModeChanged() {
+        AudioManager.getInstance().playClick();
         this.turboChangedCallback(this.turboToggle.isChecked);
     }
 }

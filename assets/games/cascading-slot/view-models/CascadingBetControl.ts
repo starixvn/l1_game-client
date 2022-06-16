@@ -1,6 +1,7 @@
 import StatusButton from "../../../common/custom-button/StatusButton";
 import CascadingSlotPlaceBetModel from "../models/CascadingSlotPlaceBetModel";
 import CascadingUIModel from "../models/CascadingUIModel";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -67,6 +68,7 @@ export default class CascadingBetControl extends cc.Component {
     }
 
     onCloseBetControl() {
+        AudioManager.getInstance().playClick();
         this.closeBetControl();
     }
 
@@ -168,6 +170,8 @@ export default class CascadingBetControl extends cc.Component {
     }
 
     protected onClickDecreaseCoinValue() {
+        AudioManager.getInstance().playClick();
+
         if (this.currentCoinIndex > 0) {
             this.currentCoinIndex--;
             const valueBet = this.betLevels[this.currentLevelIndex];
@@ -180,6 +184,8 @@ export default class CascadingBetControl extends cc.Component {
     }
 
     protected onClickIncreaseCoinValue() {
+        AudioManager.getInstance().playClick();
+
         if (this.currentCoinIndex < this.coinValues.length - 1) {
             this.currentCoinIndex++;
             const valueBet = this.betLevels[this.currentLevelIndex];

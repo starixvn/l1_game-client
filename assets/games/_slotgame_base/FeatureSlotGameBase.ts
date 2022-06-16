@@ -79,6 +79,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     onTurboModeChanged(toggle: cc.Toggle) {
+        AudioManager.getInstance().playClick();
+
         const turboWarningName = "turbo_warning";
         this.noticeNode.children.forEach((child) => {
             if (child.name === turboWarningName) {
@@ -93,6 +95,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     onAutoSpinChanged() {
+        AudioManager.getInstance().playClick();
+
         this.updateBottomMessageStatus();
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
             this.setAutoSpinCount(0);
