@@ -46,14 +46,31 @@ export default class BlockchainBaccaratDerivedScoreboardItem extends cc.Componen
     }
 
     renderNextNode() {
-        for (let index = this.hasValueArray.length - 2; index >= 0; index--) {
-            if (this.hasValueArray[index]) {
-                const node = this.nodes[index + 1];
-                node.getChildByName(this.NodeItems.NEXT).active = true;
-                return;
+        if (this.hasValueArray[6]) {
+            for (let index = this.hasValueArray.length - 2; index >= 0; index--) {
+                if (this.hasValueArray[index]) {
+                    const node = this.nodes[index + 1];
+                    node.getChildByName(this.NodeItems.NEXT).active = true;
+                    return;
+                }
+            }
+        } else {
+            for (let index = 0; index < this.hasValueArray.length; index++) {
+                if (!this.hasValueArray[index]) {
+                    const node = this.nodes[index];
+                    node.getChildByName(this.NodeItems.NEXT).active = true;
+                    return;
+                }
             }
         }
+
         this.nodes[0].getChildByName(this.NodeItems.NEXT).active = true;
+    }
+
+    removeNextNode() {
+        this.nodes.forEach((node) => {
+            node.getChildByName(this.NodeItems.NEXT).active = false;
+        });
     }
 
     isFilledColumn() {

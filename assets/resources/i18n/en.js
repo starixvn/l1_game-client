@@ -589,6 +589,7 @@ window.i18n.languages.en = {
         verifiedSerial: "Verified Serial Number",
         copy: "Copy",
         verifiedValue:
-            "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number"
+            "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number",
+        last_round: "Last Round"
     }
 };

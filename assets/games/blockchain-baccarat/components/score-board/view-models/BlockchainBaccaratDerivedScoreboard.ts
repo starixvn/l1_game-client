@@ -49,6 +49,10 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
         if (data.length === 0) return;
         this.data = data;
         const dataLength = data[0].length;
+        if (dataLength === 0) {
+            const scoreboardItem = this.content.children[0];
+            scoreboardItem.getComponent(BlockchainBaccaratDerivedScoreboardItem).removeNextNode();
+        }
         const contentLength = this.content.childrenCount;
 
         this.updateContentChild(Math.ceil(dataLength / 2) - contentLength);

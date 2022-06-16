@@ -36,7 +36,7 @@ export default class BaccaratBigRoad extends BigRoad {
         if (this.isRenderedNext) return;
         let lastCol = 0;
 
-        if (this.bigRoadData.length) {
+        if (this.bigRoadData?.length) {
             const emptyIndex = this.bigRoadData[0].findIndex((data) => data.status === undefined);
             if (emptyIndex !== -1) {
                 if (emptyIndex > 0 && !this.content.children[emptyIndex - 1].getComponent(BaccaratBigRoadItem).isFilledColumn()) {

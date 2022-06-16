@@ -35,6 +35,7 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
     onLoad() {
         this.playerLabel.string = i18n.t("ui.choice_player").toUpperCase();
         this.bankerLabel.string = i18n.t("ui.choice_banker").toUpperCase();
+        this.lastRoundLabel.string = i18n.t("blockchainBaccarat.last_round") + ":";
         this.reset();
     }
 

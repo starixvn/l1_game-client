@@ -30,7 +30,7 @@ export default class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandl
 
     handleInLockBetTime() {
         const main = this.getOwnMain();
-        main.scoreboard.renderNextNode();
+        main.scoreboard?.renderNextNode();
         this.main.betItems.forEach((item) => item.setHighlight(false));
         // super.handleInLockBetTime();
     }
