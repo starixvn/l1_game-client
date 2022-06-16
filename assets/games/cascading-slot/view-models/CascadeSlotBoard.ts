@@ -87,9 +87,7 @@ export default class CascadeSlotBoard extends cc.Component {
 
         await this.fallOut(isTurbo, delay);
 
-        if (isTurbo) {
-            this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_FALL_OUT);
-        } else {
+        if (!isTurbo) {
             this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_FALL_OUT);
         }
 
