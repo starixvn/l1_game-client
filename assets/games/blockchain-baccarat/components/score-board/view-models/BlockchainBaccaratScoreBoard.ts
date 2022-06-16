@@ -29,6 +29,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
 
     private roundHistory: BlockchainBaccaratRoundHistory[] = [];
     private bigRoadData: BigRoadScoreboardPoint<BaccaratSettlementResult>[][];
+    private predictData = { player: [], banker: [] };
 
     private zoomModes = {
         normal: "normal",
@@ -65,6 +66,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         });
         this.beadRoad.resetBoard();
         this.prediction.resetItem();
+        this.predictData = { player: [], banker: [] };
         this.resetStatistic();
     }
 
@@ -97,7 +99,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
             board.renderNextNode();
         });
         this.derivedScoreboards.forEach((board, index) => {
-            index >= 3 && board.addNextNode();
+            index >= 3 && this.predictData.player[index % 3] !== undefined && board.addNextNode();
         });
         this.beadRoad.addNextNode();
     }
@@ -114,6 +116,8 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         this.prediction.resetItem();
         const bankerData = this.derivedScoreBoardController.getPrediction(true);
         const playerData = this.derivedScoreBoardController.getPrediction(false);
+        this.predictData.player = playerData;
+        this.predictData.banker = bankerData;
         this.prediction.setBanker(bankerData);
         this.prediction.setPlayer(playerData);
     }

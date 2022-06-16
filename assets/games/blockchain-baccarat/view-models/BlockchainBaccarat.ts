@@ -20,11 +20,6 @@ import BlockchainBaccaratRoundHistoryModel from "../event-models/BlockchainBacca
 import { renderCardSettlement, updateBlockchainCardList } from "../actions/BlockchainBaccaratCardListActions";
 import { BlockchainBaccaratFinish, BlockchainBaccaratFinishModel } from "../event-models/BlockchainBaccaratFinishModel";
 import BlockchainBaccaratCardListModel, { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
-import {
-    renderScoreBoardEachRound,
-    renderScoreBoardInGame,
-    resetScoreBoard
-} from "../components/score-board/actions/BlockchainBaccaratScoreboardActions";
 import { openCards } from "../actions/BlockchainBaccaratCardsActions";
 import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
 import BlockchainBaccaratTicketHistory from "./history/BlockchainBaccaratTicketHistory";
@@ -148,7 +143,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData.roundHistory.on(
             BlockchainBaccaratRoundHistoryModel.Events.CHANGE,
             (roundHistory: BlockchainBaccaratRoundHistory[]) => {
-                renderScoreBoardInGame(this.scoreboard)(roundHistory);
+                this.scoreboard.renderScoreBoardInGame(roundHistory);
                 this.lastRoundIfo.updateUI(roundHistory[0], this.gameData.cardList.currentIndex);
 
                 handleJoinRoom(this)(roundHistory[0], this.gameData.cardList.currentIndex);
@@ -168,7 +163,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                 //show winning
                 showLabelWinning(this)(finishData.settlementResult);
                 showHighLightBet(this)(finishData.settlementResult);
-                renderScoreBoardEachRound(this.scoreboard)(finishData);
+                this.scoreboard.renderScoreBoardEachRound(finishData);
             });
         });
     }
@@ -176,7 +171,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private registerNewBlockchainEvents() {
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, () => {
             updateBlockchainCardList(this);
-            resetScoreBoard(this.scoreboard)();
+            this.scoreboard.resetScoreboard();
             this.lastRoundIfo.reset();
         });
     }

@@ -75,6 +75,7 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
     }
 
     resetBoard() {
+        this.isRenderedNext = false;
         this.data = [];
         this.updateContentChild(this.minColumn - this.content.childrenCount);
         for (let index = 0; index < this.content.childrenCount; index++) {

@@ -4,7 +4,6 @@ import { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
 
 export type BlockchainBaccaratNewBlockchainType<Choices> = {
     newBlockchain: Blockchain;
-    updatedBlockchain: any;
 };
 
 export default class BlockchainBaccaratNewBlockchainHandler<Choices> extends BaseEventHandler<
@@ -14,7 +13,7 @@ export default class BlockchainBaccaratNewBlockchainHandler<Choices> extends Bas
     protected readonly gameData: BlockchainBaccaratGameData<Choices>;
 
     protected verifyEvent(event: BlockchainBaccaratNewBlockchainType<Choices>) {
-        return event.newBlockchain != null || event.updatedBlockchain != null;
+        return event.newBlockchain != null;
     }
 
     protected handle(event: BlockchainBaccaratNewBlockchainType<Choices>) {
