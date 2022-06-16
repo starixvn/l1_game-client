@@ -82,5 +82,12 @@ export default class CascadingSlotTumbleList extends cc.Component {
 
     offerTrialMode(isTrialMode: boolean) {
         this.trialModeNode.active = isTrialMode;
+        if (isTrialMode) {
+            this.content.height = 175;
+            this.content.y = -86.5;
+            const listContainer = this.node.getChildByName("list-node");
+            listContainer.height = 175;
+            listContainer.y = -35;
+        }
     }
 }
