@@ -44,12 +44,12 @@ export default class BlockchainBaccaratCards extends cc.Component {
     @property
     isBanker = false;
 
-    private readonly durationFlyCard = 0.5;
+    readonly durationFlyCard = 0.5;
     readonly durationFlyCard3 = 0.2;
     readonly durationDropCard = 0.2;
     readonly durationJumpDrop = 0.6;
     private readonly durationFaceUp = 0.6;
-    private readonly SET_POINT = 3;
+    private readonly durationAnimFaceUp = 0.4;
     private clonePositionCards: cc.Vec3[] = [];
 
     onLoad = () => {
@@ -114,7 +114,6 @@ export default class BlockchainBaccaratCards extends cc.Component {
         return new Promise((resolve) => {
             const cardComponent = card.getComponentInChildren(BlockchainCard);
             cc.tween(card)
-                .delay(delay)
                 .call(() => {
                     this.setInfoCardFly(cardComponent, numberTag, isCardThree);
                     this.actionCardFly({
@@ -124,6 +123,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                         scale
                     });
                 })
+                .delay(delay)
                 .call(() => resolve())
                 .start();
         });
@@ -184,16 +184,15 @@ export default class BlockchainBaccaratCards extends cc.Component {
                 cc.tween(cardNode)
                     .to(0.3, { position: cc.v2(0, 0) })
                     .call(() => {
-                        cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
+                        cardComponent.playAnimation(CardAnimation.DropCard, this.durationAnimFaceUp);
                     })
                     .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
-                    .delay(duration)
                     .call(() => {
                         this.resetCard(cardNode);
-                        resolve();
                     })
-                    .delay(0.2)
+                    .delay(duration)
                     .call(() => {
+                        resolve();
                         this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
                     })
                     .start();
@@ -211,46 +210,32 @@ export default class BlockchainBaccaratCards extends cc.Component {
         cardComponent.node.getChildByName("card").rotation = 0;
     }
 
-    async openCards(card: cc.Node, cardData: CardModel, isAnimated = true) {
-        await this.actionOpenCards(cardData, card, isAnimated);
-        this.handleSetPoint(cardData, card);
-    }
-
-    private async actionOpenCards(cardData: CardModel, currentCard: cc.Node, isAnimated = true) {
-        if (isAnimated) {
-            await this.faceUpCard(cardData, currentCard);
-        }
+    async openCards(card: cc.Node, cardData: CardModel) {
+        await this.faceUpCard(cardData, card);
+        this.handleSetPoint(cardData);
     }
 
     private faceUpCard(cardInfo: CardModel, card: cc.Node): Promise<void> {
         const cardComponent = card.getComponentInChildren(BlockchainCard);
         return new Promise((resolve) => {
             cc.tween(card)
-                .delay(this.durationFaceUp)
                 .call(() => {
                     cardComponent.setCardOldStyle({
                         rank: cardInfo.rank.toString(),
                         suit: cardInfo.suit
                     });
                     cardComponent.setStatusIndexNumber(false);
-                    cardComponent.playAnimation(CardAnimation.DealerOpenCard, this.durationFaceUp);
+                    cardComponent.playAnimation(CardAnimation.DealerOpenCard, this.durationAnimFaceUp);
                 })
-
+                .delay(this.durationFaceUp)
                 .call(() => resolve())
                 .start();
         });
     }
 
-    private handleSetPoint(data: CardModel, currentCard: cc.Node, delayTime = this.durationFaceUp) {
+    private handleSetPoint(data: CardModel) {
         const pointValue: number = +data.rank + 1;
-        const setPoint = cc.sequence(
-            cc.delayTime(delayTime),
-            cc.callFunc(() => this.setPoint(pointValue >= 10 ? 0 : pointValue))
-        );
-
-        currentCard.stopActionByTag(this.SET_POINT);
-        setPoint.setTag(this.SET_POINT);
-        currentCard.runAction(setPoint);
+        this.setPoint(pointValue >= 10 ? 0 : pointValue);
     }
 
     private setPoint(point: number) {
