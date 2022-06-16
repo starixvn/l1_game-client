@@ -1,9 +1,16 @@
 import NewButton from "../../../common/custom-button/NewButton";
 import TutorialMain from "../../../common/tutorial/TutorialMain";
 import { GameIds } from "../../../configs/SabaConfigs";
+import CasinoGame from "../../_casino/CasinoGame";
+import CallModelBase from "../../_casino/event-models/CallModelBase";
+import DealModelBase from "../../_casino/event-models/DealModelBase";
+import HoldModelBase from "../../_casino/event-models/HoldModelBase";
+import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
+import SwapModelBase from "../../_casino/event-models/SwapModelBase";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
 import { BettingAreaEvents } from "../../_new/common/betting-area/BettingArea";
 import { updateMD5 } from "../../holdem-poker/actions/HoldemPokerMD5Action";
+import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";
 import { handleUM } from "../../holdem-poker/actions/HoldemPokerUmAction";
 import { collectCards } from "../../holdem-poker/components/cards/view-models/CardWrapper";
 import TexasMicroUIAction from "../actions/texas-microUI-action";
@@ -14,7 +21,7 @@ import {
     showHideButtons,
     showHideTooltip,
     showPlaceBetChips,
-    updateAllChips
+    updateAllChips,
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -25,10 +32,9 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards
+    swapPlayerAndDealerCards,
 } from "../cards-component/view-models/cards-wrapper";
 import TexasCards from "../cards-component/view-models/texas-cards";
-import TexasUmHandler from "../event-handlers/texas-um-handler";
 import TexasConfigsModel from "../event-models/texas-configs-model";
 import TexasFinishModel from "../event-models/texas-finish-model";
 import TexasGameDataModel from "../event-models/texas-game-data-model";
@@ -53,13 +59,6 @@ import TexasChips from "./texas-chips";
 import TexasMinMax from "./texas-min-max";
 import TexasOddsTable from "./texas-odds-table";
 import TexasPlacingBet from "./texas-placing-bet";
-import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";
-import HoldModelBase from "../../_casino/event-models/HoldModelBase";
-import CallModelBase from "../../_casino/event-models/CallModelBase";
-import DealModelBase from "../../_casino/event-models/DealModelBase";
-import SwapModelBase from "../../_casino/event-models/SwapModelBase";
-import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
-import CasinoGame from "../../_casino/CasinoGame";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -184,10 +183,8 @@ export default class Texas extends CasinoGame {
         this.bettingAreas[0].showBetText(status);
     }
 
-    initHandlers() {
-        super.initHandlers();
-
-        this.umHandler = new TexasUmHandler(this);
+    checkShowUmMessage(data: any) {
+        return true;
     }
 
     private registerConfigsEvents() {

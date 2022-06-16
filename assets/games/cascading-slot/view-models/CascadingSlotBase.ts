@@ -134,6 +134,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.trialConnection.emit("inGame");
     }
 
+    override checkShowUmMessage(data: any) {
+        return this.gameData.stateModel.state !== CascadingSlotState.Spinning;
+    }
+
     protected override loadUserData(user) {
         if (this.isTrialMode) {
             return;

@@ -216,17 +216,11 @@ export default class GameBase extends BaseComponent {
         this.stopGame();
     }
 
-    isShowingUM(data) {
-        return data.um && (this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime);
-    }
-
     onData(data: any) {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             const handler = this.dataHandlers[index];
             handler && handler.handle(data);
             if (index === 0 && this.isShowingUM(data)) {
-                this.showUmMessage(data);
-                this.disableGame();
                 break;
             }
         }
@@ -554,6 +548,14 @@ export default class GameBase extends BaseComponent {
         node.on(InGameMenuEvents.OPEN_GUIDE, this.openGuide, this);
         node.on(InGameMenuEvents.CLOSE_GAME, this.onCloseGame, this);
         return node;
+    }
+
+    isShowingUM(data) {
+        return data.um && this.checkShowUmMessage(data);
+    }
+
+    checkShowUmMessage(data: any) {
+        return this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime;
     }
 
     openHistory() {}

@@ -25,7 +25,6 @@ import SlotGameBonusHandler from "./handlers/SlotGameBonusHandler";
 import SlotGameIngameHandler from "./handlers/SlotGameIngameHandler";
 import SlotGameJackpotHandler from "./handlers/SlotGameJackpotHandler";
 import SlotGameSettlementHandler from "./handlers/SlotGameSettlementHandler";
-import SlotGameUmHandler from "./handlers/SlotGameUmHandler";
 import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
@@ -478,7 +477,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     setUpHandlers() {
         this.initHandlers();
         this.noticeHandler = new SlotGameBaseNoticeHandler(this);
-        this.umHandler = new SlotGameUmHandler(this);
         this.ingameHandler = new SlotGameIngameHandler(this);
         this.settlementHandler = new SlotGameSettlementHandler(this);
         this.jackpotHandler = new SlotGameJackpotHandler(this);
@@ -1187,5 +1185,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     playSound(type: SlotGameSound) {
         AudioManager.getInstance().playSFX(this.soundSources[type].clip);
+    }
+
+    override checkShowUmMessage(data: any) {
+        return !this.isAnimatingResult;
     }
 }

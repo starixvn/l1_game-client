@@ -9,7 +9,7 @@ export default class GameBaseUmDataHandler implements DataHandler {
             return;
         }
 
-        if (this.main.currentTimeRemaining <= this.main.config.betTime || data.remainingTime === this.main.config.fullTime) {
+        if (this.main.checkShowUmMessage(data)) {
             this.main.showUmMessage(data);
             this.main.disableGame();
         }

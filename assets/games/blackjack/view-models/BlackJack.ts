@@ -16,6 +16,7 @@ import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
+import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
@@ -23,7 +24,6 @@ import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
 import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
 import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
-import BlackjackUmHandler from "./handlers/BlackjackUmHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
@@ -179,8 +179,12 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     setGameRound(gameRoundId) {}
 
+    checkShowUmMessage(data: any) {
+        return true;
+    }
+
     setUpHandlers() {
-        this.umHandler = new BlackjackUmHandler(this);
+        this.umHandler = new GameBaseUmDataHandler(this);
         this.noticeHandler = new GameBaseNoticeHandler(this);
         this.errorHandler = new GameBaseErrorHandler(this);
         this.configsHandler = new GameBaseConfigsHandler(this);
