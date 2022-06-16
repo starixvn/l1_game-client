@@ -60,6 +60,7 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
         for (let column = 0; column < dataLength; column++) {
             const scoreboardItem = this.content.children[Math.floor(column / 2)];
             const scoreBoardItemWorker = scoreboardItem.getComponent(BlockchainBaccaratDerivedScoreboardItem);
+            scoreBoardItemWorker.removeNextNode();
             for (let row = 0; row < 6; row++) {
                 const bigRoadScoreBoardPoint = data[row][column];
                 scoreBoardItemWorker.resetNode(bigRoadScoreBoardPoint);

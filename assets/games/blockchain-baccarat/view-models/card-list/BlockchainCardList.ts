@@ -135,7 +135,7 @@ export default class BlockchainCardList extends cc.Component {
             this.initCardVerification(cardChain, index);
         };
 
-        cardComponent.setIndexNumber(index + 1);
+        cardComponent.setIndexNumber(index);
         return node;
     }
 

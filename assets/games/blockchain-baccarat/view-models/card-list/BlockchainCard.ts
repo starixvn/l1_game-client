@@ -63,7 +63,7 @@ export default class BlockchainCard extends NewCard {
     }
 
     setIndexNumber(number: number) {
-        this.indexNumber.string = number.toString().padStart(3, "0");
+        this.indexNumber.string = (number + 1).toString().padStart(3, "0");
     }
 
     setStatusInfoTag(status: boolean) {

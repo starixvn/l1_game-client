@@ -76,6 +76,7 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
             dot.destroy();
         });
         this.dots = [];
+        this.isRenderNext = false;
     }
 
     changeMode() {

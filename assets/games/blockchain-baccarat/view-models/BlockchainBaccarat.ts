@@ -160,8 +160,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
             openCards(this.cardsUI)(finishData, () => {
                 //show winning
                 showResult(this)(finishData.settlementResult);
+                renderScoreBoardEachRound(this.scoreboard)(finishData);
             });
-            renderScoreBoardEachRound(this.scoreboard)(finishData);
         });
     }
 
