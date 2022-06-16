@@ -6,7 +6,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 const { ccclass, property } = cc._decorator;
 
 export type TotalBetType = { totalBet: number; increase: boolean; decrease: boolean };
-
+export type TotalBetButton = { increase: boolean; decrease: boolean };
 @ccclass
 export default class CascadingTotalBet extends cc.Component {
     @property(StatusButton)
@@ -27,6 +27,8 @@ export default class CascadingTotalBet extends cc.Component {
     protected betControl: CascadingBetControl;
     protected isOpenBetControl = false;
     protected mainGame: CascadingSlotBase;
+    protected increaseButtonStatus = true;
+    protected decreaseButtonStatus = true;
 
     onLoad() {
         this.setAllowChangeBet(false);
@@ -57,9 +59,19 @@ export default class CascadingTotalBet extends cc.Component {
     }
 
     setAllowChangeBet(status: boolean) {
+        this.buttonIncrease.interactable = status && this.increaseButtonStatus;
+        this.buttonDecrease.interactable = status && this.decreaseButtonStatus;
         this.totalBetImg.interactable = status;
-        this.buttonIncrease.interactable = status;
-        this.buttonDecrease.interactable = status;
         this.disabled.active = !status;
+    }
+
+    setIncreaseButtonStatus(status: boolean) {
+        this.increaseButtonStatus = status;
+        this.buttonIncrease.interactable = status;
+    }
+
+    setDecreaseButtonStatus(status: boolean) {
+        this.decreaseButtonStatus = status;
+        this.buttonDecrease.interactable = status;
     }
 }

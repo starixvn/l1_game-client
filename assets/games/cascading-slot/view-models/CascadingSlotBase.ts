@@ -247,9 +247,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_BET, (data: TotalBetType) => {
+            console.log(data);
             this.miniBetControl.totalBetLabel.string = data.totalBet.toString();
-            this.miniBetControl.buttonDecrease.interactable = data.decrease;
-            this.miniBetControl.buttonIncrease.interactable = data.increase;
+            this.miniBetControl.setIncreaseButtonStatus(data.increase);
+            this.miniBetControl.setDecreaseButtonStatus(data.decrease);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
