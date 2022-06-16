@@ -9,13 +9,11 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CascadeSlotBoard extends cc.Component {
-    @property
-    itemTypeCount = 11;
-
-    private readonly reels: CascadeSlotReel[] = [];
     boardSound: SlotGameSound;
 
-    private readonly itemDisplayCount = 5;
+    private readonly reels: CascadeSlotReel[] = [];
+    protected readonly itemTypeCount = 11;
+    protected readonly itemDisplayCount = 5;
 
     onLoad() {
         this.createReels();
@@ -38,12 +36,14 @@ export default class CascadeSlotBoard extends cc.Component {
         const itemTypeCount = this.itemTypeCount || 0;
 
         const boardSize = this.reels.length * this.itemDisplayCount;
+        const multipliers = [];
         for (let i = 0; i < boardSize; i++) {
             if (i < itemTypeCount) {
                 data.push(i);
             } else {
                 data.push(_.random(itemTypeCount - 1));
             }
+            multipliers.push(_.random(2, 20));
         }
 
         const shuffleData = _.shuffle(data);
@@ -51,7 +51,7 @@ export default class CascadeSlotBoard extends cc.Component {
             const start = index * reel.itemDisplayCount;
             const end = start + reel.itemDisplayCount;
             const itemData = shuffleData.slice(start, end);
-            reel.setItemData(itemData, []);
+            reel.setItemData(itemData, multipliers);
         });
     }
 
