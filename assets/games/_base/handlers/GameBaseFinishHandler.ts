@@ -1,16 +1,14 @@
 import * as _ from "lodash";
 
-import GameUtils from "../../../common/GameUtils";
-import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
+import { updateOtherPlayerBalance } from "../action/OtherPlayerAction";
+import { payChips } from "../action/PayChipsAction";
 import GameBase from "../GameBase";
-import BetItem from "../view-models/BetItem";
-import RoomPlayer from "../view-models/RoomPlayer";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
 
 export default class GameBaseFinishHandler implements DataHandler {
-    protected readonly payChipFlyTime = 1.2;
-    protected get WinningAnimationDuration() {
+    readonly payChipFlyTime = 1.2;
+    get WinningAnimationDuration() {
         return 3;
     }
 
@@ -23,10 +21,16 @@ export default class GameBaseFinishHandler implements DataHandler {
             this.setNewGameRound(data);
             const mainRoomGame = this.main as WebSocketTableGameBase;
             if (mainRoomGame && mainRoomGame.playerHandler) {
-                this.updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
+                updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
             }
             this.handleFinishData(data.finish, () => {
-                this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
+                payChips(
+                    this.main,
+                    data.finish.settlementResult,
+                    data.finish.winningPlayers,
+                    this.payChipFlyTime,
+                    this.WinningAnimationDuration
+                );
                 this.main.finishShowResult = true;
             });
         }
@@ -41,169 +45,171 @@ export default class GameBaseFinishHandler implements DataHandler {
         return this.playResultAnimationTime;
     }
 
-    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {}
-
-    payChips(settlementResult: any, winningPlayers: any) {
-        const mainRoomGame = this.main as WebSocketTableGameBase;
-
-        if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips || !this.main.node) {
-            return;
-        }
-        const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
-        const lostBetItems = _.filter(this.main.betItems, (item) => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
-        const winBetItems = _.filter(this.main.betItems, (item) => !!settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
-
-        if (!this.main.node.activeInHierarchy) {
-            this.dealerGetChips(mainRoomGame, lostBetItems);
-            this.dealerPayChips(mainRoomGame, winBetItems);
-            this.payChipToAllPlayers(mainRoomGame, winBetItems, winningPlayers);
-        } else {
-            this.main.node.runAction(
-                cc.sequence(
-                    cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                    cc.callFunc(() => this.dealerGetChips(mainRoomGame, lostBetItems)),
-                    cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                    cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
-                    cc.delayTime(this.main.betChips.chipDelayFlyingTime),
-                    cc.callFunc(() => {
-                        this.payChipToAllPlayers(mainRoomGame, winBetItems, winningPlayers);
-                    })
-                )
-            );
-        }
+    handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
+        // handleFinishData
     }
 
-    payChipToAllPlayers(mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[], winningPlayers): void {
-        this.payChipsToLoginPlayer(
-            mainRoomGame,
-            this.main.statusHandler.currentStatusData,
-            winBetItems,
-            mainRoomGame.otherPlayers !== null
-        );
-        if (mainRoomGame.otherPlayers) {
-            this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
-        }
+    // payChips(settlementResult: any, winningPlayers: any) {
+    //     const mainRoomGame = this.main as WebSocketTableGameBase;
 
-        this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
-    }
+    //     if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips || !this.main.node) {
+    //         return;
+    //     }
+    //     const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
+    //     const lostBetItems = _.filter(this.main.betItems, (item) => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+    //     const winBetItems = _.filter(this.main.betItems, (item) => !!settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
 
-    dealerGetChips(mainRoomGame: WebSocketTableGameBase, lostBetItems: BetItem[]) {
-        _.forEach(lostBetItems, (item) => {
-            this.main.betChips.moveChips(item.chipNode, mainRoomGame.dealerChipBox);
-        });
-    }
+    //     if (!this.main.node.activeInHierarchy) {
+    //         this.dealerGetChips(mainRoomGame, lostBetItems);
+    //         this.dealerPayChips(mainRoomGame, winBetItems);
+    //         this.payChipToAllPlayers(mainRoomGame, winBetItems, winningPlayers);
+    //     } else {
+    //         this.main.node.runAction(
+    //             cc.sequence(
+    //                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
+    //                 cc.callFunc(() => this.dealerGetChips(mainRoomGame, lostBetItems)),
+    //                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
+    //                 cc.callFunc(() => this.dealerPayChips(mainRoomGame, winBetItems)),
+    //                 cc.delayTime(this.main.betChips.chipDelayFlyingTime),
+    //                 cc.callFunc(() => {
+    //                     this.payChipToAllPlayers(mainRoomGame, winBetItems, winningPlayers);
+    //                 })
+    //             )
+    //         );
+    //     }
+    // }
 
-    dealerPayChips(mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
-        _.forEach(winBetItems, (item) => {
-            this.main.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox);
-        });
-    }
+    // payChipToAllPlayers(mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[], winningPlayers): void {
+    //     this.payChipsToLoginPlayer(
+    //         mainRoomGame,
+    //         this.main.statusHandler.currentStatusData,
+    //         winBetItems,
+    //         mainRoomGame.otherPlayers !== null
+    //     );
+    //     if (mainRoomGame.otherPlayers) {
+    //         this.payChipsToOtherPlayers(mainRoomGame, winBetItems);
+    //     }
 
-    payChipsToLoginPlayer(mainRoomGame: WebSocketTableGameBase, statusData, winBetItems: BetItem[], isOtherPlayers = true) {
-        if (!statusData || !statusData.win) {
-            return;
-        }
+    //     this.payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
+    // }
 
-        const betItems = statusData.winningByChoices;
-        if (isOtherPlayers) {
-            this.moveChipWithRandomAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
-        } else {
-            this.moveChipWithAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
-        }
+    // dealerGetChips(mainRoomGame: WebSocketTableGameBase, lostBetItems: BetItem[]) {
+    //     _.forEach(lostBetItems, (item) => {
+    //         this.main.betChips.moveChips(item.chipNode, mainRoomGame.dealerChipBox);
+    //     });
+    // }
 
-        const playerNode = mainRoomGame.userProfile.userAvatar.node.parent;
-        this.main.showWinningBet(statusData.bet);
-        this.playWinningEffect(mainRoomGame, playerNode);
-        this.main.updateUserBalance();
-    }
+    // dealerPayChips(mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
+    //     _.forEach(winBetItems, (item) => {
+    //         this.main.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox);
+    //     });
+    // }
 
-    moveChipWithRandomAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) {
-        _.forEach(winBetItems, (item) => {
-            if (betItems[item.node.name.toLowerCase()]) {
-                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userProfile.userAvatar.node, this.payChipFlyTime);
-            }
-        });
-    }
+    // payChipsToLoginPlayer(mainRoomGame: WebSocketTableGameBase, statusData, winBetItems: BetItem[], isOtherPlayers = true) {
+    //     if (!statusData || !statusData.win) {
+    //         return;
+    //     }
 
-    moveChipWithAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) {
-        const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
+    //     const betItems = statusData.winningByChoices;
+    //     if (isOtherPlayers) {
+    //         this.moveChipWithRandomAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
+    //     } else {
+    //         this.moveChipWithAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
+    //     }
 
-        _.forEach(winBetItems, (item) => {
-            if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
-                this.main.betChips.moveChips(item.chipNode, mainRoomGame.userProfile.userAvatar.node.parent);
-            }
-        });
-    }
+    //     const playerNode = mainRoomGame.userAvatar.node.parent;
+    //     this.main.showWinningBet(statusData.bet);
+    //     this.playWinningEffect(mainRoomGame, playerNode);
+    //     this.main.updateUserBalance();
+    // }
 
-    updateOtherPlayerBalance(winningPlayers: any, main: WebSocketTableGameBase) {
-        if (!winningPlayers) {
-            return;
-        }
-        Object.keys(winningPlayers).forEach((playerId) => {
-            const otherPlayerData = main.playerHandler.otherPlayers[playerId];
-            if (otherPlayerData) {
-                const winningPlayerData = winningPlayers[playerId];
-                otherPlayerData.red += winningPlayerData.bet;
-                RoomPlayer.storePlayerToCache(otherPlayerData, main.gameName);
-            }
-        });
-    }
+    // moveChipWithRandomAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) {
+    //     _.forEach(winBetItems, (item) => {
+    //         if (betItems[item.node.name.toLowerCase()]) {
+    //             this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node, this.payChipFlyTime);
+    //         }
+    //     });
+    // }
 
-    payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
-        if (!winningPlayers) {
-            return;
-        }
+    // moveChipWithAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) {
+    //     const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
 
-        const winningPlayerIds = Object.keys(winningPlayers);
+    //     _.forEach(winBetItems, (item) => {
+    //         if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
+    //             this.main.betChips.moveChips(item.chipNode, mainRoomGame.userAvatar.node);
+    //         }
+    //     });
+    // }
 
-        _.forEach(winningPlayerIds, (playerId) => {
-            const winningPlayerData = winningPlayers[playerId];
-            const playerSlot = mainRoomGame.playerHandler.getPlayerSlot(playerId);
-            const playerBetItems = winningPlayerData.winningByChoices;
-            const bet = winningPlayerData.bet;
+    // updateOtherPlayerBalance(winningPlayers: any, main: WebSocketTableGameBase) {
+    //     if (!winningPlayers) {
+    //         return;
+    //     }
+    //     Object.keys(winningPlayers).forEach((playerId) => {
+    //         const otherPlayerData = main.playerHandler.otherPlayers[playerId];
+    //         if (otherPlayerData) {
+    //             const winningPlayerData = winningPlayers[playerId];
+    //             otherPlayerData.red += winningPlayerData.bet;
+    //             RoomPlayer.storePlayerToCache(otherPlayerData, main.gameName);
+    //         }
+    //     });
+    // }
 
-            if (playerSlot) {
-                _.forEach(winBetItems, (item) => {
-                    if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
-                        this.main.betChips.moveChipsWithRandomAmount(item.chipNode, playerSlot.avatar.node, this.payChipFlyTime);
-                    }
-                });
+    // payChipsToInGamePlayers(winningPlayers: any, mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
+    //     if (!winningPlayers) {
+    //         return;
+    //     }
 
-                playerSlot.increaseBalance(winningPlayerData.bet);
-                const convertValue = GameUtils.getValueByCurrency(bet, winningPlayerData.rate || 1);
-                GameUtils.addFlyingText(playerSlot.node, true, convertValue, this.WinningAnimationDuration, 0, 10);
-                this.playWinningEffect(mainRoomGame, playerSlot.node);
-            }
-        });
-    }
+    //     const winningPlayerIds = Object.keys(winningPlayers);
 
-    payChipsToOtherPlayers(roomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
-        let hasChip = false;
+    //     _.forEach(winningPlayerIds, (playerId) => {
+    //         const winningPlayerData = winningPlayers[playerId];
+    //         const playerSlot = mainRoomGame.playerHandler.getPlayerSlot(playerId);
+    //         const playerBetItems = winningPlayerData.winningByChoices;
+    //         const bet = winningPlayerData.bet;
 
-        _.forEach(winBetItems, (item) => {
-            if (!hasChip) {
-                hasChip = item.chipNode.children.length > 0;
-            }
-            this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
-        });
-    }
+    //         if (playerSlot) {
+    //             _.forEach(winBetItems, (item) => {
+    //                 if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
+    //                     this.main.betChips.moveChipsWithRandomAmount(item.chipNode, playerSlot.avatar.node, this.payChipFlyTime);
+    //                 }
+    //             });
 
-    playWinningEffect(mainRoomGame: WebSocketTableGameBase, playerNode: cc.Node, duration = this.WinningAnimationDuration) {
-        const winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
-        winningEffect.name = "winningEffect";
-        playerNode.addChild(winningEffect);
-        const animation = winningEffect.getComponent(cc.Animation);
+    //             playerSlot.increaseBalance(winningPlayerData.bet);
+    //             const convertValue = GameUtils.getValueByCurrency(bet, winningPlayerData.rate || 1);
+    //             GameUtils.addFlyingText(playerSlot.node, true, convertValue, this.WinningAnimationDuration, 0, 10);
+    //             this.playWinningEffect(mainRoomGame, playerSlot.node);
+    //         }
+    //     });
+    // }
 
-        winningEffect.runAction(
-            cc.sequence(
-                cc.callFunc(() => {
-                    animation.play();
-                }),
-                cc.delayTime(duration), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
-                cc.callFunc(() => {
-                    winningEffect.destroy();
-                })
-            )
-        );
-    }
+    // payChipsToOtherPlayers(roomGame: WebSocketTableGameBase, winBetItems: BetItem[]) {
+    //     let hasChip = false;
+
+    //     _.forEach(winBetItems, (item) => {
+    //         if (!hasChip) {
+    //             hasChip = item.chipNode.children.length > 0;
+    //         }
+    //         this.main.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
+    //     });
+    // }
+
+    // playWinningEffect(mainRoomGame: WebSocketTableGameBase, playerNode: cc.Node, duration = this.WinningAnimationDuration) {
+    //     const winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
+    //     winningEffect.name = "winningEffect";
+    //     playerNode.addChild(winningEffect);
+    //     const animation = winningEffect.getComponent(cc.Animation);
+
+    //     winningEffect.runAction(
+    //         cc.sequence(
+    //             cc.callFunc(() => {
+    //                 animation.play();
+    //             }),
+    //             cc.delayTime(duration), // 2 * animation.defaultClip.duration, should be multiple of duration to fix animation disappear suddenly
+    //             cc.callFunc(() => {
+    //                 winningEffect.destroy();
+    //             })
+    //         )
+    //     );
+    // }
 }

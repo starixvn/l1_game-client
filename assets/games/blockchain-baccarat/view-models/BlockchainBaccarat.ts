@@ -25,6 +25,8 @@ import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-
 import BlockchainBaccaratTicketHistory from "./history/BlockchainBaccaratTicketHistory";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { showLabelWinning } from "../actions/BlockchainBaccaratWinningAction";
+import { updateOtherPlayerBalance } from "../../_base/action/OtherPlayerAction";
+import { payChips } from "../../_base/action/PayChipsAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -55,6 +57,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     scoreboard: BlockchainBaccaratScoreboard = null;
     lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
     private betHistoryController: BlockchainBaccaratTicketHistory = null;
+    private readonly durationFlyChip = 1.2;
+    private readonly durationAnimWinning = 3;
 
     constructor() {
         super();
@@ -164,6 +168,11 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                 showLabelWinning(this)(finishData.settlementResult);
                 showHighLightBet(this)(finishData.settlementResult);
                 this.scoreboard.renderScoreBoardEachRound(finishData);
+                if (this.playerHandler) {
+                    updateOtherPlayerBalance(finishData.winningPlayers, this);
+                }
+                payChips(this, finishData.settlementResult, finishData.winningPlayers, this.durationFlyChip, this.durationAnimWinning);
+                this.finishShowResult = true;
             });
         });
     }

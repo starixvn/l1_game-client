@@ -1,6 +1,7 @@
 import ChipStack from "../../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
+import { playWinningEffect } from "../../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
@@ -140,7 +141,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
         totalWin > 0 && this.main.showWinningBet(totalWin);
         if (totalWin > totalBet) {
-            this.playWinningEffect(this.main, this.main.userProfile.node, 5);
+            playWinningEffect(this.main, this.main.userProfile.node, 5);
         }
         this.main.updateUserBalance();
     }

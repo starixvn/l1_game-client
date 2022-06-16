@@ -1,6 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
@@ -211,7 +212,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
                     this.updateRoundHistory();
                     this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
                     this.showWinningAnimation(this.currentDataLogs[0]);
-                    (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
+
+                    const finish = this.finishHandler as GameBaseFinishHandler;
+                    payChips(this, settlementResult, null, finish.payChipFlyTime, finish.WinningAnimationDuration);
                     this.finishShowResult = true;
                 })
                 .start();

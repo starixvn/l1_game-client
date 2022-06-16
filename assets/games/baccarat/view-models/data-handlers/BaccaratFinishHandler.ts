@@ -7,6 +7,8 @@ import Baccarat from "../Baccarat";
 import BaccaratLogsHandler from "./BaccaratLogsHandler";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import BaccaratBigRoad from "../BaccaratBigRoad";
+import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
+import { payChips } from "../../../_base/action/PayChipsAction";
 
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     handle(data: any): boolean {
@@ -16,10 +18,16 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             this.setNewGameRound(data);
             const mainRoomGame = this.main as WebSocketTableGameBase;
             if (mainRoomGame && mainRoomGame.playerHandler) {
-                this.updateOtherPlayerBalance(data.finish.winningPlayers, mainRoomGame);
+                updateOtherPlayerBalance(data.finish.winningPlayers, this.main);
             }
             this.handleFinishData(data.finish, data.resultHash, () => {
-                this.payChips(data.finish.settlementResult, data.finish.winningPlayers);
+                payChips(
+                    this.main,
+                    data.finish.settlementResult,
+                    data.finish.winningPlayers,
+                    this.payChipFlyTime,
+                    this.WinningAnimationDuration
+                );
                 this.main.finishShowResult = true;
             });
         }

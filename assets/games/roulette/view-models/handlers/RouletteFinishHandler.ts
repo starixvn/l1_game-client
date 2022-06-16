@@ -1,4 +1,6 @@
 import GameUtils from "../../../../common/GameUtils";
+import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
+import { playWinningEffect } from "../../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import Roulette from "../Roulette";
 import RouletteUtils from "../RouletteUtils";
@@ -16,7 +18,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             this.main.finishShowResult = false;
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);
-            this.updateOtherPlayerBalance(data.finish.winningPlayers, this.main);
+            updateOtherPlayerBalance(data.finish.winningPlayers, this.main);
             this.handleFinishData(data.finish, () => {
                 this.payChipToLoginUser();
                 this.payChipsFromBetChoices(data.finish.winningPlayers);
@@ -50,7 +52,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
         const playerNode = this.main.userProfile.node;
         this.main.showWinningBet(data.bet);
-        this.playWinningEffect(this.main, playerNode);
+        playWinningEffect(this.main, playerNode);
         this.main.updateUserBalance();
     }
 
@@ -70,7 +72,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
         playerSlot.increaseBalance(data.bet);
         const convertValue = GameUtils.getValueByCurrency(data.bet, data.rate || 1);
         GameUtils.addFlyingText(playerSlot.node, true, convertValue, 3, 0, 10);
-        this.playWinningEffect(this.main, playerSlot.node);
+        playWinningEffect(this.main, playerSlot.node);
     }
 
     public handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {

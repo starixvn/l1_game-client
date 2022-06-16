@@ -12,6 +12,7 @@ import { SpecialSeDieConfigs } from "./SpecialSeDieConfigs";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
 import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
+import { payChips } from "../../_base/action/PayChipsAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -209,7 +210,9 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
                 .call(() => {
                     this.updateRoundHistory();
                     this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
-                    (this.finishHandler as GameBaseFinishHandler).payChips(settlementResult, null);
+
+                    const finish = this.finishHandler as GameBaseFinishHandler;
+                    payChips(this, settlementResult, null, finish.payChipFlyTime, finish.WinningAnimationDuration);
                     this.finishShowResult = true;
                 })
                 .to(0.2, { opacity: 0 })
