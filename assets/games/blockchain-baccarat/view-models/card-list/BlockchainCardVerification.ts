@@ -47,13 +47,14 @@ export default class BlockchainCardVerification extends cc.Component {
     private root: BlockchainCardList = null;
     private disableButton = "btn-disable";
     private activeButton = "btn-active";
+    private rawValueCopyString: string = null;
 
     private privateKey = "************************************************************************************************************";
 
     renderData(card: CardChain, index: number) {
         this.hashValue.string = card.hashValue;
         this.rawValue.string = card?.rawValue ? this.setPrivateKey(card.rawValue, card.card) : `${this.privateKey}${card.revealedRawValue}`;
-        this.indexNumber.string = this.indexNumber2.string = this.root.convertIndexNumber(index + 1);
+        this.indexNumber.string = this.indexNumber2.string = index.toString().padStart(3, "0");
         this.verifiedValue.string = i18n.t("blockchainBaccarat.verifiedValue");
         if (!card.rawValue) {
             this.privateKeyCopyButton.node.getChildByName(this.disableButton).active = true;
@@ -63,13 +64,13 @@ export default class BlockchainCardVerification extends cc.Component {
             this.privateKeyCopyButton.node.getChildByName(this.activeButton).active = true;
             this.verifyButton.node.getChildByName(this.activeButton).active = true;
             this.verifiedSerialCopyButton.node.getChildByName(this.activeButton).active = true;
+            this.rawValueCopyString = card.rawValue;
         }
         this.cardFirst.addChild(this.createCard(card.card));
         this.cardSecond.addChild(this.createCard(card.card));
     }
 
-    init(root: BlockchainCardList) {
-        this.root = root;
+    init() {
         this.hashValue = this.serialNode.getChildByName("value").getComponent(cc.Label);
         this.rawValue = this.privateKeyNode.getChildByName("value").getComponent(cc.RichText);
         this.verifiedValue = this.verifiedSerialNode.getChildByName("value").getComponent(cc.Label);
@@ -83,6 +84,7 @@ export default class BlockchainCardVerification extends cc.Component {
         const suffixFormatting = `${suffix[1]}_${suffix[2]}`;
         return formatPrivateKey(card, suffixFormatting, true);
     }
+
     public createCard(card: CardModel, isFaceUp = true): cc.Node {
         const node = cc.instantiate(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
@@ -102,7 +104,7 @@ export default class BlockchainCardVerification extends cc.Component {
     onClickCopyButton(event, customEventData) {
         const values = {
             hashValue: this.hashValue.string,
-            rawValue: this.rawValue.string,
+            rawValue: this.rawValueCopyString,
             verifiedValue: this.verifiedValue
         };
 
@@ -121,7 +123,8 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     showHint(hintCopy: cc.Node) {
-        console.log("show hint");
         cc.tween(hintCopy).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }
+
+    onClickVerifyButton() {}
 }

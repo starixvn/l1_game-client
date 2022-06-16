@@ -65,8 +65,8 @@ export default class BlockchainCardList extends cc.Component {
             card.removeFromParent();
             card.destroy();
         });
+        this.content.removeAllChildren(true);
 
-        this.content.children.forEach((child) => child.destroy());
         this.cards = [];
 
         chain.forEach((card, index) => {
@@ -110,7 +110,7 @@ export default class BlockchainCardList extends cc.Component {
             });
 
             cardComp.openCardVerification = () => {
-                this.initCardVerification(cardChain, index);
+                this.initCardVerification(cardChain, index + 1);
             };
             cardComp?.setFaceUp(true);
             cardComp?.animation.play();
@@ -132,7 +132,7 @@ export default class BlockchainCardList extends cc.Component {
         }
 
         cardComponent.openCardVerification = () => {
-            this.initCardVerification(cardChain, index);
+            this.initCardVerification(cardChain, index + 1);
         };
 
         cardComponent.setIndexNumber(index);
@@ -147,19 +147,8 @@ export default class BlockchainCardList extends cc.Component {
         }
         const ticketDetailPrefab = cc.instantiate(this.cardVerificationPrefab);
         this.cardVerificationComponent = ticketDetailPrefab.getComponent(BlockchainCardVerification);
-        this.cardVerificationComponent.init(this);
+        this.cardVerificationComponent.init();
         this.cardVerificationComponent.renderData(card, index);
         this.root.currentMiniPanel.addDialog(ticketDetailPrefab);
-    }
-
-    public convertIndexNumber(index: number) {
-        switch (true) {
-            case index < 10:
-                return `00${index}`;
-            case index < 100:
-                return `0${index}`;
-            default:
-                return index.toString();
-        }
     }
 }
