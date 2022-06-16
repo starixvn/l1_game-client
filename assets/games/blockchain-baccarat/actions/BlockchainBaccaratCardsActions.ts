@@ -25,10 +25,10 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
         await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card3], result.banker.card3, true);
     }
     callback();
-    showHighlight(cardsUI, dataFinish.settlementResult);
+    showHighlightCards(cardsUI, dataFinish.settlementResult);
 };
 
-const showHighlight = (cardsUI: BlockchainBaccaratCardsUI, settlementResult: BaccaratSettlementResult) => {
+export const showHighlightCards = (cardsUI: BlockchainBaccaratCardsUI, settlementResult: BaccaratSettlementResult) => {
     let cards: cc.Node[] = [];
     if (settlementResult.banker) {
         cards = cardsUI.bankerCards.cards;

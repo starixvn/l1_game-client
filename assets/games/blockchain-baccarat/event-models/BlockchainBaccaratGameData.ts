@@ -25,7 +25,7 @@ export default class BlockchainBaccaratGameData<Choices> extends GameData<Choice
     readonly finishModel: BlockchainBaccaratFinishModel;
     readonly totalBet: BlockchainBaccaratTotalBetModel;
 
-    constructor(mainGame: BlockchainBaccarat) {
+    constructor() {
         super();
         this.configs = new BlockchainBaccaratConfigsModel();
         this.cardList = new BlockchainBaccaratCardListModel();

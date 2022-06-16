@@ -29,9 +29,6 @@ type CardFlyValue = {
 
 @ccclass
 export default class BlockchainBaccaratCards extends cc.Component {
-    @property(cc.Prefab)
-    cardsPrefab: cc.Prefab = null;
-
     @property(cc.Node)
     cards: cc.Node[] = [];
 
@@ -50,8 +47,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     private readonly durationFlyCard = 0.5;
     readonly durationFlyCard3 = 0.2;
     readonly durationDropCard = 0.2;
-    readonly durationJumpDrop = 0.4;
-    private readonly setPointSecond = 0.2;
+    readonly durationJumpDrop = 0.6;
     private readonly durationFaceUp = 0.6;
     private readonly SET_POINT = 3;
     private clonePositionCards: cc.Vec3[] = [];
@@ -245,7 +241,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
         });
     }
 
-    private handleSetPoint(data: CardModel, currentCard: cc.Node, delayTime = this.setPointSecond) {
+    private handleSetPoint(data: CardModel, currentCard: cc.Node, delayTime = this.durationFaceUp) {
         const pointValue: number = +data.rank + 1;
         const setPoint = cc.sequence(
             cc.delayTime(delayTime),
@@ -262,22 +258,37 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.point.node.parent.active = true;
 
         const currentPoint = parseInt(this.point.string);
-        this.point.node.parent.runAction(cc.sequence(cc.scaleTo(this.setPointSecond, 1.1, 1.1), cc.scaleTo(this.setPointSecond, 1, 1)));
+        this.point.node.parent.runAction(cc.sequence(cc.scaleTo(this.durationFaceUp, 1.1, 1.1), cc.scaleTo(this.durationFaceUp, 1, 1)));
 
         this.point.string = ((currentPoint + point) % 10).toString();
     }
 
-    showCardsWithoutAnimation(cards: CardModel[], startIndex: number, lastIndex?: number) {
+    showCardsWithoutAnimation({
+        cards,
+        startIndex,
+        lastIndex,
+        isShowCurrentResult
+    }: {
+        cards: CardModel[];
+        startIndex: number;
+        lastIndex?: number;
+        isShowCurrentResult?: boolean;
+    }) {
         let point = 0;
         cards.forEach((card, index) => {
             const value = +card.rank + 1;
             point += value > 10 || !value ? 0 : value;
-            const cardNode = this.cards[index].getComponent(BlockchainCard);
+            const cardNode = this.cards[index].getComponentInChildren(BlockchainCard);
             cardNode.setCardOldStyle(card);
             if (index == 2 && lastIndex) {
-                cardNode.setIndexNumber(lastIndex);
+                cardNode?.setIndexNumber(lastIndex);
             } else {
-                cardNode.setIndexNumber(startIndex + index * 2);
+                cardNode?.setIndexNumber(startIndex + index * 2);
+            }
+
+            if (isShowCurrentResult) {
+                this.cards[index].opacity = 255;
+                cardNode.setStatusIndexNumber(false);
             }
             cardNode.setFaceUp(true);
         });

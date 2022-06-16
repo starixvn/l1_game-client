@@ -31,12 +31,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     @property(BlockchainBaccaratCards)
     reserveCards: BlockchainBaccaratCards = null;
 
-    @property(cc.Node)
-    bankerPoint: cc.Node = null;
-
-    @property(cc.Node)
-    playerPoint: cc.Node = null;
-
     protected orderCard: OrderCardValue[];
 
     onLoad() {
@@ -122,11 +116,18 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         }
     }
 
-    showCardsWithoutAnimation(lastRound: BlockchainBaccaratRoundHistory, currentIndex: number) {
+    showCardsWithoutAnimation(lastRound: BlockchainBaccaratRoundHistory, currentIndex: number, isShowCurrentResult = false) {
         const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);
         const bankerCards = Object.values(lastRound.result.banker).filter((card) => card != null);
         const startIndex = currentIndex - playerCards.length - bankerCards.length;
-        this.playerCards.showCardsWithoutAnimation(playerCards, startIndex);
-        this.bankerCards.showCardsWithoutAnimation(bankerCards, startIndex + 1, currentIndex - 1);
+        this.playerCards.showCardsWithoutAnimation({ cards: playerCards, startIndex, isShowCurrentResult });
+        this.bankerCards.showCardsWithoutAnimation({
+            cards: bankerCards,
+            startIndex: startIndex + 1,
+            lastIndex: currentIndex - 1,
+            isShowCurrentResult
+        });
+
+        this.reserveCards?.resetCards();
     }
 }

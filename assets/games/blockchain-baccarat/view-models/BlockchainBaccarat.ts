@@ -1,5 +1,7 @@
+import { showHighLightBet } from "./../actions/BlockchainBaccaratWinningAction";
+import { BlockchainBaccaratRoundHistory } from "./../event-models/BlockchainBaccaratRoundHistory";
+import { handleJoinRoom } from "./../actions/BlockchainBaccaratJoinRoomAction";
 import { updateGameConfigs } from "../actions/BlockchainBaccaratConfigsAction";
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import { GameIds } from "../../../configs/SabaConfigs";
 import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import BlockchainBaccaratTimeHandler from "../event-handlers/BlockchainBaccaratTimeHandler";
@@ -27,7 +29,7 @@ import { openCards } from "../actions/BlockchainBaccaratCardsActions";
 import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
 import BlockchainBaccaratTicketHistory from "./history/BlockchainBaccaratTicketHistory";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
-import { showResult } from "../actions/BlockchainBaccaratWinningAction";
+import { showLabelWinning } from "../actions/BlockchainBaccaratWinningAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -67,10 +69,10 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     onLoad() {
-        this.gameData = new BlockchainBaccaratGameData<BlockchainBaccaratChoicesType>(this);
+        this.gameData = new BlockchainBaccaratGameData<BlockchainBaccaratChoicesType>();
+        this.registerGameEvents();
         super.onLoad();
         this.initCardList();
-        this.registerGameEvents();
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
     }
@@ -143,10 +145,15 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData.totalBet.on(BlockchainBaccaratTotalBetModel.Events.CHANGE, (totalBet) => {
             handlePercentBet(this.betItems as BlockchainBaccaratBetItem[])(totalBet);
         });
-        this.gameData.roundHistory.on(BlockchainBaccaratRoundHistoryModel.Events.CHANGE, (roundHistory) => {
-            renderScoreBoardInGame(this.scoreboard)(roundHistory);
-            this.lastRoundIfo.updateUI(roundHistory[0], this.gameData.cardList.currentIndex);
-        });
+        this.gameData.roundHistory.on(
+            BlockchainBaccaratRoundHistoryModel.Events.CHANGE,
+            (roundHistory: BlockchainBaccaratRoundHistory[]) => {
+                renderScoreBoardInGame(this.scoreboard)(roundHistory);
+                this.lastRoundIfo.updateUI(roundHistory[0], this.gameData.cardList.currentIndex);
+
+                handleJoinRoom(this)(roundHistory[0], this.gameData.cardList.currentIndex);
+            }
+        );
 
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, (blockchain: Blockchain) => {
             this.cardsUI.handleNumberIndex(blockchain.currentIndex);
@@ -159,7 +166,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
             this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
             openCards(this.cardsUI)(finishData, () => {
                 //show winning
-                showResult(this)(finishData.settlementResult);
+                showLabelWinning(this)(finishData.settlementResult);
+                showHighLightBet(this)(finishData.settlementResult);
                 renderScoreBoardEachRound(this.scoreboard)(finishData);
             });
         });

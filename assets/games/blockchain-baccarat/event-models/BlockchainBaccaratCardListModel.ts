@@ -34,7 +34,6 @@ export default class BlockchainBaccaratCardListModel extends EventEmitterBase {
 
     handleCurrentIndex(index: number) {
         this.numberCardsFly = index - this.currentIndex;
-        console.log(this.numberCardsFly, "numberCardsFly");
         this.currentIndex = index;
     }
 
