@@ -1,3 +1,5 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import GameUtils from "../../../common/GameUtils";
 import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
@@ -7,7 +9,7 @@ import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
-    const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier } = data;
+    const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier, reachMaxWin } = data;
     const tumbles = data.tumbles;
     mainGame.gameData.stateModel.change(CascadingSlotState.Spinning);
     mainGame.showProcessingWarning(false);
@@ -64,6 +66,11 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     }
 
     await handleMultiplier(mainGame, isFreeSpin, totalMultiplier, multiplier, win);
+
+    if (reachMaxWin) {
+        mainGame.showMiniWarning(i18n.t("treasureIsland.reachMaxWin"));
+        await GameUtils.delayTime(3);
+    }
 
     if (bigWin) {
         await mainGame.showEffectBigWin(data.win);
