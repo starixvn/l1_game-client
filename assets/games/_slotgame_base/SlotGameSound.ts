@@ -8,7 +8,9 @@ export enum CascadingSlotGameSound {
     SYMBOL_MATCHED = 4,
     MULTIPLIER_SYMBOL_APPEAR = 5,
     BIG_WIN = 6,
-    FREE_SPIN = 7
+    FREE_SPIN = 7,
+    TURBO_SYMBOL_FALL_OUT = 8,
+    TURBO_SYMBOL_DROP_IN = 9
 }
 
 const { ccclass, property } = cc._decorator;

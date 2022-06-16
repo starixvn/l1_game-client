@@ -79,9 +79,19 @@ export default class CascadeSlotBoard extends cc.Component {
         const duration = (5 * 145) / this.reels[0].pixelPerSecond;
         const delay = 0.2 * duration;
 
-        this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_FALL_OUT);
+        if (isTurbo) {
+            this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_DROP_IN);
+        } else {
+            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_DROP_IN);
+        }
+
         await this.fallOut(isTurbo, delay);
-        this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_DROP_IN);
+
+        if (isTurbo) {
+            this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_FALL_OUT);
+        } else {
+            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_FALL_OUT);
+        }
 
         for (let i = 0; i < this.reels.length; i++) {
             if (!isTurbo) {
