@@ -11,7 +11,8 @@ export default class BigWinAnimation extends cc.Component {
         GameUtils.floatToNumber(this.amountLabel, amount, duration);
     }
 
-    setAmountSlow(amount: number) {
-        GameUtils.floatToNumber2(this.amountLabel, amount);
+    async setAmountSlow(amount: number, onComplete: () => void) {
+        await GameUtils.floatToNumber2(this.amountLabel, amount);
+        onComplete();
     }
 }

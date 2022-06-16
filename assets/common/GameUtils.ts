@@ -137,32 +137,38 @@ export default class GameUtils {
             stepTime: 0.02
         }
     ) {
-        const startStr = label.string.replace(prefixStr, "");
-        start = start || parseFloat(startStr.replace(/,/g, "")) || 0;
-        const range = Math.abs(end - start);
-        if (!range) {
-            return;
-        }
+        return new Promise<void>((resolve) => {
+            const startStr = label.string.replace(prefixStr, "");
+            start = start || parseFloat(startStr.replace(/,/g, "")) || 0;
+            const range = Math.abs(end - start);
+            if (!range) {
+                resolve();
+                return;
+            }
 
-        const { stepValue, stepTime } = options;
-        const repeatCount = Math.floor(range / stepValue);
+            const { stepValue, stepTime } = options;
+            const repeatCount = Math.floor(range / stepValue);
 
-        let value = start;
-        label.node.stopAllActions();
-        const formatText = (value) => prefixStr + formatNumber(value);
-        cc.tween(label.node)
-            .repeat(
-                repeatCount,
-                cc
-                    .tween(label.node)
-                    .call(() => {
-                        label.string = formatText(value);
-                        value += stepValue;
-                    })
-                    .delay(stepTime)
-            )
-            .call(() => (label.string = formatText(end)))
-            .start();
+            let value = start;
+            label.node.stopAllActions();
+            const formatText = (value) => prefixStr + formatNumber(value);
+            cc.tween(label.node)
+                .repeat(
+                    repeatCount,
+                    cc
+                        .tween(label.node)
+                        .call(() => {
+                            label.string = formatText(value);
+                            value += stepValue;
+                        })
+                        .delay(stepTime)
+                )
+                .call(() => {
+                    label.string = formatText(end);
+                    resolve();
+                })
+                .start();
+        });
     }
 
     public static floatToNumber(label: cc.Label, end: number, duration: number, start?: number, noZeroSuffix = true, prefixStr = "") {

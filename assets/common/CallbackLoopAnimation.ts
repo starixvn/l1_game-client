@@ -8,7 +8,9 @@ export default class CallbackLoopAnimation extends CallbackAnimation {
     loopClip: cc.AnimationClip = null;
 
     private isLoopClip = false;
+    private isFinished = false;
     private tapCount = 0;
+    private readonly delayFinishDuration = 2;
 
     public skipCallback = () => {};
 
@@ -17,9 +19,13 @@ export default class CallbackLoopAnimation extends CallbackAnimation {
         this.animation.on("finished", () => this.changeToLoopAnimation());
     }
 
-    skipTouchToContinue(duration: number) {
+    skipTouchToContinue() {
         this.node.off(cc.Node.EventType.TOUCH_START, this.handleTouch, this);
-        this.animation.on("finished", () => this.scheduleOnce(this.finish, duration));
+        this.animation.on("finished", () => this.scheduleOnce(this.finish, this.delayFinishDuration));
+    }
+
+    closeLater() {
+        this.scheduleOnce(this.finish, this.delayFinishDuration);
     }
 
     initHandleTouch() {
@@ -29,11 +35,13 @@ export default class CallbackLoopAnimation extends CallbackAnimation {
     handleTouch() {
         this.tapCount++;
         if (this.tapCount === 1) {
+            this.skipCallback();
             if (!this.isLoopClip) {
                 this.changeToLoopAnimation();
+                this.scheduleOnce(this.finish, this.delayFinishDuration);
+            } else {
+                this.finish();
             }
-            this.skipCallback();
-            this.scheduleOnce(this.finish, 3);
         }
         if (this.tapCount === 2) {
             this.unschedule(this.finish);
@@ -48,6 +56,10 @@ export default class CallbackLoopAnimation extends CallbackAnimation {
     }
 
     finish() {
+        if (this.isFinished) {
+            return;
+        }
+        this.isFinished = true;
         this.onFinishedCallback();
         this.node.destroy();
     }

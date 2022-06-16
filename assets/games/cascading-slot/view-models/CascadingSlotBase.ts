@@ -424,9 +424,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         if (this.isTurboMode()) {
             bigWinAnimation.setAmount(betWin, 0);
-            callbackAnim.skipTouchToContinue(1);
+            callbackAnim.skipTouchToContinue();
         } else {
-            bigWinAnimation.setAmountSlow(betWin);
+            bigWinAnimation
+                .setAmountSlow(betWin, () => {
+                    callbackAnim.closeLater();
+                })
+                .catch((reason) => console.log(reason));
         }
 
         callbackAnim.skipCallback = () => {
