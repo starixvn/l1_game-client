@@ -82,12 +82,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     @property(cc.Label)
     totalWinLabel: cc.Label = null;
 
-    @property(TumbleWinView)
-    tumbleWinView: TumbleWinView = null;
-
-    @property(TotalMultiplierView)
-    totalMultiplierView: TotalMultiplierView = null;
-
     @property(cc.Prefab)
     flyWinLabelPrefab: cc.Prefab = null;
 
@@ -101,6 +95,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public freeSpinView: FreeSpinView;
     public mascot: CascadingSlotMascot;
     public tumbleList: CascadingSlotTumbleList;
+    totalMultiplierView: TotalMultiplierView = null;
+    tumbleWinView: TumbleWinView = null;
     public isTrialMode = false;
     public trialUserBalance: number;
 
@@ -240,6 +236,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.GET_TUMBLE, () => {
+            this.tumbleWinView.showView(true);
+            this.checkShowTopMessage();
             this.mascot.playAnimationForTumble();
             this.bottomMessage.showMessageDisplay(RoundType.TUMBLEWIN, false);
         });
@@ -255,20 +253,19 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
-            this.topMessage.hideTopMessage();
             GameUtils.floatToNumber(this.totalWinLabel, value, 0.5);
             this.tumbleWinView.setTumbleWinValue(value, true);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_MULTIPLIER, (value: number) => {
             this.tumbleWinView.setMultiplier(value);
-            this.topMessage.hideTopMessage();
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_MULTIPLIER, (value: number) => {
             this.totalMultiplierView.showView(value > 0).then(() => {
                 this.totalMultiplierView.setValue(value, true);
             });
+            this.checkShowTopMessage();
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
@@ -284,8 +281,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.uiModel.on(CascadingUIModel.Events.RESET_NEW_ROUND, (value: CascadingUIModel) => {
             this.totalWinLabel.string = "0";
-            this.topMessage.showTopMessage();
             this.tumbleWinView.showView(false, true);
+            this.checkShowTopMessage();
         });
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
@@ -344,6 +341,15 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
     }
 
+    private checkShowTopMessage() {
+        const show = !this.tumbleWinView.isShowing && !this.totalMultiplierView.isShowing;
+        if (show) {
+            this.topMessage.showTopMessage();
+        } else {
+            this.topMessage.hideTopMessage();
+        }
+    }
+
     createFlyWinLabel(container: cc.Node, position: cc.Vec3, value: number) {
         const node = cc.instantiate(this.flyWinLabelPrefab);
         container.addChild(node);
@@ -387,6 +393,16 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     initBetControl(node: cc.Node) {
         this.betControl = node.getComponent(CascadingBetControl);
         this.checkExistNodeBet();
+    }
+
+    initTotalTumbleWin(node: cc.Node) {
+        this.tumbleWinView = node.getComponent(TumbleWinView);
+        this.tumbleWinView.showViewQuickly(false);
+    }
+
+    initTotalMultiplierView(node: cc.Node) {
+        this.totalMultiplierView = node.getComponent(TotalMultiplierView);
+        this.totalMultiplierView.showViewQuickly(false);
     }
 
     checkExistNodeBet() {
