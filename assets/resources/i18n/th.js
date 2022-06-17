@@ -566,6 +566,7 @@ window.i18n.languages.th = {
         freeSpin: "Free Spins",
         extraFreeSpin: "Extra Free Spins",
         autoSpinLeft: "Auto Spins Left",
-        bigWinTextNotify: "Press anywhere to continue"
+        bigWinTextNotify: "Press anywhere to continue",
+        reachMaxWin: "You reached the Max Win"
     }
 };
