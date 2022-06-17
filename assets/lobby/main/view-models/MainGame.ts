@@ -427,8 +427,8 @@ export default class MainGame extends cc.Component {
     openGameSSO() {
         this.miniPanel.setData(this);
         if (window.openGameId) {
-            cc.sys.localStorage.setItem(`orientation`, "");
             const gameId = parseInt(window.openGameId);
+            cc.sys.localStorage.setItem(`CASCADING_SLOT_BET_CONTROL`, "");
             GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();

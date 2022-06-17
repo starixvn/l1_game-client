@@ -166,6 +166,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.clearGameRound();
         this.gameData.uiModel.resetNewRound();
         this.turboToggle.isChecked = false;
+        cc.sys.localStorage.setItem(`CASCADING_SLOT_BET_CONTROL`, "");
+        this.betControl.resetValues();
         this.miniBetControl.initData(this.betControl);
     }
 
@@ -256,7 +258,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_BET, (data: TotalBetType) => {
-            console.log(data);
             this.miniBetControl.totalBetLabel.string = data.totalBet.toString();
             this.miniBetControl.setIncreaseButtonStatus(data.increase);
             this.miniBetControl.setDecreaseButtonStatus(data.decrease);
