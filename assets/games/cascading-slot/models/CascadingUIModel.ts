@@ -32,7 +32,7 @@ export default class CascadingUIModel extends EventEmitterBase {
         this.totalWin = 0;
         this.multiplier = 0;
 
-        this.emit(CascadingUIModel.Events.RESET_NEW_ROUND, this);
+        this.emit(CascadingUIModel.Events.RESET_NEW_ROUND);
     }
 
     increaseTumbleWin(value: number) {

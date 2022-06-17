@@ -291,7 +291,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.freeSpinView.setValue(value);
         });
 
-        this.gameData.uiModel.on(CascadingUIModel.Events.RESET_NEW_ROUND, (value: CascadingUIModel) => {
+        this.gameData.uiModel.on(CascadingUIModel.Events.RESET_NEW_ROUND, () => {
             this.totalWinLabel.string = "0";
             this.tumbleWinView.showView(false, true);
             this.checkShowTopMessage();
