@@ -135,7 +135,17 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             lastIndex: currentIndex - 1,
             isShowCurrentResult
         });
+        this.sesetReserveCards(lastRound);
+    }
 
-        this.reserveCards?.resetCards();
+    sesetReserveCards(lastRound: BlockchainBaccaratRoundHistory) {
+        if (lastRound.result.player?.card3 && lastRound.result.banker?.card3) {
+            this.reserveCards?.resetCards();
+            return;
+        }
+        if (lastRound.result.player?.card3 || lastRound.result.banker?.card3) {
+            this.reserveCards?.resetCard(this.reserveCards.cards[CardsOrder.card1]);
+        }
+        return;
     }
 }

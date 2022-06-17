@@ -40,4 +40,8 @@ export default class BlockchainBaccaratCardListModel extends EventEmitterBase {
     changeCurrentIndex(blockchain: Blockchain) {
         this.emit(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, blockchain);
     }
+
+    changeNumberCardsFly(cardFlied: number) {
+        this.numberCardsFly = cardFlied;
+    }
 }
