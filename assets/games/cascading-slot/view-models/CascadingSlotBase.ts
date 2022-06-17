@@ -213,6 +213,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     onLoad() {
         super.onLoad();
+        this.board.initBoardFullItems();
         this.initGameDataEvents();
         this.initCascadingSlotConfig();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);

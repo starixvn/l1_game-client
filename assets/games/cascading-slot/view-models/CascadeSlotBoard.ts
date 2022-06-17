@@ -17,10 +17,12 @@ export default class CascadeSlotBoard extends cc.Component {
 
     onLoad() {
         this.createReels();
-        this.initBoardFullItems();
     }
 
     private createReels() {
+        if (this.reels.length > 0) {
+            return;
+        }
         this.node.children.forEach((child) => {
             const slotReel = child.getComponent(CascadeSlotReel);
             if (slotReel) {
@@ -31,7 +33,8 @@ export default class CascadeSlotBoard extends cc.Component {
         });
     }
 
-    private initBoardFullItems() {
+    initBoardFullItems() {
+        this.createReels();
         const data = [];
         const itemTypeCount = this.itemTypeCount || 0;
 
