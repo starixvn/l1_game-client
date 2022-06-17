@@ -33,6 +33,7 @@ export interface CascadingSlotFinishData {
 
     tumbles: Tumble[];
     m: number[];
+    reachMaxWin: boolean;
 }
 
 export class CascadingSlotFinishModel extends EventEmitterBase {

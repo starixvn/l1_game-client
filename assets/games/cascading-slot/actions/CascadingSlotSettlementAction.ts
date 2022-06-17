@@ -15,6 +15,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     mainGame.showProcessingWarning(false);
 
     mainGame.setGameRound(roundId);
+    mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
 
     const isTurbo = mainGame.isTurboMode();
 
@@ -80,6 +81,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         await mainGame.showEffectFreeSpins(freeSpins);
     }
     mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
+    mainGame.gameData.uiModel.showFreeSpins(totalFreeSpins > 0);
 
     mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
 

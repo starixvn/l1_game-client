@@ -280,9 +280,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
             this.totalFreeSpins = value;
-            const show = value > 0;
-            this.freeSpinView.showView(show);
             this.freeSpinView.setValue(value);
+        });
+
+        this.gameData.uiModel.on(CascadingUIModel.Events.SHOW_FREESPINS, (show: boolean) => {
+            this.freeSpinView.showView(show);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.INCREASE_FREESPINS, (value: number) => {

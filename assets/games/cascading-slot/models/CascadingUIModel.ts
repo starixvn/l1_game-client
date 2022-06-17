@@ -7,6 +7,7 @@ export default class CascadingUIModel extends EventEmitterBase {
         CHANGE_MULTIPLIER: "ui:change_multiplier",
         CHANGE_TOTAL_MULTIPLIER: "ui:change_total_multiplier",
 
+        SHOW_FREESPINS: "ui:show_freespins",
         SET_FREESPINS: "ui:set_freespins",
         INCREASE_FREESPINS: "ui:increase_frespins",
 
@@ -65,6 +66,10 @@ export default class CascadingUIModel extends EventEmitterBase {
     setFreeSpins(value: number) {
         this.freeSpins = value;
         this.emit(CascadingUIModel.Events.SET_FREESPINS, this.freeSpins);
+    }
+
+    showFreeSpins(show: boolean) {
+        this.emit(CascadingUIModel.Events.SHOW_FREESPINS, show);
     }
 
     increaseFrespins(value: number) {
