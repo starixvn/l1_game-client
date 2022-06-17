@@ -303,9 +303,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             switch (state) {
                 case SpinButtonState.Normal:
                     this.spinButton.showNormalMode();
+                    this.bottomMessage.showMessageDisplay(RoundType.BEFORESPIN, this.isTurboMode());
                     break;
                 case SpinButtonState.AutoSpin:
                     this.spinButton.showAutoSpinMode();
+                    this.bottomMessage.showMessageDisplay(RoundType.SPINNING, this.isTurboMode());
                     break;
             }
 

@@ -11,7 +11,7 @@ import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
-import SlotGameBottomMessage, { RoundType } from "./SlotGameBottomMessage";
+import SlotGameBottomMessage from "./SlotGameBottomMessage";
 import SlotGameSound from "./SlotGameSound";
 import SpinButton from "./SpinButton";
 
@@ -101,7 +101,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
             this.setAutoSpinCount(0);
             this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
-
             return;
         }
 
@@ -114,9 +113,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     onAutoSpinOff() {
         this.autoSpinToggle.isChecked = false;
         this.setAutoSpinCount(0);
-        this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
         this.updateBottomMessageStatus();
-        this.bottomMessage.showMessageDisplay(RoundType.BEFORESPIN, this.isTurboMode());
+        this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
     }
 
     checkAvailableBalance(): boolean {
@@ -141,7 +139,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const dialog = node.getComponent(AutoSpinSettingDialog);
         dialog.onConfirmCallback = (autoSpinCount: number) => {
             this.setAutoSpinCount(autoSpinCount);
-            this.bottomMessage.showMessageDisplay(RoundType.SPINNING, this.isTurboMode());
             this.lastAutoSpinCount = autoSpinCount;
             this.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
 
