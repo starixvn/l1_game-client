@@ -44,7 +44,7 @@ export default class CascadeSlotBoard extends cc.Component {
         const data = Array.from(Array(itemTypeCount).keys());
         const multipliers = [_.random(2, 20)];
 
-        const randomScatterCount = _.random(1, 2);
+        const randomScatterCount = _.random(2);
         for (let i = 0; i < randomScatterCount; i++) {
             data.push(9);
         }
