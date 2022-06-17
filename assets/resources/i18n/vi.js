@@ -590,6 +590,6 @@ window.i18n.languages.vi = {
         copy: "Copy",
         verifiedValue:
             "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number",
-        last_round: "Last Round"
+        last_round: "Phiên Trước"
     }
 };

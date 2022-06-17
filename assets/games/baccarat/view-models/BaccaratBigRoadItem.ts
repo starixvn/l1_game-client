@@ -48,7 +48,7 @@ export default class BaccaratBigRoadItem extends cc.Component {
         node.getChildByName(this.NodeItems.BANKERPAIR).active = baccaratSettleResult[0].bankerPair;
         node.getChildByName(this.NodeItems.PLAYERPAIR).active = baccaratSettleResult[0].playerPair;
 
-        const tieCount = baccaratSettleResult.length - 1;
+        const tieCount = baccaratSettleResult[0].tie ? baccaratSettleResult.length : baccaratSettleResult.length - 1;
 
         if (tieCount >= 1) {
             node.getChildByName(this.NodeItems.TIE).active = true;
