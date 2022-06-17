@@ -99,8 +99,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
         this.updateBottomMessageStatus();
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
-            this.setAutoSpinCount(0);
-            this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
+            this.onAutoSpinOff();
             return;
         }
 
