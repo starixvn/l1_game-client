@@ -35,18 +35,22 @@ export default class CascadeSlotBoard extends cc.Component {
 
     initBoardFullItems() {
         this.createReels();
-        const data = [];
-        const itemTypeCount = this.itemTypeCount || 0;
+        this.generateRandomItems();
+    }
 
+    protected generateRandomItems() {
+        const itemTypeCount = this.itemTypeCount || 0;
         const boardSize = this.reels.length * this.itemDisplayCount;
-        const multipliers = [];
-        for (let i = 0; i < boardSize; i++) {
-            if (i < itemTypeCount) {
-                data.push(i);
-            } else {
-                data.push(_.random(itemTypeCount - 1));
-            }
-            multipliers.push(_.random(2, 20));
+        const data = Array.from(Array(itemTypeCount).keys());
+        const multipliers = [_.random(2, 20)];
+
+        const randomScatterCount = _.random(1, 2);
+        for (let i = 0; i < randomScatterCount; i++) {
+            data.push(9);
+        }
+
+        while (data.length < boardSize) {
+            data.push(_.random(itemTypeCount - 3)); //ignore scatter and multiplier
         }
 
         const shuffleData = _.shuffle(data);
