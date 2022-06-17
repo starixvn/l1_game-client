@@ -1,82 +1,48 @@
 import { formatPrivateKey } from "../../../_casino/MD5Format";
 import { CardChain, CardModel } from "../../BlockchainBaccaratType";
-import BlockchainCard from "./BlockchainCard";
-import BlockchainCardList from "./BlockchainCardList";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import GameUtils from "../../../../common/GameUtils";
+import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
+import BlockchainVerify from "./BlockchainVerify";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BlockchainCardVerification extends cc.Component {
-    @property({ type: cc.Prefab })
-    cardPrefab: cc.Prefab = null;
+    @property(BlockchainCardVerificationItem)
+    serialNumber: BlockchainCardVerificationItem = null;
 
-    @property(cc.Node)
-    serialNode: cc.Node = null;
+    @property(BlockchainCardVerificationItem)
+    privateKey: BlockchainCardVerificationItem = null;
 
-    @property(cc.Node)
-    privateKeyNode: cc.Node = null;
+    @property(BlockchainVerify)
+    verify: BlockchainVerify = null;
 
-    @property(cc.Node)
-    verifyNode: cc.Node = null;
+    @property(BlockchainCardVerificationItem)
+    verifiedSerial: BlockchainCardVerificationItem = null;
+    private cardChain: CardChain[];
 
-    @property(cc.Node)
-    verifiedSerialNode: cc.Node = null;
+    private encrypKey = "************************************************************************************************************";
 
-    @property(cc.Node)
-    cardFirst: cc.Node = null;
+    renderDataCradVerification(chain, index: number) {
+        this.cardChain = chain;
+        const card = chain[index];
+        const rawValue = card?.rawValue ? this.setPrivateKey(card.rawValue, card.card) : `${this.encrypKey}${card.revealedRawValue}`;
+        const verifiedValue = this.verify.isSuccessfull ? card.hashValue : i18n.t("blockchainBaccarat.verifiedValue");
+        this.serialNumber.setHashValue(card?.hashValue);
+        this.privateKey.setRawValue(rawValue);
+        this.verifiedSerial.enableCopyButton(this.verify.isSuccessfull);
+        this.verifiedSerial.setHashValue(verifiedValue);
 
-    @property(cc.Node)
-    cardSecond: cc.Node = null;
-
-    @property(cc.Label)
-    indexNumber: cc.Label = null;
-
-    @property(cc.Label)
-    indexNumber2: cc.Label = null;
-
-    private hashValue: cc.Label = null;
-    private rawValue: cc.RichText = null;
-    private verifiedValue: cc.Label = null;
-    public hintLabel: cc.Label = null;
-
-    private verifiedSerialCopyButton: cc.Button = null;
-    private privateKeyCopyButton: cc.Button = null;
-    private verifyButton: cc.Button = null;
-    private root: BlockchainCardList = null;
-    private disableButton = "btn-disable";
-    private activeButton = "btn-active";
-    private rawValueCopyString: string = null;
-
-    private privateKey = "************************************************************************************************************";
-
-    renderData(card: CardChain, index: number) {
-        this.hashValue.string = card.hashValue;
-        this.rawValue.string = card?.rawValue ? this.setPrivateKey(card.rawValue, card.card) : `${this.privateKey}${card.revealedRawValue}`;
-        this.indexNumber.string = this.indexNumber2.string = index.toString().padStart(3, "0");
-        this.verifiedValue.string = i18n.t("blockchainBaccarat.verifiedValue");
         if (!card.rawValue) {
-            this.privateKeyCopyButton.node.getChildByName(this.disableButton).active = true;
-            this.verifyButton.node.getChildByName(this.disableButton).active = true;
-            this.verifiedSerialCopyButton.node.getChildByName(this.disableButton).active = true;
+            this.verify.enableVerifyButton(false);
+            this.privateKey.enableCopyButton(false);
         } else {
-            this.privateKeyCopyButton.node.getChildByName(this.activeButton).active = true;
-            this.verifyButton.node.getChildByName(this.activeButton).active = true;
-            this.verifiedSerialCopyButton.node.getChildByName(this.activeButton).active = true;
-            this.rawValueCopyString = card.rawValue;
+            this.privateKey.enableCopyButton(true);
+            this.verify.enableVerifyButton(true);
+            this.privateKey.setTextCopy(card.rawValue);
         }
-        this.cardFirst.addChild(this.createCard(card.card));
-        this.cardSecond.addChild(this.createCard(card.card));
-    }
-
-    init() {
-        this.hashValue = this.serialNode.getChildByName("value").getComponent(cc.Label);
-        this.rawValue = this.privateKeyNode.getChildByName("value").getComponent(cc.RichText);
-        this.verifiedValue = this.verifiedSerialNode.getChildByName("value").getComponent(cc.Label);
-        this.privateKeyCopyButton = this.privateKeyNode.getChildByName("copy-button").getComponent(cc.Button);
-        this.verifiedSerialCopyButton = this.verifiedSerialNode.getChildByName("copy-button").getComponent(cc.Button);
-        this.verifyButton = this.verifyNode.getComponent(cc.Button);
+        this.serialNumber.renderCard(card.card, index);
+        this.privateKey.renderCard(card.card, index);
     }
 
     private setPrivateKey(rawValue: string, card: CardModel) {
@@ -85,46 +51,22 @@ export default class BlockchainCardVerification extends cc.Component {
         return formatPrivateKey(card, suffixFormatting, true);
     }
 
-    public createCard(card: CardModel, isFaceUp = true): cc.Node {
-        const node = cc.instantiate(this.cardPrefab);
-        const cardComponent = node.getComponent(BlockchainCard);
-        cardComponent.setCardOldStyle({
-            rank: card?.rank,
-            suit: card?.suit
-        });
-
-        !!card ? cardComponent.setFaceUp(isFaceUp) : cardComponent.setFaceUp(!isFaceUp);
-
-        cardComponent.setInfoTag();
-        cardComponent.setShadow();
-        cardComponent.resetIndexNumber();
-        return node;
+    onClickVerifyButton() {
+        const serialCard = this.cardChain[parseInt(this.serialNumber.numberKey.string) - 1];
+        const privateCard = this.cardChain[parseInt(this.privateKey.numberKey.string) - 1];
+        const isRawValue = serialCard.rawValue.localeCompare(privateCard.rawValue);
+        const isHashValue = serialCard.hashValue.localeCompare(privateCard.hashValue);
+        this.verifiedSerial.setHashValue(serialCard.hashValue);
+        if (isRawValue === 0 && isHashValue === 0) {
+            this.verify.setText(serialCard.hashValue);
+            this.verify.setVerifySuccess(true);
+            this.serialNumber.setHighLightSuccess();
+            this.verifiedSerial.setHighLightSuccess();
+            this.verifiedSerial.enableCopyButton(true);
+        } else {
+            this.verify.setVerifySuccess(false);
+            this.serialNumber.setHighLightFailed();
+            this.verifiedSerial.setHighLightFailed();
+        }
     }
-
-    onClickCopyButton(event, customEventData) {
-        const values = {
-            hashValue: this.hashValue.string,
-            rawValue: this.rawValueCopyString,
-            verifiedValue: this.verifiedValue
-        };
-
-        const hintNodes = {
-            hashValue: this.serialNode,
-            rawValue: this.privateKeyNode,
-            verifiedValue: this.verifiedSerialNode
-        };
-
-        const copyValue = values.hasOwnProperty(customEventData) ? values[customEventData] : "";
-        const hintCopy = hintNodes[customEventData].getChildByName("hint-copy");
-        this.hintLabel = hintCopy.getChildByName("content").getComponent(cc.Label);
-        this.hintLabel.string = i18n.t("messages.copy_success");
-        this.showHint = this.showHint.bind(this);
-        GameUtils.copyToClipboard(copyValue, this.hintLabel, this.showHint(hintCopy));
-    }
-
-    showHint(hintCopy: cc.Node) {
-        cc.tween(hintCopy).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
-    }
-
-    onClickVerifyButton() {}
 }

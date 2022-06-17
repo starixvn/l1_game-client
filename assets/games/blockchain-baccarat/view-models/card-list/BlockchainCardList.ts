@@ -34,6 +34,7 @@ export default class BlockchainCardList extends cc.Component {
     protected cardHeight = 120;
     protected numberOfCardsPerRow = 12;
     protected rowDefault = 3;
+    blockchain: CardChain[];
 
     init(root: BlockchainBaccarat) {
         this.root = root;
@@ -60,6 +61,7 @@ export default class BlockchainCardList extends cc.Component {
         const { chain, cutCardIndex, currentIndex } = cardList;
         this.cutCard = cutCardIndex;
         this.currentCardIndex = currentIndex;
+        this.blockchain = chain;
 
         this.cards.forEach((card) => {
             card.removeFromParent();
@@ -91,6 +93,7 @@ export default class BlockchainCardList extends cc.Component {
             return;
         }
 
+        this.blockchain = cardList.chain;
         const { chain, currentIndex } = cardList;
         chain.forEach((card, index) => {
             if (index >= this.currentCardIndex && index < currentIndex) {
@@ -110,7 +113,7 @@ export default class BlockchainCardList extends cc.Component {
             });
 
             cardComp.openCardVerification = () => {
-                this.initCardVerification(cardChain, index + 1);
+                this.initCardVerification(index);
             };
             cardComp?.setFaceUp(true);
             cardComp?.animation.play();
@@ -132,14 +135,14 @@ export default class BlockchainCardList extends cc.Component {
         }
 
         cardComponent.openCardVerification = () => {
-            this.initCardVerification(cardChain, index + 1);
+            this.initCardVerification(index);
         };
 
         cardComponent.setIndexNumber(index);
         return node;
     }
 
-    public initCardVerification(card: CardChain, index: number) {
+    public initCardVerification(index: number) {
         const cardVerificationPrefab = this.node.getChildByName(this.cardVerificationPrefab.name);
         if (cardVerificationPrefab) {
             cardVerificationPrefab.removeFromParent(true);
@@ -147,8 +150,7 @@ export default class BlockchainCardList extends cc.Component {
         }
         const ticketDetailPrefab = cc.instantiate(this.cardVerificationPrefab);
         this.cardVerificationComponent = ticketDetailPrefab.getComponent(BlockchainCardVerification);
-        this.cardVerificationComponent.init();
-        this.cardVerificationComponent.renderData(card, index);
+        this.cardVerificationComponent.renderDataCradVerification(this.blockchain, index);
         this.root.currentMiniPanel.addDialog(ticketDetailPrefab);
     }
 }
