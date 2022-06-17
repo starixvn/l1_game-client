@@ -25,6 +25,7 @@ export interface CascadingSlotFinishData {
     multiplier: number;
     totalMultiplier: number;
 
+    actualBetwin: number;
     win: number;
     bigWin: boolean;
     totalFreeSpins: number;

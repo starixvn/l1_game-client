@@ -9,21 +9,16 @@ import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
-    const { win, bigWin, roundId, totalFreeSpins, freeSpins, isFreeSpin, multiplier, totalMultiplier, reachMaxWin } = data;
-    const tumbles = data.tumbles;
+    const { win, roundId, totalFreeSpins, isFreeSpin, multiplier, totalMultiplier, reachMaxWin, tumbles } = data;
     mainGame.gameData.stateModel.change(CascadingSlotState.Spinning);
     mainGame.showProcessingWarning(false);
-
     mainGame.setGameRound(roundId);
     mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
 
     const isTurbo = mainGame.isTurboMode();
-
     const result = convertData(data.result);
-    const multipliers = tumbles[0].multipliers;
-    let multiplierCount = multipliers.length;
-    let countIconPerRound = 0;
-    const getMultiplier = multiplierCount > 0;
+    const multipliers = [...tumbles[0].multipliers];
+    const getMultiplier = multipliers.length > 0;
     !mainGame.board.boardSound && (mainGame.board.boardSound = mainGame.gameSound);
     await mainGame.board.spinResult(result, multipliers, isTurbo);
 
@@ -31,6 +26,62 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
         mainGame.gameData.uiModel.getMultiplier();
     }
 
+    await handleTumbles(mainGame, tumbles, isTurbo);
+    const winMultiplier = multiplier > 0 && win > 0;
+    await handleMultiplier(mainGame, isFreeSpin, winMultiplier);
+    await updateTotalWin(mainGame, data);
+    updateUserBalance(mainGame);
+
+    if (winMultiplier && isFreeSpin) {
+        await movingMultiplier(mainGame.tumbleWinView.multiplier.node, mainGame.effectContainer, mainGame.totalMultiplierView.total.node);
+    }
+    mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
+
+    if (reachMaxWin) {
+        mainGame.showMiniWarning(i18n.t("treasureIsland.reachMaxWin"));
+        await GameUtils.delayTime(3);
+    }
+
+    await showEffectSpecialCase(mainGame, data);
+    mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
+    mainGame.gameData.uiModel.showFreeSpins(totalFreeSpins > 0);
+    mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
+
+    const delayForNextSpin = mainGame.getCustomDuration("delayForNextSpin");
+    await GameUtils.delayTime(delayForNextSpin);
+    handleAutoSpin(mainGame);
+};
+
+const updateTotalWin = async (mainGame, data) => {
+    const { win, actualBetwin } = data;
+    if (win > 0) {
+        await mainGame.tumbleWinView.setTotalWinValue(actualBetwin);
+        mainGame.gameData.uiModel.setTotalWin(win);
+    }
+};
+
+const updateUserBalance = (mainGame) => {
+    if (mainGame.isTrialMode) {
+        mainGame.gameData.trialModel.updateSettledBalance();
+    } else {
+        mainGame.updateUserBalance();
+    }
+};
+
+const showEffectSpecialCase = async (mainGame, data) => {
+    const { bigWin, freeSpins } = data;
+    if (bigWin) {
+        await mainGame.showEffectBigWin(data.win);
+    }
+
+    if (freeSpins > 0) {
+        await mainGame.showEffectFreeSpins(freeSpins);
+    }
+};
+
+const handleTumbles = async (mainGame, tumbles, isTurbo) => {
+    let multiplierCount = tumbles[0].multipliers.length;
+    let countIconPerRound = 0;
     for (let i = 0; i < tumbles.length - 1; i++) {
         const tumble = tumbles[i];
         const { icons, win: tumbleWin, settlement } = tumble;
@@ -65,29 +116,6 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
             mainGame.gameData.uiModel.getMultiplier();
         }
     }
-
-    await handleMultiplier(mainGame, isFreeSpin, totalMultiplier, multiplier, win);
-
-    if (reachMaxWin) {
-        mainGame.showMiniWarning(i18n.t("treasureIsland.reachMaxWin"));
-        await GameUtils.delayTime(3);
-    }
-
-    if (bigWin) {
-        await mainGame.showEffectBigWin(data.win);
-    }
-
-    if (freeSpins > 0) {
-        await mainGame.showEffectFreeSpins(freeSpins);
-    }
-    mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
-    mainGame.gameData.uiModel.showFreeSpins(totalFreeSpins > 0);
-
-    mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
-
-    const delayForNextSpin = mainGame.getCustomDuration("delayForNextSpin");
-    await GameUtils.delayTime(delayForNextSpin);
-    handleAutoSpin(mainGame);
 };
 
 const handleAutoSpin = (mainGame: CascadingSlotBase) => {
@@ -110,15 +138,8 @@ const handleAutoSpin = (mainGame: CascadingSlotBase) => {
     }
 };
 
-const handleMultiplier = async (
-    mainGame: CascadingSlotBase,
-    isFreeSpin: boolean,
-    totalMultiplier: number,
-    multiplier: number,
-    win: number
-) => {
+const handleMultiplier = async (mainGame: CascadingSlotBase, isFreeSpin: boolean, winMultiplier: boolean) => {
     const currentTotalMultiplier = mainGame.gameData.uiModel.totalMultiplier;
-    const winMultiplier = multiplier > 0 && win > 0;
     const needMoveTotalMultiplier = isFreeSpin && winMultiplier && currentTotalMultiplier > 0;
 
     if (needMoveTotalMultiplier) {
@@ -139,22 +160,6 @@ const handleMultiplier = async (
 
         await GameUtils.delayTime(mainGame.tumbleWinView.mulitiplierEffectDuration);
     }
-
-    if (win > 0) {
-        await mainGame.tumbleWinView.setTotalWinValue(win);
-        mainGame.gameData.uiModel.setTotalWin(win);
-    }
-
-    if (mainGame.isTrialMode) {
-        mainGame.gameData.trialModel.updateSettledBalance();
-    } else {
-        mainGame.updateUserBalance();
-    }
-
-    if (winMultiplier && isFreeSpin) {
-        await movingMultiplier(mainGame.tumbleWinView.multiplier.node, mainGame.effectContainer, mainGame.totalMultiplierView.total.node);
-    }
-    mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
 };
 
 const movingMultiplier = (multiplierNode: cc.Node, container: cc.Node, destNode: cc.Node) => {
