@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
@@ -28,7 +29,6 @@ import CascadingTotalBet, { TotalBetType } from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
-import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -156,6 +156,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         } else {
             this.registerViewGame();
         }
+        this.tumbleList.clear();
         this.tumbleList.offerTrialMode(this.isTrialMode);
         this.historyBtn.interactable = !this.isTrialMode;
         this.clearGameRound();
