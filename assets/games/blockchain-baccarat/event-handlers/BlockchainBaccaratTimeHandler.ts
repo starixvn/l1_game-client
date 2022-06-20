@@ -11,6 +11,7 @@ export type CardPrepare = {
 };
 
 export default class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
+    protected dealCardsTime = 3;
     protected getOwnMain(): BlockchainBaccarat {
         return this.main as BlockchainBaccarat;
     }
