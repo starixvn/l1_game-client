@@ -1,12 +1,10 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import StatusButton from "../../../common/custom-button/StatusButton";
 import CascadingBetControl from "./CascadingBetControl";
 import CascadingSlotBase from "./CascadingSlotBase";
-import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
-export type TotalBetType = { totalBet: number; increase: boolean; decrease: boolean };
-export type TotalBetButton = { increase: boolean; decrease: boolean };
 @ccclass
 export default class CascadingTotalBet extends cc.Component {
     @property(StatusButton)
