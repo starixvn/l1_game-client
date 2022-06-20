@@ -2,7 +2,7 @@ import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper"
 import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
-import { enableMsgpackParserOnGame, enableMsgpackParserAllGames } from "../../configs/Configs";
+import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
 export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIOInitializers {
@@ -35,7 +35,7 @@ export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIO
                 isGameRoom: true,
                 forceNew: true,
                 gameContainer: null,
-                enableMsgpackParser: enableMsgpackParserAllGames || enableMsgpackParserOnGame?.[gameId]
+                enableMsgpackParser: enableMsgpackParserAllGames
             };
             const socket = this.socketIOController.connectGameSocket(option);
             this.handleSocket(socket, gameId);

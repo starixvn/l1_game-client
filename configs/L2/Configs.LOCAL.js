@@ -12,9 +12,7 @@ const configs = {
         env: "LOCAL"
     },
     guideDomain: "https://l2-guide.lumigame.com",
-    enableMsgpackParserOnGame: {
-        45: false
-    },
+    enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false
 };
 
