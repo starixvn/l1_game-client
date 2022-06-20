@@ -103,17 +103,8 @@ export default class MiniRoundHistory extends cc.Component {
             return;
         }
         if (this.nodeNext) {
-            const lastVisible = this.nodeNext.active;
             this.nodeNext.active = this.checkShowNext();
-            const needUpdate = this.cachedDataLog.length === 0 || lastVisible !== this.nodeNext.active;
-            let data;
-            if (needUpdate) {
-                data = this.dataLogs;
-                this.cachedDataLog = [...this.dataLogs];
-            } else {
-                data = this.cachedDataLog;
-            }
-            this.updateOrderNode(data, this.nodeNext.active);
+            this.updateOrderNode(this.dataLogs, this.nodeNext.active);
             this.items[0].node.active = !this.nodeNext.active;
             if (this.nodeNext.active) {
                 this.hideTooltip();
