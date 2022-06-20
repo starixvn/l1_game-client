@@ -97,14 +97,31 @@ export default class BlockchainCardList extends cc.Component {
         this.resultCards = [];
         chain.forEach((card, index) => {
             if (index >= this.currentCardIndex && index < currentIndex) {
-                this.flipCard(this.cards[index]?.getComponent(BlockchainCard), card, index, repeatFlipCard);
+                this.updateBlockchainCard(this.cards[index]?.getComponent(BlockchainCard), card, index);
             }
         });
-
+        this.playOpenCardAnimation(repeatFlipCard);
         this.currentCardIndex = currentIndex;
     }
 
-    protected flipCard(cardComp: BlockchainCard, cardChain: CardChain, index: number, repeat) {
+    playOpenCardAnimation(repeatFlipCard: number) {
+        let count = 0;
+        cc.tween(this.node)
+            .repeat(
+                repeatFlipCard,
+                cc
+                    .tween()
+                    .call(() => {
+                        this.flippingAnimations[count].play();
+                        this.resultCards[count].setFaceUp(true);
+                        count++;
+                    })
+                    .delay(0.6)
+            )
+            .start();
+    }
+
+    protected updateBlockchainCard(cardComp: BlockchainCard, cardChain: CardChain, index: number) {
         const { card } = cardChain;
         if (!!cardComp) {
             cardComp.setCardOldStyle({
@@ -118,21 +135,6 @@ export default class BlockchainCardList extends cc.Component {
 
             this.flippingAnimations.push(cardComp.animation);
             this.resultCards.push(cardComp);
-
-            let count = 0;
-            cc.tween(this.node)
-                .repeat(
-                    repeat,
-                    cc
-                        .tween()
-                        .call(() => {
-                            this.flippingAnimations[count].play();
-                            this.resultCards[count].setFaceUp(true);
-                            count++;
-                        })
-                        .delay(0.6)
-                )
-                .start();
         }
     }
 
