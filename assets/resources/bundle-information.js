@@ -4,6 +4,7 @@ const games = [
     {
         gameName: "TreasureIsland",
         bundleName: "treasure-island",
+        proxyPath: "treasureislandclient",
         dependencies: []
     }
 ];
@@ -22,7 +23,7 @@ const developmentMode = games.reduce((result, configs) => {
 const withProductionMode = (url) =>
     games.reduce((result, configs) => {
         result[configs.gameName] = {
-            url: `https://${url}/treasureislandclient`,
+            url: `https://${url}/${configs.proxyPath}`,
             name: configs.bundleName,
             useMd5Cache: true,
             dependencies: configs.dependencies
