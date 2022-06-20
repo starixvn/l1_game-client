@@ -90,15 +90,6 @@ export default class SocketIOController {
             onConnectCallback(socket);
         });
 
-        socket.on("reconnect", () => {});
-
-        socket.on("connect_failed", () => {
-            socket.disconnect();
-            if (needCallCallback) {
-                onConnectFailed(name, isGameRoom);
-            }
-        });
-
         socket.on("connect_error", (error) => {
             console.log(error);
             sentryLogger.logError(error);

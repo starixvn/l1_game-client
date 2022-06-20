@@ -42,11 +42,6 @@ export default class NotificationService {
 
         this.socket = io(buildUrl(), socketOptions);
 
-        this.socket.on("connect_failed", () => {
-            this.socket && this.socket.disconnect();
-            this.reconnect();
-        });
-
         this.socket.on("connect_error", (error) => {
             sentryLogger.logError(error);
             this.socket && this.socket.disconnect();
@@ -104,7 +99,7 @@ export default class NotificationService {
         Object.keys(this.dataObservers).forEach((type) => {
             if (type === dataType) {
                 Object.keys(this.dataObservers[type]).forEach((key) => {
-                    var observer = this.dataObservers[type][key];
+                    const observer = this.dataObservers[type][key];
                     observer && observer(data);
                 });
             }
