@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
-import { CardChain, CardModel } from "../../BlockchainBaccaratType";
+import { CardChain } from "../../BlockchainBaccaratType";
 import { Blockchain } from "../../event-models/BlockchainBaccaratCardListModel";
 import BlockchainBaccarat from "../BlockchainBaccarat";
 import BlockchainCard from "./BlockchainCard";
@@ -35,12 +35,11 @@ export default class BlockchainCardList extends cc.Component {
     protected numberOfCardsPerRow = 12;
     protected rowDefault = 3;
     blockchain: CardChain[];
+    flippingAnimations: cc.Animation[] = [];
+    resultCards: BlockchainCard[] = [];
 
     init(root: BlockchainBaccarat) {
         this.root = root;
-    }
-
-    onLoad() {
         const commonDialog = this.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();
@@ -67,8 +66,6 @@ export default class BlockchainCardList extends cc.Component {
             card.removeFromParent();
             card.destroy();
         });
-        this.content.removeAllChildren(true);
-
         this.cards = [];
 
         chain.forEach((card, index) => {
@@ -95,16 +92,19 @@ export default class BlockchainCardList extends cc.Component {
 
         this.blockchain = cardList.chain;
         const { chain, currentIndex } = cardList;
+        const repeatFlipCard = currentIndex - this.currentCardIndex;
+        this.flippingAnimations = [];
+        this.resultCards = [];
         chain.forEach((card, index) => {
             if (index >= this.currentCardIndex && index < currentIndex) {
-                this.flipCard(this.cards[index]?.getComponent(BlockchainCard), card, index);
+                this.flipCard(this.cards[index]?.getComponent(BlockchainCard), card, index, repeatFlipCard);
             }
         });
 
         this.currentCardIndex = currentIndex;
     }
 
-    protected flipCard(cardComp: BlockchainCard, cardChain: CardChain, index: number) {
+    protected flipCard(cardComp: BlockchainCard, cardChain: CardChain, index: number, repeat) {
         const { card } = cardChain;
         if (!!cardComp) {
             cardComp.setCardOldStyle({
@@ -115,8 +115,24 @@ export default class BlockchainCardList extends cc.Component {
             cardComp.openCardVerification = () => {
                 this.initCardVerification(index);
             };
-            cardComp?.setFaceUp(true);
-            cardComp?.animation.play();
+
+            this.flippingAnimations.push(cardComp.animation);
+            this.resultCards.push(cardComp);
+
+            let count = 0;
+            cc.tween(this.node)
+                .repeat(
+                    repeat,
+                    cc
+                        .tween()
+                        .call(() => {
+                            this.flippingAnimations[count].play();
+                            this.resultCards[count].setFaceUp(true);
+                            count++;
+                        })
+                        .delay(0.6)
+                )
+                .start();
         }
     }
 
