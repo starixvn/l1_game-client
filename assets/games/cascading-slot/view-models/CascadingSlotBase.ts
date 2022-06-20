@@ -104,6 +104,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected trialConnection: SocketIOConnection;
     protected miniBetControl: CascadingTotalBet;
     private historyBtn: cc.Button;
+    private currCoinValue: number;
+    private currBetLevel: number;
 
     async onSpinClick() {
         this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
@@ -261,6 +263,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.miniBetControl.totalBetLabel.string = data.totalBet.toString();
             this.miniBetControl.setIncreaseButtonStatus(data.increase);
             this.miniBetControl.setDecreaseButtonStatus(data.decrease);
+            this.currCoinValue = data.coin;
+            this.currBetLevel = data.level;
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TUMBLE_WIN, (value: number) => {
@@ -398,6 +402,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.historyComponent = dialog.getComponent(CascadingSlotGameHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.addDialog(dialog);
+    }
+
+    openGuide() {
+        this.gameConfigs.coin = this.currCoinValue;
+        this.gameConfigs.level = this.currBetLevel;
+        super.openGuide();
     }
 
     initTotalBet(node: cc.Node) {
