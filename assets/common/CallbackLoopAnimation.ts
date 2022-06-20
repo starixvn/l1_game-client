@@ -38,10 +38,8 @@ export default class CallbackLoopAnimation extends CallbackAnimation {
             this.skipCallback();
             if (!this.isLoopClip) {
                 this.changeToLoopAnimation();
-                this.scheduleOnce(this.finish, this.delayFinishDuration);
-            } else {
-                this.finish();
             }
+            this.scheduleOnce(this.finish, this.delayFinishDuration);
         }
         if (this.tapCount === 2) {
             this.unschedule(this.finish);
