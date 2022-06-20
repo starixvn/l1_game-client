@@ -179,6 +179,16 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         }
     }
 
+    consumeFreeSpinCount() {
+        if (this.totalFreeSpins > 0) {
+            this.setTotalFreeSpins(this.totalFreeSpins - 1);
+        }
+    }
+
+    setTotalFreeSpins(count: number) {
+        this.totalFreeSpins = count;
+    }
+
     setAutoSpinCount(count: number) {
         this.autoSpinCount = count;
         this.spinButton.setAutoSpinCount(count);

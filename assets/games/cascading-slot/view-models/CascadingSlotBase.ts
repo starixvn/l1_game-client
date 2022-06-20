@@ -322,9 +322,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                 case CascadingSlotState.Start_Round:
                     this.tumbleList.clear();
                     this.gameData.uiModel.resetNewRound();
-                    if (!this.isFreeSpin()) {
-                        this.consumeAutoSpinCount();
-                    }
+                    this.consumeFreeSpinCount();
+                    this.consumeAutoSpinCount();
                     this.bottomMessage.showMessageDisplay(RoundType.SPINNING, this.isTurboMode());
                     break;
                 case CascadingSlotState.Spinning:
@@ -534,5 +533,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     protected enableSpinButton(value: boolean) {
         this.spinButton.spinButton.interactable = value;
         this.holdActionButton.interactable = value;
+    }
+
+    setTotalFreeSpins(count: number) {
+        super.setTotalFreeSpins(count);
+        this.gameData.uiModel.setFreeSpins(count);
     }
 }

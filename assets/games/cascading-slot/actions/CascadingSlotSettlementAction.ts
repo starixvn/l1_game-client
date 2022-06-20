@@ -13,7 +13,6 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     mainGame.gameData.stateModel.change(CascadingSlotState.Spinning);
     mainGame.showProcessingWarning(false);
     mainGame.setGameRound(roundId);
-    mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
 
     const isTurbo = mainGame.isTurboMode();
     const result = convertData(data.result);
