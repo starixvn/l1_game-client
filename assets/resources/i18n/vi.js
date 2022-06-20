@@ -174,7 +174,7 @@ window.i18n.languages.vi = {
         topMessage1: "BIỂU TƯỢNG ĐƯỢC TÍNH THẮNG NẰM Ở VỊ TRÍ BẤT KỲ",
         topMessage2a: "QUAY TRÚNG",
         topMessage2b: "ĐỂ NHÂN GIÁ TRỊ TIỀN THẮNG",
-        topMessage3: "THẮNG LÊN ĐẾN 2000X TIỀN CƯỢC",
+        topMessage3: "THẮNG LÊN ĐẾN %{maxWin}X TIỀN CƯỢC",
         winTumbleMsg: "CHÚC MỪNG!"
     },
     ui: {

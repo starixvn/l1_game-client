@@ -300,6 +300,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
             HandleBetControl(this)(data);
+            this.topMessage.updateMsgHaveMaxWin(+data.maxWinPerRound);
         });
 
         this.gameData.spinButtonStateModel.on(SpinButtonStateModel.Events.CHANGE, (state: SpinButtonState) => {

@@ -1,3 +1,4 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import _ = require("lodash");
 
 export enum RoundType {
@@ -10,8 +11,15 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SlotGameTopMessage extends cc.Component {
+    @property(cc.Label)
+    msg3: cc.Label = null;
+
     onLoad() {
         this.schedule(this.updateTopMessage, 5, cc.macro.REPEAT_FOREVER, 0);
+    }
+
+    updateMsgHaveMaxWin(value: number) {
+        this.msg3.string = i18n.t("messages.topMessage3", { maxWin: value });
     }
 
     updateTopMessage() {
