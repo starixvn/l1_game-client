@@ -54,8 +54,8 @@ export default class BlockchainCard extends NewCard {
     openCardVerification() {}
 
     closeCardVerification() {
-        this.resetShadow();
-        this.resetHighlight();
+        this.setShadow();
+        this.setHighlight();
     }
 
     getIndexNumber() {

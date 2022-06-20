@@ -579,19 +579,21 @@ window.i18n.languages.vi = {
     },
     blockChainBaccarat: {
         headerContent:
-            "“Serial Number” for each card is generated at the beginning of the new shoe. Players can check the fairness and transparency of card results by comparing...",
-        verifyCards: "Verify Cards",
-        cardVerification: "Card Verification",
-        verify: "Verify",
-        cardList: "Danh sách thẻ bài",
-        privateKey: "Private Key",
-        serialNumber: "Serial Number",
-        verifiedSerial: "Verified Serial Number",
+            "Số Seri cho mỗi lá bài sẽ được công bố ngay tại thời điểm bắt đầu “Shoe”. Người chơi có thể kiểm tra tính minh bạch của kết quả bằng cách so sánh “Khóa Bảo Mật” (được công bố khi mở bài) với “Số Seri”. Để biết thêm thông tin, vui lòng xem tham khảo mục  “Tính năng xác thực” trong phần hướng dẫn.",
+        verifyCards: "Xác Minh Bài",
+        cardVerification: "Xác Minh Lá Bài",
+        verify: "Xác Minh",
+        cardList: "Danh Sách Bài",
+        privateKey: "Khóa Bảo Mật",
+        serialNumber: "Số Seri",
+        verifiedSerial: "Số Seri đã xác minh",
         copy: "Copy",
-        verifiedValue:
-            "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number",
+        verifiedValue: "Kiểm tra sự minh bạch trong kết quả bằng cách đối chiếu Số Seri với Khóa Bảo Mật \n(công bố sau khi mở bài). ",
         last_round: "Phiên Trước",
-        verifySuccess: "Verification Successful!",
-        verifyFailed: "Verification Failed!"
+        verifySuccess: "Xác minh thành công!",
+        verifyFailed: "Xác minh thất bại!",
+        changeCard: "Đổi Bài",
+        correctSerialNumber: "Số Seri trùng khớp",
+        wrongSerialNumber: "Số seri không khớp"
     }
 };

@@ -34,7 +34,7 @@ export default class BlockchainCardList extends cc.Component {
     protected cardHeight = 120;
     protected numberOfCardsPerRow = 12;
     protected rowDefault = 3;
-    blockchain: CardChain[];
+    blockchain: Blockchain;
     flippingAnimations: cc.Animation[] = [];
     resultCards: BlockchainCard[] = [];
 
@@ -60,7 +60,7 @@ export default class BlockchainCardList extends cc.Component {
         const { chain, cutCardIndex, currentIndex } = cardList;
         this.cutCard = cutCardIndex;
         this.currentCardIndex = currentIndex;
-        this.blockchain = chain;
+        this.blockchain = cardList;
 
         this.cards.forEach((card) => {
             card.removeFromParent();
@@ -90,7 +90,7 @@ export default class BlockchainCardList extends cc.Component {
             return;
         }
 
-        this.blockchain = cardList.chain;
+        this.blockchain = cardList;
         const { chain, currentIndex } = cardList;
         const repeatFlipCard = currentIndex - this.currentCardIndex;
         this.flippingAnimations = [];
@@ -112,8 +112,8 @@ export default class BlockchainCardList extends cc.Component {
                 cc
                     .tween()
                     .call(() => {
-                        this.flippingAnimations[count].play();
-                        this.resultCards[count].setFaceUp(true);
+                        this.flippingAnimations[count]?.play();
+                        this.resultCards[count]?.setFaceUp(true);
                         count++;
                     })
                     .delay(0.6)
@@ -138,7 +138,7 @@ export default class BlockchainCardList extends cc.Component {
         }
     }
 
-    public createCard(cardChain: CardChain, index, isFaceUp = true): cc.Node {
+    public createCard(cardChain: CardChain, index): cc.Node {
         const { card } = cardChain;
         const node = GameUtils.createNodeFromPrefab(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
@@ -147,7 +147,7 @@ export default class BlockchainCardList extends cc.Component {
             suit: card?.suit
         });
 
-        !!card ? cardComponent.setFaceUp(isFaceUp) : cardComponent.setFaceUp(!isFaceUp);
+        !!card ? cardComponent.setFaceUp(true) : cardComponent.setFaceUp(false);
         if (this.cutCard === index) {
             cardComponent.setKeyCard();
         }
@@ -170,5 +170,9 @@ export default class BlockchainCardList extends cc.Component {
         this.cardVerificationComponent = ticketDetailPrefab.getComponent(BlockchainCardVerification);
         this.cardVerificationComponent.renderDataCradVerification(this.blockchain, index);
         this.root.currentMiniPanel.addDialog(ticketDetailPrefab);
+    }
+
+    highLightCurrentCardSelected(index) {
+        this.cards[index].getComponent(BlockchainCard).closeCardVerification();
     }
 }

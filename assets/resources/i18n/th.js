@@ -570,5 +570,25 @@ window.i18n.languages.th = {
         bigWinTextNotify: "Press anywhere to continue",
         reachMaxWin: "You reached the Max Win",
         warningTrialMode: "Play Real,\nWin Real"
+    },
+    blockchainBaccarat: {
+        headerContent:
+            "Serial number for each card is generated at the begging of the new Shoe. Player can check the fairness and transparency of card result by comparing the Private Key (published when the card is opened) with the Serial Number. For more information, please refer to the game guide - Blockchain Baccarat Validation Feature.",
+        verifyCards: "Verify Cards",
+        cardVerification: "Card Verification",
+        verify: "Verify",
+        cardList: "Card list",
+        privateKey: "Private Key",
+        serialNumber: "Serial Number",
+        verifiedSerial: "Verified Serial Number",
+        copy: "Copy",
+        verifiedValue:
+            "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number",
+        last_round: "Last Round",
+        verifySuccess: "Verification Successful!",
+        verifyFailed: "Verification Failed!",
+        changeCard: "Change Card",
+        correctSerialNumber: "Correct Serial Number",
+        wrongSerialNumber: "Wrong Serial Number"
     }
 };

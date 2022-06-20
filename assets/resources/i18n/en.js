@@ -579,7 +579,7 @@ window.i18n.languages.en = {
     },
     blockChainBaccarat: {
         headerContent:
-            "“Serial Number” for each card is generated at the beginning of the new shoe. Players can check the fairness and transparency of card results by comparing...",
+            "Serial number for each card is generated at the begging of the new Shoe. Player can check the fairness and transparency of card result by comparing the Private Key (published when the card is opened) with the Serial Number. For more information, please refer to the game guide - Blockchain Baccarat Validation Feature.",
         verifyCards: "Verify Cards",
         cardVerification: "Card Verification",
         verify: "Verify",
@@ -592,6 +592,9 @@ window.i18n.languages.en = {
             "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number",
         last_round: "Last Round",
         verifySuccess: "Verification Successful!",
-        verifyFailed: "Verification Failed!"
+        verifyFailed: "Verification Failed!",
+        changeCard: "Change Card",
+        correctSerialNumber: "Correct Serial Number",
+        wrongSerialNumber: "Wrong Serial Number"
     }
 };
