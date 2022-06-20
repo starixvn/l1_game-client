@@ -86,7 +86,7 @@ export default class GameUtils {
         if (info.remote && !info.mini) {
             const bundleManager = BundleManager.getInstance();
 
-            await bundleManager.loadBundle(info.key);
+            await bundleManager.loadBundle(gameId);
         }
 
         if (!info.mini && gameId > 0) {

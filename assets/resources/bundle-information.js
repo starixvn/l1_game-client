@@ -2,15 +2,14 @@
 
 const games = [
     {
-        gameName: "TreasureIsland",
+        gameId: 47,
         bundleName: "treasure-island",
-        proxyPath: "treasureislandclient",
         dependencies: []
     }
 ];
 
 const developmentMode = games.reduce((result, configs) => {
-    result[configs.gameName] = {
+    result[configs.gameId] = {
         url: "assets",
         name: configs.bundleName,
         useMd5Cache: location.href.includes("/build/"),
@@ -22,8 +21,10 @@ const developmentMode = games.reduce((result, configs) => {
 
 const withProductionMode = (url) =>
     games.reduce((result, configs) => {
-        result[configs.gameName] = {
-            url: `https://${url}/${configs.proxyPath}`,
+        const proxyPath = `game-client-${configs.gameId}`;
+
+        result[configs.gameId] = {
+            url: `https://${url}/${proxyPath}`,
             name: configs.bundleName,
             useMd5Cache: true,
             dependencies: configs.dependencies
