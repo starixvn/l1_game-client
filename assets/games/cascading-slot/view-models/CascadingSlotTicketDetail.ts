@@ -36,6 +36,9 @@ export default class CascadingSlotTicketDetail extends cc.Component {
     @property(cc.Label)
     winTotal: cc.Label = null;
 
+    @property(cc.Label)
+    reachMaxText: cc.Label = null;
+
     data: any = null;
 
     onLoad() {
@@ -48,26 +51,31 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         const freeSpin = data.freeSpin;
         this.roundId.string = freeSpin ? `${data.id} (Free Spin)` : `${data.id}`;
         const tumbles = data.settlementResult.tumbles;
-        const countScatter = data.settlementResult.freeSpins.count;
-        const countFreeSpin = data.settlementResult.freeSpins.odds;
-        const isFreeSpin = countScatter > 3;
-        let lbMulti = "";
+        const isReachMaxWin = data.reachMaxWin;
 
         let currWinTumble = 0;
+
         tumbles.forEach((tumble, index) => {
             const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
-            currWinTumble += tumble.win;
-            if (index === tumbles.length - 1 && isFreeSpin) {
-                control.setDataHaveFreeSpin(countScatter, countFreeSpin, index, currWinTumble, freeSpin);
-            } else {
-                control.setData(tumble, index, currWinTumble);
+            if ((index === tumbles.length - 1 && !isReachMaxWin) || index < tumbles.length - 1) {
+                currWinTumble += tumble.win;
+                control.setData(tumble, index, data, currWinTumble);
+                this.content.addChild(detailItem);
             }
-            this.content.addChild(detailItem);
             const newTumbleMultipliers = index < tumbles.length - 1 ? [...tumbles[index + 1].multipliers] : [...tumble.multipliers];
             control.setDataResultBoard(tumble.originalBoard, newTumbleMultipliers);
         });
+        this.handleMultiplierData(data);
+        this.winTotal.string = numberWithCommas(data.betwin, 2, false);
+        this.reachMaxText.node.active = isReachMaxWin;
+        this.reachMaxText.string = `(${i18n.t(`treasureIsland.reachMaxWin`)}) `;
+    }
 
+    handleMultiplierData(data: any) {
+        let lbMulti = "";
+        const freeSpin = data.freeSpin;
+        const tumbles = data.settlementResult.tumbles;
         if (freeSpin) {
             if (data.totalMultipliers) {
                 lbMulti = `treasureIsland.totalMultiplier`;
@@ -84,7 +92,6 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         const btnTextMulti = this.textMultiplier.getComponent(cc.Button);
         const btnValueMulti = this.multiplierTotal.getComponent(cc.Button);
         btnTextMulti.interactable = btnValueMulti.interactable = freeSpin;
-        this.winTotal.string = numberWithCommas(data.betwin, 2, false);
     }
 
     onClickMultiplier() {

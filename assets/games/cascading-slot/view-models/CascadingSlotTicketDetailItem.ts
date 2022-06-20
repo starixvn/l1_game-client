@@ -31,22 +31,30 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     private readonly MIN_HEIGHT_TOTALROW = 178;
     private readonly HEIGHT_ROW = 89;
 
-    setData(tumble: any, index: number, currWinTumble: number) {
+    setData(tumble: any, index: number, data: any, currWinTumble: number) {
         let numberOfIcon = 0;
         let tumbleNode: cc.Node;
-        if (tumble.win > 0) {
-            Object.entries<{ count; win }>(tumble.icons).forEach(([key, value]) => {
-                tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
-                const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
-                const { count, win } = value;
-                control.setData(+key, count, win);
-                numberOfIcon++;
-                this.content.addChild(tumbleNode);
-            });
-            this.calculateHeightRow(numberOfIcon);
+        const countScatter = data.settlementResult.freeSpins.count;
+        const countFreeSpin = data.settlementResult.freeSpins.odds;
+        const isFreeSpin = countScatter > 3;
+        const freeSpin = data.freeSpin;
+        if (index === data.settlementResult.tumbles.length - 1 && isFreeSpin) {
+            this.setDataHaveFreeSpin(countScatter, countFreeSpin, index, currWinTumble, freeSpin);
         } else {
-            tumbleNode = cc.instantiate(this.noTumbleWinDetailPrefab);
-            this.content.addChild(tumbleNode);
+            if (tumble.win > 0) {
+                Object.entries<{ count; win }>(tumble.icons).forEach(([key, value]) => {
+                    tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
+                    const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
+                    const { count, win } = value;
+                    control.setData(+key, count, win);
+                    numberOfIcon++;
+                    this.content.addChild(tumbleNode);
+                });
+                this.calculateHeightRow(numberOfIcon);
+            } else {
+                tumbleNode = cc.instantiate(this.noTumbleWinDetailPrefab);
+                this.content.addChild(tumbleNode);
+            }
         }
 
         this.win.string = numberWithCommas(currWinTumble, 2, false);

@@ -559,7 +559,7 @@ window.i18n.languages.vi = {
         trialMode: "Chơi Thử",
         betMultiplierX: "Hệ Số Cược 20X",
         betLevel: "Mức Cược",
-        coinValue: "Giá trị cược",
+        coinValue: "Giá trị xu",
         congratulation: "Chúc Mừng",
         youWinFreeSpin: "Bạn đã thắng",
         multiplier: "Số Nhân",
