@@ -31,15 +31,15 @@ export default class TumbleWinView extends FadeAppearanceNode {
     setTumbleWinValue(value: number, animated: boolean) {
         this.showView(true);
         if (animated) {
-            GameUtils.floatToNumber(this.tumbleLabel, value, 0.5);
+            GameUtils.floatToNumber(this.tumbleLabel, value, 0.5, null, false);
         } else {
-            this.tumbleLabel.string = numberWithCommas(value);
+            this.tumbleLabel.string = numberWithCommas(value, 2, false);
         }
     }
 
     setTotalWinValue(value: number) {
         return new Promise<void>((resolve) => {
-            this.totalWin.string = numberWithCommas(value);
+            this.totalWin.string = numberWithCommas(value, 2, false);
             this.showTotalWin(true);
 
             cc.tween(this.totalWin.node)
