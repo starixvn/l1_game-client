@@ -109,6 +109,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     async onSpinClick() {
         this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.spin();
+        this.bottomMessage.shuffleSettleMessage();
+        this.bottomMessage.reset();
     }
 
     initTrialConnection() {
@@ -268,7 +270,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.tumbleWinView.showView(true);
             this.checkShowTopMessage();
             this.mascot.playAnimationForTumble();
-            this.bottomMessage.showMessageDisplay(RoundType.TUMBLEWIN, false);
+            this.bottomMessage.showOtherMessages(RoundType.TUMBLEWIN);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_WIN, (value: number) => {
@@ -334,11 +336,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             switch (state) {
                 case SpinButtonState.Normal:
                     this.spinButton.showNormalMode();
-                    this.bottomMessage.showMessageDisplay(RoundType.BEFORESPIN, this.isTurboMode());
                     break;
                 case SpinButtonState.AutoSpin:
                     this.spinButton.showAutoSpinMode();
-                    this.bottomMessage.showMessageDisplay(RoundType.SPINNING, this.isTurboMode());
+                    this.bottomMessage.showOtherMessages(RoundType.SPINNING);
                     break;
             }
 
@@ -352,12 +353,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     this.gameData.uiModel.resetNewRound();
                     this.consumeFreeSpinCount();
                     this.consumeAutoSpinCount();
-                    this.bottomMessage.showMessageDisplay(RoundType.SPINNING, this.isTurboMode());
+                    this.bottomMessage.showOtherMessages(RoundType.SPINNING);
                     break;
                 case CascadingSlotState.Spinning:
                     break;
                 case CascadingSlotState.Settled:
-                    this.bottomMessage.showMessageDisplay(RoundType.SETTLED, this.isTurboMode());
+                    this.bottomMessage.showSettledMessages();
                     break;
             }
 
@@ -573,5 +574,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     setTotalFreeSpins(count: number) {
         super.setTotalFreeSpins(count);
         this.gameData.uiModel.setFreeSpins(count);
+    }
+
+    onTurboModeChanged(toggle: cc.Toggle) {
+        super.onTurboModeChanged(toggle);
+        this.updateBottomMessageStatus();
     }
 }

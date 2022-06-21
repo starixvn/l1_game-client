@@ -17,15 +17,33 @@ export default class SlotGameBottomMessage extends cc.Component {
     @property(cc.Label)
     msgText: cc.Label = null;
 
-    isTurboAutoSpin = false;
+    isTurboMode = false;
+    isAutoSpin = false;
     autoSpinCount = 0;
+    settleMsgIndex = 0;
+    displayMessageTime = 3;
+    normalSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2", "FromSettleToSpin3"];
+    turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
+    settleTween: cc.Tween;
 
     onLoad() {
-        this.showMessageDisplay(RoundType.BEFORESPIN, false);
+        this.updateBeforeSpinMessage();
     }
 
-    showMessageDisplay(roundType: RoundType, isTurboMode: boolean) {
-        if (this.isTurboAutoSpin) {
+    updateAutoSpinCount(value: number) {
+        this.autoSpinCount = value;
+    }
+
+    updateAutoSpinStatus(status: boolean) {
+        this.isAutoSpin = status;
+    }
+
+    updateTurboModeStatus(status: boolean) {
+        this.isTurboMode = status;
+    }
+
+    showOtherMessages(roundType: RoundType) {
+        if (this.isAutoSpin) {
             this.handleTurboAutoSpin();
             return;
         }
@@ -38,27 +56,69 @@ export default class SlotGameBottomMessage extends cc.Component {
                 const deviceSuffix = cc.sys.isMobile ? "Phone" : "Desktop";
                 msg = `messages.showMsgWhenSpin${deviceSuffix}`;
                 break;
-            case RoundType.SETTLED:
-                msg = this.getRandomMessageForSettled(isTurboMode);
-                break;
             case RoundType.TUMBLEWIN:
                 msg = `messages.winTumbleMsg`;
                 break;
-
-            default:
-                break;
         }
-        this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(msg)}`);
+        this.msgText.string = GameUtils.capitalizeWordIntoString(GameUtils.getText(msg));
     }
 
     protected handleTurboAutoSpin() {
-        const leftAutoSpin = `treasureIsland.autoSpinLeft`;
-        this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(leftAutoSpin)} ${this.autoSpinCount}`);
+        const msg = `treasureIsland.autoSpinLeft`;
+        this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(msg)} ${this.autoSpinCount}`);
     }
 
-    protected getRandomMessageForSettled(isTurboMode: boolean) {
-        const items = isTurboMode ? [1, 2] : [1, 2, 3];
-        const item = items[_.random(items.length - 1)];
-        return `messages.FromSettleToSpin${item}`;
+    updateBeforeSpinMessage() {
+        if (this.isAutoSpin) {
+            this.handleTurboAutoSpin();
+            return;
+        }
+        const deviceSuffix = cc.sys.isMobile ? "Phone" : "Desktop";
+        this.msgText.string = GameUtils.capitalizeWordIntoString(GameUtils.getText(`messages.showMsgWhenSpin${deviceSuffix}`));
+    }
+
+    shuffleSettleMessage() {
+        this.normalSettledMsg = _.shuffle(this.normalSettledMsg);
+        this.turboSettledMsg = _.shuffle(this.turboSettledMsg);
+    }
+
+    reset() {
+        this.settleTween && this.settleTween.stop();
+        this.msgText.node.opacity = 255;
+    }
+
+    showSettledMessages() {
+        if (this.isAutoSpin) {
+            this.handleTurboAutoSpin();
+            return;
+        }
+
+        this.settleMsgIndex++;
+        const items = this.isTurboMode ? this.turboSettledMsg : this.normalSettledMsg;
+        if (this.settleMsgIndex > items.length - 1) {
+            this.settleMsgIndex = 0;
+        }
+
+        const msg = GameUtils.getText(`messages.${items[this.settleMsgIndex]}`);
+        this.msgText.string = GameUtils.capitalizeWordIntoString(msg);
+
+        this.settleTween = cc
+            .tween(this.msgText.node)
+            .to(0.3, { opacity: 255 }, { easing: "sineIn" })
+            .delay(this.displayMessageTime)
+            .call(() => {
+                this.hideMessage();
+            })
+            .start();
+    }
+
+    hideMessage() {
+        this.settleTween = cc
+            .tween(this.msgText.node)
+            .to(0.3, { opacity: 0 }, { easing: "sineOut" })
+            .call(() => {
+                this.showSettledMessages();
+            })
+            .start();
     }
 }
