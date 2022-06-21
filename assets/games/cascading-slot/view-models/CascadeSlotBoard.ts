@@ -140,10 +140,6 @@ export default class CascadeSlotBoard extends cc.Component {
         );
     }
 
-    public getItems() {
-        return this.reels.flatMap((reel) => reel.getItems());
-    }
-
     public addItems(data: number[][]) {
         this.reels.forEach((reel, index) => {
             const items = data[index];
@@ -151,8 +147,13 @@ export default class CascadeSlotBoard extends cc.Component {
         });
     }
 
+    public updateMultiplierItems(multipliers: number[]) {
+        const multiplierItems = this.getMultiplierItems();
+        multiplierItems.forEach((multiplierItem, index) => multiplierItem.setValue(multipliers[index]));
+    }
+
     public getMultiplierItems() {
-        const items = this.getItems();
+        const items = this.reels.flatMap((reel) => [...reel.getItems()].reverse());
         return items.flatMap((item) => {
             const comp = item.content.children[0].getComponent(MultiplierItem);
             return comp ? [comp] : [];

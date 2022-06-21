@@ -59,8 +59,13 @@ export default class CascadeSlotReel extends cc.Component {
 
     setItemData(data: number[], multiplier: number[]) {
         this.items.forEach((item, index) => {
-            item.setItem(data[index], multiplier);
+            item.setItem(data[index]);
         });
+
+        for (let i = this.items.length - 1; i >= 0; i--) {
+            const item = this.items[i];
+            item.updateMultiplierItem(multiplier);
+        }
     }
 
     setStartPositionForItems() {
@@ -148,7 +153,7 @@ export default class CascadeSlotReel extends cc.Component {
                 return;
             }
             const item = this.addItem();
-            item.setItem(value, []);
+            item.setItem(value);
             item.node.y = this.getItemPosY(this.itemDisplayCount + i);
             i++;
         });

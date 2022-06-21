@@ -12,10 +12,13 @@ export default class CascadeSlotReelItem extends cc.Component {
 
     public index = -1;
 
-    setItem(index: number, multiplier: number[]) {
+    setItem(index: number) {
         this.replaceItem(index);
         this.index = index;
-        if (index === 10 && multiplier.length > 0) {
+    }
+
+    updateMultiplierItem(multiplier: number[]) {
+        if (this.index === 10 && multiplier.length > 0) {
             const m = multiplier.shift();
             const multiplierItem = this.content.children[0].getComponent(MultiplierItem);
             multiplierItem.setValue(m);

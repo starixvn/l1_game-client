@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import GameUtils from "../../../common/GameUtils";
 import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
-import { CascadingSlotFinishData, WinIconDetail } from "../models/CascadingSlotFinishModel";
+import { CascadingSlotFinishData, Tumble, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import { CascadingSlotState } from "../models/CascadingSlotStateModel";
 import { SpinButtonState } from "../models/SpinButtonStateModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
@@ -51,7 +51,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     handleAutoSpin(mainGame);
 };
 
-const updateTotalWin = async (mainGame, data) => {
+const updateTotalWin = async (mainGame: CascadingSlotBase, data: CascadingSlotFinishData) => {
     const { win, actualBetwin } = data;
     if (win > 0) {
         await mainGame.tumbleWinView.setTotalWinValue(actualBetwin);
@@ -59,7 +59,7 @@ const updateTotalWin = async (mainGame, data) => {
     }
 };
 
-const updateUserBalance = (mainGame) => {
+const updateUserBalance = (mainGame: CascadingSlotBase) => {
     if (mainGame.isTrialMode) {
         mainGame.gameData.trialModel.updateSettledBalance();
     } else {
@@ -67,7 +67,7 @@ const updateUserBalance = (mainGame) => {
     }
 };
 
-const showEffectSpecialCase = async (mainGame, data) => {
+const showEffectSpecialCase = async (mainGame: CascadingSlotBase, data: CascadingSlotFinishData) => {
     const { bigWin, freeSpins } = data;
     if (bigWin) {
         await mainGame.showEffectBigWin(data.win);
@@ -78,7 +78,7 @@ const showEffectSpecialCase = async (mainGame, data) => {
     }
 };
 
-const handleTumbles = async (mainGame, tumbles, isTurbo) => {
+const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isTurbo: boolean) => {
     let multiplierCount = tumbles[0].multipliers.length;
     let countIconPerRound = 0;
     for (let i = 0; i < tumbles.length - 1; i++) {
@@ -108,8 +108,7 @@ const handleTumbles = async (mainGame, tumbles, isTurbo) => {
         await mainGame.board.removeItems(explode);
         countIconPerRound = mainGame.tumbleList.addIcons(icons, countIconPerRound);
         mainGame.board.addItems(newItems);
-        const multiplierItems = mainGame.board.getMultiplierItems();
-        multiplierItems.forEach((multiplierItem, index) => multiplierItem.setValue(tumbleMultipliers[index]));
+        mainGame.board.updateMultiplierItems(tumbleMultipliers);
         await mainGame.board.fallIn(isTurbo);
         if (getMoreMultiplier) {
             mainGame.gameData.uiModel.getMultiplier();
