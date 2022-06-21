@@ -73,6 +73,9 @@ export default class CascadingBetControl extends cc.Component {
         this.currentCoinIndex = 0;
         this.currentBetLevelIndex = 0;
         this.currentTotalBetIndex = 0;
+        const data = GameUtils.getGameSetting(this.gameId);
+        data.betControl = null;
+        GameUtils.setGameSetting(this.gameId, data);
     }
 
     init(callback: () => void) {

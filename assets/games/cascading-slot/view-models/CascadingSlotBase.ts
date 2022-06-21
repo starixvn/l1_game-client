@@ -148,6 +148,19 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         return this.isTrialMode ? this.trialUserBalance || 0 : super.getUserBalance();
     }
 
+    override onEnable() {
+        this.startGame();
+        const storage = GameUtils.getGameSetting(this.gameId);
+        if (storage.trialMode) {
+            const checked = true;
+            this.trialToggle.isChecked = checked;
+            this.isTrialMode = checked;
+            this.initTrialConnection();
+        } else {
+            this.registerViewGame();
+        }
+    }
+
     onTrialModeChanged(toggle: cc.Toggle) {
         AudioManager.getInstance().playClick();
 
@@ -158,6 +171,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         } else {
             this.registerViewGame();
         }
+        const storage = GameUtils.getGameSetting(this.gameId);
+        storage.trialMode = checked;
+        GameUtils.setGameSetting(this.gameId, storage);
         this.tumbleList.clear();
         this.tumbleList.offerTrialMode(this.isTrialMode);
         this.historyBtn.interactable = !this.isTrialMode;
@@ -168,7 +184,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.clearGameRound();
         this.gameData.uiModel.resetNewRound();
         this.turboToggle.isChecked = false;
-        GameUtils.clearGameSetting(this.gameId);
         this.betControl.resetValues();
         this.miniBetControl.initData(this.betControl);
     }
@@ -432,6 +447,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     checkExistNodeBet() {
         if (this.miniBetControl && this.betControl) {
+            this.betControl.gameId = this.gameId;
             this.miniBetControl.initData(this.betControl);
             this.betControl.showView(false);
         }
