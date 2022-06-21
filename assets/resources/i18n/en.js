@@ -42,7 +42,8 @@ window.i18n.languages.en = {
         45: "Hi-Lo",
         46: "Nightclub Lady",
         47: "Treasure Island",
-        48: "Blockchain Baccarat"
+        48: "Blockchain Baccarat",
+        "48_break": "Blockchain\nBaccarat"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",

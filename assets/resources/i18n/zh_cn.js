@@ -41,7 +41,8 @@ window.i18n.languages.zh_cn = {
         45: "Hi-Lo",
         46: "Nightclub Lady",
         47: "Treasure Island",
-        48: "Blockchain Baccarat"
+        48: "Blockchain Baccarat",
+        "48_break": "Blockchain\nBaccarat"
     },
     messages: {
         accountNotExist: "发生了错误。 详情请联系CSD，谢谢。(%{errorCode})",
