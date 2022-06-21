@@ -166,7 +166,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.clearGameRound();
         this.gameData.uiModel.resetNewRound();
         this.turboToggle.isChecked = false;
-        cc.sys.localStorage.setItem(`CASCADING_SLOT_BET_CONTROL`, "");
+        GameUtils.clearGameSetting(this.gameId);
         this.betControl.resetValues();
         this.miniBetControl.initData(this.betControl);
     }
@@ -423,9 +423,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     checkExistNodeBet() {
         if (this.miniBetControl && this.betControl) {
             this.miniBetControl.initData(this.betControl);
-            this.betControl.showView(false, () => {
-                this.miniBetControl.onClickOpenBetControl();
-            });
+            this.betControl.showView(false);
         }
     }
 

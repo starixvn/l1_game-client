@@ -34,25 +34,20 @@ export default class CascadingTotalBet extends cc.Component {
 
     initData(betControl: CascadingBetControl) {
         this.betControl = betControl;
+        this.betControl.init(() => {
+            this.onClickOpenBetControl();
+        });
     }
 
     onClickOpenBetControl() {
-        this.betControl.showView(!this.isOpenBetControl, () => {
-            this.onClickOpenBetControl();
-        });
+        this.betControl.showView(!this.isOpenBetControl);
         this.isOpenBetControl = !this.isOpenBetControl;
     }
 
     onHandleStatusBetControl(event: Event, customEventData: string) {
         AudioManager.getInstance().playClick();
 
-        this.betControl.showView(
-            !this.isOpenBetControl,
-            () => {
-                this.onClickOpenBetControl();
-            },
-            customEventData
-        );
+        this.betControl.showView(!this.isOpenBetControl, customEventData);
         this.isOpenBetControl = !this.isOpenBetControl;
     }
 

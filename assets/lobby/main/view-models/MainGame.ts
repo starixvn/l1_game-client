@@ -428,7 +428,7 @@ export default class MainGame extends cc.Component {
         this.miniPanel.setData(this);
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
-            cc.sys.localStorage.setItem(`CASCADING_SLOT_BET_CONTROL`, "");
+            GameUtils.clearGameSetting(gameId);
             GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();

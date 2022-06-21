@@ -80,13 +80,30 @@ export default class GameUtils {
         return { values, chipTotal };
     }
 
+    static clearGameSetting(gameId) {
+        cc.sys.localStorage.setItem(`UserSetting_game_${gameId}`, "");
+    }
+
+    static setGameSetting(gameId, data) {
+        cc.sys.localStorage.setItem(`UserSetting_game_${gameId}`, JSON.stringify(data));
+    }
+
+    static getGameSetting(gameId) {
+        const storage = cc.sys.localStorage.getItem(`UserSetting_game_${gameId}`);
+        if (!storage || !storage.length) {
+            return {};
+        }
+        const data = JSON.parse(storage);
+        return data;
+    }
+
     public static async openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}, callBackLobby = () => {}) {
         const info = GameInfos[gameId];
 
         if (info.remote && !info.mini) {
             const bundleManager = BundleManager.getInstance();
 
-            await bundleManager.loadBundle(gameId);
+            await bundleManager.loadBundle(gameId.toString());
         }
 
         if (!info.mini && gameId > 0) {

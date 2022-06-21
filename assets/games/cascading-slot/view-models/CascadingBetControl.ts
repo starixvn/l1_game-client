@@ -1,5 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import StatusButton from "../../../common/custom-button/StatusButton";
+import GameUtils from "../../../common/GameUtils";
 import CascadingSlotPlaceBetModel from "../models/CascadingSlotPlaceBetModel";
 import CascadingUIModel from "../models/CascadingUIModel";
 
@@ -64,6 +65,7 @@ export default class CascadingBetControl extends cc.Component {
     private placeBetModel: CascadingSlotPlaceBetModel;
     private uiModel: CascadingUIModel;
     betControlStorageKey = "CASCADING_SLOT_BET_CONTROL";
+    gameId: number;
 
     closeBetControl: () => void;
 
@@ -73,10 +75,13 @@ export default class CascadingBetControl extends cc.Component {
         this.currentTotalBetIndex = 0;
     }
 
-    showView(status: boolean, callback: () => void, action?: string) {
+    init(callback: () => void) {
+        this.closeBetControl = callback;
+    }
+
+    showView(status: boolean, action?: string) {
         this.node.active = status;
 
-        this.closeBetControl = callback;
         action === StatusAction.increase && this.onClickIncreaseTotalBet();
         action === StatusAction.decrease && this.onClickDecreaseTotalBet();
     }
@@ -246,22 +251,22 @@ export default class CascadingBetControl extends cc.Component {
     }
 
     private saveData() {
-        const data = {
+        const betControl = {
             coin: this.currentCoinValue,
             level: this.currentBetLevelValue,
             multiplier: this.betMultiplier
         };
-        cc.sys.localStorage.setItem(this.betControlStorageKey, JSON.stringify(data));
+        const data = GameUtils.getGameSetting(this.gameId);
+        data.betControl = betControl;
+        GameUtils.setGameSetting(this.gameId, data);
     }
 
     private loadDataFromStorage() {
-        const storage = cc.sys.localStorage.getItem(this.betControlStorageKey);
-        if (!storage || !storage.length) {
+        const data = GameUtils.getGameSetting(this.gameId);
+        if (!data.betControl) {
             return;
         }
-        const previousBet: BetControlType = JSON.parse(storage);
-        const { coin, level, multiplier } = previousBet;
-
+        const { coin, level, multiplier } = data.betControl;
         const coinIndex = this.coinValues.findIndex((value) => value === coin);
         const levelIndex = this.betLevels.findIndex((value) => value === level);
         if (coinIndex !== -1 && levelIndex !== -1 && multiplier === this.betMultiplier) {
