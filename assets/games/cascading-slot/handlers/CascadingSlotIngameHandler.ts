@@ -4,7 +4,7 @@ import { SpinButtonState } from "../models/SpinButtonStateModel";
 
 type IngameEventType = {
     totalMultiplier: number;
-    freeSpins: { total: number };
+    freeSpins: { total: number; betLevel: number; coinValue: number };
 };
 
 export class CascadingSlotIngameHandler<Choices> extends BaseEventHandler<IngameEventType, Choices> {
@@ -19,6 +19,8 @@ export class CascadingSlotIngameHandler<Choices> extends BaseEventHandler<Ingame
             this.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
         }
         if (freeSpins && freeSpins.total > 0) {
+            const { coinValue, betLevel } = freeSpins;
+            this.gameData.uiModel.setStakeFreeSpin(coinValue, betLevel);
             this.gameData.uiModel.setFreeSpins(freeSpins.total);
             this.gameData.uiModel.showFreeSpins(true);
             this.gameData.spinButtonStateModel.change(SpinButtonState.ResumeWithFreeSpin);

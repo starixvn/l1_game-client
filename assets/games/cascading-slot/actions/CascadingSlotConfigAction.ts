@@ -1,7 +1,7 @@
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import { CascadingSlotConfigData } from "./../models/CascadingSlotConfigModel";
 
-export const HandleBetControl = (mainGame: CascadingSlotBase) => (data: CascadingSlotConfigData) => {
+export const handleBetControl = (mainGame: CascadingSlotBase) => (data: CascadingSlotConfigData) => {
     mainGame.betControl.onSetData(
         {
             coinValues: data.coinValues,

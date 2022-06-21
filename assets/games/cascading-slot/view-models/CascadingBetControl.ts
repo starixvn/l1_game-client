@@ -270,9 +270,14 @@ export default class CascadingBetControl extends cc.Component {
             return;
         }
         const { coin, level, multiplier } = data.betControl;
+        this.updateSelectedCoinLevel(coin, level);
+    }
+
+    updateSelectedCoinLevel(coin: number, level: number) {
         const coinIndex = this.coinValues.findIndex((value) => value === coin);
         const levelIndex = this.betLevels.findIndex((value) => value === level);
-        if (coinIndex !== -1 && levelIndex !== -1 && multiplier === this.betMultiplier) {
+
+        if (coinIndex !== -1 && levelIndex !== -1) {
             this.currentCoinValue = coin;
             this.currentCoinIndex = coinIndex;
             this.currentBetLevelValue = level;
@@ -304,7 +309,7 @@ export default class CascadingBetControl extends cc.Component {
         this.nodeButtons[OrderButtonNode.totalDecrease].interactable = this.currentTotalBetIndex > 0;
     }
 
-    private updatePlaceBetAndUIModel() {
+    updatePlaceBetAndUIModel() {
         this.saveData();
         this.placeBetModel.change({
             betLevel: this.betLevels[this.currentBetLevelIndex],

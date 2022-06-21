@@ -9,6 +9,7 @@ export default class CascadingUIModel extends EventEmitterBase {
 
         SHOW_FREESPINS: "ui:show_freespins",
         SET_FREESPINS: "ui:set_freespins",
+        SET_STAKE_FREESPINS: "ui:set_stake_freespins",
         INCREASE_FREESPINS: "ui:increase_frespins",
 
         CHANGE_TOTAL_BET: "ui:change_total_bet",
@@ -70,6 +71,10 @@ export default class CascadingUIModel extends EventEmitterBase {
 
     showFreeSpins(show: boolean) {
         this.emit(CascadingUIModel.Events.SHOW_FREESPINS, show);
+    }
+
+    setStakeFreeSpin(coin: number, level: number) {
+        this.emit(CascadingUIModel.Events.SET_STAKE_FREESPINS, { coin, level });
     }
 
     increaseFrespins(value: number) {

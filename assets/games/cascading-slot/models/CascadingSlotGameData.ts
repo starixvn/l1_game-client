@@ -34,10 +34,10 @@ export default class CascadingSlotGameData<Choices> extends FeatureSlotGameData<
 
     protected registerEventHandlers() {
         const handlers = [
+            CascadingSlotConfigHandler,
             CascadingSlotIngameHandler,
             CascadingSlotFinishHandler,
             CascadingSlotApiErrorHandler,
-            CascadingSlotConfigHandler,
             CascadingSlotTrialHandler
         ];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));

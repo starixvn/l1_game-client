@@ -10,7 +10,7 @@ import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
 import { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
 import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import SlotGameTopMessage from "../../_slotgame_base/SlotGameTopMessage";
-import { HandleBetControl } from "../actions/CascadingSlotConfigAction";
+import { handleBetControl } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
 import { CascadingSlotFinishData, CascadingSlotFinishModel } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
@@ -299,6 +299,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.checkShowTopMessage();
         });
 
+        this.gameData.uiModel.on(CascadingUIModel.Events.SET_STAKE_FREESPINS, ({ coin, level }) => {
+            this.betControl.updateSelectedCoinLevel(coin, level);
+            this.betControl.updatePlaceBetAndUIModel();
+        });
+
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
             this.totalFreeSpins = value;
             this.freeSpinView.setValue(value);
@@ -321,7 +326,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.gameConfig.on(CascadingSlotConfigModel.Events.CHANGE, (data: any) => {
-            HandleBetControl(this)(data);
+            handleBetControl(this)(data);
             this.topMessage.updateMsgHaveMaxWin(+data.maxWinPerRound);
         });
 
