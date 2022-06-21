@@ -521,7 +521,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.trialToggle.interactable = false;
             this.setAllowChangeBet(false);
             this.enableSpinButton(false);
-            this.autoSpinToggle.interactable = false;
+            if (!this.autoSpinToggle.isChecked) {
+                this.autoSpinToggle.interactable = false;
+            }
             return;
         }
 
