@@ -32,6 +32,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     updateUserBalance(mainGame);
 
     if (winMultiplier && isFreeSpin) {
+        await mainGame.totalMultiplierView.showView(true);
         await movingMultiplier(mainGame.tumbleWinView.multiplier.node, mainGame.effectContainer, mainGame.totalMultiplierView.total.node);
     }
     mainGame.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
