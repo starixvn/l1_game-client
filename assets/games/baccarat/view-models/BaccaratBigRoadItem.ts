@@ -44,7 +44,7 @@ export default class BaccaratBigRoadItem extends cc.Component {
 
         node.getChildByName(this.NodeItems.BANKER).active = baccaratSettleResult[0].banker;
         node.getChildByName(this.NodeItems.PLAYER).active = baccaratSettleResult[0].player;
-        node.getChildByName(this.NodeItems.NATURAL).active = baccaratSettleResult[0].natural;
+        node.getChildByName(this.NodeItems.NATURAL).active = baccaratSettleResult.some((settlementResult) => settlementResult.natural);
         node.getChildByName(this.NodeItems.BANKERPAIR).active = baccaratSettleResult[0].bankerPair;
         node.getChildByName(this.NodeItems.PLAYERPAIR).active = baccaratSettleResult[0].playerPair;
 
