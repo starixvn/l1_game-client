@@ -1,15 +1,15 @@
 export class CascadingSlotBaseConfig {
     normal: CascadingSlotConfigDuration = {
         highlightWinItemsDuration: 0.5,
-        freeSpin: 4,
-        bigWin: 4,
+        freeSpin: 3,
+        bigWin: 1,
         bigWinFloatNumber: 3,
         delayForNextSpin: 0.3
     };
 
     turbo: CascadingSlotConfigDuration = {
         highlightWinItemsDuration: 0.3,
-        freeSpin: 0.5,
+        freeSpin: 3,
         bigWin: 0.5,
         bigWinFloatNumber: 0.3,
         delayForNextSpin: 0.1

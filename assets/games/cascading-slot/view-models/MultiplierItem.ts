@@ -54,7 +54,7 @@ export default class MultiplierItem extends cc.Component {
     }
 
     updateColor(value: number) {
-        const color = ["green", "blue", "yellow", "purple"];
+        const color = ["green", "blue", "purple", "yellow"];
         let i = 0;
         const range = [10, 20, 30];
         for (; i < range.length; i++) {
