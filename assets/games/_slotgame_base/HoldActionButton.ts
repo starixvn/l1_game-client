@@ -35,11 +35,10 @@ export default class HoldActionButton extends cc.Component {
     private handleTouchEnd(event: cc.Event.EventTouch) {
         const location = event.getLocation();
         const hit = this.node._hitTest(location);
+        this.stopHoldButton();
         if (hit) {
             this.doAction();
         }
-
-        this.stopHoldButton();
     }
 
     private handleTouchMove(event: cc.Event.EventTouch) {
