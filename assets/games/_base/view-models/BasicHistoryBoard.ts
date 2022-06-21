@@ -5,7 +5,7 @@ import GameBase from "../../_base/GameBase";
 const { ccclass, property } = cc._decorator;
 
 export class BasicHistoryData {
-    constructor(public name: string, public value: string) {}
+    constructor(public name: string, public value: string, public playerPair?: boolean, public bankerPair?: boolean) {}
 }
 
 @ccclass
@@ -33,6 +33,7 @@ export default class BasicHistoryBoard extends cc.Component {
     dots: cc.Node[] = [];
     nextMark: cc.Node = null;
     private checkShowNext = () => false;
+    private childName = { playerPair: "playerPair", bankerPair: "bankerPair" };
 
     onLoad() {
         const itemsNode = cc.instantiate(this.itemsPrefab);
@@ -57,6 +58,8 @@ export default class BasicHistoryBoard extends cc.Component {
             const historyItem = _.find(this.items, (item) => item.name.toLowerCase() === history.name);
             const historyDot = cc.instantiate(historyItem);
             historyDot.active = true;
+            historyDot.getChildByName(this.childName.playerPair).active = history.playerPair;
+            historyDot.getChildByName(this.childName.bankerPair).active = history.bankerPair;
             this.content.addChild(historyDot);
             this.dots.push(historyDot);
         });

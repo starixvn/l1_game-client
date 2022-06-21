@@ -13,7 +13,9 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
     private readonly childrenItemKey = {
         symbol: "symbol",
         number: "number",
-        value: "value"
+        value: "value",
+        playerPair: "playerPair",
+        bankerPair: "bankerPair"
     };
 
     private isSymbolMode = true;
@@ -51,6 +53,8 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
         dot.getChildByName(this.childrenItemKey.symbol).active = this.isSymbolMode;
         dot.getChildByName(this.childrenItemKey.number).active = !this.isSymbolMode;
         dot.getChildByName(this.childrenItemKey.value).active = !this.isSymbolMode;
+        dot.getChildByName(this.childrenItemKey.playerPair).active = history.playerPair;
+        dot.getChildByName(this.childrenItemKey.bankerPair).active = history.bankerPair;
         this.content.addChild(dot);
         this.dots.push(dot);
     }

@@ -4,7 +4,6 @@ import { BlockchainBaccaratRoundHistory } from "./../event-models/BlockchainBacc
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 
 export const handleJoinRoom = (mainGame: BlockchainBaccarat) => (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number) => {
-    console.log(mainGame.timeHandler.isInWaitTime, mainGame.timeHandler.isInRoundTime, mainGame.currentTimeRemaining);
     const lastRound = roundHistory[0];
     if (mainGame.timeHandler.isInWaitTime) {
         const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);

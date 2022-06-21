@@ -162,12 +162,27 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         const result = round.result;
         const settlementResult = round.settlementResult;
         if (settlementResult?.player) {
-            return new BasicHistoryData("player", this.calculateTotalScore(result.player));
+            return new BasicHistoryData(
+                "player",
+                this.calculateTotalScore(result.player),
+                settlementResult.playerPair,
+                settlementResult.bankerPair
+            );
         } else {
             if (settlementResult?.banker) {
-                return new BasicHistoryData("banker", this.calculateTotalScore(result.banker));
+                return new BasicHistoryData(
+                    "banker",
+                    this.calculateTotalScore(result.banker),
+                    settlementResult.playerPair,
+                    settlementResult.bankerPair
+                );
             } else {
-                return new BasicHistoryData("tie", this.calculateTotalScore(result.player));
+                return new BasicHistoryData(
+                    "tie",
+                    this.calculateTotalScore(result.player),
+                    settlementResult.playerPair,
+                    settlementResult.bankerPair
+                );
             }
         }
     }

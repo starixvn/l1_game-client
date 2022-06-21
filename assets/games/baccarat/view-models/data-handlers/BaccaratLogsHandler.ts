@@ -99,13 +99,13 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
         const historyData = _.map(dataLogs, (log) => {
             const result = log.result;
             if (result.banker) {
-                return new BasicHistoryData("banker", "0");
+                return new BasicHistoryData("banker", "0", result.playerPair, result.bankerPair);
             }
             if (result.player) {
-                return new BasicHistoryData("player", "0");
+                return new BasicHistoryData("player", "0", result.playerPair, result.bankerPair);
             }
             if (result.tie) {
-                return new BasicHistoryData("tie", "0");
+                return new BasicHistoryData("tie", "0", result.playerPair, result.bankerPair);
             }
 
             return new BasicHistoryData("", "0");
