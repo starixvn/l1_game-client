@@ -279,6 +279,7 @@ export default class CascadingBetControl extends cc.Component {
             this.currentBetLevelIndex = levelIndex;
             this.updateTotalBet(level, coin);
             this.updateDisplayLabels();
+            this.updateAllButtonStatus();
         }
     }
 
