@@ -12,6 +12,7 @@ import InGameMenu, { InGameMenuEvents } from "../../common/in-game-menu/InGameMe
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
+import UserProfile from "../../common/user-profile/UserProfile";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { GameInfos } from "../../configs/SabaConfigs";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
@@ -105,6 +106,8 @@ export default class GameBase extends BaseComponent {
 
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
+
+    userProfile: UserProfile;
 
     protected _gameId: number;
     protected historyComponent: SocketIOGameHistoryBase;

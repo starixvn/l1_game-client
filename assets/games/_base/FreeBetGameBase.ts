@@ -4,6 +4,7 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import MultiOrientationGame from "./MultiOrientationGame";
 import SedieWallet from "../sedie/view-models/SedieWallet";
 import { Orientation } from "./Orientation";
+import UserProfile from "../../common/user-profile/UserProfile";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,6 +37,9 @@ export default class FreeBetGameBase extends MultiOrientationGame {
     })
     userScoinWallet: SedieWallet = null;
 
+    @property({ type: UserProfile })
+    userProfile: UserProfile = null;
+
     private isFreeBet = false;
     private isFocusScoin = false;
     protected socket: Socket;
@@ -63,6 +67,7 @@ export default class FreeBetGameBase extends MultiOrientationGame {
     updateDisplayScoinUI(scoins) {
         if (this.gameConfigs && this.gameConfigs.enableFreeBet) {
             this.userScoinWallet.balance.string = numberWithCommas(scoins);
+
             if (!this.isFocusScoin && scoins > 0) {
                 this.isFocusScoin = true;
                 this.isFreeBet = true;
@@ -83,6 +88,10 @@ export default class FreeBetGameBase extends MultiOrientationGame {
         if (void 0 !== user.scoins) {
             this.updateDisplayScoinUI(user.scoins);
         }
+    }
+
+    onUserProfileInitialized(node: cc.Node) {
+        super.onUserProfileInitialized(node);
     }
 
     loadDollarWalletUI() {

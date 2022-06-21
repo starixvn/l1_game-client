@@ -111,7 +111,7 @@ export default class GameBaseFinishHandler implements DataHandler {
             this.moveChipWithAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
         }
 
-        const playerNode = mainRoomGame.userAvatar.node.parent;
+        const playerNode = mainRoomGame.userProfile.userAvatar.node.parent;
         this.main.showWinningBet(statusData.bet);
         this.playWinningEffect(mainRoomGame, playerNode);
         this.main.updateUserBalance();
@@ -120,7 +120,7 @@ export default class GameBaseFinishHandler implements DataHandler {
     moveChipWithRandomAmountToLoginPlayer(winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) {
         _.forEach(winBetItems, (item) => {
             if (betItems[item.node.name.toLowerCase()]) {
-                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userAvatar.node, this.payChipFlyTime);
+                this.main.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userProfile.userAvatar.node, this.payChipFlyTime);
             }
         });
     }
@@ -130,7 +130,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
         _.forEach(winBetItems, (item) => {
             if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
-                this.main.betChips.moveChips(item.chipNode, mainRoomGame.userAvatar.node);
+                this.main.betChips.moveChips(item.chipNode, mainRoomGame.userProfile.userAvatar.node.parent);
             }
         });
     }

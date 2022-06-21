@@ -267,9 +267,9 @@ export default class Sedie extends FreeBetGameBase {
     showWinningBet(bet: number) {
         let winningBet;
         if (this.orientation === Orientation.Landscape) {
-            winningBet = GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, this.WinningAnimationDuration, 80, 10);
+            winningBet = GameUtils.addFlyingText(this.userProfile.userAvatar.node.parent, true, bet, this.WinningAnimationDuration, 80, 10);
         } else {
-            winningBet = GameUtils.addFlyingText(this.userBalance.node, true, bet, this.WinningAnimationDuration, 20, 40);
+            winningBet = GameUtils.addFlyingText(this.userProfile.userBalance.node, true, bet, this.WinningAnimationDuration, 20, 40);
         }
 
         winningBet.name = "winningBet";
@@ -277,9 +277,9 @@ export default class Sedie extends FreeBetGameBase {
 
     showAcceptedBet(bet: number) {
         if (this.orientation === Orientation.Landscape) {
-            GameUtils.addFlyingText(this.userAvatar.node.parent, false, bet, 1, 80);
+            GameUtils.addFlyingText(this.userProfile.userAvatar.node.parent, false, bet, 1, 80);
         } else {
-            GameUtils.addFlyingText(this.userBalance.node, false, bet, 1, 40);
+            GameUtils.addFlyingText(this.userProfile.userBalance.node, false, bet, 1, 40);
         }
     }
 }
