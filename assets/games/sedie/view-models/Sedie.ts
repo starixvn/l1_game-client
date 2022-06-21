@@ -172,7 +172,7 @@ export default class Sedie extends FreeBetGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(SedieHistory);
         this.historyComponent.init(this.socket);
-        this.currentMiniPanel.node.addChild(dialog);
+        this.currentMiniPanel.addDialog(dialog);
     }
 
     showHideResult(show: boolean) {
