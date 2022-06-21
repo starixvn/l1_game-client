@@ -28,6 +28,12 @@ export default class TumbleWinView extends FadeAppearanceNode {
         this.showTotalWin(false);
     }
 
+    clearLabels() {
+        this.tumbleLabel.string = "";
+        this.totalWin.string = "";
+        this.multiplier.string = "";
+    }
+
     setTumbleWinValue(value: number, animated: boolean) {
         this.showView(true);
         if (animated) {

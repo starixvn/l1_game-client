@@ -314,7 +314,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.uiModel.on(CascadingUIModel.Events.RESET_NEW_ROUND, () => {
             this.totalWinLabel.string = "0";
-            this.tumbleWinView.showView(false, true);
+            this.tumbleWinView.showView(false, true).then(() => {
+                this.tumbleWinView.clearLabels();
+            });
             this.checkShowTopMessage();
         });
 
