@@ -13,7 +13,7 @@ export default class HoldActionButton extends cc.Component {
     interactable = true;
 
     get isAutoAction() {
-        return this.isTouching || this.isKeyPressing;
+        return this.interactable && (this.isTouching || this.isKeyPressing);
     }
 
     public addAction(action: () => void) {
