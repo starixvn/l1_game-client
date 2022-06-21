@@ -44,6 +44,9 @@ export default class BlockchainBaccaratCards extends cc.Component {
     @property
     isBanker = false;
 
+    @property(cc.Node)
+    title: cc.Node = null;
+
     readonly durationFlyCard = 0.4;
     readonly durationFlyCard3 = 0.2;
     readonly durationDropCard = 0.2;
@@ -165,7 +168,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
         } else {
             card.runAction(
                 cc.spawn(
-                    cc.rotateTo(this.durationFlyCard, isCardThree ? (this.isBanker ? 90 : -90) : 0).easing(cc.easeInOut(2)),
+                    cc.rotateTo(this.durationFlyCard, isCardThree ? (this.isBanker ? -90 : -90) : 0).easing(cc.easeInOut(2)),
                     cc.scaleTo(this.durationFlyCard, scale).easing(cc.easeInOut(2)),
                     cc.moveTo(this.durationFlyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
                 )

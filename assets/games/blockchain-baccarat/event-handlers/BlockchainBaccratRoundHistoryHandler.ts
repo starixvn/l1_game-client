@@ -6,10 +6,7 @@ export type BlockchainBaccaratRoundHistoryType<Choices> = {
     roundHistory: BlockchainBaccaratRoundHistory[];
 };
 
-export default class BlockchainBaccaratRoundHistoryHandler<Choices> extends BaseEventHandler<
-    BlockchainBaccaratRoundHistoryType<Choices>,
-    Choices
-> {
+export class BlockchainBaccaratRoundHistoryHandler<Choices> extends BaseEventHandler<BlockchainBaccaratRoundHistoryType<Choices>, Choices> {
     protected readonly gameData: BlockchainBaccaratGameData<Choices>;
 
     protected verifyEvent(event: BlockchainBaccaratRoundHistoryType<Choices>) {

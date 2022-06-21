@@ -6,7 +6,7 @@ export type BlockchainBaccaratTotalBet<Choices> = {
     totalBets: BlockchainBaccaratTotalBetType;
 };
 
-export default class BlockchainBaccaratTotalBetHandler<Choices> extends BaseEventHandler<BlockchainBaccaratTotalBet<Choices>, Choices> {
+export class BlockchainBaccaratTotalBetHandler<Choices> extends BaseEventHandler<BlockchainBaccaratTotalBet<Choices>, Choices> {
     protected readonly gameData: BlockchainBaccaratGameData<Choices>;
 
     protected verifyEvent(event: BlockchainBaccaratTotalBet<Choices>) {

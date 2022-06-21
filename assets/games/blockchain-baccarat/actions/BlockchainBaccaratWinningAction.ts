@@ -6,7 +6,7 @@ import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 export const showLabelWinning =
     (main: BlockchainBaccarat) =>
     (resultData: BaccaratSettlementResult, isAnimated = true) => {
-        const winNoticeNode = main.winNoticeLabel.node.parent;
+        const winNoticeNode = main.cardsUI.winningNotice.node.parent;
         const keys = getLowercaseObjectKeys(resultData);
         let key = "tie_win";
         main.betOptionsUI?.betItems.forEach((item) => item.setHighlight(resultData[keys[item.node.name.toLowerCase()]], isAnimated));
@@ -16,7 +16,7 @@ export const showLabelWinning =
         } else if (resultData.player) {
             key = "player_win";
         }
-        main.winNoticeLabel.string = i18n.t(`ui.${key}`).toUpperCase();
+        main.cardsUI.winningNotice.string = i18n.t(`ui.${key}`).toUpperCase();
         winNoticeNode.active = true;
     };
 

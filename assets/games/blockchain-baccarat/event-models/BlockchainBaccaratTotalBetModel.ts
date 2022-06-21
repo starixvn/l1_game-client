@@ -10,7 +10,7 @@ export type BlockchainBaccaratTotalBetType = {
     tie?: number;
 };
 
-export default class BlockchainBaccaratTotalBetModel extends EventEmitterBase {
+export class BlockchainBaccaratTotalBetModel extends EventEmitterBase {
     static Events = {
         CHANGE: "totalBet:change"
     };

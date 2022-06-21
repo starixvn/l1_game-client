@@ -32,7 +32,7 @@ export type BlockchainBaccaratConfigData = {
     _id: string;
 };
 
-export default class BlockchainBaccaratConfigsModel extends EventEmitterBase {
+export class BlockchainBaccaratConfigsModel extends EventEmitterBase {
     static Events = {
         CHANGE: "configs:change"
     };

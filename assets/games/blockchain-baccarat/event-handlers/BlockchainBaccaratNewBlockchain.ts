@@ -6,7 +6,7 @@ export type BlockchainBaccaratNewBlockchainType<Choices> = {
     newBlockchain: Blockchain;
 };
 
-export default class BlockchainBaccaratNewBlockchainHandler<Choices> extends BaseEventHandler<
+export class BlockchainBaccaratNewBlockchainHandler<Choices> extends BaseEventHandler<
     BlockchainBaccaratNewBlockchainType<Choices>,
     Choices
 > {

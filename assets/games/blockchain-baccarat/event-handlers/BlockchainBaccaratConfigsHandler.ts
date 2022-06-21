@@ -17,7 +17,7 @@ export type BlockchainBaccaratConfigType<Choices> = {
     };
 };
 
-export default class BlockchainBaccaratConfigsHandler<Choices> extends BaseEventHandler<BlockchainBaccaratConfigType<Choices>, Choices> {
+export class BlockchainBaccaratConfigsHandler<Choices> extends BaseEventHandler<BlockchainBaccaratConfigType<Choices>, Choices> {
     protected readonly gameData: BlockchainBaccaratGameData<Choices>;
 
     protected verifyEvent(event: BlockchainBaccaratConfigType<Choices>) {

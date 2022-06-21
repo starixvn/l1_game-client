@@ -1,5 +1,4 @@
 import BaccaratTimeDataHandler from "../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
-import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 import BlockchainBaccaratCards from "../view-models/card/BlockchainBaccaratCards";
 
@@ -10,10 +9,63 @@ export type CardPrepare = {
     delay: number;
 };
 
-export default class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
+export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
     protected dealCardsTime = 3;
+    protected durationNewShoe = 10;
+    protected durationShowNewShoe = this.main.config.fullTime - this.dealCardsTime;
+    isNewShoe = false;
+    isShowShoe = false;
+
+    get isInWaitTime() {
+        if (this.main.currentTimeRemaining > this.main.config.fullTime) {
+            this.isNewShoe = true;
+            return true;
+        } else {
+            return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime; // > 33
+        }
+    }
+
     protected getOwnMain(): BlockchainBaccarat {
         return this.main as BlockchainBaccarat;
+    }
+
+    handleWaitTime() {
+        if (this.main.timeWaitNode) {
+            if (this.isNewShoe && this.main.currentTimeRemaining === this.durationShowNewShoe) {
+                if (!this.isShowShoe) {
+                    this.main.resetDataAndUI();
+                    const blockchainBaccarat: BlockchainBaccarat = this.getOwnMain();
+                    const gameData = blockchainBaccarat.gameData;
+                    const cardContainer = blockchainBaccarat.cardsUI;
+                    cardContainer.handleShuffleCards(gameData.cardList.newBlockchain, blockchainBaccarat.currentTimeRemaining);
+
+                    this.isShowShoe = true;
+                }
+            } else {
+                this.main.finishShowResult && this.showWaitTime();
+            }
+        }
+
+        this.showMainTime(false);
+        this.main.showProcessingWarning(false);
+        this.main.setGameRound(this.main.roundId - 1);
+    }
+
+    handleNotWaitTime() {
+        this.isNewShoe = false;
+        super.handleNotWaitTime();
+    }
+
+    showWaitTime() {
+        if (this.isNewShoe && this.main.currentTimeRemaining <= this.durationShowNewShoe + 1) {
+            this.main.timeWaitNode.active = false;
+        } else {
+            this.main.timeWaitNode.active = true;
+        }
+
+        this.main.timeWaitLabel.string = this.formatTime(
+            this.main.currentTimeRemaining - this.main.config.betTime - this.dealCardsTime - 1 - (this.isNewShoe ? this.durationNewShoe : 0)
+        );
     }
 
     async handleFlyCards() {
@@ -23,6 +75,7 @@ export default class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandl
         const numberCardsFlied = gameData.cardList.numberCardsFly;
         const cardContainer = blockchainBaccarat.cardsUI;
 
+        cardContainer.setActiveCardsUI(true);
         await cardContainer.collectCardsOnTable();
         const lastRound = gameData.finishModel.finishData ?? gameData.roundHistory.list[0];
         blockchainBaccarat.lastRoundIfo.updateUI(lastRound, currentCardIndex);

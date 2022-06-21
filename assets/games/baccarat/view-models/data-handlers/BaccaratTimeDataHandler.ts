@@ -7,19 +7,19 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
     protected dealCardsTime = 2;
 
     get isInWaitTime() {
-        return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime;
+        return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime; // > 33
     }
 
     get isStartingNewGameRound() {
-        return this.main.currentTimeRemaining === this.main.config.betTime + this.dealCardsTime;
+        return this.main.currentTimeRemaining === this.main.config.betTime + this.dealCardsTime; // =33
     }
 
     get isInRoundTime() {
-        return this.main.currentTimeRemaining >= this.main.config.minBetTime && this.main.currentTimeRemaining <= this.main.config.betTime;
+        return this.main.currentTimeRemaining >= this.main.config.minBetTime && this.main.currentTimeRemaining <= this.main.config.betTime; // 1 - 30
     }
 
     get isInEndTime() {
-        return this.main.currentTimeRemaining < this.main.config.minBetTime;
+        return this.main.currentTimeRemaining < this.main.config.minBetTime; // < 1
     }
 
     protected getOwnMain(): any {
@@ -33,6 +33,7 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
             this.handleNotWaitTime();
         }
         this.main.currentTimeRemaining--;
+        console.log(this.main.currentTimeRemaining, "this.main.currentTimeRemaining");
     }
 
     handleNotWaitTime() {

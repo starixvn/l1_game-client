@@ -1,30 +1,27 @@
-import { showHighLightBet } from "./../actions/BlockchainBaccaratWinningAction";
-import { BlockchainBaccaratRoundHistory } from "./../event-models/BlockchainBaccaratRoundHistory";
-import { handleJoinRoom } from "./../actions/BlockchainBaccaratJoinRoomAction";
-import { updateGameConfigs } from "../actions/BlockchainBaccaratConfigsAction";
+import { BlockchainBaccaratTimeHandler, BlockchainBaccaratBetHandler } from "../event-handlers/BlockchainBaccaratHandler";
+import * as blockchainAction from "../actions/BlockchainBaccaratActions";
+import {
+    BlockchainBaccaratConfigsModel,
+    BlockchainBaccaratTotalBetModel,
+    BlockchainBaccaratRoundHistoryModel,
+    BlockchainBaccaratFinishModel,
+    BlockchainBaccaratCardListModel,
+    BlockchainBaccaratRoundHistory,
+    BlockchainBaccaratFinish,
+    Blockchain
+} from "../event-models/BlockchainBaccaratModel";
 import { GameIds } from "../../../configs/SabaConfigs";
 import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
-import BlockchainBaccaratTimeHandler from "../event-handlers/BlockchainBaccaratTimeHandler";
-import BlockchainBaccaratConfigsModel from "../event-models/BlockchainBaccaratConfigsModel";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BlockchainBaccaratConfig } from "./BlockchainBaccaratConfig";
-import BlockchainBaccaratBetHandler from "../event-handlers/BlockchainBaccaratBetHandler";
 import BlockchainCardList from "./card-list/BlockchainCardList";
 import BlockchainBaccaratCardsUI from "./BlockchainBaccaratCardsUI";
-import BlockchainBaccaratTotalBetModel from "../event-models/BlockchainBaccaratTotalBetModel";
-import { handlePercentBet } from "../actions/BlockchainBaccaratTotalBetAction";
 import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
 import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
 import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
-import BlockchainBaccaratRoundHistoryModel from "../event-models/BlockchainBaccaratRoundHistoryModel";
-import { renderCardSettlement, updateBlockchainCardList } from "../actions/BlockchainBaccaratCardListActions";
-import { BlockchainBaccaratFinish, BlockchainBaccaratFinishModel } from "../event-models/BlockchainBaccaratFinishModel";
-import BlockchainBaccaratCardListModel, { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
-import { openCards } from "../actions/BlockchainBaccaratCardsActions";
 import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
 import BlockchainBaccaratTicketHistory from "./history/BlockchainBaccaratTicketHistory";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
-import { showLabelWinning } from "../actions/BlockchainBaccaratWinningAction";
 import { updateOtherPlayerBalance } from "../../_base/action/OtherPlayerAction";
 import { payChips } from "../../_base/action/PayChipsAction";
 
@@ -46,9 +43,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     @property(cc.Node)
     cardsContainer: cc.Node = null;
-
-    @property(cc.Label)
-    winNoticeLabel: cc.Label = null;
 
     gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
@@ -78,8 +72,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-
-        this.winNoticeLabel.node.parent.active = false;
+        this.cardsUI?.winningNotice && (this.cardsUI.winningNotice.node.parent.active = false);
     }
 
     private initCardList() {
@@ -126,10 +119,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         }
     }
 
-    handlePositionMiniRoundHistory() {
-        //handlePositionMiniRoundHistory
-    }
-
     openHistory() {
         this.playClick();
         const historyNode = cc.instantiate(this.historyPrefab);
@@ -140,14 +129,14 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     private registerGameEvents() {
-        this.gameData.configs.on(BlockchainBaccaratConfigsModel.Events.CHANGE, updateGameConfigs(this));
+        this.gameData.configs.on(BlockchainBaccaratConfigsModel.Events.CHANGE, blockchainAction.updateGameConfigs(this));
         this.gameData.totalBet.on(BlockchainBaccaratTotalBetModel.Events.CHANGE, (totalBet) => {
-            handlePercentBet(this.betItems as BlockchainBaccaratBetItem[])(totalBet);
+            blockchainAction.handlePercentBet(this.betItems as BlockchainBaccaratBetItem[])(totalBet);
         });
         this.gameData.roundHistory.on(
             BlockchainBaccaratRoundHistoryModel.Events.CHANGE,
             (roundHistory: BlockchainBaccaratRoundHistory[]) => {
-                handleJoinRoom(this)(roundHistory, this.gameData.cardList.currentIndex);
+                blockchainAction.handleJoinRoom(this)(roundHistory, this.gameData.cardList.currentIndex);
             }
         );
 
@@ -157,13 +146,13 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     private registerFinishEvents() {
-        this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, renderCardSettlement(this));
+        this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, blockchainAction.renderCardSettlement(this));
         this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
             this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
-            openCards(this.cardsUI)(finishData, () => {
+            blockchainAction.openCards(this.cardsUI)(finishData, () => {
                 //show winning
-                showLabelWinning(this)(finishData.settlementResult);
-                showHighLightBet(this)(finishData.settlementResult);
+                blockchainAction.showLabelWinning(this)(finishData.settlementResult);
+                blockchainAction.showHighLightBet(this)(finishData.settlementResult);
                 this.scoreboard.renderScoreBoardEachRound(finishData);
                 if (this.playerHandler) {
                     updateOtherPlayerBalance(finishData.winningPlayers, this);
@@ -176,7 +165,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     private registerNewBlockchainEvents() {
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, () => {
-            updateBlockchainCardList(this);
+            blockchainAction.updateBlockchainCardList(this);
             this.scoreboard.resetScoreboard();
             this.lastRoundIfo.reset();
         });

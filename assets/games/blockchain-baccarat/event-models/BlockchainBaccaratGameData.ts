@@ -1,16 +1,19 @@
-import BlockchainBaccaratConfigsHandler from "../event-handlers/BlockchainBaccaratConfigsHandler";
-import BlockchainBaccaratCardListHandler from "../event-handlers/BlockchainBaccaratCardListHandler";
-import BlockchainBaccaratRoundHistoryHandler from "../event-handlers/BlockchainBaccratRoundHistoryHandler";
-import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
+import {
+    BlockchainBaccaratConfigsHandler,
+    BlockchainBaccaratCardListHandler,
+    BlockchainBaccaratRoundHistoryHandler,
+    BlockchainBaccaratTotalBetHandler,
+    BlockchainBaccaratFinishHandler,
+    BlockchainBaccaratNewBlockchainHandler
+} from "../event-handlers/BlockchainBaccaratHandler";
+import {
+    BlockchainBaccaratConfigsModel,
+    BlockchainBaccaratFinishModel,
+    BlockchainBaccaratRoundHistoryModel,
+    BlockchainBaccaratCardListModel,
+    BlockchainBaccaratTotalBetModel
+} from "../event-models/BlockchainBaccaratModel";
 import { GameData } from "./../../_new/_base/game-data-management/models/game-data";
-import BlockchainBaccaratConfigsModel from "./BlockchainBaccaratConfigsModel";
-import { BlockchainBaccaratFinishModel } from "./BlockchainBaccaratFinishModel";
-import BlockchainBaccaratRoundHistoryModel from "./BlockchainBaccaratRoundHistoryModel";
-import BlockchainBaccaratCardListModel from "./BlockchainBaccaratCardListModel";
-import BlockchainBaccaratTotalBetModel from "./BlockchainBaccaratTotalBetModel";
-import BlockchainBaccaratTotalBetHandler from "../event-handlers/BlockchainBaccaratTotalBetHandler";
-import BlockchainBaccaratFinishHandler from "../event-handlers/BlockchainBaccaratFinishHandler";
-import BlockchainBaccaratNewBlockchainHandler from "../event-handlers/BlockchainBaccaratNewBlockchain";
 const { ccclass } = cc._decorator;
 
 @ccclass

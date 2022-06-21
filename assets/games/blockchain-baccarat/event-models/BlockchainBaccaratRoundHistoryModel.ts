@@ -1,7 +1,7 @@
 import { HistoryBase } from "../../_base/view-models/HistoryBase";
 import { BlockchainBaccaratRoundHistory } from "./BlockchainBaccaratRoundHistory";
 
-export default class BlockchainBaccaratRoundHistoryModel extends HistoryBase<BlockchainBaccaratRoundHistory> {
+export class BlockchainBaccaratRoundHistoryModel extends HistoryBase<BlockchainBaccaratRoundHistory> {
     static RoundHistoryEvents = {
         CHANGE: "RoundHistory:change"
     };

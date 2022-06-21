@@ -1,3 +1,4 @@
+import { Blockchain } from "./../event-models/BlockchainBaccaratCardListModel";
 import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratCardsShuffle from "./card-shuffle/BlockchainBaccaratCardsShuffle";
 import BlockchainBaccaratCards from "./card/BlockchainBaccaratCards";
@@ -34,6 +35,9 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     @property(BlockchainBaccaratCardsShuffle)
     burnContainer: BlockchainBaccaratCardsShuffle = null;
+
+    @property(cc.Label)
+    winningNotice: cc.Label = null;
 
     protected orderCard: OrderCardValue[];
 
@@ -101,6 +105,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     }
 
     public async collectCardsOnTable() {
+        this.burnContainer?.handleDropCards();
         await Promise.all([
             this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
             this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
@@ -154,162 +159,20 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         return;
     }
 
-    async onClickBurnCards() {
-        // this.burnContainer.handleShowBurnCard();
-    }
-
-    onClickDrop() {
-        // onClickDrop
-        this.burnContainer.handleDropCards();
-    }
-
-    async onClickAnim() {
-        //onClickAnim
-
-        const data = {
-            currentIndex: 6,
-            cutCardIndex: 250,
-            burnedCards: 8,
-            firstRoundId: 82396,
-            chain: [
-                {
-                    rawValue: "5♥_2022-06-17T06:36:20.062Z_N/A_bd67e27b-b2dd-42a4-9c22-b22533888023",
-                    hashValue: "5815c3bb72bcaff1f22f9dce48404b8164fdc9ccda89b2bcb45aafcf7653d724",
-                    card: {
-                        rank: 4,
-                        suit: 0
-                    },
-                    revealedRawValue: "23"
-                },
-                {
-                    rawValue:
-                        "2♦_2022-06-17T06:36:20.062Z_5815c3bb72bcaff1f22f9dce48404b8164fdc9ccda89b2bcb45aafcf7653d724_7b8ea76a-3744-4bbb-8e85-10e417e6a56d",
-                    hashValue: "438fd3da237792334a720a87ed09ab2351f6d49e2447320d2b0a3f75818903fb",
-                    card: {
-                        rank: 1,
-                        suit: 1
-                    },
-                    revealedRawValue: "6d"
-                },
-                {
-                    rawValue:
-                        "3♠_2022-06-17T06:36:20.062Z_438fd3da237792334a720a87ed09ab2351f6d49e2447320d2b0a3f75818903fb_eabc74a4-5f96-4596-8d44-07da9f351c2b",
-                    hashValue: "98c4267a76a7fc551a215c302bf2607dce8c197c847ca33bc0c40027ade98ade",
-                    card: {
-                        rank: 2,
-                        suit: 3
-                    },
-                    revealedRawValue: "2b"
-                },
-                {
-                    rawValue:
-                        "4♣_2022-06-17T06:36:20.062Z_98c4267a76a7fc551a215c302bf2607dce8c197c847ca33bc0c40027ade98ade_c1a6a21e-8529-4f9d-9402-0ce1dd862d29",
-                    hashValue: "2c64e457414ef003032c2825d4432c249c34a9dabf8f97d06a28454f54304a4a",
-                    card: {
-                        rank: 3,
-                        suit: 2
-                    },
-                    revealedRawValue: "29"
-                },
-                {
-                    rawValue:
-                        "5♦_2022-06-17T06:36:20.062Z_2c64e457414ef003032c2825d4432c249c34a9dabf8f97d06a28454f54304a4a_3ffd88ce-aa5b-4784-99c9-1e900d44fe12",
-                    hashValue: "b1b5d2753a019a7f35823d967ab41f9adc462b2f0c8dbbb36d79f89cde36ab07",
-                    card: {
-                        rank: 4,
-                        suit: 1
-                    },
-                    revealedRawValue: "12"
-                },
-                {
-                    rawValue:
-                        "6♦_2022-06-17T06:36:20.062Z_b1b5d2753a019a7f35823d967ab41f9adc462b2f0c8dbbb36d79f89cde36ab07_31710001-5022-474d-b14b-72508c9502d2",
-                    hashValue: "62423f8d7ed4951cdd55382ee8cf5fd7e47d78cbc75b7c37508c3b6a3c4545ca",
-                    card: {
-                        rank: 5,
-                        suit: 1
-                    },
-                    revealedRawValue: "d2"
-                },
-                {
-                    rawValue:
-                        "6♦_2022-06-17T06:36:20.062Z_b1b5d2753a019a7f35823d967ab41f9adc462b2f0c8dbbb36d79f89cde36ab07_31710001-5022-474d-b14b-72508c9502d2",
-                    hashValue: "62423f8d7ed4951cdd55382ee8cf5fd7e47d78cbc75b7c37508c3b6a3c4545ca",
-                    card: {
-                        rank: 5,
-                        suit: 1
-                    },
-                    revealedRawValue: "d2"
-                },
-                {
-                    rawValue:
-                        "6♦_2022-06-17T06:36:20.062Z_b1b5d2753a019a7f35823d967ab41f9adc462b2f0c8dbbb36d79f89cde36ab07_31710001-5022-474d-b14b-72508c9502d2",
-                    hashValue: "62423f8d7ed4951cdd55382ee8cf5fd7e47d78cbc75b7c37508c3b6a3c4545ca",
-                    card: {
-                        rank: 5,
-                        suit: 1
-                    },
-                    revealedRawValue: "d2"
-                },
-                {
-                    rawValue:
-                        "6♦_2022-06-17T06:36:20.062Z_b1b5d2753a019a7f35823d967ab41f9adc462b2f0c8dbbb36d79f89cde36ab07_31710001-5022-474d-b14b-72508c9502d2",
-                    hashValue: "62423f8d7ed4951cdd55382ee8cf5fd7e47d78cbc75b7c37508c3b6a3c4545ca",
-                    card: {
-                        rank: 5,
-                        suit: 1
-                    },
-                    revealedRawValue: "d2"
-                },
-                {
-                    rawValue:
-                        "6♦_2022-06-17T06:36:20.062Z_b1b5d2753a019a7f35823d967ab41f9adc462b2f0c8dbbb36d79f89cde36ab07_31710001-5022-474d-b14b-72508c9502d2",
-                    hashValue: "62423f8d7ed4951cdd55382ee8cf5fd7e47d78cbc75b7c37508c3b6a3c4545ca",
-                    card: {
-                        rank: 5,
-                        suit: 1
-                    },
-                    revealedRawValue: "d2"
-                },
-                {
-                    rawValue:
-                        "6♦_2022-06-17T06:36:20.062Z_b1b5d2753a019a7f35823d967ab41f9adc462b2f0c8dbbb36d79f89cde36ab07_31710001-5022-474d-b14b-72508c9502d2",
-                    hashValue: "62423f8d7ed4951cdd55382ee8cf5fd7e47d78cbc75b7c37508c3b6a3c4545ca",
-                    card: {
-                        rank: 5,
-                        suit: 1
-                    },
-                    revealedRawValue: "d2"
-                },
-                {
-                    rawValue:
-                        "6♦_2022-06-17T06:36:20.062Z_b1b5d2753a019a7f35823d967ab41f9adc462b2f0c8dbbb36d79f89cde36ab07_31710001-5022-474d-b14b-72508c9502d2",
-                    hashValue: "62423f8d7ed4951cdd55382ee8cf5fd7e47d78cbc75b7c37508c3b6a3c4545ca",
-                    card: {
-                        rank: 5,
-                        suit: 1
-                    },
-                    revealedRawValue: "d2"
-                },
-                {
-                    hashValue: "f4352d58cf16017fd7cce5ffe28593e930813be1b0362a3d9cc3dbbceb0c7bec",
-                    revealedRawValue: "b7"
-                },
-                {
-                    hashValue: "1b8bf6652ee7f81334e2cf2c894155a7d0667fb5ff7a8583171fe86e42cc5bc1",
-                    revealedRawValue: "f2"
-                }
-            ]
-        };
+    async handleShuffleCards(data: Blockchain, duration: number) {
+        await this.collectCardsOnTable();
+        this.reserveCards?.resetCards();
         this.burnContainer.node.active = true;
         this.setActiveCardsUI(false);
-        await this.burnContainer.handleShowCutCards(data, true);
-        this.setActiveCardsUI(true);
+        await this.burnContainer.handleShowCutCards(data, duration);
     }
 
     setActiveCardsUI(isActive = true) {
         this.reserveCards.node.active = isActive;
         this.bankerCards.node.active = isActive;
         this.playerCards.node.active = isActive;
+        this.bankerCards.title.active = isActive;
+        this.playerCards.title.active = isActive;
+        this.winningNotice.node.parent.active = false;
     }
 }
