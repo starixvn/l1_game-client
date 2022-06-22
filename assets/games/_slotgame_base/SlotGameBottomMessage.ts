@@ -1,6 +1,4 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import _ = require("lodash");
-
 import GameUtils from "../../common/GameUtils";
 
 export enum RoundType {
@@ -20,33 +18,25 @@ export default class SlotGameBottomMessage extends cc.Component {
     isTurboMode = false;
     isAutoSpin = false;
     autoSpinCount = 0;
-    settleMsgIndex = 0;
-    displayMessageTime = 3;
-    normalSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2", "FromSettleToSpin3"];
-    turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
-    settleTween: cc.Tween;
+    private normalSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2", "FromSettleToSpin3"];
+    private turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
 
     onLoad() {
-        this.updateBeforeSpinMessage();
+        this.showBeforeSpinMessage();
+        this.shuffleSettleMessage();
     }
 
-    updateAutoSpinCount(value: number) {
-        this.autoSpinCount = value;
+    shuffleSettleMessage() {
+        this.normalSettledMsg = _.shuffle(this.normalSettledMsg);
+        this.turboSettledMsg = _.shuffle(this.turboSettledMsg);
     }
 
-    updateAutoSpinStatus(status: boolean) {
-        this.isAutoSpin = status;
-    }
-
-    updateTurboModeStatus(status: boolean) {
-        this.isTurboMode = status;
-    }
-
-    showOtherMessages(roundType: RoundType) {
+    showMessages(roundType: RoundType) {
         if (this.isAutoSpin) {
             this.handleTurboAutoSpin();
             return;
         }
+
         let msg: string;
         switch (roundType) {
             case RoundType.SPINNING:
@@ -59,66 +49,26 @@ export default class SlotGameBottomMessage extends cc.Component {
             case RoundType.TUMBLEWIN:
                 msg = `messages.winTumbleMsg`;
                 break;
+            case RoundType.SETTLED:
+                msg = this.randomSettledMessages();
+                break;
         }
+
         this.msgText.string = GameUtils.capitalizeWordIntoString(GameUtils.getText(msg));
     }
 
     protected handleTurboAutoSpin() {
-        const msg = `treasureIsland.autoSpinLeft`;
-        this.msgText.string = GameUtils.capitalizeWordIntoString(`${i18n.t(msg)} ${this.autoSpinCount}`);
+        const msg = GameUtils.getText(`treasureIsland.autoSpinLeft`);
+        this.msgText.string = GameUtils.capitalizeWordIntoString(`${msg} ${this.autoSpinCount}`);
     }
 
-    updateBeforeSpinMessage() {
-        if (this.isAutoSpin) {
-            this.handleTurboAutoSpin();
-            return;
-        }
+    protected showBeforeSpinMessage() {
         const deviceSuffix = cc.sys.isMobile ? "Phone" : "Desktop";
         this.msgText.string = GameUtils.capitalizeWordIntoString(GameUtils.getText(`messages.showMsgWhenSpin${deviceSuffix}`));
     }
 
-    shuffleSettleMessage() {
-        this.normalSettledMsg = _.shuffle(this.normalSettledMsg);
-        this.turboSettledMsg = _.shuffle(this.turboSettledMsg);
-    }
-
-    reset() {
-        this.settleTween && this.settleTween.stop();
-        this.msgText.node.opacity = 255;
-    }
-
-    showSettledMessages() {
-        if (this.isAutoSpin) {
-            this.handleTurboAutoSpin();
-            return;
-        }
-
-        this.settleMsgIndex++;
+    protected randomSettledMessages() {
         const items = this.isTurboMode ? this.turboSettledMsg : this.normalSettledMsg;
-        if (this.settleMsgIndex > items.length - 1) {
-            this.settleMsgIndex = 0;
-        }
-
-        const msg = GameUtils.getText(`messages.${items[this.settleMsgIndex]}`);
-        this.msgText.string = GameUtils.capitalizeWordIntoString(msg);
-
-        this.settleTween = cc
-            .tween(this.msgText.node)
-            .to(0.3, { opacity: 255 }, { easing: "sineIn" })
-            .delay(this.displayMessageTime)
-            .call(() => {
-                this.hideMessage();
-            })
-            .start();
-    }
-
-    hideMessage() {
-        this.settleTween = cc
-            .tween(this.msgText.node)
-            .to(0.3, { opacity: 0 }, { easing: "sineOut" })
-            .call(() => {
-                this.showSettledMessages();
-            })
-            .start();
+        return GameUtils.getText(`messages.${items[_.random(items.length - 1)]}`);
     }
 }

@@ -45,10 +45,10 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     await showEffectSpecialCase(mainGame, data);
     mainGame.gameData.uiModel.setFreeSpins(totalFreeSpins);
     mainGame.gameData.uiModel.showFreeSpins(totalFreeSpins > 0);
-    mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
 
     const delayForNextSpin = mainGame.getCustomDuration("delayForNextSpin");
     await GameUtils.delayTime(delayForNextSpin);
+    mainGame.gameData.stateModel.change(CascadingSlotState.Settled);
     handleAutoSpin(mainGame);
 };
 

@@ -193,12 +193,12 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     setAutoSpinCount(count: number) {
         this.autoSpinCount = count;
         this.spinButton.setAutoSpinCount(count);
-        this.bottomMessage.updateAutoSpinCount(count);
+        this.bottomMessage.autoSpinCount = count;
     }
 
     updateBottomMessageStatus() {
-        this.bottomMessage.updateAutoSpinStatus(this.isAutoSpinMode());
-        this.bottomMessage.updateTurboModeStatus(this.isTurboMode());
+        this.bottomMessage.isAutoSpin = this.isAutoSpinMode();
+        this.bottomMessage.isTurboMode = this.isTurboMode();
     }
 
     showEffect(effect: cc.Node): Promise<void> {

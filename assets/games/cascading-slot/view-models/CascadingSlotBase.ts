@@ -109,8 +109,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     async onSpinClick() {
         this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.spin();
-        this.bottomMessage.shuffleSettleMessage();
-        this.bottomMessage.reset();
     }
 
     initTrialConnection() {
@@ -271,7 +269,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.tumbleWinView.showView(true);
             this.checkShowTopMessage();
             this.mascot.playAnimationForTumble();
-            this.bottomMessage.showOtherMessages(RoundType.TUMBLEWIN);
+            this.bottomMessage.showMessages(RoundType.TUMBLEWIN);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_WIN, (value: number) => {
@@ -340,7 +338,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     break;
                 case SpinButtonState.AutoSpin:
                     this.spinButton.showAutoSpinMode();
-                    this.bottomMessage.showOtherMessages(RoundType.SPINNING);
+                    this.bottomMessage.showMessages(RoundType.SPINNING);
                     break;
             }
 
@@ -354,12 +352,14 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     this.gameData.uiModel.resetNewRound();
                     this.consumeAutoSpinCount();
                     this.consumeFreeSpinCount();
-                    this.bottomMessage.showOtherMessages(RoundType.SPINNING);
+                    this.bottomMessage.showMessages(RoundType.SPINNING);
                     break;
                 case CascadingSlotState.Spinning:
                     break;
                 case CascadingSlotState.Settled:
-                    this.bottomMessage.showSettledMessages();
+                    if (this.totalFreeSpins === 0) {
+                        this.bottomMessage.showMessages(RoundType.SETTLED);
+                    }
                     break;
             }
 
