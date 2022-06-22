@@ -16,6 +16,13 @@ export default class BlockchainVerify extends cc.Component {
     text: cc.Label = null;
 
     isSuccessfull = false;
+    btnActive: cc.Node;
+    btnDisable: cc.Node;
+
+    onLoad() {
+        this.btnActive = this.btnVerify.node.getChildByName("btn-active");
+        this.btnDisable = this.btnVerify.node.getChildByName("btn-disable");
+    }
 
     setText(text: string) {
         this.text.string = text;
@@ -24,13 +31,14 @@ export default class BlockchainVerify extends cc.Component {
     enableVerifyButton(enabled: boolean) {
         this.setText(i18n.t("blockchainBaccarat.verify"));
         this.btnVerify.interactable = enabled;
+        this.success.active = this.failed.active = false;
         enabled
             ? (this.btnVerify.node.getChildByName("btn-active").active = true)
             : (this.btnVerify.node.getChildByName("btn-disable").active = true);
     }
 
     setVerifySuccess(highlight: boolean) {
-        this.btnVerify.node.getChildByName("btn-active").active = false;
+        this.btnActive.active = this.btnDisable.active = false;
         if (highlight) {
             this.success.active = true;
             this.isSuccessfull = true;

@@ -24,6 +24,7 @@ import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { updateOtherPlayerBalance } from "../../_base/action/OtherPlayerAction";
 import { payChips } from "../../_base/action/PayChipsAction";
 import MD5Component from "../../_base/view-models/MD5Component";
+import BlockchainCardVerification, { CardEvents } from "./card-list/BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
 
@@ -41,12 +42,16 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     @property(cc.Prefab)
     cardListPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    cardVerificationPrefab: cc.Prefab = null;
+
     @property({ type: MD5Component, override: true, visible: false })
     md5Component: MD5Component = null;
 
     public gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
     public cardsUI: BlockchainBaccaratCardsUI = null;
+    public cardVerification: BlockchainCardVerification = null;
     public betOptionsUI: BlockchainBetOptionsUI = null;
     public scoreboard: BlockchainBaccaratScoreboard = null;
     public lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
@@ -65,8 +70,11 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData = new BlockchainBaccaratGameData<BlockchainBaccaratChoicesType>();
         this.registerGameEvents();
         super.onLoad();
+        this.initCardList();
+        this.initCardVerification();
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
+        this.registerCardVerification();
     }
 
     resetDataAndUI() {
@@ -80,6 +88,13 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.cardList.init(this);
         this.cardList.node.active = false;
         this.currentMiniPanel.addDialog(dialog);
+    }
+
+    private initCardVerification() {
+        const cardVerificationNode = cc.instantiate(this.cardVerificationPrefab);
+        this.cardVerification = cardVerificationNode.getComponent(BlockchainCardVerification);
+        this.cardVerification.node.active = false;
+        this.currentMiniPanel.addDialog(cardVerificationNode);
     }
 
     initBetOptionsUI(node: cc.Node) {
@@ -100,7 +115,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     openCardList() {
-        this.initCardList();
         this.cardList.updateBlockchain(this.gameData.cardList.blockchain);
         this.cardList.setData();
         this.cardList.showDialog();
@@ -166,6 +180,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private registerNewBlockchainEvents() {
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, (newBlockchain: Blockchain) => {
             blockchainAction.updateBlockchainCardList(this)(newBlockchain);
+        );
+    }
+
+    private registerCardVerification() {
+        this.cardVerification.node.on(CardEvents.CHANGE_CARD, () => {
+            this.openCardList();
         });
     }
 }

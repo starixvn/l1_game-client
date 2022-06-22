@@ -68,7 +68,6 @@ export default class BlockchainCardList extends cc.Component {
         }
 
         const { chain, cutCardIndex, currentIndex } = this.blockchain;
-        console.log("currentIndex+++++++++++++++++++++++++++++++++++", currentIndex);
         this.cutCard = cutCardIndex;
         this.currentCardIndex = currentIndex;
 
@@ -86,7 +85,6 @@ export default class BlockchainCardList extends cc.Component {
         });
 
         this.showLatestCard(currentIndex);
-        console.log("cardss+++++++++++++", this.cards);
     }
 
     protected showLatestCard(currentIndex: number) {
@@ -159,6 +157,7 @@ export default class BlockchainCardList extends cc.Component {
         });
 
         !!card ? cardComponent.setFaceUp(true) : cardComponent.setFaceUp(false);
+
         if (this.cutCard === index) {
             cardComponent.setKeyCard();
         }
@@ -172,19 +171,17 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     public initCardVerification(cardChain: Chain, index: number) {
-        const cardVerification = this.node.getChildByName(this.cardVerificationPrefab.name);
+        const cardVerification = this.root.node.getChildByName(this.cardVerificationPrefab.name);
         if (cardVerification) {
             cardVerification.removeFromParent(true);
             cardVerification.destroy();
         }
-        const cardVerificationPrefab = cc.instantiate(this.cardVerificationPrefab);
-        this.cardVerificationComponent = cardVerificationPrefab.getComponent(BlockchainCardVerification);
-        this.cardVerificationComponent.renderDataCardVerification(cardChain, index);
-        this.root.currentMiniPanel.addDialog(cardVerificationPrefab);
+
+        this.root.cardVerification.renderDataCardVerification(cardChain, index);
+        this.root.cardVerification.showDialog();
     }
 
-    highLightCurrentCardSelected(index) {
-        console.log("blockcahiasfasdfasdfasdfasdfadfasdfasdf", this.blockchain);
-        this.cards[index].getComponent(BlockchainCard).closeCardVerification();
+    highLightCurrentCardSelected(chain: Chain, index) {
+        this.cards[index] = this.createCard(chain, index);
     }
 }

@@ -41,6 +41,10 @@ export default class BlockchainCardVerificationItem extends cc.Component {
     private textCopy: string = null;
     private color = cc.Color.WHITE;
 
+    resetHighLight() {
+        this.highlightSuccess.active = this.highlightFailed.active = false;
+    }
+
     onClickCopyButton() {
         this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         this.hintLabel.string = i18n.t("messages.copy_success");

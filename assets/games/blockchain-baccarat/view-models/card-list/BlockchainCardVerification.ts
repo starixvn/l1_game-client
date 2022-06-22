@@ -4,10 +4,18 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
 import BlockchainVerify from "./BlockchainCardVerify";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
-import BlockchainCardList from "./BlockchainCardList";
-import MiniPanel from "../../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
+
+export enum CardVerificationState {
+    blank_new = 0,
+    serial_change,
+    private_change
+}
+
+export enum CardEvents {
+    CHANGE_CARD = "change_card"
+}
 
 @ccclass
 export default class BlockchainCardVerification extends cc.Component {
@@ -26,25 +34,37 @@ export default class BlockchainCardVerification extends cc.Component {
     @property(cc.Prefab)
     cardListPrefab: cc.Prefab = null;
 
-    public cardList: BlockchainCardList = null;
-    public currentMiniPanel: MiniPanel;
     private serialCardChain: Chain;
     private privateCardChain: Chain;
     isClickSerialChangeCard = false;
     isClickPrivateChangeCard = false;
+    cardVerificationDialog: CommonDialog;
+    public state = CardVerificationState.blank_new;
 
     private encrypKey = "************************************************************************************************************";
 
-    initMiniPanel(miniPanel: MiniPanel) {
-        this.currentMiniPanel = miniPanel;
+    showDialog() {
+        this.cardVerificationDialog = this.getComponent(CommonDialog);
+        if (this.cardVerificationDialog) {
+            this.cardVerificationDialog.showDialog();
+        }
     }
 
     renderDataCardVerification(cardChain: Chain, index: number) {
-        const verifiedValue = this.verifyCard.isSuccessfull ? cardChain.hashValue : i18n.t("blockchainBaccarat.verifiedValue");
+        console.log("state", this.state);
+        const verifiedValue = i18n.t("blockchainBaccarat.verifiedValue");
         this.verifiedSerial.enableCopyButton(this.verifyCard.isSuccessfull);
         this.verifiedSerial.setHashValue(verifiedValue);
-        this.renderSerialNumber(cardChain, index);
-        this.renderPivateKey(cardChain, index);
+        this.verifiedSerial.resetHighLight();
+        if (this.state === CardVerificationState.serial_change) {
+            this.renderSerialNumber(cardChain, index);
+        } else if (this.state === CardVerificationState.private_change) {
+            this.renderPivateKey(cardChain, index);
+        } else {
+            this.renderSerialNumber(cardChain, index);
+            this.renderPivateKey(cardChain, index);
+        }
+
         if (!cardChain.rawValue) {
             this.verifyCard.enableVerifyButton(false);
             this.privateKey.enableCopyButton(false);
@@ -58,6 +78,7 @@ export default class BlockchainCardVerification extends cc.Component {
     renderSerialNumber(cardChain: Chain, index: number) {
         this.serialNumber.setHashValue(cardChain?.hashValue);
         this.serialNumber.renderCard(cardChain.card, index);
+        this.serialNumber.resetHighLight();
         this.serialCardChain = cardChain;
     }
 
@@ -92,23 +113,24 @@ export default class BlockchainCardVerification extends cc.Component {
         }
     }
 
-    onClickChangeCard() {
-        const commonDialog = this.getComponent(CommonDialog);
-        if (commonDialog) {
-            commonDialog.closeDialog();
+    onClickChangeCard(event, customEventData) {
+        const values = {
+            serial: CardVerificationState.serial_change,
+            private: CardVerificationState.private_change
+        };
+        this.state = values[customEventData];
+        this.cardVerificationDialog = this.getComponent(CommonDialog);
+        if (this.cardVerificationDialog) {
+            this.cardVerificationDialog.closeDialog();
         }
+        //this.node.emit(CardEvents.CHANGE_CARD);
     }
 
-    public initCardList() {
-        const cardListPrefab = this.node.getChildByName(this.cardListPrefab.name);
-        if (cardListPrefab) {
-            cardListPrefab.removeFromParent(true);
-            cardListPrefab.destroy();
+    onClose() {
+        this.state = CardVerificationState.blank_new;
+        this.cardVerificationDialog = this.getComponent(CommonDialog);
+        if (this.cardVerificationDialog) {
+            this.cardVerificationDialog.closeDialog();
         }
-        const dialog = cc.instantiate(this.cardListPrefab);
-        this.cardList = dialog.getComponent(BlockchainCardList);
-        this.cardList.setData();
-        this.cardList.highLightCurrentCardSelected(parseInt(this.privateKey.numberKey.string) - 1);
-        this.currentMiniPanel.addDialog(dialog);
     }
 }
