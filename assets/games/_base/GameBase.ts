@@ -569,4 +569,15 @@ export default class GameBase extends BaseComponent {
     normalShowNextDotCondition() {
         return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
     }
+
+    saveSettingKey(key: string, value: any) {
+        const gameSetting = GameUtils.getGameSetting(this.gameId);
+        gameSetting[key] = value;
+        GameUtils.setGameSetting(this.gameId, gameSetting);
+    }
+
+    getSettingKey(key: string) {
+        const gameSetting = GameUtils.getGameSetting(this.gameId);
+        return gameSetting[key];
+    }
 }

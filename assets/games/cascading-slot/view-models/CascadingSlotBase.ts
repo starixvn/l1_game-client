@@ -152,6 +152,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     override onEnable() {
         this.startGame();
         const storage = GameUtils.getGameSetting(this.gameId);
+        if (storage.turboEnabled) {
+            this.turboToggle.isChecked = storage.turboEnabled;
+        }
         if (storage.trialMode) {
             const checked = true;
             this.trialToggle.isChecked = checked;
@@ -173,9 +176,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         } else {
             this.registerViewGame();
         }
-        const storage = GameUtils.getGameSetting(this.gameId);
-        storage.trialMode = checked;
-        GameUtils.setGameSetting(this.gameId, storage);
+        this.saveSettingKey("trialMode", checked);
         this.tumbleList.clear();
         this.tumbleList.offerTrialMode(this.isTrialMode);
         this.historyBtn.interactable = !this.isTrialMode;
