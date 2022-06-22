@@ -1,5 +1,5 @@
 const { ccclass, property } = cc._decorator;
-import SedieWallet from "../../games/sedie/view-models/SedieWallet";
+
 @ccclass
 export default class UserProfile extends cc.Component {
     @property(cc.Label)
@@ -12,11 +12,11 @@ export default class UserProfile extends cc.Component {
     userAvatar: cc.Sprite = null;
 
     setUserName(text: string) {
-        this.userName.string = text;
+        this.userName && (this.userName.string = text);
     }
 
     setUserAvatar(frame: cc.SpriteFrame) {
-        this.userAvatar.spriteFrame = frame;
+        this.userAvatar && (this.userAvatar.spriteFrame = frame);
     }
 
     setUserBalance(text: string) {

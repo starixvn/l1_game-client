@@ -73,11 +73,15 @@ export default class FreeBetGameBase extends MultiOrientationGame {
                 this.isFreeBet = true;
 
                 this.walletWrapper.getComponent(cc.Sprite).enabled = false;
-                this.wrapperLayout.enabled = true;
+
                 this.wrapperLayout.updateLayout();
                 this.userScoinWallet.node.active = true;
 
                 this.focusWallet(this.isFreeBet);
+            }
+
+            if (scoins > 0) {
+                this.wrapperLayout.enabled = true;
             }
         }
     }
@@ -103,11 +107,12 @@ export default class FreeBetGameBase extends MultiOrientationGame {
         this.dollarWallet.node.active = true;
         this.dollarWallet.overlay.active = false;
         this.userScoinWallet.node.active = false;
+        console.log("loadDollarWalletUI", this.walletWrapper);
 
         if (this.orientation === Orientation.Landscape) {
             this.walletWrapper.getComponent(cc.Sprite).enabled = true;
             this.wrapperLayout.enabled = false;
-            this.walletWrapper.width = 175;
+            this.walletWrapper.width = 160;
         } else {
             this.dollarWallet.showActiveBackground(false);
         }

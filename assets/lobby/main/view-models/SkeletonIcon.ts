@@ -15,6 +15,9 @@ export default class SkeletonIcon extends cc.Component {
     @property(cc.Node)
     lightTop: cc.Node = null;
 
+    @property(cc.Node)
+    iconLoading: cc.Node = null;
+
     setGameName(text: string) {
         this.gameName.string = text;
     }
@@ -39,5 +42,6 @@ export default class SkeletonIcon extends cc.Component {
         const gameNode = cc.instantiate(prefab);
         this.gameContent?.addChild(gameNode);
         this.lightTop && (this.lightTop.active = false);
+        this.iconLoading && (this.iconLoading.active = false);
     }
 }
