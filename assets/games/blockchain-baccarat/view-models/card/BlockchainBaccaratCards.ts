@@ -19,12 +19,12 @@ enum OrderCards {
     card3
 }
 
-type CardFlyValue = {
+type CardFly = {
     card: cc.Node;
     start: cc.Node;
     isCardThree?: boolean;
     isReserve?: boolean;
-    scale?: number;
+    isBanker?: boolean;
 };
 
 @ccclass
@@ -41,9 +41,6 @@ export default class BlockchainBaccaratCards extends cc.Component {
     @property(cc.Label)
     point: cc.Label = null;
 
-    @property
-    isBanker = false;
-
     @property(cc.Node)
     title: cc.Node = null;
 
@@ -55,11 +52,50 @@ export default class BlockchainBaccaratCards extends cc.Component {
     private readonly durationAnimFaceUp = 0.4;
     private clonePositionCards: cc.Vec3[] = [];
 
+    private cardsFlyTween: cc.Tween[];
+    private flyCardReserveTween: cc.Tween;
+    private faceUpCardsTween: cc.Tween[];
+    private dropCardsTween: cc.Tween[];
+    private cardsRunActionFly: cc.Node[];
+
     onLoad = () => {
         this.cards.forEach((card, index) => {
             this.clonePositionCards[index] = card.position;
         });
+        this.resetAllDataTween();
     };
+
+    onHidden() {
+        this.resetActions();
+        this.cards.forEach((cardNode: cc.Node, index) => {
+            const cardComponent: BlockchainCard = cardNode.getComponentInChildren(BlockchainCard);
+            this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
+        });
+    }
+
+    resetActions() {
+        //resetActions
+        this.cardsFlyTween?.forEach((cardTween: cc.Tween) => {
+            cardTween.stop();
+        });
+        this.flyCardReserveTween?.stop();
+        this.faceUpCardsTween?.forEach((faceUpTween: cc.Tween) => {
+            faceUpTween.stop();
+        });
+        this.dropCardsTween?.forEach((dropTween) => {
+            dropTween.stop();
+        });
+        this.cardsRunActionFly?.forEach((cardNode: cc.Node) => {
+            cardNode.stopAllActions();
+        });
+    }
+
+    resetAllDataTween() {
+        this.cardsFlyTween = [];
+        this.faceUpCardsTween = [];
+        this.dropCardsTween = [];
+        this.cardsRunActionFly = [];
+    }
 
     setTagIndex(index: number, card: cc.Node) {
         card.getComponentInChildren(BlockchainCard).setIndexNumber(index);
@@ -91,51 +127,61 @@ export default class BlockchainBaccaratCards extends cc.Component {
     }
 
     async flyCard1(numberTag: number, delay = this.durationFlyCard) {
-        await this.flyCard(this.cards[OrderCards.card1], delay, numberTag);
+        await this.flyCard({ card: this.cards[OrderCards.card1], delay, numberTag });
     }
 
     async flyCard2(numberTag: number, delay = this.durationFlyCard) {
-        await this.flyCard(this.cards[OrderCards.card2], delay, numberTag);
+        await this.flyCard({ card: this.cards[OrderCards.card2], delay, numberTag });
     }
 
-    async flyCard3(node: cc.Node, start: cc.Node, delay = this.durationFlyCard3) {
-        await this.flyCard(node, delay, 0, start, true);
+    async flyCard3(node: cc.Node, start: cc.Node, delay = this.durationFlyCard3, isBanker = false) {
+        await this.flyCard({ card: node, delay, numberTag: 0, isCardThree: true, isBanker });
     }
 
     async flyCard1Reserve(numberTag: number, card: cc.Node, start: cc.Node, delay = this.durationFlyCard) {
         await this.flyCardReserve(card, delay, numberTag, start);
     }
 
-    private flyCard(
-        card: cc.Node,
-        delay: number,
-        numberTag?: number,
+    private flyCard({
+        card,
+        delay,
+        numberTag,
         start = this.cardsBox,
         isCardThree = false,
-        scale = 1
-    ): Promise<void> {
+        isBanker
+    }: {
+        card: cc.Node;
+        delay: number;
+        numberTag?: number;
+        start?: cc.Node;
+        isCardThree?: boolean;
+        isBanker?: boolean;
+    }): Promise<void> {
         return new Promise((resolve) => {
             const cardComponent = card.getComponentInChildren(BlockchainCard);
-            cc.tween(card)
+            const cardTween = cc
+                .tween(card)
                 .call(() => {
                     this.setInfoCardFly(cardComponent, numberTag, isCardThree);
                     this.actionCardFly({
                         card,
                         start,
-                        isCardThree: isCardThree,
-                        scale
+                        isCardThree,
+                        isBanker
                     });
                 })
                 .delay(delay)
                 .call(() => resolve())
                 .start();
+            this.cardsFlyTween.push(cardTween);
         });
     }
 
     private flyCardReserve(card: cc.Node, delay: number, numberTag: number, start: cc.Node): Promise<void> {
         return new Promise((resolve) => {
             const cardComponent = card.getComponentInChildren(BlockchainCard);
-            cc.tween(card)
+            this.flyCardReserveTween = cc
+                .tween(card)
                 .delay(delay)
                 .call(() => {
                     this.setInfoCardFly(cardComponent, numberTag);
@@ -156,7 +202,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
         cardComponent.setStatusIndexNumber(true);
     }
 
-    private actionCardFly({ card, start, isCardThree, isReserve, scale }: CardFlyValue) {
+    private actionCardFly({ card, start, isCardThree, isReserve, isBanker }: CardFly) {
         const convertCardBox: cc.Vec3 = cc.v3(card.parent.convertToNodeSpaceAR(start.convertToWorldSpaceAR(cc.v2(0, 0))));
         const cardPosition = card.position;
         card.position = convertCardBox;
@@ -168,12 +214,14 @@ export default class BlockchainBaccaratCards extends cc.Component {
         } else {
             card.runAction(
                 cc.spawn(
-                    cc.rotateTo(this.durationFlyCard, isCardThree ? (this.isBanker ? -90 : -90) : 0).easing(cc.easeInOut(2)),
-                    cc.scaleTo(this.durationFlyCard, scale).easing(cc.easeInOut(2)),
+                    cc.rotateTo(this.durationFlyCard, isCardThree ? (isBanker ? -90 : 90) : 0).easing(cc.easeInOut(2)),
+                    cc.scaleTo(this.durationFlyCard, 1).easing(cc.easeInOut(2)),
                     cc.moveTo(this.durationFlyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
                 )
             );
         }
+
+        this.cardsRunActionFly.push(card);
     }
 
     dropCards(durationJumpToBoxCard: number, duration: number): Promise<void> {
@@ -184,7 +232,8 @@ export default class BlockchainBaccaratCards extends cc.Component {
                 const destPosition = this.cards[index].parent.convertToNodeSpaceAR(worldPosition);
                 const cardComponent: BlockchainCard = cardNode.getComponentInChildren(BlockchainCard);
                 cardComponent.setStatusInfoTag(false);
-                cc.tween(cardNode)
+                const dropTween = cc
+                    .tween(cardNode)
                     .to(0.3, { position: cc.v2(0, 0) })
                     .call(() => {
                         cardComponent.playAnimation(CardAnimation.DropCard, this.durationAnimFaceUp);
@@ -199,6 +248,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                         this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
                     })
                     .start();
+                this.dropCardsTween.push(dropTween);
             });
         });
     }
@@ -221,7 +271,8 @@ export default class BlockchainBaccaratCards extends cc.Component {
     private faceUpCard(cardInfo: CardModel, card: cc.Node): Promise<void> {
         const cardComponent = card.getComponentInChildren(BlockchainCard);
         return new Promise((resolve) => {
-            cc.tween(card)
+            const faceUpTween = cc
+                .tween(card)
                 .call(() => {
                     cardComponent.setCardOldStyle({
                         rank: cardInfo.rank.toString(),
@@ -233,6 +284,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                 .delay(this.durationFaceUp)
                 .call(() => resolve())
                 .start();
+            this.faceUpCardsTween.push(faceUpTween);
         });
     }
 

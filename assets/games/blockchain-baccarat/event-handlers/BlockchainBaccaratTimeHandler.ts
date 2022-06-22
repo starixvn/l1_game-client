@@ -1,27 +1,19 @@
 import BaccaratTimeDataHandler from "../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
-import BlockchainBaccaratCards from "../view-models/card/BlockchainBaccaratCards";
-
-export type CardPrepare = {
-    component: BlockchainBaccaratCards;
-    des?: any;
-    start?: any;
-    delay: number;
-};
 
 export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
     protected dealCardsTime = 3;
-    protected durationNewShoe = 10;
-    protected durationShowNewShoe = this.main.config.fullTime - this.dealCardsTime;
-    isNewShoe = false;
-    isShowShoe = false;
+    private durationNewShoe = 10;
+    private durationShowNewShoe = this.main.config.fullTime - this.dealCardsTime;
+    private isNewShoe = false;
+    private isShowShoe = false;
 
     get isInWaitTime() {
         if (this.main.currentTimeRemaining > this.main.config.fullTime) {
             this.isNewShoe = true;
             return true;
         } else {
-            return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime; // > 33
+            return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime;
         }
     }
 

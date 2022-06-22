@@ -44,12 +44,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     @property({ type: MD5Component, override: true, visible: false })
     md5Component: MD5Component = null;
 
-    gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
+    public gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
-    cardsUI: BlockchainBaccaratCardsUI = null;
-    betOptionsUI: BlockchainBetOptionsUI = null;
-    scoreboard: BlockchainBaccaratScoreboard = null;
-    lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
+    public cardsUI: BlockchainBaccaratCardsUI = null;
+    public betOptionsUI: BlockchainBetOptionsUI = null;
+    public scoreboard: BlockchainBaccaratScoreboard = null;
+    public lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
     private betHistoryController: BlockchainBaccaratTicketHistory = null;
     private readonly durationFlyChip = 1.2;
     private readonly durationAnimWinning = 3;
@@ -164,8 +164,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     private registerNewBlockchainEvents() {
-        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, () => {
-            blockchainAction.updateBlockchainCardList(this);
+        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, (newBlockchain: Blockchain) => {
+            blockchainAction.updateBlockchainCardList(this)(newBlockchain);
         });
     }
 }

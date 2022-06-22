@@ -11,4 +11,5 @@ export const updateBlockchainCardList = (mainGame: BlockchainBaccarat) => (block
     mainGame.cardList?.setData();
     mainGame.gameData.cardList.updateCurrentIndex(blockchain.currentIndex);
     mainGame.gameData.cardList.changeNumberCardsFly(6);
+    mainGame.cardsUI.handleNumberIndex(blockchain.currentIndex);
 };

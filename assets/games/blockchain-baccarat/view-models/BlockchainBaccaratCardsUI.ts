@@ -123,13 +123,15 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             await this.reserveCards.flyCard3(
                 this.playerCards.cards[CardsOrder.card3],
                 this.reserveCards.cards[CardsOrder.card1],
-                this.reserveCards.durationFlyCard
+                this.reserveCards.durationFlyCard,
+                false
             );
         } else {
             await this.reserveCards.flyCard3(
                 this.bankerCards.cards[CardsOrder.card3],
                 this.reserveCards.cards[CardsOrder.card1],
-                this.reserveCards.durationFlyCard
+                this.reserveCards.durationFlyCard,
+                true
             );
         }
     }

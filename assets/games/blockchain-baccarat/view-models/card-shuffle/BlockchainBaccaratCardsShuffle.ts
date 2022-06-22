@@ -1,4 +1,4 @@
-import { CardChain } from "./../../BlockchainBaccaratType";
+import { Chain } from "./../../BlockchainBaccaratType";
 import { Blockchain } from "./../../event-models/BlockchainBaccaratCardListModel";
 import { CardAnimation } from "./../../../../common/new-card/view-models/NewCard";
 import BlockchainCard from "../card-list/BlockchainCard";
@@ -40,9 +40,32 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     private readonly durationDropCards = 0.4;
     private readonly durationCutCard = 3.5;
 
+    private cardCenterTween: cc.Tween;
+    private allCardsFlyTween: cc.Tween;
+    private allCardsDropTween: cc.Tween[];
+
+    onLoad = () => {
+        this.allCardsDropTween = [];
+    };
+
+    onHidden() {
+        this.resetActions();
+    }
+
+    resetActions() {
+        const skeleton = this.cutCard.getComponent(sp.Skeleton);
+        skeleton.destroy();
+        this.cardCenterTween.stop();
+        this.allCardsFlyTween.stop();
+        this.centerCard?.children[0].stopAllActions();
+        this.allCardsDropTween?.forEach((cardTween: cc.Tween) => {
+            cardTween.stop();
+        });
+    }
+
     async handleShowCutCards(data: Blockchain, duration: number) {
         const cutCardValue = data.chain?.[0]?.card;
-        const formatData: CardChain[] = data.chain.slice(1, data.burnedCards);
+        const formatData: Chain[] = data.chain.slice(1, data.burnedCards);
         if (duration >= +TimeShowAnim.full) {
             this.cardsBox.parent.active = false;
             this.cutCard.active = true;
@@ -70,7 +93,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
             });
         } else {
             await this.handleShowBurnCard(cutCardValue, false);
-            formatData.forEach((data: CardChain, index: number) => {
+            formatData.forEach((data: Chain, index: number) => {
                 this.createCardsBurn(this.cardPrefab, index, data.card, (card: cc.Node, cardData: CardModel) => {
                     const cardComponent = card.children[0].getComponent(BlockchainCard);
                     cardComponent.setCardOldStyle(cardData);
@@ -108,7 +131,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     private handleFlyCard(card: cc.Node, duration: number, start: cc.Node, cardData: CardModel): Promise<void> {
         const cardComponent = card.getComponent(BlockchainCard);
         return new Promise((resolve) => {
-            cc.tween(card)
+            this.cardCenterTween = cc
+                .tween(card)
                 .call(() => {
                     cardComponent.setCardOldStyle(cardData);
                     this.actionCardFly({
@@ -123,17 +147,18 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         });
     }
 
-    private flyAllCards(formatData: CardChain[], duration: number, callbackOpenCards: () => void) {
+    private flyAllCards(formatData: Chain[], duration: number, callbackOpenCards: () => void) {
         const prefabCard = this.cardPrefab;
         return new Promise<void>((resolve) => {
-            cc.tween(this)
+            this.allCardsFlyTween = cc
+                .tween(this)
                 .call(() => {
                     this.centerCard.children[0].runAction(
                         cc.moveTo(this.durationFlyCard, cc.v2(this.burnCard.x, this.burnCard.y)).easing(cc.easeInOut(2))
                     );
                 })
                 .call(() => {
-                    formatData.forEach((data: CardChain, index: number) => {
+                    formatData.forEach((data: Chain, index: number) => {
                         this.createCardsBurn(prefabCard, index, data.card, (card: cc.Node) => {
                             card.children[0].opacity = 0;
                             this.actionCardFly({ card: card.children[0], start: this.cardsBox });
@@ -173,7 +198,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                 const destPosition = card.parent.convertToNodeSpaceAR(worldPosition);
                 const cardComponent: BlockchainCard = card.getComponent(BlockchainCard);
                 cardComponent.setStatusInfoTag(false);
-                cc.tween(card)
+                const dropTween = cc
+                    .tween(card)
                     .call(() => {
                         cardComponent.playAnimation(CardAnimation.DropCard, 0.6);
                     })
@@ -186,6 +212,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                         resolve();
                     })
                     .start();
+
+                this.allCardsDropTween.push(dropTween);
             })
         );
     }
