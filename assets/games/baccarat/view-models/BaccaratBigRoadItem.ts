@@ -19,10 +19,10 @@ export default class BaccaratBigRoadItem extends cc.Component {
     @property([cc.Node])
     nodes: cc.Node[] = [];
 
-    private hasValueArray: boolean[] = [];
+    protected hasValueArray: boolean[] = [];
 
     protected onLoad(): void {
-        this.hasValueArray = this.nodes.map((node) => false);
+        this.hasValueArray = this.nodes.map(() => false);
     }
 
     resetNode(bigRoadScoreboardPoint: BigRoadScoreboardPoint<BaccaratSettlementResult>) {

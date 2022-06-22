@@ -9,5 +9,6 @@ export default class BlockchainBaccaratBigRoadItem extends BaccaratBigRoadItem {
                 node.children[index].active = false;
             }
         }
+        this.hasValueArray = this.nodes.map(() => false);
     }
 }
