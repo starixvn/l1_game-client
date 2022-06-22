@@ -456,7 +456,7 @@ export default class GameBase extends BaseComponent {
     }
 
     public updateUserBalance() {
-        UserService.getBalance();
+        this.node.activeInHierarchy && UserService.getBalance();
     }
 
     public isUsingMaxStakeLevel() {
