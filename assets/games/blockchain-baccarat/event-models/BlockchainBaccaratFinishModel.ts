@@ -1,11 +1,11 @@
 import { Blockchain } from "./BlockchainBaccaratCardListModel";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { CardValue } from "../BlockchainBaccaratType";
+import { ResultCards } from "../BlockchainBaccaratType";
 import { BaccaratSettlementResult } from "../../baccarat/view-models/event-models/BaccaratSettlementResult";
 
 export type CardChainResult = {
-    player: CardValue;
-    banker: CardValue;
+    player: ResultCards;
+    banker: ResultCards;
 };
 
 export type BlockchainBaccaratFinish = {

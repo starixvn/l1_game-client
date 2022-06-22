@@ -7,8 +7,7 @@ import {
     BlockchainBaccaratFinishModel,
     BlockchainBaccaratCardListModel,
     BlockchainBaccaratRoundHistory,
-    BlockchainBaccaratFinish,
-    Blockchain
+    BlockchainBaccaratFinish
 } from "../event-models/BlockchainBaccaratModel";
 import { GameIds } from "../../../configs/SabaConfigs";
 import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
@@ -24,6 +23,7 @@ import BlockchainBaccaratTicketHistory from "./history/BlockchainBaccaratTicketH
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { updateOtherPlayerBalance } from "../../_base/action/OtherPlayerAction";
 import { payChips } from "../../_base/action/PayChipsAction";
+import MD5Component from "../../_base/view-models/MD5Component";
 
 const { ccclass, property } = cc._decorator;
 
@@ -41,8 +41,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     @property(cc.Prefab)
     cardListPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    cardsContainer: cc.Node = null;
+    @property({ type: MD5Component, override: true, visible: false })
+    md5Component: MD5Component = null;
 
     gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
@@ -140,8 +140,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
             }
         );
 
-        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, (blockchain: Blockchain) => {
-            this.cardsUI.handleNumberIndex(blockchain.currentIndex);
+        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, (currentIndex: number) => {
+            this.cardsUI.handleNumberIndex(currentIndex);
         });
     }
 
