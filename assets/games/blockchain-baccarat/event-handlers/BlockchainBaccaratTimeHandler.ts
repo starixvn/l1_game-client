@@ -38,7 +38,6 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
                     const gameData = blockchainBaccarat.gameData;
                     const cardContainer = blockchainBaccarat.cardsUI;
                     cardContainer.handleShuffleCards(gameData.cardList.newBlockchain, blockchainBaccarat.currentTimeRemaining);
-
                     this.isShowShoe = true;
                 }
             } else {

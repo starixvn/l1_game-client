@@ -30,7 +30,8 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             GameIds.BlackJack,
             GameIds.CasinoHoldemPoker,
             GameIds.HiLo,
-            GameIds.TexasHoldemPoker
+            GameIds.TexasHoldemPoker,
+            GameIds.BlockchainBaccarat
         ],
         slotGames: [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub],
         lotteryGames: [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery],
@@ -145,7 +146,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     newGames = {
-        SC1: [GameIds.TreasureIsland],
+        SC1: [GameIds.BlockchainBaccarat],
         SC2: [GameIds.TreasureIsland]
     };
     iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub, GameIds.TreasureIsland];
