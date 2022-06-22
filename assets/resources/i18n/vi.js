@@ -580,7 +580,7 @@ window.i18n.languages.vi = {
     },
     blockChainBaccarat: {
         headerContent:
-            "Số Seri cho mỗi lá bài sẽ được công bố ngay tại thời điểm bắt đầu “Shoe”. Người chơi có thể kiểm tra tính minh bạch của kết quả bằng cách so sánh “Khóa Bảo Mật” (được công bố khi mở bài) với “Số Seri”. Để biết thêm thông tin, vui lòng xem tham khảo mục  “Tính năng xác thực” trong phần hướng dẫn.",
+            "Số Seri cho mỗi lá bài sẽ được công bố ngay tại thời điểm bắt đầu “Shoe”. Người chơi có thể kiểm tra tính minh bạch của kết quả bằng cách so sánh “Khóa Bảo Mật” (được công bố khi mở bài) với “Số Seri”.",
         verifyCards: "Xác Minh Bài",
         cardVerification: "Xác Minh Lá Bài",
         verify: "Xác Minh",
@@ -595,6 +595,9 @@ window.i18n.languages.vi = {
         verifyFailed: "Xác minh thất bại!",
         changeCard: "Đổi Bài",
         correctSerialNumber: "Số Seri trùng khớp",
-        wrongSerialNumber: "Số seri không khớp"
+        wrongSerialNumber: "Số seri không khớp",
+        note: "Lưu ý: Người chơi có thể sử dụng bất kỳ ứng dụng của bên thứ 3 để kiểm tra tính minh \nbạch của kết quả và xác minh thông tin lá bài.",
+        serialTooltip: "Thông tin của lá bài (Khóa bảo mật) sẽ được hệ thống mã hóa thành Số Seri. Mỗi lá bài sẽ có số Seri khác nhau.",
+        privateTooltip: "Khóa bảo mật chứa thông tin của lá bài chỉ được công bố sau khi lá bài được mở."
     }
 };

@@ -37,12 +37,20 @@ export default class BlockchainCardVerificationItem extends cc.Component {
     @property(cc.Node)
     card: cc.Node = null;
 
+    @property(cc.Node)
+    icInfo: cc.Node = null;
+
     public hintLabel: cc.Label = null;
     private textCopy: string = null;
     private color = cc.Color.WHITE;
 
     resetHighLight() {
         this.highlightSuccess.active = this.highlightFailed.active = false;
+    }
+
+    onClickTooltip() {
+        const tooltip = this.icInfo.getChildByName("tooltip").getComponent(cc.Label);
+        tooltip.string = i18n.t("blockchainBaccarat.serialTooltip");
     }
 
     onClickCopyButton() {
