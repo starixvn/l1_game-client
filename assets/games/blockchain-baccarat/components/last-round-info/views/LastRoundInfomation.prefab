@@ -3695,12 +3695,12 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -19.7,
-        8.7,
+        19.7,
+        -18.7,
         0,
         0,
         0,
-        0.7071067811865475,
+        -0.7071067811865475,
         0.7071067811865476,
         0.7,
         0.7,
@@ -3711,7 +3711,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 90
+      "z": -90
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -4268,6 +4268,7 @@
       "__id__": 109
     },
     "isBanker": false,
+    "title": null,
     "_id": ""
   },
   {
@@ -7569,6 +7570,7 @@
       "__id__": 197
     },
     "isBanker": false,
+    "title": null,
     "_id": ""
   },
   {
@@ -7597,6 +7599,8 @@
       "__id__": 112
     },
     "reserveCards": null,
+    "burnContainer": null,
+    "winningNotice": null,
     "_id": ""
   },
   {
