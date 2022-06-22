@@ -7,7 +7,8 @@ import {
     BlockchainBaccaratFinishModel,
     BlockchainBaccaratCardListModel,
     BlockchainBaccaratRoundHistory,
-    BlockchainBaccaratFinish
+    BlockchainBaccaratFinish,
+    Blockchain
 } from "../event-models/BlockchainBaccaratModel";
 import { GameIds } from "../../../configs/SabaConfigs";
 import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
@@ -180,7 +181,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private registerNewBlockchainEvents() {
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, (newBlockchain: Blockchain) => {
             blockchainAction.updateBlockchainCardList(this)(newBlockchain);
-        );
+        });
     }
 
     private registerCardVerification() {
