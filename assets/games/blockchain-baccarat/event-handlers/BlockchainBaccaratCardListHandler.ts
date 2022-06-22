@@ -1,14 +1,14 @@
 import { BaseEventHandler } from "../../_new/_base/game-data-management/event-handlers/base-handler";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
-import { CardChain } from "../BlockchainBaccaratType";
+import { Chain } from "../BlockchainBaccaratType";
 
 export type BlockchainBaccaratCardListType<Choices> = {
     blockchain: {
         burnedCards: number;
         currentIndex: number;
         cutCardIndex: number;
-        chain: CardChain[];
+        chain: Chain[];
     };
 };
 

@@ -3,11 +3,12 @@ import { BlockchainBaccaratFinish } from "../event-models/BlockchainBaccaratFini
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 
 export const renderCardSettlement = (mainGame: BlockchainBaccarat) => (finishData: BlockchainBaccaratFinish) => {
-    mainGame.cardList?.updateData(finishData?.blockchain);
+    mainGame.cardList?.renderCardsSettlement(finishData?.blockchain);
 };
 
 export const updateBlockchainCardList = (mainGame: BlockchainBaccarat) => (blockchain: Blockchain) => {
-    mainGame.cardList?.setData(blockchain);
+    mainGame.cardList?.updateBlockchain(blockchain);
+    mainGame.cardList?.setData();
     mainGame.gameData.cardList.updateCurrentIndex(blockchain.currentIndex);
     mainGame.gameData.cardList.changeNumberCardsFly(6);
 };

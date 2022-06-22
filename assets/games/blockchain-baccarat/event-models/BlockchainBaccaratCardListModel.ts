@@ -1,9 +1,9 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { CardChain } from "../BlockchainBaccaratType";
+import { Chain } from "../BlockchainBaccaratType";
 
 export type Blockchain = {
     burnedCards: number;
-    chain: CardChain[];
+    chain: Chain[];
     currentIndex: number;
     cutCardIndex: number;
 };

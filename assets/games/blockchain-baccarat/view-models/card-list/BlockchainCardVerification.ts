@@ -1,11 +1,10 @@
 import { formatPrivateKey } from "../../../_casino/MD5Format";
-import { CardChain, CardModel } from "../../BlockchainBaccaratType";
+import { Chain, CardModel } from "../../BlockchainBaccaratType";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
-import BlockchainVerify from "./BlockchainVerify";
+import BlockchainVerify from "./BlockchainCardVerify";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import BlockchainCardList from "./BlockchainCardList";
-import { Blockchain } from "../../event-models/BlockchainBaccaratCardListModel";
 import MiniPanel from "../../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
@@ -19,7 +18,7 @@ export default class BlockchainCardVerification extends cc.Component {
     privateKey: BlockchainCardVerificationItem = null;
 
     @property(BlockchainVerify)
-    verify: BlockchainVerify = null;
+    verifyCard: BlockchainVerify = null;
 
     @property(BlockchainCardVerificationItem)
     verifiedSerial: BlockchainCardVerificationItem = null;
@@ -27,10 +26,12 @@ export default class BlockchainCardVerification extends cc.Component {
     @property(cc.Prefab)
     cardListPrefab: cc.Prefab = null;
 
-    private cardChain: CardChain[];
-    private blockchain: Blockchain;
     public cardList: BlockchainCardList = null;
     public currentMiniPanel: MiniPanel;
+    private serialCardChain: Chain;
+    private privateCardChain: Chain;
+    isClickSerialChangeCard = false;
+    isClickPrivateChangeCard = false;
 
     private encrypKey = "************************************************************************************************************";
 
@@ -38,30 +39,36 @@ export default class BlockchainCardVerification extends cc.Component {
         this.currentMiniPanel = miniPanel;
     }
 
-    renderDataCradVerification(blockchain, index: number) {
-        this.blockchain = blockchain;
-        const { chain } = blockchain;
-        this.cardChain = chain;
-        const card = chain[index];
-        const rawValue = card?.rawValue ? this.setPrivateKey(card.rawValue, card.card) : `${this.encrypKey}${card.revealedRawValue}`;
-        const verifiedValue = this.verify.isSuccessfull ? card.hashValue : i18n.t("blockchainBaccarat.verifiedValue");
-        this.serialNumber.setHashValue(card?.hashValue);
-        this.privateKey.setRawValue(rawValue);
-        this.verifiedSerial.enableCopyButton(this.verify.isSuccessfull);
+    renderDataCardVerification(cardChain: Chain, index: number) {
+        const verifiedValue = this.verifyCard.isSuccessfull ? cardChain.hashValue : i18n.t("blockchainBaccarat.verifiedValue");
+        this.verifiedSerial.enableCopyButton(this.verifyCard.isSuccessfull);
         this.verifiedSerial.setHashValue(verifiedValue);
-
-        if (!card.rawValue) {
-            this.verify.enableVerifyButton(false);
+        this.renderSerialNumber(cardChain, index);
+        this.renderPivateKey(cardChain, index);
+        if (!cardChain.rawValue) {
+            this.verifyCard.enableVerifyButton(false);
             this.privateKey.enableCopyButton(false);
         } else {
             this.privateKey.enableCopyButton(true);
-            this.verify.enableVerifyButton(true);
-            this.privateKey.setTextCopy(card.rawValue);
+            this.verifyCard.enableVerifyButton(true);
+            this.privateKey.setTextCopy(cardChain.rawValue);
         }
-        this.serialNumber.renderCard(card.card, index);
-        this.privateKey.renderCard(card.card, index);
     }
 
+    renderSerialNumber(cardChain: Chain, index: number) {
+        this.serialNumber.setHashValue(cardChain?.hashValue);
+        this.serialNumber.renderCard(cardChain.card, index);
+        this.serialCardChain = cardChain;
+    }
+
+    renderPivateKey(cardChain: Chain, index: number) {
+        const rawValue = cardChain?.rawValue
+            ? this.setPrivateKey(cardChain.rawValue, cardChain.card)
+            : `${this.encrypKey}${cardChain.revealedRawValue}`;
+        this.privateKey.setRawValue(rawValue);
+        this.privateKey.renderCard(cardChain.card, index);
+        this.privateCardChain = cardChain;
+    }
     private setPrivateKey(rawValue: string, card: CardModel) {
         const suffix = rawValue.split("_");
         const suffixFormatting = `${suffix[1]}_${suffix[2]}`;
@@ -69,19 +76,17 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     onClickVerifyButton() {
-        const serialCard = this.cardChain[parseInt(this.serialNumber.numberKey.string) - 1];
-        const privateCard = this.cardChain[parseInt(this.privateKey.numberKey.string) - 1];
-        const isRawValue = serialCard.rawValue.localeCompare(privateCard.rawValue);
-        const isHashValue = serialCard.hashValue.localeCompare(privateCard.hashValue);
-        this.verifiedSerial.setHashValue(serialCard.hashValue);
+        const isRawValue = this.serialCardChain.rawValue.localeCompare(this.privateCardChain.rawValue);
+        const isHashValue = this.serialCardChain.hashValue.localeCompare(this.privateCardChain.hashValue);
+        this.verifiedSerial.setHashValue(this.serialCardChain.hashValue);
         if (isRawValue === 0 && isHashValue === 0) {
-            this.verify.setText(serialCard.hashValue);
-            this.verify.setVerifySuccess(true);
+            this.verifyCard.setText(this.serialCardChain.hashValue);
+            this.verifyCard.setVerifySuccess(true);
             this.serialNumber.setHighLightSuccess();
             this.verifiedSerial.setHighLightSuccess();
             this.verifiedSerial.enableCopyButton(true);
         } else {
-            this.verify.setVerifySuccess(false);
+            this.verifyCard.setVerifySuccess(false);
             this.serialNumber.setHighLightFailed();
             this.verifiedSerial.setHighLightFailed();
         }
@@ -102,9 +107,8 @@ export default class BlockchainCardVerification extends cc.Component {
         }
         const dialog = cc.instantiate(this.cardListPrefab);
         this.cardList = dialog.getComponent(BlockchainCardList);
-        this.cardList.setData(this.blockchain);
+        this.cardList.setData();
         this.cardList.highLightCurrentCardSelected(parseInt(this.privateKey.numberKey.string) - 1);
         this.currentMiniPanel.addDialog(dialog);
-        this.cardList.showDialog();
     }
 }

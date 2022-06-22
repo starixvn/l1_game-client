@@ -65,7 +65,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData = new BlockchainBaccaratGameData<BlockchainBaccaratChoicesType>();
         this.registerGameEvents();
         super.onLoad();
-        this.initCardList();
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
     }
@@ -102,7 +101,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     openCardList() {
         this.initCardList();
-        this.cardList.setData(this.gameData.cardList.blockchain);
+        this.cardList.updateBlockchain(this.gameData.cardList.blockchain);
+        this.cardList.setData();
         this.cardList.showDialog();
     }
 

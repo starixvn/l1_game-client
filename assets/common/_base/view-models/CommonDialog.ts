@@ -10,8 +10,10 @@ export default class CommonDialog extends BounceInEffect {
 
     private readonly onDidHideActions = [];
     private readonly onWillShowActions = [];
+    private readonly onWillHideActions = [];
 
     closeDialog(enableSound = true) {
+        this.onWillHide();
         cc.tween(this.node)
             .to(this.time, { scale: 0, opacity: 0 }, { easing: "backIn" })
             .call(() => {
@@ -32,6 +34,10 @@ export default class CommonDialog extends BounceInEffect {
         this.onDidHideActions.push(action);
     }
 
+    addOnWillHide(action: () => void) {
+        this.onWillHideActions.push(action);
+    }
+
     addOnWillShow(action: () => void) {
         this.onWillShowActions.push(action);
     }
@@ -42,5 +48,9 @@ export default class CommonDialog extends BounceInEffect {
 
     private onWillShow() {
         this.onWillShowActions.forEach((action) => action());
+    }
+
+    private onWillHide() {
+        this.onWillHideActions.forEach((action) => action());
     }
 }
