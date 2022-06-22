@@ -159,8 +159,9 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         return;
     }
 
-    async handleShuffleCards(data: Blockchain, duration: number) {
+    async handleShuffleCards(data: Blockchain, duration: number, onCollectedCards: () => void) {
         await this.collectCardsOnTable();
+        onCollectedCards && onCollectedCards();
         this.reserveCards?.resetCards();
         this.burnContainer.node.active = true;
         this.setActiveCardsUI(false);

@@ -33,12 +33,21 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         if (this.main.timeWaitNode) {
             if (this.isNewShoe && this.main.currentTimeRemaining === this.durationShowNewShoe) {
                 if (!this.isShowShoe) {
+                    this.isShowShoe = true;
                     this.main.resetDataAndUI();
                     const blockchainBaccarat: BlockchainBaccarat = this.getOwnMain();
                     const gameData = blockchainBaccarat.gameData;
                     const cardContainer = blockchainBaccarat.cardsUI;
-                    cardContainer.handleShuffleCards(gameData.cardList.newBlockchain, blockchainBaccarat.currentTimeRemaining);
-                    this.isShowShoe = true;
+                    const onCollectedCards = () => {
+                        const lastRound = gameData.finishModel.finishData;
+                        const currentCardIndex = gameData.cardList.currentIndex;
+                        blockchainBaccarat.lastRoundIfo.updateUI(lastRound, currentCardIndex);
+                    };
+                    cardContainer.handleShuffleCards(
+                        gameData.cardList.newBlockchain,
+                        blockchainBaccarat.currentTimeRemaining,
+                        onCollectedCards
+                    );
                 }
             } else {
                 this.main.finishShowResult && this.showWaitTime();
@@ -51,6 +60,10 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
     }
 
     handleNotWaitTime() {
+        if (this.isStartingNewGameRound && this.isShowShoe) {
+            this.isShowShoe = false;
+            this.clearInfo();
+        }
         this.isNewShoe = false;
         super.handleNotWaitTime();
     }
@@ -85,5 +98,12 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         const main = this.getOwnMain();
         main.scoreboard?.renderNextNode();
         this.main.betItems.forEach((item) => item.setHighlight(false));
+    }
+
+    clearInfo() {
+        const blockchainBaccarat = this.getOwnMain();
+        blockchainBaccarat.scoreboard.resetScoreboard();
+        blockchainBaccarat.lastRoundIfo.reset();
+        blockchainBaccarat.gameData.finishModel.clear();
     }
 }
