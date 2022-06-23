@@ -1,19 +1,30 @@
-export class CascadingSlotBaseConfig {
-    normal: CascadingSlotConfigDuration = {
+export const CascadingSlotConfig: CascadingSlotBaseConfig = {
+    normal: {
         highlightWinItemsDuration: 0.5,
         freeSpin: 4,
         bigWin: 1,
         bigWinFloatNumber: 3,
         delayForNextSpin: 0.3
-    };
+    },
 
-    turbo: CascadingSlotConfigDuration = {
+    turbo: {
         highlightWinItemsDuration: 0.3,
         freeSpin: 2.5,
         bigWin: 1,
         bigWinFloatNumber: 0.3,
         delayForNextSpin: 0.1
-    };
+    },
+
+    itemTypeCount: 11,
+    reelItemCount: 5
+};
+
+export interface CascadingSlotBaseConfig {
+    normal: CascadingSlotConfigDuration;
+    turbo: CascadingSlotConfigDuration;
+
+    itemTypeCount: number;
+    reelItemCount: number;
 }
 
 export interface CascadingSlotConfigDuration {

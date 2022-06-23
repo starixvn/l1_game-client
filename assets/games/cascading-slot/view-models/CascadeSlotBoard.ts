@@ -4,6 +4,7 @@ import GameUtils from "../../../common/GameUtils";
 import SlotGameSound, { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import CascadeSlotReel from "./CascadeSlotReel";
 import MultiplierItem from "./MultiplierItem";
+import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,8 +13,8 @@ export default class CascadeSlotBoard extends cc.Component {
     boardSound: SlotGameSound;
 
     private readonly reels: CascadeSlotReel[] = [];
-    protected readonly itemTypeCount = 11;
-    protected readonly itemDisplayCount = 5;
+    protected readonly itemTypeCount = CascadingSlotConfig.itemTypeCount;
+    protected readonly itemDisplayCount = CascadingSlotConfig.reelItemCount;
 
     onLoad() {
         this.createReels();

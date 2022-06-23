@@ -1,5 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
+import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,7 +18,7 @@ export default class CascadeSlotReel extends cc.Component {
     @property
     itemSize = 145;
 
-    itemDisplayCount = 5;
+    itemDisplayCount = CascadingSlotConfig.reelItemCount;
 
     private items: CascadeSlotReelItem[] = [];
     public readonly pixelPerSecond = 145 * 15;

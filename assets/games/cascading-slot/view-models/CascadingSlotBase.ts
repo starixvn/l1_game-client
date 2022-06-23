@@ -21,7 +21,7 @@ import SpinButtonStateModel, { SpinButtonState } from "../models/SpinButtonState
 import { CascadingSlotConfigModel } from "./../models/CascadingSlotConfigModel";
 import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingBetControl, { TotalBetType } from "./CascadingBetControl";
-import { CascadingSlotBaseConfig } from "./CascadingSlotBaseConfig";
+import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 import CascadingSlotMascot from "./CascadingSlotMascot";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
@@ -89,7 +89,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     trialToggle: cc.Toggle = null;
 
     public gameData: CascadingSlotGameData<void>;
-    protected cascadingSlotConfig: CascadingSlotBaseConfig;
     public betControl: CascadingBetControl;
     public freeSpinView: FreeSpinView;
     public mascot: CascadingSlotMascot;
@@ -232,7 +231,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     getCustomDuration(key: string): number {
-        const config = this.isTurboMode() ? this.cascadingSlotConfig.turbo : this.cascadingSlotConfig.normal;
+        const config = this.isTurboMode() ? CascadingSlotConfig.turbo : CascadingSlotConfig.normal;
         return config[key];
     }
 
@@ -244,17 +243,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.onLoad();
         this.board.initBoardFullItems();
         this.initGameDataEvents();
-        this.initCascadingSlotConfig();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
     }
 
     start() {
         super.start();
         this.gameData.uiModel.resetNewRound();
-    }
-
-    protected initCascadingSlotConfig() {
-        this.cascadingSlotConfig = new CascadingSlotBaseConfig();
     }
 
     protected initGameDataEvents() {
