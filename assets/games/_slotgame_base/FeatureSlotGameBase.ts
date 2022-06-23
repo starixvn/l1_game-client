@@ -226,7 +226,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const callbackAnim = effect.getComponent(CallbackAnimation);
         callbackAnim.setDuration(this.getCustomDuration("freeSpin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setAmount(count);
+        bigWinAnimation.setAmount(count, 0, true);
         await this.showEffect(effect);
     }
 

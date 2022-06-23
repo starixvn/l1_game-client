@@ -7,8 +7,8 @@ export default class BigWinAnimation extends cc.Component {
     @property(cc.Label)
     amountLabel: cc.Label = null;
 
-    setAmount(amount: number, duration = 0) {
-        GameUtils.floatToNumber({ label: this.amountLabel, amount, duration, noZeroSuffix: false });
+    setAmount(amount: number, duration = 0, noZeroSuffix = false) {
+        GameUtils.floatToNumber({ label: this.amountLabel, amount, duration, noZeroSuffix: noZeroSuffix });
     }
 
     async setAmountSlow(amount: number, onComplete: () => void) {
