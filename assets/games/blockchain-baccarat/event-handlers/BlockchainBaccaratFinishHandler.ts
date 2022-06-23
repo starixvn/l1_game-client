@@ -24,6 +24,5 @@ export class BlockchainBaccaratFinishHandler<Choices> extends BaseEventHandler<B
     protected handle(event: BlockchainBaccaratFinish<Choices>) {
         this.gameData.emit(BlockchainBaccaratGameData.Events.SETTLED, event.finish.settlementResult);
         this.gameData.finishModel.changeFinishResult(event.finish);
-        this.gameData.cardList.change(event.finish.blockchain);
     }
 }

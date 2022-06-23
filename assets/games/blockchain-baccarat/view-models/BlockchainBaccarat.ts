@@ -161,7 +161,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     private registerFinishEvents() {
-        this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, blockchainAction.renderCardSettlement(this));
         this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
             this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
             blockchainAction.openCards(this.cardsUI)(finishData, () => {
@@ -169,10 +168,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                 blockchainAction.showLabelWinning(this)(finishData.settlementResult);
                 blockchainAction.showHighLightBet(this)(finishData.settlementResult);
                 this.scoreboard.renderScoreBoardEachRound(finishData);
+                blockchainAction.renderCardSettlement(this)(finishData);
                 if (this.playerHandler) {
                     updateOtherPlayerBalance(finishData.winningPlayers, this);
                 }
                 payChips(this, finishData.settlementResult, finishData.winningPlayers, this.durationFlyChip, this.durationAnimWinning);
+                this.gameData.cardList.change(finishData?.blockchain);
                 this.finishShowResult = true;
             });
         });

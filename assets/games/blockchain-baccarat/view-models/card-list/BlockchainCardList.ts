@@ -53,6 +53,7 @@ export default class BlockchainCardList extends cc.Component {
 
     protected removeCards() {
         this.content.removeAllChildren();
+        this.node.stopAllActions();
     }
 
     showDialog() {
