@@ -96,7 +96,16 @@ export default class GameUtils {
         return JSON.parse(storage);
     }
 
-    public static async openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}, callBackLobby = () => {}) {
+    public static async openGame(
+        gameId: number,
+        miniPanel: MiniPanel,
+        openLuckyWheelFunc = () => {
+            // handle
+        },
+        callBackLobby = () => {
+            // handle
+        }
+    ) {
         const info = GameInfos[gameId];
 
         if (info.remote && !info.mini) {
@@ -328,5 +337,21 @@ export default class GameUtils {
                 .call(() => resolve())
                 .start();
         });
+    }
+
+    public static showNode(node: cc.Node, transitionTime = 0.3) {
+        node.active = true;
+        node.opacity = 0;
+        cc.tween(node).to(transitionTime, { opacity: 255 }).start();
+    }
+
+    public static hideNode(node: cc.Node, transitionTime = 0.3, onHidden?: () => void) {
+        cc.tween(node)
+            .to(transitionTime, { opacity: 0 })
+            .call(() => {
+                node.active = false;
+                onHidden && onHidden();
+            })
+            .start();
     }
 }

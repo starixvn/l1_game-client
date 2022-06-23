@@ -2,6 +2,8 @@ import { Blockchain } from "./../event-models/BlockchainBaccaratCardListModel";
 import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratCardsShuffle from "./card-shuffle/BlockchainBaccaratCardsShuffle";
 import BlockchainBaccaratCards from "./card/BlockchainBaccaratCards";
+import BlockchainCard from "./card-list/BlockchainCard";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -63,30 +65,38 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     async handleFlyCards(currentIndex: number, numberCardsFlied: number) {
         switch (numberCardsFlied) {
             case CountCardFlied.FourCards:
-                this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
-                await this.reserveCards.flyCard1Reserve(
-                    currentIndex,
-                    this.playerCards.cards[CardsOrder.card1],
-                    this.reserveCards.cards[CardsOrder.card1]
-                );
-                this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
-                await this.reserveCards.flyCard1Reserve(
-                    currentIndex + 1,
-                    this.bankerCards.cards[CardsOrder.card1],
-                    this.reserveCards.cards[CardsOrder.card2]
-                );
+                await this.reserveCards.flyCard1Reserve({
+                    numberTag: currentIndex,
+                    card: this.playerCards.cards[CardsOrder.card1],
+                    start: this.reserveCards.cards[CardsOrder.card1],
+                    callBack: () => {
+                        this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
+                    }
+                });
+
+                await this.reserveCards.flyCard1Reserve({
+                    numberTag: currentIndex + 1,
+                    card: this.bankerCards.cards[CardsOrder.card1],
+                    start: this.reserveCards.cards[CardsOrder.card2],
+                    callBack: () => {
+                        this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
+                    }
+                });
                 await this.playerCards.flyCard2(currentIndex + 2);
                 await this.bankerCards.flyCard2(currentIndex + 3);
                 await this.reserveCards.flyCard1(currentIndex + 4, this.reserveCards.durationFlyCard3);
                 await this.reserveCards.flyCard2(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
             case CountCardFlied.FiveCards:
-                this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
-                await this.reserveCards.flyCard1Reserve(
-                    currentIndex,
-                    this.playerCards.cards[CardsOrder.card1],
-                    this.reserveCards.cards[CardsOrder.card2]
-                );
+                await this.reserveCards.flyCard1Reserve({
+                    numberTag: currentIndex,
+                    card: this.playerCards.cards[CardsOrder.card1],
+                    start: this.reserveCards.cards[CardsOrder.card2],
+                    callBack: () => {
+                        this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
+                    }
+                });
+
                 await this.bankerCards.flyCard1(currentIndex + 1);
                 await this.playerCards.flyCard2(currentIndex + 2);
                 await this.bankerCards.flyCard2(currentIndex + 3);
@@ -148,6 +158,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             isShowCurrentResult
         });
         this.sesetReserveCards(lastRound);
+        playerCards.length + bankerCards.length < 6 && this.updateReserceCardsIndex(startIndex);
     }
 
     sesetReserveCards(lastRound: BlockchainBaccaratRoundHistory) {
@@ -158,7 +169,15 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         if (lastRound.result.player?.card3 || lastRound.result.banker?.card3) {
             this.reserveCards?.resetCard(this.reserveCards.cards[CardsOrder.card1]);
         }
+
         return;
+    }
+
+    updateReserceCardsIndex(currentIndex: number) {
+        this.reserveCards?.cards.forEach((card: cc.Node, index: number) => {
+            const cardComponent: BlockchainCard = card?.getComponentInChildren(BlockchainCard);
+            cardComponent?.setIndexNumber(currentIndex + index + 4);
+        });
     }
 
     async handleShuffleCards(data: Blockchain, duration: number) {
@@ -169,12 +188,17 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         await this.burnContainer.handleShowCutCards(data, duration);
     }
 
-    setActiveCardsUI(isActive = true) {
-        this.reserveCards.node.active = isActive;
-        this.bankerCards.node.active = isActive;
-        this.playerCards.node.active = isActive;
-        this.bankerCards.title.active = isActive;
-        this.playerCards.title.active = isActive;
+    setActiveCardsUI(isActive: boolean) {
+        if (isActive) {
+            GameUtils.showNode(this.reserveCards?.node);
+            GameUtils.showNode(this.bankerCards?.node);
+            GameUtils.showNode(this.playerCards?.node);
+        } else {
+            GameUtils.hideNode(this.reserveCards?.node);
+            GameUtils.hideNode(this.bankerCards?.node);
+            GameUtils.hideNode(this.playerCards?.node);
+        }
+
         this.winningNotice.node.parent.active = false;
     }
 }

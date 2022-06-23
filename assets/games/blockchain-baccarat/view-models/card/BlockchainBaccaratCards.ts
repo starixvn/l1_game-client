@@ -138,8 +138,20 @@ export default class BlockchainBaccaratCards extends cc.Component {
         await this.flyCard({ card: node, delay, numberTag: 0, isCardThree: true, isBanker });
     }
 
-    async flyCard1Reserve(numberTag: number, card: cc.Node, start: cc.Node, delay = this.durationFlyCard) {
-        await this.flyCardReserve(card, delay, numberTag, start);
+    async flyCard1Reserve({
+        numberTag,
+        card,
+        start,
+        delay = this.durationFlyCard,
+        callBack
+    }: {
+        numberTag: number;
+        card: cc.Node;
+        start: cc.Node;
+        delay?: number;
+        callBack?: () => void;
+    }) {
+        await this.flyCardReserve(card, delay, numberTag, start, callBack);
     }
 
     private flyCard({
@@ -177,13 +189,14 @@ export default class BlockchainBaccaratCards extends cc.Component {
         });
     }
 
-    private flyCardReserve(card: cc.Node, delay: number, numberTag: number, start: cc.Node): Promise<void> {
+    private flyCardReserve(card: cc.Node, delay: number, numberTag: number, start: cc.Node, callBack: () => void): Promise<void> {
         return new Promise((resolve) => {
             const cardComponent = card.getComponentInChildren(BlockchainCard);
             this.flyCardReserveTween = cc
                 .tween(card)
                 .delay(delay)
                 .call(() => {
+                    callBack();
                     this.setInfoCardFly(cardComponent, numberTag);
                     this.actionCardFly({
                         card,
