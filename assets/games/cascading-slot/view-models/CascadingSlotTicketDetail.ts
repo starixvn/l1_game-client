@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import CascadingSlotTicketDetailItem from "./CascadingSlotTicketDetailItem";
 import CascadingSlotTotalMultiplier from "./CascadingSlotTotalMultiplier";
@@ -69,7 +70,8 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         this.handleMultiplierData(data);
         this.winTotal.string = numberWithCommas(data.betwin, 2, false);
         this.reachMaxText.node.active = isReachMaxWin;
-        this.reachMaxText.string = `(${i18n.t(`treasureIsland.reachMaxWin`)}) `;
+        const reachMaxLocalize = `treasureIsland.reachMaxWin`;
+        this.reachMaxText.string = `(${GameUtils.getText(reachMaxLocalize)}) `;
     }
 
     handleMultiplierData(data: any) {

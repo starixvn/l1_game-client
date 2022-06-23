@@ -269,7 +269,7 @@ export default class CascadingBetControl extends cc.Component {
         if (!data.betControl) {
             return;
         }
-        const { coin, level, multiplier } = data.betControl;
+        const { coin, level } = data.betControl;
         this.updateSelectedCoinLevel(coin, level);
     }
 
