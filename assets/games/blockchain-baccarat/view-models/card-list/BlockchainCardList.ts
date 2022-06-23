@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import { Chain } from "../../BlockchainBaccaratType";
@@ -143,7 +142,7 @@ export default class BlockchainCardList extends cc.Component {
                 this.initCardVerification(cardChain, index);
             };
 
-            this.flippingAnimations.push(cardComp.animation);
+            this.flippingAnimations.push(cardComp?.animation);
             this.resultCards.push(cardComp);
         }
     }
@@ -171,14 +170,14 @@ export default class BlockchainCardList extends cc.Component {
         return node;
     }
 
-    public initCardVerification(cardChain: Chain, index: number) {
+    public initCardVerification(chain: Chain, index: number) {
         const cardVerification = this.root.node.getChildByName(this.cardVerificationPrefab.name);
         if (cardVerification) {
             cardVerification.removeFromParent(true);
             cardVerification.destroy();
         }
 
-        this.root.cardVerification.renderDataCardVerification(cardChain, index);
+        this.root.cardVerification.renderDataCardVerification(chain, index);
         this.root.cardVerification.showDialog();
     }
 

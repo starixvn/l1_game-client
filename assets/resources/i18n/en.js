@@ -592,8 +592,8 @@ window.i18n.languages.en = {
         verifiedValue:
             "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number",
         last_round: "Last Round",
-        verifySuccess: "Verification Successful!",
-        verifyFailed: "Verification Failed!",
+        verifySuccess: "Verification  Successful!",
+        verifyFailed: "Verification  Failed!",
         changeCard: "Change Card",
         correctSerialNumber: "Correct Serial Number",
         wrongSerialNumber: "Wrong Serial Number",

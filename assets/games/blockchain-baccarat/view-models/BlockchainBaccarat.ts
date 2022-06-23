@@ -176,7 +176,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                 blockchainAction.showLabelWinning(this)(finishData.settlementResult);
                 blockchainAction.showHighLightBet(this)(finishData.settlementResult);
                 this.scoreboard.renderScoreBoardEachRound(finishData);
-                blockchainAction.renderCardSettlement(this)(finishData);
+                blockchainAction.renderCardSettlement(this.cardList)(finishData);
                 if (this.playerHandler) {
                     updateOtherPlayerBalance(finishData.winningPlayers, this);
                 }

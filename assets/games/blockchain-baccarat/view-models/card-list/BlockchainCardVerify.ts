@@ -38,14 +38,13 @@ export default class BlockchainVerify extends cc.Component {
     }
 
     setVerifySuccess(highlight: boolean) {
+        this.setText("");
         this.btnActive.active = this.btnDisable.active = false;
         if (highlight) {
             this.success.active = true;
             this.isSuccessfull = true;
-            this.setText(i18n.t("blockchainBaccarat.verifySuccess"));
         } else {
             this.failed.active = true;
-            this.setText(i18n.t("blockchainBaccarat.verifyFailed"));
         }
     }
 }

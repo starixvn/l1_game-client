@@ -102,7 +102,6 @@ export default class BlockchainCardVerification extends cc.Component {
         this.verifiedSerial.setHashValue(this.serialCardChain.hashValue);
         this.verifiedSerial.enableCopyButton(true);
         if (isRawValue === 0 && isHashValue === 0) {
-            this.verifyCard.setText(this.serialCardChain.hashValue);
             this.verifyCard.setVerifySuccess(true);
             this.serialNumber.setHighLightSuccess();
             this.verifiedSerial.setHighLightSuccess();
