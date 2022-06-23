@@ -14,7 +14,7 @@ export default class TotalMultiplierView extends FadeAppearanceNode {
 
     setValue(value: number, animated: boolean) {
         if (animated) {
-            GameUtils.floatToNumber(this.total, value, 0.2, null, true, "x");
+            GameUtils.floatToNumber({ label: this.total, amount: value, duration: 0.2, noZeroSuffix: true, prefixStr: "x" });
         } else {
             this.total.string = `x${value}`;
         }

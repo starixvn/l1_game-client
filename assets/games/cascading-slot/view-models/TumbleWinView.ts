@@ -37,7 +37,7 @@ export default class TumbleWinView extends FadeAppearanceNode {
     setTumbleWinValue(value: number, animated: boolean) {
         this.showView(true);
         if (animated) {
-            GameUtils.floatToNumber(this.tumbleLabel, value, 0.5, null, false);
+            GameUtils.floatToNumber({ label: this.tumbleLabel, amount: value, duration: 0.5, noZeroSuffix: false });
         } else {
             this.tumbleLabel.string = numberWithCommas(value, 2, false);
         }

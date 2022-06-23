@@ -143,30 +143,33 @@ export default class GameUtils {
         node.position = position;
     }
 
-    public static floatToNumber2(
-        label: cc.Label,
-        end: number,
-        start?: number,
-        prefixStr = "",
-        formatNumber = (value) => numberWithCommas(value, 2, false),
-        options = {
-            stepValue: 0.01,
-            stepTime: 0.02
-        }
-    ) {
+    public static floatToNumber2(opt: {
+        label: cc.Label;
+        amount: number;
+        start?: number;
+        prefixStr?: string;
+        formatNumber?: (value) => string;
+        stepValue?: number;
+        stepTime?: number;
+    }) {
         return new Promise<void>((resolve) => {
+            const { label, amount: end, start } = opt;
+            const prefixStr = opt.prefixStr ?? "";
+            const defaultFormater = (v) => numberWithCommas(v, 2, false);
+            const formatNumber = opt.formatNumber ?? defaultFormater;
+            const stepValue = opt.stepValue ?? 0.01;
+            const stepTime = opt.stepTime ?? 0.02;
             const startStr = label.string.replace(prefixStr, "");
-            start = start || parseFloat(startStr.replace(/,/g, "")) || 0;
-            const range = Math.abs(end - start);
+            const startValue = start || parseFloat(startStr.replace(/,/g, "")) || 0;
+            const range = Math.abs(end - startValue);
             if (!range) {
                 resolve();
                 return;
             }
 
-            const { stepValue, stepTime } = options;
             const repeatCount = Math.floor(range / stepValue);
 
-            let value = start;
+            let value = startValue;
             label.node.stopAllActions();
             const formatText = (value) => prefixStr + formatNumber(value);
             cc.tween(label.node)
@@ -188,10 +191,20 @@ export default class GameUtils {
         });
     }
 
-    public static floatToNumber(label: cc.Label, end: number, duration: number, start?: number, noZeroSuffix = true, prefixStr = "") {
+    public static floatToNumber(opt: {
+        label: cc.Label;
+        amount: number;
+        duration: number;
+        start?: number;
+        noZeroSuffix?: boolean;
+        prefixStr?: string;
+    }) {
+        const { label, amount: end, start, duration } = opt;
+        const noZeroSuffix = opt.noZeroSuffix ?? true;
+        const prefixStr = opt.prefixStr ?? "";
         const startStr = label.string.replace(prefixStr, "");
-        start = start || parseFloat(startStr.replace(/,/g, "")) || 0;
-        const range = Math.abs(end - start);
+        const startValue = start || parseFloat(startStr.replace(/,/g, "")) || 0;
+        const range = Math.abs(end - startValue);
         if (!range) {
             return;
         }
@@ -207,7 +220,7 @@ export default class GameUtils {
             repeatCount = Math.floor(range / stepValue);
         }
 
-        let value = start;
+        let value = startValue;
         label.node.stopAllActions();
         cc.tween(label.node)
             .repeat(

@@ -1125,7 +1125,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         const poolValue = this.jackpotPool[`${this.stake}`];
         if (poolValue && poolValue !== this.jackpotPoolValue) {
             this.jackpotPoolValue = poolValue;
-            GameUtils.floatToNumber(this.jackpotPoolLabel, poolValue, 0.6, undefined, false);
+            GameUtils.floatToNumber({ label: this.jackpotPoolLabel, amount: poolValue, duration: 0.6, noZeroSuffix: false });
         }
     }
 
