@@ -13,8 +13,6 @@ export default class CascadeSlotBoard extends cc.Component {
     boardSound: SlotGameSound;
 
     private readonly reels: CascadeSlotReel[] = [];
-    protected readonly itemTypeCount = CascadingSlotConfig.itemTypeCount;
-    protected readonly itemDisplayCount = CascadingSlotConfig.reelItemCount;
 
     onLoad() {
         this.createReels();
@@ -27,7 +25,7 @@ export default class CascadeSlotBoard extends cc.Component {
         this.node.children.forEach((child) => {
             const slotReel = child.getComponent(CascadeSlotReel);
             if (slotReel) {
-                slotReel.itemDisplayCount = this.itemDisplayCount;
+                slotReel.itemDisplayCount = CascadingSlotConfig.reelItemCount;
                 slotReel.createReel();
                 this.reels.push(slotReel);
             }
@@ -40,8 +38,8 @@ export default class CascadeSlotBoard extends cc.Component {
     }
 
     protected generateRandomItems() {
-        const itemTypeCount = this.itemTypeCount || 0;
-        const boardSize = this.reels.length * this.itemDisplayCount;
+        const itemTypeCount = CascadingSlotConfig.itemTypeCount || 0;
+        const boardSize = this.reels.length * CascadingSlotConfig.reelItemCount;
         const data = Array.from(Array(itemTypeCount).keys());
         const multipliers = [_.random(2, 20)];
 
