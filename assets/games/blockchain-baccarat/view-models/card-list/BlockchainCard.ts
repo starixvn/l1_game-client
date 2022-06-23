@@ -1,3 +1,4 @@
+import { BlockchainBaccaratCardListModel } from "./../../event-models/BlockchainBaccaratCardListModel";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
 
 const { ccclass, property } = cc._decorator;
@@ -18,6 +19,9 @@ export default class BlockchainCard extends NewCard {
 
     @property(cc.Node)
     infoTag: cc.Node = null;
+
+    private cardListModel: BlockchainBaccaratCardListModel = null;
+    public index: number;
 
     setHighlight() {
         this.highLight.active = true;
@@ -51,7 +55,9 @@ export default class BlockchainCard extends NewCard {
         this.indexNumber.string = "";
     }
 
-    openCardVerification() {}
+    openCardVerification() {
+        this.cardListModel?.openCardVerification(this.index);
+    }
 
     closeCardVerification() {
         this.setShadow();
@@ -63,6 +69,7 @@ export default class BlockchainCard extends NewCard {
     }
 
     setIndexNumber(number: number) {
+        this.index = number;
         this.indexNumber.string = (number + 1).toString().padStart(3, "0");
     }
 
@@ -73,5 +80,9 @@ export default class BlockchainCard extends NewCard {
     setStatusIndexNumber(status: boolean) {
         this.indexNumber.node.active = status;
         this.indexNumber.node?.parent && (this.indexNumber.node.parent.active = status);
+    }
+
+    setCardListModel(model: BlockchainBaccaratCardListModel) {
+        this.cardListModel = model;
     }
 }

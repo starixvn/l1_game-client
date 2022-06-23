@@ -11,7 +11,7 @@ import {
     Blockchain
 } from "../event-models/BlockchainBaccaratModel";
 import { GameIds } from "../../../configs/SabaConfigs";
-import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
+import { BlockchainBaccaratChoicesType, Chain } from "../BlockchainBaccaratType";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BlockchainBaccaratConfig } from "./BlockchainBaccaratConfig";
 import BlockchainCardList from "./card-list/BlockchainCardList";
@@ -76,6 +76,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
         this.registerCardVerification();
+        this.registerCardListEvents();
     }
 
     resetDataAndUI() {
@@ -109,10 +110,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     initLastRoundInfo(node: cc.Node) {
         this.lastRoundIfo = node.getComponent(BlockchainBaccaratLastRoundInfo);
+        this.lastRoundIfo.cardsUI.getComponent(BlockchainBaccaratCardsUI).setCardListModel(this.gameData.cardList);
     }
 
     initCardsUI(node: cc.Node) {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
+        this.cardsUI.setCardListModel(this.gameData.cardList);
     }
 
     openCardList() {
@@ -141,6 +144,11 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.betHistoryController.setConnection(this.connection, this.gameName);
         this.currentMiniPanel.addDialog(historyNode);
         this.betHistoryController.showDialog();
+    }
+
+    openCardVerification(index: number) {
+        // open
+        console.log(index);
     }
 
     private registerGameEvents() {
@@ -188,6 +196,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private registerCardVerification() {
         this.cardVerification.node.on(CardEvents.CHANGE_CARD, () => {
             this.openCardList();
+        });
+    }
+
+    private registerCardListEvents() {
+        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.OPEN_CARD_VERIFICATION, (chain: Chain, index: number) => {
+            // console.log(chain, index);
         });
     }
 }

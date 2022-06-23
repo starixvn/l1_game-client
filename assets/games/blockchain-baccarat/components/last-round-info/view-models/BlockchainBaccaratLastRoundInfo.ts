@@ -27,9 +27,9 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
     winNoticeLabel: cc.Label = null;
 
     private readonly winNotice = {
-        banker: "ui.banker_win",
-        player: "ui.player_win",
-        tie: "ui.tie_win"
+        banker: "blockchainBaccarat.banker_win",
+        player: "blockchainBaccarat.player_win",
+        tie: "blockchainBaccarat.tie_win"
     };
 
     onLoad() {
