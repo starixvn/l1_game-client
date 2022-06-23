@@ -596,7 +596,7 @@ window.i18n.languages.vi = {
         changeCard: "Đổi Bài",
         correctSerialNumber: "Số Seri trùng khớp",
         wrongSerialNumber: "Số seri không khớp",
-        note: "Lưu ý: Người chơi có thể sử dụng bất kỳ ứng dụng của bên thứ 3 để kiểm tra tính minh \nbạch của kết quả và xác minh thông tin lá bài.",
+        note: "Lưu ý: Người chơi có thể sử dụng bất kỳ ứng dụng của bên thứ 3 để kiểm tra tính minh bạch của kết quả và xác minh thông tin lá bài.",
         serialTooltip: "Thông tin của lá bài (Khóa bảo mật) sẽ được hệ thống mã hóa thành Số Seri. Mỗi lá bài sẽ có số Seri khác nhau.",
         privateTooltip: "Khóa bảo mật chứa thông tin của lá bài chỉ được công bố sau khi lá bài được mở."
     }

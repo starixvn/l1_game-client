@@ -53,7 +53,7 @@ export default class BlockchainCardVerification extends cc.Component {
     renderDataCardVerification(cardChain: Chain, index: number) {
         console.log("state", this.state);
         const verifiedValue = i18n.t("blockchainBaccarat.verifiedValue");
-        this.verifiedSerial.enableCopyButton(this.verifyCard.isSuccessfull);
+        this.verifiedSerial.enableCopyButton(false);
         this.verifiedSerial.setHashValue(verifiedValue);
         this.verifiedSerial.resetHighLight();
         if (this.state === CardVerificationState.serial_change) {
@@ -100,12 +100,12 @@ export default class BlockchainCardVerification extends cc.Component {
         const isRawValue = this.serialCardChain.rawValue.localeCompare(this.privateCardChain.rawValue);
         const isHashValue = this.serialCardChain.hashValue.localeCompare(this.privateCardChain.hashValue);
         this.verifiedSerial.setHashValue(this.serialCardChain.hashValue);
+        this.verifiedSerial.enableCopyButton(true);
         if (isRawValue === 0 && isHashValue === 0) {
             this.verifyCard.setText(this.serialCardChain.hashValue);
             this.verifyCard.setVerifySuccess(true);
             this.serialNumber.setHighLightSuccess();
             this.verifiedSerial.setHighLightSuccess();
-            this.verifiedSerial.enableCopyButton(true);
         } else {
             this.verifyCard.setVerifySuccess(false);
             this.serialNumber.setHighLightFailed();

@@ -38,9 +38,8 @@ export default class BlockchainCardVerificationItem extends cc.Component {
     card: cc.Node = null;
 
     @property(cc.Node)
-    icInfo: cc.Node = null;
+    tooltipNode: cc.Node = null;
 
-    public hintLabel: cc.Label = null;
     private textCopy: string = null;
     private color = cc.Color.WHITE;
 
@@ -48,16 +47,20 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         this.highlightSuccess.active = this.highlightFailed.active = false;
     }
 
-    onClickTooltip() {
-        const tooltip = this.icInfo.getChildByName("tooltip").getComponent(cc.Label);
-        tooltip.string = i18n.t("blockchainBaccarat.serialTooltip");
+    onClickTooltip(event, customEventData) {
+        const tooltips = {
+            hashValue: i18n.t("blockchainBaccarat.serialTooltip"),
+            rawValue: i18n.t("blockchainBaccarat.privateTooltip")
+        };
+        const tooltip = this.tooltipNode.getChildByName("content").getComponent(cc.Label);
+        tooltip.string = tooltips[customEventData];
+        GameUtils.copyToClipboard(this.textCopy, tooltip, this.showHint(this.tooltipNode));
     }
 
     onClickCopyButton() {
-        this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
-        this.hintLabel.string = i18n.t("messages.copy_success");
-        this.showHint = this.showHint.bind(this);
-        GameUtils.copyToClipboard(this.textCopy, this.hintLabel, this.showHint());
+        const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
+        hintLabel.string = i18n.t("messages.copy_success");
+        GameUtils.copyToClipboard(this.textCopy, hintLabel, this.showHint(this.hintCopyNode));
     }
 
     setHashValue(text: string) {
@@ -84,8 +87,8 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         this.copyButton;
     }
 
-    showHint() {
-        cc.tween(this.hintCopyNode).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
+    showHint(hintCopy: cc.Node) {
+        cc.tween(hintCopy).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }
 
     setTextCopy(text: string) {
