@@ -9,6 +9,7 @@ export type BlockchainBaccaratCardListType<Choices> = {
         currentIndex: number;
         cutCardIndex: number;
         chain: Chain[];
+        isNew: boolean;
     };
 };
 

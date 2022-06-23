@@ -7,8 +7,8 @@ import { CardModel } from "../../BlockchainBaccaratType";
 const { ccclass, property } = cc._decorator;
 
 enum TimeShowAnim {
-    full = 39,
-    burnCard = 35
+    full = 42,
+    burnCard = 38.5
 }
 
 @ccclass
@@ -38,6 +38,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     private readonly durationFlyOpenCard = 0.4;
     private readonly durationFlyCardBurn = 1;
     private readonly durationDropCards = 0.4;
+    private readonly durationPrepareOpenCards = 1;
     private readonly durationCutCard = 3.5;
 
     private cardCenterTween: cc.Tween;
@@ -66,7 +67,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     async handleShowCutCards(data: Blockchain, duration: number) {
         const cutCardValue = data.chain?.[0]?.card;
         const formatData: Chain[] = data.chain.slice(1, data.burnedCards);
-        if (duration >= +TimeShowAnim.full) {
+        console.log(duration, "handleShowCutCards");
+        if (duration >= TimeShowAnim.full) {
             this.cardsBox.parent.active = false;
             this.cutCard.active = true;
             const skeleton = this.cutCard.getComponent(sp.Skeleton);
@@ -85,10 +87,9 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                     this.openAllCards();
                 });
             });
-        } else if (duration >= +TimeShowAnim.burnCard) {
-            //handle
+        } else if (duration >= TimeShowAnim.burnCard && duration < TimeShowAnim.full) {
             await this.handleShowBurnCard(cutCardValue);
-            await this.flyAllCards(formatData, 1, () => {
+            await this.flyAllCards(formatData, this.durationPrepareOpenCards, () => {
                 this.openAllCards();
             });
         } else {

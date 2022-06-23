@@ -6,6 +6,7 @@ export type Blockchain = {
     chain: Chain[];
     currentIndex: number;
     cutCardIndex: number;
+    isNew?: boolean;
 };
 
 export class BlockchainBaccaratCardListModel extends EventEmitterBase {

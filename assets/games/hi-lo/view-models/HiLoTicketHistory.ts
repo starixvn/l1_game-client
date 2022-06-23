@@ -1,4 +1,3 @@
-import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import HiLoTicketHistoryItem from "./HiLoTicketHistoryItem";
 import BetHistory from "../../_new/common/BetHistory";
 import HiLoTicketDetail from "./HiLoTicketDetail";
@@ -9,9 +8,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class HiLoTicketHistory extends BetHistory {
-    @property(cc.Prefab)
-    prefabItem: cc.Prefab = null;
-
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
