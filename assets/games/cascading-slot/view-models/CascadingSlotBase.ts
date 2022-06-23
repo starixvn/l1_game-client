@@ -157,6 +157,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             const checked = true;
             this.trialToggle.isChecked = checked;
             this.isTrialMode = checked;
+            this.tumbleList.offerTrialMode(this.isTrialMode);
             this.historyBtn.interactable = !this.isTrialMode;
             this.initTrialConnection();
         } else {
