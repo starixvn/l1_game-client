@@ -13,8 +13,7 @@ export class BlockchainBaccaratCardListModel extends EventEmitterBase {
     static Events = {
         CHANGE: "cardList:change",
         UPDATE_NEW_BLOCKCHAIN: "cardList:updateNewBlockchain",
-        UPDATE_CURRENT_INDEX: "cardList:updateCurrentIndex",
-        OPEN_CARD_VERIFICATION: "cardList:openCardVerification"
+        UPDATE_CURRENT_INDEX: "cardList:updateCurrentIndex"
     };
 
     blockchain: Blockchain;
@@ -49,10 +48,5 @@ export class BlockchainBaccaratCardListModel extends EventEmitterBase {
 
     updateCurrentIndex(index: number) {
         this.currentIndex = index;
-    }
-
-    openCardVerification(index: number) {
-        const chain = this.blockchain.chain[index];
-        this.emit(BlockchainBaccaratCardListModel.Events.OPEN_CARD_VERIFICATION, chain, index);
     }
 }

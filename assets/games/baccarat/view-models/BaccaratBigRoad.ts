@@ -33,7 +33,9 @@ export default class BaccaratBigRoad extends BigRoad {
     }
 
     public renderNextNode() {
-        if (this.isRenderedNext) return;
+        if (this.isRenderedNext) {
+            return;
+        }
         let lastCol = 0;
 
         if (this.bigRoadData?.length) {
@@ -47,7 +49,9 @@ export default class BaccaratBigRoad extends BigRoad {
             } else {
                 lastCol = this.bigRoadData[0].length - 1;
             }
-            this.content.children[lastCol].getComponent(BaccaratBigRoadItem).isFilledColumn() && lastCol++;
+            if (this.content.children[lastCol].getComponent(BaccaratBigRoadItem).isFilledColumn()) {
+                lastCol += 1;
+            }
 
             if (this.content.children[this.content.childrenCount - 1].getComponent(BaccaratBigRoadItem).isFilledColumn()) {
                 this.updateContentChild(1);

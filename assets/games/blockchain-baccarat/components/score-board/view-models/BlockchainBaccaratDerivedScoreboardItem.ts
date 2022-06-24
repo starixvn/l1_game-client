@@ -75,7 +75,9 @@ export default class BlockchainBaccaratDerivedScoreboardItem extends cc.Componen
 
     isFilledColumn() {
         for (let index = 6; index < this.hasValueArray.length; index++) {
-            if (!this.hasValueArray[index]) return false;
+            if (!this.hasValueArray[index]) {
+                return false;
+            }
         }
         return true;
     }

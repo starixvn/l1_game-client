@@ -45,7 +45,9 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
     }
 
     updateUI(lastRound: BlockchainBaccaratRoundHistory, currentIndex: number) {
-        if (!lastRound) return;
+        if (!lastRound) {
+            return;
+        }
         this.cardsUI.active = true;
         this.winNoticeLabel.node.getParent().active = true;
         this.playerCard3.active = lastRound.result.player.card3 !== null;

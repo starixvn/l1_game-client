@@ -27,17 +27,17 @@ export class BlockchainBaccaratPrediction extends cc.Component {
 
     setBanker(data: boolean[]) {
         for (let index = 0; index < data.length; index++) {
-            this.setData(data[index], index, this.banker);
+            this.setData(index, this.banker, data[index]);
         }
     }
 
     setPlayer(data: boolean[]) {
         for (let index = 0; index < data.length; index++) {
-            this.setData(data[index], index, this.player);
+            this.setData(index, this.player, data[index]);
         }
     }
 
-    private setData(isRed: boolean | undefined, index: number, node: cc.Node) {
+    private setData(index: number, node: cc.Node, isRed = false) {
         node.children[index].getChildByName(this.itemValueKey.red).active = isRed === undefined ? false : isRed;
         node.children[index].getChildByName(this.itemValueKey.blue).active = isRed === undefined ? false : !isRed;
     }

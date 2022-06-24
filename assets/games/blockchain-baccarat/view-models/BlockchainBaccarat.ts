@@ -76,7 +76,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
         this.registerCardVerification();
-        this.registerCardListEvents();
     }
 
     resetDataAndUI() {
@@ -110,12 +109,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     initLastRoundInfo(node: cc.Node) {
         this.lastRoundIfo = node.getComponent(BlockchainBaccaratLastRoundInfo);
-        this.lastRoundIfo.cardsUI.getComponent(BlockchainBaccaratCardsUI).setCardListModel(this.gameData.cardList);
+        this.lastRoundIfo.cardsUI.getComponent(BlockchainBaccaratCardsUI).setCardVerification(this.cardVerification);
     }
 
     initCardsUI(node: cc.Node) {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
-        this.cardsUI.setCardListModel(this.gameData.cardList);
+        this.cardsUI.setCardVerification(this.cardVerification);
     }
 
     openCardList() {
@@ -197,11 +196,9 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.cardVerification.node.on(CardEvents.CHANGE_CARD, () => {
             this.openCardList();
         });
-    }
 
-    private registerCardListEvents() {
-        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.OPEN_CARD_VERIFICATION, (chain: Chain, index: number) => {
-            // console.log(chain, index);
+        this.cardVerification.node.on(CardEvents.OPEN_VERIFICATION, (index: number) => {
+            this.cardList.initCardVerification(this.gameData.cardList.blockchain.chain[index], index);
         });
     }
 }

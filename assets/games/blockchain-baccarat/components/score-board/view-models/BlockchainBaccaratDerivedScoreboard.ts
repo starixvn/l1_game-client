@@ -13,7 +13,9 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
     private data: DerivedScoreboardPoint[][] = [];
 
     public addNextNode() {
-        if (this.isRenderedNext || this.data.length < 1) return;
+        if (this.isRenderedNext || this.data.length < 1) {
+            return;
+        }
 
         const emptyIndex = this.data[0].findIndex((e) => e.status === undefined);
         let lastCol = 0;
@@ -30,9 +32,13 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
             }
         } else {
             lastCol = Math.floor(this.data[0].length / 2);
-            if (this.data[0].length % 2 == 0 && lastCol > 0) lastCol -= 1;
+            if (this.data[0].length % 2 === 0 && lastCol > 0) {
+                lastCol -= 1;
+            }
         }
-        this.content.children[lastCol].getComponent(BlockchainBaccaratDerivedScoreboardItem).isFilledColumn() && lastCol++;
+        if (this.content.children[lastCol].getComponent(BlockchainBaccaratDerivedScoreboardItem).isFilledColumn()) {
+            lastCol += 1;
+        }
 
         if (this.content.children[this.content.childrenCount - 1].getComponent(BlockchainBaccaratDerivedScoreboardItem).isFilledColumn()) {
             this.updateContentChild(1);
@@ -46,7 +52,9 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
     }
 
     public renderScoreBoard(data: DerivedScoreboardPoint[][]): void {
-        if (data.length === 0) return;
+        if (data.length === 0) {
+            return;
+        }
         this.data = data;
         const dataLength = data[0].length;
         if (dataLength === 0) {

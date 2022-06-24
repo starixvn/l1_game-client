@@ -31,7 +31,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     private bigRoadData: BigRoadScoreboardPoint<BaccaratSettlementResult>[][];
     private predictData = { player: [], banker: [] };
 
-    private zoomModes = {
+    private readonly zoomModes = {
         normal: "normal",
         zoomInBigRoad: "zoomInBigRoad",
         zoomInDerivedScoreboards: "zoomInDerivedScoreboards"

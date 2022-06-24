@@ -17,12 +17,12 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
         playerPair: "playerPair",
         bankerPair: "bankerPair"
     };
+    private readonly maxItems = 60;
 
     private isSymbolMode = true;
     private items = null;
     private dots: cc.Node[] = [];
     private isRenderNext = false;
-    private maxItems = 60;
 
     onLoad(): void {
         const itemsNode = cc.instantiate(this.beadRoadItem);
@@ -60,7 +60,9 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
     }
 
     addNextNode() {
-        if (this.isRenderNext) return;
+        if (this.isRenderNext) {
+            return;
+        }
         while (this.dots.length > this.maxItems - 1) {
             this.dots[0].removeFromParent();
             this.dots[0].destroy();

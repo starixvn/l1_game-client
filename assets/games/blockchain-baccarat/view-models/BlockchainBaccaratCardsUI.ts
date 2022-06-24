@@ -1,9 +1,10 @@
-import { Blockchain, BlockchainBaccaratCardListModel } from "./../event-models/BlockchainBaccaratCardListModel";
+import { Blockchain } from "./../event-models/BlockchainBaccaratCardListModel";
 import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratCardsShuffle from "./card-shuffle/BlockchainBaccaratCardsShuffle";
 import BlockchainBaccaratCards from "./card/BlockchainBaccaratCards";
 import BlockchainCard from "./card-list/BlockchainCard";
 import GameUtils from "../../../common/GameUtils";
+import BlockchainCardVerification from "./card-list/BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,7 +44,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     protected orderCard: OrderCardValue[];
 
-    private cardListModel: BlockchainBaccaratCardListModel;
+    private cardVerification: BlockchainCardVerification;
 
     onLoad() {
         this?.burnContainer?.node && (this.burnContainer.node.active = false);
@@ -59,18 +60,18 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     protected start(): void {
         this.bankerCards.cards.forEach((cardNode) => {
-            cardNode.getComponentInChildren(BlockchainCard)?.setCardListModel(this.cardListModel);
+            cardNode.getComponentInChildren(BlockchainCard)?.setCardVerification(this.cardVerification);
         });
         this.playerCards.cards.forEach((cardNode) => {
-            cardNode.getComponentInChildren(BlockchainCard)?.setCardListModel(this.cardListModel);
+            cardNode.getComponentInChildren(BlockchainCard)?.setCardVerification(this.cardVerification);
         });
         this.reserveCards?.cards.forEach((cardNode) => {
-            cardNode?.getComponentInChildren(BlockchainCard)?.setCardListModel(this.cardListModel);
+            cardNode?.getComponentInChildren(BlockchainCard)?.setCardVerification(this.cardVerification);
         });
     }
 
-    setCardListModel(model: BlockchainBaccaratCardListModel) {
-        this.cardListModel = model;
+    setCardVerification(model: BlockchainCardVerification) {
+        this.cardVerification = model;
     }
 
     handleNumberIndex(currentIndex: number) {
@@ -158,9 +159,11 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 false
             );
         } else {
-            this.bankerCards.cards[CardsOrder.card3]
-                .getComponentInChildren(BlockchainCard)
-                .setIndexNumber(this.reserveCards.cards[CardsOrder.card1].getComponentInChildren(BlockchainCard).index);
+            const index =
+                this.reserveCards.cards[isFlyCard3Player ? CardsOrder.card2 : CardsOrder.card1].getComponentInChildren(
+                    BlockchainCard
+                ).index;
+            this.bankerCards.cards[CardsOrder.card3].getComponentInChildren(BlockchainCard).setIndexNumber(index);
             await this.reserveCards.flyCard3(
                 this.bankerCards.cards[CardsOrder.card3],
                 this.reserveCards.cards[CardsOrder.card1],
