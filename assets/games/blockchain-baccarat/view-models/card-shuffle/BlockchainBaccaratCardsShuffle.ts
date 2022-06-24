@@ -1,8 +1,8 @@
 import { Chain } from "./../../BlockchainBaccaratType";
 import { Blockchain } from "./../../event-models/BlockchainBaccaratCardListModel";
 import { CardAnimation } from "./../../../../common/new-card/view-models/NewCard";
-import BlockchainCard from "../card-list/BlockchainCard";
 import { CardModel } from "../../BlockchainBaccaratType";
+import BlockchainCard from "../../components/card-list/view-models/BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
 

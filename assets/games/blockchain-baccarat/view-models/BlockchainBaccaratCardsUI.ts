@@ -2,9 +2,9 @@ import { Blockchain } from "./../event-models/BlockchainBaccaratCardListModel";
 import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratCardsShuffle from "./card-shuffle/BlockchainBaccaratCardsShuffle";
 import BlockchainBaccaratCards from "./card/BlockchainBaccaratCards";
-import BlockchainCard from "./card-list/BlockchainCard";
 import GameUtils from "../../../common/GameUtils";
-import BlockchainCardVerification from "./card-list/BlockchainCardVerification";
+import BlockchainCardVerification from "../components/card-list/view-models/BlockchainCardVerification";
+import BlockchainCard from "../components/card-list/view-models/BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
 

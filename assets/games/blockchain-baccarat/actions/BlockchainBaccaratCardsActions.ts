@@ -2,7 +2,8 @@ import { BaccaratSettlementResult } from "./../../baccarat/view-models/event-mod
 import { CardsOrder } from "./../view-models/BlockchainBaccaratCardsUI";
 import { BlockchainBaccaratFinish } from "./../event-models/BlockchainBaccaratFinishModel";
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
-import BlockchainCard from "../view-models/card-list/BlockchainCard";
+import BlockchainCard from "../components/card-list/view-models/BlockchainCard";
+
 
 export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFinish: BlockchainBaccaratFinish, callback: () => void) => {
     const result = dataFinish.result;

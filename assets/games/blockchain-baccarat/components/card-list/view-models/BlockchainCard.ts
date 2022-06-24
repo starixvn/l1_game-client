@@ -1,4 +1,6 @@
-import NewCard from "../../../../common/new-card/view-models/NewCard";
+
+
+import NewCard from "../../../../../common/new-card/view-models/NewCard";
 import BlockchainCardVerification from "./BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
@@ -56,12 +58,17 @@ export default class BlockchainCard extends NewCard {
     }
 
     openCardVerification() {
-        this.cardVerification.dispatchOpenEvent(this.index);
+        this.cardVerification?.dispatchOpenEvent(this.index);
     }
 
-    closeCardVerification() {
+    highLightCard() {
         this.setShadow();
         this.setHighlight();
+    }
+
+    resetHighLightCard() {
+        this.resetShadow();
+        this.resetHighlight();
     }
 
     getIndexNumber() {

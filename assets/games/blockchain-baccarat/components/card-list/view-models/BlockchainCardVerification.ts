@@ -1,9 +1,9 @@
-import { formatPrivateKey } from "../../../_casino/MD5Format";
-import { Chain, CardModel } from "../../BlockchainBaccaratType";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import CommonDialog from "../../../../../common/_base/view-models/CommonDialog";
+import { formatPrivateKey } from "../../../../_casino/MD5Format";
+import { CardModel, Chain } from "../../../BlockchainBaccaratType";
 import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
 import BlockchainVerify from "./BlockchainCardVerify";
-import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,7 +13,7 @@ export enum CardVerificationState {
     private_change
 }
 
-export enum CardEvents {
+export enum CardVerificationEvents {
     CHANGE_CARD = "change_card",
     OPEN_VERIFICATION = "openVerification"
 }
@@ -37,12 +37,12 @@ export default class BlockchainCardVerification extends cc.Component {
 
     private serialCardChain: Chain;
     private privateCardChain: Chain;
-    isClickSerialChangeCard = false;
-    isClickPrivateChangeCard = false;
     cardVerificationDialog: CommonDialog;
     public state = CardVerificationState.blank_new;
+    public timeout: any;
 
-    private readonly encrypKey = "************************************************************************************************************";
+    private readonly encrypKey =
+        "************************************************************************************************************";
 
     showDialog() {
         this.cardVerificationDialog = this.getComponent(CommonDialog);
@@ -60,10 +60,10 @@ export default class BlockchainCardVerification extends cc.Component {
         if (this.state === CardVerificationState.serial_change) {
             this.renderSerialNumber(chain, index);
         } else if (this.state === CardVerificationState.private_change) {
-            this.renderPivateKey(chain, index);
+            this.renderPrivateKey(chain, index);
         } else {
             this.renderSerialNumber(chain, index);
-            this.renderPivateKey(chain, index);
+            this.renderPrivateKey(chain, index);
         }
         this.renderButton();
     }
@@ -86,7 +86,7 @@ export default class BlockchainCardVerification extends cc.Component {
         this.serialCardChain = cardChain;
     }
 
-    renderPivateKey(cardChain: Chain, index: number) {
+    renderPrivateKey(cardChain: Chain, index: number) {
         const rawValue = cardChain?.rawValue
             ? this.setPrivateKey(cardChain.rawValue, cardChain.card)
             : `${this.encrypKey}${cardChain.revealedRawValue}`;
@@ -117,27 +117,42 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     onClickChangeCard(event, customEventData) {
+        this.closeDialog();
         const values = {
             serial: CardVerificationState.serial_change,
             private: CardVerificationState.private_change
         };
+
+        const indexNumbers = {
+            serial: this.serialNumber.getNumberKey(),
+            private: this.privateKey.getNumberKey()
+        };
+
         this.state = values[customEventData];
-        this.cardVerificationDialog = this.getComponent(CommonDialog);
-        if (this.cardVerificationDialog) {
-            this.cardVerificationDialog.closeDialog();
-        }
-        // this.node.emit(CardEvents.CHANGE_CARD);
+        const index = indexNumbers[customEventData];
+        this.timeout && clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.node.emit(CardVerificationEvents.CHANGE_CARD, index - 1);
+        }, 500);
     }
 
     onClose() {
-        this.state = CardVerificationState.blank_new;
+        this.setBlankState();
+        this.closeDialog();
+    }
+
+    closeDialog() {
         this.cardVerificationDialog = this.getComponent(CommonDialog);
         if (this.cardVerificationDialog) {
             this.cardVerificationDialog.closeDialog();
         }
     }
 
+    setBlankState() {
+        this.state = CardVerificationState.blank_new;
+    }
+
     dispatchOpenEvent(index: number) {
-        this.node.emit(CardEvents.OPEN_VERIFICATION, index);
+        this.node.emit(CardVerificationEvents.OPEN_VERIFICATION, index);
     }
 }

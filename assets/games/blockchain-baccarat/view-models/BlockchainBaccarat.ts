@@ -14,7 +14,6 @@ import { GameIds } from "../../../configs/SabaConfigs";
 import { BlockchainBaccaratChoicesType, Chain } from "../BlockchainBaccaratType";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BlockchainBaccaratConfig } from "./BlockchainBaccaratConfig";
-import BlockchainCardList from "./card-list/BlockchainCardList";
 import BlockchainBaccaratCardsUI from "./BlockchainBaccaratCardsUI";
 import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
 import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
@@ -25,7 +24,8 @@ import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { updateOtherPlayerBalance } from "../../_base/action/OtherPlayerAction";
 import { payChips } from "../../_base/action/PayChipsAction";
 import MD5Component from "../../_base/view-models/MD5Component";
-import BlockchainCardVerification, { CardEvents } from "./card-list/BlockchainCardVerification";
+import BlockchainCardList from "../components/card-list/view-models/BlockchainCardList";
+import BlockchainCardVerification, { CardVerificationEvents } from "../components/card-list/view-models/BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
 
@@ -193,11 +193,14 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     private registerCardVerification() {
-        this.cardVerification.node.on(CardEvents.CHANGE_CARD, () => {
-            this.openCardList();
+        this.cardVerification.node.on(CardVerificationEvents.CHANGE_CARD, (index: number) => {
+            if (this.cardList.node.active === false) {
+                this.openCardList();
+            }
+            this.cardList.highLightCurrentCardSelected(index);
         });
 
-        this.cardVerification.node.on(CardEvents.OPEN_VERIFICATION, (index: number) => {
+        this.cardVerification.node.on(CardVerificationEvents.OPEN_VERIFICATION, (index: number) => {
             this.cardList.initCardVerification(this.gameData.cardList.blockchain.chain[index], index);
         });
     }

@@ -1,5 +1,5 @@
 import { CardModel } from "../../BlockchainBaccaratType";
-import BlockchainCard from "../card-list/BlockchainCard";
+import BlockchainCard from "../../components/card-list/view-models/BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
 

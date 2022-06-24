@@ -1,6 +1,7 @@
-import { CardModel } from "../../BlockchainBaccaratType";
+
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import GameUtils from "../../../../common/GameUtils";
+import GameUtils from "../../../../../common/GameUtils";
+import { CardModel } from "../../../BlockchainBaccaratType";
 import BlockchainCard from "./BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
@@ -102,17 +103,17 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         this.copyButton.node.getChildByName("btn-disable").active = !enabled;
     }
 
-    getIndexNumber() {
-        return this.numberKey.toString();
+    getNumberKey() {
+        return this.numberKey.string;
     }
 
-    setIndexNumber(number: number) {
+    setNumberKey(number: number) {
         this.numberKey.string = (number + 1).toString().padStart(3, "0");
     }
 
     renderCard(card: CardModel, index: number) {
         this.card.addChild(this.createCard(card));
-        this.setIndexNumber(index);
+        this.setNumberKey(index);
     }
 
     public createCard(card: CardModel, isFaceUp = true): cc.Node {
