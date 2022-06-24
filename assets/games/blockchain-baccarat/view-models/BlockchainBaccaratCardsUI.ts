@@ -68,10 +68,11 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         this.reserveCards?.cards.forEach((cardNode) => {
             cardNode?.getComponentInChildren(BlockchainCard)?.setCardVerification(this.cardVerification);
         });
+        this.burnContainer && (this.burnContainer.cardVerification = this.cardVerification);
     }
 
-    setCardVerification(model: BlockchainCardVerification) {
-        this.cardVerification = model;
+    setCardVerification(component: BlockchainCardVerification) {
+        this.cardVerification = component;
     }
 
     handleNumberIndex(currentIndex: number) {

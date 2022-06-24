@@ -45,6 +45,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     private allCardsFlyTween: cc.Tween;
     private allCardsDropTween: cc.Tween[];
 
+    public cardVerification: BlockchainCardVerification;
+
     onLoad = () => {
         this.allCardsDropTween = [];
     };
@@ -241,6 +243,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         card.addChild(cardPrefab);
         const cardComponent = card.children[0].getComponent(BlockchainCard);
         cardComponent.setCardOldStyle(cardData);
+        cardComponent.setIndexNumber(index);
+        cardComponent.setCardVerification(this.cardVerification);
         callback(card, cardData);
     }
 }

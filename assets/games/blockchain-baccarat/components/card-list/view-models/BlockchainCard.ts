@@ -89,7 +89,7 @@ export default class BlockchainCard extends NewCard {
         this.indexNumber.node?.parent && (this.indexNumber.node.parent.active = status);
     }
 
-    setCardVerification(model: BlockchainCardVerification) {
-        this.cardVerification = model;
+    setCardVerification(component: BlockchainCardVerification) {
+        this.cardVerification = component;
     }
 }
