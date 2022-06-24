@@ -33,6 +33,12 @@ export const handlePercentBet = (betItems: BlockchainBaccaratBetItem[]) => (tota
     });
 };
 
+export const clearPercentBet = (betItems: BlockchainBaccaratBetItem[]) => {
+    betItems.forEach((item) => {
+        item?.betPercent && (item.betPercent.string = `0%`);
+    });
+};
+
 const getPercentChoice = (total: number, value: number) => {
     return total > 0 ? Math.floor((value * 100) / total) : 0;
 };

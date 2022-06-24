@@ -3,6 +3,7 @@ import { Blockchain } from "./../../event-models/BlockchainBaccaratCardListModel
 import { CardAnimation } from "./../../../../common/new-card/view-models/NewCard";
 import { CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "../../components/card-list/view-models/BlockchainCard";
+import BlockchainCardVerification from "../../components/card-list/view-models/BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,8 +36,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     cardsDrop: cc.Node = null;
 
     private readonly durationFlyCard = 0.6;
-    private readonly durationFlyOpenCard = 0.4;
-    private readonly durationFlyCardBurn = 1;
+    private readonly durationFlyOpenCard = 1;
+    private readonly durationFlyCardBurn = 1.5;
     private readonly durationDropCards = 0.4;
     private readonly durationPrepareOpenCards = 1;
     private readonly durationCutCard = 3.5;

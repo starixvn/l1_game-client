@@ -4,16 +4,19 @@ import { BlockchainBaccaratFinish } from "./../event-models/BlockchainBaccaratFi
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
 import BlockchainCard from "../components/card-list/view-models/BlockchainCard";
 
-
 export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFinish: BlockchainBaccaratFinish, callback: () => void) => {
     const result = dataFinish.result;
     let isFlyCard3Player = false;
 
-    await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card1], result.player.card1);
-    await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card2], result.player.card2);
+    await Promise.all([
+        cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card1], result.player.card1),
+        cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card2], result.player.card2)
+    ]);
 
-    await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card1], result.banker.card1);
-    await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card2], result.banker.card2);
+    await Promise.all([
+        cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card1], result.banker.card1),
+        cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card2], result.banker.card2)
+    ]);
 
     if (result?.player?.card3?.rank) {
         isFlyCard3Player = true;

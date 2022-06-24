@@ -1,17 +1,8 @@
+import { CardAnimation } from "../../../../common/new-card/view-models/NewCard";
 import { CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "../../components/card-list/view-models/BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
-
-export enum CardAnimation {
-    DealerToHand = "chia-bai",
-    DropCard = "thu-bai",
-    DealerCheckBlackJackFail = "dealer_check_blackjack_fail",
-    DealerCheckBlackJackSuccess = "dealer_check_blackjack_success",
-    DealerOpenCard = "player_open_card",
-    DealerDrawingFaceDown = "dealer_drawing_face_down",
-    PullCard = "pull_card"
-}
 
 enum OrderCards {
     card1 = 0,
@@ -116,6 +107,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
             card.opacity = 0;
             card.scale = 0.5;
             card.angle = -135;
+            card.rotation = 0;
         }
     }
 
@@ -249,7 +241,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                     .tween(cardNode)
                     .to(0.3, { position: cc.v2(0, 0) })
                     .call(() => {
-                        cardComponent.playAnimation(CardAnimation.DropCard, this.durationAnimFaceUp);
+                        cardComponent.playAnimation(CardAnimation.DropCard, 0.4);
                     })
                     .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
                     .call(() => {

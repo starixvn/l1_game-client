@@ -1,7 +1,9 @@
+import { clearPercentBet } from "./../actions/BlockchainBaccaratTotalBetAction";
 import { BlockchainBaccaratChoicesType } from "./../BlockchainBaccaratType";
 import BaccaratTimeDataHandler from "../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
+import BlockchainBaccaratBetItem from "../view-models/BlockchainBaccaratBetItem";
 
 export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
     protected dealCardsTime = 3;
@@ -28,7 +30,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         if (this.main.timeWaitNode) {
             const blockchainBaccarat: BlockchainBaccarat = this.getOwnMain();
             const gameData = blockchainBaccarat.gameData;
-            if ((this.isNewShoe && this.main.currentTimeRemaining <= this.durationShowNewShoe) || gameData.cardList.blockchain.isNew) {
+            if (this.isNewShoe && this.main.currentTimeRemaining <= this.durationShowNewShoe) {
                 if (!this.isShowShoe) {
                     this.handleShowShuffleCards(blockchainBaccarat, gameData, this.main.currentTimeRemaining);
                 }
@@ -73,6 +75,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         await cardContainer.collectCardsOnTable();
         const lastRound = gameData.finishModel.finishData ?? gameData.roundHistory.list[0];
         blockchainBaccarat.lastRoundIfo.updateUI(lastRound, currentCardIndex);
+        clearPercentBet(blockchainBaccarat.betItems as BlockchainBaccaratBetItem[]);
         await cardContainer.handleFlyCards(currentCardIndex, numberCardsFlied);
         this.isResetUI = false;
     }
@@ -95,8 +98,8 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         blockchainBaccarat.lastRoundIfo.reset();
         blockchainBaccarat.gameData.finishModel.clear();
         const cardContainer = blockchainBaccarat.cardsUI;
-        const blockchainData = gameData.cardList.blockchain.isNew ? gameData.cardList.blockchain : gameData.cardList.newBlockchain;
+        const blockchainData = gameData.cardList.newBlockchain;
 
-        cardContainer.handleShuffleCards(blockchainData, timeRemaining);
+        blockchainData && cardContainer.handleShuffleCards(blockchainData, timeRemaining);
     }
 }
