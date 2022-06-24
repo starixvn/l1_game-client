@@ -118,6 +118,7 @@ const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isT
 };
 
 const handleAutoSpin = (mainGame: CascadingSlotBase) => {
+    mainGame.updateBottomMessageStatus();
     if (!mainGame.showNoticeForCacheApiError()) {
         const isAutoSpinMode = mainGame.isAutoSpinMode();
         const stillAutoSpin = mainGame.stillAutoSpin();

@@ -331,6 +331,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             switch (state) {
                 case SpinButtonState.Normal:
                     this.spinButton.showNormalMode();
+                    this.showBottomMessageOnGameState();
                     break;
                 case SpinButtonState.AutoSpin:
                     this.spinButton.showAutoSpinMode();
@@ -348,17 +349,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     this.gameData.uiModel.resetNewRound();
                     this.consumeAutoSpinCount();
                     this.consumeFreeSpinCount();
-                    this.bottomMessage.showMessages(RoundType.SPINNING);
                     break;
                 case CascadingSlotState.Spinning:
                     break;
                 case CascadingSlotState.Settled:
-                    if (this.totalFreeSpins === 0) {
-                        this.bottomMessage.showMessages(RoundType.SETTLED);
-                    }
                     break;
             }
-
+            this.showBottomMessageOnGameState();
             this.updateButtonsInteract();
         });
 
@@ -379,6 +376,21 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.on(CommonEvents.SETTLE_API_ERROR, (error) => {
             this.cacheApiError = error;
         });
+    }
+
+    private showBottomMessageOnGameState() {
+        switch (this.gameData.stateModel.state) {
+            case CascadingSlotState.Start_Round:
+                this.bottomMessage.showMessages(RoundType.SPINNING);
+                break;
+            case CascadingSlotState.Spinning:
+                break;
+            case CascadingSlotState.Settled:
+                if (this.totalFreeSpins === 0) {
+                    this.bottomMessage.showMessages(RoundType.SETTLED);
+                }
+                break;
+        }
     }
 
     private checkShowTopMessage() {
