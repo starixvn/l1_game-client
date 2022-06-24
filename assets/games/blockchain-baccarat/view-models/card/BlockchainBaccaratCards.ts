@@ -8,7 +8,7 @@ export enum CardAnimation {
     DropCard = "thu-bai",
     DealerCheckBlackJackFail = "dealer_check_blackjack_fail",
     DealerCheckBlackJackSuccess = "dealer_check_blackjack_success",
-    DealerOpenCard = "dealer_open_card",
+    DealerOpenCard = "player_open_card",
     DealerDrawingFaceDown = "dealer_drawing_face_down",
     PullCard = "pull_card"
 }
@@ -48,7 +48,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     readonly durationFlyCard3 = 0.2;
     readonly durationDropCard = 0.2;
     readonly durationJumpDrop = 0.6;
-    private readonly durationFaceUp = 0.6;
+    private readonly durationFaceUp = 0.5;
     private readonly durationAnimFaceUp = 0.4;
     private clonePositionCards: cc.Vec3[] = [];
 
@@ -292,9 +292,9 @@ export default class BlockchainBaccaratCards extends cc.Component {
                         suit: cardInfo.suit
                     });
                     cardComponent.setStatusIndexNumber(false);
-                    cardComponent.playAnimation(CardAnimation.DealerOpenCard, this.durationAnimFaceUp);
+                    cardComponent.playAnimation(CardAnimation.PlayerOpenCard, this.durationAnimFaceUp);
                 })
-                .delay(this.durationFaceUp)
+                .delay(this.durationAnimFaceUp)
                 .call(() => resolve())
                 .start();
             this.faceUpCardsTween.push(faceUpTween);
