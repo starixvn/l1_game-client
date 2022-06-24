@@ -19,7 +19,6 @@ import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
 import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
 import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
 import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
-import BlockchainBaccaratTicketHistory from "./history/BlockchainBaccaratTicketHistory";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { updateOtherPlayerBalance } from "../../_base/action/OtherPlayerAction";
 import { payChips } from "../../_base/action/PayChipsAction";
@@ -53,7 +52,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     public betOptionsUI: BlockchainBetOptionsUI = null;
     public scoreboard: BlockchainBaccaratScoreboard = null;
     public lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
-    private betHistoryController: BlockchainBaccaratTicketHistory = null;
     private readonly durationFlyChip = 1.2;
     private readonly durationAnimWinning = 3;
 

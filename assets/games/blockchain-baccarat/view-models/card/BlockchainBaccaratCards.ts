@@ -325,7 +325,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
             point += value > 10 || !value ? 0 : value;
             const cardNode = this.cards[index].getComponentInChildren(BlockchainCard);
             cardNode.setCardOldStyle(card);
-            if (index == 2 && lastIndex) {
+            if (index === 2 && lastIndex) {
                 cardNode?.setIndexNumber(lastIndex);
             } else {
                 cardNode?.setIndexNumber(startIndex + index * 2);
