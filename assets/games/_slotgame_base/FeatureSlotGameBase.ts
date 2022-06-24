@@ -66,9 +66,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const audioManager = AudioManager.getInstance();
         this.playMusicBackground(audioManager.musicEnabled);
         audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
-    }
-
-    start() {
         this.setDefaultPositionForMiniMenu();
     }
 
@@ -247,9 +244,13 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     setDefaultPositionForMiniMenu() {
-        const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
-        const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
+        if (!this.currentMiniPanel.popupMiniGame) {
+            this.scheduleOnce(this.setDefaultPositionForMiniMenu, 0.1);
+            return;
+        }
         const node = this.currentMiniPanel.popupMiniGame.node;
+        const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
+        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
         node.position = cc.v3(node.x, localPosition.y);
     }
 

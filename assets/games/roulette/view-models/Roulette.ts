@@ -108,20 +108,21 @@ export default class Roulette extends SocketIOTableGameBase {
             this.startGame();
             this.registerViewGame();
             this.socket.emit("inGame");
-            cc.tween(this.node)
-                .delay(0.1)
-                .call(() => {
-                    const wPosition = this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0));
-                    const localPosition = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(wPosition);
-                    this.currentMiniPanel.popupMiniGame.node.position = cc.v3(
-                        this.currentMiniPanel.popupMiniGame.node.position.x,
-                        localPosition.y
-                    );
-                })
-                .start();
+            this.setDefaultPositionForMiniMenu();
 
             this.rouletteMain.board.betChips = this.betChips;
         });
+    }
+
+    setDefaultPositionForMiniMenu() {
+        if (!this.currentMiniPanel.popupMiniGame) {
+            this.scheduleOnce(this.setDefaultPositionForMiniMenu, 0.1);
+            return;
+        }
+        const wPosition = this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0));
+        const localPosition = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(wPosition);
+        const node = this.currentMiniPanel.popupMiniGame.node;
+        node.position = cc.v3(node.x, localPosition.y);
     }
 
     setGameRound(gameRoundId) {

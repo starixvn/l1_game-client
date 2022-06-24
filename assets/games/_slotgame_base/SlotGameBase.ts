@@ -215,12 +215,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.showJackpotInfo(this.jackpotEnabled);
 
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
-        cc.tween(this.node)
-            .delay(0.1)
-            .call(() => {
-                this.setDefaultPositionForMiniMenu();
-            })
-            .start();
+        this.setDefaultPositionForMiniMenu();
 
         const audioManager = AudioManager.getInstance();
         this.playMusicBackground(audioManager.musicEnabled);
@@ -369,9 +364,13 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     setDefaultPositionForMiniMenu() {
-        const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
-        const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
+        if (!this.currentMiniPanel.popupMiniGame) {
+            this.scheduleOnce(this.setDefaultPositionForMiniMenu, 0.1);
+            return;
+        }
         const node = this.currentMiniPanel.popupMiniGame.node;
+        const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
+        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
         node.position = cc.v3(node.x, localPosition.y);
     }
 
