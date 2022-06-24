@@ -41,7 +41,7 @@ export default class BlockchainCardVerification extends cc.Component {
     cardVerificationDialog: CommonDialog;
     public state = CardVerificationState.blank_new;
 
-    private encrypKey = "************************************************************************************************************";
+    private readonly encrypKey = "************************************************************************************************************";
 
     showDialog() {
         this.cardVerificationDialog = this.getComponent(CommonDialog);
@@ -50,28 +50,31 @@ export default class BlockchainCardVerification extends cc.Component {
         }
     }
 
-    renderDataCardVerification(cardChain: Chain, index: number) {
+    renderDataCardVerification(chain: Chain, index: number) {
         console.log("state", this.state);
         const verifiedValue = i18n.t("blockchainBaccarat.verifiedValue");
         this.verifiedSerial.enableCopyButton(false);
         this.verifiedSerial.setHashValue(verifiedValue);
         this.verifiedSerial.resetHighLight();
         if (this.state === CardVerificationState.serial_change) {
-            this.renderSerialNumber(cardChain, index);
+            this.renderSerialNumber(chain, index);
         } else if (this.state === CardVerificationState.private_change) {
-            this.renderPivateKey(cardChain, index);
+            this.renderPivateKey(chain, index);
         } else {
-            this.renderSerialNumber(cardChain, index);
-            this.renderPivateKey(cardChain, index);
+            this.renderSerialNumber(chain, index);
+            this.renderPivateKey(chain, index);
         }
+        this.renderButton();
+    }
 
-        if (!cardChain.rawValue) {
+    renderButton() {
+        if (!this.privateCardChain?.rawValue) {
             this.verifyCard.enableVerifyButton(false);
             this.privateKey.enableCopyButton(false);
         } else {
             this.privateKey.enableCopyButton(true);
             this.verifyCard.enableVerifyButton(true);
-            this.privateKey.setTextCopy(cardChain.rawValue);
+            this.privateKey.setTextCopy(this.privateCardChain?.rawValue);
         }
     }
 
@@ -97,7 +100,7 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     onClickVerifyButton() {
-        const isRawValue = this.serialCardChain.rawValue.localeCompare(this.privateCardChain.rawValue);
+        const isRawValue = this.serialCardChain.rawValue?.localeCompare(this.privateCardChain.rawValue);
         const isHashValue = this.serialCardChain.hashValue.localeCompare(this.privateCardChain.hashValue);
         this.verifiedSerial.setHashValue(this.serialCardChain.hashValue);
         this.verifiedSerial.enableCopyButton(true);

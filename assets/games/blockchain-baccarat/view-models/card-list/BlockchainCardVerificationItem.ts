@@ -41,7 +41,7 @@ export default class BlockchainCardVerificationItem extends cc.Component {
     tooltipNode: cc.Node = null;
 
     private textCopy: string = null;
-    private color = cc.Color.WHITE;
+    private readonly color = cc.Color.WHITE;
 
     resetHighLight() {
         this.highlightSuccess.active = this.highlightFailed.active = false;
