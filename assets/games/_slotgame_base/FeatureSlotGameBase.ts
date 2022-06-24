@@ -69,7 +69,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     start() {
-        this.schedule(this.setDefaultPositionForMiniMenu, 0.1);
+        this.setDefaultPositionForMiniMenu();
     }
 
     onDestroy() {
@@ -249,7 +249,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     setDefaultPositionForMiniMenu() {
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = this.currentMiniPanel.miniMenu.parent.convertToNodeSpaceAR(wPosition);
-        this.currentMiniPanel.miniMenu.position = cc.v3(this.currentMiniPanel.miniMenu.position.x, localPosition.y);
+        const node = this.currentMiniPanel.popupMiniGame.node;
+        node.position = cc.v3(node.x, localPosition.y);
     }
 
     playMusicBgCallback() {

@@ -59,7 +59,7 @@ export default class MiniPanel extends BaseComponent {
     @property(ScaleActiveController)
     activeController: ScaleActiveController = null;
 
-    public popupMiniGame: any;
+    public popupMiniGame: PopupMinigames;
     public loading: Loading;
     public dataHandlers: MiniPanelDataHandlers;
     public currentGameRoomId: number;
