@@ -9,6 +9,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
     private durationShowNewShoe = this.main.config.fullTime - this.dealCardsTime;
     private isNewShoe = false;
     private isShowShoe = false;
+    private isResetUI = false;
 
     get isInWaitTime() {
         if (this.main.currentTimeRemaining > this.main.config.fullTime) {
@@ -67,12 +68,13 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         const currentCardIndex = gameData.cardList.currentIndex;
         const numberCardsFlied = gameData.cardList.numberCardsFly;
         const cardContainer = blockchainBaccarat.cardsUI;
-        cardContainer.setActiveCardsUI(true);
+        this.isResetUI && cardContainer.setActiveCardsUI(true);
 
         await cardContainer.collectCardsOnTable();
         const lastRound = gameData.finishModel.finishData ?? gameData.roundHistory.list[0];
         blockchainBaccarat.lastRoundIfo.updateUI(lastRound, currentCardIndex);
         await cardContainer.handleFlyCards(currentCardIndex, numberCardsFlied);
+        this.isResetUI = false;
     }
 
     handleInLockBetTime() {
@@ -87,6 +89,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         timeRemaining: number
     ) {
         this.isShowShoe = true;
+        this.isResetUI = true;
         this.main.resetDataAndUI();
         blockchainBaccarat.scoreboard.resetScoreboard();
         blockchainBaccarat.lastRoundIfo.reset();
