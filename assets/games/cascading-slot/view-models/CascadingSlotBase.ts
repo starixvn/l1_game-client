@@ -264,6 +264,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.tumbleWinView.showView(true);
             this.checkShowTopMessage();
             this.mascot.playAnimationForTumble();
+            this.gameSound.playSound(CascadingSlotGameSound.MASCOT_GUN_SHOT);
             this.bottomMessage.showMessages(RoundType.TUMBLEWIN);
         });
 
