@@ -84,10 +84,6 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         this.hashValue.node.color = this.color.fromHEX("#ff0000");
     }
 
-    setButtonStatus() {
-        this.copyButton;
-    }
-
     showHint(hintCopy: cc.Node) {
         cc.tween(hintCopy).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }

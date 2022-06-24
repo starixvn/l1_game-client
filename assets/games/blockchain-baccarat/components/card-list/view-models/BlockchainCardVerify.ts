@@ -2,7 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlockchainVerify extends cc.Component {
+export default class BlockchainCardVerify extends cc.Component {
     @property(cc.Button)
     btnVerify: cc.Button = null;
 

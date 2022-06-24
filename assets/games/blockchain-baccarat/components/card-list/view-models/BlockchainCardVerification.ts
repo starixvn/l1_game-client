@@ -3,7 +3,8 @@ import CommonDialog from "../../../../../common/_base/view-models/CommonDialog";
 import { formatPrivateKey } from "../../../../_casino/MD5Format";
 import { CardModel, Chain } from "../../../BlockchainBaccaratType";
 import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
-import BlockchainVerify from "./BlockchainCardVerify";
+import BlockchainCardVerify from "./BlockchainCardVerify";
+import cryptoJs = require("crypto");
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,8 +27,8 @@ export default class BlockchainCardVerification extends cc.Component {
     @property(BlockchainCardVerificationItem)
     privateKey: BlockchainCardVerificationItem = null;
 
-    @property(BlockchainVerify)
-    verifyCard: BlockchainVerify = null;
+    @property(BlockchainCardVerify)
+    verifyCard: BlockchainCardVerify = null;
 
     @property(BlockchainCardVerificationItem)
     verifiedSerial: BlockchainCardVerificationItem = null;
@@ -101,11 +102,9 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     onClickVerifyButton() {
-        const isRawValue = this.serialCardChain.rawValue?.localeCompare(this.privateCardChain.rawValue);
-        const isHashValue = this.serialCardChain.hashValue.localeCompare(this.privateCardChain.hashValue);
-        this.verifiedSerial.setHashValue(this.serialCardChain.hashValue);
-        this.verifiedSerial.enableCopyButton(true);
-        if (isRawValue === 0 && isHashValue === 0) {
+        const hashValue = this.createHashSHA256(this.privateCardChain.rawValue);
+        const privateKeyIsMatch = this.serialCardChain.hashValue.localeCompare(hashValue);
+        if (privateKeyIsMatch === 0) {
             this.verifyCard.setVerifySuccess(true);
             this.serialNumber.setHighLightSuccess();
             this.verifiedSerial.setHighLightSuccess();
@@ -114,9 +113,15 @@ export default class BlockchainCardVerification extends cc.Component {
             this.serialNumber.setHighLightFailed();
             this.verifiedSerial.setHighLightFailed();
         }
+        this.verifiedSerial.setHashValue(this.serialCardChain.hashValue);
+        this.verifiedSerial.enableCopyButton(true);
     }
 
-    onClickChangeCard(event, customEventData) {
+    createHashSHA256(value: string) {
+        return cryptoJs.createHash("sha256").update(value).digest("hex");
+    }
+
+    onClickChangeCard(event: any, customEventData: string) {
         this.closeDialog();
         const values = {
             serial: CardVerificationState.serial_change,
