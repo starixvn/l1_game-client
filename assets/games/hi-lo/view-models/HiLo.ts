@@ -27,6 +27,7 @@ import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
 import HiLoResult from "./HiLoResult";
 import HiLoStatistic from "./HiLoStatistic";
 import HiLoTicketHistory from "./HiLoTicketHistory";
+import HiLoBetHandler from "../events-handlers/HiLoBetHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -67,9 +68,6 @@ export default class HiLo extends NewMiniGameBase {
     @property(HiLoResult)
     resultComp: HiLoResult = null;
 
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
     @property(cc.AudioClip)
     collectAudioClip: cc.AudioClip = null;
 
@@ -81,7 +79,6 @@ export default class HiLo extends NewMiniGameBase {
     readonly deductingAmountEffectDuration = 1;
     readonly spinCardsEffectDuration = 1;
     betBoardComp: HiLoBetBoard;
-    ticketHistoryComp: HiLoTicketHistory;
     statisticComp: HiLoStatistic;
     shouldHandleStatus = false;
 
@@ -239,19 +236,6 @@ export default class HiLo extends NewMiniGameBase {
             this.lockBet();
             this.connection.emit(eventName, data);
         }
-    }
-
-    openHistory() {
-        this.playClick();
-        this.initHistory();
-    }
-
-    private initHistory() {
-        const dialog = cc.instantiate(this.historyPrefab);
-        this.ticketHistoryComp = dialog.getComponent(HiLoTicketHistory);
-        this.ticketHistoryComp.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
-        this.ticketHistoryComp.get_data();
-        this.currentMiniPanel.addDialog(dialog);
     }
 
     initTopArea() {

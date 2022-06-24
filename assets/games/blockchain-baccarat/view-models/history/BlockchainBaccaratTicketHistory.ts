@@ -1,9 +1,7 @@
 import BetHistory from "../../../_new/common/BetHistory";
-import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
-import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import BlockchainBaccaratTicketHistoryItem from "./BlockchainBaccaratTicketHistoryItem";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 export interface BetLog {
     time: Date;
@@ -31,19 +29,10 @@ export interface BetLog {
     };
 }
 
-type HistoryDataType = {
-    history: {
-        page: number;
-        pageSize: number;
-        total: number;
-        betLogs: BetLog[];
-    };
-};
-
 @ccclass
 export default class BlockchainBaccaratTicketHistory extends BetHistory {
     renderTicketHistory(data: any) {
-        const betLogs = data.betLogs;
+        const betLogs: BetLog[] = data.betLogs;
         betLogs.forEach((log, index) => {
             const historyItemPrefab = cc.instantiate(this.prefabItem);
             const historyControl = historyItemPrefab.getComponent(BlockchainBaccaratTicketHistoryItem);

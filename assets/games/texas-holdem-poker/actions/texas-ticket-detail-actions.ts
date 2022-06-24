@@ -1,6 +1,6 @@
 import TexasTicketDetailModel from "../event-models/texas-ticket-detail-model";
-import TexasTicketHistory from "../view-models/game-history/texas-ticket-history";
+import BetHistory from "../../_new/common/BetHistory";
 
-export const renderTicketDetail = (ticketHistory: TexasTicketHistory) => (data: TexasTicketDetailModel) => {
+export const renderTicketDetail = (ticketHistory: BetHistory) => (data: TexasTicketDetailModel) => {
     ticketHistory.showTicketDetail(data);
 };

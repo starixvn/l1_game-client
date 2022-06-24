@@ -38,9 +38,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     miniRoundHistoryContainer: cc.Node = null;
 
     @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
     cardListPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
@@ -134,15 +131,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         if (this.gameData) {
             this.gameData.receiveData(data);
         }
-    }
-
-    openHistory() {
-        this.playClick();
-        const historyNode = cc.instantiate(this.historyPrefab);
-        this.betHistoryController = historyNode.getComponent(BlockchainBaccaratTicketHistory);
-        this.betHistoryController.setConnection(this.connection, this.gameName);
-        this.currentMiniPanel.addDialog(historyNode);
-        this.betHistoryController.showDialog();
     }
 
     openCardVerification(index: number) {

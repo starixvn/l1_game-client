@@ -20,8 +20,6 @@ export default class BetHistory extends cc.Component {
 
     protected connection: Connection;
     protected gameName: string;
-    protected currentRoundId: number;
-
     private callback: any;
 
     onLoad() {
@@ -31,10 +29,10 @@ export default class BetHistory extends cc.Component {
         });
     }
 
-    setConnection(connection: Connection, gameName: string, currentRoundId?: number) {
+    setConnection(connection: Connection, gameName: string) {
         this.connection = connection;
+        this.get_data();
         this.gameName = gameName;
-        this.currentRoundId = currentRoundId;
         this.callback = (data) => this.onData(data);
         this.connection.on(gameName, this.callback);
     }
@@ -45,10 +43,6 @@ export default class BetHistory extends cc.Component {
 
     getHistory(page = 1) {
         this.connection && this.connection.emit(events.getHistory, { page });
-    }
-
-    setId(id: number) {
-        this.currentRoundId = id;
     }
 
     onData(data: any) {
@@ -66,10 +60,11 @@ export default class BetHistory extends cc.Component {
 
     showDialog() {
         if (this.commonDialog) {
-            this.get_data();
             this.commonDialog.showDialog();
         }
     }
 
     renderTicketHistory(data: any) {}
+
+    public showTicketDetail(data) {}
 }

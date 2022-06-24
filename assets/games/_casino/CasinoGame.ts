@@ -71,9 +71,6 @@ export default class CasinoGame extends NewGameRoomBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
     @property(CasinoMD5)
     md5Comp: CasinoMD5 = null;
 

@@ -53,7 +53,6 @@ import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
 import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
-import TexasTicketHistory from "./game-history/texas-ticket-history";
 import TexasBettingArea from "./texas-betting-area";
 import TexasChips from "./texas-chips";
 import TexasMinMax from "./texas-min-max";
@@ -103,7 +102,6 @@ export default class Texas extends CasinoGame {
     protected gameData: TexasGameDataModel<TexasChoicesType> = null;
     protected texasChips: TexasChips;
     protected pokerCardScript: TexasCards = undefined;
-    protected betHistoryController: TexasTicketHistory = null;
 
     constructor() {
         super();
@@ -223,21 +221,6 @@ export default class Texas extends CasinoGame {
 
         this.checkRiverButton.getComponent(NewButton).callback.selected = () =>
             !this.checkRiverButton.getChildByName(disableButton).active && this.onCheckRiverClick();
-    }
-
-    private initTicketHistory() {
-        const dialog = cc.instantiate(this.historyPrefab);
-        this.betHistoryController = dialog.getComponent(TexasTicketHistory);
-        this.betHistoryController.init(this as any);
-        this.betHistoryController.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
-        this.betHistoryController.node.active = false;
-        this.currentMiniPanel.addDialog(dialog);
-    }
-
-    openHistory() {
-        this.initTicketHistory();
-        this.betHistoryController.setId(this.gameData.roundCounter.roundId);
-        this.betHistoryController.showDialog();
     }
 
     private initPlacingBet() {
@@ -407,7 +390,7 @@ export default class Texas extends CasinoGame {
 
     private registerTicketDetailEvents() {
         this.gameData.ticketDetailModel.on(TexasTicketDetailModel.Events.CHANGE, (data) => {
-            renderTicketDetail(this.betHistoryController)(data);
+            renderTicketDetail(this.newHistoryComp)(data);
         });
     }
 

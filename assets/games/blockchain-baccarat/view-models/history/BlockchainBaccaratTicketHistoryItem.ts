@@ -1,6 +1,7 @@
 import _ = require("lodash");
 import BlockchainBaccaratCards from "../card/BlockchainBaccaratCards";
 import BaccaratBaseHistoryItem from "../../../baccarat/view-models/BaccaratBaseHistoryItem";
+import { BetLog } from "./BlockchainBaccaratTicketHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,12 +22,12 @@ export default class BlockchainBaccaratTicketHistoryItem extends BaccaratBaseHis
     @property(cc.Node)
     bankerCard3: cc.Node = null;
 
-    setData(betLog: any, index) {
+    setData(betLog: BetLog, index) {
         this.showBg.active = index % 2 === 0 ? false : true;
         super.setData(betLog, index);
     }
 
-    showCards(betLog: any) {
+    showCards(betLog: BetLog) {
         if (!this.playerCards || !this.bankerCards) {
             return;
         }

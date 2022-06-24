@@ -52,7 +52,6 @@ import { HoldemPokerRoundCounter } from "../event-models/HoldemPokerRoundCounter
 import { HoldemPokerSettlement } from "../event-models/HoldemPokerSettlement";
 import { HoldemPokerStateModel } from "../event-models/HoldemPokerStateModel";
 import { HoldemPokerTicketDetailModel } from "../event-models/HoldemPokerTicketDetailModel";
-import HoldemPokerTicketHistory from "./history/HoldemPokerTicketHistory";
 import HoldemPokerAaOddsTable from "./HoldemPokerAaOddsTable";
 import HoldemPokerAnteOddsTable from "./HoldemPokerAnteOddsTable";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
@@ -82,7 +81,6 @@ export default class HoldemPoker extends CasinoGame {
     private holdemPokerChips: HoldemPokerChips;
     private gameData: HoldemPokerGameData<HoldemPokerChoices> = null;
     pokerCardScript: HoldemPokerCards = undefined;
-    private betHistoryController: HoldemPokerTicketHistory = null;
 
     constructor() {
         super();
@@ -126,12 +124,6 @@ export default class HoldemPoker extends CasinoGame {
         return true;
     }
 
-    openHistory() {
-        this.initTicketHistory();
-        this.betHistoryController.setId(this.gameData.roundCounter.roundId);
-        this.betHistoryController.showDialog();
-    }
-
     private initPlacingBet() {
         this.placingBet = new HoldemPokerPlacingBet(this.gameData, this.bettingAreas, this, () => this.connection);
     }
@@ -151,15 +143,6 @@ export default class HoldemPoker extends CasinoGame {
         super.initButtonStatus();
         this.doubleAndCallButton.getComponent(NewButton).callback.selected = () =>
             !this.doubleAndCallButton.getChildByName("btn-disable").active && this.onDoubleAndCallClick();
-    }
-
-    private initTicketHistory() {
-        const dialog = cc.instantiate(this.historyPrefab);
-        this.betHistoryController = dialog.getComponent(HoldemPokerTicketHistory);
-        this.betHistoryController.init(this);
-        this.betHistoryController.setConnection(this.connection, this.gameName, this.gameData.roundCounter.roundId);
-        this.betHistoryController.node.active = false;
-        this.currentMiniPanel.addDialog(dialog);
     }
 
     private registerBettingAreasEvents() {
@@ -317,7 +300,7 @@ export default class HoldemPoker extends CasinoGame {
 
     private registerTicketDetailEvents() {
         this.gameData.ticketDetailModel.on(HoldemPokerTicketDetailModel.Events.CHANGE, (data) => {
-            renderTicketDetail(this.betHistoryController)(data);
+            renderTicketDetail(this.newHistoryComp)(data);
         });
     }
 

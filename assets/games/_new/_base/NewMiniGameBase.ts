@@ -1,10 +1,17 @@
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import SocketIOConnection from "../connection/SocketIOConnection";
 import { GameData } from "./game-data-management/models/game-data";
+import BetHistory from "../common/BetHistory";
 
+const { ccclass, property } = cc._decorator;
+@ccclass
 export default class NewMiniGameBase extends SocketIOMiniGameBase {
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
     protected connection: SocketIOConnection;
     public gameData: GameData<void>;
+    protected newHistoryComp: BetHistory;
 
     startGame() {
         super.startGame();
@@ -22,5 +29,15 @@ export default class NewMiniGameBase extends SocketIOMiniGameBase {
         if (this.gameData) {
             this.gameData.receiveData(data);
         }
+    }
+
+    openHistory() {
+        this.playClick();
+
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.newHistoryComp = dialog.getComponent(BetHistory);
+        this.newHistoryComp.setConnection(this.connection, this.gameName);
+        this.currentMiniPanel.addDialog(dialog);
+        this.newHistoryComp.showDialog();
     }
 }

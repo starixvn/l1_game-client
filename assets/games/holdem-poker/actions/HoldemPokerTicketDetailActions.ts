@@ -1,6 +1,6 @@
 import { HoldemPokerTicketDetailModel } from "../event-models/HoldemPokerTicketDetailModel";
-import HoldemPokerTicketHistory from "../view-models/history/HoldemPokerTicketHistory";
+import BetHistory from "../../_new/common/BetHistory";
 
-export const renderTicketDetail = (ticketHistory: HoldemPokerTicketHistory) => (data: HoldemPokerTicketDetailModel) => {
-  ticketHistory.showTicketDetail(data);
+export const renderTicketDetail = (ticketHistory: BetHistory) => (data: HoldemPokerTicketDetailModel) => {
+    ticketHistory.showTicketDetail(data);
 };

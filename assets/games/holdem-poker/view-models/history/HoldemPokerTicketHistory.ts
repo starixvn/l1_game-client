@@ -56,10 +56,6 @@ export default class HoldemPokerTicketHistory extends BetHistory {
     protected root: HoldemPoker;
     protected ticketDetailComponent: HoldemPokerTicketDetail = null;
 
-    init(root: HoldemPoker) {
-        this.root = root;
-    }
-
     getTicketDetail(roundId = 1) {
         this.connection.emit(events.getTicketDetail, { roundId });
     }
@@ -88,7 +84,7 @@ export default class HoldemPokerTicketHistory extends BetHistory {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
         this.ticketDetailComponent = ticketDetailPrefab.getComponent(HoldemPokerTicketDetail);
         this.ticketDetailComponent.renderTitle(roundId, time);
-        this.root.currentMiniPanel.addDialog(ticketDetailPrefab);
+        this.node.addChild(ticketDetailPrefab);
     }
 
     public showTicketDetail(data) {
