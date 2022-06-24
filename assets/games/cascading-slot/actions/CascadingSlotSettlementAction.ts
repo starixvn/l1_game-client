@@ -106,8 +106,8 @@ const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isT
         }
 
         mainGame.gameData.uiModel.getTumble();
-        await mainGame.board.removeItems(explode);
         countIconPerRound = mainGame.tumbleList.addIcons(icons, countIconPerRound);
+        await mainGame.board.removeItems(explode);
         mainGame.board.addItems(newItems);
         mainGame.board.updateMultiplierItems(tumbleMultipliers);
         await mainGame.board.fallIn(isTurbo);
