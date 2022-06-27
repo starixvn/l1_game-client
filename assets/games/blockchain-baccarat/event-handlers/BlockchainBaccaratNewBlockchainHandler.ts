@@ -18,6 +18,7 @@ export class BlockchainBaccaratNewBlockchainHandler<Choices> extends BaseEventHa
 
     protected handle(event: BlockchainBaccaratNewBlockchainType<Choices>) {
         this.gameData.cardList.updateNewBlockchain(event.newBlockchain);
+        this.gameData.cardList.change(event.newBlockchain);
         this.gameData.roundHistory.cleanWithoutTriggerEvent();
     }
 }

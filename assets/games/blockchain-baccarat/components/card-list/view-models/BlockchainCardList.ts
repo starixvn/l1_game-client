@@ -1,4 +1,3 @@
-
 import GameUtils from "../../../../../common/GameUtils";
 import CommonDialog from "../../../../../common/_base/view-models/CommonDialog";
 import { Chain } from "../../../BlockchainBaccaratType";
@@ -49,7 +48,7 @@ export default class BlockchainCardList extends cc.Component {
         this.cardListDialog = this.getComponent(CommonDialog);
         this.cardListDialog.addOnWillHide(() => {
             this.removeCards();
-            this.root.cardVerification.setBlankState();
+            this.root.cardVerification.resetState();
         });
     }
 
@@ -80,8 +79,12 @@ export default class BlockchainCardList extends cc.Component {
         });
 
         this.cards = [];
-
+        const cutCardNode = this.createCutCard();
         chain.forEach((card, index) => {
+            if (this.cutCard === index) {
+                this.content.addChild(cutCardNode);
+                this.cards.push(cutCardNode);
+            }
             const cardNode = this.createCard(card, index);
             this.content.addChild(cardNode);
             this.cards.push(cardNode);
@@ -109,7 +112,8 @@ export default class BlockchainCardList extends cc.Component {
         this.resultCards = [];
         chain.forEach((card, index) => {
             if (index >= this.currentCardIndex && index < currentIndex) {
-                this.updateBlockchainCard(this.cards[index]?.getComponent(BlockchainCard), card, index);
+                const newIndex = this.getIndexNumber(index);
+                this.updateBlockchainCard(this.cards[newIndex]?.getComponent(BlockchainCard), card, index);
             }
         });
         this.playOpenCardAnimation(repeatFlipCard);
@@ -161,15 +165,19 @@ export default class BlockchainCardList extends cc.Component {
 
         !!card ? cardComponent.setFaceUp(true) : cardComponent.setFaceUp(false);
 
-        if (this.cutCard === index) {
-            cardComponent.setKeyCard();
-        } else {
-            cardComponent.openCardVerification = () => {
-                this.initCardVerification(cardChain, index);
-            };
+        cardComponent.openCardVerification = () => {
+            this.initCardVerification(cardChain, index);
+        };
 
-            cardComponent.setIndexNumber(index);
-        }
+        cardComponent.setIndexNumber(index);
+
+        return node;
+    }
+
+    public createCutCard(): cc.Node {
+        const node = GameUtils.createNodeFromPrefab(this.cardPrefab);
+        const cardComponent = node.getComponent(BlockchainCard);
+        cardComponent.setKeyCard();
 
         return node;
     }
@@ -186,8 +194,17 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     public highLightCurrentCardSelected(index: number) {
+        const newIndex = this.getIndexNumber(index);
+        this.resetHighLightCurrentCardSelected();
+        this.cards[newIndex].getComponent(BlockchainCard).highLightCard();
+        this.cardSelected = newIndex;
+    }
+
+    public resetHighLightCurrentCardSelected() {
         this.cards[this.cardSelected]?.getComponent(BlockchainCard).resetHighLightCard();
-        this.cards[index].getComponent(BlockchainCard).highLightCard();
-        this.cardSelected = index;
+    }
+
+    public getIndexNumber(index: number) {
+        return index >= this.cutCard ? index + 1 : index;
     }
 }
