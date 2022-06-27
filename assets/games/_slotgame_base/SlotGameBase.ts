@@ -256,7 +256,14 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
     }
 
+    checkPreventFunctionHoldAction() {
+        return this.currentMiniPanel.dialog.childrenCount > 0 || this.autoSpinCount > 0;
+    }
+
     holdSpinButton() {
+        if (this.checkPreventFunctionHoldAction()) {
+            return;
+        }
         this.isHoldSpinButton = true;
         this.schedule(this.updateForHoldSpinButton, 0.3, cc.macro.REPEAT_FOREVER, 0);
     }
@@ -422,6 +429,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             !this.isAutoSpinMode() &&
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
+            if (this.checkPreventFunctionHoldAction()) {
+                return;
+            }
             this.isKeyDownSpace = true;
             this.spinAction();
         }
