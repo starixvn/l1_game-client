@@ -24,7 +24,7 @@ export default class BlockchainBaccaratTicketHistoryItem extends BaccaratBaseHis
 
     setData(betLog: BetLog, index) {
         this.showBg.active = index % 2 === 0 ? false : true;
-        super.setData(betLog, index);
+        super.setData(betLog);
     }
 
     showCards(betLog: BetLog) {

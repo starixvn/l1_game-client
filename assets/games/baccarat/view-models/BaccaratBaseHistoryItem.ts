@@ -36,7 +36,7 @@ export default class BaccaratBaseHistoryItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    setData(betLog: any, index) {
+    setData(betLog: any) {
         const { time, phien, settlementResult, betwin } = betLog;
 
         this.time.string = getStringDateByTime(time);
