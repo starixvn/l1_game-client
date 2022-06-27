@@ -59,9 +59,9 @@ export default class CascadingUIModel extends EventEmitterBase {
         this.emit(CascadingUIModel.Events.CHANGE_MULTIPLIER, this.multiplier);
     }
 
-    changeTotalMultiplier(value: number) {
-        this.totalMultiplier = value;
-        this.emit(CascadingUIModel.Events.CHANGE_TOTAL_MULTIPLIER, this.totalMultiplier);
+    changeTotalMultiplier(data: { value: number; show: boolean }) {
+        this.totalMultiplier = data.value;
+        this.emit(CascadingUIModel.Events.CHANGE_TOTAL_MULTIPLIER, data);
     }
 
     setFreeSpins(value: number) {

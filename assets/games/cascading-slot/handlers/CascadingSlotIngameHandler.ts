@@ -16,7 +16,7 @@ export class CascadingSlotIngameHandler<Choices> extends BaseEventHandler<Ingame
     protected handle(event: IngameEventType) {
         const { totalMultiplier, freeSpins } = event;
         if (totalMultiplier > 0) {
-            this.gameData.uiModel.changeTotalMultiplier(totalMultiplier);
+            this.gameData.uiModel.changeTotalMultiplier({ value: totalMultiplier, show: true });
         }
         if (freeSpins && freeSpins.total > 0) {
             const { coinValue, betLevel } = freeSpins;

@@ -288,9 +288,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.tumbleWinView.setMultiplier(value);
         });
 
-        this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_MULTIPLIER, (value: number) => {
-            this.totalMultiplierView.showView(value > 0).then(() => {
-                this.totalMultiplierView.setValue(value, true);
+        this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_MULTIPLIER, (data: { value: number; show: boolean }) => {
+            this.totalMultiplierView.showView(data.show).then(() => {
+                this.totalMultiplierView.setValue(data.value, data.show);
             });
             this.checkShowTopMessage();
         });
