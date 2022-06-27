@@ -244,7 +244,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         card.addChild(cardPrefab);
         const cardComponent = card.children[0].getComponent(BlockchainCard);
         cardComponent.setCardOldStyle(cardData);
-        cardComponent.setIndexNumber(index);
+        cardComponent.setIndexNumber(index + 1);
         cardComponent.setCardVerification(this.cardVerification);
         callback(card, cardData);
     }
