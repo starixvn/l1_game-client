@@ -10,7 +10,8 @@ export default class HoldActionButton extends cc.Component {
     private isKeyPressing = false;
     private readonly _actions = [];
 
-    interactable = true;
+    public interactable = true;
+    public checkPreventFunctioning = () => false;
 
     get isAutoAction() {
         return this.interactable && (this.isTouching || this.isKeyPressing);
@@ -65,6 +66,9 @@ export default class HoldActionButton extends cc.Component {
     }
 
     private startHoldButton() {
+        if (this.checkPreventFunctioning()) {
+            return;
+        }
         this.isTouching = true;
         this.schedule(this.updateForHoldButton, 1, cc.macro.REPEAT_FOREVER, 0);
     }
@@ -99,6 +103,10 @@ export default class HoldActionButton extends cc.Component {
     }
 
     enableAutoAction() {
+        if (this.checkPreventFunctioning()) {
+            return;
+        }
+
         if (this.isKeyPressing) {
             return;
         }

@@ -67,6 +67,13 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.playMusicBackground(audioManager.musicEnabled);
         audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
         this.setDefaultPositionForMiniMenu();
+        this.initForHoldActionButton();
+    }
+
+    initForHoldActionButton() {
+        this.holdActionButton.checkPreventFunctioning = () => {
+            return this.currentMiniPanel.dialog.childrenCount > 0 || this.gameData.spinButtonStateModel.state === SpinButtonState.AutoSpin;
+        };
     }
 
     onDestroy() {
