@@ -64,7 +64,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
                 control.setData(tumble, index, data, currWinTumble);
                 this.content.addChild(detailItem);
             }
-            const newTumbleMultipliers = index < tumbles.length - 1 ? [...tumbles[index + 1].multipliers] : [...tumble.multipliers];
+            const newTumbleMultipliers = [...tumble.multipliers];
             control.setDataResultBoard(tumble.originalBoard, newTumbleMultipliers);
         });
         this.handleMultiplierData(data);
