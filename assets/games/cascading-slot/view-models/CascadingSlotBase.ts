@@ -318,6 +318,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.tumbleWinView.showView(false, true).then(() => {
                 this.tumbleWinView.clearLabels();
             });
+            if (!this.isFreeSpin()) {
+                this.totalMultiplierView.showView(false).then(() => {
+                    this.totalMultiplierView.setValue(0, false);
+                });
+            }
             this.checkShowTopMessage();
         });
 
