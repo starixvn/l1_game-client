@@ -1,4 +1,3 @@
-
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import GameUtils from "../../../../../common/GameUtils";
 import { CardModel } from "../../../BlockchainBaccaratType";
@@ -55,13 +54,13 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         };
         const tooltip = this.tooltipNode.getChildByName("content").getComponent(cc.Label);
         tooltip.string = tooltips[customEventData];
-        GameUtils.copyToClipboard(this.textCopy, tooltip, this.showHint(this.tooltipNode));
+        this.showTooltip();
     }
 
     onClickCopyButton() {
         const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         hintLabel.string = i18n.t("messages.copy_success");
-        GameUtils.copyToClipboard(this.textCopy, hintLabel, this.showHint(this.hintCopyNode));
+        GameUtils.copyToClipboard(this.textCopy, hintLabel, this.showMessageCopy());
     }
 
     setHashValue(text: string) {
@@ -84,8 +83,16 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         this.hashValue.node.color = this.color.fromHEX("#ff0000");
     }
 
-    showHint(hintCopy: cc.Node) {
-        cc.tween(hintCopy).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
+    showMessageCopy() {
+        cc.tween(this.hintCopyNode).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
+    }
+
+    showTooltip() {
+        cc.tween(this.tooltipNode).to(0.2, { opacity: 255 }).start();
+    }
+
+    hideTooltip() {
+        cc.tween(this.tooltipNode).to(0.2, { opacity: 0 }).start();
     }
 
     setTextCopy(text: string) {

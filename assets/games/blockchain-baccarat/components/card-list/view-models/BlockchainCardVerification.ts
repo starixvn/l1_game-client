@@ -42,6 +42,8 @@ export default class BlockchainCardVerification extends cc.Component {
     cardVerificationDialog: CommonDialog;
     public state = CardVerificationState.blank_new;
     public timeout: any;
+    numberKey: number;
+    numberKey2: number;
 
     private readonly encrypKey =
         "************************************************************************************************************";
@@ -68,6 +70,7 @@ export default class BlockchainCardVerification extends cc.Component {
             this.renderPrivateKey(chain, index);
         }
         this.renderButton();
+        this.onHideTooltips();
     }
 
     renderButton() {
@@ -83,18 +86,20 @@ export default class BlockchainCardVerification extends cc.Component {
 
     renderSerialNumber(cardChain: Chain, index: number) {
         this.serialNumber.setHashValue(cardChain?.hashValue);
-        this.serialNumber.renderCard(cardChain.card, index);
+        this.serialNumber.renderCard(cardChain?.card, index);
         this.serialNumber.resetHighLight();
         this.serialCardChain = cardChain;
+        this.numberKey = index;
     }
 
     renderPrivateKey(cardChain: Chain, index: number) {
         const rawValue = cardChain?.rawValue
-            ? this.setPrivateKey(cardChain.rawValue, cardChain.card)
+            ? this.setPrivateKey(cardChain?.rawValue, cardChain?.card)
             : `${this.encrypKey}${cardChain.revealedRawValue}`;
         this.privateKey.setRawValue(rawValue);
-        this.privateKey.renderCard(cardChain.card, index);
+        this.privateKey.renderCard(cardChain?.card, index);
         this.privateCardChain = cardChain;
+        this.numberKey2 = index;
     }
     private setPrivateKey(rawValue: string, card: CardModel) {
         const suffix = rawValue.split("_");
@@ -130,15 +135,15 @@ export default class BlockchainCardVerification extends cc.Component {
         };
 
         const indexNumbers = {
-            serial: this.serialNumber.getNumberKey(),
-            private: this.privateKey.getNumberKey()
+            serial: this.numberKey,
+            private: this.numberKey2
         };
 
         this.state = values[customEventData];
         const index = indexNumbers[customEventData];
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            this.node.emit(CardVerificationEvents.CHANGE_CARD, index - 1);
+            this.node.emit(CardVerificationEvents.CHANGE_CARD, index);
         }, 500);
     }
 
@@ -161,5 +166,10 @@ export default class BlockchainCardVerification extends cc.Component {
 
     dispatchOpenEvent(index: number) {
         this.node.emit(CardVerificationEvents.OPEN_VERIFICATION, index);
+    }
+
+    onHideTooltips() {
+        this.serialNumber.hideTooltip();
+        this.privateKey.hideTooltip();
     }
 }

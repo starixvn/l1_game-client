@@ -23,7 +23,7 @@ import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { updateOtherPlayerBalance } from "../../_base/action/OtherPlayerAction";
 import { payChips } from "../../_base/action/PayChipsAction";
 import MD5Component from "../../_base/view-models/MD5Component";
-import BlockchainCardList from "../components/card-list/view-models/BlockchainCardList";
+import BlockchainCardList, { CardListEvents } from "../components/card-list/view-models/BlockchainCardList";
 import BlockchainCardVerification, { CardVerificationEvents } from "../components/card-list/view-models/BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
@@ -71,6 +71,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
         this.registerCardVerification();
+        this.registerCardList();
     }
 
     resetDataAndUI() {
@@ -166,7 +167,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                     updateOtherPlayerBalance(finishData.winningPlayers, this);
                 }
                 payChips(this, finishData.settlementResult, finishData.winningPlayers, this.durationFlyChip, this.durationAnimWinning);
-                this.gameData.cardList.change(finishData?.blockchain);
                 this.finishShowResult = true;
             });
         });
@@ -192,6 +192,14 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
         this.cardVerification.node.on(CardVerificationEvents.CLOSE_POPUP, () => {
             this.cardList.resetHighLightCurrentCardSelected();
+        });
+    }
+
+    private registerCardList() {
+        this.cardList.node.on(CardListEvents.FLIPPED_CARD, (index: number) => {
+            if (this.cardVerification.numberKey === index || this.cardVerification.numberKey2 === index) {
+                this.cardVerification.renderDataCardVerification(this.gameData.cardList.blockchain.chain[index], index);
+            }
         });
     }
 }

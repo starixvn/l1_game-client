@@ -4,9 +4,12 @@ import { Chain } from "../../../BlockchainBaccaratType";
 import { Blockchain } from "../../../event-models/BlockchainBaccaratCardListModel";
 import BlockchainBaccarat from "../../../view-models/BlockchainBaccarat";
 import BlockchainCard from "./BlockchainCard";
-import BlockchainCardVerification from "./BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
+
+export enum CardListEvents {
+    FLIPPED_CARD = "flippedCard"
+}
 
 @ccclass
 export default class BlockchainCardList extends cc.Component {
@@ -24,11 +27,8 @@ export default class BlockchainCardList extends cc.Component {
     @property(cc.ScrollView)
     statsScrollView: cc.ScrollView = null;
 
-    protected nextMark: cc.Node = null;
     protected cutCard: number;
-    protected burnedCard: number;
     protected currentCardIndex: number;
-    protected cardVerificationComponent: BlockchainCardVerification = null;
     protected root: BlockchainBaccarat;
     protected cardHeight = 120;
     protected numberOfCardsPerRow = 12;
@@ -120,7 +120,7 @@ export default class BlockchainCardList extends cc.Component {
         this.currentCardIndex = currentIndex;
     }
 
-    playOpenCardAnimation(repeatFlipCard: number) {
+    private playOpenCardAnimation(repeatFlipCard: number) {
         let count = 0;
         cc.tween(this.node)
             .repeat(
@@ -151,6 +151,7 @@ export default class BlockchainCardList extends cc.Component {
 
             this.flippingAnimations.push(cardComp?.animation);
             this.resultCards.push(cardComp);
+            this.node.emit(CardListEvents.FLIPPED_CARD, index);
         }
     }
 
@@ -174,7 +175,7 @@ export default class BlockchainCardList extends cc.Component {
         return node;
     }
 
-    public createCutCard(): cc.Node {
+    private createCutCard(): cc.Node {
         const node = GameUtils.createNodeFromPrefab(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
         cardComponent.setKeyCard();
@@ -204,7 +205,7 @@ export default class BlockchainCardList extends cc.Component {
         this.cards[this.cardSelected]?.getComponent(BlockchainCard).resetHighLightCard();
     }
 
-    public getIndexNumber(index: number) {
+    private getIndexNumber(index: number) {
         return index >= this.cutCard ? index + 1 : index;
     }
 }
