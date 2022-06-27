@@ -2,33 +2,8 @@ import { BaseEventHandler } from "../../_new/_base/game-data-management/event-ha
 import { CascadingSlotConfigData } from "../models/CascadingSlotConfigModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 
-export type Odd = {
-    from: number;
-    to: number;
-    odds: number;
-};
-
-export type FreeSpin = {
-    initialOdds: Array<FreeSpinDetail>;
-    additionalOdds: Array<FreeSpinDetail>;
-};
-
-type FreeSpinDetail = {
-    count: number;
-    odds: number;
-};
-
 export type ConfigsType<Choices> = {
-    gameConfigs: {
-        betLevels: number[];
-        coinValues: number[];
-        betMultiplier: number;
-        maxWinPerRound: number;
-        odds: {
-            freeSpins: FreeSpin;
-            symbols: Record<string, Array<Odd>>;
-        };
-    };
+    gameConfigs: CascadingSlotConfigData;
 };
 
 export default class CascadingSlotConfigHandler<Choices> extends BaseEventHandler<ConfigsType<Choices>, Choices> {

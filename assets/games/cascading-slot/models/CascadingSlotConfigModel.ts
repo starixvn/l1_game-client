@@ -1,5 +1,21 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { Odd, FreeSpin } from "../handlers/CascadingSlotConfigHandler";
+
+type FreeSpinDetail = {
+    count: number;
+    odds: number;
+};
+
+type FreeSpin = {
+    initialOdds: Array<FreeSpinDetail>;
+    additionalOdds: Array<FreeSpinDetail>;
+};
+
+type Odd = {
+    from: number;
+    to: number;
+    odds: number;
+};
+
 export type CascadingSlotConfigData = {
     betLevels: number[];
     coinValues: number[];
@@ -10,6 +26,7 @@ export type CascadingSlotConfigData = {
         symbols: Record<string, Array<Odd>>;
     };
 };
+
 export class CascadingSlotConfigModel extends EventEmitterBase {
     static Events = {
         CHANGE: "configs:change"
