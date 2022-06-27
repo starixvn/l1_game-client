@@ -113,6 +113,9 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         this.centerCard.removeAllChildren(true);
 
         if (isAnimation) {
+            const cardComponent = card.getComponent(BlockchainCard);
+            cardComponent.setIndexNumber(0);
+            cardComponent.setCardVerification(this.cardVerification);
             this.centerCard.addChild(card);
             this.centerCard.children[0].opacity = 0;
             await this.handleFlyCard(this.centerCard.children[0], this.durationFlyCardBurn, this.cardsBox, cardData);

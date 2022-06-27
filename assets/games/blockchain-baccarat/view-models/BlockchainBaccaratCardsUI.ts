@@ -42,6 +42,12 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     @property(cc.Label)
     winningNotice: cc.Label = null;
 
+    @property(cc.Sprite)
+    cardDropBox: cc.Sprite = null;
+
+    @property(cc.SpriteAtlas)
+    atlas: cc.SpriteAtlas = null;
+
     protected orderCard: OrderCardValue[];
 
     private cardVerification: BlockchainCardVerification;
@@ -210,6 +216,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     async handleShuffleCards(data: Blockchain, duration: number) {
         await this.collectCardsOnTable();
+        this.updateCardDropSprite(0, 1);
         this.reserveCards?.resetCards();
         this.burnContainer.node.active = true;
         this.setActiveCardsUI(false);
@@ -228,5 +235,24 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         }
 
         this.winningNotice.node.parent.active = false;
+    }
+
+    updateCardDropSprite(currentIndex: number, cutCardIndex: number) {
+        // const percent = currentIndex / cutCardIndex;
+        // let spriteFrame = null;
+        // if (percent < 0.1) {
+        //     spriteFrame = this.atlas.getSpriteFrame("hopbai_0");
+        // } else {
+        //     if (percent < 0.4) {
+        //         spriteFrame = this.atlas.getSpriteFrame("hopbai_1");
+        //     } else {
+        //         if (percent < 0.7) {
+        //             spriteFrame = this.atlas.getSpriteFrame("hopbai_2");
+        //         } else {
+        //             spriteFrame = this.atlas.getSpriteFrame("hopbai_full");
+        //         }
+        //     }
+        // }
+        // this.cardDropBox.spriteFrame = spriteFrame;
     }
 }

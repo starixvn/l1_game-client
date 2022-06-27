@@ -1,5 +1,3 @@
-
-
 import NewCard from "../../../../../common/new-card/view-models/NewCard";
 import BlockchainCardVerification from "./BlockchainCardVerification";
 
