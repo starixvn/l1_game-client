@@ -81,10 +81,8 @@ export default class BlockchainCardVerification extends cc.Component {
         this.renderVerifiedSerialNumber();
         if (this.numberKey === index) {
             this.renderSerialNumber(chain, index);
-        } else if (this.numberKey2 === index) {
-            this.renderPrivateKey(chain, index);
-        } else {
-            this.renderSerialNumber(chain, index);
+        }
+        if (this.numberKey2 === index) {
             this.renderPrivateKey(chain, index);
         }
 
