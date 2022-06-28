@@ -143,7 +143,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData.roundHistory.on(
             BlockchainBaccaratRoundHistoryModel.Events.CHANGE,
             (roundHistory: BlockchainBaccaratRoundHistory[]) => {
-                blockchainAction.handleJoinRoom(this)(roundHistory, this.gameData.cardList.currentIndex);
+                blockchainAction.handleJoinRoom(this)(roundHistory, this.gameData.cardList.currentIndex, this.gameData.cardList.blockchain);
             }
         );
 

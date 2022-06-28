@@ -1,7 +1,6 @@
+import { Blockchain } from "./../event-models/BlockchainBaccaratCardListModel";
 import { clearPercentBet } from "./../actions/BlockchainBaccaratTotalBetAction";
-import { BlockchainBaccaratChoicesType } from "./../BlockchainBaccaratType";
 import BaccaratTimeDataHandler from "../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
-import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 import BlockchainBaccaratBetItem from "../view-models/BlockchainBaccaratBetItem";
 
@@ -31,11 +30,14 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
             const blockchainBaccarat: BlockchainBaccarat = this.getOwnMain();
             const gameData = blockchainBaccarat.gameData;
             if (this.isNewShoe && this.main.currentTimeRemaining <= this.durationShowNewShoe) {
-                if (!this.isShowShoe) {
-                    this.handleShowShuffleCards(blockchainBaccarat, gameData, this.main.currentTimeRemaining);
-                }
+                !this.isShowShoe &&
+                    this.handleShowShuffleCards(blockchainBaccarat, gameData.cardList.newBlockchain, this.main.currentTimeRemaining);
             } else {
-                this.main.finishShowResult && this.showWaitTime();
+                if (gameData.cardList.blockchain.isNew && !this.isShowShoe) {
+                    this.handleShowShuffleCards(blockchainBaccarat, gameData.cardList.blockchain, this.main.currentTimeRemaining);
+                    return;
+                }
+                !gameData.cardList.blockchain.isNew && this.main.finishShowResult && this.showWaitTime();
             }
         }
 
@@ -87,11 +89,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 
-    handleShowShuffleCards(
-        blockchainBaccarat: BlockchainBaccarat,
-        gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType>,
-        timeRemaining: number
-    ) {
+    handleShowShuffleCards(blockchainBaccarat: BlockchainBaccarat, blockchainData: Blockchain, timeRemaining: number) {
         this.isShowShoe = true;
         this.isResetUI = true;
         this.main.resetDataAndUI();
@@ -99,7 +97,6 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         blockchainBaccarat.lastRoundIfo.reset();
         blockchainBaccarat.gameData.finishModel.clear();
         const cardContainer = blockchainBaccarat.cardsUI;
-        const blockchainData = gameData.cardList.newBlockchain;
 
         blockchainData && cardContainer.handleShuffleCards(blockchainData, timeRemaining);
     }

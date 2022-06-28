@@ -67,7 +67,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     async handleShowCutCards(data: Blockchain, duration: number) {
         const cutCardValue = data.chain?.[0]?.card;
         const formatData: Chain[] = data.chain.slice(1, data.burnedCards);
-        console.log(duration, "handleShowCutCards");
+
         if (duration >= TimeShowAnim.full) {
             this.cardsBox.parent.active = false;
             this.cutCard.active = true;
@@ -97,6 +97,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
             formatData.forEach((data: Chain, index: number) => {
                 this.createCardsBurn(this.cardPrefab, index, data.card, (card: cc.Node, cardData: CardModel) => {
                     const cardComponent = card.children[0].getComponent(BlockchainCard);
+                    cardComponent.setStatusIndexNumber(false);
                     cardComponent.setCardOldStyle(cardData);
                     cardComponent.faceUp();
                 });
