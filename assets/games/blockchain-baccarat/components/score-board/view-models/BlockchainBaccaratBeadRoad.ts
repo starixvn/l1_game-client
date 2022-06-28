@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import { BasicHistoryData } from "../../../../_base/view-models/BasicHistoryBoard";
+import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratModel";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -29,32 +30,33 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
         this.items = itemsNode.children;
     }
 
-    render(data: BasicHistoryData[]) {
-        while (data.length > this.maxItems) {
-            data.pop();
+    render(roundHistory: BlockchainBaccaratRoundHistory[]) {
+        while (roundHistory.length > this.maxItems) {
+            roundHistory.pop();
         }
-        data.reverse();
-        data.forEach((history) => {
+        roundHistory.reverse();
+        roundHistory.forEach((history) => {
             this.addNewItem(history);
         });
     }
 
-    addNewItem(history: BasicHistoryData) {
+    addNewItem(lastRound: BlockchainBaccaratRoundHistory) {
+        const round = this.convertToBasicHistoryData(lastRound);
         if (this.isRenderNext) {
             this.dots[this.dots.length - 1].removeFromParent();
             this.dots[this.dots.length - 1].destroy();
             this.dots.pop();
             this.isRenderNext = false;
         }
-        const node = _.find(this.items, (item) => item.name.toLowerCase() === history.name);
+        const node = _.find(this.items, (item) => item.name.toLowerCase() === round.name);
         const dot = cc.instantiate(node);
         dot.active = true;
-        dot.getChildByName(this.childrenItemKey.value).getComponent(cc.Label).string = history.value;
+        dot.getChildByName(this.childrenItemKey.value).getComponent(cc.Label).string = round.value;
         dot.getChildByName(this.childrenItemKey.symbol).active = this.isSymbolMode;
         dot.getChildByName(this.childrenItemKey.number).active = !this.isSymbolMode;
         dot.getChildByName(this.childrenItemKey.value).active = !this.isSymbolMode;
-        dot.getChildByName(this.childrenItemKey.playerPair).active = history.playerPair;
-        dot.getChildByName(this.childrenItemKey.bankerPair).active = history.bankerPair;
+        dot.getChildByName(this.childrenItemKey.playerPair).active = round.playerPair;
+        dot.getChildByName(this.childrenItemKey.bankerPair).active = round.bankerPair;
         this.content.addChild(dot);
         this.dots.push(dot);
     }
@@ -94,5 +96,47 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
                 dot.getChildByName(this.childrenItemKey.value).active = !this.isSymbolMode;
             }
         });
+    }
+
+    private convertToBasicHistoryData(round: BlockchainBaccaratRoundHistory) {
+        const result = round.result;
+        const settlementResult = round.settlementResult;
+        if (settlementResult?.player) {
+            return new BasicHistoryData(
+                "player",
+                this.calculateTotalScore(result.player),
+                settlementResult.playerPair,
+                settlementResult.bankerPair
+            );
+        } else {
+            if (settlementResult?.banker) {
+                return new BasicHistoryData(
+                    "banker",
+                    this.calculateTotalScore(result.banker),
+                    settlementResult.playerPair,
+                    settlementResult.bankerPair
+                );
+            } else {
+                return new BasicHistoryData(
+                    "tie",
+                    this.calculateTotalScore(result.player),
+                    settlementResult.playerPair,
+                    settlementResult.bankerPair
+                );
+            }
+        }
+    }
+
+    private calculateTotalScore(hand) {
+        let value = 0;
+        value += this.getValueCard(hand.card1);
+        value += this.getValueCard(hand.card2);
+        value += this.getValueCard(hand.card3);
+        return (value % 10).toString();
+    }
+
+    private getValueCard(card) {
+        const value = card?.rank + 1;
+        return value > 10 || !value ? 0 : value;
     }
 }

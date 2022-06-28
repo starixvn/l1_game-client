@@ -4,7 +4,6 @@ import BlockchainBaccaratBeadRoad from "./BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "./BlockchainBaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboard from "./BlockchainBaccaratDerivedScoreboard";
 import { BigRoadScoreboardPoint, DerivedScoreboards } from "sc-scoreboards";
-import { BasicHistoryData } from "../../../../_base/view-models/BasicHistoryBoard";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
 const { ccclass, property } = cc._decorator;
 
@@ -77,7 +76,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         });
         this.bigRoadData = this.bigRoads[0].getData();
         this.renderDerivedScoreboard();
-        this.renderBeadRoadInGame(roundHistory);
+        this.beadRoad.render(roundHistory);
         this.renderPrediction();
         this.renderStatistic();
     }
@@ -89,7 +88,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         });
         this.bigRoadData = this.bigRoads[0].getData();
         this.renderDerivedScoreboard();
-        this.renderBeadRoadEachRound(lastRound);
+        this.beadRoad.addNewItem(lastRound);
         this.renderPrediction();
         this.renderStatistic();
     }
@@ -146,60 +145,6 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         }
     }
 
-    private renderBeadRoadInGame(roundHistory: BlockchainBaccaratRoundHistory[]) {
-        const historyData = roundHistory.map((round) => {
-            return this.convertToBasicHistoryData(round);
-        });
-        this.beadRoad.render(historyData);
-    }
-
-    private renderBeadRoadEachRound(lastRound: BlockchainBaccaratRoundHistory) {
-        const item = this.convertToBasicHistoryData(lastRound);
-        this.beadRoad.addNewItem(item);
-    }
-
-    private convertToBasicHistoryData(round: BlockchainBaccaratRoundHistory) {
-        const result = round.result;
-        const settlementResult = round.settlementResult;
-        if (settlementResult?.player) {
-            return new BasicHistoryData(
-                "player",
-                this.calculateTotalScore(result.player),
-                settlementResult.playerPair,
-                settlementResult.bankerPair
-            );
-        } else {
-            if (settlementResult?.banker) {
-                return new BasicHistoryData(
-                    "banker",
-                    this.calculateTotalScore(result.banker),
-                    settlementResult.playerPair,
-                    settlementResult.bankerPair
-                );
-            } else {
-                return new BasicHistoryData(
-                    "tie",
-                    this.calculateTotalScore(result.player),
-                    settlementResult.playerPair,
-                    settlementResult.bankerPair
-                );
-            }
-        }
-    }
-
-    private calculateTotalScore(hand) {
-        let value = 0;
-        value += this.getValueCard(hand.card1);
-        value += this.getValueCard(hand.card2);
-        value += this.getValueCard(hand.card3);
-        return (value % 10).toString();
-    }
-
-    private getValueCard(card) {
-        const value = card?.rank + 1;
-        return value > 10 || !value ? 0 : value;
-    }
-
     private resetStatistic() {
         for (const childName in this.statisticChildrenName) {
             this.statistic.getChildByName(childName).getComponent(cc.Label).string = "0";
@@ -231,7 +176,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         }
     }
 
-    runActionZoom(node: cc.Node) {
+    private runActionZoom(node: cc.Node) {
         node.runAction(
             cc.sequence(
                 cc.callFunc(() => {

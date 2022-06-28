@@ -61,8 +61,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         ];
     }
 
-    protected start(): void {}
-
     handleNumberIndex(currentIndex: number) {
         this.orderCard.forEach((card) => {
             card.node.setTagIndex(currentIndex, card.node.cards[card.key]);
