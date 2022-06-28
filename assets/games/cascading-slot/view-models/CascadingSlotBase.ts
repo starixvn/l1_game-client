@@ -106,6 +106,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     private currBetLevel: number;
 
     async onSpinClick() {
+        //this.holdActionButton.isAutoAction
         this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.spin();
     }
@@ -235,10 +236,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         return config[key];
     }
 
-    isTurboMode(): boolean {
-        return this.turboToggle.isChecked || this.holdActionButton.isAutoAction;
-    }
-
     onLoad() {
         super.onLoad();
         this.board.initBoardFullItems();
@@ -357,6 +354,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                 case CascadingSlotState.Spinning:
                     break;
                 case CascadingSlotState.Settled:
+                    this.clearHoldActionFlag();
                     break;
             }
             this.showBottomMessageOnGameState();

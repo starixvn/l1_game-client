@@ -6,8 +6,8 @@ export default class HoldActionButton extends cc.Component {
     @property({ type: cc.Component.EventHandler })
     clickEvents: cc.Component.EventHandler[] = [];
 
-    private isTouching = false;
-    private isKeyPressing = false;
+    public isTouching = false;
+    public isKeyPressing = false;
     private readonly _actions = [];
 
     public interactable = true;
@@ -38,7 +38,8 @@ export default class HoldActionButton extends cc.Component {
         const hit = this.node._hitTest(location);
         this.stopHoldButton();
         if (hit) {
-            this.doAction();
+            //TODO: handle quickly release touch
+            this.doAction(false);
         }
     }
 
@@ -51,17 +52,17 @@ export default class HoldActionButton extends cc.Component {
         }
     }
 
-    private doAction() {
+    private doAction(param: boolean) {
         if (!this.interactable) {
             return;
         }
-        cc.Component.EventHandler.emitEvents(this.clickEvents);
+        cc.Component.EventHandler.emitEvents(this.clickEvents, param);
         this._actions.forEach((action) => action && action());
     }
 
     private updateForHoldButton() {
         if (this.isTouching) {
-            this.doAction();
+            this.doAction(true);
         }
     }
 
@@ -112,7 +113,7 @@ export default class HoldActionButton extends cc.Component {
         }
 
         this.isKeyPressing = true;
-        this.doAction();
+        this.doAction(true);
         this.schedule(this.onScheduleUpdateForKey, 1, cc.macro.REPEAT_FOREVER);
     }
 
@@ -126,6 +127,6 @@ export default class HoldActionButton extends cc.Component {
             return;
         }
 
-        this.doAction();
+        this.doAction(true);
     }
 }

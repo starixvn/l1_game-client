@@ -53,6 +53,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     protected lastAutoSpinCount: number;
     protected totalFreeSpins = 0;
     protected cacheApiError: any = null;
+    protected isHoldAction: boolean;
 
     public gameData: FeatureSlotGameData<void>;
 
@@ -167,7 +168,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     isTurboMode(): boolean {
-        return this.turboToggle.isChecked;
+        return this.turboToggle.isChecked || this.isHoldAction;
     }
 
     isFreeSpin(): boolean {
@@ -285,5 +286,14 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     onSoundListInitialized(node: cc.Node) {
         this.gameSound = node.getComponent(SlotGameSound);
+    }
+
+    onSpinByHoldAction(hold: boolean) {
+        this.isHoldAction = hold;
+        this.spin();
+    }
+
+    clearHoldActionFlag() {
+        this.isHoldAction = false;
     }
 }
