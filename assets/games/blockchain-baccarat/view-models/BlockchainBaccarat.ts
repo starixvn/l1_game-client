@@ -165,6 +165,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                     updateOtherPlayerBalance(finishData.winningPlayers, this);
                 }
                 payChips(this, finishData.settlementResult, finishData.winningPlayers, this.durationFlyChip, this.durationAnimWinning);
+                this.gameData.cardList.change(finishData?.blockchain);
                 this.finishShowResult = true;
             });
         });
@@ -189,14 +190,14 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
             this.cardList.initCardVerification(this.gameData.cardList.blockchain.chain[index], index);
         });
 
-        consumeEvent(BlockchainBaccaratEvents.CLOSE_POPUP, () => {
+        consumeEvent(BlockchainBaccaratEvents.RESET_CARD_SELECTED, () => {
             this.cardList.resetHighLightCurrentCardSelected();
         });
 
         consumeEvent(BlockchainBaccaratEvents.FLIPPED_CARD, (params) => {
             const index = params["index"];
             if (this.cardVerification.numberKey === index || this.cardVerification.numberKey2 === index) {
-                this.cardVerification.autoRenderCardVerification(this.gameData.cardList.blockchain.chain[index], index);
+                this.cardVerification.autoRenderCardVerification(this.gameData.finishModel.finishData?.blockchain?.chain[index], index);
             }
         });
     }

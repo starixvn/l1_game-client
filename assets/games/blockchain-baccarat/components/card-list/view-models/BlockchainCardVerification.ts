@@ -162,7 +162,7 @@ export default class BlockchainCardVerification extends cc.Component {
     onClose() {
         this.resetState();
         this.closeDialog();
-        emitEvent(BlockchainBaccaratEvents.CLOSE_POPUP);
+        emitEvent(BlockchainBaccaratEvents.RESET_CARD_SELECTED);
     }
 
     closeDialog() {

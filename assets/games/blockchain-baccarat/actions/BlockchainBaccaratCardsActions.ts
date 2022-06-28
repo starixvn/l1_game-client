@@ -30,7 +30,11 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
 
     if (result?.banker?.card3) {
         await cardsUI.flyCard3(false, isFlyCard3Player);
-        await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card3], result.banker.card3, startIndex + 5);
+        await cardsUI.bankerCards.openCards(
+            cardsUI.bankerCards.cards[CardsOrder.card3],
+            result.banker.card3,
+            startIndex + playerCards.length + bankerCards.length - 1
+        );
     }
     callback();
     showHighlightCards(cardsUI, dataFinish.settlementResult);

@@ -2,7 +2,7 @@ export enum BlockchainBaccaratEvents {
     OPEN_VERIFICATION = "openVerification",
     FLIPPED_CARD = "flippedCard",
     CHANGE_CARD = "change_card",
-    CLOSE_POPUP = "closePopup"
+    RESET_CARD_SELECTED = "resetCardSelected"
 }
 
 export function emitEvent(eventName: string, params?: object) {
