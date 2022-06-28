@@ -2,7 +2,7 @@ import { Socket } from "socket.io-client";
 
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import GameUtils from "../../common/GameUtils";
-import { enableMsgpackParserOnGame } from "../../configs/Configs";
+import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import { GameIds, GameInfos } from "../../configs/SabaConfigs";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
@@ -102,7 +102,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             isGameRoom: false,
             forceNew,
             gameContainer,
-            enableMsgpackParser: enableMsgpackParserOnGame?.[gameId]
+            enableMsgpackParser: enableMsgpackParserAllGames
         };
         const socket = this.socketIOController.connectGameSocket(option);
 

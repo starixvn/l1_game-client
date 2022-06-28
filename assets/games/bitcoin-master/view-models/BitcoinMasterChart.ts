@@ -10,6 +10,10 @@ export default class BitcoinMasterChart extends LoadWebView {
 
     initURL(sessionID: string) {
         const env = config.env === "" ? "" : `/${config.env}`;
-        this.url = buildUrlWithPath(`${env}/bitcoinmaster/chart.html?ss=${sessionID}&t=${new Date().getTime()}`);
+        this.url = buildUrlWithPath(
+            `${env}/bitcoinmaster/chart${
+                config.enableMsgpackParserAllGames ? "-msgPack" : ""
+            }.html?ss=${sessionID}&t=${new Date().getTime()}`
+        );
     }
 }

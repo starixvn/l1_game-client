@@ -16,7 +16,7 @@ const configs = {
     },
     guideDomain: "https://l1-guide-3.lumigame.com",
     enableMsgpackParserOnNotification: false,
-    enableMsgpackParserOnGame: {}
+    enableMsgpackParserAllGames: false
 };
 
 module.exports = configs;
