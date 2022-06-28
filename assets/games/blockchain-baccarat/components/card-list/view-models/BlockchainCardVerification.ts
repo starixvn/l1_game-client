@@ -16,7 +16,6 @@ export enum CardVerificationState {
 
 export enum CardVerificationEvents {
     CHANGE_CARD = "change_card",
-    OPEN_VERIFICATION = "openVerification",
     CLOSE_POPUP = "closePopup"
 }
 
@@ -179,10 +178,6 @@ export default class BlockchainCardVerification extends cc.Component {
 
     resetState() {
         this.state = CardVerificationState.blank_new;
-    }
-
-    dispatchOpenEvent(index: number) {
-        this.node.emit(CardVerificationEvents.OPEN_VERIFICATION, index);
     }
 
     onHideTooltips() {
