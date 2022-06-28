@@ -3,14 +3,10 @@ import CommonDialog from "../../../../../common/_base/view-models/CommonDialog";
 import { Chain } from "../../../BlockchainBaccaratType";
 import { Blockchain } from "../../../event-models/BlockchainBaccaratCardListModel";
 import BlockchainBaccarat from "../../../view-models/BlockchainBaccarat";
+import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
 import BlockchainCard from "./BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
-
-export enum CardListEvents {
-    FLIPPED_CARD = "flippedCard"
-}
-
 @ccclass
 export default class BlockchainCardList extends cc.Component {
     @property({ type: cc.Prefab })
@@ -150,8 +146,8 @@ export default class BlockchainCardList extends cc.Component {
             };
 
             this.flippingAnimations.push(cardComp?.animation);
-            this.resultCards.push(cardComp);
-            this.node.emit(CardListEvents.FLIPPED_CARD, index);
+            this.resultCards.push(cardComp); 
+            emitEvent(BlockchainBaccaratEvents.FLIPPED_CARD, { index: index });
         }
     }
 

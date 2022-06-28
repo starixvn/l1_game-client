@@ -11,7 +11,7 @@ import {
     Blockchain
 } from "../event-models/BlockchainBaccaratModel";
 import { GameIds } from "../../../configs/SabaConfigs";
-import { BlockchainBaccaratChoicesType, Chain } from "../BlockchainBaccaratType";
+import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BlockchainBaccaratConfig } from "./BlockchainBaccaratConfig";
 import BlockchainBaccaratCardsUI from "./BlockchainBaccaratCardsUI";
@@ -23,8 +23,8 @@ import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { updateOtherPlayerBalance } from "../../_base/action/OtherPlayerAction";
 import { payChips } from "../../_base/action/PayChipsAction";
 import MD5Component from "../../_base/view-models/MD5Component";
-import BlockchainCardList, { CardListEvents } from "../components/card-list/view-models/BlockchainCardList";
-import BlockchainCardVerification, { CardVerificationEvents } from "../components/card-list/view-models/BlockchainCardVerification";
+import BlockchainCardList from "../components/card-list/view-models/BlockchainCardList";
+import BlockchainCardVerification from "../components/card-list/view-models/BlockchainCardVerification";
 import { consumeEvent, BlockchainBaccaratEvents } from "./BlockchainBaccaratEvents";
 
 const { ccclass, property } = cc._decorator;
@@ -72,7 +72,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
         this.registerCardVerification();
-        this.registerCardList();
     }
 
     resetDataAndUI() {
@@ -178,25 +177,24 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     private registerCardVerification() {
-        this.cardVerification.node.on(CardVerificationEvents.CHANGE_CARD, (index: number) => {
+        consumeEvent(BlockchainBaccaratEvents.CHANGE_CARD, (params) => {
             if (this.cardList.node.active === false) {
                 this.openCardList();
             }
-            this.cardList.highLightCurrentCardSelected(index);
+            this.cardList.highLightCurrentCardSelected(params["index"]);
         });
 
-        consumeEvent(BlockchainBaccaratEvents.OPEN_VERIFICATION, (params: object) => {
+        consumeEvent(BlockchainBaccaratEvents.OPEN_VERIFICATION, (params) => {
             const index = params["index"];
             this.cardList.initCardVerification(this.gameData.cardList.blockchain.chain[index], index);
         });
 
-        this.cardVerification.node.on(CardVerificationEvents.CLOSE_POPUP, () => {
+        consumeEvent(BlockchainBaccaratEvents.CLOSE_POPUP, () => {
             this.cardList.resetHighLightCurrentCardSelected();
         });
-    }
 
-    private registerCardList() {
-        this.cardList.node.on(CardListEvents.FLIPPED_CARD, (index: number) => {
+        consumeEvent(BlockchainBaccaratEvents.FLIPPED_CARD, (params) => {
+            const index = params["index"];
             if (this.cardVerification.numberKey === index || this.cardVerification.numberKey2 === index) {
                 this.cardVerification.autoRenderCardVerification(this.gameData.cardList.blockchain.chain[index], index);
             }

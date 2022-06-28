@@ -1,8 +1,11 @@
 export enum BlockchainBaccaratEvents {
-    OPEN_VERIFICATION = "openVerification"
+    OPEN_VERIFICATION = "openVerification",
+    FLIPPED_CARD = "flippedCard",
+    CHANGE_CARD = "change_card",
+    CLOSE_POPUP = "closePopup"
 }
 
-export function emitEvent(eventName: string, params: object) {
+export function emitEvent(eventName: string, params?: object) {
     const mainNode = cc.find("Canvas/Main");
     if (mainNode) {
         mainNode.emit(eventName, params);

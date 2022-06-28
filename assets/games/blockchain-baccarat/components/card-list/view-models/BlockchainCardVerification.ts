@@ -5,6 +5,7 @@ import { CardModel, Chain } from "../../../BlockchainBaccaratType";
 import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
 import BlockchainCardVerify from "./BlockchainCardVerify";
 import cryptoJs = require("crypto");
+import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,11 +13,6 @@ export enum CardVerificationState {
     blank_new = 0,
     serial_change,
     private_change
-}
-
-export enum CardVerificationEvents {
-    CHANGE_CARD = "change_card",
-    CLOSE_POPUP = "closePopup"
 }
 
 @ccclass
@@ -44,7 +40,7 @@ export default class BlockchainCardVerification extends cc.Component {
     numberKey: number;
     numberKey2: number;
 
-    private readonly encrypKey =
+    private readonly encryptKey =
         "************************************************************************************************************";
 
     showDialog() {
@@ -111,7 +107,7 @@ export default class BlockchainCardVerification extends cc.Component {
     renderPrivateKey(cardChain: Chain, index: number) {
         const rawValue = cardChain?.rawValue
             ? this.setPrivateKey(cardChain?.rawValue, cardChain?.card)
-            : `${this.encrypKey}${cardChain.revealedRawValue}`;
+            : `${this.encryptKey}${cardChain.revealedRawValue}`;
         this.privateKey.setRawValue(rawValue);
         this.privateKey.renderCard(cardChain?.card, index);
         this.privateCardChain = cardChain;
@@ -119,7 +115,7 @@ export default class BlockchainCardVerification extends cc.Component {
     }
     private setPrivateKey(rawValue: string, card: CardModel) {
         const suffix = rawValue.split("_");
-        const suffixFormatting = `${suffix[1]}_${suffix[2]}`;
+        const suffixFormatting = `${suffix[1]}_${suffix[2]}_${suffix[3]}`;
         return formatPrivateKey(card, suffixFormatting, true);
     }
 
@@ -159,14 +155,14 @@ export default class BlockchainCardVerification extends cc.Component {
         const index = indexNumbers[customEventData];
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
-            this.node.emit(CardVerificationEvents.CHANGE_CARD, index);
+            emitEvent(BlockchainBaccaratEvents.CHANGE_CARD, { index: index });
         }, 500);
     }
 
     onClose() {
         this.resetState();
         this.closeDialog();
-        this.node.emit(CardVerificationEvents.CLOSE_POPUP);
+        emitEvent(BlockchainBaccaratEvents.CLOSE_POPUP);
     }
 
     closeDialog() {

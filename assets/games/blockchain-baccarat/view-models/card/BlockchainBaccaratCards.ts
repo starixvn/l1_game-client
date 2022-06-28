@@ -1,6 +1,7 @@
 import { CardAnimation } from "../../../../common/new-card/view-models/NewCard";
 import { CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "../../components/card-list/view-models/BlockchainCard";
+import { BlockchainBaccaratEvents, emitEvent } from "../BlockchainBaccaratEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -268,9 +269,10 @@ export default class BlockchainBaccaratCards extends cc.Component {
         cardComponent.node.getChildByName("card").rotation = 0;
     }
 
-    async openCards(card: cc.Node, cardData: CardModel) {
+    async openCards(card: cc.Node, cardData: CardModel, index: number) {
         await this.faceUpCard(cardData, card);
         this.handleSetPoint(cardData);
+        emitEvent(BlockchainBaccaratEvents.FLIPPED_CARD, { index: index });
     }
 
     private faceUpCard(cardInfo: CardModel, card: cc.Node): Promise<void> {
