@@ -198,7 +198,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private registerCardList() {
         this.cardList.node.on(CardListEvents.FLIPPED_CARD, (index: number) => {
             if (this.cardVerification.numberKey === index || this.cardVerification.numberKey2 === index) {
-                this.cardVerification.renderDataCardVerification(this.gameData.cardList.blockchain.chain[index], index);
+                this.cardVerification.autoRenderCardVerification(this.gameData.cardList.blockchain.chain[index], index);
             }
         });
     }

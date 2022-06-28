@@ -57,10 +57,7 @@ export default class BlockchainCardVerification extends cc.Component {
 
     renderDataCardVerification(chain: Chain, index: number) {
         console.log("state", this.state);
-        const verifiedValue = i18n.t("blockchainBaccarat.verifiedValue");
-        this.verifiedSerial.enableCopyButton(false);
-        this.verifiedSerial.setHashValue(verifiedValue);
-        this.verifiedSerial.resetHighLight();
+        this.renderVerifiedSerialNumber();
         if (this.state === CardVerificationState.serial_change) {
             this.renderSerialNumber(chain, index);
         } else if (this.state === CardVerificationState.private_change) {
@@ -69,6 +66,28 @@ export default class BlockchainCardVerification extends cc.Component {
             this.renderSerialNumber(chain, index);
             this.renderPrivateKey(chain, index);
         }
+        this.renderButton();
+        this.onHideTooltips();
+    }
+
+    renderVerifiedSerialNumber() {
+        const verifiedValue = i18n.t("blockchainBaccarat.verifiedValue");
+        this.verifiedSerial.enableCopyButton(false);
+        this.verifiedSerial.setHashValue(verifiedValue);
+        this.verifiedSerial.resetHighLight();
+    }
+
+    autoRenderCardVerification(chain: Chain, index: number) {
+        this.renderVerifiedSerialNumber();
+        if (this.numberKey === index) {
+            this.renderSerialNumber(chain, index);
+        } else if (this.numberKey2 === index) {
+            this.renderPrivateKey(chain, index);
+        } else {
+            this.renderSerialNumber(chain, index);
+            this.renderPrivateKey(chain, index);
+        }
+
         this.renderButton();
         this.onHideTooltips();
     }
