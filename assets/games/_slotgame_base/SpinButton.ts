@@ -8,8 +8,14 @@ export default abstract class SpinButton extends cc.Component {
     @property(cc.Label)
     autoSpinCountLabel: cc.Label = null;
 
+    needShowAutoSpin = true;
+
+    hideAutoSpin() {
+        this.needShowAutoSpin = false;
+    }
+
     setAutoSpinCount(count: number) {
-        this.autoSpinCountLabel.string = count.toString();
+        this.needShowAutoSpin && (this.autoSpinCountLabel.string = count.toString());
     }
 
     active() {

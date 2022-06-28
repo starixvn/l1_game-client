@@ -5441,6 +5441,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "22cfc5e7-c6c5-44d8-baa2-b514068e2f7c"
+    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -12383,6 +12386,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "2b10b8f5-a3c2-4474-ab15-5a1c2129bb39"
+    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -13532,14 +13538,14 @@
     "spinButton": {
       "__id__": 296
     },
+    "autoSpinCountLabel": {
+      "__id__": 291
+    },
     "normalSpinNode": {
       "__id__": 267
     },
     "freeSpinLabel": {
       "__id__": 279
-    },
-    "autoSpinCountLabel": {
-      "__id__": 291
     },
     "textSpinInFreeSpin": {
       "__id__": 275
@@ -13817,7 +13823,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 87,
+      "width": 67.72,
       "height": 37.28
     },
     "_anchorPoint": {
@@ -13869,8 +13875,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.LINE",
-    "_N$string": "UI.LINE",
+    "_string": "DÒNG",
+    "_N$string": "DÒNG",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -14020,7 +14026,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 93.98,
+      "width": 68.77,
       "height": 37.28
     },
     "_anchorPoint": {
@@ -14072,8 +14078,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.BET2",
-    "_N$string": "UI.BET2",
+    "_string": "CƯỢC",
+    "_N$string": "CƯỢC",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -14223,7 +14229,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 165.39,
+      "width": 139.33,
       "height": 37.28
     },
     "_anchorPoint": {
@@ -14288,8 +14294,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.TOTAL_BET",
-    "_N$string": "UI.TOTAL_BET",
+    "_string": "TỔNG CƯỢC",
+    "_N$string": "TỔNG CƯỢC",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": false,
@@ -14426,7 +14432,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 82.13,
+      "width": 80.86,
       "height": 37.28
     },
     "_anchorPoint": {
@@ -14491,8 +14497,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.WIN",
-    "_N$string": "UI.WIN",
+    "_string": "THẮNG",
+    "_N$string": "THẮNG",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -15307,8 +15313,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.AUTO_SPIN_BREAK",
-    "_N$string": "UI.AUTO_SPIN_BREAK",
+    "_string": "TỰ\nQUAY",
+    "_N$string": "TỰ\nQUAY",
     "_fontSize": 24,
     "_lineHeight": 26,
     "_enableWrapText": false,
@@ -16169,8 +16175,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.TURBO_BREAK",
-    "_N$string": "UI.TURBO_BREAK",
+    "_string": "SIÊU\nTỐC",
+    "_N$string": "SIÊU\nTỐC",
     "_fontSize": 24,
     "_lineHeight": 26,
     "_enableWrapText": true,
@@ -22407,6 +22413,34 @@
     "musicBg": {
       "__id__": 6
     },
+    "userProfile": {
+      "__id__": 192
+    },
+    "autoSpinToggle": {
+      "__id__": 344
+    },
+    "turboToggle": {
+      "__id__": 364
+    },
+    "autoSpinDialogPrefab": {
+      "__uuid__": "6348109a-3b79-4fcd-b6b7-c53a1359acb3"
+    },
+    "spinButton": {
+      "__id__": 295
+    },
+    "effectContainer": {
+      "__id__": 490
+    },
+    "effectBigWin": {
+      "__uuid__": "0996b519-1ee7-4c00-b958-79e2652f38aa"
+    },
+    "effectFreeSpin": {
+      "__uuid__": "3f0fe30a-723c-4f0c-a002-c2466e189e0d"
+    },
+    "holdActionButton": null,
+    "defaultMiniMenu": {
+      "__id__": 495
+    },
     "slotBoard": {
       "__id__": 99
     },
@@ -22431,12 +22465,6 @@
     "lineButton": {
       "__id__": 377
     },
-    "autoSpinToggle": {
-      "__id__": 344
-    },
-    "turboToggle": {
-      "__id__": 364
-    },
     "stakeLabel": {
       "__id__": 399
     },
@@ -22453,12 +22481,6 @@
     "winningBetEffect": {
       "__id__": 380
     },
-    "effectContainer": {
-      "__id__": 490
-    },
-    "defaultMiniMenu": {
-      "__id__": 495
-    },
     "lineSelectionDialog": {
       "__uuid__": "d119de35-fa49-42b2-ae85-01600dd87ee0"
     },
@@ -22468,19 +22490,10 @@
     "expandableMenu": {
       "__id__": 484
     },
-    "countDownAutoSpin": {
-      "__id__": 160
-    },
     "historyPrefab": {
       "__uuid__": "edc53e61-e9b5-4242-89f9-bc54bcb1afb1"
     },
     "topWinnerPrefab": null,
-    "effectBigWin": {
-      "__uuid__": "0996b519-1ee7-4c00-b958-79e2652f38aa"
-    },
-    "effectFreeSpin": {
-      "__uuid__": "3f0fe30a-723c-4f0c-a002-c2466e189e0d"
-    },
     "effectBonus": {
       "__uuid__": "1074a763-2f24-412e-9662-783eb1ea527f"
     },
@@ -22500,18 +22513,7 @@
         "__id__": 15
       }
     ],
-    "autoSpinDialogPrefab": {
-      "__uuid__": "6348109a-3b79-4fcd-b6b7-c53a1359acb3"
-    },
-    "spinButton": {
-      "__id__": 295
-    },
-    "messageText": null,
-    "userProfile": {
-      "__id__": 192
-    },
     "autoGenerateLines": true,
-    "offerKeySpaceOrHoldSpin": false,
     "linePrefab": {
       "__uuid__": "6057247a-3fae-4a2b-a54e-ec3acb3c4d6e"
     },

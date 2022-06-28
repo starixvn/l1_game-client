@@ -1,6 +1,7 @@
-const { ccclass, property } = cc._decorator;
+const { ccclass, property, menu } = cc._decorator;
 
 @ccclass
+@menu("Common/PrefabLoaderV2")
 export default class PrefabLoaderV2 extends cc.Component {
     @property(cc.Prefab)
     public prefab: cc.Prefab = null;

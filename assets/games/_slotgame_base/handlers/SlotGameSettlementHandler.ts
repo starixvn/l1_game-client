@@ -113,6 +113,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
     finishAnimationResult() {
         this.main.isAnimatingResult = false;
+        this.main.clearHoldActionFlag();
         this.main.activeButtons();
     }
 

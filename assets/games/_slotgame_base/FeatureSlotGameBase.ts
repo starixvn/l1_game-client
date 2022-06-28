@@ -3,22 +3,58 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import AudioManager from "../../common/audio/AudioManager";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import CallbackAnimation from "../../common/CallbackAnimation";
+import UserProfile from "../../common/user-profile/UserProfile";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import FeatureSlotGameData from "../cascading-slot/models/FeatureSlotGameData";
 import { SpinButtonState } from "../cascading-slot/models/SpinButtonStateModel";
-import TurboAutoSpinSettingDialog from "../cascading-slot/view-models/TurboAutoSpinSettingDialog";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
+import ClassicSpinButton from "./ClassicSpinButton";
 import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
 import SlotGameBottomMessage from "./SlotGameBottomMessage";
 import SlotGameSound, { CascadingSlotGameSound } from "./SlotGameSound";
-import SpinButton from "./SpinButton";
+import TurboAutoSpinSettingDialog from "./TurboAutoSpinSettingDialog";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
+    //#region override some properties to hide them
+    @property({ visible: false, override: true })
+    players: any[] = [];
+
+    @property({ visible: false, override: true })
+    otherPlayers: cc.Node = null;
+
+    @property({ visible: false, override: true })
+    winningPlayerEffectPrefab: cc.Prefab = null;
+
+    @property({ visible: false, override: true })
+    betItems: any[] = [];
+
+    @property({ visible: false, override: true })
+    timeWaitNode: cc.Node = null;
+
+    @property({ visible: false, override: true })
+    timeWaitLabel: cc.Label = null;
+
+    @property({ visible: false, override: true })
+    animatedTime: any = null;
+
+    @property({ visible: false, override: true })
+    enableChips = false;
+
+    @property({ visible: false, override: true })
+    gameAudiosPrefab: cc.Prefab = null;
+
+    @property({ visible: false, override: true })
+    md5Component: any = null;
+
+    //end region override
+    @property({ type: UserProfile })
+    userProfile: UserProfile = null;
+
     @property(cc.Toggle)
     autoSpinToggle: cc.Toggle = null;
 
@@ -28,8 +64,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Prefab)
     autoSpinDialogPrefab: cc.Prefab = null;
 
-    @property(SpinButton)
-    spinButton: SpinButton = null;
+    @property(ClassicSpinButton)
+    spinButton: ClassicSpinButton = null;
 
     @property(cc.Node)
     effectContainer: cc.Node = null;
@@ -54,6 +90,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     protected totalFreeSpins = 0;
     protected cacheApiError: any = null;
     protected isHoldAction: boolean;
+    protected enabledBottomMessage = true;
 
     public gameData: FeatureSlotGameData;
 
@@ -64,11 +101,16 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     onLoad() {
         super.onLoad();
+        this.initForMusicBackground();
+        this.setDefaultPositionForMiniMenu();
+        this.initForHoldActionButton();
+        this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
+    }
+
+    initForMusicBackground() {
         const audioManager = AudioManager.getInstance();
         this.playMusicBackground(audioManager.musicEnabled);
         audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
-        this.setDefaultPositionForMiniMenu();
-        this.initForHoldActionButton();
     }
 
     initForHoldActionButton() {
@@ -77,7 +119,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
                 this.currentMiniPanel.dialog.childrenCount > 0 ||
                 this.currentMiniPanel.guideContainer.childrenCount > 0 ||
                 this.currentMiniPanel.effectNode.childrenCount > 0 ||
-                this.gameData.spinButtonStateModel.state === SpinButtonState.AutoSpin
+                this.autoSpinCount > 0
             );
         };
     }
@@ -103,6 +145,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const message = i18n.t(`messages.${key}`);
         const notice = this.showMiniWarning(message);
         notice.name = turboWarningName;
+        this.updateBottomMessageStatus();
     }
 
     onAutoSpinChanged() {
@@ -134,13 +177,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             return false;
         }
         return true;
-    }
-
-    createAutoSpinCountDown(autoSpinCount: number) {
-        const onFinished = () => this.spin();
-        const checkCancel = () => !this.isAutoSpinMode();
-        const onCancel = () => this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
-        this.countDownAutoSpin.show(autoSpinCount, onFinished, checkCancel, onCancel);
     }
 
     createAutoSpinDialog(): AutoSpinSettingDialog {
@@ -212,12 +248,15 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     updateBottomMessageStatus() {
+        if (!this.enabledBottomMessage) {
+            return;
+        }
         this.bottomMessage.isAutoSpin = this.isAutoSpinMode() && !this.isFreeSpin();
         this.bottomMessage.isTurboMode = this.isTurboMode();
     }
 
     showEffect(effect: cc.Node): Promise<void> {
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
             this.effectContainer.addChild(effect);
 
             const animation = effect.getComponent(CallbackAnimation);
@@ -310,5 +349,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     clearHoldActionFlag() {
         this.isHoldAction = false;
+    }
+
+    hideBottomMessage() {
+        this.enabledBottomMessage = false;
     }
 }

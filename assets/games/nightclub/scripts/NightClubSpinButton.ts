@@ -4,11 +4,18 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class NightClubSpinButton extends ClassicSpinButton {
+    @property({ visible: false, override: true })
+    autoSpinCountLabel: cc.Label = null;
+
     @property(sp.Skeleton)
     effectSkeleton: sp.Skeleton = null;
 
     @property(sp.Skeleton)
     iconSpinSkeleton: sp.Skeleton = null;
+
+    onLoad() {
+        this.hideAutoSpin();
+    }
 
     override playAnimationSpin() {
         this.effectSkeleton && this.effectSkeleton.setAnimation(0, "anim_highlight", false);

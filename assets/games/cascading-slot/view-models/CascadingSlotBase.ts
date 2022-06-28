@@ -2,7 +2,6 @@ import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getTrialSocket } from "../../../common/helpers/UrlHelper";
-import UserProfile from "../../../common/user-profile/UserProfile";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
 import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
@@ -34,47 +33,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CascadingSlotBase extends FeatureSlotGameBase {
-    //#region override some properties to hide them
-    @property({ visible: false, override: true })
-    players: any[] = [];
-
-    @property({ visible: false, override: true })
-    otherPlayers: cc.Node = null;
-
-    @property({ visible: false, override: true })
-    userName: cc.Label = null;
-
-    @property({ visible: false, override: true })
-    userAvatar: cc.Sprite = null;
-
-    @property({ visible: false, override: true })
-    winningPlayerEffectPrefab: cc.Prefab = null;
-
-    @property({ visible: false, override: true })
-    betItems: any[] = [];
-
-    @property({ visible: false, override: true })
-    timeWaitNode: cc.Node = null;
-
-    @property({ visible: false, override: true })
-    timeWaitLabel: cc.Label = null;
-
-    @property({ visible: false, override: true })
-    animatedTime: any = null;
-
-    @property({ visible: false, override: true })
-    enableChips = false;
-
-    @property({ visible: false, override: true })
-    gameAudiosPrefab: cc.Prefab = null;
-
     @property(cc.Prefab)
     betControlPrefab: cc.Prefab = null;
-
-    //#endregion
-
-    @property({ type: UserProfile })
-    userProfile: UserProfile = null;
 
     @property(CascadeSlotBoard)
     board: CascadeSlotBoard = null;
@@ -240,7 +200,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         super.onLoad();
         this.board.initBoardFullItems();
         this.initGameDataEvents();
-        this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
     }
 
     start() {
@@ -615,10 +574,5 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     setTotalFreeSpins(count: number) {
         super.setTotalFreeSpins(count);
         this.gameData.uiModel.setFreeSpins(count);
-    }
-
-    onTurboModeChanged(toggle: cc.Toggle) {
-        super.onTurboModeChanged(toggle);
-        this.updateBottomMessageStatus();
     }
 }

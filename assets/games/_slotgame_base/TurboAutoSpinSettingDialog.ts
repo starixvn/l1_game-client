@@ -1,5 +1,5 @@
-import AutoSpinSettingDialog from "../../_slotgame_base/AutoSpinSettingDialog";
-import AudioManager from "../../../common/audio/AudioManager";
+import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
+import AudioManager from "../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 

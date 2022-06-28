@@ -26,7 +26,7 @@ export default class ClassicSpinButton extends SpinButton {
     hideAll() {
         this.normalSpinNode.active = false;
         this.freeSpinLabel.node.parent.active = false;
-        this.autoSpinCountLabel.node.parent.active = false;
+        this.needShowAutoSpin && (this.autoSpinCountLabel.node.parent.active = false);
     }
 
     showFreeSpinMode() {
@@ -35,8 +35,12 @@ export default class ClassicSpinButton extends SpinButton {
     }
 
     override showAutoSpinMode() {
-        this.hideAll();
-        this.autoSpinCountLabel.node.parent.active = true;
+        if (this.needShowAutoSpin) {
+            this.hideAll();
+            this.autoSpinCountLabel.node.parent.active = true;
+        } else {
+            this.freeSpinLabel.node.parent.active = false;
+        }
     }
 
     override showNormalMode() {

@@ -34,6 +34,10 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
+    - project: "ci/repos-ci/pentagon_l1_way_to_goal_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
     - local: "ci/*.yml"
 
 variables:
