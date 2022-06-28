@@ -12,7 +12,7 @@ import BigWinAnimation from "./BigWinAnimation";
 import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
 import SlotGameBottomMessage from "./SlotGameBottomMessage";
-import SlotGameSound from "./SlotGameSound";
+import SlotGameSound, { CascadingSlotGameSound } from "./SlotGameSound";
 import SpinButton from "./SpinButton";
 
 const { ccclass, property } = cc._decorator;
@@ -288,7 +288,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.gameSound = node.getComponent(SlotGameSound);
     }
 
-    onSpinByHoldAction(hold: boolean) {
+    onSpinClick(hold: boolean) {
+        this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.isHoldAction = hold;
         this.spin();
     }
