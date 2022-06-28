@@ -18,13 +18,13 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
         cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card2], result.banker.card2)
     ]);
 
-    if (result?.player?.card3?.rank) {
+    if (result?.player?.card3) {
         isFlyCard3Player = true;
         await cardsUI.flyCard3(true);
         await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card3], result.player.card3);
     }
 
-    if (result?.banker?.card3?.rank) {
+    if (result?.banker?.card3) {
         await cardsUI.flyCard3(false, isFlyCard3Player);
         await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card3], result.banker.card3);
     }
