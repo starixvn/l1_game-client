@@ -2,6 +2,10 @@ import SpinButton from "./SpinButton";
 
 const { ccclass, property } = cc._decorator;
 
+enum SpinAnimationType {
+    IDLE = 0,
+    SPIN
+}
 @ccclass
 export default class ClassicSpinButton extends SpinButton {
     @property(cc.Node)
@@ -65,10 +69,10 @@ export default class ClassicSpinButton extends SpinButton {
 
     override playAnimationSpin() {
         this.playParticleSpin();
-        this.playAnimation(1);
+        this.playAnimation(SpinAnimationType.SPIN);
     }
 
     override playAnimationIdle() {
-        this.playAnimation(0);
+        this.playAnimation(SpinAnimationType.IDLE);
     }
 }
