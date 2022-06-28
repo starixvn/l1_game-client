@@ -3,7 +3,6 @@ import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccar
 import BlockchainBaccaratCardsShuffle from "./card-shuffle/BlockchainBaccaratCardsShuffle";
 import BlockchainBaccaratCards from "./card/BlockchainBaccaratCards";
 import GameUtils from "../../../common/GameUtils";
-import BlockchainCardVerification from "../components/card-list/view-models/BlockchainCardVerification";
 import BlockchainCard from "../components/card-list/view-models/BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
@@ -50,8 +49,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     protected orderCard: OrderCardValue[];
 
-    private cardVerification: BlockchainCardVerification;
-
     onLoad() {
         this?.burnContainer?.node && (this.burnContainer.node.active = false);
         this.orderCard = [
@@ -64,22 +61,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         ];
     }
 
-    protected start(): void {
-        this.bankerCards.cards.forEach((cardNode) => {
-            cardNode.getComponentInChildren(BlockchainCard)?.setCardVerification(this.cardVerification);
-        });
-        this.playerCards.cards.forEach((cardNode) => {
-            cardNode.getComponentInChildren(BlockchainCard)?.setCardVerification(this.cardVerification);
-        });
-        this.reserveCards?.cards.forEach((cardNode) => {
-            cardNode?.getComponentInChildren(BlockchainCard)?.setCardVerification(this.cardVerification);
-        });
-        this.burnContainer && (this.burnContainer.cardVerification = this.cardVerification);
-    }
-
-    setCardVerification(component: BlockchainCardVerification) {
-        this.cardVerification = component;
-    }
+    protected start(): void {}
 
     handleNumberIndex(currentIndex: number) {
         this.orderCard.forEach((card) => {

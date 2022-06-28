@@ -25,6 +25,7 @@ import { payChips } from "../../_base/action/PayChipsAction";
 import MD5Component from "../../_base/view-models/MD5Component";
 import BlockchainCardList, { CardListEvents } from "../components/card-list/view-models/BlockchainCardList";
 import BlockchainCardVerification, { CardVerificationEvents } from "../components/card-list/view-models/BlockchainCardVerification";
+import { consumeEvent, BlockchainBaccaratEvents } from "./BlockchainBaccaratEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -105,12 +106,10 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     initLastRoundInfo(node: cc.Node) {
         this.lastRoundIfo = node.getComponent(BlockchainBaccaratLastRoundInfo);
-        this.lastRoundIfo.cardsUI.getComponent(BlockchainBaccaratCardsUI).setCardVerification(this.cardVerification);
     }
 
     initCardsUI(node: cc.Node) {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
-        this.cardsUI.setCardVerification(this.cardVerification);
     }
 
     openCardList() {
@@ -186,7 +185,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
             this.cardList.highLightCurrentCardSelected(index);
         });
 
-        this.cardVerification.node.on(CardVerificationEvents.OPEN_VERIFICATION, (index: number) => {
+        consumeEvent(BlockchainBaccaratEvents.OPEN_VERIFICATION, (params: object) => {
+            const index = params["index"];
             this.cardList.initCardVerification(this.gameData.cardList.blockchain.chain[index], index);
         });
 

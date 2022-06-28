@@ -3,7 +3,6 @@ import { Blockchain } from "./../../event-models/BlockchainBaccaratCardListModel
 import { CardAnimation } from "./../../../../common/new-card/view-models/NewCard";
 import { CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "../../components/card-list/view-models/BlockchainCard";
-import BlockchainCardVerification from "../../components/card-list/view-models/BlockchainCardVerification";
 
 const { ccclass, property } = cc._decorator;
 
@@ -45,8 +44,6 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     private cardCenterTween: cc.Tween;
     private allCardsFlyTween: cc.Tween;
     private allCardsDropTween: cc.Tween[];
-
-    public cardVerification: BlockchainCardVerification;
 
     onLoad = () => {
         this.allCardsDropTween = [];
@@ -248,7 +245,6 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         const cardComponent = card.children[0].getComponent(BlockchainCard);
         cardComponent.setCardOldStyle(cardData);
         cardComponent.setIndexNumber(index + 1);
-        cardComponent.setCardVerification(this.cardVerification);
         callback(card, cardData);
     }
 }
