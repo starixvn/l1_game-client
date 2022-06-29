@@ -1,3 +1,4 @@
+import { BaccaratSettlementResult } from "./../../../../baccarat/view-models/event-models/BaccaratSettlementResult";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratCardsUI from "../../../view-models/BlockchainBaccaratCardsUI";
@@ -48,14 +49,19 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
         if (!lastRound) {
             return;
         }
+        this.updateCards(lastRound, currentIndex);
+        this.updateWinNoticeLabel(lastRound.settlementResult);
+    }
+
+    private updateCards(lastRound: BlockchainBaccaratRoundHistory, currentIndex: number) {
         this.cardsUI.active = true;
-        this.winNoticeLabel.node.getParent().active = true;
         this.playerCard3.active = lastRound.result.player.card3 !== null;
         this.bankerCard3.active = lastRound.result.banker.card3 !== null;
-
         this.cardsUI.getComponent(BlockchainBaccaratCardsUI).showCardsWithoutAnimation(lastRound, currentIndex);
+    }
 
-        const settlementResult = lastRound.settlementResult;
+    private updateWinNoticeLabel(settlementResult: BaccaratSettlementResult) {
+        this.winNoticeLabel.node.getParent().active = true;
         let key = this.winNotice.tie;
         if (settlementResult.banker) {
             key = this.winNotice.banker;

@@ -9,35 +9,15 @@ class BaccaratBigRoadConverter extends Converter<BaccaratSettlementResult> {}
 
 @ccclass
 export default class BaccaratBigRoad extends BigRoad {
-    protected isRenderedNext: boolean;
-
-    onLoad() {
-        super.onLoad();
-        this.bigRoad = this.initialBigRoad();
-        this.isRenderedNext = false;
-    }
-
     initialBigRoad = () => {
         const converter = new BaccaratBigRoadConverter();
 
         return new BigRoadScoreboard({ height: 6, converter });
     };
 
-    public renderScoreBoardInGame(data: any) {
-        super.renderScoreBoardInGame(data);
-    }
-
-    public renderScoreBoardEachRound(round: BaccaratSettlementResult) {
-        super.renderScoreBoardEachRound(round);
-        this.isRenderedNext = false;
-    }
-
     public renderNextNode() {
-        if (this.isRenderedNext) {
-            return;
-        }
+        super.renderNextNode();
         let lastCol = 0;
-
         if (this.bigRoadData?.length) {
             const emptyIndex = this.bigRoadData[0].findIndex((data) => data.status === undefined);
             if (emptyIndex !== -1) {
@@ -62,7 +42,6 @@ export default class BaccaratBigRoad extends BigRoad {
 
         const scoreBoardItem = this.content.children[lastCol].getComponent(BaccaratBigRoadItem);
         scoreBoardItem.renderNextNode();
-        this.isRenderedNext = true;
     }
 
     protected updateScoreBoardUI(bigRoadMatrix: BigRoadScoreboardPoint<BaccaratSettlementResult>[][]) {

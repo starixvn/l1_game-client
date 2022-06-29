@@ -25,12 +25,18 @@ export default class BigRoad extends cc.Component {
     protected bigRoad: any;
     protected firstRender = true;
     protected bigRoadData: any[][];
+    protected isRenderedNext = false;
 
     onLoad(): void {
         this.renderDefaultColumn();
+        this.bigRoad = this.initialBigRoad();
     }
 
-    protected renderScoreBoardInGame(data: any) {
+    initialBigRoad = () => {
+        return null;
+    };
+
+    public renderScoreBoardInGame(data: any) {
         const clonedData = cloneDeep(data)
             .reverse()
             .map((round) => round.settlementResult);
@@ -40,7 +46,7 @@ export default class BigRoad extends cc.Component {
         this.updateScoreBoardUI(this.bigRoadData);
     }
 
-    protected renderScoreBoardEachRound(round: any) {
+    public renderScoreBoardEachRound(round: any) {
         if (!round || !this.bigRoad) {
             return;
         }
@@ -49,6 +55,14 @@ export default class BigRoad extends cc.Component {
         this.bigRoad.fifo(cloneDeep(round));
         this.bigRoadData = this.bigRoad.rows();
         this.updateScoreBoardUI(this.bigRoadData);
+        this.isRenderedNext = false;
+    }
+
+    public renderNextNode() {
+        if (this.isRenderedNext) {
+            return;
+        }
+        this.isRenderedNext = true;
     }
 
     protected updateScoreBoardUI(matrix: any) {
