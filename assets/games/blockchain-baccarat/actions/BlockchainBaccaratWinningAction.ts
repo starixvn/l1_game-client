@@ -1,28 +1,29 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { BaccaratSettlementResult } from "./../../baccarat/view-models/event-models/BaccaratSettlementResult";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
+import BlockchainBetOptionsUI from "../view-models/BlockchainBetOptionsUI";
+import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
 
 export const showLabelWinning =
-    (main: BlockchainBaccarat) =>
+    (betOptionsUI: BlockchainBetOptionsUI, cardsUI: BlockchainBaccaratCardsUI) =>
     (resultData: BaccaratSettlementResult, isAnimated = true) => {
-        const winNoticeNode = main.cardsUI.winningNotice.node.parent;
+        const winNoticeNode = cardsUI.winningNotice.node.parent;
         const keys = getLowercaseObjectKeys(resultData);
         let key = "tie_win";
-        main.betOptionsUI?.betItems.forEach((item) => item.setHighlight(resultData[keys[item.node.name.toLowerCase()]], isAnimated));
+        betOptionsUI?.betItems.forEach((item) => item.setHighlight(resultData[keys[item.node.name.toLowerCase()]], isAnimated));
 
         if (resultData.banker) {
             key = "banker_win";
         } else if (resultData.player) {
             key = "player_win";
         }
-        main.cardsUI.winningNotice.string = i18n.t(`ui.${key}`).toUpperCase();
+        cardsUI.winningNotice.string = i18n.t(`ui.${key}`).toUpperCase();
         winNoticeNode.active = true;
     };
 
 export const showHighLightBet =
-    (main: BlockchainBaccarat) =>
+    (betOptionsUI: BlockchainBetOptionsUI) =>
     (resultData: BaccaratSettlementResult, isAnimated = true) => {
         const keys = getLowercaseObjectKeys(resultData);
-        main.betOptionsUI?.betItems.forEach((item) => item.setHighlight(resultData[keys[item.node.name.toLowerCase()]], isAnimated));
+        betOptionsUI?.betItems.forEach((item) => item.setHighlight(resultData[keys[item.node.name.toLowerCase()]], isAnimated));
     };

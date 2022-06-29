@@ -12,9 +12,13 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
     private isShowShoe = false;
     private isResetUI = false;
 
+    set newShoe(status: boolean) {
+        this.isNewShoe = status;
+    }
+
     get isInWaitTime() {
         if (this.main.currentTimeRemaining > this.main.config.fullTime) {
-            this.isNewShoe = true;
+            this.newShoe = true;
             return true;
         } else {
             return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime;
@@ -50,7 +54,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         if (this.isStartingNewGameRound && this.isShowShoe) {
             this.isShowShoe = false;
         }
-        this.isNewShoe = false;
+        this.newShoe = false;
         super.handleNotWaitTime();
     }
 

@@ -1,36 +1,51 @@
-import { Blockchain } from "./../event-models/BlockchainBaccaratCardListModel";
-import { showHighlightCards } from "./BlockchainBaccaratCardsActions";
-import { showLabelWinning, showHighLightBet } from "./BlockchainBaccaratWinningAction";
-import { BlockchainBaccaratRoundHistory } from "./../event-models/BlockchainBaccaratRoundHistory";
-import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
+import { BlockchainBaccaratTimeHandler } from "./../event-handlers/BlockchainBaccaratTimeHandler";
+import * as blockchainAction from "./BlockchainBaccaratActions";
+import BlockchainBetOptionsUI from "../view-models/BlockchainBetOptionsUI";
+import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
+import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
+import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
+import { BlockchainBaccaratCardListModel, BlockchainBaccaratRoundHistory, Blockchain } from "../event-models/BlockchainBaccaratModel";
 
-export const handleJoinRoom =
-    (mainGame: BlockchainBaccarat) => (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number, blockchain: Blockchain) => {
+export const updateWinning =
+    (
+        betOptionsUI: BlockchainBetOptionsUI,
+        cardsUI: BlockchainBaccaratCardsUI,
+        timeHandler: BlockchainBaccaratTimeHandler,
+        cardList: BlockchainBaccaratCardListModel
+    ) =>
+    (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number, blockchain: Blockchain) => {
         const lastRound = roundHistory[0];
-        if (mainGame.timeHandler.isInWaitTime && !blockchain.isNew) {
+        if (timeHandler.isInWaitTime && !blockchain.isNew) {
             const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);
             const bankerCards = Object.values(lastRound.result.banker).filter((card) => card != null);
             const cardsFlied = playerCards.length + bankerCards.length;
 
-            mainGame.gameData.cardList.changeNumberCardsFly(cardsFlied);
-            mainGame.cardsUI.showCardsWithoutAnimation(lastRound, currentIndex, true);
-            showLabelWinning(mainGame)(lastRound.settlementResult, false);
-            showHighLightBet(mainGame)(lastRound.settlementResult, false);
-            showHighlightCards(mainGame.cardsUI, lastRound.settlementResult);
+            cardList.changeNumberCardsFly(cardsFlied);
+            cardsUI.showCardsWithoutAnimation(lastRound, currentIndex, true);
+            blockchainAction.showLabelWinning(betOptionsUI, cardsUI)(lastRound.settlementResult, false);
+            blockchainAction.showHighLightBet(betOptionsUI)(lastRound.settlementResult, false);
+            blockchainAction.showHighlightCards(cardsUI, lastRound.settlementResult);
         }
 
-        if (mainGame.timeHandler.isInRoundTime) {
-            showHighLightBet(mainGame)(lastRound.settlementResult, false);
+        if (timeHandler.isInRoundTime) {
+            blockchainAction.showHighLightBet(betOptionsUI)(lastRound.settlementResult, false);
         }
+    };
 
-        if (mainGame.timeHandler.isStartingNewGameRound || mainGame.timeHandler.isInWaitTime) {
+export const updateLastRoundInfo =
+    (timeHandler: BlockchainBaccaratTimeHandler, lastRoundIfo: BlockchainBaccaratLastRoundInfo) =>
+    (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number) => {
+        const lastRound = roundHistory[0];
+        if (timeHandler.isStartingNewGameRound || timeHandler.isInWaitTime) {
             const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);
             const bankerCards = Object.values(lastRound.result.banker).filter((card) => card != null);
             const prevRoundIndex = currentIndex - playerCards.length - bankerCards.length;
-            mainGame.lastRoundIfo.updateUI(roundHistory[1], prevRoundIndex);
+            lastRoundIfo.updateUI(roundHistory[1], prevRoundIndex);
         } else {
-            mainGame.lastRoundIfo.updateUI(lastRound, currentIndex);
+            lastRoundIfo.updateUI(lastRound, currentIndex);
         }
-
-        mainGame.scoreboard.renderScoreBoardInGame(roundHistory);
     };
+
+export const renderScoreboard = (scoreboard: BlockchainBaccaratScoreboard) => (roundHistory: BlockchainBaccaratRoundHistory[]) => {
+    scoreboard.renderScoreBoardInGame(roundHistory);
+};

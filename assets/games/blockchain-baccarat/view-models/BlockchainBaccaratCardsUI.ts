@@ -171,11 +171,11 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             lastIndex: currentIndex - 1,
             isShowCurrentResult
         });
-        this.sesetReserveCards(lastRound);
-        playerCards.length + bankerCards.length < 6 && this.updateReserceCardsIndex(startIndex);
+        this.resetReserveCards(lastRound);
+        playerCards.length + bankerCards.length < 6 && this.updateReserveCardsIndex(startIndex);
     }
 
-    sesetReserveCards(lastRound: BlockchainBaccaratRoundHistory) {
+    resetReserveCards(lastRound: BlockchainBaccaratRoundHistory) {
         if (lastRound.result.player?.card3 && lastRound.result.banker?.card3) {
             this.reserveCards?.resetCards();
             return;
@@ -187,7 +187,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         return;
     }
 
-    updateReserceCardsIndex(currentIndex: number) {
+    updateReserveCardsIndex(currentIndex: number) {
         this.reserveCards?.cards.forEach((card: cc.Node, index: number) => {
             const cardComponent: BlockchainCard = card?.getComponentInChildren(BlockchainCard);
             cardComponent?.setIndexNumber(currentIndex + index + 4);
