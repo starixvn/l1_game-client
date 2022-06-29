@@ -23,7 +23,6 @@ import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingBetControl, { TotalBetType } from "./CascadingBetControl";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
-import CascadingSlotMascot from "./CascadingSlotMascot";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 import CascadingTotalBet from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
@@ -91,7 +90,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public gameData: CascadingSlotGameData<void>;
     public betControl: CascadingBetControl;
     public freeSpinView: FreeSpinView;
-    public mascot: CascadingSlotMascot;
     public tumbleList: CascadingSlotTumbleList;
     totalMultiplierView: TotalMultiplierView = null;
     tumbleWinView: TumbleWinView = null;
@@ -253,8 +251,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.uiModel.on(CascadingUIModel.Events.GET_TUMBLE, () => {
             this.tumbleWinView.showView(true);
             this.checkShowTopMessage();
-            this.mascot.playAnimationForTumble();
-            this.gameSound.playSound(CascadingSlotGameSound.MASCOT_GUN_SHOT);
             this.bottomMessage.showMessages(RoundType.TUMBLEWIN);
         });
 
@@ -474,10 +470,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     initShowTopMessage(node: cc.Node) {
         this.topMessage = node.getComponent(SlotGameTopMessage);
-    }
-
-    initMascot(node: cc.Node) {
-        this.mascot = node.getComponent(CascadingSlotMascot);
     }
 
     initTumbleList(node: cc.Node) {
