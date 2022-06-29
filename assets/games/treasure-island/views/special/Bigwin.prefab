@@ -51,9 +51,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 36
-      },
-      {
         "__id__": 37
       },
       {
@@ -61,10 +58,13 @@
       },
       {
         "__id__": 39
+      },
+      {
+        "__id__": 40
       }
     ],
     "_prefab": {
-      "__id__": 40
+      "__id__": 41
     },
     "_opacity": 255,
     "_color": {
@@ -1234,10 +1234,13 @@
       },
       {
         "__id__": 34
+      },
+      {
+        "__id__": 35
       }
     ],
     "_prefab": {
-      "__id__": 35
+      "__id__": 36
     },
     "_opacity": 255,
     "_color": {
@@ -1249,7 +1252,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 537.51,
+      "width": 439.37,
       "height": 35.28
     },
     "_anchorPoint": {
@@ -1301,8 +1304,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TREASUREISLAND.BIGWINTEXTNOTIFY",
-    "_N$string": "TREASUREISLAND.BIGWINTEXTNOTIFY",
+    "_string": "treasureIsland.bigWinTextNotify",
+    "_N$string": "treasureIsland.bigWinTextNotify",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -1332,6 +1335,33 @@
     "_dataId": "treasureIsland.bigWinTextNotify",
     "format": 0,
     "suffix": "",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 32
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 4,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 7.389999999999986,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
     "_id": ""
   },
   {
@@ -1386,7 +1416,7 @@
     },
     "_enabled": true,
     "animation": {
-      "__id__": 36
+      "__id__": 37
     },
     "loopClip": {
       "__uuid__": "e8506224-3e43-4467-81a9-ebc33b0f4de1"

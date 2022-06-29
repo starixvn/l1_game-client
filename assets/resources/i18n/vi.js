@@ -553,7 +553,7 @@ window.i18n.languages.vi = {
         notShow: "Không hiển thị lại"
     },
     treasureIsland: {
-        tumpleWin: "Thắng Nổ Sập",
+        tumpleWin: "Thắng\nNổ Sập",
         totalWin: "Thắng",
         turboMode: "Siêu Tốc",
         trialMode: "Chơi Thử",
