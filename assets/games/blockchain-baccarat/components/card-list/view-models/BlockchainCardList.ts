@@ -1,6 +1,6 @@
 import GameUtils from "../../../../../common/GameUtils";
 import CommonDialog from "../../../../../common/_base/view-models/CommonDialog";
-import { Chain } from "../../../BlockchainBaccaratType";
+import { BlockchainCardModel } from "../../../BlockchainBaccaratType";
 import { Blockchain } from "../../../event-models/BlockchainBaccaratCardListModel";
 import BlockchainBaccarat from "../../../view-models/BlockchainBaccarat";
 import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
@@ -133,8 +133,8 @@ export default class BlockchainCardList extends cc.Component {
             .start();
     }
 
-    protected updateBlockchainCard(cardComp: BlockchainCard, cardChain: Chain, index: number) {
-        const { card } = cardChain;
+    protected updateBlockchainCard(cardComp: BlockchainCard, blockchainCard: BlockchainCardModel, index: number) {
+        const { card } = blockchainCard;
         if (!!cardComp) {
             cardComp.setCardOldStyle({
                 rank: card?.rank,
@@ -142,7 +142,7 @@ export default class BlockchainCardList extends cc.Component {
             });
 
             cardComp.openCardVerification = () => {
-                this.initCardVerification(cardChain, index);
+                this.initCardVerification(blockchainCard, index);
             };
 
             this.flippingAnimations.push(cardComp?.animation);
@@ -151,7 +151,7 @@ export default class BlockchainCardList extends cc.Component {
         }
     }
 
-    public createCard(cardChain: Chain, index: number): cc.Node {
+    public createCard(cardChain: BlockchainCardModel, index: number): cc.Node {
         const { card } = cardChain;
         const node = GameUtils.createNodeFromPrefab(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
@@ -179,14 +179,14 @@ export default class BlockchainCardList extends cc.Component {
         return node;
     }
 
-    public initCardVerification(chain: Chain, index: number) {
+    public initCardVerification(blockchainCard: BlockchainCardModel, index: number) {
         const cardVerification = this.root.node.getChildByName(this.cardVerificationPrefab.name);
         if (cardVerification) {
             cardVerification.removeFromParent(true);
             cardVerification.destroy();
         }
 
-        this.root.cardVerification.renderDataCardVerification(chain, index);
+        this.root.cardVerification.renderDataCardVerification(blockchainCard, index);
         this.root.cardVerification.showDialog();
     }
 

@@ -65,7 +65,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     onLoad() {
         this.gameData = new BlockchainBaccaratGameData<BlockchainBaccaratChoicesType>();
         super.onLoad();
-        this.registerRoudHistoryEvents();
+        this.registerRoundHistoryEvents();
         this.registerGameConfigEvents();
         this.registerTotalBetEvents();
         this.registerCardListEvents();
@@ -153,7 +153,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData.configs.on(BlockchainBaccaratConfigsModel.Events.CHANGE, blockchainAction.updateGameConfigs(this));
     }
 
-    private registerRoudHistoryEvents() {
+    private registerRoundHistoryEvents() {
         this.gameData.roundHistory.on(
             BlockchainBaccaratRoundHistoryModel.Events.CHANGE,
             (roundHistory: BlockchainBaccaratRoundHistory[]) => {
@@ -194,16 +194,15 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     private registerNewBlockchainEvents() {
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, (newBlockchain: Blockchain) => {
-            blockchainAction.updateBlockchainCardList(this)(newBlockchain);
+            blockchainAction.updateBlockchainCardList(this.cardList, this.cardsUI)(newBlockchain);
+            this.gameData.cardList.currentIndex = newBlockchain.currentIndex;
+            this.gameData.cardList.numberCardsFly = 6;
         });
     }
 
     private registerCardVerification() {
         consumeEvent(BlockchainBaccaratEvents.CHANGE_CARD, (params) => {
-            if (this.cardList.node.active === false) {
-                this.openCardList();
-            }
-            this.cardList.highLightCurrentCardSelected(params["index"]);
+            blockchainAction.highLightCardSelected(this.cardList)(params["index"], this.openCardList.bind(this));
         });
 
         consumeEvent(BlockchainBaccaratEvents.OPEN_VERIFICATION, (params) => {
@@ -216,10 +215,10 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         });
 
         consumeEvent(BlockchainBaccaratEvents.FLIPPED_CARD, (params) => {
-            const index = params["index"];
-            if (this.cardVerification.numberKey === index || this.cardVerification.numberKey2 === index) {
-                this.cardVerification.autoRenderCardVerification(this.gameData.finishModel.finishData?.blockchain?.chain[index], index);
-            }
+            blockchainAction.renderCardVerification(
+                this.cardVerification,
+                this.gameData.finishModel.finishData?.blockchain
+            )(params["index"]);
         });
     }
 }

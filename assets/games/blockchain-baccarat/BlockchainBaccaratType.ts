@@ -10,7 +10,7 @@ export type BlockchainBaccaratChoicesType = {
 
 export type CardModel = { rank: string; suit: number };
 
-export class Chain {
+export class BlockchainCardModel {
     card: CardModel;
     hashValue: string;
     rawValue: string;

@@ -1,4 +1,4 @@
-import { Chain } from "./../../BlockchainBaccaratType";
+import { BlockchainCardModel } from "./../../BlockchainBaccaratType";
 import { Blockchain } from "./../../event-models/BlockchainBaccaratCardListModel";
 import { CardAnimation } from "./../../../../common/new-card/view-models/NewCard";
 import { CardModel } from "../../BlockchainBaccaratType";
@@ -66,7 +66,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
 
     async handleShowCutCards(data: Blockchain, duration: number) {
         const cutCardValue = data.chain?.[0]?.card;
-        const formatData: Chain[] = data.chain.slice(1, data.burnedCards);
+        const formatData: BlockchainCardModel[] = data.chain.slice(1, data.burnedCards);
 
         if (duration >= TimeShowAnim.full) {
             this.cardsBox.parent.active = false;
@@ -94,7 +94,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
             });
         } else {
             await this.handleShowBurnCard(cutCardValue, false);
-            formatData.forEach((data: Chain, index: number) => {
+            formatData.forEach((data: BlockchainCardModel, index: number) => {
                 this.createCardsBurn(this.cardPrefab, index, data.card, (card: cc.Node, cardData: CardModel) => {
                     const cardComponent = card.children[0].getComponent(BlockchainCard);
                     cardComponent.setStatusIndexNumber(false);
@@ -151,7 +151,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         });
     }
 
-    private flyAllCards(formatData: Chain[], duration: number, callbackOpenCards: () => void) {
+    private flyAllCards(formatData: BlockchainCardModel[], duration: number, callbackOpenCards: () => void) {
         const prefabCard = this.cardPrefab;
         return new Promise<void>((resolve) => {
             this.allCardsFlyTween = cc
@@ -162,7 +162,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                     );
                 })
                 .call(() => {
-                    formatData.forEach((data: Chain, index: number) => {
+                    formatData.forEach((data: BlockchainCardModel, index: number) => {
                         this.createCardsBurn(prefabCard, index, data.card, (card: cc.Node) => {
                             card.children[0].opacity = 0;
                             this.actionCardFly({ card: card.children[0], start: this.cardsBox });
