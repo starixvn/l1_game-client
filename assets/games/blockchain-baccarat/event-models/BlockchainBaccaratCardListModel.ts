@@ -40,6 +40,9 @@ export class BlockchainBaccaratCardListModel extends EventEmitterBase {
         const currentIndex = blockchain.currentIndex;
         this.blockchain = blockchain;
         this.currentIndex = currentIndex;
+    }
+
+    changeCurrentIndexJoinRoom(currentIndex: number) {
         this.emit(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, currentIndex);
     }
 

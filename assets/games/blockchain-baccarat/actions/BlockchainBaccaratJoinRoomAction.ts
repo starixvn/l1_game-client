@@ -15,7 +15,7 @@ export const updateWinning =
     ) =>
     (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number, blockchain: Blockchain) => {
         const lastRound = roundHistory[0];
-        if (timeHandler.isInWaitTime && !blockchain.isNew) {
+        if (timeHandler.isInWaitTime) {
             const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);
             const bankerCards = Object.values(lastRound.result.banker).filter((card) => card != null);
             const cardsFlied = playerCards.length + bankerCards.length;

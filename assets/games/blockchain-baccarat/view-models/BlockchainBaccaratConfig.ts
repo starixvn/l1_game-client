@@ -1,6 +1,6 @@
-import { GameConfigBase } from "../../_base/view-models/GameConfigBase";
+import { BlockchainConfig } from "./../event-models/BlockchainBaccaratConfigsModel";
 
-export class BlockchainBaccaratConfig implements GameConfigBase {
+export class BlockchainBaccaratConfig implements BlockchainConfig {
     minBetTime = 1;
     fullTime = 45;
     fullTimeNewShoe = 55;

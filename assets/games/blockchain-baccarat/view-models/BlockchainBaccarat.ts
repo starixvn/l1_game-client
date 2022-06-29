@@ -54,6 +54,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     public lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
     private readonly durationFlyChip = 1.2;
     private readonly durationAnimWinning = 3;
+    public config: BlockchainBaccaratConfig;
 
     constructor() {
         super();

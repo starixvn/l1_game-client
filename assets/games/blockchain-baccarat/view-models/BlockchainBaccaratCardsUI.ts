@@ -69,7 +69,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     async handleFlyCards(currentIndex: number, numberCardsFlied: number) {
         switch (numberCardsFlied) {
             case CountCardFlied.FourCards:
-                await this.reserveCards.flyCardFromReserve ({
+                await this.reserveCards.flyCardFromReserve({
                     numberTag: currentIndex,
                     card: this.playerCards.cards[CardsOrder.card1],
                     start: this.reserveCards.cards[CardsOrder.card1],
@@ -78,7 +78,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                     }
                 });
 
-                await this.reserveCards.flyCardFromReserve ({
+                await this.reserveCards.flyCardFromReserve({
                     numberTag: currentIndex + 1,
                     card: this.bankerCards.cards[CardsOrder.card1],
                     start: this.reserveCards.cards[CardsOrder.card2],
@@ -92,7 +92,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.reserveCards.flyCard2FromDecks(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
             case CountCardFlied.FiveCards:
-                await this.reserveCards.flyCardFromReserve ({
+                await this.reserveCards.flyCardFromReserve({
                     numberTag: currentIndex,
                     card: this.playerCards.cards[CardsOrder.card1],
                     start: this.reserveCards.cards[CardsOrder.card2],
@@ -192,8 +192,14 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         });
     }
 
-    async handleShuffleCards(data: Blockchain, duration: number) {
-        await this.collectCardsOnTable();
+    async handleShuffleCards(data: Blockchain, duration: number, isAnim = true) {
+        if (isAnim) {
+            await this.collectCardsOnTable();
+        } else {
+            this.bankerCards?.resetCards();
+            this.playerCards?.resetCards();
+        }
+
         this.updateCardDropBox(0, 1);
         this.reserveCards?.resetCards();
         this.burnContainer.node.active = true;

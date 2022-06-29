@@ -22,6 +22,6 @@ export class BlockchainBaccaratCardListHandler<Choices> extends BaseEventHandler
 
     protected handle(event: BlockchainBaccaratCardListType<Choices>) {
         this.gameData.cardList.change(event.blockchain as Blockchain);
-        // this.gameData.cardList.changeCurrentIndex(event.blockchain?.currentIndex);
+        this.gameData.cardList.changeCurrentIndexJoinRoom(event.blockchain?.currentIndex);
     }
 }

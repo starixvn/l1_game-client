@@ -1,3 +1,4 @@
+import { GameConfigBase } from "./../../_base/view-models/GameConfigBase";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export type BCBaccaratMaxBetPerChoices = {
@@ -31,6 +32,10 @@ export type BlockchainBaccaratConfigData = {
     stakeLevels: string[];
     _id: string;
 };
+
+export interface BlockchainConfig extends GameConfigBase {
+    readonly fullTimeNewShoe: number;
+}
 
 export class BlockchainBaccaratConfigsModel extends EventEmitterBase {
     static Events = {

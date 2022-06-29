@@ -6,7 +6,7 @@ import BlockchainCard from "../../components/card-list/view-models/BlockchainCar
 
 const { ccclass, property } = cc._decorator;
 
-enum TimeShowAnim {
+export enum TimeShowAnim {
     full = 42,
     burnCard = 38.5
 }
