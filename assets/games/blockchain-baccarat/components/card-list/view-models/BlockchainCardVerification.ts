@@ -10,11 +10,10 @@ import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/Blockc
 const { ccclass, property } = cc._decorator;
 
 export enum CardVerificationState {
-    blank_new = 0,
-    serial_change,
-    private_change
+    blankNew = 0,
+    serialChange,
+    privateChange
 }
-
 @ccclass
 export default class BlockchainCardVerification extends cc.Component {
     @property(BlockchainCardVerificationItem)
@@ -35,13 +34,15 @@ export default class BlockchainCardVerification extends cc.Component {
     private serialCardChain: Chain;
     private privateCardChain: Chain;
     cardVerificationDialog: CommonDialog;
-    public state = CardVerificationState.blank_new;
+    public state = CardVerificationState.blankNew;
     public timeout: any;
     numberKey: number;
     numberKey2: number;
 
     private readonly encryptKey =
         "************************************************************************************************************";
+
+    private readonly numberOfCharactersPerLine = 61;
 
     showDialog() {
         this.cardVerificationDialog = this.getComponent(CommonDialog);
@@ -51,11 +52,10 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     renderDataCardVerification(chain: Chain, index: number) {
-        console.log("state", this.state);
         this.renderVerifiedSerialNumber();
-        if (this.state === CardVerificationState.serial_change) {
+        if (this.state === CardVerificationState.serialChange) {
             this.renderSerialNumber(chain, index);
-        } else if (this.state === CardVerificationState.private_change) {
+        } else if (this.state === CardVerificationState.privateChange) {
             this.renderPrivateKey(chain, index);
         } else {
             this.renderSerialNumber(chain, index);
@@ -113,13 +113,18 @@ export default class BlockchainCardVerification extends cc.Component {
         this.privateCardChain = cardChain;
         this.numberKey2 = index;
     }
+
     private setPrivateKey(rawValue: string, card: CardModel) {
-        const suffix = rawValue.split("_");
-        const suffixFormatting = `${suffix[1]}_${suffix[2]}_${suffix[3]}`;
-        return formatPrivateKey(card, suffixFormatting, true);
+        const values = rawValue.split("_");
+        const suffixFormatting = `${values[1]}_${values[2]}_${values[3]}`;
+        const cardValue = formatPrivateKey(card, true);
+        const suffix =
+            suffixFormatting.slice(0, this.numberOfCharactersPerLine) + " " + suffixFormatting.slice(this.numberOfCharactersPerLine);
+        return `${cardValue}_${suffix}`;
     }
 
     onClickVerifyButton() {
+        this.onHideTooltips();
         const hashValue = this.createHashSHA256(this.privateCardChain.rawValue);
         const privateKeyIsMatch = this.serialCardChain.hashValue.localeCompare(hashValue);
         if (privateKeyIsMatch === 0) {
@@ -142,8 +147,8 @@ export default class BlockchainCardVerification extends cc.Component {
     onClickChangeCard(event: any, customEventData: string) {
         this.closeDialog();
         const values = {
-            serial: CardVerificationState.serial_change,
-            private: CardVerificationState.private_change
+            serial: CardVerificationState.serialChange,
+            private: CardVerificationState.privateChange
         };
 
         const indexNumbers = {
@@ -173,11 +178,35 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     resetState() {
-        this.state = CardVerificationState.blank_new;
+        this.state = CardVerificationState.blankNew;
     }
 
     onHideTooltips() {
         this.serialNumber.hideTooltip();
         this.privateKey.hideTooltip();
+    }
+
+    onClickSerialTooltip() {
+        this.privateKey.hideTooltip();
+        const tooltip = i18n.t("blockchainBaccarat.serialTooltip");
+        this.serialNumber.showTooltip(tooltip);
+    }
+
+    onClickPrivateTooltip() {
+        this.serialNumber.hideTooltip();
+        const tooltip = i18n.t("blockchainBaccarat.privateTooltip");
+        this.privateKey.showTooltip(tooltip);
+    }
+
+    onClickCopy(event, customEventData) {
+        this.onHideTooltips();
+        const nodes = {
+            hashValue: this.serialNumber,
+            rawValue: this.privateKey,
+            verifiedValue: this.verifiedSerial
+        };
+
+        const copyNode = nodes[customEventData];
+        copyNode.onCopy();
     }
 }

@@ -47,20 +47,10 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         this.highlightSuccess.active = this.highlightFailed.active = false;
     }
 
-    onClickTooltip(event, customEventData) {
-        const tooltips = {
-            hashValue: i18n.t("blockchainBaccarat.serialTooltip"),
-            rawValue: i18n.t("blockchainBaccarat.privateTooltip")
-        };
-        const tooltip = this.tooltipNode.getChildByName("content").getComponent(cc.Label);
-        tooltip.string = tooltips[customEventData];
-        this.showTooltip();
-    }
-
-    onClickCopyButton() {
+    onCopy() {
         const hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         hintLabel.string = i18n.t("messages.copy_success");
-        GameUtils.copyToClipboard(this.textCopy, hintLabel, this.showMessageCopy());
+        GameUtils.copyToClipboard(this.textCopy, hintLabel, this.showHintCopy());
     }
 
     setHashValue(text: string) {
@@ -83,11 +73,16 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         this.hashValue.node.color = this.color.fromHEX("#ff0000");
     }
 
-    showMessageCopy() {
+    showHintCopy() {
         cc.tween(this.hintCopyNode).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }
 
-    showTooltip() {
+    showTooltip(content) {
+        if (this.tooltipNode.opacity === 255) {
+            return this.hideTooltip();
+        }
+        const tooltip = this.tooltipNode.getChildByName("content").getComponent(cc.Label);
+        tooltip.string = content;
         cc.tween(this.tooltipNode).to(0.2, { opacity: 255 }).start();
     }
 
@@ -101,7 +96,6 @@ export default class BlockchainCardVerificationItem extends cc.Component {
 
     enableCopyButton(enabled: boolean) {
         this.copyButton.interactable = enabled;
-
         this.copyButton.node.getChildByName("btn-active").active = enabled;
         this.copyButton.node.getChildByName("btn-disable").active = !enabled;
     }
