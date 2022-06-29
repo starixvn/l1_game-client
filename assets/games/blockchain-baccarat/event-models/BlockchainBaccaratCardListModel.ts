@@ -11,21 +11,36 @@ export type Blockchain = {
 
 export class BlockchainBaccaratCardListModel extends EventEmitterBase {
     static Events = {
-        CHANGE: "cardList:change",
         UPDATE_NEW_BLOCKCHAIN: "cardList:updateNewBlockchain",
         UPDATE_CURRENT_INDEX: "cardList:updateCurrentIndex"
     };
 
+    private _currentIndex: number;
+    private _numberCardsFly = 6;
     blockchain: Blockchain;
     newBlockchain: Blockchain;
-    currentIndex: number;
-    numberCardsFly = 6;
+
+    set currentIndex(index: number) {
+        this._currentIndex = index;
+    }
+
+    get currentIndex() {
+        return this._currentIndex;
+    }
+
+    set numberCardsFly(count: number) {
+        this._numberCardsFly = count;
+    }
+
+    get numberCardsFly() {
+        return this._numberCardsFly;
+    }
 
     change(blockchain: Blockchain) {
+        const currentIndex = blockchain.currentIndex;
         this.blockchain = blockchain;
-        this.currentIndex = blockchain.currentIndex;
-        console.log(blockchain.currentIndex, "blockchain.currentIndex");
-        this.emit(BlockchainBaccaratCardListModel.Events.CHANGE, blockchain);
+        this.currentIndex = currentIndex;
+        this.emit(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, currentIndex);
     }
 
     updateNewBlockchain(newBlockchain: Blockchain) {
@@ -33,20 +48,8 @@ export class BlockchainBaccaratCardListModel extends EventEmitterBase {
         this.emit(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, newBlockchain);
     }
 
-    handleCurrentIndex(index: number) {
+    calculateCardsFly(index: number) {
         this.numberCardsFly = index - this.currentIndex;
-        this.currentIndex = index;
-    }
-
-    changeCurrentIndex(currentIndex: number) {
-        this.emit(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, currentIndex);
-    }
-
-    changeNumberCardsFly(cardFlied: number) {
-        this.numberCardsFly = cardFlied;
-    }
-
-    updateCurrentIndex(index: number) {
         this.currentIndex = index;
     }
 }

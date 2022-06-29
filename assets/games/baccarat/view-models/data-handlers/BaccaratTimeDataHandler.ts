@@ -1,59 +1,11 @@
 import Baccarat from "../Baccarat";
-import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BaccaratLogsHandler from "./BaccaratLogsHandler";
 import BaccaratFinishHandler from "./BaccaratFinishHandler";
+import BaccaratTimeDataBaseHandler from "../../../_baccarat/data-handler/BaccaratTimeDataBaseHandler";
 
-export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
-    protected dealCardsTime = 2;
-
-    get isInWaitTime() {
-        return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime;
-    }
-
-    get isStartingNewGameRound() {
-        return this.main.currentTimeRemaining === this.main.config.betTime + this.dealCardsTime;
-    }
-
-    get isInRoundTime() {
-        return this.main.currentTimeRemaining >= this.main.config.minBetTime && this.main.currentTimeRemaining <= this.main.config.betTime;
-    }
-
-    get isInEndTime() {
-        return this.main.currentTimeRemaining < this.main.config.minBetTime;
-    }
-
+export default class BaccaratTimeDataHandler extends BaccaratTimeDataBaseHandler {
     protected getOwnMain(): any {
         return this.main as Baccarat;
-    }
-
-    gameUpdate(): void {
-        if (this.isInWaitTime) {
-            this.handleWaitTime();
-        } else {
-            this.handleNotWaitTime();
-        }
-        this.main.currentTimeRemaining--;
-    }
-
-    handleNotWaitTime() {
-        if (this.isStartingNewGameRound) {
-            this.handleStartingNewGameRound();
-        }
-
-        if (this.isInRoundTime) {
-            this.handleInRoundTime();
-
-            if (this.isInLockBetTime) {
-                if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
-                    this.handleAtLockBetTime();
-                }
-                this.handleInLockBetTime();
-            }
-        } else {
-            if (this.isInEndTime) {
-                this.handleInEndTime();
-            }
-        }
     }
 
     handleStartingNewGameRound() {
@@ -91,7 +43,6 @@ export default class BaccaratTimeDataHandler extends GameBaseTimeHandler {
 
     handleInLockBetTime() {
         super.handleInLockBetTime();
-
         this.main.betItems.forEach((item) => item.setHighlight(false));
 
         this.getOwnMain().bigRoad.renderNextNode();

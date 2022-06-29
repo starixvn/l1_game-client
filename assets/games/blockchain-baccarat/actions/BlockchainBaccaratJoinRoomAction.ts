@@ -20,7 +20,7 @@ export const updateWinning =
             const bankerCards = Object.values(lastRound.result.banker).filter((card) => card != null);
             const cardsFlied = playerCards.length + bankerCards.length;
 
-            cardList.changeNumberCardsFly(cardsFlied);
+            cardList.numberCardsFly = cardsFlied;
             cardsUI.showCardsWithoutAnimation(lastRound, currentIndex, true);
             blockchainAction.showLabelWinning(betOptionsUI, cardsUI)(lastRound.settlementResult, false);
             blockchainAction.showHighLightBet(betOptionsUI)(lastRound.settlementResult, false);

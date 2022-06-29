@@ -175,7 +175,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     private registerFinishEvents() {
         this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
-            this.gameData.cardList.handleCurrentIndex(finishData.blockchain.currentIndex);
+            this.gameData.cardList.calculateCardsFly(finishData.blockchain.currentIndex);
             blockchainAction.openCards(this.cardsUI)(finishData, () => {
                 //show winning
                 blockchainAction.showLabelWinning(this.betOptionsUI, this.cardsUI)(finishData.settlementResult);

@@ -1,24 +1,44 @@
 import { Blockchain } from "./../event-models/BlockchainBaccaratCardListModel";
 import { clearPercentBet } from "./../actions/BlockchainBaccaratTotalBetAction";
-import BaccaratTimeDataHandler from "../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 import BlockchainBaccaratBetItem from "../view-models/BlockchainBaccaratBetItem";
+import BaccaratTimeDataBaseHandler from "../../_baccarat/data-handler/BaccaratTimeDataBaseHandler";
 
-export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
+export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
     protected dealCardsTime = 3;
     private readonly durationNewShoe = 10;
     private readonly durationShowNewShoe = this.main.config.fullTime - this.dealCardsTime;
-    private isNewShoe = false;
-    private isShowShoe = false;
-    private isResetUI = false;
+    private _isNewShoe = false;
+    private _isShowShoe = false;
+    private _isResetUI = false;
 
-    set newShoe(status: boolean) {
-        this.isNewShoe = status;
+    set isNewShoe(status: boolean) {
+        this._isNewShoe = status;
+    }
+
+    get isNewShoe() {
+        return this._isNewShoe;
+    }
+
+    set isShowShoe(status: boolean) {
+        this._isShowShoe = status;
+    }
+
+    get isShowShoe() {
+        return this._isShowShoe;
+    }
+
+    set isResetUI(status: boolean) {
+        this._isResetUI = status;
+    }
+
+    get isResetUI() {
+        return this._isResetUI;
     }
 
     get isInWaitTime() {
         if (this.main.currentTimeRemaining > this.main.config.fullTime) {
-            this.newShoe = true;
+            this.isNewShoe = true;
             return true;
         } else {
             return this.main.currentTimeRemaining > this.main.config.betTime + this.dealCardsTime;
@@ -54,7 +74,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataHandler {
         if (this.isStartingNewGameRound && this.isShowShoe) {
             this.isShowShoe = false;
         }
-        this.newShoe = false;
+        this.isNewShoe = false;
         super.handleNotWaitTime();
     }
 

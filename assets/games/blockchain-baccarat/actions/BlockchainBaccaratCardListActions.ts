@@ -10,7 +10,7 @@ export const renderCardSettlement = (cardList: BlockchainCardList) => (finishDat
 export const updateBlockchainCardList = (mainGame: BlockchainBaccarat) => (blockchain: Blockchain) => {
     mainGame.cardList?.updateBlockchain(blockchain);
     mainGame.cardList?.setData();
-    mainGame.gameData.cardList.updateCurrentIndex(blockchain.currentIndex);
-    mainGame.gameData.cardList.changeNumberCardsFly(6);
+    mainGame.gameData.cardList.currentIndex = blockchain.currentIndex;
+    mainGame.gameData.cardList.numberCardsFly = 6;
     mainGame.cardsUI.handleNumberIndex(blockchain.currentIndex);
 };

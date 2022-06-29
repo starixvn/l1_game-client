@@ -71,7 +71,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     async handleFlyCards(currentIndex: number, numberCardsFlied: number) {
         switch (numberCardsFlied) {
             case CountCardFlied.FourCards:
-                await this.reserveCards.flyCard1Reserve({
+                await this.reserveCards.flyCardFromReserve ({
                     numberTag: currentIndex,
                     card: this.playerCards.cards[CardsOrder.card1],
                     start: this.reserveCards.cards[CardsOrder.card1],
@@ -80,7 +80,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                     }
                 });
 
-                await this.reserveCards.flyCard1Reserve({
+                await this.reserveCards.flyCardFromReserve ({
                     numberTag: currentIndex + 1,
                     card: this.bankerCards.cards[CardsOrder.card1],
                     start: this.reserveCards.cards[CardsOrder.card2],
@@ -88,13 +88,13 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                         this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
                     }
                 });
-                await this.playerCards.flyCard2(currentIndex + 2);
-                await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4, this.reserveCards.durationFlyCard3);
-                await this.reserveCards.flyCard2(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                await this.playerCards.flyCard2FromDecks(currentIndex + 2);
+                await this.bankerCards.flyCard2FromDecks(currentIndex + 3);
+                await this.reserveCards.flyCard1FromDecks(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2FromDecks(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
             case CountCardFlied.FiveCards:
-                await this.reserveCards.flyCard1Reserve({
+                await this.reserveCards.flyCardFromReserve ({
                     numberTag: currentIndex,
                     card: this.playerCards.cards[CardsOrder.card1],
                     start: this.reserveCards.cards[CardsOrder.card2],
@@ -103,19 +103,19 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                     }
                 });
 
-                await this.bankerCards.flyCard1(currentIndex + 1);
-                await this.playerCards.flyCard2(currentIndex + 2);
-                await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4, this.reserveCards.durationFlyCard3);
-                await this.reserveCards.flyCard2(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                await this.bankerCards.flyCard1FromDecks(currentIndex + 1);
+                await this.playerCards.flyCard2FromDecks(currentIndex + 2);
+                await this.bankerCards.flyCard2FromDecks(currentIndex + 3);
+                await this.reserveCards.flyCard1FromDecks(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2FromDecks(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
             default:
-                await this.playerCards.flyCard1(currentIndex);
-                await this.bankerCards.flyCard1(currentIndex + 1);
-                await this.playerCards.flyCard2(currentIndex + 2);
-                await this.bankerCards.flyCard2(currentIndex + 3);
-                await this.reserveCards.flyCard1(currentIndex + 4, this.reserveCards.durationFlyCard3);
-                await this.reserveCards.flyCard2(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                await this.playerCards.flyCard1FromDecks(currentIndex);
+                await this.bankerCards.flyCard1FromDecks(currentIndex + 1);
+                await this.playerCards.flyCard2FromDecks(currentIndex + 2);
+                await this.bankerCards.flyCard2FromDecks(currentIndex + 3);
+                await this.reserveCards.flyCard1FromDecks(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2FromDecks(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
         }
     }
@@ -139,7 +139,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             this.playerCards.cards[CardsOrder.card3]
                 .getComponentInChildren(BlockchainCard)
                 .setIndexNumber(this.reserveCards.cards[CardsOrder.card1].getComponentInChildren(BlockchainCard).index);
-            await this.reserveCards.flyCard3(
+            await this.reserveCards.flyCard3ReserveToPunter(
                 this.playerCards.cards[CardsOrder.card3],
                 this.reserveCards.cards[CardsOrder.card1],
                 this.reserveCards.durationFlyCard,
@@ -151,7 +151,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                     BlockchainCard
                 ).index;
             this.bankerCards.cards[CardsOrder.card3].getComponentInChildren(BlockchainCard).setIndexNumber(index);
-            await this.reserveCards.flyCard3(
+            await this.reserveCards.flyCard3ReserveToPunter(
                 this.bankerCards.cards[CardsOrder.card3],
                 this.reserveCards.cards[CardsOrder.card1],
                 this.reserveCards.durationFlyCard,
