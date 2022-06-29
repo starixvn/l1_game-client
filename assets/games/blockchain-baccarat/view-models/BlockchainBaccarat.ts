@@ -1,4 +1,3 @@
-import { renderScoreboard, updateLastRoundInfo } from "./../actions/BlockchainBaccaratJoinRoomAction";
 import { BlockchainBaccaratTimeHandler, BlockchainBaccaratBetHandler } from "../event-handlers/BlockchainBaccaratHandler";
 import * as blockchainAction from "../actions/BlockchainBaccaratActions";
 import {
@@ -164,11 +163,15 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                     this.timeHandler as BlockchainBaccaratTimeHandler,
                     this.gameData.cardList
                 )(roundHistory, this.gameData.cardList.currentIndex, this.gameData.cardList.blockchain);
-                updateLastRoundInfo(this.timeHandler as BlockchainBaccaratTimeHandler, this.lastRoundIfo)(
+                blockchainAction.updateLastRoundInfo(this.timeHandler as BlockchainBaccaratTimeHandler, this.lastRoundIfo)(
                     roundHistory,
                     this.gameData.cardList.currentIndex
                 );
-                renderScoreboard(this.scoreboard)(roundHistory);
+                blockchainAction.renderScoreboard(this.scoreboard)(roundHistory);
+                blockchainAction.updateCardDropBox(this.cardsUI)(
+                    this.gameData.cardList.currentIndex,
+                    this.gameData.cardList.blockchain.cutCardIndex
+                );
             }
         );
     }

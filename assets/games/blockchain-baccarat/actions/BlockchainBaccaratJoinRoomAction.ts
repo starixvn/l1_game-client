@@ -32,6 +32,10 @@ export const updateWinning =
         }
     };
 
+export const updateCardDropBox = (cardsUI: BlockchainBaccaratCardsUI) => (currentIndex: number, cutCardIndex: number) => {
+    cardsUI.updateCardDropBox(currentIndex, cutCardIndex);
+};
+
 export const updateLastRoundInfo =
     (timeHandler: BlockchainBaccaratTimeHandler, lastRoundIfo: BlockchainBaccaratLastRoundInfo) =>
     (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number) => {
