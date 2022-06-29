@@ -1,7 +1,8 @@
 import { BigRoadScoreboardPoint, BigRoadScoreboard, Converter } from "sc-scoreboards";
+import BigRoad from "../../../common/big-road/BigRoad";
+import { BaccaratSettlementResult } from "./event-models/BaccaratSettlementResult";
 import BaccaratBigRoadItem from "./BaccaratBigRoadItem";
-import BigRoad from "../../common/big-road/BigRoad";
-import { BaccaratSettlementResult } from "../baccarat/view-models/event-models/BaccaratSettlementResult";
+
 const { ccclass } = cc._decorator;
 
 class BaccaratBigRoadConverter extends Converter<BaccaratSettlementResult> {}
@@ -62,15 +63,6 @@ export default class BaccaratBigRoad extends BigRoad {
             }
         }
 
-        this.container?.getComponent(cc.ScrollView)?.scrollToRight();
-    }
-
-    public resetBoard() {
-        this.isRenderedNext = false;
-        this.bigRoadData = [];
-        this.updateContentChild(this.minColumn - this.content.childrenCount);
-        this.content.children.forEach((child) => {
-            child.getComponent(BaccaratBigRoadItem).resetAll();
-        });
+        this.container.getComponent(cc.ScrollView).scrollToRight();
     }
 }

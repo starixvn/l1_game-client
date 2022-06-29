@@ -14,7 +14,7 @@ import VipBaccaratHistory from "./VipBaccaratHistory";
 import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
-import BaccaratBigRoad from "../../_baccarat/BaccaratBigRoad";
+import BaccaratBigRoad from "../../baccarat/view-models/BaccaratBigRoad";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
