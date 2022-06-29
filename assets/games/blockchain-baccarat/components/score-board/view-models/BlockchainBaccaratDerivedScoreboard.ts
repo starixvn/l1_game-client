@@ -1,6 +1,5 @@
-import { DerivedScoreboardPoint, DerivedScoreboards } from "sc-scoreboards";
-import BaccaratBigRoad from "../../../../baccarat/view-models/BaccaratBigRoad";
-import { BaccaratSettlementResult } from "../../../../baccarat/view-models/event-models/BaccaratSettlementResult";
+import { DerivedScoreboardPoint } from "sc-scoreboards";
+import BaccaratBigRoad from "../../../../_baccarat/view-models/BaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboardItem from "./BlockchainBaccaratDerivedScoreboardItem";
 const { ccclass, property } = cc._decorator;
 
@@ -9,7 +8,6 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
     @property(cc.String)
     nameBoard = "";
 
-    derivedScoreboards: DerivedScoreboards<BaccaratSettlementResult>;
     private data: DerivedScoreboardPoint[][] = [];
 
     public addNextNode() {
