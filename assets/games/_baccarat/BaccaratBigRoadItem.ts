@@ -1,5 +1,5 @@
 import { BigRoadScoreboardPoint } from "sc-scoreboards";
-import { BaccaratSettlementResult } from "./event-models/BaccaratSettlementResult";
+import { BaccaratSettlementResult } from "../baccarat/view-models/event-models/BaccaratSettlementResult";
 
 const { ccclass, property } = cc._decorator;
 
@@ -73,5 +73,14 @@ export default class BaccaratBigRoadItem extends cc.Component {
 
     isFilledColumn() {
         return this.hasValueArray.every((value) => value);
+    }
+
+    resetAll() {
+        this.nodes.forEach((node) => {
+            this.node.children.forEach((child) => {
+                child.active = false;
+            });
+        });
+        this.hasValueArray = this.nodes.map(() => false);
     }
 }

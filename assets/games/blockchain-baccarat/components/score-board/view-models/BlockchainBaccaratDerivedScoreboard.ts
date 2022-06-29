@@ -1,6 +1,6 @@
 import { DerivedScoreboardPoint, DerivedScoreboards } from "sc-scoreboards";
-import BaccaratBigRoad from "../../../../baccarat/view-models/BaccaratBigRoad";
 import { BaccaratSettlementResult } from "../../../../baccarat/view-models/event-models/BaccaratSettlementResult";
+import BaccaratBigRoad from "../../../../_baccarat/BaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboardItem from "./BlockchainBaccaratDerivedScoreboardItem";
 const { ccclass, property } = cc._decorator;
 

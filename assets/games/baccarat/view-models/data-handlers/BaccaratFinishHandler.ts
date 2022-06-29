@@ -6,9 +6,9 @@ import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler
 import Baccarat from "../Baccarat";
 import BaccaratLogsHandler from "./BaccaratLogsHandler";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
-import BaccaratBigRoad from "../BaccaratBigRoad";
 import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
 import { payChips } from "../../../_base/action/PayChipsAction";
+import BaccaratBigRoad from "../../../_baccarat/BaccaratBigRoad";
 
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     handle(data: any): boolean {
