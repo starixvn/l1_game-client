@@ -257,7 +257,11 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     checkPreventFunctionHoldAction() {
-        return this.currentMiniPanel.dialog.childrenCount > 0 || this.autoSpinCount > 0;
+        return (
+            this.currentMiniPanel.dialog.childrenCount > 0 ||
+            this.currentMiniPanel.guideContainer.childrenCount > 0 ||
+            this.autoSpinCount > 0
+        );
     }
 
     holdSpinButton() {
