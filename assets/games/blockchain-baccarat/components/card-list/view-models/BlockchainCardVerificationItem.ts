@@ -79,11 +79,12 @@ export default class BlockchainCardVerificationItem extends cc.Component {
 
     showTooltip(content) {
         if (this.tooltipNode.opacity === 255) {
-            return this.hideTooltip();
+            this.hideTooltip();
+        } else {
+            const tooltip = this.tooltipNode.getChildByName("content").getComponent(cc.Label);
+            tooltip.string = content;
+            cc.tween(this.tooltipNode).to(0.2, { opacity: 255 }).start();
         }
-        const tooltip = this.tooltipNode.getChildByName("content").getComponent(cc.Label);
-        tooltip.string = content;
-        cc.tween(this.tooltipNode).to(0.2, { opacity: 255 }).start();
     }
 
     hideTooltip() {

@@ -1009,7 +1009,7 @@
   {
     "__type__": "cc.Node",
     "_name": "view",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 24
     },
@@ -1040,7 +1040,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1305,
+      "width": 1300,
       "height": 440
     },
     "_anchorPoint": {
@@ -1164,7 +1164,7 @@
     "_N$startAxis": 0,
     "_N$paddingLeft": 0,
     "_N$paddingRight": 0,
-    "_N$paddingTop": 0,
+    "_N$paddingTop": 5,
     "_N$paddingBottom": 0,
     "_N$spacingX": 25,
     "_N$spacingY": 13,
@@ -1213,10 +1213,12 @@
     },
     "_enabled": true,
     "alignMode": 1,
-    "_target": null,
+    "_target": {
+      "__id__": 24
+    },
     "_alignFlags": 45,
-    "_left": 0,
-    "_right": 0,
+    "_left": 2.5,
+    "_right": 2.5,
     "_top": 0,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -1245,7 +1247,7 @@
   {
     "__type__": "cc.Node",
     "_name": "scrollBar",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 24
     },
@@ -1319,7 +1321,7 @@
   {
     "__type__": "cc.Node",
     "_name": "bar",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "_parent": {
       "__id__": 32
     },
