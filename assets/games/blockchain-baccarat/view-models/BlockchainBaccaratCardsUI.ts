@@ -45,7 +45,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     cardDropBox: cc.Node = null;
 
     protected orderCard: OrderCardValue[];
-    private readonly cardDropBoxes = ["empty", "1", "2", "full"];
 
     onLoad() {
         this?.burnContainer?.node && (this.burnContainer.node.active = false);
@@ -221,23 +220,16 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     }
 
     updateCardDropBox(currentIndex: number, cutCardIndex: number) {
-        const percent = currentIndex / cutCardIndex;
-        let element = 0;
-        if (percent < 0.1) {
-            element = 0;
+        const percent = Math.ceil((currentIndex / cutCardIndex) * 5);
+        const cardsNode = this.cardDropBox.getChildByName("cards");
+        console.log(percent);
+        if (percent > 0) {
+            cardsNode.active = true;
+            cardsNode.children.forEach((child, index) => {
+                child.active = percent - 1 >= index;
+            });
         } else {
-            if (percent < 0.4) {
-                element = 1;
-            } else {
-                if (percent < 0.7) {
-                    element = 2;
-                } else {
-                    element = 3;
-                }
-            }
+            cardsNode.active = false;
         }
-        this.cardDropBoxes.forEach((name, index) => {
-            this.cardDropBox.getChildByName(name).active = element === index;
-        });
     }
 }
