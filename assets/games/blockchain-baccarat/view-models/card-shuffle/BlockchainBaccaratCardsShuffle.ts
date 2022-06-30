@@ -73,7 +73,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
             this.cutCard.active = true;
             const skeleton = this.cutCard.getComponent(sp.Skeleton);
             skeleton.timeScale = this.getSkeletonDuration(skeleton) / this.durationCutCard;
-            const isCached = skeleton!.isAnimationCached();
+            const isCached = skeleton?.isAnimationCached();
             if (isCached) {
                 skeleton.setAnimationCacheMode(sp.Skeleton.AnimationCacheMode.REALTIME);
             } else {

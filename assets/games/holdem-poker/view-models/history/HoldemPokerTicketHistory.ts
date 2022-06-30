@@ -1,6 +1,4 @@
-import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import AudioManager from "../../../../common/audio/AudioManager";
-import PaginationCommon from "../../../../common/helpers/Pagination/PaginationCommon";
 import BetHistory from "../../../_new/common/BetHistory";
 import { events } from "../../../_new/connection/SocketIOConnection";
 import HoldemPoker from "../HoldemPoker";
