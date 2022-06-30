@@ -237,7 +237,7 @@ export default class CascadingBetControl extends cc.Component {
     private updateDisplayLabels() {
         this.coinValue.string = this.currentCoinValue.toString();
         this.betLevel.string = this.currentBetLevelValue.toString();
-        this.totalBet.string = this.currentTotalBet.toString();
+        this.totalBet.string = this.currentTotalBet.toLocaleString("en-US");
     }
 
     private handleClickTotalBet() {

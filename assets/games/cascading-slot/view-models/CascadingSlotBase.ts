@@ -265,7 +265,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_BET, (data: TotalBetType) => {
-            this.miniBetControl.totalBetLabel.string = data.totalBet.toString();
+            this.miniBetControl.totalBetLabel.string = data.totalBet.toLocaleString("en-US");
             this.miniBetControl.setIncreaseButtonStatus(data.increase);
             this.miniBetControl.setDecreaseButtonStatus(data.decrease);
             this.currCoinValue = data.coin;
