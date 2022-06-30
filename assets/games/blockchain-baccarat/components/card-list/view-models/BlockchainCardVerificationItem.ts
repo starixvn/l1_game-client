@@ -101,10 +101,6 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         this.copyButton.node.getChildByName("btn-disable").active = !enabled;
     }
 
-    getNumberKey() {
-        return this.numberKey.string;
-    }
-
     setNumberKey(number: number) {
         this.numberKey.string = (number + 1).toString().padStart(3, "0");
     }

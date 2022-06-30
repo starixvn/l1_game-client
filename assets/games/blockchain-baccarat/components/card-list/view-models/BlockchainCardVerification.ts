@@ -36,11 +36,11 @@ export default class BlockchainCardVerification extends cc.Component {
 
     private blockchainCardSerial: BlockchainCardModel;
     private blockchainCardPrivate: BlockchainCardModel;
-    cardVerificationDialog: CommonDialog;
+    protected cardVerificationDialog: CommonDialog;
     public state = CardVerificationState.blankNew;
     public timeout: any;
-    numberKey: number;
-    numberKey2: number;
+    public numberKey: number;
+    public numberKey2: number;
 
     private readonly encryptKey =
         "************************************************************************************************************";
@@ -113,7 +113,7 @@ export default class BlockchainCardVerification extends cc.Component {
     renderPrivateKey(blockchainCard: BlockchainCardModel, index: number) {
         const rawValue = blockchainCard?.rawValue
             ? this.setPrivateKey(blockchainCard?.rawValue, blockchainCard?.card)
-            : `${this.encryptKey}${blockchainCard.revealedRawValue}`;
+            : `${this.encryptKey}${blockchainCard?.revealedRawValue}`;
         this.privateKey.setRawValue(rawValue);
         this.privateKey.renderCard(blockchainCard?.card, index);
         this.blockchainCardPrivate = blockchainCard;
@@ -124,8 +124,9 @@ export default class BlockchainCardVerification extends cc.Component {
         const values = rawValue.split("_");
         const suffixFormatting = `${values[1]}_${values[2]}_${values[3]}`;
         const cardValue = formatPrivateKey(card, true);
-        const suffix =
-            suffixFormatting.slice(0, this.numberOfCharactersPerLine) + " " + suffixFormatting.slice(this.numberOfCharactersPerLine);
+        const suffix = `${suffixFormatting.slice(0, this.numberOfCharactersPerLine)} ${suffixFormatting.slice(
+            this.numberOfCharactersPerLine
+        )}`;
         return `${cardValue}_${suffix}`;
     }
 
@@ -226,6 +227,6 @@ export default class BlockchainCardVerification extends cc.Component {
         };
 
         const copyNode = nodes[customEventData];
-        copyNode.onCopy();
+        copyNode?.onCopy();
     }
 }

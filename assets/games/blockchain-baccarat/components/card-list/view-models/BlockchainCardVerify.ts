@@ -15,7 +15,6 @@ export default class BlockchainCardVerify extends cc.Component {
     @property(cc.Label)
     text: cc.Label = null;
 
-    isSuccessfull = false;
     btnActive: cc.Node;
     btnDisable: cc.Node;
 
@@ -38,7 +37,6 @@ export default class BlockchainCardVerify extends cc.Component {
         this.btnActive.active = this.btnDisable.active = false;
         if (highlight) {
             this.success.active = true;
-            this.isSuccessfull = true;
         } else {
             this.failed.active = true;
         }
