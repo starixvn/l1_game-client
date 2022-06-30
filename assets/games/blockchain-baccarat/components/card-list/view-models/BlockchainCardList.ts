@@ -26,9 +26,11 @@ export default class BlockchainCardList extends cc.Component {
     protected cutCard: number;
     protected currentCardIndex: number;
     protected root: BlockchainBaccarat;
-    protected cardHeight = 120;
-    protected numberOfCardsPerRow = 12;
-    protected rowDefault = 3;
+    private readonly cardHeight = 120;
+    private readonly numberOfCardsPerRow = 12;
+    private readonly rowDefault = 3;
+    private readonly rowMiddle = 10;
+    private readonly lineSpacing = 13;
     blockchain: Blockchain;
     flippingAnimations: cc.Animation[] = [];
     resultCards: BlockchainCard[] = [];
@@ -86,15 +88,17 @@ export default class BlockchainCardList extends cc.Component {
             this.cards.push(cardNode);
         });
 
-        this.showLatestCard(currentIndex);
+        this.showLatestCard(currentIndex + 1);
     }
 
     protected showLatestCard(currentIndex: number) {
         const rowDisplayCard = Math.round(currentIndex / this.numberOfCardsPerRow);
         const countRow = rowDisplayCard <= this.rowDefault ? 0 : rowDisplayCard;
-        const ratioVertical = (countRow * this.cardHeight) / (this.content.height - this.statsScrollView.node.height);
-        const ratioCardDisplay = Math.round((1 - ratioVertical) * 100) / 100;
-        this.statsScrollView.scrollToPercentVertical(ratioCardDisplay);
+        const totalLineSpacing = countRow <= this.rowMiddle && countRow > this.rowDefault ? countRow * this.lineSpacing : 0;
+        const totalCardHeight = countRow * this.cardHeight;
+        const ratioVertical = (totalCardHeight - totalLineSpacing) / (this.content.height - this.statsScrollView.node.height);
+        const ratioCardDisplay = (1 - ratioVertical).toFixed(2);
+        this.statsScrollView.scrollToPercentVertical(parseFloat(ratioCardDisplay));
     }
 
     public renderCardsSettlement(cardList: Blockchain) {
@@ -146,7 +150,7 @@ export default class BlockchainCardList extends cc.Component {
             };
 
             this.flippingAnimations.push(cardComp?.animation);
-            this.resultCards.push(cardComp); 
+            this.resultCards.push(cardComp);
             emitEvent(BlockchainBaccaratEvents.FLIPPED_CARD, { index: index });
         }
     }

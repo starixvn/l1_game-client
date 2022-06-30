@@ -14,6 +14,6 @@ export const renderCardVerification = (cardVerification: BlockchainCardVerificat
         return;
     }
     if (cardVerification.numberKey === index || cardVerification.numberKey2 === index) {
-        cardVerification.autoRenderCardVerification(blockchain?.chain[index], index);
+        cardVerification.renderDataCardVerification(blockchain?.chain[index], index, true);
     }
 };

@@ -4,11 +4,15 @@ import { BlockchainBaccaratFinish } from "../event-models/BlockchainBaccaratFini
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
 
 export const renderCardSettlement = (cardList: BlockchainCardList) => (finishData: BlockchainBaccaratFinish) => {
+    if (cardList.node.active === false) {
+        return;
+    }
     cardList?.renderCardsSettlement(finishData?.blockchain);
 };
 
-export const updateBlockchainCardList = (cardList: BlockchainCardList, cardsUI: BlockchainBaccaratCardsUI) => (newBlockchain: Blockchain) => {
-    cardList?.updateBlockchain(newBlockchain);
-    cardList?.setData();
-    cardsUI.handleNumberIndex(newBlockchain.currentIndex);
-};
+export const updateBlockchainCardList =
+    (cardList: BlockchainCardList, cardsUI: BlockchainBaccaratCardsUI) => (newBlockchain: Blockchain) => {
+        cardList?.updateBlockchain(newBlockchain);
+        cardList?.setData();
+        cardsUI.handleNumberIndex(newBlockchain.currentIndex);
+    };

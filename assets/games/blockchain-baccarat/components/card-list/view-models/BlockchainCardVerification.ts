@@ -31,6 +31,9 @@ export default class BlockchainCardVerification extends cc.Component {
     @property(cc.Prefab)
     cardListPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    equalTag: cc.Node = null;
+
     private blockchainCardSerial: BlockchainCardModel;
     private blockchainCardPrivate: BlockchainCardModel;
     cardVerificationDialog: CommonDialog;
@@ -51,16 +54,10 @@ export default class BlockchainCardVerification extends cc.Component {
         }
     }
 
-    renderDataCardVerification(blockchainCard: BlockchainCardModel, index: number) {
+    renderDataCardVerification(blockchainCard: BlockchainCardModel, index: number, autoRender = false) {
+        this.enableEqualTag(false);
         this.renderVerifiedSerialNumber();
-        if (this.state === CardVerificationState.serialChange) {
-            this.renderSerialNumber(blockchainCard, index);
-        } else if (this.state === CardVerificationState.privateChange) {
-            this.renderPrivateKey(blockchainCard, index);
-        } else {
-            this.renderSerialNumber(blockchainCard, index);
-            this.renderPrivateKey(blockchainCard, index);
-        }
+        autoRender ? this.autoRenderCardVerification(blockchainCard, index) : this.onClickRenderCardVerification(blockchainCard, index);
         this.renderButton();
         this.onHideTooltips();
     }
@@ -72,17 +69,24 @@ export default class BlockchainCardVerification extends cc.Component {
         this.verifiedSerial.resetHighLight();
     }
 
+    onClickRenderCardVerification(blockchainCard: BlockchainCardModel, index: number) {
+        if (this.state === CardVerificationState.serialChange) {
+            this.renderSerialNumber(blockchainCard, index);
+        } else if (this.state === CardVerificationState.privateChange) {
+            this.renderPrivateKey(blockchainCard, index);
+        } else {
+            this.renderSerialNumber(blockchainCard, index);
+            this.renderPrivateKey(blockchainCard, index);
+        }
+    }
+
     autoRenderCardVerification(blockchainCard: BlockchainCardModel, index: number) {
-        this.renderVerifiedSerialNumber();
         if (this.numberKey === index) {
             this.renderSerialNumber(blockchainCard, index);
         }
         if (this.numberKey2 === index) {
             this.renderPrivateKey(blockchainCard, index);
         }
-
-        this.renderButton();
-        this.onHideTooltips();
     }
 
     renderButton() {
@@ -127,6 +131,11 @@ export default class BlockchainCardVerification extends cc.Component {
         this.onHideTooltips();
         const hashValue = this.createHashSHA256(this.blockchainCardPrivate.rawValue);
         const privateKeyIsMatch = this.blockchainCardSerial.hashValue.localeCompare(hashValue);
+        
+        this.setStatusEqualTag(privateKeyIsMatch === 0);
+        this.verifiedSerial.setHashValue(this.blockchainCardSerial.hashValue);
+        this.verifiedSerial.enableCopyButton(true);
+        
         if (privateKeyIsMatch === 0) {
             this.verifyCard.setVerifySuccess(true);
             this.serialNumber.setHighLightSuccess();
@@ -136,8 +145,16 @@ export default class BlockchainCardVerification extends cc.Component {
             this.serialNumber.setHighLightFailed();
             this.verifiedSerial.setHighLightFailed();
         }
-        this.verifiedSerial.setHashValue(this.blockchainCardSerial.hashValue);
-        this.verifiedSerial.enableCopyButton(true);
+    }
+
+    enableEqualTag(enabled) {
+        this.equalTag.active = enabled;
+    }
+
+    setStatusEqualTag(status: boolean) {
+        this.enableEqualTag(true);
+        this.equalTag.getChildByName("equal").active = status;
+        this.equalTag.getChildByName("not-equal").active = !status;
     }
 
     createHashSHA256(value: string) {
