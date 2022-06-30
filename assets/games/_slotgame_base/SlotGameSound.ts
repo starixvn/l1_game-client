@@ -10,7 +10,13 @@ export enum CascadingSlotGameSound {
     FREE_SPIN,
     TURBO_SYMBOL_FALL_OUT,
     TURBO_SYMBOL_DROP_IN,
-    MASCOT_GUN_SHOT
+    MASCOT_GUN_SHOT,
+    SYMBOL_STOP,
+    SYMBOL_STOP_1,
+    SYMBOL_STOP_2,
+    SYMBOL_STOP_3,
+    SYMBOL_STOP_4,
+    SYMBOL_STOP_5
 }
 
 const { ccclass, property } = cc._decorator;

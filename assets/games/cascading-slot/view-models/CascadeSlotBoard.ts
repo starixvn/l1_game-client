@@ -3,8 +3,8 @@ import _ = require("lodash");
 import GameUtils from "../../../common/GameUtils";
 import SlotGameSound, { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import CascadeSlotReel from "./CascadeSlotReel";
-import MultiplierItem from "./MultiplierItem";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
+import MultiplierItem from "./MultiplierItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -83,28 +83,33 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public async spinResult(symbols: number[][], multiplier: number[], isTurbo: boolean) {
         const duration = (5 * 145) / this.reels[0].pixelPerSecond;
-        const delay = 0.2 * duration;
+        const delay = 0.25 * duration;
+        console.log("delay ", delay * 1000);
 
-        if (isTurbo) {
-            this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_DROP_IN);
-        } else {
-            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_DROP_IN);
-        }
+        // if (isTurbo) {
+        //     this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_DROP_IN);
+        // } else {
+        //     this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_DROP_IN);
+        // }
 
         await this.fallOut(isTurbo, delay);
 
-        if (!isTurbo) {
-            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_FALL_OUT);
-        }
+        // if (!isTurbo) {
+        //     this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_FALL_OUT);
+        // }
 
+        const playSoundOnBottomItem = (index: number) => () => {
+            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_STOP + index);
+        };
         for (let i = 0; i < this.reels.length; i++) {
             if (!isTurbo) {
                 await GameUtils.delayTime(delay);
             }
+
             if (i < this.reels.length - 1) {
-                this.reels[i].spin(symbols[i], multiplier, isTurbo);
+                this.reels[i].spin(symbols[i], multiplier, isTurbo, playSoundOnBottomItem(i));
             } else {
-                await this.reels[i].spin(symbols[i], multiplier, isTurbo);
+                await this.reels[i].spin(symbols[i], multiplier, isTurbo, playSoundOnBottomItem(i));
             }
         }
     }
@@ -162,7 +167,7 @@ export default class CascadeSlotBoard extends cc.Component {
     public async fallIn(isTurbo: boolean) {
         await Promise.all(
             this.reels.map(async (reel) => {
-                await reel.fallIn(isTurbo);
+                await reel.fallIn(isTurbo, null);
             })
         );
     }

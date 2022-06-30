@@ -47,10 +47,10 @@ export default class CascadeSlotReel extends cc.Component {
         return node;
     }
 
-    async spin(data: number[], multiplier: number[], isTurbo: boolean) {
+    async spin(data: number[], multiplier: number[], isTurbo: boolean, onSpinEnded: () => void) {
         this.setItemData(data, multiplier);
         this.setStartPositionForItems();
-        await this.fallIn(isTurbo);
+        await this.fallIn(isTurbo, onSpinEnded);
     }
 
     getItemPosY(index: number) {
@@ -75,7 +75,7 @@ export default class CascadeSlotReel extends cc.Component {
         });
     }
 
-    async fallWithOffset(offset: number, isTurbo: boolean) {
+    async fallWithOffset(offset: number, isTurbo: boolean, onBottomItemEnded?: () => void) {
         const isFallOut = offset < 0;
         const baseSpeed = isFallOut ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
         const speed = isTurbo ? baseSpeed * 1.5 : baseSpeed;
@@ -95,11 +95,17 @@ export default class CascadeSlotReel extends cc.Component {
                 await GameUtils.delayTime(delay);
             }
 
+            const isBottomItem = i === 0;
             if (isFallOut) {
                 cc.tween(item.node).to(duration, { y: posY }, { easing: "sineIn" }).start();
             } else {
                 cc.tween(item.node)
-                    .to(duration, { y: posY - backOffsetY }, { easing: "sineIn" })
+                    .to(duration, { y: posY - backOffsetY })
+                    .call(() => {
+                        if (isBottomItem) {
+                            onBottomItemEnded && onBottomItemEnded();
+                        }
+                    })
                     .by(backDuration, { y: +backOffsetY }, { easing: "sineOut" })
                     .start();
             }
@@ -113,11 +119,11 @@ export default class CascadeSlotReel extends cc.Component {
     }
 
     async fallOut(isTurbo: boolean) {
-        await this.fallWithOffset(-this.itemDisplayCount, isTurbo);
+        await this.fallWithOffset(-this.itemDisplayCount, isTurbo, null);
     }
 
-    async fallIn(isTurbo: boolean) {
-        await this.fallWithOffset(0, isTurbo);
+    async fallIn(isTurbo: boolean, onEnded: () => void) {
+        await this.fallWithOffset(0, isTurbo, onEnded);
     }
 
     getItemNode(index: number): cc.Node {
