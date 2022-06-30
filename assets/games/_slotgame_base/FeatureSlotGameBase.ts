@@ -73,7 +73,11 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     initForHoldActionButton() {
         this.holdActionButton.checkPreventFunctioning = () => {
-            return this.currentMiniPanel.dialog.childrenCount > 0 || this.gameData.spinButtonStateModel.state === SpinButtonState.AutoSpin;
+            return (
+                this.currentMiniPanel.dialog.childrenCount > 0 ||
+                this.currentMiniPanel.guideContainer.childrenCount > 0 ||
+                this.gameData.spinButtonStateModel.state === SpinButtonState.AutoSpin
+            );
         };
     }
 
