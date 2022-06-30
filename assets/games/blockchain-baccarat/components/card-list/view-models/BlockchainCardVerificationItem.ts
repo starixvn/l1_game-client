@@ -55,7 +55,7 @@ export default class BlockchainCardVerificationItem extends cc.Component {
 
     setHashValue(text: string) {
         this.hashValue.string = text;
-        this.hashValue.node.color = this.color.fromHEX("#232323");
+        this.hashValue.node.color = this.color.fromHEX("#98b2e5");
         this.setTextCopy(text);
     }
 
@@ -65,12 +65,12 @@ export default class BlockchainCardVerificationItem extends cc.Component {
 
     setHighLightSuccess() {
         this.highlightSuccess.active = true;
-        this.hashValue.node.color = this.color.fromHEX("#00b119");
+        this.hashValue.node.color = this.color.fromHEX("#59c467");
     }
 
     setHighLightFailed() {
         this.highlightFailed.active = true;
-        this.hashValue.node.color = this.color.fromHEX("#ff0000");
+        this.hashValue.node.color = this.color.fromHEX("#ff6161");
     }
 
     showHintCopy() {

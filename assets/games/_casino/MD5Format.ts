@@ -66,7 +66,7 @@ export const FormatMD5Result = ({
     return `${resultFormatting}${suffixFormatting}`;
 };
 
-export const formatPrivateKey = (card, isShowIconSuit: true, suitBlack = "#000000", suitRed = "#E92E2E"): string => {
+export const formatPrivateKey = (card, isShowIconSuit: true, suitBlack = "#98b2e5", suitRed = "#E92E2E"): string => {
     const cardValue = isShowIconSuit ? formatCardSuit({ card, suitBlack, suitRed }) : formatCard({ card, suitBlack, suitRed });
     return `${cardValue}`;
 };

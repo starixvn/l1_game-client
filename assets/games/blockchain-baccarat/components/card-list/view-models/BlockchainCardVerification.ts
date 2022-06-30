@@ -45,7 +45,7 @@ export default class BlockchainCardVerification extends cc.Component {
     private readonly encryptKey =
         "************************************************************************************************************";
 
-    private readonly numberOfCharactersPerLine = 61;
+    private readonly numberOfCharactersPerLine = 96;
 
     showDialog() {
         this.cardVerificationDialog = this.getComponent(CommonDialog);
@@ -58,6 +58,8 @@ export default class BlockchainCardVerification extends cc.Component {
         this.enableEqualTag(false);
         this.renderVerifiedSerialNumber();
         autoRender ? this.autoRenderCardVerification(blockchainCard, index) : this.onClickRenderCardVerification(blockchainCard, index);
+        this.serialNumber.resetHighLight();
+        this.serialNumber.setHashValue(this.blockchainCardSerial?.hashValue);
         this.renderButton();
         this.onHideTooltips();
     }
@@ -131,11 +133,11 @@ export default class BlockchainCardVerification extends cc.Component {
         this.onHideTooltips();
         const hashValue = this.createHashSHA256(this.blockchainCardPrivate.rawValue);
         const privateKeyIsMatch = this.blockchainCardSerial.hashValue.localeCompare(hashValue);
-        
+
         this.setStatusEqualTag(privateKeyIsMatch === 0);
         this.verifiedSerial.setHashValue(this.blockchainCardSerial.hashValue);
         this.verifiedSerial.enableCopyButton(true);
-        
+
         if (privateKeyIsMatch === 0) {
             this.verifyCard.setVerifySuccess(true);
             this.serialNumber.setHighLightSuccess();
