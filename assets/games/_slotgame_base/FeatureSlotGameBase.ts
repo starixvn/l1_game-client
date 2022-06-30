@@ -220,8 +220,12 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             this.effectContainer.addChild(effect);
 
             const animation = effect.getComponent(CallbackAnimation);
-            animation.onFinishedCallback = () => resolve();
+            animation.onFinishedCallback = () => {
+                this.currentMiniPanel.node.active = true;
+                resolve();
+            };
             animation.play();
+            this.currentMiniPanel.node.active = false;
         });
     }
 
