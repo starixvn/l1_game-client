@@ -1,3 +1,4 @@
+import AudioManager from "../../../../common/audio/AudioManager";
 import { CardAnimation } from "../../../../common/new-card/view-models/NewCard";
 import { CardModel } from "../../BlockchainBaccaratType";
 import BlockchainCard from "../../components/card-list/view-models/BlockchainCard";
@@ -19,6 +20,17 @@ type CardFly = {
     isBanker?: boolean;
 };
 
+export const playFlyCardAudio = (card: cc.Node, source: cc.AudioClip) => {
+    if (AudioManager.getInstance().sfxEnabled) {
+        card.runAction(
+            cc.sequence(
+                cc.delayTime(0.2),
+                cc.callFunc(() => AudioManager.getInstance().playSFX(source))
+            )
+        );
+    }
+};
+
 @ccclass
 export default class BlockchainBaccaratCards extends cc.Component {
     @property(cc.Node)
@@ -35,6 +47,9 @@ export default class BlockchainBaccaratCards extends cc.Component {
 
     @property(cc.Node)
     title: cc.Node = null;
+
+    @property(cc.AudioSource)
+    cardAudioSource: cc.AudioSource = null;
 
     readonly durationFlyCard = 0.4;
     readonly durationFlyCard3 = 0.2;
@@ -66,7 +81,6 @@ export default class BlockchainBaccaratCards extends cc.Component {
     }
 
     resetActions() {
-        //resetActions
         this.cardsFlyTween?.forEach((cardTween: cc.Tween) => {
             cardTween.stop();
         });
@@ -174,6 +188,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                         isCardThree,
                         isBanker
                     });
+                    playFlyCardAudio(card, this.cardAudioSource?.clip);
                 })
                 .delay(delay)
                 .call(() => resolve())
@@ -196,6 +211,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                         start,
                         isReserve: true
                     });
+                    playFlyCardAudio(card, this.cardAudioSource?.clip);
                 })
                 .call(() => resolve())
                 .start();

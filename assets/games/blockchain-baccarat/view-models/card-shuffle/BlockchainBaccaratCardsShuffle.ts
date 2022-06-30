@@ -1,3 +1,4 @@
+import { playFlyCardAudio } from "./../card/BlockchainBaccaratCards";
 import { BlockchainCardModel } from "./../../BlockchainBaccaratType";
 import { Blockchain } from "./../../event-models/BlockchainBaccaratCardListModel";
 import { CardAnimation } from "./../../../../common/new-card/view-models/NewCard";
@@ -33,6 +34,9 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
 
     @property(cc.Node)
     cardsDrop: cc.Node = null;
+
+    @property(cc.AudioSource)
+    cardAudioSource: cc.AudioSource = null;
 
     private readonly durationFlyCard = 0.6;
     private readonly durationFlyOpenCard = 1;
@@ -192,6 +196,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                 cc.moveTo(this.durationFlyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
             )
         );
+        playFlyCardAudio(card, this.cardAudioSource?.clip);
     }
 
     private dropCards(card: cc.Node, cardsDrop: cc.Node, durationJumpToBoxCard: number, duration: number): Promise<void> {
