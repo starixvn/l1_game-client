@@ -149,12 +149,21 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             const checked = true;
             this.trialToggle.isChecked = checked;
             this.isTrialMode = checked;
-            this.tumbleList.offerTrialMode(this.isTrialMode);
-            this.historyBtn.interactable = !this.isTrialMode;
+            this.updateForTrialMode();
             this.initTrialConnection();
         } else {
             this.registerViewGame();
         }
+    }
+
+    updateForTrialMode() {
+        this.tumbleList.offerTrialMode(this.isTrialMode);
+        this.holdActionButton.onlyButtonFunction = this.isTrialMode;
+        this.historyBtn.interactable = !this.isTrialMode;
+        this.autoSpinToggle.interactable = !this.isTrialMode;
+        this.turboToggle.interactable = !this.isTrialMode;
+
+        this.clearGameOnTrialModeChanged();
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
@@ -169,17 +178,14 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         }
         this.saveSettingKey("trialMode", checked);
         this.tumbleList.clear();
-        this.tumbleList.offerTrialMode(this.isTrialMode);
-        this.historyBtn.interactable = !this.isTrialMode;
-        this.clearGameRound();
+        this.updateForTrialMode();
     }
 
-    clearGameRound() {
-        super.clearGameRound();
+    clearGameOnTrialModeChanged() {
+        this.clearGameRound();
         this.gameData.uiModel.resetNewRound();
-        this.turboToggle.isChecked = false;
+        this.setAndSaveSettingTurbo(false);
         this.betControl.resetValues();
-        this.miniBetControl.initData(this.betControl);
     }
 
     initHandlers() {
@@ -561,7 +567,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.trialToggle.interactable = true;
         this.setAllowChangeBet(true);
         this.enableSpinButton(true);
-        this.autoSpinToggle.interactable = !this.holdActionButton.isAutoAction;
+        this.autoSpinToggle.interactable = !this.holdActionButton.isAutoAction && !this.isTrialMode;
     }
 
     protected enableSpinButton(value: boolean) {

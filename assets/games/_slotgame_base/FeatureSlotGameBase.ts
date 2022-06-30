@@ -160,11 +160,16 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const turboDialog = node.getComponent(TurboAutoSpinSettingDialog);
         if (turboDialog) {
             turboDialog.syncTurboToggle(this.turboToggle.isChecked);
-            turboDialog.turboChangedCallback = (value: boolean) => (this.turboToggle.isChecked = value);
+            turboDialog.turboChangedCallback = (value: boolean) => this.setAndSaveSettingTurbo(value);
         }
 
         dialog.onCancelCallback = () => this.onAutoSpinOff();
         return dialog;
+    }
+
+    setAndSaveSettingTurbo(value: boolean) {
+        this.turboToggle.isChecked = value;
+        this.saveSettingKey("turboEnabled", this.turboToggle.isChecked);
     }
 
     isAutoSpinMode() {

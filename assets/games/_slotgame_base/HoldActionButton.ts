@@ -6,10 +6,11 @@ export default class HoldActionButton extends cc.Component {
     @property({ type: cc.Component.EventHandler })
     clickEvents: cc.Component.EventHandler[] = [];
 
-    public isTouching = false;
-    public isKeyPressing = false;
-    private readonly _actions = [];
+    protected isTouching = false;
+    protected isKeyPressing = false;
+    protected readonly _actions = [];
 
+    public onlyButtonFunction = false;
     public interactable = true;
     public checkPreventFunctioning = () => false;
 
@@ -38,7 +39,6 @@ export default class HoldActionButton extends cc.Component {
         const hit = this.node._hitTest(location);
         this.stopHoldButton();
         if (hit) {
-            //TODO: handle quickly release touch
             this.doAction(false);
         }
     }
@@ -52,11 +52,14 @@ export default class HoldActionButton extends cc.Component {
         }
     }
 
-    private doAction(param: boolean) {
+    private doAction(isSpecialAction: boolean) {
         if (!this.interactable) {
             return;
         }
-        cc.Component.EventHandler.emitEvents(this.clickEvents, param);
+        if (this.onlyButtonFunction && isSpecialAction) {
+            return;
+        }
+        cc.Component.EventHandler.emitEvents(this.clickEvents, isSpecialAction);
         this._actions.forEach((action) => action && action());
     }
 
