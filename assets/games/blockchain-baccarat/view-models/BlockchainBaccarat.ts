@@ -74,6 +74,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.initCardVerification();
         this.registerFinishEvents();
         this.registerNewBlockchainEvents();
+        this.registerBlockchainEvents();
         this.registerCardVerification();
     }
 
@@ -198,6 +199,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
             blockchainAction.updateBlockchainCardList(this.cardList, this.cardsUI)(newBlockchain);
             this.gameData.cardList.currentIndex = newBlockchain.currentIndex;
             this.gameData.cardList.numberCardsFly = 6;
+        });
+    }
+
+    private registerBlockchainEvents() {
+        this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.CHANGE, (blockchain: Blockchain) => {
+            this.cardList.updateBlockchain(blockchain);
         });
     }
 
