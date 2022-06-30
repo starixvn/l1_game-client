@@ -556,18 +556,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             return;
         }
 
-        if (state === CascadingSlotState.Spinning) {
+        if (state === CascadingSlotState.Spinning || state === CascadingSlotState.Start_Round) {
             this.trialToggle.interactable = false;
             this.setAllowChangeBet(false);
             this.enableSpinButton(false);
-            this.autoSpinToggle.interactable = false;
-            return;
-        }
-
-        if (state === CascadingSlotState.Start_Round) {
-            this.trialToggle.interactable = false;
-            this.setAllowChangeBet(false);
-            this.enableSpinButton(true);
             this.autoSpinToggle.interactable = false;
             return;
         }
