@@ -179,7 +179,7 @@ export default class BlockchainCardList extends cc.Component {
         const node = GameUtils.createNodeFromPrefab(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
         cardComponent.setKeyCard();
-
+        cardComponent.openCardVerification = () => {};
         return node;
     }
 

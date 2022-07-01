@@ -228,5 +228,9 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                 this.gameData.finishModel.finishData?.blockchain
             )(params["index"]);
         });
+
+        consumeEvent(BlockchainBaccaratEvents.HIDE_TOOLTIPS, () => {
+            this.cardVerification.onHideTooltips();
+        });
     }
 }

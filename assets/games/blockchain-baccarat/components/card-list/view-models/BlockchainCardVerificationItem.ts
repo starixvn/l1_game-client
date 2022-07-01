@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import GameUtils from "../../../../../common/GameUtils";
 import { CardModel } from "../../../BlockchainBaccaratType";
+import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
 import BlockchainCard from "./BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
@@ -123,7 +124,9 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         cardComponent.setInfoTag();
         cardComponent.setShadow();
         cardComponent.resetIndexNumber();
-        cardComponent.openCardVerification = () => {};
+        cardComponent.openCardVerification = () => {
+            emitEvent(BlockchainBaccaratEvents.HIDE_TOOLTIPS);
+        };
         return node;
     }
 }
