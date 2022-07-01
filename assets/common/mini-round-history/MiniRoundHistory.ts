@@ -35,7 +35,7 @@ export default class MiniRoundHistory extends cc.Component {
 
     protected checkShowNext = () => false;
     protected dataLogs: any[] = [];
-    private cachedDataLog: any[] = [];
+    protected isHideNextDot = false;
 
     onLoad() {
         this.items = this.content.children.map((child) => child.getComponent(MiniRoundHistoryItem));
@@ -45,11 +45,11 @@ export default class MiniRoundHistory extends cc.Component {
         });
 
         this.initNextDot();
-        this.schedule(this.updateDisplayNextItem, 1);
+        this.schedule(this.updateDisplayItems, 1);
     }
 
     onDestroy() {
-        this.unschedule(this.updateDisplayNextItem);
+        this.unschedule(this.updateDisplayItems);
     }
 
     init(condition: () => boolean) {
@@ -62,12 +62,9 @@ export default class MiniRoundHistory extends cc.Component {
     }
 
     public setData(data: any[]) {
-        const updateNow = !this.dataLogs || this.dataLogs.length !== data.length;
         this.dataLogs = _.cloneDeep(data);
 
-        if (updateNow) {
-            this.updateDisplayNextItem(0);
-        }
+        this.updateDisplayItems();
     }
 
     protected hideAllDots() {
@@ -76,7 +73,7 @@ export default class MiniRoundHistory extends cc.Component {
         });
     }
 
-    protected updateOrderNode(data: any[], showNext: boolean) {
+    protected updateDataForItems(data: any[], showNext: boolean) {
         this.hideAllDots();
         const startIndex = showNext ? 1 : 0;
         data.forEach((log, index) => {
@@ -98,19 +95,20 @@ export default class MiniRoundHistory extends cc.Component {
         }
     }
 
-    updateDisplayNextItem(dt: number) {
+    updateDisplayItems() {
         if (this.dataLogs.length === 0 || this.items.length === 0) {
             return;
         }
+
         if (this.nodeNext) {
             this.nodeNext.active = this.checkShowNext();
-            this.updateOrderNode(this.dataLogs, this.nodeNext.active);
             this.items[0].node.active = !this.nodeNext.active;
+            this.updateDataForItems(this.dataLogs, this.nodeNext.active);
             if (this.nodeNext.active) {
                 this.hideTooltip();
             }
         } else {
-            this.updateOrderNode(this.dataLogs, false);
+            this.updateDataForItems(this.dataLogs, false);
             this.items[0].node.active = true;
         }
     }

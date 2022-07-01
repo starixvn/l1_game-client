@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
-import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { GameIds } from "../../../configs/SabaConfigs";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
@@ -106,7 +105,6 @@ export default class SicBo extends SocketIOTableGameBase {
     specific5Statistic = 0;
     specific6Statistic = 0;
 
-    private miniRoundHistory: MiniRoundHistory;
     private dicesStatisticComponent: SicBoDicesStatistic;
     private majorChoicesStatisticComponent: SicBoMajorChoicesStatistic;
 
@@ -134,7 +132,6 @@ export default class SicBo extends SocketIOTableGameBase {
 
         this.shakeAnimation.node.active = false;
         this.animatedTime.setAnimatedY(30, -5);
-        this.initRoundHistory();
         this.initDicesStatistic();
         this.initMajorChoicesStatistic();
 
@@ -251,21 +248,9 @@ export default class SicBo extends SocketIOTableGameBase {
 
     checkConditionUpdateRoundHistory() {
         const finishHandler = this.finishHandler as GameBaseFinishHandler;
+
         return () =>
             this.currentTimeRemaining < this.config.stopBetTime ||
             this.currentTimeRemaining > this.config.fullTime - finishHandler.getResultAnimationTime();
-    }
-
-    initRoundHistory() {
-        const node = cc.instantiate(this.roundHistoryPrefab);
-        this.miniRoundHistory = node.getComponent(MiniRoundHistory);
-
-        const condition = this.checkConditionUpdateRoundHistory();
-        this.miniRoundHistory.init(condition);
-        this.roundHistoryContainer.addChild(node);
-    }
-
-    updateRoundHistory(data) {
-        this.miniRoundHistory.setData(data);
     }
 }

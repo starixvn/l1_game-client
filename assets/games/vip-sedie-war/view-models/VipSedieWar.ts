@@ -100,16 +100,17 @@ export default class VipSedieWar extends VipSedie {
         this.timeHandler = new VipSedieWarTimeHandler(this);
     }
 
+    normalShowNextDotCondition() {
+        return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - 0.1;
+    }
+
     initRoundHistory() {
-        const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - 0.1;
-        };
-        this.leftStatistic.sedieRoundHistory.logControl.init(condition);
-        this.rightStatistic.sedieRoundHistory.logControl.init(condition);
+        this.leftStatistic.sedieRoundHistory.logControl.init(this.needShowNextDot.bind(this));
+        this.rightStatistic.sedieRoundHistory.logControl.init(this.needShowNextDot.bind(this));
 
         const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(MiniRoundHistory);
-        this.miniRoundHistory.init(condition);
+        this.miniRoundHistory.init(this.needShowNextDot.bind(this));
         this.miniRoundHistoryContainer.addChild(mini);
     }
 

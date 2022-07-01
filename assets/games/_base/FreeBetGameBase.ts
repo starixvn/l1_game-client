@@ -107,7 +107,6 @@ export default class FreeBetGameBase extends MultiOrientationGame {
         this.dollarWallet.node.active = true;
         this.dollarWallet.overlay.active = false;
         this.userScoinWallet.node.active = false;
-        console.log("loadDollarWalletUI", this.walletWrapper);
 
         if (this.orientation === Orientation.Landscape) {
             this.walletWrapper.getComponent(cc.Sprite).enabled = true;

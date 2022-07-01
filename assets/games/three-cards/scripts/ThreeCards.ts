@@ -114,21 +114,22 @@ export default class ThreeCards extends SocketIOTableGameBase {
         this.dealingAnimation.node.active = show;
     }
 
+    normalShowNextDotCondition() {
+        return (
+            this.currentTimeRemaining < this.config.stopBetTime ||
+            this.currentTimeRemaining > this.config.fullTime - this.showResultDuration
+        );
+    }
+
     initRoundHistory() {
         const node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(ThreeCardsRoundHistory);
-        const condition = () => {
-            return (
-                this.currentTimeRemaining < this.config.stopBetTime ||
-                this.currentTimeRemaining > this.config.fullTime - this.showResultDuration
-            );
-        };
-        this.roundHistory.logControl.init(condition);
+        this.roundHistory.logControl.init(this.needShowNextDot.bind(this));
         this.roundHistoryContainer.addChild(node);
 
         const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(MiniRoundHistory);
-        this.miniRoundHistory.init(condition);
+        this.miniRoundHistory.init(this.needShowNextDot.bind(this));
         this.miniRoundHistoryContainer.addChild(mini);
     }
 
@@ -142,11 +143,13 @@ export default class ThreeCards extends SocketIOTableGameBase {
                 detail: d.result.map((card) => card.suit)
             };
         });
+
         this.miniRoundHistory.setData(miniHistoryData);
 
         const resultStatisticsData = this.currentDataLogs.map((log) => {
             return log.result.map((card) => card.suit);
         });
+
         this.resultStatistics.setData(resultStatisticsData);
     }
 
@@ -196,6 +199,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
             this.setCardsResult(data);
             this.playOpenCardAnimation(() => {
                 this.highlightWonItems(data.settlementResult);
+                this.needHideNextDotRoundHistory = true;
                 this.updateAfterResult();
                 resolve();
             });
@@ -239,5 +243,10 @@ export default class ThreeCards extends SocketIOTableGameBase {
         this.historyComponent = dialog.getComponent(ThreeCardsHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.addDialog(dialog);
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+        this.needHideNextDotRoundHistory = false;
     }
 }

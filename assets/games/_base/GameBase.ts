@@ -155,6 +155,7 @@ export default class GameBase extends BaseComponent {
     public gameAudios: GameAudios;
     private readonly dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
+    public needHideNextDotRoundHistory = false;
 
     setConfig(config: GameConfigBase) {
         this.config = config;
@@ -552,4 +553,12 @@ export default class GameBase extends BaseComponent {
     openHistory() {}
 
     onCloseGame() {}
+
+    needShowNextDot() {
+        return !this.needHideNextDotRoundHistory && this.normalShowNextDotCondition();
+    }
+
+    normalShowNextDotCondition() {
+        return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
+    }
 }

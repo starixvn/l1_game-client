@@ -9,6 +9,7 @@ export default class VipBaccaratFinishHandler extends BaccaratFinishHandler {
     protected handleBuildMiniLogs(baccaratMain: any) {
         const logsHandler = baccaratMain.logsHandler as VipBaccaratLogsHandler;
         const currentDataLogs = logsHandler.convertLogsDataLogs(baccaratMain.currentDataLogs);
+        baccaratMain.needHideNextDotRoundHistory = true;
         baccaratMain.miniRoundHistory.setData(currentDataLogs);
     }
 }

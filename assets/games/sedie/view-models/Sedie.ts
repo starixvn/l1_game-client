@@ -67,6 +67,7 @@ export default class Sedie extends FreeBetGameBase {
 
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
+    openPlateDuration = 0.5;
 
     constructor() {
         super();
@@ -134,18 +135,19 @@ export default class Sedie extends FreeBetGameBase {
         this.statusHandler = new SedieStatusHandler(this);
     }
 
+    normalShowNextDotCondition() {
+        return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
+    }
+
     initRoundHistory() {
         const node = cc.instantiate(this.roundHistoryPrefab);
         this.roundHistory = node.getComponent(SedieRoundHistory);
-        const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
-        };
-        this.roundHistory.logControl.init(condition);
+        this.roundHistory.logControl.init(this.needShowNextDot.bind(this));
         this.roundHistoryContainer.addChild(node);
 
         const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
-        this.miniRoundHistory.init(condition);
+        this.miniRoundHistory.init(this.needShowNextDot.bind(this));
         this.miniRoundHistoryContainer.addChild(mini);
     }
 
@@ -163,6 +165,7 @@ export default class Sedie extends FreeBetGameBase {
                 red: count
             };
         });
+
         this.roundHistory.setData(miniHistoryData.map((d) => d.red));
         this.miniRoundHistory.setData(miniHistoryData);
     }
@@ -200,7 +203,10 @@ export default class Sedie extends FreeBetGameBase {
 
         const platePos = cc.v2(50, 100);
         if (animated) {
-            cc.tween(this.thePlate).to(0.5, { position: platePos }, { easing: "sineInOut" }).to(0.2, { opacity: 0 }).start();
+            cc.tween(this.thePlate)
+                .to(this.openPlateDuration, { position: platePos }, { easing: "sineInOut" })
+                .to(0.2, { opacity: 0 })
+                .start();
         } else {
             this.thePlate.position = cc.v3(platePos);
             this.thePlate.opacity = 0;
@@ -228,6 +234,7 @@ export default class Sedie extends FreeBetGameBase {
         this.closePlate(false);
         this.shakeThePlateAnimation.stop();
         this.chipContainer.children.forEach((child) => child.destroyAllChildren());
+        this.needHideNextDotRoundHistory = false;
     }
 
     highlightLastResult() {
