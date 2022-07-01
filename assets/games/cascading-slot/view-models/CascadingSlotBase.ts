@@ -375,7 +375,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             if (this.isFreeSpin()) {
                 this.gameData.spinButtonStateModel.change(SpinButtonState.ResumeWithFreeSpin);
             } else {
-                this.gameData.stateModel.change(CascadingSlotState.None);
+                this.gameData.stateModel.change(CascadingSlotState.Settled);
                 this.onAutoSpinOff();
             }
         });
