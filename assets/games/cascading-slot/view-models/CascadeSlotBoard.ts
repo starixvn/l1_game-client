@@ -84,7 +84,6 @@ export default class CascadeSlotBoard extends cc.Component {
     public async spinResult(symbols: number[][], multiplier: number[], isTurbo: boolean) {
         const duration = (5 * 145) / this.reels[0].pixelPerSecond;
         const delay = 0.25 * duration;
-        console.log("delay ", delay * 1000);
 
         // if (isTurbo) {
         //     this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_DROP_IN);
