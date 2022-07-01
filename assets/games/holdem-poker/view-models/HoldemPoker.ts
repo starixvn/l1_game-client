@@ -126,13 +126,6 @@ export default class HoldemPoker extends CasinoGame {
         return true;
     }
 
-    onDataGameRoom(data: any) {
-        super.onDataGameRoom(data);
-        if (this.gameData) {
-            this.gameData.receiveData(data);
-        }
-    }
-
     openHistory() {
         this.initTicketHistory();
         this.betHistoryController.setId(this.gameData.roundCounter.roundId);

@@ -120,14 +120,6 @@ export default class HiLo extends NewMiniGameBase {
         this.resultComp && this.resultComp.stopSpinCardAnimation();
     }
 
-    onData(data: unknown) {
-        super.onData(data);
-
-        if (this.gameData) {
-            this.gameData.receiveData(data);
-        }
-    }
-
     onDisable() {
         super.onDisable();
 

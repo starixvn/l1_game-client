@@ -196,13 +196,6 @@ export default class Texas extends CasinoGame {
         });
     }
 
-    onDataGameRoom(data: any) {
-        super.onDataGameRoom(data);
-        if (this.gameData) {
-            this.gameData.receiveData(data);
-        }
-    }
-
     public disabledButtons(status: boolean) {
         super.disabledButtons(status);
         const disableButton = "btn-disable";
