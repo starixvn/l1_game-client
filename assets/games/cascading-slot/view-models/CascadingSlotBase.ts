@@ -25,6 +25,7 @@ import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 import CascadingTotalBet from "./CascadingTotalBet";
+import CascadingWarningTrialMode from "./CascadingWarningTrialMode";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
@@ -99,9 +100,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     topMessage: SlotGameTopMessage = null;
     protected trialConnection: SocketIOConnection;
     protected miniBetControl: CascadingTotalBet;
+    protected warningTrialMode: CascadingWarningTrialMode;
     private historyBtn: cc.Button;
     private currCoinValue: number;
     private currBetLevel: number;
+    private countRoundTrialMode = 0;
 
     initTrialConnection() {
         if (!this.trialConnection) {
@@ -351,6 +354,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     break;
                 case CascadingSlotState.Settled:
                     this.clearHoldActionFlag();
+                    if (this.isTrialMode) {
+                        this.countRoundTrialMode++;
+                        this.showMsgWarningTrialMode(this.countRoundTrialMode);
+                    }
+
                     break;
             }
             this.showBottomMessageOnGameState();
@@ -375,6 +383,12 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.on(CommonEvents.SETTLE_API_ERROR, (error) => {
             this.cacheApiError = error;
         });
+    }
+
+    private showMsgWarningTrialMode(countRound: number) {
+        if (countRound % 5 === 0) {
+            this.warningTrialMode.showHaveAnim();
+        }
     }
 
     private showBottomMessageOnGameState() {
@@ -440,6 +454,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameConfigs.coin = this.currCoinValue;
         this.gameConfigs.level = this.currBetLevel;
         super.openGuide();
+    }
+
+    initWarningTrialMode(node: cc.Node) {
+        this.warningTrialMode = node.getComponent(CascadingWarningTrialMode);
+        this.warningTrialMode.showView(false);
     }
 
     initTotalBet(node: cc.Node) {

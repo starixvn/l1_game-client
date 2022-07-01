@@ -573,6 +573,7 @@ window.i18n.languages.vi = {
         extraFreeSpin: "Free Spins Thêm",
         autoSpinLeft: "Lượt Quay Tự Động Còn Lại",
         bigWinTextNotify: "Bấm Vào Vị Trí Bất Kỳ Để Tiếp Tục",
-        reachMaxWin: "Bạn Đã Đạt Mức Tiền Thắng Tối Đa"
+        reachMaxWin: "Bạn Đã Đạt Mức Tiền Thắng Tối Đa",
+        warningTrialMode: "Chơi Thật,\nThắng Thật"
     }
 };

@@ -573,6 +573,7 @@ window.i18n.languages.en = {
         extraFreeSpin: "Extra Free Spins",
         autoSpinLeft: "Auto Spins Left",
         bigWinTextNotify: "Press anywhere to continue",
-        reachMaxWin: "You reached the Max Win"
+        reachMaxWin: "You reached the Max Win",
+        warningTrialMode: "Play Real,\nWin Real"
     }
 };
