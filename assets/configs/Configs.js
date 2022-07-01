@@ -1,4 +1,4 @@
-const configs = {
+const defaultConfig = {
     systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
@@ -19,5 +19,7 @@ const configs = {
     enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false
 };
+
+const configs = window.envConfig && window.envConfig.isDev ? defaultConfig : { ...defaultConfig, ...window.envConfig };
 
 module.exports = configs;

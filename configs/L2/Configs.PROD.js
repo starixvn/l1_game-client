@@ -1,4 +1,4 @@
-const configs = {
+window.envConfig = {
     systemType: "SC2",
     ssl: true,
     disabledDirectLogin: true,
@@ -16,5 +16,3 @@ const configs = {
     enableMsgpackParserAllGames: true,
     enableMsgpackParserOnNotification: true
 };
-
-module.exports = configs;

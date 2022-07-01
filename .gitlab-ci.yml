@@ -14,6 +14,10 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
+    - project: "ci/repos-ci/pentagon_l1_game_client_remove_config"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+      
     - project: "ci/repos-ci/pentagon_l1_treasure_island_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
@@ -37,11 +41,10 @@ variables:
         - echo "====== Build Cocos Web Mobile ======"
         - echo $DEPLOY_ENV
         - echo $STACK_NAME
+        - echo $CI_COMMIT_BRANCH
+        - echo $CI_COMMIT_REF_NAME
         - npm set registry http://npm.lumigame.com
         - yarn install
-
-        - cp ./configs/$STACK_NAME/index-config.js ./build-templates/web-mobile/configs.js
-        - cp ./configs/$STACK_NAME/Configs.$DEPLOY_ENV.js ./assets/configs/Configs.js
         - if [ "$COCOS_VERSION" == "" ]; then
           export COCOS_VERSION="2.4.0";
           else
@@ -70,3 +73,9 @@ variables:
     extends:
         - .deploy_vars_l2_vg2_game_client
         - .build:image:l2_vg2_game_client:rules
+
+.base_build_cocos_web_l1_game_client_remove_config:
+    <<: *build_cocos_creator_script
+    extends:
+        - .deploy_vars_l1_game_client_remove_config
+        - .build:image:l1_game_client_remove_config:rules

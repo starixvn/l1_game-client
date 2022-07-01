@@ -204,7 +204,7 @@ function initGameEngine() {
 }
 
 function initGA() {
-    const gaCode = configs.site === "SC1" ? "G-GJDD3FENTH" : "G-JHKMX35LM3";
+    const gaCode = window.envConfig.systemType === "SC1" ? "G-GJDD3FENTH" : "G-JHKMX35LM3";
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
         () => {
             console.log("Init GA");
@@ -261,7 +261,7 @@ function updateLocalizedImages() {
     const language = getCurrentLanguage();
     let suffixSite;
     let rel = document.getElementById("favicon");
-    if (configs.site === "SC2") {
+    if (window.envConfig.systemType === "SC2") {
         document.title = "Vgaming";
         suffixSite = "_sc2";
         rel.href = "favicon_vgaming.ico?v=3";
@@ -282,7 +282,7 @@ function updateLocalizedImages() {
 function updateSplashLogo() {
     const splash = document.getElementById("splash_logo");
     const splashText = document.getElementById("splash_text");
-    const suffix = configs.site === "SC2" ? "_Vgaming" : "";
+    const suffix = window.envConfig.systemType === "SC2" ? "_Vgaming" : "";
     splash.className = `splash${suffix}`;
     splashText.className = `splash_text${suffix}`;
 }
