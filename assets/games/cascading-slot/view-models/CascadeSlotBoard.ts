@@ -83,19 +83,19 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public async spinResult(symbols: number[][], multiplier: number[], isTurbo: boolean) {
         const duration = (5 * 145) / this.reels[0].pixelPerSecond;
-        const delay = 0.25 * duration;
+        const delay = 0.4 * duration;
 
-        // if (isTurbo) {
-        //     this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_DROP_IN);
-        // } else {
-        //     this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_DROP_IN);
-        // }
+        if (isTurbo) {
+            this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_DROP_IN);
+        } else {
+            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_DROP_IN);
+        }
 
         await this.fallOut(isTurbo, delay);
 
-        // if (!isTurbo) {
-        //     this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_FALL_OUT);
-        // }
+        if (!isTurbo) {
+            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_FALL_OUT);
+        }
 
         const playSoundOnBottomItem = (index: number) => () => {
             this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_STOP + index);

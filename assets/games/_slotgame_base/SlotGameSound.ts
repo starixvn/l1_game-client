@@ -27,6 +27,6 @@ export default class SlotGameSound extends cc.Component {
     soundSources: cc.AudioSource[] = [];
 
     playSound(type: CascadingSlotGameSound) {
-        this.soundSources[type] && AudioManager.getInstance().playSFX(this.soundSources[type].clip);
+        this.soundSources[type] && AudioManager.getInstance().playSFXSource(this.soundSources[type]);
     }
 }

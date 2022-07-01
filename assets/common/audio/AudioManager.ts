@@ -36,6 +36,12 @@ export default class AudioManager {
         return -1;
     }
 
+    playSFXSource(audio: cc.AudioSource) {
+        if (this.sfxEnabled && audio) {
+            audio.play();
+        }
+    }
+
     stopSFX(audioId: number) {
         cc.audioEngine.stopEffect(audioId);
     }
