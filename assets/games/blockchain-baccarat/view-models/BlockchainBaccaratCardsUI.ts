@@ -85,10 +85,10 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                         this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
                     }
                 });
-                await this.playerCards.flyCard2FromDecks(currentIndex + 2);
-                await this.bankerCards.flyCard2FromDecks(currentIndex + 3);
-                await this.reserveCards.flyCard1FromDecks(currentIndex + 4, this.reserveCards.durationFlyCard3);
-                await this.reserveCards.flyCard2FromDecks(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                await this.playerCards.flyCard2FromDeck(currentIndex + 2);
+                await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
+                await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
             case CountCardFlied.FiveCards:
                 await this.reserveCards.flyCardFromReserve({
@@ -100,19 +100,19 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                     }
                 });
 
-                await this.bankerCards.flyCard1FromDecks(currentIndex + 1);
-                await this.playerCards.flyCard2FromDecks(currentIndex + 2);
-                await this.bankerCards.flyCard2FromDecks(currentIndex + 3);
-                await this.reserveCards.flyCard1FromDecks(currentIndex + 4, this.reserveCards.durationFlyCard3);
-                await this.reserveCards.flyCard2FromDecks(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                await this.bankerCards.flyCard1FromDeck(currentIndex + 1);
+                await this.playerCards.flyCard2FromDeck(currentIndex + 2);
+                await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
+                await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
             default:
-                await this.playerCards.flyCard1FromDecks(currentIndex);
-                await this.bankerCards.flyCard1FromDecks(currentIndex + 1);
-                await this.playerCards.flyCard2FromDecks(currentIndex + 2);
-                await this.bankerCards.flyCard2FromDecks(currentIndex + 3);
-                await this.reserveCards.flyCard1FromDecks(currentIndex + 4, this.reserveCards.durationFlyCard3);
-                await this.reserveCards.flyCard2FromDecks(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                await this.playerCards.flyCard1FromDeck(currentIndex);
+                await this.bankerCards.flyCard1FromDeck(currentIndex + 1);
+                await this.playerCards.flyCard2FromDeck(currentIndex + 2);
+                await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
+                await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
+                await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
                 break;
         }
     }

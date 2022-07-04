@@ -133,11 +133,11 @@ export default class BlockchainBaccaratCards extends cc.Component {
         }
     }
 
-    async flyCard1FromDecks(numberTag: number, delay = this.durationFlyCard) {
+    async flyCard1FromDeck(numberTag: number, delay = this.durationFlyCard) {
         await this.flyCard({ card: this.cards[OrderCards.card1], delay, numberTag });
     }
 
-    async flyCard2FromDecks(numberTag: number, delay = this.durationFlyCard) {
+    async flyCard2FromDeck(numberTag: number, delay = this.durationFlyCard) {
         await this.flyCard({ card: this.cards[OrderCards.card2], delay, numberTag });
     }
 
