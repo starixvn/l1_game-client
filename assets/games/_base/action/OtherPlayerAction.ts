@@ -1,5 +1,3 @@
-import * as _ from "lodash";
-
 import RoomPlayer from "../view-models/RoomPlayer";
 
 export const updateOtherPlayerBalance = (winningPlayers: any, main: any) => {

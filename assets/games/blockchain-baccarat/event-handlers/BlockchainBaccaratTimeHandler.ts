@@ -32,17 +32,6 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
 
     gameUpdate(): void {
         if (this.isInWaitTime) {
-            const gameData = this.main.gameData;
-            if (this.isNewShoe && this.main.currentTimeRemaining <= this.durationShowNewShoe) {
-                !this.isShowShoe && this.handleShowShuffleCards(gameData.cardList.newBlockchain, this.main.currentTimeRemaining);
-            }
-            if (gameData.cardList.blockchain?.isNew && !this.isShowShoe && this.isInWaitTime) {
-                this.isNewShoe = true;
-                this.handleShowShuffleCards(gameData.cardList.blockchain, this.main.currentTimeRemaining);
-            }
-            if (this.main.timeWaitNode) {
-                !gameData.cardList.blockchain.isNew && this.main.finishShowResult && this.showWaitTime();
-            }
             this.handleWaitTime();
         } else {
             if (this.isStartingNewGameRound && this.isShowShoe) {
@@ -59,6 +48,17 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
     }
 
     handleWaitTime() {
+        const gameData = this.main.gameData;
+        if (this.isNewShoe && this.main.currentTimeRemaining <= this.durationShowNewShoe) {
+            !this.isShowShoe && this.handleShowShuffleCards(gameData.cardList.newBlockchain, this.main.currentTimeRemaining);
+        }
+        if (gameData.cardList.blockchain?.isNew && !this.isShowShoe && this.isInWaitTime) {
+            this.isNewShoe = true;
+            this.handleShowShuffleCards(gameData.cardList.blockchain, this.main.currentTimeRemaining);
+        }
+        if (this.main.timeWaitNode) {
+            !gameData.cardList.blockchain.isNew && this.main.finishShowResult && this.showWaitTime();
+        }
         this.showMainTime(false);
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);

@@ -254,6 +254,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                 const destPosition = this.cards[index].parent.convertToNodeSpaceAR(worldPosition);
                 const cardComponent: BlockchainCard = cardNode.getComponentInChildren(BlockchainCard);
                 cardComponent.setStatusInfoTag(false);
+                cardComponent.resetHighlight();
                 const dropTween = cc
                     .tween(cardNode)
                     .to(0.3, { position: cc.v2(0, 0) })
