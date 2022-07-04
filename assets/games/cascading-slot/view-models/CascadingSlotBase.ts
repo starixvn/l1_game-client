@@ -347,10 +347,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                 case CascadingSlotState.Start_Round:
                     this.tumbleList.clear();
                     this.gameData.uiModel.resetNewRound();
-                    this.consumeAutoSpinCount();
-                    this.consumeFreeSpinCount();
                     break;
                 case CascadingSlotState.Spinning:
+                    this.consumeAutoSpinCount();
+                    this.consumeFreeSpinCount();
                     break;
                 case CascadingSlotState.Settled:
                     this.clearHoldActionFlag();
