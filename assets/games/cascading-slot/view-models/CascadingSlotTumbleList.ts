@@ -13,9 +13,22 @@ export default class CascadingSlotTumbleList extends cc.Component {
     @property(cc.Node)
     trialModeNode: cc.Node = null;
 
+    @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;
+
     onLoad() {
-        this.scrollView = this.getComponent(cc.ScrollView);
+        // const icons = {
+        //     1: { count: 8, odds: 8, win: 0.08 },
+        //     2: { count: 8, odds: 8, win: 0.08 },
+        //     3: { count: 8, odds: 8, win: 0.08 },
+        //     4: { count: 8, odds: 8, win: 0.08 },
+        //     5: { count: 8, odds: 8, win: 0.08 },
+        //     6: { count: 8, odds: 8, win: 0.08 },
+        //     7: { count: 8, odds: 8, win: 0.08 }
+        // };
+        this.scrollView = this.scrollView.getComponent(cc.ScrollView);
+        // this.offerTrialMode(true);
+        // this.addIcons(icons, 0);
     }
 
     addIcons(icons: any, countPerRound: number): number {
@@ -83,7 +96,7 @@ export default class CascadingSlotTumbleList extends cc.Component {
     offerTrialMode(isTrialMode: boolean) {
         let itemHeight = 35;
         this.trialModeNode.active = isTrialMode;
-        const listContainer = this.node.getChildByName("list-node");
+        const listContainer = this.node.getChildByName("scroll-node");
 
         if (this.content.children.length > 0) {
             itemHeight = this.content.children[0].height;
@@ -93,8 +106,8 @@ export default class CascadingSlotTumbleList extends cc.Component {
 
         if (isTrialMode) {
             this.content.y = -86.5;
-            listContainer.height = 175;
-            listContainer.y = -35;
+            listContainer.height = 195;
+            listContainer.y = -36;
         } else {
             listContainer.height = 250;
             listContainer.y = 0;
