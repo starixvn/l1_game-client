@@ -75,10 +75,18 @@ export default class CascadeSlotReel extends cc.Component {
         });
     }
 
+    protected getSpeed(isTurbo: boolean, isFallOut: boolean): number {
+        const baseSpeed = isFallOut ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
+        return isTurbo ? baseSpeed * 1.5 : baseSpeed;
+    }
+
+    protected getDelayTimeAfterFall(isFallOut: boolean, duration: number, backDuration: number): number {
+        return isFallOut ? duration : duration + backDuration;
+    }
+
     async fallWithOffset(offset: number, isTurbo: boolean, onBottomItemEnded?: () => void) {
         const isFallOut = offset < 0;
-        const baseSpeed = isFallOut ? 1.3 * this.pixelPerSecond : this.pixelPerSecond;
-        const speed = isTurbo ? baseSpeed * 1.5 : baseSpeed;
+        const speed = this.getSpeed(isTurbo, isFallOut);
         let duration;
         const backOffsetY = this.itemSize * 0.2;
         const backDuration = 0.2;
@@ -111,11 +119,7 @@ export default class CascadeSlotReel extends cc.Component {
             }
         }
 
-        if (isFallOut) {
-            await GameUtils.delayTime(duration);
-        } else {
-            await GameUtils.delayTime(duration + backDuration);
-        }
+        await GameUtils.delayTime(this.getDelayTimeAfterFall(isFallOut, duration, backDuration));
     }
 
     async fallOut(isTurbo: boolean) {

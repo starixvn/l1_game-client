@@ -93,8 +93,7 @@ export default class GameUtils {
         if (!storage || !storage.length) {
             return {};
         }
-        const data = JSON.parse(storage);
-        return data;
+        return JSON.parse(storage);
     }
 
     public static async openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}, callBackLobby = () => {}) {
