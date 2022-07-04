@@ -1,4 +1,5 @@
 import _ = require("lodash");
+
 import GameUtils from "../../common/GameUtils";
 
 export enum RoundType {
@@ -18,6 +19,7 @@ export default class SlotGameBottomMessage extends cc.Component {
     isTurboMode = false;
     isAutoSpin = false;
     autoSpinCount = 0;
+    isTrialMode = false;
     private normalSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2", "FromSettleToSpin3"];
     private turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
 
@@ -32,6 +34,7 @@ export default class SlotGameBottomMessage extends cc.Component {
     }
 
     showMessages(roundType: RoundType) {
+        this.hideViewBottomMsg(false);
         if (this.isAutoSpin) {
             this.handleTurboAutoSpin();
             return;
@@ -68,7 +71,11 @@ export default class SlotGameBottomMessage extends cc.Component {
     }
 
     protected randomSettledMessages() {
-        const items = this.isTurboMode ? this.turboSettledMsg : this.normalSettledMsg;
+        const items = this.isTurboMode || this.isTrialMode ? this.turboSettledMsg : this.normalSettledMsg;
         return GameUtils.getText(`messages.${items[_.random(items.length - 1)]}`);
+    }
+
+    hideViewBottomMsg(show: boolean) {
+        this.node.opacity = show ? 0 : 255;
     }
 }

@@ -165,6 +165,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.historyBtn.interactable = !this.isTrialMode;
         this.autoSpinToggle.interactable = !this.isTrialMode;
         this.turboToggle.interactable = !this.isTrialMode;
+        this.bottomMessage.isTrialMode = this.isTrialMode;
+        this.bottomMessage.hideViewBottomMsg(this.isTrialMode);
 
         this.clearGameOnTrialModeChanged();
     }

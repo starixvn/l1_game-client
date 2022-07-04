@@ -16,6 +16,9 @@ export default class CascadingSlotTumbleList extends cc.Component {
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;
 
+    private HEIGHT_PER_ROW = 35;
+    private NUMBER_MAX_ITEM = 7;
+
     onLoad() {
         this.scrollView = this.scrollView.getComponent(cc.ScrollView);
     }
@@ -66,14 +69,14 @@ export default class CascadingSlotTumbleList extends cc.Component {
     }
 
     setAnimation(node: cc.Node, index: number) {
-        if (index < 7) {
+        if (index < this.NUMBER_MAX_ITEM) {
             node.position = cc.v3(0, 227.5, 0);
         } else {
-            const y = 17.5 + (index + 6 - 1) * 35;
+            const y = this.HEIGHT_PER_ROW / 2 + (index + this.NUMBER_MAX_ITEM - 1) * this.HEIGHT_PER_ROW;
             node.position = cc.v3(0, y, 0);
         }
 
-        const y = 17.5 + (index - 1) * 35;
+        const y = this.HEIGHT_PER_ROW / 2 + (index - 1) * this.HEIGHT_PER_ROW;
         cc.tween(node)
             .to(0.2, { position: cc.v3(0, y, 0) }, { easing: "sineOut" })
             .to(0.1, { position: cc.v3(0, y + 2, 0) }, { easing: "sineOut" })
@@ -82,7 +85,7 @@ export default class CascadingSlotTumbleList extends cc.Component {
     }
 
     offerTrialMode(isTrialMode: boolean) {
-        let itemHeight = 35;
+        let itemHeight = this.HEIGHT_PER_ROW;
         this.trialModeNode.active = isTrialMode;
         const listContainer = this.node.getChildByName("scroll-node");
 
