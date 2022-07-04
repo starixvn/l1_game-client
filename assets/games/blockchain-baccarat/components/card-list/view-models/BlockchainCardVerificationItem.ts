@@ -112,7 +112,7 @@ export default class BlockchainCardVerificationItem extends cc.Component {
     }
 
     public createCard(card: CardModel, isFaceUp = true): cc.Node {
-        const node = cc.instantiate(this.cardPrefab);
+        const node = GameUtils.createNodeFromPrefab(this.cardPrefab);
         const cardComponent = node.getComponent(BlockchainCard);
         cardComponent.setCardOldStyle({
             rank: card?.rank,
