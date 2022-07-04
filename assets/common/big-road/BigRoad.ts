@@ -27,6 +27,14 @@ export default class BigRoad extends cc.Component {
     protected bigRoadData: any[][];
     protected isRenderedNext = false;
 
+    get getFirstRender() {
+        return this.firstRender;
+    }
+
+    get getIsRenderedNext() {
+        return this.isRenderedNext;
+    }
+
     onLoad(): void {
         this.renderDefaultColumn();
         this.bigRoad = this.initialBigRoad();
@@ -97,5 +105,9 @@ export default class BigRoad extends cc.Component {
             }
         }
         this.content.setContentSize(contentWidth, this.scoreboardHeight);
+    }
+
+    public getData() {
+        return this.bigRoadData;
     }
 }

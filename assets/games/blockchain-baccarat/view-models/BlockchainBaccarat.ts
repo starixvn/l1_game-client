@@ -134,11 +134,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         }
     }
 
-    openCardVerification(index: number) {
-        // open
-        console.log(index);
-    }
-
     private registerCardListEvents() {
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, (currentIndex: number) => {
             this.cardsUI.handleNumberIndex(currentIndex);

@@ -571,7 +571,7 @@ window.i18n.languages.zh_cn = {
         copy: "Copy",
         verifiedValue:
             "Check the fairness and transparency of card result by comparing the Private Key \n(published when the card is revealed) with the Serial Number",
-        last_round: "Last Round",
+        last_round: "Last Round:",
         verifySuccess: "Verification  Successful!",
         verifyFailed: "Verification  Failed!",
         changeCard: "Change Card",

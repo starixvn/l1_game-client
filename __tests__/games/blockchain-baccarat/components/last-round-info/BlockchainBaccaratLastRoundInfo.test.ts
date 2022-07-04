@@ -37,17 +37,11 @@ describe("Test class LastRoundInfo", () => {
         comp.winNoticeLabel = winNoticeLabel;
     });
 
-    it("onLoad should run expected", () => {
-        // arrange
-        i18n.t.mockReturnValueOnce("player").mockReturnValueOnce("banker").mockReturnValueOnce("last round");
-
+    it("reset should run expected", () => {
         // act
-        comp.onLoad();
+        comp.reset();
 
         // assert
-        expect(comp.playerLabel.string).toEqual("PLAYER");
-        expect(bankerLabel.string).toEqual("BANKER");
-        expect(lastRoundLabel.string).toEqual("last round:");
         expect(cardsUI.active).toBe(false);
         expect(winNoticeLabel.node.getParent().active).toBe(false);
     });

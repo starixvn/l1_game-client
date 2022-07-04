@@ -98,7 +98,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
             board.renderNextNode();
         });
         this.derivedScoreboards.forEach((board, index) => {
-            this.predictData.player[index % 3] !== undefined && board.addNextNode();
+            this.predictData.player[index % 3] !== undefined && board.renderNextNode();
         });
         this.beadRoad.addNextNode();
     }

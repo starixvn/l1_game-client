@@ -10,7 +10,7 @@ export default class BlockchainBaccaratDerivedScoreboard extends BaccaratBigRoad
 
     private data: DerivedScoreboardPoint[][] = [];
 
-    public addNextNode() {
+    public renderNextNode() {
         if (this.isRenderedNext || this.data.length < 1) {
             return;
         }

@@ -590,7 +590,7 @@ window.i18n.languages.vi = {
         verifiedSerial: "Số Seri đã xác minh",
         copy: "Copy",
         verifiedValue: "Kiểm tra sự minh bạch trong kết quả bằng cách đối chiếu Số Seri với Khóa Bảo Mật \n(công bố sau khi mở bài). ",
-        last_round: "Phiên Trước",
+        last_round: "Phiên Trước:",
         verifySuccess: "Xác minh thành công!",
         verifyFailed: "Xác minh thất bại!",
         changeCard: "Đổi Bài",

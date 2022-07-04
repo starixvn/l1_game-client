@@ -222,7 +222,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     updateCardDropBox(currentIndex: number, cutCardIndex: number) {
         const percent = Math.ceil((currentIndex / cutCardIndex) * 5);
         const cardsNode = this.cardDropBox.getChildByName("cards");
-        console.log(percent);
         if (percent > 0) {
             cardsNode.active = true;
             cardsNode.children.forEach((child, index) => {
