@@ -17,18 +17,7 @@ export default class CascadingSlotTumbleList extends cc.Component {
     scrollView: cc.ScrollView = null;
 
     onLoad() {
-        // const icons = {
-        //     1: { count: 8, odds: 8, win: 0.08 },
-        //     2: { count: 8, odds: 8, win: 0.08 },
-        //     3: { count: 8, odds: 8, win: 0.08 },
-        //     4: { count: 8, odds: 8, win: 0.08 },
-        //     5: { count: 8, odds: 8, win: 0.08 },
-        //     6: { count: 8, odds: 8, win: 0.08 },
-        //     7: { count: 8, odds: 8, win: 0.08 }
-        // };
         this.scrollView = this.scrollView.getComponent(cc.ScrollView);
-        // this.offerTrialMode(true);
-        // this.addIcons(icons, 0);
     }
 
     addIcons(icons: any, countPerRound: number): number {
@@ -72,9 +61,8 @@ export default class CascadingSlotTumbleList extends cc.Component {
             await this.fall(this.content.children[i]);
         }
         this.content.destroyAllChildren();
-        this.content.position.y = -125;
-        this.content.anchorY = 0;
-        this.content.active = false;
+        this.scrollView.enabled = false;
+        this.content.position = cc.v3(0, 0);
     }
 
     setAnimation(node: cc.Node, index: number) {
@@ -105,13 +93,9 @@ export default class CascadingSlotTumbleList extends cc.Component {
         this.content.height = this.content.childrenCount * itemHeight;
 
         if (isTrialMode) {
-            this.content.y = -86.5;
-            listContainer.height = 195;
-            listContainer.y = -36;
+            listContainer.height = 180;
         } else {
             listContainer.height = 250;
-            listContainer.y = 0;
-            this.content.y = -124;
         }
     }
 }
