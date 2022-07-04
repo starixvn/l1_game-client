@@ -55,8 +55,8 @@ export default class BlockchainBaccaratCards extends cc.Component {
     readonly durationFlyCard3 = 0.2;
     readonly durationDropCard = 0.2;
     readonly durationJumpDrop = 0.6;
-    private readonly durationFaceUp = 0.5;
     private readonly durationAnimFaceUp = 1;
+    protected readonly setPointSecond = 0.2;
     private clonePositionCards: cc.Vec3[] = [];
 
     private cardsFlyTween: cc.Tween[];
@@ -321,7 +321,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.point.node.parent.active = true;
 
         const currentPoint = parseInt(this.point.string);
-        this.point.node.parent.runAction(cc.sequence(cc.scaleTo(this.durationFaceUp, 1.1, 1.1), cc.scaleTo(this.durationFaceUp, 1, 1)));
+        this.point.node.parent.runAction(cc.sequence(cc.scaleTo(this.setPointSecond, 1.1, 1.1), cc.scaleTo(this.setPointSecond, 1, 1)));
 
         this.point.string = ((currentPoint + point) % 10).toString();
     }

@@ -184,7 +184,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         });
     }
 
-    private actionCardFly({ card, start, scale = 1 }: { card: cc.Node; start: cc.Node; scale?: number }) {
+    private actionCardFly({ card, start }: { card: cc.Node; start: cc.Node }) {
         const convertCardBox: cc.Vec3 = cc.v3(card.parent.convertToNodeSpaceAR(start.convertToWorldSpaceAR(cc.v2(0, 0))));
         const cardPosition = card.position;
         card.position = convertCardBox;
@@ -192,7 +192,6 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         card.runAction(
             cc.spawn(
                 cc.rotateTo(this.durationFlyCard, 0).easing(cc.easeInOut(2)),
-                cc.scaleTo(this.durationFlyCard, scale).easing(cc.easeInOut(2)),
                 cc.moveTo(this.durationFlyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
             )
         );
