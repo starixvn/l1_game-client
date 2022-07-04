@@ -1,32 +1,27 @@
 import { convertBoardValue } from "../../../../assets/games/cascading-slot/view-models/CascadingSlotUtils";
 
 describe("Cascading Slot Utils", () => {
+    let input: number[];
+    let output: number[][];
     describe("Func convertBoardValue", () => {
-        it("Output's length is 6", () => {
+        beforeEach(() => {
             // Arrange
-            const input = [8, 8, 8, 3, 8, 9, 8, 8, 8, 9, 5, 9, 8, 10, 10, 9, 5, 8, 10, 11, 10, 6, 11, 8, 10, 11, 11, 6, 11, 7];
+            input = [8, 8, 8, 3, 8, 9, 8, 8, 8, 9, 5, 9, 8, 10, 10, 9, 5, 8, 10, 11, 10, 6, 11, 8, 10, 11, 11, 6, 11, 7];
 
             // Act
-            const output = convertBoardValue(input);
-
+            output = convertBoardValue(input);
+        });
+        it("Board has 6 columns", () => {
             // Assert
             expect(output.length).toEqual(6);
         });
 
-        it("Each item's length is 5", () => {
-            // Arrange
-            const input = [8, 8, 8, 3, 8, 9, 8, 8, 8, 9, 5, 9, 8, 10, 10, 9, 5, 8, 10, 11, 10, 6, 11, 8, 10, 11, 11, 6, 11, 7];
-
-            // Act
-            const output = convertBoardValue(input);
-
+        it("Board has 5 rows", () => {
             // Assert
             expect(output[0].length).toEqual(5);
         });
 
-        it("Output ", () => {
-            // Arrange
-            const input = [8, 8, 8, 3, 8, 9, 8, 8, 8, 9, 5, 9, 8, 10, 10, 9, 5, 8, 10, 11, 10, 6, 11, 8, 10, 11, 11, 6, 11, 7];
+        it("Block of 5 number is data for each column", () => {
             const expectValue = [
                 [8, 3, 8, 8, 8],
                 [9, 8, 8, 8, 9],
@@ -35,11 +30,16 @@ describe("Cascading Slot Utils", () => {
                 [10, 8, 11, 6, 10],
                 [7, 11, 6, 11, 11]
             ];
-            // Act
-            const output = convertBoardValue(input);
 
             // Assert
             expect(output).toStrictEqual(expectValue);
+        });
+
+        it("Data in each column is reverse", () => {
+            const expectValue = input.slice(0, 5).reverse();
+
+            // Assert
+            expect(output[0]).toStrictEqual(expectValue);
         });
     });
 });
