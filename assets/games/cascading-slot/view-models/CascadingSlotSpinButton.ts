@@ -16,12 +16,20 @@ export default class CascadingSlotSpinButton extends SpinButton {
     @property(cc.Node)
     disable: cc.Node = null;
 
+    defaultClip: cc.AnimationClip;
+
+    onLoad() {
+        this.defaultClip = this.animation.defaultClip;
+    }
+
     override playAnimationSpin() {
-        this.animation.defaultClip.speed = 1;
+        this.animation.getAnimationState(this.animation.defaultClip.name).speed = 2;
+        this.animation.play();
     }
 
     override playAnimationIdle() {
-        this.animation.defaultClip.speed = 0.7;
+        this.animation.getAnimationState(this.animation.defaultClip.name).speed = 0.8;
+        this.animation.play();
     }
 
     override showAutoSpinMode() {
