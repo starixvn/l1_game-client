@@ -135,25 +135,30 @@ export default class CascadeSlotReel extends cc.Component {
         return item.node;
     }
 
-    async removeItem(index: number) {
+    async highlightItem(index: number) {
         const item = this.items[index];
         GameUtils.moveToOtherNode(item.node, this.effectContainer);
         const animation = item.getComponentInChildren(cc.Animation);
-        animation.play();
-        const duration = animation.defaultClip.duration;
+        animation.play("highlight");
+        const duration = animation.currentClip.duration;
+        await GameUtils.delayTime(duration);
+    }
+
+    async highlightItems(list: number[]) {
+        await Promise.all(list.map((index) => this.highlightItem(index)));
+    }
+
+    async removeItem(index: number) {
+        const item = this.items[index];
+        const animation = item.getComponentInChildren(cc.Animation);
+        animation.play("explode");
+        const duration = animation.currentClip.duration;
         await GameUtils.delayTime(duration);
         item.destroy();
     }
 
     async removeItemsByIndex(list: number[]) {
-        for (let i = 0; i < list.length; i++) {
-            if (i < list.length - 1) {
-                this.removeItem(list[i]);
-            } else {
-                await this.removeItem(list[i]);
-            }
-        }
-
+        await Promise.all(list.map((index) => this.removeItem(index)));
         this.items = this.items.filter((item, index) => !list.includes(index));
     }
 

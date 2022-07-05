@@ -126,14 +126,24 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public async removeItems(data: number[][]) {
         this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_MATCHED);
-        await Promise.all(
-            this.reels.map((reel, index) => {
-                const items = data[index]
-                    .map((item, index) => {
-                        return item !== -1 ? index : -1;
-                    })
-                    .filter((value) => value > -1);
+        const reelItems = this.reels.map((reel, index) => {
+            return data[index]
+                .map((item, index) => {
+                    return item !== -1 ? index : -1;
+                })
+                .filter((value) => value > -1);
+        });
 
+        await Promise.all(
+            reelItems.map((items, index) => {
+                const reel = this.reels[index];
+                return reel.highlightItems(items);
+            })
+        );
+
+        await Promise.all(
+            reelItems.map((items, index) => {
+                const reel = this.reels[index];
                 return reel.removeItemsByIndex(items);
             })
         );
