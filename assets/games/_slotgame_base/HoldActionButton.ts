@@ -8,6 +8,7 @@ export default class HoldActionButton extends cc.Component {
 
     protected isTouching = false;
     protected isKeyPressing = false;
+    protected pressedTime: number;
     protected readonly _actions = [];
 
     public onlyButtonFunction = false;
@@ -24,6 +25,10 @@ export default class HoldActionButton extends cc.Component {
 
     onLoad() {
         this.registerKeyEvents();
+        this.registerTouchEvents();
+    }
+
+    private registerTouchEvents() {
         this.node.on(cc.Node.EventType.TOUCH_START, this.startHoldButton, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.handleTouchMove, this);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.stopHoldButton, this);
@@ -96,12 +101,17 @@ export default class HoldActionButton extends cc.Component {
 
     onKeyDown(event: cc.Event.EventKeyboard) {
         if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
+            this.pressedTime = Date.now();
             this.enableAutoAction();
         }
     }
 
     onKeyUp(event: cc.Event.EventKeyboard) {
         if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
+            const deltaTime = Date.now() - this.pressedTime;
+            if (deltaTime < 1000) {
+                this.doAction(false);
+            }
             this.disableAutoAction();
         }
     }
@@ -116,7 +126,6 @@ export default class HoldActionButton extends cc.Component {
         }
 
         this.isKeyPressing = true;
-        this.doAction(true);
         this.schedule(this.onScheduleUpdateForKey, 1, cc.macro.REPEAT_FOREVER);
     }
 
