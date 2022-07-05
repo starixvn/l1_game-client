@@ -16,7 +16,8 @@ export enum CascadingSlotGameSound {
     SYMBOL_STOP_2,
     SYMBOL_STOP_3,
     SYMBOL_STOP_4,
-    SYMBOL_STOP_5
+    SYMBOL_STOP_5,
+    SYMBOL_EXPLODE
 }
 
 const { ccclass, property } = cc._decorator;

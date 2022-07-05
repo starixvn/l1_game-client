@@ -140,7 +140,7 @@ export default class CascadeSlotBoard extends cc.Component {
                 return reel.highlightItems(items);
             })
         );
-
+        this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_EXPLODE);
         await Promise.all(
             reelItems.map((items, index) => {
                 const reel = this.reels[index];
