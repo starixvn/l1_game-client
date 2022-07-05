@@ -127,14 +127,14 @@ export default class CascadeSlotBoard extends cc.Component {
     public async removeItems(data: number[][]) {
         this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_MATCHED);
         await Promise.all(
-            this.reels.map(async (reel, index) => {
+            this.reels.map((reel, index) => {
                 const items = data[index]
                     .map((item, index) => {
                         return item !== -1 ? index : -1;
                     })
                     .filter((value) => value > -1);
 
-                await reel.removeItemsByIndex(items);
+                return reel.removeItemsByIndex(items);
             })
         );
     }
