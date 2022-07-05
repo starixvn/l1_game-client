@@ -28,7 +28,7 @@ export default class CascadingSlotSpinButton extends SpinButton {
     }
 
     override playAnimationIdle() {
-        this.animation.getAnimationState(this.animation.defaultClip.name).speed = 0.8;
+        this.animation.getAnimationState(this.animation.defaultClip.name).speed = 0.4;
         this.animation.play();
     }
 
