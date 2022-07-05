@@ -34,9 +34,9 @@ export default class BlockchainCardVerification extends cc.Component {
     @property(cc.Node)
     equalTag: cc.Node = null;
 
-    private blockchainCardSerial: BlockchainCardModel;
-    private blockchainCardPrivate: BlockchainCardModel;
-    protected cardVerificationDialog: CommonDialog;
+    public blockchainCardSerial: BlockchainCardModel;
+    public blockchainCardPrivate: BlockchainCardModel;
+    public cardVerificationDialog: CommonDialog;
     public state = CardVerificationState.blankNew;
     public timeout: any;
     public numberKey: number;
@@ -120,7 +120,7 @@ export default class BlockchainCardVerification extends cc.Component {
         this.numberKey2 = index;
     }
 
-    private setPrivateKey(rawValue: string, card: CardModel) {
+    setPrivateKey(rawValue: string, card: CardModel) {
         const values = rawValue.split("_");
         const suffixFormatting = `${values[1]}_${values[2]}_${values[3]}`;
         const cardValue = formatPrivateKey(card, true);
