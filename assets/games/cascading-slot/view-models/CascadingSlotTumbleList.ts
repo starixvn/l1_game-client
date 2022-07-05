@@ -16,89 +16,79 @@ export default class CascadingSlotTumbleList extends cc.Component {
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;
 
-    private HEIGHT_PER_ROW = 35;
-    private NUMBER_MAX_ITEM = 7;
+    private readonly HEIGHT_PER_ROW = 35;
+    private readonly NUMBER_MAX_ITEM = 7;
 
     onLoad() {
         this.scrollView = this.scrollView.getComponent(cc.ScrollView);
     }
 
-    addIcons(icons: any, countPerRound: number): number {
+    get itemHeight() {
+        return this.content.children.length > 0 ? this.content.children[0].height : this.HEIGHT_PER_ROW;
+    }
+
+    addIcons(icons: any) {
         this.content.active = true;
         Object.entries(icons).forEach(([key, value]) => {
-            countPerRound++;
             const tumbleNode = cc.instantiate(this.tumbleItem);
             const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
             const { count, win } = value as any;
             control.setData(+key, count, win);
-            this.setAnimation(tumbleNode, countPerRound);
+            this.setAnimation(tumbleNode, this.content.childrenCount);
             this.content.addChild(tumbleNode);
         });
-        const itemHeight = this.content.children[0].height;
-        const numberChild = this.content.childrenCount;
-        const contentHeight = numberChild * itemHeight;
+        this.updateContentHeight();
+    }
+
+    updateContentHeight() {
+        const contentHeight = this.content.childrenCount * this.itemHeight;
         this.content.height = contentHeight;
-        if (this.scrollView && numberChild > 0) {
-            this.scrollView.enabled = contentHeight > this.scrollView.node.height;
-            if (this.scrollView.enabled) {
-                this.scrollView.scrollToTop(0);
-            }
+        this.scrollView.enabled = contentHeight > this.scrollView.node.height;
+        if (this.scrollView.enabled) {
+            this.scrollView.scrollToTop(0);
+        } else {
+            this.content.position = cc.v3(0, 0);
         }
-        return countPerRound;
     }
 
     fall(node: cc.Node) {
         return new Promise<void>((resolve) => {
             cc.tween(node)
-                .to(0.05, { position: cc.v3(0, 17.5, 0) }, { easing: "sineOut" })
-                .to(0.05, { opacity: 0 }, { easing: "sineOut" })
-                .call(() => {
-                    resolve();
-                })
+                .to(0.4, { position: cc.v3(0, this.itemHeight / 2, 0), opacity: 0 }, { easing: "sineOut" })
+                .call(() => resolve())
                 .start();
         });
     }
 
     async clear() {
-        for (let i = 0; i < this.content.childrenCount; i++) {
-            await this.fall(this.content.children[i]);
-        }
+        await Promise.all(this.content.children.map((child) => this.fall(child)));
         this.content.destroyAllChildren();
-        this.scrollView.enabled = false;
-        this.content.position = cc.v3(0, 0);
+        this.updateContentHeight();
     }
 
     setAnimation(node: cc.Node, index: number) {
-        if (index < this.NUMBER_MAX_ITEM) {
-            node.position = cc.v3(0, 227.5, 0);
-        } else {
-            const y = this.HEIGHT_PER_ROW / 2 + (index + this.NUMBER_MAX_ITEM - 1) * this.HEIGHT_PER_ROW;
-            node.position = cc.v3(0, y, 0);
-        }
+        const startY = (index + this.NUMBER_MAX_ITEM + 0.5) * this.itemHeight;
+        const minY = this.scrollView.node.height - 0.5 * this.itemHeight;
+        node.position = cc.v3(0, Math.max(startY, minY), 0);
 
-        const y = this.HEIGHT_PER_ROW / 2 + (index - 1) * this.HEIGHT_PER_ROW;
+        const destY = (index + 0.5) * this.itemHeight;
         cc.tween(node)
-            .to(0.2, { position: cc.v3(0, y, 0) }, { easing: "sineOut" })
-            .to(0.1, { position: cc.v3(0, y + 2, 0) }, { easing: "sineOut" })
-            .to(0.1, { position: cc.v3(0, y, 0) }, { easing: "sineOut" })
+            .to(0.2, { position: cc.v3(0, destY, 0) }, { easing: "sineOut" })
+            .to(0.1, { position: cc.v3(0, destY + 2, 0) }, { easing: "sineOut" })
+            .to(0.1, { position: cc.v3(0, destY, 0) }, { easing: "sineOut" })
             .start();
     }
 
     offerTrialMode(isTrialMode: boolean) {
-        let itemHeight = this.HEIGHT_PER_ROW;
         this.trialModeNode.active = isTrialMode;
-        const listContainer = this.node.getChildByName("scroll-node");
-
-        if (this.content.children.length > 0) {
-            itemHeight = this.content.children[0].height;
-        }
-
-        this.content.height = this.content.childrenCount * itemHeight;
+        const scrollViewNode = this.scrollView.node;
 
         if (isTrialMode) {
-            listContainer.height = 180;
+            scrollViewNode.height = 180;
         } else {
-            listContainer.height = 250;
+            scrollViewNode.height = 250;
         }
+
+        this.updateContentHeight();
     }
 }

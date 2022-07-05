@@ -85,7 +85,6 @@ const showEffectSpecialCase = async (mainGame: CascadingSlotBase, data: Cascadin
 
 const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isTurbo: boolean) => {
     let multiplierCount = tumbles[0].multipliers.length;
-    let countIconPerRound = 0;
     for (let i = 0; i < tumbles.length - 1; i++) {
         const tumble = tumbles[i];
         const { icons, win: tumbleWin, settlement } = tumble;
@@ -110,7 +109,7 @@ const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isT
         }
 
         mainGame.gameData.uiModel.getTumble();
-        countIconPerRound = mainGame.tumbleList.addIcons(icons, countIconPerRound);
+        mainGame.tumbleList.addIcons(icons);
         await mainGame.board.removeItems(explode);
         mainGame.board.addItems(newItems);
         mainGame.board.updateMultiplierItems(tumbleMultipliers);
