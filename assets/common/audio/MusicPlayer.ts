@@ -11,7 +11,7 @@ export default class MusicPlayer {
     readonly musicChangedKey = "lobby";
     protected intervalVolDecrease: NodeJS.Timeout;
     protected intervalVolIncrease: NodeJS.Timeout;
-    protected volume = 0.7;
+    protected volume = 0.5;
     readonly stepVolume = 0.05;
     readonly duration = 3.5;
     readonly stepIntervalVolume = (this.duration * 1000) / (this.volume / this.stepVolume);
