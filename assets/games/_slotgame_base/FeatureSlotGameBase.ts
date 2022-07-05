@@ -144,7 +144,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     createAutoSpinDialog(): AutoSpinSettingDialog {
         const node = cc.instantiate(this.autoSpinDialogPrefab);
-        this.currentMiniPanel.addDialog(node);
+        this.effectContainer.addChild(node);
         const dialog = node.getComponent(AutoSpinSettingDialog);
         dialog.onConfirmCallback = (autoSpinCount: number) => {
             this.setAutoSpinCount(autoSpinCount);

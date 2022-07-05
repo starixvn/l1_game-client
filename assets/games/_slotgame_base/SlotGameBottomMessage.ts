@@ -24,7 +24,7 @@ export default class SlotGameBottomMessage extends cc.Component {
     private turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
 
     onLoad() {
-        this.showBeforeSpinMessage();
+        this.showMessages(RoundType.BEFORESPIN);
         this.shuffleSettleMessage();
     }
 
@@ -34,7 +34,6 @@ export default class SlotGameBottomMessage extends cc.Component {
     }
 
     showMessages(roundType: RoundType) {
-        this.hideViewBottomMsg(false);
         if (this.isAutoSpin) {
             this.handleTurboAutoSpin();
             return;
@@ -46,8 +45,7 @@ export default class SlotGameBottomMessage extends cc.Component {
                 msg = `messages.roundSettleMsg`;
                 break;
             case RoundType.BEFORESPIN:
-                const deviceSuffix = cc.sys.isMobile ? "Phone" : "Desktop";
-                msg = `messages.showMsgWhenSpin${deviceSuffix}`;
+                msg = this.showBeforeSpinMessage();
                 break;
             case RoundType.TUMBLEWIN:
                 msg = `messages.winTumbleMsg`;
@@ -56,7 +54,6 @@ export default class SlotGameBottomMessage extends cc.Component {
                 msg = this.randomSettledMessages();
                 break;
         }
-
         this.msgText.string = GameUtils.capitalizeWordIntoString(GameUtils.getText(msg));
     }
 
@@ -66,16 +63,16 @@ export default class SlotGameBottomMessage extends cc.Component {
     }
 
     protected showBeforeSpinMessage() {
-        const deviceSuffix = cc.sys.isMobile ? "Phone" : "Desktop";
-        this.msgText.string = GameUtils.capitalizeWordIntoString(GameUtils.getText(`messages.showMsgWhenSpin${deviceSuffix}`));
+        if (this.isTrialMode) {
+            return GameUtils.getText(`messages.${this.turboSettledMsg[_.random(this.turboSettledMsg.length - 1)]}`);
+        } else {
+            const deviceSuffix = cc.sys.isMobile ? "Phone" : "Desktop";
+            return GameUtils.capitalizeWordIntoString(GameUtils.getText(`messages.showMsgWhenSpin${deviceSuffix}`));
+        }
     }
 
     protected randomSettledMessages() {
         const items = this.isTurboMode || this.isTrialMode ? this.turboSettledMsg : this.normalSettledMsg;
         return GameUtils.getText(`messages.${items[_.random(items.length - 1)]}`);
-    }
-
-    hideViewBottomMsg(show: boolean) {
-        this.node.opacity = show ? 0 : 255;
     }
 }

@@ -166,7 +166,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.autoSpinToggle.interactable = !this.isTrialMode;
         this.turboToggle.interactable = !this.isTrialMode;
         this.bottomMessage.isTrialMode = this.isTrialMode;
-        this.bottomMessage.hideViewBottomMsg(this.isTrialMode);
+        this.showBottomMessageOnGameState();
 
         this.clearGameOnTrialModeChanged();
     }
@@ -396,6 +396,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     private showBottomMessageOnGameState() {
+        if (!this.gameData.stateModel.state) {
+            this.bottomMessage.showMessages(RoundType.BEFORESPIN);
+            return;
+        }
         switch (this.gameData.stateModel.state) {
             case CascadingSlotState.Start_Round:
                 this.bottomMessage.showMessages(RoundType.SPINNING);

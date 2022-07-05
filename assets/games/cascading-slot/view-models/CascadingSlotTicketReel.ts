@@ -4,7 +4,7 @@ import CascadeSlotReel from "./CascadeSlotReel";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CascadingSlotReelTicket extends CascadeSlotReel {
+export default class CascadingSlotTicketReel extends CascadeSlotReel {
     @property(cc.Prefab)
     mobileItemPrefab: cc.Prefab = null;
 
