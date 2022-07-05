@@ -91,7 +91,7 @@ export default class BlockchainCardList extends cc.Component {
         this.showLatestCard(currentIndex + 1);
     }
 
-    protected showLatestCard(currentIndex: number) {
+    public showLatestCard(currentIndex: number) {
         const rowDisplayCard = Math.round(currentIndex / this.numberOfCardsPerRow);
         const countRow = rowDisplayCard <= this.rowDefault ? 0 : rowDisplayCard;
         const totalLineSpacing = countRow <= this.rowMiddle && countRow > this.rowDefault ? countRow * this.lineSpacing : 0;
@@ -120,7 +120,7 @@ export default class BlockchainCardList extends cc.Component {
         this.currentCardIndex = currentIndex;
     }
 
-    private playOpenCardAnimation(repeatFlipCard: number) {
+    public playOpenCardAnimation(repeatFlipCard: number) {
         let count = 0;
         cc.tween(this.node)
             .repeat(
