@@ -376,11 +376,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.on(CommonEvents.API_ERROR, (error) => {
             this.currentMiniPanel.showErrorNotice(error);
-            this.onAutoSpinOff();
             if (this.isFreeSpin()) {
                 this.gameData.spinButtonStateModel.change(SpinButtonState.ResumeWithFreeSpin);
             } else {
                 this.gameData.stateModel.change(CascadingSlotState.Settled);
+                this.onAutoSpinOff();
             }
         });
 
@@ -554,10 +554,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         const state = this.gameData.stateModel.state;
         const spinButtonState = this.gameData.spinButtonStateModel.state;
 
-        if (spinButtonState === SpinButtonState.FreeSpin) {
+        if (spinButtonState === SpinButtonState.FreeSpin || spinButtonState === SpinButtonState.ResumeWithFreeSpin) {
             this.trialToggle.interactable = false;
             this.setAllowChangeBet(false);
-            this.enableSpinButton(false);
+            this.enableSpinButton(spinButtonState === SpinButtonState.ResumeWithFreeSpin);
             if (!this.autoSpinToggle.isChecked) {
                 this.autoSpinToggle.interactable = false;
             }
@@ -569,14 +569,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.setAllowChangeBet(false);
             this.enableSpinButton(false);
             this.autoSpinToggle.interactable = true;
-            return;
-        }
-
-        if (spinButtonState === SpinButtonState.ResumeWithFreeSpin) {
-            this.trialToggle.interactable = false;
-            this.setAllowChangeBet(false);
-            this.enableSpinButton(true);
-            this.autoSpinToggle.interactable = false;
             return;
         }
 
