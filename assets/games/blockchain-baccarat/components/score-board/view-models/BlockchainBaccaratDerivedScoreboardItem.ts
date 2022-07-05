@@ -4,6 +4,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BlockchainBaccaratDerivedScoreboardItem extends cc.Component {
+    @property([cc.Node])
+    nodes: cc.Node[] = [];
+
     protected readonly NodeItems = {
         RED: "red",
         BLUE: "blue",
@@ -11,12 +14,9 @@ export default class BlockchainBaccaratDerivedScoreboardItem extends cc.Componen
     };
     private hasValueArray: boolean[] = [];
 
-    protected onLoad(): void {
+    onLoad(): void {
         this.hasValueArray = this.nodes.map(() => false);
     }
-
-    @property([cc.Node])
-    nodes: cc.Node[] = [];
 
     resetNode(point: DerivedScoreboardPoint) {
         const gap = point.column % 2 === 0 ? 0 : 6;
