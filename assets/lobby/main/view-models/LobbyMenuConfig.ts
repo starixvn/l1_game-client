@@ -80,8 +80,9 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.NightClub,
         GameIds.KenoProMax,
         GameIds.KenoProViet,
-        GameIds.VipBaccarat,
+        GameIds.BlockchainBaccarat,
         GameIds.Baccarat,
+        GameIds.VipBaccarat,
         GameIds.VipFishPrawnCrab,
         GameIds.FishPrawnCrab,
         GameIds.DragonTiger,
@@ -93,8 +94,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.BitcoinMaster,
         GameIds.CasinoHoldemPoker,
         GameIds.HiLo,
-        GameIds.TexasHoldemPoker,
-        GameIds.BlockchainBaccarat
+        GameIds.TexasHoldemPoker
     ];
     seDieGames = [GameIds.VipSedie, GameIds.SeDie, GameIds.VipSedieWar, GameIds.MiniSedie, GameIds.SpecialSeDie];
     casinoGames = [
