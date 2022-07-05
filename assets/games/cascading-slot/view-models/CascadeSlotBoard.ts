@@ -86,15 +86,23 @@ export default class CascadeSlotBoard extends cc.Component {
         const delay = 0.4 * duration;
 
         if (isTurbo) {
-            this.boardSound.playSound(CascadingSlotGameSound.TURBO_SYMBOL_DROP_IN);
+            this.boardSound.playSound(CascadingSlotGameSound.TURBO_DROP_IN);
         } else {
-            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_DROP_IN);
+            this.boardSound.playSound(CascadingSlotGameSound.DROP_IN);
         }
 
         await this.fallOut(isTurbo, delay);
 
+        const soundArray = [
+            CascadingSlotGameSound.REEL_STOP,
+            CascadingSlotGameSound.REEL_STOP_1,
+            CascadingSlotGameSound.REEL_STOP_2,
+            CascadingSlotGameSound.REEL_STOP_3,
+            CascadingSlotGameSound.REEL_STOP_4,
+            CascadingSlotGameSound.REEL_STOP_5
+        ];
         const playSoundOnBottomItem = (index: number) => () => {
-            this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_STOP + index);
+            this.boardSound.playSound(soundArray[index]);
         };
         for (let i = 0; i < this.reels.length; i++) {
             if (!isTurbo) {
@@ -125,7 +133,6 @@ export default class CascadeSlotBoard extends cc.Component {
     }
 
     public async removeItems(data: number[][]) {
-        this.boardSound.playSound(CascadingSlotGameSound.SYMBOL_MATCHED);
         const reelItems = this.reels.map((reel, index) => {
             return data[index]
                 .map((item, index) => {
