@@ -96,7 +96,6 @@ export default class Lottery extends SocketIOTableGameBase {
         super();
         this.gameId = GameIds.Lottery;
         this.setConfig(new LotteryGameConfig());
-        this.setMiniPanelScale(1);
     }
 
     onLoad() {

@@ -83,7 +83,6 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
     protected internalInit() {
         this.gameId = GameIds.VipFishPrawnCrab;
         this.setConfig(new VipFishPrawnCrabConfigs());
-        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

@@ -60,7 +60,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         super();
         this.gameId = GameIds.BlockchainBaccarat;
         this.setConfig(new BlockchainBaccaratConfig());
-        this.setMiniPanelScale(1);
     }
 
     onLoad() {
@@ -98,24 +97,24 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.currentMiniPanel.addDialog(cardVerificationNode);
     }
 
-    initBetOptionsUI(node: cc.Node) {
+    private initBetOptionsUI(node: cc.Node) {
         this.betOptionsUI = node.getComponent(BlockchainBetOptionsUI);
         this.betOptionsUI.initBetOptions(this);
     }
 
-    initScoreBoardUI(node: cc.Node) {
+    private initScoreBoardUI(node: cc.Node) {
         this.scoreboard = node.getComponent(BlockchainBaccaratScoreboard);
     }
 
-    initLastRoundInfo(node: cc.Node) {
+    private initLastRoundInfo(node: cc.Node) {
         this.lastRoundIfo = node.getComponent(BlockchainBaccaratLastRoundInfo);
     }
 
-    initCardsUI(node: cc.Node) {
+    private initCardsUI(node: cc.Node) {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
     }
 
-    openCardList() {
+    private openCardList() {
         this.cardList.updateBlockchain(this.gameData.cardList.blockchain);
         this.cardList.setData();
         this.cardList.showDialog();

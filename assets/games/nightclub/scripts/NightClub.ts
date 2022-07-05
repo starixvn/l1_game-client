@@ -8,6 +8,5 @@ export default class NightClub extends HeroesSlot {
     constructor() {
         super();
         this.gameId = GameIds.NightClub;
-        this.setMiniPanelScale(1);
     }
 }

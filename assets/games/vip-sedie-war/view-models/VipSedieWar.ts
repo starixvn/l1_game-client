@@ -33,7 +33,6 @@ export default class VipSedieWar extends VipSedie {
     protected internalInit() {
         this.gameId = GameIds.VipSedieWar;
         this.setConfig(new VipSedieWarConfigs());
-        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

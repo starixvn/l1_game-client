@@ -44,7 +44,6 @@ export default class Keno extends SocketIOTableGameBase {
         super();
         this.gameId = GameIds.KenoProMax;
         this.setConfig(new KenoConfigs());
-        this.setMiniPanelScale(1);
     }
 
     initHandlers() {

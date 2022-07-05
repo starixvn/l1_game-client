@@ -20,7 +20,6 @@ export default class VipSedie extends Sedie {
     protected internalInit() {
         this.gameId = GameIds.VipSedie;
         this.setConfig(new SedieConfigs());
-        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

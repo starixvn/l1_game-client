@@ -84,7 +84,6 @@ export default class Roulette extends SocketIOTableGameBase {
         super();
         this.gameId = GameIds.Roulette;
         this.setConfig(new RouletteConfigs());
-        this.setMiniPanelScale(1);
     }
 
     initHandlers() {

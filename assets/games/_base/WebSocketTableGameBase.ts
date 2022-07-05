@@ -82,10 +82,6 @@ export default class WebSocketTableGameBase extends GameBase {
         cc.RedT.inGame = null;
     }
 
-    setMiniPanelScale(miniPanelScale: number) {
-        this.miniPanelScale = miniPanelScale;
-    }
-
     initHandlers() {
         super.initHandlers();
 

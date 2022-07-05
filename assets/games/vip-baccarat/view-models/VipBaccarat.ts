@@ -77,7 +77,6 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     protected internalInit() {
         this.gameId = GameIds.VipBaccarat;
         this.setConfig(new BaccaratConfigs());
-        this.setMiniPanelScale(1);
     }
 
     onLoad() {

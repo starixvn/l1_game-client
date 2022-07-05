@@ -77,7 +77,6 @@ export default class Sedie extends FreeBetGameBase {
     protected internalInit() {
         this.gameId = GameIds.SeDie;
         this.setConfig(new SedieConfigs());
-        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

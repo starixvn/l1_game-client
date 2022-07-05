@@ -116,7 +116,6 @@ export default class SicBo extends SocketIOTableGameBase {
     protected internalInit() {
         this.gameId = GameIds.SicBo;
         this.setConfig(new SicBoConfigs());
-        this.setMiniPanelScale(1);
         this.finishShowResult = false;
     }
 

@@ -12,7 +12,6 @@ export default class HeroesSlot extends SlotGameBase {
     constructor() {
         super();
         this.gameId = GameIds.HeroesSlot;
-        this.setMiniPanelScale(1);
     }
 
     createAutoSpinDialog(): AutoSpinSettingDialog {

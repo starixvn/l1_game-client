@@ -62,7 +62,6 @@ export default class ThreeCards extends SocketIOTableGameBase {
         super();
         this.gameId = GameIds.ThreeCards;
         this.setConfig(new ThreeCardsConfigs());
-        this.setMiniPanelScale(1);
     }
 
     initHandlers() {

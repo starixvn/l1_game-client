@@ -145,7 +145,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     constructor() {
         super();
         this.gameId = GameIds.BlackJack;
-        this.setMiniPanelScale(1);
     }
 
     onLoad() {
