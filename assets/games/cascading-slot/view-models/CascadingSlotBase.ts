@@ -260,6 +260,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.GET_TUMBLE, () => {
+            this.gameSound.playSound(CascadingSlotGameSound.SYMBOL_EXPLODE);
             this.tumbleWinView.showView(true);
             this.checkShowTopMessage();
             this.bottomMessage.showMessages(RoundType.TUMBLEWIN);

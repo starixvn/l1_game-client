@@ -10,6 +10,7 @@ export enum CascadingSlotGameSound {
     MATCHED_4 = "matched_4",
     MULTIPLIER_APPEAR = "multiplier_appear",
     BIG_WIN = "big_win",
+    BIG_WIN_STOP = "big_win_stop",
     FREE_SPIN = "free_spin",
     TURBO_FALL_OUT = "turbo_fall_out",
     TURBO_DROP_IN = "turbo_drop_in",
