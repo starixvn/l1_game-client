@@ -532,12 +532,16 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         } else {
             bigWinAnimation
                 .setAmountSlow(betWin, () => {
+                    this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
+                    this.gameSound.stopSound(CascadingSlotGameSound.BIG_WIN);
                     callbackAnim.closeLater();
                 })
                 .catch((reason) => console.log(reason));
         }
 
         callbackAnim.skipCallback = () => {
+            this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
+            this.gameSound.stopSound(CascadingSlotGameSound.BIG_WIN);
             bigWinAnimation.setAmount(betWin, 0);
         };
 
