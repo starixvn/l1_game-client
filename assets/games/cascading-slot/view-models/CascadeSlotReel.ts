@@ -148,6 +148,10 @@ export default class CascadeSlotReel extends cc.Component {
         await Promise.all(list.map((index) => this.highlightItem(index)));
     }
 
+    async highlightScatterItems() {
+        await Promise.all(this.items.map((item) => item.highlightScatterItem()));
+    }
+
     async removeItem(index: number) {
         const item = this.items[index];
         const animation = item.getComponentInChildren(cc.Animation);

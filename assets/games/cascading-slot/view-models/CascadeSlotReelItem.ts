@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import MultiplierItem from "./MultiplierItem";
 
 const { ccclass, property } = cc._decorator;
@@ -15,6 +16,15 @@ export default class CascadeSlotReelItem extends cc.Component {
     setItem(index: number) {
         this.replaceItem(index);
         this.index = index;
+    }
+
+    async highlightScatterItem() {
+        if (this.index === 9) {
+            const animation = this.content.getComponentInChildren(cc.Animation);
+            animation.play("scatter");
+            const duration = animation.currentClip.duration;
+            await GameUtils.delayTime(duration);
+        }
     }
 
     updateMultiplierItem(multiplier: number[]) {

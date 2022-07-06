@@ -79,6 +79,7 @@ const showEffectSpecialCase = async (mainGame: CascadingSlotBase, data: Cascadin
     }
 
     if (freeSpins > 0) {
+        await mainGame.board.highlightScatterItems();
         await mainGame.showEffectFreeSpins(freeSpins);
     }
 };

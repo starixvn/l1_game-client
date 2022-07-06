@@ -132,6 +132,10 @@ export default class CascadeSlotBoard extends cc.Component {
         return this.reels[randomItem.i].getItemNode(randomItem.j);
     }
 
+    async highlightScatterItems() {
+        await Promise.all(this.reels.map((reel) => reel.highlightScatterItems()));
+    }
+
     public async removeItems(data: number[][], tumbleIndex: number) {
         const reelItems = this.reels.map((reel, index) => {
             return data[index]
