@@ -1,3 +1,10 @@
+.game-test:
+    stage: test
+    trigger:
+        include:
+            - local: ci/cocos-testing-ci.yaml
+    allow_failure: true
+
 include:
     - project: "ci/repos-ci/pentagon_l1_game_client"
       ref: master
@@ -7,46 +14,50 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
+    - project: "ci/repos-ci/pentagon_l1_treasure_island_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+    - local: "ci/*.yml"
+
 variables:
     COCOS_VERSION: 2.4.6
 
 .build_cocos_creator_script: &build_cocos_creator_script
-  stage: build-cocos-web
-  script:
-    - echo "====== Build Cocos Web Mobile ======"
-    - echo $DEPLOY_ENV
-    - echo $STACK_NAME
-    - npm set registry http://npm.lumigame.com
-    - yarn install
+    stage: build-cocos-web
+    script:
+        - echo "====== Build Cocos Web Mobile ======"
+        - echo $DEPLOY_ENV
+        - echo $STACK_NAME
+        - npm set registry http://npm.lumigame.com
+        - yarn install
 
-    - cp ./configs/$STACK_NAME/index-config.js ./build-templates/web-mobile/configs.js
-    - cp ./configs/$STACK_NAME/Configs.$DEPLOY_ENV.js ./assets/configs/Configs.js
-    - if [ "$COCOS_VERSION" == "" ]; then
-      export COCOS_VERSION="2.4.0";
-      else
-      export COCOS_VERSION=$COCOS_VERSION;
-      fi
-    - if [ "$COCOS_VERSION" == "2.2.2" ]; then
-      /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true";
-      else
-      /Applications/CocosCreator/Creator/$COCOS_VERSION/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true";
-      fi
-  tags:
-    - cocos
-  artifacts:
-    paths:
-      - ./build/web-mobile
-    expire_in: 1 day
+        - cp ./configs/$STACK_NAME/index-config.js ./build-templates/web-mobile/configs.js
+        - cp ./configs/$STACK_NAME/Configs.$DEPLOY_ENV.js ./assets/configs/Configs.js
+        - if [ "$COCOS_VERSION" == "" ]; then
+          export COCOS_VERSION="2.4.0";
+          else
+          export COCOS_VERSION=$COCOS_VERSION;
+          fi
+        - if [ "$COCOS_VERSION" == "2.2.2" ]; then
+          /Applications/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true";
+          else
+          /Applications/CocosCreator/Creator/$COCOS_VERSION/CocosCreator.app/Contents/MacOS/CocosCreator --path ./ --build "platform=web-mobile;inlineSpriteFrames=true;webOrientation=landscape;md5Cache=true";
+          fi
+    tags:
+        - cocos
+    artifacts:
+        paths:
+            - ./build/web-mobile
+        expire_in: 1 day
 
 .base_build_cocos_web_game_client:
-  <<: *build_cocos_creator_script
-  extends:
-    - .deploy_vars_game_client
-    - .build:image:game_client:rules
+    <<: *build_cocos_creator_script
+    extends:
+        - .deploy_vars_game_client
+        - .build:image:game_client:rules
 
 .base_build_cocos_web_vg2_game_client:
-  <<: *build_cocos_creator_script
-  extends:
-    - .deploy_vars_vg2_game_client
-    - .build:image:vg2_game_client:rules
-  
+    <<: *build_cocos_creator_script
+    extends:
+        - .deploy_vars_vg2_game_client
+        - .build:image:vg2_game_client:rules
