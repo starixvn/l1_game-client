@@ -528,29 +528,31 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
 
         if (this.isTurboMode()) {
+            this.soundEndForBigWin();
             bigWinAnimation.setAmount(betWin, 0);
             callbackAnim.skipTouchToContinue();
         } else {
             bigWinAnimation
                 .setAmountSlow(betWin, () => {
-                    this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
-                    this.gameSound.playSound(CascadingSlotGameSound.INCREMENT_STOP);
-                    this.gameSound.stopSound(CascadingSlotGameSound.BIG_WIN);
-                    this.gameSound.stopSound(CascadingSlotGameSound.INCREMENT);
+                    this.soundEndForBigWin();
                     callbackAnim.closeLater();
                 })
                 .catch((reason) => console.log(reason));
         }
 
         callbackAnim.skipCallback = () => {
-            this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
-            this.gameSound.playSound(CascadingSlotGameSound.INCREMENT_STOP);
-            this.gameSound.stopSound(CascadingSlotGameSound.BIG_WIN);
-            this.gameSound.stopSound(CascadingSlotGameSound.INCREMENT);
+            this.soundEndForBigWin();
             bigWinAnimation.setAmount(betWin, 0);
         };
 
         await this.showEffect(effect);
+    }
+
+    private soundEndForBigWin() {
+        this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
+        this.gameSound.playSound(CascadingSlotGameSound.INCREMENT_STOP);
+        this.gameSound.stopSound(CascadingSlotGameSound.BIG_WIN);
+        this.gameSound.stopSound(CascadingSlotGameSound.INCREMENT);
     }
 
     async showEffectFreeSpins(count: number) {
