@@ -85,12 +85,7 @@ const showEffectSpecialCase = async (mainGame: CascadingSlotBase, data: Cascadin
 
 const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isTurbo: boolean) => {
     let multiplierCount = tumbles[0].multipliers.length;
-    const soundArray = [
-        CascadingSlotGameSound.MATCHED_1,
-        CascadingSlotGameSound.MATCHED_2,
-        CascadingSlotGameSound.MATCHED_3,
-        CascadingSlotGameSound.MATCHED_4
-    ];
+
     for (let i = 0; i < tumbles.length - 1; i++) {
         const tumble = tumbles[i];
         const { icons, win: tumbleWin, settlement } = tumble;
@@ -117,8 +112,7 @@ const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isT
         mainGame.gameData.uiModel.getTumble();
         mainGame.tumbleList.addIcons(icons);
 
-        mainGame.gameSound.playSound(soundArray[i % soundArray.length]);
-        await mainGame.board.removeItems(explode);
+        await mainGame.board.removeItems(explode, i);
         mainGame.board.addItems(newItems);
         mainGame.board.updateMultiplierItems(tumbleMultipliers);
         await mainGame.board.fallIn(isTurbo);
