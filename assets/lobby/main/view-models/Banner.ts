@@ -34,17 +34,24 @@ export default class Banner extends cc.Component {
         this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
         const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
         const showJackpotBanner = cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
-        showJackpotBanner &&
-            (await this.handleJackpotBanner(bannerPrefabNode, () => {
-                this.inactiveLoadingSkeleton();
-            }));
+
         adsBannerController.menuLoop = !showJackpotBanner;
         const filterList: number[] = this.getGameIdOfferBanner();
-        adsBannerController.setGameAds(filterList, () => {
-            this.inactiveLoadingSkeleton();
-        });
+        adsBannerController.setGameAds(
+            filterList,
+            async () => {
+                showJackpotBanner &&
+                    (await this.handleJackpotBanner(bannerPrefabNode, () => {
+                        this.inactiveLoadingSkeleton();
+                    }));
+            },
+            () => {
+                this.inactiveLoadingSkeleton();
+            }
+        );
+
         adsBannerController.onEndingRound = () => {
-            if (showJackpotBanner) {
+            if (showJackpotBanner && this.adsToggle && this.jackpotToggle) {
                 this.adsToggle.isChecked = false;
                 this.jackpotToggle.isChecked = true;
                 this.switchBanner(true);

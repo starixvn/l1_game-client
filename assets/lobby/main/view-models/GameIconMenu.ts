@@ -50,6 +50,5 @@ export default class GameIconMenu extends BaseComponent {
         AudioManager.getInstance().playClick();
         cc.sys.localStorage.setItem(`UserSetting_game_${id}`, "");
         GameUtils.openGame(id, this.miniPanel);
-        console.log(`open game ${id}`);
     }
 }

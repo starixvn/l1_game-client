@@ -65,10 +65,11 @@ export default class BetChips extends cc.Component {
     public chipList: cc.Node[] = [];
 
     private currentBetValue = "1";
+    private disabledBetChips = false;
     protected needResetCurrentChip = true;
 
     onLoad() {
-        this.leftButton.active = false;
+        this.setLeftButtonStatus(false);
         this.snappedScrollView.onScrollEnded = () => {
             const min = this.snappedScrollView.getMinDisplayIndex();
 
@@ -86,6 +87,18 @@ export default class BetChips extends cc.Component {
 
     setNeedResetCurrentChip(status: boolean) {
         this.needResetCurrentChip = status;
+    }
+
+    setDisabledBetChips(status: boolean) {
+        this.disabledBetChips = status;
+    }
+
+    setLeftButtonStatus(status) {
+        this.leftButton.active = status && !this.disabledBetChips;
+    }
+
+    setRightButtonStatus(status) {
+        this.rightButton.active = status && !this.disabledBetChips;
     }
 
     setChipValues(gameConfigs: any) {
@@ -177,15 +190,15 @@ export default class BetChips extends cc.Component {
     }
 
     private updateArrowVisibility() {
-        this.leftButton.active = true;
-        this.rightButton.active = true;
+        this.setLeftButtonStatus(true);
+        this.setRightButtonStatus(true);
 
         if (this.selectedIndex <= 0) {
             this.selectedIndex = 0;
-            this.leftButton.active = false;
+            this.setLeftButtonStatus(false);
         } else if (this.selectedIndex >= this.chipList.length - 1) {
             this.selectedIndex = this.chipList.length - 1;
-            this.rightButton.active = false;
+            this.setRightButtonStatus(false);
         }
     }
 

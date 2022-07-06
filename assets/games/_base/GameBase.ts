@@ -12,6 +12,7 @@ import InGameMenu, { InGameMenuEvents } from "../../common/in-game-menu/InGameMe
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
+import UserProfile from "../../common/user-profile/UserProfile";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { GameInfos } from "../../configs/SabaConfigs";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
@@ -106,6 +107,8 @@ export default class GameBase extends BaseComponent {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
+    userProfile: UserProfile;
+
     protected _gameId: number;
     protected historyComponent: SocketIOGameHistoryBase;
 
@@ -152,6 +155,7 @@ export default class GameBase extends BaseComponent {
     public gameAudios: GameAudios;
     private readonly dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
+    public needHideNextDotRoundHistory = false;
 
     setConfig(config: GameConfigBase) {
         this.config = config;
@@ -453,7 +457,7 @@ export default class GameBase extends BaseComponent {
     }
 
     public updateUserBalance() {
-        UserService.getBalance();
+        this.node.activeInHierarchy && UserService.getBalance();
     }
 
     public isUsingMaxStakeLevel() {
@@ -549,4 +553,12 @@ export default class GameBase extends BaseComponent {
     openHistory() {}
 
     onCloseGame() {}
+
+    needShowNextDot() {
+        return !this.needHideNextDotRoundHistory && this.normalShowNextDotCondition();
+    }
+
+    normalShowNextDotCondition() {
+        return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
+    }
 }

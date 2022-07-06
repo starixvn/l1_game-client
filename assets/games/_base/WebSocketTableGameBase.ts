@@ -12,6 +12,7 @@ import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./view-models/RoomPlayer";
+import UserProfile from "../../common/user-profile/UserProfile";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,14 +39,17 @@ export default class WebSocketTableGameBase extends GameBase {
     @property(cc.Node)
     loading: cc.Node = null;
 
-    @property(cc.Label)
-    userName: cc.Label = null;
+    // @property(cc.Label)
+    // userName: cc.Label = null;
 
-    @property(cc.Label)
-    userBalance: cc.Label = null;
+    // @property(cc.Label)
+    // userBalance: cc.Label = null;
 
-    @property(cc.Sprite)
-    userAvatar: cc.Sprite = null;
+    // @property(cc.Sprite)
+    // userAvatar: cc.Sprite = null;
+
+    @property(cc.Node)
+    userContainer: cc.Node = null;
 
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
@@ -119,6 +123,13 @@ export default class WebSocketTableGameBase extends GameBase {
         }
     }
 
+    onUserProfileInitialized(node: cc.Node) {
+        const userProfile = node.getComponent(UserProfile);
+        if (userProfile) {
+            this.userProfile = userProfile;
+        }
+    }
+
     showUmMessage(data: any) {
         if (this.isDisableGame) {
             return;
@@ -176,23 +187,23 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.userAvatar.node.parent, false, bet, 1, 80);
+        GameUtils.addFlyingText(this.userContainer, false, bet, 1, 80);
     }
 
     showWinningBet(bet: number) {
-        const winningBet = GameUtils.addFlyingText(this.userAvatar.node.parent, true, bet, this.WinningAnimationDuration, 80, 10);
+        const winningBet = GameUtils.addFlyingText(this.userContainer, true, bet, this.WinningAnimationDuration, 80, 10);
         winningBet.name = "winningBet";
     }
 
     clearWinningBet() {
-        const winningBet = this.userAvatar.node.parent.getChildByName("winningBet");
+        const winningBet = this.userContainer.getChildByName("winningBet");
         if (winningBet) {
             winningBet.destroy();
         }
     }
 
     clearWinningEffect() {
-        const winningEffect = this.userAvatar.node.parent.getChildByName("winningEffect");
+        const winningEffect = this.userContainer.getChildByName("winningEffect");
         if (winningEffect) {
             winningEffect.destroy();
         }
@@ -256,19 +267,23 @@ export default class WebSocketTableGameBase extends GameBase {
             return;
         }
 
-        if (void 0 !== user.name && this.userName) {
-            this.userName.string = user.name;
+        if (void 0 !== user.name && this.userContainer) {
+            //this.userName.string = user.name;
+            this?.userProfile && this.userProfile.setUserName(user.name);
         }
 
         if (void 0 !== user.red) {
-            this.userBalance.string = numberWithCommas(user.red, 2);
+            //this.userBalance.string = numberWithCommas(user.red, 2);
+            this?.userProfile && this.userProfile.setUserBalance(numberWithCommas(user.red, 2));
         }
 
         if (void 0 !== user.avatarId) {
             GameUtils.getAvatarSprite(user.avatarId).then((frame) => {
-                if (this && this.userAvatar && frame) {
-                    this.userAvatar.spriteFrame = frame;
-                    this.userAvatar.node.parent.active = true;
+                if (this && this.userContainer && frame) {
+                    //this.userAvatar.spriteFrame = frame;
+                    this?.userProfile && this.userProfile.setUserAvatar(frame);
+                    //this.userAvatar.node.parent.active = true;
+                    this.userContainer && (this.userContainer.active = true);
                 }
             });
         }

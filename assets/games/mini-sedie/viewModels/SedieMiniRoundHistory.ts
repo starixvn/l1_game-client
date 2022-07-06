@@ -1,4 +1,4 @@
-import MiniRoundHistory from '../../../common/mini-round-history/MiniRoundHistory';
+import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 
 const { ccclass } = cc._decorator;
 

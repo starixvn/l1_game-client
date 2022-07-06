@@ -7,7 +7,6 @@ export const handleGameState = (mainGame: HiLo) => (stateModel: HiLoStateModel) 
 
     switch (stateModel.state) {
         case HiLoState.BLANK_NEW:
-            mainGame.betBoardComp?.setNeedResetCurrentChip(true);
             mainGame.resetUIBlankNewState();
             break;
 

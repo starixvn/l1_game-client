@@ -2,14 +2,14 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BottomControls extends cc.Component {
-    @property(cc.Label)
-    userName: cc.Label = null;
+    // @property(cc.Label)
+    // userName: cc.Label = null;
 
-    @property(cc.Label)
-    userBalance: cc.Label = null;
+    // @property(cc.Label)
+    // userBalance: cc.Label = null;
 
-    @property(cc.Sprite)
-    userAvatar: cc.Sprite = null;
+    // @property(cc.Sprite)
+    // userAvatar: cc.Sprite = null;
 
     @property(cc.Node)
     betChipsContainer: cc.Node = null;
@@ -32,7 +32,7 @@ export default class BottomControls extends cc.Component {
     @property(cc.Node)
     confirmGlow: cc.Node = null;
 
-    onLoad() {
-        this.userAvatar.node.parent.active = false;
-    }
+    // onLoad() {
+    //     this.userAvatar.node.parent.active = false;
+    // }
 }

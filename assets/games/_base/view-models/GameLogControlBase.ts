@@ -24,6 +24,7 @@ export default class GameLogControlBase extends cc.Component {
 
     protected nextMark: cc.Node = null;
     protected dots: cc.Node[] = [];
+    protected isHideNextDot = false;
     protected checkShowNext = () => false;
 
     init(condition: () => boolean) {

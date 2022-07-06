@@ -38,7 +38,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     };
     bannerAds = {
         SC1: [GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo],
-        SC2: [GameIds.HiLo, GameIds.TexasHoldemPoker, GameIds.SeDie]
+        SC2: [GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo]
     };
     bannerAdsInfo = {
         SC1: {

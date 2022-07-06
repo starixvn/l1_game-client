@@ -19,9 +19,10 @@ export default class SedieFinishHandler extends GameBaseFinishHandler {
         } else {
             cc.tween(this.main)
                 .call(() => this.main.openPlate(true))
-                .delay(0.5)
+                .delay(this.main.openPlateDuration)
                 .call(() => {
                     onFinishHandlingData();
+                    this.main.needHideNextDotRoundHistory = true;
                     this.main.updateRoundHistory();
                 })
                 .start();

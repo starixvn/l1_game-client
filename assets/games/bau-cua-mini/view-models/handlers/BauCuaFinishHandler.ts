@@ -11,7 +11,7 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         cc.tween(this.main.bgOverlay).to(0.3, { opacity: 0 }).start();
-        this.main.setDiceResult();
+        this.main.setDices(dataFinish.result);
         this.main.thePlate.opacity = 0;
 
         if (cc.RedT.GAME_IS_SHOWED) {

@@ -14,7 +14,6 @@ import VipBaccaratCards from "./VipBaccaratCards";
 import VipBaccaratHistory from "./VipBaccaratHistory";
 import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -120,8 +119,8 @@ export default class VipBaccarat extends SocketIOTableGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-
         this.winNoticeLabel.node.parent.active = false;
+        this.needHideNextDotRoundHistory = false;
     }
 
     playGetCardAudio() {
@@ -137,30 +136,26 @@ export default class VipBaccarat extends SocketIOTableGameBase {
         });
     }
 
-    private initScoreBoards() {
-        const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
-        };
+    normalShowNextDotCondition() {
+        return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
+    }
 
+    private initScoreBoards() {
         const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
         this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
-        this.basicHistoryBoard.init(condition);
+        this.basicHistoryBoard.init(this.needShowNextDot.bind(this));
         this.basicHistoryBoardNode.addChild(historyBoardNode);
 
         const detailHistoryBoardNode = cc.instantiate(this.detailHistoryBoardPrefab);
         this.detailHistoryBoard = detailHistoryBoardNode.getComponent("BaccaratDragonScoreBoard");
-        this.detailHistoryBoard.init(condition);
+        this.detailHistoryBoard.init(this.needShowNextDot.bind(this));
         this.detailHistoryBoardNode.addChild(detailHistoryBoardNode);
     }
 
     initMiniRoundHistory() {
-        const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
-        };
-
         const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(VipBaccaratMiniRoundHistory);
-        this.miniRoundHistory.init(condition);
+        this.miniRoundHistory.init(this.needShowNextDot.bind(this));
         this.miniRoundHistoryContainer.addChild(mini);
     }
 }

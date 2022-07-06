@@ -24,7 +24,7 @@ export default class CustomSystemPrefab extends ComponentSystem implements ICred
     onLoad() {
         GameUtils.loadResource(`${this.prefabPath}/${this.customPath}/${this.prefabName}`).then((prefab) => {
             const node = cc.instantiate(prefab);
-            this.node.addChild(node);
+            this.node?.addChild(node);
         });
     }
 }

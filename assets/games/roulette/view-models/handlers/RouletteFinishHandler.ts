@@ -48,7 +48,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             return;
         }
 
-        const playerNode = this.main.userAvatar.node.parent;
+        const playerNode = this.main.userContainer;
         this.main.showWinningBet(data.bet);
         this.playWinningEffect(this.main, playerNode);
         this.main.updateUserBalance();

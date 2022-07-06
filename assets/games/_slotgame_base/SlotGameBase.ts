@@ -31,6 +31,7 @@ import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 import SpinButton from "./SpinButton";
+import UserProfile from "../../common/user-profile/UserProfile";
 
 export interface LineData {
     payline: number;
@@ -155,6 +156,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     @property(cc.Label)
     messageText: cc.Label = null;
+
+    @property({ type: UserProfile })
+    userProfile: UserProfile = null;
 
     @property
     autoGenerateLines = false;
@@ -501,7 +505,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     private blinkUserBalance() {
-        cc.tween(this.userBalance.node)
+        cc.tween(this.userProfile.userBalance.node)
             .repeat(3, cc.tween().to(0.1, { scale: 1.1 }).to(0.1, { scale: 1 }))
             .start();
     }

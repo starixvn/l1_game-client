@@ -116,7 +116,6 @@ export default class HiLo extends NewMiniGameBase {
         if (this.gameData.stateModel.state === HiLoState.BLANK_NEW) {
             if (this.betBoardComp.chipValues && this.betBoardComp.chipValues[0]) {
                 this.betBoardComp.setCurrentBet(this.betBoardComp.chipValues[0].toString());
-                this.betBoardComp.setNeedResetCurrentChip(true);
             }
         }
         this.resultComp && this.resultComp.stopSpinCardAnimation();
@@ -186,7 +185,7 @@ export default class HiLo extends NewMiniGameBase {
         }
 
         if (this.betBoardComp) {
-            this.betBoardComp.setNeedResetCurrentChip(false);
+            // this.betBoardComp.setNeedResetCurrentChip(false);
             const exist = this.betBoardComp.chipValues.includes(model.amount);
             if (exist) {
                 this.betBoardComp.setSelectedIndexAndScroll(model.amount.toString());

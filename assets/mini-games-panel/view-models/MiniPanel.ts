@@ -284,9 +284,7 @@ export default class MiniPanel extends BaseComponent {
                     this.loading.node.active = false;
                     this.onForceReload();
                 } else {
-                    cc.director.loadScene(name, () => {
-                        cc.resources.loadDir(`lobby`);
-                    });
+                    cc.director.loadScene(name);
                 }
             }
         );

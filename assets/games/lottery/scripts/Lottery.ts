@@ -503,15 +503,14 @@ export default class Lottery extends SocketIOTableGameBase {
         }
     }
 
-    initMiniHistories() {
-        const condition = () => {
-            return (
-                this.currentTimeRemaining < this.config.stopBetTime ||
-                this.currentTimeRemaining > this.config.fullTime - this.displayResultTime
-            );
-        };
+    normalShowNextDotCondition() {
+        return (
+            this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime - this.displayResultTime
+        );
+    }
 
-        this.miniRoundHistories.forEach((history) => history.init(condition));
+    initMiniHistories() {
+        this.miniRoundHistories.forEach((history) => history.init(this.needShowNextDot.bind(this)));
     }
 
     updateMiniRoundHistories() {

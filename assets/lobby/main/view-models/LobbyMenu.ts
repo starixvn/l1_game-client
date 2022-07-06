@@ -152,25 +152,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async addItem(id: number): Promise<cc.Node> {
-        const skeletonIconPath = this.lobbyMenuConfig.iconBigSize.includes(id)
-            ? `lobby/games/skeleton-icon/icon-big`
-            : `lobby/games/skeleton-icon/icon-small`;
-        const prefab = await GameUtils.loadResource(skeletonIconPath);
-
-        let convertedId;
-        if (id === 12) {
-            convertedId = id = 11;
-        } else {
-            convertedId = id;
-        }
-
-        const gameName = i18n.t(`gameNames.${convertedId}`).toUpperCase();
-        const gameIds = this.getList();
-
-        const iconNode = cc.instantiate(prefab);
-        const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
-        skeletonIconComponent.setGameName(gameName);
-        skeletonIconComponent.setGameContent(id, gameIds);
+        const iconNode = await this.createIconNode(id);
 
         const size = this.getItemSize(id);
         if (!this.isAlive()) {
@@ -188,6 +170,28 @@ export default class LobbyMenu extends GameIconMenu {
             this.clearRow();
         }
         iconNode.name = `${id}`;
+        return iconNode;
+    }
+
+    private async createIconNode(gameId: number) {
+        const skeletonIconPath = this.lobbyMenuConfig.iconBigSize.includes(gameId)
+            ? `lobby/games/skeleton-icon/icon-big`
+            : `lobby/games/skeleton-icon/icon-small`;
+
+        const prefab = await GameUtils.loadResource(skeletonIconPath);
+
+        let convertedId;
+        if (gameId === 12) {
+            convertedId = gameId = 11;
+        } else {
+            convertedId = gameId;
+        }
+
+        const gameName = i18n.t(`gameNames.${convertedId}`).toUpperCase();
+        const iconNode = cc.instantiate(prefab);
+        const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
+        skeletonIconComponent.setGameName(gameName);
+        skeletonIconComponent.setGameContent(gameId, this.getList());
         return iconNode;
     }
 

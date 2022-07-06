@@ -4,78 +4,93 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>plate-bat.png</key>
+            <key>mask.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{118,118}</string>
+                <string>{56,45}</string>
                 <key>spriteSourceSize</key>
-                <string>{118,118}</string>
+                <string>{56,45}</string>
                 <key>textureRect</key>
-                <string>{{0,0},{118,118}}</string>
+                <string>{{3,3},{56,45}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>plate-dia.png</key>
+            <key>md5_light_key.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{153,153}</string>
+                <string>{158,107}</string>
                 <key>spriteSourceSize</key>
-                <string>{153,153}</string>
+                <string>{158,107}</string>
                 <key>textureRect</key>
-                <string>{{118,0},{153,153}}</string>
+                <string>{{61,3},{158,107}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>plate-xoc-1.png</key>
+            <key>tooltip-copy.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{217,176}</string>
+                <string>{79,44}</string>
                 <key>spriteSourceSize</key>
-                <string>{217,176}</string>
+                <string>{79,44}</string>
                 <key>textureRect</key>
-                <string>{{271,0},{217,176}}</string>
+                <string>{{3,112},{79,44}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>plate-xoc-2.png</key>
+            <key>tooltip.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{217,176}</string>
+                <string>{214,46}</string>
                 <key>spriteSourceSize</key>
-                <string>{217,176}</string>
+                <string>{214,46}</string>
                 <key>textureRect</key>
-                <string>{{488,0},{217,176}}</string>
+                <string>{{3,158},{214,46}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>plate-xoc-3.png</key>
+            <key>tooltip_arrow.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{217,176}</string>
+                <string>{15,8}</string>
                 <key>spriteSourceSize</key>
-                <string>{217,176}</string>
+                <string>{15,8}</string>
                 <key>textureRect</key>
-                <string>{{705,0},{217,176}}</string>
+                <string>{{219,158},{15,8}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>tooltip_bg.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{36,36}</string>
+                <key>spriteSourceSize</key>
+                <string>{36,36}</string>
+                <key>textureRect</key>
+                <string>{{3,206},{36,36}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -89,13 +104,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>plate.png</string>
+            <string>md5.png</string>
             <key>size</key>
-            <string>{922,176}</string>
+            <string>{256,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:2a0f6e4f31ac5f9c1b9ae8ffcd81f97f:f79ffd5cea7bc26afb3057db6c0c802c:bee5224fcd53759c9b8b9d6a760d81c8$</string>
+            <string>$TexturePacker:SmartUpdate:0f89fc8235c42c88ad2474ebe44aed1d:3660e5ff92ecc30280dd27f27ceacac6:6ed0c9662ca4aaa5d0eaf4b615a320f7$</string>
             <key>textureFileName</key>
-            <string>plate.png</string>
+            <string>md5.png</string>
         </dict>
     </dict>
 </plist>
