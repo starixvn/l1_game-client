@@ -520,6 +520,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     override async showEffectBigWin(betWin: number) {
         this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN);
+        this.gameSound.playSound(CascadingSlotGameSound.INCREMENT);
 
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackLoopAnimation);
@@ -533,7 +534,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             bigWinAnimation
                 .setAmountSlow(betWin, () => {
                     this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
+                    this.gameSound.playSound(CascadingSlotGameSound.INCREMENT_STOP);
                     this.gameSound.stopSound(CascadingSlotGameSound.BIG_WIN);
+                    this.gameSound.stopSound(CascadingSlotGameSound.INCREMENT);
                     callbackAnim.closeLater();
                 })
                 .catch((reason) => console.log(reason));
@@ -541,7 +544,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         callbackAnim.skipCallback = () => {
             this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
+            this.gameSound.playSound(CascadingSlotGameSound.INCREMENT_STOP);
             this.gameSound.stopSound(CascadingSlotGameSound.BIG_WIN);
+            this.gameSound.stopSound(CascadingSlotGameSound.INCREMENT);
             bigWinAnimation.setAmount(betWin, 0);
         };
 

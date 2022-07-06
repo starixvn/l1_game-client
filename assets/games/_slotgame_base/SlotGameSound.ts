@@ -10,7 +10,7 @@ export enum CascadingSlotGameSound {
     MATCHED_4 = "matched_4",
     MULTIPLIER_APPEAR = "multiplier_appear",
     BIG_WIN = "big_win",
-    BIG_WIN_STOP = "big_win_stop",
+    BIG_WIN_STOP = "big_win_end",
     FREE_SPIN = "free_spin",
     TURBO_FALL_OUT = "turbo_fall_out",
     TURBO_DROP_IN = "turbo_drop_in",
@@ -20,7 +20,9 @@ export enum CascadingSlotGameSound {
     REEL_STOP_3 = "reel_stop3",
     REEL_STOP_4 = "reel_stop4",
     REEL_STOP_5 = "reel_stop5",
-    SYMBOL_EXPLODE = "explode"
+    SYMBOL_EXPLODE = "explode",
+    INCREMENT = "increment",
+    INCREMENT_STOP = "increment_stop"
 }
 
 const { ccclass, property } = cc._decorator;
