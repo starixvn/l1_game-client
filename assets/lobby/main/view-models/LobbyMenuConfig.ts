@@ -23,15 +23,15 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             GameIds.Roulette
         ],
         cardGames: [
-            GameIds.VipBaccarat,
+            GameIds.BlockchainBaccarat,
             GameIds.Baccarat,
+            GameIds.VipBaccarat,
             GameIds.DragonTiger,
             GameIds.ThreeCards,
             GameIds.BlackJack,
             GameIds.CasinoHoldemPoker,
             GameIds.HiLo,
-            GameIds.TexasHoldemPoker,
-            GameIds.BlockchainBaccarat
+            GameIds.TexasHoldemPoker
         ],
         slotGames: [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub],
         lotteryGames: [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery],
@@ -107,6 +107,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.Roulette
     ];
     cardGames = [
+        GameIds.BlockchainBaccarat,
         GameIds.VipBaccarat,
         GameIds.Baccarat,
         GameIds.DragonTiger,
@@ -114,8 +115,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.BlackJack,
         GameIds.CasinoHoldemPoker,
         GameIds.HiLo,
-        GameIds.TexasHoldemPoker,
-        GameIds.BlockchainBaccarat
+        GameIds.TexasHoldemPoker
     ];
     slotGames = [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
     lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];

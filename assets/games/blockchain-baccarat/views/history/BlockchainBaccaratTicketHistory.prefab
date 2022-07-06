@@ -1325,8 +1325,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.time",
-    "_N$string": "Ui.time",
+    "_string": "TIME",
+    "_N$string": "TIME",
     "_fontSize": 22,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -1354,7 +1354,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.time",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -1574,8 +1574,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.round",
-    "_N$string": "Ui.round",
+    "_string": "ROUND",
+    "_N$string": "ROUND",
     "_fontSize": 22,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -1603,7 +1603,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.round",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -1823,8 +1823,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.result_player_banker",
-    "_N$string": "Ui.result_player_banker",
+    "_string": "RESULT\n(PLAYER | BANKER)",
+    "_N$string": "RESULT\n(PLAYER | BANKER)",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -1863,7 +1863,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.result_player_banker",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -2021,7 +2021,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 83,
-      "height": 97.8
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2072,10 +2072,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.choice_player",
-    "_N$string": "Ui.choice_player",
+    "_string": "PLAYER",
+    "_N$string": "PLAYER",
     "_fontSize": 22,
-    "_lineHeight": 30,
+    "_lineHeight": 25,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
@@ -2101,7 +2101,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.choice_player",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -2270,7 +2270,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 94,
-      "height": 97.8
+      "height": 31.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2321,10 +2321,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.choice_banker",
-    "_N$string": "Ui.choice_banker",
+    "_string": "BANKER",
+    "_N$string": "BANKER",
     "_fontSize": 22,
-    "_lineHeight": 30,
+    "_lineHeight": 25,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
@@ -2350,7 +2350,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.choice_banker",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -2570,8 +2570,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.choice_tie",
-    "_N$string": "Ui.choice_tie",
+    "_string": "TIE",
+    "_N$string": "TIE",
     "_fontSize": 22,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -2599,7 +2599,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.choice_tie",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -2819,8 +2819,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.player_pair",
-    "_N$string": "Ui.player_pair",
+    "_string": "PLAYER PAIR",
+    "_N$string": "PLAYER PAIR",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -2848,7 +2848,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.player_pair",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -3017,7 +3017,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 100,
-      "height": 81.5
+      "height": 56.49999999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3068,8 +3068,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.banker_pair",
-    "_N$string": "Ui.banker_pair",
+    "_string": "BANKER PAIR",
+    "_N$string": "BANKER PAIR",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -3097,7 +3097,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.banker_pair",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -3266,7 +3266,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 90,
-      "height": 97.8
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3317,8 +3317,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.choice_big",
-    "_N$string": "Ui.choice_big",
+    "_string": "BIG",
+    "_N$string": "BIG",
     "_fontSize": 22,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3346,7 +3346,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.choice_big",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -3515,7 +3515,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 90,
-      "height": 97.8
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3566,8 +3566,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.choice_small",
-    "_N$string": "Ui.choice_small",
+    "_string": "SMALL",
+    "_N$string": "SMALL",
     "_fontSize": 22,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3595,7 +3595,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.choice_small",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -3815,8 +3815,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.win",
-    "_N$string": "Ui.win",
+    "_string": "WIN",
+    "_N$string": "WIN",
     "_fontSize": 22,
     "_lineHeight": 30,
     "_enableWrapText": true,
@@ -3844,7 +3844,7 @@
     },
     "_enabled": true,
     "_dataId": "ui.win",
-    "format": 3,
+    "format": 1,
     "suffix": "",
     "_id": ""
   },
@@ -8464,7 +8464,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 202.78,
+      "width": 288.46,
       "height": 52.4
     },
     "_anchorPoint": {
@@ -8516,8 +8516,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.history",
-    "_N$string": "Ui.history",
+    "_string": "Ticket History",
+    "_N$string": "Ticket History",
     "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
