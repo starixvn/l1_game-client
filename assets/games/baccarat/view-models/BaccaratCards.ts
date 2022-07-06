@@ -41,7 +41,9 @@ export default class BaccaratCards extends cc.Component {
     @property(cc.Label)
     numberTagCardBack: cc.Label = null;
 
-    protected playGetCardAudio = () => {};
+    protected playGetCardAudio = () => {
+        // handle
+    };
     protected readonly flyCardSecond = 0.8;
     protected readonly openCardSecond = 0.3;
     protected readonly openSecondCardSecond = 1.6;
@@ -247,6 +249,7 @@ export default class BaccaratCards extends cc.Component {
         const cardPosition = card.position;
         card.position = from;
         card.opacity = 255;
+        card?.getComponent(BaccaratCard) && (card.getComponent(BaccaratCard).numberTag.parent.active = true);
 
         if (isCard3) {
             card.getComponent(BaccaratCard).numberTag.runAction(cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(2)));
@@ -287,6 +290,7 @@ export default class BaccaratCards extends cc.Component {
             if (cardData) {
                 currentCard.active = true;
             }
+            currentCard?.getComponent(BaccaratCard) && (currentCard.getComponent(BaccaratCard).numberTag.parent.active = false);
 
             const newCard = currentCard.children[0].getComponent(NewCard);
             newCard.setCardOldStyle({

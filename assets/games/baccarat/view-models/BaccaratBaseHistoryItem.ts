@@ -36,7 +36,7 @@ export default class BaccaratBaseHistoryItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    setData(betLog: any) {
+    setData(betLog: any, index?: number) {
         const { time, phien, settlementResult, betwin } = betLog;
 
         this.time.string = getStringDateByTime(time);
@@ -58,5 +58,7 @@ export default class BaccaratBaseHistoryItem extends cc.Component {
         this.showCards(betLog);
     }
 
-    showCards(betLog: any) {}
+    showCards(betLog: any) {
+        // handle
+    }
 }

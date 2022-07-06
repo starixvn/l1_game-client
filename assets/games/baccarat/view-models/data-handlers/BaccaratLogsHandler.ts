@@ -93,7 +93,9 @@ export default class BaccaratLogsHandler extends GameBaseLogsHandler {
         return logs;
     }
 
-    protected updateMiniHistoryLogs(dataLogs: any) {}
+    protected updateMiniHistoryLogs(dataLogs: any) {
+        // handle
+    }
 
     protected buildBasicScoreBoard(dataLogs: any) {
         const historyData = _.map(dataLogs, (log) => {

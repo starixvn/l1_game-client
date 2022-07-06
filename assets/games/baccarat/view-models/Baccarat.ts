@@ -38,7 +38,9 @@ export default class Baccarat extends VipBaccarat {
         this.logsHandler = new BaccaratLogsHandler(this);
     }
 
-    handlePositionMiniRoundHistory() {}
+    handlePositionMiniRoundHistory() {
+        // handle
+    }
 
     openHistory() {
         this.playClick();
@@ -48,5 +50,7 @@ export default class Baccarat extends VipBaccarat {
         this.currentMiniPanel.node.addChild(historyNode);
     }
 
-    initMiniRoundHistory() {}
+    initMiniRoundHistory() {
+        // handle
+    }
 }

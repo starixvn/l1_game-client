@@ -13,11 +13,11 @@ export default class BaccaratCard extends cc.Component {
     }
 
     setNumberTag(data: string) {
-        this.numberTag.children[0].getComponent(cc.Label).string = data;
+        this.numberTag.getComponent(cc.Label).string = data;
     }
 
     getNumberTag() {
-        return this.numberTag.children[0].getComponent(cc.Label).string;
+        return this.numberTag.getComponent(cc.Label).string;
     }
 
     resetHighlight() {
