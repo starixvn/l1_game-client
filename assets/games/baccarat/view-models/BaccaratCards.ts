@@ -252,7 +252,7 @@ export default class BaccaratCards extends cc.Component {
         card?.getComponent(BaccaratCard) && (card.getComponent(BaccaratCard).numberTag.parent.active = true);
 
         if (isCard3) {
-            card.getComponent(BaccaratCard).numberTag.runAction(cc.scaleTo(this.flyCardSecond, 1).easing(cc.easeInOut(2)));
+            card.getComponent(BaccaratCard).numberTag.runAction(cc.scaleTo(this.flyCardSecond, 2).easing(cc.easeInOut(2)));
         }
         card.runAction(
             cc.spawn(
