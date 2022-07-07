@@ -578,7 +578,7 @@ window.i18n.languages.vi = {
         reachMaxWin: "Bạn Đã Đạt Mức Tiền Thắng Tối Đa",
         warningTrialMode: "Chơi Thật,\nThắng Thật"
     },
-    blockChainBaccarat: {
+    blockchainBaccarat: {
         headerContent:
             "Số Seri cho mỗi lá bài sẽ được công bố ngay tại thời điểm bắt đầu “Shoe”. Người chơi có thể kiểm tra tính minh bạch của kết quả bằng cách so sánh “Khóa Bảo Mật” (được công bố khi mở bài) với “Số Seri”.",
         verifyCards: "Xác Minh Bài",
@@ -587,16 +587,16 @@ window.i18n.languages.vi = {
         cardList: "Danh Sách Bài",
         privateKey: "Khóa Bảo Mật",
         serialNumber: "Số Seri",
-        verifiedSerial: "Số Seri đã xác minh",
+        verifiedSerial: "Số Seri đã xác minh từ Khóa Bảo Mật",
         copy: "Copy",
-        verifiedValue: "Kiểm tra sự minh bạch trong kết quả bằng cách đối chiếu Số Seri với Khóa Bảo Mật \n(công bố sau khi mở bài). ",
+        verifiedValue: "Kiểm tra sự minh bạch trong kết quả bằng cách đối chiếu Số Seri với Khóa Bảo Mật (công bố sau khi mở bài). ",
         last_round: "Phiên Trước:",
         verifySuccess: "Xác minh thành công!",
         verifyFailed: "Xác minh thất bại!",
         changeCard: "Đổi Bài",
         correctSerialNumber: "Số Seri trùng khớp",
-        wrongSerialNumber: "Số seri không khớp",
-        note: "Lưu ý: Người chơi có thể sử dụng bất kỳ ứng dụng của bên thứ 3 để kiểm tra tính minh bạch của kết quả và xác minh thông tin lá bài.",
+        wrongSerialNumber: "Số Seri không khớp",
+        note: "<b>Lưu ý</b>: Người chơi có thể sử dụng bất kỳ ứng dụng của bên thứ 3 để kiểm tra tính minh bạch của kết quả và xác minh thông tin lá bài.",
         serialTooltip: "Thông tin của lá bài (Khóa bảo mật) sẽ được hệ thống mã hóa thành Số Seri. Mỗi lá bài sẽ có số Seri khác nhau.",
         privateTooltip: "Khóa bảo mật chứa thông tin của lá bài chỉ được công bố sau khi lá bài được mở.",
         banker_win: "Nhà Cái Thắng",

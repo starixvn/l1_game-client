@@ -34,6 +34,9 @@ export default class BlockchainCardVerification extends cc.Component {
     @property(cc.Node)
     equalTag: cc.Node = null;
 
+    @property(cc.RichText)
+    noted: cc.RichText = null;
+
     public blockchainCardSerial: BlockchainCardModel;
     public blockchainCardPrivate: BlockchainCardModel;
     public cardVerificationDialog: CommonDialog;
@@ -55,6 +58,7 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     renderDataCardVerification(blockchainCard: BlockchainCardModel, index: number, autoRender = false) {
+        this.noted.string = i18n.t("blockchainBaccarat.note");
         this.enableEqualTag(false);
         this.renderVerifiedSerialNumber();
         autoRender ? this.autoRenderCardVerification(blockchainCard, index) : this.onClickRenderCardVerification(blockchainCard, index);
