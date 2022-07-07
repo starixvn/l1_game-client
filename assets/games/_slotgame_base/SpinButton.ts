@@ -22,6 +22,8 @@ export default abstract class SpinButton extends cc.Component {
 
     abstract playAnimationSpin();
 
+    abstract playAnimationSpinTurbo();
+
     abstract playAnimationIdle();
 
     abstract showAutoSpinMode();

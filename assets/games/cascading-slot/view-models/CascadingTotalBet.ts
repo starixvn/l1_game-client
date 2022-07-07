@@ -59,11 +59,13 @@ export default class CascadingTotalBet extends cc.Component {
     }
 
     setIncreaseButtonStatus(status: boolean) {
+        AudioManager.getInstance().playClick();
         this.increaseButtonStatus = status;
         this.buttonIncrease.interactable = status;
     }
 
     setDecreaseButtonStatus(status: boolean) {
+        AudioManager.getInstance().playClick();
         this.decreaseButtonStatus = status;
         this.buttonDecrease.interactable = status;
     }

@@ -23,6 +23,11 @@ export default class CascadingSlotSpinButton extends SpinButton {
     }
 
     override playAnimationSpin() {
+        this.animation.getAnimationState(this.animation.defaultClip.name).speed = 1;
+        this.animation.play();
+    }
+
+    override playAnimationSpinTurbo() {
         this.animation.getAnimationState(this.animation.defaultClip.name).speed = 2;
         this.animation.play();
     }

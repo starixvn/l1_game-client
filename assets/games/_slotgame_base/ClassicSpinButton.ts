@@ -75,4 +75,6 @@ export default class ClassicSpinButton extends SpinButton {
     override playAnimationIdle() {
         this.playAnimation(SpinAnimationType.IDLE);
     }
+
+    override playAnimationSpinTurbo() {}
 }
