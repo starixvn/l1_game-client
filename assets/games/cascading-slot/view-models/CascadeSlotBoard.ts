@@ -69,7 +69,7 @@ export default class CascadeSlotBoard extends cc.Component {
 
     protected async fallOut(isTurbo: boolean, delay: number) {
         for (let i = 0; i < this.reels.length; i++) {
-            if (!isTurbo) {
+            if (!isTurbo && i > 0) {
                 await GameUtils.delayTime(delay);
             }
 
@@ -83,7 +83,7 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public async spinResult(symbols: number[][], multiplier: number[], isTurbo: boolean) {
         const duration = (5 * 145) / this.reels[0].pixelPerSecond;
-        const delay = 0.4 * duration;
+        const delay = 0.25 * duration;
 
         if (isTurbo) {
             this.boardSound.playSound(CascadingSlotGameSound.TURBO_DROP_IN);
@@ -105,7 +105,7 @@ export default class CascadeSlotBoard extends cc.Component {
             this.boardSound.playSound(soundArray[index]);
         };
         for (let i = 0; i < this.reels.length; i++) {
-            if (!isTurbo) {
+            if (!isTurbo && i > 0) {
                 await GameUtils.delayTime(delay);
             }
 
