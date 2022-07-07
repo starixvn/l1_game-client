@@ -245,7 +245,7 @@ export default class BaccaratCards extends cc.Component {
         return delayTime;
     }
 
-    private flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position, isCard3 = false) {
+    flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position, isCard3 = false) {
         const cardPosition = card.position;
         card.position = from;
         card.opacity = 255;
