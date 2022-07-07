@@ -198,6 +198,7 @@ export default class BlockchainCardList extends cc.Component {
         const newIndex = this.getIndexNumber(index);
         this.resetHighLightCurrentCardSelected();
         this.cards[newIndex].getComponent(BlockchainCard).highLightCard();
+        this.showLatestCard(newIndex + 1);
         this.cardSelected = newIndex;
     }
 
