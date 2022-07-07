@@ -12,7 +12,7 @@ export const CascadingSlotConfig: CascadingSlotBaseConfig = {
         freeSpin: 2.5,
         bigWin: 1,
         bigWinFloatNumber: 0.3,
-        delayForNextSpin: 0.3
+        delayForNextSpin: 0.5
     },
 
     itemTypeCount: 11,
