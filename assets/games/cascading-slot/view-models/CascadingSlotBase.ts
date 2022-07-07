@@ -3,6 +3,7 @@ import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getTrialSocket } from "../../../common/helpers/UrlHelper";
+import UserProfile from "../../../common/user-profile/UserProfile";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
 import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
@@ -75,6 +76,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     betControlPrefab: cc.Prefab = null;
 
     //#endregion
+
+    @property({ type: UserProfile })
+    userProfile: UserProfile = null;
 
     @property(CascadeSlotBoard)
     board: CascadeSlotBoard = null;
@@ -372,7 +376,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.trialModel.on(CascadingSlotTrialModel.Events.CHANGE_USER_BALANCE, (value) => {
             this.trialUserBalance = value;
-            this.userBalance.string = numberWithCommas(value);
+            this.userProfile.setUserBalance(numberWithCommas(value));
         });
 
         this.gameData.on(CommonEvents.API_ERROR, (error) => {

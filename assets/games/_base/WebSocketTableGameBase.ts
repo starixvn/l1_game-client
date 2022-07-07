@@ -8,12 +8,12 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
+import UserProfile from "../../common/user-profile/UserProfile";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./view-models/RoomPlayer";
-import UserProfile from "../../common/user-profile/UserProfile";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,15 +39,6 @@ export default class WebSocketTableGameBase extends GameBase {
 
     @property(cc.Node)
     loading: cc.Node = null;
-
-    // @property(cc.Label)
-    // userName: cc.Label = null;
-
-    // @property(cc.Label)
-    // userBalance: cc.Label = null;
-
-    // @property(cc.Sprite)
-    // userAvatar: cc.Sprite = null;
 
     @property(cc.Node)
     userContainer: cc.Node = null;
@@ -277,21 +268,17 @@ export default class WebSocketTableGameBase extends GameBase {
         }
 
         if (void 0 !== user.name && this.userContainer) {
-            //this.userName.string = user.name;
             this?.userProfile && this.userProfile.setUserName(user.name);
         }
 
         if (void 0 !== user.red) {
-            //this.userBalance.string = numberWithCommas(user.red, 2);
             this?.userProfile && this.userProfile.setUserBalance(numberWithCommas(user.red, 2));
         }
 
         if (void 0 !== user.avatarId) {
             GameUtils.getAvatarSprite(user.avatarId).then((frame) => {
                 if (this && this.userContainer && frame) {
-                    //this.userAvatar.spriteFrame = frame;
                     this?.userProfile && this.userProfile.setUserAvatar(frame);
-                    //this.userAvatar.node.parent.active = true;
                     this.userContainer && (this.userContainer.active = true);
                 }
             });
