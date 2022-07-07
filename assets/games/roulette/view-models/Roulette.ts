@@ -208,7 +208,6 @@ export default class Roulette extends SocketIOTableGameBase {
         this.confirmButton = this.bottomControls.confirmButton;
         this.confirmGlow = this.bottomControls.confirmGlow;
         this.undoButton = this.bottomControls.undoButton;
-        this.userContainer.scale = this.isMobile() ? 0.8 : 1;
 
         const topControlsNode = await this.loadResource("TopControls", this.topContainer);
         this.topControls = topControlsNode.getComponent(TopControls);
@@ -221,6 +220,11 @@ export default class Roulette extends SocketIOTableGameBase {
         this.leftControls.historyButton.on("click", this.pressedShowHistory, this);
         this.leftControls.statisticButton.on("click", this.pressedShowStatistic, this);
         this.leftControls.homeButton.on("click", this.onCloseGameClick, this);
+    }
+
+    onUserProfileInitialized(node: cc.Node) {
+        super.onUserProfileInitialized(node);
+        this.userProfile.node.scale = this.isMobile() ? 0.8 : 1;
     }
 
     isMobile(): boolean {

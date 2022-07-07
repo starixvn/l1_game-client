@@ -40,9 +40,6 @@ export default class WebSocketTableGameBase extends GameBase {
     @property(cc.Node)
     loading: cc.Node = null;
 
-    @property(cc.Node)
-    userContainer: cc.Node = null;
-
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
@@ -180,23 +177,23 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.userContainer, false, bet, 1, 80);
+        GameUtils.addFlyingText(this.userProfile.node, false, bet, 1, 80);
     }
 
     showWinningBet(bet: number) {
-        const winningBet = GameUtils.addFlyingText(this.userContainer, true, bet, this.WinningAnimationDuration, 80, 10);
+        const winningBet = GameUtils.addFlyingText(this.userProfile.node, true, bet, this.WinningAnimationDuration, 80, 10);
         winningBet.name = "winningBet";
     }
 
     clearWinningBet() {
-        const winningBet = this.userContainer.getChildByName("winningBet");
+        const winningBet = this.userProfile.node.getChildByName("winningBet");
         if (winningBet) {
             winningBet.destroy();
         }
     }
 
     clearWinningEffect() {
-        const winningEffect = this.userContainer.getChildByName("winningEffect");
+        const winningEffect = this.userProfile.node.getChildByName("winningEffect");
         if (winningEffect) {
             winningEffect.destroy();
         }
@@ -267,19 +264,18 @@ export default class WebSocketTableGameBase extends GameBase {
             return;
         }
 
-        if (void 0 !== user.name && this.userContainer) {
-            this?.userProfile && this.userProfile.setUserName(user.name);
+        if (void 0 !== user.name) {
+            this.userProfile && this.userProfile.setUserName(user.name);
         }
 
         if (void 0 !== user.red) {
-            this?.userProfile && this.userProfile.setUserBalance(numberWithCommas(user.red, 2));
+            this.userProfile && this.userProfile.setUserBalance(numberWithCommas(user.red, 2));
         }
 
         if (void 0 !== user.avatarId) {
             GameUtils.getAvatarSprite(user.avatarId).then((frame) => {
-                if (this && this.userContainer && frame) {
-                    this?.userProfile && this.userProfile.setUserAvatar(frame);
-                    this.userContainer && (this.userContainer.active = true);
+                if (this?.node && frame) {
+                    this.userProfile && this.userProfile.setUserAvatar(frame);
                 }
             });
         }
