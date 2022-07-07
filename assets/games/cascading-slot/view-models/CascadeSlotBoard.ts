@@ -127,7 +127,7 @@ export default class CascadeSlotBoard extends cc.Component {
                 }
             }
         }
-        const randomIndex = _.random(0, list.length - 1, false);
+        const randomIndex = _.random(0, list.length - 1);
         const randomItem = list[randomIndex];
         return this.reels[randomItem.i].getItemNode(randomItem.j);
     }

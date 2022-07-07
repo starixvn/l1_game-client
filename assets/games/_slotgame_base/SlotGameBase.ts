@@ -729,7 +729,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             if (i < itemTypeCount) {
                 data.push(i);
             } else {
-                data.push(_.random(itemTypeCount));
+                data.push(_.random(itemTypeCount - 1));
             }
         }
 
