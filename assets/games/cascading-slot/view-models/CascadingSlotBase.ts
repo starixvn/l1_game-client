@@ -69,9 +69,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     gameAudiosPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
     betControlPrefab: cc.Prefab = null;
 
     //#endregion
