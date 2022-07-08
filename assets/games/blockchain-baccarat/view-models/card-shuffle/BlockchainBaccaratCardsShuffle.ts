@@ -101,6 +101,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
             formatData.forEach((data: BlockchainCardModel, index: number) => {
                 this.createCardsBurn(this.cardPrefab, index, data.card, (card: cc.Node, cardData: CardModel) => {
                     const cardComponent = card.children[0].getComponent(BlockchainCard);
+                    card.children[0].angle = 0;
                     cardComponent.setStatusIndexNumber(false);
                     cardComponent.setCardOldStyle(cardData);
                     cardComponent.faceUp();
@@ -115,6 +116,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         this.centerCard.removeAllChildren(true);
 
         if (isAnimation) {
+            card.scale = 0.5;
+            card.angle = -135;
             const cardComponent = card.getComponent(BlockchainCard);
             cardComponent.setIndexNumber(0);
             this.centerCard.addChild(card);
@@ -192,6 +195,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         card.runAction(
             cc.spawn(
                 cc.rotateTo(this.durationFlyCard, 0).easing(cc.easeInOut(2)),
+                cc.scaleTo(this.durationFlyCard, 1).easing(cc.easeInOut(2)),
                 cc.moveTo(this.durationFlyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
             )
         );
@@ -214,6 +218,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                     .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
                     .call(() => {
                         card.opacity = 0;
+                        card.angle = -135;
                     })
                     .delay(duration)
                     .call(() => {
@@ -246,6 +251,8 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         const card = this.containerBurnCards.children[index];
         card.removeAllChildren();
         card.addChild(cardPrefab);
+        cardPrefab.scale = 0.5;
+        cardPrefab.angle = -135;
         const cardComponent = card.children[0].getComponent(BlockchainCard);
         cardComponent.setCardOldStyle(cardData);
         cardComponent.setIndexNumber(index + 1);

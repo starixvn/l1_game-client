@@ -122,7 +122,6 @@ export default class BlockchainBaccaratCards extends cc.Component {
             card.opacity = 0;
             card.scale = 0.5;
             card.angle = -135;
-            card.rotation = 0;
         }
     }
 
