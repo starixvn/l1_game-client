@@ -109,6 +109,9 @@ export default class HoldActionButton extends cc.Component {
     onKeyUp(event: cc.Event.EventKeyboard) {
         if (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter) {
             const deltaTime = Date.now() - this.pressedTime;
+            if (this.checkPreventFunctioning()) {
+                return;
+            }
             if (deltaTime < 1000) {
                 this.doAction(false);
             }
