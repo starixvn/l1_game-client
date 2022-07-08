@@ -76,6 +76,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             return (
                 this.currentMiniPanel.dialog.childrenCount > 0 ||
                 this.currentMiniPanel.guideContainer.childrenCount > 0 ||
+                this.currentMiniPanel.effectNode.childrenCount > 0 ||
                 this.gameData.spinButtonStateModel.state === SpinButtonState.AutoSpin
             );
         };
@@ -304,7 +305,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     onSpinClick(hold: boolean) {
         this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.isHoldAction = hold;
-        this.turboToggle.interactable = !this.isHoldAction;
         this.spin();
     }
 
