@@ -304,6 +304,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     onSpinClick(hold: boolean) {
         this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.isHoldAction = hold;
+        this.turboToggle.interactable = !this.isHoldAction;
         this.spin();
     }
 

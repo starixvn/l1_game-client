@@ -23,7 +23,8 @@ export enum CascadingSlotGameSound {
     SYMBOL_EXPLODE = "explode",
     INCREMENT = "increment",
     INCREMENT_STOP = "increment_stop",
-    REELHAVEMULTIPLIER = "special_symbol_land"
+    REELHAVEMULTIPLIER = "special_symbol_land",
+    COIN = "coin"
 }
 
 const { ccclass, property } = cc._decorator;
