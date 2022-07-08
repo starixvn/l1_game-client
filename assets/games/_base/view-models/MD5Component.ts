@@ -65,7 +65,7 @@ export default class MD5Component extends cc.Component {
             return;
         }
 
-        const delayTime = !!data.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
+        const delayTime = !!data?.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
         this.timeout = setTimeout(() => {
             this.handleMD5Data(data);
         }, delayTime * 1000);

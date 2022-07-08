@@ -493,7 +493,7 @@ export default class MainGame extends cc.Component {
     onCategoryChanged(e) {
         const category = e.node.name;
         AudioManager.getInstance().playClick();
-        this.lobbyMenu.setCategory(+category);
+        this.lobbyMenu?.setCategory(+category);
         this.updateArrowVisibility();
     }
 
