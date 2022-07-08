@@ -102,7 +102,7 @@ export default class CascadeSlotBoard extends cc.Component {
             CascadingSlotGameSound.REEL_STOP_5
         ];
         const playSoundOnBottomItem = (index: number) => () => {
-            if (index % 2 === 1) {
+            if (index !== 1 && index !== 4) {
                 this.boardSound.playSound(soundArray[index]);
             }
         };
