@@ -81,7 +81,11 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
         const currentCardIndex = gameData.cardList.currentIndex;
         const numberCardsFlied = gameData.cardList.numberCardsFly;
         const cardContainer = this.main.cardsUI;
-        this.isResetUI && cardContainer.setActiveCardsUI(true);
+        if (this.isResetUI) {
+            cardContainer.setActiveCardsUI(true);
+            this.main.handleShowGameId(true);
+        }
+
         this.main.setGameRound(this.main.roundId);
 
         await cardContainer.collectCardsOnTable();
@@ -108,8 +112,11 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
         this.main.gameData.finishModel.clear();
         const cardContainer = this.main.cardsUI;
         blockchainData?.isNew && (blockchainData.isNew = false);
-
-        blockchainData && cardContainer.handleShuffleCards(blockchainData, timeRemaining, this.checkIsShowAnim(timeRemaining));
+        if (blockchainData) {
+            cardContainer.handleShuffleCards(blockchainData, timeRemaining, this.checkIsShowAnim(timeRemaining), () => {
+                this.main.handleShowGameId(false);
+            });
+        }
     }
 
     checkIsShowAnim(timeRemaining: number) {

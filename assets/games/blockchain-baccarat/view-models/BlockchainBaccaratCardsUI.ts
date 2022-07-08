@@ -190,7 +190,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         });
     }
 
-    async handleShuffleCards(data: Blockchain, duration: number, isAnim = true) {
+    async handleShuffleCards(data: Blockchain, duration: number, isAnim = true, handleGameId: () => void) {
         if (isAnim) {
             await this.collectCardsOnTable();
         } else {
@@ -201,6 +201,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         this.updateCardDropBox(0, 1);
         this.reserveCards?.resetCards();
         this.burnContainer.node.active = true;
+        handleGameId();
         this.setActiveCardsUI(false);
         await this.burnContainer.handleShowCutCards(data, duration);
     }

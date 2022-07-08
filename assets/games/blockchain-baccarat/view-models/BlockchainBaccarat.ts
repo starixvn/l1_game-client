@@ -225,4 +225,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
             this.cardVerification.onHideTooltips();
         });
     }
+
+    handleShowGameId(status: boolean) {
+        this.gameRound.node.active = status;
+    }
 }

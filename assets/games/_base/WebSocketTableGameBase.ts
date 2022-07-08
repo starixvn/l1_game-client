@@ -54,7 +54,7 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     playerHandler: GameBasePlayerHandler;
-    private miniPanelScale = 1;
+    private readonly miniPanelScale = 1;
 
     constructor() {
         super();

@@ -55,7 +55,7 @@ export default class BlockchainCard extends NewCard {
     }
 
     openCardVerification() {
-        emitEvent(BlockchainBaccaratEvents.OPEN_VERIFICATION, { index: this.index });
+        this.node.parent.opacity !== 0 && emitEvent(BlockchainBaccaratEvents.OPEN_VERIFICATION, { index: this.index });
     }
 
     highLightCard() {

@@ -26,8 +26,6 @@ import HiLoBetBoard from "./HiLoBetBoard";
 import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
 import HiLoResult from "./HiLoResult";
 import HiLoStatistic from "./HiLoStatistic";
-import HiLoTicketHistory from "./HiLoTicketHistory";
-import HiLoBetHandler from "../events-handlers/HiLoBetHandler";
 
 const { ccclass, property } = cc._decorator;
 
