@@ -42,8 +42,13 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     @property(cc.Prefab)
     cardVerificationPrefab: cc.Prefab = null;
 
+    // hide node on node tree
     @property({ type: MD5Component, override: true, visible: false })
     md5Component: MD5Component = null;
+
+    // hide node on node tree
+    @property({ type: MD5Component, override: true, visible: false })
+    musicBg: cc.AudioSource = null;
 
     public gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
@@ -124,13 +129,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         super.initHandlers();
         this.timeHandler = new BlockchainBaccaratTimeHandler(this);
         this.betHandler = new BlockchainBaccaratBetHandler(this);
-    }
-
-    onDataGameRoom(data: any) {
-        super.onDataGameRoom(data);
-        if (this.gameData) {
-            this.gameData.receiveData(data);
-        }
     }
 
     private registerCardListEvents() {

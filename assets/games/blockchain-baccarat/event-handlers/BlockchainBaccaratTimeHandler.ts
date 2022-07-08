@@ -82,6 +82,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
         const numberCardsFlied = gameData.cardList.numberCardsFly;
         const cardContainer = this.main.cardsUI;
         this.isResetUI && cardContainer.setActiveCardsUI(true);
+        this.main.setGameRound(this.main.roundId);
 
         await cardContainer.collectCardsOnTable();
         cardContainer.updateCardDropBox(currentCardIndex, gameData.cardList.blockchain.cutCardIndex);

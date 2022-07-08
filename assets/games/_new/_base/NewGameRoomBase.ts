@@ -11,7 +11,7 @@ export default class NewGameRoomBase extends SocketIOTableGameBase {
     historyPrefab: cc.Prefab = null;
 
     protected connection: SocketIOConnection;
-    public gameData: GameData<void>;
+    public gameData: GameData<any>;
     protected newHistoryComp: BetHistory;
 
     onLoad() {
