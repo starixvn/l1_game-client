@@ -189,7 +189,8 @@ const configs = {
             key: "NightClub"
         },
         48: {
-            key: "BlockchainBaccarat"
+            key: "BlockchainBaccarat",
+            remote: true
         }
     },
     desktopMiniGameScale: 0.8

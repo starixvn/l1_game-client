@@ -5,6 +5,11 @@ const games = [
         gameId: 47,
         bundleName: "treasure-island",
         dependencies: []
+    },
+    {
+        gameId: 48,
+        bundleName: "blockchain-baccarat",
+        dependencies: []
     }
 ];
 
