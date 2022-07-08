@@ -102,7 +102,7 @@ describe("Test class BlockchainCardVerification", () => {
         it("should create card list", () => {
             // Arrange
             comp.setData = BlockchainCardList.prototype.setData;
-            comp.showLatestCard = jest.fn();
+            comp.scrollToCard = jest.fn();
 
             // Act
             comp.setData();
@@ -117,8 +117,7 @@ describe("Test class BlockchainCardVerification", () => {
             // Arrange
             comp.cards = [];
             comp.highLightCurrentCardSelected = BlockchainCardList.prototype.highLightCurrentCardSelected;
-            comp.showLatestCard = jest.fn();
-            comp.showLatestCard = jest.fn();
+            comp.scrollToCard = jest.fn();
             comp.setData();
             const anyComp = comp as any;
             const resetHighLightCurrentCardSelected = jest.spyOn(anyComp, "resetHighLightCurrentCardSelected");

@@ -26,11 +26,11 @@ export default class BlockchainCardList extends cc.Component {
     protected cutCard: number;
     protected currentCardIndex: number;
     protected root: BlockchainBaccarat;
-    private readonly cardHeight = 120;
+    private readonly cardHeight = 123;
     private readonly numberOfCardsPerRow = 12;
     private readonly rowDefault = 3;
-    private readonly rowMiddle = 10;
-    private readonly lineSpacing = 13;
+    private readonly rowMiddle = 13;
+    private readonly lineSpacing = 10;
     blockchain: Blockchain;
     flippingAnimations: cc.Animation[] = [];
     resultCards: BlockchainCard[] = [];
@@ -88,17 +88,24 @@ export default class BlockchainCardList extends cc.Component {
             this.cards.push(cardNode);
         });
 
-        this.showLatestCard(currentIndex + 1);
+        this.scrollToCard(currentIndex + 1);
     }
 
-    public showLatestCard(currentIndex: number) {
+    public scrollToCard(currentIndex: number) {
         const rowDisplayCard = Math.round(currentIndex / this.numberOfCardsPerRow);
         const countRow = rowDisplayCard <= this.rowDefault ? 0 : rowDisplayCard;
-        const totalLineSpacing = countRow <= this.rowMiddle && countRow > this.rowDefault ? countRow * this.lineSpacing : 0;
-        const totalCardHeight = countRow * this.cardHeight;
-        const ratioVertical = (totalCardHeight - totalLineSpacing) / (this.content.height - this.statsScrollView.node.height);
-        const ratioCardDisplay = (1 - ratioVertical).toFixed(2);
-        this.statsScrollView.scrollToPercentVertical(parseFloat(ratioCardDisplay));
+        const contentHeight = countRow * this.cardHeight;
+        let spacing = 0;
+        if (countRow === this.rowDefault + 1) {
+            spacing = (countRow + 4) * this.lineSpacing;
+        }
+        if (countRow > this.rowDefault + 1 && countRow <= this.rowMiddle) {
+            spacing = (countRow + 2) * this.lineSpacing;
+        }
+        const offset = contentHeight - spacing;
+        const maxOffset = countRow <= 8 ? this.content.height : this.content.height - this.statsScrollView.node.height;
+        const percent = offset / maxOffset;
+        this.statsScrollView.scrollToPercentVertical(1 - percent);
     }
 
     public renderCardsSettlement(cardList: Blockchain) {
@@ -198,7 +205,7 @@ export default class BlockchainCardList extends cc.Component {
         const newIndex = this.getIndexNumber(index);
         this.resetHighLightCurrentCardSelected();
         this.cards[newIndex].getComponent(BlockchainCard).highLightCard();
-        this.showLatestCard(newIndex + 1);
+        this.scrollToCard(newIndex + 1);
         this.cardSelected = newIndex;
     }
 
