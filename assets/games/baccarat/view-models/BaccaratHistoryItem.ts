@@ -13,6 +13,14 @@ export default class BaccaratHistoryItem extends BaccaratBaseHistoryItem {
     @property(BaccaratCards)
     bankerCards: BaccaratCards = null;
 
+    @property(cc.Node)
+    showBg: cc.Node = null;
+
+    setData(betLog: any, index: number) {
+        this.showBg.active = index % 2 === 0 ? false : true;
+        super.setData(betLog);
+    }
+
     showCards(betLog: any) {
         if (!this.playerCards || !this.bankerCards) {
             return;
