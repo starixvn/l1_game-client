@@ -1,19 +1,21 @@
 import { EventEmitter } from "events";
 
-export class TotalBets<Choices> extends EventEmitter {
-  constructor() {
-    super();
-    this.setMaxListeners(0);
-  }
+type Choices = any;
 
-  static Events = {
-    CHANGE: "totalBets:change",
-  };
+export class TotalBets extends EventEmitter {
+    constructor() {
+        super();
+        this.setMaxListeners(0);
+    }
 
-  protected data: Choices;
+    static Events = {
+        CHANGE: "totalBets:change"
+    };
 
-  update(choices: Choices) {
-    this.data = choices;
-    this.emit(TotalBets.Events.CHANGE, this.data);
-  }
+    protected data: Choices;
+
+    update(choices: Choices) {
+        this.data = choices;
+        this.emit(TotalBets.Events.CHANGE, this.data);
+    }
 }

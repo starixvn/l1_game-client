@@ -1,17 +1,17 @@
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import { HiLoGameConfigsHandler } from "../events-handlers/HiLoGameConfigsHandler";
-import { HiLoRoundCounter } from "./HiLoRoundCounter";
 import { HiLoOwnBetHandler } from "../events-handlers/HiLoOwnBetHandler";
 import { HiLoResultHandler } from "../events-handlers/HiLoResultHandler";
-import { HiLoResultModel } from "./HiLoResultModel";
-import { HiLoStatusModel } from "./HiLoStatusModel";
 import { HiLoStatusHandler } from "../events-handlers/HiLoStatusHandler";
-import HiLoGameConfigs from "./HiLoGameConfigs";
-import { HiLoStateModel } from "./HiLoStateModel";
 import HiLo from "../view-models/HiLo";
+import HiLoGameConfigs from "./HiLoGameConfigs";
 import { HiLoOwnBetsModel } from "./HiLoOwnBetsModel";
+import { HiLoResultModel } from "./HiLoResultModel";
+import { HiLoRoundCounter } from "./HiLoRoundCounter";
+import { HiLoStateModel } from "./HiLoStateModel";
+import { HiLoStatusModel } from "./HiLoStatusModel";
 
-export default class HiLoGameData<Choices> extends GameData<Choices> {
+export default class HiLoGameData extends GameData {
     static Events = {
         CHANGE_STATE: "changeState",
         SHOW_PROCESSING_BET: "showProcessingBet",

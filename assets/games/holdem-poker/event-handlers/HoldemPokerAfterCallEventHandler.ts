@@ -1,7 +1,7 @@
-import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
 import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
+import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
 
-export type HoldemPokerAfterCall<Choices> = {
+export type HoldemPokerAfterCall = {
     call: {
         choices: Record<string, number>;
         dealer: OldCardModel[];
@@ -23,12 +23,12 @@ export type HoldemPokerAfterCall<Choices> = {
     };
 };
 
-export default class HoldemPokerAfterCallEventHandler<Choices> extends HoldemPokerEventHandler<HoldemPokerAfterCall<Choices>, Choices> {
-    protected verifyEvent(event: HoldemPokerAfterCall<Choices>) {
+export default class HoldemPokerAfterCallEventHandler extends HoldemPokerEventHandler<HoldemPokerAfterCall> {
+    protected verifyEvent(event: HoldemPokerAfterCall) {
         return !!event.call;
     }
 
-    protected handle(event: HoldemPokerAfterCall<Choices>) {
+    protected handle(event: HoldemPokerAfterCall) {
         const { dealer, communityCards, combinationResult, totalAmount } = event.call;
         const covertedData = { communityCards, combinationResult, totalAmount, dealerCards: dealer };
         this.gameData.callModel.changeDataAfterCall(covertedData);

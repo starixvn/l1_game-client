@@ -7,8 +7,8 @@ type IngameEventType = {
     freeSpins: { total: number; betLevel: number; coinValue: number };
 };
 
-export class CascadingSlotIngameHandler<Choices> extends BaseEventHandler<IngameEventType, Choices> {
-    protected readonly gameData: CascadingSlotGameData<Choices>;
+export class CascadingSlotIngameHandler extends BaseEventHandler<IngameEventType> {
+    protected readonly gameData: CascadingSlotGameData;
     protected verifyEvent(event: IngameEventType) {
         return !!event.totalMultiplier || !!event.freeSpins;
     }

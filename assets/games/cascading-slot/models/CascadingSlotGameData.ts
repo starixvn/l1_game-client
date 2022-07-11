@@ -12,7 +12,7 @@ import { CascadingSlotTrialModel } from "./CascadingSlotTrialModel";
 import CascadingUIModel from "./CascadingUIModel";
 import FeatureSlotGameData from "./FeatureSlotGameData";
 
-export default class CascadingSlotGameData<Choices> extends FeatureSlotGameData<Choices> {
+export default class CascadingSlotGameData extends FeatureSlotGameData {
     static Events = {};
 
     finishModel: CascadingSlotFinishModel;

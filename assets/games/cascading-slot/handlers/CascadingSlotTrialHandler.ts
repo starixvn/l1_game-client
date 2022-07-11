@@ -8,8 +8,8 @@ type TrialEventType = {
     endBet?: number;
 };
 
-export class CascadingSlotTrialHandler<Choices> extends BaseEventHandler<TrialEventType, Choices> {
-    protected readonly gameData: CascadingSlotGameData<Choices>;
+export class CascadingSlotTrialHandler extends BaseEventHandler<TrialEventType> {
+    protected readonly gameData: CascadingSlotGameData;
 
     protected verifyEvent(data: TrialEventType) {
         return !!data.trialUser;

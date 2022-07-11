@@ -26,7 +26,7 @@ import TexasStateModel from "./texas-state-model";
 import TexasTicketDetailModel from "./texas-ticket-detail-model";
 import TexasTurnModel from "./texas-turn-model";
 
-export default class TexasGameDataModel<Choices> extends HoldemPokerGameData<Choices> {
+export default class TexasGameDataModel extends HoldemPokerGameData {
     readonly configs: TexasConfigsModel;
     readonly placeBetModel: TexasPlaceBetModel;
     readonly stateModel: TexasStateModel;

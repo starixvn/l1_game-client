@@ -10,7 +10,7 @@ export type TexasDeal = {
     };
 };
 
-export default class TexasDealHandler<Choices> extends TexasEventHandler<TexasDeal, Choices> {
+export default class TexasDealHandler extends TexasEventHandler<TexasDeal> {
     protected verifyEvent(event: TexasDeal) {
         return !!event.deal;
     }

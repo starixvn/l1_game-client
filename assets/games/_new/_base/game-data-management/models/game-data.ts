@@ -10,13 +10,13 @@ import { CommonEvents } from "./common-events";
 import { Durations } from "./durations";
 import { TotalBets } from "./total-bets";
 
-export class GameData<Choices> extends EventEmitter {
+export class GameData extends EventEmitter {
     protected processingBetFlag = false;
     private underMaintenanceFlag = false;
 
     durations: Durations;
-    readonly totalBets: TotalBets<Choices>;
-    readonly eventHandlers: BaseEventHandler<any, Choices>[] = [];
+    readonly totalBets: TotalBets;
+    readonly eventHandlers: BaseEventHandler<any>[] = [];
     readonly userHandler: UserHandler;
     md5Data: any;
 
@@ -45,7 +45,7 @@ export class GameData<Choices> extends EventEmitter {
 
         this.setMaxListeners(0);
         this.durations = new Durations();
-        this.totalBets = new TotalBets<Choices>();
+        this.totalBets = new TotalBets();
         this.userHandler = UserHandler.getInstance();
     }
 

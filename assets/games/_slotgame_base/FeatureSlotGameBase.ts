@@ -55,7 +55,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     protected cacheApiError: any = null;
     protected isHoldAction: boolean;
 
-    public gameData: FeatureSlotGameData<void>;
+    public gameData: FeatureSlotGameData;
 
     abstract getCurrentTotalBet(): number;
     abstract spin(): boolean;

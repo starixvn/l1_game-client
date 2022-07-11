@@ -1,5 +1,6 @@
 import HiLoEventHandler from "./HiLoEventHandler";
-export type ConfigsType<Choices> = {
+
+export type ConfigsType = {
     gameConfigs: {
         maxBet: number;
         minBet: number;
@@ -7,12 +8,12 @@ export type ConfigsType<Choices> = {
     };
 };
 
-export class HiLoGameConfigsHandler<Choices> extends HiLoEventHandler<ConfigsType<Choices>, Choices> {
-    protected verifyEvent(data: ConfigsType<Choices>) {
+export class HiLoGameConfigsHandler extends HiLoEventHandler<ConfigsType> {
+    protected verifyEvent(data: ConfigsType) {
         return data.gameConfigs != null;
     }
 
-    protected handle(data: ConfigsType<Choices>) {
+    protected handle(data: ConfigsType) {
         this.gameData.configs.change(data.gameConfigs);
     }
 }

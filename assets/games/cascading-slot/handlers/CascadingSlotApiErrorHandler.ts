@@ -11,8 +11,8 @@ type ApiErrorEventType = {
     endBet?: number;
 };
 
-export class CascadingSlotApiErrorHandler<Choices> extends BaseEventHandler<ApiErrorEventType, Choices> {
-    protected readonly gameData: CascadingSlotGameData<Choices>;
+export class CascadingSlotApiErrorHandler extends BaseEventHandler<ApiErrorEventType> {
+    protected readonly gameData: CascadingSlotGameData;
     protected verifyEvent(event: ApiErrorEventType) {
         return !!event.apiError;
     }

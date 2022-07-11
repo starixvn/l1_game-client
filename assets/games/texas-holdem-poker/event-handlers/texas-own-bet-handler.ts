@@ -1,9 +1,9 @@
+import { OwnBetDataType } from "../../_casino/event-models/CasinoDataType";
 import TexasGameDataModel from "../event-models/texas-game-data-model";
 import { cloneDeepChoiceData } from "../texas-helper";
 import TexasEventHandler from "./texas-event-handler";
-import { OwnBetDataType } from "../../_casino/event-models/CasinoDataType";
 
-export default class TexasOwnBetHandler<Choices> extends TexasEventHandler<OwnBetDataType, Choices> {
+export default class TexasOwnBetHandler extends TexasEventHandler<OwnBetDataType> {
     protected verifyEvent(event: OwnBetDataType) {
         return !!event.ownBets;
     }

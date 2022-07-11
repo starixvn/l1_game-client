@@ -1,6 +1,6 @@
+import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
-import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
 export type HoldemPokerAfterDeal = {
     deal: {
@@ -18,7 +18,7 @@ export type HoldemPokerAfterDeal = {
     };
 };
 
-export default class HoldemPokerAfterDealEventHandler<Choices> extends HoldemPokerEventHandler<HoldemPokerAfterDeal, Choices> {
+export default class HoldemPokerAfterDealEventHandler extends HoldemPokerEventHandler<HoldemPokerAfterDeal> {
     protected verifyEvent(event: HoldemPokerAfterDeal) {
         return !!event.deal;
     }

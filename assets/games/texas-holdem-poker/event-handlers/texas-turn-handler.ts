@@ -1,5 +1,5 @@
-import TexasEventHandler from "./texas-event-handler";
 import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
+import TexasEventHandler from "./texas-event-handler";
 
 export type TexasHoldemTurn = {
     turn: {
@@ -18,7 +18,7 @@ export type TexasHoldemTurn = {
     };
 };
 
-export default class TexasTurnHandler<Choices> extends TexasEventHandler<TexasHoldemTurn, Choices> {
+export default class TexasTurnHandler extends TexasEventHandler<TexasHoldemTurn> {
     protected verifyEvent(event: TexasHoldemTurn) {
         return !!event.turn;
     }

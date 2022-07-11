@@ -1,15 +1,16 @@
 import { BaseEventHandler } from "./base-handler";
 
-export type TotalBetsEventType<Choices> = {
-  totalBets: Choices;
+type Choices = any;
+export type TotalBetsEventType = {
+    totalBets: Choices;
 };
 
-export class TotalBetsEventHandler<Choices> extends BaseEventHandler<TotalBetsEventType<Choices>, Choices> {
-  protected verifyEvent(event: TotalBetsEventType<Choices>) {
-    return !!event.totalBets;
-  }
+export class TotalBetsEventHandler extends BaseEventHandler<TotalBetsEventType> {
+    protected verifyEvent(event: TotalBetsEventType) {
+        return !!event.totalBets;
+    }
 
-  protected handle(event: TotalBetsEventType<Choices>) {
-    this.gameData.totalBets.update(event.totalBets);
-  }
+    protected handle(event: TotalBetsEventType) {
+        this.gameData.totalBets.update(event.totalBets);
+    }
 }

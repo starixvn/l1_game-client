@@ -1,7 +1,7 @@
-import TexasEventHandler from "./texas-event-handler";
 import { CasinoSwapDataType } from "../../_casino/event-models/CasinoDataType";
+import TexasEventHandler from "./texas-event-handler";
 
-export default class TexasSwapHandler<Choices> extends TexasEventHandler<CasinoSwapDataType, Choices> {
+export default class TexasSwapHandler extends TexasEventHandler<CasinoSwapDataType> {
     protected verifyEvent(event: CasinoSwapDataType) {
         return !!event.swap;
     }

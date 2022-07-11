@@ -2,7 +2,7 @@ import { GameData } from "../../_new/_base/game-data-management/models/game-data
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
 import SpinButtonStateModel from "./SpinButtonStateModel";
 
-export default class FeatureSlotGameData<Choices> extends GameData<Choices> {
+export default class FeatureSlotGameData extends GameData {
     static Events = {};
 
     spinButtonStateModel: SpinButtonStateModel;

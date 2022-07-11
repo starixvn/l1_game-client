@@ -1,5 +1,5 @@
-import TexasEventHandler from "./texas-event-handler";
 import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
+import TexasEventHandler from "./texas-event-handler";
 
 export type TexasHoldemAutoSettle = {
     autoSettle: {
@@ -22,7 +22,7 @@ export type TexasHoldemAutoSettle = {
     };
 };
 
-export default class TexasAutoSettleHandler<Choices> extends TexasEventHandler<TexasHoldemAutoSettle, Choices> {
+export default class TexasAutoSettleHandler extends TexasEventHandler<TexasHoldemAutoSettle> {
     protected verifyEvent(event: TexasHoldemAutoSettle) {
         return !!event.autoSettle;
     }

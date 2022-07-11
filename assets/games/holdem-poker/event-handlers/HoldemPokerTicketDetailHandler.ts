@@ -23,7 +23,7 @@ export type HoldemPokerTicketDetail = {
     };
 };
 
-export default class HoldemPokerTicketDetailEventHandler<Choices> extends HoldemPokerEventHandler<HoldemPokerTicketDetail, Choices> {
+export default class HoldemPokerTicketDetailEventHandler extends HoldemPokerEventHandler<HoldemPokerTicketDetail> {
     protected verifyEvent(event: HoldemPokerTicketDetail) {
         return !!event.ticketDetail;
     }

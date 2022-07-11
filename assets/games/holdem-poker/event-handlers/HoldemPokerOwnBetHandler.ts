@@ -1,10 +1,11 @@
 import * as _ from "lodash";
+
+import { OwnBetDataType } from "../../_casino/event-models/CasinoDataType";
 import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
-import { OwnBetDataType } from "../../_casino/event-models/CasinoDataType";
 
-export default class HoldemPokerOwnBetHandler<Choices> extends HoldemPokerEventHandler<OwnBetDataType, Choices> {
+export default class HoldemPokerOwnBetHandler extends HoldemPokerEventHandler<OwnBetDataType> {
     protected verifyEvent(event: OwnBetDataType) {
         return !!event.ownBets;
     }

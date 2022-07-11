@@ -1,6 +1,6 @@
 import HiLoEventHandler from "./HiLoEventHandler";
 
-export type HiLoStatusType<Choices> = {
+export type HiLoStatusType = {
     status: {
         win: boolean;
         bet: number;
@@ -9,12 +9,12 @@ export type HiLoStatusType<Choices> = {
     isCollect: number;
 };
 
-export class HiLoStatusHandler<Choices> extends HiLoEventHandler<HiLoStatusType<Choices>, Choices> {
-    protected verifyEvent(data: HiLoStatusType<Choices>) {
+export class HiLoStatusHandler extends HiLoEventHandler<HiLoStatusType> {
+    protected verifyEvent(data: HiLoStatusType) {
         return !!data.status || !!data.isCollect;
     }
 
-    protected handle(data: HiLoStatusType<Choices>) {
+    protected handle(data: HiLoStatusType) {
         if (data.status) {
             this.successfulCollect(data.status);
         }

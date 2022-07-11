@@ -13,7 +13,7 @@ export type TexasFinish = {
     };
 };
 
-export default class TexasFinishHandler<Choices> extends TexasEventHandler<TexasFinish, Choices> {
+export default class TexasFinishHandler extends TexasEventHandler<TexasFinish> {
     protected verifyEvent(event: TexasFinish) {
         return !!event.finish;
     }

@@ -2,18 +2,18 @@ import { BaseEventHandler } from "../../_new/_base/game-data-management/event-ha
 import { CascadingSlotConfigData } from "../models/CascadingSlotConfigModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 
-export type ConfigsType<Choices> = {
+export type ConfigsType = {
     gameConfigs: CascadingSlotConfigData;
 };
 
-export default class CascadingSlotConfigHandler<Choices> extends BaseEventHandler<ConfigsType<Choices>, Choices> {
-    protected readonly gameData: CascadingSlotGameData<Choices>;
+export default class CascadingSlotConfigHandler extends BaseEventHandler<ConfigsType> {
+    protected readonly gameData: CascadingSlotGameData;
 
-    protected verifyEvent(data: ConfigsType<Choices>) {
+    protected verifyEvent(data: ConfigsType) {
         return !!data.gameConfigs;
     }
 
-    protected handle(event: ConfigsType<Choices>) {
+    protected handle(event: ConfigsType) {
         const configs: CascadingSlotConfigData = event.gameConfigs;
         this.gameData.gameConfig.change(configs);
     }

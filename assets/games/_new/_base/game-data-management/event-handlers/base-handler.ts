@@ -1,9 +1,9 @@
 import { GameData } from "../models/game-data";
 
-export class BaseEventHandler<Event, Choices> {
-    protected readonly gameData: GameData<Choices>;
+export class BaseEventHandler<Event> {
+    protected readonly gameData: GameData;
 
-    constructor(gameData: GameData<Choices>) {
+    constructor(gameData: GameData) {
         this.gameData = gameData;
     }
 

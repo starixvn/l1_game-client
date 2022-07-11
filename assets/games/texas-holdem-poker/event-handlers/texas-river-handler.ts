@@ -1,5 +1,5 @@
-import TexasEventHandler from "./texas-event-handler";
 import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
+import TexasEventHandler from "./texas-event-handler";
 
 export type TexasHoldemRiver = {
     river: {
@@ -23,7 +23,7 @@ export type TexasHoldemRiver = {
     };
 };
 
-export default class TexasRiverHandler<Choices> extends TexasEventHandler<TexasHoldemRiver, Choices> {
+export default class TexasRiverHandler extends TexasEventHandler<TexasHoldemRiver> {
     protected verifyEvent(event: TexasHoldemRiver) {
         return !!event.river;
     }

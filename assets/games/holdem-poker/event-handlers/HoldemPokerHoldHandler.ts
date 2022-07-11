@@ -1,7 +1,7 @@
-import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
 import { CasinoHoldDataType } from "../../_casino/event-models/CasinoDataType";
+import HoldemPokerEventHandler from "./HoldemPokerEventHandler";
 
-export default class HoldemPokerHoldHandler<Choices> extends HoldemPokerEventHandler<CasinoHoldDataType, Choices> {
+export default class HoldemPokerHoldHandler extends HoldemPokerEventHandler<CasinoHoldDataType> {
     protected verifyEvent(event: CasinoHoldDataType) {
         return !!event.hold;
     }

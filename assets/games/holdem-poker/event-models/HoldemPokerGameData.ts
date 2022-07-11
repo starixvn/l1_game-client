@@ -1,31 +1,31 @@
+import MD5HandlerBase from "../../_casino/event-handlers/MD5HandlerBase";
+import CallModelBase from "../../_casino/event-models/CallModelBase";
+import DealModelBase from "../../_casino/event-models/DealModelBase";
+import HoldModelBase from "../../_casino/event-models/HoldModelBase";
+import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
+import SwapModelBase from "../../_casino/event-models/SwapModelBase";
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import HoldemPokerAfterCallEventHandler from "../event-handlers/HoldemPokerAfterCallEventHandler";
 import HoldemPokerAfterDealEventHandler from "../event-handlers/HoldemPokerAfterDealEventHandler";
 import HoldemPokerConfigsHandler from "../event-handlers/HoldemPokerConfigsHandler";
 import HoldemPokerFinishHandler from "../event-handlers/HoldemPokerFinishHandler";
+import HoldemPokerHoldHandler from "../event-handlers/HoldemPokerHoldHandler";
 import HoldemPokerOwnBetHandler from "../event-handlers/HoldemPokerOwnBetHandler";
+import HoldemPokerSwapHandler from "../event-handlers/HoldemPokerSwapHandler";
 import HoldemPokerTicketDetailEventHandler from "../event-handlers/HoldemPokerTicketDetailHandler";
+import { HoldemPokerAfterCallModel } from "./HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "./HoldemPokerAfterDealModel";
 import { HoldemPokerConfigs } from "./HoldemPokerConfigs";
 import { HoldemPokerFinishModel } from "./HoldemPokerFinishModel";
+import HoldemPokerHoldModel from "./HoldemPokerHoldModel";
 import { HoldemPokerOwnBet } from "./HoldemPokerOwnBet";
 import { HoldemPokerPlaceBetModel } from "./HoldemPokerPlaceBetModel";
 import { HoldemPokerRoundCounter } from "./HoldemPokerRoundCounter";
 import { HoldemPokerSettlement } from "./HoldemPokerSettlement";
 import { HoldemPokerStateModel } from "./HoldemPokerStateModel";
 import { HoldemPokerTicketDetailModel } from "./HoldemPokerTicketDetailModel";
-import HoldemPokerHoldModel from "./HoldemPokerHoldModel";
-import HoldemPokerSwapHandler from "../event-handlers/HoldemPokerSwapHandler";
-import HoldemPokerHoldHandler from "../event-handlers/HoldemPokerHoldHandler";
-import HoldModelBase from "../../_casino/event-models/HoldModelBase";
-import CallModelBase from "../../_casino/event-models/CallModelBase";
-import { HoldemPokerAfterCallModel } from "./HoldemPokerAfterCallModel";
-import DealModelBase from "../../_casino/event-models/DealModelBase";
-import SwapModelBase from "../../_casino/event-models/SwapModelBase";
-import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
-import MD5HandlerBase from "../../_casino/event-handlers/MD5HandlerBase";
 
-export class HoldemPokerGameData<Choices> extends GameData<Choices> {
+export class HoldemPokerGameData extends GameData {
     //base for Poker
     static Events = {
         CHANGE_STATE: "changeState",

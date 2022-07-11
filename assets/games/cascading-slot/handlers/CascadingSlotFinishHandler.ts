@@ -2,18 +2,18 @@ import { BaseEventHandler } from "../../_new/_base/game-data-management/event-ha
 import { CascadingSlotFinishData } from "../models/CascadingSlotFinishModel";
 import CascadingSlotGameData from "../models/CascadingSlotGameData";
 
-export type FinishEventType<Choices> = {
+export type FinishEventType = {
     finish: CascadingSlotFinishData;
 };
 
-export default class CascadingSlotFinishHandler<Choices> extends BaseEventHandler<FinishEventType<Choices>, Choices> {
-    protected readonly gameData: CascadingSlotGameData<Choices>;
+export default class CascadingSlotFinishHandler extends BaseEventHandler<FinishEventType> {
+    protected readonly gameData: CascadingSlotGameData;
 
-    protected verifyEvent(data: FinishEventType<Choices>) {
+    protected verifyEvent(data: FinishEventType) {
         return !!data.finish;
     }
 
-    protected handle(data: FinishEventType<Choices>) {
+    protected handle(data: FinishEventType) {
         this.gameData.finishModel.setData(data.finish);
     }
 }

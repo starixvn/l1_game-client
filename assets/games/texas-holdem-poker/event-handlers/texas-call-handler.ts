@@ -1,5 +1,5 @@
-import TexasEventHandler from "./texas-event-handler";
 import { OldCardModel } from "../../../common/new-card/view-models/NewCard";
+import TexasEventHandler from "./texas-event-handler";
 
 export type TexasHoldemCall = {
     call: {
@@ -17,7 +17,7 @@ export type TexasHoldemCall = {
     };
 };
 
-export default class TexasCallHandler<Choices> extends TexasEventHandler<TexasHoldemCall, Choices> {
+export default class TexasCallHandler extends TexasEventHandler<TexasHoldemCall> {
     protected verifyEvent(event: TexasHoldemCall) {
         return !!event.call;
     }
