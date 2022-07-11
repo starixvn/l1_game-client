@@ -1,4 +1,3 @@
-import AudioManager from "../../../common/audio/AudioManager";
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
@@ -8,6 +7,7 @@ import { CommonEvents } from "../../_new/_base/game-data-management/models/commo
 import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
+import HoldActionButton from "../../_slotgame_base/HoldActionButton";
 import { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
 import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import SlotGameTopMessage from "../../_slotgame_base/SlotGameTopMessage";
@@ -176,8 +176,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
-        AudioManager.getInstance().playClick();
-
         const checked = toggle.isChecked;
         this.isTrialMode = checked;
         if (checked) {
@@ -355,6 +353,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     this.tumbleList.clear();
                     this.gameData.uiModel.resetNewRound();
                     this.isTurboMode() ? this.spinButton.playAnimationSpinTurbo() : this.spinButton.playAnimationSpin();
+                    this.turboToggle.interactable = !this.isHoldAction && !this.isTrialMode;
                     break;
                 case CascadingSlotState.Spinning:
                     this.consumeAutoSpinCount();
@@ -362,7 +361,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     break;
                 case CascadingSlotState.Settled:
                     this.spinButton.playAnimationIdle();
-                    this.clearHoldActionFlag();
                     if (this.isTrialMode) {
                         this.countRoundTrialMode++;
                         this.showMsgWarningTrialMode(this.countRoundTrialMode);
@@ -370,8 +368,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
                     break;
             }
-            this.showBottomMessageOnGameState();
             this.updateButtonsInteract();
+            this.showBottomMessageOnGameState();
         });
 
         this.gameData.trialModel.on(CascadingSlotTrialModel.Events.CHANGE_USER_BALANCE, (value) => {
@@ -391,6 +389,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.on(CommonEvents.SETTLE_API_ERROR, (error) => {
             this.cacheApiError = error;
+        });
+
+        this.holdActionButton.node.on(HoldActionButton.Events.STOP_HOLD_SPIN, () => {
+            this.clearHoldActionFlag();
         });
     }
 
@@ -604,6 +606,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.setAllowChangeBet(true);
         this.enableSpinButton(true);
         this.autoSpinToggle.interactable = !this.holdActionButton.isAutoAction && !this.isTrialMode;
+        this.turboToggle.interactable = !this.isHoldAction && !this.isTrialMode;
     }
 
     protected enableSpinButton(value: boolean) {

@@ -6,6 +6,10 @@ export default class HoldActionButton extends cc.Component {
     @property({ type: cc.Component.EventHandler })
     clickEvents: cc.Component.EventHandler[] = [];
 
+    static Events = {
+        STOP_HOLD_SPIN: "STOP_HOLD_SPIN"
+    };
+
     protected isTouching = false;
     protected isKeyPressing = false;
     protected pressedTime: number;
@@ -85,6 +89,7 @@ export default class HoldActionButton extends cc.Component {
     private stopHoldButton() {
         this.isTouching = false;
         this.unschedule(this.updateForHoldButton);
+        this.node.emit(HoldActionButton.Events.STOP_HOLD_SPIN);
     }
 
     registerKeyEvents() {
@@ -116,6 +121,8 @@ export default class HoldActionButton extends cc.Component {
                 this.doAction(false);
             }
             this.disableAutoAction();
+
+            this.node.emit(HoldActionButton.Events.STOP_HOLD_SPIN);
         }
     }
 
