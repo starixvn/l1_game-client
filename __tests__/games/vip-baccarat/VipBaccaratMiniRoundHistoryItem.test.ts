@@ -15,6 +15,8 @@ describe("Test class VipBaccaratMiniRoundHistoryItem", () => {
         comp.banker = new cc.Sprite();
         comp.player = new cc.Sprite();
         comp.tie = new cc.Sprite();
+        comp.playerPair = new cc.Node();
+        comp.bankerPair = new cc.Node();
     });
     describe("Test method setData", () => {
         it("Case 1: tie = false and banker = false ", () => {
@@ -63,6 +65,8 @@ describe("Test class VipBaccaratMiniRoundHistoryItem", () => {
             // Assert
             expect(comp.data).toEqual(data);
             expect(comp.icon.spriteFrame).toEqual(comp.banker.spriteFrame);
+            expect(comp.playerPair.active).toEqual(false);
+            expect(comp.bankerPair.active).toEqual(false);
         });
 
         it("Case 3: tie = true ", () => {
@@ -74,8 +78,8 @@ describe("Test class VipBaccaratMiniRoundHistoryItem", () => {
                     big: true,
                     small: false,
                     tie: true,
-                    playerPair: false,
-                    bankerPair: false,
+                    playerPair: true,
+                    bankerPair: true,
                     natural: false,
                     tieCount: 0
                 }
@@ -87,6 +91,8 @@ describe("Test class VipBaccaratMiniRoundHistoryItem", () => {
             // Assert
             expect(comp.data).toEqual(data);
             expect(comp.icon.spriteFrame).toEqual(comp.tie.spriteFrame);
+            expect(comp.playerPair.active).toEqual(true);
+            expect(comp.bankerPair.active).toEqual(true);
         });
     });
 });

@@ -24,6 +24,7 @@ describe("Test class BaccaratHistoryItem", () => {
         comp.bankerPair = new cc.Node().addComponent(cc.Label);
         comp.big = new cc.Node().addComponent(cc.Label);
         comp.small = new cc.Node().addComponent(cc.Label);
+        comp.showBg = new cc.Node();
     });
     describe("Test method setData", () => {
         it("Case 1: betwin = 0", () => {
@@ -89,12 +90,13 @@ describe("Test class BaccaratHistoryItem", () => {
             const resultKeys = _.keys(betLog.settlementResult);
 
             // Act
-            comp.setData(betLog);
+            comp.setData(betLog, 2);
 
             // Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
             expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.win.string).toMatch(betLog.betwin.toString());
+            expect(comp.showBg.active).toEqual(false);
             expect(comp.win.node.color).toEqual(cc.Color.WHITE);
             _.forEach(resultKeys, (key) => {
                 const currentItem = comp[key];
@@ -170,12 +172,13 @@ describe("Test class BaccaratHistoryItem", () => {
             const resultKeys = _.keys(betLog.settlementResult);
 
             // Act
-            comp.setData(betLog);
+            comp.setData(betLog, 1);
 
             // Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
             expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.win.string).toMatch(betLog.betwin.toString());
+            expect(comp.showBg.active).toEqual(true);
             expect(comp.win.node.color).toEqual(cc.Color.YELLOW);
             _.forEach(resultKeys, (key) => {
                 const currentItem = comp[key];
