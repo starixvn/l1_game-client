@@ -99,7 +99,9 @@ export default class BigRoad extends cc.Component {
 
         if (numberColumnDifferent < 0) {
             for (let i = 0; i < Math.abs(numberColumnDifferent); i++) {
-                if (this.content.childrenCount <= this.minColumn) return;
+                if (this.content.childrenCount <= this.minColumn) {
+                    return;
+                }
                 this.content.children.pop();
                 contentWidth -= this.scoreboardItemWidth;
             }

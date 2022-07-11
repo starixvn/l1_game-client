@@ -33,7 +33,7 @@ export default class BasicHistoryBoard extends cc.Component {
     dots: cc.Node[] = [];
     nextMark: cc.Node = null;
     private checkShowNext = () => false;
-    private childName = { playerPair: "playerPair", bankerPair: "bankerPair" };
+    private readonly childName = { playerPair: "playerPair", bankerPair: "bankerPair" };
 
     onLoad() {
         const itemsNode = cc.instantiate(this.itemsPrefab);
