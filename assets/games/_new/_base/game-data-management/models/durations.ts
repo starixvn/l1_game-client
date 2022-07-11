@@ -1,4 +1,4 @@
-import { EventEmitter } from "events";
+import EventEmitterBase from "../../../../../common/emitter/EventEmitterBase";
 
 export type DurationsOptions = {
     wholeRound?: number;
@@ -13,7 +13,7 @@ export type DurationsOptions = {
  *   |-----------|--------------|--------------|
  *                    WholeRound
  */
-export class Durations extends EventEmitter {
+export class Durations extends EventEmitterBase {
     static Events = {
         LOCKING_BET: "lockingBet",
         PLACING_BET: "placingBet",
@@ -24,7 +24,8 @@ export class Durations extends EventEmitter {
         BEGIN_LOCKING_BET: "beginLockingBet",
         BEGIN_WAITING: "beginWaiting",
         BEGIN_PLACING_BET: "beginPlacingBet",
-        TIMEOUT: "TIMEOUT"
+        TIMEOUT: "TIMEOUT",
+        START_GAME_LOOP: "startGameLoop"
     };
 
     private _remaining: number;
@@ -39,8 +40,6 @@ export class Durations extends EventEmitter {
 
     constructor(options: DurationsOptions = {}) {
         super();
-
-        this.setMaxListeners(0);
         this.initialize(options);
         this.remaining = -1;
         this.calculateAndEmitStartupEvents();
@@ -55,6 +54,10 @@ export class Durations extends EventEmitter {
 
     reset() {
         this._remaining = 0;
+    }
+
+    start() {
+        this.emit(Durations.Events.START_GAME_LOOP);
     }
 
     set remaining(value: number) {
@@ -162,16 +165,18 @@ export class Durations extends EventEmitter {
             SHOW_ANIMATION
         } = Durations.Events;
 
-        const handleEmitEvent = (currentEvent: string, emitEvent: string) => ({ duration }) => {
-            const overrideDuration = (this.overrideEvent || { duration: 0 }).duration;
-            this.latestEventCounter++;
+        const handleEmitEvent =
+            (currentEvent: string, emitEvent: string) =>
+            ({ duration }) => {
+                const overrideDuration = (this.overrideEvent || { duration: 0 }).duration;
+                this.latestEventCounter++;
 
-            if (currentEvent !== this.latestEventName && (duration === 0 || duration - overrideDuration === 0)) {
-                this.latestEventCounter = 1;
-                this.latestEventName = currentEvent;
-                this.emit(emitEvent);
-            }
-        };
+                if (currentEvent !== this.latestEventName && (duration === 0 || duration - overrideDuration === 0)) {
+                    this.latestEventCounter = 1;
+                    this.latestEventName = currentEvent;
+                    this.emit(emitEvent);
+                }
+            };
 
         this.on(WAITING, handleEmitEvent(WAITING, BEGIN_WAITING));
         this.on(PLACING_BET, handleEmitEvent(PLACING_BET, BEGIN_PLACING_BET));

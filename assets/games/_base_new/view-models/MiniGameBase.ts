@@ -1,0 +1,94 @@
+import { Durations } from "../../_new/_base/game-data-management/models/durations";
+import { GameData } from "../../_new/_base/game-data-management/models/game-data";
+import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
+import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
+import { placeBetFailed, placeBetSuccess, placeOwnChip, updateOwnBets, updateTotalBets } from "../actions/BetAction";
+import { handleNotice } from "../actions/NoticeAction";
+import { startGameLoop, updateLockBet, updatePlacingBet, updateWaiting } from "../actions/TimeAction";
+import { BetModel } from "../models/BetModel";
+import { GameConfigs } from "../models/GameConfigs";
+import GameDataManager from "../models/GameDataManager";
+import NewGameData from "../models/NewGameData";
+import { NoticeModel } from "../models/NoticeModel";
+import { RoundHistory } from "../models/RoundHistory";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class MiniGameBase extends NewMiniGameBase {
+    readonly joinGameOnEnable = true;
+    public gameData: NewGameData;
+
+    onLoad() {
+        super.onLoad();
+        this.initGameData();
+        this.initGameDataEvents();
+    }
+
+    override onEnable() {
+        if (this.joinGameOnEnable) {
+            this.startGame();
+            this.registerViewGame();
+        }
+    }
+
+    override initHandlers() {
+        this.umHandler = null;
+        this.noticeHandler = null;
+        this.statusHandler = null;
+        this.betHandler = null;
+        this.timeHandler = null;
+        this.errorHandler = null;
+        this.logsHandler = null;
+        this.finishHandler = null;
+        this.configsHandler = null;
+        this.md5Handler = null;
+    }
+
+    createGameData(): GameData {
+        return new NewGameData();
+    }
+
+    initGameData() {
+        const dataManager = GameDataManager.getInstance();
+        let gameData = dataManager.getGameData(this.gameId);
+        if (!gameData) {
+            gameData = this.createGameData();
+            dataManager.setGameData(this.gameId, gameData);
+        }
+
+        this.gameData = gameData;
+    }
+
+    initGameDataEvents() {
+        this.gameData.durations.initialize({
+            wholeRound: this.config.fullTime,
+            placingBet: this.config.betTime,
+            lockingBet: this.config.stopBetTime
+        });
+
+        this.gameData.durations.on(Durations.Events.START_GAME_LOOP, startGameLoop(this));
+        // this.gameData.durations.on(Durations.Events.CHANGE_REMAINING_TIME, updateClockTime(this));
+
+        this.gameData.durations.on(Durations.Events.LOCKING_BET, updateLockBet(this));
+        this.gameData.durations.on(Durations.Events.PLACING_BET, updatePlacingBet(this));
+        this.gameData.durations.on(Durations.Events.WAITING, updateWaiting(this));
+
+        this.gameData.totalBets.on(TotalBets.Events.CHANGE, updateTotalBets(this));
+        this.gameData.betModel.on(BetModel.Events.CHANGE_OWN_BET, updateOwnBets(this));
+        this.gameData.betModel.on(BetModel.Events.CHANGE_OWN_CHIP, placeOwnChip(this));
+        this.gameData.betModel.on(BetModel.Events.PLACE_BET_FAILED, placeBetFailed(this));
+        this.gameData.betModel.on(BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess(this));
+
+        this.gameData.gameConfigs.on(GameConfigs.Events.CHANGE, (gameConfigs) => this.setGameConfigs(gameConfigs));
+        this.gameData.notice.on(NoticeModel.Events.CHANGE, handleNotice(this));
+        this.gameData.roundHistory.on(RoundHistory.Events.CHANGE, (roundHistory) => {
+            this.currentDataLogs = roundHistory;
+            this.handleRoundHistory(roundHistory);
+        });
+    }
+
+    handleRoundHistory(roundHistory: any) {
+        console.log(`each game must override for handle round history`, roundHistory);
+    }
+}

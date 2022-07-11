@@ -1,5 +1,4 @@
-import { EventEmitter } from "events";
-
+import EventEmitterBase from "../../../../../common/emitter/EventEmitterBase";
 import { UserHandler } from "../../../common/user-manager/view-models/UserHandler";
 import { APIErrorHandler } from "../event-handlers/api-error-handler";
 import { BaseEventHandler } from "../event-handlers/base-handler";
@@ -10,13 +9,15 @@ import { CommonEvents } from "./common-events";
 import { Durations } from "./durations";
 import { TotalBets } from "./total-bets";
 
-export class GameData extends EventEmitter {
+export class GameData extends EventEmitterBase {
+    protected readonly eventEmitters: EventEmitterBase[] = [];
+    protected readonly eventHandlers: BaseEventHandler<any>[] = [];
+
     protected processingBetFlag = false;
     private underMaintenanceFlag = false;
 
     durations: Durations;
     readonly totalBets: TotalBets;
-    readonly eventHandlers: BaseEventHandler<any>[] = [];
     readonly userHandler: UserHandler;
     md5Data: any;
 
@@ -42,8 +43,6 @@ export class GameData extends EventEmitter {
 
     constructor() {
         super();
-
-        this.setMaxListeners(0);
         this.durations = new Durations();
         this.totalBets = new TotalBets();
         this.userHandler = UserHandler.getInstance();

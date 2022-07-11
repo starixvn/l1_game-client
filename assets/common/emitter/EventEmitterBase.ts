@@ -5,4 +5,6 @@ export default class EventEmitterBase extends EventEmitter {
         super();
         this.setMaxListeners(0);
     }
+
+    updateUI() {}
 }

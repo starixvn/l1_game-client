@@ -1,7 +1,7 @@
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
+import BetHistory from "../common/BetHistory";
 import SocketIOConnection from "../connection/SocketIOConnection";
 import { GameData } from "./game-data-management/models/game-data";
-import BetHistory from "../common/BetHistory";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -10,7 +10,7 @@ export default class NewMiniGameBase extends SocketIOMiniGameBase {
     historyPrefab: cc.Prefab = null;
 
     protected connection: SocketIOConnection;
-    public gameData: GameData<any>;
+    public gameData: GameData;
     protected newHistoryComp: BetHistory;
 
     startGame() {

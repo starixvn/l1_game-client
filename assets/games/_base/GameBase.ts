@@ -359,19 +359,38 @@ export default class GameBase extends BaseComponent {
         return notice;
     }
 
+    showMainTime(show: boolean) {
+        if (this.animatedTime) {
+            this.animatedTime.node.active = show;
+        }
+    }
+
+    showWaittingTime(show: boolean) {
+        if (this.timeWaitNode) {
+            this.timeWaitNode.active = show;
+        }
+    }
+
+    setWaitingTimeLabel(text: string) {
+        if (this.timeWaitLabel) {
+            this.timeWaitLabel.string = text;
+        }
+    }
+
+    setMainTimeLabel(text: string) {
+        if (this.animatedTime) {
+            this.animatedTime.setTime(text);
+        }
+    }
+
     resetDataAndUI() {
         _.forEach(this.betItems, (item) => {
             item.clearBet();
             item.resetHighlight();
         });
 
-        if (this.animatedTime) {
-            this.animatedTime.node.active = false;
-        }
-
-        if (this.timeWaitNode) {
-            this.timeWaitNode.active = false;
-        }
+        this.showMainTime(false);
+        this.showWaittingTime(false);
 
         if (this.statusHandler) {
             this.statusHandler.currentStatusData = null;

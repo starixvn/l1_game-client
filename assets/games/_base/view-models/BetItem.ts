@@ -52,17 +52,25 @@ export default class BetItem extends cc.Component {
         this.betCallback(e);
     }
 
+    public setTotalBetsData(totalBets: any) {
+        const totalBetsKeys = getLowercaseObjectKeys(totalBets);
+        const value = totalBets[totalBetsKeys[this.node.name.toLowerCase()]];
+        this.setTotalBet(GameUtils.getValueByCurrency(value || 0));
+    }
+
+    public setOwnBetsData(ownBets: any) {
+        const ownBetsKeys = getLowercaseObjectKeys(ownBets);
+        const ownBet = ownBets[ownBetsKeys[this.node.name.toLowerCase()]];
+        ownBet && this.setOwnBet(ownBet);
+    }
+
     public setData(data: any) {
         if (data.totalBets) {
-            const totalBetsKeys = getLowercaseObjectKeys(data.totalBets);
-            const value = data.totalBets[totalBetsKeys[this.node.name.toLowerCase()]];
-            this.setTotalBet(GameUtils.getValueByCurrency(value || 0));
+            this.setTotalBetsData(data.totalBets);
         }
 
         if (data.ownBets) {
-            const ownBetsKeys = getLowercaseObjectKeys(data.ownBets);
-            const ownBet = data.ownBets[ownBetsKeys[this.node.name.toLowerCase()]];
-            ownBet && this.setOwnBet(ownBet);
+            this.setOwnBetsData(data.ownBets);
         }
     }
 
