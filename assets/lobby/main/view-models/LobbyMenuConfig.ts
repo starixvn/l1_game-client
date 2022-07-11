@@ -147,6 +147,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         SC2: []
     };
     iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub, GameIds.TreasureIsland];
+    customGameIconBySystem = [GameIds.FourGuardians];
 
     customizeCredit(): void {
         this.smPromotion = true;

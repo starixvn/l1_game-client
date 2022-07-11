@@ -25,8 +25,8 @@ export default class SkeletonIcon extends cc.Component {
     private readonly timeGap = 0.125;
 
     async setGameContent(id: number, gameList: number[]) {
-        if (!SkeletonIcon.iconAnimationCache[id]) {
-            const batchIndex = Math.floor(gameList.findIndex((n) => n === id) / 5);
+        const batchIndex = Math.abs(Math.floor(gameList.findIndex((gameId) => gameId === id) / 10));
+        if (!SkeletonIcon.iconAnimationCache[id] && batchIndex != 0) {
             this.scheduleOnce(async () => {
                 await this.loadAnimation(id);
                 SkeletonIcon.iconAnimationCache[id] = true;
@@ -36,11 +36,22 @@ export default class SkeletonIcon extends cc.Component {
         }
     }
 
-    private async loadAnimation(id: number) {
+    private async loadAnimation(id: number, isLoaded = false) {
+        if (isLoaded) {
+            this.hideSkeleton();
+        }
+
         const gamePath = `lobby/games/${id}`;
         const prefab = await GameUtils.loadResource(gamePath);
         const gameNode = cc.instantiate(prefab);
         this.gameContent?.addChild(gameNode);
+
+        if (!isLoaded) {
+            this.hideSkeleton();
+        }
+    }
+
+    private hideSkeleton() {
         this.lightTop && (this.lightTop.active = false);
         this.iconLoading && (this.iconLoading.active = false);
     }

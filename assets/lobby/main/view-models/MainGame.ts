@@ -249,9 +249,10 @@ export default class MainGame extends cc.Component {
         if (window.openGameId || sessionManager.getInRoomGameId()) {
             this.openGameSSO();
             window.isSSO && this.setCategoryOnSSOGame();
+            this.loadLobby(false);
         } else {
-            this.loadLobby();
             window.isSSO && this.openLuckyWheel();
+            this.loadLobby(true);
         }
     }
 
@@ -261,9 +262,9 @@ export default class MainGame extends cc.Component {
         this.lobbyMenu?.setCategory(category, false);
     }
 
-    loadLobby() {
+    loadLobby(loadBanner = true) {
         if (!this.initializedLobby) {
-            this.initLobby();
+            this.initLobby(loadBanner);
         }
     }
 
@@ -277,13 +278,13 @@ export default class MainGame extends cc.Component {
         }
     }
 
-    initLobby() {
+    initLobby(loadBanner = true) {
         if (cc.RedT.user.offerGames.length === 0) {
             this.showNotice({ text: i18n.t("messages.noGameOffer") });
         }
         this.initLobbyMenu();
         this.initCategory();
-        this.initBanners();
+        loadBanner && this.initBanners();
 
         this.initializedLobby = true;
     }

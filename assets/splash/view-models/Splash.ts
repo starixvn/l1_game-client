@@ -3,10 +3,12 @@ import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/Se
 import logger from "../../common/logger";
 import * as authManager from "../../common/auth/AuthManager";
 import RandomWaitingMessage from "./RandonWaitingMessage";
+import LobbyMenuConfig from "../../lobby/main/view-models/LobbyMenuConfig";
 import SplashConfig from "./SplashConfig";
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
+const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 
 const { ccclass, property } = cc._decorator;
 
@@ -104,10 +106,37 @@ export default class Splash extends cc.Component {
         this.updateProgress(percent);
     }
 
-    onLoaded() {
+    async onLoaded() {
+        await this.preLoadGameIcons();
+
         cc.resources.loadDir("lobby/games/skeleton-icon", () => {
             cc.director.loadScene("MainGame");
         });
+    }
+
+    private async preLoadGameIcons() {
+        try {
+            const preLoadGameCount = 10;
+            const preLoadGameIds =
+                lobbyMenuConfig.list?.length >= preLoadGameCount ? lobbyMenuConfig.list.slice(0, preLoadGameCount) : lobbyMenuConfig.list;
+
+            const preLoadGameAwaiters = preLoadGameIds.map(
+                (preLoadGameId) =>
+                    new Promise((resolve) => {
+                        let prefabPath = `lobby/games/${preLoadGameId}`;
+
+                        if (lobbyMenuConfig.customGameIconBySystem.includes(preLoadGameId)) {
+                            prefabPath = `lobby/games/${splashConfig.customPath}/${preLoadGameId}`;
+                        }
+
+                        cc.resources.load(prefabPath, resolve);
+                    })
+            );
+
+            await Promise.all(preLoadGameAwaiters);
+        } catch (ex) {
+            console.log(ex);
+        }
     }
 
     updateProgress(progress) {
