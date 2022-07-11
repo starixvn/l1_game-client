@@ -279,7 +279,7 @@ window.i18n.languages.en = {
         player_win: "Player Win!",
         choice_banker: "Banker",
         choice_player: "Player",
-        result_player_banker: "RESULT\n(PLAYER | BANKER)",
+        result_player_banker: "Result\n(Player | Banker)",
         type_bet_number: "Specific Number",
         total_score: "Total Points",
         lose_any_triple: "Lose if any triple appears",

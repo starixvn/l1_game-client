@@ -278,7 +278,7 @@ window.i18n.languages.id = {
         player_win: "Player Menang!",
         choice_banker: "Banker ",
         choice_player: "Player",
-        result_player_banker: "HASIL\n(PLAYER | BANKER)",
+        result_player_banker: "Hasil\n(Player | Banker)",
         type_bet_number: "Nomor Spesifik",
         total_score: "Jumlah Poin",
         lose_any_triple: "Kalah jika ada triple yang muncul",
