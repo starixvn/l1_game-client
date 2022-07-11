@@ -39,7 +39,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     cardAudioSource: cc.AudioSource = null;
 
     private readonly durationFlyCard = 0.6;
-    private readonly durationFlyOpenCard = 1;
+    private readonly durationFlyOpenCard = 0.3;
     private readonly durationFlyCardBurn = 1.5;
     private readonly durationDropCards = 0.4;
     private readonly durationPrepareOpenCards = 1;

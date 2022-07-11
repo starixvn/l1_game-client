@@ -55,7 +55,8 @@ export default class BlockchainBaccaratCards extends cc.Component {
     readonly durationFlyCard3 = 0.2;
     readonly durationDropCard = 0.2;
     readonly durationJumpDrop = 0.6;
-    private readonly durationAnimFaceUp = 1;
+    private readonly durationAnimFaceUp = 0.3;
+    private readonly durationAwaitAnimFaceUp = 0.6;
     protected readonly setPointSecond = 0.2;
     private clonePositionCards: cc.Vec3[] = [];
 
@@ -304,7 +305,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
 
                     cardComponent.playAnimation(CardAnimation.DealerOpenCard, this.durationAnimFaceUp);
                 })
-                .delay(this.durationAnimFaceUp)
+                .delay(this.durationAwaitAnimFaceUp)
                 .call(() => resolve())
                 .start();
             this.faceUpCardsTween.push(faceUpTween);

@@ -12,15 +12,10 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
     const startIndex = blockchain.currentIndex - playerCards.length - bankerCards.length;
     let isFlyCard3Player = false;
 
-    await Promise.all([
-        cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card1], result.player.card1, startIndex),
-        cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card2], result.player.card2, startIndex + 1)
-    ]);
-
-    await Promise.all([
-        cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card1], result.banker.card1, startIndex + 2),
-        cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card2], result.banker.card2, startIndex + 3)
-    ]);
+    await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card1], result.player.card1, startIndex);
+    await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card2], result.player.card2, startIndex + 1);
+    await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card1], result.banker.card1, startIndex + 2);
+    await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card2], result.banker.card2, startIndex + 3);
 
     if (result?.player?.card3) {
         isFlyCard3Player = true;
