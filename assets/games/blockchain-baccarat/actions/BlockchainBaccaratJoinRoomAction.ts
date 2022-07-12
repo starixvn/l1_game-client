@@ -13,7 +13,7 @@ export const updateWinning =
         timeHandler: BlockchainBaccaratTimeHandler,
         cardList: BlockchainBaccaratCardListModel
     ) =>
-    (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number, blockchain: Blockchain) => {
+    (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number) => {
         const lastRound = roundHistory[0];
         if (timeHandler.isInWaitTime) {
             const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);

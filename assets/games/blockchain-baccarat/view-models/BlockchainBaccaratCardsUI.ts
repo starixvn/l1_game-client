@@ -125,7 +125,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         ]);
     }
 
-    async flyCard3(playerHasCard3 = false, isFlyCard3Player = false) {
+    async flyCard3(playerHasCard3 = false, isFlyCard3Player = false, delay: number) {
         if (isFlyCard3Player) {
             this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
         } else {
@@ -139,7 +139,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             await this.reserveCards.flyCard3ReserveToPunter(
                 this.playerCards.cards[CardsOrder.card3],
                 this.reserveCards.cards[CardsOrder.card1],
-                this.reserveCards.durationFlyCard,
+                delay,
                 false
             );
         } else {
@@ -150,8 +150,8 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             this.bankerCards.cards[CardsOrder.card3].getComponentInChildren(BlockchainCard).setIndexNumber(index);
             await this.reserveCards.flyCard3ReserveToPunter(
                 this.bankerCards.cards[CardsOrder.card3],
-                this.reserveCards.cards[CardsOrder.card1],
-                this.reserveCards.durationFlyCard,
+                isFlyCard3Player ? this.reserveCards.cards[CardsOrder.card2] : this.reserveCards.cards[CardsOrder.card1],
+                delay,
                 true
             );
         }

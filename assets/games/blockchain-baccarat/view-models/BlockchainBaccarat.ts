@@ -58,7 +58,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     public scoreboard: BlockchainBaccaratScoreboard = null;
     public lastRoundIfo: BlockchainBaccaratLastRoundInfo = null;
     private readonly durationFlyChip = 1.2;
-    private readonly durationAnimWinning = 3;
+    private readonly durationAnimWinning = 2.8;
     public config: BlockchainBaccaratConfig;
 
     constructor() {
@@ -156,7 +156,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                     this.cardsUI,
                     this.timeHandler as BlockchainBaccaratTimeHandler,
                     this.gameData.cardList
-                )(roundHistory, this.gameData.cardList.currentIndex, this.gameData.cardList.blockchain);
+                )(roundHistory, this.gameData.cardList.currentIndex);
                 blockchainAction.updateLastRoundInfo(this.timeHandler as BlockchainBaccaratTimeHandler, this.lastRoundIfo)(
                     roundHistory,
                     this.gameData.cardList.currentIndex

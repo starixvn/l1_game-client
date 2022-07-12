@@ -8,7 +8,7 @@ import BaccaratTimeDataBaseHandler from "../../_baccarat/data-handler/BaccaratTi
 export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
     protected dealCardsTime = 4;
     private readonly durationNewShoe = 10;
-    private readonly durationSettlement = 15;
+    private readonly durationSettlement = 18;
     private readonly durationShowNewShoe = this.main.config.fullTimeNewShoe - (this.durationSettlement - this.dealCardsTime);
     private isNewShoe = false;
     private isShowShoe = false;
