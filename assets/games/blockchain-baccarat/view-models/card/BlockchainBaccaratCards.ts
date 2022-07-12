@@ -51,12 +51,12 @@ export default class BlockchainBaccaratCards extends cc.Component {
     @property(cc.AudioSource)
     cardAudioSource: cc.AudioSource = null;
 
-    readonly durationFlyCard = 0.4;
-    readonly durationFlyCard3 = 0.2;
+    readonly durationFlyCard = 0.6;
+    readonly durationFlyCard3 = 0.3;
     readonly durationDropCard = 0.2;
     readonly durationJumpDrop = 0.6;
-    private readonly durationAnimFaceUp = 0.3;
-    private readonly durationAwaitAnimFaceUp = 0.6;
+    private readonly durationAnimFaceUp = 0.5;
+    private readonly durationAwaitAnimFaceUp = 1.3;
     protected readonly setPointSecond = 0.2;
     private clonePositionCards: cc.Vec3[] = [];
 
@@ -123,6 +123,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
             card.opacity = 0;
             card.scale = 0.5;
             card.angle = -135;
+            cardNode.animation.clear();
         }
     }
 
@@ -288,7 +289,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
 
     async openCards(card: cc.Node, cardData: CardModel, index: number) {
         await this.faceUpCard(cardData, card);
-        this.handleSetPoint(cardData);
+
         emitEvent(BlockchainBaccaratEvents.FLIPPED_CARD, { index: index });
     }
 
@@ -304,6 +305,11 @@ export default class BlockchainBaccaratCards extends cc.Component {
                     });
 
                     cardComponent.playAnimation(CardAnimation.DealerOpenCard, this.durationAnimFaceUp);
+                    cardComponent.animation.on("finished", () => {
+                        if (cardComponent.animation.currentClip.name === CardAnimation.DealerOpenCard) {
+                            this.handleSetPoint(cardInfo);
+                        }
+                    });
                 })
                 .delay(this.durationAwaitAnimFaceUp)
                 .call(() => resolve())
