@@ -140,7 +140,7 @@ export default class BlockchainCardVerification extends cc.Component {
         const privateKeyIsMatch = this.blockchainCardSerial.hashValue.localeCompare(hashValue);
 
         this.setStatusEqualTag(privateKeyIsMatch === 0);
-        this.verifiedSerial.setHashValue(this.blockchainCardSerial.hashValue);
+        this.verifiedSerial.setHashValue(this.blockchainCardPrivate?.hashValue);
         this.verifiedSerial.enableCopyButton(true);
 
         if (privateKeyIsMatch === 0) {

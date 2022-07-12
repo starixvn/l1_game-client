@@ -574,7 +574,7 @@ window.i18n.languages.th = {
     },
     blockchainBaccarat: {
         headerContent:
-            "Serial number for each card is generated at the begging of the new Shoe. Player can check the fairness and transparency of card result by comparing the Private Key (published when the card is opened) with the Serial Number.",
+            "Serial number for each card is generated at the beginning of the new Shoe. Player can check the fairness and transparency of card result by comparing the Private Key (published when the card is opened) with the Serial Number.",
         verifyCards: "Verify Cards",
         cardVerification: "Card Verification",
         verify: "Verify",
