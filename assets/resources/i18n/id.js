@@ -41,8 +41,7 @@ window.i18n.languages.id = {
         45: "Hi-Lo",
         46: "Nightclub Lady",
         47: "Treasure Island",
-        48: "Blockchain Baccarat",
-        "48_break": "Blockchain\nBaccarat"
+        48: "Blockchain\nBaccarat"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
