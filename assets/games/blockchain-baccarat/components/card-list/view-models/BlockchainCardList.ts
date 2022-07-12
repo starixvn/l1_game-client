@@ -23,6 +23,9 @@ export default class BlockchainCardList extends cc.Component {
     @property(cc.ScrollView)
     statsScrollView: cc.ScrollView = null;
 
+    @property(cc.Node)
+    bar: cc.Node = null;
+
     protected cutCard: number;
     protected currentCardIndex: number;
     protected root: BlockchainBaccarat;
@@ -31,6 +34,7 @@ export default class BlockchainCardList extends cc.Component {
     private readonly rowDefault = 3;
     private readonly rowMiddle = 13;
     private readonly lineSpacing = 10;
+    private readonly positionX = -3.5;
     blockchain: Blockchain;
     flippingAnimations: cc.Animation[] = [];
     resultCards: BlockchainCard[] = [];
@@ -60,6 +64,8 @@ export default class BlockchainCardList extends cc.Component {
         if (this.cardListDialog) {
             this.cardListDialog.showDialog();
         }
+
+        this.bar.x = this.positionX;
     }
 
     public setData() {
