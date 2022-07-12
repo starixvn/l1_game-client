@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import GameUtils from "../../../../../common/GameUtils";
 import { CardModel } from "../../../BlockchainBaccaratType";
 import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
+import BlockchainBlinkHighLight from "./BlockchainBlinkHighLight";
 import BlockchainCard from "./BlockchainCard";
 
 const { ccclass, property } = cc._decorator;
@@ -67,11 +68,13 @@ export default class BlockchainCardVerificationItem extends cc.Component {
     setHighLightSuccess() {
         this.highlightSuccess.active = true;
         this.hashValue.node.color = this.color.fromHEX("#59c467");
+        this.highlightSuccess.addComponent(BlockchainBlinkHighLight);
     }
 
     setHighLightFailed() {
         this.highlightFailed.active = true;
         this.hashValue.node.color = this.color.fromHEX("#ff6161");
+        this.highlightFailed.addComponent(BlockchainBlinkHighLight);
     }
 
     showHintCopy() {

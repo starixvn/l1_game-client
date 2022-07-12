@@ -10,6 +10,7 @@ describe("Test class BlockchainCardVerification", () => {
     let node: cc.Node;
     let cardVerificationComp: BlockchainCardVerification;
     let equalTag: cc.Node;
+    let noted: cc.RichText;
 
     function createCardModel() {
         const card: CardModel = {
@@ -44,12 +45,14 @@ describe("Test class BlockchainCardVerification", () => {
     beforeAll(() => {
         node = new cc.Node();
         equalTag = new cc.Node();
+        noted = new cc.Node().addComponent(cc.RichText);
         cardVerificationComp = node.addComponent(BlockchainCardVerification);
         cardVerificationComp.serialNumber = node.addComponent(BlockchainCardVerificationItem);
         cardVerificationComp.privateKey = node.addComponent(BlockchainCardVerificationItem);
         cardVerificationComp.verifiedSerial = node.addComponent(BlockchainCardVerificationItem);
         cardVerificationComp.verifyCard = node.addComponent(BlockchainCardVerify);
         cardVerificationComp.equalTag = equalTag;
+        cardVerificationComp.noted = noted;
 
         cardVerificationComp.verifiedSerial.resetHighLight = jest.fn();
         cardVerificationComp.verifiedSerial.enableCopyButton = jest.fn();
@@ -60,7 +63,7 @@ describe("Test class BlockchainCardVerification", () => {
         cardVerificationComp.privateKey.resetHighLight = jest.fn();
         cardVerificationComp.privateKey.enableCopyButton = jest.fn();
         cardVerificationComp.privateKey.setTextCopy = jest.fn();
-        cardVerificationComp.verifyCard.enableVerifyButton = jest.fn();
+        cardVerificationComp.verifyCard.setStatusVerify = jest.fn();
         cardVerificationComp.privateKey.renderCard = jest.fn();
         cardVerificationComp.privateKey.setRawValue = jest.fn();
         cardVerificationComp.verifiedSerial.setHighLightSuccess = jest.fn();
@@ -74,58 +77,6 @@ describe("Test class BlockchainCardVerification", () => {
 
         const notEqual = new cc.Node();
         cardVerificationComp.equalTag.addChild(notEqual, 1, "not-equal");
-    });
-
-    describe("Test method renderDataCardVerification", () => {
-        it("Case: autoRender is false", () => {
-            //Arrange
-            const blockchainCardModel = createBlockchainCardModel();
-
-            const anyComp = cardVerificationComp as any;
-
-            const renderButton = jest.spyOn(anyComp, "renderButton");
-            const onHideTooltips = jest.spyOn(anyComp, "onHideTooltips");
-            const enableEqualTag = jest.spyOn(anyComp, "enableEqualTag");
-            const renderVerifiedSerialNumber = jest.spyOn(anyComp, "renderVerifiedSerialNumber");
-            const onClickRenderCardVerification = jest.spyOn(anyComp, "onClickRenderCardVerification");
-
-            // Act
-            cardVerificationComp.renderDataCardVerification(blockchainCardModel, 12);
-
-            // Assert
-            expect(renderVerifiedSerialNumber).toBeCalled();
-            expect(cardVerificationComp.serialNumber.resetHighLight).toBeCalled();
-            expect(cardVerificationComp.serialNumber.setHashValue).toBeCalled();
-            expect(onClickRenderCardVerification).toBeCalledWith(blockchainCardModel, 12);
-            expect(renderButton).toBeCalled();
-            expect(onHideTooltips).toBeCalled();
-            expect(enableEqualTag).toBeCalledWith(false);
-        });
-
-        it("Case: autoRender is true", () => {
-            //Arrange
-            const blockchainCardModel = createBlockchainCardModel();
-
-            const anyComp = cardVerificationComp as any;
-
-            const renderButton = jest.spyOn(anyComp, "renderButton");
-            const onHideTooltips = jest.spyOn(anyComp, "onHideTooltips");
-            const enableEqualTag = jest.spyOn(anyComp, "enableEqualTag");
-            const renderVerifiedSerialNumber = jest.spyOn(anyComp, "renderVerifiedSerialNumber");
-            const autoRenderCardVerification = jest.spyOn(anyComp, "autoRenderCardVerification");
-
-            // Act
-            cardVerificationComp.renderDataCardVerification(blockchainCardModel, 12);
-
-            // Assert
-            expect(renderVerifiedSerialNumber).toBeCalled();
-            expect(cardVerificationComp.serialNumber.resetHighLight).toBeCalled();
-            expect(cardVerificationComp.serialNumber.setHashValue).toBeCalled();
-            expect(autoRenderCardVerification).toBeCalledWith(blockchainCardModel, 12);
-            expect(renderButton).toBeCalled();
-            expect(onHideTooltips).toBeCalled();
-            expect(enableEqualTag).toBeCalledWith(false);
-        });
     });
 
     describe("Test method renderVerifiedSerialNumber", () => {
@@ -235,23 +186,26 @@ describe("Test class BlockchainCardVerification", () => {
     describe("Test method renderButton", () => {
         it("Case: private card is available", () => {
             //arrange
+            const rawValue =
+                "2♥_2022-07-05T06:21:28.226Z_bfb9a44cd5ae07c4a09d11feef40f61a2dd921bc3a48428e54ab8c970ef2d82e_917dcf20-4f61-44d3-bf32-c687e2bd7781";
             cardVerificationComp.blockchainCardPrivate = createBlockchainCardModel();
             // Act
             cardVerificationComp.renderButton();
 
             // Assert
             expect(cardVerificationComp.privateKey.enableCopyButton).toBeCalledWith(true);
-            expect(cardVerificationComp.privateKey.setTextCopy).toBeCalledWith("raw value");
+            expect(cardVerificationComp.privateKey.setTextCopy).toBeCalledWith(rawValue);
             expect(cardVerificationComp.privateKey.enableCopyButton).toBeCalledWith(true);
         });
 
         it("Case: private card is unavailable", () => {
+            //arrange
+
             // Act
             cardVerificationComp.renderButton();
 
             // Assert
             expect(cardVerificationComp.privateKey.enableCopyButton).toBeCalledWith(true);
-            expect(cardVerificationComp.privateKey.setTextCopy).toBeCalledWith("raw value");
             expect(cardVerificationComp.privateKey.enableCopyButton).toBeCalledWith(true);
         });
     });
