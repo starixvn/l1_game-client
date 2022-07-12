@@ -26,7 +26,6 @@ import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 import CascadingTotalBet from "./CascadingTotalBet";
-import CascadingWarningTrialMode from "./CascadingWarningTrialMode";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
@@ -104,7 +103,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     topMessage: SlotGameTopMessage = null;
     protected trialConnection: SocketIOConnection;
     protected miniBetControl: CascadingTotalBet;
-    protected warningTrialMode: CascadingWarningTrialMode;
     private historyBtn: cc.Button;
     private currCoinValue: number;
     private currBetLevel: number;
@@ -363,7 +361,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     this.spinButton.playAnimationIdle();
                     if (this.isTrialMode) {
                         this.countRoundTrialMode++;
-                        this.showMsgWarningTrialMode(this.countRoundTrialMode);
+                        this.playTrialWarning(this.countRoundTrialMode);
                     }
 
                     break;
@@ -396,9 +394,17 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
     }
 
-    private showMsgWarningTrialMode(countRound: number) {
+    private playTrialWarning(countRound: number) {
+        const anim = this.tumbleList.trialModeNode.getComponent(cc.Animation);
+        let countPlay = 0;
         if (countRound % 5 === 0) {
-            this.warningTrialMode.showHaveAnim();
+            anim.play();
+            anim.on("finished", () => {
+                countPlay++;
+                if (countPlay < 3) {
+                    anim.play();
+                }
+            });
         }
     }
 
@@ -469,11 +475,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameConfigs.coin = this.currCoinValue;
         this.gameConfigs.level = this.currBetLevel;
         super.openGuide();
-    }
-
-    initWarningTrialMode(node: cc.Node) {
-        this.warningTrialMode = node.getComponent(CascadingWarningTrialMode);
-        this.warningTrialMode.showView(false);
     }
 
     initTotalBet(node: cc.Node) {

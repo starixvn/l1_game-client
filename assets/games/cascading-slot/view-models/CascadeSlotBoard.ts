@@ -154,13 +154,6 @@ export default class CascadeSlotBoard extends cc.Component {
             })
         );
 
-        const soundArray = [
-            CascadingSlotGameSound.MATCHED_1,
-            CascadingSlotGameSound.MATCHED_2,
-            CascadingSlotGameSound.MATCHED_3,
-            CascadingSlotGameSound.MATCHED_4
-        ];
-        //this.boardSound.playSound(soundArray[tumbleIndex % soundArray.length]);
         await Promise.all(
             reelItems.map((items, index) => {
                 const reel = this.reels[index];
