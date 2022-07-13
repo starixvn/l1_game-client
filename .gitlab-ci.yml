@@ -17,6 +17,11 @@ include:
     - project: "ci/repos-ci/pentagon_l1_treasure_island_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
+
+    - project: "ci/repos-ci/pentagon_l2_vg2_treasure_island_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
     - local: "ci/*.yml"
 
 variables:
