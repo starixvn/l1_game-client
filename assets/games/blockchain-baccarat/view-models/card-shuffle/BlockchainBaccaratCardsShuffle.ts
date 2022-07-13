@@ -9,7 +9,7 @@ const { ccclass, property } = cc._decorator;
 
 export enum TimeShowAnim {
     full = 42,
-    burnCard = 38.5
+    burnCard = 38
 }
 
 @ccclass
@@ -40,7 +40,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
 
     private readonly durationFlyCard = 0.6;
     private readonly durationFlyOpenCard = 0.3;
-    private readonly durationFlyCardBurn = 1.5;
+    private readonly durationFlyCardBurn = 1.3;
     private readonly durationDropCards = 0.4;
     private readonly durationPrepareOpenCards = 1;
     private readonly durationCutCard = 3.5;
