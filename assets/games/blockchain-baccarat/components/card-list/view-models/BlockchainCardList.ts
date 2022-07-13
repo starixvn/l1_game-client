@@ -30,11 +30,12 @@ export default class BlockchainCardList extends cc.Component {
     protected currentCardIndex: number;
     protected root: BlockchainBaccarat;
     private readonly cardHeight = 123;
-    private readonly numberOfCardsPerRow = 12;
-    private readonly rowDefault = 3;
-    private readonly rowMiddle = 13;
+    private readonly maxRow = 35;
+    private readonly minDisplayIndex = 409;
+    private readonly maxDisplayIndex = 420;
     private readonly lineSpacing = 10;
     private readonly positionX = -3.5;
+    private readonly calculatedPercent: number[] = [];
     blockchain: Blockchain;
     flippingAnimations: cc.Animation[] = [];
     resultCards: BlockchainCard[] = [];
@@ -47,6 +48,7 @@ export default class BlockchainCardList extends cc.Component {
 
     init(root: BlockchainBaccarat) {
         this.root = root;
+        this.initCalculatePercent();
         this.cardListDialog = this.getComponent(CommonDialog);
         this.cardListDialog.addOnWillHide(() => {
             this.removeCards();
@@ -94,24 +96,38 @@ export default class BlockchainCardList extends cc.Component {
             this.cards.push(cardNode);
         });
 
-        this.scrollToCard(currentIndex + 1);
+        this.scrollToCard(currentIndex - 1);
     }
 
     public scrollToCard(currentIndex: number) {
-        const rowDisplayCard = Math.round(currentIndex / this.numberOfCardsPerRow);
-        const countRow = rowDisplayCard <= this.rowDefault ? 0 : rowDisplayCard;
-        const contentHeight = countRow * this.cardHeight;
-        let spacing = 0;
-        if (countRow === this.rowDefault + 1) {
-            spacing = (countRow + 4) * this.lineSpacing;
+        const rowIndex = this.calculateDisplayIndex(currentIndex, 1);
+        const index = rowIndex >= 2 ? rowIndex - 2 : 0;
+        this.statsScrollView.scrollToPercentVertical(1 - this.calculatedPercent[index]);
+    }
+
+    public calculateDisplayIndex(currentIndex: number, rowIndex: number) {
+        for (let i = 0, j = 11; i < this.minDisplayIndex && j < this.maxDisplayIndex; ) {
+            if (currentIndex >= i && currentIndex <= j) {
+                return rowIndex;
+            }
+            rowIndex++;
+            i += 12;
+            j += 12;
         }
-        if (countRow > this.rowDefault + 1 && countRow <= this.rowMiddle) {
-            spacing = (countRow + 2) * this.lineSpacing;
+    }
+
+    initCalculatePercent() {
+        const contentHeight = this.maxRow * this.cardHeight + (this.maxRow + 1) * this.lineSpacing;
+        const maxOffset = contentHeight - this.statsScrollView.node.height;
+        for (let i = 0; i < this.maxRow; i++) {
+            let offset = (this.cardHeight + this.lineSpacing) * i;
+            if (offset > maxOffset) {
+                offset = maxOffset;
+            }
+
+            const percent = offset / maxOffset;
+            this.calculatedPercent.push(percent);
         }
-        const offset = contentHeight - spacing;
-        const maxOffset = countRow <= 8 ? this.content.height : this.content.height - this.statsScrollView.node.height;
-        const percent = offset / maxOffset;
-        this.statsScrollView.scrollToPercentVertical(1 - percent);
     }
 
     public renderCardsSettlement(cardList: Blockchain) {
@@ -211,7 +227,7 @@ export default class BlockchainCardList extends cc.Component {
         const newIndex = this.getIndexNumber(index);
         this.resetHighLightCurrentCardSelected();
         this.cards[newIndex].getComponent(BlockchainCard).highLightCard();
-        this.scrollToCard(newIndex + 1);
+        this.scrollToCard(newIndex);
         this.cardSelected = newIndex;
     }
 
