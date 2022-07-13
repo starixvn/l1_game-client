@@ -1,3 +1,5 @@
+import * as lodash from "lodash";
+window.modules = { lodash };
 import { DerivedScoreboards } from "sc-scoreboards";
 import BlockchainBaccaratBeadRoad from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratBigRoad";

@@ -1,3 +1,5 @@
+import * as lodash from "lodash";
+window.modules = { lodash };
 import BlockchainBaccaratBeadRoad from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratBeadRoad";
 import { BlockchainBaccaratRoundHistory } from "../../../../../assets/games/blockchain-baccarat/event-models/BlockchainBaccaratModel";
 
@@ -44,6 +46,4 @@ describe("BlockchainBaccaratBeadRoad", () => {
             expect(comp.addNewItem).toHaveBeenCalledWith(roundHistory[59]);
         });
     });
-
-    
 });

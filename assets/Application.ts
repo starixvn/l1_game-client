@@ -39,3 +39,10 @@ export { lazyInject, appContainer };
 
 window.modules = modules;
 console.log("load client modules", window.modules);
+
+declare global {
+    interface Window {
+        reCheckInId: any;
+        modules: any;
+    }
+}

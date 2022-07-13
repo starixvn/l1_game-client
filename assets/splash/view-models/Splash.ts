@@ -12,12 +12,6 @@ const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 
 const { ccclass, property } = cc._decorator;
 
-declare global {
-    interface Window {
-        reCheckInId: any;
-    }
-}
-
 @ccclass
 export default class Splash extends cc.Component {
     @property(RandomWaitingMessage)

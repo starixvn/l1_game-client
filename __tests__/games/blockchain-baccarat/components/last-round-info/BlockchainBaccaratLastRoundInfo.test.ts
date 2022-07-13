@@ -1,5 +1,6 @@
-import BlockchainBaccaratLastRoundInfo from "../../../../../assets/games/blockchain-baccarat/components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+window.modules = { i18n };
+import BlockchainBaccaratLastRoundInfo from "../../../../../assets/games/blockchain-baccarat/components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
 import BlockchainBaccaratCardsUI from "../../../../../assets/games/blockchain-baccarat/view-models/BlockchainBaccaratCardsUI";
 import { BlockchainBaccaratRoundHistory } from "../../../../../assets/games/blockchain-baccarat/event-models/BlockchainBaccaratRoundHistory";
 

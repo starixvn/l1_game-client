@@ -1,4 +1,5 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+window.modules = { i18n };
 import BlockchainCardVerificationItem from "../../../../../assets/games/blockchain-baccarat/components/card-list/view-models/BlockchainCardVerificationItem";
 import { mockFuntions } from "../../../../mocks/TestUtils";
 

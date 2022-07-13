@@ -1,3 +1,7 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+import * as cryptoJs from "crypto";
+window.modules = { i18n, cryptoJs };
+
 import { BlockchainCardModel, CardModel } from "../../../../../assets/games/blockchain-baccarat/BlockchainBaccaratType";
 import BlockchainCardVerification, {
     CardVerificationState
