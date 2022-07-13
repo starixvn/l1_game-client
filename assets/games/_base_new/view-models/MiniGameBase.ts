@@ -4,13 +4,14 @@ import { TotalBets } from "../../_new/_base/game-data-management/models/total-be
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
 import { placeBetFailed, placeBetSuccess, placeOwnChip, updateOwnBets, updateTotalBets } from "../actions/BetAction";
 import { handleNotice } from "../actions/NoticeAction";
-import { startGameLoop, updateLockBet, updatePlacingBet, updateWaiting } from "../actions/TimeAction";
+import { startGameLoop, updateLockBet, updatePlacingBet, updateTimeOut, updateWaiting } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
 import GameDataManager from "../models/GameDataManager";
 import NewGameData from "../models/NewGameData";
 import { NoticeModel } from "../models/NoticeModel";
 import { RoundHistory } from "../models/RoundHistory";
+import { Settlement } from "../models/Settlement";
 
 const { ccclass, property } = cc._decorator;
 
@@ -70,6 +71,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.gameData.durations.on(Durations.Events.START_GAME_LOOP, startGameLoop(this));
         // this.gameData.durations.on(Durations.Events.CHANGE_REMAINING_TIME, updateClockTime(this));
 
+        this.gameData.durations.on(Durations.Events.TIMEOUT, updateTimeOut(this));
         this.gameData.durations.on(Durations.Events.LOCKING_BET, updateLockBet(this));
         this.gameData.durations.on(Durations.Events.PLACING_BET, updatePlacingBet(this));
         this.gameData.durations.on(Durations.Events.WAITING, updateWaiting(this));
@@ -86,8 +88,37 @@ export default class MiniGameBase extends NewMiniGameBase {
             this.currentDataLogs = roundHistory;
             this.handleRoundHistory(roundHistory);
         });
+
+        this.gameData.on(NewGameData.Events.CHANGE_ROUND_ID, (roundId) => this.setGameRound(roundId));
+        this.gameData.durations.on(Durations.Events.BEGIN_PLACING_BET, () => {
+            this.gameData.changeRoundId(this.gameData.roundHistory.lastRoundId + 1);
+        });
+        this.gameData.durations.on(Durations.Events.BEGIN_WAITING, () => {
+            this.gameData.changeRoundId(this.gameData.roundHistory.lastRoundId);
+        });
+
+        this.gameData.settlement.on(Settlement.Events.SHOW_RESULT, (settlement) => this.showSettlementResult(settlement));
+        this.gameData.settlement.on(Settlement.Events.END_SHOW_RESULT, (settlement) => this.handleAfterSettlementResult(settlement));
     }
 
+    /**
+     * Show settlement result, must call gameData.settlement.finishShowResult at the end
+     */
+    showSettlementResult(settlement: any) {
+        this.gameData.settlement.finishShowResult();
+    }
+
+    /**
+     * Handling after showing settlement result
+     */
+    handleAfterSettlementResult(settlement: any) {
+        this.gameData.roundHistory.add(settlement);
+        this.showWaittingTime(true);
+    }
+
+    /**
+     * Handle round history
+     */
     handleRoundHistory(roundHistory: any) {
         console.log(`each game must override for handle round history`, roundHistory);
     }

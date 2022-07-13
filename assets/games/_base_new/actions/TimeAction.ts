@@ -2,38 +2,50 @@ import { numberPad } from "../../../common/helpers/NumberHelper";
 import GameDataManager from "../models/GameDataManager";
 import MiniGameBase from "../view-models/MiniGameBase";
 
-export const startGameLoop = (gameBase: MiniGameBase) => () => {
-    const gameLoop = () => gameBase.gameData.durations.countdown();
-    GameDataManager.getInstance().startGameLoop(gameBase.gameId, gameLoop);
+export const startGameLoop = (game: MiniGameBase) => () => {
+    const gameLoop = () => game.gameData.durations.countdown();
+    GameDataManager.getInstance().startGameLoop(game.gameId, gameLoop);
+    if (game.gameData.durations.isWaiting()) {
+        const settlement = game.gameData.roundHistory.roundHistory[0];
+        if (settlement) {
+            game.gameData.settlement.finishShowResult(settlement);
+        } else {
+            game.showWaittingTime(true);
+        }
+    }
+};
+
+export const updateTimeOut = (game: MiniGameBase) => () => {
+    game.showMainTime(false);
+    GameDataManager.getInstance().clearGameLoop(game.gameId);
 };
 
 export const updateClockTime =
-    (mainGame: MiniGameBase) =>
+    (game: MiniGameBase) =>
     ({ globalRemaining }) => {
-        mainGame.showWaittingTime(false);
-        mainGame.showMainTime(true);
-        mainGame.setMainTimeLabel(numberPad(globalRemaining, 2));
+        game.showWaittingTime(false);
+        game.showMainTime(true);
+        game.setMainTimeLabel(numberPad(globalRemaining, 2));
     };
 
 export const updateLockBet =
-    (mainGame: MiniGameBase) =>
+    (game: MiniGameBase) =>
     ({ globalRemaining }) => {
-        updateClockTime(mainGame)({ globalRemaining });
-        mainGame.betItems.forEach((item: any) => item.resetHighlight());
+        updateClockTime(game)({ globalRemaining });
+        game.betItems.forEach((item: any) => item.resetHighlight());
     };
 
 export const updatePlacingBet =
-    (mainGame: MiniGameBase) =>
+    (game: MiniGameBase) =>
     ({ globalRemaining }) => {
-        updateClockTime(mainGame)({ globalRemaining });
+        updateClockTime(game)({ globalRemaining });
     };
 
 export const updateWaiting =
-    (mainGame: MiniGameBase) =>
+    (game: MiniGameBase) =>
     ({ remaining }) => {
-        mainGame.showMainTime(false);
-        mainGame.showProcessingWarning(false);
+        game.showMainTime(false);
+        game.showProcessingWarning(false);
 
-        mainGame.showWaittingTime(true);
-        mainGame.setWaitingTimeLabel(numberPad(remaining, 2));
+        game.setWaitingTimeLabel(numberPad(remaining, 2));
     };

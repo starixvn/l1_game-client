@@ -74,7 +74,7 @@ export class Durations extends EventEmitterBase {
     }
 
     countdown() {
-        if (this.remaining > 0) {
+        if (this.remaining > 1) {
             this.remaining = this.remaining - 1;
         } else {
             this.emit(Durations.Events.TIMEOUT);

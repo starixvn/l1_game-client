@@ -7,12 +7,18 @@ import { BetHandler } from "../handlers/BetHandler";
 import { GameConfigHandler } from "../handlers/GameConfigHandler";
 import { NoticeHandler } from "../handlers/NoticeHandler";
 import { RoundHistoryHandler } from "../handlers/RoundHistoryHandler";
+import { SettlemenHandler } from "../handlers/SettlementHandler";
 import { BetModel } from "./BetModel";
 import { GameConfigs } from "./GameConfigs";
 import { NoticeModel } from "./NoticeModel";
 import { RoundHistory } from "./RoundHistory";
+import { Settlement } from "./Settlement";
 
 export default class NewGameData extends GameData {
+    static Events = {
+        CHANGE_ROUND_ID: "NewGameData:CHANGE_ROUND_ID"
+    };
+
     protected readonly eventEmitters: EventEmitterBase[] = [];
     protected readonly eventHandlers: BaseEventHandler<any>[] = [];
 
@@ -20,6 +26,9 @@ export default class NewGameData extends GameData {
     gameConfigs: GameConfigs;
     notice: NoticeModel;
     roundHistory: RoundHistory;
+    settlement: Settlement;
+
+    roundId: number;
 
     constructor() {
         super();
@@ -27,6 +36,7 @@ export default class NewGameData extends GameData {
         this.gameConfigs = new GameConfigs();
         this.notice = new NoticeModel();
         this.roundHistory = new RoundHistory();
+        this.settlement = new Settlement();
 
         const models: EventEmitterBase[] = [
             //
@@ -35,9 +45,15 @@ export default class NewGameData extends GameData {
             this.betModel,
             this.gameConfigs,
             this.notice,
-            this.roundHistory
+            this.roundHistory,
+            this.settlement
         ];
         this.eventEmitters.push(...models);
+    }
+
+    changeRoundId(roundId: number) {
+        this.roundId = roundId;
+        this.emit(NewGameData.Events.CHANGE_ROUND_ID, this.roundId);
     }
 
     updateUI() {
@@ -48,11 +64,12 @@ export default class NewGameData extends GameData {
         const handlers = [
             //
             GameConfigHandler,
-            TimeEventHandler,
             RoundHistoryHandler,
+            TimeEventHandler,
             TotalBetsEventHandler,
             BetHandler,
-            NoticeHandler
+            NoticeHandler,
+            SettlemenHandler
         ];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
