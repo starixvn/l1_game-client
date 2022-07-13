@@ -3,7 +3,6 @@ import { BaccaratSettlementResult } from "./../../../../baccarat/view-models/eve
 import BlockchainBaccaratBeadRoad from "./BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "./BlockchainBaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboard from "./BlockchainBaccaratDerivedScoreboard";
-import { BigRoadScoreboardPoint, DerivedScoreboards } from "sc-scoreboards";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
 const { ccclass, property } = cc._decorator;
 
@@ -24,10 +23,10 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     @property(cc.Node)
     statistic: cc.Node = null;
 
-    derivedScoreBoardController: DerivedScoreboards<BaccaratSettlementResult>;
+    derivedScoreBoardController: window.modules.scoreBoard.DerivedScoreboards<BaccaratSettlementResult>;
 
     private roundHistory: BlockchainBaccaratRoundHistory[] = [];
-    private bigRoadData: BigRoadScoreboardPoint<BaccaratSettlementResult>[][];
+    private bigRoadData: window.modules.scoreBoard.BigRoadScoreboardPoint<BaccaratSettlementResult>[][];
     private predictData = { player: [], banker: [] };
 
     private readonly zoomModes = {
@@ -47,7 +46,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     };
 
     protected onLoad(): void {
-        this.derivedScoreBoardController = new DerivedScoreboards({ height: 6 });
+        this.derivedScoreBoardController = new window.modules.scoreBoard.DerivedScoreboards({ height: 6 });
     }
 
     protected start(): void {

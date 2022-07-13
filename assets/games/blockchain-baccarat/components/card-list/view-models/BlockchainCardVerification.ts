@@ -4,7 +4,8 @@ import { formatPrivateKey } from "../../../../_casino/MD5Format";
 import { CardModel, BlockchainCardModel } from "../../../BlockchainBaccaratType";
 import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
 import BlockchainCardVerify from "./BlockchainCardVerify";
-import cryptoJs = require("crypto");
+const cryptoJs = window.modules.cryptoJs;
+
 import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
 
 const { ccclass, property } = cc._decorator;

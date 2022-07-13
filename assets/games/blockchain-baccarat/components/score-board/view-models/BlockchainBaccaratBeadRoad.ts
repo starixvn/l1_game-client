@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+const _ = window.modules.lodash;
 import { BasicHistoryData } from "../../../../_base/view-models/BasicHistoryBoard";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratModel";
 const { ccclass, property } = cc._decorator;

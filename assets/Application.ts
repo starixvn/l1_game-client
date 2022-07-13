@@ -6,6 +6,7 @@ import getDecorators from "inversify-inject-decorators";
 import SocketIOController from "./SocketIOController";
 import { BundleManager } from "bundle-management";
 import axios from "axios";
+import { modules } from "./ClientModules";
 
 export class Application {
     constructor(public readonly container = new Container()) {}
@@ -35,3 +36,6 @@ app.startup();
 const { lazyInject } = getDecorators(app.container);
 const appContainer = app.container;
 export { lazyInject, appContainer };
+
+window.modules = modules;
+console.log("load client modules", window.modules);

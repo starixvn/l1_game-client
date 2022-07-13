@@ -1,4 +1,4 @@
-import _ = require("lodash");
+const _ = window.modules.lodash;
 import BlockchainBaccaratCards from "../card/BlockchainBaccaratCards";
 import BaccaratBaseHistoryItem from "../../../baccarat/view-models/BaccaratBaseHistoryItem";
 import { BetLog } from "./BlockchainBaccaratTicketHistory";

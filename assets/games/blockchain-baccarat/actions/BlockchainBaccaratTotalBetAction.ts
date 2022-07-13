@@ -1,4 +1,4 @@
-import { sum } from "lodash";
+const _ = window.modules.lodash;
 import { BlockchainBaccaratTotalBetType } from "../event-models/BlockchainBaccaratTotalBetModel";
 import BlockchainBaccaratBetItem from "../view-models/BlockchainBaccaratBetItem";
 
@@ -14,7 +14,7 @@ export const handlePercentBet =
             const bankerBet = totalBet?.banker ?? 0;
             const playerBet = totalBet?.player ?? 0;
             const tie = totalBet?.tie ?? 0;
-            const total = sum([bankerBet, playerBet, tie]);
+            const total = _.sum([bankerBet, playerBet, tie]);
 
             betItems.forEach((item) => {
                 switch (item.node.name) {
