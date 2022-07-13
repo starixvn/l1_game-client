@@ -560,7 +560,7 @@ window.i18n.languages.en = {
         betMultiplierX: "Bet Multiplier 20x",
         betLevel: "Bet Level",
         coinValue: "Coin Value",
-        congratulation: "Congratulation",
+        congratulation: "Congratulations",
         youWinFreeSpin: "You won",
         multiplier: "Multiplier",
         totalMultiplier: "Total Multiplier",
