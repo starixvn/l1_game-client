@@ -14,8 +14,11 @@ export default class FourGuardians extends SlotGameBase {
     constructor() {
         super();
         this.gameId = FourGuardiansId;
-        // this.setMiniPanelScale(1);
-        this.hideBottomMessage();
+    }
+
+    onLoad() {
+        super.onLoad();
+        this.enabledBottomMessage = false;
     }
 
     public get jackpotEnabled() {

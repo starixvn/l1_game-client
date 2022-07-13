@@ -350,8 +350,4 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     clearHoldActionFlag() {
         this.isHoldAction = false;
     }
-
-    hideBottomMessage() {
-        this.enabledBottomMessage = false;
-    }
 }

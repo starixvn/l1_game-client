@@ -12,5 +12,5 @@ RUN touch /var/run/nginx.pid && \
 USER nginx
 
 COPY ./.nginx/game.conf /etc/nginx/conf.d/default.conf
-COPY ./build/web-mobile/assets/way-to-goal /usr/share/nginx/html/way-to-goal
+COPY ./build/web-mobile/assets/49 /usr/share/nginx/html/49
 COPY ./build/web-mobile/assets/versions.json /usr/share/nginx/html

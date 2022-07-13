@@ -10,10 +10,5 @@ window.bundleManagement.bundles = {
         name: "",
         useMd5Cache: true,
         dependencies: []
-    },
-	{
-        gameId: 49,
-        bundleName: "way-to-goal",
-        dependencies: []
     }
 };
