@@ -40,7 +40,8 @@ window.i18n.languages.vi = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Cao Thấp",
-        46: "Gái Nhảy"
+        46: "Gái Nhảy",
+        47: "Đảo Châu Báu"
     },
     messages: {
         accountNotExist: "Đã xảy ra lỗi. Vui lòng liên hệ bộ phận CSKH để biết chi tiết, cảm ơn bạn. (%{errorCode})",
@@ -169,7 +170,12 @@ window.i18n.languages.vi = {
         FromSettleToSpin1: "QUAY SẼ THẮNG!",
         FromSettleToSpin2: "CÀNG QUAY, CÀNG THẮNG!",
         FromSettleToSpin3: "THỬ BẬT TÍNH NĂNG SIÊU TỐC!",
-        copyMD5Failed: "Chức năng Copy tạm thời không hoạt động."
+        copyMD5Failed: "Chức năng Copy tạm thời không hoạt động.",
+        topMessage1: "BIỂU TƯỢNG ĐƯỢC TÍNH THẮNG NẰM Ở VỊ TRÍ BẤT KỲ",
+        topMessage2a: "QUAY TRÚNG",
+        topMessage2b: "ĐỂ NHÂN GIÁ TRỊ TIỀN THẮNG",
+        topMessage3: "THẮNG LÊN ĐẾN %{maxWin}X TIỀN CƯỢC",
+        winTumbleMsg: "CHÚC MỪNG!"
     },
     ui: {
         choice_red2: "2 Đỏ",
@@ -545,5 +551,29 @@ window.i18n.languages.vi = {
         guideContentEnd: "Vào game & trải nghiệm ngay thôi!",
         skip: "Bỏ Qua",
         notShow: "Không hiển thị lại"
+    },
+    treasureIsland: {
+        tumpleWin: "Thắng\nNổ Sập",
+        totalWin: "Thắng",
+        turboMode: "Siêu Tốc",
+        trialMode: "Chơi Thử",
+        betMultiplierX: "Hệ Số Cược 20X",
+        betLevel: "Mức Cược",
+        coinValue: "Giá trị xu",
+        congratulation: "Chúc Mừng",
+        youWinFreeSpin: "Bạn đã thắng",
+        multiplier: "Số Nhân",
+        totalMultiplier: "Tổng Số Nhân",
+        no: "Stt",
+        resultBoard: "Bảng Kết Quả",
+        symbolAndNumber: "Biếu Tượng Thắng",
+        winAmount: "Tiền Thắng",
+        trialModeText: "Bạn Đang Chơi Thử",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Free Spins Thêm",
+        autoSpinLeft: "Lượt Quay Tự Động Còn Lại",
+        bigWinTextNotify: "Bấm Vào Vị Trí Bất Kỳ Để Tiếp Tục",
+        reachMaxWin: "Bạn Đã Đạt Mức Tiền Thắng Tối Đa",
+        warningTrialMode: "Chơi Thật,\nThắng Thật"
     }
 };

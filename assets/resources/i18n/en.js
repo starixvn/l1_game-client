@@ -40,7 +40,8 @@ window.i18n.languages.en = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady"
+        46: "Nightclub Lady",
+        47: "Treasure Island"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
@@ -167,7 +168,12 @@ window.i18n.languages.en = {
         FromSettleToSpin1: "SPIN TO WIN!",
         FromSettleToSpin2: "SPIN MORE, WIN MORE!",
         FromSettleToSpin3: "TRY TURBO MODE!",
-        copyMD5Failed: "Copy function is temporarily unavailable."
+        copyMD5Failed: "Copy function is temporarily unavailable.",
+        topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
+        topMessage2a: "HIT",
+        topMessage2b: "TO MULTIPLY TUMBLE WIN",
+        topMessage3: "WIN UP TO %{maxWin}X BET",
+        winTumbleMsg: "CONGRATULATION!"
     },
     ui: {
         choice_red2: "2 Red",
@@ -478,7 +484,8 @@ window.i18n.languages.en = {
         stake: "Stake",
         dealerQualifies: "Dealer qualifies on a pair of 4s or better",
         md5String: "MD5 Key",
-        md5Key: "Result"
+        md5Key: "Result",
+        totalWin: "Total Win"
     },
     hiLo: {
         collect: "Collect",
@@ -544,5 +551,29 @@ window.i18n.languages.en = {
         guideContentEnd: "Let's play and experience the new features now.",
         skip: "Skip",
         notShow: " Don’t show again"
+    },
+    treasureIsland: {
+        tumpleWin: "Tumble Win",
+        totalWin: "Win",
+        turboMode: "Turbo Mode",
+        trialMode: "Trial Mode",
+        betMultiplierX: "Bet Multiplier 20x",
+        betLevel: "Bet Level",
+        coinValue: "Coin Value",
+        congratulation: "Congratulations",
+        youWinFreeSpin: "You won",
+        multiplier: "Multiplier",
+        totalMultiplier: "Total Multiplier",
+        no: "No.",
+        resultBoard: "Result Board",
+        symbolAndNumber: "Win Symbols",
+        winAmount: "Win Amount",
+        trialModeText: "You are in the Trial Mode",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Extra Free Spins",
+        autoSpinLeft: "Auto Spins Left",
+        bigWinTextNotify: "Press anywhere to continue",
+        reachMaxWin: "You reached the Max Win",
+        warningTrialMode: "Play Real,\nWin Real"
     }
 };

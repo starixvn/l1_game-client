@@ -2,17 +2,18 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
 import MusicPlayer from "../../common/audio/MusicPlayer";
+import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
+import UserProfile from "../../common/user-profile/UserProfile";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./view-models/RoomPlayer";
-import UserProfile from "../../common/user-profile/UserProfile";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,18 +40,6 @@ export default class WebSocketTableGameBase extends GameBase {
     @property(cc.Node)
     loading: cc.Node = null;
 
-    // @property(cc.Label)
-    // userName: cc.Label = null;
-
-    // @property(cc.Label)
-    // userBalance: cc.Label = null;
-
-    // @property(cc.Sprite)
-    // userAvatar: cc.Sprite = null;
-
-    @property(cc.Node)
-    userContainer: cc.Node = null;
-
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
@@ -73,9 +62,9 @@ export default class WebSocketTableGameBase extends GameBase {
 
     onLoad() {
         super.onLoad();
-        cc.RedT.inGame = this;
+        cc.RedT && (cc.RedT.inGame = this);
         this.loadMiniPanel();
-        this.loadUserData(cc.RedT.user);
+        this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
         this.initMusicBackground();
     }
@@ -160,6 +149,7 @@ export default class WebSocketTableGameBase extends GameBase {
             MusicPlayer.getInstance().handleIncreaseVolume();
         }
         this.closeGame();
+        sessionManager.removeInRoomGameId();
     }
 
     closeGame() {
@@ -187,23 +177,23 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     showAcceptedBet(bet: number) {
-        GameUtils.addFlyingText(this.userContainer, false, bet, 1, 80);
+        GameUtils.addFlyingText(this.userProfile.node, false, bet, 1, 80);
     }
 
     showWinningBet(bet: number) {
-        const winningBet = GameUtils.addFlyingText(this.userContainer, true, bet, this.WinningAnimationDuration, 80, 10);
+        const winningBet = GameUtils.addFlyingText(this.userProfile.node, true, bet, this.WinningAnimationDuration, 80, 10);
         winningBet.name = "winningBet";
     }
 
     clearWinningBet() {
-        const winningBet = this.userContainer.getChildByName("winningBet");
+        const winningBet = this.userProfile.node.getChildByName("winningBet");
         if (winningBet) {
             winningBet.destroy();
         }
     }
 
     clearWinningEffect() {
-        const winningEffect = this.userContainer.getChildByName("winningEffect");
+        const winningEffect = this.userProfile.node.getChildByName("winningEffect");
         if (winningEffect) {
             winningEffect.destroy();
         }
@@ -252,9 +242,13 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     protected loadMiniPanel() {
+        if (!this.miniPanelPrefab) {
+            return;
+        }
         const miniPanel = cc.instantiate(this.miniPanelPrefab);
         this.currentMiniPanel = miniPanel.getComponent("MiniPanel");
         this.currentMiniPanel.currentGameRoomId = this.gameId;
+        sessionManager.storeInRoomGameId(this.gameId);
         this.miniPanelContainer.addChild(miniPanel);
 
         if (!cc.sys.isMobile) {
@@ -263,27 +257,25 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     protected loadUserData(user) {
+        if (!user) {
+            return;
+        }
         if (!this.isAlive()) {
             return;
         }
 
-        if (void 0 !== user.name && this.userContainer) {
-            //this.userName.string = user.name;
-            this?.userProfile && this.userProfile.setUserName(user.name);
+        if (void 0 !== user.name) {
+            this.userProfile && this.userProfile.setUserName(user.name);
         }
 
         if (void 0 !== user.red) {
-            //this.userBalance.string = numberWithCommas(user.red, 2);
-            this?.userProfile && this.userProfile.setUserBalance(numberWithCommas(user.red, 2));
+            this.userProfile && this.userProfile.setUserBalance(numberWithCommas(user.red, 2));
         }
 
         if (void 0 !== user.avatarId) {
             GameUtils.getAvatarSprite(user.avatarId).then((frame) => {
-                if (this && this.userContainer && frame) {
-                    //this.userAvatar.spriteFrame = frame;
-                    this?.userProfile && this.userProfile.setUserAvatar(frame);
-                    //this.userAvatar.node.parent.active = true;
-                    this.userContainer && (this.userContainer.active = true);
+                if (this?.node && frame) {
+                    this.userProfile && this.userProfile.setUserAvatar(frame);
                 }
             });
         }

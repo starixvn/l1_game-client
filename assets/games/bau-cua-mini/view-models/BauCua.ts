@@ -117,8 +117,8 @@ export default class BauCua extends SocketIOMiniGameBase {
         }
     }
 
-    isShowingUM(data) {
-        return data.um && (this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime + 1);
+    checkShowUmMessage(data) {
+        return this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime + 1;
     }
 
     initHandlers() {

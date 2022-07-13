@@ -1,3 +1,4 @@
+import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { GameInfos } from "../configs/SabaConfigs";
@@ -38,6 +39,11 @@ export default class GameUtils {
         });
     }
 
+    public static capitalizeWordIntoString(str: string) {
+        const words = str.split(" ");
+        return words.map((word) => word[0] + word.substring(1).toLowerCase()).join(" ");
+    }
+
     public static loadResource(path: string): Promise<cc.Prefab> {
         return new Promise((resolve) => {
             cc.resources.load(path, (err, prefab: cc.Prefab) => {
@@ -74,8 +80,30 @@ export default class GameUtils {
         return { values, chipTotal };
     }
 
-    public static openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}, callBackLobby = () => {}) {
+    static clearGameSetting(gameId) {
+        cc.sys.localStorage.setItem(`UserSetting_game_${gameId}`, "");
+    }
+
+    static setGameSetting(gameId, data) {
+        cc.sys.localStorage.setItem(`UserSetting_game_${gameId}`, JSON.stringify(data));
+    }
+
+    static getGameSetting(gameId) {
+        const storage = cc.sys.localStorage.getItem(`UserSetting_game_${gameId}`);
+        if (!storage || !storage.length) {
+            return {};
+        }
+        return JSON.parse(storage);
+    }
+
+    public static async openGame(gameId: number, miniPanel: MiniPanel, openLuckyWheelFunc = () => {}, callBackLobby = () => {}) {
         const info = GameInfos[gameId];
+
+        if (info.remote && !info.mini) {
+            const bundleManager = BundleManager.getInstance();
+
+            await bundleManager.loadBundle(gameId.toString());
+        }
 
         if (!info.mini && gameId > 0) {
             cc.sys.localStorage.setItem(`orientation`, "");
@@ -113,30 +141,99 @@ export default class GameUtils {
         node.parent = destNode;
         node.position = position;
     }
-    public static floatToNumber(label: cc.Label, end: number, duration: number, start?: number, noZeroSuffix = true) {
-        start = start || parseFloat(label.string.replace(/,/g, "")) || 0;
-        const range = Math.abs(end - start);
+
+    public static floatToNumber2(opt: {
+        label: cc.Label;
+        amount: number;
+        start?: number;
+        prefixStr?: string;
+        formatNumber?: (value) => string;
+        stepValue?: number;
+        stepTime?: number;
+    }) {
+        return new Promise<void>((resolve) => {
+            const { label, amount: end, start } = opt;
+            const prefixStr = opt.prefixStr ?? "";
+            const defaultFormater = (v) => numberWithCommas(v, 2, false);
+            const formatNumber = opt.formatNumber ?? defaultFormater;
+            const stepValue = opt.stepValue ?? 0.01;
+            const stepTime = opt.stepTime ?? 0.02;
+            const startStr = label.string.replace(prefixStr, "");
+            const startValue = start || parseFloat(startStr.replace(/,/g, "")) || 0;
+            const range = Math.abs(end - startValue);
+            if (!range) {
+                resolve();
+                return;
+            }
+
+            const repeatCount = Math.floor(range / stepValue);
+
+            let value = startValue;
+            label.node.stopAllActions();
+            const formatText = (value) => prefixStr + formatNumber(value);
+            cc.tween(label.node)
+                .repeat(
+                    repeatCount,
+                    cc
+                        .tween(label.node)
+                        .call(() => {
+                            label.string = formatText(value);
+                            value += stepValue;
+                        })
+                        .delay(stepTime)
+                )
+                .call(() => {
+                    label.string = formatText(end);
+                    resolve();
+                })
+                .start();
+        });
+    }
+
+    public static floatToNumber(opt: {
+        label: cc.Label;
+        amount: number;
+        duration: number;
+        start?: number;
+        noZeroSuffix?: boolean;
+        prefixStr?: string;
+    }) {
+        const { label, amount: end, start, duration } = opt;
+        const noZeroSuffix = opt.noZeroSuffix ?? true;
+        const prefixStr = opt.prefixStr ?? "";
+        const startStr = label.string.replace(prefixStr, "");
+        const startValue = start || parseFloat(startStr.replace(/,/g, "")) || 0;
+        const range = Math.abs(end - startValue);
         if (!range) {
             return;
         }
-        const stepTime = Math.max(duration / range, 0.05);
-        const repeatCount = Math.floor(duration / stepTime);
-        const stepValue = +(range / repeatCount).toFixed(2);
-        let value = start;
+
+        let stepTime, repeatCount, stepValue;
+        if (duration !== undefined) {
+            stepTime = Math.max(duration / range, 0.05);
+            repeatCount = Math.floor(duration / stepTime);
+            stepValue = +(range / repeatCount).toFixed(2);
+        } else {
+            stepValue = 0.01;
+            stepTime = 0.1;
+            repeatCount = Math.floor(range / stepValue);
+        }
+
+        let value = startValue;
         label.node.stopAllActions();
-        cc.tween(label)
+        cc.tween(label.node)
             .repeat(
                 repeatCount,
                 cc
-                    .tween(label)
+                    .tween(label.node)
                     .call(() => {
-                        label.string = numberWithCommas(value, 2, noZeroSuffix);
+                        label.string = prefixStr + numberWithCommas(value, 2, noZeroSuffix);
                         value += stepValue;
                     })
                     .delay(stepTime)
             )
             .call(() => {
-                label.string = numberWithCommas(end, 2, noZeroSuffix);
+                label.string = prefixStr + numberWithCommas(end, 2, noZeroSuffix);
             })
             .start();
     }

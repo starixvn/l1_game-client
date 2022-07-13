@@ -39,7 +39,8 @@ window.i18n.languages.id = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady"
+        46: "Nightclub Lady",
+        47: "Treasure Island"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
@@ -166,7 +167,12 @@ window.i18n.languages.id = {
         roundSettleMsg: "SEMOGA BERUNTUNG!",
         FromSettleToSpin1: "PUTAR UNTUK MENANG!",
         FromSettleToSpin2: "PUTAR LEBIH BANYAK, MENANG LEBIH BANYAK!",
-        FromSettleToSpin3: "COBA MODE TURBO!"
+        FromSettleToSpin3: "COBA MODE TURBO!",
+        topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
+        topMessage2a: "HIT",
+        topMessage2b: "TO MULTIPLY TUMBLE WIN",
+        topMessage3: "WIN UP TO 2000X BET",
+        winTumbleMsg: "CONGRATULATION!"
     },
     ui: {
         choice_red2: "2 Merah",
@@ -543,5 +549,27 @@ window.i18n.languages.id = {
         guideContentEnd: "Let's play and experience the new features now.",
         skip: "Skip",
         notShow: " Don’t show again"
+    },
+    treasureIsland: {
+        tumpleWin: "Tumble Win",
+        totalWin: "Total Win",
+        turboMode: "Turbo Mode",
+        trialMode: "Trial Mode",
+        betMultiplierX: "Bet Multiplier 20x",
+        betLevel: "Bet Level",
+        coinValue: "Coin Value",
+        congratulation: "Congratulation",
+        youWinFreeSpin: "You won",
+        multiplier: "Multiplier",
+        totalMultiplier: "Total Multiplier",
+        no: "No.",
+        resultBoard: "Result Board",
+        symbolAndNumber: "Win Symbols",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Extra Free Spins",
+        autoSpinLeft: "Auto Spins Left",
+        bigWinTextNotify: "Press anywhere to continue",
+        reachMaxWin: "You reached the Max Win",
+        warningTrialMode: "Play Real,\nWin Real"
     }
 };

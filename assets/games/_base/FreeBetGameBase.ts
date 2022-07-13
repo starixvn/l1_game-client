@@ -1,10 +1,10 @@
 import { Socket } from "socket.io-client";
 
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
-import MultiOrientationGame from "./MultiOrientationGame";
-import SedieWallet from "../sedie/view-models/SedieWallet";
-import { Orientation } from "./Orientation";
 import UserProfile from "../../common/user-profile/UserProfile";
+import SedieWallet from "../sedie/view-models/SedieWallet";
+import MultiOrientationGame from "./MultiOrientationGame";
+import { Orientation } from "./Orientation";
 
 const { ccclass, property } = cc._decorator;
 
@@ -92,10 +92,6 @@ export default class FreeBetGameBase extends MultiOrientationGame {
         if (void 0 !== user.scoins) {
             this.updateDisplayScoinUI(user.scoins);
         }
-    }
-
-    onUserProfileInitialized(node: cc.Node) {
-        super.onUserProfileInitialized(node);
     }
 
     loadDollarWalletUI() {

@@ -216,17 +216,11 @@ export default class GameBase extends BaseComponent {
         this.stopGame();
     }
 
-    isShowingUM(data) {
-        return data.um && (this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime);
-    }
-
     onData(data: any) {
         for (let index = 0; index < this.dataHandlers.length; index++) {
             const handler = this.dataHandlers[index];
             handler && handler.handle(data);
             if (index === 0 && this.isShowingUM(data)) {
-                this.showUmMessage(data);
-                this.disableGame();
                 break;
             }
         }
@@ -271,6 +265,8 @@ export default class GameBase extends BaseComponent {
         this.registerViewGame();
     }
 
+    sendData(payload: any) {}
+
     showAcceptedBet(bet: number) {
         GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
     }
@@ -278,6 +274,10 @@ export default class GameBase extends BaseComponent {
     showWinningBet(bet: number) {
         const winningBet = GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
         winningBet.name = "winningBet";
+    }
+
+    clearGameRound() {
+        this.gameRound && (this.gameRound.string = "");
     }
 
     setGameRound(gameRoundId) {
@@ -550,6 +550,14 @@ export default class GameBase extends BaseComponent {
         return node;
     }
 
+    isShowingUM(data) {
+        return data.um && this.checkShowUmMessage(data);
+    }
+
+    checkShowUmMessage(data: any) {
+        return this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime;
+    }
+
     openHistory() {}
 
     onCloseGame() {}
@@ -560,5 +568,16 @@ export default class GameBase extends BaseComponent {
 
     normalShowNextDotCondition() {
         return this.currentTimeRemaining < this.config.stopBetTime || this.currentTimeRemaining > this.config.fullTime;
+    }
+
+    saveSettingKey(key: string, value: any) {
+        const gameSetting = GameUtils.getGameSetting(this.gameId);
+        gameSetting[key] = value;
+        GameUtils.setGameSetting(this.gameId, gameSetting);
+    }
+
+    getSettingKey(key: string) {
+        const gameSetting = GameUtils.getGameSetting(this.gameId);
+        return gameSetting[key];
     }
 }

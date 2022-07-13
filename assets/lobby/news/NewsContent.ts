@@ -1,5 +1,7 @@
-import NoticeUtil from "../../common/utils/NoticeUtil";
+import _ = require("lodash");
+
 import NotificationService from "../../common/auth/NotificationService";
+import NoticeUtil from "../../common/utils/NoticeUtil";
 
 const { ccclass, property } = cc._decorator;
 
@@ -68,7 +70,7 @@ export default class NewsContent extends cc.Component {
         this.loadFont(nameFont).then((font) => {
             const node = new cc.Node();
             node.anchorX = 0;
-            node.color = node.color.fromHEX(this.colors[Math.floor(Math.random() * 3)]);
+            node.color = node.color.fromHEX(this.colors[_.random(this.colors.length - 1)]);
             node.addComponent(cc.Label);
             const label = node.getComponent(cc.Label);
             label.font = font;

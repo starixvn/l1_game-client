@@ -8,10 +8,10 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
 import { handleGameState } from "../actions/HiLoBetAction";
 import { updateClockTime } from "../actions/HiLoCountdownTimerAction";
-import { handleStatusLost, handleStatusWon, updateStakesAndButtons, updateCard, updateStatistic } from "../actions/HiLoDealAction";
+import { handleStatusLost, handleStatusWon, updateCard, updateStakesAndButtons, updateStatistic } from "../actions/HiLoDealAction";
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { updateRoundId } from "../actions/HiLoRoundCounterAction";
-import HiLoUmHandler from "../events-handlers/HiLoUmHandler";
+import HiLoBetHandler from "../events-handlers/HiLoBetHandler";
 import { HiLoChoices } from "../events-models/HiLoChoices";
 import HiLoConfigs from "../events-models/HiLoConfigs";
 import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
@@ -27,7 +27,6 @@ import HiLoBettingArea, { BettingAreaEvents } from "./HiLoBettingArea";
 import HiLoResult from "./HiLoResult";
 import HiLoStatistic from "./HiLoStatistic";
 import HiLoTicketHistory from "./HiLoTicketHistory";
-import HiLoBetHandler from "../events-handlers/HiLoBetHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -121,14 +120,6 @@ export default class HiLo extends NewMiniGameBase {
         this.resultComp && this.resultComp.stopSpinCardAnimation();
     }
 
-    onData(data: unknown) {
-        super.onData(data);
-
-        if (this.gameData) {
-            this.gameData.receiveData(data);
-        }
-    }
-
     onDisable() {
         super.onDisable();
 
@@ -145,8 +136,11 @@ export default class HiLo extends NewMiniGameBase {
         super.initHandlers();
         this.statusHandler = null;
         this.timeHandler = new NoIntervalTimeHandler(this);
-        this.umHandler = new HiLoUmHandler(this);
         this.betHandler = new HiLoBetHandler(this);
+    }
+
+    checkShowUmMessage(data: any) {
+        return true;
     }
 
     private addCountdownTimerSchedule() {

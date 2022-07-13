@@ -39,7 +39,8 @@ window.i18n.languages.th = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady"
+        46: "Nightclub Lady",
+        47: "Treasure Island"
     },
     messages: {
         accountNotExist: "เกิดข้อผิดพลาด กรุณาติดต่อแอดมินสำหรับรายละเอียดเพิ่มเติม ขอบคุณค่ะ (%{errorCode})",
@@ -164,7 +165,12 @@ window.i18n.languages.th = {
         roundSettleMsg: "โชคดี!",
         FromSettleToSpin1: "หมุนเพื่อชนะ!",
         FromSettleToSpin2: "หมุนมากขึ้น ชนะมากขึ้น!",
-        FromSettleToSpin3: "ลองใช้โหมดเทอร์โบ!"
+        FromSettleToSpin3: "ลองใช้โหมดเทอร์โบ!",
+        topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
+        topMessage2a: "HIT",
+        topMessage2b: "TO MULTIPLY TUMBLE WIN",
+        topMessage3: "WIN UP TO 2000X BET",
+        winTumbleMsg: "CONGRATULATION!"
     },
     ui: {
         choice_red2: "2 แดง",
@@ -541,5 +547,27 @@ window.i18n.languages.th = {
         guideContentEnd: "Let's play and experience the new features now.",
         skip: "Skip",
         notShow: " Don’t show again"
+    },
+    treasureIsland: {
+        tumpleWin: "Tumble Win",
+        totalWin: "Total Win",
+        turboMode: "Turbo Mode",
+        trialMode: "Trial Mode",
+        betMultiplierX: "Bet Multiplier 20x",
+        betLevel: "Bet Level",
+        coinValue: "Coin Value",
+        congratulation: "Congratulation",
+        youWinFreeSpin: "You won",
+        multiplier: "Multiplier",
+        totalMultiplier: "Total Multiplier",
+        no: "No.",
+        resultBoard: "Result Board",
+        symbolAndNumber: "Win Symbols",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Extra Free Spins",
+        autoSpinLeft: "Auto Spins Left",
+        bigWinTextNotify: "Press anywhere to continue",
+        reachMaxWin: "You reached the Max Win",
+        warningTrialMode: "Play Real,\nWin Real"
     }
 };

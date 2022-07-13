@@ -108,20 +108,21 @@ export default class Roulette extends SocketIOTableGameBase {
             this.startGame();
             this.registerViewGame();
             this.socket.emit("inGame");
-            cc.tween(this.node)
-                .delay(0.1)
-                .call(() => {
-                    const wPosition = this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0));
-                    const localPosition = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(wPosition);
-                    this.currentMiniPanel.miniMenu.getChildByName("PopUpMiniGame").position = cc.v3(
-                        this.currentMiniPanel.miniMenu.getChildByName("PopUpMiniGame").position.x,
-                        localPosition.y
-                    );
-                })
-                .start();
+            this.setDefaultPositionForMiniMenu();
 
             this.rouletteMain.board.betChips = this.betChips;
         });
+    }
+
+    setDefaultPositionForMiniMenu() {
+        if (!this.currentMiniPanel.popupMiniGame) {
+            this.scheduleOnce(this.setDefaultPositionForMiniMenu, 0.1);
+            return;
+        }
+        const wPosition = this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0));
+        const localPosition = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(wPosition);
+        const node = this.currentMiniPanel.popupMiniGame.node;
+        node.position = cc.v3(node.x, localPosition.y);
     }
 
     setGameRound(gameRoundId) {
@@ -207,7 +208,6 @@ export default class Roulette extends SocketIOTableGameBase {
         this.confirmButton = this.bottomControls.confirmButton;
         this.confirmGlow = this.bottomControls.confirmGlow;
         this.undoButton = this.bottomControls.undoButton;
-        this.userContainer.scale = this.isMobile() ? 0.8 : 1;
 
         const topControlsNode = await this.loadResource("TopControls", this.topContainer);
         this.topControls = topControlsNode.getComponent(TopControls);
@@ -220,6 +220,11 @@ export default class Roulette extends SocketIOTableGameBase {
         this.leftControls.historyButton.on("click", this.pressedShowHistory, this);
         this.leftControls.statisticButton.on("click", this.pressedShowStatistic, this);
         this.leftControls.homeButton.on("click", this.onCloseGameClick, this);
+    }
+
+    onUserProfileInitialized(node: cc.Node) {
+        super.onUserProfileInitialized(node);
+        this.userProfile.node.scale = this.isMobile() ? 0.8 : 1;
     }
 
     isMobile(): boolean {

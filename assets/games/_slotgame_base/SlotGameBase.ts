@@ -8,6 +8,7 @@ import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableM
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import HoverItemBase from "../../common/HoverItemBase";
+import UserProfile from "../../common/user-profile/UserProfile";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { GameState } from "../_base/GameState";
 import SocketIOTableGameBase from "../_base/SocketIOTableGameBase";
@@ -16,6 +17,7 @@ import { FourGuardiansSlotConfigs } from "../four-guardians/scripts/FourGuardian
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import BonusDialog from "./BonusDialog";
+import ClassicSpinButton from "./ClassicSpinButton";
 import CountDownWarning from "./CountDownWarning";
 import SlotGameBaseNoticeHandler from "./handlers/SlotGameBaseNoticeHandler";
 import SlotGameBetHandler from "./handlers/SlotGameBetHandler";
@@ -23,15 +25,12 @@ import SlotGameBonusHandler from "./handlers/SlotGameBonusHandler";
 import SlotGameIngameHandler from "./handlers/SlotGameIngameHandler";
 import SlotGameJackpotHandler from "./handlers/SlotGameJackpotHandler";
 import SlotGameSettlementHandler from "./handlers/SlotGameSettlementHandler";
-import SlotGameUmHandler from "./handlers/SlotGameUmHandler";
 import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
-import SpinButton from "./SpinButton";
-import UserProfile from "../../common/user-profile/UserProfile";
 
 export interface LineData {
     payline: number;
@@ -151,8 +150,8 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     @property(cc.Prefab)
     autoSpinDialogPrefab: cc.Prefab = null;
 
-    @property(SpinButton)
-    spinButton: SpinButton = null;
+    @property(ClassicSpinButton)
+    spinButton: ClassicSpinButton = null;
 
     @property(cc.Label)
     messageText: cc.Label = null;
@@ -216,12 +215,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         this.showJackpotInfo(this.jackpotEnabled);
 
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
-        cc.tween(this.node)
-            .delay(0.1)
-            .call(() => {
-                this.setDefaultPositionForMiniMenu();
-            })
-            .start();
+        this.setDefaultPositionForMiniMenu();
 
         const audioManager = AudioManager.getInstance();
         this.playMusicBackground(audioManager.musicEnabled);
@@ -262,7 +256,18 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
     }
 
+    checkPreventFunctionHoldAction() {
+        return (
+            this.currentMiniPanel.dialog.childrenCount > 0 ||
+            this.currentMiniPanel.guideContainer.childrenCount > 0 ||
+            this.autoSpinCount > 0
+        );
+    }
+
     holdSpinButton() {
+        if (this.checkPreventFunctionHoldAction()) {
+            return;
+        }
         this.isHoldSpinButton = true;
         this.schedule(this.updateForHoldSpinButton, 0.3, cc.macro.REPEAT_FOREVER, 0);
     }
@@ -306,7 +311,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         }
         if (roundType === RoundType.SETTLED) {
             const items = this.isTurboMode() ? [1, 2] : [1, 2, 3];
-            const item = items[Math.floor(Math.random() * items.length)];
+            const item = items[_.random(items.length - 1)];
             msg = `messages.FromSettleToSpin${item}`;
         }
         this.messageText.string = `${i18n.t(msg)}`;
@@ -370,12 +375,14 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     }
 
     setDefaultPositionForMiniMenu() {
+        if (!this.currentMiniPanel.popupMiniGame) {
+            this.scheduleOnce(this.setDefaultPositionForMiniMenu, 0.1);
+            return;
+        }
+        const node = this.currentMiniPanel.popupMiniGame.node;
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
-        const localPosition = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(wPosition);
-        this.currentMiniPanel.miniMenu.getChildByName("PopUpMiniGame").position = cc.v3(
-            this.currentMiniPanel.miniMenu.getChildByName("PopUpMiniGame").position.x,
-            localPosition.y
-        );
+        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
+        node.position = cc.v3(node.x, localPosition.y);
     }
 
     initSlotGameConfig() {
@@ -426,6 +433,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             !this.isAutoSpinMode() &&
             (event.keyCode === cc.macro.KEY.space || event.keyCode === cc.macro.KEY.enter)
         ) {
+            if (this.checkPreventFunctionHoldAction()) {
+                return;
+            }
             this.isKeyDownSpace = true;
             this.spinAction();
         }
@@ -478,7 +488,6 @@ export default class SlotGameBase extends SocketIOTableGameBase {
     setUpHandlers() {
         this.initHandlers();
         this.noticeHandler = new SlotGameBaseNoticeHandler(this);
-        this.umHandler = new SlotGameUmHandler(this);
         this.ingameHandler = new SlotGameIngameHandler(this);
         this.settlementHandler = new SlotGameSettlementHandler(this);
         this.jackpotHandler = new SlotGameJackpotHandler(this);
@@ -720,7 +729,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
             if (i < itemTypeCount) {
                 data.push(i);
             } else {
-                data.push(Math.floor(Math.random() * itemTypeCount));
+                data.push(_.random(itemTypeCount - 1));
             }
         }
 
@@ -1127,7 +1136,7 @@ export default class SlotGameBase extends SocketIOTableGameBase {
         const poolValue = this.jackpotPool[`${this.stake}`];
         if (poolValue && poolValue !== this.jackpotPoolValue) {
             this.jackpotPoolValue = poolValue;
-            GameUtils.floatToNumber(this.jackpotPoolLabel, poolValue, 0.6, undefined, false);
+            GameUtils.floatToNumber({ label: this.jackpotPoolLabel, amount: poolValue, duration: 0.6, noZeroSuffix: false });
         }
     }
 
@@ -1187,5 +1196,9 @@ export default class SlotGameBase extends SocketIOTableGameBase {
 
     playSound(type: SlotGameSound) {
         AudioManager.getInstance().playSFX(this.soundSources[type].clip);
+    }
+
+    override checkShowUmMessage(data: any) {
+        return !this.isAnimatingResult;
     }
 }

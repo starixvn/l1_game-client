@@ -3,8 +3,12 @@ import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
 import * as MsgpackParser from "socket.io-msgpack-parser";
 
 import { getSession } from "./common/auth/SessionManager";
+import GameUtils from "./common/GameUtils";
+import { getProxyRoute } from "./common/helpers/UrlHelper.js";
 import { sentryLogger } from "./common/logger.js";
+import { enableMsgpackParserAllGames } from "./configs/Configs.js";
 import { GameInfos } from "./configs/SabaConfigs";
+import MiniPanel from "./mini-games-panel/view-models/MiniPanel";
 
 @injectable()
 export default class SocketIOController {
@@ -18,17 +22,51 @@ export default class SocketIOController {
         this.gameSockets[gameId.toString()] = socket;
     }
 
+    openSocketByUri(
+        miniPanel: MiniPanel,
+        gameId,
+        socketUri,
+        onConnectCallback = (returnedSocket) => returnedSocket.emit("signin", getSession())
+    ) {
+        const gameName = GameUtils.getGameNameString(gameId);
+        const proxyRoute = getProxyRoute(gameId);
+
+        const option = {
+            socketUri,
+            gameName,
+            proxyRoute,
+            onConnectCallback,
+            onConnectFailed: miniPanel.onConnectSocketFailed.bind(miniPanel),
+            isGameRoom: true,
+            forceNew: true,
+            gameContainer: null,
+            enableMsgpackParser: enableMsgpackParserAllGames
+        };
+        return this.connectGameSocket(option);
+    }
+
     connectGameSocket = (option: {
         socketUri: string;
         gameName: string;
         proxyRoute: string;
+        onConnectCallback: (returnedSocket) => void;
         onConnectFailed: (gameName, isGameRoom) => void;
         isGameRoom: boolean;
         forceNew: boolean;
         gameContainer: any;
         enableMsgpackParser: boolean;
     }): Socket => {
-        const { socketUri, gameName, proxyRoute, onConnectFailed, isGameRoom, forceNew, gameContainer, enableMsgpackParser } = option;
+        const {
+            socketUri,
+            gameName,
+            proxyRoute,
+            onConnectCallback,
+            onConnectFailed,
+            isGameRoom,
+            forceNew,
+            gameContainer,
+            enableMsgpackParser
+        } = option;
         const socketOptions: Partial<ManagerOptions & SocketOptions> = {
             forceNew: forceNew,
             transports: ["websocket"],
@@ -49,16 +87,7 @@ export default class SocketIOController {
         }
 
         socket.on("connect", () => {
-            socket.emit("signin", getSession());
-        });
-
-        socket.on("reconnect", () => {});
-
-        socket.on("connect_failed", () => {
-            socket.disconnect();
-            if (needCallCallback) {
-                onConnectFailed(name, isGameRoom);
-            }
+            onConnectCallback(socket);
         });
 
         socket.on("connect_error", (error) => {
@@ -70,8 +99,8 @@ export default class SocketIOController {
             }
         });
 
-        socket.on("disconnect", (reason) => {
-            sentryLogger.log(reason);
+        socket.on("disconnect", (reason, detail: { description }) => {
+            sentryLogger.log(`socket disconnect - ${gameName} - ${reason}:   ${detail?.description}`);
         });
 
         return socket;

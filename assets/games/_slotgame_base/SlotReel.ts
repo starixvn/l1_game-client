@@ -1,3 +1,5 @@
+import _ = require("lodash");
+
 import GameUtils from "../../common/GameUtils";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotReelItem from "./SlotReelItem";
@@ -40,7 +42,7 @@ export default class SlotReel extends cc.Component {
             this.node.addChild(node);
             const item = node.getComponent(SlotReelItem);
             this.items.push(item);
-            const random = Math.floor(Math.random() * this.itemTypeCount);
+            const random = _.random(this.itemTypeCount - 1);
             item.setItem(random);
         }
 

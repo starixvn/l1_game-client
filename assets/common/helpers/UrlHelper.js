@@ -18,6 +18,14 @@ export function buildServerUrl(protocol = "http", path = "/", gameId = 0) {
     return buildUrl(protocol, gamePath + path);
 }
 
+export function getTrialSocket(gameId) {
+    const info = GameInfos[gameId];
+    const key = info.key;
+    const path = info.path || key.toLowerCase();
+    const pathStr = `/trial/${path}`;
+    return buildUrl("http", `${pathStr}`);
+}
+
 export function getPath(gameId) {
     const info = GameInfos[gameId];
     const key = info.key;

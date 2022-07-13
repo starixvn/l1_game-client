@@ -1,6 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import NewButton from "../../../common/custom-button/NewButton";
 import { GameIds } from "../../../configs/SabaConfigs";
+import CasinoGame from "../../_casino/CasinoGame";
 import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
 import SwapModelBase from "../../_casino/event-models/SwapModelBase";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
@@ -21,7 +22,7 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel
+    updateTotalBetLabel,
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
@@ -35,10 +36,9 @@ import {
     holdPlayerAndDealerCards,
     rawCardAfterClickCall,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards
+    swapPlayerAndDealerCards,
 } from "../components/cards/view-models/CardWrapper";
 import HoldemPokerCards from "../components/cards/view-models/HoldemPokerCards";
-import HoldemPokerUmHandler from "../event-handlers/HoldemPokerUmHandler";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "../event-models/HoldemPokerAfterDealModel";
 import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
@@ -59,7 +59,6 @@ import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
 import HoldemPokerChips from "./HoldemPokerChips";
 import HoldemPokerMinMaxTable from "./HoldemPokerMinMaxTable";
 import HoldemPokerPlacingBet from "./HoldemPokerPlacingBet";
-import CasinoGame from "../../_casino/CasinoGame";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -123,17 +122,8 @@ export default class HoldemPoker extends CasinoGame {
         this.pokerCardScript = this.node.getChildByName("PokerCardScript").getComponent(HoldemPokerCards);
     }
 
-    initHandlers() {
-        super.initHandlers();
-
-        this.umHandler = new HoldemPokerUmHandler(this);
-    }
-
-    onDataGameRoom(data: any) {
-        super.onDataGameRoom(data);
-        if (this.gameData) {
-            this.gameData.receiveData(data);
-        }
+    checkShowUmMessage(data: any) {
+        return true;
     }
 
     openHistory() {

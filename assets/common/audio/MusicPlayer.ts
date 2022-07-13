@@ -1,3 +1,5 @@
+import _ = require("lodash");
+
 import AudioManager from "./AudioManager";
 
 export default class MusicPlayer {
@@ -9,7 +11,7 @@ export default class MusicPlayer {
     readonly musicChangedKey = "lobby";
     protected intervalVolDecrease: NodeJS.Timeout;
     protected intervalVolIncrease: NodeJS.Timeout;
-    protected volume = 0.7;
+    protected volume = 0.5;
     readonly stepVolume = 0.05;
     readonly duration = 3.5;
     readonly stepIntervalVolume = (this.duration * 1000) / (this.volume / this.stepVolume);
@@ -44,7 +46,7 @@ export default class MusicPlayer {
     }
 
     private getRandomNameSong() {
-        return this.ListSong[Math.floor(Math.random() * this.ListSong.length)];
+        return this.ListSong[_.random(this.ListSong.length - 1)];
     }
 
     private playBgAudio(play: boolean) {

@@ -1,6 +1,5 @@
 import { Socket } from "socket.io-client";
 
-import { getSession } from "../../../common/auth/SessionManager";
 import logger from "../../../common/logger";
 import Connection from "./Connection";
 
@@ -75,10 +74,6 @@ export default class SocketIOConnection implements Connection {
     }
 
     private registerEvents() {
-        this.on(events.connect, () => {
-            this.emit(events.signIn, getSession());
-        });
-
         this.on(events.connectFailed, () => {
             sentryLogger.logError(this.buildLog(events.connectFailed));
             this.socket.disconnect();

@@ -39,7 +39,8 @@ window.i18n.languages.zh_cn = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady"
+        46: "Nightclub Lady",
+        47: "Treasure Island"
     },
     messages: {
         accountNotExist: "发生了错误。 详情请联系CSD，谢谢。(%{errorCode})",
@@ -152,7 +153,12 @@ window.i18n.languages.zh_cn = {
         roundSettleMsg: "祝你好运！",
         FromSettleToSpin1: "旋转获胜！",
         FromSettleToSpin2: "旋转更多，赢得更多！",
-        FromSettleToSpin3: "尝试涡轮模式！"
+        FromSettleToSpin3: "尝试涡轮模式！",
+        topMessage1: "SYMBOLS PAY ANYWHERE ON THE SCREEN",
+        topMessage2a: "HIT",
+        topMessage2b: "TO MULTIPLY TUMBLE WIN",
+        topMessage3: "WIN UP TO 2000X BET",
+        winTumbleMsg: "CONGRATULATION!"
     },
     ui: {
         choice_red2: "2 红",
@@ -527,5 +533,27 @@ window.i18n.languages.zh_cn = {
         guideContentEnd: "Let's play and experience the new features now.",
         skip: "Skip",
         notShow: " Don’t show again"
+    },
+    treasureIsland: {
+        tumpleWin: "Tumble Win",
+        totalWin: "Total Win",
+        turboMode: "Turbo Mode",
+        trialMode: "Trial Mode",
+        betMultiplierX: "Bet Multiplier 20x",
+        betLevel: "Bet Level",
+        coinValue: "Coin Value",
+        congratulation: "Congratulation",
+        youWinFreeSpin: "You won",
+        multiplier: "Multiplier",
+        totalMultiplier: "Total Multiplier",
+        no: "No.",
+        resultBoard: "Result Board",
+        symbolAndNumber: "Win Symbols",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Extra Free Spins",
+        autoSpinLeft: "Auto Spins Left",
+        bigWinTextNotify: "Press anywhere to continue",
+        reachMaxWin: "You reached the Max Win",
+        warningTrialMode: "Play Real,\nWin Real"
     }
 };

@@ -32,7 +32,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
             GameIds.HiLo,
             GameIds.TexasHoldemPoker
         ],
-        slotGames: [GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians],
+        slotGames: [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub],
         lotteryGames: [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery],
         othersGames: [GameIds.BitcoinMaster]
     };
@@ -65,7 +65,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         }
     };
     list = [
-        GameIds.NightClub,
+        GameIds.TreasureIsland,
         GameIds.VipSedie,
         GameIds.SeDie,
         GameIds.VipSedieWar,
@@ -74,8 +74,9 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.BigSmall,
         GameIds.TurboBigSmall,
         GameIds.TurboOddEven,
-        GameIds.HeroesSlot,
         GameIds.FourGuardians,
+        GameIds.HeroesSlot,
+        GameIds.NightClub,
         GameIds.KenoProMax,
         GameIds.KenoProViet,
         GameIds.VipBaccarat,
@@ -113,7 +114,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         GameIds.HiLo,
         GameIds.TexasHoldemPoker
     ];
-    slotGames = [GameIds.NightClub, GameIds.HeroesSlot, GameIds.FourGuardians];
+    slotGames = [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
     lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
     othersGames = [GameIds.BitcoinMaster];
 
@@ -136,13 +137,16 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         },
         [GameIds.NightClub]: {
             size: cc.v2(1, 2)
+        },
+        [GameIds.TreasureIsland]: {
+            size: cc.v2(1, 2)
         }
     };
     newGames = {
-        SC1: [GameIds.NightClub],
-        SC2: [GameIds.NightClub]
+        SC1: [GameIds.TreasureIsland],
+        SC2: []
     };
-    iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
+    iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub, GameIds.TreasureIsland];
 
     customizeCredit(): void {
         this.smPromotion = true;

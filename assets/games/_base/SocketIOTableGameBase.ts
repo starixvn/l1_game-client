@@ -1,6 +1,5 @@
 import { Socket } from "socket.io-client";
 
-import * as sessionManager from "../../common/auth/SessionManager";
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
 
 const { ccclass } = cc._decorator;
@@ -11,8 +10,6 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
 
     onLoad() {
         super.onLoad();
-
-        sessionManager.storeInRoomGameId(this.gameId);
         this.initForSocket();
     }
 
@@ -21,25 +18,29 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         if (!this.socket) {
             this.closeGame();
         } else {
-            this.socket.on(this.gameName, (data) => {
-                if (!this.isAlive()) {
-                    return;
-                }
-                this.onDataGameRoom(data);
-            });
-            this.socket.on("disconnect", () => {
-                if (!this.isAlive()) {
-                    return;
-                }
-                this.closeGame();
-            });
-            this.socket.on("message", (data) => {
-                if (!this.isAlive()) {
-                    return;
-                }
-                this.currentMiniPanel.onGeneralData(data);
-            });
+            this.initGameEvents(this.socket);
         }
+    }
+
+    initGameEvents(socket) {
+        socket.on(this.gameName, (data) => {
+            if (!this.isAlive()) {
+                return;
+            }
+            this.onDataGameRoom(data);
+        });
+        socket.on("disconnect", () => {
+            if (!this.isAlive()) {
+                return;
+            }
+            this.closeGame();
+        });
+        socket.on("message", (data) => {
+            if (!this.isAlive()) {
+                return;
+            }
+            this.currentMiniPanel.onGeneralData(data);
+        });
     }
 
     protected override onGameShow() {
@@ -98,11 +99,6 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
             amount: this.currentBet,
             username: cc.RedT.user.name
         };
-    }
-
-    onCloseGameClick() {
-        super.onCloseGameClick();
-        sessionManager.removeInRoomGameId();
     }
 
     sendRetryMessage(): void {
