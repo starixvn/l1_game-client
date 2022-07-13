@@ -1,8 +1,8 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { BaccaratSettlementResult } from "./../../baccarat/view-models/event-models/BaccaratSettlementResult";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import BlockchainBetOptionsUI from "../view-models/BlockchainBetOptionsUI";
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
+const i18n = window.modules.i18n;
 
 export const showLabelWinning =
     (betOptionsUI: BlockchainBetOptionsUI, cardsUI: BlockchainBaccaratCardsUI) =>

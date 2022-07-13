@@ -1,8 +1,8 @@
 import { BaccaratSettlementResult } from "./../../../../baccarat/view-models/event-models/BaccaratSettlementResult";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratCardsUI from "../../../view-models/BlockchainBaccaratCardsUI";
 const { ccclass, property } = cc._decorator;
+const i18n = window.modules.i18n;
 
 @ccclass
 export default class BlockchainBaccaratLastRoundInfo extends cc.Component {

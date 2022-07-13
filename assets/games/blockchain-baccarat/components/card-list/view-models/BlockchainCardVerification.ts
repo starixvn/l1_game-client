@@ -1,10 +1,10 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import CommonDialog from "../../../../../common/_base/view-models/CommonDialog";
 import { formatPrivateKey } from "../../../../_casino/MD5Format";
 import { CardModel, BlockchainCardModel } from "../../../BlockchainBaccaratType";
 import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
 import BlockchainCardVerify from "./BlockchainCardVerify";
 const cryptoJs = window.modules.cryptoJs;
+const i18n = window.modules.i18n;
 
 import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
 
