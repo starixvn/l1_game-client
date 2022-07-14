@@ -55,7 +55,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     readonly durationFlyCard3 = 0.3;
     readonly durationDropCard = 0.2;
     readonly durationJumpDrop = 0.6;
-    readonly durationFlyCard3Banker = 0.1;
+    readonly durationFlyCard3Banker = 0.4;
     private readonly durationAnimFaceUp = 0.5;
     private readonly durationAwaitAnimFaceUp = 1.3;
     protected readonly setPointSecond = 0.2;

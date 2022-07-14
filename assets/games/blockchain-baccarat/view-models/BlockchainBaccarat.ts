@@ -191,7 +191,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     private registerNewBlockchainEvents() {
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_NEW_BLOCKCHAIN, (newBlockchain: Blockchain) => {
-            blockchainAction.updateBlockchainCardList(this.cardList, this.cardsUI)(newBlockchain);
+            blockchainAction.updateBlockchainCardList(this.cardList)(newBlockchain);
             this.gameData.cardList.currentIndex = newBlockchain.currentIndex;
             this.gameData.cardList.numberCardsFly = 6;
         });
