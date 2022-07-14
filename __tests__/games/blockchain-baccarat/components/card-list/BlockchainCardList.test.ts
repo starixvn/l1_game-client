@@ -81,6 +81,7 @@ describe("Test class BlockchainCardVerification", () => {
         comp = node.addComponent(BlockchainCardList);
         comp.content = content;
         comp.statsScrollView = statsScrollView;
+
         mockFuntions.createNodeFromPrefab = () => {
             const cardNode = new cc.Node();
             const cardComp = cardNode.addComponent(BlockchainCard);
@@ -128,6 +129,17 @@ describe("Test class BlockchainCardVerification", () => {
             expect(comp.cardSelected).toEqual(6);
             expect(resetHighLightCurrentCardSelected).toBeCalled();
             expect(comp.cards[6].getComponent(BlockchainCard).highLightCard).toBeCalled();
+        });
+    });
+
+    describe("calculateDisplayIndex", () => {
+        it.each`
+            input  | expectedResult
+            ${5}   | ${1}
+            ${25}  | ${3}
+            ${413} | ${35}
+        `("card index $input: card row $expectedResult", ({ input, expectedResult }) => {
+            expect(comp.calculateDisplayIndex(input)).toBe(expectedResult);
         });
     });
 });

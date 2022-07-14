@@ -121,6 +121,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     private openCardList() {
+        this.playClick();
+        this.cardList.node.active = true;
         this.cardList.updateBlockchain(this.gameData.cardList.blockchain);
         this.cardList.setData();
         this.cardList.showDialog();

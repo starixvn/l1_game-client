@@ -26,6 +26,9 @@ export default class BlockchainCardList extends cc.Component {
     @property(cc.Node)
     bar: cc.Node = null;
 
+    @property(CommonDialog)
+    commonDialog: CommonDialog = null;
+
     protected cutCard: number;
     protected currentCardIndex: number;
     protected root: BlockchainBaccarat;
@@ -34,12 +37,10 @@ export default class BlockchainCardList extends cc.Component {
     private readonly minDisplayIndex = 409;
     private readonly maxDisplayIndex = 420;
     private readonly lineSpacing = 10;
-    private readonly positionX = -3.5;
     private readonly calculatedPercent: number[] = [];
     blockchain: Blockchain;
     flippingAnimations: cc.Animation[] = [];
     resultCards: BlockchainCard[] = [];
-    cardListDialog: CommonDialog;
     cardSelected: number;
 
     updateBlockchain(blockchain: Blockchain) {
@@ -49,10 +50,13 @@ export default class BlockchainCardList extends cc.Component {
     init(root: BlockchainBaccarat) {
         this.root = root;
         this.initCalculatePercent();
-        this.cardListDialog = this.getComponent(CommonDialog);
-        this.cardListDialog.addOnWillHide(() => {
+        this.commonDialog.addOnWillHide(() => {
             this.removeCards();
             this.root.cardVerification.resetState();
+        });
+
+        this.commonDialog.addOnDidHide(() => {
+            this.node.active = false;
         });
     }
 
@@ -62,12 +66,11 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     showDialog() {
-        this.cardListDialog = this.getComponent(CommonDialog);
-        if (this.cardListDialog) {
-            this.cardListDialog.showDialog();
+        if (this.commonDialog) {
+            this.commonDialog.showDialog();
         }
 
-        this.bar.x = this.positionX;
+        this.bar.setPosition(-3.5, 0);
     }
 
     public setData() {
@@ -100,12 +103,13 @@ export default class BlockchainCardList extends cc.Component {
     }
 
     public scrollToCard(currentIndex: number) {
-        const rowIndex = this.calculateDisplayIndex(currentIndex, 1);
+        const rowIndex = this.calculateDisplayIndex(currentIndex);
         const index = rowIndex >= 2 ? rowIndex - 2 : 0;
         this.statsScrollView.scrollToPercentVertical(1 - this.calculatedPercent[index]);
     }
 
-    public calculateDisplayIndex(currentIndex: number, rowIndex: number) {
+    public calculateDisplayIndex(currentIndex: number) {
+        let rowIndex = 1;
         for (let i = 0, j = 11; i < this.minDisplayIndex && j < this.maxDisplayIndex; ) {
             if (currentIndex >= i && currentIndex <= j) {
                 return rowIndex;
@@ -114,6 +118,7 @@ export default class BlockchainCardList extends cc.Component {
             i += 12;
             j += 12;
         }
+        return 0;
     }
 
     initCalculatePercent() {
@@ -220,6 +225,7 @@ export default class BlockchainCardList extends cc.Component {
         }
 
         this.root.cardVerification.renderDataCardVerification(blockchainCard, index);
+        this.root.cardVerification.node.active = true;
         this.root.cardVerification.showDialog();
     }
 

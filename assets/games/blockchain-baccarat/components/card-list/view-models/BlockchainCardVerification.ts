@@ -37,9 +37,11 @@ export default class BlockchainCardVerification extends cc.Component {
     @property(cc.RichText)
     noted: cc.RichText = null;
 
+    @property(CommonDialog)
+    commonDialog: CommonDialog = null;
+
     public blockchainCardSerial: BlockchainCardModel;
     public blockchainCardPrivate: BlockchainCardModel;
-    public cardVerificationDialog: CommonDialog;
     public state = CardVerificationState.blankNew;
     public timeout: any;
     public numberKey: number;
@@ -50,10 +52,15 @@ export default class BlockchainCardVerification extends cc.Component {
 
     private readonly numberOfCharactersPerLine = 96;
 
+    onLoad() {
+        this.commonDialog.addOnDidHide(() => {
+            this.node.active = false;
+        });
+    }
+
     showDialog() {
-        this.cardVerificationDialog = this.getComponent(CommonDialog);
-        if (this.cardVerificationDialog) {
-            this.cardVerificationDialog.showDialog();
+        if (this.commonDialog) {
+            this.commonDialog.showDialog();
         }
     }
 
@@ -199,9 +206,8 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     closeDialog() {
-        this.cardVerificationDialog = this.getComponent(CommonDialog);
-        if (this.cardVerificationDialog) {
-            this.cardVerificationDialog.closeDialog();
+        if (this.commonDialog) {
+            this.commonDialog.closeDialog();
         }
     }
 
