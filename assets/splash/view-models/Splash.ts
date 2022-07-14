@@ -123,17 +123,20 @@ export default class Splash extends cc.Component {
             const preLoadGameAwaiters = preLoadGameIds.map(
                 (preLoadGameId) =>
                     new Promise((resolve) => {
-                        let prefabPath = `lobby/games/${preLoadGameId}`;
-
-                        if (lobbyMenuConfig.customGameIconBySystem.includes(preLoadGameId)) {
-                            prefabPath = `lobby/games/${splashConfig.customPath}/${preLoadGameId}`;
-                        }
-
-                        cc.resources.load(prefabPath, resolve);
+                        cc.resources.load(`lobby/games/${preLoadGameId}`, resolve);
                     })
             );
 
-            await Promise.all(preLoadGameAwaiters);
+            const preLoadGameBySystemAwaiters = preLoadGameIds
+                .filter((gameId) => lobbyMenuConfig.customGameIconBySystem.includes(gameId))
+                .map(
+                    (preLoadGameId) =>
+                        new Promise((resolve) => {
+                            cc.resources.load(`lobby/games/${splashConfig.customPath}/${preLoadGameId}`, resolve);
+                        })
+                );
+
+            await Promise.all(preLoadGameAwaiters.concat(preLoadGameBySystemAwaiters));
         } catch (ex) {
             console.log(ex);
         }
