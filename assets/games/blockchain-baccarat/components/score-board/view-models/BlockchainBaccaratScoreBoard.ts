@@ -1,5 +1,4 @@
 import { BlockchainBaccaratPrediction } from "./BlockchainBaccaratPrediction";
-import { BaccaratSettlementResult } from "./../../../../baccarat/view-models/event-models/BaccaratSettlementResult";
 import BlockchainBaccaratBeadRoad from "./BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "./BlockchainBaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboard from "./BlockchainBaccaratDerivedScoreboard";
@@ -23,10 +22,10 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     @property(cc.Node)
     statistic: cc.Node = null;
 
-    derivedScoreBoardController: window.modules.scoreBoard.DerivedScoreboards<BaccaratSettlementResult>;
+    derivedScoreBoardController: any;
 
     private roundHistory: BlockchainBaccaratRoundHistory[] = [];
-    private bigRoadData: window.modules.scoreBoard.BigRoadScoreboardPoint<BaccaratSettlementResult>[][];
+    private bigRoadData: any[][];
     private predictData = { player: [], banker: [] };
 
     private readonly zoomModes = {
