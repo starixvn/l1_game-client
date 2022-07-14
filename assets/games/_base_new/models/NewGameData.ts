@@ -6,11 +6,13 @@ import { GameData } from "../../_new/_base/game-data-management/models/game-data
 import { BetHandler } from "../handlers/BetHandler";
 import { GameConfigHandler } from "../handlers/GameConfigHandler";
 import { NoticeHandler } from "../handlers/NoticeHandler";
+import { ResultHashHandler } from "../handlers/ResultHashHandler";
 import { RoundHistoryHandler } from "../handlers/RoundHistoryHandler";
 import { SettlemenHandler } from "../handlers/SettlementHandler";
 import { BetModel } from "./BetModel";
 import { GameConfigs } from "./GameConfigs";
 import { NoticeModel } from "./NoticeModel";
+import { ResultHash } from "./ResultHash";
 import { RoundHistory } from "./RoundHistory";
 import { Settlement } from "./Settlement";
 
@@ -27,6 +29,7 @@ export default class NewGameData extends GameData {
     notice: NoticeModel;
     roundHistory: RoundHistory;
     settlement: Settlement;
+    resultHash: ResultHash;
 
     roundId: number;
 
@@ -37,6 +40,7 @@ export default class NewGameData extends GameData {
         this.notice = new NoticeModel();
         this.roundHistory = new RoundHistory();
         this.settlement = new Settlement();
+        this.resultHash = new ResultHash();
 
         const models: EventEmitterBase[] = [
             //
@@ -46,7 +50,8 @@ export default class NewGameData extends GameData {
             this.gameConfigs,
             this.notice,
             this.roundHistory,
-            this.settlement
+            this.settlement,
+            this.resultHash
         ];
         this.eventEmitters.push(...models);
     }
@@ -69,7 +74,8 @@ export default class NewGameData extends GameData {
             TotalBetsEventHandler,
             BetHandler,
             NoticeHandler,
-            SettlemenHandler
+            SettlemenHandler,
+            ResultHashHandler
         ];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }

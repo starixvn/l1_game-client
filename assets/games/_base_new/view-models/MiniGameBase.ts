@@ -10,6 +10,7 @@ import { GameConfigs } from "../models/GameConfigs";
 import GameDataManager from "../models/GameDataManager";
 import NewGameData from "../models/NewGameData";
 import { NoticeModel } from "../models/NoticeModel";
+import { ResultHash } from "../models/ResultHash";
 import { RoundHistory } from "../models/RoundHistory";
 import { Settlement } from "../models/Settlement";
 
@@ -98,7 +99,11 @@ export default class MiniGameBase extends NewMiniGameBase {
         });
 
         this.gameData.settlement.on(Settlement.Events.SHOW_RESULT, (settlement) => this.showSettlementResult(settlement));
-        this.gameData.settlement.on(Settlement.Events.END_SHOW_RESULT, (settlement) => this.handleAfterSettlementResult(settlement));
+        this.gameData.settlement.on(Settlement.Events.END_SHOW_RESULT, (settlement) => {
+            this.handleAfterSettlementResult(settlement);
+            this.gameData.resultHash.updateUI();
+        });
+        this.gameData.resultHash.on(ResultHash.Events.CHANGE, (data) => this.md5Component.handleMD5Data(data));
     }
 
     /**

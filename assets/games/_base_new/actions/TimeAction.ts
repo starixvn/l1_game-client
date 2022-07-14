@@ -3,14 +3,13 @@ import GameDataManager from "../models/GameDataManager";
 import MiniGameBase from "../view-models/MiniGameBase";
 
 export const startGameLoop = (game: MiniGameBase) => () => {
-    const gameLoop = () => game.gameData.durations.countdown();
+    const gameData = game.gameData;
+    const gameLoop = () => gameData.durations.countdown();
     GameDataManager.getInstance().startGameLoop(game.gameId, gameLoop);
-    if (game.gameData.durations.isWaiting()) {
-        const settlement = game.gameData.roundHistory.roundHistory[0];
+    if (gameData.durations.isWaiting() && !gameData.settlement.settlement) {
+        const settlement = gameData.roundHistory.roundHistory[0];
         if (settlement) {
-            game.gameData.settlement.finishShowResult(settlement);
-        } else {
-            game.showWaittingTime(true);
+            gameData.settlement.finishShowResult(settlement);
         }
     }
 };
