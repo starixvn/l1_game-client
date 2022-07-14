@@ -125,7 +125,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         ]);
     }
 
-    async flyCard3(playerHasCard3 = false, isFlyCard3Player = false, delay: number) {
+    async flyCard3(playerHasCard3: boolean, isFlyCard3Player: boolean, delay: number) {
         if (isFlyCard3Player) {
             this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
         } else {

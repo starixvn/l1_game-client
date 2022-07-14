@@ -4,5 +4,5 @@ export * from "./BlockchainBaccaratConfigsHandler";
 export * from "./BlockchainBaccaratFinishHandler";
 export * from "./BlockchainBaccaratNewBlockchainHandler";
 export * from "./BlockchainBaccaratTotalBetHandler";
-export * from "./BlockchainBaccratRoundHistoryHandler";
+export * from "./BlockchainBaccaratRoundHistoryHandler";
 export * from "./BlockchainBaccaratTimeHandler";

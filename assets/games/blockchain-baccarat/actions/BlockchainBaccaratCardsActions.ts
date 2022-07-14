@@ -19,7 +19,7 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
 
     if (result?.player?.card3) {
         isFlyCard3Player = true;
-        await cardsUI.flyCard3(true, false, cardsUI.playerCards.durationDropCard);
+        await cardsUI.flyCard3(true, false, cardsUI.playerCards.durationFlyCard);
         await cardsUI.playerCards.openCards(cardsUI.playerCards.cards[CardsOrder.card3], result.player.card3, startIndex + 4);
     }
 

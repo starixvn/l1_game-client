@@ -144,7 +144,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     }
 
     async flyCard3ReserveToPunter(node: cc.Node, start: cc.Node, delay = this.durationFlyCard3, isBanker = false) {
-        await this.flyCard({ card: node, delay, numberTag: 0, isCardThree: true, isBanker });
+        await this.flyCard({ card: node, delay, numberTag: 0, start, isCardThree: true, isBanker });
     }
 
     async flyCardFromReserve({
@@ -204,7 +204,6 @@ export default class BlockchainBaccaratCards extends cc.Component {
             const cardComponent = card.getComponentInChildren(BlockchainCard);
             this.flyCardReserveTween = cc
                 .tween(card)
-                .delay(delay)
                 .call(() => {
                     callBack();
                     this.setInfoCardFly(cardComponent, numberTag);
@@ -215,6 +214,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
                     });
                     playFlyCardAudio(card, this.cardAudioSource?.clip);
                 })
+                .delay(delay)
                 .call(() => resolve())
                 .start();
         });
