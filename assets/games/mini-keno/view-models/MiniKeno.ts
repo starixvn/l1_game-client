@@ -214,7 +214,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     protected isDisabledBet(): boolean {
         return (
             this.currentTimeRemaining >= this.config.betTime ||
-            this.currentTimeRemaining <= this.config.stopBetTime ||
+            this.currentTimeRemaining < this.config.stopBetTime ||
             this.gameState === GameState.Stopped
         );
     }
