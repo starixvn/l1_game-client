@@ -15,7 +15,6 @@ import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { GameInfos } from "../../configs/SabaConfigs";
-import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { GameState } from "./GameState";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
@@ -134,7 +133,6 @@ export default class GameBase extends BaseComponent {
     public gameName: string;
     public currentDataLogs = [];
     public roundId = -1;
-    public currentMiniPanel: MiniPanel;
     public gameConfigs: any;
     public finishShowResult = true;
 
@@ -159,10 +157,6 @@ export default class GameBase extends BaseComponent {
 
     setConfig(config: GameConfigBase) {
         this.config = config;
-    }
-
-    initMiniPanel(miniPanel: MiniPanel) {
-        this.currentMiniPanel = miniPanel;
     }
 
     isReadyBet(): boolean {
@@ -224,10 +218,6 @@ export default class GameBase extends BaseComponent {
                 break;
             }
         }
-    }
-
-    openGame() {
-        this.node.active = true;
     }
 
     closeGame() {

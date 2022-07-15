@@ -61,7 +61,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     }
 
                     const node = cc.instantiate(prefab);
-                    const componentName = gameId === GameIds.KenoProViet ? "KenoProViet" : "GameBase";
+                    const componentName = gameId === GameIds.KenoProViet ? "KenoProViet" : "GameViewBase";
                     const gameComponent = node.getComponent(componentName);
                     console.log(componentName, gameComponent);
                     gameComponent.initMiniPanel(this.main);
