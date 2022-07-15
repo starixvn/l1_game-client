@@ -99,7 +99,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         } else {
             await this.handleShowBurnCard(cutCardValue, false);
             formatData.forEach((data: BlockchainCardModel, index: number) => {
-                this.createCardsBurn(this.cardPrefab, index, data.card, (card: cc.Node, cardData: CardModel) => {
+                this.createCardsBurn(this.cardPrefab, index, data.card, false, (card: cc.Node, cardData: CardModel) => {
                     const cardComponent = card.children[0].getComponent(BlockchainCard);
                     card.children[0].angle = 0;
                     cardComponent.setStatusIndexNumber(false);
@@ -126,6 +126,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         } else {
             this.burnCard.addChild(card);
             const cardComponent = card.getComponent(BlockchainCard);
+            cardComponent.setStatusIndexNumber(false);
             cardComponent.setCardOldStyle(cardData);
             cardComponent.faceUp();
         }
@@ -170,7 +171,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                 })
                 .call(() => {
                     formatData.forEach((data: BlockchainCardModel, index: number) => {
-                        this.createCardsBurn(prefabCard, index, data.card, (card: cc.Node) => {
+                        this.createCardsBurn(prefabCard, index, data.card, true, (card: cc.Node) => {
                             card.children[0].opacity = 0;
                             this.actionCardFly({ card: card.children[0], start: this.cardsBox });
                         });
@@ -245,13 +246,14 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         prefabCard: cc.Prefab,
         index: number,
         cardData: CardModel,
+        isAnimation: boolean,
         callback: (card: cc.Node, cardData?: CardModel) => void
     ) {
         const cardPrefab = cc.instantiate(prefabCard);
         const card = this.containerBurnCards.children[index];
         card.removeAllChildren();
         card.addChild(cardPrefab);
-        cardPrefab.scale = 0.5;
+        isAnimation && (cardPrefab.scale = 0.5);
         cardPrefab.angle = -135;
         const cardComponent = card.children[0].getComponent(BlockchainCard);
         cardComponent.setCardOldStyle(cardData);

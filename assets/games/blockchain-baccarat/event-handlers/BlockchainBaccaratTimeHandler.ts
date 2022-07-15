@@ -111,14 +111,13 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
             this.main.scoreboard.resetScoreboard();
             this.main.lastRoundIfo.reset();
             this.main.gameData.finishModel.clear();
+            clearPercentBet(this.main.betItems as BlockchainBaccaratBetItem[]);
             const cardContainer = this.main.cardsUI;
             blockchainData?.isNew && (blockchainData.isNew = false);
 
-            if (blockchainData) {
-                cardContainer.handleShuffleCards(blockchainData, timeRemaining, this.checkIsShowAnim(timeRemaining), () => {
-                    this.main.handleShowGameId(false);
-                });
-            }
+            cardContainer.handleShuffleCards(blockchainData, timeRemaining, this.checkIsShowAnim(timeRemaining), () => {
+                this.main.handleShowGameId(false);
+            });
         }
     }
 
