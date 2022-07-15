@@ -71,6 +71,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     list = [
         GameIds.TreasureIsland,
         GameIds.VipSedie,
+        GameIds.UnbalancedBigSmall1,
         GameIds.SeDie,
         GameIds.VipSedieWar,
         GameIds.MiniSedie,

@@ -38,11 +38,17 @@ const configs = {
         HiLo: 45,
         NightClub: 46,
         TreasureIsland: 47,
-        BlockchainBaccarat: 48,
-        MegaKeno: 52,
-        MegaKeno2: 53
+        UnbalancedBigSmall1: 50,
+        UnbalancedBigSmall2: 51,
+        UnbalancedBigSmall3: 54,
+        UnbalancedBigSmall4: 55
     },
     GameInfos: {
+        50: {
+            key: "UnbalancedBigSmall1",
+            route: "unbalancedbigsmall",
+            mini: true
+        },
         47: {
             key: "TreasureIsland",
             remote: true
@@ -203,7 +209,7 @@ const configs = {
             key: "MegaKeno2",
             route: "minikeno",
             mini: true
-        },
+        }
     },
     desktopMiniGameScale: 0.8
 };
