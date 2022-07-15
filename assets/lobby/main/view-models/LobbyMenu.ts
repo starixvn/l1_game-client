@@ -182,11 +182,17 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     private createIconNode(gameId: number, prefab: cc.Prefab) {
-        let convertedId;
-        if (gameId === 12) {
-            convertedId = gameId = 11;
-        } else {
-            convertedId = gameId;
+        let convertedId: number | string;
+        switch (gameId) {
+            case 12:
+                convertedId = gameId = 11;
+                break;
+            case 48:
+                convertedId = "48_break";
+                break;
+            default:
+                convertedId = gameId;
+                break;
         }
 
         const gameName = i18n.t(`gameNames.${convertedId}`).toUpperCase();
