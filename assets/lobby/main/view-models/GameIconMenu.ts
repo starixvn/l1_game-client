@@ -12,6 +12,7 @@ export default abstract class GameIconMenu extends BaseComponent {
 
     public miniPanel: MiniPanel;
     private initialized = false;
+    private loadingGameIds: number[];
 
     onLoad() {
         if (this.content) {
@@ -26,13 +27,21 @@ export default abstract class GameIconMenu extends BaseComponent {
 
     async initItems() {
         const gameIds = this.getList();
-        const prefabs = await this.loadPrefabs(gameIds);
 
-        if (!prefabs) {
-            return;
+        this.loadingGameIds = gameIds;
+
+        for (const id of gameIds) {
+            const prefab = await this.loadPrefab(id);
+            if (this.loadingGameIds !== gameIds) {
+                this.content.destroyAllChildren();
+                return;
+            }
+
+            const node = this.addItem(id, prefab);
+            if (node) {
+                node.on("click", this.itemPressed.bind(this, id));
+            }
         }
-
-        this.createGameIcons(gameIds, prefabs);
 
         if (!this.isAlive() || this.initialized) {
             return;
@@ -41,18 +50,8 @@ export default abstract class GameIconMenu extends BaseComponent {
         this.onInitialized();
     }
 
-    abstract loadPrefabs(gameIds: [number]): Promise<object>;
     abstract loadPrefab(gameId: number): Promise<cc.Prefab>;
     abstract addItem(id: number, prefab: cc.Prefab): cc.Node;
-
-    createGameIcons(gameIds, prefabs) {
-        gameIds.forEach((id) => {
-            const node = prefabs[id] && this.addItem(id, prefabs[id]);
-            if (node) {
-                node.on("click", this.itemPressed.bind(this, id));
-            }
-        });
-    }
 
     onInitialized() {}
 

@@ -30,7 +30,6 @@ export default class LobbyMenu extends GameIconMenu {
         //initializedCallback
     };
     currentCategory = -1;
-    loadingGameIds: number[];
 
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
@@ -150,22 +149,6 @@ export default class LobbyMenu extends GameIconMenu {
     getItemSize(id: number): cc.Vec2 {
         const detail = this.lobbyMenuConfig.detail;
         return detail[id]?.size || cc.v2(1, 1);
-    }
-
-    async loadPrefabs(gameIds: number[]): Promise<object> {
-        const prefabs = {};
-        this.loadingGameIds = gameIds;
-
-        for (const id of gameIds) {
-            const prefab = await this.loadPrefab(id);
-            if (this.loadingGameIds !== gameIds) {
-                return null;
-            }
-
-            prefabs[id] = prefab;
-        }
-
-        return prefabs;
     }
 
     addItem(id: number, prefab: cc.Prefab): cc.Node {
