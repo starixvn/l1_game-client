@@ -6,7 +6,7 @@ import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GameIconMenu extends BaseComponent {
+export default abstract class GameIconMenu extends BaseComponent {
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -26,12 +26,13 @@ export default class GameIconMenu extends BaseComponent {
 
     async initItems() {
         const gameIds = this.getList();
-        for (const id of gameIds) {
-            const node = await this.addItem(id);
-            if (node) {
-                node.on("click", this.itemPressed.bind(this, id));
-            }
+        const prefabs = await this.loadPrefabs(gameIds);
+
+        if (!prefabs) {
+            return;
         }
+
+        this.createGameIcons(gameIds, prefabs);
 
         if (!this.isAlive() || this.initialized) {
             return;
@@ -40,11 +41,20 @@ export default class GameIconMenu extends BaseComponent {
         this.onInitialized();
     }
 
-    onInitialized() {}
+    abstract loadPrefabs(gameIds: [number]): Promise<object>;
+    abstract loadPrefab(gameId: number): Promise<cc.Prefab>;
+    abstract addItem(id: number, prefab: cc.Prefab): cc.Node;
 
-    async addItem(id: number): Promise<cc.Node> {
-        return null;
+    createGameIcons(gameIds, prefabs) {
+        gameIds.forEach((id) => {
+            const node = prefabs[id] && this.addItem(id, prefabs[id]);
+            if (node) {
+                node.on("click", this.itemPressed.bind(this, id));
+            }
+        });
     }
+
+    onInitialized() {}
 
     itemPressed(id: number) {
         AudioManager.getInstance().playClick();

@@ -21,8 +21,20 @@ export default class CircleMenu extends GameIconMenu {
         return list.filter((i) => i === 0 || cc.RedT.user.offerGames.some((j) => j === i));
     }
 
-    async addItem(id: number): Promise<cc.Node> {
-        const prefab = await GameUtils.loadResource(`minipanel/games/${id}`);
+    async loadPrefabs(gameIds: number[]): Promise<object> {
+        const prefabs = {};
+        for (const id of gameIds) {
+            prefabs[id] = await this.loadPrefab(id);
+        }
+
+        return prefabs;
+    }
+
+    loadPrefab(gameId: number): Promise<cc.Prefab> {
+        return GameUtils.loadResource(`minipanel/games/${gameId}`);
+    }
+
+    addItem(id: number, prefab: cc.Prefab): cc.Node {
         const node = cc.instantiate(prefab);
         node.scale = 0.68;
         this.content.addChild(node);

@@ -83,7 +83,6 @@ export default class MainGame extends cc.Component {
     private lobbyMenu: LobbyMenu;
     private miniPanel: MiniPanel;
     signName: any;
-    private miniPanel: MiniPanel;
 
     onDestroy() {
         cc.RedT.MiniPanel = null;

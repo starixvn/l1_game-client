@@ -29,7 +29,8 @@ export default class LobbyMenu extends GameIconMenu {
     public initializedCallback = () => {
         //initializedCallback
     };
-    currentCategory = GameCategory.All;
+    currentCategory = -1;
+    loadingGameIds: number[];
 
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
@@ -151,8 +152,24 @@ export default class LobbyMenu extends GameIconMenu {
         return detail[id]?.size || cc.v2(1, 1);
     }
 
-    async addItem(id: number): Promise<cc.Node> {
-        const iconNode = await this.createIconNode(id);
+    async loadPrefabs(gameIds: number[]): Promise<object> {
+        const prefabs = {};
+        this.loadingGameIds = gameIds;
+
+        for (const id of gameIds) {
+            const prefab = await this.loadPrefab(id);
+            if (this.loadingGameIds !== gameIds) {
+                return null;
+            }
+
+            prefabs[id] = prefab;
+        }
+
+        return prefabs;
+    }
+
+    addItem(id: number, prefab: cc.Prefab): cc.Node {
+        const iconNode = this.createIconNode(id, prefab);
 
         const size = this.getItemSize(id);
         if (!this.isAlive()) {
@@ -173,13 +190,15 @@ export default class LobbyMenu extends GameIconMenu {
         return iconNode;
     }
 
-    private async createIconNode(gameId: number) {
+    loadPrefab(gameId: number): Promise<cc.Prefab> {
         const skeletonIconPath = this.lobbyMenuConfig.iconBigSize.includes(gameId)
             ? `lobby/games/skeleton-icon/icon-big`
             : `lobby/games/skeleton-icon/icon-small`;
 
-        const prefab = await GameUtils.loadResource(skeletonIconPath);
+        return GameUtils.loadResource(skeletonIconPath);
+    }
 
+    private createIconNode(gameId: number, prefab: cc.Prefab) {
         let convertedId;
         if (gameId === 12) {
             convertedId = gameId = 11;
@@ -258,6 +277,9 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     setCategory(category: number, isUpdateIcons = true) {
+        if (this.currentCategory === category) {
+            return;
+        }
         this.currentCategory = category;
         this.saveCategory();
         !!isUpdateIcons && this.updateIcons();
