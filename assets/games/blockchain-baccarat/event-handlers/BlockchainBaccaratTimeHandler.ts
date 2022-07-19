@@ -1,6 +1,6 @@
 import { TimeShowAnim } from "./../view-models/card-shuffle/BlockchainBaccaratCardsShuffle";
 import { Blockchain } from "./../event-models/BlockchainBaccaratCardListModel";
-import { clearPercentBet } from "./../actions/BlockchainBaccaratTotalBetAction";
+import { clearPercentBet } from "../actions/BlockchainBaccaratBetPercentageAction";
 import BlockchainBaccarat from "../view-models/BlockchainBaccarat";
 import BlockchainBaccaratBetItem from "../view-models/BlockchainBaccaratBetItem";
 import BaccaratTimeDataBaseHandler from "../../_baccarat/data-handler/BaccaratTimeDataBaseHandler";

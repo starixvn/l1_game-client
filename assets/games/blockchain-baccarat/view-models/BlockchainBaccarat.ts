@@ -1,8 +1,8 @@
 import { BlockchainBaccaratTimeHandler, BlockchainBaccaratBetHandler } from "../event-handlers/BlockchainBaccaratHandler";
 import * as blockchainAction from "../actions/BlockchainBaccaratActions";
 import {
+    BlockchainBaccaratBetPercentageModel,
     BlockchainBaccaratConfigsModel,
-    BlockchainBaccaratTotalBetModel,
     BlockchainBaccaratRoundHistoryModel,
     BlockchainBaccaratFinishModel,
     BlockchainBaccaratCardListModel,
@@ -73,7 +73,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         super.onLoad();
         this.registerRoundHistoryEvents();
         this.registerGameConfigEvents();
-        this.registerTotalBetEvents();
+        this.registerBetPercentageEvents();
         this.registerCardListEvents();
         this.initCardList();
         this.initCardVerification();
@@ -140,8 +140,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         });
     }
 
-    private registerTotalBetEvents() {
-        this.gameData.totalBet.on(BlockchainBaccaratTotalBetModel.Events.CHANGE, (totalBet) => {
+    private registerBetPercentageEvents() {
+        this.gameData.betPercentage.on(BlockchainBaccaratBetPercentageModel.Events.CHANGE, (totalBet) => {
             blockchainAction.handlePercentBet(this.betItems as BlockchainBaccaratBetItem[], this.timeHandler.isInRoundTime)(totalBet);
         });
     }

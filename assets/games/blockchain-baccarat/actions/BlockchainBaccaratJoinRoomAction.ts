@@ -4,7 +4,7 @@ import BlockchainBetOptionsUI from "../view-models/BlockchainBetOptionsUI";
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
 import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
 import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
-import { BlockchainBaccaratCardListModel, BlockchainBaccaratRoundHistory, Blockchain } from "../event-models/BlockchainBaccaratModel";
+import { BlockchainBaccaratCardListModel, BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratModel";
 
 export const updateWinning =
     (

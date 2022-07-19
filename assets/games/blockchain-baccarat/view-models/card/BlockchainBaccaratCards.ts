@@ -71,6 +71,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.cards.forEach((card, index) => {
             this.clonePositionCards[index] = card.position;
         });
+        this.onHidden();
         this.resetAllDataTween();
     };
 
@@ -78,7 +79,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.resetActions();
         this.cards.forEach((cardNode: cc.Node, index) => {
             const cardComponent: BlockchainCard = cardNode.getComponentInChildren(BlockchainCard);
-            this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
+            cardComponent && this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
         });
     }
 
@@ -248,33 +249,40 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.cardsRunActionFly.push(card);
     }
 
-    dropCards(durationJumpToBoxCard: number, duration: number): Promise<void> {
+    dropCards(durationJumpToBoxCard: number, duration: number) {
         this.resetPoint();
+        const promises = [];
+        this.cards.forEach((cardNode: cc.Node, index) => {
+            promises.push(this.actionDropCard(cardNode, index, durationJumpToBoxCard, duration));
+        });
+
+        return promises;
+    }
+
+    private actionDropCard(cardNode: cc.Node, cardIndex: number, durationJumpToBoxCard: number, duration: number) {
+        const worldPosition = this.cardsDrop.convertToWorldSpaceAR(cc.v2(0, 0));
+        const destPosition = cardNode.parent.convertToNodeSpaceAR(worldPosition);
+        const cardComponent: BlockchainCard = cardNode.getComponentInChildren(BlockchainCard);
+        cardComponent.setStatusInfoTag(false);
+        cardComponent.resetHighlight();
         return new Promise<void>((resolve) => {
-            const worldPosition = this.cardsDrop.convertToWorldSpaceAR(cc.v2(0, 0));
-            this.cards.forEach((cardNode: cc.Node, index) => {
-                const destPosition = this.cards[index].parent.convertToNodeSpaceAR(worldPosition);
-                const cardComponent: BlockchainCard = cardNode.getComponentInChildren(BlockchainCard);
-                cardComponent.setStatusInfoTag(false);
-                cardComponent.resetHighlight();
-                const dropTween = cc
-                    .tween(cardNode)
-                    .to(0.3, { position: cc.v2(0, 0) })
-                    .call(() => {
-                        cardComponent.playAnimation(CardAnimation.DropCard, 0.4);
-                    })
-                    .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
-                    .call(() => {
-                        this.resetCard(cardNode);
-                    })
-                    .delay(duration)
-                    .call(() => {
-                        resolve();
-                        this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
-                    })
-                    .start();
-                this.dropCardsTween.push(dropTween);
-            });
+            const dropTween = cc
+                .tween(cardNode)
+                .to(0.3, { position: cc.v2(0, 0) })
+                .call(() => {
+                    cardComponent.playAnimation(CardAnimation.DropCard, 0.4);
+                })
+                .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
+                .call(() => {
+                    this.resetCard(cardNode);
+                })
+                .delay(duration)
+                .call(() => {
+                    resolve();
+                    this.setPositionCardsAfterDrop(cardComponent, cardNode, cardIndex);
+                })
+                .start();
+            this.dropCardsTween.push(dropTween);
         });
     }
 

@@ -120,9 +120,11 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     public async collectCardsOnTable() {
         this.burnContainer?.handleDropCards();
         await Promise.all([
-            this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
-            this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
-        ]);
+            ...this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
+            ...this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
+        ]).catch(() => {
+            // handle
+        });
     }
 
     async flyCard3(playerHasCard3: boolean, isFlyCard3Player: boolean, delay: number) {
