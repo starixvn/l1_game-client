@@ -211,6 +211,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                 const destPosition = card.parent.convertToNodeSpaceAR(worldPosition);
                 const cardComponent: BlockchainCard = card.getComponent(BlockchainCard);
                 cardComponent.setStatusInfoTag(false);
+
                 const dropTween = cc
                     .tween(card)
                     .call(() => {
@@ -220,6 +221,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                     .call(() => {
                         card.opacity = 0;
                         card.angle = -135;
+                        card.active = false;
                     })
                     .delay(duration)
                     .call(() => {

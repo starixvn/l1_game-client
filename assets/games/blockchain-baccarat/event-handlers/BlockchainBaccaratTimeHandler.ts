@@ -105,6 +105,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
 
     handleShowShuffleCards(blockchainData: Blockchain, timeRemaining: number) {
         if (blockchainData) {
+            const isNew = blockchainData?.isNew ?? false;
             this.isShowShoe = true;
             this.isResetUI = true;
             this.main.resetDataAndUI();
@@ -115,14 +116,14 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
             const cardContainer = this.main.cardsUI;
             blockchainData?.isNew && (blockchainData.isNew = false);
 
-            cardContainer.handleShuffleCards(blockchainData, timeRemaining, this.checkIsShowAnim(timeRemaining), () => {
+            cardContainer.handleShuffleCards(blockchainData, timeRemaining, this.checkIsShowAnim(timeRemaining, isNew), () => {
                 this.main.handleShowGameId(false);
             });
         }
     }
 
-    checkIsShowAnim(timeRemaining: number) {
-        if (timeRemaining >= TimeShowAnim.full || timeRemaining >= TimeShowAnim.burnCard) {
+    checkIsShowAnim(timeRemaining: number, isNewBlockChain: boolean) {
+        if ((timeRemaining >= TimeShowAnim.full || timeRemaining >= TimeShowAnim.burnCard) && !isNewBlockChain) {
             return true;
         }
         return false;

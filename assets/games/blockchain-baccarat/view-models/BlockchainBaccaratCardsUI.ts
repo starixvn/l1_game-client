@@ -192,7 +192,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         });
     }
 
-    async handleShuffleCards(data: Blockchain, duration: number, isAnim = true, handleGameId: () => void) {
+    async handleShuffleCards(data: Blockchain, duration: number, isAnim: boolean, handleGameId: () => void) {
         if (isAnim) {
             await this.collectCardsOnTable();
         } else {
