@@ -144,7 +144,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     };
     newGames = {
         SC1: [GameIds.TreasureIsland],
-        SC2: []
+        SC2: [GameIds.TreasureIsland]
     };
     iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub, GameIds.TreasureIsland];
     customGameIconBySystem = [GameIds.FourGuardians];
