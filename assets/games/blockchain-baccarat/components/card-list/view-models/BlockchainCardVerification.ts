@@ -66,6 +66,9 @@ export default class BlockchainCardVerification extends cc.Component {
     }
 
     renderDataCardVerification(blockchainCard: BlockchainCardModel, index: number, autoRender = false) {
+        if (this.serialNumber.isFaceUpCard && this.privateKey.isFaceUpCard) {
+            return;
+        }
         this.renderTextNote();
         this.enableEqualTag(false);
         this.renderVerifiedSerialNumber();
@@ -182,6 +185,7 @@ export default class BlockchainCardVerification extends cc.Component {
 
     onClickChangeCard(event: any, customEventData: string) {
         this.closeDialog();
+        this.faceDownCard();
         const values = {
             serial: CardVerificationState.serialChange,
             private: CardVerificationState.privateChange
@@ -203,6 +207,7 @@ export default class BlockchainCardVerification extends cc.Component {
     onClose() {
         this.resetState();
         this.closeDialog();
+        this.faceDownCard();
         emitEvent(BlockchainBaccaratEvents.RESET_CARD_SELECTED);
     }
 
@@ -210,6 +215,11 @@ export default class BlockchainCardVerification extends cc.Component {
         if (this.commonDialog) {
             this.commonDialog.closeDialog();
         }
+    }
+
+    faceDownCard() {
+        this.serialNumber.setFaceDownCard();
+        this.privateKey.setFaceDownCard();
     }
 
     resetState() {
