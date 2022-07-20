@@ -1,4 +1,5 @@
 const _ = window.modules.lodash;
+import AudioManager from "../../../../../common/audio/AudioManager";
 import { BasicHistoryData } from "../../../../_base/view-models/BasicHistoryBoard";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratModel";
 const { ccclass, property } = cc._decorator;
@@ -88,6 +89,7 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
     }
 
     changeMode() {
+        AudioManager.getInstance().playClick();
         this.isSymbolMode = !this.isSymbolMode;
         this.dots.forEach((dot) => {
             if (dot.childrenCount > 0) {

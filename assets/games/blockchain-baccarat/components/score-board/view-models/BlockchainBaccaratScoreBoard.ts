@@ -3,6 +3,8 @@ import BlockchainBaccaratBeadRoad from "./BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "./BlockchainBaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboard from "./BlockchainBaccaratDerivedScoreboard";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
+import AudioManager from "../../../../../common/audio/AudioManager";
+const scoreBoard = window.modules.scoreBoard;
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -45,7 +47,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     };
 
     protected onLoad(): void {
-        this.derivedScoreBoardController = new window.modules.scoreBoard.DerivedScoreboards({ height: 6 });
+        this.derivedScoreBoardController = new scoreBoard.DerivedScoreboards({ height: 6 });
     }
 
     protected start(): void {
@@ -150,6 +152,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     }
 
     zoom(event: any, mode: string) {
+        AudioManager.getInstance().playClick();
         switch (mode) {
             case this.zoomModes.normal:
                 this.node.getChildByName(this.zoomModes.normal).active = true;

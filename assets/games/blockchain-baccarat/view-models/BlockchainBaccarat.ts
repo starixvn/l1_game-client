@@ -25,6 +25,7 @@ import MD5Component from "../../_base/view-models/MD5Component";
 import BlockchainCardList from "../components/card-list/view-models/BlockchainCardList";
 import BlockchainCardVerification from "../components/card-list/view-models/BlockchainCardVerification";
 import { consumeEvent, BlockchainBaccaratEvents } from "./BlockchainBaccaratEvents";
+import TutorialMain from "../../../common/tutorial/TutorialMain";
 
 const { ccclass, property } = cc._decorator;
 
@@ -49,6 +50,9 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     // hide node on node tree
     @property({ type: MD5Component, override: true, visible: false })
     musicBg: cc.AudioSource = null;
+
+    @property(cc.Prefab)
+    flashGuidePrefab: cc.Prefab = null;
 
     public gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
@@ -120,6 +124,33 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
     }
 
+    initFlashGuide() {
+        const storageKey = "blockchain_baccarat_flash_guide";
+        const storage = cc.sys.localStorage.getItem(storageKey);
+        const data = storage
+            ? JSON.parse(storage)
+            : {
+                  enabled: true
+              };
+        if (!data.enabled || !this.flashGuidePrefab) {
+            return;
+        }
+        this.openFlashGuide();
+    }
+
+    openFlashGuide() {
+        this.playClick();
+        const storageKey = "blockchain_baccarat_flash_guide";
+        const node = cc.instantiate(this.flashGuidePrefab);
+        this.currentMiniPanel.addDialog(node);
+        const tutorialMain = node.getComponent(TutorialMain);
+        tutorialMain.setTimeConfig([]);
+        tutorialMain.endSlideCallBack = () => {
+            cc.sys.localStorage.setItem(storageKey, JSON.stringify({ enabled: false }));
+        };
+        tutorialMain.show();
+    }
+
     private openCardList() {
         this.playClick();
         this.cardList.node.active = true;
@@ -154,6 +185,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData.roundHistory.on(
             BlockchainBaccaratRoundHistoryModel.Events.CHANGE,
             (roundHistory: BlockchainBaccaratRoundHistory[]) => {
+                this.initFlashGuide();
                 blockchainAction.updateWinning(
                     this.betOptionsUI,
                     this.cardsUI,
