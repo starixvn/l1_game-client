@@ -18,6 +18,6 @@ export default class SplashConfig extends System implements ICreditSystem, ICash
 
     customizeCash(): void {
         this.enabledSC1 = false;
-        this.customPath = SystemType.SC1;
+        this.customPath = SystemType.SC2;
     }
 }
