@@ -71,7 +71,7 @@ export default class SocketIOController {
             gameId
         } = option;
         const socketOptions: Partial<ManagerOptions & SocketOptions> = {
-            forceNew: forceNew,
+            forceNew,
             transports: ["websocket"],
             upgrade: false,
             path: proxyRoute

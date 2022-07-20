@@ -91,6 +91,12 @@ export default class GameUtils {
         cc.sys.localStorage.setItem(`UserSetting_game_${gameId}`, JSON.stringify(data));
     }
 
+    static setSubGameSetting(gameId, key, subData) {
+        const data = GameUtils.getGameSetting(gameId);
+        data[key] = subData;
+        GameUtils.setGameSetting(gameId, data);
+    }
+
     static getGameSetting(gameId) {
         const storage = cc.sys.localStorage.getItem(`UserSetting_game_${gameId}`);
         if (!storage || !storage.length) {

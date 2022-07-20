@@ -5,6 +5,7 @@ import MiniGameBase from "../view-models/MiniGameBase";
 export const startGameLoop = (game: MiniGameBase) => () => {
     const gameData = game.gameData;
     const gameLoop = () => gameData.durations.countdown();
+    GameDataManager.getInstance().clearGameLoop(game.gameId);
     GameDataManager.getInstance().startGameLoop(game.gameId, gameLoop);
     if (gameData.durations.isWaiting() && !gameData.settlement.settlement) {
         const settlement = gameData.roundHistory.roundHistory[0];
@@ -12,6 +13,10 @@ export const startGameLoop = (game: MiniGameBase) => () => {
             gameData.settlement.finishShowResult(settlement);
         }
     }
+};
+
+export const stopGameLoop = (game: MiniGameBase) => () => {
+    GameDataManager.getInstance().clearGameLoop(game.gameId);
 };
 
 export const updateTimeOut = (game: MiniGameBase) => () => {
@@ -48,3 +53,11 @@ export const updateWaiting =
 
         game.setWaitingTimeLabel(numberPad(remaining, 2));
     };
+
+export const changeRoundId_BEGIN_PLACING_BET = (game: MiniGameBase) => () => {
+    game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId + 1);
+};
+
+export const changeRoundId_BEGIN_WAITING = (game: MiniGameBase) => () => {
+    game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId);
+};

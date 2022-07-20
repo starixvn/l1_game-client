@@ -1,16 +1,17 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { GameIds } from "../../../configs/SabaConfigs";
-import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
 import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
 import BigSmallDicesStatistic from "../../bigsmall/view-models/BigSmallDicesStatistic";
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
+import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
+import { unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class UnbalancedBigSmall extends MiniGameBase {
+export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property({ type: cc.Sprite })
     dices: cc.Sprite[] = [];
 
@@ -35,9 +36,16 @@ export default class UnbalancedBigSmall extends MiniGameBase {
     @property(cc.Node)
     bgTimer: cc.Node = null;
 
+    public isMiniGameInContainer = true;
+
     constructor() {
         super();
         this.gameId = GameIds.UnbalancedBigSmall1;
+    }
+
+    setGameId(gameId: number) {
+        this.gameId = gameId;
+        this.config = unbalancedBigSmallConfigs[gameId];
     }
 
     config = new BigSmallConfigs();

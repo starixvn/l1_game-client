@@ -5,7 +5,6 @@ import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
 import UserService from "../../common/auth/UserService";
-import BaseComponent from "../../common/BaseComponent";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../common/GameUtils";
 import InGameMenu, { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
@@ -14,8 +13,8 @@ import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
-import { GameInfos } from "../../configs/SabaConfigs";
 import { GameState } from "./GameState";
+import GameViewBase from "./GameViewBase";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
@@ -35,7 +34,7 @@ import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class GameBase extends BaseComponent {
+export default class GameBase extends GameViewBase {
     @property({ type: BetItem })
     betItems: BetItem[] = [];
 
@@ -108,17 +107,7 @@ export default class GameBase extends BaseComponent {
 
     userProfile: UserProfile;
 
-    protected _gameId: number;
     protected historyComponent: SocketIOGameHistoryBase;
-
-    public set gameId(value: number) {
-        this._gameId = value;
-        this.gameName = GameInfos[value].key;
-    }
-
-    public get gameId(): number {
-        return this._gameId;
-    }
 
     public gameState = GameState.None;
     public get isStopGame() {
@@ -130,7 +119,6 @@ export default class GameBase extends BaseComponent {
     public waitingProcessing = false;
     public currentTimeRemaining: number;
     public config: GameConfigBase;
-    public gameName: string;
     public currentDataLogs = [];
     public roundId = -1;
     public gameConfigs: any;

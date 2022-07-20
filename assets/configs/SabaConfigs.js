@@ -49,6 +49,21 @@ const configs = {
             route: "unbalancedbigsmall",
             mini: true
         },
+        51: {
+            key: "UnbalancedBigSmall2",
+            route: "unbalancedbigsmall",
+            mini: true
+        },
+        54: {
+            key: "UnbalancedBigSmall3",
+            route: "unbalancedbigsmall",
+            mini: true
+        },
+        55: {
+            key: "UnbalancedBigSmall4",
+            route: "unbalancedbigsmall",
+            mini: true
+        },
         47: {
             key: "TreasureIsland",
             remote: true

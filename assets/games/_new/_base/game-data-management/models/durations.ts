@@ -25,7 +25,8 @@ export class Durations extends EventEmitterBase {
         BEGIN_WAITING: "beginWaiting",
         BEGIN_PLACING_BET: "beginPlacingBet",
         TIMEOUT: "TIMEOUT",
-        START_GAME_LOOP: "startGameLoop"
+        START_GAME_LOOP: "startGameLoop",
+        STOP_GAME_LOOP: "stopGameLoop"
     };
 
     private _remaining: number;
@@ -58,6 +59,10 @@ export class Durations extends EventEmitterBase {
 
     start() {
         this.emit(Durations.Events.START_GAME_LOOP);
+    }
+
+    stop() {
+        this.emit(Durations.Events.STOP_GAME_LOOP);
     }
 
     set remaining(value: number) {
