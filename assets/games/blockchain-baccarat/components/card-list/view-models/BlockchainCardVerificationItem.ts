@@ -126,9 +126,7 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         cardComponent.setInfoTag();
         cardComponent.setShadow();
         cardComponent.resetIndexNumber();
-        cardComponent.openCardVerification = () => {
-            emitEvent(BlockchainBaccaratEvents.HIDE_TOOLTIPS);
-        };
+        cardComponent.openCardVerification = () => {};
         return node;
     }
 }

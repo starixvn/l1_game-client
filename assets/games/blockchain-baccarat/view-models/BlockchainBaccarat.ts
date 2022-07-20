@@ -262,10 +262,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                 params["index"]
             );
         });
-
-        consumeEvent(BlockchainBaccaratEvents.HIDE_TOOLTIPS, () => {
-            this.cardVerification.onHideTooltips();
-        });
     }
 
     handleShowGameId(status: boolean) {

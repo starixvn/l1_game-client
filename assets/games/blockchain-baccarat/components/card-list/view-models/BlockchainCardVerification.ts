@@ -197,7 +197,7 @@ export default class BlockchainCardVerification extends cc.Component {
         this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
             emitEvent(BlockchainBaccaratEvents.CHANGE_CARD, { index: index });
-        }, 500);
+        }, 600);
     }
 
     onClose() {
