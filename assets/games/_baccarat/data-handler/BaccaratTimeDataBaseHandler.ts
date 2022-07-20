@@ -20,6 +20,13 @@ export default abstract class BaccaratTimeDataBaseHandler extends GameBaseTimeHa
         return this.main.currentTimeRemaining < this.main.config.minBetTime;
     }
 
+    get isClearBet() {
+        return (
+            this.main.currentTimeRemaining >= this.main.config.betTime &&
+            this.main.currentTimeRemaining < this.main.config.betTime + this.dealCardsTime
+        );
+    }
+
     protected getOwnMain(): any {
         return this.main as SocketIOTableGameBase;
     }
@@ -36,6 +43,9 @@ export default abstract class BaccaratTimeDataBaseHandler extends GameBaseTimeHa
     handleNotWaitTime() {
         if (this.isStartingNewGameRound) {
             this.handleStartingNewGameRound();
+        }
+        if (this.isClearBet) {
+            this.main.resetDataAndUI();
         }
 
         if (this.isInRoundTime) {
