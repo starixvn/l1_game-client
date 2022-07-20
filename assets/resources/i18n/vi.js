@@ -614,7 +614,7 @@ window.i18n.languages.vi = {
         guide2Step2: "Khối sau lưu giữ thông tin khối trước",
         guide2Step3: "Không thể thay đổi dữ liệu",
         guide2Step4: "Bảo mật với công nghệ mã hóa SHA-256",
-        guide3Title: "Áp dụng blockchain vào baccrat",
+        guide3Title: "Áp dụng blockchain vào baccarat",
         guide3Key1: "<color=#ff6060>Khóa bảo mật</c>\n<color=#08ef95>Số Seri lá bài 001</color>",
         guide3Key2:
             "<color=#ff6060>Khóa bảo mật:</c> {Giá trị bài}_{Thời gian}_{<color=#08ef95>Số Seri lá bài 001</color>}_{UUID}\n<color=#08ef95>Số Seri lá bài 002</color>",
