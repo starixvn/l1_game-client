@@ -37,8 +37,26 @@
       "container/header/arrow": {
         "comps": {},
         "props": {
-          "x": [],
-          "opacity": []
+          "x": [
+            {
+              "frame": 0,
+              "value": -400
+            },
+            {
+              "frame": 0.5,
+              "value": -350
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 0.5,
+              "value": 255
+            }
+          ]
         }
       },
       "container/header/header1": {
@@ -47,11 +65,11 @@
           "y": [
             {
               "frame": 0.6666666666666666,
-              "value": 227.293
+              "value": 256
             },
             {
               "frame": 1.1666666666666667,
-              "value": 197.293
+              "value": 226
             }
           ],
           "opacity": [

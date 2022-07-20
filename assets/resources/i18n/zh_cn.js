@@ -584,7 +584,7 @@ window.i18n.languages.zh_cn = {
         player_win: "闲家赢",
         tie_win: "平局",
         guide1Header1:
-            "<color=#00FFF6>BRING THE </c><color=#FFF000>FAIRNESS GUARANTEES</color><color=#00FFF6> - THE NEW BREAKTHROUGH WITH </c><color=#FFF000>BLOCKCHAIN TECHNOLOGY</color>",
+            "<color=#00FFF6>BRING THE </c><color=#FFF000>FAIRNESS GUARANTEES</color><color=#00FFF6>\nTHE NEW BREAKTHROUGH WITH </c><color=#FFF000>BLOCKCHAIN TECHNOLOGY</color>",
         guide1Header2: "",
         guide1Content:
             "- Higher level of security with new cryptography techniques.\n\n- All cards are encrypted and made public as the Serial number on each card before the game starts.\n\n- Cannot change the card values and the order of cards after being encrypted.\n\n- Easily verify the card and transparency of the results at any time.",
