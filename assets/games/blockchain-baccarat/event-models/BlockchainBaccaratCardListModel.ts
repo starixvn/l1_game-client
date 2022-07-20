@@ -1,6 +1,6 @@
-import { cloneDeep } from "lodash";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { BlockchainCardModel } from "../BlockchainBaccaratType";
+const lodash = window.modules.lodash;
 
 export type Blockchain = {
     burnedCards: number;
@@ -42,7 +42,7 @@ export class BlockchainBaccaratCardListModel extends EventEmitterBase {
     change(blockchain: Blockchain) {
         const currentIndex = blockchain.currentIndex;
         this.blockchain = blockchain;
-        this.mainBlockChain = cloneDeep(blockchain);
+        this.mainBlockChain = lodash.cloneDeep(blockchain);
         this.currentIndex = currentIndex;
         this.emit(BlockchainBaccaratCardListModel.Events.CHANGE, blockchain);
     }
