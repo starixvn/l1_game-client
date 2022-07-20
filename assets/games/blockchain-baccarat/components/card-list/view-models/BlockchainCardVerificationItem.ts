@@ -44,7 +44,6 @@ export default class BlockchainCardVerificationItem extends cc.Component {
 
     private textCopy: string = null;
     private readonly color = cc.Color.WHITE;
-    public isFaceUpCard = false;
 
     resetHighLight() {
         this.highlightSuccess.active = this.highlightFailed.active = false;
@@ -124,7 +123,6 @@ export default class BlockchainCardVerificationItem extends cc.Component {
         });
 
         !!card ? cardComponent.setFaceUp(isFaceUp) : cardComponent.setFaceUp(!isFaceUp);
-        this.isFaceUpCard = !!card;
         cardComponent.setInfoTag();
         cardComponent.setShadow();
         cardComponent.resetIndexNumber();
@@ -132,9 +130,5 @@ export default class BlockchainCardVerificationItem extends cc.Component {
             emitEvent(BlockchainBaccaratEvents.HIDE_TOOLTIPS);
         };
         return node;
-    }
-
-    setFaceDownCard() {
-        this.isFaceUpCard = false;
     }
 }

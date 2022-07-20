@@ -300,6 +300,8 @@ export default class BlockchainBaccaratCards extends cc.Component {
         await this.faceUpCard(cardData, card);
 
         emitEvent(BlockchainBaccaratEvents.FLIPPED_CARD, { index: index });
+
+        emitEvent(BlockchainBaccaratEvents.OPENED_CARD, { index: index });
     }
 
     private faceUpCard(cardInfo: CardModel, card: cc.Node): Promise<void> {

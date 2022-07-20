@@ -28,8 +28,6 @@ export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFini
         await cardsUI.bankerCards.openCards(cardsUI.bankerCards.cards[CardsOrder.card3], result.banker.card3, cardsIndex[5]);
     }
 
-    cardsIndex.forEach((index) => emitEvent(BlockchainBaccaratEvents.FLIPPED_CARD, { index: index }));
-
     callback();
     showHighlightCards(cardsUI, dataFinish.settlementResult);
 };

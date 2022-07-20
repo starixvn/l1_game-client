@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { BlockchainCardModel } from "../BlockchainBaccaratType";
 
@@ -20,6 +21,7 @@ export class BlockchainBaccaratCardListModel extends EventEmitterBase {
     private _numberCardsFly = 6;
     blockchain: Blockchain;
     newBlockchain: Blockchain;
+    mainBlockChain: Blockchain;
 
     set currentIndex(index: number) {
         this._currentIndex = index;
@@ -40,8 +42,13 @@ export class BlockchainBaccaratCardListModel extends EventEmitterBase {
     change(blockchain: Blockchain) {
         const currentIndex = blockchain.currentIndex;
         this.blockchain = blockchain;
+        this.mainBlockChain = cloneDeep(blockchain);
         this.currentIndex = currentIndex;
         this.emit(BlockchainBaccaratCardListModel.Events.CHANGE, blockchain);
+    }
+
+    updateMainBlockchain(blockchainCardModel: BlockchainCardModel, index: number) {
+        this.mainBlockChain.chain[index] = blockchainCardModel;
     }
 
     changeCurrentIndexJoinRoom(currentIndex: number) {

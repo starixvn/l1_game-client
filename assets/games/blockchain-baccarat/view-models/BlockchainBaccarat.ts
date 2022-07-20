@@ -210,7 +210,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
         consumeEvent(BlockchainBaccaratEvents.OPEN_VERIFICATION, (params) => {
             const index = params["index"];
-            this.cardList.initCardVerification(this.gameData.cardList.blockchain.chain[index], index);
+            this.cardList.initCardVerification(this.gameData.cardList.mainBlockChain.chain[index], index);
         });
 
         consumeEvent(BlockchainBaccaratEvents.RESET_CARD_SELECTED, () => {
@@ -222,6 +222,13 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                 this.cardVerification,
                 this.gameData.finishModel.finishData?.blockchain
             )(params["index"]);
+        });
+
+        consumeEvent(BlockchainBaccaratEvents.OPENED_CARD, (params) => {
+            blockchainAction.updateMainBlockchain(this.gameData.cardList)(
+                this.gameData.finishModel.finishData?.blockchain,
+                params["index"]
+            );
         });
 
         consumeEvent(BlockchainBaccaratEvents.HIDE_TOOLTIPS, () => {
