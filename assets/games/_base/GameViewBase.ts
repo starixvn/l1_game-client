@@ -18,6 +18,16 @@ export default class GameViewBase extends BaseComponent {
         return this._gameId;
     }
 
+    onLoad() {
+        cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
+        cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
+    }
+
+    onDestroy() {
+        cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
+        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
+    }
+
     initMiniPanel(miniPanel: MiniPanel) {
         this.currentMiniPanel = miniPanel;
     }
@@ -26,5 +36,15 @@ export default class GameViewBase extends BaseComponent {
         this.node.active = true;
     }
 
-    onSignIn() {}
+    onSignIn() {
+        //empty
+    }
+
+    protected onGameHide() {
+        //empty
+    }
+
+    protected onGameShow() {
+        //empty
+    }
 }

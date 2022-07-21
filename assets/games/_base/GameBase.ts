@@ -159,13 +159,12 @@ export default class GameBase extends GameViewBase {
     }
 
     onLoad() {
+        super.onLoad();
         this.setUpHandlers();
         this.initBetChips();
         this.initGameAudios();
         this.setGameRound(0);
         this.resetDataAndUI();
-        cc.game.on(cc.game.EVENT_HIDE, this.onGameHide, this);
-        cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
     setUpHandlers() {
@@ -182,11 +181,6 @@ export default class GameBase extends GameViewBase {
             this.finishHandler,
             this.md5Handler
         );
-    }
-
-    onDestroy() {
-        cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
-        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
     onEnable() {

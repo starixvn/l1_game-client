@@ -51,6 +51,8 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     config = new BigSmallConfigs();
     miniRoundHistory: BigSmallMiniRoundHistory;
     statistic: BigSmallDicesStatistic;
+    readonly shakingDuration = 2;
+    readonly showResultDuration = 1;
 
     initGameDataEvents() {
         super.initGameDataEvents();
@@ -64,8 +66,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             cc.tween(this.bgTimer).to(0.3, { opacity: 255 }).start();
         });
         this.gameData.durations.on(Durations.Events.WAITING, ({ globalRemaining }) => {
-            const shakingDuration = 1;
-            const shakeTimePoint = this.config.betTime + shakingDuration;
+            const shakeTimePoint = this.config.betTime + this.shakingDuration;
             if (globalRemaining === shakeTimePoint) {
                 this.resetDataAndUI();
                 this.shakeThePlate();
@@ -111,6 +112,13 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     initStatistic(node: cc.Node) {
         this.statistic = node.getComponent(BigSmallDicesStatistic);
+        const condition = () => {
+            return (
+                this.currentTimeRemaining < this.config.stopBetTime ||
+                this.currentTimeRemaining > this.config.fullTime - this.showResultDuration
+            );
+        };
+        this.statistic.logView.init(condition);
     }
 
     handleShowStatistic(show: boolean) {
@@ -127,7 +135,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected updateRoundHistory() {
         this.miniRoundHistory.setData(this.currentDataLogs);
-        this.statistic.init(this.currentDataLogs, this);
+        this.statistic.updateData(this.currentDataLogs);
     }
 
     showHideResult(show: boolean) {

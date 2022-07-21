@@ -1,3 +1,4 @@
+import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
@@ -57,6 +58,34 @@ export default class MiniGameBase extends NewMiniGameBase {
         if (this.clearGameDataOnDestroy) {
             this.clearGameData();
         }
+    }
+
+    override onData(data: unknown) {
+        if (this.gameState === GameState.Inactived) {
+            return;
+        }
+        super.onData(data);
+    }
+
+    onGameHide() {
+        super.onGameHide();
+        this.gameState = GameState.Inactived;
+        this.gameData.durations.stop();
+        this.socket.disconnect();
+    }
+
+    onGameShow() {
+        super.onGameShow();
+        this.gameState = GameState.Actived;
+        this.socket.connect();
+        this.joinGame();
+    }
+
+    onDisconnected() {
+        //override to prevent delele socket
+        this.sendRetryMessage();
+        this.showProcessingWarning(false);
+        this.md5Component && this.md5Component.resetMd5();
     }
 
     clearGameData() {

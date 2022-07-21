@@ -22,16 +22,6 @@ export default class MultiplayGameSingle extends MiniGameBase {
         }
     }
 
-    protected onGameShow() {
-        // override
-    }
-
-    onDisconnected() {
-        this.playClick();
-        this.socketIOController.closeSocket(this.gameId);
-        this.md5Component && this.md5Component.resetMd5();
-    }
-
     scheduleCheckSocket() {
         this.grantSocket();
         this.initSocketListenter();

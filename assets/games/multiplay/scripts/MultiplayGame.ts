@@ -33,11 +33,25 @@ export default class MultiplayGame extends GameViewBase {
 
     mainGameId: number;
     locations = {};
+    games = {};
 
     onLoad() {
         this.openSockets();
         this.initLocations();
         this.initMultiplayLayout();
+    }
+
+    onDestroy() {
+        Object.values(this.games).forEach((game: MultiplayGameSingle) => game.clearGameData());
+    }
+
+    onEnable() {
+        this.openSockets();
+        Object.values(this.games).forEach((game: MultiplayGameSingle) => game.joinGame());
+    }
+
+    onDisable() {
+        this.gameIds.forEach((id) => this.socketIOController.getSocketGame(id).disconnect());
     }
 
     openSockets() {
@@ -46,23 +60,12 @@ export default class MultiplayGame extends GameViewBase {
             if (!socket) {
                 const gameName = GameUtils.getGameSetting(gameId);
                 this.currentMiniPanel.gameMiniInitializers.setUpSocketForGame(gameName, gameId, false, null);
+            } else {
+                if (!socket.connected) {
+                    socket.connect();
+                }
             }
         });
-    }
-
-    onEnable() {
-        this.openSockets();
-        const games = [this.mainContent, ...this.subContents].map((content) => content.getComponentInChildren(MultiplayGameSingle));
-        games.forEach((game) => game.joinGame());
-    }
-
-    onDisable() {
-        this.gameIds.forEach((id) => this.socketIOController.getSocketGame(id).disconnect());
-    }
-
-    onDestroy() {
-        const games = [this.mainContent, ...this.subContents].map((content) => content.getComponentInChildren(MultiplayGameSingle));
-        games.forEach((game) => game.clearGameData());
     }
 
     initLocations() {
@@ -100,6 +103,7 @@ export default class MultiplayGame extends GameViewBase {
 
         const single = node.getComponent(MultiplayGameSingle);
         single.currentMiniPanel = this.currentMiniPanel;
+        this.games[gameId] = single;
         return node;
     }
 
@@ -116,6 +120,7 @@ export default class MultiplayGame extends GameViewBase {
         const single = node.getComponent(MultiplayGameSingle);
         single.maximizeCallback = (gameId) => this.switchGameToMain(gameId);
         single.currentMiniPanel = this.currentMiniPanel;
+        this.games[gameId] = single;
         return node;
     }
 

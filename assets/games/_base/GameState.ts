@@ -2,5 +2,7 @@ export enum GameState {
     None = 0,
     Started,
     Stopped,
-    Disabled
+    Disabled,
+    Inactived,
+    Actived
 }
