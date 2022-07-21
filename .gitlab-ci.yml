@@ -56,8 +56,8 @@ variables:
         - .deploy_vars_game_client
         - .build:image:game_client:rules
 
-.base_build_cocos_web_vg2_game_client:
+.base_build_cocos_web_l2_vg2_game_client:
     <<: *build_cocos_creator_script
     extends:
-        - .deploy_vars_vg2_game_client
-        - .build:image:vg2_game_client:rules
+        - .deploy_vars_l2_vg2_game_client
+        - .build:image:l2_vg2_game_client:rules
