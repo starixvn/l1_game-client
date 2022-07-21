@@ -172,8 +172,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     private registerBetPercentageEvents() {
-        this.gameData.betPercentage.on(BlockchainBaccaratBetPercentageModel.Events.CHANGE, (totalBet) => {
-            blockchainAction.handlePercentBet(this.betItems as BlockchainBaccaratBetItem[], this.timeHandler.isInRoundTime)(totalBet);
+        this.gameData.betPercentage.on(BlockchainBaccaratBetPercentageModel.Events.CHANGE, (percentageBet) => {
+            blockchainAction.handlePercentBet(this.betItems as BlockchainBaccaratBetItem[])(percentageBet);
         });
     }
 
