@@ -117,8 +117,14 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         }
     }
 
-    public async collectCardsOnTable() {
-        this.burnContainer?.handleDropCards();
+    public async collectCardsOnTable(isShuffle = false) {
+        if (isShuffle) {
+            this.burnContainer?.handleDropCards();
+            this.bankerCards?.resetCards();
+            this.playerCards?.resetCards();
+            this.reserveCards?.resetCards();
+        }
+
         await Promise.all([
             ...this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
             ...this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
@@ -194,7 +200,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
 
     async handleShuffleCards(data: Blockchain, duration: number, isAnim: boolean, handleGameId: () => void) {
         if (isAnim) {
-            await this.collectCardsOnTable();
+            await this.collectCardsOnTable(true);
         } else {
             this.bankerCards?.resetCards();
             this.playerCards?.resetCards();
@@ -205,10 +211,11 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         this.burnContainer.node.active = true;
         handleGameId();
         this.setActiveCardsUI(false);
+
         await this.burnContainer.handleShowCutCards(data, duration);
     }
 
-    setActiveCardsUI(isActive: boolean) {
+    setActiveCardsUI(isActive: boolean, callback?: () => void) {
         if (isActive) {
             GameUtils.showNode(this.reserveCards?.node);
             GameUtils.showNode(this.bankerCards?.node);
@@ -220,6 +227,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         }
 
         this.winningNotice.node.parent.active = false;
+        callback && callback();
     }
 
     updateCardDropBox(currentIndex: number, cutCardIndex: number) {
