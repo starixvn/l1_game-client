@@ -6,6 +6,7 @@ import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
 import BigSmallDicesStatistic from "../../bigsmall/view-models/BigSmallDicesStatistic";
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
+import { handlePlacingBet, handleShakeDish, showBgTimer } from "./actions/CustomActions";
 import { unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -56,22 +57,16 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     initGameDataEvents() {
         super.initGameDataEvents();
-        this.gameData.durations.on(Durations.Events.PLACING_BET, () => {
-            this.bgTimer.opacity = 255;
-            this.betItems.forEach((item) => item.resetHighlight());
-            this.resetThePlate();
-            this.disableResultNode();
-        });
-        this.gameData.durations.on(Durations.Events.BEGIN_PLACING_BET, () => {
-            cc.tween(this.bgTimer).to(0.3, { opacity: 255 }).start();
-        });
-        this.gameData.durations.on(Durations.Events.WAITING, ({ globalRemaining }) => {
-            const shakeTimePoint = this.config.betTime + this.shakingDuration;
-            if (globalRemaining === shakeTimePoint) {
-                this.resetDataAndUI();
-                this.shakeThePlate();
-            }
-        });
+        this.gameData.durations.on(Durations.Events.PLACING_BET, handlePlacingBet(this));
+        this.gameData.durations.on(Durations.Events.BEGIN_PLACING_BET, showBgTimer(this));
+        this.gameData.durations.on(Durations.Events.WAITING, handleShakeDish(this));
+    }
+
+    removeGameDataEvents() {
+        super.removeGameDataEvents();
+        this.gameData.durations.removeListener(Durations.Events.PLACING_BET, handlePlacingBet(this));
+        this.gameData.durations.removeListener(Durations.Events.BEGIN_PLACING_BET, showBgTimer(this));
+        this.gameData.durations.removeListener(Durations.Events.WAITING, handleShakeDish(this));
     }
 
     showSettlementResult(settlement: any) {
@@ -121,8 +116,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.statistic.logView.init(condition);
     }
 
-    handleShowStatistic(show: boolean) {
-        this.statistic.node.parent.active = show;
+    onToggleStatisticChanged() {
+        this.playClick();
+        this.statistic.node.parent.active = !this.statistic.node.parent.active;
     }
 
     protected setDices(result) {
@@ -144,7 +140,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         });
     }
 
-    protected shakeThePlate() {
+    shakeThePlate() {
         this.shakeThePlateAnimation.playAdditive(DishAnimation.ShakeDish);
         cc.tween(this.thePlate)
             .delay(0.2)

@@ -22,7 +22,10 @@ export default class MultiplayGame extends GameViewBase {
     subContents: cc.Node[] = [];
 
     @property(cc.Prefab)
-    testPrefab: cc.Prefab = null;
+    normallPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    smallPrefab: cc.Prefab = null;
 
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
@@ -96,10 +99,12 @@ export default class MultiplayGame extends GameViewBase {
     addMainGameUI(gameId: number) {
         this.mainContent.children.forEach((child) => child.destroy());
         this.mainContent.addChild(this.createMainGameUI(gameId));
+        this.locations[gameId] = ItemSlot.Main;
+        this.mainGameId = gameId;
     }
 
     createMainGameUI(gameId: number) {
-        const node = cc.instantiate(this.testPrefab);
+        const node = cc.instantiate(this.normallPrefab);
 
         const single = node.getComponent(MultiplayGameSingle);
         single.currentMiniPanel = this.currentMiniPanel;
@@ -111,10 +116,11 @@ export default class MultiplayGame extends GameViewBase {
         const content = this.subContents[location];
         content.children.forEach((child) => child.destroy());
         content.addChild(this.createSubGameUI(gameId, location));
+        this.locations[gameId] = location;
     }
 
     createSubGameUI(gameId: number, location: number) {
-        const node = cc.instantiate(this.testPrefab);
+        const node = cc.instantiate(this.smallPrefab);
         node.scale = 0.3;
 
         const single = node.getComponent(MultiplayGameSingle);
@@ -129,9 +135,6 @@ export default class MultiplayGame extends GameViewBase {
         const lastSubGameSlot = this.locations[gameId];
         this.addMainGameUI(gameId);
         this.addSubGameUI(lastMainGameId, lastSubGameSlot);
-        this.mainGameId = gameId;
-        this.locations[this.mainGameId] = ItemSlot.Main;
-        this.locations[lastMainGameId] = lastSubGameSlot;
         GameUtils.setSubGameSetting(this.gameId, "locations", this.locations);
     }
 }

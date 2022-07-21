@@ -82,7 +82,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     onDisconnected() {
-        //override to prevent delele socket
+        //override to prevent delete socket
         this.sendRetryMessage();
         this.showProcessingWarning(false);
         this.md5Component && this.md5Component.resetMd5();
@@ -157,27 +157,27 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     removeGameDataEvents() {
-        this.gameData.durations.off(Durations.Events.START_GAME_LOOP, startGameLoop(this));
-        this.gameData.durations.off(Durations.Events.TIMEOUT, updateTimeOut(this));
-        this.gameData.durations.off(Durations.Events.LOCKING_BET, updateLockBet(this));
-        this.gameData.durations.off(Durations.Events.PLACING_BET, updatePlacingBet(this));
-        this.gameData.durations.off(Durations.Events.WAITING, updateWaiting(this));
-        this.gameData.durations.off(Durations.Events.BEGIN_PLACING_BET, changeRoundId_BEGIN_PLACING_BET(this));
-        this.gameData.durations.off(Durations.Events.BEGIN_WAITING, changeRoundId_BEGIN_WAITING(this));
+        this.gameData.durations.removeListener(Durations.Events.START_GAME_LOOP, startGameLoop(this));
+        this.gameData.durations.removeListener(Durations.Events.TIMEOUT, updateTimeOut(this));
+        this.gameData.durations.removeListener(Durations.Events.LOCKING_BET, updateLockBet(this));
+        this.gameData.durations.removeListener(Durations.Events.PLACING_BET, updatePlacingBet(this));
+        this.gameData.durations.removeListener(Durations.Events.WAITING, updateWaiting(this));
+        this.gameData.durations.removeListener(Durations.Events.BEGIN_PLACING_BET, changeRoundId_BEGIN_PLACING_BET(this));
+        this.gameData.durations.removeListener(Durations.Events.BEGIN_WAITING, changeRoundId_BEGIN_WAITING(this));
 
-        this.gameData.totalBets.off(TotalBets.Events.CHANGE, updateTotalBets(this));
-        this.gameData.betModel.off(BetModel.Events.CHANGE_OWN_BET, updateOwnBets(this));
-        this.gameData.betModel.off(BetModel.Events.CHANGE_OWN_CHIP, placeOwnChip(this));
-        this.gameData.betModel.off(BetModel.Events.PLACE_BET_FAILED, placeBetFailed(this));
-        this.gameData.betModel.off(BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess(this));
+        this.gameData.totalBets.removeListener(TotalBets.Events.CHANGE, updateTotalBets(this));
+        this.gameData.betModel.removeListener(BetModel.Events.CHANGE_OWN_BET, updateOwnBets(this));
+        this.gameData.betModel.removeListener(BetModel.Events.CHANGE_OWN_CHIP, placeOwnChip(this));
+        this.gameData.betModel.removeListener(BetModel.Events.PLACE_BET_FAILED, placeBetFailed(this));
+        this.gameData.betModel.removeListener(BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess(this));
 
-        this.gameData.gameConfigs.off(GameConfigs.Events.CHANGE, handleGameConfigs(this));
-        this.gameData.notice.off(NoticeModel.Events.CHANGE, handleNotice(this));
-        this.gameData.roundHistory.off(RoundHistory.Events.CHANGE, handleRoundHistory(this));
-        this.gameData.off(NewGameData.Events.CHANGE_ROUND_ID, changeGameRound(this));
-        this.gameData.resultHash.off(ResultHash.Events.CHANGE, handleMD5Data(this));
-        this.gameData.settlement.off(Settlement.Events.SHOW_RESULT, handleShowResult(this));
-        this.gameData.settlement.off(Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult(this));
+        this.gameData.gameConfigs.removeListener(GameConfigs.Events.CHANGE, handleGameConfigs(this));
+        this.gameData.notice.removeListener(NoticeModel.Events.CHANGE, handleNotice(this));
+        this.gameData.roundHistory.removeListener(RoundHistory.Events.CHANGE, handleRoundHistory(this));
+        this.gameData.removeListener(NewGameData.Events.CHANGE_ROUND_ID, changeGameRound(this));
+        this.gameData.resultHash.removeListener(ResultHash.Events.CHANGE, handleMD5Data(this));
+        this.gameData.settlement.removeListener(Settlement.Events.SHOW_RESULT, handleShowResult(this));
+        this.gameData.settlement.removeListener(Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult(this));
     }
 
     /**

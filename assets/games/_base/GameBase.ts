@@ -167,6 +167,11 @@ export default class GameBase extends GameViewBase {
         this.resetDataAndUI();
     }
 
+    onDestroy() {
+        super.onDestroy();
+        this.md5Component = null;
+    }
+
     setUpHandlers() {
         this.initHandlers();
         this.addHandlers(
@@ -383,16 +388,20 @@ export default class GameBase extends GameViewBase {
     }
 
     protected initBetChips() {
-        if (this.enableChips) {
+        if (this.enableChips && this.betChipsContainer) {
             const betChipsNode = cc.instantiate(this.betChipsPrefab);
             this.betChipsContainer.addChild(betChipsNode);
-            this.betChips = betChipsNode.getComponent(BetChips);
-            this.betChips.init((bet) => {
-                this.onChangedBetChip(bet);
-            });
-
-            this.betChips.enableStakeLevel = this.isUsingMaxStakeLevel();
+            this.initBetChipByLoader(betChipsNode);
         }
+    }
+
+    initBetChipByLoader(node: cc.Node) {
+        this.betChips = node.getComponent(BetChips);
+        this.betChips.init((bet) => {
+            this.onChangedBetChip(bet);
+        });
+
+        this.betChips.enableStakeLevel = this.isUsingMaxStakeLevel();
     }
 
     protected onChangedBetChip(bet) {
