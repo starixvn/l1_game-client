@@ -33,7 +33,7 @@ export default abstract class GameIconMenu extends BaseComponent {
         for (const id of gameIds) {
             const prefab = await this.loadPrefab(id);
             if (this.loadingGameIds !== gameIds) {
-                this.content.destroyAllChildren();
+                this.content && this.content.destroyAllChildren();
                 return;
             }
 
