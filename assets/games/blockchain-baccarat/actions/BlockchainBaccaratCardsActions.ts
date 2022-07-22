@@ -3,7 +3,6 @@ import { CardsOrder } from "./../view-models/BlockchainBaccaratCardsUI";
 import { BlockchainBaccaratFinish, CardChainResult } from "./../event-models/BlockchainBaccaratFinishModel";
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
 import BlockchainCard from "../components/card-list/view-models/BlockchainCard";
-import { BlockchainBaccaratEvents, emitEvent } from "../view-models/BlockchainBaccaratEvents";
 import { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
 
 export const openCards = (cardsUI: BlockchainBaccaratCardsUI) => async (dataFinish: BlockchainBaccaratFinish, callback: () => void) => {
