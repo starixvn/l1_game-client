@@ -607,7 +607,7 @@ window.i18n.languages.en = {
             "<color=#00FFF6>BRING THE </c><color=#FFF000>FAIRNESS GUARANTEES</color><color=#00FFF6>\nTHE NEW BREAKTHROUGH WITH </c><color=#FFF000>BLOCKCHAIN TECHNOLOGY</color>",
         guide1Header2: "",
         guide1Content:
-            "- Higher level of security with new cryptography techniques.\n\n- All cards are encrypted and made public as the Serial number on each card before the game starts.\n\n- Cannot change the card values and the order of cards after being encrypted.\n\n- Easily verify the card and transparency of the results at any time.",
+            "- Higher level of security with new cryptography techniques.\n\n- All cards are encrypted and published as serial numbers before the game starts.\n\n- Cannot change the card values and the order of cards after being encrypted.\n\n- Easily verify the card and transparency of the results at any time.",
         guide2Title: "What is Blockchain?",
         guide2Content:
             "- A blockchain is a database that stores encrypted blocks of data and then links them together in chronological order to form a chain.\n\n- With blockchain, data cannot be changed once encrypted.",
