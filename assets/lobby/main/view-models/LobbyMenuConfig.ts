@@ -38,7 +38,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         othersGames: [GameIds.BitcoinMaster]
     };
     bannerAds = {
-        SC1: [GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo],
+        SC1: [GameIds.BlockchainBaccarat, GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo],
         SC2: [GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo]
     };
     bannerAdsInfo = {
