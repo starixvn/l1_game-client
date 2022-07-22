@@ -124,7 +124,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected updateRoundHistory() {
         this.miniRoundHistory.setData(this.currentDataLogs);
-        this.statistic.updateData(this.currentDataLogs);
+        this.statistic?.updateData(this.currentDataLogs);
     }
 
     showHideResult(show: boolean) {

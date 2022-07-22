@@ -1,4 +1,5 @@
 import { lazyInject } from "../../../Application";
+import AudioManager from "../../../common/audio/AudioManager";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../../common/GameUtils";
 import SocketIOController from "../../../SocketIOController";
@@ -107,7 +108,6 @@ export default class MultiplayGame extends GameViewBase {
     addMainGameUI(gameId: number) {
         const child = this.mainContent.children[0];
         if (child) {
-            child.getComponent(MultiplayGameSingle).destroyManually();
             child.destroy();
         }
         this.mainContent.addChild(this.createMainGameUI(gameId));
@@ -128,7 +128,6 @@ export default class MultiplayGame extends GameViewBase {
         const content = this.subContents[location];
         const child = content.children[0];
         if (child) {
-            child.getComponent(MultiplayGameSingle).destroyManually();
             child.destroy();
         }
 
@@ -170,5 +169,10 @@ export default class MultiplayGame extends GameViewBase {
         if (this.betChips) {
             this.betChips.setChipValues(gameConfigs);
         }
+    }
+
+    onCloseClick() {
+        AudioManager.getInstance().playClick();
+        this.node.active = false;
     }
 }

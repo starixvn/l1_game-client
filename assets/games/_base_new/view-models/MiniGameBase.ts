@@ -48,7 +48,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     public gameData: NewGameData;
     emitterStorages: EmitterStorage[] = [];
 
-    onLoad() {
+    override onLoad() {
         super.onLoad();
         this.initGameData();
         this.initGameDataEvents();
@@ -63,7 +63,9 @@ export default class MiniGameBase extends NewMiniGameBase {
         }
     }
 
-    destroyManually() {
+    override onDestroy() {
+        super.onDestroy();
+
         this.removeGameDataEvents();
         GameDataManager.getInstance().clearGameLoop(this.gameId);
         if (this.clearGameDataOnDestroy) {
