@@ -65,6 +65,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private readonly durationAnimWinning = 2.8;
     public config: BlockchainBaccaratConfig;
     public timeHandler: BlockchainBaccaratTimeHandler;
+    private isFirstRender = true;
 
     constructor() {
         super();
@@ -85,6 +86,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.registerNewBlockchainEvents();
         this.registerBlockchainEvents();
         this.registerCardVerification();
+        this.isFirstRender = true;
     }
 
     resetDataAndUI() {
@@ -176,6 +178,11 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                     this.cardsUI.handleNumberIndex(currentIndex);
                 });
             }
+            if (this.isFirstRender) {
+                this.isFirstRender = false;
+                this.initFlashGuide();
+                blockchainAction.updateCardDropBox(this.cardsUI)(currentIndex, this.gameData.cardList.blockchain.cutCardIndex);
+            }
         });
     }
 
@@ -193,7 +200,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.gameData.roundHistory.on(
             BlockchainBaccaratRoundHistoryModel.Events.CHANGE,
             (roundHistory: BlockchainBaccaratRoundHistory[]) => {
-                this.initFlashGuide();
                 blockchainAction.updateWinning(
                     this.betOptionsUI,
                     this.cardsUI,
@@ -205,10 +211,6 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                     this.gameData.cardList.currentIndex
                 );
                 blockchainAction.renderScoreboard(this.scoreboard)(roundHistory);
-                blockchainAction.updateCardDropBox(this.cardsUI)(
-                    this.gameData.cardList.currentIndex,
-                    this.gameData.cardList.blockchain.cutCardIndex
-                );
             }
         );
     }
