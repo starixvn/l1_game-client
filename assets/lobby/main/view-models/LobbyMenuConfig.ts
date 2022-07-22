@@ -43,8 +43,11 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     };
     bannerAdsInfo = {
         SC1: {
-            [GameIds.SeDie]: {
+            [GameIds.BlockchainBaccarat]: {
                 displayTime: 10
+            },
+            [GameIds.SeDie]: {
+                displayTime: 5
             },
             [GameIds.TexasHoldemPoker]: {
                 displayTime: 5
