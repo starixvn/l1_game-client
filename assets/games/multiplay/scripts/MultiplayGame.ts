@@ -1,7 +1,9 @@
 import { lazyInject } from "../../../Application";
+import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../../common/GameUtils";
 import SocketIOController from "../../../SocketIOController";
 import GameViewBase from "../../_base/GameViewBase";
+import { GameConfigs } from "../../_base_new/models/GameConfigs";
 import MultiplayGameSingle from "./MultiplayGameSingle";
 
 const { ccclass, property } = cc._decorator;
@@ -37,11 +39,17 @@ export default class MultiplayGame extends GameViewBase {
     mainGameId: number;
     locations = {};
     games = {};
+    betChips: BetChips;
 
     onLoad() {
         this.openSockets();
         this.initLocations();
         this.initMultiplayLayout();
+
+        (this.games[this.gameIds[0]] as MultiplayGameSingle).gameData.gameConfigs.on(
+            GameConfigs.Events.CHANGE,
+            this.setGameConfigs.bind(this)
+        );
     }
 
     onDestroy() {
@@ -145,5 +153,22 @@ export default class MultiplayGame extends GameViewBase {
         this.addMainGameUI(gameId);
         this.addSubGameUI(lastMainGameId, lastSubGameSlot);
         GameUtils.setSubGameSetting(this.gameId, "locations", this.locations);
+    }
+
+    initBetChipByLoader(node: cc.Node) {
+        this.betChips = node.getComponent(BetChips);
+        this.betChips.init((bet) => {
+            this.onChangedBetChip(+bet);
+        });
+    }
+
+    onChangedBetChip(bet: number) {
+        Object.values(this.games).forEach((game: MultiplayGameSingle) => (game.currentBet = bet));
+    }
+
+    setGameConfigs(gameConfigs: any) {
+        if (this.betChips) {
+            this.betChips.setChipValues(gameConfigs);
+        }
     }
 }
