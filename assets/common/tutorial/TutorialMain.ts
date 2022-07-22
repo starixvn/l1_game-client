@@ -11,6 +11,21 @@ export default class TutorialMain extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
+    @property(cc.Sprite)
+    dotSlideSprite: cc.Sprite[] = [];
+
+    @property(cc.SpriteFrame)
+    dotSlideSpriteFrame: cc.SpriteFrame[] = [];
+
+    @property(cc.Node)
+    btnNext: cc.Node = null;
+
+    @property(cc.Node)
+    btnPrev: cc.Node = null;
+
+    @property(cc.SpriteFrame)
+    nextPreSpriteFrame: cc.SpriteFrame[] = [];
+
     items: TutorialItem[] = [];
 
     currentIndex = -1;
@@ -32,6 +47,11 @@ export default class TutorialMain extends cc.Component {
         } else {
             this.hide();
         }
+        this.setStatusButtonNextPre(this.currentIndex);
+        if (this.dotSlideSprite.length > 0) {
+            this.dotSlideSprite[this.currentIndex].spriteFrame = this.dotSlideSpriteFrame[0];
+            this.dotSlideSprite[this.currentIndex - 1].spriteFrame = this.dotSlideSpriteFrame[1];
+        }
     }
 
     onClickPrevious() {
@@ -41,6 +61,11 @@ export default class TutorialMain extends cc.Component {
             this.showItem(index);
         } else {
             this.currentIndex = 0;
+        }
+        this.setStatusButtonNextPre(this.currentIndex);
+        if (this.dotSlideSprite.length > 0) {
+            this.dotSlideSprite[this.currentIndex].spriteFrame = this.dotSlideSpriteFrame[0];
+            this.dotSlideSprite[this.currentIndex + 1].spriteFrame = this.dotSlideSpriteFrame[1];
         }
     }
 
@@ -62,6 +87,7 @@ export default class TutorialMain extends cc.Component {
 
     onLoad() {
         this.initItems();
+        this.setStatusButtonNextPre(0);
     }
 
     onDisable() {
@@ -117,5 +143,27 @@ export default class TutorialMain extends cc.Component {
 
     public setTimeConfig(config: number[]) {
         this.timeConfig = config;
+    }
+
+    setStatusButtonNextPre(indexCurrent: number) {
+        if (indexCurrent === 0) {
+            this.btnPrev.getChildByName("Background") &&
+                (this.btnPrev.getChildByName("Background").getComponent(cc.Sprite).spriteFrame = this.nextPreSpriteFrame[0]);
+            this.btnPrev.getComponent(cc.Button).enabled = false;
+            return;
+        }
+
+        if (indexCurrent > this.dotSlideSprite.length - 2) {
+            this.btnNext.getChildByName("Background") &&
+                (this.btnNext.getChildByName("Background").getComponent(cc.Sprite).spriteFrame = this.nextPreSpriteFrame[0]);
+            this.btnNext.getComponent(cc.Button).enabled = false;
+            return;
+        }
+        this.btnPrev.getChildByName("Background") &&
+            (this.btnPrev.getChildByName("Background").getComponent(cc.Sprite).spriteFrame = this.nextPreSpriteFrame[1]);
+        this.btnNext.getChildByName("Background") &&
+            (this.btnNext.getChildByName("Background").getComponent(cc.Sprite).spriteFrame = this.nextPreSpriteFrame[1]);
+        this.btnPrev.getComponent(cc.Button).enabled = true;
+        this.btnNext.getComponent(cc.Button).enabled = true;
     }
 }
