@@ -57,16 +57,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     initGameDataEvents() {
         super.initGameDataEvents();
-        this.gameData.durations.on(Durations.Events.PLACING_BET, handlePlacingBet(this));
-        this.gameData.durations.on(Durations.Events.BEGIN_PLACING_BET, showBgTimer(this));
-        this.gameData.durations.on(Durations.Events.WAITING, handleShakeDish(this));
-    }
-
-    removeGameDataEvents() {
-        super.removeGameDataEvents();
-        this.gameData.durations.removeListener(Durations.Events.PLACING_BET, handlePlacingBet(this));
-        this.gameData.durations.removeListener(Durations.Events.BEGIN_PLACING_BET, showBgTimer(this));
-        this.gameData.durations.removeListener(Durations.Events.WAITING, handleShakeDish(this));
+        this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
+        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, showBgTimer);
+        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, handleShakeDish);
     }
 
     showSettlementResult(settlement: any) {

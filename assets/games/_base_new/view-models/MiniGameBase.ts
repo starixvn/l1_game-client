@@ -1,3 +1,4 @@
+import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
@@ -34,11 +35,18 @@ import { Settlement } from "../models/Settlement";
 
 const { ccclass, property } = cc._decorator;
 
+interface EmitterStorage {
+    emitter: EventEmitterBase;
+    eventName: string;
+    listener: (param?: any) => void;
+}
+
 @ccclass
 export default class MiniGameBase extends NewMiniGameBase {
     protected joinGameOnEnable = true;
     protected clearGameDataOnDestroy = true;
     public gameData: NewGameData;
+    emitterStorages: EmitterStorage[] = [];
 
     onLoad() {
         super.onLoad();
@@ -47,14 +55,17 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     override onEnable() {
+        this.grantSocket();
+        this.initSocketListenter();
+        this.initConnection();
         if (this.joinGameOnEnable) {
             this.joinGame();
         }
     }
 
-    override onDestroy() {
-        super.onDestroy();
+    destroyManually() {
         this.removeGameDataEvents();
+        GameDataManager.getInstance().clearGameLoop(this.gameId);
         if (this.clearGameDataOnDestroy) {
             this.clearGameData();
         }
@@ -125,6 +136,16 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.gameData = gameData;
     }
 
+    emitterListener(emitter: EventEmitterBase, eventName: string, listener: (param: any) => any) {
+        const storage = {
+            emitter,
+            eventName,
+            listener: listener(this)
+        };
+        emitter.addListener(eventName, storage.listener);
+        this.emitterStorages.push(storage);
+    }
+
     initGameDataEvents() {
         this.gameData.durations.initialize({
             wholeRound: this.config.fullTime,
@@ -132,52 +153,36 @@ export default class MiniGameBase extends NewMiniGameBase {
             lockingBet: this.config.stopBetTime
         });
 
-        this.gameData.durations.on(Durations.Events.START_GAME_LOOP, startGameLoop(this));
-        this.gameData.durations.on(Durations.Events.STOP_GAME_LOOP, stopGameLoop(this));
-        this.gameData.durations.on(Durations.Events.TIMEOUT, updateTimeOut(this));
-        this.gameData.durations.on(Durations.Events.LOCKING_BET, updateLockBet(this));
-        this.gameData.durations.on(Durations.Events.PLACING_BET, updatePlacingBet(this));
-        this.gameData.durations.on(Durations.Events.WAITING, updateWaiting(this));
-        this.gameData.durations.on(Durations.Events.BEGIN_PLACING_BET, changeRoundId_BEGIN_PLACING_BET(this));
-        this.gameData.durations.on(Durations.Events.BEGIN_WAITING, changeRoundId_BEGIN_WAITING(this));
+        this.emitterListener(this.gameData.durations, Durations.Events.START_GAME_LOOP, startGameLoop);
+        this.emitterListener(this.gameData.durations, Durations.Events.STOP_GAME_LOOP, stopGameLoop);
+        this.emitterListener(this.gameData.durations, Durations.Events.TIMEOUT, updateTimeOut);
+        this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, updateLockBet);
+        this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, updatePlacingBet);
+        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, updateWaiting);
+        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, changeRoundId_BEGIN_PLACING_BET);
+        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_WAITING, changeRoundId_BEGIN_WAITING);
 
-        this.gameData.totalBets.on(TotalBets.Events.CHANGE, updateTotalBets(this));
-        this.gameData.betModel.on(BetModel.Events.CHANGE_OWN_BET, updateOwnBets(this));
-        this.gameData.betModel.on(BetModel.Events.CHANGE_OWN_CHIP, placeOwnChip(this));
-        this.gameData.betModel.on(BetModel.Events.PLACE_BET_FAILED, placeBetFailed(this));
-        this.gameData.betModel.on(BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess(this));
+        this.emitterListener(this.gameData.totalBets, TotalBets.Events.CHANGE, updateTotalBets);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_BET, updateOwnBets);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP, placeOwnChip);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_FAILED, placeBetFailed);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess);
 
-        this.gameData.gameConfigs.on(GameConfigs.Events.CHANGE, handleGameConfigs(this));
-        this.gameData.notice.on(NoticeModel.Events.CHANGE, handleNotice(this));
-        this.gameData.roundHistory.on(RoundHistory.Events.CHANGE, handleRoundHistory(this));
-        this.gameData.on(NewGameData.Events.CHANGE_ROUND_ID, changeGameRound(this));
-        this.gameData.resultHash.on(ResultHash.Events.CHANGE, handleMD5Data(this));
-        this.gameData.settlement.on(Settlement.Events.SHOW_RESULT, handleShowResult(this));
-        this.gameData.settlement.on(Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult(this));
+        this.emitterListener(this.gameData.gameConfigs, GameConfigs.Events.CHANGE, handleGameConfigs);
+        this.emitterListener(this.gameData.notice, NoticeModel.Events.CHANGE, handleNotice);
+        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, handleRoundHistory);
+        this.emitterListener(this.gameData, NewGameData.Events.CHANGE_ROUND_ID, changeGameRound);
+        this.emitterListener(this.gameData.resultHash, ResultHash.Events.CHANGE, handleMD5Data);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
     }
 
     removeGameDataEvents() {
-        this.gameData.durations.removeListener(Durations.Events.START_GAME_LOOP, startGameLoop(this));
-        this.gameData.durations.removeListener(Durations.Events.TIMEOUT, updateTimeOut(this));
-        this.gameData.durations.removeListener(Durations.Events.LOCKING_BET, updateLockBet(this));
-        this.gameData.durations.removeListener(Durations.Events.PLACING_BET, updatePlacingBet(this));
-        this.gameData.durations.removeListener(Durations.Events.WAITING, updateWaiting(this));
-        this.gameData.durations.removeListener(Durations.Events.BEGIN_PLACING_BET, changeRoundId_BEGIN_PLACING_BET(this));
-        this.gameData.durations.removeListener(Durations.Events.BEGIN_WAITING, changeRoundId_BEGIN_WAITING(this));
-
-        this.gameData.totalBets.removeListener(TotalBets.Events.CHANGE, updateTotalBets(this));
-        this.gameData.betModel.removeListener(BetModel.Events.CHANGE_OWN_BET, updateOwnBets(this));
-        this.gameData.betModel.removeListener(BetModel.Events.CHANGE_OWN_CHIP, placeOwnChip(this));
-        this.gameData.betModel.removeListener(BetModel.Events.PLACE_BET_FAILED, placeBetFailed(this));
-        this.gameData.betModel.removeListener(BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess(this));
-
-        this.gameData.gameConfigs.removeListener(GameConfigs.Events.CHANGE, handleGameConfigs(this));
-        this.gameData.notice.removeListener(NoticeModel.Events.CHANGE, handleNotice(this));
-        this.gameData.roundHistory.removeListener(RoundHistory.Events.CHANGE, handleRoundHistory(this));
-        this.gameData.removeListener(NewGameData.Events.CHANGE_ROUND_ID, changeGameRound(this));
-        this.gameData.resultHash.removeListener(ResultHash.Events.CHANGE, handleMD5Data(this));
-        this.gameData.settlement.removeListener(Settlement.Events.SHOW_RESULT, handleShowResult(this));
-        this.gameData.settlement.removeListener(Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult(this));
+        this.emitterStorages.forEach((item) => {
+            const { emitter, eventName, listener } = item;
+            emitter.removeListener(eventName, listener);
+        });
+        this.emitterStorages = [];
     }
 
     /**

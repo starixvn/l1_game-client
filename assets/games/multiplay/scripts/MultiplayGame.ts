@@ -97,7 +97,11 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     addMainGameUI(gameId: number) {
-        this.mainContent.children.forEach((child) => child.destroy());
+        const child = this.mainContent.children[0];
+        if (child) {
+            child.getComponent(MultiplayGameSingle).destroyManually();
+            child.destroy();
+        }
         this.mainContent.addChild(this.createMainGameUI(gameId));
         this.locations[gameId] = ItemSlot.Main;
         this.mainGameId = gameId;
@@ -114,7 +118,12 @@ export default class MultiplayGame extends GameViewBase {
 
     addSubGameUI(gameId: number, location: number) {
         const content = this.subContents[location];
-        content.children.forEach((child) => child.destroy());
+        const child = content.children[0];
+        if (child) {
+            child.getComponent(MultiplayGameSingle).destroyManually();
+            child.destroy();
+        }
+
         content.addChild(this.createSubGameUI(gameId, location));
         this.locations[gameId] = location;
     }
