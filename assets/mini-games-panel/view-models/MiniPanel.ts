@@ -191,7 +191,9 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openResultPage(gameId: number = undefined) {
-        UserService.getGameResult(gameId);
+        UserService.getGameResultUrl(gameId).then((url) => {
+            this.redirectToResultPage(url);
+        });
     }
 
     addMiniGame(game: any, gameId: number) {

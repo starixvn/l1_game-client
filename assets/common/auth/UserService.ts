@@ -3,6 +3,7 @@ import axios from "axios";
 import UserServiceClient from "sc-user-service-client";
 import * as sessionManager from "../../common/auth/SessionManager";
 import * as Configs from "../../configs/Configs";
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
 import { updateUserBalance } from "./AuthManager";
 
@@ -13,15 +14,17 @@ export default class UserService {
         return this.instance ?? new UserServiceClient(this.getUserServiceUrl());
     }
 
-    public static getGameResult(gameId: number = undefined) {
-        const request = this.getRequestOptions();
-        request["language"] = sessionManager.getLocale();
-        if (gameId) {
-            request["gameId"] = gameId;
-        }
+    public static getGameResultUrl(gameId: number = undefined) {
+        return new Promise((resolve) => {
+            const request = this.getRequestOptions();
+            request["language"] = sessionManager.getLocale();
+            if (gameId) {
+                request["gameId"] = gameId;
+            }
 
-        axios.post(`${this.getUserServiceUrl()}/game-result/access-url`, request).then((response) => {
-            cc.RedT.MiniPanel.redirectToResultPage(response.data.gameResult.redirectUrl);
+            axios.post(`${this.getUserServiceUrl()}/game-result/access-url`, request).then((response) => {
+                resolve(response.data.gameResult.redirectUrl);
+            });
         });
     }
 
