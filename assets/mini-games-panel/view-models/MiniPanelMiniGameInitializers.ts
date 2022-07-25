@@ -86,7 +86,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
         } else {
-            const gameName = gameId === GameIds.KenoMax ? GameUtils.getGameNameString(11) : GameUtils.getGameNameString(gameId);
+            const gameName = gameId === KenoMaxId ? GameUtils.getGameNameString(KenoProVietId) : GameUtils.getGameNameString(gameId);
             const socket = this.setUpSocketForGame(gameName, gameId, true, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {

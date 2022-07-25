@@ -7,6 +7,7 @@ import DraggableItem from "../../../common/draggable-layout/view-models/Draggabl
 import GameUtils, { MINI_GAMES_SCALE_ON_DESKTOP } from "../../../common/GameUtils";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
+import GameViewBase from "../../_base/GameViewBase";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
 import KenoStatusBanner from "./components/KenoStatusBanner";
@@ -19,7 +20,7 @@ import MiniKenoConfig from "./MiniKenoConfig";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class KenoProViet extends cc.Component {
+export default class KenoProViet extends GameViewBase {
     @property(cc.Prefab)
     kenoPrefab: cc.Prefab = null;
 
