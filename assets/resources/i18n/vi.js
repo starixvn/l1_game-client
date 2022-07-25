@@ -13,7 +13,7 @@ window.i18n.languages.vi = {
         8: "Keno Pro Max",
         9: "Xóc Đĩa Mini",
         10: "Cào Baccarat",
-        11: "Keno Pro Viet",
+        11: "Mega Keno",
         12: "Keno Max",
         13: "Keno Max2",
         14: "Keno Mini",
@@ -43,7 +43,9 @@ window.i18n.languages.vi = {
         46: "Gái Nhảy",
         47: "Đảo Châu Báu",
         48: "Blockchain Baccarat",
-        "48_break": "Blockchain\nBaccarat"
+        "48_break": "Blockchain\nBaccarat",
+        52: "Mega Keno",
+        53: "Mega Keno 2"
     },
     messages: {
         accountNotExist: "Đã xảy ra lỗi. Vui lòng liên hệ bộ phận CSKH để biết chi tiết, cảm ơn bạn. (%{errorCode})",

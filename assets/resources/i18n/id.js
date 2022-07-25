@@ -12,7 +12,7 @@ window.i18n.languages.id = {
         8: "Keno Pro Max",
         9: "Mini Se Die",
         10: "Bakarat",
-        11: "Keno Pro Viet",
+        11: "Mega Keno",
         12: "Keno Max",
         13: "Keno Max2",
         14: "Keno Mini",
@@ -42,7 +42,9 @@ window.i18n.languages.id = {
         46: "Nightclub Lady",
         47: "Treasure Island",
         48: "Blockchain Baccarat",
-        "48_break": "Blockchain\nBaccarat"
+        "48_break": "Blockchain\nBaccarat",
+        52: "Mega Keno",
+        53: "Mega Keno 2"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",

@@ -12,7 +12,7 @@ window.i18n.languages.zh_tw = {
         8: "Keno Pro Max",
         9: "迷你色碟",
         10: "百家樂",
-        11: "Keno Pro Viet",
+        11: "Mega Keno",
         12: "Keno Max",
         13: "Keno Max2",
         14: "Keno Mini",
@@ -42,7 +42,9 @@ window.i18n.languages.zh_tw = {
         46: "Nightclub Lady",
         47: "Treasure Island",
         48: "Blockchain Baccarat",
-        "48_break": "Blockchain\nBaccarat"
+        "48_break": "Blockchain\nBaccarat",
+        52: "Mega Keno",
+        53: "Mega Keno 2"
     },
     messages: {
         accountNotExist: "發生了錯誤。詳情請聯繫CSD，謝謝。(%{errorCode})",

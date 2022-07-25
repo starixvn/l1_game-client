@@ -29,7 +29,7 @@ export default class MiniKenoGuide extends cc.Component {
     }
 
     start() {
-        this.select("kenoMax");
+        this.select("megaKeno");
     }
 
     setLabelString(nodeLabel: any, replaceData: any) {
@@ -74,6 +74,8 @@ export default class MiniKenoGuide extends cc.Component {
         const dict = {
             kenoMax: GameIds.KenoMax,
             kenoMax2: GameIds.KenoMax2,
+            megaKeno: GameIds.MegaKeno,
+            megaKeno2: GameIds.MegaKeno2,
             kenoMini: GameIds.KenoMini,
             kenoMini2: GameIds.KenoMini2,
             kenoDong: GameIds.KenoEast,

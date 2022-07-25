@@ -13,7 +13,7 @@ window.i18n.languages.en = {
         8: "Keno Pro Max",
         9: "Mini Se Die",
         10: "Baccarat",
-        11: "Keno Pro Viet",
+        11: "Mega Keno",
         12: "Keno Max",
         13: "Keno Max2",
         14: "Keno Mini",
@@ -43,7 +43,9 @@ window.i18n.languages.en = {
         46: "Nightclub Lady",
         47: "Treasure Island",
         48: "Blockchain Baccarat",
-        "48_break": "Blockchain\nBaccarat"
+        "48_break": "Blockchain\nBaccarat",
+        52: "Mega Keno",
+        53: "Mega Keno 2"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",

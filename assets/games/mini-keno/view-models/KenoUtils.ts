@@ -3,8 +3,8 @@ import { GameIds } from "../../../configs/SabaConfigs";
 
 export enum KenoType {
     ProViet,
-    Max,
-    Max2,
+    Mega,
+    Mega2,
     Mini,
     Mini2,
     East,
@@ -94,8 +94,8 @@ export default class KenoUtils {
     public static getKenoGameId(kenoType: KenoType): number {
         const dict = {
             ProViet: GameIds.KenoProViet,
-            Max: GameIds.KenoMax,
-            Max2: GameIds.KenoMax2,
+            Mega: GameIds.MegaKeno,
+            Mega2: GameIds.MegaKeno2,
             Mini: GameIds.KenoMini,
             Mini2: GameIds.KenoMini2,
             East: GameIds.KenoEast,

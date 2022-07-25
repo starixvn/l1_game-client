@@ -27,7 +27,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     background: cc.Node = null;
 
     @property({ type: cc.Enum(KenoType) })
-    kenoType: KenoType = KenoType.Max;
+    kenoType: KenoType = KenoType.Mega;
 
     @property(cc.Sprite)
     kenoName: cc.Sprite = null;
@@ -149,6 +149,8 @@ export default class MiniKeno extends SocketIOMiniGameBase {
             ProViet: 0,
             Max: 0,
             Max2: 0,
+            Mega: 0,
+            Mega2: 0,
             Mini: 1,
             Mini2: 1,
             East: 2,
@@ -167,6 +169,8 @@ export default class MiniKeno extends SocketIOMiniGameBase {
             ProViet: "pro_viet",
             Max: "max",
             Max2: "max2",
+            Mega: "mega",
+            Mega2: "mega2",
             Mini: "mini",
             Mini2: "mini2",
             East: "dong",

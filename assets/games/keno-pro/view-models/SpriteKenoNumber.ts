@@ -4,7 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SpriteKenoNumber extends KenoNumber {
-
     @property({ type: cc.Label, visible: false, override: true })
     numberLabel: cc.Label = null;
 
@@ -31,9 +30,7 @@ export default class SpriteKenoNumber extends KenoNumber {
     }
 
     runNumberAnimation() {
-        this.node.scale = 0.5;
-        this.node.runAction(
-            cc.scaleTo(0.2, 1).easing(cc.easeBackOut()),
-        );
+        this.node.scale = 0;
+        this.node.runAction(cc.scaleTo(2, 1).easing(cc.easeBackOut()));
     }
 }

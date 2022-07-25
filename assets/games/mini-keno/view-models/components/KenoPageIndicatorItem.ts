@@ -27,8 +27,8 @@ export default class KenoPageIndicatorItem extends cc.Component {
         const kenoType = this.miniKeno.kenoType;
         this.gameName.spriteFrame = this.getNameSprite(kenoType);
         const dict = {
-            Max: "max",
-            Max2: "max",
+            Mega: "max",
+            Mega2: "max",
             Mini: "mini",
             Mini2: "mini",
             East: "EWSN",
@@ -46,8 +46,8 @@ export default class KenoPageIndicatorItem extends cc.Component {
     getNameSprite(type: KenoType) {
         const dict = {
             ProViet: "pro_viet",
-            Max: "max",
-            Max2: "max2",
+            Mega: "mega",
+            Mega2: "mega2",
             Mini: "mini",
             Mini2: "mini2",
             East: "east",

@@ -36,8 +36,8 @@ export default class MiniKenoHistory extends SocketIOGameHistoryBase {
     public kenoGameDropDownList: DropDownList;
 
     private readonly options: DropDownOption[] = [
-        new DropDownOption(GameIds.KenoMax, "Keno Max"),
-        new DropDownOption(GameIds.KenoMax2, "Keno Max 2"),
+        new DropDownOption(GameIds.MegaKeno, "Mega Keno"),
+        new DropDownOption(GameIds.MegaKeno2, "Mega Keno 2"),
         new DropDownOption(GameIds.KenoMini, "Keno Mini"),
         new DropDownOption(GameIds.KenoMini2, "Keno Mini 2"),
         new DropDownOption(GameIds.KenoEast, GameUtils.getGameNameString(GameIds.KenoEast)),

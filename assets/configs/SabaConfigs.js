@@ -38,7 +38,9 @@ const configs = {
         HiLo: 45,
         NightClub: 46,
         TreasureIsland: 47,
-        BlockchainBaccarat: 48
+        BlockchainBaccarat: 48,
+        MegaKeno: 52,
+        MegaKeno2: 53
     },
     GameInfos: {
         47: {
@@ -191,7 +193,17 @@ const configs = {
         48: {
             key: "BlockchainBaccarat",
             remote: true
-        }
+        },
+        52: {
+            key: "MegaKeno",
+            route: "minikeno",
+            mini: true
+        },
+        53: {
+            key: "MegaKeno2",
+            route: "minikeno",
+            mini: true
+        },
     },
     desktopMiniGameScale: 0.8
 };
