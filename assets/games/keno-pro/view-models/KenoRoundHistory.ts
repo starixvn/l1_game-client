@@ -16,7 +16,7 @@ enum HistoryOption {
 }
 
 @ccclass
-export default class RoundHistory extends cc.Component {
+export default class KenoRoundHistory extends cc.Component {
     @property({ type: cc.Label })
     statisticLabels: cc.Label[] = [];
 
@@ -40,7 +40,7 @@ export default class RoundHistory extends cc.Component {
 
     @property({
         type: cc.Node,
-        visible: function (this: RoundHistory) {
+        visible: function (this: KenoRoundHistory) {
             return this.toggleStatistics;
         }
     })

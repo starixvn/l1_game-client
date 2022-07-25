@@ -9,7 +9,7 @@ import KenoRoundResult from "./history/KenoRoundResult";
 import KenoUserHistory from "./history/KenoUserHistory";
 import { KenoConfigs } from "./KenoConfigs";
 import KenoNumber from "./KenoNumber";
-import RoundHistory from "./RoundHistory";
+import KenoRoundHistory from "./KenoRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,8 +20,8 @@ export default class Keno extends SocketIOTableGameBase {
     @property(KenoRoundResult)
     roundResult: KenoRoundResult = null;
 
-    @property(RoundHistory)
-    roundHistory: RoundHistory = null;
+    @property(KenoRoundHistory)
+    roundHistory: KenoRoundHistory = null;
 
     @property(cc.Node)
     tableNode: cc.Node = null;

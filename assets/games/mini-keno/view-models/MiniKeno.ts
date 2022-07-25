@@ -7,7 +7,7 @@ import NoticeUtil from "../../../common/utils/NoticeUtil";
 import { GameState } from "../../_base/GameState";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import KenoNumber from "../../keno-pro/view-models/KenoNumber";
-import RoundHistory from "../../keno-pro/view-models/RoundHistory";
+import KenoRoundHistory from "../../keno-pro/view-models/KenoRoundHistory";
 import BetBoard, { BetInfo } from "./../../../common/bet-board/view-models/BetBoard";
 import MiniKenoBetItem from "./components/MiniKenoBetItem";
 import MiniKenoBetItems from "./components/MiniKenoBetItems";
@@ -86,7 +86,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
     public isMiniGameInContainer = true;
     public isMiniKeno: boolean;
     public kenoNumbers: KenoNumber[] = [];
-    public roundHistory: RoundHistory;
+    public roundHistory: KenoRoundHistory;
     public roundResult: MiniKenoRoundResult;
     public betBoard: BetBoard;
     public kenoTimer: MiniKenoTimer;
@@ -333,7 +333,7 @@ export default class MiniKeno extends SocketIOMiniGameBase {
 
     protected initRoundHistory() {
         const roundHistoryNode = cc.instantiate(this.roundHistoryPrefab);
-        this.roundHistory = roundHistoryNode.getComponent(RoundHistory);
+        this.roundHistory = roundHistoryNode.getComponent(KenoRoundHistory);
         this.roundHistory.init(this);
         this.body.addChild(roundHistoryNode);
         this.roundHistory.node.active = true;
