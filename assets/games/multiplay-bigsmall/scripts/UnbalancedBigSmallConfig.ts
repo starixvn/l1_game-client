@@ -1,3 +1,8 @@
+export const UnbalancedBigSmall1Id = 50;
+export const UnbalancedBigSmall2Id = 51;
+export const UnbalancedBigSmall3Id = 54;
+export const UnbalancedBigSmall4Id = 55;
+
 export const unbalancedBigSmallConfigs = {
     50: {
         minBetTime: 1,

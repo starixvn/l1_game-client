@@ -1,5 +1,5 @@
 import BaseComponent from "../../common/BaseComponent";
-import { GameInfos } from "../../configs/SabaConfigs";
+import { getGameConfiguration } from "../../configs/GameConfigurations";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
@@ -8,10 +8,14 @@ const { ccclass, property } = cc._decorator;
 export default class GameViewBase extends BaseComponent {
     public currentMiniPanel: MiniPanel;
     protected _gameId: number;
-    public gameName: string;
     public set gameId(value: number) {
         this._gameId = value;
-        this.gameName = GameInfos[value].key;
+    }
+
+    public get gameName() {
+        const gameConfiguration = getGameConfiguration(this.gameId);
+
+        return gameConfiguration?.key;
     }
 
     public get gameId(): number {

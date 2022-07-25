@@ -1,5 +1,4 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import { GameIds } from "../../../configs/SabaConfigs";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
 import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
@@ -7,7 +6,7 @@ import BigSmallDicesStatistic from "../../bigsmall/view-models/BigSmallDicesStat
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import { handlePlacingBet, handleShakeDish, showBgTimer } from "./actions/CustomActions";
-import { unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
+import { UnbalancedBigSmall1Id, unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -41,7 +40,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     constructor() {
         super();
-        this.gameId = GameIds.UnbalancedBigSmall1;
+        this.gameId = UnbalancedBigSmall1Id;
     }
 
     setGameId(gameId: number) {
