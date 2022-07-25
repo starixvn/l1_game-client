@@ -26,6 +26,7 @@ import BlockchainCardList from "../components/card-list/view-models/BlockchainCa
 import BlockchainCardVerification from "../components/card-list/view-models/BlockchainCardVerification";
 import { consumeEvent, BlockchainBaccaratEvents } from "./BlockchainBaccaratEvents";
 import TutorialMain from "../../../common/tutorial/TutorialMain";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -53,6 +54,9 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     @property(cc.Prefab)
     flashGuidePrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    containerDeck: cc.Node = null;
 
     public gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
@@ -124,6 +128,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     private initCardsUI(node: cc.Node) {
         this.cardsUI = node.getComponent(BlockchainBaccaratCardsUI);
+        GameUtils.moveToOtherNode(this.cardsUI.cardDeck, this.containerDeck);
     }
 
     initFlashGuide() {

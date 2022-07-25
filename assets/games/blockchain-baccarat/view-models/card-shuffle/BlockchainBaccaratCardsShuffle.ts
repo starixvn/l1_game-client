@@ -100,11 +100,11 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
             await this.handleShowBurnCard(cutCardValue, false);
             formatData.forEach((data: BlockchainCardModel, index: number) => {
                 this.createCardsBurn(this.cardPrefab, index, data.card, false, (card: cc.Node, cardData: CardModel) => {
-                    const cardComponent = card.children[0].getComponent(BlockchainCard);
+                    const cardComponent = card.children[0]?.getComponent(BlockchainCard);
                     card.children[0].angle = 0;
-                    cardComponent.setStatusIndexNumber(false);
-                    cardComponent.setCardOldStyle(cardData);
-                    cardComponent.faceUp();
+                    cardComponent?.setStatusIndexNumber(false);
+                    cardComponent?.setCardOldStyle(cardData);
+                    cardComponent?.faceUp();
                 });
             });
         }
@@ -118,17 +118,17 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         if (isAnimation) {
             card.scale = 0.5;
             card.angle = -135;
-            const cardComponent = card.getComponent(BlockchainCard);
-            cardComponent.setIndexNumber(0);
+            const cardComponent = card?.getComponent(BlockchainCard);
+            cardComponent?.setIndexNumber(0);
             this.centerCard.addChild(card);
             this.centerCard.children[0].opacity = 0;
             await this.handleFlyCard(this.centerCard.children[0], this.durationFlyCardBurn, this.cardsBox, cardData);
         } else {
             this.burnCard.addChild(card);
-            const cardComponent = card.getComponent(BlockchainCard);
-            cardComponent.setStatusIndexNumber(false);
-            cardComponent.setCardOldStyle(cardData);
-            cardComponent.faceUp();
+            const cardComponent = card?.getComponent(BlockchainCard);
+            cardComponent?.setStatusIndexNumber(false);
+            cardComponent?.setCardOldStyle(cardData);
+            cardComponent?.faceUp();
         }
     }
 
@@ -141,17 +141,17 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     }
 
     private handleFlyCard(card: cc.Node, duration: number, start: cc.Node, cardData: CardModel): Promise<void> {
-        const cardComponent = card.getComponent(BlockchainCard);
+        const cardComponent = card?.getComponent(BlockchainCard);
         return new Promise((resolve) => {
             this.cardCenterTween = cc
                 .tween(card)
                 .call(() => {
-                    cardComponent.setCardOldStyle(cardData);
+                    cardComponent?.setCardOldStyle(cardData);
                     this.actionCardFly({
                         card: card,
                         start
                     });
-                    cardComponent.playAnimation(CardAnimation.DealerOpenCard, this.durationFlyOpenCard);
+                    cardComponent?.playAnimation(CardAnimation.DealerOpenCard, this.durationFlyOpenCard);
                 })
                 .delay(duration)
                 .call(() => resolve())
@@ -209,13 +209,13 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
             new Promise<void>((resolve) => {
                 const worldPosition = cardsDrop.convertToWorldSpaceAR(cc.v2(0, 0));
                 const destPosition = card.parent.convertToNodeSpaceAR(worldPosition);
-                const cardComponent: BlockchainCard = card.getComponent(BlockchainCard);
-                cardComponent.setStatusInfoTag(false);
+                const cardComponent: BlockchainCard = card?.getComponent(BlockchainCard);
+                cardComponent?.setStatusInfoTag(false);
 
                 const dropTween = cc
                     .tween(card)
                     .call(() => {
-                        cardComponent.playAnimation(CardAnimation.DropCard, 0.6);
+                        cardComponent?.playAnimation(CardAnimation.DropCard, 0.6);
                     })
                     .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
                     .call(() => {
@@ -257,9 +257,9 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         card.addChild(cardPrefab);
         isAnimation && (cardPrefab.scale = 0.5);
         cardPrefab.angle = -135;
-        const cardComponent = card.children[0].getComponent(BlockchainCard);
-        cardComponent.setCardOldStyle(cardData);
-        cardComponent.setIndexNumber(index + 1);
+        const cardComponent = card.children[0]?.getComponent(BlockchainCard);
+        cardComponent?.setCardOldStyle(cardData);
+        cardComponent?.setIndexNumber(index + 1);
         callback(card, cardData);
     }
 }

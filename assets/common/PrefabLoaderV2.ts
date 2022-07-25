@@ -21,9 +21,8 @@ export default class PrefabLoaderV2 extends cc.Component {
 
     private initialize() {
         if (this.instance) {
-            this.initializationEventHandlers.forEach((eventHandler) => eventHandler.emit([this.instance]));
-
             this.node.addChild(this.instance);
+            this.initializationEventHandlers.forEach((eventHandler) => eventHandler.emit([this.instance]));
         }
     }
 }

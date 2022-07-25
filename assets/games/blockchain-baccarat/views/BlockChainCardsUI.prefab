@@ -21,6 +21,9 @@
         "__id__": 2
       },
       {
+        "__id__": 5
+      },
+      {
         "__id__": 7
       },
       {
@@ -106,24 +109,20 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CardsBox",
+    "_name": "Deck",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
     },
-    "_children": [
+    "_children": [],
+    "_active": true,
+    "_components": [
       {
         "__id__": 3
       }
     ],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 5
-      }
-    ],
     "_prefab": {
-      "__id__": 6
+      "__id__": 4
     },
     "_opacity": 255,
     "_color": {
@@ -173,77 +172,6 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Node",
-    "_name": "box",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [],
-    "_prefab": {
-      "__id__": 4
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 215,
-      "height": 107
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        -87,
-        -27,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 1,
-    "groupIndex": 1,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "cdb35c69-172b-475b-9043-a9d8c19e759c"
-    },
-    "fileId": "b0FCU88thKUpvSh9zLeLIQ",
-    "sync": false
-  },
-  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -286,6 +214,77 @@
       "__uuid__": "cdb35c69-172b-475b-9043-a9d8c19e759c"
     },
     "fileId": "84zaFgciFEUIZIwmg1u92m",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "CardBox",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": {
+      "__id__": 6
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 215,
+      "height": 107
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        316.958,
+        209.254,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 1,
+    "groupIndex": 1,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "cdb35c69-172b-475b-9043-a9d8c19e759c"
+    },
+    "fileId": "cbBzl9kshPbrZdgCFpsOzu",
     "sync": false
   },
   {
@@ -1817,7 +1816,7 @@
       }
     ],
     "cardsBox": {
-      "__id__": 3
+      "__id__": 5
     },
     "cardsDrop": {
       "__id__": 8
@@ -2811,7 +2810,7 @@
       }
     ],
     "cardsBox": {
-      "__id__": 3
+      "__id__": 5
     },
     "cardsDrop": {
       "__id__": 8
@@ -3376,7 +3375,7 @@
       }
     ],
     "cardsBox": {
-      "__id__": 3
+      "__id__": 5
     },
     "cardsDrop": {
       "__id__": 8
@@ -4954,7 +4953,7 @@
       "__id__": 114
     },
     "cardsBox": {
-      "__id__": 3
+      "__id__": 5
     },
     "cardsDrop": {
       "__id__": 8
@@ -5000,6 +4999,9 @@
     },
     "cardDropBox": {
       "__id__": 7
+    },
+    "cardDeck": {
+      "__id__": 2
     },
     "_id": ""
   },

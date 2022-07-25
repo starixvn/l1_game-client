@@ -44,6 +44,9 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     @property(cc.Node)
     cardDropBox: cc.Node = null;
 
+    @property(cc.Node)
+    cardDeck: cc.Node = null;
+
     protected orderCard: OrderCardValue[];
 
     onLoad() {
