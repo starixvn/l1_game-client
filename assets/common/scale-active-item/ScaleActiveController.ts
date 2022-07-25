@@ -1,7 +1,7 @@
-import SabaConfigs = require("../../configs/SabaConfigs");
+import { MINI_GAMES_SCALE_ON_DESKTOP } from "../GameUtils";
 import ActiveItem from "./ActiveItem";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class ScaleActiveController extends cc.Component {
@@ -10,7 +10,7 @@ export default class ScaleActiveController extends cc.Component {
     items: ActiveItem[] = [];
 
     onLoad() {
-        this.activeScale = !cc.sys.isMobile ? SabaConfigs.desktopMiniGameScale : 1;
+        this.activeScale = !cc.sys.isMobile ? MINI_GAMES_SCALE_ON_DESKTOP : 1;
     }
 
     addItem(node: cc.Node) {

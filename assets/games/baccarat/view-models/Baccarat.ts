@@ -1,4 +1,3 @@
-import { GameIds } from "../../../configs/SabaConfigs";
 import VipBaccarat from "../../vip-baccarat/view-models/VipBaccarat";
 import BaccaratCards from "./BaccaratCards";
 import BaccaratHistory from "./BaccaratHistory";
@@ -7,6 +6,9 @@ import BaccaratLogsHandler from "./data-handlers/BaccaratLogsHandler";
 import BaccaratTimeHandler from "./data-handlers/BaccaratTimeDataHandler";
 
 const { ccclass, property } = cc._decorator;
+
+export const BaccaratId = 10;
+
 @ccclass
 export default class Baccarat extends VipBaccarat {
     @property({ type: BaccaratCards, override: true })
@@ -23,7 +25,7 @@ export default class Baccarat extends VipBaccarat {
 
     protected internalInit() {
         super.internalInit();
-        this.gameId = GameIds.Baccarat;
+        this.gameId = BaccaratId;
     }
 
     onLoad() {

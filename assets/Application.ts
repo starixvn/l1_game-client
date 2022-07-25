@@ -1,22 +1,28 @@
 import "reflect-metadata";
 
+import axios from "axios";
+import { BundleManager } from "bundle-management";
 import { Container } from "inversify";
 import getDecorators from "inversify-inject-decorators";
 
-import SocketIOController from "./SocketIOController";
-import { BundleManager } from "bundle-management";
-import axios from "axios";
 import { modules } from "./ClientModules";
+import { initialize } from "./configs/GameConfigurations";
+import SocketIOController from "./SocketIOController";
 
 export class Application {
     constructor(public readonly container = new Container()) {}
 
     startup() {
         this.configureServices();
+        this.loadGameConfigurations();
     }
 
     configureServices() {
         this.container.bind<SocketIOController>(SocketIOController).toSelf().inSingletonScope();
+    }
+
+    loadGameConfigurations() {
+        initialize();
     }
 }
 

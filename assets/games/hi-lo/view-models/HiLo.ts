@@ -1,7 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { numberPad, numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import NoIntervalTimeHandler from "../../_base/handlers/NoIntervalTimeHandler";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -34,6 +33,9 @@ export const HiLoEvents = {
     collect: "collect",
     deal: "deal"
 };
+
+export const HiLoId = 45;
+
 @ccclass
 export default class HiLo extends NewMiniGameBase {
     @property(HiLoBettingArea)
@@ -82,7 +84,7 @@ export default class HiLo extends NewMiniGameBase {
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
-        this.gameId = GameIds.HiLo;
+        this.gameId = HiLoId;
         this.setConfig(new HiLoConfigs());
     }
 

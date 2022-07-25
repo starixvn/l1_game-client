@@ -4,7 +4,7 @@ import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper"
 import { getSession } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { enableMsgpackParserAllGames } from "../../configs/Configs";
-import { GameIds, GameInfos } from "../../configs/SabaConfigs";
+import { getGameConfiguration } from "../../configs/GameConfigurations";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
@@ -18,52 +18,48 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     getGameName(id: number): string {
-        return GameInfos[id].key;
+        const gameConfiguration = getGameConfiguration(id);
+
+        return gameConfiguration?.key;
     }
 
-    openMiniGame(gameId) {
+    async openMiniGame(gameId) {
         if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
             return;
         }
 
         this.main.popupMiniGame?.hideListGame();
         const prefabPath = `games/minigame/${this.getGameName(gameId)}`;
+
         const gameBase = this.main.getGameMini(gameId);
         const isAlreadyOpened = gameBase !== undefined;
         const gameLoading = this.main.getGameLoadingComp(+gameId);
 
         if (!isAlreadyOpened) {
-            gameLoading && gameLoading.setDefaultPercent();
-            cc.resources.load(
-                prefabPath,
-                (completedCount, total, item) => {
+            this.main.loading.setDefaultPercent();
+            try {
+                const prefab = await GameUtils.loadMiniGamePrefab(gameId, (completedCount, total, item) => {
                     if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
                         this.main.unCacheAndHideGameLoading(gameLoading, gameId);
                         return;
                     }
 
                     gameLoading && gameLoading.onProgress(completedCount, total, item);
-                },
-                (err: Error, prefab: any) => {
-                    if (!this.main.isAlive()) {
-                        return;
-                    }
+                
+                });
 
-                    this.main.unCacheAndHideGameLoading(gameLoading, gameId);
+                if (!this.main.isAlive()) {
+                    return;
+                }
 
-                    if (err || prefab === null) {
-                        this.main.onForceReload();
-                        return;
-                    }
+                this.main.unCacheAndHideGameLoading(gameLoading, gameId);
 
-                    if (GameUIManager.getInstance().getCurrentGameId() !== gameId || this.main.getGameMini(gameId) !== undefined) {
-                        return;
-                    }
+                if (GameUIManager.getInstance().getCurrentGameId() !== gameId || this.main.getGameMini(gameId) !== undefined) {
+                    return;
+                }
 
                     const node = cc.instantiate(prefab);
-                    const componentName = gameId === GameIds.KenoProViet ? "KenoProViet" : "GameViewBase";
-                    const gameComponent = node.getComponent(componentName);
-                    console.log(componentName, gameComponent);
+                    const gameComponent = node.getComponent("GameViewBase");
                     gameComponent.initMiniPanel(this.main);
                     this.main.addMiniGame(gameComponent, gameId);
                     gameComponent.openGame();
@@ -90,7 +86,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
         } else {
-            const gameName = gameId === GameIds.MegaKeno ? GameUtils.getGameNameString(11) : GameUtils.getGameNameString(gameId);
+            const gameName = gameId === GameIds.KenoMax ? GameUtils.getGameNameString(11) : GameUtils.getGameNameString(gameId);
             const socket = this.setUpSocketForGame(gameName, gameId, true, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {

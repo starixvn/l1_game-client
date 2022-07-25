@@ -1,7 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { GameIds } from "../../../configs/SabaConfigs";
 import BetItem from "../../_base/view-models/BetItem";
 import VipSedie from "../../vip-sedie/view-models/VipSedie";
 import VipSedieWarFinishHandler from "./handlers/VipSedieWarFinishHandler";
@@ -12,6 +11,8 @@ import VipSedieWarStatistic from "./VipSedieWarStatistic";
 import VipSedieWarUtils from "./VipSedieWarUtils";
 
 const { ccclass, property } = cc._decorator;
+
+export const VipSedieWarId = 28;
 
 @ccclass
 export default class VipSedieWar extends VipSedie {
@@ -31,7 +32,7 @@ export default class VipSedieWar extends VipSedie {
     expandableMenu: ExpandableMenu = null;
 
     protected internalInit() {
-        this.gameId = GameIds.VipSedieWar;
+        this.gameId = VipSedieWarId;
         this.setConfig(new VipSedieWarConfigs());
         this.finishShowResult = false;
     }

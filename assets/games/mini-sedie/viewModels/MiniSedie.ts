@@ -1,5 +1,4 @@
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import MiniSedieFinishHandler from "./handlers/MiniSedieFinishHandler";
@@ -11,6 +10,8 @@ import SedieMiniRoundHistory from "./SedieMiniRoundHistory";
 import SedieRoundHistory from "./SedieRoundHistory";
 
 const { ccclass, property } = cc._decorator;
+
+export const MiniSedieId = 9;
 
 @ccclass
 export default class MiniSedie extends SocketIOMiniGameBase {
@@ -69,7 +70,7 @@ export default class MiniSedie extends SocketIOMiniGameBase {
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
-        this.gameId = GameIds.MiniSedie;
+        this.gameId = MiniSedieId;
         this.setConfig(new MiniSedieConfigs());
     }
 

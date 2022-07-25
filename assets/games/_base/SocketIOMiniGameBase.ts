@@ -3,7 +3,7 @@ import { Socket } from "socket.io-client";
 import { lazyInject } from "../../Application";
 import AudioManager from "../../common/audio/AudioManager";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
-import SabaConfigs = require("../../configs/SabaConfigs");
+import { MINI_GAMES_SCALE_ON_DESKTOP } from "../../common/GameUtils";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 
@@ -20,7 +20,7 @@ export default class SocketIOMiniGameBase extends GameBase {
 
         if (!this.isMiniGameInContainer) {
             if (!cc.sys.isMobile) {
-                this.node.scale = SabaConfigs.desktopMiniGameScale;
+                this.node.scale = MINI_GAMES_SCALE_ON_DESKTOP;
             }
             this.dragMiniGame();
         }

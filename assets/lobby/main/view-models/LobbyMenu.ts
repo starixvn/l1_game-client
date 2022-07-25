@@ -99,7 +99,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     private isBigSize(id: number) {
-        return this.getItemSize(id).y > 1;
+        return this.lobbyMenuConfig.isBigSize(id);
     }
 
     getList() {
@@ -125,49 +125,27 @@ export default class LobbyMenu extends GameIconMenu {
         return list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
     }
 
-    sortForLayout(list: number[]): number[] {
-        const weight = {};
-        list.forEach((id) => {
-            const size = this.getItemSize(id);
-            if (size.y === 2) {
-                weight[id] = 3;
-            } else if (size.x === 2) {
-                weight[id] = 2;
-            } else {
-                weight[id] = 1;
-            }
-        });
-
-        list.sort((a, b) => weight[a] - weight[b]);
-        return list;
-    }
-
     onInitialized() {
         const layout = this.content.getComponent(cc.Layout);
         layout.updateLayout();
         this.initializedCallback && this.initializedCallback();
     }
 
-    getItemSize(id: number): cc.Vec2 {
-        const detail = this.lobbyMenuConfig.detail;
-        return detail[id]?.size || cc.v2(1, 1);
-    }
-
     addItem(id: number, prefab: cc.Prefab): cc.Node {
         const iconNode = this.createIconNode(id, prefab);
+        const isBigSize = this.isBigSize(id);
 
-        const size = this.getItemSize(id);
         if (!this.isAlive()) {
             return null;
         }
 
-        if (!this.currentColumn || size.y > 1) {
+        if (!this.currentColumn || isBigSize) {
             this.createNewColumn();
         }
 
-        this.handleNewRow(iconNode, size);
+        this.handleNewRow(iconNode);
 
-        if ((this.currentColumn.childrenCount === 2 && !this.currentRow) || size.y > 1) {
+        if ((this.currentColumn.childrenCount === 2 && !this.currentRow) || isBigSize) {
             this.currentColumn = null;
             this.clearRow();
         }
@@ -176,7 +154,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     loadPrefab(gameId: number): Promise<cc.Prefab> {
-        const skeletonIconPath = this.lobbyMenuConfig.iconBigSize.includes(gameId)
+        const skeletonIconPath = this.lobbyMenuConfig.isBigSize(gameId)
             ? `lobby/games/skeleton-icon/icon-big`
             : `lobby/games/skeleton-icon/icon-small`;
 
@@ -238,7 +216,7 @@ export default class LobbyMenu extends GameIconMenu {
         this.currentRow = node;
     }
 
-    handleNewRow(iconNode: cc.Node, size: cc.Vec2) {
+    handleNewRow(iconNode: cc.Node) {
         if (this.rowChildrenCount > 0) {
             if (!this.currentRow) {
                 this.createNewRow();
@@ -250,9 +228,6 @@ export default class LobbyMenu extends GameIconMenu {
             }
         } else {
             this.currentColumn.addChild(iconNode);
-            if (size.x > 1) {
-                this.rowChildrenCount = size.x;
-            }
         }
     }
 

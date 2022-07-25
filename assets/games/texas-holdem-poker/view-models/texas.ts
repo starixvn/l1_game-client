@@ -1,6 +1,5 @@
 import NewButton from "../../../common/custom-button/NewButton";
 import TutorialMain from "../../../common/tutorial/TutorialMain";
-import { GameIds } from "../../../configs/SabaConfigs";
 import CasinoGame from "../../_casino/CasinoGame";
 import CallModelBase from "../../_casino/event-models/CallModelBase";
 import DealModelBase from "../../_casino/event-models/DealModelBase";
@@ -21,7 +20,7 @@ import {
     showHideButtons,
     showHideTooltip,
     showPlaceBetChips,
-    updateAllChips,
+    updateAllChips
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -32,7 +31,7 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards,
+    swapPlayerAndDealerCards
 } from "../cards-component/view-models/cards-wrapper";
 import TexasCards from "../cards-component/view-models/texas-cards";
 import TexasConfigsModel from "../event-models/texas-configs-model";
@@ -60,6 +59,9 @@ import TexasOddsTable from "./texas-odds-table";
 import TexasPlacingBet from "./texas-placing-bet";
 
 const { ccclass, property } = cc._decorator;
+
+export const TexasId = 42;
+
 @ccclass
 export default class Texas extends CasinoGame {
     @property({ type: [cc.Component] })
@@ -105,7 +107,7 @@ export default class Texas extends CasinoGame {
 
     constructor() {
         super();
-        this.gameId = GameIds.TexasHoldemPoker;
+        this.gameId = TexasId;
     }
 
     onLoad() {

@@ -12,5 +12,5 @@ RUN touch /var/run/nginx.pid && \
 USER nginx
 
 COPY ./.nginx/game.conf /etc/nginx/conf.d/default.conf
-COPY ./build/web-mobile/assets/treasure-island /usr/share/nginx/html/treasure-island
+COPY ./build/web-mobile/assets/47 /usr/share/nginx/html/47
 COPY ./build/web-mobile/assets/versions.json /usr/share/nginx/html

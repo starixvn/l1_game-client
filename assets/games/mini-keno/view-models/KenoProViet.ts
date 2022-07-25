@@ -4,8 +4,7 @@ import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import SnappedScrollView from "../../../common/bet-chips/view-models/SnappedScrollView";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
-import GameUtils from "../../../common/GameUtils";
-import { desktopMiniGameScale, GameIds } from "../../../configs/SabaConfigs";
+import GameUtils, { MINI_GAMES_SCALE_ON_DESKTOP } from "../../../common/GameUtils";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import MiniKeno from "../../mini-keno/view-models/MiniKeno";
@@ -14,7 +13,7 @@ import KenoStatusBanner from "./components/KenoStatusBanner";
 import MiniKenoGuide from "./components/MiniKenoGuide";
 import MiniKenoHistory from "./components/MiniKenoHistory";
 import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
-import KenoUtils, { KenoType } from "./KenoUtils";
+import KenoUtils, { KenoMaxId, KenoType } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -94,13 +93,13 @@ export default class KenoProViet extends cc.Component {
 
     assignSocketForGameDefault() {
         const defaultGameId = GameIds.MegaKeno;
-        const kenoProVietSocket = this.socketIOController.getSocketGame(GameIds.KenoProViet);
+        const kenoProVietSocket = this.socketIOController.getSocketGame(KenoMaxId);
         this.socketIOController.assignSocket(defaultGameId, kenoProVietSocket);
     }
 
     private setUpSocketAllKeno(list: any[]) {
         this.assignSocketForGameDefault();
-        const alternativeName = GameUtils.getGameNameString(GameIds.KenoProViet);
+        const alternativeName = GameUtils.getGameNameString(KenoMaxId);
         list.forEach((type, index) => {
             const gameId = KenoUtils.getKenoGameId(type);
             const socket = this.socketIOController.getSocketGame(gameId);
@@ -249,7 +248,7 @@ export default class KenoProViet extends cc.Component {
 
     onLoad() {
         if (!cc.sys.isMobile) {
-            this.node.scale = desktopMiniGameScale;
+            this.node.scale = MINI_GAMES_SCALE_ON_DESKTOP;
         }
         this.initAllKeno();
         this.leftButton.active = false;
@@ -285,7 +284,7 @@ export default class KenoProViet extends cc.Component {
             const gameId = KenoUtils.getKenoGameId(type);
             this.socketIOController.closeSocket(gameId);
         });
-        this.socketIOController.closeSocket(GameIds.KenoProViet);
+        this.socketIOController.closeSocket(KenoMaxId);
         this.closeGuideAndHistory();
     }
 

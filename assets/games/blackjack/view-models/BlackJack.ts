@@ -9,7 +9,6 @@ import NewButton from "../../../common/custom-button/NewButton";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
-import { GameIds } from "../../../configs/SabaConfigs";
 import { GameState } from "../../_base/GameState";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
@@ -29,6 +28,8 @@ import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
 
 const { ccclass, property } = cc._decorator;
+
+export const BlackJackId = 23;
 
 @ccclass
 export default class BlackJack extends SocketIOTableGameBase {
@@ -144,7 +145,7 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.gameId = GameIds.BlackJack;
+        this.gameId = BlackJackId;
     }
 
     onLoad() {

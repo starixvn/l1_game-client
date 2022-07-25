@@ -1,6 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
-import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import KenoBetHandler from "./handlers/KenoBetHandler";
 import KenoFinishHandler from "./handlers/KenoFinishHandler";
@@ -13,6 +12,8 @@ import KenoNumber from "./KenoNumber";
 import RoundHistory from "./RoundHistory";
 
 const { ccclass, property } = cc._decorator;
+
+export const KenoId = 8;
 
 @ccclass
 export default class Keno extends SocketIOTableGameBase {
@@ -42,7 +43,7 @@ export default class Keno extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.gameId = GameIds.KenoProMax;
+        this.gameId = KenoId;
         this.setConfig(new KenoConfigs());
     }
 

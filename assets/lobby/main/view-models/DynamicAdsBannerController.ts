@@ -1,5 +1,4 @@
 import { lazyInject } from "../../../Application";
-import configs = require("../../../configs/Configs");
 import BannerController from "./BannerController";
 import BannerItem from "./BannerItem";
 import LobbyMenuConfig from "./LobbyMenuConfig";
@@ -55,7 +54,8 @@ export default class DynamicAdsBannerController extends BannerController {
         sprite.spriteFrame = spriteFrame;
 
         const bannerItem = item.getComponent(BannerItem);
-        const adsInfo = this.lobbyMenuConfig.bannerAdsInfo[configs.systemType][id];
+        const adsInfo = this.lobbyMenuConfig.getBannerInfo(id);
+
         if (adsInfo) {
             bannerItem.displayTime = adsInfo.displayTime;
         } else {

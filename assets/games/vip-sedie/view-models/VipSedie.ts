@@ -1,10 +1,11 @@
-import { GameIds } from "../../../configs/SabaConfigs";
 import Sedie from "../../sedie/view-models/Sedie";
 import { SedieConfigs } from "../../sedie/view-models/SedieConfigs";
 import VipSedieLogHandler from "./handlers/VipSedieLogHandler";
 import VipSedieTimeHandler from "./handlers/VipSedieTimeHandler";
 
 const { ccclass, property } = cc._decorator;
+
+export const VipSedieId = 22;
 
 @ccclass
 export default class VipSedie extends Sedie {
@@ -18,7 +19,7 @@ export default class VipSedie extends Sedie {
     }
 
     protected internalInit() {
-        this.gameId = GameIds.VipSedie;
+        this.gameId = VipSedieId;
         this.setConfig(new SedieConfigs());
         this.finishShowResult = false;
     }

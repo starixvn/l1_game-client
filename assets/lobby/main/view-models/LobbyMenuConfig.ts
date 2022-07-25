@@ -1,7 +1,12 @@
 import { injectable } from "inversify";
 
-import configs = require("../../../configs/Configs");
-import { GameIds } from "../../../configs/SabaConfigs";
+import {
+    GameConfiguration,
+    getGameConfiguration,
+    getGameConfigurationsWithFilter,
+    getGameIdsWithFilter
+} from "../../../configs/GameConfigurations";
+import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import { ICashSystem, ICreditSystem, System } from "../../../System";
 
 @injectable()
@@ -11,150 +16,51 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     smPromotion: boolean;
-    categoryList = {
-        seDieGames: [GameIds.VipSedie, GameIds.SeDie, GameIds.VipSedieWar, GameIds.MiniSedie, GameIds.SpecialSeDie],
-        casinoGames: [
-            GameIds.SicBo,
-            GameIds.BigSmall,
-            GameIds.TurboBigSmall,
-            GameIds.TurboOddEven,
-            GameIds.VipFishPrawnCrab,
-            GameIds.FishPrawnCrab,
-            GameIds.Roulette
-        ],
-        cardGames: [
-            GameIds.BlockchainBaccarat,
-            GameIds.Baccarat,
-            GameIds.VipBaccarat,
-            GameIds.DragonTiger,
-            GameIds.ThreeCards,
-            GameIds.BlackJack,
-            GameIds.CasinoHoldemPoker,
-            GameIds.HiLo,
-            GameIds.TexasHoldemPoker
-        ],
-        slotGames: [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub],
-        lotteryGames: [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery],
-        othersGames: [GameIds.BitcoinMaster]
-    };
-    bannerAds = {
-        SC1: [GameIds.BlockchainBaccarat, GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo],
-        SC2: [GameIds.SeDie, GameIds.TexasHoldemPoker, GameIds.HiLo]
-    };
-    bannerAdsInfo = {
-        SC1: {
-            [GameIds.BlockchainBaccarat]: {
-                displayTime: 10
-            },
-            [GameIds.SeDie]: {
-                displayTime: 5
-            },
-            [GameIds.TexasHoldemPoker]: {
-                displayTime: 5
-            },
-            [GameIds.HiLo]: {
-                displayTime: 5
-            }
-        },
-        SC2: {
-            [GameIds.SeDie]: {
-                displayTime: 10
-            },
-            [GameIds.TexasHoldemPoker]: {
-                displayTime: 5
-            },
-            [GameIds.HiLo]: {
-                displayTime: 5
-            }
-        }
-    };
-    list = [
-        GameIds.TreasureIsland,
-        GameIds.VipSedie,
-        GameIds.UnbalancedBigSmall1,
-        GameIds.SeDie,
-        GameIds.VipSedieWar,
-        GameIds.MiniSedie,
-        GameIds.SicBo,
-        GameIds.BigSmall,
-        GameIds.TurboBigSmall,
-        GameIds.TurboOddEven,
-        GameIds.FourGuardians,
-        GameIds.HeroesSlot,
-        GameIds.NightClub,
-        GameIds.KenoProMax,
-        GameIds.KenoProViet,
-        GameIds.BlockchainBaccarat,
-        GameIds.Baccarat,
-        GameIds.VipBaccarat,
-        GameIds.VipFishPrawnCrab,
-        GameIds.FishPrawnCrab,
-        GameIds.DragonTiger,
-        GameIds.SpecialSeDie,
-        GameIds.BlackJack,
-        GameIds.Roulette,
-        GameIds.Lottery,
-        GameIds.ThreeCards,
-        GameIds.BitcoinMaster,
-        GameIds.CasinoHoldemPoker,
-        GameIds.HiLo,
-        GameIds.TexasHoldemPoker
-    ];
-    seDieGames = [GameIds.VipSedie, GameIds.SeDie, GameIds.VipSedieWar, GameIds.MiniSedie, GameIds.SpecialSeDie];
-    casinoGames = [
-        GameIds.SicBo,
-        GameIds.BigSmall,
-        GameIds.TurboBigSmall,
-        GameIds.TurboOddEven,
-        GameIds.VipFishPrawnCrab,
-        GameIds.FishPrawnCrab,
-        GameIds.Roulette
-    ];
-    cardGames = [
-        GameIds.BlockchainBaccarat,
-        GameIds.VipBaccarat,
-        GameIds.Baccarat,
-        GameIds.DragonTiger,
-        GameIds.ThreeCards,
-        GameIds.BlackJack,
-        GameIds.CasinoHoldemPoker,
-        GameIds.HiLo,
-        GameIds.TexasHoldemPoker
-    ];
-    slotGames = [GameIds.TreasureIsland, GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub];
-    lotteryGames = [GameIds.KenoProMax, GameIds.KenoProViet, GameIds.Lottery];
-    othersGames = [GameIds.BitcoinMaster];
 
-    miniList = [
-        GameIds.BigSmall,
-        GameIds.TurboBigSmall,
-        GameIds.TurboOddEven,
-        GameIds.FishPrawnCrab,
-        GameIds.Lobby,
-        GameIds.DragonTiger,
-        GameIds.HiLo,
-        GameIds.MiniSedie
-    ];
-    detail = {
-        [GameIds.FourGuardians]: {
-            size: cc.v2(1, 2)
-        },
-        [GameIds.HeroesSlot]: {
-            size: cc.v2(1, 2)
-        },
-        [GameIds.NightClub]: {
-            size: cc.v2(1, 2)
-        },
-        [GameIds.TreasureIsland]: {
-            size: cc.v2(1, 2)
-        }
-    };
-    newGames = {
-        SC1: [GameIds.BlockchainBaccarat],
-        SC2: [GameIds.TreasureIsland]
-    };
-    iconBigSize = [GameIds.FourGuardians, GameIds.HeroesSlot, GameIds.NightClub, GameIds.TreasureIsland];
-    customGameIconBySystem = [GameIds.FourGuardians];
+    get categoryList() {
+        return {
+            seDieGames: this.getGameIdsByCategory("sedie"),
+            casinoGames: this.getGameIdsByCategory("casino"),
+            cardGames: this.getGameIdsByCategory("card"),
+            slotGames: this.getGameIdsByCategory("slot"),
+            lotteryGames: this.getGameIdsByCategory("lottery"),
+            othersGames: this.getGameIdsByCategory("other")
+        };
+    }
+
+    get list() {
+        const gameFilter = (configuration: GameConfiguration) => configuration.id > 0 && !!configuration.order;
+
+        return getGameIdsWithFilter(gameFilter);
+    }
+
+    get bannerAds() {
+        const bannerFilter = (configuration: GameConfiguration) => !!configuration?.banner;
+        const games = getGameConfigurationsWithFilter(bannerFilter);
+
+        return games.sort((a, b) => a.banner.order - b.banner.order).map((configuration) => configuration.id);
+    }
+        GameIds.UnbalancedBigSmall1,
+
+    get miniList() {
+        const miniPanelFilter = (configuration: GameConfiguration) => configuration?.mini?.miniPanel;
+
+        return getGameIdsWithFilter(miniPanelFilter);
+    }
+
+    getGameIdsByCategory(category: string) {
+        const categoryFilter = (configuration: GameConfiguration) =>
+            configuration?.category === category && configuration.id > 0 && !!configuration.order;
+
+        return getGameIdsWithFilter(categoryFilter);
+    }
+
+    getBannerInfo(gameId: number) {
+        const gameConfiguration = getGameConfiguration(gameId);
+
+        return gameConfiguration?.banner;
+    }
+    customGameIconBySystem = [FourGuardiansId];
 
     customizeCredit(): void {
         this.smPromotion = true;
@@ -165,6 +71,14 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     isNewGame(gameId: number): boolean {
-        return this.newGames[configs.systemType].includes(gameId);
+        const gameConfiguration = getGameConfiguration(gameId);
+
+        return gameConfiguration?.tag === "new";
+    }
+
+    isBigSize(gameId: number): boolean {
+        const gameConfiguration = getGameConfiguration(gameId);
+
+        return gameConfiguration?.bigSize;
     }
 }

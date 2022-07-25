@@ -1,8 +1,9 @@
-import { GameIds } from "../../../configs/SabaConfigs";
 import AutoSpinSettingDialog from "../../_slotgame_base/AutoSpinSettingDialog";
 import SlotGameBase from "../../_slotgame_base/SlotGameBase";
 
 const { ccclass, property } = cc._decorator;
+
+export const HeroesSlotId = 38;
 
 @ccclass
 export default class HeroesSlot extends SlotGameBase {
@@ -11,7 +12,7 @@ export default class HeroesSlot extends SlotGameBase {
 
     constructor() {
         super();
-        this.gameId = GameIds.HeroesSlot;
+        this.gameId = HeroesSlotId;
     }
 
     createAutoSpinDialog(): AutoSpinSettingDialog {

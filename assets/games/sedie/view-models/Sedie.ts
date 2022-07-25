@@ -1,6 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
-import { GameIds } from "../../../configs/SabaConfigs";
 import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import { Orientation } from "../../_base/Orientation";
 import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
@@ -15,6 +14,9 @@ import SedieHistory from "./SedieHistory";
 import SedieTutorial from "./SedieTutorial";
 
 const { ccclass, property } = cc._decorator;
+
+export const SedieId = 2;
+
 @ccclass
 export default class Sedie extends FreeBetGameBase {
     @property(cc.Prefab)
@@ -75,7 +77,7 @@ export default class Sedie extends FreeBetGameBase {
     }
 
     protected internalInit() {
-        this.gameId = GameIds.SeDie;
+        this.gameId = SedieId;
         this.setConfig(new SedieConfigs());
         this.finishShowResult = false;
     }

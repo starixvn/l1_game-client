@@ -1,6 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
-import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
@@ -17,6 +16,9 @@ import ExpandableMenu from "../../../common/expandable-menu/view-models/Expandab
 import BaccaratBigRoad from "../../_baccarat/view-models/BaccaratBigRoad";
 
 const { ccclass, property } = cc._decorator;
+
+export const VipBaccaratId = 27;
+
 @ccclass
 export default class VipBaccarat extends SocketIOTableGameBase {
     @property({ type: VipBaccaratCards })
@@ -75,7 +77,7 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.gameId = GameIds.VipBaccarat;
+        this.gameId = VipBaccaratId;
         this.setConfig(new BaccaratConfigs());
     }
 

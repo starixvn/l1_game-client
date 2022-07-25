@@ -1,8 +1,8 @@
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import { SedieId } from "../../sedie/view-models/Sedie";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class LuckyWheelBanner extends cc.Component {
@@ -15,7 +15,7 @@ export default class LuckyWheelBanner extends cc.Component {
     openSedie() {
         const dialog = this.node.getComponent(CommonDialog);
         dialog.closeDialog();
-        this.miniPanel.openNewSocketTableGame(null, GameIds.SeDie);
+        this.miniPanel.openNewSocketTableGame(null, SedieId);
     }
 
     onDisable() {

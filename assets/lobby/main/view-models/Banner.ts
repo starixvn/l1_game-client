@@ -1,12 +1,11 @@
-import DynamicAdsBannerController from "./DynamicAdsBannerController";
-import * as SabaConfigs from "../../../configs/SabaConfigs";
 import { appContainer } from "../../../Application";
-import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import GameUtils from "../../../common/GameUtils";
-import BannerController from "./BannerController";
-import JackpotNavigation from "./JackpotNavigation";
+import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
+import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
-import configs = require("../../../configs/Configs");
+import BannerController from "./BannerController";
+import DynamicAdsBannerController from "./DynamicAdsBannerController";
+import JackpotNavigation from "./JackpotNavigation";
 
 const { ccclass, property } = cc._decorator;
 
@@ -30,8 +29,7 @@ export default class Banner extends cc.Component {
         this.node.addChild(bannerPrefabNode);
         this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
         const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
-        const showJackpotBanner =
-            isLoadAllBanners && cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
+        const showJackpotBanner = isLoadAllBanners &&  cc.RedT.user.offerGames.includes(FourGuardiansId) && fourGuardiansConfig.jackpotEnabled;
 
         adsBannerController.menuLoop = !showJackpotBanner;
         const filterList: number[] = this.getGameIdOfferBanner(isLoadAllBanners);
@@ -87,9 +85,7 @@ export default class Banner extends cc.Component {
 
     private getGameIdOfferBanner(isLoadAllBanners: boolean) {
         const filterList: number[] = [];
-        const gameAds = isLoadAllBanners
-            ? lobbyMenuConfig.bannerAds[configs.systemType]
-            : [lobbyMenuConfig.bannerAds[configs.systemType][0]];
+        const gameAds = isLoadAllBanners?[lobbyMenuConfig.bannerAds:lobbyMenuConfig.bannerAds[0]];
         const offerGames = cc.RedT.user.offerGames;
         gameAds.forEach((id: number) => {
             if (offerGames.includes(id)) {

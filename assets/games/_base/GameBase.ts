@@ -13,6 +13,8 @@ import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
+import { getGameConfiguration } from "../../configs/GameConfigurations";
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
 import DataHandler from "./handlers/DataHandler";
@@ -108,6 +110,12 @@ export default class GameBase extends GameViewBase {
     userProfile: UserProfile;
 
     protected historyComponent: SocketIOGameHistoryBase;
+
+    public get gameName() {
+        const gameConfiguration = getGameConfiguration(this.gameId);
+
+        return gameConfiguration?.key;
+    }
 
     public gameState = GameState.None;
     public get isStopGame() {

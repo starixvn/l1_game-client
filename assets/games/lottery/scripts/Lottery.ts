@@ -1,7 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
-import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import LotteryBetHandler from "./handlers/LotteryBetHandler";
 import LotteryFinishHandler from "./handlers/LotteryFinishHandler";
@@ -33,6 +32,8 @@ export enum ChoiceType {
     Parlay3,
     Parlay4
 }
+
+export const LotteryId = 31;
 
 @ccclass
 export default class Lottery extends SocketIOTableGameBase {
@@ -94,7 +95,7 @@ export default class Lottery extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.gameId = GameIds.Lottery;
+        this.gameId = LotteryId;
         this.setConfig(new LotteryGameConfig());
     }
 

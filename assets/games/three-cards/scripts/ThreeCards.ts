@@ -2,7 +2,6 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
-import { GameIds } from "../../../configs/SabaConfigs";
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import { ThreeCardsRoundData } from "./DataDefinition";
@@ -15,6 +14,8 @@ import ThreeCardsResultStatistics from "./ThreeCardsResultStatistics";
 import ThreeCardsRoundHistory from "./ThreeCardsRoundHistory";
 
 const { ccclass, property } = cc._decorator;
+
+export const ThreeCardsId = 35;
 
 @ccclass
 export default class ThreeCards extends SocketIOTableGameBase {
@@ -60,7 +61,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
     showResultDuration = 2;
     constructor() {
         super();
-        this.gameId = GameIds.ThreeCards;
+        this.gameId = ThreeCardsId;
         this.setConfig(new ThreeCardsConfigs());
     }
 

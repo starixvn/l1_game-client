@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import AudioManager from "../../../common/audio/AudioManager";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../../common/GameUtils";
-import { GameIds } from "../../../configs/SabaConfigs";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BetItem from "../../_base/view-models/BetItem";
@@ -20,6 +19,8 @@ import SicBoOddsItem from "./SicBoOddsItem";
 import SicBoResult from "./SicBoResult";
 
 const { ccclass, property } = cc._decorator;
+
+export const SicBoId = 25;
 
 @ccclass
 export default class SicBo extends SocketIOTableGameBase {
@@ -114,7 +115,7 @@ export default class SicBo extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.gameId = GameIds.SicBo;
+        this.gameId = SicBoId;
         this.setConfig(new SicBoConfigs());
         this.finishShowResult = false;
     }

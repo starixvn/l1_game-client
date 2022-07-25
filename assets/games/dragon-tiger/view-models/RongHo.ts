@@ -1,7 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import GameLogControlBase from "../../_base/view-models/GameLogControlBase";
@@ -14,6 +13,8 @@ import RHRoundResultItem from "./RHRoundResultItem";
 import { RongHoConfigs } from "./RongHoConfigs";
 
 const { ccclass, property } = cc._decorator;
+
+export const RongHoId = 7;
 
 @ccclass
 export default class RongHo extends SocketIOMiniGameBase {
@@ -63,7 +64,7 @@ export default class RongHo extends SocketIOMiniGameBase {
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
-        this.gameId = GameIds.DragonTiger;
+        this.gameId = RongHoId;
         this.setConfig(new RongHoConfigs());
         cc.RedT.setting[this.gameName] = cc.RedT.setting[this.gameName] || {
             bet: "1"

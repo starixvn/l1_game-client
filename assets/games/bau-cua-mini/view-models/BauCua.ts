@@ -1,7 +1,5 @@
 import * as _ from "lodash";
-
 import AudioManager from "../../../common/audio/AudioManager";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import vipFishPrawnCrabConstants from "../../vip-fish-prawn-crab/view-models/VipFishPrawnCrabConstants";
@@ -15,6 +13,8 @@ import BauCuaLogsHandler from "./handlers/BauCuaLogsHandler";
 import BauCuaTimeHandler from "./handlers/BauCuaTimeHandler";
 
 const { ccclass, property } = cc._decorator;
+
+export const BauCuaId = 3;
 
 @ccclass
 export default class BauCua extends SocketIOMiniGameBase {
@@ -106,7 +106,7 @@ export default class BauCua extends SocketIOMiniGameBase {
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
-        this.gameId = GameIds.FishPrawnCrab;
+        this.gameId = BauCuaId;
         this.setConfig(new BauCuaConfigs());
     }
 

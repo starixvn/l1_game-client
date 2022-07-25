@@ -7,7 +7,7 @@ import GameUtils from "./common/GameUtils";
 import { getProxyRoute } from "./common/helpers/UrlHelper.js";
 import { sentryLogger } from "./common/logger.js";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
-import { GameInfos } from "./configs/SabaConfigs";
+import { getGameConfiguration } from "./configs/GameConfigurations";
 import MiniPanel from "./mini-games-panel/view-models/MiniPanel";
 
 @injectable()
@@ -126,8 +126,9 @@ export default class SocketIOController {
     closeMiniGameSockets() {
         const keys = Object.keys(this.gameSockets);
         keys.forEach((gameId) => {
-            const info = GameInfos[gameId];
-            if (info.mini) {
+            const gameConfiguration = getGameConfiguration(gameId);
+
+            if (gameConfiguration?.mini) {
                 this.closeSocket(gameId);
             }
         });

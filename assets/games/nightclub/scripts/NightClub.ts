@@ -1,12 +1,13 @@
-import { GameIds } from "../../../configs/SabaConfigs";
 import HeroesSlot from "../../AHCL/scripts/HeroesSlot";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
+
+export const NightClubId = 46;
 
 @ccclass
 export default class NightClub extends HeroesSlot {
     constructor() {
         super();
-        this.gameId = GameIds.NightClub;
+        this.gameId = NightClubId;
     }
 }

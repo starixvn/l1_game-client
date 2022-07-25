@@ -1,5 +1,4 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -21,6 +20,8 @@ export enum DishAnimation {
     OpenDish = "DishOpenAnimation",
     ShakeDish = "DishShakingAnimation"
 }
+
+export const BigSmallId = 1;
 
 @ccclass
 export default class BigSmall extends BalancedBettingPoolGameBase {
@@ -106,7 +107,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
-        this.gameId = GameIds.BigSmall;
+        this.gameId = BigSmallId;
         this.setConfig(new BigSmallConfigs());
     }
 

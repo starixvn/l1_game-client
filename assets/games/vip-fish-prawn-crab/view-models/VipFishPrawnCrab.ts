@@ -2,7 +2,6 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
-import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import VipFishPrawnCrabBetHandler from "./handlers/VipFishPrawnCrabBetHandler";
 import VipFishPrawnCrabFinishHandler from "./handlers/VipFishPrawnCrabFinishHandler";
@@ -16,6 +15,8 @@ import VipFishPrawnCrabOddItem from "./VipFishPrawnCrabOddItem";
 import VipFishPrawnCrabStats from "./VipFishPrawnCrabStats";
 
 const { ccclass, property } = cc._decorator;
+
+export const VipFishPrawnCrabId = 26;
 
 @ccclass
 export default class VipFishPrawnCrab extends SocketIOTableGameBase {
@@ -81,7 +82,7 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
     }
 
     protected internalInit() {
-        this.gameId = GameIds.VipFishPrawnCrab;
+        this.gameId = VipFishPrawnCrabId;
         this.setConfig(new VipFishPrawnCrabConfigs());
         this.finishShowResult = false;
     }
@@ -185,8 +186,9 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
                 const choice = betItem.node.name;
                 betItem.setHighlight(dataLog.settlementResult[choice], false);
                 if (_.keys(vipFishPrawnCrabConstants.resultMapper).indexOf(choice) >= 0) {
-                    const xValue = _.values(dataLog.result).filter((value) => value === vipFishPrawnCrabConstants.resultMapper[choice])
-                        .length;
+                    const xValue = _.values(dataLog.result).filter(
+                        (value) => value === vipFishPrawnCrabConstants.resultMapper[choice]
+                    ).length;
                     if (xValue > 1) {
                         betItem.setXSpriteFrame(xValue === 2 ? this.x2LastSpriteFrame : this.x3LastSpriteFrame);
                     }

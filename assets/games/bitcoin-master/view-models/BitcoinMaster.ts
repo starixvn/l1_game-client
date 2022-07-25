@@ -1,7 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -28,6 +27,8 @@ import BitcoinMasterLogsHandler from "./handlers/BitCoinMasterLogsHandler";
 import BitcoinMasterTimeHandler from "./handlers/BitCoinMasterTimeHandler";
 
 const { ccclass, property } = cc._decorator;
+
+export const BitcoinMasterId = 43;
 
 @ccclass
 export default class BitcoinMaster extends BalancedBettingPoolGameBase {
@@ -146,7 +147,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
-        this.gameId = GameIds.BitcoinMaster;
+        this.gameId = BitcoinMasterId;
         this.setConfig(new BitcoinMasterConfigs());
     }
 

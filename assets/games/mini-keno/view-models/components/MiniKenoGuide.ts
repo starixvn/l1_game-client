@@ -1,7 +1,7 @@
 import AudioManager from "../../../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../../../common/auth/SessionManager";
 import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
-import { GameIds } from "../../../../configs/SabaConfigs";
+import { KenoEastId, KenoMax2Id, KenoMaxId, KenoMini2Id, KenoMiniId, KenoNorthId, KenoSouthId, KenoWestId } from "../KenoUtils";
 import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
@@ -72,16 +72,16 @@ export default class MiniKenoGuide extends cc.Component {
 
     getGameId(game: string) {
         const dict = {
-            kenoMax: GameIds.KenoMax,
-            kenoMax2: GameIds.KenoMax2,
+            kenoMax: KenoMaxId,
+            kenoMax2: KenoMax2Id,
             megaKeno: GameIds.MegaKeno,
             megaKeno2: GameIds.MegaKeno2,
-            kenoMini: GameIds.KenoMini,
-            kenoMini2: GameIds.KenoMini2,
-            kenoDong: GameIds.KenoEast,
-            kenoTay: GameIds.KenoWest,
-            kenoNam: GameIds.KenoSouth,
-            kenoBac: GameIds.KenoNorth
+            kenoMini: KenoMiniId,
+            kenoMini2: KenoMini2Id,
+            kenoDong: KenoEastId,
+            kenoTay: KenoWestId,
+            kenoNam: KenoSouthId,
+            kenoBac: KenoNorthId
         };
 
         return dict[game];

@@ -1,4 +1,3 @@
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
@@ -15,6 +14,8 @@ import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBetti
 import { payChips } from "../../_base/action/PayChipsAction";
 
 const { ccclass, property } = cc._decorator;
+
+export const SpecialSedieId = 24;
 
 @ccclass
 export default class SpecialSeDie extends BalancedBettingPoolGameBase {
@@ -95,7 +96,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
-        this.gameId = GameIds.SpecialSeDie;
+        this.gameId = SpecialSedieId;
         this.setConfig(new SpecialSeDieConfigs());
     }
 

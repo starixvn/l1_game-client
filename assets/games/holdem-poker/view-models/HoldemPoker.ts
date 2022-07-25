@@ -1,6 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import NewButton from "../../../common/custom-button/NewButton";
-import { GameIds } from "../../../configs/SabaConfigs";
 import CasinoGame from "../../_casino/CasinoGame";
 import { MD5ModelBase } from "../../_casino/event-models/MD5ModelBase";
 import SwapModelBase from "../../_casino/event-models/SwapModelBase";
@@ -22,7 +21,7 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel,
+    updateTotalBetLabel
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
@@ -36,7 +35,7 @@ import {
     holdPlayerAndDealerCards,
     rawCardAfterClickCall,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards,
+    swapPlayerAndDealerCards
 } from "../components/cards/view-models/CardWrapper";
 import HoldemPokerCards from "../components/cards/view-models/HoldemPokerCards";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
@@ -58,6 +57,8 @@ import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
 import HoldemPokerChips from "./HoldemPokerChips";
 import HoldemPokerMinMaxTable from "./HoldemPokerMinMaxTable";
 import HoldemPokerPlacingBet from "./HoldemPokerPlacingBet";
+
+export const HoldemPokerId = 39;
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -84,7 +85,7 @@ export default class HoldemPoker extends CasinoGame {
 
     constructor() {
         super();
-        this.gameId = GameIds.CasinoHoldemPoker;
+        this.gameId = HoldemPokerId;
     }
 
     onLoad() {

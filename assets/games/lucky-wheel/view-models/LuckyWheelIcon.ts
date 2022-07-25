@@ -1,6 +1,6 @@
 import SafeDraggableItem from "../../../common/draggable-layout/view-models/SafeDraggableItem";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import { LuckyWheelId } from "./LuckyWheel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -29,6 +29,6 @@ export default class LuckyWheelIcon extends SafeDraggableItem {
     }
 
     openGame() {
-        this.miniPanel.openNewSocketMiniGame(null, GameIds.LuckyWheel);
+        this.miniPanel.openNewSocketMiniGame(null, LuckyWheelId);
     }
 }

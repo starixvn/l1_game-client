@@ -1,9 +1,10 @@
 import { lazyInject } from "../../../Application";
-import { GameIds } from "../../../configs/SabaConfigs";
 import SlotGameBase from "../../_slotgame_base/SlotGameBase";
 import FourGuardiansConfig from "./FourGuardiansConfig";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
+
+export const FourGuardiansId = 29;
 
 @ccclass
 export default class FourGuardians extends SlotGameBase {
@@ -12,7 +13,7 @@ export default class FourGuardians extends SlotGameBase {
 
     constructor() {
         super();
-        this.gameId = GameIds.FourGuardians;
+        this.gameId = FourGuardiansId;
     }
 
     public get jackpotEnabled() {

@@ -4,7 +4,6 @@ import * as _ from "lodash";
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { GameIds } from "../../../configs/SabaConfigs";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BottomControls from "./BottomControls";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
@@ -26,6 +25,8 @@ export interface RouletteBetInfo {
     type: string;
     numbers: number[];
 }
+
+export const RouletteId = 21;
 
 @ccclass
 export default class Roulette extends SocketIOTableGameBase {
@@ -82,7 +83,7 @@ export default class Roulette extends SocketIOTableGameBase {
 
     constructor() {
         super();
-        this.gameId = GameIds.Roulette;
+        this.gameId = RouletteId;
         this.setConfig(new RouletteConfigs());
     }
 

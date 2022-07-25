@@ -1,12 +1,9 @@
 import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
-import { GameInfos } from "../configs/SabaConfigs";
+import { getGameConfiguration } from "../configs/GameConfigurations";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
-import GameUIManager from "../lobby/main/view-models/GameUIManager";
-import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
-import SabaConfigs = require("../configs/SabaConfigs");
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -53,6 +50,53 @@ export default class GameUtils {
                 resolve(prefab);
             });
         });
+    }
+
+    public static async loadGameIcon(gameId: number, systemPath = ""): Promise<cc.Prefab> {
+        const gameConfiguration = getGameConfiguration(gameId);
+
+        if (!!gameConfiguration?.remoteBundle) {
+            const directory = systemPath === "" ? "icons" : `icons/${systemPath}`;
+            const path = `${directory}/${gameConfiguration.bigSize ? "Big" : "Small"}`;
+
+            return BundleManager.getInstance().loadAsset<cc.Prefab>({
+                bundleId: gameId.toString(),
+                path: path,
+                type: cc.Prefab
+            });
+        } else {
+            const directory = systemPath === "" ? "lobby/games" : `lobby/games/${systemPath}`;
+            const path = `${directory}/${gameId}`;
+
+            return GameUtils.loadResource(path);
+        }
+    }
+
+    public static async loadMiniGamePrefab(gameId: number, onProgress: (completed: number, total: number, item?: unknown) => void) {
+        const gameConfiguration = getGameConfiguration(gameId);
+
+        if (!!gameConfiguration?.remoteBundle) {
+            const prefabPath = `views/${gameConfiguration.key}`;
+
+            return BundleManager.getInstance().loadAsset<cc.Prefab>({
+                bundleId: gameId.toString(),
+                path: prefabPath,
+                type: cc.Prefab,
+                onProgress
+            });
+        } else {
+            const prefabPath = `games/minigame/${gameConfiguration.key}`;
+
+            return new Promise<cc.Prefab>((resolve, reject) => {
+                cc.resources.load<cc.Prefab>(prefabPath, cc.Prefab, onProgress, (error, prefab) => {
+                    if (error || !prefab) {
+                        reject(error);
+                    } else {
+                        resolve(prefab);
+                    }
+                });
+            });
+        }
     }
 
     public static getChipValues(bet: number, options: number[]): any {
@@ -115,15 +159,15 @@ export default class GameUtils {
             // handle
         }
     ) {
-        const info = GameInfos[gameId];
+        const gameConfiguration = getGameConfiguration(gameId);
 
-        if (info.remote && !info.mini) {
+        if (!!gameConfiguration.remoteBundle && !gameConfiguration.mini) {
             const bundleManager = BundleManager.getInstance();
 
             await bundleManager.loadBundle(gameId.toString());
         }
 
-        if (!info.mini && gameId > 0) {
+        if (!gameConfiguration.mini && gameId > 0) {
             cc.sys.localStorage.setItem(`orientation`, "");
             miniPanel.openNewSocketTableGame(null, gameId);
             return;
@@ -133,16 +177,6 @@ export default class GameUtils {
 
         if (gameId === 0) {
             callBackLobby && callBackLobby();
-            return;
-        }
-
-        if (info.mainSocket) {
-            miniPanel.openGame(null, gameId);
-            return;
-        }
-
-        if (info.gameContainer) {
-            miniPanel.openMiniContainerGame(gameId);
             return;
         }
 

@@ -7,7 +7,6 @@ import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
-import { GameIds } from "../../../configs/SabaConfigs";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import LuckyWheelHistory from "./LuckyWheelHistory";
@@ -25,6 +24,8 @@ export enum LuckyWheelColor {
     Blue = "blue",
     Pink = "Pink"
 }
+
+export const LuckyWheelId = -1;
 
 @ccclass
 export default class LuckyWheel extends SocketIOMiniGameBase {
@@ -124,7 +125,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);
-        this.gameId = GameIds.LuckyWheel;
+        this.gameId = LuckyWheelId;
     }
 
     onEnable() {

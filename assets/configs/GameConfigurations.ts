@@ -1,0 +1,92 @@
+import axios from "axios";
+import { buildProxyUrl } from "../common/helpers/UrlHelper";
+
+export interface GameConfiguration {
+    id: number;
+    currencyGroupId?: string;
+    name: string;
+    key: string;
+    route?: string;
+    tag?: string;
+    order?: number;
+    bigSize?: boolean;
+    mini?: {
+        miniPanel: boolean;
+        multi?: string;
+    };
+    remoteBundle?: {
+        dependsOn: string[];
+    };
+    banner?: {
+        displayTime: number;
+        order: number;
+    };
+    category?: string;
+}
+
+declare global {
+    interface Window {
+        gameConfigurations: GameConfiguration[];
+    }
+}
+
+export async function initialize() {
+    const url = buildProxyUrl("/game/configurations/");
+    const configurations = await axios
+        .get(url)
+        .then((response) => response.data)
+        .catch(() => []);
+
+    window.gameConfigurations = configurations;
+
+    initializeBundleInfos();
+}
+
+function initializeBundleInfos() {
+    const isDevelopmentMode = window.location.hostname === "localhost";
+    const games = window.gameConfigurations
+        .filter((configuration) => !!configuration.remoteBundle)
+        .map((configuration) => ({ gameId: configuration.id, ...configuration.remoteBundle }));
+
+    const developmentMode = games.reduce((result, configs) => {
+        result[configs.gameId] = {
+            url: "assets",
+            name: configs.gameId,
+            useMd5Cache: location.href.includes("/build/"),
+            dependencies: configs.dependsOn
+        };
+
+        return result;
+    }, {});
+
+    const productionMode = games.reduce((result, configs) => {
+        result[configs.gameId] = {
+            url: buildProxyUrl(`/game-client-${configs.gameId}`),
+            name: configs.gameId,
+            useMd5Cache: true,
+            dependencies: configs.dependsOn
+        };
+
+        return result;
+    }, {});
+
+    window.bundleInfos = isDevelopmentMode ? developmentMode : productionMode;
+}
+
+export function getGameConfiguration(gameId: number | string) {
+    return getAllGameConfigurations().find((configuration) => configuration.id === Number(gameId));
+}
+
+export function getAllGameConfigurations() {
+    return window.gameConfigurations;
+}
+
+export function getGameConfigurationsWithFilter(filter: (configuration: GameConfiguration) => unknown) {
+    const configurations = getAllGameConfigurations();
+
+    return configurations.filter(filter).sort((a, b) => a.order - b.order);
+}
+
+export function getGameIdsWithFilter(filter: (configuration: GameConfiguration) => unknown) {
+    return getGameConfigurationsWithFilter(filter).map((configuration) => configuration.id);
+}

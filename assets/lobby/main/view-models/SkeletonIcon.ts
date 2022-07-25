@@ -53,8 +53,7 @@ export default class SkeletonIcon extends cc.Component {
             this.hideSkeleton();
         }
 
-        const gamePath = `lobby/games/${id}`;
-        const prefab = await GameUtils.loadResource(gamePath);
+        const prefab = await GameUtils.loadGameIcon(id);
         const gameNode = cc.instantiate(prefab);
         this.gameContent?.addChild(gameNode);
         this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id));

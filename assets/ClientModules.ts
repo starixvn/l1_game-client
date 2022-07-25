@@ -1,11 +1,7 @@
-import * as lodash from "lodash";
 import * as cryptoJs from "crypto";
-import * as scoreBoard from "sc-scoreboards";
+import * as events from "events";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import * as lodash from "lodash";
+import * as scoreBoard from "sc-scoreboards";
 
-export const modules = {
-    lodash,
-    cryptoJs,
-    scoreBoard,
-    i18n
-};
+export { lodash, cryptoJs, i18n, events, scoreBoard };
