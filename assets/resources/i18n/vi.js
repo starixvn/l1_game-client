@@ -580,7 +580,7 @@ window.i18n.languages.vi = {
     },
     blockchainBaccarat: {
         headerContent:
-            "Số Seri cho mỗi lá bài sẽ được công bố ngay tại thời điểm bắt đầu “Shoe”. Người chơi có thể kiểm tra tính minh bạch của kết quả bằng cách so sánh “Khóa Bảo Mật” (được công bố khi mở bài) với “Số Seri”.",
+            "Số Seri cho mỗi lá bài sẽ được công bố ngay tại thời điểm ban đầu. Người chơi có thể kiểm tra tính minh bạch của kết quả bằng cách so sánh “Khóa Bảo Mật” (được công bố khi mở bài) với “Số Seri”.",
         verifyCards: "Xác Minh Bài",
         cardVerification: "Xác Minh Lá Bài",
         verify: "Xác Minh",
