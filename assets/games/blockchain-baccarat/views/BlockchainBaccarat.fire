@@ -220,7 +220,7 @@
       "__id__": 3
     },
     "_enabled": true,
-    "_cullingMask": 27,
+    "_cullingMask": 4294967295,
     "_clearFlags": 6,
     "_backgroundColor": {
       "__type__": "cc.Color",
@@ -229,7 +229,7 @@
       "b": 0,
       "a": 255
     },
-    "_depth": 3,
+    "_depth": 0,
     "_zoomRatio": 1,
     "_targetTexture": null,
     "_fov": 60,
@@ -1789,7 +1789,7 @@
       "__id__": 30
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_opacity": 255,
@@ -1847,7 +1847,7 @@
       "__id__": 30
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_opacity": 255,
@@ -1905,7 +1905,7 @@
       "__id__": 30
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_opacity": 255,
@@ -5171,6 +5171,15 @@
     },
     "containerDeck": {
       "__id__": 16
+    },
+    "chipContainer": {
+      "__id__": 47
+    },
+    "ownBetContainer": {
+      "__id__": 48
+    },
+    "totalBetContainer": {
+      "__id__": 49
     },
     "_id": "bc37ntUo5HqpKJU50UmCKR"
   }

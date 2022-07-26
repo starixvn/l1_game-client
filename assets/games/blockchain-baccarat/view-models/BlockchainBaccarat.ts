@@ -58,6 +58,15 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     @property(cc.Node)
     containerDeck: cc.Node = null;
 
+    @property(cc.Node)
+    chipContainer: cc.Node = null;
+
+    @property(cc.Node)
+    ownBetContainer: cc.Node = null;
+
+    @property(cc.Node)
+    totalBetContainer: cc.Node = null;
+
     public gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
     public cardList: BlockchainCardList = null;
     public cardsUI: BlockchainBaccaratCardsUI = null;
@@ -116,6 +125,12 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private initBetOptionsUI(node: cc.Node) {
         this.betOptionsUI = node.getComponent(BlockchainBetOptionsUI);
         this.betOptionsUI.initBetOptions(this);
+
+        this.betItems?.forEach((item) => {
+            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
+            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
+            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
+        });
     }
 
     private initScoreBoardUI(node: cc.Node) {

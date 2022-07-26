@@ -248,6 +248,7 @@ export default class MainGame extends cc.Component {
         if (window.openGameId || sessionManager.getInRoomGameId()) {
             this.loadLobby(false || lobbyMenuConfig.miniList.includes(parseInt(window.openGameId)));
             this.openGameSSO();
+            this.initBanners();
             window.isSSO && this.setCategoryOnSSOGame();
         } else {
             window.isSSO && this.openLuckyWheel();

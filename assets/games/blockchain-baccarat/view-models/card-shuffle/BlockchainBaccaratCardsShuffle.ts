@@ -35,6 +35,9 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
     @property(cc.Node)
     cardsDrop: cc.Node = null;
 
+    @property(cc.Node)
+    deck: cc.Node = null;
+
     @property(cc.AudioSource)
     cardAudioSource: cc.AudioSource = null;
 
@@ -73,7 +76,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         const formatData: BlockchainCardModel[] = data.chain.slice(1, data.burnedCards);
 
         if (duration >= TimeShowAnim.full) {
-            this.cardsBox.parent.active = false;
+            this.deck.active = false;
             this.cutCard.active = true;
             const skeleton = this.cutCard.getComponent(sp.Skeleton);
             skeleton.timeScale = this.getSkeletonDuration(skeleton) / this.durationCutCard;
@@ -84,7 +87,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                 skeleton.setAnimationCacheMode(sp.Skeleton.AnimationCacheMode.SHARED_CACHE);
             }
             skeleton.setCompleteListener(async () => {
-                this.cardsBox.parent.active = true;
+                this.deck.active = true;
                 this.cutCard.active = false;
                 await this.handleShowBurnCard(cutCardValue);
                 await this.flyAllCards(formatData, 1, () => {
