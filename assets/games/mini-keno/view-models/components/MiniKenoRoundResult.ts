@@ -66,7 +66,7 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
         if (animated) {
             this.total.string = "0";
             const miniType = this.result.length < 20;
-            let index = 0;
+            let index = this.result.length - 1;
             let total = 0;
 
             const showNumberAction = cc.sequence(
@@ -76,8 +76,11 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                     total += number;
                     const settlementResult = KenoUtils.getSettleResult(total, miniType);
                     this.showSettleResult(settlementResult);
+                }),
+                cc.delayTime(0.1),
+                cc.callFunc(() => {
                     this.total.string = total.toString();
-                    index++;
+                    --index;
                 }),
                 cc.delayTime(duration / this.result.length)
             );
