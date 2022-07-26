@@ -43,7 +43,7 @@ interface EmitterStorage {
 
 @ccclass
 export default class MiniGameBase extends NewMiniGameBase {
-    protected joinGameOnEnable = true;
+    protected sendIngameOnEnable = true;
     protected clearGameDataOnDestroy = true;
     public gameData: NewGameData;
     emitterStorages: EmitterStorage[] = [];
@@ -57,9 +57,9 @@ export default class MiniGameBase extends NewMiniGameBase {
     override onEnable() {
         this.grantSocket();
         this.initSocketListenter();
-        this.initConnection();
-        if (this.joinGameOnEnable) {
-            this.joinGame();
+        this.startGame();
+        if (this.sendIngameOnEnable) {
+            this.registerViewGame();
         }
     }
 
@@ -103,11 +103,6 @@ export default class MiniGameBase extends NewMiniGameBase {
 
     clearGameData() {
         GameDataManager.getInstance().clearGameData(this.gameId);
-    }
-
-    joinGame() {
-        this.startGame();
-        this.registerViewGame();
     }
 
     override initHandlers() {

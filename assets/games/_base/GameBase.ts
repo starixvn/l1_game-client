@@ -14,7 +14,6 @@ import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
-import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
 import DataHandler from "./handlers/DataHandler";
@@ -196,9 +195,13 @@ export default class GameBase extends GameViewBase {
         );
     }
 
-    onEnable() {
+    joinGame() {
         this.startGame();
         this.registerViewGame();
+    }
+
+    onEnable() {
+        this.joinGame();
     }
 
     onDisable() {
@@ -391,8 +394,7 @@ export default class GameBase extends GameViewBase {
     }
 
     protected onGameShow() {
-        this.startGame();
-        this.registerViewGame();
+        this.joinGame();
     }
 
     protected initBetChips() {

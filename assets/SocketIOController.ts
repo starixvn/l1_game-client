@@ -71,7 +71,7 @@ export default class SocketIOController {
             gameId
         } = option;
         const socketOptions: Partial<ManagerOptions & SocketOptions> = {
-            forceNew: false,
+            forceNew,
             transports: ["websocket"],
             upgrade: false,
             path: proxyRoute
@@ -112,7 +112,7 @@ export default class SocketIOController {
     async closeSocket(gameId) {
         const socket: Socket = this.gameSockets[gameId];
         socket && socket.disconnect();
-        // delete this.gameSockets[gameId];
+        delete this.gameSockets[gameId];
     }
 
     closeAllSocket() {

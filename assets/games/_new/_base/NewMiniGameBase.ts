@@ -13,8 +13,8 @@ export default class NewMiniGameBase extends SocketIOMiniGameBase {
     public gameData: GameData;
     protected newHistoryComp: BetHistory;
 
-    startGame() {
-        super.startGame();
+    grantSocket() {
+        super.grantSocket();
         this.initConnection();
     }
 

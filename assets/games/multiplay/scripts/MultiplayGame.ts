@@ -58,8 +58,8 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     onEnable() {
-        this.openSockets();
-        Object.values(this.games).forEach((game: MultiplayGameSingle) => game.joinGame());
+        // this.openSockets();
+        // Object.values(this.games).forEach((game: MultiplayGameSingle) => game.joinGame());
     }
 
     onDisable() {
@@ -68,10 +68,10 @@ export default class MultiplayGame extends GameViewBase {
 
     openSockets() {
         this.gameIds.forEach((gameId) => {
-            const socket = this.socketIOController.getSocketGame(gameId);
+            let socket = this.socketIOController.getSocketGame(gameId);
             if (!socket) {
                 const gameName = GameUtils.getGameSetting(gameId);
-                this.currentMiniPanel.gameMiniInitializers.setUpSocketForGame(gameName, gameId, false, null);
+                socket = this.currentMiniPanel.gameMiniInitializers.setUpSocketForGame(gameName, gameId, false, null);
             } else {
                 if (!socket.connected) {
                     socket.connect();

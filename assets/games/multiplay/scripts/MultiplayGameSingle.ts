@@ -4,7 +4,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MultiplayGameSingle extends MiniGameBase {
-    protected override joinGameOnEnable = false;
+    protected override sendIngameOnEnable = false;
     protected override clearGameDataOnDestroy = false;
 
     maximizeCallback = (gameId: number) => {
@@ -15,24 +15,12 @@ export default class MultiplayGameSingle extends MiniGameBase {
         this.maximizeCallback(this.gameId);
     }
 
-    onLoad() {
-        super.onLoad();
-        if (!this.socket) {
-            this.schedule(this.scheduleCheckSocket, 0.3, cc.macro.REPEAT_FOREVER);
-        }
-    }
-
-    scheduleCheckSocket() {
-        this.grantSocket();
-        this.initSocketListenter();
-        this.initConnection();
-        this.registerViewGame();
-
+    grantSocket() {
+        super.grantSocket();
         if (this.socket) {
             this.socket.off("signedIn").on("signedIn", () => {
                 this.registerViewGame();
             });
-            this.unschedule(this.scheduleCheckSocket);
         }
     }
 }

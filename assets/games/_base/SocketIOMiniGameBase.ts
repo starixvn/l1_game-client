@@ -26,10 +26,10 @@ export default class SocketIOMiniGameBase extends GameBase {
         }
     }
 
-    startGame() {
-        super.startGame();
+    onEnable() {
         this.grantSocket();
         this.initSocketListenter();
+        super.onEnable();
     }
 
     grantSocket() {

@@ -105,9 +105,7 @@ export default class Roulette extends SocketIOTableGameBase {
             this.updateBetStatus(true);
             this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
 
-            this.startGame();
-            this.registerViewGame();
-            this.socket.emit("inGame");
+            this.joinGame();
             this.setDefaultPositionForMiniMenu();
 
             this.rouletteMain.board.betChips = this.betChips;
