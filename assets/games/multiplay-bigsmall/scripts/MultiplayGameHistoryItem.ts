@@ -1,5 +1,6 @@
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import MultiplayGameHistoryResult from "./MultiplayGameHistoryResult";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,8 +15,11 @@ export default class MultiplayGameHistoryItem extends cc.Component {
     @property(cc.Label)
     betChoice: cc.Label = null;
 
-    @property(cc.Label)
-    result: cc.Label = null;
+    @property(cc.Node)
+    result: cc.Node = null;
+
+    @property(cc.Prefab)
+    resultPrefab: cc.Prefab = null;
 
     @property(cc.Label)
     stake: cc.Label = null;
@@ -28,5 +32,15 @@ export default class MultiplayGameHistoryItem extends cc.Component {
         this.round.string = data.roundId;
         this.win.string = numberWithCommas(data.betwin, 2);
         this.stake.string = data.totalAmount;
+        const result = data.result;
+        this.setResultData(result);
+        this.betChoice.string = +data.big > 0 ? "BIG" : "SMALL";
+    }
+
+    setResultData(result: any) {
+        const resultNode = cc.instantiate(this.resultPrefab);
+        const resultControl = resultNode.getComponent(MultiplayGameHistoryResult);
+        resultControl.setResult(result);
+        this.result.addChild(resultNode);
     }
 }

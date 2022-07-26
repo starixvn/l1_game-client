@@ -1,5 +1,5 @@
 import BaseComponent from "../../common/BaseComponent";
-import { getGameConfiguration } from "../../configs/GameConfigurations";
+import { getGameName } from "../../configs/GameConfigurations";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
@@ -13,9 +13,7 @@ export default class GameViewBase extends BaseComponent {
     }
 
     public get gameName() {
-        const gameConfiguration = getGameConfiguration(this.gameId);
-
-        return gameConfiguration?.key;
+        return getGameName(this.gameId);
     }
 
     public get gameId(): number {

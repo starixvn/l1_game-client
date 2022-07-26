@@ -1,7 +1,5 @@
 import { lazyInject } from "../../../Application";
-import DropDownList from "../../../common/drop-down-list/view-models/DropDownList";
-import DropDownOption from "../../../common/drop-down-list/view-models/DropDownOption";
-import { GameIds, GameInfos } from "../../../configs/SabaConfigs";
+import { getGameName } from "../../../configs/GameConfigurations";
 import SocketIOController from "../../../SocketIOController";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import MultiplayGameHistoryItem from "./MultiplayGameHistoryItem";
@@ -19,72 +17,36 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
     @lazyInject(SocketIOController)
     private readonly socketIOController: SocketIOController;
 
-    public gameDropDownList: DropDownList;
-
-    private readonly options: DropDownOption[] = [
-        new DropDownOption(GameIds.UnbalancedBigSmall1, "Las Vegas"),
-        new DropDownOption(GameIds.UnbalancedBigSmall2, "Marina Bay"),
-        new DropDownOption(GameIds.UnbalancedBigSmall3, "Macau"),
-        new DropDownOption(GameIds.UnbalancedBigSmall4, "Monte Carlo")
-    ];
+    private multiplayHistory: MultiplayGameHistory;
 
     onLoad() {
         super.onLoad();
-        this.initDropDown();
-        this.updateSocketChanged();
     }
 
-    initDropDown() {
-        const dropdownNode = cc.instantiate(this.dropDownListPrefab);
-        this.gameDropDownList = dropdownNode.getComponent("DropDownList");
-        this.gameDropDownList.init(this.options, this.onGameChanged.bind(this));
-        this.dropDownContainer.addChild(dropdownNode);
-    }
-
-    updateSocketChanged() {
-        const id = this.gameDropDownList.selectedItem.gameId;
+    updateSocketChanged(id) {
         this.socket = this.socketIOController.getSocketGame(id);
     }
 
-    onGameChanged() {
-        this.updateSocketChanged();
-        this.pagination.resetPageCurrent();
-        this.get_data();
-    }
-
-    onData(data) {
-        const { page, pageSize, total, betLogs } = data;
-        this.pagination.onSet(page, pageSize, total);
-        this.content.destroyAllChildren();
-        this.scrollView && this.scrollView.scrollToTop(0.1);
-
-        if (!betLogs || !betLogs.length) {
-            return;
+    receiveData = (data) => {
+        if (data.history) {
+            this.onData(data.history);
         }
-
-        betLogs.forEach((betLog, index) => this.bindItemRowData(betLog, index));
-        this.onUpdatedData();
-    }
-
-    receivedData(dataHistory: any, gameName: string) {
-        const id = this.gameDropDownList.selectedItem.gameId;
-        const currentGameName = GameInfos[id].key;
-        if (gameName === currentGameName) {
-            this.onData(dataHistory);
-        }
-    }
+    };
 
     bindItemRowData(betLog, index) {
         const itemNode = cc.instantiate(this.itemPrefab);
         const item = itemNode.getComponent(MultiplayGameHistoryItem);
         item.setData(betLog);
-        // item.showTicketDetail = (log) => {
-        //     this.showTicketDetail(log);
-        // };
         this.content.addChild(itemNode);
     }
 
-    closeDropDown() {
-        this.gameDropDownList && this.gameDropDownList.closeDropDown();
+    openTabGame(toggle: cc.Toggle) {
+        const gameId = +toggle.node.name;
+        this.updateSocketChanged(gameId);
+        this.pagination.resetPageCurrent();
+        const gameName = getGameName(gameId);
+        //this.socket.off(getGameName(gameId), this.receiveData);
+        this.socket.off(getGameName(gameId)).on(getGameName(gameId), this.receiveData);
+        this.get_data();
     }
 }

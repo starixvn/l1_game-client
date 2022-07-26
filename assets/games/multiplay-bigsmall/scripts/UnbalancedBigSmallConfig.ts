@@ -33,3 +33,10 @@ export const unbalancedBigSmallConfigs = {
         waitTime: 5
     }
 };
+
+export const displayGameName = {
+    50: "Las Vegas",
+    51: "Marina Bay",
+    54: "Macau",
+    55: "Monte Carlo"
+};

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { buildProxyUrl } from "../common/helpers/UrlHelper";
 
 export interface GameConfiguration {
@@ -73,6 +74,11 @@ function initializeBundleInfos() {
     window.bundleInfos = isDevelopmentMode ? developmentMode : productionMode;
 }
 
+export function getGameName(gameId: number) {
+    const gameConfiguration = getGameConfiguration(gameId);
+
+    return gameConfiguration?.key;
+}
 export function getGameConfiguration(gameId: number | string) {
     return getAllGameConfigurations().find((configuration) => configuration.id === Number(gameId));
 }
