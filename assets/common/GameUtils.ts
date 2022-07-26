@@ -4,6 +4,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { GameInfos } from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
+import GameUIManager from "../lobby/main/view-models/GameUIManager";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -353,5 +354,14 @@ export default class GameUtils {
                 onHidden && onHidden();
             })
             .start();
+    }
+
+    public static unCacheAndHideGameLoading(gameId: number) {
+        const uiManager = GameUIManager.getInstance();
+        const loading = uiManager.getLoadingWithGameID(gameId);
+        if (loading) {
+            loading.setLoadingVisibility(false);
+            uiManager.unCacheIconLoading(gameId);
+        }
     }
 }

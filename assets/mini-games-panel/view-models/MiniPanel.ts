@@ -12,7 +12,9 @@ import LoadWebView from "../../common/LoadWebView";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
+import SabaConfigs = require("../../configs/SabaConfigs");
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
+import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import MainGame from "../../lobby/main/view-models/MainGame";
 import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
@@ -168,7 +170,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     handleUmMessage(data) {
-        this.loading.node.active = false;
+        this.setLoadingVisibility(false);
         const text = NoticeUtil.getMessageByLocale(data);
         if (text) {
             const noticeData = {
@@ -259,6 +261,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openNewSocketMiniGame(e, id) {
+        GameUIManager.getInstance().setCurrentGameId(id);
         this.loadGame(id, () => {
             this.gameMiniInitializers.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
@@ -268,13 +271,15 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openNewSocketTableGame(event, gameId) {
+        GameUIManager.getInstance().setCurrentGameId(gameId);
         this.loadGame(gameId, () => {
             this.socketIOGameInitializers.openGame(gameId);
         });
     }
 
     loadGame(gameId, onComplete: () => void) {
-        this.loading.node.active = true;
+        const loading = this.getGameLoadingComp(gameId);
+        loading.setLoadingVisibility(true);
         cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, onComplete);
     }
 
@@ -285,19 +290,30 @@ export default class MiniPanel extends BaseComponent {
     }
 
     loadGameRoom(name) {
-        this.loading.setDefaultPercent();
+        const gameId = Object.keys(SabaConfigs.GameInfos).find((id) => SabaConfigs.GameInfos[id].key === name);
+
+        if (GameUIManager.getInstance().getCurrentGameId() !== +gameId) {
+            return;
+        }
+
+        const gameLoading = this.getGameLoadingComp(+gameId);
+        gameLoading && gameLoading.setDefaultPercent();
 
         cc.director.preloadScene(
             name,
             (completedCount, total, item) => {
-                this.loading && this.loading.onProgress(completedCount, total, item);
+                if (GameUIManager.getInstance().getCurrentGameId() !== +gameId) {
+                    this.unCacheAndHideGameLoading(gameLoading, +gameId);
+                    return;
+                }
+                gameLoading && gameLoading.onProgress(completedCount, total, item);
             },
             (error) => {
+                this.unCacheAndHideGameLoading(gameLoading, +gameId);
                 if (error) {
-                    this.loading.node.active = false;
                     this.onForceReload();
                 } else {
-                    cc.director.loadScene(name);
+                    GameUIManager.getInstance().getCurrentGameId() === +gameId && cc.director.loadScene(name);
                 }
             }
         );
@@ -365,6 +381,7 @@ export default class MiniPanel extends BaseComponent {
             handleCloseNotice,
             handleCloseNotice
         );
+        this.setLoadingVisibility(false);
         this.loading.node.active = false;
         !this.mainGame?.isInitBanner && this.mainGame?.initBanners();
     }
@@ -382,5 +399,19 @@ export default class MiniPanel extends BaseComponent {
     setIconOverMiniGame(over: boolean) {
         this.miniMenu.setSiblingIndex(over ? 1 : 0);
         this.miniGames.setSiblingIndex(!over ? 1 : 0);
+    }
+
+    setLoadingVisibility(status: boolean) {
+        this.loading && this.loading.setLoadingVisibility(status);
+    }
+
+    unCacheAndHideGameLoading(loadingComp: Loading, gameId: number) {
+        loadingComp && loadingComp.setLoadingVisibility(false);
+        GameUIManager.getInstance().unCacheIconLoading(gameId);
+    }
+
+    getGameLoadingComp(gameId: number): Loading {
+        const loadingCompFromManager = GameUIManager.getInstance().getLoadingWithGameID(gameId);
+        return loadingCompFromManager ? loadingCompFromManager : this.loading;
     }
 }

@@ -12,7 +12,7 @@ module.exports = {
 
     userStakeLevel: {},
 
-    init: function (loading) {
+    init: function () {
         this.initPrototype();
 
         const menuConfig = new LobbyMenuConfig();

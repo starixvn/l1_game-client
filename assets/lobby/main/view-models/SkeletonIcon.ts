@@ -1,4 +1,7 @@
+import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
+import Loading from "../../../common/loading/view-models/Loading";
+import LobbyMenuConfig from "./LobbyMenuConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,7 +19,16 @@ export default class SkeletonIcon extends cc.Component {
     lightTop: cc.Node = null;
 
     @property(cc.Node)
-    iconLoading: cc.Node = null;
+    skeletonLoading: cc.Node = null;
+
+    @property(cc.Node)
+    newTag: cc.Node = null;
+
+    @property(Loading)
+    gameLoading: Loading = null;
+
+    @lazyInject(LobbyMenuConfig)
+    private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     setGameName(text: string) {
         this.gameName.string = text;
@@ -45,6 +57,7 @@ export default class SkeletonIcon extends cc.Component {
         const prefab = await GameUtils.loadResource(gamePath);
         const gameNode = cc.instantiate(prefab);
         this.gameContent?.addChild(gameNode);
+        this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id));
 
         if (!isLoaded) {
             this.hideSkeleton();
@@ -53,6 +66,6 @@ export default class SkeletonIcon extends cc.Component {
 
     private hideSkeleton() {
         this.lightTop && (this.lightTop.active = false);
-        this.iconLoading && (this.iconLoading.active = false);
+        this.skeletonLoading && (this.skeletonLoading.active = false);
     }
 }

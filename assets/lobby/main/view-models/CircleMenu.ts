@@ -5,6 +5,7 @@ import GameUtils from "../../../common/GameUtils";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
+import GameUIManager from "./GameUIManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -47,11 +48,13 @@ export default class CircleMenu extends GameIconMenu {
         });
     }
 
-    itemPressed(id: number) {
+    itemPressed(id: number, node: cc.Node) {
         AudioManager.getInstance().playClick();
         if (id === 0) {
             this.closeGame();
         } else {
+            GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
+            GameUIManager.getInstance().setCurrentGameId(id);
             GameUtils.openGame(id, this.miniPanel);
         }
     }

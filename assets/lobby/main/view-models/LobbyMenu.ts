@@ -4,6 +4,8 @@ import GameIconMenu from "./GameIconMenu";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 import SkeletonIcon from "./SkeletonIcon";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import AudioManager from "../../../common/audio/AudioManager";
+import GameUIManager from "./GameUIManager";
 
 export enum GameCategory {
     All = 0,
@@ -278,5 +280,16 @@ export default class LobbyMenu extends GameIconMenu {
         this.content.destroyAllChildren();
         this.currentColumn = null;
         this.initItems();
+    }
+
+    itemPressed(id: number, node: cc.Node) {
+        AudioManager.getInstance().playClick();
+        GameUtils.clearGameSetting(id);
+
+        GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
+
+        const skeletonComp = node.getComponent(SkeletonIcon);
+        GameUIManager.getInstance().cacheIconLoading(id, skeletonComp.gameLoading);
+        GameUtils.openGame(id, this.miniPanel);
     }
 }

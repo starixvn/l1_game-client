@@ -1,6 +1,4 @@
-import AudioManager from "../../../common/audio/AudioManager";
 import BaseComponent from "../../../common/BaseComponent";
-import GameUtils from "../../../common/GameUtils";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
@@ -39,7 +37,7 @@ export default abstract class GameIconMenu extends BaseComponent {
 
             const node = this.addItem(id, prefab);
             if (node) {
-                node.on("click", this.itemPressed.bind(this, id));
+                node.on("click", this.itemPressed.bind(this, id, node));
             }
         }
 
@@ -52,12 +50,7 @@ export default abstract class GameIconMenu extends BaseComponent {
 
     abstract loadPrefab(gameId: number): Promise<cc.Prefab>;
     abstract addItem(id: number, prefab: cc.Prefab): cc.Node;
+    abstract itemPressed(id: number, node);
 
     onInitialized() {}
-
-    itemPressed(id: number) {
-        AudioManager.getInstance().playClick();
-        GameUtils.clearGameSetting(id);
-        GameUtils.openGame(id, this.miniPanel);
-    }
 }

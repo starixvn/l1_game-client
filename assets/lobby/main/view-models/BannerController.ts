@@ -1,6 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import BannerItem from "./BannerItem";
+import GameUIManager from "./GameUIManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -223,6 +224,8 @@ export default class BannerController extends cc.Component {
 
     openGame(e, gameId) {
         AudioManager.getInstance().playClick();
+        GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
+        GameUIManager.getInstance().setCurrentGameId(gameId);
         GameUtils.openGame(+gameId, cc.RedT.MiniPanel);
     }
 }

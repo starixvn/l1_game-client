@@ -199,7 +199,7 @@ export default class MainGame extends cc.Component {
     initRedT() {
         if (void 0 === cc.RedT) {
             cc.RedT = baseControl;
-            cc.RedT.init(this.loading);
+            cc.RedT.init();
         }
     }
 

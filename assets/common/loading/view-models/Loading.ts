@@ -8,6 +8,7 @@ export default class Loading extends cc.Component {
     onEnable() {
         this.percent.node.active = true;
     }
+
     onDisable() {
         this.percent.string = "";
     }
@@ -27,13 +28,15 @@ export default class Loading extends cc.Component {
 
     onProgress(completedCount, totalCount, item) {
         const percent = (100 * completedCount) / totalCount;
-        if (this.node) {
-            this.node.active = true;
-        }
+        this.setLoadingVisibility(true);
 
         if (this.percent && percent) {
             this.percent.node.active = true;
             this.percent.string = `${percent.toFixed(0)}%`;
         }
+    }
+
+    setLoadingVisibility(status: boolean) {
+        this.node?.isValid && (this.node.active = status);
     }
 }

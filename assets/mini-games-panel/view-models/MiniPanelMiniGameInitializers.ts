@@ -5,6 +5,7 @@ import { getSession } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import { GameIds, GameInfos } from "../../configs/SabaConfigs";
+import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
 export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInitializers {
@@ -12,7 +13,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         if (node) {
             node.active = true;
             this.main.miniGames && this.main.miniGames.insertChild(node, this.main.miniGames.children.length - 1);
-            this.main.loading.node.active = false;
+            this.main.setLoadingVisibility(false);
         }
     }
 
@@ -26,21 +27,33 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
 
         const gameBase = this.main.getGameMini(gameId);
         const isAlreadyOpened = gameBase !== undefined;
+        const gameLoading = this.main.getGameLoadingComp(+gameId);
 
         if (!isAlreadyOpened) {
-            this.main.loading.setDefaultPercent();
+            gameLoading && gameLoading.setDefaultPercent();
             cc.resources.load(
                 prefabPath,
                 (completedCount, total, item) => {
-                    this.main.loading && this.main.loading.onProgress(completedCount, total, item);
+                    if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
+                        this.main.unCacheAndHideGameLoading(gameLoading, gameId);
+                        return;
+                    }
+
+                    gameLoading && gameLoading.onProgress(completedCount, total, item);
                 },
                 (err: Error, prefab: any) => {
                     if (!this.main.isAlive()) {
                         return;
                     }
+
+                    this.main.unCacheAndHideGameLoading(gameLoading, gameId);
+
                     if (err || prefab === null) {
-                        this.main.loading.node.active = false;
                         this.main.onForceReload();
+                        return;
+                    }
+
+                    if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
                         return;
                     }
 
@@ -51,7 +64,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     gameComponent.initMiniPanel(this.main);
                     this.main.addMiniGame(gameComponent, gameId);
                     gameComponent.openGame();
-                    this.main.loading.node.active = false;
                     this.main.mainGame?.loadLobby();
                 }
             );

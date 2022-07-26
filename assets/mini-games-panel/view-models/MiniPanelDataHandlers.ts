@@ -33,7 +33,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.reload) {
-            this.main.loading.node.active = false;
+            this.main.setLoadingVisibility(false);
             this.main.onForceReload();
         }
 
@@ -46,7 +46,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.unauthorized) {
-            this.main.loading.node.active = false;
+            this.main.setLoadingVisibility(false);
             this.main.forceKickedOut();
         }
 
@@ -55,7 +55,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.notPermittedToPlay) {
-            this.main.loading.node.active = false;
+            this.main.setLoadingVisibility(false);
             removeInRoomGameId();
 
             const gameId = data.gameId;
@@ -70,7 +70,7 @@ export default class MiniPanelDataHandlers {
     }
 
     handleDataKickedOut(data: any) {
-        this.main.loading.node.active = false;
+        this.main.setLoadingVisibility(false);
         if (data.umInfo) {
             NotificationService.getInstance().forceKickedOut();
             window.umInfo = data.umInfo;
@@ -107,7 +107,7 @@ export default class MiniPanelDataHandlers {
     }
 
     handleDataApiError(apiErrorData: any) {
-        this.main.loading.node.active = false;
+        this.main.setLoadingVisibility(false);
         const error = apiErrorData.apiError;
         const gameId = error.gameTypeId;
 
@@ -130,7 +130,7 @@ export default class MiniPanelDataHandlers {
     }
 
     handleNoticeData(notice: any) {
-        this.main.loading.node.active = false;
+        this.main.setLoadingVisibility(false);
         const errorCode = notice.errorCode;
         const gameName = GameUtils.getGameNameString(notice.gameTypeId);
         const { minBet, maxBet, gameRoundId } = notice;
