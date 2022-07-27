@@ -31,7 +31,9 @@ export const handleRoundHistory = (game: MiniGameBase) => (roundHistory) => {
 };
 
 export const changeGameRound = (game: MiniGameBase) => (roundId) => game.setGameRound(roundId);
-export const handleMD5Data = (game: MiniGameBase) => (data) => game.md5Component.handleMD5Data(data);
+export const handleMD5Data = (game: MiniGameBase) => (data) => {
+    game.md5Component && game.md5Component.handleMD5Data(data);
+};
 
 export const handleShowResult = (game: MiniGameBase) => (settlement) => game.showSettlementResult(settlement);
 export const handleAfterSettlementResult = (game: MiniGameBase) => (settlement) => {

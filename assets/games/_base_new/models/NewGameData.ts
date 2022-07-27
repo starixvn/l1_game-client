@@ -62,6 +62,7 @@ export default class NewGameData extends GameData {
     }
 
     updateUI() {
+        this.emit(NewGameData.Events.CHANGE_ROUND_ID, this.roundId);
         this.eventEmitters.forEach((emitter) => emitter.updateUI());
     }
 
