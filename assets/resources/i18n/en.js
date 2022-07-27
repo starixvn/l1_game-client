@@ -17,7 +17,7 @@ window.i18n.languages.en = {
         12: "Keno Max",
         13: "Keno Max2",
         14: "Keno Mini",
-        15: "Keno Mini2",
+        15: "Keno Mini 2",
         16: "Keno East",
         17: "Keno West",
         18: "Keno South",

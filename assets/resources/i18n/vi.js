@@ -17,7 +17,7 @@ window.i18n.languages.vi = {
         12: "Keno Max",
         13: "Keno Max2",
         14: "Keno Mini",
-        15: "Keno Mini2",
+        15: "Keno Mini 2",
         16: "Keno Đông",
         17: "Keno Tây",
         18: "Keno Nam",
