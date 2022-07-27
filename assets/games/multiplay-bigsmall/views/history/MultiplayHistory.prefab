@@ -2319,9 +2319,9 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 195,
-      "g": 195,
-      "b": 195,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
@@ -2921,7 +2921,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
-    "_N$isChecked": true,
+    "_N$isChecked": false,
     "toggleGroup": null,
     "checkMark": {
       "__id__": 73
@@ -3333,7 +3333,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
-    "_N$isChecked": true,
+    "_N$isChecked": false,
     "toggleGroup": null,
     "checkMark": {
       "__id__": 83
@@ -3745,7 +3745,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
-    "_N$isChecked": true,
+    "_N$isChecked": false,
     "toggleGroup": null,
     "checkMark": {
       "__id__": 93
@@ -3976,7 +3976,7 @@
         "__id__": 199
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 204
@@ -7885,6 +7885,9 @@
     },
     "dropDownContainer": {
       "__id__": 207
+    },
+    "tabContainer": {
+      "__id__": 60
     },
     "_id": ""
   },

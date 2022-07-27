@@ -14,13 +14,15 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
     @property(cc.Node)
     dropDownContainer: cc.Node = null;
 
+    @property(cc.Node)
+    tabContainer: cc.Node = null;
+
     @lazyInject(SocketIOController)
     private readonly socketIOController: SocketIOController;
 
-    private multiplayHistory: MultiplayGameHistory;
-
     onLoad() {
         super.onLoad();
+        this.handleSocketFromGame(50);
     }
 
     updateSocketChanged(id) {
@@ -41,12 +43,28 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
     }
 
     openTabGame(toggle: cc.Toggle) {
+        this.resetStyleTabs();
         const gameId = +toggle.node.name;
+        const children = toggle.node.children;
+        children[1].color = cc.Color.WHITE;
+        children[1].getComponent(cc.Label).fontSize = 18;
+        this.handleSocketFromGame(gameId);
+    }
+
+    handleSocketFromGame(gameId: number) {
         this.updateSocketChanged(gameId);
         this.pagination.resetPageCurrent();
         const gameName = getGameName(gameId);
-        //this.socket.off(getGameName(gameId), this.receiveData);
         this.socket.off(getGameName(gameId)).on(getGameName(gameId), this.receiveData);
         this.get_data();
+    }
+
+    resetStyleTabs() {
+        const children = this.tabContainer.children;
+        children.forEach((child) => {
+            const subChildren = child.children;
+            subChildren[1].color = cc.Color.BLACK.fromHEX("#c3c3c3");
+            subChildren[1].getComponent(cc.Label).fontSize = 16;
+        });
     }
 }
