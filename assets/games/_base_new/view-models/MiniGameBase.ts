@@ -43,8 +43,7 @@ interface EmitterStorage {
 
 @ccclass
 export default class MiniGameBase extends NewMiniGameBase {
-    protected sendIngameOnEnable = true;
-    protected clearGameDataOnDestroy = true;
+    protected managedByContainer = true;
     public gameData: NewGameData;
     emitterStorages: EmitterStorage[] = [];
 
@@ -58,7 +57,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.grantSocket();
         this.initSocketListenter();
         this.startGame();
-        if (this.sendIngameOnEnable) {
+        if (!this.managedByContainer) {
             this.registerViewGame();
         }
     }
@@ -67,10 +66,23 @@ export default class MiniGameBase extends NewMiniGameBase {
         super.onDestroy();
 
         this.removeGameDataEvents();
-        GameDataManager.getInstance().clearGameLoop(this.gameId);
-        if (this.clearGameDataOnDestroy) {
+        if (!this.managedByContainer) {
+            GameDataManager.getInstance().clearGameLoop(this.gameId);
             this.clearGameData();
         }
+    }
+
+    cleanGame() {
+        GameDataManager.getInstance().clearGameLoop(this.gameId);
+        this.socketIOController.closeSocket(this.gameId);
+        this.showProcessingWarning(false);
+        this.md5Component && this.md5Component.resetMd5();
+    }
+
+    override closeGame() {
+        this.playClick();
+        this.cleanGame();
+        this.node.active = false;
     }
 
     override onData(data: unknown) {

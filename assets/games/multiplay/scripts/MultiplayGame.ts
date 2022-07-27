@@ -41,11 +41,14 @@ export default class MultiplayGame extends GameViewBase {
     locations = {};
     games = {};
     betChips: BetChips;
+    currentBet: number;
+
+    protected isGameOpened = false;
 
     onLoad() {
-        this.openSockets();
         this.initLocations();
         this.initMultiplayLayout();
+        this.initSockets();
 
         (this.games[this.gameIds[0]] as MultiplayGameSingle).gameData.gameConfigs.on(
             GameConfigs.Events.CHANGE,
@@ -58,32 +61,57 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     onEnable() {
-        // this.openSockets();
-        // Object.values(this.games).forEach((game: MultiplayGameSingle) => game.joinGame());
+        if (this.isGameOpened) {
+            this.reConnectSockets();
+        }
+        this.isGameOpened = true;
     }
 
     onDisable() {
-        this.gameIds.forEach((id) => this.socketIOController.getSocketGame(id).disconnect());
+        Object.values(this.games).forEach((game: MultiplayGameSingle) => game.cleanGame());
     }
 
-    openSockets() {
+    initSockets() {
         this.gameIds.forEach((gameId) => {
             let socket = this.socketIOController.getSocketGame(gameId);
             if (!socket) {
                 const gameName = GameUtils.getGameSetting(gameId);
                 socket = this.currentMiniPanel.gameMiniInitializers.setUpSocketForGame(gameName, gameId, false, null);
-            } else {
-                if (!socket.connected) {
-                    socket.connect();
-                }
+            }
+
+            socket.on("signedIn", () => {
+                this.initForSingle(gameId);
+            });
+
+            if (gameId === this.gameId) {
+                this.initForSingle(gameId);
+            }
+        });
+    }
+
+    grantSocketForSingle(gameId: number) {
+        const multiplaySingle = this.games[gameId] as MultiplayGameSingle;
+        multiplaySingle.grantSocket();
+        multiplaySingle.initSocketListenter();
+        multiplaySingle.startGame();
+        return multiplaySingle;
+    }
+
+    initForSingle(gameId: number) {
+        const multiplaySingle = this.grantSocketForSingle(gameId);
+        multiplaySingle.registerViewGame();
+    }
+
+    reConnectSockets() {
+        this.gameIds.forEach((gameId) => {
+            const socket = this.socketIOController.getSocketGame(gameId);
+            if (socket && !socket.connected) {
+                socket.connect();
             }
         });
     }
 
     initLocations() {
-        if (this.gameIds.length < 4) {
-            return;
-        }
         const gameSetting = GameUtils.getGameSetting(this.gameId);
         if (!gameSetting.locations) {
             const locations = {};
@@ -151,6 +179,13 @@ export default class MultiplayGame extends GameViewBase {
         const lastSubGameSlot = this.locations[gameId];
         this.addMainGameUI(gameId);
         this.addSubGameUI(lastMainGameId, lastSubGameSlot);
+
+        [this.mainGameId, lastMainGameId].forEach((id) => {
+            const game = this.grantSocketForSingle(id);
+            game.currentBet = this.currentBet;
+            game.gameData.updateUI();
+        });
+
         GameUtils.setSubGameSetting(this.gameId, "locations", this.locations);
     }
 
@@ -162,6 +197,7 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     onChangedBetChip(bet: number) {
+        this.currentBet = bet;
         Object.values(this.games).forEach((game: MultiplayGameSingle) => (game.currentBet = bet));
     }
 

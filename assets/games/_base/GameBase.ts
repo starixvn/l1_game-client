@@ -238,7 +238,7 @@ export default class GameBase extends GameViewBase {
         this.resetDataAndUI();
     }
 
-    protected startGame() {
+    startGame() {
         this.gameState = GameState.Started;
     }
 

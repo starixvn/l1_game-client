@@ -14,6 +14,13 @@ import MiniPanel from "./mini-games-panel/view-models/MiniPanel";
 export default class SocketIOController {
     private gameSockets = {};
 
+    protected readonly multiplayGames = [
+        50,
+        51,
+        54,
+        55 // UnbalancedBigSmall
+    ];
+
     getSocketGame(gameId: number) {
         return this.gameSockets[gameId.toString()];
     }
@@ -32,6 +39,7 @@ export default class SocketIOController {
         const proxyRoute = getProxyRoute(gameId);
 
         const option = {
+            gameId,
             socketUri,
             gameName,
             proxyRoute,
@@ -47,6 +55,7 @@ export default class SocketIOController {
     }
 
     connectGameSocket = (option: {
+        gameId: number;
         socketUri: string;
         gameName: string;
         proxyRoute: string;
@@ -59,6 +68,7 @@ export default class SocketIOController {
         gameId: any;
     }): Socket => {
         const {
+            gameId,
             socketUri,
             gameName,
             proxyRoute,
@@ -70,8 +80,9 @@ export default class SocketIOController {
             enableMsgpackParser,
             gameId
         } = option;
+        const multiplay = this.multiplayGames.includes(gameId);
         const socketOptions: Partial<ManagerOptions & SocketOptions> = {
-            forceNew,
+            forceNew: !multiplay && forceNew,
             transports: ["websocket"],
             upgrade: false,
             path: proxyRoute
@@ -112,7 +123,10 @@ export default class SocketIOController {
     async closeSocket(gameId) {
         const socket: Socket = this.gameSockets[gameId];
         socket && socket.disconnect();
-        delete this.gameSockets[gameId];
+        const multiplay = this.multiplayGames.includes(gameId);
+        if (!multiplay) {
+            delete this.gameSockets[gameId];
+        }
     }
 
     closeAllSocket() {
