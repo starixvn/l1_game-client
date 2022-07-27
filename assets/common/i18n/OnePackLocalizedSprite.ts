@@ -12,6 +12,9 @@ export default class OnePackLocalizedSprite extends LocalizedSprite {
     @property()
     prefix = "";
 
+    @property()
+    defaultLocalized = "";
+
     @property({ type: SpriteFrameSet, visible: false, override: true })
     spriteFrameSet: SpriteFrameSet[] = [];
 
@@ -36,7 +39,8 @@ export default class OnePackLocalizedSprite extends LocalizedSprite {
     }
 
     getDefaultSprite() {
-        return this.atlas.getSpriteFrame(this.prefix);
+        const spriteName = this.defaultLocalized ? `${this.prefix}_en` : this.prefix;
+        return this.atlas.getSpriteFrame(spriteName);
     }
 
     updateSprite(language) {

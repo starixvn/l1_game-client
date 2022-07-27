@@ -181,9 +181,9 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
         node.runAction(
             cc.sequence(
                 cc.callFunc(() => {
-                    node.setScale(0.5, 0.5);
+                    node.setScale(0.5);
                 }),
-                cc.scaleTo(0.2, 1, 1)
+                cc.scaleTo(0.2, 1)
             )
         );
     }

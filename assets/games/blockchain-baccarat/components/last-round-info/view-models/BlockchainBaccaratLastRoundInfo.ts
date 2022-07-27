@@ -9,12 +9,6 @@ export default class BlockchainBaccaratLastRoundInfo extends cc.Component {
     @property(cc.Label)
     lastRoundLabel: cc.Label = null;
 
-    @property(cc.Label)
-    playerLabel: cc.Label = null;
-
-    @property(cc.Label)
-    bankerLabel: cc.Label = null;
-
     @property(cc.Node)
     cardsUI: cc.Node = null;
 

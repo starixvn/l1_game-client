@@ -9,8 +9,6 @@ describe("Test class LastRoundInfo", () => {
     let node: cc.Node;
     let comp: BlockchainBaccaratLastRoundInfo;
     let lastRoundLabel: cc.Label;
-    let playerLabel: cc.Label;
-    let bankerLabel: cc.Label;
     let cardsUI: cc.Node;
     let playerCard3: cc.Node;
     let bankerCard3: cc.Node;
@@ -19,8 +17,6 @@ describe("Test class LastRoundInfo", () => {
     beforeAll(() => {
         node = new cc.Node();
         lastRoundLabel = new cc.Node().addComponent(cc.Label);
-        playerLabel = new cc.Node().addComponent(cc.Label);
-        bankerLabel = new cc.Node().addComponent(cc.Label);
         cardsUI = new cc.Node();
         playerCard3 = new cc.Node();
         bankerCard3 = new cc.Node();
@@ -30,8 +26,6 @@ describe("Test class LastRoundInfo", () => {
         parentWinLabel.addChild(winNotice);
         comp = node.addComponent(BlockchainBaccaratLastRoundInfo);
         comp.lastRoundLabel = lastRoundLabel;
-        comp.playerLabel = playerLabel;
-        comp.bankerLabel = bankerLabel;
         comp.cardsUI = cardsUI;
         comp.playerCard3 = playerCard3;
         comp.bankerCard3 = bankerCard3;
