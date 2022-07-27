@@ -7,7 +7,7 @@ import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRou
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import { handlePlacingBet, handleShakeDish, showBgTimer } from "./actions/CustomActions";
 import MultiplayGameHistory from "./MultiplayGameHistory";
-import { UnbalancedBigSmall1Id, unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
+import { tableGameColor, UnbalancedBigSmall1Id, unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -76,15 +76,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     renderTableGame(gameId: number) {
-        const colorArr = ["1b747d", "3ec062", "8d45d4", "c93c44"];
-        const gameIds = [50, 51, 54, 55];
         if (this.gameNameImage && this.tableGameBg) {
             this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`tablename-${gameId}`);
-            gameIds.forEach((id, index) => {
-                if (id === gameId) {
-                    this.tableGameBg.color = cc.Color.BLACK.fromHEX(colorArr[index]);
-                }
-            });
+            this.tableGameBg.color = cc.Color.BLACK.fromHEX(tableGameColor[gameId]);
         }
     }
 

@@ -34,9 +34,9 @@ export const unbalancedBigSmallConfigs = {
     }
 };
 
-export const displayGameName = {
-    50: "Las Vegas",
-    51: "Marina Bay",
-    54: "Macau",
-    55: "Monte Carlo"
+export const tableGameColor = {
+    [UnbalancedBigSmall1Id]: "#1b747d",
+    [UnbalancedBigSmall2Id]: "#3ec062",
+    [UnbalancedBigSmall3Id]: "#8d45d4",
+    [UnbalancedBigSmall4Id]: "#c93c44"
 };
