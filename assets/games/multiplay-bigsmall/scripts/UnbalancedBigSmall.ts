@@ -43,8 +43,8 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.Sprite)
     gameNameImage: cc.Sprite = null;
 
-    @property(cc.Sprite)
-    tableGameBg: cc.Sprite = null;
+    @property(cc.Node)
+    tableGameBg: cc.Node = null;
 
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
@@ -76,9 +76,15 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     renderTableGame(gameId: number) {
+        const colorArr = ["1b747d", "3ec062", "8d45d4", "c93c44"];
+        const gameIds = [50, 51, 54, 55];
         if (this.gameNameImage && this.tableGameBg) {
             this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`tablename-${gameId}`);
-            this.tableGameBg.spriteFrame = this.mainAtlas.getSpriteFrame(`table${gameId}`);
+            gameIds.forEach((id, index) => {
+                if (id === gameId) {
+                    this.tableGameBg.color = cc.Color.BLACK.fromHEX(colorArr[index]);
+                }
+            });
         }
     }
 
