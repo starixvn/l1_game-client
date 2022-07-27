@@ -40,6 +40,15 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.Prefab)
     historyPrefab: cc.Prefab = null;
 
+    @property(cc.Sprite)
+    gameNameImage: cc.Sprite = null;
+
+    @property(cc.Sprite)
+    tableGameBg: cc.Sprite = null;
+
+    @property(cc.SpriteAtlas)
+    mainAtlas: cc.SpriteAtlas = null;
+
     public isMiniGameInContainer = true;
 
     constructor() {
@@ -50,6 +59,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     setGameId(gameId: number) {
         this.gameId = gameId;
         this.config = unbalancedBigSmallConfigs[gameId];
+        this.renderTableGame(gameId);
     }
 
     config = new BigSmallConfigs();
@@ -63,6 +73,13 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, showBgTimer);
         this.emitterListener(this.gameData.durations, Durations.Events.WAITING, handleShakeDish);
+    }
+
+    renderTableGame(gameId: number) {
+        if (this.gameNameImage && this.tableGameBg) {
+            this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`tablename-${gameId}`);
+            this.tableGameBg.spriteFrame = this.mainAtlas.getSpriteFrame(`table${gameId}`);
+        }
     }
 
     showSettlementResult(settlement: any) {
