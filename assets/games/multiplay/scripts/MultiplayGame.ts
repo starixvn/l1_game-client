@@ -5,6 +5,7 @@ import GameUtils from "../../../common/GameUtils";
 import SocketIOController from "../../../SocketIOController";
 import GameViewBase from "../../_base/GameViewBase";
 import { GameConfigs } from "../../_base_new/models/GameConfigs";
+import UnbalancedBigSmallStyleUI from "../../multiplay-bigsmall/scripts/UnbalancedBigSmallStyleUI";
 import MultiplayGameSingle from "./MultiplayGameSingle";
 
 const { ccclass, property } = cc._decorator;
@@ -145,6 +146,8 @@ export default class MultiplayGame extends GameViewBase {
 
     createMainGameUI(gameId: number) {
         const node = cc.instantiate(this.normallPrefab);
+        // const styleControl = node.getComponent(UnbalancedBigSmallStyleUI);
+        // styleControl.renderTableGame(gameId);
 
         const single = node.getComponent(MultiplayGameSingle);
         single.currentMiniPanel = this.currentMiniPanel;
@@ -165,6 +168,8 @@ export default class MultiplayGame extends GameViewBase {
 
     createSubGameUI(gameId: number, location: number) {
         const node = cc.instantiate(this.smallPrefab);
+        const styleControl = node.getComponent(UnbalancedBigSmallStyleUI);
+        styleControl.renderTableGame(gameId);
 
         const single = node.getComponent(MultiplayGameSingle);
         single.maximizeCallback = (gameId) => this.switchGameToMain(gameId);
