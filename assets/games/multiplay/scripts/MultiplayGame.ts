@@ -165,7 +165,6 @@ export default class MultiplayGame extends GameViewBase {
 
     createSubGameUI(gameId: number, location: number) {
         const node = cc.instantiate(this.smallPrefab);
-        node.scale = 0.3;
 
         const single = node.getComponent(MultiplayGameSingle);
         single.maximizeCallback = (gameId) => this.switchGameToMain(gameId);
