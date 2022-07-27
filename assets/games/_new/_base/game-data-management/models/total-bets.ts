@@ -15,6 +15,6 @@ export class TotalBets extends EventEmitterBase {
     }
 
     updateUI() {
-        this.emit(TotalBets.Events.CHANGE, this.data);
+        this.data && this.emit(TotalBets.Events.CHANGE, this.data);
     }
 }
