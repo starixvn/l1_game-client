@@ -5,7 +5,6 @@ import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
 export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIOInitializers {
     public openGame(gameId) {
-        AudioManager.getInstance().playClick();
         this.main.popupMiniGame?.hideListGame();
 
         if (this.main.currentGameRoomId === gameId) {

@@ -429,7 +429,7 @@ export default class MainGame extends cc.Component {
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
             GameUtils.clearGameSetting(gameId);
-            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
+            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this), true);
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
             return;

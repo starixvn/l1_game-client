@@ -104,7 +104,8 @@ export default class GameUtils {
         },
         callBackLobby = () => {
             // handle
-        }
+        },
+        isFirstLoad = false
     ) {
         const info = GameInfos[gameId];
 
@@ -120,7 +121,7 @@ export default class GameUtils {
             return;
         }
 
-        miniPanel.mainGame.initBanners();
+        isFirstLoad && miniPanel?.mainGame?.initBanners();
         openLuckyWheelFunc && openLuckyWheelFunc();
 
         if (gameId === 0) {

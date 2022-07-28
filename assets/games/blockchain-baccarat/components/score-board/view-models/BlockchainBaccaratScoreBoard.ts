@@ -29,6 +29,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     private roundHistory: BlockchainBaccaratRoundHistory[] = [];
     private bigRoadData: any[][];
     private predictData = { player: [], banker: [] };
+    private isFirstLoad = true;
 
     private readonly zoomModes = {
         normal: "normal",
@@ -52,6 +53,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
 
     protected start(): void {
         this.zoom(undefined, this.zoomModes.normal);
+        this.isFirstLoad = false;
     }
 
     resetScoreboard(): void {
@@ -152,7 +154,7 @@ export default class BlockchainBaccaratScoreboard extends cc.Component {
     }
 
     zoom(event: any, mode: string) {
-        AudioManager.getInstance().playClick();
+        !this.isFirstLoad && AudioManager.getInstance().playClick();
         switch (mode) {
             case this.zoomModes.normal:
                 this.node.getChildByName(this.zoomModes.normal).active = true;
