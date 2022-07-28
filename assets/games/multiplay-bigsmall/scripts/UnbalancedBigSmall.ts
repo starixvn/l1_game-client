@@ -87,6 +87,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         if (this.currentDataLogs.length > 0) {
             cc.tween(this.thePlate)
                 .call(() => {
+                    this.shakeThePlateAnimation.node.opacity = 255;
                     this.showHideResult(true);
                     this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
                 })
@@ -145,6 +146,11 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             .call(() => {
                 AudioManager.getInstance().playSFX(this.shakeDishAudio.clip);
             })
+            .delay(1)
+            .call(() => {
+                this.shakeThePlateAnimation.node.opacity = 25.5;
+            })
+
             .start();
     }
 

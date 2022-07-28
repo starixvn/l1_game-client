@@ -27,8 +27,8 @@ export const unbalancedBigSmallConfigs = {
 };
 
 export const tableGameColor = {
-    [UnbalancedBigSmall1Id]: "#1b747d",
-    [UnbalancedBigSmall2Id]: "#3ec062",
-    [UnbalancedBigSmall3Id]: "#8d45d4",
-    [UnbalancedBigSmall4Id]: "#c93c44"
+    [UnbalancedBigSmall1Id]: "#00becc",
+    [UnbalancedBigSmall2Id]: "#00cc44",
+    [UnbalancedBigSmall3Id]: "#6d00cc",
+    [UnbalancedBigSmall4Id]: "#cc0011"
 };
