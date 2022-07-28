@@ -2,7 +2,6 @@ import AudioManager from "../../../common/audio/AudioManager";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
 import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
-import BigSmallDicesStatistic from "../../bigsmall/view-models/BigSmallDicesStatistic";
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import { handlePlacingBet, handleShakeDish, showBgTimer } from "./actions/CustomActions";
@@ -64,7 +63,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     config = new BigSmallConfigs();
     miniRoundHistory: BigSmallMiniRoundHistory;
-    statistic: BigSmallDicesStatistic;
     readonly shakingDuration = 2;
     readonly showResultDuration = 1;
 
@@ -118,22 +116,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.miniRoundHistory = node.getComponent(BigSmallMiniRoundHistory);
     }
 
-    initStatistic(node: cc.Node) {
-        this.statistic = node.getComponent(BigSmallDicesStatistic);
-        const condition = () => {
-            return (
-                this.currentTimeRemaining < this.config.stopBetTime ||
-                this.currentTimeRemaining > this.config.fullTime - this.showResultDuration
-            );
-        };
-        this.statistic.logView.init(condition);
-    }
-
-    onToggleStatisticChanged() {
-        this.playClick();
-        this.statistic.node.parent.active = !this.statistic.node.parent.active;
-    }
-
     protected setDices(result) {
         const { dice1, dice2, dice3 } = result;
         this.dices[0].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice1}-goc-2`);
@@ -144,7 +126,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected updateRoundHistory() {
         this.miniRoundHistory.setData(this.currentDataLogs);
-        this.statistic?.updateData(this.currentDataLogs);
     }
 
     showHideResult(show: boolean) {
