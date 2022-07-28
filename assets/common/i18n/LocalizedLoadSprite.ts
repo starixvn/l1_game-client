@@ -1,3 +1,6 @@
+import { BundleManager } from "bundle-management";
+import { getGameConfiguration } from "../../configs/GameConfigurations";
+
 const { ccclass, property, menu, executeInEditMode } = cc._decorator;
 const pathRoot = "image";
 
@@ -27,11 +30,24 @@ export default class LocalizedLoadSprite extends cc.Component {
     }
 
     public getSpriteFrameByLang(lang: string, name: string, gameId: number) {
-        return new Promise<cc.SpriteFrame>((resolve) => {
-            cc.resources.load<cc.SpriteFrame>(`${pathRoot}/${lang}/${gameId}/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
-                resolve(spriteFrame);
+        const gameConfiguration = getGameConfiguration(gameId);
+
+        if (!gameConfiguration.remoteBundle) {
+            return new Promise<cc.SpriteFrame>((resolve) => {
+                cc.resources.load<cc.SpriteFrame>(`${pathRoot}/${lang}/${gameId}/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
+                    resolve(spriteFrame);
+                });
             });
-        });
+        } else {
+            const bundleManager = BundleManager.getInstance();
+            const path = `i18n/images/${lang}/${name}`;
+
+            return bundleManager.loadAsset({
+                type: cc.SpriteFrame,
+                bundleId: `${gameId}`,
+                path
+            });
+        }
     }
 
     async updateSprite({ language, name, gameId }) {
