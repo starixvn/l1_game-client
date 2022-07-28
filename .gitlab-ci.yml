@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .game-test:
     stage: test
     trigger:
@@ -21,12 +22,21 @@ include:
     - project: "ci/repos-ci/pentagon_l1_treasure_island_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
+    - local: "ci/*.yml"
 
     - project: "ci/repos-ci/pentagon_l2_vg2_treasure_island_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
       
     - project: "ci/repos-ci/pentagon_l1_blockchain_baccarat_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
+    - project: "ci/repos-ci/pentagon_l1_big_small_multiplay_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
+    - project: "ci/repos-ci/pentagon_l2_vg2_big_small_multiplay_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
 
