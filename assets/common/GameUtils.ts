@@ -120,6 +120,7 @@ export default class GameUtils {
             return;
         }
 
+        miniPanel.mainGame.initBanners();
         openLuckyWheelFunc && openLuckyWheelFunc();
 
         if (gameId === 0) {
