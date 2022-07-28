@@ -47,6 +47,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     const node = cc.instantiate(prefab);
                     const componentName = gameId === GameIds.KenoProViet ? "KenoProViet" : "GameBase";
                     const gameComponent = node.getComponent(componentName);
+                    console.log(componentName, gameComponent);
                     gameComponent.initMiniPanel(this.main);
                     this.main.addMiniGame(gameComponent, gameId);
                     gameComponent.openGame();
@@ -73,7 +74,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         if (currentSocket && currentSocket.connected) {
             this.openMiniGame(gameId);
         } else {
-            const gameName = gameId === GameIds.KenoMax ? GameUtils.getGameNameString(11) : GameUtils.getGameNameString(gameId);
+            const gameName = gameId === GameIds.MegaKeno ? GameUtils.getGameNameString(11) : GameUtils.getGameNameString(gameId);
             const socket = this.setUpSocketForGame(gameName, gameId, true, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {

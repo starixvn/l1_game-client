@@ -93,7 +93,7 @@ export default class KenoProViet extends cc.Component {
     }
 
     assignSocketForGameDefault() {
-        const defaultGameId = GameIds.KenoMax;
+        const defaultGameId = GameIds.MegaKeno;
         const kenoProVietSocket = this.socketIOController.getSocketGame(GameIds.KenoProViet);
         this.socketIOController.assignSocket(defaultGameId, kenoProVietSocket);
     }
