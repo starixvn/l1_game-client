@@ -1,4 +1,6 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import MultiplayGame from "../../multiplay/scripts/MultiplayGame";
+import BigSmallMultiplayScoreBoard from "./BigSmallMultiplayScoreBoard";
 import UnbalancedBigSmall from "./UnbalancedBigSmall";
 
 const { ccclass, property } = cc._decorator;
@@ -10,6 +12,9 @@ export default class UnbalancedBigSmallMultiplay extends MultiplayGame {
 
     @property(cc.Toggle)
     collapsedExpandButton: cc.Toggle = null;
+
+    @property(cc.Prefab)
+    scoreBoardPrefab: cc.Prefab = null;
 
     gameIds: number[] = [50, 51, 54, 55];
 
@@ -56,5 +61,17 @@ export default class UnbalancedBigSmallMultiplay extends MultiplayGame {
         } else {
             this.compactGamesArea.scale = 0;
         }
+    }
+
+    onScoreBoardClick() {
+        AudioManager.getInstance().playClick();
+        const node = cc.instantiate(this.scoreBoardPrefab);
+        this.currentMiniPanel.addDialog(node);
+
+        const scoreBoard = node.getComponent(BigSmallMultiplayScoreBoard);
+        scoreBoard.init(this.games);
+        scoreBoard.openGameCallback = (gameId) => {
+            this.switchGameToMain(gameId);
+        };
     }
 }

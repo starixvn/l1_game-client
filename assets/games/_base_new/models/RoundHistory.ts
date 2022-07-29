@@ -8,7 +8,7 @@ export class RoundHistory extends EventEmitterBase {
     };
 
     roundHistory: any[] = [];
-    historySize: 100;
+    historySize = 100;
 
     get lastRoundId() {
         return this.roundHistory[0]?.roundId || 0;

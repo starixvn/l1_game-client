@@ -22,7 +22,7 @@ export default class GameLogControlBase extends cc.Component {
     @property(cc.Size)
     padding: cc.Size = new cc.Size(2, 2);
 
-    protected nextMark: cc.Node = null;
+    public nextMark: cc.Node = null;
     protected dots: cc.Node[] = [];
     protected isHideNextDot = false;
     protected checkShowNext = () => false;
@@ -70,12 +70,16 @@ export default class GameLogControlBase extends cc.Component {
 
             previousResult = result;
 
-            const dot = cc.instantiate(this.items[result]);
+            const dot = this.createDotNode(result);
             maxX = this.handleDotAction(dot, start, col, row, maxX);
         });
 
         this.addNextMark(rowMax, row, col, nextCol, start);
         this.updateContentPosition(maxX);
+    }
+
+    createDotNode(result: number) {
+        return cc.instantiate(this.items[result]);
     }
 
     protected handleDotAction(dot: any, start: any, col: number, row: number, maxX: number) {

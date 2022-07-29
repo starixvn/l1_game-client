@@ -66,6 +66,11 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     readonly shakingDuration = 2;
     readonly showResultDuration = 1;
 
+    initGameData() {
+        super.initGameData();
+        this.gameData.roundHistory.historySize = 102;
+    }
+
     initGameDataEvents() {
         super.initGameDataEvents();
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
