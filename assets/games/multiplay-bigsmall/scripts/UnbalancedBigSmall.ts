@@ -136,6 +136,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     shakeThePlate() {
+        this.shakeThePlateAnimation.node.opacity = 255;
         this.shakeThePlateAnimation.playAdditive(DishAnimation.ShakeDish);
         cc.tween(this.thePlate)
             .delay(0.2)
@@ -200,5 +201,13 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.historyComponent = dialog.getComponent(MultiplayGameHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.addDialog(dialog);
+    }
+
+    public highlightLastResult() {
+        const dataLog = this.currentDataLogs[0];
+        dataLog &&
+            this.betItems.forEach((betItem) => {
+                betItem.setHighlight(dataLog.settlementResult[betItem.node.name], false);
+            });
     }
 }

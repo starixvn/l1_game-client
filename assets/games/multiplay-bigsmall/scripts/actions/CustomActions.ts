@@ -2,7 +2,7 @@ import UnbalancedBigSmall from "../UnbalancedBigSmall";
 
 export const handlePlacingBet = (game: UnbalancedBigSmall) => () => {
     game.bgTimer.opacity = 255;
-    game.betItems.forEach((item) => item.resetHighlight());
+    game.highlightLastResult();
     game.resetThePlate();
     game.disableResultNode();
 };
@@ -17,6 +17,7 @@ export const handleShakeDish =
         const shakeTimePoint = game.config.betTime + game.shakingDuration;
         if (globalRemaining === shakeTimePoint) {
             game.resetDataAndUI();
+            game.highlightLastResult();
             game.shakeThePlate();
         }
     };
