@@ -203,7 +203,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    public highlightLastResult() {
+    highlightLastResult() {
         const dataLog = this.currentDataLogs[0];
         dataLog &&
             this.betItems.forEach((betItem) => {
