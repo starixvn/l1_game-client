@@ -2,9 +2,9 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 declare global {
     export interface Window {
-        i18n: {
-            languages: any;
-            curLang: string;
+        i18n?: {
+            languages?: any;
+            curLang?: string;
         };
     }
 }
