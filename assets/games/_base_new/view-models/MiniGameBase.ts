@@ -4,7 +4,7 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
-import { placeBetFailed, placeBetSuccess, placeOwnChip, updateOwnBets, updateTotalBets } from "../actions/BetAction";
+import { changeBetPercentage, placeBetFailed, placeBetSuccess, placeOwnChip, updateOwnBets, updateTotalBets } from "../actions/BetAction";
 import {
     changeGameRound,
     handleAfterSettlementResult,
@@ -13,7 +13,7 @@ import {
     handleNotice,
     handleRoundHistory,
     handleShowResult,
-    handleShowStatus
+    handleShowStatus,
 } from "../actions/CommonAction";
 import {
     changeRoundId_BEGIN_PLACING_BET,
@@ -23,7 +23,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting
+    updateWaiting,
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -44,6 +44,9 @@ interface EmitterStorage {
 
 @ccclass
 export default class MiniGameBase extends NewMiniGameBase {
+    @property({ type: cc.Label })
+    betPercentage: cc.Label[] = [];
+
     protected managedByContainer = true;
     public gameData: NewGameData;
     emitterStorages: EmitterStorage[] = [];
@@ -177,6 +180,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP, placeOwnChip);
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_FAILED, placeBetFailed);
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_BET_PERCENTAGE, changeBetPercentage);
 
         this.emitterListener(this.gameData.gameConfigs, GameConfigs.Events.CHANGE, handleGameConfigs);
         this.emitterListener(this.gameData.notice, NoticeModel.Events.CHANGE, handleNotice);

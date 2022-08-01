@@ -48,9 +48,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
-    @property({ type: cc.Label })
-    userPercents: cc.Label[] = [];
-
     public isMiniGameInContainer = true;
 
     constructor() {

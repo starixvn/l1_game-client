@@ -6,12 +6,13 @@ export type BetEventType = {
     ownBets: Choices;
     endBet: number;
     ownChip: any;
+    betPercentage: any;
 };
 
 export class BetHandler extends BaseEventHandler<BetEventType> {
     protected readonly gameData: NewGameData;
     protected verifyEvent(event: BetEventType) {
-        return !!event.ownBets || !!event.ownChip || !!event.endBet;
+        return !!event.ownBets || !!event.ownChip || !!event.endBet || !!event.betPercentage;
     }
 
     protected handle(event: BetEventType) {
@@ -29,6 +30,10 @@ export class BetHandler extends BaseEventHandler<BetEventType> {
 
         if (event.ownChip) {
             this.gameData.betModel.changeOwnChip(event.ownChip);
+        }
+
+        if (event.betPercentage) {
+            this.gameData.betModel.changeBetPercentage(event.betPercentage);
         }
     }
 }
