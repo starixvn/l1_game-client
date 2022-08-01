@@ -16,8 +16,8 @@ import {
     handleShowStatus,
 } from "../actions/CommonAction";
 import {
-    changeRoundId_BEGIN_PLACING_BET,
-    changeRoundId_BEGIN_WAITING,
+    showCurrentRoundId,
+    showNextRoundId,
     startGameLoop,
     stopGameLoop,
     updateLockBet,
@@ -47,7 +47,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     @property({ type: cc.Label })
     betPercentage: cc.Label[] = [];
 
-    protected managedByContainer = true;
+    protected managedByContainer = false;
     public gameData: NewGameData;
     emitterStorages: EmitterStorage[] = [];
 
@@ -172,8 +172,8 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, updateLockBet);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, updatePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.WAITING, updateWaiting);
-        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, changeRoundId_BEGIN_PLACING_BET);
-        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_WAITING, changeRoundId_BEGIN_WAITING);
+        this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, showCurrentRoundId);
+        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, showNextRoundId);
 
         this.emitterListener(this.gameData.totalBets, TotalBets.Events.CHANGE, updateTotalBets);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_BET, updateOwnBets);
@@ -185,6 +185,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.gameConfigs, GameConfigs.Events.CHANGE, handleGameConfigs);
         this.emitterListener(this.gameData.notice, NoticeModel.Events.CHANGE, handleNotice);
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, handleRoundHistory);
+
         this.emitterListener(this.gameData, NewGameData.Events.CHANGE_ROUND_ID, changeGameRound);
         this.emitterListener(this.gameData.resultHash, ResultHash.Events.CHANGE, handleMD5Data);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_STATUS, handleShowStatus);

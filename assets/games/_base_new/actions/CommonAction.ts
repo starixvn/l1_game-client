@@ -2,6 +2,7 @@ import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import MiniGameBase from "../view-models/MiniGameBase";
+import { showCurrentRoundId, showNextRoundId } from "./TimeAction";
 
 export const handleNotice = (game: MiniGameBase) => (notice) => {
     const { errorCode, hedgeBetGroup, minBet, maxBet, gameRoundId, gameTypeId } = notice;
@@ -28,6 +29,13 @@ export const handleGameConfigs = (game: MiniGameBase) => (gameConfigs) => game.s
 export const handleRoundHistory = (game: MiniGameBase) => (roundHistory) => {
     game.currentDataLogs = roundHistory;
     game.handleRoundHistory(roundHistory);
+
+    if (game.gameData.durations.isWaiting()) {
+        showNextRoundId(game);
+    }
+    if (game.gameData.durations.isPlacingBet() || game.gameData.durations.isLocking()) {
+        showCurrentRoundId(game);
+    }
 };
 
 export const changeGameRound = (game: MiniGameBase) => (roundId) => game.setGameRound(roundId);

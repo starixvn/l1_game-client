@@ -54,10 +54,10 @@ export const updateWaiting =
         game.setWaitingTimeLabel(numberPad(remaining, 2));
     };
 
-export const changeRoundId_BEGIN_PLACING_BET = (game: MiniGameBase) => () => {
-    game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId + 1);
+export const showCurrentRoundId = (game: MiniGameBase) => () => {
+    game.gameData.roundHistory && game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId + 1);
 };
 
-export const changeRoundId_BEGIN_WAITING = (game: MiniGameBase) => () => {
-    game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId);
+export const showNextRoundId = (game: MiniGameBase) => () => {
+    game.gameData.roundHistory && game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId);
 };

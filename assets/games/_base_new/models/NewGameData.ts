@@ -69,9 +69,9 @@ export default class NewGameData extends GameData {
     protected registerBaseEventHandlers() {
         const handlers = [
             //
+            TimeEventHandler,
             GameConfigHandler,
             RoundHistoryHandler,
-            TimeEventHandler,
             TotalBetsEventHandler,
             BetHandler,
             NoticeHandler,

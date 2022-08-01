@@ -4,7 +4,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MultiplayGameSingle extends MiniGameBase {
-    protected override managedByContainer = false;
+    protected override managedByContainer = true;
 
     maximizeCallback = (gameId: number) => {
         //callback
