@@ -13,6 +13,7 @@ import {
     handleNotice,
     handleRoundHistory,
     handleShowResult,
+    handleShowStatus
 } from "../actions/CommonAction";
 import {
     changeRoundId_BEGIN_PLACING_BET,
@@ -22,7 +23,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -182,6 +183,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, handleRoundHistory);
         this.emitterListener(this.gameData, NewGameData.Events.CHANGE_ROUND_ID, changeGameRound);
         this.emitterListener(this.gameData.resultHash, ResultHash.Events.CHANGE, handleMD5Data);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_STATUS, handleShowStatus);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
     }
@@ -214,5 +216,18 @@ export default class MiniGameBase extends NewMiniGameBase {
      */
     handleRoundHistory(roundHistory: any) {
         console.log(`each game must override for handle round history`, roundHistory);
+    }
+
+    showStatus(status: any) {
+        if (!cc.RedT.GAME_IS_SHOWED) {
+            return;
+        }
+
+        const { win, bet } = status;
+
+        if (win) {
+            this.showWinningBet(bet);
+            this.updateUserBalance();
+        }
     }
 }

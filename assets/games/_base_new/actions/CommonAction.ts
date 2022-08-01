@@ -35,8 +35,13 @@ export const handleMD5Data = (game: MiniGameBase) => (data) => {
     game.md5Component && game.md5Component.handleMD5Data(data);
 };
 
+export const handleShowStatus = (game: MiniGameBase) => (status) => {
+    game.showStatus(status);
+    game.gameData.settlement.clearStatus();
+};
 export const handleShowResult = (game: MiniGameBase) => (settlement) => game.showSettlementResult(settlement);
 export const handleAfterSettlementResult = (game: MiniGameBase) => (settlement) => {
     game.handleAfterSettlementResult(settlement);
     game.gameData.resultHash.updateUI();
+    game.gameData.settlement.showStatus();
 };

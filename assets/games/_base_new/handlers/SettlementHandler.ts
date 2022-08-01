@@ -2,16 +2,23 @@ import { BaseEventHandler } from "../../_new/_base/game-data-management/event-ha
 import NewGameData from "../models/NewGameData";
 
 export type SettlementType = {
-    finish: any;
+    finish?: any;
+    status?: any;
 };
 
 export class SettlemenHandler extends BaseEventHandler<SettlementType> {
     protected readonly gameData: NewGameData;
     protected verifyEvent(event: SettlementType) {
-        return event.finish != null;
+        return event.finish != null || event.status != null;
     }
 
     protected handle(event: SettlementType) {
-        this.gameData.settlement.showResult(event.finish);
+        if (event.finish != null) {
+            this.gameData.settlement.showResult(event.finish);
+        }
+
+        if (event.status != null) {
+            this.gameData.settlement.receiveStatus(event.status);
+        }
     }
 }
