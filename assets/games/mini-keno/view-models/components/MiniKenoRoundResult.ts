@@ -76,9 +76,6 @@ export default class MiniKenoRoundResult extends KenoRoundResult {
                     total += number;
                     const settlementResult = KenoUtils.getSettleResult(total, miniType);
                     this.showSettleResult(settlementResult);
-                }),
-                cc.delayTime(0.1),
-                cc.callFunc(() => {
                     this.total.string = total.toString();
                     --index;
                 }),
