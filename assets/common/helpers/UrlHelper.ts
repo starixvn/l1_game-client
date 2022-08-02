@@ -1,7 +1,5 @@
 import * as configs from "../../configs/Configs";
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const GameConfigurations = require("../../configs/GameConfigurations");
+import { getGameConfiguration } from "../../configs/GameConfigurations";
 
 export function buildUrl(protocol = "http", path = "/") {
     const ssl = configs.ssl;
@@ -28,15 +26,15 @@ export function buildProxyUrl(path) {
 }
 
 export function getTrialSocket(gameId) {
-    const gameConfiguration = GameConfigurations.getGameConfiguration(gameId);
-    const path = gameConfiguration?.path || gameConfiguration?.key.toLowerCase();
+    const gameConfiguration = getGameConfiguration(gameId);
+    const path = gameConfiguration?.key.toLowerCase();
     const pathStr = `/trial/${path}`;
     return buildUrl("http", `${pathStr}`);
 }
 
 export function getPath(gameId) {
-    const gameConfiguration = GameConfigurations.getGameConfiguration(gameId);
-    const path = gameConfiguration?.path || gameConfiguration?.key.toLowerCase();
+    const gameConfiguration = getGameConfiguration(gameId);
+    const path = gameConfiguration?.key.toLowerCase();
     let pathStr = "";
     if (gameId === 0) {
         pathStr = `/${getEnvironment()}${path}`;
@@ -48,7 +46,7 @@ export function getPath(gameId) {
 }
 
 export function getProxyRoute(gameId) {
-    const gameConfiguration = GameConfigurations.getGameConfiguration(gameId);
+    const gameConfiguration = getGameConfiguration(gameId);
     const route = gameConfiguration?.route || gameConfiguration?.key.toLowerCase();
 
     return `/${getEnvironment()}${route}/socket.io`;
