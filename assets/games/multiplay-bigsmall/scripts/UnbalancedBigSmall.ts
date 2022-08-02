@@ -1,4 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
 import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
@@ -120,6 +121,14 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     initMiniRoundHistory(node: cc.Node) {
         this.miniRoundHistory = node.getComponent(BigSmallMiniRoundHistory);
+        this.miniRoundHistory.managedByParent = true;
+
+        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, () => () => {
+            this.miniRoundHistory.nextItemActive = false;
+        });
+        this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, () => () => {
+            this.miniRoundHistory.nextItemActive = true;
+        });
     }
 
     protected setDices(result) {

@@ -17,6 +17,29 @@ export default class MiniRoundHistory extends cc.Component {
     @property(cc.Node)
     nodeNext: cc.Node = null;
 
+    _nextItemActive = false;
+    get nextItemActive(): boolean {
+        return this._nextItemActive;
+    }
+    set nextItemActive(value: boolean) {
+        this._nextItemActive = value;
+        this.updateDisplayItems();
+    }
+
+    _managedByParent = false;
+    get managedByParent(): boolean {
+        return this._managedByParent;
+    }
+    set managedByParent(value: boolean) {
+        this._managedByParent = value;
+
+        if (!value) {
+            this.schedule(this.updateDisplayItems, 1);
+        } else {
+            this.unschedule(this.updateDisplayItems);
+        }
+    }
+
     protected items: MiniRoundHistoryItem[] = [];
     protected selectedNode: cc.Node = null;
     private listener = {
@@ -75,6 +98,9 @@ export default class MiniRoundHistory extends cc.Component {
 
     protected updateDataForItems(data: any[], showNext: boolean) {
         this.hideAllDots();
+        this.items[0].node.active = !showNext;
+        this.nodeNext && (this.nodeNext.active = showNext);
+
         const startIndex = showNext ? 1 : 0;
         data.forEach((log, index) => {
             const calculatedIndex = startIndex + index;
@@ -86,6 +112,10 @@ export default class MiniRoundHistory extends cc.Component {
             item.node.active = true;
         });
         this.selectedNode && this.onUpdate(this.selectedNode);
+
+        if (showNext) {
+            this.hideTooltip();
+        }
     }
 
     protected initNextDot() {
@@ -100,16 +130,11 @@ export default class MiniRoundHistory extends cc.Component {
             return;
         }
 
-        if (this.nodeNext) {
-            this.nodeNext.active = this.checkShowNext();
-            this.items[0].node.active = !this.nodeNext.active;
-            this.updateDataForItems(this.dataLogs, this.nodeNext.active);
-            if (this.nodeNext.active) {
-                this.hideTooltip();
-            }
+        if (this.managedByParent) {
+            this.updateDataForItems(this.dataLogs, this.nextItemActive);
         } else {
-            this.updateDataForItems(this.dataLogs, false);
-            this.items[0].node.active = true;
+            const showNext = this.nodeNext && this.checkShowNext();
+            this.updateDataForItems(this.dataLogs, showNext);
         }
     }
 
