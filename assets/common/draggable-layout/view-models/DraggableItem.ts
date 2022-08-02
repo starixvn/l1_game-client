@@ -2,8 +2,11 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DraggableItem extends cc.Component {
-    private startPosition = cc.v2(0, 0);
-    private startTouchLocation = cc.v2(0, 0);
+    @property({ type: cc.PolygonCollider })
+    colliders: cc.PolygonCollider[] = [];
+
+    private startPosition = cc.v3(0, 0);
+    private startTouchLocation = cc.v3(0, 0);
 
     private isTouchStarted = false;
 
@@ -12,6 +15,15 @@ export default class DraggableItem extends cc.Component {
         move: (touchPosition: cc.Vec2) => {},
         end: (isClicked: boolean) => {}
     };
+
+    checkCollider(event): boolean {
+        if (this.colliders.length === 0) {
+            return true;
+        }
+
+        const touchLocation = event.touch.getLocation();
+        return this.colliders.some((collider) => cc.Intersection.pointInPolygon(touchLocation, collider.world.points));
+    }
 
     onLoad() {
         this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
@@ -28,6 +40,11 @@ export default class DraggableItem extends cc.Component {
     }
 
     onTouchStart(e) {
+        if (!this.checkCollider(e)) {
+            console.log("not touch in collider");
+            return;
+        }
+        console.log("onTouchStart");
         this.isTouchStarted = true;
         this.touchCallback.start(this.node);
         this.startPosition = this.node.position;
