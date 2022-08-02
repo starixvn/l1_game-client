@@ -35,6 +35,9 @@ export default class MultiplayGameHistoryItem extends cc.Component {
         const result = data.result;
         this.setResultData(result);
         this.betChoice.string = +data.big > 0 ? "BIG" : "SMALL";
+        if (data.betwin > 0) {
+            this.stake.node.color = this.betChoice.node.color = cc.Color.BLACK.fromHEX("fff663");
+        }
     }
 
     setResultData(result: any) {

@@ -8,12 +8,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
-    @property(cc.Prefab)
-    dropDownListPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    dropDownContainer: cc.Node = null;
-
     @property(cc.Node)
     tabContainer: cc.Node = null;
 
@@ -22,7 +16,6 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
 
     onLoad() {
         super.onLoad();
-        this.handleSocketFromGame(50);
     }
 
     updateSocketChanged(id) {
@@ -43,28 +36,30 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
     }
 
     openTabGame(toggle: cc.Toggle) {
-        this.resetStyleTabs();
         const gameId = +toggle.node.name;
-        const children = toggle.node.children;
-        children[1].color = cc.Color.WHITE;
-        children[1].getComponent(cc.Label).fontSize = 18;
         this.handleSocketFromGame(gameId);
     }
 
     handleSocketFromGame(gameId: number) {
         this.updateSocketChanged(gameId);
         this.pagination.resetPageCurrent();
-        const gameName = getGameName(gameId);
         this.socket.off(getGameName(gameId)).on(getGameName(gameId), this.receiveData);
         this.get_data();
+        this.setStyleActiveTab(gameId);
     }
 
-    resetStyleTabs() {
+    setStyleActiveTab(gameId: number) {
         const children = this.tabContainer.children;
         children.forEach((child) => {
             const subChildren = child.children;
-            subChildren[1].color = cc.Color.BLACK.fromHEX("#c3c3c3");
-            subChildren[1].getComponent(cc.Label).fontSize = 16;
+            if (+child.name === gameId) {
+                child.getComponent(cc.Toggle).isChecked = true;
+                subChildren[1].color = cc.Color.WHITE;
+                subChildren[1].getComponent(cc.Label).fontSize = 18;
+            } else {
+                subChildren[1].color = cc.Color.BLACK.fromHEX("#c3c3c3");
+                subChildren[1].getComponent(cc.Label).fontSize = 16;
+            }
         });
     }
 }
