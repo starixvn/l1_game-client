@@ -5,6 +5,13 @@ export default class DraggableItem extends cc.Component {
     @property({ type: cc.PolygonCollider })
     colliders: cc.PolygonCollider[] = [];
 
+    @property(cc.Node)
+    targetNode: cc.Node = null;
+
+    get target(): cc.Node {
+        return this.targetNode ?? this.node;
+    }
+
     private startPosition = cc.v3(0, 0);
     private startTouchLocation = cc.v3(0, 0);
 
@@ -47,7 +54,7 @@ export default class DraggableItem extends cc.Component {
         console.log("onTouchStart");
         this.isTouchStarted = true;
         this.touchCallback.start(this.node);
-        this.startPosition = this.node.position;
+        this.startPosition = this.target.position;
         this.startTouchLocation = e.touch.getLocation();
     }
 
@@ -55,7 +62,7 @@ export default class DraggableItem extends cc.Component {
         if (!this.isTouchStarted) {
             return;
         }
-        this.node.position = e.touch.getLocation().sub(this.startTouchLocation).add(this.startPosition);
+        this.target.position = e.touch.getLocation().sub(this.startTouchLocation).add(this.startPosition);
         this.touchCallback.move(e.touch.getLocation());
     }
 
