@@ -351,7 +351,6 @@ export default class GameUtils {
         cc.tween(node)
             .to(transitionTime, { opacity: 0 })
             .call(() => {
-                node.active = false;
                 onHidden && onHidden();
             })
             .start();

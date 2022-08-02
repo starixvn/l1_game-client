@@ -50,7 +50,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     protected orderCard: OrderCardValue[];
 
     onLoad() {
-        this?.burnContainer?.node && (this.burnContainer.node.active = false);
+        this.burnContainer && (this.burnContainer.node.active = false);
         this.orderCard = [
             { node: this.playerCards, key: CardsOrder.card1 },
             { node: this.bankerCards, key: CardsOrder.card1 },
@@ -69,6 +69,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     }
 
     async handleFlyCards(currentIndex: number, numberCardsFlied: number) {
+        console.log("handleFlyCards");
         switch (numberCardsFlied) {
             case CountCardFlied.FourCards:
                 await this.reserveCards.flyCardFromReserve({
@@ -120,7 +121,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         }
     }
 
-    public async collectCardsOnTable(isShuffle = false) {
+    public async collectCardsOnTable(isShuffle = false, isRunDropCards = true) {
         if (isShuffle) {
             this.burnContainer?.handleDropCards();
             this.bankerCards?.resetCards();
@@ -128,43 +129,46 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             this.reserveCards?.resetCards();
         }
 
-        await Promise.all([
-            ...this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
-            ...this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
-        ]).catch(() => {
-            // handle
-        });
+        isRunDropCards &&
+            (await Promise.all([
+                ...this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
+                ...this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
+            ]).catch(() => {
+                // handle
+            }));
     }
 
     async flyCard3(playerHasCard3: boolean, isFlyCard3Player: boolean, delay: number) {
-        if (isFlyCard3Player) {
-            this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
-        } else {
-            this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
-        }
+        if (this.reserveCards) {
+            if (isFlyCard3Player) {
+                this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card2]);
+            } else {
+                this.reserveCards.resetCard(this.reserveCards.cards[CardsOrder.card1]);
+            }
 
-        if (playerHasCard3) {
-            this.playerCards.cards[CardsOrder.card3]
-                .getComponentInChildren(BlockchainCard)
-                .setIndexNumber(this.reserveCards.cards[CardsOrder.card1].getComponentInChildren(BlockchainCard).index);
-            await this.reserveCards.flyCard3ReserveToPunter(
-                this.playerCards.cards[CardsOrder.card3],
-                this.reserveCards.cards[CardsOrder.card1],
-                delay,
-                false
-            );
-        } else {
-            const index =
-                this.reserveCards.cards[isFlyCard3Player ? CardsOrder.card2 : CardsOrder.card1].getComponentInChildren(
-                    BlockchainCard
-                ).index;
-            this.bankerCards.cards[CardsOrder.card3].getComponentInChildren(BlockchainCard).setIndexNumber(index);
-            await this.reserveCards.flyCard3ReserveToPunter(
-                this.bankerCards.cards[CardsOrder.card3],
-                isFlyCard3Player ? this.reserveCards.cards[CardsOrder.card2] : this.reserveCards.cards[CardsOrder.card1],
-                delay,
-                true
-            );
+            if (playerHasCard3) {
+                this.playerCards.cards[CardsOrder.card3]
+                    ?.getComponentInChildren(BlockchainCard)
+                    ?.setIndexNumber(this.reserveCards.cards[CardsOrder.card1]?.getComponentInChildren(BlockchainCard)?.index);
+                await this.reserveCards.flyCard3ReserveToPunter(
+                    this.playerCards.cards[CardsOrder.card3],
+                    this.reserveCards.cards[CardsOrder.card1],
+                    delay,
+                    false
+                );
+            } else {
+                const index =
+                    this.reserveCards.cards[isFlyCard3Player ? CardsOrder.card2 : CardsOrder.card1].getComponentInChildren(
+                        BlockchainCard
+                    ).index;
+                this.bankerCards.cards[CardsOrder.card3]?.getComponentInChildren(BlockchainCard)?.setIndexNumber(index);
+                await this.reserveCards.flyCard3ReserveToPunter(
+                    this.bankerCards.cards[CardsOrder.card3],
+                    isFlyCard3Player ? this.reserveCards.cards[CardsOrder.card2] : this.reserveCards.cards[CardsOrder.card1],
+                    delay,
+                    true
+                );
+            }
         }
     }
 
@@ -218,7 +222,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         await this.burnContainer.handleShowCutCards(data, duration);
     }
 
-    setActiveCardsUI(isActive: boolean, callback?: () => void) {
+    setActiveCardsUI(isActive: boolean) {
         if (isActive) {
             GameUtils.showNode(this.reserveCards?.node);
             GameUtils.showNode(this.bankerCards?.node);
@@ -230,7 +234,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         }
 
         this.winningNotice.node.parent.active = false;
-        callback && callback();
     }
 
     updateCardDropBox(currentIndex: number, cutCardIndex: number) {

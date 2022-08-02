@@ -194,9 +194,8 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
                 this.timeHandler.checkIsShowAnim(this.currentTimeRemaining, this.gameData.cardList.blockchain?.isNew) ||
                 (this.gameData.cardList.blockchain?.isNew, this.timeHandler.isInRoundTime)
             ) {
-                this.cardsUI?.setActiveCardsUI(true, () => {
-                    this.cardsUI.handleNumberIndex(currentIndex);
-                });
+                this.cardsUI?.setActiveCardsUI(true);
+                this.cardsUI.handleNumberIndex(currentIndex);
             }
             if (this.isFirstRender) {
                 this.isFirstRender = false;

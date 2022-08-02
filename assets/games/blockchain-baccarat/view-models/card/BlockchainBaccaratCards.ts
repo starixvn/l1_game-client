@@ -60,27 +60,20 @@ export default class BlockchainBaccaratCards extends cc.Component {
     private readonly durationAwaitAnimFaceUp = 1.3;
     protected readonly setPointSecond = 0.2;
     private clonePositionCards: cc.Vec3[] = [];
-
-    private cardsFlyTween: cc.Tween[];
-    private flyCardReserveTween: cc.Tween;
-    private faceUpCardsTween: cc.Tween[];
-    private dropCardsTween: cc.Tween[];
-    private cardsRunActionFly: cc.Node[];
+    private cardsFlyTween: cc.Tween[] = [];
+    private flyCardReserveTween: cc.Tween = null;
+    private faceUpCardsTween: cc.Tween[] = [];
+    private dropCardsTween: cc.Tween[] = [];
+    private cardsRunActionFly: cc.Node[] = [];
 
     onLoad = () => {
         this.cards.forEach((card, index) => {
             this.clonePositionCards[index] = card.position;
         });
-        this.onHidden();
-        this.resetAllDataTween();
     };
 
-    onHidden() {
+    onDisable() {
         this.resetActions();
-        this.cards.forEach((cardNode: cc.Node, index) => {
-            const cardComponent: BlockchainCard = cardNode?.getComponentInChildren(BlockchainCard);
-            this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
-        });
     }
 
     resetActions() {
@@ -97,13 +90,6 @@ export default class BlockchainBaccaratCards extends cc.Component {
         this.cardsRunActionFly?.forEach((cardNode: cc.Node) => {
             cardNode.stopAllActions();
         });
-    }
-
-    resetAllDataTween() {
-        this.cardsFlyTween = [];
-        this.faceUpCardsTween = [];
-        this.dropCardsTween = [];
-        this.cardsRunActionFly = [];
     }
 
     setTagIndex(index: number, card: cc.Node) {
@@ -280,8 +266,8 @@ export default class BlockchainBaccaratCards extends cc.Component {
                 })
                 .delay(duration)
                 .call(() => {
-                    resolve();
                     this.setPositionCardsAfterDrop(cardComponent, cardNode, cardIndex);
+                    resolve();
                 })
                 .start();
             dropTween && this.dropCardsTween.push(dropTween);
@@ -289,7 +275,7 @@ export default class BlockchainBaccaratCards extends cc.Component {
     }
 
     private setPositionCardsAfterDrop(cardComponent: cc.Component, cardNode: cc.Node, index: number) {
-        cardNode && (cardNode.position = this.clonePositionCards[index]);
+        cardNode && this.clonePositionCards?.[index] && (cardNode.position = this.clonePositionCards[index]);
         if (cardComponent) {
             cardComponent.node.getChildByName("card").position = cc.v3(0, 0, 0);
             cardComponent.node.getChildByName("card").scale = 0.5;
