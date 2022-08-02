@@ -121,6 +121,11 @@ export default class MiniGameBase extends NewMiniGameBase {
         GameDataManager.getInstance().clearGameData(this.gameId);
     }
 
+    resetDataAndUI() {
+        super.resetDataAndUI();
+        this.betPercentage.forEach((label) => (label.string = `0%`));
+    }
+
     override initHandlers() {
         this.umHandler = null;
         this.noticeHandler = null;
