@@ -4,7 +4,14 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
-import { changeBetPercentage, placeBetFailed, placeBetSuccess, placeOwnChip, updateOwnBets, updateTotalBets } from "../actions/BetAction";
+import {
+    changeBetPercentage,
+    placeBetFailed,
+    placeBetSuccess,
+    placeOwnChip,
+    updateOwnBets,
+    updateTotalBets,
+} from "../actions/BetAction";
 import {
     changeGameRound,
     handleAfterSettlementResult,
@@ -219,6 +226,8 @@ export default class MiniGameBase extends NewMiniGameBase {
     handleAfterSettlementResult(settlement: any) {
         this.gameData.roundHistory.add(settlement);
         this.showWaittingTime(true);
+        this.gameData.resultHash.updateUI();
+        this.gameData.settlement.showStatus();
     }
 
     /**

@@ -50,6 +50,4 @@ export const handleShowStatus = (game: MiniGameBase) => (status) => {
 export const handleShowResult = (game: MiniGameBase) => (settlement) => game.showSettlementResult(settlement);
 export const handleAfterSettlementResult = (game: MiniGameBase) => (settlement) => {
     game.handleAfterSettlementResult(settlement);
-    game.gameData.resultHash.updateUI();
-    game.gameData.settlement.showStatus();
 };

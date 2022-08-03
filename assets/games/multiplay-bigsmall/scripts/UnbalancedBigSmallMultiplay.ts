@@ -2,6 +2,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import MultiplayGame from "../../multiplay/scripts/MultiplayGame";
 import BigSmallMultiplayScoreBoard from "./BigSmallMultiplayScoreBoard";
 import UnbalancedBigSmall from "./UnbalancedBigSmall";
+import UnbalancedBigSmallSubGame from "./UnbalancedBigSmallSubGame";
 
 const { ccclass, property } = cc._decorator;
 
@@ -31,7 +32,7 @@ export default class UnbalancedBigSmallMultiplay extends MultiplayGame {
 
     createSubGameUI(gameId: number, location: number): cc.Node {
         const node = super.createSubGameUI(gameId, location);
-        const multiplaySingle = node.getComponent(UnbalancedBigSmall);
+        const multiplaySingle = node.getComponent(UnbalancedBigSmallSubGame);
         multiplaySingle.setGameId(gameId);
         return node;
     }

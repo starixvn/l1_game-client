@@ -1,3 +1,4 @@
+import { i18n } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -88,34 +89,38 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     showSettlementResult(settlement: any) {
         cc.tween(this.bgTimer).to(0.3, { opacity: 0 }).start();
-        this.setDices(settlement.result);
+        this.setDices(settlement.result, settlement.settlementResult);
 
         if (this.currentDataLogs.length > 0) {
-            cc.tween(this.thePlate)
-                .call(() => {
-                    this.shakeThePlateAnimation.node.opacity = 255;
-                    this.showHideResult(true);
-                    this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
-                })
-                .delay(1)
-                .call(() => {
-                    this.gameData.settlement.finishShowResult();
-                })
-                .start();
+            this.handleAnimResult();
         }
+    }
+
+    handleAnimResult() {
+        cc.tween(this.thePlate)
+            .call(() => {
+                this.shakeThePlateAnimation.node.opacity = 255;
+                this.showHideResult(true);
+                this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
+            })
+            .delay(1)
+            .call(() => {
+                this.gameData.settlement.finishShowResult();
+            })
+            .start();
     }
 
     handleAfterSettlementResult(settlement: any) {
-        super.handleAfterSettlementResult(settlement);
+        this.gameData.roundHistory.add(settlement);
+        this.showWaittingTime(true);
         this.updateRoundHistory();
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
         this.showWinningAnimation(this.currentDataLogs[0]);
+        this.gameData.resultHash.updateUI();
+        this.gameData.settlement.showStatus();
     }
 
     handleRoundHistory(roundHistory: any) {
-        if (roundHistory && roundHistory[0] && roundHistory[0].result) {
-            this.setDices(roundHistory[0].result);
-        }
         this.updateRoundHistory();
     }
 
@@ -131,12 +136,14 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         });
     }
 
-    protected setDices(result) {
+    protected setDices(result, settlementResult) {
         const { dice1, dice2, dice3 } = result;
+        const { big, small } = settlementResult;
+        const betChoice = big ? `${i18n.t(`ui.choice_big`)}` : `${i18n.t(`ui.choice_small`)}`;
         this.dices[0].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice1}-goc-2`);
         this.dices[1].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice2}-goc-1`);
         this.dices[2].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice3}-goc-1`);
-        this.resultLabel.string = dice1 + dice2 + dice3;
+        this.resultLabel.string = betChoice.toUpperCase() + ` (${dice1 + dice2 + dice3})`;
     }
 
     protected updateRoundHistory() {
@@ -163,29 +170,14 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             })
             .delay(1)
             .call(() => {
-                this.shakeThePlateAnimation.node.opacity = 25.5;
+                this.setOpacityThePlate();
             })
 
             .start();
     }
 
-    protected showResult() {
-        if (this.currentDataLogs.length > 0) {
-            const { settlementResult } = this.currentDataLogs[0];
-
-            cc.tween(this.thePlate)
-                .call(() => {
-                    this.showHideResult(true);
-                    this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
-                })
-                .delay(1)
-                .call(() => {
-                    this.updateRoundHistory();
-                    this.betItems.forEach((betItem) => betItem.setHighlight(settlementResult[betItem.node.name.toLowerCase()], true));
-                    this.showWinningAnimation(this.currentDataLogs[0]);
-                })
-                .start();
-        }
+    setOpacityThePlate() {
+        this.shakeThePlateAnimation.node.opacity = 25.5;
     }
 
     protected showWinningAnimation(data: any) {
