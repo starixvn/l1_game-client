@@ -404,6 +404,7 @@ const data = {
         upDownBetHistory: "ขึ้น/ลง",
         evenUpBetHistory: "คู่ /คี่",
         statistic: "สถิติ",
+        statistic_2: "สถิติ",
         place_bet2: "วางเดิมพัน",
         betChoice2_break: "ตัวเลือกเดิมพัน",
         nickname_break: "ชื่อเล่น",

@@ -390,6 +390,7 @@ const data = {
         upDownBetHistory: "上/下",
         evenUpBetHistory: "双/单",
         statistic: "统计",
+        statistic_2: "统计",
         place_bet2: "下注",
         betChoice2_break: "投注选择",
         nickname_break: "昵称",

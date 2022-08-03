@@ -409,6 +409,7 @@ const data = {
         upDownBetHistory: "Tăng / Giảm",
         evenUpBetHistory: "Chẵn / Lẻ",
         statistic: "Thống Kê",
+        statistic_2: "Soi Cầu",
         place_bet2: "Đặt Lệnh",
         betChoice2_break: "Đặt",
         nickname_break: "Người Chơi",

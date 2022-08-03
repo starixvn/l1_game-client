@@ -406,6 +406,7 @@ const data = {
         upDownBetHistory: "Naik/Turun",
         evenUpBetHistory: "Genap/Ganjil",
         statistic: "Statistik",
+        statistic_2: "Statistik",
         place_bet2: "Pasang Taruhan",
         betChoice2_break: "Pilihan\nTaruhan",
         nickname_break: "Nama\npanggilan",
