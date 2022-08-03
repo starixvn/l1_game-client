@@ -52,6 +52,8 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     public isMiniGameInContainer = true;
 
+    protected scaleResultNode = 1;
+
     constructor() {
         super();
         this.gameId = UnbalancedBigSmall1Id;
@@ -182,7 +184,10 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected showWinningAnimation(data: any) {
         this.resultNode.active = true;
-        cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
+        cc.tween(this.resultNode)
+            .to(0.2, { scale: 1.2 }, { easing: "bounceOut" })
+            .to(0.3, { scale: this.scaleResultNode, opacity: 255 })
+            .start();
     }
 
     resetDataAndUI() {
