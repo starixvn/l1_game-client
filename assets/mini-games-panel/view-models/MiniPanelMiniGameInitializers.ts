@@ -69,6 +69,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             );
         } else {
             this.showGame(gameBase.node);
+            this.main.unCacheAndHideGameLoading(gameLoading, gameId);
         }
     }
 
