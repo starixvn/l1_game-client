@@ -11,13 +11,13 @@ export default class BeadRoadItem extends MiniRoundHistoryItem {
     @property(cc.Sprite)
     icon: cc.Sprite = null;
 
-    @property(cc.Label)
-    label: cc.Label = null;
+    @property(cc.Sprite)
+    extraInfo: cc.Sprite = null;
 
     public setData(data: any) {
         if (data === null) {
-            this.icon.spriteFrame = this.atlas.getSpriteFrame("dot-white");
-            this.label.string = "";
+            this.icon.spriteFrame = this.atlas.getSpriteFrame("pending-icon");
+            this.extraInfo && (this.extraInfo.spriteFrame = null);
             this.icon.node.color = cc.Color.GRAY;
             this.icon.addComponent(BlinkNode).interval = 0.5;
             return;
@@ -25,10 +25,10 @@ export default class BeadRoadItem extends MiniRoundHistoryItem {
 
         const { type, extra } = data;
         const dict = {
-            0: "dot-black",
-            1: "dot-white"
+            0: "big-icon",
+            1: "small-icon"
         };
         this.icon.spriteFrame = this.atlas.getSpriteFrame(dict[type]);
-        this.label.string = `${extra.sum}`;
+        this.extraInfo && (this.extraInfo.spriteFrame = this.atlas.getSpriteFrame(`big_small_num_${extra.sum}`));
     }
 }
