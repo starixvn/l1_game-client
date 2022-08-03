@@ -145,7 +145,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.dices[0].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice1}-goc-2`);
         this.dices[1].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice2}-goc-1`);
         this.dices[2].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice3}-goc-1`);
-        this.resultLabel.string = betChoice.toUpperCase() + ` (${dice1 + dice2 + dice3})`;
+        this.resultLabel.string = `${dice1 + dice2 + dice3} - ` + betChoice.toUpperCase();
     }
 
     protected updateRoundHistory() {
