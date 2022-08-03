@@ -100,7 +100,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                 this.openAllCards();
             });
         } else {
-            await this.handleShowBurnCard(cutCardValue, false);
+            this.handleShowBurnCard(cutCardValue, false);
             formatData.forEach((data: BlockchainCardModel, index: number) => {
                 this.createCardsBurn(this.cardPrefab, index, data.card, false, (card: cc.Node, cardData: CardModel) => {
                     const cardComponent = card.children[0]?.getComponent(BlockchainCard);

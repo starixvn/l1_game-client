@@ -48,6 +48,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     cardDeck: cc.Node = null;
 
     protected orderCard: OrderCardValue[];
+    isShowAllCards = false;
 
     onLoad() {
         this.burnContainer && (this.burnContainer.node.active = false);
@@ -69,7 +70,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     }
 
     async handleFlyCards(currentIndex: number, numberCardsFlied: number) {
-        console.log("handleFlyCards");
         switch (numberCardsFlied) {
             case CountCardFlied.FourCards:
                 await this.reserveCards.flyCardFromReserve({
@@ -93,6 +93,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
                 await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
                 await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                this.isShowAllCards = true;
                 break;
             case CountCardFlied.FiveCards:
                 await this.reserveCards.flyCardFromReserve({
@@ -109,6 +110,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
                 await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
                 await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                this.isShowAllCards = true;
                 break;
             default:
                 await this.playerCards.flyCard1FromDeck(currentIndex);
@@ -117,6 +119,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
                 await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
                 await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
+                this.isShowAllCards = true;
                 break;
         }
     }

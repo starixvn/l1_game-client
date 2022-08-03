@@ -26,8 +26,6 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
     }
 
     handle(data: any) {
-        super.handle(data);
-
         if (
             data.remainingTime &&
             data.remainingTime > this.main.config.fullTime &&
@@ -35,6 +33,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
         ) {
             this.isNewShoe = true;
         }
+        super.handle(data);
     }
 
     gameUpdate(): void {
@@ -50,10 +49,40 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
                 gameData.cardList.blockchain.isNew = false;
             }
 
-            super.handleNotWaitTime();
+            this.handleNotWaitTime();
         }
 
         this.main.currentTimeRemaining--;
+    }
+
+    handleNotWaitTime() {
+        if (this.isStartingNewGameRound) {
+            this.handleStartingNewGameRound();
+        }
+
+        if (this.isClearBet) {
+            this.main.resetDataAndUI();
+        }
+
+        if (this.isInRoundTime) {
+            this.handleInRoundTime();
+            const cardContainer = this.main.cardsUI;
+            if (!cardContainer.isShowAllCards) {
+                cardContainer.setActiveCardsUI(true);
+                this.main.handleShowGameId(true);
+                cardContainer.isShowAllCards = true;
+            }
+            if (this.isInLockBetTime) {
+                if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
+                    this.handleAtLockBetTime();
+                }
+                this.handleInLockBetTime();
+            }
+        } else {
+            if (this.isInEndTime) {
+                this.handleInEndTime();
+            }
+        }
     }
 
     handleWaitTime() {
@@ -84,15 +113,21 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
         }
 
         this.main.timeWaitLabel.string = this.formatTime(
-            this.main.currentTimeRemaining - this.main.config.betTime - this.dealCardsTime - 1 - (this.isNewShoe ? this.durationNewShoe : 0)
+            this.main.currentTimeRemaining -
+                this.main.config.betTime -
+                this.dealCardsTime -
+                1 -
+                (this.isNewShoe || this.main.gameData.cardList.blockchain?.isNew ? this.durationNewShoe : 0)
         );
     }
 
     async handleFlyCards() {
         const gameData = this.main.gameData;
+        const cardContainer = this.main.cardsUI;
+
         const currentCardIndex = gameData.cardList.currentIndex;
         const numberCardsFlied = gameData.cardList.numberCardsFly;
-        const cardContainer = this.main.cardsUI;
+
         if (this.isResetUI) {
             cardContainer.setActiveCardsUI(true);
             this.main.handleShowGameId(true);
@@ -100,7 +135,7 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
 
         this.main.setGameRound(this.main.roundId);
 
-        await cardContainer.collectCardsOnTable(this.isResetUI, !this.isNotEnoughTimeFlyCard);
+        !this.isNotEnoughTimeFlyCard && (await cardContainer.collectCardsOnTable(this.isResetUI, !this.isNotEnoughTimeFlyCard));
         cardContainer.updateCardDropBox(currentCardIndex, gameData.cardList.blockchain?.cutCardIndex);
         const lastRound = gameData.finishModel.finishData ?? gameData.roundHistory.list[0];
         this.main.lastRoundIfo.updateUI(lastRound, currentCardIndex);
