@@ -13,7 +13,6 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
     private isNewShoe = false;
     private isShowShoe = false;
     private isResetUI = false;
-    private isRoundNewShoe = false;
 
     constructor(protected readonly main: BlockchainBaccarat) {
         super(main);
@@ -49,43 +48,12 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
             const gameData = this.main.gameData;
             if (gameData.cardList.blockchain?.isNew) {
                 gameData.cardList.blockchain.isNew = false;
-                this.isRoundNewShoe = true;
             }
 
-            this.handleNotWaitTime();
+            super.handleNotWaitTime();
         }
 
         this.main.currentTimeRemaining--;
-        console.log(this.main.currentTimeRemaining, " this.main.currentTimeRemaining");
-    }
-
-    handleNotWaitTime() {
-        if (this.isStartingNewGameRound) {
-            this.handleStartingNewGameRound();
-        }
-        if (this.isClearBet) {
-            this.main.resetDataAndUI();
-        }
-
-        if (this.isInRoundTime) {
-            this.handleInRoundTime();
-            if (this.isRoundNewShoe) {
-                this.main.cardsUI?.setActiveCardsUI(true);
-                this.main.cardsUI?.handleNumberIndex(this.main.gameData.cardList?.blockchain?.currentIndex);
-                this.isRoundNewShoe = false;
-            }
-
-            if (this.isInLockBetTime) {
-                if (this.main.currentTimeRemaining === this.main.config.stopBetTime) {
-                    this.handleAtLockBetTime();
-                }
-                this.handleInLockBetTime();
-            }
-        } else {
-            if (this.isInEndTime) {
-                this.handleInEndTime();
-            }
-        }
     }
 
     handleWaitTime() {
@@ -129,18 +97,15 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
             cardContainer.setActiveCardsUI(true);
             this.main.handleShowGameId(true);
         }
-        console.log(!this.isNotEnoughTimeFlyCard, "this.isNotEnoughTimeFlyCard");
-        console.log(!this.isRoundNewShoe, "this.isRoundNewShoe");
-        console.log(this.isResetUI, "this.isResetUI");
 
         this.main.setGameRound(this.main.roundId);
 
-        await cardContainer.collectCardsOnTable(this.isResetUI, !this.isNotEnoughTimeFlyCard && !this.isRoundNewShoe);
+        await cardContainer.collectCardsOnTable(this.isResetUI, !this.isNotEnoughTimeFlyCard);
         cardContainer.updateCardDropBox(currentCardIndex, gameData.cardList.blockchain?.cutCardIndex);
         const lastRound = gameData.finishModel.finishData ?? gameData.roundHistory.list[0];
         this.main.lastRoundIfo.updateUI(lastRound, currentCardIndex);
         clearPercentBet(this.main.betItems as BlockchainBaccaratBetItem[]);
-        !this.isRoundNewShoe && (await cardContainer.handleFlyCards(currentCardIndex, numberCardsFlied));
+        await cardContainer.handleFlyCards(currentCardIndex, numberCardsFlied);
         this.isResetUI = false;
     }
 
@@ -163,16 +128,17 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
             const cardContainer = this.main.cardsUI;
             blockchainData?.isNew && (blockchainData.isNew = false);
 
-            cardContainer.handleShuffleCards(blockchainData, timeRemaining, this.checkIsShowAnim(timeRemaining, isNew), () => {
+            cardContainer.handleShuffleCards(blockchainData, timeRemaining, this.checkShowAllCards(timeRemaining, isNew), () => {
                 this.main.handleShowGameId(false);
             });
         }
     }
 
-    checkIsShowAnim(timeRemaining: number, isNewBlockChain: boolean) {
-        if (timeRemaining >= TimeShowAnim.burnCard && !isNewBlockChain) {
+    checkShowAllCards(timeRemaining: number, isNewBlockChain: boolean) {
+        if ((timeRemaining >= TimeShowAnim.burnCard && !isNewBlockChain) || this.isNotEnoughTimeFlyCard) {
             return true;
         }
+
         return false;
     }
 }
