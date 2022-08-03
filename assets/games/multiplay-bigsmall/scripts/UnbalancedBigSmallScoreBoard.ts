@@ -1,4 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import GameIdSprite from "../../../common/GameIdSprite";
 import BeadRoad from "../../_base/view-models/BeadRoad";
 import ExtendedGameLogControl from "../../_base/view-models/ExtendedGameLogControl";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
@@ -11,6 +12,9 @@ const { ccclass, property } = cc._decorator;
 export default class UnbalancedBigSmallScoreBoard extends cc.Component {
     @property({ type: cc.Label })
     percentLabels: cc.Label[] = [];
+
+    @property(GameIdSprite)
+    gameName: GameIdSprite = null;
 
     beadRoad: BeadRoad = null;
     logControl: ExtendedGameLogControl = null;
@@ -61,6 +65,7 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
         this.gameId = game.gameId;
         this.duration = game.gameData.durations;
         this.roundHistory = game.gameData.roundHistory;
+        this.gameName.gameId = this.gameId;
 
         this.roundHistory.on(RoundHistory.Events.CHANGE, this.updateRoundHistory);
         this.duration.on(Durations.Events.LOCKING_BET, this.showNextItem);
