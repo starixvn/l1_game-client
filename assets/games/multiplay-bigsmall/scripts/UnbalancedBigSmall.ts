@@ -124,12 +124,13 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.showWinningAnimation(this.currentDataLogs[0]);
         this.gameData.resultHash.updateUI();
         this.gameData.settlement.showStatus();
+        this.setDices(settlement.result, settlement.settlementResult);
+        // this.thePlate.active = false;
+        this.thePlate.opacity = 0;
+        console.log("plate opa 0");
     }
 
     handleRoundHistory(roundHistory: any) {
-        if (roundHistory && roundHistory[0] && roundHistory[0].result) {
-            this.setDices(roundHistory[0].result, roundHistory[0].settlementResult);
-        }
         this.updateRoundHistory();
     }
 
@@ -212,6 +213,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.thePlate.position = cc.v3(0, 0);
         this.thePlate.opacity = 255;
         this.thePlate.active = true;
+        console.log("plate opa 255");
     }
 
     openHistory() {
