@@ -1,11 +1,12 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { lazyInject } from "../../../Application";
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import GameIconMenu from "./GameIconMenu";
+import GameUIManager from "./GameUIManager";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 import SkeletonIcon from "./SkeletonIcon";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-import AudioManager from "../../../common/audio/AudioManager";
-import GameUIManager from "./GameUIManager";
 
 export enum GameCategory {
     All = 0,
@@ -162,23 +163,14 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     private createIconNode(gameId: number, prefab: cc.Prefab) {
-        let convertedId: number | string;
-        switch (gameId) {
-            case 12:
-                convertedId = gameId = 11;
-                break;
-            case 48:
-                convertedId = "48_break";
-                break;
-            default:
-                convertedId = gameId;
-                break;
+        const lobbyGameNameKey = `lobbyNames.${gameId}`;
+        let gameName = i18n.t(lobbyGameNameKey);
+        if (gameName === lobbyGameNameKey) {
+            gameName = i18n.t(`gameNames.${gameId}`);
         }
-
-        const gameName = i18n.t(`gameNames.${convertedId}`).toUpperCase();
         const iconNode = cc.instantiate(prefab);
         const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
-        skeletonIconComponent.setGameName(gameName);
+        skeletonIconComponent.setGameName(gameName.toUpperCase());
         skeletonIconComponent.setGameContent(gameId, this.getList());
         return iconNode;
     }

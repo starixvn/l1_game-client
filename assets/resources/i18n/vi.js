@@ -3,6 +3,9 @@ if (!window.i18n.languages) window.i18n.languages = {};
 if (!window.i18n.languages.vi) window.i18n.languages.vi = {};
 
 const data = {
+    lobbyNames: {
+        12: "Keno Pro Viet"
+    },
     gameNames: {
         "-1": "Vòng Quay May Mắn",
         1: "Tài Xỉu",

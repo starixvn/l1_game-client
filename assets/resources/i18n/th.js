@@ -3,6 +3,9 @@ if (!window.i18n.languages) window.i18n.languages = {};
 if (!window.i18n.languages.th) window.i18n.languages.th = {};
 
 const data = {
+    lobbyNames: {
+        12: "Keno Pro Viet"
+    },
     gameNames: {
         1: "ใหญ่/เล็ก",
         2: "Se Die",
