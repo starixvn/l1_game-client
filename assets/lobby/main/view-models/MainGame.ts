@@ -82,6 +82,7 @@ export default class MainGame extends cc.Component {
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
     private miniPanel: MiniPanel;
+    initBanner = false;
     signName: any;
 
     onDestroy() {
@@ -310,6 +311,7 @@ export default class MainGame extends cc.Component {
     }
 
     initBanners() {
+        this.initBanner = true;
         GameUtils.loadResource(`lobby/banner/bannerContainer`).then(async (prefab) => {
             this.banner.handleBanner(prefab);
         });
@@ -426,10 +428,11 @@ export default class MainGame extends cc.Component {
 
     openGameSSO() {
         this.miniPanel.setData(this);
+
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
             GameUtils.clearGameSetting(gameId);
-            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this), true);
+            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
             return;
