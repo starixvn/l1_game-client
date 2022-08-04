@@ -4,16 +4,10 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
-import {
-    changeBetPercentage,
-    placeBetFailed,
-    placeBetSuccess,
-    placeOwnChip,
-    updateOwnBets,
-    updateTotalBets,
-} from "../actions/BetAction";
+import { changeBetPercentage, placeBetFailed, placeBetSuccess, placeOwnChip, updateOwnBets, updateTotalBets } from "../actions/BetAction";
 import {
     changeGameRound,
+    checkToOffUM,
     handleAfterSettlementResult,
     handleGameConfigs,
     handleMD5Data,
@@ -21,6 +15,7 @@ import {
     handleRoundHistory,
     handleShowResult,
     handleShowStatus,
+    onUM,
 } from "../actions/CommonAction";
 import {
     showCurrentRoundId,
@@ -40,6 +35,7 @@ import { NoticeModel } from "../models/NoticeModel";
 import { ResultHash } from "../models/ResultHash";
 import { RoundHistory } from "../models/RoundHistory";
 import { Settlement } from "../models/Settlement";
+import { UMModel } from "../models/UMModel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -178,6 +174,9 @@ export default class MiniGameBase extends NewMiniGameBase {
             lockingBet: this.config.stopBetTime
         });
 
+        this.emitterListener(this.gameData.umModel, UMModel.Events.ON_UM, onUM);
+        this.emitterListener(this.gameData.umModel, UMModel.Events.CHECK_OFF_UM, checkToOffUM);
+
         this.emitterListener(this.gameData.durations, Durations.Events.START_GAME_LOOP, startGameLoop);
         this.emitterListener(this.gameData.durations, Durations.Events.STOP_GAME_LOOP, stopGameLoop);
         this.emitterListener(this.gameData.durations, Durations.Events.TIMEOUT, updateTimeOut);
@@ -203,6 +202,17 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_STATUS, handleShowStatus);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
+    }
+
+    checkShowUmMessage(data: any) {
+        if (this.currentTimeRemaining === undefined && data.remainingTime === undefined) {
+            return true;
+        }
+        return (
+            this.currentTimeRemaining <= this.config.betTime ||
+            this.currentTimeRemaining === this.config.fullTime ||
+            data.remainingTime === this.config.fullTime
+        );
     }
 
     removeGameDataEvents() {

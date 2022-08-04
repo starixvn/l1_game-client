@@ -150,6 +150,8 @@ export default class GameBase extends GameViewBase {
     private processingWarning: cc.Node;
     public needHideNextDotRoundHistory = false;
 
+    hideUmDataKeys = ["remainingTime"]
+
     setConfig(config: GameConfigBase) {
         this.config = config;
     }
@@ -566,6 +568,10 @@ export default class GameBase extends GameViewBase {
 
     checkShowUmMessage(data: any) {
         return this.currentTimeRemaining <= this.config.betTime || data.remainingTime === this.config.fullTime;
+    }
+
+    checkHideUmMessage(data: any) {
+        return this.hideUmDataKeys.some(key => data[key] !== undefined);
     }
 
     openHistory() {}

@@ -9,12 +9,14 @@ import { NoticeHandler } from "../handlers/NoticeHandler";
 import { ResultHashHandler } from "../handlers/ResultHashHandler";
 import { RoundHistoryHandler } from "../handlers/RoundHistoryHandler";
 import { SettlemenHandler } from "../handlers/SettlementHandler";
+import { UMHandler } from "../handlers/UMHandler";
 import { BetModel } from "./BetModel";
 import { GameConfigs } from "./GameConfigs";
 import { NoticeModel } from "./NoticeModel";
 import { ResultHash } from "./ResultHash";
 import { RoundHistory } from "./RoundHistory";
 import { Settlement } from "./Settlement";
+import { UMModel } from "./UMModel";
 
 export default class NewGameData extends GameData {
     static Events = {
@@ -30,6 +32,7 @@ export default class NewGameData extends GameData {
     roundHistory: RoundHistory;
     settlement: Settlement;
     resultHash: ResultHash;
+    umModel: UMModel;
 
     roundId: number;
 
@@ -41,9 +44,11 @@ export default class NewGameData extends GameData {
         this.roundHistory = new RoundHistory();
         this.settlement = new Settlement();
         this.resultHash = new ResultHash();
+        this.umModel = new UMModel();
 
         const models: EventEmitterBase[] = [
             //
+            this.umModel,
             this.durations,
             this.totalBets,
             this.betModel,
@@ -69,6 +74,7 @@ export default class NewGameData extends GameData {
     protected registerBaseEventHandlers() {
         const handlers = [
             //
+            UMHandler,
             TimeEventHandler,
             GameConfigHandler,
             RoundHistoryHandler,

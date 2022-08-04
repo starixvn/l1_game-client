@@ -4,6 +4,20 @@ import NoticeUtil from "../../../common/utils/NoticeUtil";
 import MiniGameBase from "../view-models/MiniGameBase";
 import { showCurrentRoundId, showNextRoundId } from "./TimeAction";
 
+export const onUM = (game: MiniGameBase) => (data) => {
+    if (game.checkShowUmMessage(data)) {
+        game.showUmMessage(data);
+        game.disableGame();
+    }
+};
+
+export const checkToOffUM = (game: MiniGameBase) => (data) => {
+    if (game.checkHideUmMessage(data)) {
+        game.gameData.umModel.clearUM();
+        game.hideUmMessage();
+    }
+};
+
 export const handleNotice = (game: MiniGameBase) => (notice) => {
     const { errorCode, hedgeBetGroup, minBet, maxBet, gameRoundId, gameTypeId } = notice;
     const gameName = GameUtils.getGameNameString(gameTypeId);
