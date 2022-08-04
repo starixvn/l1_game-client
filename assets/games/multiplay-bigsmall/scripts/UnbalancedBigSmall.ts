@@ -127,6 +127,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     handleRoundHistory(roundHistory: any) {
+        if (roundHistory && roundHistory[0] && roundHistory[0].result) {
+            this.setDices(roundHistory[0].result, roundHistory[0].settlementResult);
+        }
         this.updateRoundHistory();
     }
 
@@ -144,7 +147,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected setDices(result, settlementResult) {
         const { dice1, dice2, dice3 } = result;
-        const { big, small } = settlementResult;
+        const { big } = settlementResult;
         const betChoice = big ? `${i18n.t(`ui.choice_big`)}` : `${i18n.t(`ui.choice_small`)}`;
         this.dices[0].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice1}-goc-2`);
         this.dices[1].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice2}-goc-1`);
