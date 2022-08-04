@@ -42,7 +42,11 @@ const data = {
         42: "Texas Hold'em",
         45: "Hi-Lo",
         46: "Nightclub Lady",
-        47: "Treasure Island"
+        47: "Treasure Island",
+        50: "Las Vegas",
+        51: "Marina Bay",
+        54: "Macau",
+        55: "Monte Carlo"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
