@@ -227,13 +227,13 @@ export default class MiniGameBase extends NewMiniGameBase {
      * Show settlement result, must call gameData.settlement.finishShowResult at the end
      */
     showSettlementResult(settlement: any) {
-        this.gameData.settlement.finishShowResult();
+        this.gameData.settlement.finishShowResult(settlement, true);
     }
 
     /**
      * Handling after showing settlement result
      */
-    handleAfterSettlementResult(settlement: any) {
+    handleAfterSettlementResult(settlement: any, animated: boolean) {
         this.gameData.roundHistory.add(settlement);
         this.showWaittingTime(true);
         this.gameData.resultHash.updateUI();

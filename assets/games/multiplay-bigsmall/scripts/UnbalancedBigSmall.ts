@@ -111,23 +111,29 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             })
             .delay(1)
             .call(() => {
-                this.gameData.settlement.finishShowResult();
+                this.gameData.settlement.finishShowResult(this.gameData.settlement.settlement, true);
             })
             .start();
     }
 
-    handleAfterSettlementResult(settlement: any) {
+    handleAfterSettlementResult(settlement: any, animated: boolean) {
+        this.showWinChoiceAndUpdateHistory(settlement);
+        this.highlightAndPayout(settlement);
+    }
+
+    showWinChoiceAndUpdateHistory(settlement: any) {
         this.gameData.roundHistory.add(settlement);
         this.showWaittingTime(true);
         this.updateRoundHistory();
-        this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
         this.showWinningAnimation(this.currentDataLogs[0]);
         this.gameData.resultHash.updateUI();
-        this.gameData.settlement.showStatus();
         this.setDices(settlement.result, settlement.settlementResult);
-        // this.thePlate.active = false;
+    }
+
+    highlightAndPayout(settlement: any) {
+        this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
+        this.gameData.settlement.showStatus();
         this.thePlate.opacity = 0;
-        console.log("plate opa 0");
     }
 
     handleRoundHistory(roundHistory: any) {
@@ -213,7 +219,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.thePlate.position = cc.v3(0, 0);
         this.thePlate.opacity = 255;
         this.thePlate.active = true;
-        console.log("plate opa 255");
     }
 
     openHistory() {

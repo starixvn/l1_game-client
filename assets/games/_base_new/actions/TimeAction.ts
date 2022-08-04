@@ -10,7 +10,7 @@ export const startGameLoop = (game: MiniGameBase) => () => {
     if (gameData.durations.isWaiting() && !gameData.settlement.settlement) {
         const settlement = gameData.roundHistory.roundHistory[0];
         if (settlement) {
-            gameData.settlement.finishShowResult(settlement);
+            gameData.settlement.finishShowResult(settlement, false);
         }
     }
 };

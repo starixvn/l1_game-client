@@ -62,6 +62,8 @@ export const handleShowStatus = (game: MiniGameBase) => (status) => {
     game.gameData.settlement.clearStatus();
 };
 export const handleShowResult = (game: MiniGameBase) => (settlement) => game.showSettlementResult(settlement);
-export const handleAfterSettlementResult = (game: MiniGameBase) => (settlement) => {
-    game.handleAfterSettlementResult(settlement);
-};
+export const handleAfterSettlementResult =
+    (game: MiniGameBase) =>
+    ({ settlement, animated }) => {
+        game.handleAfterSettlementResult(settlement, animated);
+    };
