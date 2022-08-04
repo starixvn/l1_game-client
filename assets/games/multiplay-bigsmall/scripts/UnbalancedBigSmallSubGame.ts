@@ -5,7 +5,8 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
     scaleResultNode = 0.88;
-    setOpacityThePlate() {
+
+    hideDicesAndPlates() {
         this.shakeThePlateAnimation.node.opacity = 0;
     }
 
@@ -13,13 +14,14 @@ export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
         this.showWinChoiceAndUpdateHistory(settlement);
 
         const doLater = () => {
-            // this.setOpacityThePlate();
             this.highlightAndPayout(settlement);
+            this.hideDicesAndPlates();
         };
         if (animated) {
             this.scheduleOnce(doLater, 3);
         } else {
-            doLater();
+            this.showDicesAndPlates();
+            this.highlightAndPayout(settlement);
         }
     }
 }
