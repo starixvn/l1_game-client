@@ -12,12 +12,12 @@ export default class GameViewBase extends BaseComponent {
         this._gameId = value;
     }
 
-    public get gameName() {
-        return getGameName(this.gameId);
-    }
-
     public get gameId(): number {
         return this._gameId;
+    }
+
+    public get gameName() {
+        return getGameName(this.gameId);
     }
 
     onLoad() {
