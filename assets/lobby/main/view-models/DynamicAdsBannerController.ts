@@ -3,6 +3,7 @@ import configs = require("../../../configs/Configs");
 import BannerController from "./BannerController";
 import BannerItem from "./BannerItem";
 import LobbyMenuConfig from "./LobbyMenuConfig";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,7 +34,7 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     async createAdsItem(id: number, callback: () => void) {
-        const bannerSpriteFrame = await this.getBannerSpriteFrame(id);
+        const bannerSpriteFrame = await GameUtils.getBannerWithCondition(this.lobbyMenuConfig, id);
         if (bannerSpriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
             this.createBasicItem(id, bannerSpriteFrame, item);
@@ -65,35 +66,5 @@ export default class DynamicAdsBannerController extends BannerController {
 
     onLoad() {
         // override to delay enableTouch
-    }
-
-    async getBannerSpriteFrame(id: number) {
-        const newSuffix = this.lobbyMenuConfig.isNewGame(id) ? "_new" : "";
-        const currentLang = window.i18n.curLang;
-        const languageAndNew = window.i18n.curLang !== "vi" ? `_${currentLang}${newSuffix}` : newSuffix;
-        const languageAndNewSpriteFrame = await this.getSpriteFrame(id.toString(), `${id.toString()}${languageAndNew}`);
-
-        let bannerSpriteFrame: cc.SpriteFrame;
-        if (languageAndNewSpriteFrame) {
-            bannerSpriteFrame = languageAndNewSpriteFrame;
-        } else {
-            const gameIdAndNewSpriteFrame = await this.getSpriteFrame(id.toString(), `${id.toString()}${newSuffix}`);
-            if (gameIdAndNewSpriteFrame) {
-                bannerSpriteFrame = gameIdAndNewSpriteFrame;
-            } else {
-                const gameIdAndLanguageSpriteFrame = currentLang !== "vi" ? `${id.toString()}_${currentLang}` : id.toString();
-                bannerSpriteFrame = await this.getSpriteFrame(id.toString(), gameIdAndLanguageSpriteFrame);
-            }
-        }
-
-        return bannerSpriteFrame;
-    }
-
-    private getSpriteFrame(gameId: string, imageName: string): Promise<cc.SpriteFrame> {
-        return new Promise<cc.SpriteFrame>((resolve) => {
-            cc.resources.load<cc.SpriteFrame>(`lobby/banner/textures/${gameId}/${imageName}`, cc.SpriteFrame, (err, spriteFrame) => {
-                resolve(spriteFrame);
-            });
-        });
     }
 }

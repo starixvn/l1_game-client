@@ -5,6 +5,7 @@ import * as authManager from "../../common/auth/AuthManager";
 import RandomWaitingMessage from "./RandonWaitingMessage";
 import LobbyMenuConfig from "../../lobby/main/view-models/LobbyMenuConfig";
 import SplashConfig from "./SplashConfig";
+import GameUtils from "../../common/GameUtils";
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
@@ -101,6 +102,7 @@ export default class Splash extends cc.Component {
     }
 
     async onLoaded() {
+        await this.preLoadFirstBanner();
         await this.preLoadGameIcons();
 
         cc.resources.loadDir("lobby/games/skeleton-icon", () => {
@@ -131,6 +133,15 @@ export default class Splash extends cc.Component {
                 );
 
             await Promise.all(preLoadGameAwaiters.concat(preLoadGameBySystemAwaiters));
+        } catch (ex) {
+            console.log(ex);
+        }
+    }
+
+    private async preLoadFirstBanner() {
+        try {
+            const bannerId = lobbyMenuConfig.bannerAds[splashConfig.customPath][0];
+            await GameUtils.getBannerWithCondition(lobbyMenuConfig, bannerId);
         } catch (ex) {
             console.log(ex);
         }

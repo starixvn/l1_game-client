@@ -5,6 +5,7 @@ import { GameInfos } from "../configs/SabaConfigs";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
 import GameUIManager from "../lobby/main/view-models/GameUIManager";
+import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -363,5 +364,35 @@ export default class GameUtils {
             loading.setLoadingVisibility(false);
             uiManager.unCacheIconLoading(gameId);
         }
+    }
+
+    public static async getBannerWithCondition(lobbyMenuConfig: LobbyMenuConfig, id: number) {
+        const newSuffix = lobbyMenuConfig.isNewGame(id) ? "_new" : "";
+        const currentLang = window.i18n.curLang;
+        const languageAndNew = window.i18n.curLang !== "vi" ? `_${currentLang}${newSuffix}` : newSuffix;
+        const languageAndNewSpriteFrame = await this.getBannerSpriteFrame(id.toString(), `${id.toString()}${languageAndNew}`);
+
+        let bannerSpriteFrame: cc.SpriteFrame;
+        if (languageAndNewSpriteFrame) {
+            bannerSpriteFrame = languageAndNewSpriteFrame;
+        } else {
+            const gameIdAndNewSpriteFrame = await this.getBannerSpriteFrame(id.toString(), `${id.toString()}${newSuffix}`);
+            if (gameIdAndNewSpriteFrame) {
+                bannerSpriteFrame = gameIdAndNewSpriteFrame;
+            } else {
+                const gameIdAndLanguageSpriteFrame = currentLang !== "vi" ? `${id.toString()}_${currentLang}` : id.toString();
+                bannerSpriteFrame = await this.getBannerSpriteFrame(id.toString(), gameIdAndLanguageSpriteFrame);
+            }
+        }
+
+        return bannerSpriteFrame;
+    }
+
+    public static getBannerSpriteFrame(gameId: string, imageName: string): Promise<cc.SpriteFrame> {
+        return new Promise<cc.SpriteFrame>((resolve) => {
+            cc.resources.load<cc.SpriteFrame>(`lobby/banner/textures/${gameId}/${imageName}`, cc.SpriteFrame, (err, spriteFrame) => {
+                resolve(spriteFrame);
+            });
+        });
     }
 }
