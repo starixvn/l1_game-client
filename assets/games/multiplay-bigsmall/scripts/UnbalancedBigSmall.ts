@@ -6,7 +6,7 @@ import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
 import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
-import { handlePlacingBet, handleShakeDish, showBgTimer } from "./actions/CustomActions";
+import { handlePlacingBet, handleShakeDish, handleSubGameWaitingTime, showBgTimer } from "./actions/CustomActions";
 import MultiplayGameHistory from "./MultiplayGameHistory";
 import { tableGameColor, UnbalancedBigSmall1Id, unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
 
@@ -50,6 +50,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
+    @property(cc.Node)
+    timeShowResult: cc.Node = null;
+
     public isMiniGameInContainer = true;
 
     protected scaleResultNode = 1;
@@ -80,6 +83,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, showBgTimer);
         this.emitterListener(this.gameData.durations, Durations.Events.WAITING, handleShakeDish);
+        this.emitterListener(this.gameData.durations, Durations.Events.CHANGE_REMAINING_TIME, handleSubGameWaitingTime);
     }
 
     renderTableGame(gameId: number) {
@@ -220,5 +224,11 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             this.betItems.forEach((betItem) => {
                 betItem.setHighlight(dataLog.settlementResult[betItem.node.name], false);
             });
+    }
+
+    timeAnimShowResult(show: boolean) {
+        if (this.timeShowResult) {
+            this.timeShowResult.active = show;
+        }
     }
 }

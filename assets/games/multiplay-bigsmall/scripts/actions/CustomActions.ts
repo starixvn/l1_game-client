@@ -21,3 +21,9 @@ export const handleShakeDish =
             game.shakeThePlate();
         }
     };
+
+export const handleSubGameWaitingTime =
+    (game: UnbalancedBigSmall) =>
+    ({ remaining }) => {
+        game.timeAnimShowResult(remaining > game.config.betTime);
+    };
