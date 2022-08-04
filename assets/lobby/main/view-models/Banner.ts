@@ -15,9 +15,6 @@ const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 
 @ccclass
 export default class Banner extends cc.Component {
-    @property(cc.Node)
-    loading: cc.Node = null;
-
     private adsBannerContainer: cc.Node = null;
     private jackpotBannerContainer: cc.Node = null;
     private jackpotNavigationContainer: cc.Node = null;
@@ -37,18 +34,9 @@ export default class Banner extends cc.Component {
 
         adsBannerController.menuLoop = !showJackpotBanner;
         const filterList: number[] = this.getGameIdOfferBanner();
-        adsBannerController.setGameAds(
-            filterList,
-            async () => {
-                showJackpotBanner &&
-                    (await this.handleJackpotBanner(bannerPrefabNode, () => {
-                        this.inactiveLoadingSkeleton();
-                    }));
-            },
-            () => {
-                this.inactiveLoadingSkeleton();
-            }
-        );
+        adsBannerController.setGameAds(filterList, async () => {
+            showJackpotBanner && (await this.handleJackpotBanner(bannerPrefabNode));
+        });
 
         adsBannerController.onEndingRound = () => {
             if (showJackpotBanner && this.adsToggle && this.jackpotToggle) {
@@ -60,12 +48,11 @@ export default class Banner extends cc.Component {
         adsBannerController.showFirstPage();
     }
 
-    private async handleJackpotBanner(bannerPrefabNode: cc.Node, callBackActiveNode: () => void) {
+    private async handleJackpotBanner(bannerPrefabNode: cc.Node) {
         const jackpotContainer = bannerPrefabNode.getChildByName("jackpotController");
         this.jackpotNavigationContainer = bannerPrefabNode.getChildByName("jackpotNavigationController");
         await this.setJackpotContainer(jackpotContainer);
         await this.setJackpotNavigation();
-        callBackActiveNode();
     }
 
     private async setJackpotContainer(container: cc.Node) {
@@ -135,9 +122,5 @@ export default class Banner extends cc.Component {
                 }
             })
             .start();
-    }
-
-    private inactiveLoadingSkeleton() {
-        this.loading.active = false;
     }
 }

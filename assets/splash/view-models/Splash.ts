@@ -102,7 +102,7 @@ export default class Splash extends cc.Component {
     }
 
     async onLoaded() {
-        await this.preLoadFirstBanner();
+        await this.preLoadBanner();
         await this.preLoadGameIcons();
 
         cc.resources.loadDir("lobby/games/skeleton-icon", () => {
@@ -138,10 +138,17 @@ export default class Splash extends cc.Component {
         }
     }
 
-    private async preLoadFirstBanner() {
+    private async preLoadBanner() {
         try {
             const bannerId = lobbyMenuConfig.bannerAds[splashConfig.customPath][0];
-            await GameUtils.getBannerWithCondition(lobbyMenuConfig, bannerId);
+            const spriteAwaiters = GameUtils.getBannerWithCondition(lobbyMenuConfig, bannerId);
+            const bannerAwaiters = new Promise((resolve) => {
+                cc.resources.load("lobby/banner/adsItemPrefab", resolve);
+            });
+            const bannerContainerAwaiters = new Promise((resolve) => {
+                cc.resources.load("lobby/banner/bannerContainer", resolve);
+            });
+            await Promise.all([spriteAwaiters, bannerAwaiters, bannerContainerAwaiters]);
         } catch (ex) {
             console.log(ex);
         }

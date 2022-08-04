@@ -17,15 +17,14 @@ export default class DynamicAdsBannerController extends BannerController {
 
     private isFirstLoadBanner = false;
 
-    async setGameAds(games: number[], initJackpot: () => void, callback: () => void) {
+    async setGameAds(games: number[], initJackpot: () => void) {
         for (const gameId of games) {
-            await this.createAdsItem(gameId, callback);
+            await this.createAdsItem(gameId);
         }
         initJackpot();
     }
 
-    private handleShowBanner(callback: () => void) {
-        callback();
+    private handleShowBanner() {
         if (this.node.childrenCount > 0 && !this.isFirstLoadBanner) {
             this.enableTouch();
             this.showFirstPage();
@@ -33,7 +32,7 @@ export default class DynamicAdsBannerController extends BannerController {
         }
     }
 
-    async createAdsItem(id: number, callback: () => void) {
+    async createAdsItem(id: number) {
         const bannerSpriteFrame = await GameUtils.getBannerWithCondition(this.lobbyMenuConfig, id);
         if (bannerSpriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
@@ -46,7 +45,7 @@ export default class DynamicAdsBannerController extends BannerController {
             event.handler = "openGame";
             event.customEventData = id.toString();
             button.clickEvents.push(event);
-            this.handleShowBanner(callback);
+            this.handleShowBanner();
         }
     }
 
