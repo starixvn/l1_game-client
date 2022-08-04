@@ -42,12 +42,7 @@ const data = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Cao Thấp",
-        46: "Gái Nhảy",
-        47: "Đảo Châu Báu",
-        50: "Las Vegas",
-        51: "Marina Bay",
-        54: "Macau",
-        55: "Monte Carlo"
+        46: "Gái Nhảy"
     },
     messages: {
         accountNotExist: "Đã xảy ra lỗi. Vui lòng liên hệ bộ phận CSKH để biết chi tiết, cảm ơn bạn. (%{errorCode})",

@@ -42,7 +42,6 @@ const data = {
         42: "Texas Hold'em",
         45: "Hi-Lo",
         46: "Nightclub Lady",
-        47: "Treasure Island",
         50: "Las Vegas",
         51: "Marina Bay",
         54: "Macau",

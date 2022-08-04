@@ -41,12 +41,7 @@ const data = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady",
-        47: "Treasure Island",
-        50: "Las Vegas",
-        51: "Marina Bay",
-        54: "Macau",
-        55: "Monte Carlo"
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "เกิดข้อผิดพลาด กรุณาติดต่อแอดมินสำหรับรายละเอียดเพิ่มเติม ขอบคุณค่ะ (%{errorCode})",

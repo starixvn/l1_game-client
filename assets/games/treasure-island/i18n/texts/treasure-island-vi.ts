@@ -1,10 +1,9 @@
 import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
-if (!window.i18n) window.i18n = {};
-if (!window.i18n.languages) window.i18n.languages = {};
-if (!window.i18n.languages.vi) window.i18n.languages.vi = {};
-
 export const phrases = {
+    gameNames: {
+        47: "Đảo Châu Báu"
+    },
     treasureIsland: {
         tumpleWin: "Thắng\nNổ Sập",
         totalWin: "Thắng",
@@ -31,5 +30,4 @@ export const phrases = {
     }
 };
 
-Object.assign(window.i18n.languages.vi, phrases);
-reloadLanguageData();
+reloadLanguageData("vi", phrases);

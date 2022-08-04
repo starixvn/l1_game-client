@@ -4,7 +4,7 @@ import * as MsgpackParser from "socket.io-msgpack-parser";
 
 import { getSession } from "./common/auth/SessionManager";
 import GameUtils from "./common/GameUtils";
-import { getProxyRoute } from "./common/helpers/UrlHelper.js";
+import { getProxyRoute } from "./common/helpers/UrlHelper";
 import { sentryLogger } from "./common/logger.js";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
 import { getGameConfiguration } from "./configs/GameConfigurations";
