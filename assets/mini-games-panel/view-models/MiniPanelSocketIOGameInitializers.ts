@@ -1,5 +1,4 @@
 import { buildServerUrl } from "../.././common/helpers/UrlHelper";
-import AudioManager from "../../common/audio/AudioManager";
 import * as sessionManager from "../../common/auth/SessionManager";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 

@@ -60,11 +60,11 @@ export default class BlockchainBaccaratCards extends cc.Component {
     private readonly durationAwaitAnimFaceUp = 1.3;
     protected readonly setPointSecond = 0.2;
     private clonePositionCards: cc.Vec3[] = [];
-    private cardsFlyTween: cc.Tween[] = [];
+    private readonly cardsFlyTween: cc.Tween[] = [];
     private flyCardReserveTween: cc.Tween = null;
-    private faceUpCardsTween: cc.Tween[] = [];
-    private dropCardsTween: cc.Tween[] = [];
-    private cardsRunActionFly: cc.Node[] = [];
+    private readonly faceUpCardsTween: cc.Tween[] = [];
+    private readonly dropCardsTween: cc.Tween[] = [];
+    private readonly cardsRunActionFly: cc.Node[] = [];
 
     onLoad = () => {
         this.cards.forEach((card, index) => {

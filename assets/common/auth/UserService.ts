@@ -3,7 +3,6 @@ import axios from "axios";
 import UserServiceClient from "sc-user-service-client";
 import * as sessionManager from "../../common/auth/SessionManager";
 import * as Configs from "../../configs/Configs";
-import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
 import { updateUserBalance } from "./AuthManager";
 

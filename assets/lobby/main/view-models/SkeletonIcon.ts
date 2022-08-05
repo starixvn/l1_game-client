@@ -26,7 +26,7 @@ export default class SkeletonIcon extends cc.Component {
 
     async setGameContent(id: number, gameList: number[]) {
         const batchIndex = Math.abs(Math.floor(gameList.findIndex((gameId) => gameId === id) / 10));
-        if (!SkeletonIcon.iconAnimationCache[id] && batchIndex != 0) {
+        if (!SkeletonIcon.iconAnimationCache[id] && batchIndex !== 0) {
             this.scheduleOnce(async () => {
                 await this.loadAnimation(id);
                 SkeletonIcon.iconAnimationCache[id] = true;
