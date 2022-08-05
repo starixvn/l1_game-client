@@ -53,7 +53,8 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                         return;
                     }
 
-                    if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
+                    const isExistedGame = this.main.miniGames.children.find((game) => game.name === this.getGameName(gameId));
+                    if (GameUIManager.getInstance().getCurrentGameId() !== gameId || isExistedGame) {
                         return;
                     }
 
