@@ -77,5 +77,19 @@ variables:
 .base_build_cocos_web_l1_game_client_remove_config:
     <<: *build_cocos_creator_script
     extends:
-        - .deploy_vars_l1_game_client_remove_config
         - .build:image:l1_game_client_remove_config:rules
+
+.base_build_cocos_web_l1_treasure_island_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l1_treasure_island_client:rules
+
+.base_build_cocos_web_l2_vg2_treasure_island_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l2_vg2_treasure_island_client:rules
+
+.base_build_cocos_web_l1_blockchain_baccarat_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l1_blockchain_baccarat_client:rules
