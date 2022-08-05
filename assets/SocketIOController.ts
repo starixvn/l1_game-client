@@ -40,7 +40,8 @@ export default class SocketIOController {
             isGameRoom: true,
             forceNew: true,
             gameContainer: null,
-            enableMsgpackParser: enableMsgpackParserAllGames
+            enableMsgpackParser: enableMsgpackParserAllGames,
+            gameId: gameId
         };
         return this.connectGameSocket(option);
     }
@@ -50,11 +51,12 @@ export default class SocketIOController {
         gameName: string;
         proxyRoute: string;
         onConnectCallback: (returnedSocket) => void;
-        onConnectFailed: (gameName, isGameRoom) => void;
+        onConnectFailed: (gameName, gameId, isGameRoom) => void;
         isGameRoom: boolean;
         forceNew: boolean;
         gameContainer: any;
         enableMsgpackParser: boolean;
+        gameId: any;
     }): Socket => {
         const {
             socketUri,
@@ -65,7 +67,8 @@ export default class SocketIOController {
             isGameRoom,
             forceNew,
             gameContainer,
-            enableMsgpackParser
+            enableMsgpackParser,
+            gameId
         } = option;
         const socketOptions: Partial<ManagerOptions & SocketOptions> = {
             forceNew: forceNew,
@@ -95,7 +98,7 @@ export default class SocketIOController {
             sentryLogger.logError(error);
             socket.disconnect();
             if (needCallCallback) {
-                onConnectFailed(name, isGameRoom);
+                onConnectFailed(name, gameId, isGameRoom);
             }
         });
 

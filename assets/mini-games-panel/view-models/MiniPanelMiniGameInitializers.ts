@@ -22,9 +22,12 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     openMiniGame(gameId) {
+        if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
+            return;
+        }
+
         this.main.popupMiniGame?.hideListGame();
         const prefabPath = `games/minigame/${this.getGameName(gameId)}`;
-
         const gameBase = this.main.getGameMini(gameId);
         const isAlreadyOpened = gameBase !== undefined;
         const gameLoading = this.main.getGameLoadingComp(+gameId);
@@ -53,8 +56,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                         return;
                     }
 
-                    const isExistedGame = this.main.miniGames.children.find((game) => game.name === this.getGameName(gameId));
-                    if (GameUIManager.getInstance().getCurrentGameId() !== gameId || isExistedGame) {
+                    if (GameUIManager.getInstance().getCurrentGameId() !== gameId || this.main.getGameMini(gameId) !== undefined) {
                         return;
                     }
 
@@ -109,7 +111,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             proxyRoute,
             onConnectCallback: (returnedSocket) => returnedSocket.emit("signin", getSession()),
             onConnectFailed: (name, isGameRoom) => {
-                this.main.onConnectSocketFailed(name, isGameRoom);
+                this.main.onConnectSocketFailed(name, gameId, isGameRoom);
 
                 if (gameContainer && gameContainer.hideContainer) {
                     gameContainer.hideContainer();
@@ -118,7 +120,8 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             isGameRoom: false,
             forceNew,
             gameContainer,
-            enableMsgpackParser: enableMsgpackParserAllGames
+            enableMsgpackParser: enableMsgpackParserAllGames,
+            gameId: gameId
         };
         const socket = this.socketIOController.connectGameSocket(option);
 

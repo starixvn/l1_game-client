@@ -21,19 +21,20 @@ export default class Banner extends cc.Component {
     private adsToggle: cc.Toggle = null;
     private jackpotToggle: cc.Toggle = null;
 
-    async handleBanner(prefab: cc.Prefab) {
+    async handleBanner(prefab: cc.Prefab, isLoadAllBanners: boolean) {
         if (this.adsBannerContainer && this.adsBannerContainer.childrenCount > 0) {
-            return;
+            this.adsBannerContainer.destroyAllChildren();
         }
 
         const bannerPrefabNode = cc.instantiate(prefab);
         this.node.addChild(bannerPrefabNode);
         this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
         const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
-        const showJackpotBanner = cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
+        const showJackpotBanner =
+            isLoadAllBanners && cc.RedT.user.offerGames.includes(SabaConfigs.GameIds.FourGuardians) && fourGuardiansConfig.jackpotEnabled;
 
         adsBannerController.menuLoop = !showJackpotBanner;
-        const filterList: number[] = this.getGameIdOfferBanner();
+        const filterList: number[] = this.getGameIdOfferBanner(isLoadAllBanners);
         adsBannerController.setGameAds(filterList, async () => {
             showJackpotBanner && (await this.handleJackpotBanner(bannerPrefabNode));
         });
@@ -84,9 +85,11 @@ export default class Banner extends cc.Component {
         navigationComponent.node.active = true;
     }
 
-    private getGameIdOfferBanner() {
+    private getGameIdOfferBanner(isLoadAllBanners: boolean) {
         const filterList: number[] = [];
-        const gameAds = lobbyMenuConfig.bannerAds[configs.systemType];
+        const gameAds = isLoadAllBanners
+            ? lobbyMenuConfig.bannerAds[configs.systemType]
+            : [lobbyMenuConfig.bannerAds[configs.systemType][0]];
         const offerGames = cc.RedT.user.offerGames;
         gameAds.forEach((id: number) => {
             if (offerGames.includes(id)) {

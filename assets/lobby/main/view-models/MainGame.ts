@@ -82,8 +82,12 @@ export default class MainGame extends cc.Component {
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
     private miniPanel: MiniPanel;
+<<<<<<< HEAD
     isInitBanner = false;
+=======
+>>>>>>> fix: check existed game before add new game
     signName: any;
+    isLoadAllBanners = false;
 
     onDestroy() {
         cc.RedT.MiniPanel = null;
@@ -284,7 +288,7 @@ export default class MainGame extends cc.Component {
         }
         this.initLobbyMenu();
         this.initCategory();
-        loadBanner && this.initBanners();
+        this.initBanners(loadBanner);
 
         this.initializedLobby = true;
     }
@@ -310,11 +314,12 @@ export default class MainGame extends cc.Component {
         this.lobbyMenu?.setCategory(category);
     }
 
-    initBanners() {
-        this.isInitBanner = true;
+    initBanners(isLoadAllBanner: boolean) {
         GameUtils.loadResource(`lobby/banner/bannerContainer`).then(async (prefab) => {
-            this.banner.handleBanner(prefab);
+            this.banner.handleBanner(prefab, isLoadAllBanner);
         });
+
+        this.isLoadAllBanners = isLoadAllBanner;
     }
 
     outRoomGame() {

@@ -368,7 +368,7 @@ export default class MiniPanel extends BaseComponent {
         this.mainGame?.loadLobby();
     }
 
-    onConnectSocketFailed(gameName, isGameRoom = true) {
+    onConnectSocketFailed(gameName, gameId, isGameRoom = true) {
         if (!this.isAlive()) {
             return;
         }
@@ -381,9 +381,16 @@ export default class MiniPanel extends BaseComponent {
             handleCloseNotice,
             handleCloseNotice
         );
+
         this.setLoadingVisibility(false);
-        this.loading.node.active = false;
-        !this.mainGame?.isInitBanner && this.mainGame?.initBanners();
+
+        this.mainGame && !this.mainGame.isLoadAllBanners && this.mainGame.initBanners(true);
+
+        if (GameUIManager.getInstance().getCurrentGameId() !== +gameId) {
+            return;
+        }
+        const gameLoading = this.getGameLoadingComp(+gameId);
+        this.unCacheAndHideGameLoading(gameLoading, +gameId);
     }
 
     redirectToLobby() {
