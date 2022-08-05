@@ -366,7 +366,7 @@ export default class MiniPanel extends BaseComponent {
             handleCloseNotice
         );
         this.loading.node.active = false;
-        !this.mainGame.initBanner && this.mainGame.initBanners();
+        !this.mainGame?.isInitBanner && this.mainGame?.initBanners();
     }
 
     redirectToLobby() {

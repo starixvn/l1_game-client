@@ -120,7 +120,7 @@ export default class GameUtils {
             return;
         }
 
-        !miniPanel?.mainGame?.initBanner && miniPanel?.mainGame?.initBanners();
+        !miniPanel?.mainGame?.isInitBanner && miniPanel?.mainGame?.initBanners();
         openLuckyWheelFunc && openLuckyWheelFunc();
 
         if (gameId === 0) {

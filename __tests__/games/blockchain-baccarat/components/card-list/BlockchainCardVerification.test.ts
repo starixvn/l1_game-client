@@ -14,7 +14,6 @@ describe("Test class BlockchainCardVerification", () => {
     let node: cc.Node;
     let cardVerificationComp: BlockchainCardVerification;
     let equalTag: cc.Node;
-    let noted: cc.RichText;
 
     function createCardModel() {
         const card: CardModel = {
@@ -49,14 +48,12 @@ describe("Test class BlockchainCardVerification", () => {
     beforeAll(() => {
         node = new cc.Node();
         equalTag = new cc.Node();
-        noted = new cc.Node().addComponent(cc.RichText);
         cardVerificationComp = node.addComponent(BlockchainCardVerification);
         cardVerificationComp.serialNumber = node.addComponent(BlockchainCardVerificationItem);
         cardVerificationComp.privateKey = node.addComponent(BlockchainCardVerificationItem);
         cardVerificationComp.verifiedSerial = node.addComponent(BlockchainCardVerificationItem);
         cardVerificationComp.verifyCard = node.addComponent(BlockchainCardVerify);
         cardVerificationComp.equalTag = equalTag;
-        cardVerificationComp.noted = noted;
 
         cardVerificationComp.verifiedSerial.resetHighLight = jest.fn();
         cardVerificationComp.verifiedSerial.enableCopyButton = jest.fn();

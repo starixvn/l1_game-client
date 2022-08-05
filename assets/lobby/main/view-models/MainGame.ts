@@ -82,7 +82,7 @@ export default class MainGame extends cc.Component {
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
     private miniPanel: MiniPanel;
-    initBanner = false;
+    isInitBanner = false;
     signName: any;
 
     onDestroy() {
@@ -311,7 +311,7 @@ export default class MainGame extends cc.Component {
     }
 
     initBanners() {
-        this.initBanner = true;
+        this.isInitBanner = true;
         GameUtils.loadResource(`lobby/banner/bannerContainer`).then(async (prefab) => {
             this.banner.handleBanner(prefab);
         });
