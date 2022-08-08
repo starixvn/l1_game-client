@@ -72,7 +72,10 @@ export const handleShowStatus = (game: MiniGameBase) => (status) => {
     game.showStatus(status);
     game.gameData.settlement.clearStatus();
 };
-export const handleShowResult = (game: MiniGameBase) => (settlement) => game.showSettlementResult(settlement);
+export const handleShowResult = (game: MiniGameBase) => (settlement) => {
+    game.showSettlementResult(settlement);
+    game.gameData.roundHistory.add(settlement);
+};
 export const handleAfterSettlementResult =
     (game: MiniGameBase) =>
     ({ settlement, animated }) => {

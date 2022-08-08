@@ -20,7 +20,10 @@ export class RoundHistory extends EventEmitterBase {
         if (this.roundHistory.length > this.historySize) {
             this.roundHistory.pop();
         }
-        this.emit(RoundHistory.Events.CHANGE, this.roundHistory);
+    }
+
+    update() {
+        this.roundHistory && this.emit(RoundHistory.Events.CHANGE, this.roundHistory);
     }
 
     change(roundHistory: any) {
