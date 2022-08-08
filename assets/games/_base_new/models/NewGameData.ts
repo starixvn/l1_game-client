@@ -12,6 +12,7 @@ import { SettlemenHandler } from "../handlers/SettlementHandler";
 import { UMHandler } from "../handlers/UMHandler";
 import { BetModel } from "./BetModel";
 import { GameConfigs } from "./GameConfigs";
+import { NewDurations } from "./NewDurations";
 import { NoticeModel } from "./NoticeModel";
 import { ResultHash } from "./ResultHash";
 import { RoundHistory } from "./RoundHistory";
@@ -33,11 +34,13 @@ export default class NewGameData extends GameData {
     settlement: Settlement;
     resultHash: ResultHash;
     umModel: UMModel;
+    durations: NewDurations;
 
     roundId: number;
 
     constructor() {
         super();
+        this.durations = new NewDurations();
         this.betModel = new BetModel();
         this.gameConfigs = new GameConfigs();
         this.notice = new NoticeModel();

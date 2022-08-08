@@ -11,16 +11,11 @@ export const showBgTimer = (game: UnbalancedBigSmall) => () => {
     cc.tween(game.bgTimer).to(0.3, { opacity: 255 }).start();
 };
 
-export const handleShakeDish =
-    (game: UnbalancedBigSmall) =>
-    ({ globalRemaining }) => {
-        const shakeTimePoint = game.config.betTime + game.shakingDuration;
-        if (globalRemaining === shakeTimePoint) {
-            game.resetDataAndUI();
-            game.highlightLastResult();
-            game.shakeThePlate();
-        }
-    };
+export const handleShakeDish = (game: UnbalancedBigSmall) => () => {
+    game.resetDataAndUI();
+    game.highlightLastResult();
+    game.shakeThePlate();
+};
 
 export const handleSubGameWaitingTime =
     (game: UnbalancedBigSmall) =>

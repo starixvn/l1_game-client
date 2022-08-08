@@ -25,6 +25,10 @@ export class Durations extends EventEmitterBase {
         BEGIN_WAITING: "beginWaiting",
         BEGIN_PLACING_BET: "beginPlacingBet",
         TIMEOUT: "TIMEOUT",
+
+        STARTING_ROUND: "startingRound",
+        BEGIN_STARTING_ROUND: "beginStartingRound",
+
         START_GAME_LOOP: "startGameLoop",
         STOP_GAME_LOOP: "stopGameLoop"
     };
@@ -106,7 +110,7 @@ export class Durations extends EventEmitterBase {
         };
     }
 
-    private calculateAndEmitEvent() {
+    protected calculateAndEmitEvent() {
         if (this.remaining < 0) {
             return;
         }
@@ -167,7 +171,9 @@ export class Durations extends EventEmitterBase {
             BEGIN_WAITING,
             LOCKING_BET,
             PLACING_BET,
-            SHOW_ANIMATION
+            SHOW_ANIMATION,
+            STARTING_ROUND,
+            BEGIN_STARTING_ROUND
         } = Durations.Events;
 
         const handleEmitEvent =
@@ -187,5 +193,6 @@ export class Durations extends EventEmitterBase {
         this.on(PLACING_BET, handleEmitEvent(PLACING_BET, BEGIN_PLACING_BET));
         this.on(LOCKING_BET, handleEmitEvent(LOCKING_BET, BEGIN_LOCKING_BET));
         this.on(SHOW_ANIMATION, handleEmitEvent(SHOW_ANIMATION, BEGIN_SHOW_ANIMATION));
+        this.on(STARTING_ROUND, handleEmitEvent(STARTING_ROUND, BEGIN_STARTING_ROUND));
     }
 }

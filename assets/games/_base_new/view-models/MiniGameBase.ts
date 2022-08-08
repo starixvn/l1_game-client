@@ -156,6 +156,11 @@ export default class MiniGameBase extends NewMiniGameBase {
         }
 
         this.gameData = gameData;
+        this.gameData.durations.initialize({
+            wholeRound: this.config.fullTime,
+            placingBet: this.config.betTime,
+            lockingBet: this.config.stopBetTime
+        });
     }
 
     emitterListener(emitter: EventEmitterBase, eventName: string, listener: (param: any) => any) {
@@ -169,12 +174,6 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     initGameDataEvents() {
-        this.gameData.durations.initialize({
-            wholeRound: this.config.fullTime,
-            placingBet: this.config.betTime,
-            lockingBet: this.config.stopBetTime
-        });
-
         this.emitterListener(this.gameData.umModel, UMModel.Events.ON_UM, onUM);
         this.emitterListener(this.gameData.umModel, UMModel.Events.CHECK_OFF_UM, checkToOffUM);
 

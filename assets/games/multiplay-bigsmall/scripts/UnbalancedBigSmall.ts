@@ -75,6 +75,26 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     initGameData() {
         super.initGameData();
+        this.gameData.durations.addEvent(
+            Durations.Events.SHOW_ANIMATION,
+            {
+                startTimePoint: this.config.fullTime,
+                endTimePoint: this.config.fullTime - this.showResultDuration
+            },
+            null,
+            Durations.Events.WAITING
+        );
+
+        this.gameData.durations.addEvent(
+            Durations.Events.STARTING_ROUND,
+            {
+                startTimePoint: this.config.betTime + this.shakingDuration,
+                endTimePoint: this.config.betTime
+            },
+            Durations.Events.WAITING,
+            Durations.Events.PLACING_BET
+        );
+
         this.gameData.roundHistory.historySize = 102;
     }
 
@@ -82,7 +102,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         super.initGameDataEvents();
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, showBgTimer);
-        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, handleShakeDish);
+        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_STARTING_ROUND, handleShakeDish);
         this.emitterListener(this.gameData.durations, Durations.Events.CHANGE_REMAINING_TIME, handleSubGameWaitingTime);
     }
 
@@ -190,7 +210,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             .call(() => {
                 this.hideDicesAndPlates();
             })
-
             .start();
     }
 
