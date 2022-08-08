@@ -627,6 +627,6 @@ window.i18n.languages.vi = {
         guide5Title: "kiểm tra tính minh bạch",
         guideNoteLine1:
             "Lưu ý: Người chơi có thể sử dụng bất kỳ công cụ liên quan đến giải thuật SHA-256 từ bên thứ 3 để kiểm tra tính minh bạch của",
-        guideNoteLine2: "kết quả (https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)."
+        guideNoteLine2: "kết quả <b>(https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)<b>."
     }
 };
