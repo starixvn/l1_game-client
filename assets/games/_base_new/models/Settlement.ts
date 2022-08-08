@@ -15,7 +15,8 @@ export class Settlement extends EventEmitterBase {
     }
 
     finishShowResult(settlement: any, animated: boolean) {
-        this.emit(Settlement.Events.END_SHOW_RESULT, { settlement: this.settlement || settlement, animated });
+        const data = { settlement: settlement || this.settlement, animated };
+        this.emit(Settlement.Events.END_SHOW_RESULT, data);
     }
 
     showStatus() {

@@ -9,6 +9,7 @@ import {
     changeGameRound,
     checkToOffUM,
     handleAfterSettlementResult,
+    handleFirstLoadRoundHistory,
     handleGameConfigs,
     handleMD5Data,
     handleNotice,
@@ -195,6 +196,7 @@ export default class MiniGameBase extends NewMiniGameBase {
 
         this.emitterListener(this.gameData.gameConfigs, GameConfigs.Events.CHANGE, handleGameConfigs);
         this.emitterListener(this.gameData.notice, NoticeModel.Events.CHANGE, handleNotice);
+        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.FIRST_LOAD, handleFirstLoadRoundHistory);
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, handleRoundHistory);
 
         this.emitterListener(this.gameData, NewGameData.Events.CHANGE_ROUND_ID, changeGameRound);

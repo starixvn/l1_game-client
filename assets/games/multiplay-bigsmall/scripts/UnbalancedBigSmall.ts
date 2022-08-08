@@ -106,7 +106,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         cc.tween(this.thePlate)
             .call(() => {
                 this.showDicesAndPlates();
-                this.showHideResult(true);
                 this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
             })
             .delay(1)
@@ -119,6 +118,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     handleAfterSettlementResult(settlement: any, animated: boolean) {
         this.showWinChoiceAndUpdateHistory(settlement);
         this.highlightAndPayout(settlement);
+        if (!animated) {
+            this.showDicesAndPlates();
+        }
     }
 
     showWinChoiceAndUpdateHistory(settlement: any) {
@@ -166,7 +168,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.miniRoundHistory.setData(this.currentDataLogs);
     }
 
-    showHideResult(show: boolean) {
+    setDicesVisibility(show: boolean) {
         this.dices.forEach((dice) => {
             dice.node.active = show;
         });
@@ -178,7 +180,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         cc.tween(this.thePlate)
             .delay(0.2)
             .call(() => {
-                this.showHideResult(false);
+                this.setDicesVisibility(false);
             })
             .delay(1)
             .call(() => {
@@ -198,6 +200,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     showDicesAndPlates() {
         this.shakeThePlateAnimation.node.opacity = 255;
+        this.setDicesVisibility(true);
     }
 
     protected showWinningAnimation(data: any) {

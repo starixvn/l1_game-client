@@ -40,6 +40,17 @@ export const handleNotice = (game: MiniGameBase) => (notice) => {
 
 export const handleGameConfigs = (game: MiniGameBase) => (gameConfigs) => game.setGameConfigs(gameConfigs);
 
+export const handleFirstLoadRoundHistory = (game: MiniGameBase) => (roundHistory) => {
+    if (roundHistory.length === 0) {
+        return;
+    }
+    if (game.gameData.durations.isWaiting()) {
+        const settlement = roundHistory[0];
+        if (settlement) {
+            game.gameData.settlement.finishShowResult(settlement, false);
+        }
+    }
+};
 export const handleRoundHistory = (game: MiniGameBase) => (roundHistory) => {
     game.currentDataLogs = roundHistory;
     game.handleRoundHistory(roundHistory);

@@ -7,12 +7,6 @@ export const startGameLoop = (game: MiniGameBase) => () => {
     const gameLoop = () => gameData.durations.countdown();
     GameDataManager.getInstance().clearGameLoop(game.gameId);
     GameDataManager.getInstance().startGameLoop(game.gameId, gameLoop);
-    if (gameData.durations.isWaiting() && !gameData.settlement.settlement) {
-        const settlement = gameData.roundHistory.roundHistory[0];
-        if (settlement) {
-            gameData.settlement.finishShowResult(settlement, false);
-        }
-    }
 };
 
 export const stopGameLoop = (game: MiniGameBase) => () => {

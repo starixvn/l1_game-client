@@ -4,6 +4,7 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 
 export class RoundHistory extends EventEmitterBase {
     static Events = {
+        FIRST_LOAD: "RoundHistory:FIRST_LOAD",
         CHANGE: "RoundHistory:CHANGE"
     };
 
@@ -24,10 +25,12 @@ export class RoundHistory extends EventEmitterBase {
 
     change(roundHistory: any) {
         this.roundHistory = _.cloneDeep(roundHistory);
+        this.emit(RoundHistory.Events.FIRST_LOAD, this.roundHistory);
         this.emit(RoundHistory.Events.CHANGE, this.roundHistory);
     }
 
     updateUI() {
+        this.emit(RoundHistory.Events.FIRST_LOAD, this.roundHistory);
         this.emit(RoundHistory.Events.CHANGE, this.roundHistory);
     }
 }
