@@ -608,6 +608,7 @@ window.i18n.languages.zh_cn = {
         guide5Title: "Results Verification",
         guideNoteLine1:
             "Note: Players can also use any other 3rd party SHA-256 tools <b>(https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)<b>",
-        guideNoteLine2: "to do the same verification."
+        guideNoteLine2: "to do the same verification.",
+        note: "<b>Note</b>: Players can also use any other 3rd party SHA-256 tools to do the same verification"
     }
 };
