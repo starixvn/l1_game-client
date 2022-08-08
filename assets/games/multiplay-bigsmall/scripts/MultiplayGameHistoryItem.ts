@@ -1,4 +1,4 @@
-import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import MultiplayGameHistoryResult from "./MultiplayGameHistoryResult";
 
@@ -28,7 +28,7 @@ export default class MultiplayGameHistoryItem extends cc.Component {
     win: cc.Label = null;
 
     setData(data: any) {
-        this.time.string = getStringHourByTime(data.time);
+        this.time.string = getStringDateByTime(data.time);
         this.round.string = data.roundId;
         this.win.string = numberWithCommas(data.betwin, 2);
         this.stake.string = data.totalAmount;
