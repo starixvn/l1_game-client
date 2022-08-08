@@ -82,10 +82,6 @@ export default class MainGame extends cc.Component {
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
     private miniPanel: MiniPanel;
-<<<<<<< HEAD
-    isInitBanner = false;
-=======
->>>>>>> fix: check existed game before add new game
     signName: any;
     isLoadAllBanners = false;
 
