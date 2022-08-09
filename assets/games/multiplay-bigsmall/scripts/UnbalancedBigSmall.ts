@@ -249,9 +249,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
+        this.currentMiniPanel.addDialog(dialog);
         const control = dialog.getComponent(MultiplayGameHistory);
         control.handleSocketFromGame(this.gameId);
-        this.currentMiniPanel.addDialog(dialog);
     }
 
     highlightLastResult() {
