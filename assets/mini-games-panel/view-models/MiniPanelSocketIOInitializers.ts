@@ -13,7 +13,7 @@ export default class MiniPanelSocketIOInitializers {
             if (data.um) {
                 this.socketIOController.closeSocket(gameId);
                 if (data.um_message) {
-                    this.main.handleUmMessage(data.um_message);
+                    this.main.handleUmMessage(data.um_message, gameId);
                 }
             }
             if (!this.main.isAlive()) {

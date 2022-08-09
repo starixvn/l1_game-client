@@ -169,7 +169,7 @@ export default class MiniPanel extends BaseComponent {
         this.dataHandlers.handleData(data);
     }
 
-    handleUmMessage(data) {
+    handleUmMessage(data, gameId) {
         this.setLoadingVisibility(false);
         const text = NoticeUtil.getMessageByLocale(data);
         if (text) {
@@ -179,6 +179,8 @@ export default class MiniPanel extends BaseComponent {
             } as NoticeData;
             this.showNotice(noticeData);
         }
+
+        this.reloadAllBannersAndHideGameLoading(+gameId);
     }
 
     redirectToResultPage(redirectUrl) {
@@ -383,14 +385,7 @@ export default class MiniPanel extends BaseComponent {
         );
 
         this.setLoadingVisibility(false);
-
-        this.mainGame && !this.mainGame.isLoadAllBanners && this.mainGame.initBanners(true);
-
-        if (GameUIManager.getInstance().getCurrentGameId() !== +gameId) {
-            return;
-        }
-        const gameLoading = this.getGameLoadingComp(+gameId);
-        this.unCacheAndHideGameLoading(gameLoading, +gameId);
+        this.reloadAllBannersAndHideGameLoading(+gameId);
     }
 
     redirectToLobby() {
@@ -420,5 +415,14 @@ export default class MiniPanel extends BaseComponent {
     getGameLoadingComp(gameId: number): Loading {
         const loadingCompFromManager = GameUIManager.getInstance().getLoadingWithGameID(gameId);
         return loadingCompFromManager ? loadingCompFromManager : this.loading;
+    }
+
+    reloadAllBannersAndHideGameLoading(gameId: number) {
+        this.mainGame && !this.mainGame.isLoadAllBanners && this.mainGame.initBanners(true);
+
+        if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
+            return;
+        }
+        this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
     }
 }
