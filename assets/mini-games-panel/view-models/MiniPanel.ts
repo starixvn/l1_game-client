@@ -308,7 +308,9 @@ export default class MiniPanel extends BaseComponent {
                 gameLoading && gameLoading.onProgress(completedCount, total, item);
             },
             (error) => {
-                this.unCacheAndHideGameLoading(gameLoading, +gameId);
+                const loadingFromManager = GameUIManager.getInstance().getLoadingWithGameID(+gameId);
+                loadingFromManager && this.unCacheAndHideGameLoading(gameLoading, +gameId);
+
                 if (error) {
                     this.onForceReload();
                 } else {
@@ -411,7 +413,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     getGameLoadingComp(gameId: number): Loading {
-        const loadingCompFromManager = GameUIManager.getInstance().getLoadingWithGameID(gameId);
-        return loadingCompFromManager ? loadingCompFromManager : this.loading;
+        const loadingFromManager = GameUIManager.getInstance().getLoadingWithGameID(gameId);
+        return loadingFromManager ? loadingFromManager : this.loading;
     }
 }
