@@ -365,29 +365,31 @@ export default class GameUtils {
         }
     }
 
-    public static async getBannerWithCondition(lobbyMenuConfig: LobbyMenuConfig, id: number) {
-        const newSuffix = lobbyMenuConfig.isNewGame(id) ? "_new" : "";
-        const currentLang = window.i18n.curLang;
-        const languageAndNew = window.i18n.curLang !== "vi" ? `_${currentLang}${newSuffix}` : newSuffix;
-        const languageAndNewSpriteFrame = await this.getBannerSpriteFrame(id.toString(), `${id.toString()}${languageAndNew}`);
+    public static getCurrentLangauge() {
+        return window.i18n.curLang;
+    }
 
-        let bannerSpriteFrame: cc.SpriteFrame;
-        if (languageAndNewSpriteFrame) {
-            bannerSpriteFrame = languageAndNewSpriteFrame;
-        } else {
-            const gameIdAndNewSpriteFrame = await this.getBannerSpriteFrame(id.toString(), `${id.toString()}${newSuffix}`);
-            if (gameIdAndNewSpriteFrame) {
-                bannerSpriteFrame = gameIdAndNewSpriteFrame;
-            } else {
-                const gameIdAndLanguageSpriteFrame = currentLang !== "vi" ? `${id.toString()}_${currentLang}` : id.toString();
-                bannerSpriteFrame = await this.getBannerSpriteFrame(id.toString(), gameIdAndLanguageSpriteFrame);
+    public static async getBanner(lobbyMenuConfig: LobbyMenuConfig, id: number) {
+        const newSuffix = lobbyMenuConfig.isNewGame(id) ? "_new" : "";
+        const currentLang = this.getCurrentLangauge() !== "vi" ? `_${this.getCurrentLangauge()}` : "";
+        const name1 = `${id}${currentLang}${newSuffix}`;
+        const name2 = `${id}${newSuffix}`;
+        const name3 = `${id}${currentLang}`;
+        const name4 = `${id}`;
+
+        const bannersType = [name1, name2, name3, name4];
+        let frame: cc.SpriteFrame;
+        for (const element of bannersType) {
+            frame = await this.getBannerSpriteFrame(id, element);
+            if (frame) {
+                break;
             }
         }
 
-        return bannerSpriteFrame;
+        return frame;
     }
 
-    public static getBannerSpriteFrame(gameId: string, imageName: string): Promise<cc.SpriteFrame> {
+    public static getBannerSpriteFrame(gameId: number, imageName: string): Promise<cc.SpriteFrame> {
         return new Promise<cc.SpriteFrame>((resolve) => {
             cc.resources.load<cc.SpriteFrame>(`lobby/banner/textures/${gameId}/${imageName}`, cc.SpriteFrame, (err, spriteFrame) => {
                 resolve(spriteFrame);

@@ -23,6 +23,7 @@ import Banner from "./Banner";
 import CategoryItem from "./CategoryItem";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
+import GameUIManager from "./GameUIManager";
 
 const socketIOController = appContainer.get(SocketIOController);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -107,6 +108,22 @@ export default class MainGame extends cc.Component {
         MusicPlayer.getInstance().init();
 
         this.initScrollListener();
+        this.initGameUIEvents();
+    }
+
+    initGameUIEvents() {
+        const manager = GameUIManager.getInstance();
+        manager.emitterListener(GameUIManager.Events.LOAD_ALL_BANNERS, (param) => this.initBanners(param));
+        manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby());
+    }
+
+    removeGame() {
+        const manager = GameUIManager.getInstance();
+        manager.emitter.removeListener(
+            GameUIManager.Events.LOAD_ALL_BANNERS,
+            manager.emitterStorages[GameUIManager.Events.LOAD_ALL_BANNERS]
+        );
+        manager.emitter.removeListener(GameUIManager.Events.RELOAD_LOBBY, manager.emitterStorages[GameUIManager.Events.RELOAD_LOBBY]);
     }
 
     initScrollListener() {
@@ -428,8 +445,6 @@ export default class MainGame extends cc.Component {
     }
 
     openGameSSO() {
-        this.miniPanel.setData(this);
-
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
             GameUtils.clearGameSetting(gameId);

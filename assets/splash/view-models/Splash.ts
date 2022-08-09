@@ -141,14 +141,11 @@ export default class Splash extends cc.Component {
     private async preLoadBanner() {
         try {
             const bannerId = lobbyMenuConfig.bannerAds[splashConfig.customPath][0];
-            const spriteAwaiters = GameUtils.getBannerWithCondition(lobbyMenuConfig, bannerId);
-            const bannerAwaiters = new Promise((resolve) => {
-                cc.resources.load("lobby/banner/adsItemPrefab", resolve);
-            });
+            const spriteAwaiters = GameUtils.getBanner(lobbyMenuConfig, bannerId);
             const bannerContainerAwaiters = new Promise((resolve) => {
                 cc.resources.load("lobby/banner/bannerContainer", resolve);
             });
-            await Promise.all([spriteAwaiters, bannerAwaiters, bannerContainerAwaiters]);
+            await Promise.all([spriteAwaiters, bannerContainerAwaiters]);
         } catch (ex) {
             console.log(ex);
         }

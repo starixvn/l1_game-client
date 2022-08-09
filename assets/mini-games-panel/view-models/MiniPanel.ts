@@ -74,7 +74,6 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
-    public mainGame: MainGame;
 
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
@@ -93,10 +92,6 @@ export default class MiniPanel extends BaseComponent {
 
     onNewLayerCallback() {
         Object.values(this.newLayerCallbacks).forEach((callback: NewLayerCallback) => callback());
-    }
-
-    setData(data: MainGame) {
-        this.mainGame = data;
     }
 
     onLoad() {
@@ -180,7 +175,9 @@ export default class MiniPanel extends BaseComponent {
             this.showNotice(noticeData);
         }
 
-        this.reloadAllBannersAndHideGameLoading(+gameId);
+        this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
     }
 
     redirectToResultPage(redirectUrl) {
@@ -367,7 +364,6 @@ export default class MiniPanel extends BaseComponent {
         }
 
         this.addNotice(node);
-        this.mainGame?.loadLobby();
     }
 
     onConnectSocketFailed(gameName, gameId, isGameRoom = true) {
@@ -385,7 +381,9 @@ export default class MiniPanel extends BaseComponent {
         );
 
         this.setLoadingVisibility(false);
-        this.reloadAllBannersAndHideGameLoading(+gameId);
+        this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
     }
 
     redirectToLobby() {
@@ -415,14 +413,5 @@ export default class MiniPanel extends BaseComponent {
     getGameLoadingComp(gameId: number): Loading {
         const loadingCompFromManager = GameUIManager.getInstance().getLoadingWithGameID(gameId);
         return loadingCompFromManager ? loadingCompFromManager : this.loading;
-    }
-
-    reloadAllBannersAndHideGameLoading(gameId: number) {
-        this.mainGame && !this.mainGame.isLoadAllBanners && this.mainGame.initBanners(true);
-
-        if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
-            return;
-        }
-        this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
     }
 }
