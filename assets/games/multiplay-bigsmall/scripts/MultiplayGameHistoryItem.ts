@@ -1,3 +1,4 @@
+import { i18n } from "../../../ClientModules";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import MultiplayGameHistoryResult from "./MultiplayGameHistoryResult";
@@ -34,7 +35,9 @@ export default class MultiplayGameHistoryItem extends cc.Component {
         this.stake.string = data.totalAmount;
         const result = data.result;
         this.setResultData(result);
-        this.betChoice.string = +data.big > 0 ? "BIG" : "SMALL";
+        const winChoice = +data.big > 0 ? "big" : "small";
+        const textWinChoice = i18n.t(`ui.choice_${winChoice}`);
+        this.betChoice.string = textWinChoice.toUpperCase();
         if (data.betwin > 0) {
             this.stake.node.color = this.betChoice.node.color = cc.Color.BLACK.fromHEX("fff663");
         }
