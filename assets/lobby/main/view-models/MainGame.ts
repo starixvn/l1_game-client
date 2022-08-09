@@ -264,7 +264,7 @@ export default class MainGame extends cc.Component {
 
     onSignIn() {
         if (window.openGameId || sessionManager.getInRoomGameId()) {
-            this.loadLobby(false || lobbyMenuConfig.miniList.includes(parseInt(window.openGameId)));
+            this.loadLobby(false || GameUtils.isMiniGame(window.openGameId));
             this.openGameSSO();
             window.isSSO && this.setCategoryOnSSOGame();
         } else {
