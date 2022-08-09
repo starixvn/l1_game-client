@@ -4,7 +4,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
-    scaleResultNode = 0.88;
+    scaleResultNode = 0.8;
 
     hideDicesAndPlates() {
         this.shakeThePlateAnimation.node.opacity = 0;
