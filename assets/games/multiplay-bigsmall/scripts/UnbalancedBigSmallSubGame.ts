@@ -24,4 +24,9 @@ export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
             this.highlightAndPayout(settlement);
         }
     }
+
+    initMiniRoundHistory(node: cc.Node) {
+        super.initMiniRoundHistory(node);
+        this.miniRoundHistory.tip.node.opacity = 0;
+    }
 }
