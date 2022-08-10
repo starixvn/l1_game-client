@@ -263,8 +263,10 @@ export default class MainGame extends cc.Component {
     }
 
     onSignIn() {
-        if (window.openGameId || sessionManager.getInRoomGameId()) {
-            this.loadLobby(false || GameUtils.isMiniGame(window.openGameId));
+        const isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
+
+        if (isSSOToGame || sessionManager.getInRoomGameId()) {
+            this.loadLobby(GameUtils.isMiniGame(window.openGameId));
             this.openGameSSO();
             window.isSSO && this.setCategoryOnSSOGame();
         } else {
@@ -329,7 +331,7 @@ export default class MainGame extends cc.Component {
 
     initBanners(isLoadAllBanner: boolean) {
         GameUtils.loadResource(`lobby/banner/bannerContainer`).then(async (prefab) => {
-            this.banner.handleBanner(prefab, isLoadAllBanner);
+            this.banner && this.banner.handleBanner(prefab, isLoadAllBanner);
         });
 
         this.isLoadAllBanners = isLoadAllBanner;
