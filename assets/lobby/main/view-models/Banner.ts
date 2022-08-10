@@ -29,7 +29,8 @@ export default class Banner extends cc.Component {
         this.node.addChild(bannerPrefabNode);
         this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
         const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
-        const showJackpotBanner = isLoadAllBanners &&  cc.RedT.user.offerGames.includes(FourGuardiansId) && fourGuardiansConfig.jackpotEnabled;
+        const showJackpotBanner =
+            isLoadAllBanners && cc.RedT.user.offerGames.includes(FourGuardiansId) && fourGuardiansConfig.jackpotEnabled;
 
         adsBannerController.menuLoop = !showJackpotBanner;
         const filterList: number[] = this.getGameIdOfferBanner(isLoadAllBanners);
@@ -85,7 +86,7 @@ export default class Banner extends cc.Component {
 
     private getGameIdOfferBanner(isLoadAllBanners: boolean) {
         const filterList: number[] = [];
-        const gameAds = isLoadAllBanners?[lobbyMenuConfig.bannerAds:lobbyMenuConfig.bannerAds[0]];
+        const gameAds = isLoadAllBanners ? lobbyMenuConfig.bannerAds : lobbyMenuConfig.bannerAds.slice(1);
         const offerGames = cc.RedT.user.offerGames;
         gameAds.forEach((id: number) => {
             if (offerGames.includes(id)) {

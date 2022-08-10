@@ -1,12 +1,10 @@
+import { cryptoJs, i18n } from "../../../../../ClientModules";
 import CommonDialog from "../../../../../common/_base/view-models/CommonDialog";
 import { formatPrivateKey } from "../../../../_casino/MD5Format";
-import { CardModel, BlockchainCardModel } from "../../../BlockchainBaccaratType";
+import { BlockchainCardModel, CardModel } from "../../../BlockchainBaccaratType";
+import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
 import BlockchainCardVerificationItem from "./BlockchainCardVerificationItem";
 import BlockchainCardVerify from "./BlockchainCardVerify";
-const cryptoJs = window.modules.cryptoJs;
-const i18n = window.modules.i18n;
-
-import { BlockchainBaccaratEvents, emitEvent } from "../../../view-models/BlockchainBaccaratEvents";
 
 const { ccclass, property } = cc._decorator;
 

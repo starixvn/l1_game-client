@@ -1,8 +1,8 @@
-import { BaccaratSettlementResult } from "./../../baccarat/view-models/event-models/BaccaratSettlementResult";
+import { i18n } from "../../../ClientModules";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import BlockchainBetOptionsUI from "../view-models/BlockchainBetOptionsUI";
 import BlockchainBaccaratCardsUI from "../view-models/BlockchainBaccaratCardsUI";
-const i18n = window.modules.i18n;
+import BlockchainBetOptionsUI from "../view-models/BlockchainBetOptionsUI";
+import { BaccaratSettlementResult } from "./../../baccarat/view-models/event-models/BaccaratSettlementResult";
 
 export const showLabelWinning =
     (betOptionsUI: BlockchainBetOptionsUI, cardsUI: BlockchainBaccaratCardsUI) =>

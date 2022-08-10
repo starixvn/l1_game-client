@@ -1,8 +1,8 @@
+import { i18n } from "../../../../../ClientModules";
 import GameUtils from "../../../../../common/GameUtils";
 import { CardModel } from "../../../BlockchainBaccaratType";
 import BlockchainBlinkHighLight from "./BlockchainBlinkHighLight";
 import BlockchainCard from "./BlockchainCard";
-const i18n = window.modules.i18n;
 
 const { ccclass, property } = cc._decorator;
 

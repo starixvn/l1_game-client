@@ -1,6 +1,6 @@
+import { lodash } from "../../../ClientModules";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { BlockchainCardModel } from "../BlockchainBaccaratType";
-const lodash = window.modules.lodash;
 
 export type Blockchain = {
     burnedCards: number;

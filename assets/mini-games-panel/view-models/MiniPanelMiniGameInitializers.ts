@@ -5,6 +5,7 @@ import { getSession } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
+import { KenoMaxId, KenoProVietId } from "../../games/mini-keno/view-models/KenoUtils";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
@@ -29,7 +30,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         }
 
         this.main.popupMiniGame?.hideListGame();
-        const prefabPath = `games/minigame/${this.getGameName(gameId)}`;
 
         const gameBase = this.main.getGameMini(gameId);
         const isAlreadyOpened = gameBase !== undefined;
@@ -45,7 +45,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     }
 
                     gameLoading && gameLoading.onProgress(completedCount, total, item);
-                
                 });
 
                 if (!this.main.isAlive()) {
@@ -58,14 +57,16 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                     return;
                 }
 
-                    const node = cc.instantiate(prefab);
-                    const gameComponent = node.getComponent("GameViewBase");
-                    gameComponent.initMiniPanel(this.main);
-                    this.main.addMiniGame(gameComponent, gameId);
-                    gameComponent.openGame();
-                    GameUIManager.getInstance().emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
-                }
-            );
+                const node = cc.instantiate(prefab);
+                const gameComponent = node.getComponent("GameViewBase");
+                gameComponent.initMiniPanel(this.main);
+                this.main.addMiniGame(gameComponent, gameId);
+                gameComponent.openGame();
+                GameUIManager.getInstance().emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
+            } catch (error) {
+                this.main.loading.node.active = false;
+                this.main.onForceReload();
+            }
         } else {
             this.showGame(gameBase.node);
             this.main.unCacheAndHideGameLoading(gameLoading, gameId);
@@ -117,8 +118,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             isGameRoom: false,
             forceNew,
             gameContainer,
-            enableMsgpackParser: enableMsgpackParserAllGames,
-            gameId: gameId
+            enableMsgpackParser: enableMsgpackParserAllGames
         };
         const socket = this.socketIOController.connectGameSocket(option);
 

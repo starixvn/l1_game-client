@@ -1,5 +1,6 @@
+import { i18n } from "../../../../../ClientModules";
 import TutorialItem from "../../../../../common/tutorial/TutorialItem";
-const i18n = window.modules.i18n;
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass

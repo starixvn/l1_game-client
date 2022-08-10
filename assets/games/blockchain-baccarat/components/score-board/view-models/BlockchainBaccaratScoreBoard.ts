@@ -1,10 +1,11 @@
-import { BlockchainBaccaratPrediction } from "./BlockchainBaccaratPrediction";
+import { scoreBoard } from "../../../../../ClientModules";
+import AudioManager from "../../../../../common/audio/AudioManager";
+import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
 import BlockchainBaccaratBeadRoad from "./BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "./BlockchainBaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboard from "./BlockchainBaccaratDerivedScoreboard";
-import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratRoundHistory";
-import AudioManager from "../../../../../common/audio/AudioManager";
-const scoreBoard = window.modules.scoreBoard;
+import { BlockchainBaccaratPrediction } from "./BlockchainBaccaratPrediction";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass

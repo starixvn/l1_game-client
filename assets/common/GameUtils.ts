@@ -7,6 +7,8 @@ import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
 
+export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
+
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);

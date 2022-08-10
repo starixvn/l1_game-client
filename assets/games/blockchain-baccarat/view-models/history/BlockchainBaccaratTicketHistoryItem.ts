@@ -1,6 +1,6 @@
-const _ = window.modules.lodash;
-import BlockchainBaccaratCards from "../card/BlockchainBaccaratCards";
+import { lodash } from "../../../../ClientModules";
 import BaccaratBaseHistoryItem from "../../../baccarat/view-models/BaccaratBaseHistoryItem";
+import BlockchainBaccaratCards from "../card/BlockchainBaccaratCards";
 import { BetLog } from "./BlockchainBaccaratTicketHistory";
 
 const { ccclass, property } = cc._decorator;
@@ -32,8 +32,8 @@ export default class BlockchainBaccaratTicketHistoryItem extends BaccaratBaseHis
             return;
         }
 
-        const playerCards = _.values(betLog.result.player).filter((card) => card != null);
-        const bankerCards = _.values(betLog.result.banker).filter((card) => card != null);
+        const playerCards = lodash.values(betLog.result.player).filter((card) => card != null);
+        const bankerCards = lodash.values(betLog.result.banker).filter((card) => card != null);
 
         if (playerCards.length < 3) {
             this.playerCard3.active = false;

@@ -5,7 +5,6 @@ import { BundleManager } from "bundle-management";
 import { Container } from "inversify";
 import getDecorators from "inversify-inject-decorators";
 
-import { modules } from "./ClientModules";
 import { initialize } from "./configs/GameConfigurations";
 import SocketIOController from "./SocketIOController";
 
@@ -42,9 +41,6 @@ app.startup();
 const { lazyInject } = getDecorators(app.container);
 const appContainer = app.container;
 export { lazyInject, appContainer };
-
-window.modules = modules;
-console.log("load client modules", window.modules);
 
 declare global {
     interface Window {

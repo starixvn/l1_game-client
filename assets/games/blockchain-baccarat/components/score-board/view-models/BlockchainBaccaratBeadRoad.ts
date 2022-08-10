@@ -1,7 +1,8 @@
-const _ = window.modules.lodash;
+import { lodash } from "../../../../../ClientModules";
 import AudioManager from "../../../../../common/audio/AudioManager";
 import { BasicHistoryData } from "../../../../_base/view-models/BasicHistoryBoard";
 import { BlockchainBaccaratRoundHistory } from "../../../event-models/BlockchainBaccaratModel";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -49,7 +50,7 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
             this.dots.pop();
             this.isRenderNext = false;
         }
-        const node = _.find(this.items, (item) => item.name.toLowerCase() === round.name);
+        const node = lodash.find(this.items, (item) => item.name.toLowerCase() === round.name);
         const dot = cc.instantiate(node);
         dot.active = true;
         dot.getChildByName(this.childrenItemKey.value).getComponent(cc.Label).string = round.value;
@@ -72,7 +73,7 @@ export default class BlockchainBaccaratBeadRoad extends cc.Component {
             this.dots.shift();
         }
         this.isRenderNext = true;
-        const node = _.find(this.items, (item) => item.name.toLowerCase() === "next");
+        const node = lodash.find(this.items, (item) => item.name.toLowerCase() === "next");
         const dot = cc.instantiate(node);
         dot.active = true;
         this.content.addChild(dot);

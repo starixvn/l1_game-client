@@ -1,5 +1,6 @@
+import { i18n } from "../../../../../ClientModules";
+
 const { ccclass, property } = cc._decorator;
-const i18n = window.modules.i18n;
 
 @ccclass
 export default class BlockchainCardVerify extends cc.Component {
