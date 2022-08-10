@@ -2,6 +2,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import MultiplayGame from "../../multiplay/scripts/MultiplayGame";
 import BigSmallMultiplayScoreBoard from "./BigSmallMultiplayScoreBoard";
 import UnbalancedBigSmall from "./UnbalancedBigSmall";
+import { UnbalancedBigSmall1Id, UnbalancedBigSmall2Id, UnbalancedBigSmall3Id, UnbalancedBigSmall4Id } from "./UnbalancedBigSmallConfig";
 import UnbalancedBigSmallSubGame from "./UnbalancedBigSmallSubGame";
 
 const { ccclass, property } = cc._decorator;
@@ -17,11 +18,11 @@ export default class UnbalancedBigSmallMultiplay extends MultiplayGame {
     @property(cc.Prefab)
     scoreBoardPrefab: cc.Prefab = null;
 
-    gameIds: number[] = [50, 51, 54, 55];
+    gameIds: number[] = [UnbalancedBigSmall1Id, UnbalancedBigSmall2Id, UnbalancedBigSmall3Id, UnbalancedBigSmall4Id];
 
     constructor() {
         super();
-        this.gameId = 50;
+        this.gameId = UnbalancedBigSmall1Id;
     }
 
     onEnable() {

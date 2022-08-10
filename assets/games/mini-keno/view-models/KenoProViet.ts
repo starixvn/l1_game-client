@@ -14,7 +14,7 @@ import KenoStatusBanner from "./components/KenoStatusBanner";
 import MiniKenoGuide from "./components/MiniKenoGuide";
 import MiniKenoHistory from "./components/MiniKenoHistory";
 import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
-import KenoUtils, { KenoMaxId, KenoType } from "./KenoUtils";
+import KenoUtils, { KenoMaxId, KenoType, MegaKenoId } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -93,7 +93,7 @@ export default class KenoProViet extends GameViewBase {
     }
 
     assignSocketForGameDefault() {
-        const defaultGameId = GameIds.MegaKeno;
+        const defaultGameId = MegaKenoId;
         const kenoProVietSocket = this.socketIOController.getSocketGame(KenoMaxId);
         this.socketIOController.assignSocket(defaultGameId, kenoProVietSocket);
     }

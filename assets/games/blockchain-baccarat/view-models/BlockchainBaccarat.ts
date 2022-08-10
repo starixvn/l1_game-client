@@ -1,35 +1,34 @@
-import { BlockchainBaccaratTimeHandler, BlockchainBaccaratBetHandler } from "../event-handlers/BlockchainBaccaratHandler";
-import * as blockchainAction from "../actions/BlockchainBaccaratActions";
-import {
-    BlockchainBaccaratBetPercentageModel,
-    BlockchainBaccaratConfigsModel,
-    BlockchainBaccaratRoundHistoryModel,
-    BlockchainBaccaratFinishModel,
-    BlockchainBaccaratCardListModel,
-    BlockchainBaccaratRoundHistory,
-    BlockchainBaccaratFinish,
-    Blockchain
-} from "../event-models/BlockchainBaccaratModel";
-import { GameIds } from "../../../configs/SabaConfigs";
-import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
-import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
-import { BlockchainBaccaratConfig } from "./BlockchainBaccaratConfig";
-import BlockchainBaccaratCardsUI from "./BlockchainBaccaratCardsUI";
-import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
-import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
-import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
-import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
-import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
+import GameUtils from "../../../common/GameUtils";
+import TutorialMain from "../../../common/tutorial/TutorialMain";
 import { payChips } from "../../_base/action/PayChipsAction";
 import MD5Component from "../../_base/view-models/MD5Component";
+import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
+import * as blockchainAction from "../actions/BlockchainBaccaratActions";
+import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import BlockchainCardList from "../components/card-list/view-models/BlockchainCardList";
 import BlockchainCardVerification from "../components/card-list/view-models/BlockchainCardVerification";
-import { consumeEvent, BlockchainBaccaratEvents } from "./BlockchainBaccaratEvents";
-import TutorialMain from "../../../common/tutorial/TutorialMain";
-import GameUtils from "../../../common/GameUtils";
+import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
+import BlockchainBaccaratScoreboard from "../components/score-board/view-models/BlockchainBaccaratScoreBoard";
+import { BlockchainBaccaratBetHandler, BlockchainBaccaratTimeHandler } from "../event-handlers/BlockchainBaccaratHandler";
+import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
+import {
+    Blockchain,
+    BlockchainBaccaratBetPercentageModel,
+    BlockchainBaccaratCardListModel,
+    BlockchainBaccaratConfigsModel,
+    BlockchainBaccaratFinish,
+    BlockchainBaccaratFinishModel,
+    BlockchainBaccaratRoundHistory,
+    BlockchainBaccaratRoundHistoryModel,
+} from "../event-models/BlockchainBaccaratModel";
+import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
+import BlockchainBaccaratCardsUI from "./BlockchainBaccaratCardsUI";
+import { BlockchainBaccaratConfig } from "./BlockchainBaccaratConfig";
+import { BlockchainBaccaratEvents, consumeEvent } from "./BlockchainBaccaratEvents";
+import BlockchainBetOptionsUI from "./BlockchainBetOptionsUI";
 
 const { ccclass, property } = cc._decorator;
-
+export const BlockchainBaccaratId = 48;
 @ccclass
 export default class BlockchainBaccarat extends NewGameRoomBase {
     @property({ type: cc.Prefab, visible: false, override: true })
@@ -82,7 +81,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     constructor() {
         super();
-        this.gameId = GameIds.BlockchainBaccarat;
+        this.gameId = BlockchainBaccaratId;
         this.setConfig(new BlockchainBaccaratConfig());
     }
 

@@ -12,6 +12,8 @@ export enum KenoType {
     North
 }
 
+export const MegaKenoId = 52;
+export const MegaKeno2Id = 53;
 export const KenoProVietId = 11;
 export const KenoMaxId = 12;
 export const KenoMax2Id = 13;
@@ -105,8 +107,8 @@ export default class KenoUtils {
             ProViet: KenoMaxId,
             Max: KenoMaxId,
             Max2: KenoMax2Id,
-            Mega: GameIds.MegaKeno,
-            Mega2: GameIds.MegaKeno2,
+            Mega: MegaKenoId,
+            Mega2: MegaKeno2Id,
             Mini: KenoMiniId,
             Mini2: KenoMini2Id,
             East: KenoEastId,

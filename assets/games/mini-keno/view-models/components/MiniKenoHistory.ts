@@ -7,7 +7,7 @@ import GameUtils from "../../../../common/GameUtils";
 import { getGameConfiguration } from "../../../../configs/GameConfigurations";
 import SocketIOController from "../../../../SocketIOController";
 import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";
-import { KenoEastId, KenoMini2Id, KenoMiniId, KenoNorthId, KenoSouthId, KenoWestId } from "../KenoUtils";
+import { KenoEastId, KenoMini2Id, KenoMiniId, KenoNorthId, KenoSouthId, KenoWestId, MegaKeno2Id, MegaKenoId } from "../KenoUtils";
 import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
 import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
 
@@ -37,8 +37,8 @@ export default class MiniKenoHistory extends SocketIOGameHistoryBase {
     public kenoGameDropDownList: DropDownList;
 
     private readonly options: DropDownOption[] = [
-        new DropDownOption(GameIds.MegaKeno, "Mega Keno"),
-        new DropDownOption(GameIds.MegaKeno2, "Mega Keno 2"),
+        new DropDownOption(MegaKenoId, "Mega Keno"),
+        new DropDownOption(MegaKeno2Id, "Mega Keno 2"),
         new DropDownOption(KenoMiniId, "Keno Mini"),
         new DropDownOption(KenoMini2Id, "Keno Mini 2"),
         new DropDownOption(KenoEastId, GameUtils.getGameNameString(KenoEastId)),

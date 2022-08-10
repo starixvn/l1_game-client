@@ -1,7 +1,18 @@
 import AudioManager from "../../../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../../../common/auth/SessionManager";
 import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
-import { KenoEastId, KenoMax2Id, KenoMaxId, KenoMini2Id, KenoMiniId, KenoNorthId, KenoSouthId, KenoWestId } from "../KenoUtils";
+import {
+    KenoEastId,
+    KenoMax2Id,
+    KenoMaxId,
+    KenoMini2Id,
+    KenoMiniId,
+    KenoNorthId,
+    KenoSouthId,
+    KenoWestId,
+    MegaKeno2Id,
+    MegaKenoId,
+} from "../KenoUtils";
 import MiniKeno from "../MiniKeno";
 
 const { ccclass, property } = cc._decorator;
@@ -74,8 +85,8 @@ export default class MiniKenoGuide extends cc.Component {
         const dict = {
             kenoMax: KenoMaxId,
             kenoMax2: KenoMax2Id,
-            megaKeno: GameIds.MegaKeno,
-            megaKeno2: GameIds.MegaKeno2,
+            megaKeno: MegaKenoId,
+            megaKeno2: MegaKeno2Id,
             kenoMini: KenoMiniId,
             kenoMini2: KenoMini2Id,
             kenoDong: KenoEastId,
