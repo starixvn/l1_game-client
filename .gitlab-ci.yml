@@ -43,12 +43,21 @@ variables:
     stage: build-cocos-web
     script:
         - echo "====== Build Cocos Web Mobile ======"
+        - |
+            if [[ -d "./build/web-mobile" ]]; then
+              echo "Using cache with key $CI_COMMIT_SHA"
+              exit 0
+            fi
+
         - echo $DEPLOY_ENV
         - echo $STACK_NAME
         - echo $CI_COMMIT_BRANCH
         - echo $CI_COMMIT_REF_NAME
-        - npm set registry http://npm.lumigame.com
-        - yarn install
+        - |
+            if [ ! -d "node_modules" ]; then
+              npm set registry http://npm.lumigame.com
+              yarn install
+            fi
         - if [ "$COCOS_VERSION" == "" ]; then
           export COCOS_VERSION="2.4.0";
           else
@@ -65,6 +74,16 @@ variables:
         paths:
             - ./build/web-mobile
         expire_in: 1 day
+    cache:
+        - key:
+              files:
+                  - package.json
+                  - yarn.lock
+          paths:
+              - node_modules
+        - key: $CI_COMMIT_SHORT_SHA
+          paths:
+              - build
 
 .base_build_cocos_web_l1_game_client:
     <<: *build_cocos_creator_script
@@ -97,3 +116,8 @@ variables:
     <<: *build_cocos_creator_script
     extends:
         - .build:image:l1_blockchain_baccarat_client:rules
+
+.base_build_cocos_web_l1_unbalanced_bigsmall_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l1_unbalanced_bigsmall_client:rules
