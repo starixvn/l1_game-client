@@ -63,7 +63,9 @@ export default class NotificationService {
             "jackpotWinners",
             "kickedOut",
             "reload",
-            "auth"
+            "auth",
+            "promotions",
+            "promotionNotification"
         ];
 
         messageList.forEach((message) => {
