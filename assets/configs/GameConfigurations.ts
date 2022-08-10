@@ -79,6 +79,13 @@ export function getGameName(gameId: number) {
 
     return gameConfiguration?.key;
 }
+
+export function getGameId(key: string) {
+    const gameConfiguration = getAllGameConfigurations().find((configuration) => configuration.key === key);
+
+    return gameConfiguration?.id;
+}
+
 export function getGameConfiguration(gameId: number | string) {
     return getAllGameConfigurations().find((configuration) => configuration.id === Number(gameId));
 }

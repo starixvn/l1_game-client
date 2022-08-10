@@ -12,10 +12,9 @@ import LoadWebView from "../../common/LoadWebView";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
-import SabaConfigs = require("../../configs/SabaConfigs");
+import { getGameId } from "../../configs/GameConfigurations";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
-import MainGame from "../../lobby/main/view-models/MainGame";
 import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
@@ -289,7 +288,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     loadGameRoom(name) {
-        const gameId = Object.keys(SabaConfigs.GameInfos).find((id) => SabaConfigs.GameInfos[id].key === name);
+        const gameId = getGameId(name);
 
         if (GameUIManager.getInstance().getCurrentGameId() !== +gameId) {
             return;

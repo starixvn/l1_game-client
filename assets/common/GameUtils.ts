@@ -2,6 +2,8 @@ import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getGameConfiguration } from "../configs/GameConfigurations";
+import GameUIManager from "../lobby/main/view-models/GameUIManager";
+import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
 
@@ -439,7 +441,7 @@ export default class GameUtils {
     }
 
     public static isMiniGame(gameId: string): boolean {
-        const miniGameList = Object.keys(SabaConfigs.GameInfos).filter((id) => SabaConfigs.GameInfos[id].mini == true);
-        return miniGameList.includes(gameId);
+        const gameConfiguration = getGameConfiguration(gameId);
+        return !!gameConfiguration.mini;
     }
 }

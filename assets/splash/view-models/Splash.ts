@@ -1,11 +1,11 @@
 import { appContainer } from "../../Application";
-import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
-import logger from "../../common/logger";
 import * as authManager from "../../common/auth/AuthManager";
-import RandomWaitingMessage from "./RandonWaitingMessage";
-import LobbyMenuConfig from "../../lobby/main/view-models/LobbyMenuConfig";
-import SplashConfig from "./SplashConfig";
+import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
+import logger from "../../common/logger";
+import LobbyMenuConfig from "../../lobby/main/view-models/LobbyMenuConfig";
+import RandomWaitingMessage from "./RandonWaitingMessage";
+import SplashConfig from "./SplashConfig";
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
