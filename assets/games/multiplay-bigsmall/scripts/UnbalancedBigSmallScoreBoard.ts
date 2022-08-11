@@ -41,7 +41,7 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
 
         const done = this.componentCount === 2;
         if (done) {
-            const defaultShowBeadRoad = true;
+            const defaultShowBeadRoad = false;
             this.switchView(defaultShowBeadRoad);
         }
     }
