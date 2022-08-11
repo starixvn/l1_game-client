@@ -12,5 +12,5 @@ RUN touch /var/run/nginx.pid && \
 USER nginx
 
 COPY ./.nginx/game.conf /etc/nginx/conf.d/default.conf
-COPY ./build/web-mobile/assets/blockchain-baccarat /usr/share/nginx/html/blockchain-baccarat
+COPY ./build/web-mobile/assets/48 /usr/share/nginx/html/48
 COPY ./build/web-mobile/assets/versions.json /usr/share/nginx/html
