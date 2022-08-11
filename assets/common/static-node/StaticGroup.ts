@@ -36,12 +36,10 @@ export default class StaticGroup extends cc.Component {
     }
 
     moveNodeToContainer(content: cc.Node, container: cc.Node) {
-        const children = content
-            .getComponentsInChildren(StaticNode)
-            .filter((node) => node.groupId === this.groupId)
-            .map((comp) => comp.node);
-        children.forEach((child) => {
-            GameUtils.moveToOtherNode(child, container);
+        const staticNodes = content.getComponentsInChildren(StaticNode).filter((node) => node.groupId === this.groupId);
+        staticNodes.forEach((staticNode) => {
+            staticNode.init();
+            GameUtils.moveToOtherNode(staticNode.node, container);
         });
     }
 }

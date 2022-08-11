@@ -8,7 +8,7 @@ export default class StaticNode extends cc.Component {
     originalParent: cc.Node;
     originalPosition: cc.Vec3;
 
-    onLoad() {
+    init() {
         this.originalParent = this.node.parent;
         this.originalPosition = this.node.position;
         this.schedule(this.checkOriginalParentExists, 0.5, cc.macro.REPEAT_FOREVER);
