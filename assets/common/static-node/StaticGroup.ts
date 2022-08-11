@@ -28,7 +28,6 @@ export default class StaticGroup extends cc.Component {
             return;
         }
         this.initialized = true;
-        cc.director.off(cc.Director.EVENT_AFTER_UPDATE, this.initForContents, this);
         this.contents.forEach((child) => {
             child.on(cc.Node.EventType.CHILD_ADDED, () => this.moveNodeToContainer(child, this.container));
             this.moveNodeToContainer(child, this.container);
