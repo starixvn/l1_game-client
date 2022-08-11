@@ -8,12 +8,14 @@ export default class CustomDisplayToggle extends cc.Toggle {
     @property(cc.Node)
     unCheckImage: cc.Node = null;
 
+    @property(cc.Node)
+    checkMarkNode: cc.Node = null;
+
     _updateCheckMark() {
         super._updateCheckMark();
 
-        if (this.unCheckImage) {
-            this.unCheckImage.active = !this.isChecked;
-        }
+        this.unCheckImage && (this.unCheckImage.active = !this.isChecked);
+        this.checkMarkNode && (this.checkMarkNode.active = this.isChecked);
     }
 
     _updateState() {

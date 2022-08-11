@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class AutoSiblingResize extends cc.Component {
+export default class AutoResizeNode extends cc.Component {
     @property(cc.Node)
     target: cc.Node = null;
 
@@ -11,11 +11,33 @@ export default class AutoSiblingResize extends cc.Component {
     @property
     syncHeight = true;
 
-    @property
+    @property({
+        visible: function () {
+            return this.syncWidth;
+        }
+    })
     ratioWidth = 1;
 
-    @property
+    @property({
+        visible: function () {
+            return this.syncHeight;
+        }
+    })
     ratioHeight = 1;
+
+    @property({
+        visible: function () {
+            return this.syncWidth;
+        }
+    })
+    widthPadding = 0;
+
+    @property({
+        visible: function () {
+            return this.syncHeight;
+        }
+    })
+    heightPadding = 0;
 
     onLoad() {
         this.target.on(cc.Node.EventType.SIZE_CHANGED, this.resizeNode, this);
@@ -49,7 +71,7 @@ export default class AutoSiblingResize extends cc.Component {
 
     setWidth() {
         if (this.syncWidth) {
-            this.node.width = this.target.width * this.ratioWidth;
+            this.node.width = this.target.width * this.ratioWidth + 2 * this.widthPadding;
         }
     }
 

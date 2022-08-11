@@ -14,7 +14,21 @@ export default class StaticGroup extends cc.Component {
     @property
     groupId = 0;
 
-    onLoad() {
+    @property
+    usingLayout = false;
+
+    private initialized = false;
+
+    lateUpdate() {
+        this.initForContents();
+    }
+
+    initForContents() {
+        if (this.initialized) {
+            return;
+        }
+        this.initialized = true;
+        cc.director.off(cc.Director.EVENT_AFTER_UPDATE, this.initForContents, this);
         this.contents.forEach((child) => {
             child.on(cc.Node.EventType.CHILD_ADDED, () => this.moveNodeToContainer(child, this.container));
             this.moveNodeToContainer(child, this.container);
