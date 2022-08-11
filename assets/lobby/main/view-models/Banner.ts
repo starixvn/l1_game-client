@@ -86,7 +86,7 @@ export default class Banner extends cc.Component {
 
     private getGameIdOfferBanner(isLoadAllBanners: boolean) {
         const filterList: number[] = [];
-        const gameAds = isLoadAllBanners ? lobbyMenuConfig.bannerAds : lobbyMenuConfig.bannerAds.slice(1);
+        const gameAds = isLoadAllBanners ? lobbyMenuConfig.bannerAds : lobbyMenuConfig.bannerAds.slice(0, 1);
         const offerGames = cc.RedT.user.offerGames;
         gameAds.forEach((id: number) => {
             if (offerGames.includes(id)) {
