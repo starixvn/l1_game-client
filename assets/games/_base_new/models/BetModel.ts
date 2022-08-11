@@ -15,6 +15,11 @@ export class BetModel extends EventEmitterBase {
     protected ownChip: any;
     protected betPercentage: any;
 
+    clearData() {
+        this.ownBets = null;
+        this.betPercentage = null;
+    }
+
     changeOwnBets(choices: Choices) {
         this.ownBets = choices;
         this.emit(BetModel.Events.CHANGE_OWN_BET, this.ownBets);

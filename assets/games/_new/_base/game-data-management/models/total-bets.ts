@@ -9,6 +9,10 @@ export class TotalBets extends EventEmitterBase {
 
     protected data: Choices;
 
+    clearData() {
+        this.data = null;
+    }
+
     update(choices: Choices) {
         this.data = choices;
         this.emit(TotalBets.Events.CHANGE, this.data);

@@ -55,3 +55,7 @@ export const showCurrentRoundId = (game: MiniGameBase) => () => {
 export const showNextRoundId = (game: MiniGameBase) => () => {
     game.gameData.roundHistory && game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId);
 };
+
+export const clearRoundData = (game: MiniGameBase) => () => {
+    game.clearData();
+};

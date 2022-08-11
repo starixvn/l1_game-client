@@ -24,11 +24,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 63
+        "__id__": 64
       }
     ],
     "_prefab": {
-      "__id__": 64
+      "__id__": 65
     },
     "_opacity": 255,
     "_color": {
@@ -95,11 +95,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 61
+        "__id__": 62
       }
     ],
     "_prefab": {
-      "__id__": 62
+      "__id__": 63
     },
     "_opacity": 255,
     "_color": {
@@ -1165,17 +1165,17 @@
         "__id__": 49
       },
       {
-        "__id__": 54
+        "__id__": 55
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 59
+        "__id__": 60
       }
     ],
     "_prefab": {
-      "__id__": 60
+      "__id__": 61
     },
     "_opacity": 255,
     "_color": {
@@ -1884,10 +1884,13 @@
       },
       {
         "__id__": 51
+      },
+      {
+        "__id__": 53
       }
     ],
     "_prefab": {
-      "__id__": 53
+      "__id__": 54
     },
     "_opacity": 255,
     "_color": {
@@ -1971,7 +1974,7 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Toggle",
+    "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -1982,11 +1985,15 @@
     "_grayMaterial": null,
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 52
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
-    "_N$transition": 3,
-    "transition": 3,
+    "_N$transition": 0,
+    "transition": 0,
     "_N$normalColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -2036,14 +2043,6 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
-    "_N$isChecked": true,
-    "toggleGroup": null,
-    "checkMark": null,
-    "checkEvents": [
-      {
-        "__id__": 52
-      }
-    ],
     "_id": ""
   },
   {
@@ -2055,6 +2054,17 @@
     "_componentId": "13be54eb4JMTr2TasEVZ/w+",
     "handler": "onScoreBoardClick",
     "customEventData": ""
+  },
+  {
+    "__type__": "ef02fpUzxJDiqCAAqIQhaRi",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 49
+    },
+    "_enabled": true,
+    "durationInactive": 1,
+    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -2078,14 +2088,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 55
+        "__id__": 56
       },
       {
-        "__id__": 56
+        "__id__": 57
       }
     ],
     "_prefab": {
-      "__id__": 58
+      "__id__": 59
     },
     "_opacity": 255,
     "_color": {
@@ -2139,7 +2149,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 54
+      "__id__": 55
     },
     "_enabled": true,
     "_materials": [
@@ -2173,7 +2183,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 54
+      "__id__": 55
     },
     "_enabled": true,
     "_normalMaterial": null,
@@ -2239,7 +2249,7 @@
     "checkMark": null,
     "checkEvents": [
       {
-        "__id__": 57
+        "__id__": 58
       }
     ],
     "_id": ""
@@ -2361,7 +2371,7 @@
       "__id__": 4
     },
     "collapsedExpandButton": {
-      "__id__": 56
+      "__id__": 57
     },
     "scoreBoardPrefab": {
       "__uuid__": "1f24a7ec-b32e-420a-b78a-299c88bffb74"
