@@ -22,6 +22,7 @@ export default class StaticNode extends cc.Component {
     checkOriginalParentExists() {
         if (!this.originalParent || !this.originalParent.isValid) {
             this.unschedule(this.checkOriginalParentExists);
+            this.node.destroy();
         }
     }
 }

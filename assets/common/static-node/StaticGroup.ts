@@ -28,8 +28,11 @@ export default class StaticGroup extends cc.Component {
             return;
         }
         this.initialized = true;
+        this.schedule(this.scheduleMoveNodeToContainer, 0.1, cc.macro.REPEAT_FOREVER);
+    }
+
+    scheduleMoveNodeToContainer() {
         this.contents.forEach((child) => {
-            child.on(cc.Node.EventType.CHILD_ADDED, () => this.moveNodeToContainer(child, this.container));
             this.moveNodeToContainer(child, this.container);
         });
     }

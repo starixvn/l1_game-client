@@ -11,6 +11,9 @@ export default class AutoResizeNode extends cc.Component {
     @property
     syncHeight = true;
 
+    @property
+    syncPosition = false;
+
     @property({
         visible: function () {
             return this.syncWidth;
@@ -42,6 +45,14 @@ export default class AutoResizeNode extends cc.Component {
     onLoad() {
         this.target.on(cc.Node.EventType.SIZE_CHANGED, this.resizeNode, this);
         this.resizeNode();
+        if(this.syncPosition){
+            this.target.on(cc.Node.EventType.POSITION_CHANGED, this.doSyncPosition, this);
+            this.doSyncPosition()
+        }
+    }
+
+    doSyncPosition(){
+        this.node.position = this.node.parent.convertToNodeSpaceAR (this.target.convertToWorldSpaceAR(cc.v3(0)))
     }
 
     update(dt) {
