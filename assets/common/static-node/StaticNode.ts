@@ -11,7 +11,7 @@ export default class StaticNode extends cc.Component {
     init() {
         this.originalParent = this.node.parent;
         this.originalPosition = this.node.position;
-        this.schedule(this.checkOriginalParentExists, 0.5, cc.macro.REPEAT_FOREVER);
+        this.schedule(this.checkOriginalParentExists, 0.1, cc.macro.REPEAT_FOREVER);
         this.originalParent.on(cc.Node.EventType.POSITION_CHANGED, this.updatePosition, this);
     }
 
