@@ -45,7 +45,9 @@ const data = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady"
+        46: "Nightclub Lady",
+        52: "Mega Keno",
+        53: "Mega Keno 2"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
