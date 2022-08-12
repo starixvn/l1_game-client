@@ -63,6 +63,8 @@ export default class MultiplayGame extends GameViewBase {
     onEnable() {
         if (this.isGameOpened) {
             this.reConnectSockets();
+            this.initLocations();
+            this.initMultiplayLayout();
         }
         this.isGameOpened = true;
     }
