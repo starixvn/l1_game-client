@@ -2,9 +2,8 @@ import * as configs from "../../configs/Configs";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 
 export function buildUrl(protocol = "http", path = "/") {
-    const domainForDevMode = "lumigame.com";
     const ssl = configs.ssl;
-    const hostName = configs.serverDomainMapper[window.location.hostname] || domainForDevMode;
+    const hostName = configs.serverDomainMapper[window.location.hostname];
     const subDomain = configs.subDomain;
     const subDomainText = `${subDomain}.`;
 

@@ -1,3 +1,4 @@
+import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../../Application";
@@ -163,16 +164,30 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     private createIconNode(gameId: number, prefab: cc.Prefab) {
-        const lobbyGameNameKey = `lobbyNames.${gameId}`;
-        let gameName = i18n.t(lobbyGameNameKey);
-        if (gameName === lobbyGameNameKey) {
-            gameName = i18n.t(`gameNames.${gameId}`);
-        }
         const iconNode = cc.instantiate(prefab);
         const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
-        skeletonIconComponent.setGameName(gameName.toUpperCase());
+
+        this.lateUpdateGameName(skeletonIconComponent, gameId);
         skeletonIconComponent.setGameContent(gameId, this.getList());
         return iconNode;
+    }
+
+    async lateUpdateGameName(icon: SkeletonIcon, gameId: number) {
+        const lobbyGameNameKey = `lobbyNames.${gameId}`;
+        const gameNameKey = `gameNames.${gameId}`;
+        let gameName = i18n.t(lobbyGameNameKey);
+
+        if (gameName === lobbyGameNameKey) {
+            gameName = i18n.t(gameNameKey);
+        }
+
+        if (gameName === gameNameKey) {
+            await BundleManager.getInstance().loadBundle(gameId.toString());
+
+            gameName = i18n.t(gameNameKey);
+        }
+
+        icon.setGameName(gameName.toUpperCase());
     }
 
     clearRow() {
