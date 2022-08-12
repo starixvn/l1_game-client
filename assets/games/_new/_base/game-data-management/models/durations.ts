@@ -82,6 +82,10 @@ export class Durations extends EventEmitterBase {
         return this.latestEventCounter;
     }
 
+    updateUI() {
+        this.calculateAndEmitEvent();
+    }
+
     countdown() {
         if (this.remaining > 1) {
             this.remaining = this.remaining - 1;
