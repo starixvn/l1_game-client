@@ -1,8 +1,9 @@
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MiniGameBase from "../view-models/MiniGameBase";
-import { showCurrentRoundId, showNextRoundId } from "./TimeAction";
+import { showCurrentRoundId, showLastRoundId } from "./TimeAction";
 
 export const onUM = (game: MiniGameBase) => (data) => {
     if (game.checkShowUmMessage(data)) {
@@ -56,9 +57,13 @@ export const handleRoundHistory = (game: MiniGameBase) => (roundHistory) => {
     game.handleRoundHistory(roundHistory);
 
     if (game.gameData.durations.isWaiting()) {
-        showNextRoundId(game);
+        showLastRoundId(game);
     }
-    if (game.gameData.durations.isPlacingBet() || game.gameData.durations.isLocking()) {
+    if (
+        game.gameData.durations.isPlacingBet() ||
+        game.gameData.durations.isLocking() ||
+        game.gameData.durations.isBeingSpecificPhase(Durations.Events.STARTING_ROUND)
+    ) {
         showCurrentRoundId(game);
     }
 };

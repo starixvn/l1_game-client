@@ -28,7 +28,7 @@ import {
 import {
     clearRoundData,
     showCurrentRoundId,
-    showNextRoundId,
+    showLastRoundId,
     startGameLoop,
     stopGameLoop,
     updateLockBet,
@@ -193,7 +193,8 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, updatePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.WAITING, updateWaiting);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, showCurrentRoundId);
-        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, showNextRoundId);
+        this.emitterListener(this.gameData.durations, Durations.Events.STARTING_ROUND, showCurrentRoundId);
+        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, showLastRoundId);
 
         this.emitterListener(this.gameData.totalBets, TotalBets.Events.CHANGE, updateTotalBets);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_BET, updateOwnBets);
