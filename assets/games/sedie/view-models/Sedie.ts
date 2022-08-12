@@ -1,9 +1,8 @@
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
 import FreeBetGameBase from "../../_base/FreeBetGameBase";
 import { Orientation } from "../../_base/Orientation";
-import SedieMiniRoundHistory from "../../mini-sedie/viewModels/SedieMiniRoundHistory";
-import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SedieBetHandler from "./handlers/SedieBetHandler";
 import SedieFinishHandler from "./handlers/SedieFinishHandler";
 import SedieLogsHandler from "./handlers/SedieLogsHandler";
@@ -147,7 +146,7 @@ export default class Sedie extends FreeBetGameBase {
         this.roundHistoryContainer.addChild(node);
 
         const mini = cc.instantiate(this.miniRoundHistoryPrefab);
-        this.miniRoundHistory = mini.getComponent(SedieMiniRoundHistory);
+        this.miniRoundHistory = mini.getComponent(MiniRoundHistory);
         this.miniRoundHistory.init(this.needShowNextDot.bind(this));
         this.miniRoundHistoryContainer.addChild(mini);
     }

@@ -1,6 +1,12 @@
 import BlinkNode from "../../../common/BlinkNode";
+import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
+
+export interface ExtendedLogControlData {
+    type: number;
+    extra: any;
+}
 
 @ccclass
 export default class GameLogControlBase extends cc.Component {
@@ -26,6 +32,29 @@ export default class GameLogControlBase extends cc.Component {
     protected dots: cc.Node[] = [];
     protected isHideNextDot = false;
     protected checkShowNext = () => false;
+
+    _managedByParent = false;
+    get managedByParent(): boolean {
+        return this._managedByParent;
+    }
+    set managedByParent(value: boolean) {
+        this._managedByParent = value;
+    }
+
+    _nextItemActive = false;
+    get nextItemActive(): boolean {
+        return this._nextItemActive;
+    }
+    set nextItemActive(value: boolean) {
+        this._nextItemActive = value;
+        this.updateDisplayNextItem();
+    }
+
+    updateDisplayNextItem() {
+        if (this.nextMark && this.nextMark.isValid) {
+            this.nextMark.active = this.nextItemActive;
+        }
+    }
 
     init(condition: () => boolean) {
         this.checkShowNext = condition;
@@ -117,8 +146,23 @@ export default class GameLogControlBase extends cc.Component {
     }
 
     update() {
+        if (this.managedByParent) {
+            return;
+        }
         if (this.nextMark && this.nextMark.isValid) {
             this.nextMark.active = this.checkShowNext();
         }
+    }
+
+    setExtendedData(data: ExtendedLogControlData[]) {
+        const typeData = data.map((extendedData) => extendedData.type);
+        this.setData(typeData);
+
+        this.dots.forEach((dot, index) => {
+            const miniRoundHistoryItem = dot.getComponent(MiniRoundHistoryItem);
+            if (miniRoundHistoryItem) {
+                miniRoundHistoryItem.setData(data[index]);
+            }
+        });
     }
 }

@@ -3,7 +3,7 @@
  * Date: 2021-10-05 03:53:40
  */
 
-import MiniSedieBetItem from "../../../assets/games/mini-sedie/viewModels/MiniSedieBetItem";
+import MiniSedieBetItem from "../../../assets/games/muliplay-mini-sedie/scripts/MiniSedieBetItem";
 
 describe("Test class MiniSedieBetItem", () => {
     let node: cc.Node;

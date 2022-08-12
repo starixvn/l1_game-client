@@ -1,7 +1,9 @@
+import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
+import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
+import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
-import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
 import SpecialSeDieLogsHandler from "./handlers/SpecialSeDieLogsHandler";
@@ -10,8 +12,6 @@ import SpecialSedieBetHistory from "./SpecialSedieBetHistory";
 import { SpecialSeDieConfigs } from "./SpecialSeDieConfigs";
 import SpecialSeDieHistory from "./SpecialSeDieHistory";
 import SpecialSedieRoundHistory from "./SpecialSedieRoundHistory";
-import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
-import { payChips } from "../../_base/action/PayChipsAction";
 
 const { ccclass, property } = cc._decorator;
 

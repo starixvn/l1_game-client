@@ -1,12 +1,6 @@
-import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
 import GameLogControlBase from "./GameLogControlBase";
 
 const { ccclass, property } = cc._decorator;
-
-export interface ExtendedLogControlData {
-    type: number;
-    extra: any;
-}
 
 @ccclass
 export default class ExtendedGameLogControl extends GameLogControlBase {
@@ -18,18 +12,6 @@ export default class ExtendedGameLogControl extends GameLogControlBase {
 
     createDotNode(type: number) {
         return cc.instantiate(this.itemPrefab);
-    }
-
-    setExtendedData(data: ExtendedLogControlData[]) {
-        const typeData = data.map((extendedData) => extendedData.type);
-        this.setData(typeData);
-
-        this.dots.forEach((dot, index) => {
-            const miniRoundHistoryItem = dot.getComponent(MiniRoundHistoryItem);
-            if (miniRoundHistoryItem) {
-                miniRoundHistoryItem.setData(data[index]);
-            }
-        });
     }
 
     override update() {

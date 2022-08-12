@@ -18,7 +18,11 @@ export default class SocketIOController {
         50,
         51,
         54,
-        55 // UnbalancedBigSmall
+        55, // UnbalancedBigSmall
+        9,
+        56,
+        57,
+        58 // MiniSedie
     ];
 
     getSocketGame(gameId: number) {

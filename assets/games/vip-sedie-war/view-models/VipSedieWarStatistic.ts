@@ -1,6 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
 import GameBase from "../../_base/GameBase";
-import SedieRoundHistory from "../../mini-sedie/viewModels/SedieRoundHistory";
 import VipSedieWarRoundHistoryItem from "./VipSedieWarRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;

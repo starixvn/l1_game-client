@@ -8,8 +8,8 @@ import BigSmallDicesStatistic from "../../bigsmall/view-models/BigSmallDicesStat
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import { handleBeginPlacingBet, handlePlacingBet, handleShakeDish, handleSubGameWaitingTime } from "./actions/CustomActions";
-import MultiplayGameHistory from "./MultiplayGameHistory";
 import { tableGameColor, UnbalancedBigSmall1Id, unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
+import UnbalncedBigSmallHistory from "./UnbalncedBigSmallHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,9 +38,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     @property(cc.Node)
     bgTimer: cc.Node = null;
-
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
 
     @property(cc.Sprite)
     gameNameImage: cc.Sprite = null;
@@ -280,13 +277,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.thePlate.position = cc.v3(0, 0);
         this.thePlate.opacity = 255;
         this.thePlate.active = true;
-    }
-
-    openHistory() {
-        const dialog = cc.instantiate(this.historyPrefab);
-        this.currentMiniPanel.addDialog(dialog);
-        const control = dialog.getComponent(MultiplayGameHistory);
-        control.handleSocketFromGame(this.gameId);
     }
 
     highlightLastResult() {

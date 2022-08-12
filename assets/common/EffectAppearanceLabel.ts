@@ -17,7 +17,7 @@ export default class EffectAppearanceLabel extends cc.Component {
     private _value: string;
     set string(value: string) {
         this._value = value;
-        const updated = value !== this.label?.string || value !== this.richText?.string;
+        const updated = (this.label && value !== this.label?.string) || (this.richText && value !== this.richText?.string);
 
         this.label && (this.label.string = value);
         this.richText && (this.richText.string = value);
@@ -37,13 +37,22 @@ export default class EffectAppearanceLabel extends cc.Component {
 
     public playAnimation() {
         this.mask.node.width = 0;
-
-        const width = this.calculateDistance();
-        if (!this.mask.node.activeInHierarchy) {
-            this.mask.node.width = width;
-            return;
-        }
-        const duration = width / this.speed;
-        cc.tween(this.mask.node).to(duration, { width: width }).start();
+        cc.tween(this.node)
+            .delay(0.1)
+            .call(() => {
+                const width = this.calculateDistance();
+                if (!this.mask.node.activeInHierarchy) {
+                    this.mask.node.width = width;
+                    return;
+                }
+                const duration = width / this.speed;
+                cc.tween(this.mask.node)
+                    .to(duration, { width: width })
+                    .call(() => {
+                        this.mask.node.width = width;
+                    })
+                    .start();
+            })
+            .start();
     }
 }
