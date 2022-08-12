@@ -29,26 +29,35 @@ export default class LocalizedLoadSprite extends cc.Component {
         }
     }
 
-    public getSpriteFrameByLang(lang: string, name: string, gameId: number) {
+    public async getSpriteFrameByLang(lang: string, name: string, gameId: number) {
         const gameConfiguration = getGameConfiguration(gameId);
-
-        if (gameConfiguration && !gameConfiguration.remoteBundle) {
-            return new Promise<cc.SpriteFrame>((resolve) => {
+        const loadFromResources = () =>
+            new Promise<cc.SpriteFrame>((resolve) => {
                 cc.resources.load<cc.SpriteFrame>(`${pathRoot}/${lang}/${gameId}/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
                     resolve(spriteFrame);
                 });
             });
+
+        if (gameConfiguration && !gameConfiguration.remoteBundle) {
+            return loadFromResources();
         } else {
             const bundleManager = BundleManager.getInstance();
             const path = `i18n/images/${lang}/${name}`;
             const devPath = `../games/*/${path}`;
 
-            return bundleManager.loadAsset({
-                type: cc.SpriteFrame,
-                bundleId: `${gameId}`,
-                path,
-                pathForDevMode: devPath
-            });
+            try {
+                const sprite = await bundleManager.loadAsset({
+                    type: cc.SpriteFrame,
+                    bundleId: `${gameId}`,
+                    path,
+                    pathForDevMode: devPath
+                });
+
+                return sprite;
+            } catch (error) {
+                // Retry to load from resources
+                return loadFromResources();
+            }
         }
     }
 
