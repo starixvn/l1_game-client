@@ -10,10 +10,9 @@ export default class Promotions extends cc.Component {
     private readonly dataKey = "promotions";
     public showBoostedOdds = false;
     protected boostedOddsInterval: any;
-    private readonly timeInterval = 60000;
+    private readonly timeInterval = 300000;
 
     onLoad(): void {
-        this.setIntervalShowBoostedOdds();
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
     }
 
@@ -23,9 +22,10 @@ export default class Promotions extends cc.Component {
     }
 
     receivedData(data) {
-        if (data && !this.showBoostedOdds) {
+        if (data.length != 0 && !this.showBoostedOdds) {
             console.log("boosted odds");
             this.handleBoostedOdds();
+            this.setIntervalShowBoostedOdds();
         }
     }
 
