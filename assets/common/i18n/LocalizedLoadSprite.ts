@@ -32,7 +32,7 @@ export default class LocalizedLoadSprite extends cc.Component {
     public getSpriteFrameByLang(lang: string, name: string, gameId: number) {
         const gameConfiguration = getGameConfiguration(gameId);
 
-        if (!gameConfiguration.remoteBundle) {
+        if (gameConfiguration && !gameConfiguration.remoteBundle) {
             return new Promise<cc.SpriteFrame>((resolve) => {
                 cc.resources.load<cc.SpriteFrame>(`${pathRoot}/${lang}/${gameId}/${name}`, cc.SpriteFrame, (err, spriteFrame) => {
                     resolve(spriteFrame);
@@ -41,11 +41,13 @@ export default class LocalizedLoadSprite extends cc.Component {
         } else {
             const bundleManager = BundleManager.getInstance();
             const path = `i18n/images/${lang}/${name}`;
+            const devPath = `../games/*/${path}`;
 
             return bundleManager.loadAsset({
                 type: cc.SpriteFrame,
                 bundleId: `${gameId}`,
-                path
+                path,
+                pathForDevMode: devPath
             });
         }
     }

@@ -45,7 +45,7 @@ export async function initialize() {
 
 function initializeBundleInfos() {
     const isDevelopmentMode = window.location.hostname === "localhost";
-    const games = window.gameConfigurations
+    const games = getAllGameConfigurations()
         .filter((configuration) => !!configuration.remoteBundle)
         .map((configuration) => ({ gameId: configuration.id, ...configuration.remoteBundle }));
 
@@ -71,7 +71,9 @@ function initializeBundleInfos() {
         return result;
     }, {});
 
-    window.bundleInfos = isDevelopmentMode ? developmentMode : productionMode;
+    if (!window.bundleManagement) window.bundleManagement = {};
+
+    window.bundleManagement.bundles = isDevelopmentMode ? developmentMode : productionMode;
 }
 
 export function getGameName(gameId: number) {
@@ -91,6 +93,10 @@ export function getGameConfiguration(gameId: number | string) {
 }
 
 export function getAllGameConfigurations() {
+    if (CC_EDITOR) {
+        return [];
+    }
+
     return window.gameConfigurations;
 }
 
