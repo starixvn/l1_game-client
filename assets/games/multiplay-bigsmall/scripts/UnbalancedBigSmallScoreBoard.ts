@@ -1,3 +1,4 @@
+import { lodash } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
 import GameIdSprite from "../../../common/GameIdSprite";
 import BeadRoad from "../../_base/view-models/BeadRoad";
@@ -119,6 +120,7 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
             return result;
         });
         this.beadRoad.setData(data);
-        this.logControl.setExtendedData(data);
+        const reverseData = lodash.cloneDeep(data).reverse();
+        this.logControl.setExtendedData(reverseData);
     };
 }
