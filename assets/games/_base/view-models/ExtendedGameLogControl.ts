@@ -28,8 +28,6 @@ export default class ExtendedGameLogControl extends GameLogControlBase {
             const miniRoundHistoryItem = dot.getComponent(MiniRoundHistoryItem);
             if (miniRoundHistoryItem) {
                 miniRoundHistoryItem.setData(data[index]);
-            } else {
-                console.log(`next item index ${index}`);
             }
         });
     }
