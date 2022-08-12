@@ -1,4 +1,3 @@
-import _ = require("lodash");
 import NotificationService from "../../common/auth/NotificationService";
 
 const { ccclass, property } = cc._decorator;
@@ -9,32 +8,38 @@ export default class Promotions extends cc.Component {
     content: cc.Node = null;
 
     private readonly dataKey = "promotions";
-    protected showPromotion: any;
+    public showBoostedOdds = false;
+    protected boostedOddsInterval: any;
+    private readonly timeInterval = 60000;
 
     onLoad(): void {
-        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.onData.bind(this));
+        this.setIntervalShowBoostedOdds();
+        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
     }
 
     onDestroy() {
         NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
-        this.showPromotion && clearTimeout(this.showPromotion);
+        this.boostedOddsInterval && clearInterval(this.boostedOddsInterval);
     }
 
-    reset() {
-        this.node.active = false;
-    }
-
-    onData(data) {
-        if (data) {
-            this.setPromotion();
+    receivedData(data) {
+        if (data && !this.showBoostedOdds) {
+            console.log("boosted odds");
+            this.handleBoostedOdds();
         }
     }
 
-    setPromotion(): void {
-        this.showPromotion && clearTimeout(this.showPromotion);
-        this.showPromotion = setTimeout(function repeat() {
-            this.content.active = true;
-            this.timeOut = setTimeout(repeat, 15000);
-        }, 15000);
+    handleBoostedOdds() {
+        this.showBoostedOdds = true;
+        cc.tween(this.content).to(0.2, { opacity: 255 }).delay(5).to(0.1, { opacity: 0 }).start();
     }
+
+    setIntervalShowBoostedOdds(): void {
+        this.boostedOddsInterval && clearInterval(this.boostedOddsInterval);
+        this.boostedOddsInterval = setInterval(() => {
+            this.showBoostedOdds = false;
+        }, this.timeInterval);
+    }
+
+    onClickBoostedOdds() {}
 }
