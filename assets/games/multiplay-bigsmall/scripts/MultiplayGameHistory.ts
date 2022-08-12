@@ -42,8 +42,9 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
 
     handleSocketFromGame(gameId: number) {
         this.updateSocketChanged(gameId);
-        this.pagination.resetPageCurrent();
-        this.socket.off(getGameName(gameId)).on(getGameName(gameId), this.receiveData);
+        const name = getGameName(gameId);
+        this.socket.off(name, this.receiveData).on(name, this.receiveData);
+        //this.socket.on(getGameName(gameId), this.receiveData);
         this.get_data();
         this.setStyleActiveTab(gameId);
     }
