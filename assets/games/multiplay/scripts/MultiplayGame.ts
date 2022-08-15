@@ -88,7 +88,7 @@ export default class MultiplayGame extends GameViewBase {
         this.gameIds.forEach((gameId) => {
             let socket = this.socketIOController.getSocketGame(gameId);
             if (!socket) {
-                const gameName = GameUtils.getGameSetting(gameId);
+                const gameName = GameUtils.getGameNameString(gameId);
                 socket = this.currentMiniPanel.gameMiniInitializers.setUpSocketForGame(gameName, gameId, false, null);
             }
 
