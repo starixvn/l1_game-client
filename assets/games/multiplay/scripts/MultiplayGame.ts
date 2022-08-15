@@ -1,6 +1,7 @@
 import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
 import SocketIOController from "../../../SocketIOController";
 import GameViewBase from "../../_base/GameViewBase";
@@ -54,6 +55,16 @@ export default class MultiplayGame extends GameViewBase {
             GameConfigs.Events.CHANGE,
             this.setGameConfigs.bind(this)
         );
+        this.initDraggableItems();
+    }
+
+    initDraggableItems() {
+        const draggableItems = this.getComponentsInChildren(DraggableItem);
+        draggableItems.forEach((draggableItem) => {
+            draggableItem.touchCallback.start = () => {
+                this.node.parent.insertChild(this.node, this.node.parent.childrenCount - 1);
+            };
+        });
     }
 
     onDestroy() {
