@@ -14,6 +14,7 @@ import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
+import { BoostedOddsHandler } from "../../lobby/promotions/BoostedOddsHandler";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
 import DataHandler from "./handlers/DataHandler";
@@ -149,6 +150,7 @@ export default class GameBase extends GameViewBase {
     private readonly dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
     public needHideNextDotRoundHistory = false;
+    public boostedOddsHandler: BoostedOddsHandler;
 
     hideUmDataKeys = ["remainingTime"]
 
@@ -169,6 +171,8 @@ export default class GameBase extends GameViewBase {
 
     onLoad() {
         super.onLoad();
+        this.boostedOddsHandler = BoostedOddsHandler.getInstance();
+        this.boostedOddsHandler.addDataObserver();
         this.setUpHandlers();
         this.initBetChips();
         this.initGameAudios();
@@ -200,6 +204,8 @@ export default class GameBase extends GameViewBase {
     joinGame() {
         this.startGame();
         this.registerViewGame();
+        this.boostedOddsHandler.removeDataObserver();
+        this.boostedOddsHandler.removeAllListeners();
     }
 
     onEnable() {

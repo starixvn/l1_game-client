@@ -10,6 +10,7 @@ import { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
 import NoticeUtil from "../../common/utils/NoticeUtil";
+import { BoostedOddsEvent } from "../../lobby/promotions/BoostedOddsHandler";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
@@ -46,6 +47,9 @@ export default class WebSocketTableGameBase extends GameBase {
     @property(cc.AudioSource)
     musicBg: cc.AudioSource = null;
 
+    @property(cc.Node)
+    boostedOddsNode: cc.Node = null;
+
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
 
@@ -67,6 +71,7 @@ export default class WebSocketTableGameBase extends GameBase {
         this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
         this.initMusicBackground();
+        this.registerBoostedOddsEvents();
     }
 
     initMusicBackground() {
@@ -75,6 +80,11 @@ export default class WebSocketTableGameBase extends GameBase {
             musicPlayer.joinRoomMusic = true;
             musicPlayer.decreaseVolumeAndStopBackgroundMusic();
         }
+    }
+
+    registerBoostedOddsEvents() {
+        GameUtils.getBoostedOdds(this.boostedOddsNode);
+        this.boostedOddsHandler.on(BoostedOddsEvent.SHOW_BOOSTED_ODDS, () => GameUtils.showBoostedOdds(this.boostedOddsNode));
     }
 
     onDestroy() {

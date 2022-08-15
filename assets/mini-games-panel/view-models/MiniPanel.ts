@@ -16,7 +16,6 @@ import NoticeUtil from "../../common/utils/NoticeUtil";
 import { getGameId, isMiniGame, isUsingRemoteBundle } from "../../configs/GameConfigurations";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
-import Promotions from "../../lobby/promotions/Promotions";
 import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
@@ -113,7 +112,6 @@ export default class MiniPanel extends BaseComponent {
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
 
         this.initPopUpMiniGames();
-        this.initPromotions();
 
         this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.miniGames.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
@@ -157,14 +155,6 @@ export default class MiniPanel extends BaseComponent {
                 gameMenu.miniPanel = this;
             }
             this.miniMenu.addChild(popUpMiniGameNode);
-        });
-    }
-
-    initPromotions() {
-        GameUtils.loadResource(`minipanel/boosted-odds/BoostedOdds`).then((prefab) => {
-            const promotionsNode = cc.instantiate(prefab);
-            this.promotions = promotionsNode.getComponent(Promotions);
-            this.miniMenu.addChild(promotionsNode);
         });
     }
 

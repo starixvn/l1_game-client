@@ -7,7 +7,7 @@ export default class Promotions extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    private readonly dataKey = "promotions";
+    private readonly dataKey = "promotionaass";
     public showBoostedOdds = false;
     protected boostedOddsInterval: any;
     private readonly timeInterval = 300000;
