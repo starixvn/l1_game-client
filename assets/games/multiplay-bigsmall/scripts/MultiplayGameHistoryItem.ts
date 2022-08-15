@@ -32,7 +32,7 @@ export default class MultiplayGameHistoryItem extends cc.Component {
         this.time.string = getStringDateByTime(data.time);
         this.round.string = data.roundId;
         this.win.string = numberWithCommas(data.betwin, 2);
-        this.stake.string = data.totalAmount;
+        this.stake.string = numberWithCommas(data.totalAmount, 2);
         const result = data.result;
         this.setResultData(result);
         const winChoice = +data.big > 0 ? "big" : "small";
