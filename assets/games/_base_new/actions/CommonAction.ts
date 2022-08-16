@@ -45,7 +45,8 @@ export const handleFirstLoadRoundHistory = (game: MiniGameBase) => (roundHistory
     if (roundHistory.length === 0) {
         return;
     }
-    if (game.gameData.durations.isWaiting()) {
+
+    if (game.gameData.durations.isWaiting() || game.gameData.durations.isBeingSpecificPhase(Durations.Events.SHOW_ANIMATION)) {
         const settlement = roundHistory[0];
         if (settlement) {
             game.gameData.settlement.finishShowResult(settlement, false);
