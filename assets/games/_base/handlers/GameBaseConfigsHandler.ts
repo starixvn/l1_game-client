@@ -10,5 +10,6 @@ export default class GameBaseConfigsHandler implements DataHandler {
         }
 
         this.main.setGameConfigs(data.gameConfigs);
+        this.main.setBoostedChoices(data.gameConfigs?.boostedChoices);
     }
 }

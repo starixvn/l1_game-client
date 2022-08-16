@@ -19,6 +19,7 @@ import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
+import GameBaseOddsHandler from "./handlers/GameBaseOddsHandler";
 import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
@@ -142,6 +143,7 @@ export default class GameBase extends GameViewBase {
     public finishHandler: DataHandler;
     public configsHandler: DataHandler;
     public md5Handler: DataHandler;
+    public oddsHandler: DataHandler;
 
     inGameMenu: InGameMenu;
     public betChips: BetChips;
@@ -197,7 +199,8 @@ export default class GameBase extends GameViewBase {
             this.errorHandler,
             this.logsHandler,
             this.finishHandler,
-            this.md5Handler
+            this.md5Handler,
+            this.oddsHandler
         );
     }
 
@@ -445,6 +448,7 @@ export default class GameBase extends GameViewBase {
         this.finishHandler = new GameBaseFinishHandler(this);
         this.configsHandler = new GameBaseConfigsHandler(this);
         this.md5Handler = new GameBaseMd5Handler(this);
+        this.oddsHandler = new GameBaseOddsHandler(this);
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
@@ -461,9 +465,19 @@ export default class GameBase extends GameViewBase {
         this.gameConfigs.odds && this.betItems.forEach((item) => item.setOdd(this.gameConfigs.odds[item.node.name]));
     }
 
+    public updateOdds(values) {
+        this.betItems.forEach((item) => item.setOdd(values[item.node.name]));
+    }
+
     setGameConfigs(gameConfigs: any) {
         this.gameConfigs = gameConfigs;
         this.updateDisplayForRemoteConfig();
+    }
+
+    setBoostedChoices(boostedChoices: any) {
+        if (boostedChoices) {
+            this.betItems.forEach((item) => item.highLightOdds(boostedChoices.includes(item.node.name)));
+        }
     }
 
     public updateDisplayForRemoteConfig() {

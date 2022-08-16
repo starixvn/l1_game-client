@@ -293,4 +293,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
             this.odds.string = `1:${this.gameConfigs.odds[this.choices[0]]}`;
         }
     }
+
+    public updateOdds(values) {
+        this.odds.string = `1:${values[this.choices[0]]}`;
+    }
+
+    setBoostedChoices(boostedChoices: any) {
+        if (boostedChoices?.includes(this.choices[0])) {
+            this.odds.node.color = cc.Color.CYAN;
+        } else this.odds.node.color = cc.Color.WHITE;
+    }
 }
