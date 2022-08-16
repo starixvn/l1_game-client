@@ -393,7 +393,7 @@ const data = {
         name_invalid: "Nama panggilan yang dimasukkan tidak valid, harap coba lagi.",
         category_all: "Semua permainan",
         category_sedie: "Se Die",
-        category_bigsmall: "Big Small",
+        category_bigsmall: "Besar Kecil",
         category_card: "Permainan kartu",
         category_slot: "Permainan Slot",
         category_lottery: "Lotre",

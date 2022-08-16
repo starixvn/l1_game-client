@@ -397,7 +397,7 @@ const data = {
         name_invalid: "Tên nhân vật không hợp lệ.",
         category_all: "Tất Cả",
         category_sedie: "Xóc Đĩa",
-        category_bigsmall: "Big Small",
+        category_bigsmall: "Tài Xỉu",
         category_card: "Game Bài",
         category_slot: "Slots",
         category_lottery: "Keno Lottery",

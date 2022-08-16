@@ -377,7 +377,7 @@ const data = {
         name_invalid: "輸入的暱稱無效，請重試。",
         category_all: "所有遊戲",
         category_sedie: "色碟",
-        category_bigsmall: "Big Small",
+        category_bigsmall: "大小",
         category_card: "紙牌遊戲",
         category_slot: "老虎機遊戲",
         category_lottery: "彩票",

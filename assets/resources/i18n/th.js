@@ -391,7 +391,7 @@ const data = {
         name_invalid: "กรอกชื่อเล่นไม่ถูกต้อง กรุณาลองกรอกใหม่อีกครั้ง",
         category_all: "เกมทั้งหมด",
         category_sedie: "Se Die (เขย่าหมาก)",
-        category_bigsmall: "Big Small",
+        category_bigsmall: "ใหญ่/เล็ก",
         category_card: "เกมไพ่",
         category_slot: "เกมสล็อต",
         category_lottery: "ล็อตเตอรี่",
