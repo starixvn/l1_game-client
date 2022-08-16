@@ -1,6 +1,7 @@
-const { ccclass, property } = cc._decorator;
+const { ccclass, property, menu } = cc._decorator;
 
 @ccclass
+@menu("StaticGroup/StaticNode")
 export default class StaticNode extends cc.Component {
     @property
     groupId = 0;
