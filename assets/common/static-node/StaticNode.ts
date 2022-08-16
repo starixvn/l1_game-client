@@ -7,11 +7,12 @@ export default class StaticNode extends cc.Component {
 
     originalParent: cc.Node;
     originalPosition: cc.Vec3;
+    initialized = false;
 
     init() {
+        this.initialized = true;
         this.originalParent = this.node.parent;
         this.originalPosition = this.node.position;
-        this.schedule(this.checkOriginalParentExists, 0.1, cc.macro.REPEAT_FOREVER);
         this.originalParent.on(cc.Node.EventType.POSITION_CHANGED, this.updatePosition, this);
     }
 
@@ -19,9 +20,15 @@ export default class StaticNode extends cc.Component {
         this.node.position = this.node.parent.convertToNodeSpaceAR(this.originalParent.convertToWorldSpaceAR(this.originalPosition));
     }
 
+    lateUpdate() {
+        if (!this.initialized) {
+            return;
+        }
+        this.checkOriginalParentExists();
+    }
+
     checkOriginalParentExists() {
         if (!this.originalParent || !this.originalParent.isValid) {
-            this.unschedule(this.checkOriginalParentExists);
             this.node.destroy();
         }
     }
