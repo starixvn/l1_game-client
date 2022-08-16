@@ -56,10 +56,21 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     public isMiniGameInContainer = true;
 
     protected scaleResultNode = 1;
+    config = new BigSmallConfigs();
+    miniRoundHistory: BigSmallMiniRoundHistory;
+    readonly shakingDuration = 2;
+    readonly showResultDuration = 1;
 
     constructor() {
         super();
         this.gameId = UnbalancedBigSmall1Id;
+    }
+
+    onDestroy() {
+        super.onDestroy();
+        this.bgTimer.stopAllActions();
+        this.thePlate.stopAllActions();
+        this.resultNode.stopAllActions();
     }
 
     setGameId(gameId: number) {
@@ -67,11 +78,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.config = unbalancedBigSmallConfigs[gameId];
         this.renderTableGame(gameId);
     }
-
-    config = new BigSmallConfigs();
-    miniRoundHistory: BigSmallMiniRoundHistory;
-    readonly shakingDuration = 2;
-    readonly showResultDuration = 1;
 
     initGameData() {
         super.initGameData();
