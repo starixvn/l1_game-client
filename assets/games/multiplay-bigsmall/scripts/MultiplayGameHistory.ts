@@ -14,8 +14,18 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
     @lazyInject(SocketIOController)
     private readonly socketIOController: SocketIOController;
 
-    onLoad() {
-        super.onLoad();
+    protected currentGameId: number;
+
+    onDestroy() {
+        this.clearSocket(this.currentGameId);
+        this.socket = null;
+    }
+
+    clearSocket(gameId: number) {
+        if (this.socket) {
+            const name = getGameName(gameId);
+            this.socket.off(name, this.receiveData);
+        }
     }
 
     updateSocketChanged(id) {
@@ -41,10 +51,12 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
     }
 
     handleSocketFromGame(gameId: number) {
+        this.clearSocket(this.currentGameId);
+        this.currentGameId = gameId;
         this.updateSocketChanged(gameId);
+        this.pagination.resetPageCurrent();
         const name = getGameName(gameId);
-        this.socket.off(name, this.receiveData).on(name, this.receiveData);
-        //this.socket.on(getGameName(gameId), this.receiveData);
+        this.socket.on(name, this.receiveData);
         this.get_data();
         this.setStyleActiveTab(gameId);
     }

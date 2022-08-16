@@ -267,9 +267,4 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             this.timeShowResult.active = show;
         }
     }
-
-    openGuide() {
-        this.gameId = 50;
-        super.openGuide();
-    }
 }
