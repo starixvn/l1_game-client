@@ -31,6 +31,12 @@ export default class MultiplayGame extends GameViewBase {
     @property(cc.Prefab)
     smallPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    subGamesArea: cc.Node = null;
+
+    @property(cc.Toggle)
+    collapsedExpandButton: cc.Toggle = null;
+
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
 
@@ -78,6 +84,8 @@ export default class MultiplayGame extends GameViewBase {
             this.initMultiplayLayout();
         }
         this.isGameOpened = true;
+        this.collapsedExpandButton.isChecked = true;
+        this.showSubGamesWithAnimation(false);
     }
 
     onDisable() {
@@ -227,5 +235,25 @@ export default class MultiplayGame extends GameViewBase {
     onCloseClick() {
         AudioManager.getInstance().playClick();
         this.node.active = false;
+    }
+
+    handleCompactMode() {
+        this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation() : this.hideSubGamesWithAnimation();
+    }
+
+    showSubGamesWithAnimation(isAnimated = true) {
+        if (isAnimated) {
+            cc.tween(this.subGamesArea).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
+        } else {
+            this.subGamesArea.scale = 1;
+        }
+    }
+
+    hideSubGamesWithAnimation(isAnimated = true) {
+        if (isAnimated) {
+            cc.tween(this.subGamesArea).to(0.2, { scale: 0 }, { easing: "sineIn" }).start();
+        } else {
+            this.subGamesArea.scale = 0;
+        }
     }
 }
