@@ -90,6 +90,7 @@ export class Durations extends EventEmitterBase {
         if (this.remaining > 1) {
             this.remaining = this.remaining - 1;
         } else {
+            this.remaining = 0;
             this.emit(Durations.Events.TIMEOUT);
         }
     }
