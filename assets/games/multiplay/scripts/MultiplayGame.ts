@@ -149,6 +149,7 @@ export default class MultiplayGame extends GameViewBase {
     addMainGameUI(gameId: number) {
         const child = this.mainContent.children[0];
         if (child) {
+            child.getComponent(MultiplayGameSingle)?.removeGameDataEvents();
             child.destroy();
         }
         this.mainContent.addChild(this.createMainGameUI(gameId));
@@ -172,6 +173,7 @@ export default class MultiplayGame extends GameViewBase {
         const content = this.subContents[location];
         const child = content.children[0];
         if (child) {
+            child.getComponent(MultiplayGameSingle)?.removeGameDataEvents();
             child.destroy();
         }
 
