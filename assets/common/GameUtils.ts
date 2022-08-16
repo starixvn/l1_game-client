@@ -347,6 +347,7 @@ export default class GameUtils {
     public static async copyToClipboard(data: string, hintLabel: cc.Label, callback): Promise<void> {
         try {
             await navigator.clipboard.writeText(data).then(() => {
+                hintLabel.string = i18n.t("messages.copy_success");
                 if (callback) {
                     callback();
                 }
