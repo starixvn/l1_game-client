@@ -173,8 +173,8 @@ export default class GameBase extends GameViewBase {
 
     onLoad() {
         super.onLoad();
-        this.boostedOddsHandler = BoostedOddsHandler.getInstance();
-        this.boostedOddsHandler.addDataObserver();
+     /*    this.boostedOddsHandler = BoostedOddsHandler.getInstance();
+        this.boostedOddsHandler.addDataObserver(); */
         this.setUpHandlers();
         this.initBetChips();
         this.initGameAudios();
@@ -207,8 +207,8 @@ export default class GameBase extends GameViewBase {
     joinGame() {
         this.startGame();
         this.registerViewGame();
-        this.boostedOddsHandler.removeDataObserver();
-        this.boostedOddsHandler.removeAllListeners();
+     /*    this.boostedOddsHandler.removeDataObserver();
+        this.boostedOddsHandler.removeAllListeners(); */
     }
 
     onEnable() {

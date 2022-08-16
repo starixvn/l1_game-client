@@ -94,9 +94,9 @@ export default class MainGame extends cc.Component {
         cc.RedT.MiniPanel = null;
         cc.RedT.inGame = null;
         window.isSSO = false;
-        const boostedOdds = BoostedOddsHandler.getInstance();
+/*         const boostedOdds = BoostedOddsHandler.getInstance();
         boostedOdds.removeDataObserver();
-        boostedOdds.removeAllListeners();
+        boostedOdds.removeAllListeners(); */
     }
 
     onLoad() {
@@ -116,7 +116,7 @@ export default class MainGame extends cc.Component {
 
         this.initScrollListener();
         this.initGameUIEvents();
-        this.initBoostedOddsEvents();
+        //this.initBoostedOddsEvents();
     }
 
     initGameUIEvents() {

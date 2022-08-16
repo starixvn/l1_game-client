@@ -38,7 +38,7 @@ export default class VipSedie extends Sedie {
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
         cc.RedT.inGame = null;
         this.socketIOController.closeSocket(this.gameId);
-        this.boostedOddsHandler.removeDataObserver();
-        this.boostedOddsHandler.removeAllListeners();
+        /*  this.boostedOddsHandler.removeDataObserver();
+        this.boostedOddsHandler.removeAllListeners(); */
     }
 }

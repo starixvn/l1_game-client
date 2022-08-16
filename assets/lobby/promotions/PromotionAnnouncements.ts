@@ -10,8 +10,7 @@ export default class PromotionAnnouncements extends cc.Component {
     @property(cc.Label)
     label: cc.Label = null;
 
-    @property
-    text: string = "hello";
+    text = "hello";
 
     showDialog() {
         if (this.commonDialog) {

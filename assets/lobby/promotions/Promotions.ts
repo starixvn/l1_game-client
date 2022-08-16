@@ -2,15 +2,18 @@ import NotificationService from "../../common/auth/NotificationService";
 
 const { ccclass, property } = cc._decorator;
 
+export const BoostedOddsEvent = {
+    SHOW_PROMOTION_ANNOUNCEMENT: "SHOW_PROMOTION_ANNOUNCEMENT"
+};
 @ccclass
 export default class Promotions extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    private readonly dataKey = "promotionaass";
-    public showBoostedOdds = false;
+    private readonly dataKey = "promotions";
+    public isShowBoostedOdds = true;
     protected boostedOddsInterval: any;
-    private readonly timeInterval = 300000;
+    private readonly timeInterval = 1000;
 
     onLoad(): void {
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
@@ -22,7 +25,7 @@ export default class Promotions extends cc.Component {
     }
 
     receivedData(data) {
-        if (data.length != 0 && !this.showBoostedOdds) {
+        if (data.length != 0 && this.isShowBoostedOdds) {
             console.log("boosted odds");
             this.handleBoostedOdds();
             this.setIntervalShowBoostedOdds();
@@ -30,16 +33,18 @@ export default class Promotions extends cc.Component {
     }
 
     handleBoostedOdds() {
-        this.showBoostedOdds = true;
+        this.isShowBoostedOdds = false;
         cc.tween(this.content).to(0.2, { opacity: 255 }).delay(5).to(0.1, { opacity: 0 }).start();
     }
 
     setIntervalShowBoostedOdds(): void {
         this.boostedOddsInterval && clearInterval(this.boostedOddsInterval);
         this.boostedOddsInterval = setInterval(() => {
-            this.showBoostedOdds = false;
+            this.isShowBoostedOdds = true;
         }, this.timeInterval);
     }
 
-    onClickBoostedOdds() {}
+    onClickBoostedOdds() {
+        this.node.emit(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT);
+    }
 }

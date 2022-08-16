@@ -71,7 +71,7 @@ export default class WebSocketTableGameBase extends GameBase {
         this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
         this.initMusicBackground();
-        this.registerBoostedOddsEvents();
+        //this.registerBoostedOddsEvents();
     }
 
     initMusicBackground() {

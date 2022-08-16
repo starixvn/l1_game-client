@@ -8,7 +8,7 @@ export const BoostedOddsEvent = {
 export class BoostedOddsHandler extends EventEmitterBase {
     private static instance: BoostedOddsHandler;
 
-    private readonly dataKey = "promotions";
+    private readonly dataKey = "promotionssfasf";
     public isShowBoostedOdds = true;
     protected boostedOddsInterval: any;
     private readonly timeInterval = 300000;
@@ -26,7 +26,6 @@ export class BoostedOddsHandler extends EventEmitterBase {
     }
 
     removeDataObserver() {
-        console.log("removeDataObserver");
         NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 

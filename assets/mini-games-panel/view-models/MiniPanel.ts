@@ -16,6 +16,8 @@ import NoticeUtil from "../../common/utils/NoticeUtil";
 import { getGameId, isMiniGame, isUsingRemoteBundle } from "../../configs/GameConfigurations";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import PromotionAnnouncements from "../../lobby/promotions/PromotionAnnouncements";
+import Promotions, { BoostedOddsEvent } from "../../lobby/promotions/Promotions";
 import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
@@ -61,8 +63,13 @@ export default class MiniPanel extends BaseComponent {
     @property(ScaleActiveController)
     activeController: ScaleActiveController = null;
 
+    @property(cc.Prefab)
+    announcementPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    announcementContainer: cc.Node = null;
+
     public popupMiniGame: PopupMinigames;
-    public promotions: Promotions;
     public loading: Loading;
     public dataHandlers: MiniPanelDataHandlers;
     public currentGameRoomId: number;
@@ -76,6 +83,8 @@ export default class MiniPanel extends BaseComponent {
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
     isOpenSS0 = false;
+    public promotions: Promotions;
+    public promotionAnnouncement: PromotionAnnouncements;
 
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
@@ -112,6 +121,7 @@ export default class MiniPanel extends BaseComponent {
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
 
         this.initPopUpMiniGames();
+        this.initPromotions();
 
         this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.miniGames.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
@@ -155,6 +165,15 @@ export default class MiniPanel extends BaseComponent {
                 gameMenu.miniPanel = this;
             }
             this.miniMenu.addChild(popUpMiniGameNode);
+        });
+    }
+
+    initPromotions() {
+        GameUtils.loadResource(`boosted-odds/BoostedOdds`).then((prefab) => {
+            const promotionsNode = cc.instantiate(prefab);
+            this.promotions = promotionsNode.getComponent(Promotions);
+            promotionsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
+            this.miniMenu.addChild(promotionsNode);
         });
     }
 
@@ -332,6 +351,12 @@ export default class MiniPanel extends BaseComponent {
                 }
             }
         );
+    }
+
+    showAnnouncement() {
+        const node = cc.instantiate(this.announcementPrefab);
+        this.promotionAnnouncement = node.getComponent(PromotionAnnouncements);
+        this.announcementContainer.addChild(node);
     }
 
     showErrorNotice(error): Notice {
