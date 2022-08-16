@@ -4,7 +4,7 @@ import {
     GameConfiguration,
     getGameConfiguration,
     getGameConfigurationsWithFilter,
-    getGameIdsWithFilter,
+    getGameIdsWithFilter
 } from "../../../configs/GameConfigurations";
 import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import { ICashSystem, ICreditSystem, System } from "../../../System";
@@ -20,7 +20,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     get categoryList() {
         return {
             seDieGames: this.getGameIdsByCategory("sedie"),
-            casinoGames: this.getGameIdsByCategory("casino"),
+            casinoGames: this.getGameIdsByCategory("bigsmall"),
             cardGames: this.getGameIdsByCategory("card"),
             slotGames: this.getGameIdsByCategory("slot"),
             lotteryGames: this.getGameIdsByCategory("lottery"),

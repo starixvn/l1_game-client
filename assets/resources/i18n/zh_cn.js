@@ -377,7 +377,7 @@ const data = {
         name_invalid: "输入的昵称无效，请重试。",
         category_all: "所有游戏",
         category_sedie: "色碟",
-        category_casino: "赌场",
+        category_bigsmall: "Big Small",
         category_card: "纸牌游戏",
         category_slot: "老虎机游戏",
         category_lottery: "彩票",
