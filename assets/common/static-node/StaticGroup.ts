@@ -19,6 +19,12 @@ export default class StaticGroup extends cc.Component {
 
     private initialized = false;
 
+    onLoad() {
+        this.node.parent.on(cc.Node.EventType.SCALE_CHANGED, () => {
+            this.container.getComponentsInChildren(StaticNode).forEach((node) => node.updatePosition());
+        });
+    }
+
     lateUpdate() {
         this.initForContents();
     }
