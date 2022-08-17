@@ -4,14 +4,7 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
-import {
-    changeBetPercentage,
-    placeBetFailed,
-    placeBetSuccess,
-    placeOwnChip,
-    updateOwnBets,
-    updateTotalBets,
-} from "../actions/BetAction";
+import { changeBetPercentage, placeBetFailed, placeBetSuccess, placeOwnChip, updateOwnBets, updateTotalBets } from "../actions/BetAction";
 import {
     changeGameRound,
     checkToOffUM,
@@ -23,7 +16,7 @@ import {
     handleRoundHistory,
     handleShowResult,
     handleShowStatus,
-    onUM,
+    onUM
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -34,7 +27,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -127,6 +120,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         //override to prevent delete socket
         this.sendRetryMessage();
         this.showProcessingWarning(false);
+        this.socketIOController.closeSocket(this.gameId);
         this.md5Component && this.md5Component.resetMd5();
     }
 

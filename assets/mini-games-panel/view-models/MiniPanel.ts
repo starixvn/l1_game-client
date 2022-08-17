@@ -24,6 +24,8 @@ import PopupMinigames from "./popup/PopupMinigames";
 
 type NewLayerCallback = () => void;
 
+export const MultiPlayGameIds = [50];
+
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniPanel extends BaseComponent {
@@ -373,9 +375,11 @@ export default class MiniPanel extends BaseComponent {
         }
         const handleCloseNotice = () => isGameRoom && this.redirectToLobby();
 
+        const customGameName = MultiPlayGameIds.includes(gameId) ? i18n.t(`lobbyNames.${gameId}`) : gameName;
+
         this.showNotice(
             {
-                text: i18n.t("messages.lostGameConnection", { gameName: gameName })
+                text: i18n.t("messages.lostGameConnection", { gameName: customGameName })
             } as NoticeData,
             handleCloseNotice,
             handleCloseNotice

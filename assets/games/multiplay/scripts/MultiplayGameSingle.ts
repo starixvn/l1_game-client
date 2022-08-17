@@ -5,6 +5,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MultiplayGameSingle extends MiniGameBase {
     protected override managedByContainer = true;
+    public onDisconnectCallback = () => {};
 
     maximizeCallback = (gameId: number) => {
         //callback
@@ -12,5 +13,10 @@ export default class MultiplayGameSingle extends MiniGameBase {
 
     onClickMaximize() {
         this.maximizeCallback(this.gameId);
+    }
+
+    onDisconnected() {
+        super.onDisconnected();
+        this.onDisconnectCallback && this.onDisconnectCallback();
     }
 }

@@ -167,10 +167,12 @@ export default class MultiplayGame extends GameViewBase {
 
     createMainGameUI(gameId: number) {
         const node = cc.instantiate(this.normallPrefab);
-
         const single = node.getComponent(MultiplayGameSingle);
         single.currentMiniPanel = this.currentMiniPanel;
         this.games[gameId] = single;
+        single.onDisconnectCallback = () => {
+            this.onCloseClick();
+        };
         return node;
     }
 
@@ -191,7 +193,6 @@ export default class MultiplayGame extends GameViewBase {
 
     createSubGameUI(gameId: number, location: number) {
         const node = cc.instantiate(this.smallPrefab);
-
         const single = node.getComponent(MultiplayGameSingle);
         single.maximizeCallback = (gameId) => this.switchGameToMain(gameId);
         single.currentMiniPanel = this.currentMiniPanel;

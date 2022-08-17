@@ -39,7 +39,6 @@ export default class SocketIOController {
         const proxyRoute = getProxyRoute(gameId);
 
         const option = {
-            gameId,
             socketUri,
             gameName,
             proxyRoute,
@@ -55,7 +54,6 @@ export default class SocketIOController {
     }
 
     connectGameSocket = (option: {
-        gameId: number;
         socketUri: string;
         gameName: string;
         proxyRoute: string;
@@ -68,7 +66,6 @@ export default class SocketIOController {
         gameId: any;
     }): Socket => {
         const {
-            gameId,
             socketUri,
             gameName,
             proxyRoute,
@@ -102,6 +99,8 @@ export default class SocketIOController {
 
         socket.on("connect", () => {
             onConnectCallback(socket);
+
+            this.assignSocket(gameId, socket);
         });
 
         socket.on("connect_error", (error) => {

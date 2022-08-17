@@ -85,7 +85,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
 
         if (currentSocket) {
-            this.openMiniGame(gameId);
+            currentSocket.connected ? this.openMiniGame(gameId) : currentSocket.connect();
         } else {
             const gameName = gameId === KenoMaxId ? GameUtils.getGameNameString(KenoProVietId) : GameUtils.getGameNameString(gameId);
             const socket = this.setUpSocketForGame(gameName, gameId, true, null);
@@ -123,7 +123,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         const socket = this.socketIOController.connectGameSocket(option);
 
         this.handleSocket(socket, gameId);
-        this.socketIOController.assignSocket(gameId, socket);
         return socket;
     }
 }
