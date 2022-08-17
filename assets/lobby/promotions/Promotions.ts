@@ -1,4 +1,5 @@
 import NotificationService from "../../common/auth/NotificationService";
+import PromotionAnnouncements from "./PromotionAnnouncements";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,6 +15,8 @@ export default class Promotions extends cc.Component {
     public isShowBoostedOdds = true;
     protected boostedOddsInterval: any;
     private readonly timeInterval = 1000;
+
+    public promoList: PromotionAnnouncements = null;
 
     onLoad(): void {
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
@@ -46,5 +49,6 @@ export default class Promotions extends cc.Component {
 
     onClickBoostedOdds() {
         this.node.emit(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT);
+        //this.promoList.setData();
     }
 }
