@@ -6,7 +6,7 @@ import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
 import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
-import { handlePlacingBet, handleShakeDish, handleSubGameWaitingTime, showBgTimer } from "./actions/CustomActions";
+import { handleBeginPlacingBet, handlePlacingBet, handleShakeDish, handleSubGameWaitingTime } from "./actions/CustomActions";
 import MultiplayGameHistory from "./MultiplayGameHistory";
 import { tableGameColor, UnbalancedBigSmall1Id, unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
 
@@ -107,7 +107,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     initGameDataEvents() {
         super.initGameDataEvents();
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
-        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, showBgTimer);
+        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, handleBeginPlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_STARTING_ROUND, handleShakeDish);
         this.emitterListener(this.gameData.durations, Durations.Events.CHANGE_REMAINING_TIME, handleSubGameWaitingTime);
     }

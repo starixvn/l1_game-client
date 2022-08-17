@@ -7,8 +7,9 @@ export const handlePlacingBet = (game: UnbalancedBigSmall) => () => {
     game.disableResultNode();
 };
 
-export const showBgTimer = (game: UnbalancedBigSmall) => () => {
+export const handleBeginPlacingBet = (game: UnbalancedBigSmall) => () => {
     cc.tween(game.bgTimer).to(0.3, { opacity: 255 }).start();
+    game.gameData.resultHash.updateUI();
 };
 
 export const handleShakeDish = (game: UnbalancedBigSmall) => () => {
