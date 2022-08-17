@@ -120,6 +120,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.gameState = GameState.Actived;
         this.socket.connect();
         this.joinGame();
+        this.gameData.updateUI();
     }
 
     onDisconnected() {
