@@ -8,19 +8,27 @@ export default class PromotionNotifications extends cc.Component {
     @property(cc.Label)
     count: cc.Label = null;
 
+    @property(cc.Prefab)
+    announcementPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    announcementContainer: cc.Node = null;
+
     private readonly dataKey = "promotionNotification";
 
     onLoad(): void {
-        this.node.on("click", this.onClickNotification, this);
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
-        const promotion = JSON.parse(cc.sys.localStorage.getItem(PromotionNotificationsStorageKey));
-        console.log("promotions", promotion);
-        this.count.string = promotion?.length > 0 ? promotion.length.toString() : "";
+        this.calculatePromotionNotifications();
+    }
+
+    calculatePromotionNotifications() {
+        const promotionNotifications = JSON.parse(cc.sys.localStorage.getItem(PromotionNotificationsStorageKey));
+        console.log("promotionNotifications", promotionNotifications);
+        this.count.string = promotionNotifications?.length > 0 ? promotionNotifications.length.toString() : "";
     }
 
     onDestroy() {
         NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
-        this.node.off("click", this.onClickNotification, this);
     }
 
     receivedData(data) {
@@ -30,5 +38,9 @@ export default class PromotionNotifications extends cc.Component {
         }
     }
 
-    onClickNotification() {}
+    onClickNotification() {
+        console.log("onClickNotification");
+        const node = cc.instantiate(this.announcementPrefab);
+        this.announcementContainer.addChild(node);
+    }
 }
