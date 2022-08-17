@@ -155,17 +155,22 @@ function handleFullScreen() {
     }
 
     if (userAgent.match(/android/i)) {
-        const fullButton = document.getElementById("buttonFullAndroid");
-        fullButton.style.display = "block";
-        window.onresize = () => {
-            const isFullScreen = screen.height - window.innerHeight < 1;
-            fullButton.style.display = isFullScreen || window.skipFullscreen ? "none" : "block";
+        if (!userAgent.includes("wv")) {
+            // if browser is not web view
+            const fullButton = document.getElementById("buttonFullAndroid");
+            fullButton.style.display = "block";
+            window.onresize = () => {
+                const isFullScreen = screen.height - window.innerHeight < 1;
+                fullButton.style.display = isFullScreen || window.skipFullscreen ? "none" : "block";
+                updateViewport();
+            };
+            fullButton.onclick = () => {
+                toggleFullScreen();
+                fullButton.style.display = "none";
+            };
+        } else {
             updateViewport();
-        };
-        fullButton.onclick = () => {
-            toggleFullScreen();
-            fullButton.style.display = "none";
-        };
+        }
     }
 }
 
