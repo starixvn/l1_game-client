@@ -274,5 +274,6 @@ export default class MiniGameBase extends NewMiniGameBase {
     clearData() {
         this.gameData.betModel.clearData();
         this.gameData.totalBets.clearData();
+        this.gameData.settlement.clearSettlement();
     }
 }
