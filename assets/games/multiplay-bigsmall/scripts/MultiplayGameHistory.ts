@@ -32,6 +32,12 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
         this.socket = this.socketIOController.getSocketGame(id);
     }
 
+    get_data(page = 1) {
+        this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
+        const name = getGameName(this.currentGameId);
+        this.socket && this.socket.on(name, this.receiveData);
+    }
+
     receiveData = (data) => {
         if (data.history) {
             this.onData(data.history);
@@ -55,8 +61,7 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
         this.currentGameId = gameId;
         this.updateSocketChanged(gameId);
         this.pagination.resetPageCurrent();
-        const name = getGameName(gameId);
-        this.socket.on(name, this.receiveData);
+
         this.get_data();
         this.setStyleActiveTab(gameId);
     }
