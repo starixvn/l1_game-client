@@ -33,7 +33,7 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
     }
 
     get_data(page = 1) {
-        this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
+        super.get_data(page);
         const name = getGameName(this.currentGameId);
         this.socket && this.socket.on(name, this.receiveData);
     }
