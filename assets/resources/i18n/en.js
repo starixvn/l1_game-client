@@ -411,7 +411,7 @@ const data = {
         upDownBetHistory: "Up / Down",
         evenUpBetHistory: "Even / Odd",
         statistic: "Statistic",
-        statistic_2: "Statistic",
+        statistic_2: "Statistics",
         place_bet2: "Place Bet",
         betChoice2_break: "Bet Choice",
         nickname_break: "Nickname",
