@@ -94,7 +94,7 @@ export default class MainGame extends cc.Component {
         cc.RedT.MiniPanel = null;
         cc.RedT.inGame = null;
         window.isSSO = false;
-/*         const boostedOdds = BoostedOddsHandler.getInstance();
+        /*         const boostedOdds = BoostedOddsHandler.getInstance();
         boostedOdds.removeDataObserver();
         boostedOdds.removeAllListeners(); */
     }
@@ -107,7 +107,7 @@ export default class MainGame extends cc.Component {
         this.initAppEvent();
 
         NotificationService.getInstance().connect();
-
+        NotificationService.getInstance().emitEvent("promotionNotifications", {});
         this.initMiniPanel();
 
         this.callTriggerSignIn();

@@ -18,13 +18,6 @@ export default class PromotionNotifications extends cc.Component {
 
     onLoad(): void {
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
-        this.calculatePromotionNotifications();
-    }
-
-    calculatePromotionNotifications() {
-        const promotionNotifications = JSON.parse(cc.sys.localStorage.getItem(PromotionNotificationsStorageKey));
-        console.log("promotionNotifications", promotionNotifications);
-        this.count.string = promotionNotifications?.length > 0 ? promotionNotifications.length.toString() : "";
     }
 
     onDestroy() {
