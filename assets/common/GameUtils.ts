@@ -311,6 +311,13 @@ export default class GameUtils {
         return i18n.t(`gameNames.${gameId}`);
     }
 
+    public static getLobbyNamesNameString(gameId): string {
+        if (!gameId) {
+            return "";
+        }
+        return i18n.t(`lobbyNames.${gameId}`);
+    }
+
     public static getValueByCurrency(value: number, otherRate?: number): number {
         if (!otherRate) {
             otherRate = 1;
