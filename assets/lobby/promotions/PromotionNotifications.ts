@@ -14,7 +14,7 @@ export default class PromotionNotifications extends cc.Component {
     @property(cc.Node)
     announcementContainer: cc.Node = null;
 
-    private readonly dataKey = "promotionNotification";
+    private readonly dataKey = "promotionNotifications";
 
     onLoad(): void {
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));

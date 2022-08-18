@@ -65,7 +65,7 @@ export default class NotificationService {
             "reload",
             "auth",
             "promotions",
-            "promotionNotification"
+            "promotionNotifications"
         ];
 
         messageList.forEach((message) => {

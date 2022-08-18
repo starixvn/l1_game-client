@@ -12,9 +12,6 @@ export default class Promotions extends cc.Component {
     content: cc.Node = null;
 
     private readonly dataKey = "promotions";
-    public isShowBoostedOdds = true;
-    protected boostedOddsInterval: any;
-    private readonly timeInterval = 300000;
 
     public promoList: PromotionAnnouncements = null;
 
@@ -24,27 +21,17 @@ export default class Promotions extends cc.Component {
 
     onDestroy() {
         NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
-        this.boostedOddsInterval && clearInterval(this.boostedOddsInterval);
     }
 
     receivedData(data) {
-        if (data.length != 0 && this.isShowBoostedOdds) {
+        if (data.length != 0) {
             console.log("boosted odds");
             this.handleBoostedOdds();
-            this.setIntervalShowBoostedOdds();
         }
     }
 
     handleBoostedOdds() {
-        this.isShowBoostedOdds = false;
         cc.tween(this.content).to(0.2, { opacity: 255 }).delay(5).to(0.1, { opacity: 0 }).start();
-    }
-
-    setIntervalShowBoostedOdds(): void {
-        this.boostedOddsInterval && clearInterval(this.boostedOddsInterval);
-        this.boostedOddsInterval = setInterval(() => {
-            this.isShowBoostedOdds = true;
-        }, this.timeInterval);
     }
 
     onClickBoostedOdds() {
