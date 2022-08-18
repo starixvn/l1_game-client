@@ -15,10 +15,21 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
     private readonly socketIOController: SocketIOController;
 
     protected currentGameId: number;
+    private isReceiveData = false;
+
+    onLoad() {
+        super.onLoad();
+        cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
+    }
+
+    onGameShow() {
+        this.isReceiveData = false;
+    }
 
     onDestroy() {
         this.clearSocket(this.currentGameId);
         this.socket = null;
+        this.isReceiveData = false;
     }
 
     clearSocket(gameId: number) {
@@ -28,19 +39,24 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
         }
     }
 
+    onEnable() {
+        super.onEnable();
+        this.isReceiveData = true;
+    }
+
     updateSocketChanged(id) {
         this.socket = this.socketIOController.getSocketGame(id);
     }
 
     get_data(page = 1) {
         super.get_data(page);
-        const name = getGameName(this.currentGameId);
-        this.socket && this.socket.on(name, this.receiveData);
+        !this.isReceiveData && this.onReceiveData();
     }
 
     receiveData = (data) => {
         if (data.history) {
             this.onData(data.history);
+            this.isReceiveData = true;
         }
     };
 
@@ -61,7 +77,7 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
         this.currentGameId = gameId;
         this.updateSocketChanged(gameId);
         this.pagination.resetPageCurrent();
-
+        this.onReceiveData();
         this.get_data();
         this.setStyleActiveTab(gameId);
     }
@@ -79,5 +95,10 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
                 subChildren[1].getComponent(cc.Label).fontSize = 16;
             }
         });
+    }
+
+    onReceiveData() {
+        const name = getGameName(this.currentGameId);
+        this.socket && this.socket.on(name, this.receiveData);
     }
 }

@@ -5,7 +5,6 @@ import { getSession } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
-import { KenoMaxId, KenoProVietId } from "../../games/mini-keno/view-models/KenoUtils";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
