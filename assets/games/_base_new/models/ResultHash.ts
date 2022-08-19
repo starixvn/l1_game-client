@@ -9,7 +9,7 @@ export class ResultHash extends EventEmitterBase {
 
     change(resultHash: any) {
         this.hash = resultHash;
-        //this.emit(ResultHash.Events.CHANGE, this.hash);
+        this.emit(ResultHash.Events.CHANGE, this.hash);
     }
 
     changeLater(resultHash: any) {

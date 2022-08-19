@@ -4,19 +4,26 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
-import { changeBetPercentage, placeBetFailed, placeBetSuccess, placeOwnChip, updateOwnBets, updateTotalBets } from "../actions/BetAction";
+import {
+    changeBetPercentage,
+    placeBetFailed,
+    placeBetSuccess,
+    placeOwnChip,
+    updateOwnBets,
+    updateTotalBets,
+} from "../actions/BetAction";
 import {
     changeGameRound,
     checkToOffUM,
     handleAfterSettlementResult,
     handleFirstLoadRoundHistory,
     handleGameConfigs,
-    handleMD5Data,
     handleNotice,
     handleRoundHistory,
     handleShowResult,
     handleShowStatus,
-    onUM
+    onUM,
+    updateMD5String,
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -27,7 +34,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting
+    updateWaiting,
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -204,7 +211,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, handleRoundHistory);
 
         this.emitterListener(this.gameData, NewGameData.Events.CHANGE_ROUND_ID, changeGameRound);
-        this.emitterListener(this.gameData.resultHash, ResultHash.Events.CHANGE, handleMD5Data);
+        this.emitterListener(this.gameData.resultHash, ResultHash.Events.CHANGE, updateMD5String);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_STATUS, handleShowStatus);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);

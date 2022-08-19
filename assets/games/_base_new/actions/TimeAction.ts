@@ -7,7 +7,6 @@ export const startGameLoop = (game: MiniGameBase) => () => {
     const gameLoop = () => gameData.durations.countdown();
     GameDataManager.getInstance().clearGameLoop(game.gameId);
     GameDataManager.getInstance().startGameLoop(game.gameId, gameLoop);
-    game.gameData.resultHash.updateUI();
 };
 
 export const stopGameLoop = (game: MiniGameBase) => () => {
