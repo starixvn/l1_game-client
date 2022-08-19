@@ -34,9 +34,4 @@ export class Settlement extends EventEmitterBase {
     clearSettlement() {
         this.settlement = null;
     }
-
-    updateUI() {
-        this.status && this.emit(Settlement.Events.SHOW_STATUS, this.status);
-        this.settlement && this.emit(Settlement.Events.SHOW_RESULT, this.settlement);
-    }
 }
