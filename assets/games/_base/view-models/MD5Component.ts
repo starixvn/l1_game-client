@@ -72,10 +72,12 @@ export default class MD5Component extends cc.Component {
     }
 
     handleMD5Data(data: MD5Type) {
-        this.setCaptionAndHintForMD5(!!data?.rawValue);
-        this.generateMD5Result(data);
-        this.setCopyString(data?.hashValue || data?.rawValue);
-        this.handleTooltip(data);
+        if (this.node && this.node.isValid) {
+            this.setCaptionAndHintForMD5(!!data?.rawValue);
+            this.generateMD5Result(data);
+            this.setCopyString(data?.hashValue || data?.rawValue);
+            this.handleTooltip(data);
+        }
     }
 
     generateMD5Result(data: MD5Type) {

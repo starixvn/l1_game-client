@@ -147,10 +147,12 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         if (this.isOnUM) {
             return;
         }
-        this.showWinChoiceAndUpdateHistory(settlement);
-        this.highlightAndPayout(settlement);
-        if (!animated) {
-            this.showDicesAndPlates();
+        if (!!settlement) {
+            this.showWinChoiceAndUpdateHistory(settlement);
+            this.highlightAndPayout(settlement);
+            if (!animated) {
+                this.showDicesAndPlates();
+            }
         }
     }
 
