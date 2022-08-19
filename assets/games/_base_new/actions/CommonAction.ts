@@ -4,7 +4,6 @@ import NoticeUtil from "../../../common/utils/NoticeUtil";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MiniGameBase from "../view-models/MiniGameBase";
 import { showCurrentRoundId, showLastRoundId } from "./TimeAction";
-import { GameState } from "../../_base/GameState";
 
 export const onUM = (game: MiniGameBase) => (data) => {
     if (game.checkShowUmMessage(data)) {
@@ -17,7 +16,7 @@ export const checkToOffUM = (game: MiniGameBase) => (data) => {
     if (game.checkHideUmMessage(data)) {
         game.gameData.umModel.clearUM();
         game.hideUmMessage();
-        game.gameState = GameState.Started;
+        game.startGame();
     }
 };
 
