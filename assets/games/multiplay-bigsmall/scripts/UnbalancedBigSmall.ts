@@ -1,5 +1,6 @@
 import { i18n } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
+import { GameState } from "../../_base/GameState";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
@@ -60,6 +61,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     miniRoundHistory: BigSmallMiniRoundHistory;
     readonly shakingDuration = 2;
     readonly showResultDuration = 1;
+    public isOnUM = false;
 
     constructor() {
         super();
@@ -142,6 +144,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
+        if (this.isOnUM) {
+            return;
+        }
         this.showWinChoiceAndUpdateHistory(settlement);
         this.highlightAndPayout(settlement);
         if (!animated) {
@@ -240,6 +245,13 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         super.resetDataAndUI();
         this.resetThePlate();
         this.disableResultNode();
+    }
+
+    disableGame() {
+        this.gameState = GameState.Disabled;
+        this.isOnUM = true;
+        this.gameData.durations.stop();
+        this.resetDataAndUI();
     }
 
     disableResultNode() {
