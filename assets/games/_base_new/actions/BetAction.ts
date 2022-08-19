@@ -1,6 +1,9 @@
 import MiniGameBase from "../view-models/MiniGameBase";
 
 export const updateTotalBets = (gameBase: MiniGameBase) => (data) => {
+    if (gameBase.isDisableGame) {
+        return;
+    }
     gameBase.betItems.forEach((item) => item.setTotalBetsData(data));
 };
 

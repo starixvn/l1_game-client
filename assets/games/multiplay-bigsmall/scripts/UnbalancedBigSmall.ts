@@ -256,6 +256,10 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.isOnUM = true;
         this.gameData.durations.stop();
         this.resetDataAndUI();
+        this.betItems.forEach((betItem) => {
+            betItem.totalBet.string = "0";
+            betItem.ownBet.string = "0";
+        });
     }
 
     disableResultNode() {
