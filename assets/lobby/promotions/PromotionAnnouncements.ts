@@ -1,5 +1,6 @@
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
-import PromotionAnnouncementItem from "./PromotionAnnouncementItem";
+import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import PromotionAnnouncementItem, { PromotionAnnouncementItemEvent } from "./PromotionAnnouncementItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,6 +21,8 @@ export default class PromotionAnnouncements extends cc.Component {
     @property(CommonDialog)
     dialog: CommonDialog = null;
 
+    public miniPanel: MiniPanel;
+
     onToggleClick() {
         this.promotionBoard.active = !this.promotionBoard.active;
         this.termConditionBoard.active = !this.termConditionBoard.active;
@@ -36,7 +39,11 @@ export default class PromotionAnnouncements extends cc.Component {
             const node = cc.instantiate(this.promoItemPrefab);
             this.content.addChild(node);
             const item = node.getComponent(PromotionAnnouncementItem);
-            item.setData(detail);
+            if (item) {
+                item.miniPanel = this.miniPanel || cc.RedT.MiniPanel;
+            }
+            item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
+            item.setData(detail, this.miniPanel);
         });
     }
 }

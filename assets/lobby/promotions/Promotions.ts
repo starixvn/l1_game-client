@@ -1,41 +1,47 @@
 import NotificationService from "../../common/auth/NotificationService";
-import PromotionAnnouncements from "./PromotionAnnouncements";
+import EventEmitterBase from "../../common/emitter/EventEmitterBase";
 
-const { ccclass, property } = cc._decorator;
-
-export const BoostedOddsEvent = {
-    SHOW_PROMOTION_ANNOUNCEMENT: "SHOW_PROMOTION_ANNOUNCEMENT"
+export const PromotionsEvent = {
+    SHOW_BOOSTED_ODDS: "SHOW_BOOSTED_ODDS"
 };
-@ccclass
-export default class Promotions extends cc.Component {
-    @property(cc.Node)
-    content: cc.Node = null;
+
+export class Promotions extends EventEmitterBase {
+    private static instance: Promotions;
 
     private readonly dataKey = "promotions";
+    public isShowBoostedOdds = true;
+    protected boostedOddsInterval: any;
+    private readonly timeInterval = 120000;
 
-    public promoList: PromotionAnnouncements = null;
+    public static getInstance(): Promotions {
+        if (!this.instance) {
+            this.instance = new Promotions();
+        }
 
-    onLoad(): void {
+        return this.instance;
+    }
+
+    addDataObserver() {
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
     }
 
-    onDestroy() {
+    removeDataObserver() {
         NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
     receivedData(data) {
-        if (data.length != 0) {
-            console.log("boosted odds");
-            this.handleBoostedOdds();
+        if (data.length != 0 && this.isShowBoostedOdds) {
+            console.log("BoostedOddsEvent");
+            this.emit(PromotionsEvent.SHOW_BOOSTED_ODDS);
+            this.isShowBoostedOdds = false;
+            this.setIntervalShowBoostedOdds();
         }
     }
 
-    handleBoostedOdds() {
-        cc.tween(this.content).to(0.2, { opacity: 255 }).delay(5).to(0.1, { opacity: 0 }).start();
-    }
-
-    onClickBoostedOdds() {
-        this.node.emit(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT);
-        //this.promoList.setData();
+    setIntervalShowBoostedOdds(): void {
+        this.boostedOddsInterval && clearInterval(this.boostedOddsInterval);
+        this.boostedOddsInterval = setInterval(() => {
+            this.isShowBoostedOdds = true;
+        }, this.timeInterval);
     }
 }

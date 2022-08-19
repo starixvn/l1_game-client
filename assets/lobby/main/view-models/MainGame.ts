@@ -24,7 +24,7 @@ import CategoryItem from "./CategoryItem";
 import GameUIManager from "./GameUIManager";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import { BoostedOddsEvent, BoostedOddsHandler } from "../../promotions/BoostedOddsHandler";
+import { Promotions } from "../../promotions/Promotions";
 
 const socketIOController = appContainer.get(SocketIOController);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -79,9 +79,6 @@ export default class MainGame extends cc.Component {
     @property(cc.Prefab)
     signNamePrefab = null;
 
-    @property(cc.Node)
-    boostedOdds: cc.Node = null;
-
     private inRoomGameId: string;
     private initializedLobby = false;
     private luckyWheelIcon: LuckyWheelIcon;
@@ -94,9 +91,6 @@ export default class MainGame extends cc.Component {
         cc.RedT.MiniPanel = null;
         cc.RedT.inGame = null;
         window.isSSO = false;
-        /*         const boostedOdds = BoostedOddsHandler.getInstance();
-        boostedOdds.removeDataObserver();
-        boostedOdds.removeAllListeners(); */
     }
 
     onLoad() {
@@ -116,7 +110,7 @@ export default class MainGame extends cc.Component {
 
         this.initScrollListener();
         this.initGameUIEvents();
-        //this.initBoostedOddsEvents();
+        this.initPromotions();
     }
 
     initGameUIEvents() {
@@ -128,11 +122,8 @@ export default class MainGame extends cc.Component {
         manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby());
     }
 
-    initBoostedOddsEvents() {
-        const boostedOdds = BoostedOddsHandler.getInstance();
-        boostedOdds.addDataObserver();
-        GameUtils.getBoostedOdds(this.boostedOdds);
-        boostedOdds.on(BoostedOddsEvent.SHOW_BOOSTED_ODDS, () => GameUtils.showBoostedOdds(this.boostedOdds));
+    initPromotions() {
+        Promotions.getInstance().addDataObserver();
     }
 
     removeGame() {

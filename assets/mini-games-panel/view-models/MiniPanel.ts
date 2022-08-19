@@ -16,8 +16,9 @@ import NoticeUtil from "../../common/utils/NoticeUtil";
 import { getGameId, isMiniGame, isUsingRemoteBundle } from "../../configs/GameConfigurations";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import BoostedOdds, { BoostedOddsEvent } from "../../lobby/promotions/BoostedOdds";
 import PromotionAnnouncements from "../../lobby/promotions/PromotionAnnouncements";
-import Promotions, { BoostedOddsEvent } from "../../lobby/promotions/Promotions";
+import { Promotions, PromotionsEvent } from "../../lobby/promotions/Promotions";
 import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
@@ -83,7 +84,8 @@ export default class MiniPanel extends BaseComponent {
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
     isOpenSS0 = false;
-    public promotions: Promotions;
+    public promotions: Promotions; 
+    public promotions: BoostedOdds;
     public promotionAnnouncement: PromotionAnnouncements;
 
     @lazyInject(SocketIOController)
@@ -119,9 +121,8 @@ export default class MiniPanel extends BaseComponent {
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
-
         this.initPopUpMiniGames();
-        this.initPromotions();
+        this.initBoostedOdds();
 
         this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.miniGames.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
@@ -168,11 +169,12 @@ export default class MiniPanel extends BaseComponent {
         });
     }
 
-    initPromotions() {
+    initBoostedOdds() {
         GameUtils.loadResource(`boosted-odds/BoostedOdds`).then((prefab) => {
             const promotionsNode = cc.instantiate(prefab);
-            this.promotions = promotionsNode.getComponent(Promotions);
+            this.promotions = promotionsNode.getComponent(BoostedOdds);
             promotionsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
+            Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.promotions?.handleBoostedOdds());
             this.miniMenu.addChild(promotionsNode);
         });
     }
@@ -356,6 +358,9 @@ export default class MiniPanel extends BaseComponent {
     showAnnouncement() {
         const node = cc.instantiate(this.announcementPrefab);
         this.promotionAnnouncement = node.getComponent(PromotionAnnouncements);
+        if (this.promotionAnnouncement) {
+            this.promotionAnnouncement.miniPanel = this;
+        }
         this.announcementContainer.addChild(node);
     }
 

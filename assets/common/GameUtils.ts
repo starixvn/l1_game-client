@@ -480,19 +480,4 @@ export default class GameUtils {
         const gameConfiguration = getGameConfiguration(gameId);
         return !!gameConfiguration.mini;
     }
-
-    public static getBoostedOdds(boostedOdds: cc.Node) {
-        GameUtils.loadResource(`boosted-odds/BoostedOdds`).then((prefab) => {
-            const promotionsNode = cc.instantiate(prefab);
-            boostedOdds?.addChild(promotionsNode);
-        });
-    }
-
-    public static showBoostedOdds(boostedOdds: cc.Node) {
-        if (!boostedOdds) {
-            return;
-        }
-        cc.tween(boostedOdds).to(0.2, { opacity: 255 }).delay(5).to(0.1, { opacity: 0 }).start();
-        console.log("boostedOdds", boostedOdds);
-    }
 }
