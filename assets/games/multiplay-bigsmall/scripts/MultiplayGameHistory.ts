@@ -30,6 +30,7 @@ export default class MultiplayGameHistory extends SocketIOGameHistoryBase {
         this.clearSocket(this.currentGameId);
         this.socket = null;
         this.isReceiveData = false;
+        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
     clearSocket(gameId: number) {
