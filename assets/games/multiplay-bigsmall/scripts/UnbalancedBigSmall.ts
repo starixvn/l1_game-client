@@ -61,7 +61,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     miniRoundHistory: BigSmallMiniRoundHistory;
     readonly shakingDuration = 2;
     readonly showResultDuration = 1;
-    public isOnUM = false;
 
     constructor() {
         super();
@@ -144,9 +143,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
-        if (this.isOnUM) {
-            return;
-        }
         if (!!settlement) {
             this.showWinChoiceAndUpdateHistory(settlement);
             this.highlightAndPayout(settlement);
@@ -253,7 +249,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     disableGame() {
         this.gameState = GameState.Disabled;
-        this.isOnUM = true;
         this.gameData.durations.stop();
         this.resetDataAndUI();
         this.betItems.forEach((betItem) => {

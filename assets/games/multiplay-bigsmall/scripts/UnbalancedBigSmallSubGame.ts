@@ -11,9 +11,6 @@ export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
     }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
-        if (this.isOnUM) {
-            return;
-        }
         this.showWinChoiceAndUpdateHistory(settlement);
 
         const doLater = () => {

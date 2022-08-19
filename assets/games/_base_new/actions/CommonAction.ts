@@ -83,11 +83,17 @@ export const handleShowStatus = (game: MiniGameBase) => (status) => {
     game.gameData.settlement.clearStatus();
 };
 export const handleShowResult = (game: MiniGameBase) => (settlement) => {
+    if (game.isDisableGame) {
+        return;
+    }
     game.showSettlementResult(settlement);
     game.gameData.roundHistory.add(settlement);
 };
 export const handleAfterSettlementResult =
     (game: MiniGameBase) =>
     ({ settlement, animated }) => {
+        if (game.isDisableGame) {
+            return;
+        }
         game.handleAfterSettlementResult(settlement, animated);
     };
