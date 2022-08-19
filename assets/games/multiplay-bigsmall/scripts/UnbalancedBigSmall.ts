@@ -162,7 +162,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.updateRoundHistory();
         this.showWinningAnimation(this.currentDataLogs[0]);
         this.gameData.resultHash.updateUI();
-        if (settlement.result && settlement.settlementResult) {
+        if (settlement?.result && settlement?.settlementResult) {
             this.setDices(settlement.result, settlement.settlementResult);
         }
     }
