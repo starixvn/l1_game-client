@@ -33,7 +33,6 @@ export default class PromotionNotifications extends cc.Component {
     }
 
     onClickNotification() {
-        console.log("onClickNotification");
         const node = cc.instantiate(this.announcementPrefab);
         this.announcementContainer.addChild(node);
     }

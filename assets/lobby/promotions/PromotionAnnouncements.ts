@@ -33,21 +33,20 @@ export default class PromotionAnnouncements extends cc.Component {
     public miniPanel: MiniPanel;
 
     onPromotionClick() {
-        this.promotionBoard.active = true;
-        this.termConditionBoard.active = false;
-        this.promoHeader.node.color = cc.color(254, 246, 0);
-        this.termHeader.node.color = cc.Color.WHITE;
-        this.promoHeader.node.getComponent(cc.LabelShadow).enabled = true;
-        this.termHeader.node.getComponent(cc.LabelShadow).enabled = false;
+        this.onPromotionTab(true);
     }
 
     onTermClick() {
-        this.promotionBoard.active = false;
-        this.termConditionBoard.active = true;
-        this.termHeader.node.color = cc.color(254, 246, 0);
-        this.promoHeader.node.color = cc.Color.WHITE;
-        this.promoHeader.node.getComponent(cc.LabelShadow).enabled = false;
-        this.termHeader.node.getComponent(cc.LabelShadow).enabled = true;
+        this.onPromotionTab(false);
+    }
+
+    onPromotionTab(enabled: boolean) {
+        this.termHeader.node.color = enabled ? cc.Color.WHITE : cc.color(254, 246, 0);
+        this.promoHeader.node.color = enabled ? cc.color(254, 246, 0) : cc.Color.WHITE;
+        this.promotionBoard.active = enabled;
+        this.termConditionBoard.active = !enabled;
+        this.promoHeader.node.getComponent(cc.LabelShadow).enabled = enabled;
+        this.termHeader.node.getComponent(cc.LabelShadow).enabled = !enabled;
     }
 
     onLoad(): void {
@@ -67,7 +66,7 @@ export default class PromotionAnnouncements extends cc.Component {
                 item.miniPanel = this.miniPanel || cc.RedT.MiniPanel;
             }
             item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
-            item.setData(detail, this.miniPanel);
+            item.setData(detail);
         });
     }
 }
