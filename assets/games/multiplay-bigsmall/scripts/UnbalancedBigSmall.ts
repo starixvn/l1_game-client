@@ -1,6 +1,5 @@
 import { i18n } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
-import { GameState } from "../../_base/GameState";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
@@ -248,13 +247,8 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     disableGame() {
-        this.gameState = GameState.Disabled;
+        super.disableGame();
         this.gameData.durations.stop();
-        this.resetDataAndUI();
-        this.betItems.forEach((betItem) => {
-            betItem.totalBet.string = "0";
-            betItem.ownBet.string = "0";
-        });
     }
 
     disableResultNode() {
