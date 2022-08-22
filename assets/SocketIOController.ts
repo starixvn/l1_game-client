@@ -98,9 +98,8 @@ export default class SocketIOController {
         }
 
         socket.on("connect", () => {
-            onConnectCallback(socket);
-
             this.assignSocket(gameId, socket);
+            onConnectCallback(socket);
         });
 
         socket.on("connect_error", (error) => {
