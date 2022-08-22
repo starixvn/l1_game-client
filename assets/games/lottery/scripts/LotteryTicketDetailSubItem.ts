@@ -1,5 +1,3 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-
 const { ccclass, property } = cc._decorator;
 
 interface Data {
@@ -38,7 +36,7 @@ export default class LotteryTicketDetailSubItem extends cc.Component {
         this.choice.string = data.choice;
         this.ratio.string = data.ratio;
         this.bet.string = data.bet;
-        this.win.string = numberWithCommas(data.win, 2);
+        this.win.string = data.win;
     }
 
     setHighlight(highlight: boolean) {
