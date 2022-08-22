@@ -8,19 +8,18 @@ import { getProxyRoute } from "./common/helpers/UrlHelper";
 import { sentryLogger } from "./common/logger.js";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
 import { getGameConfiguration } from "./configs/GameConfigurations";
-import {
-    UnbalancedBigSmall1Id,
-    UnbalancedBigSmall2Id,
-    UnbalancedBigSmall3Id,
-    UnbalancedBigSmall4Id,
-} from "./games/multiplay-bigsmall/scripts/UnbalancedBigSmallConfig";
 import MiniPanel from "./mini-games-panel/view-models/MiniPanel";
 
 @injectable()
 export default class SocketIOController {
     private gameSockets = {};
 
-    protected readonly multiplayGames = [UnbalancedBigSmall1Id, UnbalancedBigSmall2Id, UnbalancedBigSmall3Id, UnbalancedBigSmall4Id];
+    protected readonly multiplayGames = [
+        50,
+        51,
+        54,
+        55 // UnbalancedBigSmall
+    ];
 
     getSocketGame(gameId: number) {
         return this.gameSockets[gameId.toString()];
