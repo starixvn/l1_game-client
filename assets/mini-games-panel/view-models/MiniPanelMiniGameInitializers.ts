@@ -63,6 +63,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                 gameComponent.openGame();
                 GameUIManager.getInstance().emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
             } catch (error) {
+                console.error(error);
                 this.main.loading.node.active = false;
                 this.main.onForceReload();
             }
