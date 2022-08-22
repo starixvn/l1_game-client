@@ -54,7 +54,7 @@ export default class SocketIOController {
     }
 
     isMultiplayGame(gameId: number): boolean {
-        return this.multiplayGames.includes(gameId);
+        return this.multiplayGames.includes(+gameId);
     }
 
     connectGameSocket = (option: {
