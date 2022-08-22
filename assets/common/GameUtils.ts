@@ -6,6 +6,7 @@ import GameUIManager from "../lobby/main/view-models/GameUIManager";
 import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
+import { String } from "../../packages/i18n/runtime-scripts/creator";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 
@@ -311,11 +312,22 @@ export default class GameUtils {
         return i18n.t(`gameNames.${gameId}`);
     }
 
-    public static getLobbyNamesNameString(gameId): string {
-        if (!gameId) {
-            return "";
+    public static async getGameNameWithBundleManager(gameId): Promise<string> {
+        const lobbyGameNameKey = `lobbyNames.${gameId}`;
+        const gameNameKey = `gameNames.${gameId}`;
+        let gameName = i18n.t(lobbyGameNameKey);
+
+        if (gameName === lobbyGameNameKey) {
+            gameName = i18n.t(gameNameKey);
         }
-        return i18n.t(`lobbyNames.${gameId}`);
+
+        if (gameName === gameNameKey) {
+            await BundleManager.getInstance().loadBundle(gameId.toString());
+
+            gameName = i18n.t(gameNameKey);
+        }
+
+        return gameName;
     }
 
     public static getValueByCurrency(value: number, otherRate?: number): number {

@@ -8,8 +8,6 @@ import { getGameConfiguration } from "../../configs/GameConfigurations";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
-export const MultiPlayGameIds = [50];
-
 export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInitializers {
     showGame(node: cc.Node) {
         if (node) {
@@ -82,16 +80,13 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         this.openMiniGame(parseInt(id));
     }
 
-    openNewSocket(gameId) {
+    async openNewSocket(gameId) {
         const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
 
         if (currentSocket) {
             currentSocket.connected ? this.openMiniGame(gameId) : currentSocket.connect();
         } else {
-            const gameName = MultiPlayGameIds.includes(gameId)
-                ? GameUtils.getLobbyNamesNameString(gameId)
-                : GameUtils.getGameNameString(gameId);
-
+            const gameName = await GameUtils.getGameNameWithBundleManager(gameId);
             const socket = this.setUpSocketForGame(gameName, gameId, true, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {
