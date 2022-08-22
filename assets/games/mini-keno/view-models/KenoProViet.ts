@@ -14,7 +14,7 @@ import KenoStatusBanner from "./components/KenoStatusBanner";
 import MiniKenoGuide from "./components/MiniKenoGuide";
 import MiniKenoHistory from "./components/MiniKenoHistory";
 import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
-import KenoUtils, { KenoMaxId, KenoType, MegaKenoId } from "./KenoUtils";
+import KenoUtils, { KenoType, MegaKenoId } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -94,13 +94,13 @@ export default class KenoProViet extends GameViewBase {
 
     assignSocketForGameDefault() {
         const defaultGameId = MegaKenoId;
-        const kenoProVietSocket = this.socketIOController.getSocketGame(KenoMaxId);
+        const kenoProVietSocket = this.socketIOController.getSocketGame(defaultGameId);
         this.socketIOController.assignSocket(defaultGameId, kenoProVietSocket);
     }
 
     private setUpSocketAllKeno(list: any[]) {
         this.assignSocketForGameDefault();
-        const alternativeName = GameUtils.getGameNameString(KenoMaxId);
+        const alternativeName = GameUtils.getGameNameString(MegaKenoId);
         list.forEach((type, index) => {
             const gameId = KenoUtils.getKenoGameId(type);
             const socket = this.socketIOController.getSocketGame(gameId);
@@ -285,7 +285,7 @@ export default class KenoProViet extends GameViewBase {
             const gameId = KenoUtils.getKenoGameId(type);
             this.socketIOController.closeSocket(gameId);
         });
-        this.socketIOController.closeSocket(KenoMaxId);
+        this.socketIOController.closeSocket(MegaKenoId);
         this.closeGuideAndHistory();
     }
 
