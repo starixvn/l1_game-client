@@ -126,8 +126,12 @@ export default class SocketIOController {
         socket && socket.disconnect();
         const multiplay = this.isMultiplayGame(gameId);
         if (!multiplay) {
-            delete this.gameSockets[gameId];
+            this.deleteCachedSocket(gameId);
         }
+    }
+
+    deleteCachedSocket(gameId: number) {
+        delete this.gameSockets[gameId];
     }
 
     closeAllSocket() {

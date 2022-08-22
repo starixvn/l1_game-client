@@ -75,6 +75,9 @@ export default class MultiplayGame extends GameViewBase {
 
     onDestroy() {
         Object.values(this.games).forEach((game: MultiplayGameSingle) => game.clearGameData());
+        this.gameIds.forEach((gameId: number) => {
+            this.socketIOController.deleteCachedSocket(gameId);
+        });
     }
 
     onEnable() {
