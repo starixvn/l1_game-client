@@ -62,14 +62,14 @@ export const handleRoundHistory = (game: MiniGameBase) => (roundHistory) => {
     game.handleRoundHistory(roundHistory);
 
     if (game.gameData.durations.isWaiting()) {
-        showLastRoundId(game);
+        showLastRoundId(game)();
     }
     if (
         game.gameData.durations.isPlacingBet() ||
         game.gameData.durations.isLocking() ||
         game.gameData.durations.isBeingSpecificPhase(Durations.Events.STARTING_ROUND)
     ) {
-        showCurrentRoundId(game);
+        showCurrentRoundId(game)();
     }
 };
 
