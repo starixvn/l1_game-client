@@ -90,7 +90,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         } else if (currentSocket && !currentSocket.connected && multiplay) {
             currentSocket.connect();
         } else {
-            const gameName = await GameUtils.getGameNameWithBundleManager(gameId);
+            const gameName = await GameUtils.getDisplayGameName(gameId);
             const socket = this.setUpSocketForGame(gameName, gameId, true, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {

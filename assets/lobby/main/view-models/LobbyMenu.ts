@@ -1,6 +1,3 @@
-import { BundleManager } from "bundle-management";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
@@ -173,7 +170,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async lateUpdateGameName(icon: SkeletonIcon, gameId: number) {
-        const gameName = await GameUtils.getGameNameWithBundleManager(gameId);
+        const gameName = await GameUtils.getDisplayGameName(gameId);
         icon.setGameName(gameName.toUpperCase());
     }
 
