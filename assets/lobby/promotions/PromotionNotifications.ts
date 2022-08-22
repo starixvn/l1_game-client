@@ -28,6 +28,7 @@ export default class PromotionNotifications extends cc.Component {
         if (data.length != 0) {
             cc.sys.localStorage.setItem(PromotionNotificationsStorageKey, JSON.stringify(data));
             this.count.string = data.length.toString();
+            this.count.node.parent.active = true;
         }
     }
 

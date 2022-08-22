@@ -452,6 +452,14 @@ const data = {
         turboMode: "Turbo Mode",
         start: "Start",
         table: "Table"
+        joinGame: "Join Game",
+        promotion: "Promotion",
+        terms: "Terms and\n Conditions"
+    },
+    termsPromotion: {
+        first: "- All new and existing punters are eligible to join the promotions and take the chance to win bigger prizes.",
+        second: "- The winning amount is paid according to the promotion rules and payouts.",
+        third: "- Promotion is applied for a certain period ruled by the House. When the promotion expires, the game rules and payouts ratio will be back to normal."
     },
     holdEmPoker: {
         ante: "ANTE",

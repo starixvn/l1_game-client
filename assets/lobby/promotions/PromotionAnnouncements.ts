@@ -21,11 +21,33 @@ export default class PromotionAnnouncements extends cc.Component {
     @property(CommonDialog)
     dialog: CommonDialog = null;
 
+    @property(cc.Label)
+    count: cc.Label = null;
+
+    @property(cc.Label)
+    promoHeader: cc.Label = null;
+
+    @property(cc.Label)
+    termHeader: cc.Label = null;
+
     public miniPanel: MiniPanel;
 
-    onToggleClick() {
-        this.promotionBoard.active = !this.promotionBoard.active;
-        this.termConditionBoard.active = !this.termConditionBoard.active;
+    onPromotionClick() {
+        this.promotionBoard.active = true;
+        this.termConditionBoard.active = false;
+        this.promoHeader.node.color = cc.color(254, 246, 0);
+        this.termHeader.node.color = cc.Color.WHITE;
+        this.promoHeader.node.getComponent(cc.LabelShadow).enabled = true;
+        this.termHeader.node.getComponent(cc.LabelShadow).enabled = false;
+    }
+
+    onTermClick() {
+        this.promotionBoard.active = false;
+        this.termConditionBoard.active = true;
+        this.termHeader.node.color = cc.color(254, 246, 0);
+        this.promoHeader.node.color = cc.Color.WHITE;
+        this.promoHeader.node.getComponent(cc.LabelShadow).enabled = false;
+        this.termHeader.node.getComponent(cc.LabelShadow).enabled = true;
     }
 
     onLoad(): void {
@@ -35,6 +57,8 @@ export default class PromotionAnnouncements extends cc.Component {
 
     public setData() {
         const promotion = JSON.parse(cc.sys.localStorage.getItem("PROMOTION_NOTIFICATIONS"));
+        this.count.string = promotion.length.toString();
+        this.count.node.parent.active = true;
         promotion.forEach((detail) => {
             const node = cc.instantiate(this.promoItemPrefab);
             this.content.addChild(node);

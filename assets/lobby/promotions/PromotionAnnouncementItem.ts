@@ -12,18 +12,22 @@ export default class PromotionAnnouncementItem extends cc.Component {
     title: cc.Label = null;
 
     @property(cc.Label)
-    content: cc.Label = null;
+    message: cc.Label = null;
 
     @property(cc.Node)
     joinButton: cc.Node = null;
+
+    @property(cc.Node)
+    content: cc.Node = null;
 
     public miniPanel: MiniPanel;
 
     public setData(data: any) {
         this.title.string = NoticeUtil.getMessageByLocale(data.title);
-        this.content.string = NoticeUtil.getMessageByLocale(data.messages);
+        this.title.node.getComponent(cc.LabelShadow).enabled = true;
+        this.message.string = NoticeUtil.getMessageByLocale(data.messages);
         this.joinButton.active = data.isActive;
-        this.joinButton.on("click", this.onClickJoinGame.bind(this, data.gameId));
+        this.joinButton.on("click", this.onClickJoinGame.bind(this, data.gameId));        
     }
 
     onClickJoinGame(gameId) {
