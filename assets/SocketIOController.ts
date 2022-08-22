@@ -8,18 +8,19 @@ import { getProxyRoute } from "./common/helpers/UrlHelper";
 import { sentryLogger } from "./common/logger.js";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
 import { getGameConfiguration } from "./configs/GameConfigurations";
+import {
+    UnbalancedBigSmall1Id,
+    UnbalancedBigSmall2Id,
+    UnbalancedBigSmall3Id,
+    UnbalancedBigSmall4Id,
+} from "./games/multiplay-bigsmall/scripts/UnbalancedBigSmallConfig";
 import MiniPanel from "./mini-games-panel/view-models/MiniPanel";
 
 @injectable()
 export default class SocketIOController {
     private gameSockets = {};
 
-    protected readonly multiplayGames = [
-        50,
-        51,
-        54,
-        55 // UnbalancedBigSmall
-    ];
+    protected readonly multiplayGames = [UnbalancedBigSmall1Id, UnbalancedBigSmall2Id, UnbalancedBigSmall3Id, UnbalancedBigSmall4Id];
 
     getSocketGame(gameId: number) {
         return this.gameSockets[gameId.toString()];
@@ -53,6 +54,10 @@ export default class SocketIOController {
         return this.connectGameSocket(option);
     }
 
+    isMultiplayGame(gameId: number): boolean {
+        return this.multiplayGames.includes(gameId);
+    }
+
     connectGameSocket = (option: {
         socketUri: string;
         gameName: string;
@@ -77,7 +82,7 @@ export default class SocketIOController {
             enableMsgpackParser,
             gameId
         } = option;
-        const multiplay = this.multiplayGames.includes(gameId);
+        const multiplay = this.isMultiplayGame(gameId);
         const socketOptions: Partial<ManagerOptions & SocketOptions> = {
             forceNew: !multiplay && forceNew,
             transports: ["websocket"],
@@ -98,7 +103,6 @@ export default class SocketIOController {
         }
 
         socket.on("connect", () => {
-            this.assignSocket(gameId, socket);
             onConnectCallback(socket);
         });
 
@@ -121,7 +125,7 @@ export default class SocketIOController {
     async closeSocket(gameId) {
         const socket: Socket = this.gameSockets[gameId];
         socket && socket.disconnect();
-        const multiplay = this.multiplayGames.includes(gameId);
+        const multiplay = this.isMultiplayGame(gameId);
         if (!multiplay) {
             delete this.gameSockets[gameId];
         }

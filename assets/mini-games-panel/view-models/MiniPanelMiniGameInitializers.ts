@@ -5,6 +5,7 @@ import { getSession } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
+import GameViewBase from "../../games/_base/GameViewBase";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
@@ -57,7 +58,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                 }
 
                 const node = cc.instantiate(prefab);
-                const gameComponent = node.getComponent("GameViewBase");
+                const gameComponent = node.getComponent(GameViewBase);
                 gameComponent.initMiniPanel(this.main);
                 this.main.addMiniGame(gameComponent, gameId);
                 gameComponent.openGame();
@@ -83,9 +84,11 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
 
     async openNewSocket(gameId) {
         const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
-
-        if (currentSocket) {
-            currentSocket.connected ? this.openMiniGame(gameId) : currentSocket.connect();
+        const multiplay = this.socketIOController.isMultiplayGame(gameId);
+        if (currentSocket && currentSocket.connected && !multiplay) {
+            this.openMiniGame(gameId);
+        } else if (currentSocket && !currentSocket.connected && multiplay) {
+            currentSocket.connect();
         } else {
             const gameName = await GameUtils.getGameNameWithBundleManager(gameId);
             const socket = this.setUpSocketForGame(gameName, gameId, true, null);
@@ -123,6 +126,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         const socket = this.socketIOController.connectGameSocket(option);
 
         this.handleSocket(socket, gameId);
+        this.socketIOController.assignSocket(gameId, socket);
         return socket;
     }
 }
