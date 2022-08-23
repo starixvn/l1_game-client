@@ -21,9 +21,9 @@ import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
 import Banner from "./Banner";
 import CategoryItem from "./CategoryItem";
+import GameUIManager from "./GameUIManager";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import GameUIManager from "./GameUIManager";
 
 const socketIOController = appContainer.get(SocketIOController);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -266,7 +266,7 @@ export default class MainGame extends cc.Component {
         const isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
 
         if (isSSOToGame || sessionManager.getInRoomGameId()) {
-            this.loadLobby(GameUtils.isMiniGame(window.openGameId));
+            this.loadLobby(isSSOToGame && GameUtils.isMiniGame(window.openGameId));
             this.openGameSSO();
             window.isSSO && this.setCategoryOnSSOGame();
         } else {
