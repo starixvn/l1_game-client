@@ -6,7 +6,7 @@ const { ccclass, property } = cc._decorator;
 export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
     scaleResultNode = 0.8;
 
-    setBlurDish() {
+    setBlurDishAndHideDices() {
         this.shakeThePlateAnimation.node.opacity = 0;
     }
 
@@ -15,7 +15,7 @@ export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
 
         const doLater = () => {
             this.highlightAndPayout(settlement);
-            this.setBlurDish();
+            this.setBlurDishAndHideDices();
         };
         if (animated) {
             this.scheduleOnce(doLater, 3);

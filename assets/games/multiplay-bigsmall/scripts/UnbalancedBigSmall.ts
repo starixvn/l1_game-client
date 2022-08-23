@@ -68,12 +68,12 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     onGameHide() {
         super.onGameHide();
-        this.setBlurDish();
+        this.setBlurDishAndHideDices();
     }
 
     onGameShow() {
         super.onGameShow();
-        this.setBlurDish();
+        this.setBlurDishAndHideDices();
     }
 
     setGameId(gameId: number) {
@@ -122,10 +122,14 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         }
     }
 
-    setBgTimerVisibility(visible: boolean) {
-        this.tween(this.bgTimer)
-            .to(0.3, { opacity: visible ? 255 : 0 })
-            .start();
+    setBgTimerVisibility(visible: boolean, animated = true) {
+        if (animated) {
+            this.tween(this.bgTimer)
+                .to(0.3, { opacity: visible ? 255 : 0 })
+                .start();
+        } else {
+            this.bgTimer.opacity = visible ? 255 : 0;
+        }
     }
 
     showSettlementResult(settlement: any) {
@@ -141,6 +145,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.tween(this.thePlate)
             .call(() => {
                 this.showDicesAndPlates();
+                this.setBgTimerVisibility(false, false);
                 this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
             })
             .delay(1)
@@ -219,6 +224,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.tween(this.thePlate)
             .delay(0.2)
             .call(() => {
+                this.setBgTimerVisibility(false, false);
                 this.setDicesVisibility(false);
             })
             .delay(1)
@@ -227,13 +233,14 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             })
             .delay(1)
             .call(() => {
-                this.setBlurDish();
+                this.setBlurDishAndHideDices();
             })
             .start();
     }
 
-    setBlurDish() {
+    setBlurDishAndHideDices() {
         this.shakeThePlateAnimation.node.opacity = 25.5;
+        this.setDicesVisibility(false);
     }
 
     showDicesAndPlates() {

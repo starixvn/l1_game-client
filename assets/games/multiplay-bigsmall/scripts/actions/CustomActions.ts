@@ -1,7 +1,7 @@
 import UnbalancedBigSmall from "../UnbalancedBigSmall";
 
 export const handlePlacingBet = (game: UnbalancedBigSmall) => () => {
-    game.bgTimer.opacity = 255;
+    game.setBgTimerVisibility(true, false);
     game.highlightLastResult();
     game.resetThePlate();
     game.disableResultNode();
