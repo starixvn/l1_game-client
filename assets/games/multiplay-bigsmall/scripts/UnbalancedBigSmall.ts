@@ -76,13 +76,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.setBlurDish();
     }
 
-    onDestroy() {
-        super.onDestroy();
-        this.bgTimer.stopAllActions();
-        this.thePlate.stopAllActions();
-        this.resultNode.stopAllActions();
-    }
-
     setGameId(gameId: number) {
         this.gameId = gameId;
         this.config = unbalancedBigSmallConfigs[gameId];
@@ -129,8 +122,14 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         }
     }
 
+    setBgTimerVisibility(visible: boolean) {
+        this.tween(this.bgTimer)
+            .to(0.3, { opacity: visible ? 255 : 0 })
+            .start();
+    }
+
     showSettlementResult(settlement: any) {
-        this.tween(this.bgTimer).to(0.3, { opacity: 0 }).start();
+        this.setBgTimerVisibility(false);
         this.setDices(settlement.result, settlement.settlementResult);
 
         if (this.currentDataLogs.length > 0) {

@@ -8,7 +8,7 @@ export const handlePlacingBet = (game: UnbalancedBigSmall) => () => {
 };
 
 export const handleBeginPlacingBet = (game: UnbalancedBigSmall) => () => {
-    game.tween(game.bgTimer).to(0.3, { opacity: 255 }).start();
+    game.setBgTimerVisibility(true);
 };
 
 export const handleShakeDish = (game: UnbalancedBigSmall) => () => {

@@ -75,7 +75,7 @@ export default class MiniGameBase extends NewMiniGameBase {
 
     override onDestroy() {
         super.onDestroy();
-
+        this.stopInternalTweens();
         this.removeGameDataEvents();
         if (!this.managedByContainer) {
             GameDataManager.getInstance().clearGameLoop(this.gameId);
