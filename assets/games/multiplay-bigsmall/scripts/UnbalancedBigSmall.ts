@@ -66,6 +66,16 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.gameId = UnbalancedBigSmall1Id;
     }
 
+    onGameHide() {
+        super.onGameHide();
+        this.setBlurDish();
+    }
+
+    onGameShow() {
+        super.onGameShow();
+        this.setBlurDish();
+    }
+
     onDestroy() {
         super.onDestroy();
         this.bgTimer.stopAllActions();
@@ -120,7 +130,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     showSettlementResult(settlement: any) {
-        cc.tween(this.bgTimer).to(0.3, { opacity: 0 }).start();
+        this.tween(this.bgTimer).to(0.3, { opacity: 0 }).start();
         this.setDices(settlement.result, settlement.settlementResult);
 
         if (this.currentDataLogs.length > 0) {
@@ -129,7 +139,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     handleAnimResult() {
-        cc.tween(this.thePlate)
+        this.tween(this.thePlate)
             .call(() => {
                 this.showDicesAndPlates();
                 this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
@@ -207,7 +217,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     shakeThePlate() {
         this.showDicesAndPlates();
         this.shakeThePlateAnimation.playAdditive(DishAnimation.ShakeDish);
-        cc.tween(this.thePlate)
+        this.tween(this.thePlate)
             .delay(0.2)
             .call(() => {
                 this.setDicesVisibility(false);
@@ -218,12 +228,12 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             })
             .delay(1)
             .call(() => {
-                this.hideDicesAndPlates();
+                this.setBlurDish();
             })
             .start();
     }
 
-    hideDicesAndPlates() {
+    setBlurDish() {
         this.shakeThePlateAnimation.node.opacity = 25.5;
     }
 
@@ -234,7 +244,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected showWinningAnimation(data: any) {
         this.resultNode.active = true;
-        cc.tween(this.resultNode)
+        this.tween(this.resultNode)
             .to(0.2, { scale: 1.2 }, { easing: "bounceOut" })
             .to(0.3, { scale: this.scaleResultNode, opacity: 255 })
             .start();

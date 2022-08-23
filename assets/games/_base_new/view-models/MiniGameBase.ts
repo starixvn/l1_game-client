@@ -16,7 +16,7 @@ import {
     handleShowResult,
     handleShowStatus,
     onUM,
-    updateMD5String
+    updateMD5String,
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -27,7 +27,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting
+    updateWaiting,
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -55,6 +55,8 @@ export default class MiniGameBase extends NewMiniGameBase {
     protected managedByContainer = false;
     public gameData: NewGameData;
     emitterStorages: EmitterStorage[] = [];
+    internalTweenNodes: cc.Node[] = [];
+    readonly internalTweenTag = 99;
 
     override onLoad() {
         super.onLoad();
@@ -103,15 +105,28 @@ export default class MiniGameBase extends NewMiniGameBase {
 
     onGameHide() {
         super.onGameHide();
+        this.stopInternalTweens();
         this.gameState = GameState.Inactived;
         this.gameData.durations.stop();
     }
 
     onGameShow() {
         super.onGameShow();
+        this.stopInternalTweens();
         this.gameState = GameState.Actived;
         this.joinGame();
         this.gameData.updateUI();
+    }
+
+    tween(node: cc.Node) {
+        if (!this.internalTweenNodes.includes(node)) {
+            this.internalTweenNodes.push(node);
+        }
+        return cc.tween(node).tag(this.internalTweenTag);
+    }
+
+    stopInternalTweens() {
+        this.internalTweenNodes.forEach((node) => node.stopActionByTag(this.internalTweenTag));
     }
 
     onDisconnected() {
