@@ -278,7 +278,7 @@ export default class MiniPanel extends BaseComponent {
     loadGame(gameId, onComplete: () => void) {
         const loading = this.getGameLoadingComp(gameId);
         loading.setLoadingVisibility(true);
-        cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.Texture2D, null, onComplete);
+        cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.SpriteFrame, null, onComplete);
     }
 
     openSocketByUri(gameId, socketUri, onConnectCallback) {
