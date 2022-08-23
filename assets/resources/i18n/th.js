@@ -564,6 +564,9 @@ const data = {
         guideContentEnd: "Let's play and experience the new features now.",
         skip: "Skip",
         notShow: " Don’t show again"
+    },
+    promotions: {
+        notPromotion: "Hiện tại chưa có chưa có chương trình khuyến mãi, vui lòng quay lại sau"
     }
 };
 

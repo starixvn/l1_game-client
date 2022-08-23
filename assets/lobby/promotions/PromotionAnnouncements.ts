@@ -1,6 +1,7 @@
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import PromotionAnnouncementItem, { PromotionAnnouncementItemEvent } from "./PromotionAnnouncementItem";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -30,6 +31,9 @@ export default class PromotionAnnouncements extends cc.Component {
     @property(cc.Label)
     termHeader: cc.Label = null;
 
+    @property(cc.Label)
+    text: cc.Label = null;
+
     public miniPanel: MiniPanel;
 
     onPromotionClick() {
@@ -56,17 +60,21 @@ export default class PromotionAnnouncements extends cc.Component {
 
     public setData() {
         const promotion = JSON.parse(cc.sys.localStorage.getItem("PROMOTION_NOTIFICATIONS"));
-        this.count.string = promotion.length.toString();
-        this.count.node.parent.active = true;
-        promotion.forEach((detail) => {
-            const node = cc.instantiate(this.promoItemPrefab);
-            this.content.addChild(node);
-            const item = node.getComponent(PromotionAnnouncementItem);
-            if (item) {
-                item.miniPanel = this.miniPanel || cc.RedT.MiniPanel;
-            }
-            item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
-            item.setData(detail);
-        });
+        if (promotion.length < 1) {
+            this.text.string = i18n.t("promotions.notPromotion");
+        } else {
+            this.count.string = promotion.length.toString();
+            this.count.node.parent.active = true;
+            promotion.forEach((detail) => {
+                const node = cc.instantiate(this.promoItemPrefab);
+                this.content.addChild(node);
+                const item = node.getComponent(PromotionAnnouncementItem);
+                if (item) {
+                    item.miniPanel = this.miniPanel || cc.RedT.MiniPanel;
+                }
+                item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
+                item.setData(detail);
+            });
+        }
     }
 }

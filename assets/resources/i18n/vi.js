@@ -566,6 +566,9 @@ const data = {
         guideContentEnd: "Vào game & trải nghiệm ngay thôi!",
         skip: "Bỏ Qua",
         notShow: "Không hiển thị lại"
+    },
+    promotions: {
+        notPromotion: "Hiện tại chưa có chưa có chương trình khuyến mãi, vui lòng quay lại sau"
     }
 };
 

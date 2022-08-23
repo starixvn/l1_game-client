@@ -10,8 +10,8 @@ export class Promotions extends EventEmitterBase {
 
     private readonly dataKey = "promotions";
     public isShowBoostedOdds = true;
-    protected boostedOddsInterval: any;
-    private readonly timeInterval = 120000;
+    protected timeout: any;
+    private readonly delayTime = 120000;
 
     public static getInstance(): Promotions {
         if (!this.instance) {
@@ -30,18 +30,18 @@ export class Promotions extends EventEmitterBase {
     }
 
     receivedData(data) {
-        if (data.length != 0 && this.isShowBoostedOdds) {
+        if (data.length > 0 && this.isShowBoostedOdds) {
             console.log("BoostedOddsEvent");
             this.emit(PromotionsEvent.SHOW_BOOSTED_ODDS);
             this.isShowBoostedOdds = false;
-            this.setIntervalShowBoostedOdds();
+            this.setTimeoutShowBoostedOdds();
         }
     }
 
-    setIntervalShowBoostedOdds(): void {
-        this.boostedOddsInterval && clearInterval(this.boostedOddsInterval);
-        this.boostedOddsInterval = setInterval(() => {
+    setTimeoutShowBoostedOdds(): void {
+        this.timeout && clearInterval(this.timeout);
+        this.timeout = setTimeout(() => {
             this.isShowBoostedOdds = true;
-        }, this.timeInterval);
+        }, this.delayTime);
     }
 }

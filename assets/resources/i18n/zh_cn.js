@@ -481,7 +481,7 @@ const data = {
         stake: "赌注",
         dealerQualifies: "庄家有资格获得一对4S 或更好的",
         md5String: "MD5 Key",
-        md5Key: "Result",        
+        md5Key: "Result"
     },
     hiLo: {
         collect: "Collect",
@@ -547,6 +547,9 @@ const data = {
         guideContentEnd: "Let's play and experience the new features now.",
         skip: "Skip",
         notShow: " Don’t show again"
+    },
+    promotions: {
+        notPromotion: "Hiện tại chưa có chưa có chương trình khuyến mãi, vui lòng quay lại sau"
     }
 };
 
