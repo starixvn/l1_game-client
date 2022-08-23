@@ -37,11 +37,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BundleManager = void 0;
+var sliding_cache_1 = require("./sliding-cache");
 var BundleManager = /** @class */ (function () {
     function BundleManager(options) {
         this.listeners = options.listeners || [];
         this.adapters = options.adapters;
         this.versions = {};
+        this.cache = new sliding_cache_1.SlidingCache(options.cacheDuration || 30000);
     }
     BundleManager.initialize = function (options) {
         if (!BundleManager.instance) {
@@ -126,14 +128,15 @@ var BundleManager = /** @class */ (function () {
     };
     BundleManager.prototype.compareAndUpdateNewVersion = function (bundleId) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, name, url, http, versionUrl, versions, oldVersion, currentVersion, difference;
+            var _a, name, url, http, versionUrl, getVersion, versions, oldVersion, currentVersion, difference;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         _a = this.getBundleInfo(bundleId), name = _a.name, url = _a.url;
                         http = this.adapters.http();
                         versionUrl = "".concat(url, "/versions.json?v=").concat(Date.now());
-                        return [4 /*yield*/, http.get(versionUrl)];
+                        getVersion = function () { return http.get(versionUrl); };
+                        return [4 /*yield*/, this.cache.execute(url, getVersion)];
                     case 1:
                         versions = _b.sent();
                         oldVersion = this.versions[name];
