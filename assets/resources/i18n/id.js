@@ -449,7 +449,10 @@ const data = {
         new_year: "Happy New Year",
         md5_result: "HASIL",
         md5_string: "MD5 TALI",
-        md5_copy: "COPY"
+        md5_copy: "COPY",
+        autoSpinLeft: "Auto Spins Left",
+        turboMode: "Turbo Mode",
+        start: "Start"
     },
     holdEmPoker: {
         ante: "ANTE",

@@ -430,7 +430,10 @@ const data = {
         new_year: "Happy New Year",
         md5_result: "結果",
         md5_string: "MD5 串",
-        md5_copy: "COPY"
+        md5_copy: "COPY",
+        autoSpinLeft: "Auto Spins Left",
+        turboMode: "Turbo Mode",
+        start: "Start"
     },
     holdEmPoker: {
         ante: "ANTE",

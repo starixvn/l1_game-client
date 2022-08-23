@@ -450,7 +450,10 @@ const data = {
         new_year: "Phúc Lộc An Khang",
         md5_result: "KẾT QUẢ",
         md5_string: "CHUỖI MD5",
-        md5_copy: "COPY"
+        md5_copy: "COPY",
+        autoSpinLeft: "Lượt Quay Tự Động Còn Lại",
+        turboMode: "Siêu Tốc",
+        start: "Bắt Đầu"
     },
     holdEmPoker: {
         ante: "ANTE",
