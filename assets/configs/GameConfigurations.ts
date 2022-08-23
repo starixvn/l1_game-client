@@ -109,3 +109,9 @@ export function getGameConfigurationsWithFilter(filter: (configuration: GameConf
 export function getGameIdsWithFilter(filter: (configuration: GameConfiguration) => unknown) {
     return getGameConfigurationsWithFilter(filter).map((configuration) => configuration.id);
 }
+
+export function isUsingRemoteBundle(gameId: number) {
+    const configuration = getGameConfiguration(gameId);
+
+    return configuration && !!configuration.remoteBundle;
+}

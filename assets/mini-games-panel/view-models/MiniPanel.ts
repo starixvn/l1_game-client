@@ -1,3 +1,4 @@
+import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
@@ -12,7 +13,7 @@ import LoadWebView from "../../common/LoadWebView";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
-import { getGameId } from "../../configs/GameConfigurations";
+import { getGameId, isUsingRemoteBundle } from "../../configs/GameConfigurations";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SocketIOController from "../../SocketIOController";
@@ -278,7 +279,19 @@ export default class MiniPanel extends BaseComponent {
     loadGame(gameId, onComplete: () => void) {
         const loading = this.getGameLoadingComp(gameId);
         loading.setLoadingVisibility(true);
-        cc.resources.loadDir(`image/${window.i18n.curLang}/${gameId}`, cc.SpriteFrame, null, onComplete);
+
+        const language = window.i18n.curLang;
+
+        if (isUsingRemoteBundle) {
+            const path = `i18n/images/${language}`;
+
+            BundleManager.getInstance()
+                .loadBundle(`${gameId}`)
+                .then((bundle: cc.AssetManager.Bundle) => bundle.loadDir(path, cc.SpriteFrame, null, onComplete))
+                .catch(onComplete);
+        } else {
+            cc.resources.loadDir(`image/${language}/${gameId}`, cc.SpriteFrame, null, onComplete);
+        }
     }
 
     openSocketByUri(gameId, socketUri, onConnectCallback) {
