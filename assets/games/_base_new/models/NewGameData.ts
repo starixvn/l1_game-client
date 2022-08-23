@@ -78,14 +78,14 @@ export default class NewGameData extends GameData {
         const handlers = [
             //
             UMHandler,
+            ResultHashHandler,
             TimeEventHandler,
             GameConfigHandler,
             RoundHistoryHandler,
             TotalBetsEventHandler,
             BetHandler,
             NoticeHandler,
-            SettlemenHandler,
-            ResultHashHandler
+            SettlemenHandler
         ];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }
