@@ -16,7 +16,7 @@ import {
     handleShowResult,
     handleShowStatus,
     onUM,
-    updateMD5String,
+    updateMD5String
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -27,7 +27,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -133,7 +133,6 @@ export default class MiniGameBase extends NewMiniGameBase {
         //override to prevent delete socket
         this.sendRetryMessage();
         this.showProcessingWarning(false);
-        this.socketIOController.closeSocket(this.gameId);
         this.md5Component && this.md5Component.resetMd5();
     }
 
