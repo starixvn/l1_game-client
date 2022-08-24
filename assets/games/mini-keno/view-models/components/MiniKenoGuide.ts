@@ -72,8 +72,6 @@ export default class MiniKenoGuide extends cc.Component {
 
     getGameId(game: string) {
         const dict = {
-            // kenoMax: KenoMaxId,
-            // kenoMax2: KenoMax2Id,
             megaKeno: MegaKenoId,
             megaKeno2: MegaKeno2Id,
             kenoMini: KenoMiniId,
