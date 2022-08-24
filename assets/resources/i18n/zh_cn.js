@@ -3,9 +3,6 @@ if (!window.i18n.languages) window.i18n.languages = {};
 if (!window.i18n.languages.zh_cn) window.i18n.languages.zh_cn = {};
 
 const data = {
-    lobbyNames: {
-        12: "Keno Pro Viet"
-    },
     gameNames: {
         1: "押大小",
         2: "色碟",
@@ -39,8 +36,6 @@ const data = {
         35: "斗三张",
         38: "英雄传说",
         43: "数字货币大师",
-        "26_break": "VIP 鱼虾蟹",
-        "38_break": "英雄传说",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",

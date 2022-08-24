@@ -4,7 +4,7 @@ if (!window.i18n.languages.th) window.i18n.languages.th = {};
 
 const data = {
     lobbyNames: {
-        12: "Keno Pro Viet"
+        38: "เดอะ เลเจนด์\nออฟ ฮีโร่"
     },
     gameNames: {
         1: "ใหญ่/เล็ก",
@@ -39,8 +39,6 @@ const data = {
         35: "ไพ่สามใบ",
         38: "เดอะ เลเจนด์ ออฟ ฮีโร่",
         43: "บิทคอยน์มาสเตอร์",
-        "26_break": "VIP  ปลา กุ้ง ปู",
-        "38_break": "เดอะ เลเจนด์\nออฟ ฮีโร่",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",

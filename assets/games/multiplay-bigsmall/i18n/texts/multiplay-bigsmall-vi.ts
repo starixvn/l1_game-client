@@ -7,7 +7,7 @@ export const phrases = {
         54: "Macau",
         55: "Monte Carlo"
     },
-    lobbyNames: {
+    generalGameNames: {
         50: "Tài Xỉu Mega"
     }
 };

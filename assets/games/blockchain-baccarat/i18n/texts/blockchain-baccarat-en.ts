@@ -2,8 +2,10 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        48: "Blockchain Baccarat",
-        "48_break": "Blockchain\nBaccarat"
+        48: "Blockchain Baccarat"
+    },
+    lobbyNames: {
+        48: "Blockchain\nBaccarat"
     },
     blockchainBaccarat: {
         headerContent:

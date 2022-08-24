@@ -3,9 +3,6 @@ if (!window.i18n.languages) window.i18n.languages = {};
 if (!window.i18n.languages.en) window.i18n.languages.en = {};
 
 const data = {
-    lobbyNames: {
-        12: "Keno Pro Viet"
-    },
     gameNames: {
         "-1": "Lucky Wheel",
         1: "Big Small",
@@ -40,8 +37,6 @@ const data = {
         35: "Three Cards",
         38: "The Legend of Heroes",
         43: "Bitcoin Master",
-        "26_break": "VIP Fish Prawn Crab",
-        "38_break": "The Legend of Heroes",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",

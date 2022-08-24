@@ -3,9 +3,6 @@ if (!window.i18n.languages) window.i18n.languages = {};
 if (!window.i18n.languages.vi) window.i18n.languages.vi = {};
 
 const data = {
-    lobbyNames: {
-        12: "Keno Pro Viet"
-    },
     gameNames: {
         "-1": "Vòng Quay May Mắn",
         1: "Tài Xỉu",
@@ -40,8 +37,6 @@ const data = {
         35: "3 Lá Đỏ Đen",
         38: "Anh Hùng Chim Lạc",
         43: "Bitcoin Master",
-        "26_break": "Bầu Cua VIP",
-        "38_break": "Anh Hùng Chim Lạc",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Cao Thấp",

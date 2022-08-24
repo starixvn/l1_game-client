@@ -170,7 +170,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async lateUpdateGameName(icon: SkeletonIcon, gameId: number) {
-        const gameName = await GameUtils.getDisplayGameName(gameId);
+        const gameName = await GameUtils.getDisplayGameName(gameId, true);
         icon.setGameName(gameName.toUpperCase());
     }
 

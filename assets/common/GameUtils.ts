@@ -311,10 +311,15 @@ export default class GameUtils {
         return i18n.t(`gameNames.${gameId}`);
     }
 
-    public static async getDisplayGameName(gameId): Promise<string> {
+    public static async getDisplayGameName(gameId, breakline = false): Promise<string> {
         const lobbyGameNameKey = `lobbyNames.${gameId}`;
+        const generalGameNameKey = `generalGameNames.${gameId}`;
         const gameNameKey = `gameNames.${gameId}`;
-        const findNameKey = () => [lobbyGameNameKey, gameNameKey].find((key) => key !== i18n.t(key));
+        const list = [generalGameNameKey, gameNameKey];
+        if (breakline) {
+            list.unshift(lobbyGameNameKey);
+        }
+        const findNameKey = () => list.find((key) => key !== i18n.t(key));
 
         let key = findNameKey();
         if (key === undefined) {

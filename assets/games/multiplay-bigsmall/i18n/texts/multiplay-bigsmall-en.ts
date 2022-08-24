@@ -9,6 +9,9 @@ export const phrases = {
     },
     lobbyNames: {
         50: "Mega \nBig Small"
+    },
+    generalGameNames: {
+        50: "Mega Big Small"
     }
 };
 

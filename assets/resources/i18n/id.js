@@ -4,7 +4,7 @@ if (!window.i18n.languages.id) window.i18n.languages.id = {};
 
 const data = {
     lobbyNames: {
-        12: "Keno Pro Viet"
+        26: "VIP Ikan\nUdang Kepiting"
     },
     gameNames: {
         1: "Besar Kecil",
@@ -39,8 +39,6 @@ const data = {
         35: "Tiga Kartu",
         38: "Legenda Pahlawan",
         43: "Bitcoin Master",
-        "26_break": "VIP Ikan\nUdang Kepiting",
-        "38_break": "Legenda Pahlawan",
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
