@@ -4,7 +4,7 @@ import {
     GameConfiguration,
     getGameConfiguration,
     getGameConfigurationsWithFilter,
-    getGameIdsWithFilter
+    getGameIdsWithFilter,
 } from "../../../configs/GameConfigurations";
 import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import { ICashSystem, ICreditSystem, System } from "../../../System";
@@ -37,8 +37,8 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     get bannerAds() {
         const bannerFilter = (configuration: GameConfiguration) => !!configuration?.banner;
         const games = getGameConfigurationsWithFilter(bannerFilter);
-
-        return games.sort((a, b) => a.banner.order - b.banner.order).map((configuration) => configuration.id);
+        games.sort((a, b) => a.banner.order - b.banner.order);
+        return games.map((configuration) => configuration.id);
     }
 
     get miniList() {

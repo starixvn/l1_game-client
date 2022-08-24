@@ -1,6 +1,8 @@
 "use strict";
 
-if (!window.bundleManagement) window.bundleManagement = {};
+if (!window.bundleManagement) {
+    window.bundleManagement = {};
+}
 
 window.bundleManagement.bundles = {
     default: {

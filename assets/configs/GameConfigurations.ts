@@ -71,7 +71,9 @@ function initializeBundleInfos() {
         return result;
     }, {});
 
-    if (!window.bundleManagement) window.bundleManagement = {};
+    if (!window.bundleManagement) {
+        window.bundleManagement = {};
+    }
 
     window.bundleManagement.bundles = isDevelopmentMode ? developmentMode : productionMode;
 }
