@@ -1,3 +1,4 @@
+import GameUtils, { MINI_GAMES_SCALE_ON_DESKTOP } from "../../../common/GameUtils";
 import UnbalancedBigSmall from "./UnbalancedBigSmall";
 
 const { ccclass, property } = cc._decorator;
@@ -28,5 +29,20 @@ export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
     initMiniRoundHistory(node: cc.Node) {
         super.initMiniRoundHistory(node);
         this.miniRoundHistory.tip.node.opacity = 0;
+    }
+
+    customScaleNode(node: cc.Node) {
+        node.scale = !cc.sys.isMobile ? MINI_GAMES_SCALE_ON_DESKTOP : 1;
+    }
+
+    showAcceptedBet(bet: number) {
+        const node = GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
+        this.customScaleNode(node);
+    }
+
+    showWinningBet(bet: number) {
+        const node = GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
+        node.name = "winningBet";
+        this.customScaleNode(node);
     }
 }
