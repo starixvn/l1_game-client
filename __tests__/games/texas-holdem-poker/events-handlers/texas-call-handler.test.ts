@@ -1,8 +1,8 @@
-import { callData } from "./../_base/index";
+import CallModelBase from "../../../../assets/games/_casino/event-models/CallModelBase";
 import TexasCallHandler, { TexasHoldemCall } from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-call-handler";
 import TexasGameDataModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model";
 import TexasPlaceBetModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-place-bet-model";
-import CallModelBase from "../../../../assets/games/_casino/event-models/CallModelBase";
+import { callData } from "./../_base";
 
 jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model", () => ({
     default: jest.fn().mockImplementation(() => {
@@ -22,7 +22,7 @@ jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-place-
 
 describe("TexasHoldemCallEventHandler", () => {
     let callHandlerHandler: any;
-    let gameData: TexasGameDataModel<any>;
+    let gameData: TexasGameDataModel;
     let data: TexasHoldemCall;
     beforeAll(() => {
         callHandlerHandler = new TexasCallHandler(gameData);

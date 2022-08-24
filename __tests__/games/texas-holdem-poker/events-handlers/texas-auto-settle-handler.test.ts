@@ -1,10 +1,10 @@
-import { autoSettleData } from "./../_base/index";
 import TexasAutoSettleHandler, {
-    TexasHoldemAutoSettle
+    TexasHoldemAutoSettle,
 } from "../../../../assets/games/texas-holdem-poker/event-handlers/texas-auto-settle-handler";
+import TexasAutoSettleModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-auto-settle-model";
 import TexasGameDataModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model";
 import TexasSettlementModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-settlement-model";
-import TexasAutoSettleModel from "../../../../assets/games/texas-holdem-poker/event-models/texas-auto-settle-model";
+import { autoSettleData } from "./../_base";
 
 jest.mock("../../../../assets/games/texas-holdem-poker/event-models/texas-game-data-model", () => ({
     default: jest.fn().mockImplementation(() => {
@@ -24,7 +24,7 @@ jest.mock("./../../../../assets/games/texas-holdem-poker/event-models/texas-stat
 
 describe("TexasHoldemAutoSettleEventHandler", () => {
     let autoSettleHandler: any;
-    let gameData: TexasGameDataModel<any>;
+    let gameData: TexasGameDataModel;
     let data: TexasHoldemAutoSettle;
     let dataAfterHandle: any;
     beforeAll(() => {
