@@ -1,7 +1,7 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
+import { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerPlaceBetModel } from "../event-models/HoldemPokerPlaceBetModel";
 import { HoldemPokerState } from "../event-models/HoldemPokerState";

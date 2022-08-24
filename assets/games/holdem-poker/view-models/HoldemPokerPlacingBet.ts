@@ -4,7 +4,7 @@ import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import GameBase from "../../../games/_base/GameBase";
 import Connection from "../../_new/connection/Connection";
 import { events } from "../../_new/connection/SocketIOConnection";
-import HoldemPokerChoices, { HoldemPokerChoicesConst, HoldemPokerMaxBetChoicesConst } from "../event-models/HoldemPokerChoices";
+import { HoldemPokerChoicesConst, HoldemPokerMaxBetChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerState } from "../event-models/HoldemPokerState";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";

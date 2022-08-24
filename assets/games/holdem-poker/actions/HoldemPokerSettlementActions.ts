@@ -1,5 +1,5 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
+import { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPoker from "../view-models/HoldemPoker";
 import HoldemPokerBettingArea from "../view-models/HoldemPokerBettingArea";

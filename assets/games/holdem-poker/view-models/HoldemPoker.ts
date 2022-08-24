@@ -40,7 +40,7 @@ import {
 import HoldemPokerCards from "../components/cards/view-models/HoldemPokerCards";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
 import { HoldemPokerAfterDealModel } from "../event-models/HoldemPokerAfterDealModel";
-import HoldemPokerChoices, { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
+import { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerConfigs } from "../event-models/HoldemPokerConfigs";
 import { HoldemPokerFinishModel } from "../event-models/HoldemPokerFinishModel";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
