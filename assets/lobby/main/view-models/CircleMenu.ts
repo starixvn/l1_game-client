@@ -4,8 +4,8 @@ import { removeInRoomGameId } from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import GameIconMenu from "./GameIconMenu";
-import LobbyMenuConfig from "./LobbyMenuConfig";
 import GameUIManager from "./GameUIManager";
+import LobbyMenuConfig from "./LobbyMenuConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -53,6 +53,7 @@ export default class CircleMenu extends GameIconMenu {
         if (id === 0) {
             this.closeGame();
         } else {
+            GameUtils.clearGameSetting(id);
             GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
             GameUIManager.getInstance().setCurrentGameId(id);
             GameUtils.openGame(id, this.miniPanel);

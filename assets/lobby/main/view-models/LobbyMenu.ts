@@ -251,9 +251,7 @@ export default class LobbyMenu extends GameIconMenu {
     itemPressed(id: number, node: cc.Node) {
         AudioManager.getInstance().playClick();
         GameUtils.clearGameSetting(id);
-
         GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
-
         const skeletonComp = node.getComponent(SkeletonIcon);
         GameUIManager.getInstance().cacheIconLoading(id, skeletonComp.gameLoading);
         GameUtils.openGame(id, this.miniPanel);
