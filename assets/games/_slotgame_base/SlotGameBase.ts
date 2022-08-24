@@ -106,9 +106,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     expandableMenu: ExpandableMenu = null;
 
     @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
     topWinnerPrefab: cc.Node = null;
 
     @property(cc.Prefab)
