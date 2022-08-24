@@ -6,9 +6,6 @@ import MiniGameBase from "../view-models/MiniGameBase";
 import { showCurrentRoundId, showLastRoundId } from "./TimeAction";
 
 export const onUM = (game: MiniGameBase) => (data) => {
-    if (!data.um) {
-        return;
-    }
     if (game.checkShowUmMessage(data)) {
         game.showUmMessage(data);
         game.disableGame();

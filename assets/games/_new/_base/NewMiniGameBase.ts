@@ -6,9 +6,6 @@ import { GameData } from "./game-data-management/models/game-data";
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class NewMiniGameBase extends SocketIOMiniGameBase {
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
     protected connection: SocketIOConnection;
     public gameData: GameData;
     protected newHistoryComp: BetHistory;
