@@ -4,8 +4,6 @@ import axios from "axios";
 import { BundleManager } from "bundle-management";
 import { Container } from "inversify";
 import getDecorators from "inversify-inject-decorators";
-
-import { initialize } from "./configs/GameConfigurations";
 import SocketIOController from "./SocketIOController";
 
 export class Application {
@@ -13,15 +11,10 @@ export class Application {
 
     startup() {
         this.configureServices();
-        this.loadGameConfigurations();
     }
 
     configureServices() {
         this.container.bind<SocketIOController>(SocketIOController).toSelf().inSingletonScope();
-    }
-
-    loadGameConfigurations() {
-        initialize();
     }
 }
 

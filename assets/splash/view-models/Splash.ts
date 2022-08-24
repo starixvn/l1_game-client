@@ -3,6 +3,7 @@ import * as authManager from "../../common/auth/AuthManager";
 import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import logger from "../../common/logger";
+import { initialize } from "../../configs/GameConfigurations";
 import LobbyMenuConfig from "../../lobby/main/view-models/LobbyMenuConfig";
 import RandomWaitingMessage from "./RandonWaitingMessage";
 import SplashConfig from "./SplashConfig";
@@ -102,6 +103,7 @@ export default class Splash extends cc.Component {
     }
 
     async onLoaded() {
+        await initialize();
         await this.preLoadBanner();
         await this.preLoadGameIcons();
 
