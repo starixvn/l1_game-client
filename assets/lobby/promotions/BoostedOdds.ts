@@ -6,11 +6,14 @@ export const BoostedOddsEvent = {
 @ccclass
 export default class BoostedOdds extends cc.Component {
     @property(cc.Node)
-    content: cc.Node = null;
+    icon: cc.Node = null;
 
     handleBoostedOdds() {
-        console.log("handleBoostedOdds");
-        cc.tween(this.content).to(0.2, { opacity: 255 }).delay(5).to(0.1, { opacity: 0 }).start();
+        cc.tween(this.icon)
+            .call(() => (this.icon.active = true))
+            .delay(15)
+            .call(() => (this.icon.active = false))
+            .start();
     }
 
     onDisable() {
