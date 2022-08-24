@@ -85,10 +85,13 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     async openNewSocket(gameId) {
         const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
         const multiplay = this.socketIOController.isMultiplayGame(gameId);
-        if (currentSocket && currentSocket.connected && !multiplay) {
-            this.openMiniGame(gameId);
-        } else if (currentSocket && !currentSocket.connected && multiplay) {
+        if (currentSocket && !currentSocket.connected && multiplay) {
             currentSocket.connect();
+            return;
+        }
+
+        if (currentSocket && currentSocket.connected) {
+            this.openMiniGame(gameId);
         } else {
             const gameName = await GameUtils.getDisplayGameName(gameId);
             const socket = this.setUpSocketForGame(gameName, gameId, true, null);
