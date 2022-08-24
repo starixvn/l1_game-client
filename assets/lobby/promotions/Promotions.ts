@@ -11,7 +11,8 @@ export class Promotions extends EventEmitterBase {
     private readonly dataKey = "promotions";
     public isShowBoostedOdds = true;
     protected timeout: any;
-    private readonly delayTime = 120000;
+    private readonly minutesToMillisecond = 60 * 1000;
+    private readonly delayTime = 15 * this.minutesToMillisecond;
 
     public static getInstance(): Promotions {
         if (!this.instance) {
