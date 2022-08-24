@@ -2,18 +2,18 @@ import { BaseEventHandler } from "../../_new/_base/game-data-management/event-ha
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 import { BlockchainBaccaratRoundHistory } from "../event-models/BlockchainBaccaratRoundHistory";
 
-export type BlockchainBaccaratRoundHistoryType<Choices> = {
+export type BlockchainBaccaratRoundHistoryType = {
     roundHistory: BlockchainBaccaratRoundHistory[];
 };
 
-export class BlockchainBaccaratRoundHistoryHandler<Choices> extends BaseEventHandler<BlockchainBaccaratRoundHistoryType<Choices>, Choices> {
-    protected readonly gameData: BlockchainBaccaratGameData<Choices>;
+export class BlockchainBaccaratRoundHistoryHandler extends BaseEventHandler<BlockchainBaccaratRoundHistoryType> {
+    protected readonly gameData: BlockchainBaccaratGameData;
 
-    protected verifyEvent(event: BlockchainBaccaratRoundHistoryType<Choices>) {
+    protected verifyEvent(event: BlockchainBaccaratRoundHistoryType) {
         return event.roundHistory && event.roundHistory.length !== 0;
     }
 
-    protected handle(event: BlockchainBaccaratRoundHistoryType<Choices>) {
+    protected handle(event: BlockchainBaccaratRoundHistoryType) {
         this.gameData.roundHistory.cleanWithoutTriggerEvent();
         this.gameData.roundHistory.push(...event.roundHistory);
     }

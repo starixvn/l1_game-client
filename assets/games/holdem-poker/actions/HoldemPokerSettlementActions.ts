@@ -10,7 +10,7 @@ export const showWinningOption =
         bettingAreas: HoldemPokerBettingArea[],
         holdemPokerChips: HoldemPokerChips,
         betChips: BetChips,
-        gameData: HoldemPokerGameData<HoldemPokerChoices>,
+        gameData: HoldemPokerGameData,
         main: HoldemPoker
     ) =>
     () => {

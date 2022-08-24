@@ -1,10 +1,9 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import { HoldemPokerOwnBet } from "../event-models/HoldemPokerOwnBet";
 import { HoldemPokerPlaceBetModel } from "../event-models/HoldemPokerPlaceBetModel";
 
-export const showRejoinOwnBets = (gameData: HoldemPokerGameData<HoldemPokerChoices>) => (ownBets: HoldemPokerOwnBet) => {
+export const showRejoinOwnBets = (gameData: HoldemPokerGameData) => (ownBets: HoldemPokerOwnBet) => {
     gameData.placeBetModel.rejoinTable(ownBets.bets);
 };
 

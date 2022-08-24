@@ -1,6 +1,5 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import BettingArea, { BettingAreaEvents } from "../../_new/common/betting-area/BettingArea";
-import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 
 const { ccclass, menu, property } = cc._decorator;
@@ -34,9 +33,9 @@ export default class HoldemPokerBettingArea extends BettingArea {
     winningAmount: cc.Label = null;
 
     private isRunningHighlight: boolean;
-    protected gameData: HoldemPokerGameData<HoldemPokerChoices> = null;
+    protected gameData: HoldemPokerGameData = null;
 
-    init(gameData: HoldemPokerGameData<HoldemPokerChoices>) {
+    init(gameData: HoldemPokerGameData) {
         this.gameData = gameData;
     }
 

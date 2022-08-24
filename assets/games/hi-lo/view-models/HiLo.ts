@@ -11,7 +11,6 @@ import { handleStatusLost, handleStatusWon, updateCard, updateStakesAndButtons, 
 import { updateGameConfigs } from "../actions/HiLoGameConfigsAction";
 import { updateRoundId } from "../actions/HiLoRoundCounterAction";
 import HiLoBetHandler from "../events-handlers/HiLoBetHandler";
-import { HiLoChoices } from "../events-models/HiLoChoices";
 import HiLoConfigs from "../events-models/HiLoConfigs";
 import HiLoGameConfigs from "../events-models/HiLoGameConfigs";
 import HiLoGameData from "../events-models/HiLoGameData";
@@ -71,7 +70,7 @@ export default class HiLo extends NewMiniGameBase {
     @property(cc.AudioClip)
     collectAudioClip: cc.AudioClip = null;
 
-    gameData: HiLoGameData<HiLoChoices> = null;
+    gameData: HiLoGameData = null;
     isStopSchedule = false;
     readonly loseMessageEffectDuration = 1.5;
     readonly newRoundAfterLossDelayTime = 2.5;
@@ -89,7 +88,7 @@ export default class HiLo extends NewMiniGameBase {
     }
 
     onLoad() {
-        this.gameData = new HiLoGameData<HiLoChoices>(this);
+        this.gameData = new HiLoGameData(this);
         this.initTopArea();
         super.onLoad();
         this.registerOwnBetEvents();

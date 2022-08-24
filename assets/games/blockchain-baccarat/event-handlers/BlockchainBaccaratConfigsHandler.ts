@@ -1,9 +1,9 @@
-import { BlockchainBaccaratConfigData } from "./../event-models/BlockchainBaccaratConfigsModel";
-import { BlockchainBaccaratOdds, BCBaccaratMaxBetPerChoices } from "../event-models/BlockchainBaccaratConfigsModel";
-import { BaseEventHandler } from "./../../_new/_base/game-data-management/event-handlers/base-handler";
+import { BCBaccaratMaxBetPerChoices, BlockchainBaccaratOdds } from "../event-models/BlockchainBaccaratConfigsModel";
 import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
+import { BaseEventHandler } from "./../../_new/_base/game-data-management/event-handlers/base-handler";
+import { BlockchainBaccaratConfigData } from "./../event-models/BlockchainBaccaratConfigsModel";
 
-export type BlockchainBaccaratConfigType<Choices> = {
+export type BlockchainBaccaratConfigType = {
     gameConfigs: {
         chips: string[];
         enableFreeBet: boolean;
@@ -17,14 +17,14 @@ export type BlockchainBaccaratConfigType<Choices> = {
     };
 };
 
-export class BlockchainBaccaratConfigsHandler<Choices> extends BaseEventHandler<BlockchainBaccaratConfigType<Choices>, Choices> {
-    protected readonly gameData: BlockchainBaccaratGameData<Choices>;
+export class BlockchainBaccaratConfigsHandler extends BaseEventHandler<BlockchainBaccaratConfigType> {
+    protected readonly gameData: BlockchainBaccaratGameData;
 
-    protected verifyEvent(event: BlockchainBaccaratConfigType<Choices>) {
+    protected verifyEvent(event: BlockchainBaccaratConfigType) {
         return event.gameConfigs != null;
     }
 
-    protected handle(event: BlockchainBaccaratConfigType<Choices>) {
+    protected handle(event: BlockchainBaccaratConfigType) {
         this.gameData.configs.change(event.gameConfigs as BlockchainBaccaratConfigData);
     }
 }

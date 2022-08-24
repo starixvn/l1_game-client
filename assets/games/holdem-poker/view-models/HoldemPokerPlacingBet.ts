@@ -10,13 +10,13 @@ import { HoldemPokerState } from "../event-models/HoldemPokerState";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
 
 export default class HoldemPokerPlacingBet {
-    private readonly gameData: HoldemPokerGameData<HoldemPokerChoices> = null;
+    private readonly gameData: HoldemPokerGameData = null;
     private readonly bettingAreas: HoldemPokerBettingArea[] = null;
     private readonly gameBase: GameBase = null;
     private readonly getConnection: () => Connection;
 
     constructor(
-        gameData: HoldemPokerGameData<HoldemPokerChoices>,
+        gameData: HoldemPokerGameData,
         bettingAreas: HoldemPokerBettingArea[],
         gameBase: GameBase,
         getConnection: () => Connection

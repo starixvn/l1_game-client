@@ -21,7 +21,7 @@ import {
     showSlidingChipWithProcessingFail,
     updateAllChips,
     updateChips,
-    updateTotalBetLabel
+    updateTotalBetLabel,
 } from "../actions/HoldemPokerPlaceBetActions";
 import { showRejoinOwnBets, showRejoinTotalBet, updatePreviousChoices } from "../actions/HoldemPokerRejoinRoomActions";
 import { updateRoundId } from "../actions/HoldemPokerRoundCounterActions";
@@ -35,7 +35,7 @@ import {
     holdPlayerAndDealerCards,
     rawCardAfterClickCall,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards
+    swapPlayerAndDealerCards,
 } from "../components/cards/view-models/CardWrapper";
 import HoldemPokerCards from "../components/cards/view-models/HoldemPokerCards";
 import { HoldemPokerAfterCallModel } from "../event-models/HoldemPokerAfterCallModel";
@@ -80,7 +80,7 @@ export default class HoldemPoker extends CasinoGame {
 
     private placingBet: HoldemPokerPlacingBet = null;
     private holdemPokerChips: HoldemPokerChips;
-    private gameData: HoldemPokerGameData<HoldemPokerChoices> = null;
+    private gameData: HoldemPokerGameData = null;
     pokerCardScript: HoldemPokerCards = undefined;
 
     constructor() {
@@ -89,7 +89,7 @@ export default class HoldemPoker extends CasinoGame {
     }
 
     onLoad() {
-        this.gameData = new HoldemPokerGameData<HoldemPokerChoices>();
+        this.gameData = new HoldemPokerGameData();
         this.holdemPokerChips = new HoldemPokerChips();
         super.onLoad();
         this.initGeneralEvents();

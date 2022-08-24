@@ -1,23 +1,24 @@
-import { BlockchainBaccaratBetPercentageModel } from "./BlockchainBaccaratBetPercentageModel";
 import {
-    BlockchainBaccaratConfigsHandler,
+    BlockchainBaccaratBetPercentageHandler,
     BlockchainBaccaratCardListHandler,
-    BlockchainBaccaratRoundHistoryHandler,
+    BlockchainBaccaratConfigsHandler,
     BlockchainBaccaratFinishHandler,
     BlockchainBaccaratNewBlockchainHandler,
-    BlockchainBaccaratBetPercentageHandler
+    BlockchainBaccaratRoundHistoryHandler,
 } from "../event-handlers/BlockchainBaccaratHandler";
 import {
+    BlockchainBaccaratCardListModel,
     BlockchainBaccaratConfigsModel,
     BlockchainBaccaratFinishModel,
     BlockchainBaccaratRoundHistoryModel,
-    BlockchainBaccaratCardListModel,
 } from "../event-models/BlockchainBaccaratModel";
 import { GameData } from "./../../_new/_base/game-data-management/models/game-data";
+import { BlockchainBaccaratBetPercentageModel } from "./BlockchainBaccaratBetPercentageModel";
+
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class BlockchainBaccaratGameData<Choices> extends GameData<Choices> {
+export default class BlockchainBaccaratGameData extends GameData {
     static Events = {
         SETTLED: "settled"
     };

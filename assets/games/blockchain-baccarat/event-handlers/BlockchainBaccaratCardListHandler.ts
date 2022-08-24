@@ -1,9 +1,9 @@
 import { BaseEventHandler } from "../../_new/_base/game-data-management/event-handlers/base-handler";
-import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
-import { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
 import { BlockchainCardModel } from "../BlockchainBaccaratType";
+import { Blockchain } from "../event-models/BlockchainBaccaratCardListModel";
+import BlockchainBaccaratGameData from "../event-models/BlockchainBaccaratGameData";
 
-export type BlockchainBaccaratCardListType<Choices> = {
+export type BlockchainBaccaratCardListType = {
     blockchain: {
         burnedCards: number;
         currentIndex: number;
@@ -13,14 +13,14 @@ export type BlockchainBaccaratCardListType<Choices> = {
     };
 };
 
-export class BlockchainBaccaratCardListHandler<Choices> extends BaseEventHandler<BlockchainBaccaratCardListType<Choices>, Choices> {
-    protected readonly gameData: BlockchainBaccaratGameData<Choices>;
+export class BlockchainBaccaratCardListHandler extends BaseEventHandler<BlockchainBaccaratCardListType> {
+    protected readonly gameData: BlockchainBaccaratGameData;
 
-    protected verifyEvent(event: BlockchainBaccaratCardListType<Choices>) {
+    protected verifyEvent(event: BlockchainBaccaratCardListType) {
         return event.blockchain != null;
     }
 
-    protected handle(event: BlockchainBaccaratCardListType<Choices>) {
+    protected handle(event: BlockchainBaccaratCardListType) {
         this.gameData.cardList.change(event.blockchain as Blockchain);
         this.gameData.cardList.changeCurrentIndexJoinRoom(event.blockchain?.currentIndex);
     }

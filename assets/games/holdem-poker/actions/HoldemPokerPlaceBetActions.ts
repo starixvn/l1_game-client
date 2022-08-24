@@ -124,7 +124,7 @@ export const showHideClearIcon = (bettingAreas: HoldemPokerBettingArea[]) => (st
     }
 };
 
-export const showOwnBet = (gameData: HoldemPokerGameData<HoldemPokerChoices>, bettingAreas: HoldemPokerBettingArea[]) => () => {
+export const showOwnBet = (gameData: HoldemPokerGameData, bettingAreas: HoldemPokerBettingArea[]) => () => {
     if (gameData.placeBetModel.choices[HoldemPokerChoicesConst.ante]) {
         bettingAreas[0].showBetValue(true);
         bettingAreas[0].showBetText(false);
@@ -156,7 +156,7 @@ export const showPlaceBetChips =
         betChips: BetChips,
         shadowChip: cc.SpriteFrame,
         holdemPokerChips: HoldemPokerChips,
-        gameData: HoldemPokerGameData<HoldemPokerChoices>,
+        gameData: HoldemPokerGameData,
         mainGame: HoldemPoker
     ) =>
     ({ currentChoice, currentAmount, totalAmount }) => {

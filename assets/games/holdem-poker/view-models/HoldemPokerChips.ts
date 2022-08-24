@@ -2,7 +2,6 @@ import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import GameUtils from "../../../common/GameUtils";
 import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
-import HoldemPokerChoices from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
 import HoldemPoker from "./HoldemPoker";
 import HoldemPokerBettingArea from "./HoldemPokerBettingArea";
@@ -103,7 +102,7 @@ export default class HoldemPokerChips extends cc.Component {
     }
 
     public showWinningOption(
-        gameData: HoldemPokerGameData<HoldemPokerChoices>,
+        gameData: HoldemPokerGameData,
         bettingAreas: HoldemPokerBettingArea[],
         betChips: BetChips,
         main: HoldemPoker,
@@ -175,12 +174,7 @@ export default class HoldemPokerChips extends cc.Component {
             )
         );
     }
-    private playerWinningAffectAction(
-        totalWin: number,
-        totalBet: number,
-        gameData: HoldemPokerGameData<HoldemPokerChoices>,
-        main: HoldemPoker
-    ) {
+    private playerWinningAffectAction(totalWin: number, totalBet: number, gameData: HoldemPokerGameData, main: HoldemPoker) {
         const isWin = totalWin > totalBet;
         totalWin > 0 && main.showWinningBet(totalWin);
         isWin && this.playWinningEffect(main, main.userProfile.node, 5);
