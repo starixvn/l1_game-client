@@ -13,6 +13,10 @@ export default class HeroesSlot extends SlotGameBase {
     constructor() {
         super();
         this.gameId = HeroesSlotId;
+    }
+
+    onLoad() {
+        super.onLoad();
         this.enabledBottomMessage = false;
     }
 
