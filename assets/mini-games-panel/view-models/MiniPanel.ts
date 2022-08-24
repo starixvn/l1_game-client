@@ -282,7 +282,7 @@ export default class MiniPanel extends BaseComponent {
 
         const language = window.i18n.curLang;
 
-        if (isUsingRemoteBundle) {
+        if (isUsingRemoteBundle(gameId)) {
             const path = `i18n/images/${language}`;
 
             BundleManager.getInstance()
