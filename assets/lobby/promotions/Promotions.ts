@@ -55,9 +55,12 @@ export class Promotions extends EventEmitterBase {
             let haveNewPromotion = data.length > this.promotions.length;
             if (!haveNewPromotion) {
                 const filterNewPromotion = data.filter(
-                    (p1) =>
+                    (newPromotion) =>
                         !this.promotions.some(
-                            (p2) => p1._id === p2._id && p1.startDateTime === p2.startDateTime && p2.endDateTime === p2.endDateTime
+                            (currentPromotion) =>
+                                newPromotion._id === currentPromotion._id &&
+                                newPromotion.startDateTime === currentPromotion.startDateTime &&
+                                currentPromotion.endDateTime === currentPromotion.endDateTime
                         )
                 );
                 haveNewPromotion = filterNewPromotion.length > 0;
