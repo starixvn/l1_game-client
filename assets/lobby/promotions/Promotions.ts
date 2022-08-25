@@ -4,7 +4,27 @@ import EventEmitterBase from "../../common/emitter/EventEmitterBase";
 export const PromotionsEvent = {
     SHOW_BOOSTED_ODDS: "SHOW_BOOSTED_ODDS"
 };
+export class Promotion {
+    gameId: number;
+    _id: string;
+    endDateTime: string;
+    isDaily: boolean;
+    odds: any;
+    startDateTime: string;
+    status: string;
+    time: string;
+}
 
+export const promotion: Promotion = {
+    gameId: 0,
+    _id: "id",
+    endDateTime: "",
+    isDaily: false,
+    odds: {},
+    startDateTime: "",
+    status: ",",
+    time: ""
+};
 export class Promotions extends EventEmitterBase {
     private static instance: Promotions;
 
@@ -13,12 +33,12 @@ export class Promotions extends EventEmitterBase {
     protected timeout: any;
     private readonly minutesToMillisecond = 60 * 1000;
     private readonly delayTime = 2 * this.minutesToMillisecond;
+    protected promotions: Promotion[] = [promotion];
 
     public static getInstance(): Promotions {
         if (!this.instance) {
             this.instance = new Promotions();
         }
-
         return this.instance;
     }
 
@@ -31,12 +51,31 @@ export class Promotions extends EventEmitterBase {
     }
 
     receivedData(data) {
-        if (data.length > 0 && this.isShowBoostedOdds) {
-            console.log("BoostedOddsEvent");
-            this.emit(PromotionsEvent.SHOW_BOOSTED_ODDS);
+        if (data.length > 0) {
+            let haveNewPromotion = data.length > this.promotions.length;
+            if (!haveNewPromotion) {
+                const filterNewPromotion = data.filter(
+                    (p1) =>
+                        !this.promotions.some(
+                            (p2) => p1._id === p2._id && p1.startDateTime === p2.startDateTime && p2.endDateTime === p2.endDateTime
+                        )
+                );
+                haveNewPromotion = filterNewPromotion.length > 0;
+            }
+            if (haveNewPromotion || this.isShowBoostedOdds) {
+                this.emitEvent();
+            }
+
             this.isShowBoostedOdds = false;
-            this.setTimeoutShowBoostedOdds();
+
+            this.promotions = data;
         }
+    }
+
+    emitEvent() {
+        console.log("BoostedOddsEvent");
+        this.emit(PromotionsEvent.SHOW_BOOSTED_ODDS);
+        this.setTimeoutShowBoostedOdds();
     }
 
     setTimeoutShowBoostedOdds(): void {
