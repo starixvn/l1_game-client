@@ -70,6 +70,9 @@ export default class HiLo extends NewMiniGameBase {
     @property(cc.AudioClip)
     collectAudioClip: cc.AudioClip = null;
 
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
     gameData: HiLoGameData = null;
     isStopSchedule = false;
     readonly loseMessageEffectDuration = 1.5;
