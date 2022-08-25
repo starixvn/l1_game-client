@@ -5,8 +5,8 @@ const { ccclass, property } = cc._decorator;
 const PromotionNotificationsStorageKey = "PROMOTION_NOTIFICATIONS";
 @ccclass
 export default class PromotionNotifications extends cc.Component {
-    @property(cc.Label)
-    count: cc.Label = null;
+    @property(cc.Node)
+    countNode: cc.Node = null;
 
     @property(cc.Prefab)
     announcementPrefab: cc.Prefab = null;
@@ -26,9 +26,10 @@ export default class PromotionNotifications extends cc.Component {
 
     receivedData(data) {
         cc.sys.localStorage.setItem(PromotionNotificationsStorageKey, JSON.stringify(data));
+        this.countNode.active = false;
         if (data.length > 0) {
-            this.count.string = data.length.toString();
-            this.count.node.parent.active = true;
+            this.countNode.active = true;
+            this.countNode.getChildByName("count").getComponent(cc.Label).string = data.length.toString();
         }
     }
 
