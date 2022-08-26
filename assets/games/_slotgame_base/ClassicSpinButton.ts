@@ -40,6 +40,7 @@ export default class ClassicSpinButton extends SpinButton {
             this.autoSpinCountLabel.node.parent.active = true;
         } else {
             this.freeSpinLabel.node.parent.active = false;
+            this.normalSpinNode.active = true;
         }
     }
 

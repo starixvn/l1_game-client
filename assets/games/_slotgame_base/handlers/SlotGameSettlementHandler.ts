@@ -138,7 +138,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
     handlePayline(jackpot: any, betWin: number, winningLines: LineData[], bigWin: boolean, freeSpins: any) {
         const delayTime = betWin > 0 && !bigWin ? this.main.getCustomDuration("win") : this.main.getCustomDuration("lose");
-        const notWinBigEffect = freeSpins.count === 0 && !bigWin;
+
         this.main.settleTween = cc
             .tween(this.main)
             .call(() => {
