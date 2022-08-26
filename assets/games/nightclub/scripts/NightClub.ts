@@ -9,5 +9,6 @@ export default class NightClub extends HeroesSlot {
     constructor() {
         super();
         this.gameId = NightClubId;
+        this.enabledBottomMessage = true;
     }
 }

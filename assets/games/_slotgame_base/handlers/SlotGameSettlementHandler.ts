@@ -143,18 +143,11 @@ export default class SlotGameSettlementHandler implements DataHandler {
             .tween(this.main)
             .call(() => {
                 this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime);
-                if (notWinBigEffect) {
-                    this.main.showMessageDisplay(RoundType.SETTLED);
-                }
             })
             .delay(delayTime)
             .call(async () => {
                 if (bigWin) {
                     await this.main.showEffectBigWin(betWin);
-                }
-
-                if (!notWinBigEffect) {
-                    this.main.showMessageDisplay(RoundType.SETTLED);
                 }
 
                 if (freeSpins.count > 0) {
