@@ -25,6 +25,7 @@ import GameUIManager from "./GameUIManager";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import { Promotions } from "../../promotions/Promotions";
+import PromotionNotificationsHandler from "../../promotions/PromotionNotificationsHandler";
 
 const socketIOController = appContainer.get(SocketIOController);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -124,6 +125,7 @@ export default class MainGame extends cc.Component {
 
     initPromotions() {
         Promotions.getInstance().addDataObserver();
+        PromotionNotificationsHandler.getInstance().addDataObserver();
     }
 
     removeGame() {

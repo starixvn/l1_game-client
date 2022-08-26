@@ -2,6 +2,7 @@ import CommonDialog from "../../common/_base/view-models/CommonDialog";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import PromotionAnnouncementItem, { PromotionAnnouncementItemEvent } from "./PromotionAnnouncementItem";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import PromotionNotificationsHandler, { PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,6 +36,7 @@ export default class PromotionAnnouncements extends cc.Component {
     text: cc.Label = null;
 
     public miniPanel: MiniPanel;
+    public announcementItems: cc.Node[] = [];
 
     onPromotionClick() {
         this.onPromotionTab(true);
@@ -54,6 +56,7 @@ export default class PromotionAnnouncements extends cc.Component {
     }
 
     onLoad(): void {
+        PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, this.setData.bind(this));
         this.dialog.addOnDidHide(() => this.node.destroy());
         this.setData();
     }
@@ -63,6 +66,8 @@ export default class PromotionAnnouncements extends cc.Component {
         if (promotion.length < 1) {
             this.text.string = i18n.t("promotions.notPromotion");
         } else {
+            this.announcementItems.forEach((chip) => chip.destroy());
+            this.announcementItems = [];
             this.count.string = promotion.length.toString();
             this.count.node.parent.active = true;
             promotion.forEach((detail) => {
@@ -74,6 +79,7 @@ export default class PromotionAnnouncements extends cc.Component {
                 }
                 item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
                 item.setData(detail);
+                this.announcementItems.push(node);
             });
         }
     }

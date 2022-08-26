@@ -1,8 +1,7 @@
-import NotificationService from "../../common/auth/NotificationService";
+import PromotionNotificationsHandler, { PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
 
 const { ccclass, property } = cc._decorator;
 
-const PromotionNotificationsStorageKey = "PROMOTION_NOTIFICATIONS";
 @ccclass
 export default class PromotionNotifications extends cc.Component {
     @property(cc.Node)
@@ -14,18 +13,13 @@ export default class PromotionNotifications extends cc.Component {
     @property(cc.Node)
     announcementContainer: cc.Node = null;
 
-    private readonly dataKey = "promotionNotifications";
-
     onLoad(): void {
-        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
+        PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, (data) => {
+            this.showNotification(data);
+        });
     }
 
-    onDestroy() {
-        NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
-    }
-
-    receivedData(data) {
-        cc.sys.localStorage.setItem(PromotionNotificationsStorageKey, JSON.stringify(data));
+    showNotification(data) {
         this.countNode.active = false;
         if (data.length > 0) {
             this.countNode.active = true;
