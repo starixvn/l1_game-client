@@ -787,6 +787,11 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
+    openGuide() {
+        super.openGuide();
+        this.expandableMenu.collapseMenu();
+    }
+
     onClickShowTopWinner() {
         AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
