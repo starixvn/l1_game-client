@@ -464,7 +464,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         dialog.onConfirmCallback = (autoSpinCount: number) => {
             this.setAutoSpinCount(autoSpinCount);
             this.updateModeSpinButton(false);
-
+            this.lastAutoSpinCount = autoSpinCount;
             this.spin();
             this.isShowAutoSpinSettingDialog = false;
         };
@@ -473,6 +473,10 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             this.resetStateButtons();
             this.isShowAutoSpinSettingDialog = false;
         };
+
+        if (this.lastAutoSpinCount) {
+            dialog.setLastSelected(this.lastAutoSpinCount);
+        }
 
         const turboDialog = node.getComponent(TurboAutoSpinSettingDialog);
         if (turboDialog) {
