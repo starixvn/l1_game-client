@@ -131,6 +131,8 @@ export default class GameBase extends GameViewBase {
     public roundId = -1;
     public gameConfigs: any;
     public finishShowResult = true;
+    public oddsValue: any;
+    public boostedChoices: string[];
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
@@ -152,7 +154,7 @@ export default class GameBase extends GameViewBase {
     private processingWarning: cc.Node;
     public needHideNextDotRoundHistory = false;
 
-    hideUmDataKeys = ["remainingTime"]
+    hideUmDataKeys = ["remainingTime"];
 
     setConfig(config: GameConfigBase) {
         this.config = config;
@@ -459,9 +461,22 @@ export default class GameBase extends GameViewBase {
         this.gameConfigs.odds && this.betItems.forEach((item) => item.setOdd(this.gameConfigs.odds[item.node.name]));
     }
 
-    public updateOdds(values) {
-        this.gameConfigs.odds = values;
-        this.betItems.forEach((item) => item.setOdd(values[item.node.name]));
+    public updateOddsInfo(odds) {
+        this.oddsValue = odds.values;
+        this.boostedChoices = odds.boostedChoices;
+    }
+
+    public updateOddsFromPromotion() {
+        this.gameConfigs.odds = this.oddsValue;
+    }
+
+    public applyPromotion() {
+        if (!this.oddsValue && !this.boostedChoices) {
+            return;
+        }
+        this.updateOddsFromPromotion();
+        this.betItems.forEach((item) => item.setOdd(this.oddsValue[item.node.name]));
+        this.setBoostedChoices(this.boostedChoices);
     }
 
     setGameConfigs(gameConfigs: any) {
@@ -471,7 +486,7 @@ export default class GameBase extends GameViewBase {
 
     setBoostedChoices(boostedChoices: any) {
         if (boostedChoices) {
-            this.betItems.forEach((item) => item.highLightOdds(boostedChoices.includes(item.node.name)));
+            this.betItems.forEach((item) => item.highLightOdds(boostedChoices?.includes(item.node.name)));
         }
     }
 
@@ -586,7 +601,7 @@ export default class GameBase extends GameViewBase {
     }
 
     checkHideUmMessage(data: any) {
-        return this.hideUmDataKeys.some(key => data[key] !== undefined);
+        return this.hideUmDataKeys.some((key) => data[key] !== undefined);
     }
 
     openHistory() {}

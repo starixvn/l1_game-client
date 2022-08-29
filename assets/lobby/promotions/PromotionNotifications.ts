@@ -13,10 +13,14 @@ export default class PromotionNotifications extends cc.Component {
     @property(cc.Node)
     announcementContainer: cc.Node = null;
 
-    onLoad(): void {
+    onLoad() {
         PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, (data) => {
             this.showNotification(data);
         });
+    }
+
+    onDestroy() {
+        PromotionNotificationsHandler.getInstance().removeAllListeners();
     }
 
     showNotification(data) {

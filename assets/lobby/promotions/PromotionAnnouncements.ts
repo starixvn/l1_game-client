@@ -61,12 +61,16 @@ export default class PromotionAnnouncements extends cc.Component {
         this.setData();
     }
 
+    onDestroy() {
+        PromotionNotificationsHandler.getInstance().removeAllListeners();
+    }
+
     public setData() {
         const promotion = JSON.parse(cc.sys.localStorage.getItem("PROMOTION_NOTIFICATIONS"));
         if (promotion.length < 1) {
             this.text.string = i18n.t("promotions.notPromotion");
         } else {
-            this.announcementItems.forEach((chip) => chip.destroy());
+            this.announcementItems?.forEach((item) => item.destroy());
             this.announcementItems = [];
             this.count.string = promotion.length.toString();
             this.count.node.parent.active = true;

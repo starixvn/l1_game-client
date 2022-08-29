@@ -47,6 +47,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.statusHandler.currentStatusData = null;
+        this.main.applyPromotion();
         cc.RedT.GAME_IS_SHOWED && this.shakeThePlate();
     }
 

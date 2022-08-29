@@ -82,7 +82,7 @@ export class Promotions extends EventEmitterBase {
     }
 
     setTimeoutShowBoostedOdds(): void {
-        this.timeout && clearInterval(this.timeout);
+        this.timeout && clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
             this.isShowBoostedOdds = true;
         }, this.delayTime);

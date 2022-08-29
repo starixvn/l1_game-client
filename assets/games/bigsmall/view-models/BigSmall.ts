@@ -294,8 +294,13 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         }
     }
 
-    public updateOdds(values) {
-        this.odds.string = `1:${values[this.choices[0]]}`;
+    public applyPromotion() {
+        if (!this.oddsValue && !this.boostedChoices) {
+            return;
+        }
+        this.updateOddsFromPromotion();
+        this.odds.string = `1:${this.oddsValue[this.choices[0]]}`;
+        this.setBoostedChoices(this.boostedChoices);
     }
 
     setBoostedChoices(boostedChoices: any) {
