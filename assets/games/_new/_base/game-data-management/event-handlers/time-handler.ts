@@ -2,6 +2,7 @@ import { BaseEventHandler } from "./base-handler";
 
 export type TimeEventType = {
     remainingTime: number;
+    gameConfigs: any;
 };
 
 export class TimeEventHandler extends BaseEventHandler<TimeEventType> {
@@ -12,7 +13,11 @@ export class TimeEventHandler extends BaseEventHandler<TimeEventType> {
     handle(event: TimeEventType) {
         const { remainingTime } = event;
 
-        this.gameData.durations.remaining = remainingTime;
+        if (event.gameConfigs) {
+            this.gameData.durations.remaining = remainingTime;
+        } else {
+            this.gameData.durations.remaining = remainingTime - 1;
+        }
         this.gameData.durations.start();
 
         this.gameData.isUnderMaintenance = false;
