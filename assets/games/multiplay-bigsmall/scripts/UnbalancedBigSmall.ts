@@ -4,6 +4,7 @@ import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { DishAnimation } from "../../bigsmall/view-models/BigSmall";
 import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
+import BigSmallDicesStatistic from "../../bigsmall/view-models/BigSmallDicesStatistic";
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import { handleBeginPlacingBet, handlePlacingBet, handleShakeDish, handleSubGameWaitingTime } from "./actions/CustomActions";
@@ -53,6 +54,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.Node)
     timeShowResult: cc.Node = null;
 
+    @property(cc.Prefab)
+    statisticBoardPrefab: cc.Prefab = null;
+
     public isMiniGameInContainer = true;
 
     protected scaleResultNode = 1;
@@ -60,6 +64,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     miniRoundHistory: BigSmallMiniRoundHistory;
     readonly shakingDuration = 2;
     readonly showResultDuration = 1;
+    statisticContainer: BigSmallDicesStatistic;
 
     constructor() {
         super();
@@ -210,6 +215,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected updateRoundHistory() {
         this.miniRoundHistory.setData(this.currentDataLogs);
+        this.statisticContainer && this.statisticContainer.updateData(this.currentDataLogs);
     }
 
     setDicesVisibility(show: boolean) {
@@ -297,5 +303,10 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         if (this.timeShowResult) {
             this.timeShowResult.active = show;
         }
+    }
+
+    initStatisticBoard(node: cc.Node) {
+        AudioManager.getInstance().playClick();
+        this.statisticContainer = node.getComponent(BigSmallDicesStatistic);
     }
 }
