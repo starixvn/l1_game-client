@@ -574,7 +574,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         if (this.betChoices.length === 0 || this.isAnimatingResult || !this.isReadyBet()) {
             return success;
         }
-        if (!this.checkAvailableBalance()) {
+
+        const balanceAvailable = this.isFreeSpin() || this.checkAvailableBalance();
+        if (!balanceAvailable) {
             this.resetStateButtons();
             return success;
         }
