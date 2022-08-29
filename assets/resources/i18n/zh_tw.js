@@ -436,7 +436,7 @@ const data = {
         start: "Start",
         table: "Table",
         joinGame: "Join Game",
-        promotion: "促銷",
+        promotion: "Promotion",
         terms: "Terms and\n Conditions"
     },
     termsPromotion: {

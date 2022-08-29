@@ -462,7 +462,7 @@ const data = {
     termsPromotion: {
         first: "- Tất cả người chơi của hệ thống đều đủ điều kiện tham gia các chương trình khuyến mãi và có cơ hội giành được những giải thưởng hấp dẫn.",
         second: "- Tiền thắng được tính toán dựa theo quy định của chương trình khuyến mãi và bảng trả thưởng.",
-        third: "- Chương trình khuyến mãi chỉ được áp dụng trong một khoảng thời gian nhất định do Nhà cái quy định. Khi chương trình khuyến mãi kết thúc, luật chơi và bảng trả thưởng sẽ được điều chỉnh trở về như bình thường."
+        third: "- Chương trình khuyến mãi chỉ được áp dụng trong một khoảng thời gian nhất định do Nhà Cái quy định. Khi chương trình khuyến mãi kết thúc, luật chơi và bảng trả thưởng sẽ được điều chỉnh trở về như bình thường."
     },
     holdEmPoker: {
         ante: "ANTE",
