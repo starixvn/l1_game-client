@@ -68,20 +68,24 @@ export default class PromotionAnnouncements extends cc.Component {
 
     public setData() {
         const promotion = JSON.parse(cc.sys.localStorage.getItem("PROMOTION_NOTIFICATIONS"));
-        this.announcementItems?.forEach((item) => item.destroy());
-        this.announcementItems = [];
-        this.count.string = promotion.length.toString();
-        this.count.node.parent.active = true;
-        promotion.forEach((detail) => {
-            const node = cc.instantiate(this.promoItemPrefab);
-            this.content.addChild(node);
-            const item = node.getComponent(PromotionAnnouncementItem);
-            if (item) {
-                item.miniPanel = this.miniPanel || cc.RedT.MiniPanel;
-            }
-            item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
-            item.setData(detail);
-            this.announcementItems.push(node);
-        });
+        if (promotion.length < 1) {
+            this.dialog.closeDialog();
+        } else {
+            this.announcementItems?.forEach((item) => item.destroy());
+            this.announcementItems = [];
+            this.count.string = promotion.length.toString();
+            this.count.node.parent.active = true;
+            promotion.forEach((detail) => {
+                const node = cc.instantiate(this.promoItemPrefab);
+                this.content.addChild(node);
+                const item = node.getComponent(PromotionAnnouncementItem);
+                if (item) {
+                    item.miniPanel = this.miniPanel || cc.RedT.MiniPanel;
+                }
+                item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
+                item.setData(detail);
+                this.announcementItems.push(node);
+            });
+        }
     }
 }
