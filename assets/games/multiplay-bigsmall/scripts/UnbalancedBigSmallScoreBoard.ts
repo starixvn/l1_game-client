@@ -95,6 +95,9 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
     }
 
     updateRoundHistory = (roundHistory) => {
+        if (roundHistory.length > 100) {
+            roundHistory.pop();
+        }
         this.hideNextItem();
 
         const choices = ["big", "small"];
@@ -108,7 +111,7 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
         }, {});
         choices.forEach((choice) => {
             const label = this.percentLabels.find((label) => label.node.name === choice);
-            label.string = count[choice];
+            label.string = `${count[choice]}%`;
         });
 
         const data = roundHistory.map((history) => {

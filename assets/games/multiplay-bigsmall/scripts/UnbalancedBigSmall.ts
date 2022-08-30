@@ -64,7 +64,8 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     miniRoundHistory: BigSmallMiniRoundHistory;
     readonly shakingDuration = 2;
     readonly showResultDuration = 1;
-    statisticContainer: BigSmallDicesStatistic;
+    private statisticContainer: BigSmallDicesStatistic;
+    private showStatistic = true;
 
     constructor() {
         super();
@@ -308,5 +309,14 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     initStatisticBoard(node: cc.Node) {
         AudioManager.getInstance().playClick();
         this.statisticContainer = node.getComponent(BigSmallDicesStatistic);
+    }
+
+    public openStatistic() {
+        this.showStatistic = !this.showStatistic;
+        this.handleShowStatistic(this.showStatistic);
+    }
+
+    public handleShowStatistic(show: boolean) {
+        this.statisticContainer.node.active = show;
     }
 }

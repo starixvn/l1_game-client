@@ -1,7 +1,7 @@
 import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
-const ROW_MAX = 6;
+const ROW_MAX = 5;
 
 @ccclass
 export default class BeadRoad extends cc.Component {
