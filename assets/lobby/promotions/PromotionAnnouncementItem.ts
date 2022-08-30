@@ -18,6 +18,9 @@ export default class PromotionAnnouncementItem extends cc.Component {
     joinButton: cc.Button = null;
 
     @property(cc.Node)
+    bgDisable: cc.Node = null;
+
+    @property(cc.Node)
     content: cc.Node = null;
 
     public miniPanel: MiniPanel;
@@ -27,7 +30,9 @@ export default class PromotionAnnouncementItem extends cc.Component {
         this.title.node.getComponent(cc.LabelShadow).enabled = true;
         this.message.string = NoticeUtil.getMessageByLocale(data.messages);
         this.joinButton.interactable = data.isActive;
-        this.joinButton.node.opacity = data.isActive ? 255 : 150;
+        this.bgDisable.active = data.isActive ? false : true;
+        const text = this.joinButton.node.getChildByName("text");        
+        text.color = data.isActive ? cc.color(209, 42, 33) : cc.color(83, 78, 78);
         this.joinButton.node.on("click", this.onClickJoinGame.bind(this, data.gameId));
     }
 
