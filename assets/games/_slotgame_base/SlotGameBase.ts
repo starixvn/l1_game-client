@@ -28,6 +28,7 @@ import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
 import TurboAutoSpinSettingDialog from "./TurboAutoSpinSettingDialog";
+import { RoundType } from "./SlotGameBottomMessage";
 
 export interface LineData {
     payline: number;
@@ -42,12 +43,6 @@ enum SlotGameSound {
     JACKPOT = 3,
     FREESPIN = 4,
     BONUS = 5
-}
-
-export enum RoundType {
-    BEFORESPIN = 0,
-    SPINNING = 1,
-    SETTLED = 2
 }
 
 const { ccclass, property } = cc._decorator;

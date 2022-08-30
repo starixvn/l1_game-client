@@ -1,5 +1,6 @@
 import DataHandler from "../../_base/handlers/DataHandler";
-import SlotGameBase, { LineData, RoundType } from "../SlotGameBase";
+import SlotGameBase, { LineData } from "../SlotGameBase";
+import { RoundType } from "../SlotGameBottomMessage";
 
 export default class SlotGameSettlementHandler implements DataHandler {
     constructor(protected readonly main: SlotGameBase) {}
