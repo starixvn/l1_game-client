@@ -24,11 +24,8 @@ export default class PromotionNotifications extends cc.Component {
     }
 
     showNotification(data) {
-        this.countNode.active = false;
-        if (data.length > 0) {
-            this.countNode.active = true;
-            this.countNode.getChildByName("count").getComponent(cc.Label).string = data.length.toString();
-        }
+        this.countNode.getChildByName("count").getComponent(cc.Label).string = data.length.toString();
+        this.node.active = data.length < 1 ? false : true;
     }
 
     onClickNotification() {

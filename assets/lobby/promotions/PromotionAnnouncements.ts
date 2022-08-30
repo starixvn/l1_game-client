@@ -68,7 +68,7 @@ export default class PromotionAnnouncements extends cc.Component {
     public setData() {
         const promotion = JSON.parse(cc.sys.localStorage.getItem("PROMOTION_NOTIFICATIONS"));
         if (promotion.length < 1) {
-            this.text.string = i18n.t("promotions.notPromotion");
+            this.dialog.closeDialog();
         } else {
             this.announcementItems?.forEach((item) => item.destroy());
             this.announcementItems = [];
