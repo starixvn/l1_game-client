@@ -548,8 +548,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.slotBoard.applyData(shuffleData);
     }
 
-    onSpinClick() {
+    onSpinClick(hold: boolean) {
         AudioManager.getInstance().playClick();
+        this.isHoldAction = hold;
         this.spinAction();
     }
 
