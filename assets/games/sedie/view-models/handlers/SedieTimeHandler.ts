@@ -29,7 +29,6 @@ export default class SedieTimeHandler extends GameBaseTimeHandler {
     }
 
     handleStartingNewGameRound() {
-        this.main.applyPromotion();
         super.handleStartingNewGameRound();
         this.shakeThePlate();
         this.main.highlightLastResult();

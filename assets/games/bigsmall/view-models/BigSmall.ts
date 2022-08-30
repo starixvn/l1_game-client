@@ -294,18 +294,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         }
     }
 
-    public applyPromotion() {
-        if (!this.oddsValue && !this.boostedChoices) {
-            return;
-        }
-        this.updateOddsFromPromotion();
-        this.odds.string = `1:${this.oddsValue[this.choices[0]]}`;
-        this.setBoostedChoices(this.boostedChoices);
+    public applyPromotion(values) {
+        this.odds.string = `1:${values[this.choices[0]]}`;
     }
 
     setBoostedChoices(boostedChoices: any) {
+        const color = cc.Color.WHITE;
         if (boostedChoices?.includes(this.choices[0])) {
-            this.odds.node.color = cc.Color.CYAN;
-        } else this.odds.node.color = cc.Color.WHITE;
+            this.odds.node.color = color.fromHEX("#F0F00C");
+        } else this.odds.node.color = color;
     }
 }

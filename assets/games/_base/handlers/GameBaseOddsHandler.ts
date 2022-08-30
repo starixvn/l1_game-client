@@ -6,7 +6,8 @@ export default class GameBaseOddsHandler implements DataHandler {
 
     handle(data: any) {
         if (data.odds) {
-            this.main.updateOddsInfo(data.odds);
+            this.main.applyPromotion(data.odds?.values);
+            this.main.setBoostedChoices(data.odds?.boostedChoices);
         }
     }
 }

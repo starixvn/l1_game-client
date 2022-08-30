@@ -131,8 +131,6 @@ export default class GameBase extends GameViewBase {
     public roundId = -1;
     public gameConfigs: any;
     public finishShowResult = true;
-    public oddsValue: any;
-    public boostedChoices: string[];
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
@@ -461,22 +459,9 @@ export default class GameBase extends GameViewBase {
         this.gameConfigs.odds && this.betItems.forEach((item) => item.setOdd(this.gameConfigs.odds[item.node.name]));
     }
 
-    public updateOddsInfo(odds) {
-        this.oddsValue = odds.values;
-        this.boostedChoices = odds.boostedChoices;
-    }
-
-    public updateOddsFromPromotion() {
-        this.gameConfigs.odds = this.oddsValue;
-    }
-
-    public applyPromotion() {
-        if (!this.oddsValue && !this.boostedChoices) {
-            return;
-        }
-        this.updateOddsFromPromotion();
-        this.betItems.forEach((item) => item.setOdd(this.oddsValue[item.node.name]));
-        this.setBoostedChoices(this.boostedChoices);
+    public applyPromotion(values) {
+        this.gameConfigs.odds = values;
+        this.betItems.forEach((item) => item.setOdd(values[item.node.name]));
     }
 
     setGameConfigs(gameConfigs: any) {

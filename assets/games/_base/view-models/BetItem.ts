@@ -85,9 +85,10 @@ export default class BetItem extends cc.Component {
     }
 
      public highLightOdds(boostedChoice) {
+        const color = cc.Color.WHITE;
         if (boostedChoice) {
-            this.odds.node.color = cc.Color.CYAN;
-        } else this.odds.node.color = cc.Color.WHITE;
+            this.odds.node.color = color.fromHEX("#F0F00C");
+        } else this.odds.node.color = color;
     }
 
     public clearBet() {
