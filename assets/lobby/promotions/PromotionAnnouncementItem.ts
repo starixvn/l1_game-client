@@ -6,6 +6,8 @@ const { ccclass, property } = cc._decorator;
 export const PromotionAnnouncementItemEvent = {
     CLOSE_PROMOTIONS: "CLOSE_PROMOTIONS"
 };
+export const JoinGameByGameId = "JOIN_GAME_BY_GAME_ID";
+
 @ccclass
 export default class PromotionAnnouncementItem extends cc.Component {
     @property(cc.Label)
@@ -31,13 +33,14 @@ export default class PromotionAnnouncementItem extends cc.Component {
         this.message.string = NoticeUtil.getMessageByLocale(data.messages);
         this.joinButton.interactable = data.isActive;
         this.bgDisable.active = data.isActive ? false : true;
-        const text = this.joinButton.node.getChildByName("text");        
+        const text = this.joinButton.node.getChildByName("text");
         text.color = data.isActive ? cc.color(209, 42, 33) : cc.color(83, 78, 78);
         this.joinButton.node.on("click", this.onClickJoinGame.bind(this, data.gameId));
     }
 
     onClickJoinGame(gameId) {
         GameUtils.openGame(gameId, this.miniPanel);
+        cc.sys.localStorage.setItem(JoinGameByGameId, gameId);
         this.node.emit(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS);
     }
 }

@@ -26,6 +26,7 @@ export default class PromotionNotifications extends cc.Component {
     showNotification(data) {
         this.countNode.getChildByName("count").getComponent(cc.Label).string = data.length.toString();
         this.node.active = data.length < 1 ? false : true;
+        this.node.getComponent(cc.Button).interactable = data.length > 0;
     }
 
     onClickNotification() {

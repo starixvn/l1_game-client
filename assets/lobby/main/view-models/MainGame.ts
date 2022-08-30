@@ -26,6 +26,7 @@ import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import { Promotions } from "../../promotions/Promotions";
 import PromotionNotificationsHandler from "../../promotions/PromotionNotificationsHandler";
+import { JoinGameByGameId } from "../../promotions/PromotionAnnouncementItem";
 
 const socketIOController = appContainer.get(SocketIOController);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -92,6 +93,7 @@ export default class MainGame extends cc.Component {
         cc.RedT.MiniPanel = null;
         cc.RedT.inGame = null;
         window.isSSO = false;
+        cc.sys.localStorage.removeItem(JoinGameByGameId);
     }
 
     onLoad() {
@@ -112,6 +114,7 @@ export default class MainGame extends cc.Component {
         this.initScrollListener();
         this.initGameUIEvents();
         this.initPromotions();
+        this.onClickJoinGame();
     }
 
     initGameUIEvents() {
@@ -277,6 +280,7 @@ export default class MainGame extends cc.Component {
         const isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
 
         if (isSSOToGame || sessionManager.getInRoomGameId()) {
+            console.log("ahihi", sessionManager.getInRoomGameId());
             this.loadLobby(isSSOToGame && GameUtils.isMiniGame(window.openGameId));
             this.openGameSSO();
             window.isSSO && this.setCategoryOnSSOGame();
@@ -473,6 +477,13 @@ export default class MainGame extends cc.Component {
             GameUtils.openGame(+this.inRoomGameId, this.miniPanel, null);
         } else {
             window.isSSO && this.openLuckyWheel();
+        }
+    }
+
+    onClickJoinGame() {
+        const gameRoomId = cc.sys.localStorage.getItem(JoinGameByGameId);
+        if (gameRoomId) {
+            GameUtils.openGame(+gameRoomId, this.miniPanel, null);
         }
     }
 
