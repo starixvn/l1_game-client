@@ -5441,9 +5441,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "22cfc5e7-c6c5-44d8-baa2-b514068e2f7c"
-    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -12389,9 +12386,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "2b10b8f5-a3c2-4474-ab15-5a1c2129bb39"
-    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -13837,7 +13831,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 67.72,
+      "width": 87,
       "height": 37.28
     },
     "_anchorPoint": {
@@ -13889,8 +13883,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "DÒNG",
-    "_N$string": "DÒNG",
+    "_string": "UI.LINE",
+    "_N$string": "UI.LINE",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -14040,7 +14034,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 68.77,
+      "width": 93.98,
       "height": 37.28
     },
     "_anchorPoint": {
@@ -14092,8 +14086,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CƯỢC",
-    "_N$string": "CƯỢC",
+    "_string": "UI.BET2",
+    "_N$string": "UI.BET2",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -14243,7 +14237,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 139.33,
+      "width": 165.39,
       "height": 37.28
     },
     "_anchorPoint": {
@@ -14308,8 +14302,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TỔNG CƯỢC",
-    "_N$string": "TỔNG CƯỢC",
+    "_string": "UI.TOTAL_BET",
+    "_N$string": "UI.TOTAL_BET",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": false,
@@ -14446,7 +14440,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80.86,
+      "width": 82.13,
       "height": 37.28
     },
     "_anchorPoint": {
@@ -14511,8 +14505,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "THẮNG",
-    "_N$string": "THẮNG",
+    "_string": "UI.WIN",
+    "_N$string": "UI.WIN",
     "_fontSize": 28,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -15327,8 +15321,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TỰ\nQUAY",
-    "_N$string": "TỰ\nQUAY",
+    "_string": "UI.AUTO_SPIN_BREAK",
+    "_N$string": "UI.AUTO_SPIN_BREAK",
     "_fontSize": 24,
     "_lineHeight": 26,
     "_enableWrapText": false,
@@ -15619,6 +15613,7 @@
     "unCheckImage": {
       "__id__": 328
     },
+    "checkMarkNode": null,
     "_id": "7fEJszUxZISrVRmOLnH21v"
   },
   {
@@ -16189,8 +16184,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "SIÊU\nTỐC",
-    "_N$string": "SIÊU\nTỐC",
+    "_string": "UI.TURBO_BREAK",
+    "_N$string": "UI.TURBO_BREAK",
     "_fontSize": 24,
     "_lineHeight": 26,
     "_enableWrapText": true,
@@ -16515,6 +16510,7 @@
     "unCheckImage": {
       "__id__": 348
     },
+    "checkMarkNode": null,
     "_id": "aebvLRMGBIrpqxe0Ji7sRp"
   },
   {
@@ -18053,7 +18049,7 @@
         "__id__": 432
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 441
@@ -18093,7 +18089,7 @@
         0,
         1,
         1,
-        1,
+        0,
         1
       ]
     },
@@ -22427,6 +22423,9 @@
     "musicBg": {
       "__id__": 6
     },
+    "historyPrefab": {
+      "__uuid__": "edc53e61-e9b5-4242-89f9-bc54bcb1afb1"
+    },
     "userProfile": {
       "__id__": 192
     },
@@ -22505,9 +22504,6 @@
     },
     "expandableMenu": {
       "__id__": 485
-    },
-    "historyPrefab": {
-      "__uuid__": "edc53e61-e9b5-4242-89f9-bc54bcb1afb1"
     },
     "topWinnerPrefab": null,
     "effectBonus": {
