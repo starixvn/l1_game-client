@@ -110,7 +110,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             Durations.Events.PLACING_BET
         );
 
-        this.gameData.roundHistory.historySize = 102;
+        this.gameData.roundHistory.historySize = 100;
     }
 
     initGameDataEvents() {

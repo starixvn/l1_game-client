@@ -95,9 +95,6 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
     }
 
     updateRoundHistory = (roundHistory) => {
-        if (roundHistory.length > 100) {
-            roundHistory.pop();
-        }
         this.hideNextItem();
 
         const choices = ["big", "small"];
