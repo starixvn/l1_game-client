@@ -5,6 +5,9 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class PromotionNotifications extends cc.Component {
     @property(cc.Node)
+    icon: cc.Node = null;
+
+    @property(cc.Node)
     countNode: cc.Node = null;
 
     @property(cc.Prefab)
@@ -13,7 +16,7 @@ export default class PromotionNotifications extends cc.Component {
     @property(cc.Node)
     announcementContainer: cc.Node = null;
 
-    onLoad() {
+    start(): void {
         PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, (data) => {
             this.showNotification(data);
         });
@@ -24,9 +27,11 @@ export default class PromotionNotifications extends cc.Component {
     }
 
     showNotification(data) {
-        this.countNode.getChildByName("count").getComponent(cc.Label).string = data.length.toString();
-        this.node.active = data.length < 1 ? false : true;
-        this.node.getComponent(cc.Button).interactable = data.length > 0;
+        this.icon.active = false;
+        if (data.length > 0) {
+            this.countNode.getChildByName("count").getComponent(cc.Label).string = data.length.toString();
+            this.icon.active = true;
+        }
     }
 
     onClickNotification() {
