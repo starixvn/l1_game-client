@@ -1,4 +1,4 @@
-import PromotionNotificationsHandler, { PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
+import PromotionNotificationsHandler, { PromotionNotification, PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,7 +26,7 @@ export default class PromotionNotifications extends cc.Component {
         PromotionNotificationsHandler.getInstance().removeAllListeners();
     }
 
-    showNotification(data) {
+    showNotification(data: PromotionNotification[]) {
         this.icon.active = false;
         if (data.length > 0) {
             this.countNode.getChildByName("count").getComponent(cc.Label).string = data.length.toString();

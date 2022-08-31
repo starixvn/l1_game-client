@@ -50,7 +50,7 @@ export class Promotions extends EventEmitterBase {
         NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
-    receivedData(data) {
+    receivedData(data: Promotion[]) {
         if (data.length > 0) {
             let haveNewPromotion = data.length > this.promotions.length;
             if (!haveNewPromotion) {
@@ -60,7 +60,7 @@ export class Promotions extends EventEmitterBase {
                             (currentPromotion) =>
                                 newPromotion._id === currentPromotion._id &&
                                 newPromotion.startDateTime === currentPromotion.startDateTime &&
-                                currentPromotion.endDateTime === currentPromotion.endDateTime
+                                newPromotion.endDateTime === currentPromotion.endDateTime
                         )
                 );
                 haveNewPromotion = filterNewPromotion.length > 0;

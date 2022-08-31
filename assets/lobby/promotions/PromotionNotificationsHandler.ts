@@ -4,6 +4,22 @@ import EventEmitterBase from "../../common/emitter/EventEmitterBase";
 export const PromotionNotificationsEvent = {
     NEW_PROMOTION: "NEW_PROMOTION"
 };
+
+export class PromotionNotification {
+    displayKind: number;
+    enabled: boolean;
+    gameId?: number;
+    gameName: string;
+    _id: string;
+    isActive: boolean;
+    messages: any;
+    promotionId: string;
+    time: string;
+    title: any;
+    endTime: string;
+    startTime: string;
+}
+
 const PromotionNotificationsStorageKey = "PROMOTION_NOTIFICATIONS";
 export default class PromotionNotificationsHandler extends EventEmitterBase {
     private static instance: PromotionNotificationsHandler;
@@ -25,7 +41,7 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
         NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
     }
 
-    receivedData(data) {
+    receivedData(data: PromotionNotification[]) {
         cc.sys.localStorage.setItem(PromotionNotificationsStorageKey, JSON.stringify(data));
         this.emit(PromotionNotificationsEvent.NEW_PROMOTION, data);
     }
