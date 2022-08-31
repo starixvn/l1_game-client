@@ -139,16 +139,24 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
     handlePayline(jackpot: any, betWin: number, winningLines: LineData[], bigWin: boolean, freeSpins: any) {
         const delayTime = betWin > 0 && !bigWin ? this.main.getCustomDuration("win") : this.main.getCustomDuration("lose");
+        const notWinBigEffect = freeSpins.count === 0 && !bigWin;
 
         this.main.settleTween = cc
             .tween(this.main)
             .call(() => {
                 this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime);
+                if (notWinBigEffect) {
+                    this.main.showMessageDisplay(RoundType.SETTLED);
+                }
             })
             .delay(delayTime)
             .call(async () => {
                 if (bigWin) {
                     await this.main.showEffectBigWin(betWin);
+                }
+
+                if (!notWinBigEffect) {
+                    this.main.showMessageDisplay(RoundType.SETTLED);
                 }
 
                 if (freeSpins.count > 0) {
@@ -175,7 +183,8 @@ export default class SlotGameSettlementHandler implements DataHandler {
                 this.main.spin();
             } else if (isAutoSpinMode && !stillAutoSpin) {
                 this.main.createAutoSpinDialog();
-                this.main.showMessageDisplay(RoundType.SPINNING);
+                this.main.autoOpenAutoSpinDialog = true;
+                this.main.showMessageDisplay(RoundType.SETTLED);
             } else {
                 if (!this.main.isShowAutoSpinSettingDialog) {
                     this.main.resetStateButtons();

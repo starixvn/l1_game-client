@@ -153,6 +153,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     public cacheApiError: any = null;
     public isShowAutoSpinSettingDialog = false;
     public isRound = false;
+    public autoOpenAutoSpinDialog = false;
     protected userSettings: SlotGameUserSettings;
     private showingWinningLine = false;
 
@@ -462,11 +463,14 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             this.lastAutoSpinCount = autoSpinCount;
             this.spin();
             this.isShowAutoSpinSettingDialog = false;
+            this.autoOpenAutoSpinDialog = false;
         };
 
         dialog.onCancelCallback = () => {
             this.resetStateButtons();
+            this.autoOpenAutoSpinDialog && this.showMessageDisplay(RoundType.SETTLED);
             this.isShowAutoSpinSettingDialog = false;
+            this.autoOpenAutoSpinDialog = false;
         };
 
         if (this.lastAutoSpinCount) {
@@ -961,7 +965,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
 
         this.updateBottomMessageStatus();
-        this.bottomMessage && this.bottomMessage.showMessages(RoundType.SETTLED);
     }
 
     playMusicBgCallback() {
