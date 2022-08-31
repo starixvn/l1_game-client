@@ -167,8 +167,15 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
     checkSpinNextRound(freeSpins: any) {
         if (!this.main.gotApiError()) {
-            if (freeSpins.count > 0 || (this.main.isAutoSpinMode() && this.main.stillAutoSpin()) || this.main.isFreeSpin()) {
+            const isAutoSpinMode = this.main.isAutoSpinMode();
+            const stillAutoSpin = this.main.stillAutoSpin();
+            const autoSpin = isAutoSpinMode && stillAutoSpin;
+
+            if (freeSpins.count > 0 || autoSpin || this.main.isFreeSpin()) {
                 this.main.spin();
+            } else if (isAutoSpinMode && !stillAutoSpin) {
+                this.main.createAutoSpinDialog();
+                this.main.showMessageDisplay(RoundType.SPINNING);
             } else {
                 if (!this.main.isShowAutoSpinSettingDialog) {
                     this.main.resetStateButtons();
