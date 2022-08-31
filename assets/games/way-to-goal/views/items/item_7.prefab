@@ -24,13 +24,13 @@
         "__id__": 4
       },
       {
-        "__id__": 33
+        "__id__": 32
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 35
+      "__id__": 34
     },
     "_opacity": 255,
     "_color": {
@@ -163,13 +163,9 @@
       }
     ],
     "_active": true,
-    "_components": [
-      {
-        "__id__": 31
-      }
-    ],
+    "_components": [],
     "_prefab": {
-      "__id__": 32
+      "__id__": 31
     },
     "_opacity": 255,
     "_color": {
@@ -410,7 +406,7 @@
     "asset": {
       "__uuid__": "4194a256-48ef-402b-b864-bb3d45987fc5"
     },
-    "fileId": "08RzJu2VNDZYn4yy5mUc6g",
+    "fileId": "82+aKf1qZJJrVLLWjTRtjb",
     "sync": false
   },
   {
@@ -455,16 +451,16 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -12.699000000000012,
-        5.079000000000008,
+        -1.961,
+        1.723,
         0,
         0,
         0,
         0,
         1,
-        2,
-        2,
-        2
+        1.6,
+        1.4,
+        1
       ]
     },
     "_eulerAngles": {
@@ -507,7 +503,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "bac697c7-f777-4e7d-b028-66914ad31c9e"
+    },
     "_id": ""
   },
   {
@@ -531,7 +529,7 @@
     "asset": {
       "__uuid__": "4194a256-48ef-402b-b864-bb3d45987fc5"
     },
-    "fileId": "d5s4FFfJtFS5dtIwv/KmME",
+    "fileId": "29/FQ9SRlLs4evqB3aOyHx",
     "sync": false
   },
   {
@@ -640,7 +638,7 @@
     "asset": {
       "__uuid__": "4194a256-48ef-402b-b864-bb3d45987fc5"
     },
-    "fileId": "095kYvey1EvrtwXpMjSiyj",
+    "fileId": "e99Z1WikFMdJKVoozwvm5W",
     "sync": false
   },
   {
@@ -749,7 +747,7 @@
     "asset": {
       "__uuid__": "4194a256-48ef-402b-b864-bb3d45987fc5"
     },
-    "fileId": "d2hNP6FdNJO55M4Mr6lHx1",
+    "fileId": "f9mMTzkQtAi42kUQAkdtMl",
     "sync": false
   },
   {
@@ -858,7 +856,7 @@
     "asset": {
       "__uuid__": "4194a256-48ef-402b-b864-bb3d45987fc5"
     },
-    "fileId": "42l70V/GtMopUSNlNbY+Lf",
+    "fileId": "cfVZnkAO1HiZYmWRwreiMM",
     "sync": false
   },
   {
@@ -955,7 +953,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "bac697c7-f777-4e7d-b028-66914ad31c9e"
+    },
     "_id": ""
   },
   {
@@ -979,7 +979,7 @@
     "asset": {
       "__uuid__": "4194a256-48ef-402b-b864-bb3d45987fc5"
     },
-    "fileId": "2bS5dfT8VHvZD5C6TeKFlT",
+    "fileId": "78kekzTh1M9ISaH01B5rGx",
     "sync": false
   },
   {
@@ -1088,7 +1088,7 @@
     "asset": {
       "__uuid__": "4194a256-48ef-402b-b864-bb3d45987fc5"
     },
-    "fileId": "c1j1L1dtFGX5ov1emyMCCX",
+    "fileId": "c23DhBaY9IbpU3ONmKHDNt",
     "sync": false
   },
   {
@@ -1100,14 +1100,14 @@
     },
     "_enabled": true,
     "_defaultClip": {
-      "__uuid__": "3b4af332-5351-427d-ab6a-880f6507485c"
+      "__uuid__": "53ec019b-0dbd-496e-8799-b2582680243d"
     },
     "_clips": [
       {
-        "__uuid__": "7093b27a-f7e0-4c98-aa1f-a1fc56b3aae0"
+        "__uuid__": "14eaaf67-a854-4055-a98f-5f1bf0e679c9"
       },
       {
-        "__uuid__": "3b4af332-5351-427d-ab6a-880f6507485c"
+        "__uuid__": "53ec019b-0dbd-496e-8799-b2582680243d"
       }
     ],
     "playOnLoad": true,
@@ -1121,30 +1121,8 @@
     "asset": {
       "__uuid__": "4194a256-48ef-402b-b864-bb3d45987fc5"
     },
-    "fileId": "08odpNfBdAeZcrAxEOi1pK",
+    "fileId": "24DA6IBlhCMbrOS7kGaTr3",
     "sync": false
-  },
-  {
-    "__type__": "cc.Mask",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 4
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_spriteFrame": {
-      "__uuid__": "bd965c8d-fb45-47d8-b4b4-60a70215eb11"
-    },
-    "_type": 2,
-    "_segments": 64,
-    "_N$alphaThreshold": 0.1,
-    "_N$inverted": false,
-    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -1168,7 +1146,7 @@
     "_active": false,
     "_components": [],
     "_prefab": {
-      "__id__": 34
+      "__id__": 33
     },
     "_opacity": 255,
     "_color": {
