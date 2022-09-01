@@ -72,7 +72,7 @@ export const handleRoundHistory = (game: MiniGameBase) => (roundHistory) => {
 
 export const changeGameRound = (game: MiniGameBase) => (roundId) => game.setGameRound(roundId);
 export const updateMD5String = (game: MiniGameBase) => (data) => {
-    game.md5Component && game.md5Component.updateMD5String(data);
+    game.md5Component && game.md5Component.handleMD5Data(data);
 };
 
 export const handleShowStatus = (game: MiniGameBase) => (status) => {
