@@ -60,6 +60,9 @@ export default class Roulette extends SocketIOTableGameBase {
     @property(cc.Node)
     roundIdContainer: cc.Node = null;
 
+    @property(cc.Node)
+    defaultPromotion: cc.Node = null;
+
     topControls: TopControls = null;
     bottomControls: BottomControls = null;
     leftControls: LeftControls = null;
@@ -107,6 +110,7 @@ export default class Roulette extends SocketIOTableGameBase {
 
             this.joinGame();
             this.setDefaultPositionForMiniMenu();
+            this.setDefaultPositionForPromotion();
 
             this.rouletteMain.board.betChips = this.betChips;
         });
@@ -121,6 +125,17 @@ export default class Roulette extends SocketIOTableGameBase {
         const localPosition = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(wPosition);
         const node = this.currentMiniPanel.popupMiniGame.node;
         node.position = cc.v3(node.x, localPosition.y);
+    }
+
+    setDefaultPositionForPromotion() {
+        if (!this.currentMiniPanel.promotions) {
+            this.scheduleOnce(this.setDefaultPositionForPromotion, 0.1);
+            return;
+        }
+        const node = this.currentMiniPanel.promotions.node;
+        const wPosition = this.defaultPromotion.convertToWorldSpaceAR(cc.v2(0, 0));
+        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
+        node.position = cc.v3(localPosition.x, localPosition.y);
     }
 
     setGameRound(gameRoundId) {

@@ -280,7 +280,6 @@ export default class MainGame extends cc.Component {
         const isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
 
         if (isSSOToGame || sessionManager.getInRoomGameId()) {
-            console.log("ahihi", sessionManager.getInRoomGameId());
             this.loadLobby(isSSOToGame && GameUtils.isMiniGame(window.openGameId));
             this.openGameSSO();
             window.isSSO && this.setCategoryOnSSOGame();

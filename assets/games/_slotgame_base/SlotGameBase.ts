@@ -117,6 +117,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     @property
     autoGenerateLines = false;
 
+    @property(cc.Node)
+    defaultPromotion: cc.Node = null;
+
     @property({
         type: cc.Prefab,
         visible: function (this: SlotGameBase) {
@@ -168,6 +171,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.loadSlotGameConfig();
         this.showJackpotInfo(this.jackpotEnabled);
 
+        this.setDefaultPositionForPromotion();
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
 
         if (this.autoGenerateLines) {
@@ -261,6 +265,17 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.updateLineChanged();
     }
 
+    }
+
+    setDefaultPositionForPromotion() {
+        if (!this.currentMiniPanel.promotions) {
+            this.scheduleOnce(this.setDefaultPositionForPromotion, 0.1);
+            return;
+        }
+        const node = this.currentMiniPanel.promotions.node;
+        const wPosition = this.defaultPromotion.convertToWorldSpaceAR(cc.v2(0, 0));
+        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
+        node.position = cc.v3(localPosition.x, localPosition.y);
     initSlotGameConfig() {
         this.slotGameConfigs = new FourGuardiansSlotConfigs();
     }

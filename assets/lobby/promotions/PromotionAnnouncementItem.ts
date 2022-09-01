@@ -1,6 +1,7 @@
 import GameUtils from "../../common/GameUtils";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
+import * as sessionManager from "../../common/auth/SessionManager";
 const { ccclass, property } = cc._decorator;
 
 export const PromotionAnnouncementItemEvent = {
@@ -38,9 +39,13 @@ export default class PromotionAnnouncementItem extends cc.Component {
         this.joinButton.node.on("click", this.onClickJoinGame.bind(this, data.gameId));
     }
 
-    onClickJoinGame(gameId) {
-        GameUtils.openGame(gameId, this.miniPanel);
-        cc.sys.localStorage.setItem(JoinGameByGameId, gameId);
+    onClickJoinGame(gameId: number) {
+        const currentGameId = sessionManager?.getInRoomGameId();
         this.node.emit(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS);
+        if (gameId.toString() === currentGameId) {
+            return;
+        }
+        !GameUtils.isMiniGame(gameId.toString()) && cc.sys.localStorage.setItem(JoinGameByGameId, gameId);
+        GameUtils.openGame(gameId, this.miniPanel);
     }
 }

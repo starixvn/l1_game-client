@@ -82,6 +82,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Node)
     defaultMiniMenu: cc.Node = null;
 
+    @property(cc.Node)
+    defaultPromotion: cc.Node = null;
+
     countDownAutoSpin: CountDownWarning = null;
     bottomMessage: SlotGameBottomMessage = null;
     gameSound: SlotGameSound;
@@ -111,6 +114,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const audioManager = AudioManager.getInstance();
         this.playMusicBackground(audioManager.musicEnabled);
         audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
+        this.setDefaultPositionForPromotion();
     }
 
     initForHoldActionButton() {
@@ -323,6 +327,17 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
         node.position = cc.v3(node.x, localPosition.y);
+    }
+
+    setDefaultPositionForPromotion() {
+        if (!this.currentMiniPanel.promotions) {
+            this.scheduleOnce(this.setDefaultPositionForPromotion, 0.1);
+            return;
+        }
+        const node = this.currentMiniPanel.promotions.node;
+        const wPosition = this.defaultPromotion.convertToWorldSpaceAR(cc.v2(0, 0));
+        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
+        node.position = cc.v3(localPosition.x, localPosition.y);
     }
 
     playMusicBgCallback() {
