@@ -54,7 +54,6 @@ export default class SlotGameSettlementHandler implements DataHandler {
         this.main.deactiveButtons();
         this.main.spinButton.showTextSpinInFreeSpin(false);
         this.main.showProcessingWarning(false);
-        this.main.waitingSpinResult = false;
         this.main.isAnimatingResult = true;
     }
 
@@ -174,6 +173,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
     }
 
     checkSpinNextRound(freeSpins: any) {
+        this.main.waitingSpinResult = false;
         if (!this.main.gotApiError()) {
             const isAutoSpinMode = this.main.isAutoSpinMode();
             const stillAutoSpin = this.main.stillAutoSpin();
