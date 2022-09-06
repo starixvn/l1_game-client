@@ -589,7 +589,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             !this.isHoldAction && this.showProcessingWarning(true);
             return success;
         }
-        this.showMessageDisplay(RoundType.SPINNING);
+
         this.stopAllFinishTweens();
         this.hideStakeContrainer();
         this.hideWinningEffectOnItems();
@@ -606,6 +606,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         if (!isFreeSpin) {
             this.consumeAutoSpinCount();
         }
+        this.showMessageDisplay(RoundType.SPINNING);
         this.socket.emit("bet", data);
         success = true;
         return success;
