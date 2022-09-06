@@ -6,6 +6,7 @@ import GameUIManager from "../lobby/main/view-models/GameUIManager";
 import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { numberWithCommas } from "./helpers/NumberHelper";
+import { preloadAssets } from "./PreloadRemoteAsset";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 
@@ -165,10 +166,11 @@ export default class GameUtils {
     ) {
         const gameConfiguration = getGameConfiguration(gameId);
 
-        if (!!gameConfiguration.remoteBundle && !gameConfiguration.mini) {
+        if (!!gameConfiguration.remoteBundle) {
             const bundleManager = BundleManager.getInstance();
 
             await bundleManager.loadBundle(gameId.toString());
+            await preloadAssets(gameId.toString());
         }
 
         if (!gameConfiguration.mini && gameId > 0) {
