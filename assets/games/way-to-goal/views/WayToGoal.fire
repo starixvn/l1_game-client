@@ -1062,7 +1062,7 @@
     },
     "_enabled": true,
     "_clip": {
-      "__uuid__": "7cfb7908-6704-4d70-851e-6f82cad00e96"
+      "__uuid__": "85582137-fc90-4902-bfa9-7584596b030a"
     },
     "_volume": 0.7,
     "_mute": false,
@@ -1743,10 +1743,13 @@
         "__id__": 157
       },
       {
-        "__id__": 215
+        "__id__": 214
       },
       {
-        "__id__": 249
+        "__id__": 248
+      },
+      {
+        "__id__": 252
       },
       {
         "__id__": 253
@@ -7234,9 +7237,6 @@
       },
       {
         "__id__": 213
-      },
-      {
-        "__id__": 214
       }
     ],
     "_active": true,
@@ -10019,64 +10019,6 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "effectContainer",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 157
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 832,
-      "height": 494
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        -1.575,
-        4.72,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1.68029
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "d8B5jeEdBKJJy0bqajzhK6"
-  },
-  {
-    "__type__": "cc.Node",
     "_name": "spin-container",
     "_objFlags": 0,
     "_parent": {
@@ -10084,10 +10026,10 @@
     },
     "_children": [
       {
-        "__id__": 216
+        "__id__": 215
       },
       {
-        "__id__": 218
+        "__id__": 217
       }
     ],
     "_active": true,
@@ -10145,13 +10087,13 @@
     "_name": "button_spin_day_huy_chuong",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 215
+      "__id__": 214
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 217
+        "__id__": 216
       }
     ],
     "_prefab": null,
@@ -10207,7 +10149,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 216
+      "__id__": 215
     },
     "_enabled": true,
     "_materials": [
@@ -10241,35 +10183,35 @@
     "_name": "btn_spin",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 215
+      "__id__": 214
     },
     "_children": [
       {
-        "__id__": 219
+        "__id__": 218
       },
       {
-        "__id__": 227
+        "__id__": 226
       },
       {
-        "__id__": 230
+        "__id__": 229
       },
       {
-        "__id__": 233
+        "__id__": 232
       },
       {
-        "__id__": 236
+        "__id__": 235
       }
     ],
     "_active": true,
     "_components": [
       {
+        "__id__": 244
+      },
+      {
         "__id__": 245
       },
       {
-        "__id__": 246
-      },
-      {
-        "__id__": 248
+        "__id__": 247
       }
     ],
     "_prefab": null,
@@ -10325,23 +10267,23 @@
     "_name": "icon_quay",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 218
+      "__id__": 217
     },
     "_children": [
       {
-        "__id__": 220
+        "__id__": 219
       },
       {
-        "__id__": 222
+        "__id__": 221
       },
       {
-        "__id__": 224
+        "__id__": 223
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 226
+        "__id__": 225
       }
     ],
     "_prefab": null,
@@ -10397,13 +10339,13 @@
     "_name": "BG_huychuong",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 219
+      "__id__": 218
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 221
+        "__id__": 220
       }
     ],
     "_prefab": null,
@@ -10459,7 +10401,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 220
+      "__id__": 219
     },
     "_enabled": true,
     "_materials": [
@@ -10493,13 +10435,13 @@
     "_name": "huychuong",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 219
+      "__id__": 218
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 223
+        "__id__": 222
       }
     ],
     "_prefab": null,
@@ -10555,7 +10497,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 222
+      "__id__": 221
     },
     "_enabled": true,
     "_materials": [
@@ -10589,13 +10531,13 @@
     "_name": "hinhla",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 219
+      "__id__": 218
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 225
+        "__id__": 224
       }
     ],
     "_prefab": null,
@@ -10651,7 +10593,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 224
+      "__id__": 223
     },
     "_enabled": true,
     "_materials": [
@@ -10685,7 +10627,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 219
+      "__id__": 218
     },
     "_enabled": true,
     "_defaultClip": {
@@ -10707,16 +10649,16 @@
     "_name": "text_spin",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 218
+      "__id__": 217
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 228
+        "__id__": 227
       },
       {
-        "__id__": 229
+        "__id__": 228
       }
     ],
     "_prefab": null,
@@ -10772,7 +10714,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 227
+      "__id__": 226
     },
     "_enabled": true,
     "_materials": [
@@ -10804,7 +10746,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 227
+      "__id__": 226
     },
     "_enabled": true,
     "gameId": 49,
@@ -10816,16 +10758,16 @@
     "_name": "disable",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 218
+      "__id__": 217
     },
     "_children": [],
     "_active": false,
     "_components": [
       {
-        "__id__": 231
+        "__id__": 230
       },
       {
-        "__id__": 232
+        "__id__": 231
       }
     ],
     "_prefab": null,
@@ -10881,7 +10823,7 @@
     "_name": "Drum<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 230
+      "__id__": 229
     },
     "_enabled": true,
     "_materials": [
@@ -10915,7 +10857,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 230
+      "__id__": 229
     },
     "_enabled": true,
     "_id": "bdYf2B2htE94P7n6Ch7F5a"
@@ -10925,16 +10867,16 @@
     "_name": "blockedSpin",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 218
+      "__id__": 217
     },
     "_children": [],
     "_active": false,
     "_components": [
       {
-        "__id__": 234
+        "__id__": 233
       },
       {
-        "__id__": 235
+        "__id__": 234
       }
     ],
     "_prefab": null,
@@ -10990,7 +10932,7 @@
     "_name": "Drum<Sprite>",
     "_objFlags": 0,
     "node": {
-      "__id__": 233
+      "__id__": 232
     },
     "_enabled": true,
     "_materials": [
@@ -11024,7 +10966,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 233
+      "__id__": 232
     },
     "_enabled": true,
     "_id": "e3fJXWNIhEKL2KicYDg5E0"
@@ -11034,23 +10976,23 @@
     "_name": "freespin",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 218
+      "__id__": 217
     },
     "_children": [
       {
-        "__id__": 237
+        "__id__": 236
       },
       {
-        "__id__": 240
+        "__id__": 239
       },
       {
-        "__id__": 242
+        "__id__": 241
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 244
+        "__id__": 243
       }
     ],
     "_prefab": null,
@@ -11106,16 +11048,16 @@
     "_name": "spin",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 236
+      "__id__": 235
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 238
+        "__id__": 237
       },
       {
-        "__id__": 239
+        "__id__": 238
       }
     ],
     "_prefab": null,
@@ -11171,7 +11113,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 237
+      "__id__": 236
     },
     "_enabled": true,
     "_materials": [
@@ -11203,7 +11145,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 237
+      "__id__": 236
     },
     "_enabled": true,
     "gameId": 49,
@@ -11215,13 +11157,13 @@
     "_name": "freeSpinvalue",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 236
+      "__id__": 235
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 241
+        "__id__": 240
       }
     ],
     "_prefab": null,
@@ -11277,7 +11219,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 240
+      "__id__": 239
     },
     "_enabled": true,
     "_materials": [
@@ -11312,13 +11254,13 @@
     "_name": "txt_freespins copy",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 236
+      "__id__": 235
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 243
+        "__id__": 242
       }
     ],
     "_prefab": null,
@@ -11374,7 +11316,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 242
+      "__id__": 241
     },
     "_enabled": true,
     "_materials": [
@@ -11408,7 +11350,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 236
+      "__id__": 235
     },
     "_enabled": true,
     "_layoutSize": {
@@ -11440,7 +11382,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 218
+      "__id__": 217
     },
     "_enabled": true,
     "_normalMaterial": null,
@@ -11502,7 +11444,7 @@
     "_N$disabledSprite": null,
     "_N$target": null,
     "disableNode": {
-      "__id__": 230
+      "__id__": 229
     },
     "activeNode": null,
     "_id": "1eWWttAmxNB5Bd7TmFO/h9"
@@ -11512,12 +11454,12 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 218
+      "__id__": 217
     },
     "_enabled": true,
     "clickEvents": [
       {
-        "__id__": 247
+        "__id__": 246
       }
     ],
     "_id": "b8XNBlcONK2JWcrAX32IL1"
@@ -11537,24 +11479,24 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 218
+      "__id__": 217
     },
     "_enabled": true,
     "spinButton": {
-      "__id__": 245
+      "__id__": 244
     },
     "autoSpinCountLabel": null,
     "normalSpinNode": {
-      "__id__": 227
+      "__id__": 226
     },
     "freeSpinLabel": {
-      "__id__": 241
+      "__id__": 240
     },
     "textSpinInFreeSpin": {
-      "__id__": 237
+      "__id__": 236
     },
     "spinAnimation": {
-      "__id__": 226
+      "__id__": 225
     },
     "spinParticle": null,
     "_id": "2eGw/8owFPYIA0/HlBNNyj"
@@ -11570,10 +11512,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 250
+        "__id__": 249
       },
       {
-        "__id__": 252
+        "__id__": 251
       }
     ],
     "_prefab": null,
@@ -11629,7 +11571,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 249
+      "__id__": 248
     },
     "_enabled": true,
     "prefab": {
@@ -11637,7 +11579,7 @@
     },
     "initializationEventHandlers": [
       {
-        "__id__": 251
+        "__id__": 250
       }
     ],
     "_id": "a0jnEwhmdOALDUmhAGY2P/"
@@ -11657,7 +11599,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 249
+      "__id__": 248
     },
     "_enabled": true,
     "_materials": [
@@ -11685,6 +11627,64 @@
       "__uuid__": "4a043162-b610-449b-9c78-1a0e407cfb09"
     },
     "_id": "fctNg8e9FGF5B+OhM65gT8"
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "effectContainer",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 39
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 832,
+      "height": 494
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        -1.575,
+        30.72,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "d8B5jeEdBKJJy0bqajzhK6"
   },
   {
     "__type__": "cc.Node",
@@ -17063,10 +17063,10 @@
       "__uuid__": "040fadbb-6ad0-4e3c-8520-2b56ed1a00d4"
     },
     "spinButton": {
-      "__id__": 248
+      "__id__": 247
     },
     "effectContainer": {
-      "__id__": 214
+      "__id__": 252
     },
     "effectBigWin": {
       "__uuid__": "428e553f-8e4e-41c5-85c0-f36d1a444c5f"
@@ -17075,7 +17075,7 @@
       "__uuid__": "0ba38542-30d9-4a15-8836-5c7567e21f45"
     },
     "holdActionButton": {
-      "__id__": 246
+      "__id__": 245
     },
     "defaultMiniMenu": {
       "__id__": 363
