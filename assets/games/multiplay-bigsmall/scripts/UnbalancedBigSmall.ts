@@ -61,7 +61,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     miniRoundHistory: BigSmallMiniRoundHistory;
     readonly shakingDuration = 2;
     readonly showResultDuration = 1;
-    private statisticContainer: BigSmallDicesStatistic;
+    private dicesStatistic: BigSmallDicesStatistic;
     private showStatistic = true;
 
     constructor() {
@@ -172,7 +172,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.gameData.roundHistory.update();
         this.showWaittingTime(true);
         this.updateRoundHistory();
-        this.showWinningAnimation(this.currentDataLogs[0]);
+        this.showResultNode();
         this.gameData.resultHash.updateUI();
         if (settlement?.result && settlement?.settlementResult) {
             this.setDices(settlement.result, settlement.settlementResult);
@@ -213,7 +213,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected updateRoundHistory() {
         this.miniRoundHistory.setData(this.currentDataLogs);
-        this.statisticContainer && this.statisticContainer.updateData(this.currentDataLogs);
+        this.dicesStatistic && this.dicesStatistic.updateData(this.currentDataLogs);
     }
 
     setDicesVisibility(show: boolean) {
@@ -252,7 +252,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.setDicesVisibility(true);
     }
 
-    protected showWinningAnimation(data: any) {
+    protected showResultNode() {
         this.resultNode.active = true;
         this.tween(this.resultNode)
             .to(0.2, { scale: 1.2 }, { easing: "bounceOut" })
@@ -305,7 +305,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     initStatisticBoard(node: cc.Node) {
         AudioManager.getInstance().playClick();
-        this.statisticContainer = node.getComponent(BigSmallDicesStatistic);
+        this.dicesStatistic = node.getComponent(BigSmallDicesStatistic);
     }
 
     public openStatistic() {
@@ -314,6 +314,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     public handleShowStatistic(show: boolean) {
-        this.statisticContainer.node.active = show;
+        this.dicesStatistic.node.active = show;
     }
 }
