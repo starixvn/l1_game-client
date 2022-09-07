@@ -113,7 +113,10 @@ export default class MainGame extends cc.Component {
 
     initGameUIEvents() {
         const manager = GameUIManager.getInstance();
-        manager.emitterListener(GameUIManager.Events.LOAD_ALL_BANNERS, (param) => this.initBanners(param));
+        manager.emitterListener(GameUIManager.Events.LOAD_ALL_BANNERS, (param) => {
+            this.initBanners(param);
+            this.miniPanel?.isOpenSS0 && (this.miniPanel.isOpenSS0 = false);
+        });
         manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby());
     }
 
@@ -447,6 +450,7 @@ export default class MainGame extends cc.Component {
     }
 
     openGameSSO() {
+        this.miniPanel.isOpenSS0 = true;
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
             GameUtils.clearGameSetting(gameId);

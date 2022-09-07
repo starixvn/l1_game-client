@@ -33,6 +33,10 @@ include:
     - project: "ci/repos-ci/pentagon_l1_unbalanced_bigsmall_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
+      
+    - project: "ci/repos-ci/pentagon_l2_blockchain_baccarat_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
 
     - project: "ci/repos-ci/pentagon_l1_way_to_goal_client"
       ref: master
@@ -125,3 +129,8 @@ variables:
     <<: *build_cocos_creator_script
     extends:
         - .build:image:l1_unbalanced_bigsmall_client:rules
+        
+.base_build_cocos_web_l2_blockchain_baccarat_client:
+    <<: *build_cocos_creator_script
+    extends:        
+        - .build:image:l2_blockchain_baccarat_client:rules

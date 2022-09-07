@@ -71,7 +71,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         });
     }
 
-    async handleShowCutCards(data: Blockchain, duration: number) {
+    async handleShowNewShoe(data: Blockchain, duration: number) {
         const cutCardValue = data.chain?.[0]?.card;
         const formatData: BlockchainCardModel[] = data.chain.slice(1, data.burnedCards);
 
@@ -89,19 +89,23 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
             skeleton.setCompleteListener(async () => {
                 this.deck.active = true;
                 this.cutCard.active = false;
-                await this.handleShowBurnCard(cutCardValue);
-                await this.flyAllCards(formatData, 1, () => {
-                    this.openAllCards();
-                });
+                this.actionBurnCards(formatData, cutCardValue, 1);
             });
         } else if (duration >= TimeShowAnim.burnCard && duration < TimeShowAnim.full) {
-            await this.handleShowBurnCard(cutCardValue);
-            await this.flyAllCards(formatData, this.durationPrepareOpenCards, () => {
+            this.actionBurnCards(formatData, cutCardValue, this.durationPrepareOpenCards);
+        } else {
+            this.actionBurnCards(formatData, cutCardValue, 0, false);
+        }
+    }
+
+     private async actionBurnCards(data: BlockchainCardModel[], cardValue: CardModel, duration: number, isAnimation = true) {
+        await this.handleShowBurnCard(cardValue, isAnimation);
+        if (isAnimation) {
+            await this.flyAllCards(data, duration, () => {
                 this.openAllCards();
             });
         } else {
-            this.handleShowBurnCard(cutCardValue, false);
-            formatData.forEach((data: BlockchainCardModel, index: number) => {
+            data.forEach((data: BlockchainCardModel, index: number) => {
                 this.createCardsBurn(this.cardPrefab, index, data.card, false, (card: cc.Node, cardData: CardModel) => {
                     const cardComponent = card.children[0]?.getComponent(BlockchainCard);
                     card.children[0].angle = 0;

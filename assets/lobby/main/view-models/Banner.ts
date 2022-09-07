@@ -51,6 +51,9 @@ export default class Banner extends cc.Component {
     private async handleJackpotBanner(bannerPrefabNode: cc.Node) {
         const jackpotContainer = bannerPrefabNode.getChildByName("jackpotController");
         this.jackpotNavigationContainer = bannerPrefabNode.getChildByName("jackpotNavigationController");
+        if (jackpotContainer?.childrenCount > 0 || this.jackpotNavigationContainer?.childrenCount > 0) {
+            return;
+        }
         await this.setJackpotContainer(jackpotContainer);
         await this.setJackpotNavigation();
     }

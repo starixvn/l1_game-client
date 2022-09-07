@@ -4,7 +4,7 @@ import {
     GameConfiguration,
     getGameConfiguration,
     getGameConfigurationsWithFilter,
-    getGameIdsWithFilter,
+    getGameIdsWithFilter
 } from "../../../configs/GameConfigurations";
 import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import { ICashSystem, ICreditSystem, System } from "../../../System";

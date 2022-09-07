@@ -185,16 +185,19 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         this.betHandler = new BlockchainBaccaratBetHandler(this);
     }
 
+    private checkShowCards() {
+        if (this.gameData.cardList.blockchain.isNew && this.timeHandler.isInWaitTime) {
+            return this.timeHandler.checkShowAllCards(this.currentTimeRemaining);
+        } else {
+            return true;
+        }
+    }
+
     private registerCardListEvents() {
         this.gameData.cardList.on(BlockchainBaccaratCardListModel.Events.UPDATE_CURRENT_INDEX, (currentIndex: number) => {
-            if (
-                (!this.gameData.cardList.blockchain?.isNew && !this.timeHandler.isNotEnoughTimeFlyCard) ||
-                this.timeHandler.checkShowAllCards(this.currentTimeRemaining, this.gameData.cardList.blockchain?.isNew) ||
-                (this.gameData.cardList.blockchain?.isNew, this.timeHandler.isInRoundTime)
-            ) {
+            if (this.checkShowCards()) {
                 this.cardsUI?.setActiveCardsUI(true);
                 this.cardsUI.handleNumberIndex(currentIndex);
-                this.cardsUI.isShowAllCards = true;
             }
             if (this.isFirstRender) {
                 this.isFirstRender = false;
@@ -236,16 +239,19 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     private registerFinishEvents() {
         this.gameData.finishModel.on(BlockchainBaccaratFinishModel.Events.CHANGE_SETTLEMENT, (finishData: BlockchainBaccaratFinish) => {
             this.gameData.cardList.calculateCardsFly(finishData.blockchain.currentIndex);
-            blockchainAction.openCards(this.cardsUI)(finishData, () => {
-                //show winning
-                blockchainAction.showLabelWinning(this.betOptionsUI, this.cardsUI)(finishData.settlementResult);
-                blockchainAction.showHighLightBet(this.betOptionsUI)(finishData.settlementResult);
-                this.scoreboard.renderScoreBoardEachRound(finishData);
-                blockchainAction.renderCardSettlement(this.cardList)(finishData);
-                payChips(this, finishData.settlementResult, finishData.winningPlayers, this.durationFlyChip, this.durationAnimWinning);
-                this.gameData.cardList.change(finishData?.blockchain);
-                this.finishShowResult = true;
-            });
+            this.cardsUI.isRunSettle = true;
+            !this.cardsUI.isRunJoinRoom &&
+                blockchainAction.openCards(this.cardsUI)(finishData, () => {
+                    //show winning
+                    blockchainAction.showLabelWinning(this.betOptionsUI, this.cardsUI)(finishData.settlementResult);
+                    blockchainAction.showHighLightBet(this.betOptionsUI)(finishData.settlementResult);
+                    this.scoreboard.renderScoreBoardEachRound(finishData);
+                    blockchainAction.renderCardSettlement(this.cardList)(finishData);
+                    payChips(this, finishData.settlementResult, finishData.winningPlayers, this.durationFlyChip, this.durationAnimWinning);
+                    this.gameData.cardList.change(finishData?.blockchain);
+                    this.finishShowResult = true;
+                });
+            this.cardsUI.isRunJoinRoom = false;
         });
     }
 

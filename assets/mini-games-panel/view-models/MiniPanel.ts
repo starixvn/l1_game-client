@@ -74,6 +74,7 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
+    isOpenSS0 = false;
 
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
@@ -176,8 +177,7 @@ export default class MiniPanel extends BaseComponent {
         }
 
         this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
-        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
-        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
+        this.isOpenSS0 && GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
     }
 
     redirectToResultPage(redirectUrl) {
@@ -262,6 +262,7 @@ export default class MiniPanel extends BaseComponent {
     openNewSocketMiniGame(e, id) {
         GameUIManager.getInstance().setCurrentGameId(id);
         this.loadGame(id, () => {
+            this.isOpenSS0 && GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
             this.gameMiniInitializers.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
                 chartWebView && chartWebView.hideWebView();
@@ -396,8 +397,7 @@ export default class MiniPanel extends BaseComponent {
 
         this.setLoadingVisibility(false);
         this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
-        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
-        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
+        this.isOpenSS0 && GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
     }
 
     redirectToLobby() {

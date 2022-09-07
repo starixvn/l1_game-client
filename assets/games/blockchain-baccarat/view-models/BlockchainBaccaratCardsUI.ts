@@ -18,7 +18,7 @@ type OrderCardValue = {
     key: number;
 };
 
-enum CountCardFlied {
+export enum CountCardFlied {
     FourCards = 4,
     FiveCards,
     SixCards
@@ -48,7 +48,8 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
     cardDeck: cc.Node = null;
 
     protected orderCard: OrderCardValue[];
-    isShowAllCards = false;
+    isRunSettle = false;
+    isRunJoinRoom = false;
 
     onLoad() {
         this.burnContainer && (this.burnContainer.node.active = false);
@@ -93,7 +94,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
                 await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
                 await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
-                this.isShowAllCards = true;
                 break;
             case CountCardFlied.FiveCards:
                 await this.reserveCards.flyCardFromReserve({
@@ -110,7 +110,6 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
                 await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
                 await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
-                this.isShowAllCards = true;
                 break;
             default:
                 await this.playerCards.flyCard1FromDeck(currentIndex);
@@ -119,12 +118,11 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
                 await this.bankerCards.flyCard2FromDeck(currentIndex + 3);
                 await this.reserveCards.flyCard1FromDeck(currentIndex + 4, this.reserveCards.durationFlyCard3);
                 await this.reserveCards.flyCard2FromDeck(currentIndex + 5, this.reserveCards.durationFlyCard3);
-                this.isShowAllCards = true;
                 break;
         }
     }
 
-    public async collectCardsOnTable(isShuffle = false, isRunDropCards = true) {
+    public async collectCardsOnTable(isShuffle = false) {
         if (isShuffle) {
             this.burnContainer?.handleDropCards();
             this.bankerCards?.resetCards();
@@ -132,13 +130,12 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
             this.reserveCards?.resetCards();
         }
 
-        isRunDropCards &&
-            (await Promise.all([
-                ...this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
-                ...this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
-            ]).catch(() => {
-                // handle
-            }));
+        await Promise.all([
+            ...this.bankerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard),
+            ...this.playerCards.dropCards(this.bankerCards.durationJumpDrop, this.bankerCards.durationDropCard)
+        ]).catch(() => {
+            // handle
+        });
     }
 
     async flyCard3(playerHasCard3: boolean, isFlyCard3Player: boolean, delay: number) {
@@ -222,7 +219,7 @@ export default class BlockchainBaccaratCardsUI extends cc.Component {
         handleGameId();
         this.setActiveCardsUI(false);
 
-        await this.burnContainer.handleShowCutCards(data, duration);
+        await this.burnContainer.handleShowNewShoe(data, duration);
     }
 
     setActiveCardsUI(isActive: boolean) {

@@ -15,16 +15,18 @@ export const updateWinning =
     ) =>
     (roundHistory: BlockchainBaccaratRoundHistory[], currentIndex: number) => {
         const lastRound = roundHistory[0];
-        if (timeHandler.isInWaitTime) {
-            const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);
-            const bankerCards = Object.values(lastRound.result.banker).filter((card) => card != null);
-            const cardsFlied = playerCards.length + bankerCards.length;
+        const playerCards = Object.values(lastRound.result.player).filter((card) => card != null);
+        const bankerCards = Object.values(lastRound.result.banker).filter((card) => card != null);
+        const cardsFlied = playerCards.length + bankerCards.length;
 
+        if ((timeHandler.isInWaitTime || timeHandler.isStartingNewGameRound) && !cardsUI.isRunSettle) {
+            cardsUI.isRunJoinRoom = true;
             cardList.numberCardsFly = cardsFlied;
             cardsUI.showCardsWithoutAnimation(lastRound, currentIndex, true);
-            blockchainAction.showLabelWinning(betOptionsUI, cardsUI)(lastRound.settlementResult, false);
-            blockchainAction.showHighLightBet(betOptionsUI)(lastRound.settlementResult, false);
-            blockchainAction.showHighlightCards(cardsUI, lastRound.settlementResult);
+            !timeHandler.isStartingNewGameRound &&
+                blockchainAction.showLabelWinning(betOptionsUI, cardsUI)(lastRound.settlementResult, false);
+            !timeHandler.isStartingNewGameRound && blockchainAction.showHighLightBet(betOptionsUI)(lastRound.settlementResult, false);
+            !timeHandler.isStartingNewGameRound && blockchainAction.showHighlightCards(cardsUI, lastRound.settlementResult);
         }
 
         if (timeHandler.isInRoundTime) {
