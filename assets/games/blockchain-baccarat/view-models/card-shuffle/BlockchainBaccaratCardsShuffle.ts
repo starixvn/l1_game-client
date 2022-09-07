@@ -98,20 +98,14 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         }
     }
 
-     private async actionBurnCards(data: BlockchainCardModel[], cardValue: CardModel, duration: number, isAnimation = true) {
+    private async actionBurnCards(data: BlockchainCardModel[], cardValue: CardModel, duration: number, isAnimation = true) {
         await this.handleShowBurnCard(cardValue, isAnimation);
         if (isAnimation) {
-            await this.flyAllCards(data, duration, () => {
-                this.openAllCards();
-            });
+            await this.flyAllCards(data, duration);
         } else {
             data.forEach((data: BlockchainCardModel, index: number) => {
-                this.createCardsBurn(this.cardPrefab, index, data.card, false, (card: cc.Node, cardData: CardModel) => {
-                    const cardComponent = card.children[0]?.getComponent(BlockchainCard);
+                this.createCardsBurn(this.cardPrefab, index, data.card, false, (card: cc.Node) => {
                     card.children[0].angle = 0;
-                    cardComponent?.setStatusIndexNumber(false);
-                    cardComponent?.setCardOldStyle(cardData);
-                    cardComponent?.faceUp();
                 });
             });
         }
@@ -166,7 +160,7 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         });
     }
 
-    private flyAllCards(formatData: BlockchainCardModel[], duration: number, callbackOpenCards: () => void) {
+    private flyAllCards(formatData: BlockchainCardModel[], duration: number) {
         const prefabCard = this.cardPrefab;
         return new Promise<void>((resolve) => {
             this.allCardsFlyTween = cc
@@ -185,9 +179,6 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
                     });
                 })
                 .delay(duration)
-                .call(() => {
-                    callbackOpenCards();
-                })
                 .call(() => {
                     resolve();
                 })
@@ -241,12 +232,6 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         );
     }
 
-    private openAllCards() {
-        this.containerBurnCards.children.forEach((card) => {
-            card?.children[0]?.getComponent(BlockchainCard)?.playAnimation(CardAnimation.DealerOpenCard, this.durationFlyOpenCard);
-        });
-    }
-
     private getSkeletonDuration(skeleton: sp.Skeleton) {
         return skeleton.findAnimation(skeleton.defaultAnimation).duration;
     }
@@ -265,7 +250,6 @@ export default class BlockchainBaccaratCardsShuffle extends cc.Component {
         isAnimation && (cardPrefab.scale = 0.5);
         cardPrefab.angle = -135;
         const cardComponent = card.children[0]?.getComponent(BlockchainCard);
-        cardComponent?.setCardOldStyle(cardData);
         cardComponent?.setIndexNumber(index + 1);
         callback(card, cardData);
     }
