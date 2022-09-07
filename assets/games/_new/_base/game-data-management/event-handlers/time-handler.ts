@@ -2,7 +2,6 @@ import { BaseEventHandler } from "./base-handler";
 
 export type TimeEventType = {
     remainingTime: number;
-    gameConfigs: any;
 };
 
 export class TimeEventHandler extends BaseEventHandler<TimeEventType> {
