@@ -88,7 +88,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     @property(cc.Toggle)
     trialToggle: cc.Toggle = null;
 
-    public gameData: CascadingSlotGameData<void>;
+    public gameData: CascadingSlotGameData;
     public betControl: CascadingBetControl;
     public freeSpinView: FreeSpinView;
     public tumbleList: CascadingSlotTumbleList;

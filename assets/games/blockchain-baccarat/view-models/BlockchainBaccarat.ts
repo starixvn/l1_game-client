@@ -4,7 +4,6 @@ import { payChips } from "../../_base/action/PayChipsAction";
 import MD5Component from "../../_base/view-models/MD5Component";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import * as blockchainAction from "../actions/BlockchainBaccaratActions";
-import { BlockchainBaccaratChoicesType } from "../BlockchainBaccaratType";
 import BlockchainCardList from "../components/card-list/view-models/BlockchainCardList";
 import BlockchainCardVerification from "../components/card-list/view-models/BlockchainCardVerification";
 import BlockchainBaccaratLastRoundInfo from "../components/last-round-info/view-models/BlockchainBaccaratLastRoundInfo";
@@ -66,7 +65,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     @property(cc.Node)
     totalBetContainer: cc.Node = null;
 
-    public gameData: BlockchainBaccaratGameData<BlockchainBaccaratChoicesType> = null;
+    public gameData: BlockchainBaccaratGameData = null;
     public cardList: BlockchainCardList = null;
     public cardsUI: BlockchainBaccaratCardsUI = null;
     public cardVerification: BlockchainCardVerification = null;
@@ -86,7 +85,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
     }
 
     onLoad() {
-        this.gameData = new BlockchainBaccaratGameData<BlockchainBaccaratChoicesType>();
+        this.gameData = new BlockchainBaccaratGameData();
         super.onLoad();
         this.registerRoundHistoryEvents();
         this.registerGameConfigEvents();
