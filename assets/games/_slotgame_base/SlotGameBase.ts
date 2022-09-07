@@ -453,37 +453,24 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     createAutoSpinDialog(): AutoSpinSettingDialog {
-        const node = cc.instantiate(this.autoSpinDialogPrefab);
-        this.currentMiniPanel.addDialog(node);
         this.isShowAutoSpinSettingDialog = true;
-        const dialog = node.getComponent(AutoSpinSettingDialog);
-        dialog.onConfirmCallback = (autoSpinCount: number) => {
-            this.setAutoSpinCount(autoSpinCount);
-            this.updateModeSpinButton(false);
-            this.lastAutoSpinCount = autoSpinCount;
-            this.spin();
-            this.isShowAutoSpinSettingDialog = false;
-            this.autoOpenAutoSpinDialog = false;
-        };
+        return super.createAutoSpinDialog();
+    }
 
-        dialog.onCancelCallback = () => {
-            this.resetStateButtons();
-            this.autoOpenAutoSpinDialog && this.showMessageDisplay(RoundType.SETTLED);
-            this.isShowAutoSpinSettingDialog = false;
-            this.autoOpenAutoSpinDialog = false;
-        };
+    onConfirmCallBackAutoSpinDialog(autoSpinCount) {
+        this.setAutoSpinCount(autoSpinCount);
+        this.updateModeSpinButton(false);
+        this.lastAutoSpinCount = autoSpinCount;
+        this.spin();
+        this.isShowAutoSpinSettingDialog = false;
+        this.autoOpenAutoSpinDialog = false;
+    }
 
-        if (this.lastAutoSpinCount) {
-            dialog.setLastSelected(this.lastAutoSpinCount);
-        }
-
-        const turboDialog = node.getComponent(TurboAutoSpinSettingDialog);
-        if (turboDialog) {
-            turboDialog.syncTurboToggle(this.turboToggle.isChecked);
-            turboDialog.turboChangedCallback = (value: boolean) => this.setAndSaveSettingTurbo(value);
-        }
-
-        return dialog;
+    onCancelCallbackAutoSpinDialog() {
+        this.resetStateButtons();
+        this.autoOpenAutoSpinDialog && this.showMessageDisplay(RoundType.SETTLED);
+        this.isShowAutoSpinSettingDialog = false;
+        this.autoOpenAutoSpinDialog = false;
     }
 
     setAutoSpinCount(count: number) {

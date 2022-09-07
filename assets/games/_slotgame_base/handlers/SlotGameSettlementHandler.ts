@@ -184,7 +184,6 @@ export default class SlotGameSettlementHandler implements DataHandler {
             } else if (isAutoSpinMode && !stillAutoSpin) {
                 this.main.createAutoSpinDialog();
                 this.main.autoOpenAutoSpinDialog = true;
-                this.main.showMessageDisplay(RoundType.SETTLED);
             } else {
                 if (!this.main.isShowAutoSpinSettingDialog) {
                     this.main.resetStateButtons();

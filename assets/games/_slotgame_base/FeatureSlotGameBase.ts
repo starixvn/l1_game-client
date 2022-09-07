@@ -183,25 +183,35 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const node = cc.instantiate(this.autoSpinDialogPrefab);
         this.currentMiniPanel.effectNode.addChild(node);
         const dialog = node.getComponent(AutoSpinSettingDialog);
-        dialog.onConfirmCallback = (autoSpinCount: number) => {
-            this.setAutoSpinCount(autoSpinCount);
-            this.lastAutoSpinCount = autoSpinCount;
-            this.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
 
-            this.spin();
+        dialog.onConfirmCallback = (autoSpinCount: number) => {
+            this.onConfirmCallBackAutoSpinDialog(autoSpinCount);
         };
+
+        dialog.onCancelCallback = () => this.onCancelCallbackAutoSpinDialog();
+
         if (this.lastAutoSpinCount) {
             dialog.setLastSelected(this.lastAutoSpinCount);
         }
 
-        const turboDialog = node.getComponent(TurboAutoSpinSettingDialog);
+        const turboDialog = dialog.node.getComponent(TurboAutoSpinSettingDialog);
         if (turboDialog) {
             turboDialog.syncTurboToggle(this.turboToggle.isChecked);
             turboDialog.turboChangedCallback = (value: boolean) => this.setAndSaveSettingTurbo(value);
         }
 
-        dialog.onCancelCallback = () => this.onAutoSpinOff();
         return dialog;
+    }
+
+    onConfirmCallBackAutoSpinDialog(autoSpinCount) {
+        this.setAutoSpinCount(autoSpinCount);
+        this.lastAutoSpinCount = autoSpinCount;
+        this.gameData.spinButtonStateModel.change(SpinButtonState.AutoSpin);
+        this.spin();
+    }
+
+    onCancelCallbackAutoSpinDialog() {
+        this.onAutoSpinOff();
     }
 
     setAndSaveSettingTurbo(value: boolean) {
