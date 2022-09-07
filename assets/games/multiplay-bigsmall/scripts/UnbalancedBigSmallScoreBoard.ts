@@ -97,18 +97,28 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
     updateRoundHistory = (roundHistory) => {
         this.hideNextItem();
 
-        const choices = ["big", "small"];
+        const originalChoices = ["big", "small"];
         const count = roundHistory.reduce((count: any, history) => {
-            choices.forEach((choice) => {
+            originalChoices.forEach((choice) => {
                 if (history.settlementResult[choice]) {
                     count[choice] = (count[choice] ?? 0) + 1;
                 }
             });
             return count;
         }, {});
-        choices.forEach((choice) => {
+
+        const choices = [...originalChoices].sort((a, b) => count[a] - count[b]);
+
+        let total = 0;
+        choices.forEach((choice, index) => {
             const label = this.percentLabels.find((label) => label.node.name === choice);
-            label.string = `${count[choice]}%`;
+            const value = Math.floor((count[choice] * 100) / roundHistory.length);
+            label.string = `${value}%`;
+            if (index === choices.length - 1) {
+                label.string = `${100 - total}%`;
+            }
+
+            total += value;
         });
 
         const data = roundHistory.map((history) => {
