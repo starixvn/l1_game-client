@@ -54,9 +54,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.Node)
     timeShowResult: cc.Node = null;
 
-    @property(cc.Prefab)
-    statisticBoardPrefab: cc.Prefab = null;
-
     public isMiniGameInContainer = true;
 
     protected scaleResultNode = 1;
