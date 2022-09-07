@@ -75,6 +75,10 @@ export const updateMD5String = (game: MiniGameBase) => (data) => {
     game.md5Component && game.md5Component.handleMD5Data(data);
 };
 
+export const showHashAtPlacingBet = (game: MiniGameBase) => () => {
+    game.gameData.resultHash.updateUI();
+};
+
 export const handleShowStatus = (game: MiniGameBase) => (status) => {
     game.showStatus(status);
     game.gameData.settlement.clearStatus();
