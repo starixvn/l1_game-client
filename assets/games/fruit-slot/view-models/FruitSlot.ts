@@ -1,6 +1,7 @@
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { FruitSlotConfig } from "./FruitSlotConfig";
 import FruitSlotBetOptionsUI from "./FruitSlotBetOptionsUI";
+import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 

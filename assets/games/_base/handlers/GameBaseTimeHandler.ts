@@ -96,6 +96,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     }
 
     handleWaitTime() {
+        console.log("handleWaitTimeGameBase", this.main.timeWaitNode);
         if (this.main.timeWaitNode) {
             this.main.finishShowResult && this.showWaitTime();
         }
