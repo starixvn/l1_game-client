@@ -124,7 +124,7 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
         const data = roundHistory.map((history) => {
             const result = {};
             const winChoice = Object.keys(history.settlementResult).find((choice) => history.settlementResult[choice]);
-            result["type"] = choices.findIndex((choice) => choice === winChoice);
+            result["type"] = originalChoices.findIndex((choice) => choice === winChoice);
             const sum = Object.values(history.result).reduce((prev: number, value: number) => prev + value, 0);
             result["extra"] = { sum };
             return result;
