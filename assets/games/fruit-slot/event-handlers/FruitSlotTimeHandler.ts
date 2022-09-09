@@ -9,29 +9,25 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         super(main);
     }
 
-    get isInWaitTime() {
-        return this.main.currentTimeRemaining > this.main.config.betTime;
-    }
-
     handleWaitTime() {
-        super.handleWaitTime();
-    }
+        this.showWaitTime();
 
-    gameUpdate(): void {
-        if (this.isInWaitTime) {
-            this.handleWaitTime();
-        }
-        this.main.currentTimeRemaining--;
-    }
-
-    handeWaitTime() {
-        //const gameData = this.main.gameData;
         this.showMainTime(false);
+
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);
     }
 
     showWaitTime() {
-        
+        this.main.timeWaitDot.active = true;
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
+    }
+
+    showRoundTime() {
+        super.showRoundTime();
+        if (this.main.timeWaitDot) {
+            this.main.timeWaitDot.active = false;
+        }
     }
 }

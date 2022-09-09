@@ -7,6 +7,7 @@ import FruitSlotGameData from "../event-models/FruitSlotGameData";
 import { History } from "../../_new/_base/game-data-management/models/history";
 import FruitSlotMiniRoundHistory from "./FruitSlotMiniRoundHistory";
 import FruitSlotStatistic from "./FruitSlotStatistic";
+import FruitSlotAnimatedTimer from "./FruitSlotAnimatedTimer";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,11 +18,16 @@ export default class FruitSlot extends NewGameRoomBase {
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    timeWaitDot: cc.Node = null;
+
     public gameData: FruitSlotGameData = null;
     public config: FruitSlotConfig;
     public betOptionsUI: FruitSlotBetOptionsUI = null;
     public miniRoundHistory: FruitSlotMiniRoundHistory = null;
     public statistic: FruitSlotStatistic = null;
+    public timeHandler: FruitSlotTimeHandler;
+    public animatedTime: FruitSlotAnimatedTimer;
 
     constructor() {
         super();
@@ -41,6 +47,11 @@ export default class FruitSlot extends NewGameRoomBase {
         this.statistic.node.active = true;
         this.statistic.render(this.gameData.roundHistory.list);
         this.statistic.commonDialog.showDialog();
+    }
+
+    initHandlers() {
+        super.initHandlers();
+        this.timeHandler = new FruitSlotTimeHandler(this);
     }
 
     private initBetOptionsUI(node: cc.Node) {
