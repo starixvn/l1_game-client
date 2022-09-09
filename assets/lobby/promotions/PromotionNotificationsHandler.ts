@@ -20,17 +20,28 @@ export class PromotionNotification {
     startTime: string;
 }
 
-const PromotionNotificationsStorageKey = "PROMOTION_NOTIFICATIONS";
 export default class PromotionNotificationsHandler extends EventEmitterBase {
     private static instance: PromotionNotificationsHandler;
 
     private readonly dataKey = "promotionNotifications";
+
+    public _reloadAnnouncementPopup = false;
+
+    public _promotionNotifications: PromotionNotification[];
 
     public static getInstance(): PromotionNotificationsHandler {
         if (!this.instance) {
             this.instance = new PromotionNotificationsHandler();
         }
         return this.instance;
+    }
+
+    get reloadAnnouncementPopup() {
+        return this._reloadAnnouncementPopup;
+    }
+
+    get promotionNotifications() {
+        return this._promotionNotifications;
     }
 
     addDataObserver() {
@@ -42,7 +53,10 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
     }
 
     receivedData(data: PromotionNotification[]) {
-        cc.sys.localStorage.setItem(PromotionNotificationsStorageKey, JSON.stringify(data));
+        if (JSON.stringify(this._promotionNotifications) === JSON.stringify(data)) {
+            this._reloadAnnouncementPopup = false;
+        } else this._reloadAnnouncementPopup = true;
+        this._promotionNotifications = data;
         this.emit(PromotionNotificationsEvent.NEW_PROMOTION, data);
     }
 }

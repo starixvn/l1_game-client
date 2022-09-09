@@ -131,6 +131,7 @@ export default class GameBase extends GameViewBase {
     public roundId = -1;
     public gameConfigs: any;
     public finishShowResult = true;
+    public boostedChoices: string[];
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
@@ -470,6 +471,7 @@ export default class GameBase extends GameViewBase {
     }
 
     setBoostedChoices(boostedChoices: any) {
+        this.boostedChoices = boostedChoices;
         if (boostedChoices) {
             this.betItems.forEach((item) => item.highLightOdds(boostedChoices?.includes(item.node.name)));
         }
@@ -496,8 +498,9 @@ export default class GameBase extends GameViewBase {
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
+        const isTimeRangePromotion = this.boostedChoices?.length > 0;
         const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
-        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() });
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, isTimeRangePromotion);
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();
@@ -509,7 +512,7 @@ export default class GameBase extends GameViewBase {
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
         const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
-        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, "&md5=1");
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, false, "&md5=1");
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();

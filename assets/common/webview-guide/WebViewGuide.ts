@@ -21,9 +21,15 @@ export default class WebViewGuide extends LoadWebView {
         }
     }
 
-    initURL(gameId: number, language: string, configStake: { minBet: number; maxBet: number; used: boolean }, specialDirection = "") {
+    initURL(
+        gameId: number,
+        language: string,
+        configStake: { minBet: number; maxBet: number; used: boolean },
+        isTimeRangePromotion: boolean,
+        specialDirection = ""
+    ) {
         const domain = config.guideDomain;
-        let url = `${domain}/${language}?gId=${gameId}&t=${this.themeName}&f=c&v=${Date.now()}`;
+        let url = `${domain}/${language}?gId=${gameId}&t=${this.themeName}&p=${isTimeRangePromotion}&f=c&v=${Date.now()}`;
         url += `&minBet=${configStake.minBet}&maxBet=${configStake.maxBet}${specialDirection}`;
         this.url = url;
     }
