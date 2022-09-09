@@ -335,7 +335,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
             return;
         }
         const node = this.currentMiniPanel.promotions.node;
-        const wPosition = this.defaultPromotion.convertToWorldSpaceAR(cc.v2(0, 0));
+        const wPosition = this.defaultPromotion?.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
         node.position = cc.v3(localPosition.x, localPosition.y);
     }
