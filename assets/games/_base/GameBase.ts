@@ -472,8 +472,12 @@ export default class GameBase extends GameViewBase {
 
     setBoostedChoices(boostedChoices: any) {
         this.boostedChoices = boostedChoices;
-        if (boostedChoices) {
-            this.betItems.forEach((item) => item.highLightOdds(boostedChoices?.includes(item.node.name)));
+        this.highLightBoostedOdds();
+    }
+
+    highLightBoostedOdds() {
+        if (this.boostedChoices) {
+            this.betItems.forEach((item) => item.highLightOdds(this.boostedChoices?.includes(item.node.name)));
         }
     }
 
@@ -498,9 +502,9 @@ export default class GameBase extends GameViewBase {
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
-        const isTimeRangePromotion = this.boostedChoices?.length > 0;
+        const isInPromotionTime = this.boostedChoices?.length > 0;
         const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
-        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, isTimeRangePromotion);
+        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, isInPromotionTime);
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();

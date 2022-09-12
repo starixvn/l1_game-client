@@ -298,9 +298,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.odds.string = `1:${values[this.choices[0]]}`;
     }
 
-    setBoostedChoices(boostedChoices: any) {
+    highLightBoostedOdds() {
         const color = cc.Color.WHITE;
-        if (boostedChoices?.includes(this.choices[0])) {
+        if (this.boostedChoices?.includes(this.choices[0])) {
             this.odds.node.color = color.fromHEX("#F0F00C");
         } else this.odds.node.color = color;
     }
