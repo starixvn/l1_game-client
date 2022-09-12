@@ -14,14 +14,12 @@ export default class WayToGoalReelItem extends SlotReelItem {
         this.content.children.forEach((child) => {
             const animation = child.getChildByName("icon").children[0].getComponent(cc.Animation);
             if (animation) {
-                const amin = show ? "highlight" : "idle";
-                animation.play(amin);
+                const anim = show ? "highlight" : "idle";
+                animation.play(anim);
             }
             const winningEffectBelow = child.getChildByName("winning-effect-below");
-            const winningEffectAbove = child.getChildByName("winning-effect-above");
-            if (winningEffectAbove && winningEffectBelow) {
-                winningEffectAbove.active = show;
-                winningEffectAbove.active = show;
+            if (winningEffectBelow) {
+                winningEffectBelow.active = show;
             }
         });
     }
