@@ -4,13 +4,19 @@ import { lazyInject } from "../../Application";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
-import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
-import UserProfile from "../../common/user-profile/UserProfile";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import SocketIOController from "../../SocketIOController";
+import {
+    closeGame,
+    initMusicBackground,
+    loadMiniPanel,
+    loadUserData,
+    onUserProfileInitialized,
+    outRoomGame,
+} from "./action/GameRoomActions";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./view-models/RoomPlayer";
@@ -54,7 +60,6 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     playerHandler: GameBasePlayerHandler;
-    private readonly miniPanelScale = 1;
 
     constructor() {
         super();
@@ -63,18 +68,10 @@ export default class WebSocketTableGameBase extends GameBase {
     onLoad() {
         super.onLoad();
         cc.RedT && (cc.RedT.inGame = this);
-        this.loadMiniPanel();
+        loadMiniPanel(this)();
         this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
-        this.initMusicBackground();
-    }
-
-    initMusicBackground() {
-        const musicPlayer = MusicPlayer.getInstance();
-        if (this.musicBg) {
-            musicPlayer.joinRoomMusic = true;
-            musicPlayer.decreaseVolumeAndStopBackgroundMusic();
-        }
+        initMusicBackground(this)();
     }
 
     onDestroy() {
@@ -109,10 +106,7 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     onUserProfileInitialized(node: cc.Node) {
-        const userProfile = node.getComponent(UserProfile);
-        if (userProfile) {
-            this.userProfile = userProfile;
-        }
+        onUserProfileInitialized(this)(node);
     }
 
     showUmMessage(data: any) {
@@ -149,27 +143,11 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     closeGame() {
-        if (this.loading) {
-            this.loading.active = true;
-        }
-        this.outRoomGame().then(() => {
-            cc.director.loadScene("MainGame");
-        });
+        closeGame(this)();
     }
 
     outRoomGame() {
-        return new Promise<void>((resolve) => {
-            this.node.runAction(
-                cc.sequence(
-                    cc.delayTime(1),
-                    cc.callFunc(() => {
-                        this.socketIOController.closeMiniGameSockets();
-                        this.stopGame();
-                        resolve();
-                    })
-                )
-            );
-        });
+        return outRoomGame(this)();
     }
 
     showAcceptedBet(bet: number) {
@@ -233,48 +211,12 @@ export default class WebSocketTableGameBase extends GameBase {
         super.onData(data);
 
         if (this.players && this.players.length > 0) {
-            this.playerHandler.handle(data);
-        }
-    }
-
-    protected loadMiniPanel() {
-        if (!this.miniPanelPrefab) {
-            return;
-        }
-        const miniPanel = cc.instantiate(this.miniPanelPrefab);
-        this.currentMiniPanel = miniPanel.getComponent("MiniPanel");
-        this.currentMiniPanel.currentGameRoomId = this.gameId;
-        sessionManager.storeInRoomGameId(this.gameId);
-        this.miniPanelContainer.addChild(miniPanel);
-
-        if (!cc.sys.isMobile) {
-            miniPanel.scale = this.miniPanelScale;
+            this.playerHandler && this.playerHandler.handle(data);
         }
     }
 
     protected loadUserData(user) {
-        if (!user) {
-            return;
-        }
-        if (!this.isAlive()) {
-            return;
-        }
-
-        if (void 0 !== user.name) {
-            this.userProfile && this.userProfile.setUserName(user.name);
-        }
-
-        if (void 0 !== user.red) {
-            this.userProfile && this.userProfile.setUserBalance(numberWithCommas(user.red, 2));
-        }
-
-        if (void 0 !== user.avatarId) {
-            GameUtils.getAvatarSprite(user.avatarId).then((frame) => {
-                if (this?.node && frame) {
-                    this.userProfile && this.userProfile.setUserAvatar(frame);
-                }
-            });
-        }
+        loadUserData(this)(user);
     }
 
     initEventForInGameMenu() {

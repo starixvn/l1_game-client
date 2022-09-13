@@ -4,6 +4,7 @@ import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
 import SocketIOController from "../../../SocketIOController";
+import GameBase from "../../_base/GameBase";
 import GameViewBase from "../../_base/GameViewBase";
 import { GameConfigs } from "../../_base_new/models/GameConfigs";
 import MultiplayGameSingle, { KeyStorageStatisticOpen } from "./MultiplayGameSingle";
@@ -61,11 +62,7 @@ export default class MultiplayGame extends GameViewBase {
         this.initMultiplayLayout();
         this.initSockets();
 
-        (this.games[this.gameIds[0]] as MultiplayGameSingle).gameData.gameConfigs.on(
-            GameConfigs.Events.CHANGE,
-            this.setGameConfigs.bind(this)
-        );
-
+        (this.games[this.gameIds[0]] as GameBase).gameData.gameConfigs.on(GameConfigs.Events.CHANGE, this.setGameConfigs.bind(this));
         this.resetStatisticShow();
     }
 
@@ -83,7 +80,7 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     onDestroy() {
-        Object.values(this.games).forEach((game: MultiplayGameSingle) => game.clearGameData());
+        Object.values(this.games).forEach((game: GameBase) => game.clearGameData());
         this.gameIds.forEach((gameId: number) => {
             this.socketIOController.deleteCachedSocket(gameId);
         });
@@ -106,7 +103,7 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     onDisable() {
-        Object.values(this.games).forEach((game: MultiplayGameSingle) => game.cleanGame());
+        Object.values(this.games).forEach((game: GameBase) => game.cleanGame());
         this.promotionGuideComp && this.promotionGuideComp.hideGuide();
     }
 
@@ -129,9 +126,9 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     grantSocketForSingle(gameId: number) {
-        const multiplaySingle = this.games[gameId] as MultiplayGameSingle;
+        const multiplaySingle = this.games[gameId] as GameBase;
         multiplaySingle.grantSocket();
-        multiplaySingle.initSocketListenter();
+        multiplaySingle.initSocketListener();
         multiplaySingle.startGame();
         return multiplaySingle;
     }
@@ -175,7 +172,7 @@ export default class MultiplayGame extends GameViewBase {
     addMainGameUI(gameId: number) {
         const child = this.mainContent.children[0];
         if (child) {
-            child.getComponent(MultiplayGameSingle)?.removeGameDataEvents();
+            child.getComponent(GameBase)?.removeGameDataEvents();
             child.destroy();
         }
         this.mainContent.addChild(this.createMainGameUI(gameId));
@@ -183,12 +180,18 @@ export default class MultiplayGame extends GameViewBase {
         this.mainGameId = gameId;
     }
 
-    createMainGameUI(gameId: number) {
-        const node = cc.instantiate(this.normallPrefab);
-        const single = node.getComponent(MultiplayGameSingle);
+    assignPropertiesForSingle(single: any, isMain: boolean) {
+        single.currentMiniPanel = this.currentMiniPanel;
         single.currentMiniPanel = this.currentMiniPanel;
         single.betChips = this.betChips;
-        single.isCollectChip = true;
+        single.isCollectChip = isMain;
+    }
+
+    createMainGameUI(gameId: number) {
+        const node = cc.instantiate(this.normallPrefab);
+        const single = node.getComponent(GameBase);
+        this.assignPropertiesForSingle(single, true);
+
         this.games[gameId] = single;
         single.onDisconnectCallback = () => {
             this.onCloseClick();
@@ -203,7 +206,7 @@ export default class MultiplayGame extends GameViewBase {
         const content = this.subContents[location];
         const child = content.children[0];
         if (child) {
-            child.getComponent(MultiplayGameSingle)?.removeGameDataEvents();
+            child.getComponent(GameBase)?.removeGameDataEvents();
             child.destroy();
         }
 
@@ -213,11 +216,9 @@ export default class MultiplayGame extends GameViewBase {
 
     createSubGameUI(gameId: number, location: number) {
         const node = cc.instantiate(this.smallPrefab);
-        const single = node.getComponent(MultiplayGameSingle);
+        const single = node.getComponent(GameBase);
         single.maximizeCallback = (gameId) => this.switchGameToMain(gameId);
-        single.currentMiniPanel = this.currentMiniPanel;
-        single.betChips = this.betChips;
-        single.isCollectChip = false;
+        this.assignPropertiesForSingle(single, false);
         this.games[gameId] = single;
         return node;
     }
@@ -250,7 +251,7 @@ export default class MultiplayGame extends GameViewBase {
 
     onChangedBetChip(bet: number) {
         this.currentBet = bet;
-        Object.values(this.games).forEach((game: MultiplayGameSingle) => (game.currentBet = bet));
+        Object.values(this.games).forEach((game: GameBase) => (game.currentBet = bet));
     }
 
     setGameConfigs(gameConfigs: any) {

@@ -11,6 +11,9 @@ export default class SnappedScrollView extends cc.Component {
     @property
     enableHalfSpacing = true;
 
+    @property
+    isHorizontalLayout = true;
+
     public onScrollEnded = () => {};
 
     private readonly calculatedPercent: number[] = [];
@@ -25,9 +28,20 @@ export default class SnappedScrollView extends cc.Component {
     }
     private scrollBegan = false;
 
+    scrollContentWidth() {
+        const count = this.contentItemCount();
+        return this.isHorizontalLayout ? count * this.itemSize + (count + 1) * this.spacing : this.scroll.content.width;
+    }
+
+    contentItemCount() {
+        return this.isHorizontalLayout
+            ? this.scroll.content.childrenCount
+            : Math.round(this.scroll.content.width / (this.itemSize + this.spacing));
+    }
+
     initCalculatedPercent() {
-        const count = this.scroll.content.childrenCount;
-        const contentWidth = count * this.itemSize + (count + 1) * this.spacing;
+        const count = this.contentItemCount();
+        const contentWidth = this.scrollContentWidth();
         const maxOffset = contentWidth - this.scroll.node.width;
         const haftSpacing = this.spacing / 2;
         for (let i = 0; i < count; i++) {

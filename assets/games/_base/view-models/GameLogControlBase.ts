@@ -6,6 +6,7 @@ const { ccclass, property } = cc._decorator;
 export interface ExtendedLogControlData {
     type: number;
     extra: any;
+    choice?: string;
 }
 
 @ccclass

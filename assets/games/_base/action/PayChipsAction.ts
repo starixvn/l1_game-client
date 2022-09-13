@@ -44,7 +44,7 @@ export const payChips = (
     }
 };
 
-const payChipToAllPlayers = (mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[], winningPlayers): void => {
+export const payChipToAllPlayers = (mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[], winningPlayers): void => {
     payChipsToLoginPlayer(mainRoomGame, mainRoomGame.statusHandler.currentStatusData, winBetItems, mainRoomGame.otherPlayers !== null);
     if (mainRoomGame.otherPlayers) {
         payChipsToOtherPlayers(mainRoomGame, winBetItems);
@@ -53,13 +53,13 @@ const payChipToAllPlayers = (mainRoomGame: WebSocketTableGameBase, winBetItems: 
     payChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
 };
 
-const dealerGetChips = (mainRoomGame: WebSocketTableGameBase, lostBetItems: BetItem[]) => {
+export const dealerGetChips = (mainRoomGame: any, lostBetItems: BetItem[]) => {
     _.forEach(lostBetItems, (item) => {
         mainRoomGame.betChips.moveChips(item.chipNode, mainRoomGame.dealerChipBox);
     });
 };
 
-const dealerPayChips = (mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[]) => {
+export const dealerPayChips = (mainRoomGame: any, winBetItems: BetItem[]) => {
     _.forEach(winBetItems, (item) => {
         mainRoomGame.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox);
     });
@@ -70,49 +70,59 @@ const payChipsToLoginPlayer = (mainRoomGame: WebSocketTableGameBase, statusData,
         return;
     }
 
+    moveChipPlayers(mainRoomGame, statusData, winBetItems, isOtherPlayers);
+
+    mainRoomGame.showWinningBet(statusData.bet);
+    const playerNode = mainRoomGame.userProfile?.userAvatar?.node?.parent;
+    playerNode && playWinningEffect(mainRoomGame, playerNode);
+    mainRoomGame.updateUserBalance();
+};
+
+export const moveChipPlayers = (mainRoomGame: any, statusData, winBetItems: BetItem[], isOtherPlayers = true) => {
     const betItems = statusData.winningByChoices;
     if (isOtherPlayers) {
         moveChipWithRandomAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
     } else {
         moveChipWithAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
     }
-
-    const playerNode = mainRoomGame.userProfile.userAvatar.node.parent;
-    mainRoomGame.showWinningBet(statusData.bet);
-    playWinningEffect(mainRoomGame, playerNode);
-    mainRoomGame.updateUserBalance();
 };
 
-const moveChipWithRandomAmountToLoginPlayer = (winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) => {
+const moveChipWithRandomAmountToLoginPlayer = (winBetItems: BetItem[], betItems, mainRoomGame: any) => {
+    const destNode = mainRoomGame?.userProfile?.userAvatar?.node;
+    if (!destNode) {
+        return;
+    }
     _.forEach(winBetItems, (item) => {
         if (betItems[item.node.name.toLowerCase()]) {
-            mainRoomGame.betChips.moveChipsWithRandomAmount(item.chipNode, mainRoomGame.userProfile.userAvatar.node, duraionPayChips);
+            mainRoomGame.betChips.moveChipsWithRandomAmount(item.chipNode, destNode, duraionPayChips);
         }
     });
 };
 
-const moveChipWithAmountToLoginPlayer = (winBetItems: BetItem[], betItems, mainRoomGame: WebSocketTableGameBase) => {
+const moveChipWithAmountToLoginPlayer = (winBetItems: BetItem[], betItems, mainRoomGame: any) => {
+    const destNode = mainRoomGame?.userProfile?.userAvatar?.node;
+    if (!destNode) {
+        return;
+    }
     const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
-
     _.forEach(winBetItems, (item) => {
         if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
-            mainRoomGame.betChips.moveChips(item.chipNode, mainRoomGame.userProfile.userAvatar.node);
+            mainRoomGame.betChips.moveChips(item.chipNode, destNode);
         }
     });
 };
 
-const payChipsToOtherPlayers = (roomGame: WebSocketTableGameBase, winBetItems: BetItem[]) => {
-    let hasChip = false;
+export const payChipsToOtherPlayers = (roomGame: any, winBetItems: BetItem[]) => {
+    if (!roomGame.otherPlayers) {
+        return;
+    }
 
     _.forEach(winBetItems, (item) => {
-        if (!hasChip) {
-            hasChip = item.chipNode.children.length > 0;
-        }
         roomGame.betChips.moveChips(item.chipNode, roomGame.otherPlayers);
     });
 };
 
-const payChipsToInGamePlayers = (winningPlayers: any, mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[]) => {
+const payChipsToInGamePlayers = (winningPlayers: any, mainRoomGame: any, winBetItems: BetItem[]) => {
     if (!winningPlayers) {
         return;
     }
@@ -140,7 +150,7 @@ const payChipsToInGamePlayers = (winningPlayers: any, mainRoomGame: WebSocketTab
     });
 };
 
-export const playWinningEffect = (mainRoomGame: WebSocketTableGameBase, playerNode: cc.Node, duration = duraionWinning) => {
+export const playWinningEffect = (mainRoomGame: any, playerNode: cc.Node, duration = duraionWinning) => {
     const winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
     winningEffect.name = "winningEffect";
     playerNode.addChild(winningEffect);

@@ -6,6 +6,7 @@ import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
 import UserService from "../../common/auth/UserService";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
+import EventEmitterBase from "../../common/emitter/EventEmitterBase";
 import GameUtils from "../../common/GameUtils";
 import InGameMenu, { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
@@ -14,17 +15,19 @@ import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
+import GameDataManager from "../_base_new/models/GameDataManager";
+import { GameData } from "../_new/_base/game-data-management/models/game-data";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
-import GameBaseOddsHandler from "./handlers/GameBaseOddsHandler";
 import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "./handlers/GameBaseErrorHandler";
 import GameBaseFinishHandler from "./handlers/GameBaseFinishHandler";
 import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseMd5Handler from "./handlers/GameBaseMd5Handler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
+import GameBaseOddsHandler from "./handlers/GameBaseOddsHandler";
 import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
@@ -35,6 +38,13 @@ import MD5Component from "./view-models/MD5Component";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
+
+interface EmitterStorage {
+    emitter: EventEmitterBase;
+    eventName: string;
+    listener: (param?: any) => void;
+}
+
 @ccclass
 export default class GameBase extends GameViewBase {
     @property({ type: BetItem })
@@ -132,6 +142,7 @@ export default class GameBase extends GameViewBase {
     public gameConfigs: any;
     public finishShowResult = true;
     public boostedChoices: string[];
+    public showOtherPlayerChips = true;
 
     public umHandler: DataHandler;
     public noticeHandler: DataHandler;
@@ -152,8 +163,17 @@ export default class GameBase extends GameViewBase {
     private readonly dataHandlers: DataHandler[] = [];
     private processingWarning: cc.Node;
     public needHideNextDotRoundHistory = false;
-
     hideUmDataKeys = ["remainingTime"];
+    // using multiplay game
+    public gameData: any;
+    public onDisconnectCallback = () => {};
+    protected managedByContainer = true;
+    emitterStorages: EmitterStorage[] = [];
+    internalTweenNodes: cc.Node[] = [];
+    readonly internalTweenTag = 99;
+    maximizeCallback = (gameId: number) => {
+        //callback
+    };
 
     setConfig(config: GameConfigBase) {
         this.config = config;
@@ -618,4 +638,73 @@ export default class GameBase extends GameViewBase {
         const gameSetting = GameUtils.getGameSetting(this.gameId);
         return gameSetting[key];
     }
+
+    onClickMaximize() {
+        this.maximizeCallback(this.gameId);
+    }
+
+    tween(node: cc.Node) {
+        if (!this.internalTweenNodes.includes(node)) {
+            this.internalTweenNodes.push(node);
+        }
+        return cc.tween(node).tag(this.internalTweenTag);
+    }
+
+    stopInternalTweens() {
+        this.internalTweenNodes.forEach((node) => node.stopActionByTag(this.internalTweenTag));
+    }
+
+    clearGameData() {
+        GameDataManager.getInstance().clearGameData(this.gameId);
+    }
+
+    initGameData() {
+        const dataManager = GameDataManager.getInstance();
+        let gameData = dataManager.getGameData(this.gameId);
+        if (!gameData) {
+            gameData = this.createGameData();
+            dataManager.setGameData(this.gameId, gameData);
+        }
+
+        this.gameData = gameData;
+        this.gameData.durations.initialize({
+            wholeRound: this.config.fullTime,
+            placingBet: this.config.betTime,
+            lockingBet: this.config.stopBetTime
+        });
+    }
+
+    createGameData(): GameData {
+        return new GameData();
+    }
+
+    emitterListener(emitter: EventEmitterBase, eventName: string, listener: (param: any) => any) {
+        const storage = {
+            emitter,
+            eventName,
+            listener: listener(this)
+        };
+        emitter.addListener(eventName, storage.listener);
+        this.emitterStorages.push(storage);
+    }
+
+    removeGameDataEvents() {
+        this.emitterStorages.forEach((item) => {
+            const { emitter, eventName, listener } = item;
+            emitter.removeListener(eventName, listener);
+        });
+        this.emitterStorages = [];
+    }
+
+    clearData() {
+        this.gameData.betModel.clearData();
+        this.gameData.totalBets.clearData();
+        this.gameData.settlement.clearSettlement();
+    }
+
+    cleanGame() {}
+
+    grantSocket() {}
+
+    initSocketListener() {}
 }

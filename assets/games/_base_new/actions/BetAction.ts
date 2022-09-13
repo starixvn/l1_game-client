@@ -1,6 +1,6 @@
-import { collectChipsLost, dealerGetChipsMiniGame } from "./../../_base/action/PayChipsAction";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import MiniGameBase from "../view-models/MiniGameBase";
+import { collectChipsLost, dealerGetChipsMiniGame } from "./../../_base/action/PayChipsAction";
 
 export const updateTotalBets = (gameBase: MiniGameBase) => (data) => {
     if (gameBase.isDisableGame) {
@@ -35,8 +35,6 @@ export const placeOwnChip = (gameBase: MiniGameBase) => (ownBet) => {
         gameBase.betChips.showChipOwnBet(item, betValue);
     });
 };
-export const placeTotalChips = (gameBase: MiniGameBase) => () => {};
-export const handlePlayerChipAction = (gameBase: MiniGameBase) => () => {};
 
 export const changeBetPercentage = (game: MiniGameBase) => (betPercentage: any) => {
     if (game.isDisableGame) {

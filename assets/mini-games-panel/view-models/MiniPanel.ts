@@ -76,7 +76,7 @@ export default class MiniPanel extends BaseComponent {
     public currentGameRoomId: number;
     public skipShowApiErrorGameIds: number[] = [];
     public gameMiniInitializers: MiniPanelMiniGameInitializers;
-    private socketIOGameInitializers: MiniPanelSocketIOGameInitializers;
+    public socketIOGameInitializers: MiniPanelSocketIOGameInitializers;
     private miniGamesCache = {};
     private newLayerCallbacks = {};
     public chartsWebView = {};

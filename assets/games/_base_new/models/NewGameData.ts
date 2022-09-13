@@ -45,17 +45,12 @@ export default class NewGameData extends GameData {
 
     constructor() {
         super();
-        this.durations = new NewDurations();
-        this.betModel = new BetModel();
-        this.gameConfigs = new GameConfigs();
-        this.notice = new NoticeModel();
-        this.roundHistory = new RoundHistory();
-        this.settlement = new Settlement();
-        this.resultHash = new ResultHash();
-        this.umModel = new UMModel();
-        this.boostedChoicesModel = new BoostedChoicesModel();
-        this.boostedOddsModel = new BoostedOddsModel();
 
+        this.initModels();
+        this.initEventEmitters();
+    }
+
+    protected initEventEmitters() {
         const models: EventEmitterBase[] = [
             //
             this.umModel,
@@ -71,6 +66,19 @@ export default class NewGameData extends GameData {
             this.boostedOddsModel
         ];
         this.eventEmitters.push(...models);
+    }
+
+    protected initModels() {
+        this.durations = new NewDurations();
+        this.betModel = new BetModel();
+        this.gameConfigs = new GameConfigs();
+        this.notice = new NoticeModel();
+        this.roundHistory = new RoundHistory();
+        this.settlement = new Settlement();
+        this.resultHash = new ResultHash();
+        this.umModel = new UMModel();
+        this.boostedChoicesModel = new BoostedChoicesModel();
+        this.boostedOddsModel = new BoostedOddsModel();
     }
 
     changeRoundId(roundId: number) {

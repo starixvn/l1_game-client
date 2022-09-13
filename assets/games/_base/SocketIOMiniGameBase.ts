@@ -29,7 +29,7 @@ export default class SocketIOMiniGameBase extends GameBase {
 
     onEnable() {
         this.grantSocket();
-        this.initSocketListenter();
+        this.initSocketListener();
         super.onEnable();
     }
 
@@ -37,7 +37,7 @@ export default class SocketIOMiniGameBase extends GameBase {
         this.socket = this.socketIOController.getSocketGame(this.gameId);
     }
 
-    initSocketListenter() {
+    initSocketListener() {
         if (this.socket) {
             this.socket.off(this.gameName).on(this.gameName, this.onData.bind(this));
             this.socket.on("disconnect", this.onDisconnected.bind(this));
@@ -69,7 +69,7 @@ export default class SocketIOMiniGameBase extends GameBase {
         super.onData(data);
 
         if (data.user) {
-            cc.RedT.inGame.loadUserData(data.user);
+            cc.RedT.inGame?.loadUserData(data.user);
             cc.RedT.userData(data.user);
         }
 

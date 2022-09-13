@@ -47,8 +47,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
-    public isMiniGameInContainer = true;
-
     protected scaleResultNode = 1;
     startRoundDuration = 2;
     config = new BigSmallConfigs();
@@ -177,7 +175,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.resultLabel.string = `${dice1 + dice2 + dice3} - ` + winChoiceString.toUpperCase();
     }
 
-    protected updateRoundHistory() {
+    updateRoundHistory() {
         this.miniRoundHistory.setData(this.currentDataLogs);
         this.statisticHistory && this.statisticHistory.updateData(this.currentDataLogs);
     }

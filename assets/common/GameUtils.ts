@@ -480,4 +480,31 @@ export default class GameUtils {
         const gameConfiguration = getGameConfiguration(gameId);
         return !!gameConfiguration.mini;
     }
+
+    public static calculateWinPercentage(originalChoices: string[], roundHistory: any) {
+        const count = roundHistory.reduce((count: any, history) => {
+            originalChoices.forEach((choice) => {
+                if (history.settlementResult[choice]) {
+                    count[choice] = (count[choice] ?? 0) + 1;
+                }
+            });
+            return count;
+        }, {});
+
+        const choices = [...originalChoices].sort((a, b) => count[a] - count[b]);
+
+        let total = 0;
+        const percentage = {};
+        choices.forEach((choice, index) => {
+            const value = Math.floor((count[choice] * 100) / roundHistory.length);
+            percentage[choice] = `${value}`;
+            if (index === choices.length - 1) {
+                percentage[choice] = `${100 - total}`;
+            }
+
+            total += value;
+        });
+
+        return percentage;
+    }
 }

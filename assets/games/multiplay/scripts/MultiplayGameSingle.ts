@@ -1,6 +1,6 @@
+import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import MultiplayGameHistory from "./MultiplayGameHistory";
-import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 
 const { ccclass } = cc._decorator;
 
@@ -18,18 +18,6 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
     onEnable() {
         super.onEnable();
         this.initStatusStatistic();
-    }
-
-    public onDisconnectCallback = () => {
-        // callback
-    };
-
-    maximizeCallback = (gameId: number) => {
-        //callback
-    };
-
-    onClickMaximize() {
-        this.maximizeCallback(this.gameId);
     }
 
     onDisconnected() {

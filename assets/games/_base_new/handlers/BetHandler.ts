@@ -5,11 +5,12 @@ type Choices = any;
 export type BetEventType = {
     ownBets: Choices;
     endBet: number;
-    ownChip: any;
     betPercentage: any;
     betChoice: string;
     chips?: any;
     gameConfigs?: any;
+    ownChip?: any;
+    playerChip?: any;
 };
 
 export class BetHandler extends BaseEventHandler<BetEventType> {
@@ -34,15 +35,8 @@ export class BetHandler extends BaseEventHandler<BetEventType> {
             isInGame && this.gameData.betModel.actionFlyOwnChipFake(event.ownBets);
         }
 
-        if (event.ownChip) {
-            this.gameData.betModel.changeOwnChip(event.ownChip);
-        }
-
         if (event.betPercentage) {
             this.gameData.betModel.changeBetPercentage(event.betPercentage);
-        }
-        if (event.chips) {
-            this.gameData.betModel.updateTotalChips(event.chips);
         }
     }
 }

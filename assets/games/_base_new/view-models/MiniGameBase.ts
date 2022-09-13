@@ -1,5 +1,6 @@
 import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
+import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
@@ -9,7 +10,6 @@ import {
     changeBetPercentage,
     handleFlyChips,
     handlePayChips,
-    handleTotalChips,
     placeBetFailed,
     placeBetSuccess,
     placeOwnChip,
@@ -72,6 +72,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     waitingDotsSubGame: cc.Node = null;
 
     protected managedByContainer = false;
+    miniRoundHistory: MiniRoundHistory;
     public gameData: NewGameData;
     public countDownProgressBar: CountDownProgressBar;
     emitterStorages: EmitterStorage[] = [];
@@ -91,7 +92,7 @@ export default class MiniGameBase extends NewMiniGameBase {
 
     override onEnable() {
         this.grantSocket();
-        this.initSocketListenter();
+        this.initSocketListener();
         this.startGame();
         if (!this.managedByContainer) {
             this.registerViewGame();
@@ -144,25 +145,10 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.joinGame();
     }
 
-    tween(node: cc.Node) {
-        if (!this.internalTweenNodes.includes(node)) {
-            this.internalTweenNodes.push(node);
-        }
-        return cc.tween(node).tag(this.internalTweenTag);
-    }
-
-    stopInternalTweens() {
-        this.internalTweenNodes.forEach((node) => node.stopActionByTag(this.internalTweenTag));
-    }
-
     onDisconnected() {
         //override to prevent delete socket
         this.showProcessingWarning(false);
         this.md5Component && this.md5Component.resetMd5();
-    }
-
-    clearGameData() {
-        GameDataManager.getInstance().clearGameData(this.gameId);
     }
 
     resetDataAndUI() {
@@ -255,7 +241,6 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_BET_PERCENTAGE, changeBetPercentage);
         this.emitterListener(this.gameData.betModel, BetModel.Events.FLY_OWN_CHIP, handleFlyChips);
-        this.emitterListener(this.gameData.betModel, BetModel.Events.UPDATE_TOTAL_CHIP, handleTotalChips);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP_FAKE, placeOwnChip);
 
         this.emitterListener(this.gameData.gameConfigs, GameConfigs.Events.CHANGE, handleGameConfigs);
@@ -275,14 +260,6 @@ export default class MiniGameBase extends NewMiniGameBase {
 
     checkShowUmMessage(data: any) {
         return this.gameData.durations.isBeingSpecificPhase(Durations.Events.PLACING_BET);
-    }
-
-    removeGameDataEvents() {
-        this.emitterStorages.forEach((item) => {
-            const { emitter, eventName, listener } = item;
-            emitter.removeListener(eventName, listener);
-        });
-        this.emitterStorages = [];
     }
 
     /**
@@ -305,7 +282,7 @@ export default class MiniGameBase extends NewMiniGameBase {
      * Handle round history
      */
     handleRoundHistory(roundHistory: any) {
-        console.log(`each game must override for handle round history`, roundHistory);
+        this.updateRoundHistory();
     }
 
     showStatus(status: any) {
@@ -325,6 +302,22 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.gameData.totalBets.clearData();
         this.gameData.settlement.clearSettlement();
         this.gameData.settlement.clearStatus();
+    }
+
+    initMiniRoundHistory(node: cc.Node) {
+        this.miniRoundHistory = node.getComponent(MiniRoundHistory);
+        this.miniRoundHistory.managedByParent = true;
+
+        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, () => () => {
+            this.miniRoundHistory.nextItemActive = false;
+        });
+        this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, () => () => {
+            this.miniRoundHistory.nextItemActive = true;
+        });
+    }
+
+    updateRoundHistory() {
+        this.miniRoundHistory && this.miniRoundHistory.setData(this.currentDataLogs);
     }
 
     setWaitingDotsVisibility(show: boolean, animated = true) {

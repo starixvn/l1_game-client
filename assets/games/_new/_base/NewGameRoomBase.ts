@@ -19,6 +19,11 @@ export default class NewGameRoomBase extends SocketIOTableGameBase {
         this.initConnection();
     }
 
+    grantSocket() {
+        super.grantSocket();
+        this.initConnection();
+    }
+
     initConnection() {
         this.connection = new SocketIOConnection();
         this.connection.setSocket(this.socket, this.gameName);

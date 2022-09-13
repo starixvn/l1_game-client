@@ -21,7 +21,7 @@ export const onUM = (game: MiniGameBase) => (data) => {
     }
 };
 
-export const checkToOffUM = (game: MiniGameBase) => (data) => {
+export const checkToOffUM = (game: any) => (data) => {
     if (game.checkHideUmMessage(data)) {
         game.gameData.umModel.clearUM();
         game.hideUmMessage();
@@ -29,7 +29,7 @@ export const checkToOffUM = (game: MiniGameBase) => (data) => {
     }
 };
 
-export const handleNotice = (game: MiniGameBase) => (notice) => {
+export const handleNotice = (game: any) => (notice) => {
     const { errorCode, hedgeBetGroup, minBet, maxBet, gameRoundId, gameTypeId } = notice;
     const gameName = GameUtils.getGameNameString(gameTypeId);
 
@@ -49,13 +49,13 @@ export const handleNotice = (game: MiniGameBase) => (notice) => {
     }
 };
 
-export const handleGameConfigs = (game: MiniGameBase) => (gameConfigs) => game.setGameConfigs(gameConfigs);
+export const handleGameConfigs = (game: any) => (gameConfigs) => game.setGameConfigs(gameConfigs);
 
 export const handleBoostedOdds = (game: MiniGameBase) => (boostedOdds) => game.applyPromotion(boostedOdds);
 
 export const handleBoostedChoices = (game: MiniGameBase) => (boostedChoices) => game.setBoostedChoices(boostedChoices);
 
-export const handleFirstLoadRoundHistory = (game: MiniGameBase) => (roundHistory) => {
+export const handleFirstLoadRoundHistory = (game: any) => (roundHistory) => {
     if (roundHistory.length === 0) {
         return;
     }
@@ -67,7 +67,7 @@ export const handleFirstLoadRoundHistory = (game: MiniGameBase) => (roundHistory
         }
     }
 };
-export const handleRoundHistory = (game: MiniGameBase) => (roundHistory) => {
+export const handleRoundHistory = (game: any) => (roundHistory) => {
     game.currentDataLogs = roundHistory;
     game.handleRoundHistory(roundHistory);
 
@@ -83,20 +83,21 @@ export const handleRoundHistory = (game: MiniGameBase) => (roundHistory) => {
     }
 };
 
-export const changeGameRound = (game: MiniGameBase) => (roundId) => game.setGameRound(roundId);
-export const updateMD5String = (game: MiniGameBase) => (data) => {
+export const changeGameRound = (game: any) => (roundId) => game.setGameRound(roundId);
+export const updateMD5String = (game: any) => (data) => {
     game.md5Component && game.md5Component.handleMD5Data(data);
 };
 
-export const showHashAtPlacingBet = (game: MiniGameBase) => () => {
+export const showHashAtPlacingBet = (game: any) => () => {
     game.gameData.resultHash.updateUI();
 };
 
-export const handleShowStatus = (game: MiniGameBase) => (status) => {
+export const handleShowStatus = (game: any) => (status) => {
     game.showStatus(status);
     game.gameData.settlement.clearStatus();
 };
-export const handleShowResult = (game: MiniGameBase) => (settlement) => {
+
+export const handleShowResult = (game: any) => (settlement) => {
     if (game.isDisableGame) {
         return;
     }
@@ -109,7 +110,7 @@ export const handleShowResult = (game: MiniGameBase) => (settlement) => {
     }
 };
 export const handleAfterSettlementResult =
-    (game: MiniGameBase) =>
+    (game: any) =>
     ({ settlement, animated }) => {
         if (game.isDisableGame) {
             return;

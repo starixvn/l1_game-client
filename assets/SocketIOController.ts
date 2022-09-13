@@ -22,7 +22,15 @@ export default class SocketIOController {
         9,
         56,
         57,
-        58 // MiniSedie
+        58, // MiniSedie
+        52,
+        53,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19 //mega keno
     ];
 
     getSocketGame(gameId: number) {
