@@ -3,10 +3,10 @@
   "_name": "idle",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.02040816326530612,
+  "_duration": 0,
   "sample": 49,
   "speed": 1,
-  "wrapMode": 2,
+  "wrapMode": 1,
   "curveData": {
     "paths": {
       "1": {
@@ -15,8 +15,8 @@
             {
               "frame": 0,
               "value": [
-                -61.072,
-                45.636,
+                -37.884,
+                0.805,
                 0
               ]
             }
@@ -24,21 +24,49 @@
           "opacity": [
             {
               "frame": 0,
-              "value": 0
+              "value": 255
             }
           ]
         }
       },
       "2": {
         "props": {
-          "position": [],
-          "opacity": []
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                20.86,
+                54.911,
+                0
+              ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
         }
       },
       "3": {
         "props": {
-          "position": [],
-          "opacity": []
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -57.669,
+                54.29,
+                0
+              ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
         }
       },
       "4": {
@@ -47,8 +75,8 @@
             {
               "frame": 0,
               "value": [
-                -37.883,
-                59.549,
+                -65.71,
+                -20.838,
                 0
               ]
             }
@@ -56,7 +84,7 @@
           "opacity": [
             {
               "frame": 0,
-              "value": 0
+              "value": 255
             }
           ]
         }
@@ -67,8 +95,8 @@
             {
               "frame": 0,
               "value": [
-                -31.7,
-                81.191,
+                -27.276,
+                54.646,
                 0
               ]
             }
@@ -76,7 +104,7 @@
           "opacity": [
             {
               "frame": 0,
-              "value": 0
+              "value": 255
             }
           ]
         }
@@ -93,8 +121,8 @@
             {
               "frame": 0,
               "value": [
-                -39.429,
-                78.099,
+                -55.663,
+                28.774,
                 0
               ]
             }
@@ -102,7 +130,7 @@
           "opacity": [
             {
               "frame": 0,
-              "value": 0
+              "value": 255
             }
           ]
         }
@@ -115,28 +143,68 @@
       },
       "9": {
         "props": {
-          "position": [],
-          "opacity": []
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                51.778,
+                81.191,
+                0
+              ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
         }
       },
       "10": {
         "props": {
-          "position": [],
-          "opacity": []
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -4.348,
+                59.011,
+                0
+              ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            }
+          ]
         }
       },
-      "42": {
-        "comps": {
-          "cc.Sprite": {
-            "spriteFrame": [
-              {
-                "frame": 0,
-                "value": {
-                  "__uuid__": "2af20076-e9d8-4e07-ab54-5f8a9f4be1c2"
-                }
+      "light": {
+        "props": {
+          "angle": [
+            {
+              "frame": 0,
+              "value": -2
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.8,
+                "y": 1
               }
-            ]
-          }
+            }
+          ]
         }
       },
       "light2": {
@@ -144,13 +212,13 @@
           "angle": [
             {
               "frame": 0,
-              "value": -4
+              "value": 2
             }
           ],
           "opacity": [
             {
               "frame": 0,
-              "value": 255
+              "value": 0
             }
           ]
         }
@@ -169,7 +237,44 @@
       },
       "wild": {
         "props": {
-          "scale": []
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      },
+      "luoi": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      },
+      "banh": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -4.003,
+                0,
+                0
+              ]
+            }
+          ]
         }
       }
     }
