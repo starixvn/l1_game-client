@@ -8,10 +8,10 @@ export const phrases = {
         55: "Monte Carlo"
     },
     lobbyNames: {
-        50: "Mega \nBig Small"
+        50: "Big Small\n City"
     },
     generalGameNames: {
-        50: "Mega Big Small"
+        50: "Big Small City"
     }
 };
 

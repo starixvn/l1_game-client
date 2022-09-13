@@ -8,7 +8,7 @@ export const phrases = {
         55: "Monte Carlo"
     },
     generalGameNames: {
-        50: "Tài Xỉu Mega"
+        50: "Tài Xỉu City"
     }
 };
 
