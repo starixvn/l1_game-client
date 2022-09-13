@@ -62,19 +62,21 @@ export default class LineView extends cc.Component {
         }
         const child = this.node.children[index];
         const speed = 800;
-        const duration = child.width / speed;
+        const duration = (child.width - this.light.width) / speed;
 
         this.light.removeFromParent();
         const mask = child.getChildByName("mask");
         mask.addChild(this.light);
-        this.light.position = cc.v3(-this.light.width);
+        this.light.position = cc.v3();
 
         let nextIndex = index + 1;
         if (nextIndex > this.node.children.length - 1) {
             nextIndex = 0;
         }
+        this.light.scaleX = 1;
         cc.tween(this.light)
-            .to(duration, { x: child.width })
+            .to(duration, { x: child.width - this.light.width })
+            .to(this.light.width / speed, { x: child.width, scaleX: 0 })
             .call(() => {
                 this.runLightOnLine(nextIndex);
             })
@@ -127,7 +129,7 @@ export default class LineView extends cc.Component {
         widget.isAlignRight = true;
         widget.right = 0;
         mask.height = 100;
-        mask.addComponent(cc.Mask);
+        // mask.addComponent(cc.Mask);
         node.addChild(mask);
         return node;
     }
