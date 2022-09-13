@@ -17,9 +17,9 @@ export default class WayToGoalReelItem extends SlotReelItem {
                 const anim = show ? "highlight" : "idle";
                 animation.play(anim);
             }
-            const winningEffectBelow = child.getChildByName("winning-effect-below");
-            if (winningEffectBelow) {
-                winningEffectBelow.active = show;
+            const winningEffectAbove = child.getChildByName("winning-effect-above");
+            if (winningEffectAbove) {
+                winningEffectAbove.active = show;
             }
         });
     }
