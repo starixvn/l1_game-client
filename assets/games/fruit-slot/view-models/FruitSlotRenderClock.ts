@@ -1,21 +1,19 @@
-const {ccclass, property} = cc._decorator;
+import FruitSlot from "./FruitSlot";
+import FruitSlotAnimatedTimer from "./FruitSlotAnimatedTimer";
 
-@ccclass
-export default class FruitSlotRenderClock extends cc.Component {
+export const renderWaitingTimeClock = (clock: FruitSlotAnimatedTimer) => () => {
+    clock.showHideCountdown(false);
+    clock.showWaiting();
+    clock.isShowWaiting = true;
+};
 
-    @property(cc.Label)
-    label: cc.Label = null;
+// export const updateWaiting = (clock: FruitSlotAnimatedTimer) => () => {
+//     console.log("updateWaiting");
+//     renderWaitingTimeClock(clock);
+// };
 
-    @property
-    text: string = 'hello';
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {}
-
-    start () {
-
-    }
-
-    // update (dt) {}
-}
+export const updateWaiting = (mainGame: FruitSlot) => () => {
+    console.log("updateWaiting");
+    const clock = mainGame.animatedTime;
+    clock.showWaiting();
+};

@@ -16,7 +16,7 @@ export default class FruitSlotAnimatedTimer extends AnimatedTime {
     @property(cc.Node)
     waitingDot3: cc.Node = null;
 
-    //isShowWaiting = false;
+    isShowWaiting = false;
 
     setRedTime(time: number) {
         this.timeToChangeColor = time;
@@ -36,7 +36,7 @@ export default class FruitSlotAnimatedTimer extends AnimatedTime {
 
     public setTime(time: number | string, forceChangeColor = false) {
         console.log("setTime");
-        this.node.active = true;       
+        this.node.active = true;
         const firstTimeChar = time.toString().substr(0, 1);
         const secondTimeChar = time.toString().substr(1, 1);
 
@@ -80,52 +80,19 @@ export default class FruitSlotAnimatedTimer extends AnimatedTime {
     handleBetTimeAnimation(node: cc.Node) {}
 
     public showWaiting() {
-        console.log("showWaiting waitingContainer is active", this.waitingContainer.active);
-        // if (this.isShowWaiting) {
-        //     return;
-        // }
+        if (this.isShowWaiting) {
+            return;
+        }
+
+        const anim = this.waitingContainer.getComponent(cc.Animation);
 
         this.waitingContainer.active = true;
-        //this.waitingContainer.children.forEach((child) => (child.active = false));
+        anim.play();
+    }
 
-        const delayTime = 1;
-
-        // cc.tween(this.node)
-        //     .repeatForever(
-        //         cc
-        //             .tween(this.node)
-        //             .call(() => {
-        //                 this.waitingContainer.active = true;
-        //             })
-        //             .call(() => {
-        //                 this.waitingDot1.active = true;
-        //                 this.waitingDot1.scale = 1.4;
-        //                 cc.tween(this.waitingDot1).to(0.2, { scale: 1 }).start();
-        //             })
-        //             .delay(delayTime)
-        //             .call(() => {
-        //                 this.waitingDot2.active = true;
-        //                 this.waitingDot2.scale = 1.4;
-
-        //                 cc.tween(this.waitingDot2).to(0.2, { scale: 1 }).start();
-        //             })
-        //             .delay(delayTime)
-        //             .call(() => {
-        //                 this.waitingDot3.active = true;
-        //                 this.waitingDot3.scale = 1.4;
-
-        //                 cc.tween(this.waitingDot3).to(0.2, { scale: 1 }).start();
-        //             })
-        //             .delay(delayTime)
-        //             .call(() => {
-        //                 this.waitingContainer.active = false;
-        //                 this.waitingContainer.children.forEach((child) => (child.active = false));
-        //             })
-        //             .delay(delayTime)
-        //             .delay(delayTime)
-        //     )
-
-        //     .start();
+    public showHideCountdown(show: boolean) {
+        this.firstChar.node.active = show;
+        this.secondChar.node.active = show;
     }
 
     playAnimationLockBet() {

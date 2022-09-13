@@ -9,7 +9,7 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         super(main);
     }
 
-    handleWaitTime() {
+    handleWaitTime() {        
         this.showWaitTime();
 
         this.showMainTime(false);
@@ -18,16 +18,18 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.setGameRound(this.main.roundId - 1);
     }
 
-    showWaitTime() {
-        this.main.timeWaitDot.active = true;
-        this.main.timeWaitNode.active = true;
-        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
-    }
-
     showRoundTime() {
         super.showRoundTime();
         if (this.main.timeWaitDot) {
             this.main.timeWaitDot.active = false;
         }
+    }
+
+    showWaitTime() {
+        //const timeWaitAnim = this.main.timeWaitDot.getComponent(cc.Animation);
+        this.main.timeWaitDot.active = true;
+        //timeWaitAnim.play();
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
     }
 }
