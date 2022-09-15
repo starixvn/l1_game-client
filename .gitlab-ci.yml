@@ -14,10 +14,6 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
-    - project: "ci/repos-ci/pentagon_l1_game_client_remove_config"
-      ref: master
-      file: "gitlab-ci-mixing.yml"
-
     - project: "ci/repos-ci/pentagon_l1_treasure_island_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
@@ -47,7 +43,7 @@ include:
       file: "gitlab-ci-mixing.yml"
 
     - project: "ci/repos-ci/pentagon_l2_way_to_goal_client"
-      ref: master
+      ref: join-mixin-scripts
       file: "gitlab-ci-mixing.yml"
 
     - local: "ci/*.yml"
@@ -112,11 +108,6 @@ variables:
     extends:
         - .deploy_vars_l2_vg2_game_client
         - .build:image:l2_vg2_game_client:rules
-
-.base_build_cocos_web_l1_game_client_remove_config:
-    <<: *build_cocos_creator_script
-    extends:
-        - .build:image:l1_game_client_remove_config:rules
 
 .base_build_cocos_web_l1_treasure_island_client:
     <<: *build_cocos_creator_script
