@@ -106,6 +106,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         super.onLoad();
         this.initForMusicBackground();
         this.setDefaultPositionForMiniMenu();
+        this.setDefaultPositionForPromotion();
         this.initForHoldActionButton();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
     }
@@ -114,7 +115,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const audioManager = AudioManager.getInstance();
         this.playMusicBackground(audioManager.musicEnabled);
         audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
-        this.setDefaultPositionForPromotion();
     }
 
     initForHoldActionButton() {
