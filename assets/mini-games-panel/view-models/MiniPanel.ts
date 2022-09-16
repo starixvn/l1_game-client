@@ -83,9 +83,8 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
-    isOpenSS0 = false;
-    public promotions: Promotions; 
-    public promotions: BoostedOdds;
+    isOpenSS0 = false; 
+    public boostedOdds: BoostedOdds;
     public promotionAnnouncement: PromotionAnnouncements;
 
     @lazyInject(SocketIOController)
@@ -171,11 +170,11 @@ export default class MiniPanel extends BaseComponent {
 
     initBoostedOdds() {
         GameUtils.loadResource(`boosted-odds/BoostedOdds`).then((prefab) => {
-            const promotionsNode = cc.instantiate(prefab);
-            this.promotions = promotionsNode.getComponent(BoostedOdds);
-            promotionsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
-            Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.promotions?.handleBoostedOdds());
-            this.miniMenu.addChild(promotionsNode);
+            const boostedOddsNode = cc.instantiate(prefab);
+            this.boostedOdds = boostedOddsNode.getComponent(BoostedOdds);
+            boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
+            Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
+            this.miniMenu.addChild(boostedOddsNode);
         });
     }
 
