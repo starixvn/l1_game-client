@@ -66,7 +66,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     private showLogs = true;
     protected startRoundDuration = 1;
     readonly shakingDuration = 2;
-    readonly showResultDuration = 2;
+    readonly showResultDuration = 1;
 
     constructor() {
         super();
@@ -241,7 +241,7 @@ export default class MiniSedie extends MultiplayGameSingle {
                 this.showDicesAndPlates();
                 this.openPlate(true);
             })
-            .delay(1.7)
+            .delay(2)
             .call(() => {
                 this.gameData.settlement.finishShowResult(this.gameData.settlement.settlement, true);
             })
