@@ -2,7 +2,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import MultiplayGame from "../../multiplay/scripts/MultiplayGame";
 import MultiplayScoreBoard from "../../multiplay/scripts/MultiplayScoreBoard";
 import MiniSedie, { KeyOpenScoreBoardStorage } from "./MiniSedie";
-import { MiniSedie1Id } from "./MiniSedieConfigs";
+import { MiniSedie1Id, MiniSedie2Id, MiniSedie3Id, MiniSedie4Id } from "./MiniSedieConfigs";
 import MiniSedieSubGame from "./MiniSedieSubGame";
 
 const { ccclass, property } = cc._decorator;
@@ -15,7 +15,7 @@ export default class MiniSedieMultiplay extends MultiplayGame {
     @property(cc.Node)
     bgShadow: cc.Node = null;
 
-    gameIds: number[] = [MiniSedie1Id];
+    gameIds: number[] = [MiniSedie1Id, MiniSedie2Id, MiniSedie3Id, MiniSedie4Id];
 
     constructor() {
         super();
