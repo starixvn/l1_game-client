@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+import BetItem from "../../../games/_base/view-models/BetItem";
 
 import AudioManager from "../../audio/AudioManager";
 import GameUtils from "../../GameUtils";
@@ -505,5 +506,42 @@ export default class BetChips extends cc.Component {
         if (item) {
             this.setCurrentBet(item);
         }
+    }
+    private createChipNodes(bet: number): cc.Node[] {
+        const nodes = [];
+        const values = GameUtils.getChipQuantity(bet, this.chipValues);
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
+        keys.forEach((chip) => {
+            const count = values[chip];
+            for (let i = 0; i < count; i++) {
+                const chipNode = this.createSmallChip(+chip);
+                nodes.push(chipNode);
+            }
+        });
+
+        return nodes;
+    }
+
+    public showChipOwnBet(item: BetItem, bet: number) {
+        item.clearChips();
+        const nodes = this.createChipNodes(bet);
+        nodes.forEach((node) => {
+            const randomPosition = this.getRandomPositionChip(node, item.chipNode);
+            node.position = randomPosition;
+            item.chipNode.addChild(node);
+        });
+    }
+
+    public payChipsToWinningBetItemWithAmount(chipBox: cc.Node, dealerBox: cc.Node, amount: number) {
+        const dealerBoxPosition = dealerBox.parent.convertToWorldSpaceAR(dealerBox.position);
+        const dealerBoxInChipBoxSpacePosition = chipBox.convertToNodeSpaceAR(dealerBoxPosition);
+
+        const chipNodes = this.createChipNodes(amount);
+        chipNodes.forEach((node) => {
+            node.position = dealerBoxInChipBoxSpacePosition;
+            chipBox.addChild(node);
+            const randomPosition = this.getRandomPositionChip(node, chipBox);
+            node.runAction(this.moveChipTo(randomPosition, this.chipFlyingTime));
+        });
     }
 }

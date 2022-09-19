@@ -158,3 +158,34 @@ export const playWinningEffect = (mainRoomGame: WebSocketTableGameBase, playerNo
         )
     );
 };
+
+export const dealerGetChipsMiniGame = (main: any, settlementResult: any, currentStatusData: any, ownBets: any) => {
+    if (!cc.RedT.GAME_IS_SHOWED) {
+        return;
+    }
+    const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
+    const lostBetItems = _.filter(main.betItems, (item) => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+
+    cc.tween(main.node)
+        .delay(main.betChips.chipDelayFlyingTime)
+        .call(() => {
+            dealerGetChips(main, lostBetItems);
+        })
+        .delay(main.betChips.chipDelayFlyingTime)
+        .call(() => payChipToLoginPlayerMiniGame(main, currentStatusData, ownBets))
+        .start();
+};
+
+const payChipToLoginPlayerMiniGame = (main: any, statusData: any, ownBets: any) => {
+    if (!statusData || !statusData.win) {
+        return;
+    }
+    const betItems = statusData.winningByChoices;
+    const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
+    const filteredItems = main.betItems.filter((item) => betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]);
+
+    filteredItems.forEach((item) => {
+        const winBet = betItems[item.node.name] - ownBets[item.node.name];
+        main.betChips.payChipsToWinningBetItemWithAmount(item.chipNode, main.dealerChipBox, winBet);
+    });
+};

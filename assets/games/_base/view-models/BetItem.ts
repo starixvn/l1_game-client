@@ -80,7 +80,14 @@ export default class BetItem extends cc.Component {
         }
     }
 
+    public clearChips() {
+        this.chipNode.destroyAllChildren();
+    }
+
     public clearBet() {
+        if (this.chipNode) {
+            this.clearChips();
+        }
         this.setOwnBet(0);
         this.setTotalBet(0);
     }

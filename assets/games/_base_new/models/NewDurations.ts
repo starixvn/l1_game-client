@@ -88,4 +88,8 @@ export class NewDurations extends Durations {
     isPlacingBet() {
         return this.isBeingSpecificPhase(Durations.Events.PLACING_BET);
     }
+
+    isClearBet(){
+        return 
+    }
 }

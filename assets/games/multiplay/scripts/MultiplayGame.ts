@@ -37,6 +37,9 @@ export default class MultiplayGame extends GameViewBase {
     @property(cc.Toggle)
     collapsedExpandButton: cc.Toggle = null;
 
+    @property(cc.Node)
+    containerSubChips: cc.Node = null;
+
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
 
@@ -49,6 +52,8 @@ export default class MultiplayGame extends GameViewBase {
     games = {};
     betChips: BetChips;
     currentBet: number;
+
+    singleComponent: MultiplayGameSingle = null;
 
     protected isGameOpened = false;
 
@@ -172,10 +177,13 @@ export default class MultiplayGame extends GameViewBase {
         const node = cc.instantiate(this.normallPrefab);
         const single = node.getComponent(MultiplayGameSingle);
         single.currentMiniPanel = this.currentMiniPanel;
+        single.betChips = this.betChips;
+        single.isChipCollecting = true;
         this.games[gameId] = single;
         single.onDisconnectCallback = () => {
             this.onCloseClick();
         };
+        this.singleComponent = single;
         return node;
     }
 
@@ -199,7 +207,10 @@ export default class MultiplayGame extends GameViewBase {
         const single = node.getComponent(MultiplayGameSingle);
         single.maximizeCallback = (gameId) => this.switchGameToMain(gameId);
         single.currentMiniPanel = this.currentMiniPanel;
+        single.betChips = this.betChips;
+        single.isChipCollecting = false;
         this.games[gameId] = single;
+        this.singleComponent = single;
         return node;
     }
 
@@ -220,6 +231,10 @@ export default class MultiplayGame extends GameViewBase {
 
     initBetChipByLoader(node: cc.Node) {
         this.betChips = node.getComponent(BetChips);
+        Object.values(this.games).forEach((game: MultiplayGameSingle) => {
+            game.betChips = node.getComponent(BetChips);
+        });
+
         this.betChips.init((bet) => {
             this.onChangedBetChip(+bet);
         });
@@ -248,16 +263,20 @@ export default class MultiplayGame extends GameViewBase {
     showSubGamesWithAnimation(isAnimated = true) {
         if (isAnimated) {
             cc.tween(this.subGamesArea).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
+            cc.tween(this.containerSubChips).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
         } else {
             this.subGamesArea.scale = 1;
+            this.containerSubChips.scale = 1;
         }
     }
 
     hideSubGamesWithAnimation(isAnimated = true) {
         if (isAnimated) {
             cc.tween(this.subGamesArea).to(0.2, { scale: 0 }, { easing: "sineIn" }).start();
+            cc.tween(this.containerSubChips).to(0.2, { scale: 0 }, { easing: "sineIn" }).start();
         } else {
             this.subGamesArea.scale = 0;
+            this.containerSubChips.scale = 0;
         }
     }
 }

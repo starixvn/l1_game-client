@@ -7,12 +7,15 @@ export type BetEventType = {
     endBet: number;
     ownChip: any;
     betPercentage: any;
+    betChoice: string;
+    chips?: any;
+    gameConfigs?: any;
 };
 
 export class BetHandler extends BaseEventHandler<BetEventType> {
     protected readonly gameData: NewGameData;
     protected verifyEvent(event: BetEventType) {
-        return !!event.ownBets || !!event.ownChip || !!event.endBet || !!event.betPercentage;
+        return !!event.ownBets || !!event.ownChip || !!event.endBet || !!event.betPercentage || !!event.chips;
     }
 
     protected handle(event: BetEventType) {
@@ -21,11 +24,14 @@ export class BetHandler extends BaseEventHandler<BetEventType> {
                 this.gameData.betModel.placeBetFailed();
             } else {
                 this.gameData.betModel.placeBetSuccess(event.endBet);
+                this.gameData.betModel.flyOwnChip({ endBet: event.endBet, betChoice: event.betChoice });
             }
         }
 
         if (event.ownBets) {
             this.gameData.betModel.changeOwnBets(event.ownBets);
+            const isInGame = event.gameConfigs !== undefined;
+            isInGame && this.gameData.betModel.actionFlyOwnChip(event.ownBets);
         }
 
         if (event.ownChip) {
@@ -34,6 +40,9 @@ export class BetHandler extends BaseEventHandler<BetEventType> {
 
         if (event.betPercentage) {
             this.gameData.betModel.changeBetPercentage(event.betPercentage);
+        }
+        if (event.chips) {
+            this.gameData.betModel.updateTotalChips(event.chips);
         }
     }
 }
