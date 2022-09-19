@@ -26,9 +26,9 @@ export default class KenoRoundResult extends cc.Component {
     protected kenoNumbers: KenoNumber[] = [];
 
     onLoad() {
-        this.kenoNumbers = this.resultNumbers.children.map(child => child.getComponent(KenoNumber));
-        this.kenoNumbers.forEach(keno => keno.hide());
-        this.betChoices = this.settleResult.children.map(child => child.getComponent(BetChoice));
+        this.kenoNumbers = this.resultNumbers.children.map((child) => child.getComponent(KenoNumber));
+        this.kenoNumbers.forEach((keno) => keno.hide());
+        this.betChoices = this.settleResult.children.map((child) => child.getComponent(BetChoice));
     }
 
     public setData(result: number[], settlementResult: any) {
@@ -36,12 +36,12 @@ export default class KenoRoundResult extends cc.Component {
         this.settlementResult = settlementResult;
     }
 
-    public showResult(animated = false, duration = 0, onComplete: () => void = () => { }) {
+    public showResult(animated = false, duration = 0, onComplete: () => void = () => {}) {
         this.node.active = true;
 
         if (animated) {
             this.total.string = "0";
-            this.kenoNumbers.forEach(keno => keno.hide());
+            this.kenoNumbers.forEach((keno) => keno.hide());
             let shuffle = [];
 
             for (let i = 0; i < this.result.length; i++) {
@@ -52,37 +52,33 @@ export default class KenoRoundResult extends cc.Component {
 
             let i = 0;
             const miniType = this.result.length < 20;
+            let index = this.result.length - 1;
+            let total = 0;
             const sequence = cc.sequence(
-                cc.callFunc(() => {
-                    const index = shuffle[i];
-                    this.kenoNumbers[index].setNumber(this.result[index], true);
-                    let total = 0;
-                    for (let j = 0; j <= i; j++) {
-                        total += this.result[shuffle[j]];
-                    }
+                cc.callFunc(() => {                    
+                    const number = this.result[index];
+                    this.kenoNumbers[index].setNumber(number, true);                    
+                    total += number;
                     this.showSettleResult(KenoUtils.getSettleResult(total, miniType));
                     this.total.string = total.toString();
-                    i++;
+                    --index;
                 }),
                 cc.delayTime(duration / this.result.length)
             );
 
-            this.node.runAction(cc.sequence(
-                cc.repeat(sequence, this.result.length),
-                cc.callFunc(() => {
-                    this.total.node.runAction(cc.sequence(
-                        cc.scaleTo(.1, 1.2),
-                        cc.scaleTo(.1, 1)
-                    ));
-                    this.betChoices.forEach(label => {
-                        label.node.runAction(cc.sequence(
-                            cc.scaleTo(.1, 1.2),
-                            cc.scaleTo(.1, 1)
-                        ));
-                    });
-                    this.showSettleResult(this.settlementResult);
-                    onComplete();
-                })));
+            this.node.runAction(
+                cc.sequence(
+                    cc.repeat(sequence, this.result.length),
+                    cc.callFunc(() => {
+                        this.total.node.runAction(cc.sequence(cc.scaleTo(0.1, 1.2), cc.scaleTo(0.1, 1)));
+                        this.betChoices.forEach((label) => {
+                            label.node.runAction(cc.sequence(cc.scaleTo(0.1, 1.2), cc.scaleTo(0.1, 1)));
+                        });
+                        this.showSettleResult(this.settlementResult);
+                        onComplete();
+                    })
+                )
+            );
         } else {
             let total = 0;
             for (let i = 0; i < this.result.length; i++) {
@@ -101,7 +97,7 @@ export default class KenoRoundResult extends cc.Component {
             return;
         }
 
-        Object.keys(settlementResult).forEach(key => {
+        Object.keys(settlementResult).forEach((key) => {
             if (settlementResult[key]) {
                 const betChoice = this.betChoices[index];
                 const choice = GameUtils.getBetChoiceString(key);
