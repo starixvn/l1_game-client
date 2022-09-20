@@ -3,14 +3,14 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class CountDownProgressBar extends cc.Component {
     @property(cc.Sprite)
-    progressCircleBar: cc.Sprite = null;
+    indicatorSprite: cc.Sprite = null;
 
     private fullTimeRound: number;
     private placingBetColor = "#0fdb5e";
     private lockingBetColor = "#ff0000";
 
     onEnable() {
-        this.progressCircleBar.node.active = false;
+        this.setVisibilityIndicator(false);
     }
 
     setFulTimeRound(time: number) {
@@ -18,20 +18,24 @@ export default class CountDownProgressBar extends cc.Component {
     }
 
     updateProgress(remainingTime: number) {
-        this.setVisibilityProgressBar(true);
+        this.setVisibilityIndicator(true);
         const value = remainingTime / this.fullTimeRound;
-        this.progressCircleBar.fillRange = value;
+        this.indicatorSprite.fillRange = value;
     }
 
     updateBetFrame() {
-        this.progressCircleBar.node.color = cc.Color.BLACK.fromHEX(this.placingBetColor);
+        this.indicatorSprite.node.color = cc.Color.BLACK.fromHEX(this.placingBetColor);
     }
 
     updateLockingBetFrame() {
-        this.progressCircleBar.node.color = cc.Color.BLACK.fromHEX(this.lockingBetColor);
+        this.indicatorSprite.node.color = cc.Color.BLACK.fromHEX(this.lockingBetColor);
+    }
+
+    setVisibilityIndicator(show: boolean) {
+        this.indicatorSprite.node.active = show;
     }
 
     setVisibilityProgressBar(show: boolean) {
-        this.progressCircleBar.node.active = show;
+        this.node.active = show;
     }
 }

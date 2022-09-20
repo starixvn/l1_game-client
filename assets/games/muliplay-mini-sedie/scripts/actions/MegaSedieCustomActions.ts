@@ -22,6 +22,7 @@ export const handleSubGameWaitingTime =
     (game: MiniSedie) =>
     ({ remaining }) => {
         game.timeAnimShowResult(remaining > game.config.betTime);
+        game.countDownProgressBar && game.countDownProgressBar.setVisibilityProgressBar(!(remaining > game.config.betTime));
     };
 
 export const updateLockingBetFrame =
