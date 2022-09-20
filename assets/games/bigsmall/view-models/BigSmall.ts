@@ -13,6 +13,7 @@ import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
 import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
 import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
+import ColorAssembler2D from "../../../common/ColorAssembler2D";
 
 const { ccclass, property } = cc._decorator;
 
@@ -96,6 +97,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     @property(cc.AudioSource)
     shakeDishAudio: cc.AudioSource = null;
+
+    @property(cc.Node)
+    highlightOdds: cc.Node = null;
 
     protected miniRoundHistory: BigSmallMiniRoundHistory;
     protected betHistory: BigSmallBetHistory;
@@ -301,7 +305,13 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     highLightBoostedOdds() {
         const color = cc.Color.WHITE;
         if (this.boostedChoices?.includes(this.choices[0])) {
-            this.odds.node.color = color.fromHEX("#F0F00C");
-        } else this.odds.node.color = color;
+            const highlightOddsColor = this.odds.node.getComponent(ColorAssembler2D);
+            this.odds.node.color = color.fromHEX("#FA3A35");
+            highlightOddsColor.enabled = true;
+            this.highlightOdds.active = true;
+        } else {
+            this.odds.node.color = color;
+            this.highlightOdds.active = false;
+        }
     }
 }

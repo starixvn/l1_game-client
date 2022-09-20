@@ -2,6 +2,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
+import ColorAssembler2D from "../../../common/ColorAssembler2D";
 
 const { ccclass, property } = cc._decorator;
 
@@ -30,6 +31,17 @@ export default class BetItem extends cc.Component {
 
     @property(cc.Node)
     normalBorder: cc.Node = null;
+
+    @property
+    enabledHighlightOdds = false;
+
+    @property({
+        type: cc.Node,
+        visible: function () {
+            return this.enabledHighlightOdds;
+        }
+    })
+    highlightOddsBackground: cc.Node = null;
 
     public betCallback = (e) => {};
 
@@ -86,9 +98,14 @@ export default class BetItem extends cc.Component {
 
      public highLightOdds(boostedChoice) {
         const color = cc.Color.WHITE;
-        if (boostedChoice) {
-            this.odds.node.color = color.fromHEX("#F0F00C");
-        } else this.odds.node.color = color;
+        if (boostedChoice && this.enabledHighlightOdds) {
+            const highlightOddsColor = this.odds.node.getComponent(ColorAssembler2D);
+            this.odds.node.color = color.fromHEX("#FA3A35");
+            highlightOddsColor.enabled = true;
+            this.highlightOddsBackground.active = true;
+        } else {
+            this.odds.node.color = color;
+        }
     }
 
     public clearBet() {
