@@ -35,11 +35,8 @@ export default class MiniSedieHistoryItem extends MultiplayGameHistoryItem {
     @property(cc.SpriteFrame)
     iconWhite: cc.SpriteFrame = null;
 
-    @property(cc.Node)
-    background: cc.Node = null;
-
-    setData(betLog: any) {
-        super.setData(betLog);
+    setData(betLog: any, index: number) {
+        super.setData(betLog, index);
 
         const { settlementResult, result } = betLog;
 

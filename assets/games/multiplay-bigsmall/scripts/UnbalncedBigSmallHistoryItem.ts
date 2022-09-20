@@ -1,7 +1,7 @@
 import { i18n } from "../../../ClientModules";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import MultiplayGameHistoryResult from "./MultiplayGameHistoryResult";
 import MultiplayGameHistoryItem from "../../multiplay/scripts/MultiplayGameHistoryItem";
+import MultiplayGameHistoryResult from "./MultiplayGameHistoryResult";
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,8 +19,8 @@ export default class UnbalncedBigSmallHistoryItem extends MultiplayGameHistoryIt
     @property(cc.Label)
     stake: cc.Label = null;
 
-    setData(data: any) {
-        super.setData(data);
+    setData(data: any, index: number) {
+        super.setData(data, index);
         this.stake.string = numberWithCommas(data.totalAmount, 2);
         const result = data.result;
         this.setResultData(result);

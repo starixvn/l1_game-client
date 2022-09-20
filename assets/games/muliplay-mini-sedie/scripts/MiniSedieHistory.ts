@@ -8,8 +8,7 @@ export default class MiniSedieHistory extends MultiplayGameHistory {
     bindItemRowData(betLog, index) {
         const itemNode = cc.instantiate(this.itemPrefab);
         const item = itemNode.getComponent(MultiplaySedieHistoryItem);
-        item.background.active = index % 2 === 1;
-        item.setData(betLog);
+        item.setData(betLog, index);
         this.content.addChild(itemNode);
     }
 }
