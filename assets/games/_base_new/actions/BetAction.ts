@@ -85,5 +85,11 @@ export const showChipOwnBet = (gameBase: MiniGameBase) => (ownBet) => {
 };
 
 export const handlePayChips = (gameBase: MiniGameBase) => (finishData) => {
-    dealerGetChipsMiniGame(gameBase, finishData.settlementResult, gameBase.gameData.settlement.status, gameBase.gameData.betModel.ownBets);
+    gameBase.isChipCollecting &&
+        dealerGetChipsMiniGame(
+            gameBase,
+            finishData.settlementResult,
+            gameBase.gameData.settlement.status,
+            gameBase.gameData.betModel.ownBets
+        );
 };

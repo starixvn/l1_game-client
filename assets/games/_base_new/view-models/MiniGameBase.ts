@@ -58,6 +58,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     emitterStorages: EmitterStorage[] = [];
     internalTweenNodes: cc.Node[] = [];
     readonly internalTweenTag = 99;
+    public isChipCollecting = true;
 
     override onLoad() {
         super.onLoad();

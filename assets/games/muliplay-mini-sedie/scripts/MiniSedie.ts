@@ -154,7 +154,7 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.emitterListener(this.gameData.durations, Durations.Events.SHOW_ANIMATION, hideLockingBetSprite);
         this.emitterListener(this.gameData.betModel, BetModel.Events.FLY_OWN_CHIP, handleFlyChips);
         this.emitterListener(this.gameData.betModel, BetModel.Events.UPDATE_TOTAL_CHIP, handleTotalChips);
-        this.emitterListener(this.gameData.settlement, Settlement.Events.PAY_CHIP_ACTION, this.isChipCollecting && handlePayChips);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.PAY_CHIP_ACTION, handlePayChips);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP, placeOwnChip);
     }
 
