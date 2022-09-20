@@ -6,11 +6,14 @@ import { GameData } from "../../_new/_base/game-data-management/models/game-data
 import { BetHandler } from "../handlers/BetHandler";
 import { GameConfigHandler } from "../handlers/GameConfigHandler";
 import { NoticeHandler } from "../handlers/NoticeHandler";
+import { OddsHandler } from "../handlers/OddsHandler";
 import { ResultHashHandler } from "../handlers/ResultHashHandler";
 import { RoundHistoryHandler } from "../handlers/RoundHistoryHandler";
 import { SettlemenHandler } from "../handlers/SettlementHandler";
 import { UMHandler } from "../handlers/UMHandler";
 import { BetModel } from "./BetModel";
+import { BoostedChoicesModel } from "./BoostedChoicesModel";
+import { BoostedOddsModel } from "./BoostedOddsModel";
 import { GameConfigs } from "./GameConfigs";
 import { NewDurations } from "./NewDurations";
 import { NoticeModel } from "./NoticeModel";
@@ -35,6 +38,8 @@ export default class NewGameData extends GameData {
     resultHash: ResultHash;
     umModel: UMModel;
     durations: NewDurations;
+    boostedChoicesModel: BoostedChoicesModel;
+    boostedOddsModel: BoostedOddsModel;
 
     roundId: number;
 
@@ -48,6 +53,8 @@ export default class NewGameData extends GameData {
         this.settlement = new Settlement();
         this.resultHash = new ResultHash();
         this.umModel = new UMModel();
+        this.boostedChoicesModel = new BoostedChoicesModel();
+        this.boostedOddsModel = new BoostedOddsModel();
 
         const models: EventEmitterBase[] = [
             //
@@ -59,7 +66,9 @@ export default class NewGameData extends GameData {
             this.notice,
             this.roundHistory,
             this.settlement,
-            this.resultHash
+            this.resultHash,
+            this.boostedChoicesModel,
+            this.boostedOddsModel
         ];
         this.eventEmitters.push(...models);
     }
@@ -85,7 +94,8 @@ export default class NewGameData extends GameData {
             TotalBetsEventHandler,
             BetHandler,
             NoticeHandler,
-            SettlemenHandler
+            SettlemenHandler,
+            OddsHandler
         ];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
     }

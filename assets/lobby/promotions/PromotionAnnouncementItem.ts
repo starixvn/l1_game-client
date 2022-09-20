@@ -2,6 +2,8 @@ import GameUtils from "../../common/GameUtils";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import * as sessionManager from "../../common/auth/SessionManager";
+import { MiniSedie1Id, MiniSedie2Id, MiniSedie3Id, MiniSedie4Id } from "../../games/muliplay-mini-sedie/scripts/MiniSedieConfigs";
+import { Promotions, PromotionsEvent } from "./Promotions";
 const { ccclass, property } = cc._decorator;
 
 export const PromotionAnnouncementItemEvent = {
@@ -46,6 +48,16 @@ export default class PromotionAnnouncementItem extends cc.Component {
             return;
         }
         !GameUtils.isMiniGame(gameId.toString()) && cc.sys.localStorage.setItem(JoinGameByGameId, gameId);
-        GameUtils.openGame(gameId, this.miniPanel);
+        this.isMegaMiniSedie(gameId) && Promotions.getInstance().emit(PromotionsEvent.SWITCH_MEGA_MINI_SEDIE, gameId);
+        GameUtils.openGame(this.getGameId(gameId), this.miniPanel);
+    }
+
+    getGameId(gameId: number) {
+        return this.isMegaMiniSedie(gameId) ? MiniSedie1Id : gameId;
+    }
+
+    isMegaMiniSedie(gameId: number) {
+        const miniSedieIds = [MiniSedie1Id, MiniSedie2Id, MiniSedie3Id, MiniSedie4Id];
+        return miniSedieIds.includes(gameId);
     }
 }

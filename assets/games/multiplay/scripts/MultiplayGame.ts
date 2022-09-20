@@ -231,7 +231,7 @@ export default class MultiplayGame extends GameViewBase {
         [this.mainGameId, lastMainGameId].forEach((id) => {
             const game = this.grantSocketForSingle(id);
             game.currentBet = this.currentBet;
-            game.gameData.updateUI();
+            game.gameData?.updateUI();
         });
 
         GameUtils.setSubGameSetting(this.gameId, "locations", this.locations);

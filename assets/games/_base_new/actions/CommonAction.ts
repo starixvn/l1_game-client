@@ -42,6 +42,10 @@ export const handleNotice = (game: MiniGameBase) => (notice) => {
 
 export const handleGameConfigs = (game: MiniGameBase) => (gameConfigs) => game.setGameConfigs(gameConfigs);
 
+export const handleBoostedOdds = (game: MiniGameBase) => (boostedOdds) => game.applyPromotion(boostedOdds);
+
+export const handleBoostedChoices = (game: MiniGameBase) => (boostedChoices) => game.setBoostedChoices(boostedChoices);
+
 export const handleFirstLoadRoundHistory = (game: MiniGameBase) => (roundHistory) => {
     if (roundHistory.length === 0) {
         return;

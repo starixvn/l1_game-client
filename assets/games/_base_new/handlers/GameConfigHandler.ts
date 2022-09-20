@@ -13,5 +13,6 @@ export class GameConfigHandler extends BaseEventHandler<ConfigsType> {
 
     protected handle(event: ConfigsType) {
         this.gameData.gameConfigs.change(event.gameConfigs);
+        this.gameData.boostedChoicesModel.change(event.gameConfigs.boostedChoices);
     }
 }
