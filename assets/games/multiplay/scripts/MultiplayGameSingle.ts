@@ -1,5 +1,6 @@
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import MultiplayGameHistory from "./MultiplayGameHistory";
+import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,6 +9,7 @@ export default class MultiplayGameSingle extends MiniGameBase {
     protected override managedByContainer = true;
     public isMiniGameInContainer = true;
     public isChipCollecting = true;
+    public countDownProgressBar: CountDownProgressBar;
 
     public onDisconnectCallback = () => {};
 
@@ -29,5 +31,14 @@ export default class MultiplayGameSingle extends MiniGameBase {
         this.currentMiniPanel.addDialog(dialog);
         const control = dialog.getComponent(MultiplayGameHistory);
         control.handleSocketFromGame(this.gameId);
+    }
+
+    initCountDownProgressBar(node: cc.Node) {
+        const countDownTimer = node.getComponent(CountDownProgressBar);
+        if (countDownTimer) {
+            this.countDownProgressBar = countDownTimer;
+            countDownTimer.setFulTimeRound(this.config.betTime);
+            this.animatedTime.setNumberColor("#0fdb5e", "#ff0000");
+        }
     }
 }

@@ -6,7 +6,13 @@ import MD5Component from "../../_base/view-models/MD5Component";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
-import { handlePlacingBet, handleShakeDish, handleSubGameWaitingTime } from "./actions/MegaSedieCustomActions";
+import {
+    handlePlacingBet,
+    handleShakeDish,
+    handleSubGameWaitingTime,
+    hideLockingBetSprite,
+    updateLockingBetFrame
+} from "./actions/MegaSedieCustomActions";
 import { miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
 import { BetModel } from "../../_base_new/models/BetModel";
 import { Settlement } from "../../_base_new/models/Settlement";
@@ -141,9 +147,11 @@ export default class MiniSedie extends MultiplayGameSingle {
 
     initGameDataEvents() {
         super.initGameDataEvents();
-        this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_STARTING_ROUND, handleShakeDish);
+        this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
+        this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, updateLockingBetFrame);
         this.emitterListener(this.gameData.durations, Durations.Events.CHANGE_REMAINING_TIME, handleSubGameWaitingTime);
+        this.emitterListener(this.gameData.durations, Durations.Events.SHOW_ANIMATION, hideLockingBetSprite);
         this.emitterListener(this.gameData.betModel, BetModel.Events.FLY_OWN_CHIP, handleFlyChips);
         this.emitterListener(this.gameData.betModel, BetModel.Events.UPDATE_TOTAL_CHIP, handleTotalChips);
         this.emitterListener(this.gameData.settlement, Settlement.Events.PAY_CHIP_ACTION, this.isChipCollecting && handlePayChips);

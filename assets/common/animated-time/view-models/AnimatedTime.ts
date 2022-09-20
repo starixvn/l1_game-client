@@ -13,6 +13,7 @@ export default class AnimatedTime extends cc.Component {
 
     protected timeToChangeColor = 5;
     protected changedColor: cc.Color = cc.Color.RED;
+    protected normalColor: cc.Color = cc.Color.WHITE;
     public animatedYTop = 70;
     public animatedYBottom = -10;
     public animatedYFinalBottom = 0;
@@ -73,7 +74,12 @@ export default class AnimatedTime extends cc.Component {
 
     protected setColor(time: string, forceChangeColor = false) {
         const colorChange = forceChangeColor || (this.timeToChangeColor !== undefined && parseInt(time) <= this.timeToChangeColor);
-        this.firstChar.node.color = colorChange ? this.changedColor : cc.Color.WHITE;
+        this.firstChar.node.color = colorChange ? this.changedColor : this.normalColor;
         this.secondChar.node.color = this.firstChar.node.color;
+    }
+
+    setNumberColor(normalColor: string, changedColor: string) {
+        this.normalColor = cc.Color.WHITE.fromHEX(normalColor);
+        this.changedColor = cc.Color.WHITE.fromHEX(changedColor);
     }
 }

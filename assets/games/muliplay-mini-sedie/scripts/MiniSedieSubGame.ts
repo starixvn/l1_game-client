@@ -5,9 +5,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniSedieSubGame extends MiniSedie {
-    @property(cc.Node)
-    circleTimer: cc.Node = null;
-
     openPlatePos = cc.v2(20, 40);
 
     setBlurDishAndHideDices() {
@@ -15,7 +12,6 @@ export default class MiniSedieSubGame extends MiniSedie {
     }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
-        this.circleTimer.active = false;
         this.showWinChoiceAndUpdateHistory(settlement);
 
         const doLaterPayOut = () => {
@@ -57,14 +53,5 @@ export default class MiniSedieSubGame extends MiniSedie {
 
     hideDish() {
         this.animation.node.opacity = 0;
-    }
-
-    checkCircleCountDown() {
-        this.circleTimer.active = true;
-    }
-
-    handleAnimResult() {
-        super.handleAnimResult();
-        this.circleTimer.active = false;
     }
 }
