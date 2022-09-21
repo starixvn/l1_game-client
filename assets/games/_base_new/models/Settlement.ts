@@ -5,7 +5,6 @@ export class Settlement extends EventEmitterBase {
         SHOW_STATUS: "Settlement:SHOW_STATUS",
         SHOW_RESULT: "Settlement:SHOW_RESULT",
         END_SHOW_RESULT: "Settlement:END_SHOW_RESULT",
-        PAY_CHIP_ACTION: "Settlement:PAY_CHIP_ACTION"
     };
     settlement: any;
     status: any;
@@ -34,9 +33,5 @@ export class Settlement extends EventEmitterBase {
 
     clearSettlement() {
         this.settlement = null;
-    }
-
-    payChips(settlement: any) {
-        this.emit(Settlement.Events.PAY_CHIP_ACTION, settlement);
     }
 }

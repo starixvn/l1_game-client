@@ -1,4 +1,4 @@
-import { dealerGetChipsMiniGame } from "./../../_base/action/PayChipsAction";
+import { collectChipsLost, dealerGetChipsMiniGame } from "./../../_base/action/PayChipsAction";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import MiniGameBase from "../view-models/MiniGameBase";
 
@@ -85,11 +85,13 @@ export const showChipOwnBet = (gameBase: MiniGameBase) => (ownBet) => {
 };
 
 export const handlePayChips = (gameBase: MiniGameBase) => (finishData) => {
-    gameBase.isChipCollecting &&
-        dealerGetChipsMiniGame(
-            gameBase,
-            finishData.settlementResult,
-            gameBase.gameData.settlement.status,
-            gameBase.gameData.betModel.ownBets
-        );
+    const { settlement } = finishData;
+    gameBase.isChipCollecting
+        ? dealerGetChipsMiniGame(
+              gameBase,
+              settlement.settlementResult,
+              gameBase.gameData.settlement.status,
+              gameBase.gameData.betModel.ownBets
+          )
+        : collectChipsLost(gameBase, settlement.settlementResult);
 };

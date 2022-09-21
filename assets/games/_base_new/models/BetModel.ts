@@ -10,7 +10,8 @@ export class BetModel extends EventEmitterBase {
         PLACE_BET_FAILED: "BetModel:PLACE_BET_FAILED",
         PLACE_BET_SUCCESS: "BetModel:PLACE_BET_SUCCESS",
         FLY_OWN_CHIP: "BetModel:FLY_OWN_CHIP",
-        UPDATE_TOTAL_CHIP: "BetModel:UPDATE_TOTAL_CHIP"
+        UPDATE_TOTAL_CHIP: "BetModel:UPDATE_TOTAL_CHIP",
+        CHANGE_OWN_CHIP_FAKE: "BetModel:CHANGE_OWN_CHIP_FAKE"
     };
 
     ownBets: Choices;
@@ -37,7 +38,7 @@ export class BetModel extends EventEmitterBase {
 
     changeOwnChip(ownChip: any) {
         this.ownChip = ownChip;
-        this.actionFlyOwnChip(ownChip);
+        this.emit(BetModel.Events.CHANGE_OWN_CHIP, this.ownChip);
     }
 
     flyOwnChip(ownBet: any) {
@@ -51,7 +52,7 @@ export class BetModel extends EventEmitterBase {
 
     updateUI() {
         this.ownBets && this.emit(BetModel.Events.CHANGE_OWN_BET, this.ownBets);
-        this.ownBets && this.actionFlyOwnChip(this.ownBets);
+        this.ownBets && this.actionFlyOwnChipFake(this.ownBets);
         this.betPercentage && this.emit(BetModel.Events.CHANGE_BET_PERCENTAGE, this.betPercentage);
     }
 
@@ -59,7 +60,7 @@ export class BetModel extends EventEmitterBase {
         this.emit(BetModel.Events.UPDATE_TOTAL_CHIP, chips);
     }
 
-    actionFlyOwnChip(data: any) {
-        this.emit(BetModel.Events.CHANGE_OWN_CHIP, data);
+    actionFlyOwnChipFake(ownBets) {
+        this.emit(BetModel.Events.CHANGE_OWN_CHIP_FAKE, ownBets);
     }
 }

@@ -189,3 +189,12 @@ const payChipToLoginPlayerMiniGame = (main: any, statusData: any, ownBets: any) 
         main.betChips.payChipsToWinningBetItemWithAmount(item.chipNode, main.dealerChipBox, winBet);
     });
 };
+
+export const collectChipsLost = (main: any, settlementResult: any) => {
+    const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
+    const lostBetItems = _.filter(main.betItems, (item) => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+
+    lostBetItems.forEach((item) => {
+        item.clearChips();
+    });
+};

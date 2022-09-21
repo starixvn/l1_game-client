@@ -15,7 +15,6 @@ export class SettlemenHandler extends BaseEventHandler<SettlementType> {
     protected handle(event: SettlementType) {
         if (event.finish != null) {
             this.gameData.settlement.showResult(event.finish);
-            this.gameData.settlement.payChips(event.finish);
         }
 
         if (event.status != null) {

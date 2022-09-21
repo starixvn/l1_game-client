@@ -31,7 +31,7 @@ export class BetHandler extends BaseEventHandler<BetEventType> {
         if (event.ownBets) {
             this.gameData.betModel.changeOwnBets(event.ownBets);
             const isInGame = event.gameConfigs !== undefined;
-            isInGame && this.gameData.betModel.actionFlyOwnChip(event.ownBets);
+            isInGame && this.gameData.betModel.actionFlyOwnChipFake(event.ownBets);
         }
 
         if (event.ownChip) {
