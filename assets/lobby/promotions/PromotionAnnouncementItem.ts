@@ -2,7 +2,6 @@ import GameUtils from "../../common/GameUtils";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import * as sessionManager from "../../common/auth/SessionManager";
-import { MiniSedie1Id, MiniSedieIds } from "../../games/muliplay-mini-sedie/scripts/MiniSedieConfigs";
 const { ccclass, property } = cc._decorator;
 
 export const PromotionAnnouncementItemEvent = {
@@ -51,6 +50,7 @@ export default class PromotionAnnouncementItem extends cc.Component {
     }
 
     getGameId(gameId: number) {
-        return MiniSedieIds.includes(gameId) ? MiniSedie1Id : gameId;
+        const miniSedieIds = [9, 56, 57, 58];
+        return miniSedieIds.includes(gameId) ? miniSedieIds[0] : gameId;
     }
 }
