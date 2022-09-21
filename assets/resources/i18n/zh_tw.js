@@ -429,8 +429,8 @@ const data = {
         bet_details: "投注詳情",
         new_year: "Happy New Year",
         md5_result: "結果",
-        md5_string: "MD5 串",
-        md5_copy: "COPY",
+        md5_string: "MD5 鑰匙",
+        md5_copy: "複製",
         autoSpinLeft: "Auto Spins Left",
         turboMode: "Turbo Mode",
         start: "Start"

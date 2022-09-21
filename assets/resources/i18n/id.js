@@ -448,8 +448,8 @@ const data = {
         bet_details: "Detail Bet",
         new_year: "Happy New Year",
         md5_result: "HASIL",
-        md5_string: "MD5 TALI",
-        md5_copy: "COPY",
+        md5_string: "Kunci MD5",
+        md5_copy: "Salin",
         autoSpinLeft: "Auto Spins Left",
         turboMode: "Turbo Mode",
         start: "Start"
