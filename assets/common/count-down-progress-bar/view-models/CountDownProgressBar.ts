@@ -2,6 +2,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CountDownProgressBar extends cc.Component {
+    @property(cc.Node)
+    progressBar: cc.Node = null;
+
     @property(cc.Sprite)
     indicatorSprite: cc.Sprite = null;
 
@@ -36,6 +39,6 @@ export default class CountDownProgressBar extends cc.Component {
     }
 
     setVisibilityProgressBar(show: boolean) {
-        this.node.active = show;
+        this.progressBar.active = show;
     }
 }
