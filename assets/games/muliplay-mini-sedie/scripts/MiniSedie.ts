@@ -228,6 +228,11 @@ export default class MiniSedie extends MultiplayGameSingle {
         //this.closePlate(false);
     }
 
+    disableGame() {
+        super.disableGame();
+        this.gameData.durations.stop();
+    }
+
     handleRoundHistory() {
         this.updateRoundHistory();
     }
