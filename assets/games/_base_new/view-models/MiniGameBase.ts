@@ -4,7 +4,17 @@ import { Durations } from "../../_new/_base/game-data-management/models/duration
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
-import { changeBetPercentage, placeBetFailed, placeBetSuccess, updateOwnBets, updateTotalBets } from "../actions/BetAction";
+import {
+    changeBetPercentage,
+    handleFlyChips,
+    handlePayChips,
+    handleTotalChips,
+    placeBetFailed,
+    placeBetSuccess,
+    placeOwnChip,
+    updateOwnBets,
+    updateTotalBets
+} from "../actions/BetAction";
 import {
     changeGameRound,
     checkToOffUM,
@@ -211,6 +221,9 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_FAILED, placeBetFailed);
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_BET_PERCENTAGE, changeBetPercentage);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.FLY_OWN_CHIP, handleFlyChips);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.UPDATE_TOTAL_CHIP, handleTotalChips);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP_FAKE, placeOwnChip);
 
         this.emitterListener(this.gameData.gameConfigs, GameConfigs.Events.CHANGE, handleGameConfigs);
         this.emitterListener(this.gameData.notice, NoticeModel.Events.CHANGE, handleNotice);
@@ -222,6 +235,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_STATUS, handleShowStatus);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handlePayChips);
     }
 
     checkShowUmMessage(data: any) {

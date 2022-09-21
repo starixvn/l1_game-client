@@ -9,7 +9,6 @@ import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRou
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import { handleBeginPlacingBet, handlePlacingBet, handleShakeDish, handleSubGameWaitingTime } from "./actions/CustomActions";
 import { tableGameColor, UnbalancedBigSmall1Id, unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
-import UnbalncedBigSmallHistory from "./UnbalncedBigSmallHistory";
 
 const { ccclass, property } = cc._decorator;
 
