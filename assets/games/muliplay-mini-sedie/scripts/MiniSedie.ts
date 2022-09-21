@@ -3,7 +3,10 @@ import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
 import MD5Component from "../../_base/view-models/MD5Component";
+import { handleFlyChips, handlePayChips, handleTotalChips, placeOwnChip } from "../../_base_new/actions/BetAction";
+import { BetModel } from "../../_base_new/models/BetModel";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
+import { Settlement } from "../../_base_new/models/Settlement";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import {
@@ -11,7 +14,7 @@ import {
     handleShakeDish,
     handleSubGameWaitingTime,
     hideLockingBetSprite,
-    updateLockingBetFrame
+    updateLockingBetFrame,
 } from "./actions/MegaSedieCustomActions";
 import { miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
 
@@ -326,10 +329,11 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     openPlate(animated: boolean) {
-        const platePos = cc.v2(50, 100);
+        const platePos = cc.v2(60, 120);
         if (animated) {
             cc.tween(this.dishNode)
-                .to(1, { position: this.openPlatePos }, { easing: "sineInOut" })
+                .to(0.4, { position: this.openPlatePos }, { easing: "sineInOut" })
+                .delay(0.6)
                 .to(this.openPlateDuration, { position: platePos }, { easing: "sineInOut" })
                 .to(0.2, { opacity: 0 })
                 .start();
