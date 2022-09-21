@@ -1,4 +1,4 @@
-import MD5Component, { MD5Type } from "../../_base/view-models/MD5Component";
+import MD5Component, { MD5Type } from "../../../games/_base/view-models/MD5Component";
 
 const { ccclass } = cc._decorator;
 export type ExtraInfos = {
