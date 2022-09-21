@@ -82,9 +82,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Node)
     defaultMiniMenu: cc.Node = null;
 
-    @property(cc.Node)
-    defaultPromotion: cc.Node = null;
-
     countDownAutoSpin: CountDownWarning = null;
     bottomMessage: SlotGameBottomMessage = null;
     gameSound: SlotGameSound;
@@ -106,7 +103,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         super.onLoad();
         this.initForMusicBackground();
         this.setDefaultPositionForMiniMenu();
-        this.setDefaultPositionForPromotion();
         this.initForHoldActionButton();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
     }
@@ -319,25 +315,16 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     setDefaultPositionForMiniMenu() {
-        if (!this.currentMiniPanel.popupMiniGame) {
+        if (!this.currentMiniPanel.popupMiniGame || !this.currentMiniPanel.boostedOdds) {
             this.scheduleOnce(this.setDefaultPositionForMiniMenu, 0.1);
             return;
         }
+
         const node = this.currentMiniPanel.popupMiniGame.node;
+        const promotionNode = this.currentMiniPanel.boostedOdds.node;
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
-        node.position = cc.v3(node.x, localPosition.y);
-    }
-
-    setDefaultPositionForPromotion() {
-        if (!this.currentMiniPanel.boostedOdds) {
-            this.scheduleOnce(this.setDefaultPositionForPromotion, 0.1);
-            return;
-        }
-        const node = this.currentMiniPanel.boostedOdds.node;
-        const wPosition = this.defaultPromotion?.convertToWorldSpaceAR(cc.v2(0, 0));
-        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
-        node.position = cc.v3(node.x, localPosition.y);
+        node.position = promotionNode.position = cc.v3(node.x, localPosition.y);
     }
 
     playMusicBgCallback() {

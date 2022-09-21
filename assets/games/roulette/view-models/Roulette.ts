@@ -60,9 +60,6 @@ export default class Roulette extends SocketIOTableGameBase {
     @property(cc.Node)
     roundIdContainer: cc.Node = null;
 
-    @property(cc.Node)
-    defaultPromotion: cc.Node = null;
-
     topControls: TopControls = null;
     bottomControls: BottomControls = null;
     leftControls: LeftControls = null;
@@ -110,32 +107,22 @@ export default class Roulette extends SocketIOTableGameBase {
 
             this.joinGame();
             this.setDefaultPositionForMiniMenu();
-            this.setDefaultPositionForPromotion();
 
             this.rouletteMain.board.betChips = this.betChips;
         });
     }
 
     setDefaultPositionForMiniMenu() {
-        if (!this.currentMiniPanel.popupMiniGame) {
+        if (!this.currentMiniPanel.popupMiniGame || !this.currentMiniPanel.boostedOdds) {
             this.scheduleOnce(this.setDefaultPositionForMiniMenu, 0.1);
             return;
         }
+
         const wPosition = this.rouletteMain.newMenuPosition.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = this.currentMiniPanel.miniMenu.convertToNodeSpaceAR(wPosition);
         const node = this.currentMiniPanel.popupMiniGame.node;
-        node.position = cc.v3(node.x, localPosition.y);
-    }
-
-    setDefaultPositionForPromotion() {
-        if (!this.currentMiniPanel.boostedOdds) {
-            this.scheduleOnce(this.setDefaultPositionForPromotion, 0.1);
-            return;
-        }
-        const node = this.currentMiniPanel.boostedOdds.node;
-        const wPosition = this.defaultPromotion?.convertToWorldSpaceAR(cc.v2(0, 0));
-        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
-        node.position = cc.v3(node.x, localPosition.y);
+        const promotionNode = this.currentMiniPanel.boostedOdds.node;
+        node.position = promotionNode.position = cc.v3(node.x, localPosition.y);
     }
 
     setGameRound(gameRoundId) {

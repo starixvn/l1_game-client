@@ -70,6 +70,9 @@ export default class MiniPanel extends BaseComponent {
     @property(cc.Node)
     announcementContainer: cc.Node = null;
 
+    @property(cc.Node)
+    promotionContainer: cc.Node = null;
+
     public popupMiniGame: PopupMinigames;
     public loading: Loading;
     public dataHandlers: MiniPanelDataHandlers;
@@ -83,7 +86,7 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
-    isOpenSS0 = false; 
+    isOpenSS0 = false;
     public boostedOdds: BoostedOdds;
     public promotionAnnouncement: PromotionAnnouncements;
 
@@ -116,10 +119,10 @@ export default class MiniPanel extends BaseComponent {
         this.loading = loadingNode.getComponent("Loading") as Loading;
         loadingNode.active = false;
         this.node.addChild(loadingNode);
-
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
+
         this.initPopUpMiniGames();
         this.initBoostedOdds();
 
@@ -174,7 +177,7 @@ export default class MiniPanel extends BaseComponent {
             this.boostedOdds = boostedOddsNode.getComponent(BoostedOdds);
             boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
             Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
-            this.miniMenu.addChild(boostedOddsNode);
+            this.promotionContainer.addChild(boostedOddsNode);
         });
     }
 

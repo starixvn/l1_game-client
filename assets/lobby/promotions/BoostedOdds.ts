@@ -11,7 +11,7 @@ export default class BoostedOdds extends cc.Component {
     handleBoostedOdds() {
         cc.tween(this.icon)
             .call(() => (this.icon.active = true))
-            .delay(15)
+            .delay(10)
             .call(() => (this.icon.active = false))
             .start();
     }
