@@ -2,8 +2,7 @@ import NotificationService from "../../common/auth/NotificationService";
 import EventEmitterBase from "../../common/emitter/EventEmitterBase";
 
 export const PromotionsEvent = {
-    SHOW_BOOSTED_ODDS: "SHOW_BOOSTED_ODDS",
-    SWITCH_MEGA_MINI_SEDIE: "SWITCH_MEGA_MINI_SEDIE"
+    SHOW_BOOSTED_ODDS: "SHOW_BOOSTED_ODDS"
 };
 export class Promotion {
     gameId: number;

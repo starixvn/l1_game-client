@@ -1,5 +1,4 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import { Promotions, PromotionsEvent } from "../../../lobby/promotions/Promotions";
 import MultiplayGame from "../../multiplay/scripts/MultiplayGame";
 import MultiplayScoreBoard from "../../multiplay/scripts/MultiplayScoreBoard";
 import MiniSedie from "./MiniSedie";
@@ -23,12 +22,8 @@ export default class MiniSedieMultiplay extends MultiplayGame {
     onLoad() {
         super.onLoad();
         // cc.sys.localStorage.setItem(KeyOpenScoreBoardStorage, "true");
-        Promotions.getInstance().on(PromotionsEvent.SWITCH_MEGA_MINI_SEDIE, (gameId) => this.onJoinMiniSedie(gameId));
     }
 
-    onJoinMiniSedie(gameId: number) {
-        !!gameId && this.switchGameToMain(gameId);
-    }
     createSubGameUI(gameId: number, location: number): cc.Node {
         const node = super.createSubGameUI(gameId, location);
         const multiplaySingle = node.getComponent(MiniSedieSubGame);

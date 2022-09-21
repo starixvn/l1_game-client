@@ -32,3 +32,5 @@ export const tableGameColor = {
     [MiniSedie3Id]: "#6d00cc",
     [MiniSedie4Id]: "#cc0011"
 };
+
+export const MiniSedieIds = [MiniSedie1Id, MiniSedie2Id, MiniSedie3Id, MiniSedie4Id];
