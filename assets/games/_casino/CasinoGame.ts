@@ -83,9 +83,6 @@ export default class CasinoGame extends NewGameRoomBase {
     @property(cc.AudioSource)
     startNewRoundAudio: cc.AudioSource = null;
 
-    @property(cc.Node)
-    defaultPromotion: cc.Node = null;
-
     protected isSwapCard = true;
     protected statusShowSwapIcon = false;
 
@@ -95,22 +92,10 @@ export default class CasinoGame extends NewGameRoomBase {
 
     onLoad() {
         super.onLoad();
-        this.setDefaultPositionForPromotion();
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
         super.addHandlers(this.umHandler, this.noticeHandler, this.errorHandler, this.betHandler);
-    }
-
-    setDefaultPositionForPromotion() {
-        if (!this.currentMiniPanel.boostedOdds) {
-            this.scheduleOnce(this.setDefaultPositionForPromotion, 0.1);
-            return;
-        }
-        const node = this.currentMiniPanel.boostedOdds.node;
-        const wPosition = this.defaultPromotion?.convertToWorldSpaceAR(cc.v2(0, 0));
-        const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
-        node.position = cc.v3(localPosition.x, localPosition.y);
     }
 
     public disabledButtons(status: boolean) {

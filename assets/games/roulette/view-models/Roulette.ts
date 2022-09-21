@@ -135,7 +135,7 @@ export default class Roulette extends SocketIOTableGameBase {
         const node = this.currentMiniPanel.boostedOdds.node;
         const wPosition = this.defaultPromotion?.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
-        node.position = cc.v3(localPosition.x, localPosition.y);
+        node.position = cc.v3(node.x, localPosition.y);
     }
 
     setGameRound(gameRoundId) {

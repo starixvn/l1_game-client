@@ -102,19 +102,19 @@
         "__id__": 378
       },
       {
-        "__id__": 380
+        "__id__": 379
       }
     ],
     "_active": true,
     "_components": [
       {
+        "__id__": 381
+      },
+      {
         "__id__": 382
       },
       {
         "__id__": 383
-      },
-      {
-        "__id__": 384
       }
     ],
     "_prefab": null,
@@ -17440,11 +17440,7 @@
     },
     "_children": [],
     "_active": true,
-    "_components": [
-      {
-        "__id__": 379
-      }
-    ],
+    "_components": [],
     "_prefab": null,
     "_opacity": 255,
     "_color": {
@@ -17468,8 +17464,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        615,
-        54,
+        -575.319,
+        -154,
         0,
         0,
         0,
@@ -17494,40 +17490,13 @@
     "_id": "24XbqTPKlFpb29yQQ7H4p8"
   },
   {
-    "__type__": "cc.Widget",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 378
-    },
-    "_enabled": true,
-    "alignMode": 1,
-    "_target": null,
-    "_alignFlags": 32,
-    "_left": 0,
-    "_right": 84,
-    "_top": 0,
-    "_bottom": 0,
-    "_verticalCenter": 0,
-    "_horizontalCenter": 0,
-    "_isAbsLeft": true,
-    "_isAbsRight": true,
-    "_isAbsTop": true,
-    "_isAbsBottom": true,
-    "_isAbsHorizontalCenter": true,
-    "_isAbsVerticalCenter": true,
-    "_originalWidth": 0,
-    "_originalHeight": 0,
-    "_id": "a4k6dnQ69LgaDPm4yfbsOs"
-  },
-  {
     "__type__": "cc.Node",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
     },
     "_prefab": {
-      "__id__": 381
+      "__id__": 380
     },
     "_name": "Loading",
     "_active": false,
@@ -17558,7 +17527,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 380
+      "__id__": 379
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -17657,7 +17626,7 @@
       "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
     },
     "loading": {
-      "__id__": 380
+      "__id__": 379
     },
     "winningPlayerEffectPrefab": null,
     "musicBg": {
