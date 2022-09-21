@@ -5,6 +5,12 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniSedieSubGame extends MiniSedie {
+    @property({ type: cc.Sprite })
+    chips: cc.Sprite[] = [];
+
+    @property(cc.Node)
+    chipResult: cc.Node = null;
+
     openPlatePos = cc.v2(20, 40);
 
     setBlurDishAndHideDices() {
@@ -22,9 +28,18 @@ export default class MiniSedieSubGame extends MiniSedie {
             this.setBlurDishAndHideDices();
         };
 
+        const doLaterShowResult = () => {
+            this.setChipsResult(settlement.result);
+            cc.tween(this.chipResult)
+                .delay(0.2)
+                .to(0.2, { position: cc.v2(0, -75), opacity: 255 }, { easing: "sineInOut" })
+                .start();
+        };
+
         if (animated) {
             this.scheduleOnce(doLaterPayOut, 1.5);
             this.scheduleOnce(doLaterBlurDish, 2.5);
+            this.scheduleOnce(doLaterShowResult, 2.3);
         } else {
             this.showDicesAndPlates();
             this.highlightAndPayout(settlement);
@@ -53,5 +68,20 @@ export default class MiniSedieSubGame extends MiniSedie {
 
     hideDish() {
         this.animation.node.opacity = 0;
+    }
+
+    setChipsResult(result) {
+        Object.keys(result).forEach((key, index) => {
+            const frameName = result[key] ? "chip_do" : "chip_trang";
+            this.chips[index].spriteFrame = this.mainAtlas.getSpriteFrame(frameName);
+        });
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+        cc.tween(this.chipResult)
+            .to(0.2, { opacity: 0 }, { easing: "sineInOut" })
+            .to(0.1, { position: cc.v2(0, 0) })
+            .start();
     }
 }
