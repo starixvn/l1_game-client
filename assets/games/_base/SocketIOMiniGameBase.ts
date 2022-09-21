@@ -14,6 +14,7 @@ export default class SocketIOMiniGameBase extends GameBase {
     public socket: Socket;
 
     public isMiniGameInContainer = false;
+    public isBetSound = true;
 
     onLoad() {
         super.onLoad();
@@ -105,7 +106,7 @@ export default class SocketIOMiniGameBase extends GameBase {
     }
 
     public onBetItemClick(e) {
-        AudioManager.getInstance().playClick();
+        this.isBetSound && AudioManager.getInstance().playClick();
         if (!this.isReadyBet()) {
             return;
         }

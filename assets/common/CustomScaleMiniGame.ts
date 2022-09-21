@@ -1,6 +1,6 @@
 import { MINI_GAMES_SCALE_ON_DESKTOP } from "./GameUtils";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class CustomScaleMiniGame extends cc.Component {

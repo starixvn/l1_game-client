@@ -32,13 +32,10 @@ export default class MultiplayGame extends GameViewBase {
     smallPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    subGamesArea: cc.Node = null;
+    subGamesArea: cc.Node[] = [];
 
     @property(cc.Toggle)
     collapsedExpandButton: cc.Toggle = null;
-
-    @property(cc.Node)
-    containerSubChips: cc.Node = null;
 
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
@@ -262,21 +259,25 @@ export default class MultiplayGame extends GameViewBase {
 
     showSubGamesWithAnimation(isAnimated = true) {
         if (isAnimated) {
-            cc.tween(this.subGamesArea).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
-            cc.tween(this.containerSubChips).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
+            this.subGamesArea.forEach((node: cc.Node) => {
+                cc.tween(node).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
+            });
         } else {
-            this.subGamesArea.scale = 1;
-            this.containerSubChips.scale = 1;
+            this.subGamesArea.forEach((node: cc.Node) => {
+                node.scale = 1;
+            });
         }
     }
 
     hideSubGamesWithAnimation(isAnimated = true) {
         if (isAnimated) {
-            cc.tween(this.subGamesArea).to(0.2, { scale: 0 }, { easing: "sineIn" }).start();
-            cc.tween(this.containerSubChips).to(0.2, { scale: 0 }, { easing: "sineIn" }).start();
+            this.subGamesArea.forEach((node: cc.Node) => {
+                cc.tween(node).to(0.2, { scale: 0 }, { easing: "sineIn" }).start();
+            });
         } else {
-            this.subGamesArea.scale = 0;
-            this.containerSubChips.scale = 0;
+            this.subGamesArea.forEach((node: cc.Node) => {
+                node.scale = 0;
+            });
         }
     }
 }
