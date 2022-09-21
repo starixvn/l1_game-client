@@ -40,4 +40,9 @@ export default class MultiplayGameSingle extends MiniGameBase {
             this.animatedTime.setNumberColor("#0fdb5e", "#ff0000");
         }
     }
+
+    updateDisplayForRemoteConfig() {
+        this.updateOddsFromConfigs();
+        // without set value bet chip
+    }
 }
