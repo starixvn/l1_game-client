@@ -43,7 +43,6 @@ export const showRevertCountDown =
 
         if (condition) {
             game.timeAnimShowResult(false);
-            console.log("globalRemaining", globalRemaining);
             const duration = globalRemaining - game.config.betTime;
             game.countDownProgressBar.revertCountDown(duration);
         }
