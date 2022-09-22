@@ -1,3 +1,4 @@
+import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -13,7 +14,7 @@ import {
     placeBetSuccess,
     placeOwnChip,
     updateOwnBets,
-    updateTotalBets
+    updateTotalBets,
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -27,7 +28,7 @@ import {
     handleShowStatus,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String
+    updateMD5String,
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -38,7 +39,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting
+    updateWaiting,
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -49,7 +50,6 @@ import { ResultHash } from "../models/ResultHash";
 import { RoundHistory } from "../models/RoundHistory";
 import { Settlement } from "../models/Settlement";
 import { UMModel } from "../models/UMModel";
-import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 
 const { ccclass, property } = cc._decorator;
 
@@ -75,7 +75,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     readonly internalTweenTag = 99;
     public isCollectChip = true;
     startRoundDuration = 1;
-    showResultDuration = 1;
+    showResultDuration = 2;
     wholeResultTime = 3;
 
     override onLoad() {
@@ -202,7 +202,7 @@ export default class MiniGameBase extends NewMiniGameBase {
             Durations.Events.SHOW_ANIMATION,
             {
                 startTimePoint: this.config.fullTime,
-                endTimePoint: this.config.fullTime - this.showResultDuration
+                endTimePoint: this.config.fullTime - this.showResultDuration + 1
             },
             null,
             Durations.Events.WAITING

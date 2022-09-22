@@ -4,7 +4,6 @@ import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistor
 import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
 import MD5Component from "../../_base/view-models/MD5Component";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
-import { Settlement } from "../../_base_new/models/Settlement";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import { handlePlacingBet, handleShakeDish } from "./actions/MegaSedieCustomActions";
@@ -63,7 +62,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     openPlatePos = cc.v2(15, 30);
     private showLogs = true;
     startRoundDuration = 2;
-    showResultDuration = 2;
 
     constructor() {
         super();

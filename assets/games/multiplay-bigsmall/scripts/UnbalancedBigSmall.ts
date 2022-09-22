@@ -51,7 +51,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected scaleResultNode = 1;
     startRoundDuration = 2;
-    showResultDuration = 1;
     config = new BigSmallConfigs();
     miniRoundHistory: BigSmallMiniRoundHistory;
     private dicesStatistic: BigSmallDicesStatistic;
@@ -122,7 +121,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
                 this.setBgTimerVisibility(false, false);
                 this.shakeThePlateAnimation.playAdditive(DishAnimation.OpenDish);
             })
-            .delay(1)
+            .delay(this.showResultDuration)
             .call(() => {
                 this.gameData.settlement.finishShowResult(this.gameData.settlement.settlement, true);
             })
