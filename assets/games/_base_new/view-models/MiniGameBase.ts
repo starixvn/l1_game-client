@@ -120,12 +120,14 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.stopInternalTweens();
         this.gameState = GameState.Inactived;
         this.gameData.durations.stop();
+        this.clearData();
     }
 
     onGameShow() {
         super.onGameShow();
         this.stopInternalTweens();
         this.gameState = GameState.Actived;
+        this.clearData();
         this.joinGame();
     }
 

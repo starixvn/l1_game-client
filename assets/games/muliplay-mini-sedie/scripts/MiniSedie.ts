@@ -3,8 +3,6 @@ import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
 import MD5Component from "../../_base/view-models/MD5Component";
-import { handleFlyChips, handlePayChips, handleTotalChips, placeOwnChip } from "../../_base_new/actions/BetAction";
-import { BetModel } from "../../_base_new/models/BetModel";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -12,9 +10,9 @@ import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import {
     handlePlacingBet,
     handleShakeDish,
-    updateLockingBetFrame,
     showResultWaitingIcon,
-    showRevertCountDown
+    showRevertCountDown,
+    updateLockingBetFrame,
 } from "./actions/MegaSedieCustomActions";
 import { miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
 
@@ -74,9 +72,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     openPlatePos = cc.v2(15, 30);
     private showLogs = true;
     readonly shakingDuration = 2;
-    readonly showResultDuration = 1;
-    readonly durationFlyChip = 1.2;
-    readonly durationAnimWinning = 2.8;
+    readonly showResultDuration = 2;
     readonly wholeResultTime = 3;
 
     constructor() {
@@ -118,7 +114,7 @@ export default class MiniSedie extends MultiplayGameSingle {
             Durations.Events.SHOW_ANIMATION,
             {
                 startTimePoint: this.config.fullTime,
-                endTimePoint: this.config.fullTime - this.showResultDuration
+                endTimePoint: this.config.fullTime - this.showResultDuration + 1
             },
             null,
             Durations.Events.WAITING
@@ -233,6 +229,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     showSettlementResult(settlement: any) {
+        console.log("showSettlementResult", this.gameData.durations.remaining);
         if (cc.RedT.GAME_IS_SHOWED) {
             this.setDots(settlement.result);
 
@@ -258,7 +255,7 @@ export default class MiniSedie extends MultiplayGameSingle {
                 this.showDicesAndPlates();
                 this.openPlate(true);
             })
-            .delay(2)
+            .delay(this.showResultDuration)
             .call(() => {
                 this.gameData.settlement.finishShowResult(this.gameData.settlement.settlement, true);
             })
@@ -266,6 +263,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
+        console.log("handleAfterSettlementResult", this.gameData.durations.remaining);
         this.showWinChoiceAndUpdateHistory(settlement);
         this.scheduleOnce(() => {
             this.highlightAndPayout(settlement);
@@ -334,8 +332,7 @@ export default class MiniSedie extends MultiplayGameSingle {
         const platePos = cc.v2(60, 120);
         if (animated) {
             cc.tween(this.dishNode)
-                .to(0.4, { position: this.openPlatePos }, { easing: "sineInOut" })
-                .delay(0.6)
+                .to(1, { position: this.openPlatePos }, { easing: "sineInOut" })
                 .to(this.openPlateDuration, { position: platePos }, { easing: "sineInOut" })
                 .to(0.2, { opacity: 0 })
                 .start();
