@@ -42,6 +42,7 @@ export default class MiniSedieSubGame extends MiniSedie {
             this.scheduleOnce(doLaterShowResult, 2.3);
         } else {
             this.showDicesAndPlates();
+            this.dishNode.opacity = 0;
             this.highlightAndPayout(settlement);
         }
     }

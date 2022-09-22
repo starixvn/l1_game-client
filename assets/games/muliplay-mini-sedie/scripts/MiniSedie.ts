@@ -269,8 +269,7 @@ export default class MiniSedie extends MultiplayGameSingle {
 
         if (!animated) {
             this.dishNode.opacity = 0;
-            this.animation.node.opacity = 255;
-            this.setDotsVisibility(true);
+            this.showDicesAndPlates();
         }
     }
 
