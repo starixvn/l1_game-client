@@ -12,7 +12,7 @@ import {
     handleShakeDish,
     showResultWaitingIcon,
     showRevertCountDown,
-    updateLockingBetFrame,
+    updateLockingBetFrame
 } from "./actions/MegaSedieCustomActions";
 import { miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
 
@@ -294,7 +294,10 @@ export default class MiniSedie extends MultiplayGameSingle {
 
     timeAnimShowResult(show: boolean) {
         if (this.timeShowResult) {
-            this.timeShowResult.active = show;
+            this.timeShowResult.opacity = show ? 0 : 255;
+            cc.tween(this.timeShowResult)
+                .to(0.3, { opacity: show ? 255 : 0 }, { easing: "easeInOutQuint" })
+                .start();
         }
     }
 
