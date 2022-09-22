@@ -10,8 +10,8 @@ export default class CountDownProgressBar extends cc.Component {
 
     private fullRoundTime: number;
     public isShowRevertCountDown = false;
-    private placingBetColor = "#0fdb5e";
-    private lockingBetColor = "#ff0000";
+    private readonly placingBetColor = "#0fdb5e";
+    private readonly lockingBetColor = "#ff0000";
 
     onEnable() {
         this.setIndicatorVisibility(false);

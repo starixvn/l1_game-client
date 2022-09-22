@@ -7,7 +7,7 @@ import { BigSmallConfigs } from "../../bigsmall/view-models/BigSmallConfigs";
 import BigSmallDicesStatistic from "../../bigsmall/view-models/BigSmallDicesStatistic";
 import BigSmallMiniRoundHistory from "../../bigsmall/view-models/BigSmallMiniRoundHistory";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
-import { handleBeginPlacingBet, handlePlacingBet, handleShakeDish, handleSubGameWaitingTime } from "./actions/CustomActions";
+import { handleBeginPlacingBet, handlePlacingBet, handleShakeDish } from "./actions/CustomActions";
 import { tableGameColor, UnbalancedBigSmall1Id, unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -47,9 +47,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
-    @property(cc.Node)
-    timeShowResult: cc.Node = null;
-
     public isMiniGameInContainer = true;
 
     protected scaleResultNode = 1;
@@ -86,7 +83,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, handleBeginPlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_STARTING_ROUND, handleShakeDish);
-        this.emitterListener(this.gameData.durations, Durations.Events.CHANGE_REMAINING_TIME, handleSubGameWaitingTime);
     }
 
     renderTableGame(gameId: number) {
@@ -97,6 +93,10 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     setBgTimerVisibility(visible: boolean, animated = true) {
+        if (!this.bgTimer) {
+            return;
+        }
+
         if (animated) {
             this.tween(this.bgTimer)
                 .to(0.3, { opacity: visible ? 255 : 0 })
@@ -259,12 +259,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             this.betItems.forEach((betItem) => {
                 betItem.setHighlight(dataLog.settlementResult[betItem.node.name], false);
             });
-    }
-
-    timeAnimShowResult(show: boolean) {
-        if (this.timeShowResult) {
-            this.timeShowResult.active = show;
-        }
     }
 
     initStatisticBoard(node: cc.Node) {

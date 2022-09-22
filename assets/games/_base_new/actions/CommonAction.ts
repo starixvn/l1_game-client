@@ -89,6 +89,11 @@ export const handleShowResult = (game: MiniGameBase) => (settlement) => {
     }
     game.showSettlementResult(settlement);
     game.gameData.roundHistory.add(settlement);
+    if (game.countDownProgressBar) {
+        game.animatedTime.node.active = false;
+        game.setWaitingDotsVisibility(true);
+        game.countDownProgressBar.setIndicatorVisibility(false);
+    }
 };
 export const handleAfterSettlementResult =
     (game: MiniGameBase) =>

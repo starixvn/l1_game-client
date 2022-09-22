@@ -96,6 +96,6 @@ export default class AnimatedTime extends cc.Component {
         const groupTime = this.firstChar.node.parent;
         groupTime.scale = 0;
         groupTime.opacity = 0;
-        cc.tween(groupTime).to(0.3, { scale: 1, opacity: 255 }, { easing: "easeInOutQuint" }).start();
+        cc.tween(groupTime).to(0.3, { scale: 1, opacity: 255 }, { easing: "quintInOut" }).start();
     }
 }

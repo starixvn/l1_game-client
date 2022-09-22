@@ -49,6 +49,7 @@ import { ResultHash } from "../models/ResultHash";
 import { RoundHistory } from "../models/RoundHistory";
 import { Settlement } from "../models/Settlement";
 import { UMModel } from "../models/UMModel";
+import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 
 const { ccclass, property } = cc._decorator;
 
@@ -63,14 +64,19 @@ export default class MiniGameBase extends NewMiniGameBase {
     @property({ type: cc.Label })
     betPercentage: cc.Label[] = [];
 
+    @property(cc.Node)
+    waitingDotsSubGame: cc.Node = null;
+
     protected managedByContainer = false;
     public gameData: NewGameData;
+    public countDownProgressBar: CountDownProgressBar;
     emitterStorages: EmitterStorage[] = [];
     internalTweenNodes: cc.Node[] = [];
     readonly internalTweenTag = 99;
     public isCollectChip = true;
     startRoundDuration = 1;
     showResultDuration = 1;
+    wholeResultTime = 3;
 
     override onLoad() {
         super.onLoad();
@@ -321,5 +327,14 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.gameData.betModel.clearData();
         this.gameData.totalBets.clearData();
         this.gameData.settlement.clearSettlement();
+    }
+
+    setWaitingDotsVisibility(show: boolean) {
+        if (this.waitingDotsSubGame) {
+            this.waitingDotsSubGame.opacity = show ? 0 : 255;
+            this.tween(this.waitingDotsSubGame)
+                .to(0.3, { opacity: show ? 255 : 0 }, { easing: "quintInOut" })
+                .start();
+        }
     }
 }

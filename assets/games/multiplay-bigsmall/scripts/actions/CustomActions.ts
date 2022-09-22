@@ -16,9 +16,3 @@ export const handleShakeDish = (game: UnbalancedBigSmall) => () => {
     game.highlightLastResult();
     game.shakeThePlate();
 };
-
-export const handleSubGameWaitingTime =
-    (game: UnbalancedBigSmall) =>
-    ({ remaining }) => {
-        game.timeAnimShowResult(remaining > game.config.betTime);
-    };

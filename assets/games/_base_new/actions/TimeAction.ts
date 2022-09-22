@@ -24,6 +24,10 @@ export const updateClockTime =
         game.showWaittingTime(false);
         game.showMainTime(true);
         game.setMainTimeLabel(numberPad(globalRemaining, 2));
+        if (game.countDownProgressBar) {
+            game.countDownProgressBar.updateLockingBetFrame();
+            game.countDownProgressBar.updateProgress(globalRemaining);
+        }
     };
 
 export const updateLockBet =
@@ -37,15 +41,31 @@ export const updatePlacingBet =
     (game: MiniGameBase) =>
     ({ globalRemaining }) => {
         updateClockTime(game)({ globalRemaining });
+        if (game.countDownProgressBar) {
+            game.countDownProgressBar.indicatorSprite.node.scaleY = -1;
+            game.countDownProgressBar.updateBetFrame();
+            game.countDownProgressBar.updateProgress(globalRemaining);
+        }
     };
 
 export const updateWaiting =
     (game: MiniGameBase) =>
-    ({ remaining }) => {
+    ({ remaining, globalRemaining }) => {
         game.showMainTime(false);
         game.showProcessingWarning(false);
 
         game.setWaitingTimeLabel(numberPad(remaining, 2));
+
+        const condition =
+            globalRemaining < game.config.fullTime - game.wholeResultTime &&
+            game.countDownProgressBar &&
+            !game.countDownProgressBar.isShowRevertCountDown;
+
+        if (condition) {
+            game.setWaitingDotsVisibility(false);
+            const duration = globalRemaining - game.config.betTime;
+            game.countDownProgressBar.revertCountDown(duration);
+        }
     };
 
 export const showCurrentRoundId = (game: MiniGameBase) => () => {

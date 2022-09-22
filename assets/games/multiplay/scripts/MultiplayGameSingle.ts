@@ -8,7 +8,6 @@ const { ccclass, property } = cc._decorator;
 export default class MultiplayGameSingle extends MiniGameBase {
     protected override managedByContainer = true;
     public isMiniGameInContainer = true;
-    public countDownProgressBar: CountDownProgressBar;
     public isBetSound = false;
 
     public onDisconnectCallback = () => {};

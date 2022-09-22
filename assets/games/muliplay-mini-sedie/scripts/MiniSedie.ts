@@ -7,13 +7,7 @@ import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
-import {
-    handlePlacingBet,
-    handleShakeDish,
-    showResultWaitingIcon,
-    revertCountDown,
-    updateLockingBetFrame
-} from "./actions/MegaSedieCustomActions";
+import { handlePlacingBet, handleShakeDish } from "./actions/MegaSedieCustomActions";
 import { miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
 
 const { ccclass, property } = cc._decorator;
@@ -54,9 +48,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     @property(cc.AudioSource)
     shakeDishAudio: cc.AudioSource = null;
 
-    @property(cc.Node)
-    waitingDotsSubGame: cc.Node = null;
-
     @property(cc.Sprite)
     gameNameImage: cc.Sprite = null;
 
@@ -73,7 +64,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     private showLogs = true;
     startRoundDuration = 2;
     showResultDuration = 2;
-    readonly wholeResultTime = 3;
 
     constructor() {
         super();
@@ -120,9 +110,6 @@ export default class MiniSedie extends MultiplayGameSingle {
         super.initGameDataEvents();
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_STARTING_ROUND, handleShakeDish);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
-        this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, updateLockingBetFrame);
-        this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, showResultWaitingIcon);
-        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, revertCountDown);
     }
 
     public highlightLastResult() {
@@ -270,15 +257,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     highlightAndPayout(settlement: any) {
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
         this.gameData.settlement.showStatus();
-    }
-
-    setWaitingDotsVisibility(show: boolean) {
-        if (this.waitingDotsSubGame) {
-            this.waitingDotsSubGame.opacity = show ? 0 : 255;
-            cc.tween(this.waitingDotsSubGame)
-                .to(0.3, { opacity: show ? 255 : 0 }, { easing: "easeInOutQuint" })
-                .start();
-        }
     }
 
     initMiniRoundHistory(node: cc.Node) {
