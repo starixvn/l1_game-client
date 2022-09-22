@@ -175,7 +175,7 @@ export default class MultiplayGame extends GameViewBase {
         const single = node.getComponent(MultiplayGameSingle);
         single.currentMiniPanel = this.currentMiniPanel;
         single.betChips = this.betChips;
-        single.isChipCollecting = true;
+        single.isCollectChip = true;
         this.games[gameId] = single;
         single.onDisconnectCallback = () => {
             this.onCloseClick();
@@ -205,7 +205,7 @@ export default class MultiplayGame extends GameViewBase {
         single.maximizeCallback = (gameId) => this.switchGameToMain(gameId);
         single.currentMiniPanel = this.currentMiniPanel;
         single.betChips = this.betChips;
-        single.isChipCollecting = false;
+        single.isCollectChip = false;
         this.games[gameId] = single;
         this.singleComponent = single;
         return node;

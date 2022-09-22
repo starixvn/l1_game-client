@@ -73,20 +73,9 @@ export const handleTotalChips = (game: MiniGameBase) => (dataChips) => {
     }
 };
 
-export const showChipOwnBet = (gameBase: MiniGameBase) => (ownBet) => {
-    if (gameBase.isDisableGame) {
-        return;
-    }
-    gameBase.betItems.forEach((item) => {
-        const choice = item.node.name;
-        const betValue = ownBet[choice];
-        gameBase.betChips.showChipOwnBet(item, betValue);
-    });
-};
-
 export const handlePayChips = (gameBase: MiniGameBase) => (finishData) => {
     const { settlement } = finishData;
-    gameBase.isChipCollecting
+    gameBase.isCollectChip
         ? dealerGetChipsMiniGame(
               gameBase,
               settlement.settlementResult,

@@ -68,7 +68,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     emitterStorages: EmitterStorage[] = [];
     internalTweenNodes: cc.Node[] = [];
     readonly internalTweenTag = 99;
-    public isChipCollecting = true;
+    public isCollectChip = true;
     startRoundDuration = 1;
     showResultDuration = 1;
 
