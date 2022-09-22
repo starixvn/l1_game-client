@@ -229,7 +229,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     showSettlementResult(settlement: any) {
-        console.log("showSettlementResult", this.gameData.durations.remaining);
         if (cc.RedT.GAME_IS_SHOWED) {
             this.setDots(settlement.result);
 
@@ -263,7 +262,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
-        console.log("handleAfterSettlementResult", this.gameData.durations.remaining);
         this.showWinChoiceAndUpdateHistory(settlement);
         this.scheduleOnce(() => {
             this.highlightAndPayout(settlement);
