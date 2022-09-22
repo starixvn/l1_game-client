@@ -18,6 +18,7 @@ describe("Test class MiniSedieHistoryItem", () => {
         comp.red4 = new cc.Node().addComponent(cc.Label);
         comp.white3 = new cc.Node().addComponent(cc.Label);
         comp.white4 = new cc.Node().addComponent(cc.Label);
+        comp.bgRow = new cc.Node();
     });
     describe("Test method setData", () => {
         it("Case: ", () => {
@@ -61,7 +62,7 @@ describe("Test class MiniSedieHistoryItem", () => {
             };
 
             // Act
-            comp.setData(betLog);
+            comp.setData(betLog, 1);
 
             // Assert
             Object.keys(betLog.settlementResult).forEach((choice) => {

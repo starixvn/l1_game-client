@@ -37,22 +37,13 @@ export default class EffectAppearanceLabel extends cc.Component {
 
     public playAnimation() {
         this.mask.node.width = 0;
-        cc.tween(this.node)
-            .delay(0.1)
-            .call(() => {
-                const width = this.calculateDistance();
-                if (!this.mask.node.activeInHierarchy) {
-                    this.mask.node.width = width;
-                    return;
-                }
-                const duration = width / this.speed;
-                cc.tween(this.mask.node)
-                    .to(duration, { width: width })
-                    .call(() => {
-                        this.mask.node.width = width;
-                    })
-                    .start();
-            })
-            .start();
+
+        const width = this.calculateDistance();
+        if (!this.mask.node.activeInHierarchy) {
+            this.mask.node.width = width;
+            return;
+        }
+        const duration = width / this.speed;
+        cc.tween(this.mask.node).to(duration, { width: width }).start();
     }
 }

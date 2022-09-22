@@ -24,6 +24,7 @@ describe("Test class MD5Component", () => {
         const md5Text = new cc.Node().addComponent(cc.Label);
         const copyButton = new cc.Node().addComponent(cc.Button);
         const md5Value = new EffectAppearanceLabel();
+        md5Value.label = new cc.Node().addComponent(cc.Label);
         md5Value.mask = new cc.Mask();
         md5Value.mask.node = new cc.Node();
 
