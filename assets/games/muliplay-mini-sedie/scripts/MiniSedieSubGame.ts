@@ -25,15 +25,14 @@ export default class MiniSedieSubGame extends MiniSedie {
         };
 
         const doLaterBlurDish = () => {
-            this.setBlurDishAndHideDices();
+            cc.tween(this.animation.node)
+                .to(0.5, { opacity: 0, scale: 0, position: cc.v2(0, -80) }, { easing: "sineInOut" })
+                .start();
         };
 
         const doLaterShowResult = () => {
             this.setChipsResult(settlement.result);
-            cc.tween(this.chipResult)
-                .delay(0.2)
-                .to(0.2, { position: cc.v2(0, -75), opacity: 255 }, { easing: "sineInOut" })
-                .start();
+            cc.tween(this.chipResult).delay(0.2).to(0.8, { scale: 1, opacity: 255 }, { easing: "sineInOut" }).start();
         };
 
         if (animated) {
@@ -80,9 +79,6 @@ export default class MiniSedieSubGame extends MiniSedie {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-        cc.tween(this.chipResult)
-            .to(0.2, { opacity: 0 }, { easing: "sineInOut" })
-            .to(0.1, { position: cc.v2(0, 0) })
-            .start();
+        cc.tween(this.chipResult).to(0.2, { opacity: 0, scale: 0 }, { easing: "sineInOut" }).start();
     }
 }

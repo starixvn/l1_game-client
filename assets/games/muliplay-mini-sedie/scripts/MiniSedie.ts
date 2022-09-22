@@ -178,6 +178,11 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.showDicesAndPlates();
         this.closePlate(true);
         this.tween(this.dishNode)
+            .call(() => {
+                this.animation.node.opacity = 255;
+                this.animation.node.position = cc.v3(0, 23, 0);
+                this.animation.node.scale = 1;
+            })
             .delay(0.5)
             .call(() => {
                 this.shakeDishAudio && AudioManager.getInstance().playSFX(this.shakeDishAudio.clip);
@@ -318,6 +323,9 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     closePlate(animated = true) {
+        // this.animation.node.opacity = 255;
+        // this.animation.node.position = cc.v3(0, 23, 0);
+        // this.animation.node.scale = 1;
         if (animated) {
             const platePos = cc.v2(50, 100);
             this.dishNode.position = cc.v3(platePos);
