@@ -53,10 +53,10 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     public isMiniGameInContainer = true;
 
     protected scaleResultNode = 1;
+    startRoundDuration = 2;
+    showResultDuration = 1;
     config = new BigSmallConfigs();
     miniRoundHistory: BigSmallMiniRoundHistory;
-    readonly shakingDuration = 2;
-    readonly showResultDuration = 1;
     private dicesStatistic: BigSmallDicesStatistic;
     private showStatistic = true;
 
@@ -79,31 +79,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.gameId = gameId;
         this.config = unbalancedBigSmallConfigs[gameId];
         this.renderTableGame(gameId);
-    }
-
-    initGameData() {
-        super.initGameData();
-        this.gameData.durations.addEvent(
-            Durations.Events.SHOW_ANIMATION,
-            {
-                startTimePoint: this.config.fullTime,
-                endTimePoint: this.config.fullTime - this.showResultDuration
-            },
-            null,
-            Durations.Events.WAITING
-        );
-
-        this.gameData.durations.addEvent(
-            Durations.Events.STARTING_ROUND,
-            {
-                startTimePoint: this.config.betTime + this.shakingDuration,
-                endTimePoint: this.config.betTime
-            },
-            Durations.Events.WAITING,
-            Durations.Events.PLACING_BET
-        );
-
-        this.gameData.roundHistory.historySize = 100;
     }
 
     initGameDataEvents() {

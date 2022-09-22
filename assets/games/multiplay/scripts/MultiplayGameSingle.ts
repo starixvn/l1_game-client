@@ -37,7 +37,7 @@ export default class MultiplayGameSingle extends MiniGameBase {
         const countDownTimer = node.getComponent(CountDownProgressBar);
         if (countDownTimer) {
             this.countDownProgressBar = countDownTimer;
-            countDownTimer.setFulTimeRound(this.config.betTime);
+            countDownTimer.setFullRoundTime(this.config.betTime);
             this.animatedTime.setNumberColor("#0fdb5e", "#ff0000");
         }
     }

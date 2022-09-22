@@ -12,7 +12,7 @@ export default class AnimatedTime extends cc.Component {
     animated = true;
 
     @property
-    countDownAnim = false;
+    effectLastTime = false;
 
     protected timeToChangeColor = 5;
     protected changedColor: cc.Color = cc.Color.RED;
@@ -49,11 +49,11 @@ export default class AnimatedTime extends cc.Component {
             this.handleBetTimeAnimation(this.secondChar.node);
         }
 
-        if (this.countDownAnim && parseInt(time) <= this.timeToChangeColor) {
-            this.countDownWithAnimation(firstTimeChar, secondTimeChar);
-        } else {
-            this.firstChar.string = firstTimeChar;
-            this.secondChar.string = secondTimeChar;
+        this.firstChar.string = firstTimeChar;
+        this.secondChar.string = secondTimeChar;
+
+        if (this.effectLastTime && parseInt(time) <= this.timeToChangeColor) {
+            this.playEffectLastTime();
         }
 
         this.setColor(time, forceChangeColor);
@@ -92,16 +92,10 @@ export default class AnimatedTime extends cc.Component {
         this.changedColor = cc.Color.WHITE.fromHEX(changedColor);
     }
 
-    countDownWithAnimation(firstTimeChar: string, secondTimeChar: string) {
+    playEffectLastTime() {
         const groupTime = this.firstChar.node.parent;
         groupTime.scale = 0;
         groupTime.opacity = 0;
-        cc.tween(groupTime)
-            .call(() => {
-                this.firstChar.string = firstTimeChar;
-                this.secondChar.string = secondTimeChar;
-            })
-            .to(0.3, { scale: 1, opacity: 255 }, { easing: "easeInOutQuint" })
-            .start();
+        cc.tween(groupTime).to(0.3, { scale: 1, opacity: 255 }, { easing: "easeInOutQuint" }).start();
     }
 }

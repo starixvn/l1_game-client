@@ -11,7 +11,7 @@ import {
     handlePlacingBet,
     handleShakeDish,
     showResultWaitingIcon,
-    showRevertCountDown,
+    revertCountDown,
     updateLockingBetFrame
 } from "./actions/MegaSedieCustomActions";
 import { miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
@@ -55,7 +55,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     shakeDishAudio: cc.AudioSource = null;
 
     @property(cc.Node)
-    timeShowResult: cc.Node = null;
+    waitingDotsSubGame: cc.Node = null;
 
     @property(cc.Sprite)
     gameNameImage: cc.Sprite = null;
@@ -71,8 +71,8 @@ export default class MiniSedie extends MultiplayGameSingle {
     openPlateDuration = 0.5;
     openPlatePos = cc.v2(15, 30);
     private showLogs = true;
-    readonly shakingDuration = 2;
-    readonly showResultDuration = 2;
+    startRoundDuration = 2;
+    showResultDuration = 2;
     readonly wholeResultTime = 3;
 
     constructor() {
@@ -108,31 +108,6 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.renderTableGame(gameId);
     }
 
-    initGameData() {
-        super.initGameData();
-        this.gameData.durations.addEvent(
-            Durations.Events.SHOW_ANIMATION,
-            {
-                startTimePoint: this.config.fullTime,
-                endTimePoint: this.config.fullTime - this.showResultDuration + 1
-            },
-            null,
-            Durations.Events.WAITING
-        );
-
-        this.gameData.durations.addEvent(
-            Durations.Events.STARTING_ROUND,
-            {
-                startTimePoint: this.config.betTime + this.shakingDuration,
-                endTimePoint: this.config.betTime
-            },
-            Durations.Events.WAITING,
-            Durations.Events.PLACING_BET
-        );
-
-        this.gameData.roundHistory.historySize = 100;
-    }
-
     renderTableGame(gameId: number) {
         if (this.gameNameImage && this.tableGameBg) {
             this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`game-name-${window.i18n.curLang}-${gameId}`);
@@ -147,7 +122,7 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, updateLockingBetFrame);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, showResultWaitingIcon);
-        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, showRevertCountDown);
+        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, revertCountDown);
     }
 
     public highlightLastResult() {
@@ -292,10 +267,10 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.gameData.settlement.showStatus();
     }
 
-    timeAnimShowResult(show: boolean) {
-        if (this.timeShowResult) {
-            this.timeShowResult.opacity = show ? 0 : 255;
-            cc.tween(this.timeShowResult)
+    setWaitingDotsVisibility(show: boolean) {
+        if (this.waitingDotsSubGame) {
+            this.waitingDotsSubGame.opacity = show ? 0 : 255;
+            cc.tween(this.waitingDotsSubGame)
                 .to(0.3, { opacity: show ? 255 : 0 }, { easing: "easeInOutQuint" })
                 .start();
         }

@@ -13,7 +13,7 @@ import {
     placeBetSuccess,
     placeOwnChip,
     updateOwnBets,
-    updateTotalBets,
+    updateTotalBets
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -27,7 +27,7 @@ import {
     handleShowStatus,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String,
+    updateMD5String
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -38,7 +38,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -69,6 +69,8 @@ export default class MiniGameBase extends NewMiniGameBase {
     internalTweenNodes: cc.Node[] = [];
     readonly internalTweenTag = 99;
     public isChipCollecting = true;
+    startRoundDuration = 1;
+    showResultDuration = 1;
 
     override onLoad() {
         super.onLoad();
@@ -189,6 +191,26 @@ export default class MiniGameBase extends NewMiniGameBase {
             placingBet: this.config.betTime,
             lockingBet: this.config.stopBetTime
         });
+
+        this.gameData.durations.addEvent(
+            Durations.Events.SHOW_ANIMATION,
+            {
+                startTimePoint: this.config.fullTime,
+                endTimePoint: this.config.fullTime - this.showResultDuration
+            },
+            null,
+            Durations.Events.WAITING
+        );
+
+        this.gameData.durations.addEvent(
+            Durations.Events.STARTING_ROUND,
+            {
+                startTimePoint: this.config.betTime + this.startRoundDuration,
+                endTimePoint: this.config.betTime
+            },
+            Durations.Events.WAITING,
+            Durations.Events.PLACING_BET
+        );
     }
 
     emitterListener(emitter: EventEmitterBase, eventName: string, listener: (param: any) => any) {

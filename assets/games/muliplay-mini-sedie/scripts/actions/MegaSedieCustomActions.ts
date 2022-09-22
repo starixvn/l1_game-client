@@ -22,8 +22,8 @@ export const handleShakeDish = (game: MiniSedie) => () => {
 export const showResultWaitingIcon = (game: MiniSedie) => () => {
     if (game.countDownProgressBar) {
         game.animatedTime.node.active = false;
-        game.timeAnimShowResult(true);
-        game.countDownProgressBar.setVisibilityIndicator(false);
+        game.setWaitingDotsVisibility(true);
+        game.countDownProgressBar.setIndicatorVisibility(false);
     }
 };
 
@@ -36,7 +36,7 @@ export const updateLockingBetFrame =
         }
     };
 
-export const showRevertCountDown =
+export const revertCountDown =
     (game: MiniSedie) =>
     ({ globalRemaining }) => {
         const condition =
@@ -45,7 +45,7 @@ export const showRevertCountDown =
             !game.countDownProgressBar.isShowRevertCountDown;
 
         if (condition) {
-            game.timeAnimShowResult(false);
+            game.setWaitingDotsVisibility(false);
             const duration = globalRemaining - game.config.betTime;
             game.countDownProgressBar.revertCountDown(duration);
         }
