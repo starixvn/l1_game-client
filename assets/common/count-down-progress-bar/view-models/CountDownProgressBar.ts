@@ -8,7 +8,8 @@ export default class CountDownProgressBar extends cc.Component {
     @property(cc.Sprite)
     indicatorSprite: cc.Sprite = null;
 
-    private fullTimeRound: number;
+    private fullRoundTime: number;
+    public isShowRevertCountDown = false;
     private placingBetColor = "#0fdb5e";
     private lockingBetColor = "#ff0000";
 
@@ -17,12 +18,12 @@ export default class CountDownProgressBar extends cc.Component {
     }
 
     setFulTimeRound(time: number) {
-        this.fullTimeRound = time;
+        this.fullRoundTime = time;
     }
 
     updateProgress(remainingTime: number) {
         this.setVisibilityIndicator(true);
-        const value = remainingTime / this.fullTimeRound;
+        const value = remainingTime / this.fullRoundTime;
         this.indicatorSprite.fillRange = value;
     }
 
@@ -38,7 +39,15 @@ export default class CountDownProgressBar extends cc.Component {
         this.indicatorSprite.node.active = show;
     }
 
-    setVisibilityProgressBar(show: boolean) {
-        this.progressBar.active = show;
+    revertCountDown(duration: number) {
+        this.updateBetFrame();
+        this.setVisibilityIndicator(true);
+
+        this.isShowRevertCountDown = true;
+        cc.tween(this.indicatorSprite)
+            .to(duration, { fillRange: 1 }, { easing: "sineIn" })
+            .delay(duration)
+            .call(() => (this.isShowRevertCountDown = false))
+            .start();
     }
 }

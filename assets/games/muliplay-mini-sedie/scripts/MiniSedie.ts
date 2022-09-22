@@ -12,9 +12,9 @@ import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import {
     handlePlacingBet,
     handleShakeDish,
-    handleSubGameWaitingTime,
-    hideLockingBetSprite,
     updateLockingBetFrame,
+    showResultWaitingIcon,
+    showRevertCountDown
 } from "./actions/MegaSedieCustomActions";
 import { miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
 
@@ -73,9 +73,11 @@ export default class MiniSedie extends MultiplayGameSingle {
     openPlateDuration = 0.5;
     openPlatePos = cc.v2(15, 30);
     private showLogs = true;
-    protected startRoundDuration = 1;
     readonly shakingDuration = 2;
     readonly showResultDuration = 1;
+    readonly durationFlyChip = 1.2;
+    readonly durationAnimWinning = 2.8;
+    readonly wholeResultTime = 3;
 
     constructor() {
         super();
@@ -148,8 +150,8 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_STARTING_ROUND, handleShakeDish);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, updateLockingBetFrame);
-        this.emitterListener(this.gameData.durations, Durations.Events.CHANGE_REMAINING_TIME, handleSubGameWaitingTime);
-        this.emitterListener(this.gameData.durations, Durations.Events.SHOW_ANIMATION, hideLockingBetSprite);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, showResultWaitingIcon);
+        this.emitterListener(this.gameData.durations, Durations.Events.WAITING, showRevertCountDown);
     }
 
     public highlightLastResult() {
