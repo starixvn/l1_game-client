@@ -20,8 +20,11 @@ export const handleShakeDish = (game: MiniSedie) => () => {
 };
 
 export const showResultWaitingIcon = (game: MiniSedie) => () => {
-    game.timeAnimShowResult(true);
-    game.countDownProgressBar && game.countDownProgressBar.setVisibilityIndicator(false);
+    if (game.countDownProgressBar) {
+        game.animatedTime.node.active = false;
+        game.timeAnimShowResult(true);
+        game.countDownProgressBar.setVisibilityIndicator(false);
+    }
 };
 
 export const updateLockingBetFrame =

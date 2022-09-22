@@ -11,6 +11,9 @@ export default class AnimatedTime extends cc.Component {
     @property
     animated = true;
 
+    @property
+    countDownAnim = false;
+
     protected timeToChangeColor = 5;
     protected changedColor: cc.Color = cc.Color.RED;
     protected normalColor: cc.Color = cc.Color.WHITE;
@@ -45,8 +48,14 @@ export default class AnimatedTime extends cc.Component {
         if (this.secondChar.string !== secondTimeChar) {
             this.handleBetTimeAnimation(this.secondChar.node);
         }
-        this.firstChar.string = firstTimeChar;
-        this.secondChar.string = secondTimeChar;
+
+        if (this.countDownAnim && parseInt(time) <= this.timeToChangeColor) {
+            this.countDownWithAnimation(firstTimeChar, secondTimeChar);
+        } else {
+            this.firstChar.string = firstTimeChar;
+            this.secondChar.string = secondTimeChar;
+        }
+
         this.setColor(time, forceChangeColor);
     }
 
@@ -81,5 +90,18 @@ export default class AnimatedTime extends cc.Component {
     setNumberColor(normalColor: string, changedColor: string) {
         this.normalColor = cc.Color.WHITE.fromHEX(normalColor);
         this.changedColor = cc.Color.WHITE.fromHEX(changedColor);
+    }
+
+    countDownWithAnimation(firstTimeChar: string, secondTimeChar: string) {
+        const groupTime = this.firstChar.node.parent;
+        groupTime.scale = 0;
+        groupTime.opacity = 0;
+        cc.tween(groupTime)
+            .call(() => {
+                this.firstChar.string = firstTimeChar;
+                this.secondChar.string = secondTimeChar;
+            })
+            .to(0.3, { scale: 1, opacity: 255 }, { easing: "easeInOutQuint" })
+            .start();
     }
 }
