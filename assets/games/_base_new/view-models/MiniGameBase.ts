@@ -13,7 +13,7 @@ import {
     placeBetSuccess,
     placeOwnChip,
     updateOwnBets,
-    updateTotalBets
+    updateTotalBets,
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -27,7 +27,7 @@ import {
     handleShowStatus,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String
+    updateMD5String,
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -38,7 +38,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting
+    updateWaiting,
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -127,7 +127,6 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.stopInternalTweens();
         this.gameState = GameState.Actived;
         this.joinGame();
-        this.gameData.updateUI();
     }
 
     tween(node: cc.Node) {
