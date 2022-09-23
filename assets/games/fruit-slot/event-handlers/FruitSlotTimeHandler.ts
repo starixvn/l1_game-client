@@ -32,4 +32,8 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.timeWaitNode.active = true;
         this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
     }
+
+    handleInLockBetTime() {
+        this.main.statistic.addNextItemHistory();
+    }
 }

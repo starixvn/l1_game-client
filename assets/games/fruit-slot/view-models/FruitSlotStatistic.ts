@@ -1,5 +1,6 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
-import { FruitSlotRoundHistory } from "../event-handlers/FruitSlotRoundHistoryHandler";
+import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistoryModel";
 import FruitSlotMiniRoundHistoryItem from "./FruitSlotMiniRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
@@ -32,14 +33,33 @@ export default class FruitSlotStatistic extends cc.Component {
     private readonly maxItems = 100;
     private readonly maxCol = 20;
     private isRenderNext = false;
-    private rounds: any[] = [];
-    private items: any[] = [];
+    private rounds: FruitSlotRoundHistory[] = [];
+    private items: cc.Node[] = [];
+    private symbolsKey = {
+        bar: "bar",
+        tripleSeven: "tripleSeven",
+        star: "star",
+        bell: "bell",
+        watermelon: "watermelon",
+        orange: "orange",
+        lemon: "lemon",
+        cherry: "cherry"
+    };
+    private relatedSymbol = {
+        bar: ["bar", "bar50", "bar25"],
+        tripleSeven: ["tripleSeven", "tripleSeven3"],
+        star: ["star", "star3"],
+        bell: ["bell", "bell3"],
+        watermelon: ["watermelon", "watermelon3"],
+        orange: ["orange", "orange3"],
+        lemon: ["lemon", "lemon3"],
+        cherry: ["cherry", "cherry3"]
+    };
 
     onLoad() {
         this.commonDialog.addOnDidHide(() => {
             this.node.active = false;
         });
-        this.initMiniRoundHistory();
     }
 
     render(roundsHistory: FruitSlotRoundHistory[]) {
@@ -82,7 +102,7 @@ export default class FruitSlotStatistic extends cc.Component {
         this.isRenderNext = true;
     }
 
-    private initMiniRoundHistory() {
+    initMiniRoundHistory() {
         for (let i = 0; i < this.maxItems; i++) {
             const item = cc.instantiate(this.miniRoundHistoryItem);
             item.getComponent(FruitSlotMiniRoundHistoryItem).setData(null);
@@ -92,15 +112,9 @@ export default class FruitSlotStatistic extends cc.Component {
     }
 
     private calculatePercent() {
-        const symbolStatistic = { bar: 0, tripleSeven: 0, star: 0, bell: 0, watermelon: 0, orange: 0, lemon: 0, cherry: 0 };
         const bigSmallStatistic = { big: 0, small: 0 };
-        let total = 0;
         this.rounds.forEach((round) => {
             if (round) {
-                for (const key in symbolStatistic) {
-                    total += 1;
-                    round.settlementResult[key] && symbolStatistic[key]++;
-                }
                 if (round.settlementResult.big) {
                     bigSmallStatistic.big += 1;
                 } else {
@@ -110,11 +124,38 @@ export default class FruitSlotStatistic extends cc.Component {
         });
         this.bigPercent.string = `${bigSmallStatistic.big}% `;
         this.smallPercent.string = ` ${bigSmallStatistic.small}%`;
-        for (const key in symbolStatistic) {
-            this.symbolPercent.getChildByName(key).getComponent(cc.Label).string = `${
-                total === 0 ? 0 : (symbolStatistic[key] * total) / 100
-            }%`;
+        this.renderSymbolStatistic();
+    }
+
+    private renderSymbolStatistic() {
+        const statistic = {};
+        const detail = {};
+        let total = 0;
+        let percentTotal = 0;
+        this.rounds.forEach((round) => {
+            if (round) {
+                total += round.result.symbols.length;
+                for (const key in round.settlementResult) {
+                    round.settlementResult[key] && (detail[key] = (detail[key] ?? 0) + 1);
+                }
+            }
+        });
+
+        for (const key in this.symbolsKey) {
+            statistic[key] = 0;
+            for (const symbol in this.relatedSymbol[key]) {
+                statistic[key] += detail[this.relatedSymbol[key][symbol]] ?? 0;
+            }
+            const percent = +numberWithCommas((statistic[key] * 100) / total, 2);
+            key !== this.symbolsKey.cherry && (percentTotal += percent);
+            this.symbolPercent.getChildByName(key).getComponent(cc.Label).string = `${percent}%`;
         }
+        this.symbolPercent.getChildByName(this.symbolsKey.cherry).getComponent(cc.Label).string = `${numberWithCommas(
+            100 - percentTotal,
+            2
+        )}%`;
+        console.log(percentTotal);
+        console.log(statistic[this.symbolsKey.cherry] - percentTotal + 100);
     }
 
     private setDataHistory(isNextItem: boolean) {

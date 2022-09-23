@@ -1,10 +1,9 @@
-import { FruitSlotRoundHistory, FruitSlotBetHandler } from "./../event-handlers/FruitSlotHandler";
+import { FruitSlotBetHandler } from "./../event-handlers/FruitSlotHandler";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { FruitSlotConfig } from "./FruitSlotConfig";
 import FruitSlotBetOptionsUI from "./FruitSlotBetOptionsUI";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 import FruitSlotGameData from "../event-models/FruitSlotGameData";
-import { History } from "../../_new/_base/game-data-management/models/history";
 import FruitSlotMiniRoundHistory from "./FruitSlotMiniRoundHistory";
 import FruitSlotStatistic from "./FruitSlotStatistic";
 import FruitSlotAnimatedTimer from "./FruitSlotAnimatedTimer";
@@ -17,6 +16,10 @@ import { FruitSlotChoicesConst } from "../event-models/FruitSlotChoices";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { handleWaitingTime } from "../actions/FruitSlotCustomActions";
+import { RoundHistory } from "../../_base_new/models/RoundHistory";
+import { Settlement } from "../../_base_new/models/Settlement";
+import { handleRenderMiniRoundHistoryAndStatistic } from "../actions/FruitSlotJoinRoomActions";
+import { handleAfterSettlementResult, handleShowResult } from "../actions/FruitSlotFinishActions";
 
 const { ccclass, property } = cc._decorator;
 export const FruitSlotGameId = 59;
@@ -74,7 +77,6 @@ export default class FruitSlot extends NewGameRoomBase {
     onLoad() {
         this.gameData = new FruitSlotGameData();
         super.onLoad();
-        this.registerRoundHistoryEvents();
         this.registerDurationEvents();
         this.initStatistic();
         this.initGameDataEvents();
@@ -83,7 +85,6 @@ export default class FruitSlot extends NewGameRoomBase {
     openStatistic() {
         this.playClick();
         this.statistic.node.active = true;
-        this.statistic.render(this.gameData.roundHistory.list);
         this.statistic.commonDialog.showDialog();
     }
 
@@ -107,6 +108,9 @@ export default class FruitSlot extends NewGameRoomBase {
     initGameDataEvents() {
         console.log(this.gameData.durations);
         this.emitterListener(this.gameData.durations, Durations.Events.CHANGE_REMAINING_TIME, handleWaitingTime);
+        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.FIRST_LOAD, handleRenderMiniRoundHistoryAndStatistic);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
     }
 
     private initBetOptionsUI(node: cc.Node) {
@@ -129,13 +133,8 @@ export default class FruitSlot extends NewGameRoomBase {
         const statisticNode = cc.instantiate(this.statisticPrefab);
         this.statistic = statisticNode.getComponent(FruitSlotStatistic);
         this.statistic.node.active = false;
+        this.statistic.initMiniRoundHistory();
         this.currentMiniPanel.addDialog(statisticNode);
-    }
-
-    private registerRoundHistoryEvents() {
-        this.gameData.roundHistory.on(History.Events.CHANGE, (roundHistory: FruitSlotRoundHistory[]) => {
-            this.miniRoundHistory.render(roundHistory);
-        });
     }
 
     private registerDurationEvents() {
