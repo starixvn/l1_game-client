@@ -75,9 +75,8 @@ export const updateMD5String = (game: MiniGameBase) => (data) => {
     game.md5Component && game.md5Component.handleMD5Data(data);
 };
 
-export const updateBeginPlacingBet = (game: MiniGameBase) => () => {
+export const showHashAtPlacingBet = (game: MiniGameBase) => () => {
     game.gameData.resultHash.updateUI();
-    game.setWaitingDotsVisibility(false, false);
 };
 
 export const handleShowStatus = (game: MiniGameBase) => (status) => {

@@ -27,7 +27,7 @@ import {
     handleShowResult,
     handleShowStatus,
     onUM,
-    updateBeginPlacingBet,
+    showHashAtPlacingBet,
     updateMD5String
 } from "../actions/CommonAction";
 import {
@@ -239,7 +239,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.durations, Durations.Events.TIMEOUT, updateTimeOut);
         this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, updateLockBet);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, updatePlacingBet);
-        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, updateBeginPlacingBet);
+        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, showHashAtPlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.WAITING, updateWaiting);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, showCurrentRoundId);
         this.emitterListener(this.gameData.durations, Durations.Events.STARTING_ROUND, showCurrentRoundId);
