@@ -163,9 +163,7 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.closePlate(true);
         this.tween(this.dishNode)
             .call(() => {
-                this.animation.node.opacity = 255;
-                this.animation.node.position = cc.v3(0, 23, 0);
-                this.animation.node.scale = 1;
+                this.showOriginalDish();
             })
             .delay(0.5)
             .call(() => {
@@ -207,6 +205,12 @@ export default class MiniSedie extends MultiplayGameSingle {
     showDicesAndPlates() {
         this.animation.node.opacity = 255;
         this.setDotsVisibility(true);
+    }
+
+    showOriginalDish() {
+        this.animation.node.opacity = 255;
+        this.animation.node.position = cc.v3(0, 23, 0);
+        this.animation.node.scale = 1;
     }
 
     handleAnimResult() {

@@ -25,20 +25,21 @@ export default class MiniSedieSubGame extends MiniSedie {
         };
 
         const doLaterBlurDish = () => {
+            this.setChipsResult(settlement.result);
             cc.tween(this.animation.node)
-                .to(0.5, { opacity: 0, scale: 0, position: cc.v2(0, -80) }, { easing: "sineInOut" })
+                .to(0.5, { scale: 0.5, position: cc.v2(0, -80) }, { easing: "easeInOutBack" })
                 .start();
         };
 
-        const doLaterShowResult = () => {
-            this.setChipsResult(settlement.result);
-            cc.tween(this.chipResult).delay(0.2).to(0.8, { scale: 1, opacity: 255 }, { easing: "sineInOut" }).start();
-        };
+        // const doLaterShowResult = () => {
+        //     this.setChipsResult(settlement.result);
+        //     cc.tween(this.chipResult).delay(0.2).to(0.8, { scale: 1, opacity: 255 }, { easing: "sineInOut" }).start();
+        // };
 
         if (animated) {
             this.scheduleOnce(doLaterPayOut, 1.5);
             this.scheduleOnce(doLaterBlurDish, 2.5);
-            this.scheduleOnce(doLaterShowResult, 2.3);
+            //this.scheduleOnce(doLaterShowResult, 2.3);
         } else {
             this.showDicesAndPlates();
             this.dishNode.opacity = 0;
@@ -66,10 +67,6 @@ export default class MiniSedieSubGame extends MiniSedie {
         this.customScaleNode(node);
     }
 
-    hideDish() {
-        this.animation.node.opacity = 0;
-    }
-
     setChipsResult(result) {
         Object.keys(result).forEach((key, index) => {
             const frameName = result[key] ? "chip_do" : "chip_trang";
@@ -77,8 +74,8 @@ export default class MiniSedieSubGame extends MiniSedie {
         });
     }
 
-    resetDataAndUI() {
-        super.resetDataAndUI();
-        cc.tween(this.chipResult).to(0.2, { opacity: 0, scale: 0 }, { easing: "sineInOut" }).start();
-    }
+    // showOriginalDish() {
+    //     cc.tween(this.animation.node).to(0.2, { opacity: 0, scale: 0 }, { easing: "sineInOut" }).delay(0.2).start();
+    //     super.showOriginalDish();
+    // }
 }
