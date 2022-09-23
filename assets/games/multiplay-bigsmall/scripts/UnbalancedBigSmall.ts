@@ -108,10 +108,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     showSettlementResult(settlement: any) {
         this.setBgTimerVisibility(false);
         this.setDices(settlement.result, settlement.settlementResult);
-
-        if (this.currentDataLogs.length > 0) {
-            this.handleAnimResult();
-        }
+        this.handleAnimResult();
     }
 
     handleAnimResult() {

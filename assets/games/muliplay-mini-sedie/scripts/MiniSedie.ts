@@ -195,10 +195,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     showSettlementResult(settlement: any) {
         if (cc.RedT.GAME_IS_SHOWED) {
             this.setDots(settlement.result);
-
-            if (this.currentDataLogs.length > 0) {
-                this.handleAnimResult();
-            }
+            this.handleAnimResult();
         }
     }
 
