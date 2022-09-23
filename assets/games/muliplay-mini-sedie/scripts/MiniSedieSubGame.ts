@@ -47,6 +47,12 @@ export default class MiniSedieSubGame extends MiniSedie {
         }
     }
 
+    showOriginalDish() {
+        this.animation.node.opacity = 255;
+        this.animation.node.position = cc.v3(0, 23, 0);
+        this.animation.node.scale = 0.9;
+    }
+
     initMiniRoundHistory(node: cc.Node) {
         super.initMiniRoundHistory(node);
         this.miniRoundHistory.tip.node.opacity = 0;
