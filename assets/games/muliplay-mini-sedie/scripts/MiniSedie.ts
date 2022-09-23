@@ -1,5 +1,4 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
 import MD5Component from "../../_base/view-models/MD5Component";
@@ -299,9 +298,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     closePlate(animated = true) {
-        // this.animation.node.opacity = 255;
-        // this.animation.node.position = cc.v3(0, 23, 0);
-        // this.animation.node.scale = 1;
         if (animated) {
             const platePos = cc.v2(50, 100);
             this.dishNode.position = cc.v3(platePos);
@@ -315,19 +311,19 @@ export default class MiniSedie extends MultiplayGameSingle {
         }
     }
 
-    setGameRound(gameRoundId) {
-        if (!this.gameRound || gameRoundId < 0) {
-            return;
-        }
+    // setGameRound(gameRoundId) {
+    //     if (!this.gameRound || gameRoundId < 0) {
+    //         return;
+    //     }
 
-        const gameRound = this.formatGameRound(gameRoundId);
-        const typingLabel = this.gameRound.node.parent.getComponent(EffectAppearanceLabel);
-        if (typingLabel) {
-            typingLabel.string = gameRound;
-        } else {
-            this.gameRound.string = gameRound;
-        }
-    }
+    //     const gameRound = this.formatGameRound(gameRoundId);
+    //     const typingLabel = this.gameRound.node.parent.getComponent(EffectAppearanceLabel);
+    //     if (typingLabel) {
+    //         typingLabel.string = gameRound;
+    //     } else {
+    //         this.gameRound.string = gameRound;
+    //     }
+    // }
 
     checkCircleCountDown() {}
 }
