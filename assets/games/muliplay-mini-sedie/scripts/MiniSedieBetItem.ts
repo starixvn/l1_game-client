@@ -11,8 +11,4 @@ export default class MiniSedieBetItem extends BetItem {
             this.highlightBorder.active = highlight && !isAnimated;
         }
     }
-
-    public resetHighlight() {
-        this.highlight.active = false;
-    }
 }
