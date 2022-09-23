@@ -14,7 +14,7 @@ import {
     placeBetSuccess,
     placeOwnChip,
     updateOwnBets,
-    updateTotalBets,
+    updateTotalBets
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -27,8 +27,8 @@ import {
     handleShowResult,
     handleShowStatus,
     onUM,
-    showHashAtPlacingBet,
-    updateMD5String,
+    updateBeginPlacingBet,
+    updateMD5String
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -39,7 +39,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { GameConfigs } from "../models/GameConfigs";
@@ -239,7 +239,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.durations, Durations.Events.TIMEOUT, updateTimeOut);
         this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, updateLockBet);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, updatePlacingBet);
-        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, showHashAtPlacingBet);
+        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, updateBeginPlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.WAITING, updateWaiting);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, showCurrentRoundId);
         this.emitterListener(this.gameData.durations, Durations.Events.STARTING_ROUND, showCurrentRoundId);
@@ -329,12 +329,16 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.gameData.settlement.clearSettlement();
     }
 
-    setWaitingDotsVisibility(show: boolean) {
+    setWaitingDotsVisibility(show: boolean, animated = true) {
         if (this.waitingDotsSubGame) {
-            this.waitingDotsSubGame.opacity = show ? 0 : 255;
-            this.tween(this.waitingDotsSubGame)
-                .to(0.3, { opacity: show ? 255 : 0 }, { easing: "quintInOut" })
-                .start();
+            if (animated) {
+                this.waitingDotsSubGame.opacity = show ? 0 : 255;
+                this.tween(this.waitingDotsSubGame)
+                    .to(0.3, { opacity: show ? 255 : 0 }, { easing: "quintInOut" })
+                    .start();
+            } else {
+                this.waitingDotsSubGame.opacity = show ? 255 : 0;
+            }
         }
     }
 }

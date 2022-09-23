@@ -42,7 +42,6 @@ export const updatePlacingBet =
     ({ globalRemaining }) => {
         updateClockTime(game)({ globalRemaining });
         if (game.countDownProgressBar) {
-            game.countDownProgressBar.indicatorSprite.node.scaleY = -1;
             game.countDownProgressBar.updateBetFrame();
             game.countDownProgressBar.updateProgress(globalRemaining);
         }
