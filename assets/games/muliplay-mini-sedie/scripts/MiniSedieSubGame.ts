@@ -24,12 +24,12 @@ export default class MiniSedieSubGame extends MiniSedie {
             this.highlightAndPayout(settlement);
         };
 
-        const doLaterBlurDish = () => {
-            this.setChipsResult(settlement.result);
-            cc.tween(this.animation.node)
-                .to(0.5, { scale: 0.6, position: cc.v2(0, -88) }, { easing: "easeInOutBack" })
-                .start();
-        };
+        // const doLaterBlurDish = () => {
+        //     this.setChipsResult(settlement.result);
+        //     cc.tween(this.animation.node)
+        //         .to(0.5, { scale: 1, position: cc.v2(0, -88) }, { easing: "easeInOutBack" })
+        //         .start();
+        // };
 
         // const doLaterShowResult = () => {
         //     this.setChipsResult(settlement.result);
@@ -38,7 +38,7 @@ export default class MiniSedieSubGame extends MiniSedie {
 
         if (animated) {
             this.scheduleOnce(doLaterPayOut, 1.5);
-            this.scheduleOnce(doLaterBlurDish, 2.5);
+            //this.scheduleOnce(doLaterBlurDish, 2.5);
             //this.scheduleOnce(doLaterShowResult, 2.3);
         } else {
             this.showDicesAndPlates();

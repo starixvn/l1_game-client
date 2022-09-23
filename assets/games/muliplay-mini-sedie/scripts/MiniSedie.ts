@@ -210,7 +210,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     showOriginalDish() {
         this.animation.node.opacity = 255;
         this.animation.node.position = cc.v3(0, 23, 0);
-        this.animation.node.scale = 1;
+        this.animation.node.scale = 0.9;
     }
 
     handleAnimResult() {
