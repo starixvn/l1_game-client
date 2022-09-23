@@ -37,6 +37,9 @@ export default class MultiplayGame extends GameViewBase {
     @property(cc.Toggle)
     collapsedExpandButton: cc.Toggle = null;
 
+    @property(cc.Node)
+    bgShadow: cc.Node = null;
+
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
 
@@ -90,6 +93,7 @@ export default class MultiplayGame extends GameViewBase {
         }
         this.isGameOpened = true;
         this.collapsedExpandButton.isChecked = true;
+        this.bgShadow.active = true;
         this.showSubGamesWithAnimation(false);
     }
 
@@ -255,6 +259,7 @@ export default class MultiplayGame extends GameViewBase {
 
     handleCompactMode() {
         this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation() : this.hideSubGamesWithAnimation();
+        this.bgShadow.active = this.collapsedExpandButton.isChecked;
     }
 
     showSubGamesWithAnimation(isAnimated = true) {

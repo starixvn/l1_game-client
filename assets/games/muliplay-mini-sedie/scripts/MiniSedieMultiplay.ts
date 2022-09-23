@@ -12,9 +12,6 @@ export default class MiniSedieMultiplay extends MultiplayGame {
     @property(cc.Prefab)
     scoreBoardPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    bgShadow: cc.Node = null;
-
     gameIds: number[] = [MiniSedie1Id, MiniSedie2Id, MiniSedie3Id, MiniSedie4Id];
 
     constructor() {
@@ -25,11 +22,6 @@ export default class MiniSedieMultiplay extends MultiplayGame {
     onLoad() {
         super.onLoad();
         cc.sys.localStorage.setItem(KeyOpenScoreBoardStorage, "true");
-    }
-
-    onEnable() {
-        super.onEnable();
-        this.bgShadow.active = true;
     }
 
     createSubGameUI(gameId: number, location: number): cc.Node {
@@ -56,11 +48,6 @@ export default class MiniSedieMultiplay extends MultiplayGame {
         scoreBoard.openGameCallback = (gameId) => {
             this.switchGameToMain(gameId);
         };
-    }
-
-    handleCompactMode() {
-        super.handleCompactMode();
-        this.bgShadow.active = this.collapsedExpandButton.isChecked;
     }
 
     onCloseClick() {
