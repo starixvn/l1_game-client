@@ -27,7 +27,7 @@ export default class MiniSedieSubGame extends MiniSedie {
         const doLaterBlurDish = () => {
             this.setChipsResult(settlement.result);
             cc.tween(this.animation.node)
-                .to(0.5, { scale: 0.5, position: cc.v2(0, -80) }, { easing: "easeInOutBack" })
+                .to(0.5, { scale: 0.6, position: cc.v2(0, -88) }, { easing: "easeInOutBack" })
                 .start();
         };
 

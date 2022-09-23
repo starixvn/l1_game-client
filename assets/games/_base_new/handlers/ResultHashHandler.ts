@@ -14,7 +14,8 @@ export class ResultHashHandler extends BaseEventHandler<ResultHashType> {
     protected handle(event: ResultHashType) {
         const data = event.resultHash;
 
-        if (!!data.rawValue || !this.gameData.durations.isPlacingBet()) {
+        const isPlacingBet = this.gameData.durations.remaining <= this.gameData.durations.placingBet;
+        if (!!data.rawValue || !isPlacingBet) {
             this.gameData.resultHash.changeLater(data);
         } else {
             this.gameData.resultHash.change(data);
