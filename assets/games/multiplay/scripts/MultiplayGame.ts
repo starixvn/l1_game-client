@@ -46,15 +46,11 @@ export default class MultiplayGame extends GameViewBase {
     normalPrefabs: cc.Prefab[] = [];
     smallPrefabs: cc.Prefab[] = [];
     gameIds: number[] = [];
-
     mainGameId: number;
     locations = {};
     games = {};
     betChips: BetChips;
     currentBet: number;
-
-    singleComponent: MultiplayGameSingle = null;
-
     protected isGameOpened = false;
 
     onLoad() {
@@ -184,7 +180,6 @@ export default class MultiplayGame extends GameViewBase {
         single.onDisconnectCallback = () => {
             this.onCloseClick();
         };
-        this.singleComponent = single;
         return node;
     }
 
@@ -211,7 +206,6 @@ export default class MultiplayGame extends GameViewBase {
         single.betChips = this.betChips;
         single.isCollectChip = false;
         this.games[gameId] = single;
-        this.singleComponent = single;
         return node;
     }
 
