@@ -200,7 +200,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             })
             .delay(1)
             .call(() => {
-                AudioManager.getInstance().playSFX(this.shakeDishAudio.clip);
+                this.shakeDishAudio && AudioManager.getInstance().playSFX(this.shakeDishAudio.clip);
             })
             .delay(1)
             .call(() => {
