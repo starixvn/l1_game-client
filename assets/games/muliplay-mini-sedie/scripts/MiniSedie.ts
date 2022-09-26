@@ -196,6 +196,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     showSettlementResult(settlement: any) {
+        this.gameAudios && this.gameAudios.playEndGameAudio();
         if (cc.RedT.GAME_IS_SHOWED) {
             this.setDots(settlement.result);
             this.handleAnimResult();
