@@ -55,6 +55,9 @@ export default class MiniSedie extends MultiplayGameSingle {
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
+    @property(cc.Node)
+    positionRandomDot: cc.Node = null;
+
     public roundHistory: SedieRoundHistory = null;
     public miniRoundHistory: MiniRoundHistory = null;
     openPlateDuration = 0.5;
@@ -118,7 +121,9 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     public setDots(result) {
+        const randomOption = this.positionRandomDot.children[this.gameData.roundId % 5];
         Object.keys(result).forEach((key, index) => {
+            this.dots[index].node.position = randomOption.children[index].position;
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
         });
     }
