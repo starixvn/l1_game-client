@@ -3,9 +3,9 @@ import BetItem from "../../_base/view-models/BetItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class FruitSlotBetItem extends BetItem {
-    @property(cc.Label)
-    label: cc.Label = null;
+export default class FruitSlotBetItem extends BetItem {   
+    @property(cc.String)
+    betChoice = "";
 
     public resetHighlight() {
         this.highlight.active = false;

@@ -17,6 +17,7 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { handleWaitingTime } from "../actions/FruitSlotCustomActions";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
+import { showPlaceBetChips } from "../actions/FruitSlotPlaceBetActions";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { handleRenderMiniRoundHistoryAndStatistic } from "../actions/FruitSlotJoinRoomActions";
 import { handleAfterSettlementResult, handleShowResult } from "../actions/FruitSlotFinishActions";
@@ -78,8 +79,8 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData = new FruitSlotGameData();
         super.onLoad();
         this.registerDurationEvents();
-        this.initStatistic();
-        this.initGameDataEvents();
+        this.initStatistic();    
+        this.initGameDataEvents();    
     }
 
     openStatistic() {
@@ -103,7 +104,7 @@ export default class FruitSlot extends NewGameRoomBase {
         emitter.addListener(eventName, storage.listener);
         this.emitterStorages.push(storage);
         console.log("emitterListener");
-    }
+    }    
 
     initGameDataEvents() {
         console.log(this.gameData.durations);
@@ -112,7 +113,7 @@ export default class FruitSlot extends NewGameRoomBase {
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
     }
-
+        
     private initBetOptionsUI(node: cc.Node) {
         this.betOptionsUI = node.getComponent(FruitSlotBetOptionsUI);
         this.betOptionsUI.initBetOptions(this);
@@ -142,27 +143,15 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData.durations.on(NewDurations.Events.WAITING, updateWaiting(this));
     }
 
+    private registerPlaceBetEvent() {
+        
+    }
+
     timeAnimShowResult(show: boolean) {
         if (this.timeShowResult) {
             this.timeShowResult.active = show;
         }
-    }
-
-    // public disableButton(status: boolean) {
-    //     const disableButton = "btn_disable";
-    //     this.btnDouble.getChildByName(disableButton).active = status;
-    //     this.btnRebet.getChildByName(disableButton).active = status;
-    // }
-
-    // public initButtonStatus() {
-    //     console.log("button");
-    //     const disableButton = "btn_disable";
-    //     this.btnDouble.getComponent(NewButton).callback.selected = () =>
-    //         !this.btnDouble.getChildByName(disableButton).active && this.onDoubleClick();
-
-    //     this.btnRebet.getComponent(NewButton).callback.selected = () =>
-    //         !this.btnRebet.getChildByName(disableButton).active && this.onRebetClick();
-    // }
+    }    
 
     onDoubleClick() {
         this.playClick();
