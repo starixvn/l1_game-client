@@ -27,7 +27,6 @@ import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
-import TurboAutoSpinSettingDialog from "./TurboAutoSpinSettingDialog";
 import { RoundType } from "./SlotGameBottomMessage";
 
 export interface LineData {

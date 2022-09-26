@@ -129,7 +129,6 @@ export default class LineView extends cc.Component {
         widget.isAlignRight = true;
         widget.right = 0;
         mask.height = 100;
-        // mask.addComponent(cc.Mask);
         node.addChild(mask);
         return node;
     }

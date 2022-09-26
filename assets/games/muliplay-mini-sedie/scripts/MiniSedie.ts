@@ -312,19 +312,5 @@ export default class MiniSedie extends MultiplayGameSingle {
         }
     }
 
-    // setGameRound(gameRoundId) {
-    //     if (!this.gameRound || gameRoundId < 0) {
-    //         return;
-    //     }
-
-    //     const gameRound = this.formatGameRound(gameRoundId);
-    //     const typingLabel = this.gameRound.node.parent.getComponent(EffectAppearanceLabel);
-    //     if (typingLabel) {
-    //         typingLabel.string = gameRound;
-    //     } else {
-    //         this.gameRound.string = gameRound;
-    //     }
-    // }
-
     checkCircleCountDown() {}
 }
