@@ -22,8 +22,7 @@ export default class UnbalncedBigSmallHistoryItem extends MultiplayGameHistoryIt
     setData(data: any, index: number) {
         super.setData(data, index);
         this.stake.string = numberWithCommas(data.totalAmount, 2);
-        const result = data.result;
-        this.setResultData(result);
+        this.setResultData(data);
         const winChoice = +data.big > 0 ? "big" : "small";
         const textWinChoice = i18n.t(`ui.choice_${winChoice}`);
         this.betChoice.string = textWinChoice.toUpperCase();
@@ -32,10 +31,11 @@ export default class UnbalncedBigSmallHistoryItem extends MultiplayGameHistoryIt
         }
     }
 
-    setResultData(result: any) {
+    setResultData(data: any) {
+        const { result, settlementResult } = data;
         const resultNode = cc.instantiate(this.resultPrefab);
         const resultControl = resultNode.getComponent(MultiplayGameHistoryResult);
-        resultControl.setResult(result);
+        resultControl.setResult(result, settlementResult);
         this.result.addChild(resultNode);
     }
 }
