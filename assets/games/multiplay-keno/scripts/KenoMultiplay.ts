@@ -1,4 +1,4 @@
-import MultiplayGameHistory from "../../multiplay-bigsmall/scripts/MultiplayGameHistory";
+import MultiplayGameHistory from "../../multiplay/scripts/MultiplayGameHistory";
 import MultiplayTableGame from "../../multiplay/scripts/MultiplayTableGame";
 import MegaKeno from "./MegaKeno";
 import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "./MegaKenoConfig";
@@ -36,6 +36,6 @@ export default class KenoMultiplay extends MultiplayTableGame {
         const dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.addDialog(dialog);
         const control = dialog.getComponent(MultiplayGameHistory);
-        control.handleSocketFromGame(this.gameId);
+        control.initDefaultGame(this.gameId);
     }
 }

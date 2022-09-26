@@ -33,7 +33,7 @@ export default class MultiplayGame extends GameViewBase {
     @property(cc.Prefab)
     smallPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
+    @property({ type: cc.Node })
     subGamesArea: cc.Node[] = [];
 
     @property(cc.Toggle)
@@ -93,12 +93,11 @@ export default class MultiplayGame extends GameViewBase {
             this.initMultiplayLayout();
         }
         this.isGameOpened = true;
-        this.bgShadow.active = true;
+        this.bgShadow && (this.bgShadow.active = true);
 
         const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         this.collapsedExpandButton.isChecked = gameSetting.openSubGames ?? true;
         this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation(false) : this.hideSubGamesWithAnimation(false);
-
         this.promotionGuideComp.showGuide();
     }
 
@@ -240,7 +239,7 @@ export default class MultiplayGame extends GameViewBase {
 
     initBetChipByLoader(node: cc.Node) {
         this.betChips = node.getComponent(BetChips);
-        Object.values(this.games).forEach((game: MultiplayGameSingle) => {
+        Object.values(this.games).forEach((game: GameBase) => {
             game.betChips = node.getComponent(BetChips);
         });
 
@@ -275,7 +274,7 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     showSubGamesWithAnimation(isAnimated = true) {
-        this.bgShadow.active = true;
+        this.bgShadow && (this.bgShadow.active = true);
         if (isAnimated) {
             this.subGamesArea.forEach((node: cc.Node) => {
                 cc.tween(node).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
@@ -288,7 +287,7 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     hideSubGamesWithAnimation(isAnimated = true) {
-        this.bgShadow.active = false;
+        this.bgShadow && (this.bgShadow.active = false);
         if (isAnimated) {
             this.subGamesArea.forEach((node: cc.Node) => {
                 cc.tween(node).to(0.2, { scale: 0 }, { easing: "sineIn" }).start();

@@ -9,7 +9,7 @@ export default class DropDownList extends cc.Component {
     prefabItem: cc.Prefab = null;
 
     @property(cc.Node)
-    items: cc.Node = null;
+    content: cc.Node = null;
 
     @property(cc.Node)
     optionContainer: cc.Node = null;
@@ -19,16 +19,7 @@ export default class DropDownList extends cc.Component {
 
     private options: DropDownOption[] = [];
 
-    public selectedItem: DropDownOption = null;
-
-    public onSelectedItemChanged: () => void;
-
-    init(options: DropDownOption[], onSelectedItemChanged: () => void) {
-        this.options = options;
-        this.selectedItem = this.options[0];
-        this.captionLabel.string = this.selectedItem.text;
-        this.onSelectedItemChanged = onSelectedItemChanged;
-    }
+    public onSelectedItemChanged: (itemId: number) => void;
 
     onLoad() {
         this.optionContainer.active = false;
@@ -42,34 +33,52 @@ export default class DropDownList extends cc.Component {
         }
     }
 
-    addItem(option: DropDownOption) {
-        const itemNode = cc.instantiate(this.prefabItem);
-        const itemComponent: DropDownItem = itemNode.getComponent(DropDownItem);
-        itemComponent.setData(option);
-        itemNode.on(cc.Node.EventType.TOUCH_END, this.onSelectItem, this);
-        this.items.addChild(itemNode);
+    init(options: DropDownOption[], onSelectedItemChanged: (itemId: number) => void) {
+        this.options = options;
+        this.initListItems();
+        this.onSelectedItemChanged = onSelectedItemChanged;
+
+        const selectedOption = this.options[0];
+        this.updateCaption(selectedOption);
     }
 
-    onSelectItem(event: cc.Event.EventTouch) {
+    closeDropDown() {
+        this.optionContainer.active = false;
+    }
+
+    protected updateCaption(option: DropDownOption) {
+        this.captionLabel.string = option.text;
+    }
+
+    protected addItem(option: DropDownOption) {
+        const itemNode = cc.instantiate(this.prefabItem);
+        const itemComponent = itemNode.getComponent(DropDownItem);
+        itemComponent.setData(option);
+        itemNode.on(cc.Node.EventType.TOUCH_END, this.onSelectItem, this);
+        this.content.addChild(itemNode);
+    }
+
+    protected onSelectedOption(option: DropDownOption) {
+        this.updateCaption(option);
+        this.onSelectedItemChanged(option.itemId);
+    }
+
+    protected onSelectItem(event: cc.Event.EventTouch) {
         const component = event.currentTarget.getComponent(DropDownItem);
         if (component) {
-            this.selectedItem = component.option;
-            this.captionLabel.string = this.selectedItem.text;
-            this.onSelectedItemChanged();
+            this.onSelectedOption(component.option);
         }
 
         this.closeDropDown();
     }
 
-    openDropDown() {
+    protected initListItems() {
         this.options.forEach((option) => {
-            option.gameId !== this.selectedItem.gameId && this.addItem(option);
+            this.addItem(option);
         });
-        this.optionContainer.active = true;
     }
 
-    closeDropDown() {
-        this.optionContainer.active = false;
-        this.items.destroyAllChildren();
+    protected openDropDown() {
+        this.optionContainer.active = true;
     }
 }

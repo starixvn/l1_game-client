@@ -1,8 +1,8 @@
 import { lazyInject } from "../../../Application";
+import GameUtils from "../../../common/GameUtils";
 import { getGameName } from "../../../configs/GameConfigurations";
 import SocketIOController from "../../../SocketIOController";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
-import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 

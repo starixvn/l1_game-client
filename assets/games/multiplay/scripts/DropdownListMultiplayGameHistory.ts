@@ -1,11 +1,14 @@
-import MultiplayGameHistory from "./MultiplayGameHistory";
 import NewDropDownList from "../../../common/new-drop-down-list/view-models/NewDropDownList";
 import NewDropDownOption from "../../../common/new-drop-down-list/view-models/NewDropDownOption";
+import MultiplayGameHistory from "./MultiplayGameHistory";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class DropdownListMultiplayGameHistory extends MultiplayGameHistory {
+    @property({ type: cc.Node, visible: false, override: true })
+    tabContainer: cc.Node = null;
+
     @property({ visible: false, override: true, type: cc.ScrollView })
     scrollView: cc.ScrollView = null;
 

@@ -31,7 +31,7 @@ export default class MiniKenoHistoryItem extends KenoHistoryItem {
     }
 
     onTotalClick() {
-        this.main.kenoGameDropDownList.closeDropDown();
+        this.main.dropdownList.closeDropDown();
         this.main.showHistoryDetail(this.roundId.string, this.result, this.settlementResult, this.betLogDetails);
     }
 
