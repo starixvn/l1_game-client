@@ -9,8 +9,7 @@ import FruitSlotChips from "../view-models/FruitSlotChips";
 export const showPlaceBetChips =
     (
         bettingAreas: FruitSlotBetItem[],
-        betChips: BetChips,
-        shadowChip: cc.SpriteFrame,
+        betChips: BetChips,       
         fruitSlotChips: FruitSlotChips,
         gameData: FruitSlotGameData,
         mainGame: FruitSlot
@@ -20,6 +19,6 @@ export const showPlaceBetChips =
         const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
         if (bettingArea && bettingArea.chipNode) {
             //mainGame.playSingleChipsSound();
-            fruitSlotChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, currentAmount, totalAmount);
+            fruitSlotChips.flyChipToBetPlace(betChips, bettingArea.chipNode, currentAmount, totalAmount);
         }
     };

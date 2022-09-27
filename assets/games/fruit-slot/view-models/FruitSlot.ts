@@ -10,17 +10,17 @@ import FruitSlotAnimatedTimer from "./FruitSlotAnimatedTimer";
 import { updateWaiting } from "./FruitSlotRenderClock";
 import { NewDurations } from "../../_base_new/models/NewDurations";
 import GameUtils from "../../../common/GameUtils";
-import NewButton from "../../../common/custom-button/NewButton";
 import FruitSlotPlacingBet from "./FruitSlotPlacingBet";
 import { FruitSlotChoicesConst } from "../event-models/FruitSlotChoices";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { handleWaitingTime } from "../actions/FruitSlotCustomActions";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
-import { showPlaceBetChips } from "../actions/FruitSlotPlaceBetActions";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { handleRenderMiniRoundHistoryAndStatistic } from "../actions/FruitSlotJoinRoomActions";
 import { handleAfterSettlementResult, handleShowResult } from "../actions/FruitSlotFinishActions";
+import FruitSlotBetItem from "./FruitSlotBetItem";
+import FruitSlotChips from "./FruitSlotChips";
 
 const { ccclass, property } = cc._decorator;
 export const FruitSlotGameId = 59;
@@ -44,8 +44,8 @@ export default class FruitSlot extends NewGameRoomBase {
     @property(cc.Node)
     timeWaitDot: cc.Node = null;
 
-    @property(cc.Node)
-    chipContainer: cc.Node = null;
+    // @property(cc.Node)
+    // chipContainer: cc.Node = null;
 
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
@@ -56,6 +56,12 @@ export default class FruitSlot extends NewGameRoomBase {
     @property(cc.Node)
     timeShowResult: cc.Node = null;
 
+    @property(cc.SpriteFrame)
+    shadowChip: cc.SpriteFrame = null;
+
+    @property({ type: [cc.Component] })
+    protected bettingAreas: FruitSlotBetItem[] = [];
+
     public gameData: FruitSlotGameData = null;
     public config: FruitSlotConfig;
     public betOptionsUI: FruitSlotBetOptionsUI = null;
@@ -64,6 +70,7 @@ export default class FruitSlot extends NewGameRoomBase {
     public timeHandler: FruitSlotTimeHandler;
     public animatedTime: FruitSlotAnimatedTimer = null;
     private placingBet: FruitSlotPlacingBet = null;
+    public fruitSlotChips: FruitSlotChips;    
     emitterStorages: EmitterStorage[] = [];
 
     currentBetChoices: any = {};
@@ -79,8 +86,8 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData = new FruitSlotGameData();
         super.onLoad();
         this.registerDurationEvents();
-        this.initStatistic();    
-        this.initGameDataEvents();    
+        this.initStatistic();
+        this.initGameDataEvents();        
     }
 
     openStatistic() {
@@ -104,7 +111,7 @@ export default class FruitSlot extends NewGameRoomBase {
         emitter.addListener(eventName, storage.listener);
         this.emitterStorages.push(storage);
         console.log("emitterListener");
-    }    
+    }
 
     initGameDataEvents() {
         console.log(this.gameData.durations);
@@ -113,13 +120,12 @@ export default class FruitSlot extends NewGameRoomBase {
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
     }
-        
+
     private initBetOptionsUI(node: cc.Node) {
         this.betOptionsUI = node.getComponent(FruitSlotBetOptionsUI);
         this.betOptionsUI.initBetOptions(this);
 
-        this.betItems?.forEach((item) => {
-            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
+        this.betItems?.forEach((item) => {            
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
         });
@@ -141,17 +147,13 @@ export default class FruitSlot extends NewGameRoomBase {
     private registerDurationEvents() {
         console.log("registerDurationEvents", NewDurations.Events.WAITING);
         this.gameData.durations.on(NewDurations.Events.WAITING, updateWaiting(this));
-    }
-
-    private registerPlaceBetEvent() {
-        
-    }
+    }    
 
     timeAnimShowResult(show: boolean) {
         if (this.timeShowResult) {
             this.timeShowResult.active = show;
         }
-    }    
+    }
 
     onDoubleClick() {
         this.playClick();

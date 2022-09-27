@@ -19,7 +19,13 @@ export class FruitSlotPlaceBetModel extends EventEmitterBase {
     previousChoices: any;
 
     placeBet(choice: string, amount: number) {
-        this.choices
+        this.choices[choice] = this.choices[choice] ? this.choices[choice] + amount : amount;
+        this.emit(FruitSlotPlaceBetModel.Events.PLACE_BET, this);
+        this.emit(FruitSlotPlaceBetModel.Events.PLACE_BET_CHIPS, {
+            currentChoice: choice,
+            currentAmount: amount,
+            totalAmount: this.choices[choice]
+        })
     }
 
     double(choice: string, amount: number) {

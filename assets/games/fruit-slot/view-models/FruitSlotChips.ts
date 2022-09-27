@@ -15,16 +15,16 @@ export default class FruitSlotChips extends cc.Component {
         return betChips.createSmallChip(amount, 1, true);
     }
 
-    public convertAndCreateChipStack(betAmount: number, betChips: BetChips, shadowFrame: cc.SpriteFrame) {
+    public convertAndCreateChipStack(betAmount: number, betChips: BetChips) {
         const values = this.convertChips(betAmount, betChips.chipValues);
-        return this.createChipStack(values, betChips, shadowFrame);
+        return this.createChipStack(values, betChips);
     }
 
     convertChips(betAmount, chipValues) {
         return GameUtils.getChipQuantity(betAmount, chipValues);
     }
 
-    createChipStack(chipQuantity, betChips: BetChips, shadowFrame: cc.SpriteFrame): cc.Node {
+    createChipStack(chipQuantity, betChips: BetChips): cc.Node {
         const node = new cc.Node();
         node.scaleX = this.chipScaleX;
         node.scaleY = this.chipScaleY;
@@ -40,14 +40,7 @@ export default class FruitSlotChips extends cc.Component {
                 const count = chipQuantity[chip];
                 for (let i = 0; i < count; i++) {
                     const chipNode = this.createChip(betChips, +chip);
-                    chipStack.addChip(chipNode);
-
-                    if (firstChip && i === 0) {
-                        firstChip = false;
-                        const shadow = new cc.Node();
-                        shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
-                        chipNode.addChild(shadow);
-                    }
+                    chipStack.addChip(chipNode);                    
                 }
             }
         });
@@ -55,7 +48,7 @@ export default class FruitSlotChips extends cc.Component {
         return node;
     }
 
-    public flyChipToBetPlace(betChips: BetChips, destNode: cc.Node, shadowChip: cc.SpriteFrame, betAmount: number, totalAmount: number) {
+    public flyChipToBetPlace(betChips: BetChips, destNode: cc.Node, betAmount: number, totalAmount: number) {
         if (!betAmount) {
             return;
         }
@@ -84,14 +77,14 @@ export default class FruitSlotChips extends cc.Component {
             .delay(jumpChipDuration)
             .call(() => {
                 const chipsQuantity = this.convertChips(totalAmount, betChips.chipValues);
-                this.updateChipStack(betChips, destNode, shadowChip, chipsQuantity);
+                this.updateChipStack(betChips, destNode, chipsQuantity);
             })
             .start();
     }
 
-    public updateChipStack(betChips: BetChips, destNode: cc.Node, shadowChip: cc.SpriteFrame, chipsQuantity: []) {
+    public updateChipStack(betChips: BetChips, destNode: cc.Node, chipsQuantity: []) {
         destNode.destroyAllChildren();
-        const chipStack = this.createChipStack(chipsQuantity, betChips, shadowChip);
+        const chipStack = this.createChipStack(chipsQuantity, betChips);
         chipStack.zIndex = -1;
         destNode.addChild(chipStack);
     }
