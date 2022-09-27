@@ -14,15 +14,20 @@ export default class StaticGroup extends cc.Component {
     @property
     groupId = 0;
 
+    @property({ type: cc.Node })
+    dynamicRootNodes: cc.Node[] = [];
+
     @property
     usingLayout = false;
 
     private initialized = false;
 
     onLoad() {
-        this.node.parent.on(cc.Node.EventType.SCALE_CHANGED, () => {
-            this.container.getComponentsInChildren(StaticNode).forEach((node) => node.node.active && node.updatePosition());
-        });
+        this.dynamicRootNodes.forEach((node) =>
+            node.on(cc.Node.EventType.SCALE_CHANGED, () => {
+                this.container.getComponentsInChildren(StaticNode).forEach((node) => node.node.active && node.updatePosition());
+            })
+        );
     }
 
     lateUpdate() {
