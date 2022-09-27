@@ -29,9 +29,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     @property(cc.Prefab)
     roundHistoryPrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    roundHistoryContainer: cc.Node = null;
-
     @property(cc.Prefab)
     miniRoundHistoryPrefab: cc.Prefab = null;
 
@@ -56,16 +53,16 @@ export default class MiniSedie extends MultiplayGameSingle {
     @property(cc.Node)
     positionRandomDot: cc.Node = null;
 
-    public roundHistory: SedieRoundHistory = null;
+    public statisticHistory: SedieRoundHistory = null;
     public miniRoundHistory: MiniRoundHistory = null;
     openPlateDuration = 0.5;
     openPlatePos = cc.v2(15, 30);
-    private showLogs = true;
     startRoundDuration = 2;
 
     constructor() {
         super();
         this.gameId = MiniSedieId;
+        this.mainGameId = MiniSedieId;
     }
 
     onGameHide() {
@@ -81,11 +78,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     onLoad() {
         super.onLoad();
         this.animatedTime.setAnimatedY(30, -5);
-    }
-
-    onEnable() {
-        super.onEnable();
-        this.showRoundHistory(this.getStorageStatusStatistic(MiniSedieId));
     }
 
     setGameId(gameId: number) {
@@ -145,18 +137,8 @@ export default class MiniSedie extends MultiplayGameSingle {
             };
         });
 
-        this.roundHistory && this.roundHistory.setData(miniHistoryData.map((d) => d.red));
+        this.statisticHistory && this.statisticHistory.setData(miniHistoryData.map((d) => d.red));
         this.miniRoundHistory.setData(miniHistoryData);
-    }
-
-    public onToggleShowRoundResult() {
-        this.showLogs = !this.showLogs;
-        this.showRoundHistory(this.showLogs);
-        this.storageStatusStatistic(this.showLogs, MiniSedieId);
-    }
-
-    public showRoundHistory(show: boolean) {
-        this.roundHistoryContainer && (this.roundHistoryContainer.active = show);
     }
 
     shakeThePlate() {
@@ -272,13 +254,13 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     initRoundHistory(node: cc.Node) {
-        this.roundHistory = node.getComponent(SedieRoundHistory);
-        this.roundHistory.logControl.managedByParent = true;
+        this.statisticHistory = node.getComponent(SedieRoundHistory);
+        this.statisticHistory.logControl.managedByParent = true;
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, () => () => {
-            this.roundHistory.logControl.nextItemActive = false;
+            this.statisticHistory.logControl.nextItemActive = false;
         });
         this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, () => () => {
-            this.roundHistory.logControl.nextItemActive = true;
+            this.statisticHistory.logControl.nextItemActive = true;
         });
     }
 

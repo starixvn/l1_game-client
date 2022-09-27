@@ -1236,7 +1236,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "roundHistoryContainer",
+    "_name": "statisticHistory",
     "_objFlags": 0,
     "_parent": {
       "__id__": 5
@@ -12157,7 +12157,7 @@
     },
     "component": "",
     "_componentId": "479624SmnxOKJWbgpVxK9xX",
-    "handler": "onToggleShowRoundResult",
+    "handler": "openStatistic",
     "customEventData": ""
   },
   {
@@ -17014,9 +17014,6 @@
     },
     "roundHistoryPrefab": {
       "__uuid__": "64686262-0976-4749-9b04-6b4beea8a7cf"
-    },
-    "roundHistoryContainer": {
-      "__id__": 32
     },
     "miniRoundHistoryPrefab": {
       "__uuid__": "c53af6e4-60fc-4045-9209-bdbcee45a0d0"

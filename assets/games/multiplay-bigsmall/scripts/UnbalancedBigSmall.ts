@@ -52,18 +52,13 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     protected scaleResultNode = 1;
     startRoundDuration = 2;
     config = new BigSmallConfigs();
-    miniRoundHistory: BigSmallMiniRoundHistory;
-    private dicesStatistic: BigSmallDicesStatistic;
-    private showStatistic = true;
+    public miniRoundHistory: BigSmallMiniRoundHistory;
+    public statisticHistory: BigSmallDicesStatistic;
 
     constructor() {
         super();
         this.gameId = UnbalancedBigSmall1Id;
-    }
-
-    onEnable() {
-        super.onEnable();
-        this.handleShowStatistic(this.getStorageStatusStatistic(UnbalancedBigSmall1Id));
+        this.mainGameId = UnbalancedBigSmall1Id;
     }
 
     onGameHide() {
@@ -185,7 +180,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     protected updateRoundHistory() {
         this.miniRoundHistory.setData(this.currentDataLogs);
-        this.dicesStatistic && this.dicesStatistic.updateData(this.currentDataLogs);
+        this.statisticHistory && this.statisticHistory.updateData(this.currentDataLogs);
     }
 
     setDicesVisibility(show: boolean) {
@@ -264,16 +259,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     initStatisticBoard(node: cc.Node) {
         AudioManager.getInstance().playClick();
-        this.dicesStatistic = node.getComponent(BigSmallDicesStatistic);
-    }
-
-    public openStatistic() {
-        this.showStatistic = !this.showStatistic;
-        this.handleShowStatistic(this.showStatistic);
-        this.storageStatusStatistic(this.showStatistic, UnbalancedBigSmall1Id);
-    }
-
-    public handleShowStatistic(show: boolean) {
-        this.dicesStatistic && (this.dicesStatistic.node.active = show);
+        this.statisticHistory = node.getComponent(BigSmallDicesStatistic);
     }
 }

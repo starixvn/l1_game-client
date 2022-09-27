@@ -7,10 +7,18 @@ const { ccclass } = cc._decorator;
 export const KeyStorageStatisticOpen = "MultiStatisticStatus";
 
 @ccclass
-export default class MultiplayGameSingle extends MiniGameBase {
+export default abstract class MultiplayGameSingle extends MiniGameBase {
     protected override managedByContainer = true;
     public isMiniGameInContainer = true;
     public isBetSound = false;
+    protected showStatistic = true;
+    protected statisticHistory: cc.Component = null;
+    protected mainGameId: number;
+
+    onEnable() {
+        super.onEnable();
+        this.initStatusStatistic();
+    }
 
     public onDisconnectCallback = () => {
         // callback
@@ -50,11 +58,27 @@ export default class MultiplayGameSingle extends MiniGameBase {
         // without set value bet chip
     }
 
-    storageStatusStatistic(status: boolean, gameId: number) {
-        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${gameId}`, status);
+    private initStatusStatistic() {
+        const status = this.getStorageStatusStatistic();
+        this.handleShowStatistic(status);
+        this.showStatistic = status;
     }
 
-    getStorageStatusStatistic(gameId: number): boolean {
-        return cc.sys.localStorage.getItem(`${KeyStorageStatisticOpen}_${gameId}`) === "false" ? false : true;
+    private openStatistic() {
+        this.showStatistic = !this.showStatistic;
+        this.handleShowStatistic(this.showStatistic);
+        this.storageStatusStatistic(this.showStatistic);
+    }
+
+    private handleShowStatistic(show: boolean) {
+        this.statisticHistory && (this.statisticHistory.node.active = show);
+    }
+
+    private storageStatusStatistic(status: boolean) {
+        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.mainGameId}`, status);
+    }
+
+    private getStorageStatusStatistic(): boolean {
+        return cc.sys.localStorage.getItem(`${KeyStorageStatisticOpen}_${this.mainGameId}`) === "false" ? false : true;
     }
 }
