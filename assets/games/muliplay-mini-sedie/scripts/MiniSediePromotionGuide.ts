@@ -9,7 +9,7 @@ export default class MiniSediePromotionGuide extends SedieTutorial {
 
     onClickClose() {
         this.playClick();
-        this.node.destroy();
+        this.showHideGuide(false);
     }
 
     showHideGuide(show: boolean) {
