@@ -1,4 +1,5 @@
 import { BaseEventHandler } from "../../_new/_base/game-data-management/event-handlers/base-handler";
+import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import NewGameData from "../models/NewGameData";
 
 export type ResultHashType = {
@@ -14,8 +15,8 @@ export class ResultHashHandler extends BaseEventHandler<ResultHashType> {
     protected handle(event: ResultHashType) {
         const data = event.resultHash;
 
-        const isPlacingBet = this.gameData.durations.remaining <= this.gameData.durations.placingBet;
-        if (!!data.rawValue || !isPlacingBet) {
+        const changeLater = this.gameData.durations.isBeingSpecificPhase(Durations.Events.STARTING_ROUND);
+        if (!!data.rawValue || changeLater) {
             this.gameData.resultHash.changeLater(data);
         } else {
             this.gameData.resultHash.change(data);
