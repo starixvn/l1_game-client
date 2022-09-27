@@ -61,6 +61,11 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.gameId = UnbalancedBigSmall1Id;
     }
 
+    onEnable() {
+        super.onEnable();
+        this.handleShowStatistic(this.getStorageStatusStatistic(UnbalancedBigSmall1Id));
+    }
+
     onGameHide() {
         super.onGameHide();
         this.setBlurDishAndHideDices();
@@ -265,9 +270,10 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     public openStatistic() {
         this.showStatistic = !this.showStatistic;
         this.handleShowStatistic(this.showStatistic);
+        this.storageStatusStatistic(this.showStatistic, UnbalancedBigSmall1Id);
     }
 
     public handleShowStatistic(show: boolean) {
-        this.dicesStatistic.node.active = show;
+        this.dicesStatistic && (this.dicesStatistic.node.active = show);
     }
 }

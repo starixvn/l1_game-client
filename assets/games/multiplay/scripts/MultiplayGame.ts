@@ -6,7 +6,7 @@ import GameUtils from "../../../common/GameUtils";
 import SocketIOController from "../../../SocketIOController";
 import GameViewBase from "../../_base/GameViewBase";
 import { GameConfigs } from "../../_base_new/models/GameConfigs";
-import MultiplayGameSingle from "./MultiplayGameSingle";
+import MultiplayGameSingle, { KeyStorageStatisticOpen } from "./MultiplayGameSingle";
 
 const { ccclass, property } = cc._decorator;
 
@@ -63,6 +63,7 @@ export default class MultiplayGame extends GameViewBase {
             this.setGameConfigs.bind(this)
         );
         this.initDraggableItems();
+        this.resetStatisticShow();
     }
 
     initDraggableItems() {
@@ -249,6 +250,7 @@ export default class MultiplayGame extends GameViewBase {
     onCloseClick() {
         AudioManager.getInstance().playClick();
         this.node.active = false;
+        this.resetStatisticShow();
     }
 
     handleCompactMode() {
@@ -278,5 +280,9 @@ export default class MultiplayGame extends GameViewBase {
                 node.scale = 0;
             });
         }
+    }
+
+    resetStatisticShow() {
+        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.gameIds[0]}`, "true");
     }
 }

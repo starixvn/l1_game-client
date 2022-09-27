@@ -12,8 +12,6 @@ const { ccclass, property } = cc._decorator;
 
 export const MiniSedieId = 9;
 
-export const KeyOpenScoreBoardStorage = "multiSedieIsShowScoreboard";
-
 @ccclass
 export default class MiniSedie extends MultiplayGameSingle {
     @property({ type: cc.Sprite })
@@ -87,9 +85,7 @@ export default class MiniSedie extends MultiplayGameSingle {
 
     onEnable() {
         super.onEnable();
-        const isShow = cc.sys.localStorage.getItem(KeyOpenScoreBoardStorage);
-        this.showLogs = isShow === "false" ? false : true;
-        this.showRoundHistory(this.showLogs);
+        this.showRoundHistory(this.getStorageStatusStatistic(MiniSedieId));
     }
 
     setGameId(gameId: number) {
@@ -156,7 +152,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     public onToggleShowRoundResult() {
         this.showLogs = !this.showLogs;
         this.showRoundHistory(this.showLogs);
-        cc.sys.localStorage.setItem(KeyOpenScoreBoardStorage, this.showLogs);
+        this.storageStatusStatistic(this.showLogs, MiniSedieId);
     }
 
     public showRoundHistory(show: boolean) {

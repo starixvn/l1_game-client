@@ -2,7 +2,9 @@ import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import MultiplayGameHistory from "./MultiplayGameHistory";
 import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
+
+export const KeyStorageStatisticOpen = "MultiStatisticStatus";
 
 @ccclass
 export default class MultiplayGameSingle extends MiniGameBase {
@@ -10,7 +12,9 @@ export default class MultiplayGameSingle extends MiniGameBase {
     public isMiniGameInContainer = true;
     public isBetSound = false;
 
-    public onDisconnectCallback = () => {};
+    public onDisconnectCallback = () => {
+        // callback
+    };
 
     maximizeCallback = (gameId: number) => {
         //callback
@@ -44,5 +48,13 @@ export default class MultiplayGameSingle extends MiniGameBase {
     updateDisplayForRemoteConfig() {
         this.updateOddsFromConfigs();
         // without set value bet chip
+    }
+
+    storageStatusStatistic(status: boolean, gameId: number) {
+        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${gameId}`, status);
+    }
+
+    getStorageStatusStatistic(gameId: number): boolean {
+        return cc.sys.localStorage.getItem(`${KeyStorageStatisticOpen}_${gameId}`) === "false" ? false : true;
     }
 }

@@ -1,7 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import MultiplayGame from "../../multiplay/scripts/MultiplayGame";
 import MultiplayScoreBoard from "../../multiplay/scripts/MultiplayScoreBoard";
-import MiniSedie, { KeyOpenScoreBoardStorage } from "./MiniSedie";
+import MiniSedie from "./MiniSedie";
 import { MiniSedie1Id, MiniSedie2Id, MiniSedie3Id, MiniSedie4Id } from "./MiniSedieConfigs";
 import MiniSedieSubGame from "./MiniSedieSubGame";
 
@@ -17,11 +17,6 @@ export default class MiniSedieMultiplay extends MultiplayGame {
     constructor() {
         super();
         this.gameId = MiniSedie1Id;
-    }
-
-    onLoad() {
-        super.onLoad();
-        cc.sys.localStorage.setItem(KeyOpenScoreBoardStorage, "true");
     }
 
     createSubGameUI(gameId: number, location: number): cc.Node {
@@ -48,10 +43,5 @@ export default class MiniSedieMultiplay extends MultiplayGame {
         scoreBoard.openGameCallback = (gameId) => {
             this.switchGameToMain(gameId);
         };
-    }
-
-    onCloseClick() {
-        super.onCloseClick();
-        cc.sys.localStorage.setItem(KeyOpenScoreBoardStorage, "true");
     }
 }
