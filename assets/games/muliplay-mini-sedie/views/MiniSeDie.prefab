@@ -24,11 +24,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 132
+        "__id__": 134
       }
     ],
     "_prefab": {
-      "__id__": 133
+      "__id__": 135
     },
     "_opacity": 255,
     "_color": {
@@ -95,11 +95,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 130
+        "__id__": 132
       }
     ],
     "_prefab": {
-      "__id__": 131
+      "__id__": 133
     },
     "_opacity": 255,
     "_color": {
@@ -1863,12 +1863,15 @@
     "_children": [
       {
         "__id__": 55
+      },
+      {
+        "__id__": 129
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 129
+      "__id__": 131
     },
     "_opacity": 255,
     "_color": {
@@ -4648,6 +4651,77 @@
     "sync": false
   },
   {
+    "__type__": "cc.Node",
+    "_name": "promotion-guide",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 54
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [],
+    "_prefab": {
+      "__id__": 130
+    },
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        200,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "e0a04234-94fa-49ad-9b11-cf746a712cf4"
+    },
+    "fileId": "112YZlKp1Appkh1M8JuEHH",
+    "sync": false
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -4745,6 +4819,12 @@
     },
     "scoreBoardPrefab": {
       "__uuid__": "a6bce520-8432-4b9e-9352-3fdff8fde45f"
+    },
+    "promotionGuideNode": {
+      "__id__": 129
+    },
+    "promotionGuidePrefab": {
+      "__uuid__": "8c8d02f0-a0d7-4829-9785-880c60ad2ff7"
     },
     "_id": ""
   },

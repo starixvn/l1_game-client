@@ -33,10 +33,6 @@ export default class MiniSedieMultiplay extends MultiplayGame {
         // cc.sys.localStorage.setItem(KeyOpenScoreBoardStorage, "true");
     }
 
-    start() {
-        this.addPromotionGuide();
-    }
-
     onEnable() {
         super.onEnable();
         this.addPromotionGuide();
