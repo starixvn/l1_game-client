@@ -6,11 +6,9 @@ import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
 import { handlePlacingBet, handleShakeDish } from "./actions/MegaSedieCustomActions";
-import { miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
+import { MiniSedie1Id, miniSedieConfigs, tableGameColor } from "./MiniSedieConfigs";
 
 const { ccclass, property } = cc._decorator;
-
-export const MiniSedieId = 9;
 
 @ccclass
 export default class MiniSedie extends MultiplayGameSingle {
@@ -61,8 +59,8 @@ export default class MiniSedie extends MultiplayGameSingle {
 
     constructor() {
         super();
-        this.gameId = MiniSedieId;
-        this.mainGameId = MiniSedieId;
+        this.gameId = MiniSedie1Id;
+        this.mainGameId = MiniSedie1Id;
     }
 
     onGameHide() {
