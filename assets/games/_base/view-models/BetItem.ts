@@ -96,16 +96,21 @@ export default class BetItem extends cc.Component {
         this.chipNode.destroyAllChildren();
     }
 
-     public highLightOdds(boostedChoice) {
+    public highLightOdds(boostedChoice) {
         const color = cc.Color.WHITE;
         if (boostedChoice && this.enabledHighlightOdds) {
             const highlightOddsColor = this.odds.node.getComponent(ColorAssembler2D);
             this.odds.node.color = color.fromHEX("#FA3A35");
             highlightOddsColor.enabled = true;
-            this.highlightOddsBackground.active = true;
+            this.enableHighLightOddsBackground(true);
         } else {
             this.odds.node.color = color;
+            this.enabledHighlightOdds && this.enableHighLightOddsBackground(false);
         }
+    }
+
+    private enableHighLightOddsBackground(enabled = false) {
+        this.highlightOddsBackground.active = enabled;
     }
 
     public clearBet() {
