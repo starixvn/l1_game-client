@@ -9,6 +9,11 @@ export const phrases = {
     },
     lobbyNames: {
         9: "Xóc Đĩa Mini"
+    },
+    miniSedie: {
+        hotFeature: "Chơi nhiều bàn đồng thời...",
+        switchGame: "Mở rộng bàn cược",
+        clickOrTap: "Bấm hoặc chạm để đặt cược"
     }
 };
 

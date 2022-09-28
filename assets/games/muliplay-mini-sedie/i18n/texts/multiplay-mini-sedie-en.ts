@@ -9,6 +9,11 @@ export const phrases = {
     },
     lobbyNames: {
         9: "Mini Se Die"
+    },
+    miniSedie: {
+        hotFeature: "Hot New Feature with...",
+        switchGame: "Expand the game table",
+        clickOrTap: "Click or Tap to place bet"
     }
 };
 

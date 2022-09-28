@@ -34,11 +34,6 @@ export default class MiniSedieMultiplay extends MultiplayGame {
         this.addPromotionGuide();
     }
 
-    onEnable() {
-        super.onEnable();
-        this.promotionGuideComp.showHideGuide(true);
-    }
-
     addPromotionGuide() {
         if (!this.promotionGuideNode || !this.promotionGuidePrefab) {
             return;
