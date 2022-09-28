@@ -20,6 +20,7 @@ import { handleAfterSettlementResult, handleShowResult } from "../actions/FruitS
 import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotChips from "./FruitSlotChips";
 import { BetModel } from "../../_base_new/models/BetModel";
+import FruitSlotSpinItem from "./FruitSlotSpinItem";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -61,6 +62,9 @@ export default class FruitSlot extends NewGameRoomBase {
 
     @property({ type: [cc.Component] })
     protected bettingAreas: FruitSlotBetItem[] = [];
+
+    @property({ type: FruitSlotSpinItem })
+    spinItems: FruitSlotSpinItem[] = [];
 
     public gameData: FruitSlotGameData = null;
     public config: FruitSlotConfig;
@@ -183,5 +187,19 @@ export default class FruitSlot extends NewGameRoomBase {
             }
         }
         return total;
+    }
+
+    showGenerateResult(finish: any) {
+        const generatedItem = finish;
+        this.spinItems.forEach((spinItem: FruitSlotSpinItem) => {
+            const item = spinItem.node.name;
+            spinItem.setHighlightItems(generatedItem[item], true);
+            console.log(generatedItem[item]);
+        });
+    }
+
+    showSettlementResult(finish: any) {
+        const winChoice = finish;
+        console.log("showSettlementResult", winChoice);
     }
 }
