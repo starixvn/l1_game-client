@@ -41,7 +41,7 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.addDialog(dialog);
         const control = dialog.getComponent(MultiplayGameHistory);
-        control.handleSocketFromGame(this.gameId);
+        control.initDefaultGame(this.gameId);
     }
 
     initCountDownProgressBar(node: cc.Node) {

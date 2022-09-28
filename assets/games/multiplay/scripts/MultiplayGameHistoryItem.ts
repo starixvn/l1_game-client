@@ -12,6 +12,9 @@ export default class MultiplayGameHistoryItem extends cc.Component {
     round: cc.Label = null;
 
     @property(cc.Label)
+    gameName: cc.Label = null;
+
+    @property(cc.Label)
     win: cc.Label = null;
 
     @property(cc.Node)
@@ -19,6 +22,7 @@ export default class MultiplayGameHistoryItem extends cc.Component {
 
     setData(data: any, index: number) {
         this.time.string = getStringDateByTime(data.time);
+        this.gameName && (this.gameName.string = data.gameName);
         this.round.string = data.roundId.toString();
         this.win.string = numberWithCommas(data.betwin, 2);
         this.bgRow.active = index % 2 === 1;
