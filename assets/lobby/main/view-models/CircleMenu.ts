@@ -18,6 +18,7 @@ export default class CircleMenu extends GameIconMenu {
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     getList() {
+        console.log("mini list");
         const list = this.lobbyMenuConfig.miniList;
         return list.filter((i) => i === 0 || cc.RedT.user.offerGames.some((j) => j === i));
     }
@@ -27,6 +28,7 @@ export default class CircleMenu extends GameIconMenu {
     }
 
     addItem(id: number, prefab: cc.Prefab): cc.Node {
+        console.log("circle menu add ", id);
         const node = cc.instantiate(prefab);
         node.scale = 0.68;
         this.content.addChild(node);

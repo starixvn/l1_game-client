@@ -105,7 +105,11 @@ export function getAllGameConfigurations() {
 export function getGameConfigurationsWithFilter(filter: (configuration: GameConfiguration) => unknown) {
     const configurations = getAllGameConfigurations();
 
-    return configurations.filter(filter).sort((a, b) => a.order - b.order);
+    const filtered = configurations.filter(filter);
+    const result = filtered.sort((a, b) => a.order - b.order);
+    console.log("configurations", filtered);
+    console.log("result", result);
+    return result;
 }
 
 export function getGameIdsWithFilter(filter: (configuration: GameConfiguration) => unknown) {
