@@ -12,6 +12,11 @@ export const phrases = {
     },
     generalGameNames: {
         50: "Big Small City"
+    },
+    megaBigSmall: {
+        hotFeature: "Hot New Feature with...",
+        switchGame: "Expand the game table",
+        clickOrTap: "Click or Tap to place bet"
     }
 };
 

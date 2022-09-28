@@ -9,6 +9,11 @@ export const phrases = {
     },
     generalGameNames: {
         50: "Tài Xỉu City"
+    },
+    megaBigSmall: {
+        hotFeature: "Chơi nhiều bàn đồng thời...",
+        switchGame: "Mở rộng bàn cược",
+        clickOrTap: "Bấm hoặc chạm để đặt cược"
     }
 };
 

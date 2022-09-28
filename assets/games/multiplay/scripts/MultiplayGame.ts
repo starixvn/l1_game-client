@@ -7,6 +7,7 @@ import SocketIOController from "../../../SocketIOController";
 import GameViewBase from "../../_base/GameViewBase";
 import { GameConfigs } from "../../_base_new/models/GameConfigs";
 import MultiplayGameSingle, { KeyStorageStatisticOpen } from "./MultiplayGameSingle";
+import MultiplayPromotionGuide from "./MultiplayPromotionGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,6 +44,14 @@ export default class MultiplayGame extends GameViewBase {
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
 
+    @property(cc.Node)
+    promotionGuideNode: cc.Node = null;
+
+    @property(cc.Prefab)
+    promotionGuidePrefab: cc.Prefab = null;
+
+    promotionGuideComp: MultiplayPromotionGuide = null;
+
     normalPrefabs: cc.Prefab[] = [];
     smallPrefabs: cc.Prefab[] = [];
     gameIds: number[] = [];
@@ -64,6 +73,27 @@ export default class MultiplayGame extends GameViewBase {
         );
         this.initDraggableItems();
         this.resetStatisticShow();
+        this.addPromotionGuide();
+    }
+
+    addPromotionGuide() {
+        if (!this.promotionGuideNode || !this.promotionGuidePrefab) {
+            return;
+        }
+
+        this.promotionGuideNode.destroyAllChildren();
+        const guideNode = cc.instantiate(this.promotionGuidePrefab);
+        this.promotionGuideComp = guideNode.getComponent(MultiplayPromotionGuide);
+        const data = this.promotionGuideComp.getLocalStorageData();
+        if (!data.enabled) {
+            return;
+        }
+
+        this.promotionGuideNode.addChild(guideNode);
+        this.promotionGuideComp.dontShowAgainCallback = (dontShow: boolean) => {
+            data.enabled = !dontShow;
+            this.promotionGuideComp.setLocalStorageData(data);
+        };
     }
 
     initDraggableItems() {
