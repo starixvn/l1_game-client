@@ -90,7 +90,9 @@ export default class MultiplayGame extends GameViewBase {
         }
 
         this.promotionGuideNode.addChild(guideNode);
+        this.showAnimPromotionGuide();
         this.promotionGuideComp.dontShowAgainCallback = (dontShow: boolean) => {
+            cc.tween(this.promotionGuideNode).to(0.3, { scale: 0 }, { easing: "sineIn" }).start();
             data.enabled = !dontShow;
             this.promotionGuideComp.setLocalStorageData(data);
         };
@@ -122,10 +124,16 @@ export default class MultiplayGame extends GameViewBase {
         this.collapsedExpandButton.isChecked = true;
         this.bgShadow.active = true;
         this.showSubGamesWithAnimation(false);
+        this.promotionGuideNode.scale = 0;
+        this.showAnimPromotionGuide();
     }
 
     onDisable() {
         Object.values(this.games).forEach((game: MultiplayGameSingle) => game.cleanGame());
+    }
+
+    showAnimPromotionGuide() {
+        cc.tween(this.promotionGuideNode).delay(1).to(0.4, { scale: 1 }, { easing: "sineIn" }).start();
     }
 
     initSockets() {
