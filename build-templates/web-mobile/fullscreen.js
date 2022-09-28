@@ -76,9 +76,11 @@ function showInstructionAndScroll(isShow = true) {
     if (isShow) {
         instruction.style.visibility = "visible";
         document.body.style.overflowY = "scroll";
+        instruction.onclick = () => {};
     } else {
         instruction.style.visibility = "hidden";
         document.body.style.overflow = "hidden";
+        instruction.onclick = null;
     }
 }
 
