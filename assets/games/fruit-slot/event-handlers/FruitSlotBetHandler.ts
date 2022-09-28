@@ -1,7 +1,7 @@
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import FruitSlot from "../view-models/FruitSlot";
 import GameUtils from "../../../common/GameUtils";
-import * as _ from "lodash";
+import { lodash as _ } from "../../../ClientModules";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 
@@ -43,28 +43,20 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         const chipNode = this.main.betChips.createBigChip(data.ownChip.amount);
         const destNode = betItem.chipNode;
         const startNode = this.main.betChips.getChipNode(data.ownChip.amount);
-        chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToNodeSpaceAR(cc.v3(0, 0)));
+        chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
         destNode.addChild(chipNode);
 
         let destPosition = cc.v2(0, 0);
         destPosition = this.handleDestPosition(destNode, destPosition);
 
-        const betAmount = Object.values(data.ownBets).filter((obj) => {
-            return obj;
-        });
-        console.log("betAmount", betAmount);
+        const betAmount = data.ownBets[data.betChoice];
 
         chipNode.runAction(
             cc.sequence(
                 cc.jumpTo(chipFlyingDuration, destPosition, 150, 1),
                 cc.callFunc(() => {
                     destNode.destroyAllChildren();
-                    const chipStack = GameUtils.createChipStack(
-                        data.ownBets.betItem,
-                        this.main.betChips,
-                        this.main.shadowChip,
-                        destNode.skewX
-                    );
+                    const chipStack = GameUtils.createChipStack(betAmount, this.main.betChips, this.main.shadowChip, destNode.skewX);
                     chipStack.zIndex = -1;
                     destNode.addChild(chipStack);
                 })

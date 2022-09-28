@@ -154,8 +154,6 @@ export default class FruitSlotStatistic extends cc.Component {
             100 - percentTotal,
             2
         )}%`;
-        console.log(percentTotal);
-        console.log(statistic[this.symbolsKey.cherry] - percentTotal + 100);
     }
 
     private setDataHistory(isNextItem: boolean) {

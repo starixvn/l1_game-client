@@ -9,12 +9,14 @@ type FruitSlotFinishModel = {
 };
 
 export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishModel) => {
+    game.finishShowResult = false;
     game.gameData.settlement.finishShowResult(finish, true);
 };
 
 export const handleAfterSettlementResult =
     (game: FruitSlot) =>
     ({ settlement }: { settlement: FruitSlotFinishModel }) => {
+        game.finishShowResult = true;
         game.statistic.addItem(settlement);
         game.miniRoundHistory.addNewItem(settlement);
     };

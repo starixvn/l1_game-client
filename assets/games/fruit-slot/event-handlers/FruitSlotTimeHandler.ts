@@ -9,13 +9,9 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         super(main);
     }
 
-    handleWaitTime() {        
-        this.showWaitTime();
-
-        this.showMainTime(false);
-
-        this.main.showProcessingWarning(false);
-        this.main.setGameRound(this.main.roundId - 1);
+    handleWaitTime() {
+        super.handleWaitTime();
+        this.main.timeAnimShowResult(!this.main.finishShowResult);
     }
 
     showRoundTime() {
