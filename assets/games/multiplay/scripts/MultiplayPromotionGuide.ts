@@ -8,15 +8,28 @@ export default class MultiplayPromotionGuide extends SedieTutorial {
     withText: cc.Node = null;
 
     storageKey = "";
-    private isHideIntro;
+    private data;
 
     onLoad() {
         this.withText.active = window.i18n.curLang === "vi";
     }
 
+    showGuide() {
+        this.data = this.getLocalStorageData();
+        if (!this.data.enabled) {
+            return;
+        }
+        cc.tween(this.node).delay(1).to(0.3, { scale: 1, opacity: 255 }, { easing: "sineIn" }).start();
+    }
+
+    hideGuide() {
+        this.node.opacity = 0;
+        this.node.scale = 0.6;
+    }
+
     closeIntroduction() {
-        this.isHideIntro = true;
-        this.dontShowAgainCallback(this.isHideIntro);
-        this.node.destroy();
+        this.hideGuide();
+        this.data.enabled = false;
+        this.setLocalStorageData(this.data);
     }
 }

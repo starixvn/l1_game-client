@@ -44,12 +44,6 @@ export default class MultiplayGame extends GameViewBase {
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
 
-    @property(cc.Node)
-    promotionGuideNode: cc.Node = null;
-
-    @property(cc.Prefab)
-    promotionGuidePrefab: cc.Prefab = null;
-
     promotionGuideComp: MultiplayPromotionGuide = null;
 
     normalPrefabs: cc.Prefab[] = [];
@@ -73,29 +67,6 @@ export default class MultiplayGame extends GameViewBase {
         );
         this.initDraggableItems();
         this.resetStatisticShow();
-        this.addPromotionGuide();
-    }
-
-    addPromotionGuide() {
-        if (!this.promotionGuideNode || !this.promotionGuidePrefab) {
-            return;
-        }
-
-        this.promotionGuideNode.destroyAllChildren();
-        const guideNode = cc.instantiate(this.promotionGuidePrefab);
-        this.promotionGuideComp = guideNode.getComponent(MultiplayPromotionGuide);
-        const data = this.promotionGuideComp.getLocalStorageData();
-        if (!data.enabled) {
-            return;
-        }
-
-        this.promotionGuideNode.addChild(guideNode);
-        this.showAnimPromotionGuide();
-        this.promotionGuideComp.dontShowAgainCallback = (dontShow: boolean) => {
-            cc.tween(this.promotionGuideNode).to(0.3, { scale: 0 }, { easing: "sineIn" }).start();
-            data.enabled = !dontShow;
-            this.promotionGuideComp.setLocalStorageData(data);
-        };
     }
 
     initDraggableItems() {
@@ -124,16 +95,12 @@ export default class MultiplayGame extends GameViewBase {
         this.collapsedExpandButton.isChecked = true;
         this.bgShadow.active = true;
         this.showSubGamesWithAnimation(false);
-        this.promotionGuideNode.scale = 0;
-        this.showAnimPromotionGuide();
+        this.promotionGuideComp.showGuide();
     }
 
     onDisable() {
         Object.values(this.games).forEach((game: MultiplayGameSingle) => game.cleanGame());
-    }
-
-    showAnimPromotionGuide() {
-        cc.tween(this.promotionGuideNode).delay(1).to(0.4, { scale: 1 }, { easing: "sineIn" }).start();
+        this.promotionGuideComp && this.promotionGuideComp.hideGuide();
     }
 
     initSockets() {
@@ -322,5 +289,9 @@ export default class MultiplayGame extends GameViewBase {
 
     resetStatisticShow() {
         cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.gameIds[0]}`, "true");
+    }
+
+    initPromotionGuide(node: cc.Node) {
+        this.promotionGuideComp = node.getComponent(MultiplayPromotionGuide);
     }
 }
