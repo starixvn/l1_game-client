@@ -1,9 +1,9 @@
 import DropdownListMultiplayGameHistory from "../../multiplay/scripts/DropdownListMultiplayGameHistory";
 import MultiplaySedieHistoryItem from "./MiniSedieHistoryItem";
 import NewDropDownOption from "../../../common/new-drop-down-list/view-models/NewDropDownOption";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { MiniSedie1Id, MiniSedie2Id, MiniSedie3Id, MiniSedie4Id } from "./MiniSedieConfigs";
 import GameUtils from "../../../common/GameUtils";
+import { i18n } from "../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;
 

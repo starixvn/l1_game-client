@@ -1,9 +1,9 @@
 import UnbalncedBigSmallHistoryItem from "./UnbalncedBigSmallHistoryItem";
 import DropdownListMultiplayGameHistory from "../../multiplay/scripts/DropdownListMultiplayGameHistory";
 import NewDropDownOption from "../../../common/new-drop-down-list/view-models/NewDropDownOption";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { UnbalancedBigSmall1Id, UnbalancedBigSmall2Id, UnbalancedBigSmall3Id, UnbalancedBigSmall4Id } from "./UnbalancedBigSmallConfig";
 import GameUtils from "../../../common/GameUtils";
+import { i18n } from "../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;
 
