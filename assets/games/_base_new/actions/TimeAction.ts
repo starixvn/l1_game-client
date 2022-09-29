@@ -69,11 +69,11 @@ export const updateWaiting =
     };
 
 export const showCurrentRoundId = (game: MiniGameBase) => () => {
-    game.gameData.roundHistory && game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId + 1);
+    game.gameData.roundHistory.gotIngameData && game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId + 1);
 };
 
 export const showLastRoundId = (game: MiniGameBase) => () => {
-    game.gameData.roundHistory && game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId);
+    game.gameData.roundHistory.gotIngameData && game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId);
 };
 
 export const clearRoundData = (game: MiniGameBase) => () => {

@@ -5,6 +5,7 @@ type Choices = any;
 export class BetModel extends EventEmitterBase {
     static Events = {
         CHANGE_OWN_BET: "BetModel:CHANGE_OWN_BET",
+        UPDATE_PREVIOUS_BET: "BetModel:UPDATE_PREVIOUS_BET",
         CHANGE_BET_PERCENTAGE: "BetModel:CHANGE_BET_PERCENTAGE",
         CHANGE_OWN_CHIP: "BetModel:CHANGE_OWN_CHIP",
         CHANGE_PLAYER_CHIP: "BetModel:CHANGE_PLAYER_CHIP",
@@ -29,6 +30,7 @@ export class BetModel extends EventEmitterBase {
     changeOwnBets(choices: Choices) {
         this.ownBets = choices;
         this.emit(BetModel.Events.CHANGE_OWN_BET, this.ownBets);
+        this.emit(BetModel.Events.UPDATE_PREVIOUS_BET, this.ownBets);
     }
 
     placeBetSuccess(endBet: number) {

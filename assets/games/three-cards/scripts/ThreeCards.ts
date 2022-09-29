@@ -106,7 +106,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
                 roundId: this.roundId,
                 time: new Date().toUTCString()
             };
-            this.socket && this.socket.connected && this.socket.emit("bet", betData);
+            this.sendSocketData("bet", betData);
         }
     }
 

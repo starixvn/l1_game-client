@@ -83,7 +83,11 @@ export const handleRoundHistory = (game: any) => (roundHistory) => {
     }
 };
 
-export const changeGameRound = (game: any) => (roundId) => game.setGameRound(roundId);
+export const changeGameRound = (game: any) => (roundId) => {
+    game.roundId = roundId;
+    game.setGameRound(roundId);
+    game.updateRebetButtonStatus();
+};
 export const updateMD5String = (game: any) => (data) => {
     game.md5Component && game.md5Component.handleMD5Data(data);
 };

@@ -16,6 +16,16 @@ export const updateOwnBets = (gameBase: MiniGameBase) => (data) => {
     gameBase.betItems.forEach((item) => item.setOwnBetsData(data));
 };
 
+export const updatePreviousBets = (gameBase: MiniGameBase) => (data) => {
+    if (Object.keys(data).length > 0) {
+        gameBase.previousOwnBets = {
+            roundId: gameBase.roundId,
+            ownBets: data
+        };
+        gameBase.updateRebetButtonStatus();
+    }
+};
+
 export const placeBetFailed = (gameBase: MiniGameBase) => () => {
     gameBase.showProcessingWarning(false);
 };

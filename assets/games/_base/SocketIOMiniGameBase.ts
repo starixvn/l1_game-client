@@ -1,5 +1,3 @@
-import { Socket } from "socket.io-client";
-
 import { lazyInject } from "../../Application";
 import AudioManager from "../../common/audio/AudioManager";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
@@ -10,8 +8,6 @@ import GameBase from "./GameBase";
 export default class SocketIOMiniGameBase extends GameBase {
     @lazyInject(SocketIOController)
     public readonly socketIOController: SocketIOController;
-
-    public socket: Socket;
 
     public isMiniGameInContainer = false;
     public isBetSound = true;
@@ -49,7 +45,7 @@ export default class SocketIOMiniGameBase extends GameBase {
     }
 
     public registerViewGame() {
-        this.socket && this.socket.connected && this.socket.emit("inGame");
+        this.sendSocketData("inGame", null);
     }
 
     closeGame() {
@@ -107,21 +103,7 @@ export default class SocketIOMiniGameBase extends GameBase {
 
     public onBetItemClick(e) {
         this.isBetSound && AudioManager.getInstance().playClick();
-        if (!this.isReadyBet()) {
-            return;
-        }
-        if (this.waitingProcessing) {
-            this.showProcessingWarning(true);
-        } else {
-            this.lockBet();
-            const betData = {
-                amount: this.currentBet,
-                betChoice: e.target.name,
-                username: cc.RedT.user.name
-            };
-
-            this.socket && this.socket.connected && this.socket.emit("bet", betData);
-        }
+        super.onBetItemClick(e);
     }
 
     sendRetryMessage(): void {

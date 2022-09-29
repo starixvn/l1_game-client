@@ -1,13 +1,9 @@
-import { Socket } from "socket.io-client";
-
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
 
 const { ccclass } = cc._decorator;
 
 @ccclass
 export default class SocketIOTableGameBase extends WebSocketTableGameBase {
-    protected socket: Socket;
-
     onLoad() {
         super.onLoad();
         this.initForSocket();
@@ -48,7 +44,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     }
 
     public registerViewGame() {
-        this.socket && this.socket.connected && this.socket.emit("inGame");
+        this.sendSocketData("inGame", null);
     }
 
     onDestroy() {
@@ -88,7 +84,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
             this.lockBet();
             const betData = this.createCommonBetData();
             betData["betChoice"] = event.target.name;
-            this.socket && this.socket.connected && this.socket.emit("bet", betData);
+            this.sendSocketData("bet", betData);
         }
     }
 

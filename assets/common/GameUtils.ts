@@ -132,12 +132,24 @@ export default class GameUtils {
         return { values, chipTotal };
     }
 
+    static setStorageGame(key, gameId, data) {
+        cc.sys.localStorage.setItem(`${key}_${gameId}`, JSON.stringify(data));
+    }
+
+    static getStorageGame(key, gameId) {
+        const storage = cc.sys.localStorage.getItem(`${key}_${gameId}`);
+        if (!storage || !storage.length) {
+            return {};
+        }
+        return JSON.parse(storage);
+    }
+
     static clearGameSetting(gameId) {
         cc.sys.localStorage.setItem(`UserSetting_game_${gameId}`, "");
     }
 
     static setGameSetting(gameId, data) {
-        cc.sys.localStorage.setItem(`UserSetting_game_${gameId}`, JSON.stringify(data));
+        GameUtils.setStorageGame(`UserSetting_game`, gameId, data);
     }
 
     static setSubGameSetting(gameId, key, subData) {
@@ -147,23 +159,15 @@ export default class GameUtils {
     }
 
     static getGameSetting(gameId) {
-        const storage = cc.sys.localStorage.getItem(`UserSetting_game_${gameId}`);
-        if (!storage || !storage.length) {
-            return {};
-        }
-        return JSON.parse(storage);
+        return GameUtils.getStorageGame("UserSetting_game", gameId);
     }
 
     static setSpecificGameSetting(gameId, data) {
-        cc.sys.localStorage.setItem(`SpecificGame_${gameId}`, JSON.stringify(data));
+        GameUtils.setStorageGame("SpecificGame", gameId, data);
     }
 
     static getSpecificGameSetting(gameId) {
-        const storage = cc.sys.localStorage.getItem(`SpecificGame_${gameId}`);
-        if (!storage || !storage.length) {
-            return {};
-        }
-        return JSON.parse(storage);
+        return GameUtils.getStorageGame("SpecificGame", gameId);
     }
 
     public static async openGame(

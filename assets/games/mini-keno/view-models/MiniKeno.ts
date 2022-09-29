@@ -300,16 +300,12 @@ export default class MiniKeno extends SocketIOMiniGameBase {
             this.showProcessingWarning(true);
         } else {
             this.lockBet();
-            this.sendData(betData);
+            this.sendSocketData("bet", betData);
         }
     }
 
     protected sendBet(betAmount, betChoice) {
         this.bet({ amount: betAmount, betChoice: betChoice });
-    }
-
-    public sendData(payload: any) {
-        this.socket && this.socket.connected && this.socket.emit("bet", payload);
     }
 
     protected initComponents() {

@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
+import { Socket } from "socket.io-client";
 
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
@@ -43,6 +44,10 @@ interface EmitterStorage {
     emitter: EventEmitterBase;
     eventName: string;
     listener: (param?: any) => void;
+}
+
+enum StorageKey {
+    SpecificGame = "SpecificGame"
 }
 
 @ccclass
@@ -127,6 +132,7 @@ export default class GameBase extends GameViewBase {
         return gameConfiguration?.key;
     }
 
+    public socket: Socket;
     public gameState = GameState.None;
     public get isStopGame() {
         return this.gameState === GameState.Stopped;
@@ -164,6 +170,9 @@ export default class GameBase extends GameViewBase {
     private processingWarning: cc.Node;
     public needHideNextDotRoundHistory = false;
     hideUmDataKeys = ["remainingTime"];
+    previousOwnBets: any;
+    rebetButton: cc.Button;
+
     // using multiplay game
     public gameData: any;
     public onDisconnectCallback = () => {};
@@ -200,6 +209,7 @@ export default class GameBase extends GameViewBase {
     }
 
     onDestroy() {
+        this.saveRebetStorage(this.previousOwnBets);
         super.onDestroy();
         this.md5Component = null;
     }
@@ -278,8 +288,6 @@ export default class GameBase extends GameViewBase {
 
         this.registerViewGame();
     }
-
-    sendData(payload: any) {}
 
     showAcceptedBet(bet: number) {
         GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
@@ -707,4 +715,100 @@ export default class GameBase extends GameViewBase {
     grantSocket() {}
 
     initSocketListener() {}
+
+    sendSocketData(eventName: string, data: any) {
+        this.socket && this.socket.connected && this.socket.emit(eventName, data);
+    }
+
+    public sendBetAtChoice(choice: string, bet: number) {
+        const betData = {
+            amount: bet,
+            betChoice: choice,
+            username: cc.RedT.user.name
+        };
+
+        this.sendSocketData("bet", betData);
+    }
+
+    public onBetItemClick(e) {
+        if (!this.isReadyBet()) {
+            return;
+        }
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        } else {
+            this.lockBet();
+            this.sendBetAtChoice(e.target.name, this.currentBet);
+        }
+    }
+
+    onInitializeRebetButton(node: cc.Node) {
+        this.rebetButton = node.getComponent(cc.Button);
+        node.on("click", this.onClickRebet.bind(this));
+
+        this.loadRebetStorage();
+        this.updateRebetButtonStatus();
+    }
+
+    updateRebetButtonStatus() {
+        this.rebetButton && (this.rebetButton.interactable = this.checkRebetStatus());
+    }
+
+    onClickRebet() {
+        AudioManager.getInstance().playClick();
+        if (!this.isReadyBet()) {
+            return;
+        }
+        if (this.waitingProcessing) {
+            this.showProcessingWarning(true);
+        } else {
+            this.lockBet();
+            this.rebetAllChoices();
+        }
+    }
+
+    rebetAllChoices() {
+        const { ownBets } = this.previousOwnBets;
+        Object.keys(ownBets).forEach((choice) => {
+            const total = ownBets[choice];
+
+            if (this.betChips) {
+                const chipValues = GameUtils.getChipQuantity(total, this.betChips.chipValues);
+                Object.keys(chipValues).forEach((chipValue) => {
+                    const count = chipValues[chipValue];
+                    for (i = 0; i < count; i++) {
+                        this.sendBetAtChoice(choice, +chipValue);
+                    }
+                });
+            } else {
+                this.sendBetAtChoice(choice, total);
+            }
+        });
+    }
+
+    checkRebetStatus(): boolean {
+        if (!this.previousOwnBets || this.roundId < 2) {
+            return false;
+        }
+
+        const { roundId, ownBets } = this.previousOwnBets;
+        return roundId === this.roundId - 1 && ownBets && Object.keys(ownBets).length > 0;
+    }
+
+    loadRebetStorage() {
+        const storage = GameUtils.getStorageGame(StorageKey.SpecificGame, this.gameId);
+        const { rebet } = storage;
+        if (rebet) {
+            this.previousOwnBets = rebet;
+        }
+    }
+
+    saveRebetStorage(data: any) {
+        const { roundId, ownBets } = data;
+        if (ownBets && roundId > 0) {
+            const storage = GameUtils.getStorageGame(StorageKey.SpecificGame, this.gameId);
+            storage.rebet = data;
+            GameUtils.setStorageGame(StorageKey.SpecificGame, this.gameId, storage);
+        }
+    }
 }

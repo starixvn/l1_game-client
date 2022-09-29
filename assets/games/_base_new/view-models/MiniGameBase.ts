@@ -14,6 +14,7 @@ import {
     placeBetSuccess,
     placeOwnChip,
     updateOwnBets,
+    updatePreviousBets,
     updateTotalBets,
 } from "../actions/BetAction";
 import {
@@ -237,6 +238,7 @@ export default class MiniGameBase extends NewMiniGameBase {
 
         this.emitterListener(this.gameData.totalBets, TotalBets.Events.CHANGE, updateTotalBets);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_BET, updateOwnBets);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.UPDATE_PREVIOUS_BET, updatePreviousBets);
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_FAILED, placeBetFailed);
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_BET_PERCENTAGE, changeBetPercentage);

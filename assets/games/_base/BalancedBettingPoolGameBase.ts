@@ -177,7 +177,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
             amount: amount,
             betChoice: choice
         };
-        this.socket && this.socket.connected && this.socket.emit("bet", betData);
+        this.sendSocketData("bet", betData);
     }
 
     openPresetBetDialog() {
