@@ -65,8 +65,12 @@ export default class MultiplayGame extends GameViewBase {
             GameConfigs.Events.CHANGE,
             this.setGameConfigs.bind(this)
         );
-        this.initDraggableItems();
+
         this.resetStatisticShow();
+    }
+
+    start() {
+        this.initDraggableItems();
     }
 
     initDraggableItems() {
@@ -293,5 +297,6 @@ export default class MultiplayGame extends GameViewBase {
 
     initPromotionGuide(node: cc.Node) {
         this.promotionGuideComp = node.getComponent(MultiplayPromotionGuide);
+        this.promotionGuideComp.addComponent(DraggableItem).targetNode = this.node;
     }
 }
