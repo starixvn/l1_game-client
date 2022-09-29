@@ -96,9 +96,12 @@ export default class MultiplayGame extends GameViewBase {
             this.initMultiplayLayout();
         }
         this.isGameOpened = true;
-        this.collapsedExpandButton.isChecked = true;
         this.bgShadow.active = true;
-        this.showSubGamesWithAnimation(false);
+
+        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
+        this.collapsedExpandButton.isChecked = gameSetting.openSubGames ?? true;
+        this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation(false) : this.hideSubGamesWithAnimation(false);
+
         this.promotionGuideComp.showGuide();
     }
 
@@ -262,12 +265,16 @@ export default class MultiplayGame extends GameViewBase {
         this.resetStatisticShow();
     }
 
-    handleCompactMode() {
+    handleSubGamesArea() {
         this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation() : this.hideSubGamesWithAnimation();
-        this.bgShadow.active = this.collapsedExpandButton.isChecked;
+
+        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
+        gameSetting.openSubGames = this.collapsedExpandButton.isChecked;
+        GameUtils.setSpecificGameSetting(this.gameId, gameSetting);
     }
 
     showSubGamesWithAnimation(isAnimated = true) {
+        this.bgShadow.active = true;
         if (isAnimated) {
             this.subGamesArea.forEach((node: cc.Node) => {
                 cc.tween(node).to(0.3, { scale: 1 }, { easing: "sineOut" }).start();
@@ -280,6 +287,7 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     hideSubGamesWithAnimation(isAnimated = true) {
+        this.bgShadow.active = false;
         if (isAnimated) {
             this.subGamesArea.forEach((node: cc.Node) => {
                 cc.tween(node).to(0.2, { scale: 0 }, { easing: "sineIn" }).start();

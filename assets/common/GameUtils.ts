@@ -154,6 +154,18 @@ export default class GameUtils {
         return JSON.parse(storage);
     }
 
+    static setSpecificGameSetting(gameId, data) {
+        cc.sys.localStorage.setItem(`SpecificGame_${gameId}`, JSON.stringify(data));
+    }
+
+    static getSpecificGameSetting(gameId) {
+        const storage = cc.sys.localStorage.getItem(`SpecificGame_${gameId}`);
+        if (!storage || !storage.length) {
+            return {};
+        }
+        return JSON.parse(storage);
+    }
+
     public static async openGame(
         gameId: number,
         miniPanel: MiniPanel,
