@@ -19,12 +19,14 @@ export default class MultiplayPromotionGuide extends SedieTutorial {
         if (!this.data.enabled) {
             return;
         }
+        this.node.active = true;
+        this.node.opacity = 0;
+        this.node.scale = 0.6;
         cc.tween(this.node).delay(1).to(0.3, { scale: 1, opacity: 255 }, { easing: "sineIn" }).start();
     }
 
     hideGuide() {
-        this.node.opacity = 0;
-        this.node.scale = 0.6;
+        this.node.active = false;
     }
 
     closeIntroduction() {
