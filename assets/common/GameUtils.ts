@@ -178,6 +178,9 @@ export default class GameUtils {
         },
         callBackLobby = () => {
             // handle
+        },
+        callBackMiniGame = () => {
+            // handle
         }
     ) {
         const gameConfiguration = getGameConfiguration(gameId);
@@ -202,7 +205,7 @@ export default class GameUtils {
             return;
         }
 
-        miniPanel.openNewSocketMiniGame(null, gameId);
+        miniPanel.openNewSocketMiniGame(null, gameId, callBackMiniGame);
     }
 
     public static roundFixed(num: number, fixedNumber: number): number {
@@ -482,7 +485,7 @@ export default class GameUtils {
 
     public static isMiniGame(gameId: string): boolean {
         const gameConfiguration = getGameConfiguration(gameId);
-        return !!gameConfiguration.mini;
+        return !!gameConfiguration?.mini && +gameId !== 0;
     }
 
     public static calculateWinPercentage(originalChoices: string[], roundHistory: any) {

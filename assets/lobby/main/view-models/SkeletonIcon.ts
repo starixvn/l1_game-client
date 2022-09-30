@@ -7,7 +7,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SkeletonIcon extends cc.Component {
-    static iconAnimationCache = {};
+    iconAnimationCache = {};
 
     @property(cc.Label)
     gameName: cc.Label = null;
@@ -33,22 +33,25 @@ export default class SkeletonIcon extends cc.Component {
     setGameName(text: string) {
         this.gameName.string = text;
     }
+    static listGameWithoutHide = [];
 
     private readonly timeGap = 0.125;
 
-    async setGameContent(id: number, gameList: number[]) {
+    async setGameContent(id: number, gameList: number[], callbackSetContent: (icon: SkeletonIcon) => void) {
         const batchIndex = Math.abs(Math.floor(gameList.findIndex((gameId) => gameId === id) / 10));
-        if (!SkeletonIcon.iconAnimationCache[id] && batchIndex !== 0) {
+
+        batchIndex > 0 && !this.iconAnimationCache[id] && callbackSetContent(this);
+        if (!this.iconAnimationCache[id] && batchIndex !== 0) {
             this.scheduleOnce(async () => {
                 await this.loadAnimation(id);
-                SkeletonIcon.iconAnimationCache[id] = true;
+                this.iconAnimationCache[id] = true;
             }, batchIndex * this.timeGap);
         } else {
             this.loadAnimation(id);
         }
     }
 
-    private async loadAnimation(id: number, isLoaded = false) {
+    async loadAnimation(id: number, isLoaded = false) {
         if (isLoaded) {
             this.hideSkeleton();
         }

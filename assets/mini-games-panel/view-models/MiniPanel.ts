@@ -281,14 +281,14 @@ export default class MiniPanel extends BaseComponent {
         });
     }
 
-    openNewSocketMiniGame(e, id) {
+    openNewSocketMiniGame(e, id, callBackMiniGame?: any) {
         GameUIManager.getInstance().setCurrentGameId(id);
         this.loadGame(id, () => {
-            this.isOpenSS0 && GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
             this.gameMiniInitializers.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
                 chartWebView && chartWebView.hideWebView();
             });
+            callBackMiniGame && callBackMiniGame();
         });
     }
 
@@ -430,7 +430,7 @@ export default class MiniPanel extends BaseComponent {
 
         this.setLoadingVisibility(false);
         this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
-        this.isOpenSS0 && GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
+        this.isOpenSS0 && GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS);
     }
 
     redirectToLobby() {

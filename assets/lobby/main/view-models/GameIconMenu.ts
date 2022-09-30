@@ -11,6 +11,8 @@ export default abstract class GameIconMenu extends BaseComponent {
     public miniPanel: MiniPanel;
     private initialized = false;
     private loadingGameIds: number[];
+    protected listIconObscure = [];
+    protected readonly durationAutoHideSkeleton = 5;
 
     onLoad() {
         if (this.content) {
@@ -24,8 +26,8 @@ export default abstract class GameIconMenu extends BaseComponent {
     }
 
     async initItems() {
+        this.listIconObscure = [];
         const gameIds = this.getList();
-
         this.loadingGameIds = gameIds;
 
         for (const id of gameIds) {

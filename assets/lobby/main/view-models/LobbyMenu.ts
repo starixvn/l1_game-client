@@ -27,13 +27,16 @@ export default class LobbyMenu extends GameIconMenu {
     currentColumn: cc.Node = null;
     currentRow: cc.Node = null;
     rowChildrenCount = 0;
-    public initializedCallback = () => {
-        //initializedCallback
-    };
     currentCategory = -1;
+    public isLoadMiniGame = false;
 
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
+
+    public initializedCallback = async () => {
+        await GameUtils.delayTime(this.durationAutoHideSkeleton);
+        !this.isLoadMiniGame && this.handleLoadIconsHide();
+    };
 
     onLoad() {
         //override super
@@ -127,7 +130,7 @@ export default class LobbyMenu extends GameIconMenu {
     onInitialized() {
         const layout = this.content.getComponent(cc.Layout);
         layout.updateLayout();
-        this.initializedCallback && this.initializedCallback();
+        !this.miniPanel?.isOpenSS0 && this.initializedCallback();
     }
 
     addItem(id: number, prefab: cc.Prefab): cc.Node {
@@ -165,8 +168,21 @@ export default class LobbyMenu extends GameIconMenu {
         const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
 
         this.lateUpdateGameName(skeletonIconComponent, gameId);
-        skeletonIconComponent.setGameContent(gameId, this.getList());
+        const callbackSetContent = async (icon: SkeletonIcon) => {
+            this.listIconObscure.push(icon);
+        };
+
+        skeletonIconComponent.setGameContent(gameId, this.getList(), callbackSetContent);
+
         return iconNode;
+    }
+
+    handleLoadIconsHide() {
+        this.listIconObscure?.forEach((icon) => {
+            const idGame = +icon.node.name;
+            icon.loadAnimation(idGame);
+            icon.iconAnimationCache[idGame] = true;
+        });
     }
 
     async lateUpdateGameName(icon: SkeletonIcon, gameId: number) {

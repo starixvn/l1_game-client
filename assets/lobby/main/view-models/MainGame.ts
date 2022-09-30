@@ -87,6 +87,7 @@ export default class MainGame extends cc.Component {
     private miniPanel: MiniPanel;
     signName: any;
     isLoadAllBanners = false;
+    private isSSOGameMini = false;
 
     onDestroy() {
         cc.RedT.MiniPanel = null;
@@ -120,6 +121,10 @@ export default class MainGame extends cc.Component {
         const manager = GameUIManager.getInstance();
         manager.emitterListener(GameUIManager.Events.LOAD_ALL_BANNERS, (param) => {
             this.initBanners(param);
+            if (this.isSSOGameMini) {
+                this.lobbyMenu.isLoadMiniGame = false;
+                this.lobbyMenu.initializedCallback();
+            }
             this.miniPanel?.isOpenSS0 && (this.miniPanel.isOpenSS0 = false);
         });
         manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby());
@@ -280,6 +285,7 @@ export default class MainGame extends cc.Component {
 
         if (isSSOToGame || sessionManager.getInRoomGameId()) {
             this.loadLobby(isSSOToGame && GameUtils.isMiniGame(window.openGameId));
+            GameUtils.isMiniGame(window.openGameId) && (this.isSSOGameMini = true);
             this.openGameSSO();
             window.isSSO && this.setCategoryOnSSOGame();
         } else {
@@ -331,10 +337,12 @@ export default class MainGame extends cc.Component {
         lobbyMenu.miniPanel = this.miniPanel;
 
         this.lobbyMenu = lobbyMenu;
+        this.isSSOGameMini && (this.lobbyMenu.isLoadMiniGame = true);
     }
 
     initCategory() {
         let category = GameCategory.All;
+        GameUtils.isMiniGame(window.openGameId) && (this.lobbyMenu.isLoadMiniGame = true);
         if (!window.isSSO) {
             category = this.activeCategoryFromStorage();
         }
@@ -464,7 +472,9 @@ export default class MainGame extends cc.Component {
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
             GameUtils.clearGameSetting(gameId);
-            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
+            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this), () => {
+                this.miniPanel.isOpenSS0 = true;
+            });
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
             return;
