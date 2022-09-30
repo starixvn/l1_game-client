@@ -20,9 +20,8 @@ export default class MultiplayPromotionGuide extends SedieTutorial {
             return;
         }
         this.node.active = true;
-        this.node.opacity = 0;
-        this.node.scale = 0.6;
-        cc.tween(this.node).delay(1).to(0.3, { scale: 1, opacity: 255 }, { easing: "sineIn" }).start();
+        const anim = this.node.getComponent(cc.Animation);
+        anim.playAdditive();
     }
 
     hideGuide() {
