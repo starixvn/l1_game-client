@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniSedieHistory extends DropdownListMultiplayGameHistory {
     protected readonly options: NewDropDownOption[] = [
-        new NewDropDownOption(DropdownListMultiplayGameHistory.AllGameHistory, i18n.t("ui.category_all")),
+        new NewDropDownOption(DropdownListMultiplayGameHistory.AllGameHistory, i18n.t("ui.all")),
         new NewDropDownOption(MiniSedie1Id, GameUtils.getGameNameString(MiniSedie1Id)),
         new NewDropDownOption(MiniSedie2Id, GameUtils.getGameNameString(MiniSedie2Id)),
         new NewDropDownOption(MiniSedie3Id, GameUtils.getGameNameString(MiniSedie3Id)),

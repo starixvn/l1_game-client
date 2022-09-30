@@ -453,7 +453,8 @@ const data = {
         md5_copy: "COPY",
         autoSpinLeft: "Lượt Quay Tự Động Còn Lại",
         turboMode: "Siêu Tốc",
-        start: "Bắt Đầu"
+        start: "Bắt Đầu",
+        table: "Bàn"
     },
     holdEmPoker: {
         ante: "ANTE",

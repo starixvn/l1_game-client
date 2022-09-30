@@ -10,7 +10,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class UnbalncedBigSmallHistory extends DropdownListMultiplayGameHistory {
     protected readonly options: NewDropDownOption[] = [
-        new NewDropDownOption(DropdownListMultiplayGameHistory.AllGameHistory, i18n.t("ui.category_all")),
+        new NewDropDownOption(DropdownListMultiplayGameHistory.AllGameHistory, i18n.t("ui.all")),
         new NewDropDownOption(UnbalancedBigSmall1Id, GameUtils.getGameNameString(UnbalancedBigSmall1Id)),
         new NewDropDownOption(UnbalancedBigSmall2Id, GameUtils.getGameNameString(UnbalancedBigSmall2Id)),
         new NewDropDownOption(UnbalancedBigSmall3Id, GameUtils.getGameNameString(UnbalancedBigSmall3Id)),

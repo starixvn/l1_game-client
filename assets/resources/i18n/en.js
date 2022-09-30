@@ -450,7 +450,8 @@ const data = {
         md5_copy: "COPY",
         autoSpinLeft: "Auto Spins Left",
         turboMode: "Turbo Mode",
-        start: "Start"
+        start: "Start",
+        table: "Table"
     },
     holdEmPoker: {
         ante: "ANTE",
