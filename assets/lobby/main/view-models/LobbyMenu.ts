@@ -169,11 +169,11 @@ export default class LobbyMenu extends GameIconMenu {
         const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
 
         this.lateUpdateGameName(skeletonIconComponent, gameId);
-        const addListIconObscure = (icon: SkeletonIcon) => {
+        const callbackSetContent = async (icon: SkeletonIcon) => {
             this.listIconObscure.push(icon);
         };
 
-        skeletonIconComponent.setGameContent(gameId, batchIndex, addListIconObscure);
+        skeletonIconComponent.setGameContent(gameId, this.getList(), callbackSetContent);
 
         return iconNode;
     }
