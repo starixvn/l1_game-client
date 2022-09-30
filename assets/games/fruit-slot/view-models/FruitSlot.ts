@@ -189,13 +189,22 @@ export default class FruitSlot extends NewGameRoomBase {
         return total;
     }
 
-    showGenerateResult(finish: any) {
-        const generatedItem = finish;
-        this.spinItems.forEach((spinItem: FruitSlotSpinItem) => {
-            const item = spinItem.node.name;
-            spinItem.setHighlightItems(generatedItem[item], true);
-            console.log(generatedItem[item]);
-        });
+    showGenerateResult(result: any) {
+        const generatedItem = result.symbolPositons;
+        const delaySpinAnim = 3.1;
+        const isLucky = result.isLucky;
+
+        if (!isLucky) {
+            cc.tween(this.spinItems)
+                .call(() => {
+                    this.betOptionsUI.spinAnimation.playAdditive("spin");
+                })
+                .delay(delaySpinAnim)
+                .call(() => {
+                    this.betOptionsUI.spin(generatedItem[0]);
+                })                
+                .start();
+        }
     }
 
     showSettlementResult(finish: any) {

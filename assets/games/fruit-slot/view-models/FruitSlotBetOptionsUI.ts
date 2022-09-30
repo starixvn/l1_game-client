@@ -13,7 +13,10 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     @property({ type: FruitSlotSpinItem })
     spinItems: FruitSlotSpinItem[] = [];
 
-    main: FruitSlot;    
+    @property(cc.Animation)
+    spinAnimation: cc.Animation = null;
+
+    main: FruitSlot;
 
     initBetOptions(main: FruitSlot) {
         this.main = main;
@@ -25,14 +28,15 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         this.main.onBetItemClick(event);
     }
 
-    async spinItem(index: number) {
-        const duration = 0.1;        
-        const item = this.spinItems[index];
-        item.setHighlightItems(true);
-        await GameUtils.delayTime(duration)
-    }
-
-    async spinItemAnim(list: number[]) {
-        await Promise.all(list.map((index) => this.spinItem(index)));
-    }
+    async spin(symbolPositions: number) {
+        for (let i = 0; i <= symbolPositions; i++) {
+            const timeGap = 0.03 * i;
+            const item = this.spinItems[i];
+            if (i > 0) {
+                await GameUtils.delayTime(timeGap);
+            }
+            item.setHighlightItems(true, false);
+        }
+        this.spinItems[symbolPositions].setHighlightItems(true, true);
+    }    
 }

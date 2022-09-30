@@ -1,7 +1,8 @@
 export type FruitSlotResult = {
     symbols: string[];
-    isLucky: boolean;
+    symbolPositions: number[];
     number: number;
+    isLucky: boolean;
 };
 
 export type FruitSlotSettlementResult = {

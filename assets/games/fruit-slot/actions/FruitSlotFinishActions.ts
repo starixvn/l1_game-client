@@ -9,11 +9,11 @@ type FruitSlotFinishModel = {
 };
 
 export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishModel) => {
+    game.showSettlementResult(finish.settlementResult);
+    game.showGenerateResult(finish.result);
+    
     game.finishShowResult = false;
     game.gameData.settlement.finishShowResult(finish, true);
-    game.showSettlementResult(finish.settlementResult);
-    game.showGenerateResult(finish.settlementResult);
-    console.log("handleShowResult", finish.settlementResult);
 };
 
 export const handleAfterSettlementResult =
