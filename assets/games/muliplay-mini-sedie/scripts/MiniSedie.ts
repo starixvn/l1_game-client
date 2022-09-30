@@ -109,7 +109,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     public setDots(result) {
         const roundId = this.gameData.roundId !== undefined ? this.gameData.roundId : 1;
         const randomOption = this.positionRandomDot.children[roundId % 5];
-        console.log("randomOption", roundId % 5);
         Object.keys(result).forEach((key, index) => {
             this.dots[index].node.position = randomOption.children[index].position;
             this.dots[index].spriteFrame = result[key] ? this.dotRed : this.dotWhite;
