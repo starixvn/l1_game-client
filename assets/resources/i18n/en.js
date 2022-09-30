@@ -451,7 +451,7 @@ const data = {
         autoSpinLeft: "Auto Spins Left",
         turboMode: "Turbo Mode",
         start: "Start",
-        table: "Table"
+        table: "Table",
         joinGame: "Join Game",
         promotion: "Promotions",
         terms: "Terms and\n Conditions"

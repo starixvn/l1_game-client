@@ -43,6 +43,9 @@ export default class BetItem extends cc.Component {
     })
     highlightOddsBackground: cc.Node = null;
 
+    @property
+    opacityOdds = 255;
+
     public betCallback = (e) => {};
 
     private setMoneyLabel(label: cc.Label, bet: number) {
@@ -110,6 +113,7 @@ export default class BetItem extends cc.Component {
     }
 
     private enableHighLightOddsBackground(enabled = false) {
+        this.odds.node.opacity = enabled ? 255 : this.opacityOdds;
         this.highlightOddsBackground.active = enabled;
     }
 
