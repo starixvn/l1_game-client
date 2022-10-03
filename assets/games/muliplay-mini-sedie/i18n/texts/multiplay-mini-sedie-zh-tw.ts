@@ -9,6 +9,11 @@ export const phrases = {
     },
     lobbyNames: {
         9: "迷你色碟"
+    },
+    miniSedie: {
+        hotFeature: "Hot New Feature with...",
+        switchGame: "Expand the game table",
+        clickOrTap: "Click or Tap to place bet"
     }
 };
 reloadLanguageData("zh_tw", phrases);
