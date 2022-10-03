@@ -98,7 +98,7 @@ export default class MultiplayGame extends GameViewBase {
         const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         this.collapsedExpandButton.isChecked = gameSetting.openSubGames ?? true;
         this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation(false) : this.hideSubGamesWithAnimation(false);
-        this.promotionGuideComp.showGuide();
+        this.promotionGuideComp && this.promotionGuideComp.showGuide();
     }
 
     onDisable() {
