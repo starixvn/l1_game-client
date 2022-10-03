@@ -12,7 +12,7 @@ export default class FruitSlotSpinItem extends cc.Component {
             cc.tween(this.highlight)
                 .repeat(
                     isRepeat,
-                    cc.tween().to(0.1, { opacity: 255 }, { easing: "cubicIn" }).delay(0.2).to(0.1, { opacity: 0 }, { easing: "cubicOut" })
+                    cc.tween().to(0.05, { opacity: 255 }, { easing: "cubicIn" }).delay(0.2).to(0.05, { opacity: 0 }, { easing: "cubicOut" })
                 )
                 .start();
         }

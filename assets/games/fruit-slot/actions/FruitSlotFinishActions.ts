@@ -1,7 +1,7 @@
 import { FruitSlotResult, FruitSlotSettlementResult } from "../FruitSlotType";
 import FruitSlot from "../view-models/FruitSlot";
 
-type FruitSlotFinishModel = {
+export type FruitSlotFinishModel = {
     result: FruitSlotResult;
     settlementResult: FruitSlotSettlementResult;
     winningPlayers: any[];
@@ -10,8 +10,8 @@ type FruitSlotFinishModel = {
 
 export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishModel) => {
     game.showSettlementResult(finish.settlementResult);
-    game.showGenerateResult(finish.result);
-    
+    game.showGenerateResult(finish);
+
     game.finishShowResult = false;
     game.gameData.settlement.finishShowResult(finish, true);
 };
