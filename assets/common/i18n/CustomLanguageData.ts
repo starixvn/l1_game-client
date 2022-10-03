@@ -26,7 +26,7 @@ export function reloadLanguageData(language: string, phrases: Record<string, unk
 
     Object.entries(phrases).forEach(([key, data]) => {
         if (window.i18n.languages[language][key]) {
-            Object.assign(window.i18n.languages[language][key], data);
+            window.i18n.languages[language][key] = Object.assign({}, window.i18n.languages[language][key], data);
         } else {
             window.i18n.languages[language][key] = data;
         }
