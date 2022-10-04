@@ -34,6 +34,7 @@ export class Promotions extends EventEmitterBase {
     private readonly minutesToMillisecond = 60 * 1000;
     private readonly delayTime = 1 * this.minutesToMillisecond;
     protected promotions: Promotion[] = [promotion];
+    private offerGames: number[];
 
     public static getInstance(): Promotions {
         if (!this.instance) {
@@ -51,10 +52,15 @@ export class Promotions extends EventEmitterBase {
     }
 
     receivedData(data: Promotion[]) {
-        if (data.length > 0) {
-            let haveNewPromotion = data.length > this.promotions.length;
+        const offerGames = cc.sys.localStorage.getItem("offerGames");
+        if (offerGames) {
+            this.offerGames = JSON.parse(offerGames);
+        }
+        const newPromotions = data.filter((promotion) => this.offerGames?.includes(promotion.gameId));
+        if (newPromotions.length > 0) {
+            let haveNewPromotion = newPromotions.length > this.promotions.length;
             if (!haveNewPromotion) {
-                const filterNewPromotion = data.filter(
+                const filterNewPromotion = newPromotions.filter(
                     (newPromotion) =>
                         !this.promotions.some(
                             (currentPromotion) =>
@@ -71,7 +77,7 @@ export class Promotions extends EventEmitterBase {
 
             this.isShowBoostedOdds = false;
 
-            this.promotions = data;
+            this.promotions = newPromotions;
         }
     }
 

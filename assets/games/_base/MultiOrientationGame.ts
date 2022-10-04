@@ -17,8 +17,6 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
 
     onDestroy() {
         this.clearIntervalAndTimeout();
-      /*   this.boostedOddsHandler.removeDataObserver();
-        this.boostedOddsHandler.removeAllListeners(); */
     }
 
     onClickChangeOrientation() {

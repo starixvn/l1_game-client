@@ -8,7 +8,7 @@ export const PromotionNotificationsEvent = {
 export class PromotionNotification {
     displayKind: number;
     enabled: boolean;
-    gameId?: number;
+    gameId: number;
     gameName: string;
     _id: string;
     isActive: boolean;
@@ -19,16 +19,7 @@ export class PromotionNotification {
     endTime: string;
     startTime: string;
 }
-export const ConvertGameNameToGameId = {
-    xocxoc: 2,
-    txturbo: 4,
-    minisedie: 9,
-    minisedie2: 56,
-    minisedie3: 57,
-    minisedie4: 58,
-    vipsedie: 22,
-    taixiu: 1
-};
+
 export default class PromotionNotificationsHandler extends EventEmitterBase {
     private static instance: PromotionNotificationsHandler;
 
@@ -57,10 +48,6 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
 
     addDataObserver() {
         NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.receivedData.bind(this));
-        const offerGamesStorage = cc.sys.localStorage.getItem("offerGames");
-        if (offerGamesStorage) {
-            this.offerGames = JSON.parse(offerGamesStorage);
-        }
     }
 
     removeDataObserver() {
@@ -68,10 +55,11 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
     }
 
     receivedData(data: PromotionNotification[]) {
-        const newPromotionNotification = data.filter((promotionNotification) =>
-            this.offerGames?.includes(ConvertGameNameToGameId[promotionNotification.gameName])
-        );
-
+        const offerGamesStorage = cc.sys.localStorage.getItem("offerGames");
+        if (offerGamesStorage) {
+            this.offerGames = JSON.parse(offerGamesStorage);
+        }
+        const newPromotionNotification = data.filter((promotionNotification) => this.offerGames?.includes(promotionNotification.gameId));
         if (JSON.stringify(this._promotionNotifications) === JSON.stringify(newPromotionNotification)) {
             this._reloadAnnouncementPopup = false;
         } else {
