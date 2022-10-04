@@ -4325,7 +4325,7 @@
         "__id__": 129
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 132
@@ -4337,7 +4337,7 @@
     "_prefab": {
       "__id__": 134
     },
-    "_opacity": 255,
+    "_opacity": 0,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
@@ -6203,7 +6203,9 @@
     },
     "historyPrefab": null,
     "betPercentage": [],
-    "waitingDotsSubGame": null,
+    "waitingDotsSubGame": {
+      "__id__": 122
+    },
     "players": [],
     "otherPlayers": null,
     "winningPlayerEffectPrefab": null,
@@ -6212,6 +6214,12 @@
     },
     "timeShowResult": {
       "__id__": 122
+    },
+    "gameNameImage": {
+      "__id__": 11
+    },
+    "mainAtlas": {
+      "__uuid__": "582f5f87-4111-4190-a9df-7944d5098a80"
     },
     "userName": null,
     "userAvatar": null,
