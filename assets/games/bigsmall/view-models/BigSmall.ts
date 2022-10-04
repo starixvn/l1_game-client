@@ -308,10 +308,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
             const highlightOddsColor = this.odds.node.getComponent(ColorAssembler2D);
             this.odds.node.color = color.fromHEX("#FA3A35");
             highlightOddsColor.enabled = true;
-            this.highlightOdds.active = true;
+            this.highlightOdds && this.enabledHighLightOdds(true);
         } else {
             this.odds.node.color = color;
-            this.highlightOdds.active = false;
+            this.highlightOdds && this.enabledHighLightOdds(false);
         }
+    }
+
+    private enabledHighLightOdds(enabled: boolean) {
+        this.highlightOdds.active = enabled;
     }
 }
