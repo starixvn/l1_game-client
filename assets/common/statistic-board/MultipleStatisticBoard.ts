@@ -34,18 +34,16 @@ export default class MultipleStatisticBoard extends cc.Component {
     onInitializeBigSmallStatisticBoard(node: cc.Node) {
         const statisticBoard = node.getComponent(StatisticBoard);
         statisticBoard.setSupportChoices("big,small");
-
-        if (statisticBoard) {
-            if (this.statisticBoards.length > 0) {
-                node.active = false;
-            }
-            this.statisticBoards.push(statisticBoard);
-        }
+        this.storeStatisticBoards(node, statisticBoard);
     }
 
     onInitializeEvenOddStatisticBoard(node: cc.Node) {
         const statisticBoard = node.getComponent(StatisticBoard);
         statisticBoard.setSupportChoices("even,odd");
+        this.storeStatisticBoards(node, statisticBoard);
+    }
+
+    storeStatisticBoards(node: cc.Node, statisticBoard: StatisticBoard) {
         if (statisticBoard) {
             if (this.statisticBoards.length > 0) {
                 node.active = false;
