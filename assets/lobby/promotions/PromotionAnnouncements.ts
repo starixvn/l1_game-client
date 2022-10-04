@@ -73,7 +73,7 @@ export default class PromotionAnnouncements extends cc.Component {
             this.dialog.closeDialog();
             return;
         }
-        if (isRenderItem || this.announcementItems.length < 1) {
+        if (isRenderItem || this.announcementItems?.length < 1) {
             this.announcementItems?.forEach((item) => item.destroy());
             this.announcementItems = [];
             this.count.string = promotion.length.toString();

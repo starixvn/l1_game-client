@@ -40,6 +40,7 @@ module.exports = {
             });
             this.user.offerGames = list;
             cc.sys.localStorage.setItem("latestOfferGames", JSON.stringify(list));
+            cc.sys.localStorage.setItem("offerGames", JSON.stringify(offerGames));
         }
         if (data.rate) {
             this.user.rate = data.rate;
