@@ -1,4 +1,3 @@
-import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import MultiplayGameHistory from "./MultiplayGameHistory";
 
@@ -30,15 +29,6 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
         this.currentMiniPanel.addDialog(dialog);
         const control = dialog.getComponent(MultiplayGameHistory);
         control.initDefaultGame(this.gameId);
-    }
-
-    initCountDownProgressBar(node: cc.Node) {
-        const countDownTimer = node.getComponent(CountDownProgressBar);
-        if (countDownTimer) {
-            this.countDownProgressBar = countDownTimer;
-            countDownTimer.setFullRoundTime(this.config.betTime);
-            this.animatedTime.setNumberColor("#0fdb5e", "#ff0000");
-        }
     }
 
     updateDisplayForRemoteConfig() {

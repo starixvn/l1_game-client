@@ -334,4 +334,13 @@ export default class MiniGameBase extends NewMiniGameBase {
             }
         }
     }
+
+    initCountDownProgressBar(node: cc.Node) {
+        const countDownTimer = node.getComponent(CountDownProgressBar);
+        if (countDownTimer) {
+            this.countDownProgressBar = countDownTimer;
+            countDownTimer.setFullRoundTime(this.config.betTime);
+            this.animatedTime.setNumberColor("#0fdb5e", "#ff0000");
+        }
+    }
 }
