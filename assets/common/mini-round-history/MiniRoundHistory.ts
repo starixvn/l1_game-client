@@ -45,15 +45,17 @@ export default class MiniRoundHistory extends cc.Component {
     private listener = {
         onEnter: (node: cc.Node) => {
             this.selectedNode = node;
-            const pos = this.tip.node.parent.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0, 0)));
-            this.tip.node.position = cc.v3(pos.x, this.tip.node.y, 0);
             const data = node.getComponent(MiniRoundHistoryItem).data;
-            this.tip.setData(data);
-            this.tip.show();
+            if (this.tip) {
+                const pos = this.tip.node.parent.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0, 0)));
+                this.tip.node.position = cc.v3(pos.x, this.tip.node.y, 0);
+                this.tip.setData(data);
+                this.tip.show();
+            }
         },
         onLeave: (node: cc.Node) => {
             this.selectedNode = null;
-            this.tip.show(false);
+            this.tip && this.tip.show(false);
         }
     };
 
@@ -80,9 +82,11 @@ export default class MiniRoundHistory extends cc.Component {
         this.checkShowNext = condition;
     }
 
-    protected onUpdate(node: cc.Node) {
+    onUpdate(node: cc.Node) {
         const data = node.getComponent(MiniRoundHistoryItem).data;
-        this.tip.node.active && this.tip.setData(data);
+        if (this.tip) {
+            this.tip.node.active && this.tip.setData(data);
+        }
     }
 
     public setData(data: any[]) {
@@ -140,6 +144,6 @@ export default class MiniRoundHistory extends cc.Component {
     }
 
     hideTooltip() {
-        this.tip.show(false);
+        this.tip && this.tip.show(false);
     }
 }
