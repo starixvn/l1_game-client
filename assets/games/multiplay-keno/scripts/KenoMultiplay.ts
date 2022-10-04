@@ -1,7 +1,16 @@
 import MultiplayGameHistory from "../../multiplay/scripts/MultiplayGameHistory";
 import MultiplayTableGame from "../../multiplay/scripts/MultiplayTableGame";
 import MegaKeno from "./MegaKeno";
-import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "./MegaKenoConfig";
+import {
+    MegaKeno1Id,
+    MegaKeno2Id,
+    MegaKeno3Id,
+    MegaKeno4Id,
+    MegaKeno5Id,
+    MegaKeno6Id,
+    MegaKeno7Id,
+    MegaKeno8Id,
+} from "./MegaKenoConfig";
 import MegaKenoSubGame from "./MegaKenoSubGame";
 
 const { ccclass, property } = cc._decorator;
