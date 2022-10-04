@@ -29,6 +29,7 @@ export default class MultipleStatisticBoard extends cc.Component {
             statistic.init(game);
         });
         this.gameId = game.gameId;
+        this.gameName.gameId = this.gameId;
     }
 
     onInitializeBigSmallStatisticBoard(node: cc.Node) {

@@ -13,7 +13,7 @@ export default class ItemPercentStatistic extends cc.Component {
 
     init(spriteFrame: cc.SpriteFrame, choiceName: string) {
         this.icon && (this.icon.spriteFrame = spriteFrame);
-        this.choiceName && (this.choiceName.string = choiceName);
+        this.choiceName && (this.choiceName.string = `${choiceName.toUpperCase()}:`);
     }
 
     setPercent(percent: number) {
