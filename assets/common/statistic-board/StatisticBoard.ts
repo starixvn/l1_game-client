@@ -5,19 +5,23 @@ import { RoundHistory } from "../../games/_base_new/models/RoundHistory";
 import MiniGameBase from "../../games/_base_new/view-models/MiniGameBase";
 import { Durations } from "../../games/_new/_base/game-data-management/models/durations";
 import GameUtils from "../GameUtils";
+import ItemPercentStatistic from "./ItemPercentStatistic";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StatisticBoard extends cc.Component {
-    @property({ type: cc.Label })
-    percentLabels: cc.Label[] = [];
-
     @property(ExtendedGameLogControl)
     logControl: ExtendedGameLogControl = null;
 
+    @property([ItemPercentStatistic])
+    itemPercentList: ItemPercentStatistic[] = [];
+
     @property
     supportChoices = "big,small";
+
+    @property(cc.SpriteAtlas)
+    atlas: cc.SpriteAtlas = null;
 
     roundHistory: RoundHistory;
     duration: Durations;
@@ -34,8 +38,9 @@ export default class StatisticBoard extends cc.Component {
 
     onChangedSupportChoices() {
         this.originalChoices = this.supportChoices.split(",");
-        this.percentLabels.forEach((label, index) => {
-            label.node.name = this.originalChoices[index];
+        this.itemPercentList.forEach((item, index) => {
+            const iconFrame = this.atlas.getSpriteFrame(`dot_${this.originalChoices[index]}`);
+            item.init(iconFrame, GameUtils.getBetChoiceString(this.originalChoices[index]));
         });
     }
 
@@ -74,8 +79,8 @@ export default class StatisticBoard extends cc.Component {
 
         const originalChoices = this.originalChoices;
         const percentage = GameUtils.calculateWinPercentage(originalChoices, roundHistory);
-        this.percentLabels.forEach((label) => {
-            label.string = `${percentage[label.node.name]}%`;
+        this.itemPercentList.forEach((item, index) => {
+            item.setPercent(percentage[this.originalChoices[index]]);
         });
 
         const data = roundHistory.map((history) => {

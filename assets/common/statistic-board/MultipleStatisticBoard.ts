@@ -31,8 +31,21 @@ export default class MultipleStatisticBoard extends cc.Component {
         this.gameId = game.gameId;
     }
 
-    onInitializeStatisticBoard(node: cc.Node) {
+    onInitializeBigSmallStatisticBoard(node: cc.Node) {
         const statisticBoard = node.getComponent(StatisticBoard);
+        statisticBoard.setSupportChoices("big,small");
+
+        if (statisticBoard) {
+            if (this.statisticBoards.length > 0) {
+                node.active = false;
+            }
+            this.statisticBoards.push(statisticBoard);
+        }
+    }
+
+    onInitializeEvenOddStatisticBoard(node: cc.Node) {
+        const statisticBoard = node.getComponent(StatisticBoard);
+        statisticBoard.setSupportChoices("even,odd");
         if (statisticBoard) {
             if (this.statisticBoards.length > 0) {
                 node.active = false;

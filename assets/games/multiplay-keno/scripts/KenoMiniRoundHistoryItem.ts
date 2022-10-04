@@ -5,17 +5,17 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoMiniRoundHistoryItem extends MiniRoundHistoryItem {
-    @property({ type: cc.SpriteFrame })
-    icons: cc.SpriteFrame[] = [];
+    @property(cc.SpriteAtlas)
+    atlas: cc.SpriteAtlas = null;
 
     public setData(data: ExtendedLogControlData) {
         const { choice } = data;
 
         const frameList = {
-            big: this.icons[0],
-            small: this.icons[1],
-            even: this.icons[2],
-            odd: this.icons[3]
+            big: this.atlas.getSpriteFrame("dot_big"),
+            small: this.atlas.getSpriteFrame("dot_small"),
+            even: this.atlas.getSpriteFrame("dot_even"),
+            odd: this.atlas.getSpriteFrame("dot_odd")
         };
 
         this.node.getComponent(cc.Sprite).spriteFrame = frameList[choice];
