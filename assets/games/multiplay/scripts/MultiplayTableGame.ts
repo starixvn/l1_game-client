@@ -142,16 +142,17 @@ export default class MultiplayTableGame extends MultiplayGame {
         const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         gameSetting.openSubGames = this.collapsedExpandButton.isChecked;
         GameUtils.setSpecificGameSetting(this.gameId, gameSetting);
+        const widgetNode = this.collapsedExpandButton.node.getComponent(cc.Widget);
         if (!this.collapsedExpandButton.isChecked) {
             this.mainContainer.x = 0;
-            // const widgetNode = this.collapsedExpandButton.node.getComponent(cc.Widget);
-
-            // widgetNode.right = 0;
-            // widgetNode.isAbsoluteRight = true;
-            // widgetNode.updateAlignment();
+            widgetNode.enabled = true;
+            widgetNode.isAbsoluteRight = true;
+            widgetNode.updateAlignment();
         } else {
+            widgetNode.enabled = false;
+            widgetNode.updateAlignment();
             this.mainContainer.x = -170;
-            this.collapsedExpandButton.node.x = 353;
+            this.collapsedExpandButton.node.x = 17;
         }
     }
 
