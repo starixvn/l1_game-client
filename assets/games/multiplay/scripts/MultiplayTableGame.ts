@@ -1,7 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
 import * as sessionManager from "../../../common/auth/SessionManager";
-import GameUtils from "../../../common/GameUtils";
 import InGameMenu, { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import MultiplayGameStatisticBoard from "../../../common/statistic-board/MultiplayGameStatisticBoard";
 import UserProfile from "../../../common/user-profile/UserProfile";
@@ -136,12 +135,8 @@ export default class MultiplayTableGame extends MultiplayGame {
         loadUserData(this)(user);
     }
 
-    handleSubGamesArea() {
-        this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation() : this.hideSubGamesWithAnimation();
-
-        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
-        gameSetting.openSubGames = this.collapsedExpandButton.isChecked;
-        GameUtils.setSpecificGameSetting(this.gameId, gameSetting);
+    showHideSubAreas() {
+        super.showHideSubAreas();
         const widgetNode = this.collapsedExpandButton.node.getComponent(cc.Widget);
         if (!this.collapsedExpandButton.isChecked) {
             this.mainContainer.x = 0;
