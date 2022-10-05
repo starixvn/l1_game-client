@@ -26,7 +26,6 @@ import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import { Promotions } from "../../promotions/Promotions";
 import PromotionNotificationsHandler from "../../promotions/PromotionNotificationsHandler";
-import { JoinGameByGameId } from "../../promotions/PromotionAnnouncementItem";
 
 const socketIOController = appContainer.get(SocketIOController);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -93,7 +92,7 @@ export default class MainGame extends cc.Component {
         cc.RedT.MiniPanel = null;
         cc.RedT.inGame = null;
         window.isSSO = false;
-        cc.sys.localStorage.removeItem(JoinGameByGameId);
+        PromotionNotificationsHandler.getInstance().setJoinGameId(0);
     }
 
     onLoad() {
@@ -480,7 +479,7 @@ export default class MainGame extends cc.Component {
     }
 
     onClickJoinGame() {
-        const gameRoomId = cc.sys.localStorage.getItem(JoinGameByGameId);
+        const gameRoomId = PromotionNotificationsHandler.getInstance()._joinGameId;
         if (gameRoomId) {
             GameUtils.openGame(+gameRoomId, this.miniPanel, null);
         }

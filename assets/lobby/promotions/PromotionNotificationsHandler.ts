@@ -27,6 +27,8 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
 
     public _reloadAnnouncementPopup = false;
 
+    public _joinGameId: number;
+
     public _promotionNotifications: PromotionNotification[];
 
     private offerGames: number[];
@@ -44,6 +46,14 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
 
     get promotionNotifications() {
         return this._promotionNotifications;
+    }
+
+    get joinGameId() {
+        return this._joinGameId;
+    }
+
+    setJoinGameId(gameId: number) {
+        this._joinGameId = gameId;
     }
 
     addDataObserver() {

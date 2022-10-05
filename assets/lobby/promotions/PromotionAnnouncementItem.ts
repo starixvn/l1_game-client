@@ -2,12 +2,12 @@ import GameUtils from "../../common/GameUtils";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import * as sessionManager from "../../common/auth/SessionManager";
+import PromotionNotificationsHandler from "./PromotionNotificationsHandler";
 const { ccclass, property } = cc._decorator;
 
 export const PromotionAnnouncementItemEvent = {
     CLOSE_PROMOTIONS: "CLOSE_PROMOTIONS"
 };
-export const JoinGameByGameId = "JOIN_GAME_BY_GAME_ID";
 
 @ccclass
 export default class PromotionAnnouncementItem extends cc.Component {
@@ -45,7 +45,7 @@ export default class PromotionAnnouncementItem extends cc.Component {
         if (gameId.toString() === currentGameId) {
             return;
         }
-        !GameUtils.isMiniGame(gameId.toString()) && cc.sys.localStorage.setItem(JoinGameByGameId, gameId);
+        !GameUtils.isMiniGame(gameId.toString()) && PromotionNotificationsHandler.getInstance().setJoinGameId(gameId);
         GameUtils.openGame(this.getGameId(gameId), this.miniPanel);
     }
 
