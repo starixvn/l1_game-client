@@ -1,25 +1,13 @@
 import MultiplayGameHistory from "../../multiplay/scripts/MultiplayGameHistory";
 import MultiplayTableGame from "../../multiplay/scripts/MultiplayTableGame";
 import MegaKeno from "./MegaKeno";
-import {
-    MegaKeno1Id,
-    MegaKeno2Id,
-    MegaKeno3Id,
-    MegaKeno4Id,
-    MegaKeno5Id,
-    MegaKeno6Id,
-    MegaKeno7Id,
-    MegaKeno8Id,
-} from "./MegaKenoConfig";
+import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "./MegaKenoConfig";
 import MegaKenoSubGame from "./MegaKenoSubGame";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoMultiplay extends MultiplayTableGame {
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
     gameIds: number[] = [MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id];
 
     constructor() {
@@ -42,9 +30,14 @@ export default class KenoMultiplay extends MultiplayTableGame {
     }
 
     openHistory() {
+        super.openHistory();
         const dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.addDialog(dialog);
         const control = dialog.getComponent(MultiplayGameHistory);
         control.initDefaultGame(this.gameId);
+    }
+
+    openGuide() {
+        super.openGuide();
     }
 }

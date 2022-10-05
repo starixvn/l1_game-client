@@ -12,17 +12,10 @@ const data = {
         6: "快速單雙",
         7: "龍虎",
         8: "Keno Pro Max",
-        9: "迷你色碟",
         10: "百家樂",
         11: "Keno Pro Viet",
         12: "Keno Max",
         13: "Keno Max2",
-        14: "Keno Mini",
-        15: "Keno Mini2",
-        16: "Keno East",
-        17: "Keno West",
-        18: "Keno South",
-        19: "Keno North",
         21: "輪盤",
         22: "VIP 色碟",
         23: "21點",
@@ -39,9 +32,7 @@ const data = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady",
-        52: "Mega Keno",
-        53: "Mega Keno 2"
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "發生了錯誤。詳情請聯繫CSD，謝謝。(%{errorCode})",

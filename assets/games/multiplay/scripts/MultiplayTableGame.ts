@@ -35,14 +35,20 @@ export default class MultiplayTableGame extends MultiplayGame {
     @property(cc.AudioSource)
     musicBg: cc.AudioSource = null;
 
-    @property(cc.Prefab)
-    statisticBoardPrefab: cc.Prefab = null;
-
     @property(cc.Node)
     mainContainer: cc.Node = null;
 
     @property(cc.Prefab)
     miniNoticePrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    statisticBoardPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    historyPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    guidePrefab: cc.Prefab = null;
 
     inGameMenu: MultiplayTableGameMenu;
     userProfile: UserProfile;
@@ -102,11 +108,17 @@ export default class MultiplayTableGame extends MultiplayGame {
         return node;
     }
 
-    openHistory() {}
+    openHistory() {
+        AudioManager.getInstance().playClick();
+    }
 
     onCloseGame() {}
 
-    openGuide() {}
+    openGuide() {
+        AudioManager.getInstance().playClick();
+        const dialog = cc.instantiate(this.guidePrefab);
+        this.currentMiniPanel.addDialog(dialog);
+    }
 
     onScoreBoardClick() {
         AudioManager.getInstance().playClick();

@@ -13,17 +13,10 @@ const data = {
         6: "Chẵn Lẻ Siêu Tốc",
         7: "Rồng Hổ",
         8: "Keno Pro Max",
-        9: "Xóc Đĩa Mini",
         10: "Cào Baccarat",
         11: "Keno Pro Viet",
         12: "Keno Max",
         13: "Keno Max2",
-        14: "Keno Mini",
-        15: "Keno Mini2",
-        16: "Keno Đông",
-        17: "Keno Tây",
-        18: "Keno Nam",
-        19: "Keno Bắc",
         21: "Roulette",
         22: "Xóc Đĩa VIP",
         23: "Blackjack",
@@ -41,9 +34,7 @@ const data = {
         42: "Texas Hold'em",
         45: "Cao Thấp",
         46: "Gái Nhảy",
-        47: "Đảo Châu Báu",
-        52: "Mega Keno",
-        53: "Mega Keno 2"
+        47: "Đảo Châu Báu"
     },
     messages: {
         accountNotExist: "Đã xảy ra lỗi. Vui lòng liên hệ bộ phận CSKH để biết chi tiết, cảm ơn bạn. (%{errorCode})",

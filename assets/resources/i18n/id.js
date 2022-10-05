@@ -15,17 +15,10 @@ const data = {
         6: "Ganjil Genap Turbo ",
         7: "Naga Macan",
         8: "Keno Pro Max",
-        9: "Mini Se Die",
         10: "Bakarat",
         11: "Keno Pro Viet",
         12: "Keno Max",
         13: "Keno Max2",
-        14: "Keno Mini",
-        15: "Keno Mini2",
-        16: "Keno East",
-        17: "Keno West",
-        18: "Keno South",
-        19: "Keno North",
         21: "Rolet",
         22: "VIP Se Die",
         23: "Blackjack",
@@ -42,9 +35,7 @@ const data = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady",
-        52: "Mega Keno",
-        53: "Mega Keno 2"
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",

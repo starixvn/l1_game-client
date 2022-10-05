@@ -13,17 +13,10 @@ const data = {
         6: "Turbo Odd Even",
         7: "Dragon Tiger",
         8: "Keno Pro Max",
-        9: "Mini Se Die",
         10: "Baccarat",
         11: "Keno Pro Viet",
         12: "Keno Max",
         13: "Keno Max2",
-        14: "Keno Mini",
-        15: "Keno Mini2",
-        16: "Keno East",
-        17: "Keno West",
-        18: "Keno South",
-        19: "Keno North",
         21: "Roulette",
         22: "VIP Se Die",
         23: "Blackjack",
@@ -40,9 +33,7 @@ const data = {
         39: "Casino Hold'em",
         42: "Texas Hold'em",
         45: "Hi-Lo",
-        46: "Nightclub Lady",
-        52: "Mega Keno",
-        53: "Mega Keno 2"
+        46: "Nightclub Lady"
     },
     messages: {
         accountNotExist: "An error has occurred. Please contact CSD for details, thank you. (%{errorCode})",
