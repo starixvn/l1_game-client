@@ -12,7 +12,6 @@ import GameUtils from "../../../common/GameUtils";
 import FruitSlotPlacingBet from "./FruitSlotPlacingBet";
 import { FruitSlotChoicesConst } from "../event-models/FruitSlotChoices";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { handleRenderMiniRoundHistoryAndStatistic, handleRenderOwnBet } from "../actions/FruitSlotJoinRoomActions";
@@ -190,26 +189,45 @@ export default class FruitSlot extends NewGameRoomBase {
     }
 
     showGenerateResult(finish: any) {
-        const delaySpinAnim = 3.1;
+        const delaySpinAnim = 5;
         const isLucky = finish.result.isLucky;
+        this.setBgVisibility(this.betOptionsUI.spinOverlay, false);
 
         if (!isLucky) {
             cc.tween(this.spinItems)
                 .call(() => {
-                    this.betOptionsUI.spinAnimation.playAdditive("spin");
+                    this.betOptionsUI.spinItemAnimation(finish);
                     this.betOptionsUI.playLedLightAnimation();
+                    this.betOptionsUI.randomNumberAnimation();
                 })
                 .delay(delaySpinAnim)
                 .call(() => {
                     this.betOptionsUI.ledLightAnimation.active = false;
-                    this.betOptionsUI.spin(finish);
+                    this.betOptionsUI.highlightWinningChoice(finish);
                 })
+                .delay(1)
+                .call(
+                    () =>
+                        (this.betOptionsUI.bigSmallResult.string =
+                            finish.result.bigSmall.value < 10
+                                ? "0" + finish.result.bigSmall.value.toString()
+                                : finish.result.bigSmall.value.toString())
+                )
+                .delay(0.5)
+                .call(() => this.showSettlementResult(finish))
                 .start();
         }
     }
 
     showSettlementResult(finish: any) {
         const winChoice = finish;
+        this.betOptionsUI.bigSmallResult.string = "00000";
         console.log("showSettlementResult", winChoice);
+        this.finishShowResult = false;
+        this.gameData.settlement.finishShowResult(finish, true);
+    }
+
+    setBgVisibility(node: cc.Node, visible: boolean) {
+        node.active = visible ? true : false;
     }
 }

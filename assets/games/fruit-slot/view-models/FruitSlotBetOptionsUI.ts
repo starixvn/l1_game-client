@@ -1,9 +1,6 @@
 import FruitSlot from "./FruitSlot";
 import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
-import GameUtils from "../../../common/GameUtils";
-import { FruitSlotSettlementResult } from "../FruitSlotType";
-import { FruitSlotFinishModel } from "../actions/FruitSlotFinishActions";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,6 +18,12 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     @property(cc.Node)
     ledLightAnimation: cc.Node = null;
 
+    @property(cc.Label)
+    bigSmallResult: cc.Label = null;
+
+    @property(cc.Node)
+    spinOverlay: cc.Node = null;
+
     main: FruitSlot;
 
     initBetOptions(main: FruitSlot) {
@@ -33,33 +36,24 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         this.main.onBetItemClick(event);
     }
 
-    async spin(finish: any) {
-        const symbolPositions = finish.result.symbolPositions[0];
+    highlightWinningChoice(finish: any) {
         const choiceWining = this.getWinningOption(finish.result.symbols[0]);
+        const symbolPositions = finish.result.symbolPositions[0];
         const bigSmallWining = finish.result.bigSmall.choice;
-        for (let i = 0; i <= symbolPositions; i++) {
-            const timeGap = i <= 12 ? 0.02 * i : 0.01 * i;
-            const item = this.spinItems[i];
-            if (i > 0) {
-                await GameUtils.delayTime(timeGap);
-            }
-            item.setHighlightItems(true, false);
-        }
 
-        cc.tween(this.spinItems)
+        this.spinItems[symbolPositions].setHighlightItems(true, true);
+        cc.tween(this.betItems)
             .call(() => {
-                this.spinItems[symbolPositions].setHighlightItems(true, true);
+                this.betItems.forEach((betItem: FruitSlotBetItem) => {
+                    const nodeName = betItem.node.name;
+                    if (nodeName === choiceWining || nodeName === bigSmallWining) {
+                        betItem.setHighlight(true, true);
+                    }
+                });
             })
-            .delay(0.5)
-            .call(() => {})
+            .delay(2)
+            .call(() => (this.spinItems[symbolPositions].highlight.opacity = 255))
             .start();
-
-        this.betItems.forEach((betItem: FruitSlotBetItem) => {
-            const nodeName = betItem.node.name;
-            if (nodeName === choiceWining || nodeName === bigSmallWining) {
-                betItem.setHighlight(true, true);
-            }
-        });
     }
 
     getWinningOption(choice: string) {
@@ -88,5 +82,58 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         this.ledLightAnimation.active = true;
         const ledSkeleton = this.ledLightAnimation.getComponent(sp.Skeleton);
         ledSkeleton.setAnimation(0, ledSkeleton.animation, true);
+    }
+
+    randomNumberAnimation() {
+        let currentIndex = 0;
+        const arr = Array.from({ length: 40 }, () => Math.floor(Math.random() * 14));
+        cc.tween({ itemIndex: 0 })
+            .to(
+                5,
+                { itemIndex: 39 },
+                {
+                    easing: "circOut",
+                    onUpdate: (target, ratio) => {
+                        const node = Math.round(target.itemIndex);
+                        if (currentIndex !== node) {
+                            currentIndex = node;
+
+                            const numberText = arr[currentIndex] < 10 ? "0" + arr[currentIndex].toString() : arr[currentIndex].toString();
+                            this.bigSmallResult.string = numberText;
+                        }
+                    }
+                }
+            )
+            .start();
+    }
+
+    spinItemAnimation(finish: any) {
+        let currentIndex = 0;
+        const maxItem = this.spinItems.length;
+        const position = finish.result.symbolPositions[0];
+        const temp = position + maxItem * 5;
+
+        cc.tween({ itemIndex: 0 })
+            .to(
+                6,
+                { itemIndex: temp },
+                {
+                    easing: "quartOut",
+                    onUpdate: (target, ratio) => {
+                        const node = Math.round(target.itemIndex);
+                        if (currentIndex <= node) {
+                            let index = currentIndex;
+
+                            currentIndex = node;
+
+                            for (; index < node; index++) {
+                                const highlightPosition = index % maxItem;
+                                this.spinItems[highlightPosition].setHighlightItems(true, false);
+                            }
+                        }
+                    }
+                }
+            )
+            .start();
     }
 }

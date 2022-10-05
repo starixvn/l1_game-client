@@ -10,10 +10,7 @@ export default class FruitSlotSpinItem extends cc.Component {
         if (highlight && isAnimated) {
             const isRepeat = isRepeatAnim ? 10 : 1;
             cc.tween(this.highlight)
-                .repeat(
-                    isRepeat,
-                    cc.tween().to(0.05, { opacity: 255 }, { easing: "cubicIn" }).delay(0.2).to(0.05, { opacity: 0 }, { easing: "cubicOut" })
-                )
+                .repeat(isRepeat, cc.tween().to(0.05, { opacity: 255 }).delay(0.1).to(0.05, { opacity: 0 }))
                 .start();
         }
     }

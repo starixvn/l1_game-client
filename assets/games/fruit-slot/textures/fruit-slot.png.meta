@@ -2,7 +2,7 @@
   "ver": "2.3.7",
   "uuid": "431a80e5-ac79-46c5-8b28-f8e531e4c7d6",
   "importer": "texture",
-  "type": "raw",
+  "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
@@ -11,5 +11,28 @@
   "width": 1024,
   "height": 2048,
   "platformSettings": {},
-  "subMetas": {}
+  "subMetas": {
+    "fruit-slot": {
+      "ver": "1.0.6",
+      "uuid": "6219f868-9a38-4179-861f-1b5e55741132",
+      "importer": "sprite-frame",
+      "rawTextureUuid": "431a80e5-ac79-46c5-8b28-f8e531e4c7d6",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 1,
+      "trimY": 1,
+      "width": 1022,
+      "height": 2046,
+      "rawWidth": 1024,
+      "rawHeight": 2048,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
 }
