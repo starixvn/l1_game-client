@@ -10,11 +10,14 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame,
+    outRoomGame
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
 import MultiplayGame from "./MultiplayGame";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+import MultiplayTableGameMenu from "./MultiplayTableGameMenu";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,9 +41,13 @@ export default class MultiplayTableGame extends MultiplayGame {
     @property(cc.Node)
     mainContainer: cc.Node = null;
 
-    inGameMenu: InGameMenu;
+    @property(cc.Prefab)
+    miniNoticePrefab: cc.Prefab = null;
+
+    inGameMenu: MultiplayTableGameMenu;
     userProfile: UserProfile;
     public gameState = GameState.None;
+    isWinningNotification = true;
 
     assignPropertiesForSingle(single: GameBase, isMain: boolean) {
         super.assignPropertiesForSingle(single, isMain);
@@ -67,8 +74,16 @@ export default class MultiplayTableGame extends MultiplayGame {
         cc.RedT.inGame = null;
     }
 
+    onEnable() {
+        super.onEnable();
+
+        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
+        this.isWinningNotification = gameSetting.showWinningNotification ?? true;
+        this.inGameMenu.winningNotifiationComp.setSwapStatus(this.isWinningNotification);
+    }
+
     onIngameMenuInitialized(node: cc.Node) {
-        const inGameMenu = node.getComponent(InGameMenu);
+        const inGameMenu = node.getComponent(MultiplayTableGameMenu);
         if (inGameMenu) {
             this.inGameMenu = inGameMenu;
             this.initEventForInGameMenu();
@@ -82,6 +97,8 @@ export default class MultiplayTableGame extends MultiplayGame {
         node.on(InGameMenuEvents.OPEN_GUIDE, this.openGuide, this);
         node.on(InGameMenuEvents.CLOSE_GAME, this.onCloseGame, this);
         node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGameClick, this);
+        node.on(InGameMenuEvents.OPEN_STATISTIC, this.onScoreBoardClick, this);
+        node.on(InGameMenuEvents.CHANGE_WINNING_NOTIFICATION, this.onWinningNotificationClick, this);
         return node;
     }
 
@@ -101,6 +118,29 @@ export default class MultiplayTableGame extends MultiplayGame {
         scoreBoard.openGameCallback = (gameId) => {
             this.switchGameToMain(gameId);
         };
+    }
+
+    onWinningNotificationClick() {
+        this.isWinningNotification = !this.isWinningNotification;
+        this.inGameMenu.winningNotifiationComp.setSwapStatus(this.isWinningNotification);
+        this.isWinningNotification
+            ? this.showMiniWarning(i18n.t("messages.winningNotificationOn"))
+            : this.showMiniWarning(i18n.t("messages.winningNotificationOff"));
+
+        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
+        gameSetting.showWinningNotification = this.isWinningNotification;
+        GameUtils.setSpecificGameSetting(this.gameId, gameSetting);
+    }
+
+    showMiniWarning(data): cc.Node {
+        if (!this.node.activeInHierarchy) {
+            return null;
+        }
+        const notice = cc.instantiate(this.miniNoticePrefab);
+        const noticeComponent = notice.getComponent("mini_warning");
+        noticeComponent.text.string = data;
+        this.mainContainer.addChild(notice);
+        return notice;
     }
 
     //#region Methods for room game

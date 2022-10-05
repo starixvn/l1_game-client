@@ -177,7 +177,9 @@ const data = {
         topMessage2a: "QUAY TRÚNG",
         topMessage2b: "ĐỂ NHÂN GIÁ TRỊ TIỀN THẮNG",
         topMessage3: "THẮNG LÊN ĐẾN %{maxWin}X TIỀN CƯỢC",
-        winTumbleMsg: "CHÚC MỪNG!"
+        winTumbleMsg: "CHÚC MỪNG!",
+        winningNotificationOn: "Bật thông báo cầu thuận lợi",
+        winningNotificationOff: "Tắt thông báo cầu thuận lợi"
     },
     ui: {
         choice_red2: "2 Đỏ",

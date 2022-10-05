@@ -159,7 +159,9 @@ const data = {
         topMessage2a: "HIT",
         topMessage2b: "TO MULTIPLY TUMBLE WIN",
         topMessage3: "WIN UP TO 2000X BET",
-        winTumbleMsg: "CONGRATULATION!"
+        winTumbleMsg: "CONGRATULATION!",
+        winningNotificationOn: "Winning streak notification “ON”",
+        winningNotificationOff: "Winning streak notification “OFF”"
     },
     ui: {
         choice_red2: "2 红",
