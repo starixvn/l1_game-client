@@ -189,6 +189,8 @@ export default class FruitSlot extends NewGameRoomBase {
     }
 
     showGenerateResult(finish: any) {
+        this.timeAnimShowResult(true);
+        this.finishShowResult = false;
         const delaySpinAnim = 5;
         const isLucky = finish.result.isLucky;
         this.setBgVisibility(this.betOptionsUI.spinOverlay, false);
@@ -202,6 +204,7 @@ export default class FruitSlot extends NewGameRoomBase {
                 })
                 .delay(delaySpinAnim)
                 .call(() => {
+                    this.gameData.settlement.finishShowResult(finish, true);
                     this.betOptionsUI.ledLightAnimation.active = false;
                     this.betOptionsUI.highlightWinningChoice(finish);
                 })
@@ -223,8 +226,6 @@ export default class FruitSlot extends NewGameRoomBase {
         const winChoice = finish;
         this.betOptionsUI.bigSmallResult.string = "00000";
         console.log("showSettlementResult", winChoice);
-        this.finishShowResult = false;
-        this.gameData.settlement.finishShowResult(finish, true);
     }
 
     setBgVisibility(node: cc.Node, visible: boolean) {

@@ -16,6 +16,7 @@ export const handleAfterSettlementResult =
     (game: FruitSlot) =>
     ({ settlement }: { settlement: FruitSlotFinishModel }) => {
         game.finishShowResult = true;
+        game.timeAnimShowResult(false);
         game.statistic.addItem(settlement);
         game.miniRoundHistory.addNewItem(settlement);
     };
