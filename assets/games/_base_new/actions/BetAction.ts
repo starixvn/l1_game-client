@@ -36,7 +36,7 @@ export const placeBetSuccess = (gameBase: MiniGameBase) => (endBet: number) => {
 };
 
 export const placeOwnChip = (gameBase: MiniGameBase) => (ownBet) => {
-    if (gameBase.isDisableGame) {
+    if (!gameBase.isPlacingFakeChip || gameBase.isDisableGame) {
         return;
     }
     gameBase.betItems.forEach((item) => {
@@ -57,6 +57,9 @@ export const changeBetPercentage = (game: MiniGameBase) => (betPercentage: any) 
 };
 
 export const handleFlyChips = (game: MiniGameBase) => (data) => {
+    if (!game.isPlacingFakeChip) {
+        return;
+    }
     if (data.endBet) {
         const betItem = game.betItems.find((item) => item.node.name.toLowerCase() === data.betChoice.toLowerCase());
         game.betChips.placeChipToChipBox(data.endBet, betItem.chipNode, null, null);
@@ -82,6 +85,9 @@ export const handleTotalChips = (game: MiniGameBase) => (dataChips) => {
 };
 
 export const handlePayChips = (gameBase: MiniGameBase) => (finishData) => {
+    if (!gameBase.isPlacingFakeChip) {
+        return;
+    }
     const { settlement, animated } = finishData;
     if (!animated) {
         return;

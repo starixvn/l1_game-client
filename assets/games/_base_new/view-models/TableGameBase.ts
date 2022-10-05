@@ -38,6 +38,7 @@ export default class TableGameBase extends MiniGameBase {
     }
 
     public isMiniGameInContainer = true;
+    isPlacingFakeChip = false;
     otherPlayersCache = {};
     playerChips = [];
     readonly payChipFlyTime = 1.2;
