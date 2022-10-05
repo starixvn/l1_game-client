@@ -1,23 +1,41 @@
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
-import KenoHistoryItem from "../../../keno-pro/view-models/KenoHistoryItem";
 import MiniKenoHistory from "./MiniKenoHistory";
+import MultiplayGameHistoryItem from "../../../multiplay/scripts/MultiplayGameHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniKenoHistoryItem extends KenoHistoryItem {
+export default class MiniKenoHistoryItem extends MultiplayGameHistoryItem {
     @property(cc.Label)
-    time: cc.Label = null;
+    big: cc.Label = null;
 
     @property(cc.Label)
-    roundId: cc.Label = null;
+    small: cc.Label = null;
+
+    @property(cc.Label)
+    odd: cc.Label = null;
+
+    @property(cc.Label)
+    even: cc.Label = null;
+
+    @property(cc.Label)
+    gold: cc.Label = null;
+
+    @property(cc.Label)
+    wood: cc.Label = null;
+
+    @property(cc.Label)
+    water: cc.Label = null;
+
+    @property(cc.Label)
+    fire: cc.Label = null;
+
+    @property(cc.Label)
+    earth: cc.Label = null;
 
     @property(cc.Label)
     total: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     public result: number[];
     public settlementResult: any;
@@ -32,10 +50,12 @@ export default class MiniKenoHistoryItem extends KenoHistoryItem {
 
     onTotalClick() {
         this.main.dropdownList.closeDropDown();
-        this.main.showHistoryDetail(this.roundId.string, this.result, this.settlementResult, this.betLogDetails);
+        this.main.showHistoryDetail(this.round.string, this.result, this.settlementResult, this.betLogDetails);
     }
 
-    setData(betLog: any) {
+    setData(betLog: any, index) {
+        super.setData(betLog, index);
+
         const { phien, betLogDetails, betwin, result, settlementResult } = betLog;
 
         this.node.active = true;
@@ -43,7 +63,7 @@ export default class MiniKenoHistoryItem extends KenoHistoryItem {
         this.settlementResult = settlementResult;
         this.betLogDetails = betLogDetails;
         this.time.string = getStringDateByTime(betLog.time);
-        this.roundId.string = phien;
+        this.round.string = phien;
 
         this.betChoices.forEach((choice) => {
             this[choice].string = numberWithCommas(betLog[choice]);

@@ -26,7 +26,7 @@ export default class MiniKenoHistory extends DropdownListMultiplayGameHistory {
     private historyDetail: MiniKenoHistoryDetail = null;
 
     protected readonly options: NewDropDownOption[] = [
-        new NewDropDownOption(DropdownListMultiplayGameHistory.AllGameHistory, i18n.t("ui.all_games")),
+        new NewDropDownOption(DropdownListMultiplayGameHistory.AllGameHistory, i18n.t("ui.all")),
         new NewDropDownOption(MegaKenoId, "Mega Keno"),
         new NewDropDownOption(MegaKeno2Id, "Mega Keno 2"),
         new NewDropDownOption(KenoMiniId, "Keno Mini"),
@@ -38,10 +38,11 @@ export default class MiniKenoHistory extends DropdownListMultiplayGameHistory {
     ];
 
     bindItemRowData(betLog, index) {
+        super.bindItemRowData(betLog, index);
         const node = cc.instantiate(this.itemPrefab);
         const item = node.getComponent(MiniKenoHistoryItem);
         item.init(this);
-        item.setData(betLog);
+        item.setData(betLog, index);
         this.content.addChild(node);
     }
 
