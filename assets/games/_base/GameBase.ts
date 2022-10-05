@@ -804,6 +804,9 @@ export default class GameBase extends GameViewBase {
     }
 
     saveRebetStorage(data: any) {
+        if (!data) {
+            return;
+        }
         const { roundId, ownBets } = data;
         if (ownBets && roundId > 0) {
             const storage = GameUtils.getStorageGame(StorageKey.SpecificGame, this.gameId);
