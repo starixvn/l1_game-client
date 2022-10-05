@@ -123,6 +123,7 @@ export default class MiniPanel extends BaseComponent {
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
 
+        this.initAnnouncement();
         this.initPopUpMiniGames();
         this.initBoostedOdds();
 
@@ -357,13 +358,18 @@ export default class MiniPanel extends BaseComponent {
         );
     }
 
-    showAnnouncement() {
+    initAnnouncement() {
         const node = cc.instantiate(this.announcementPrefab);
         this.promotionAnnouncement = node.getComponent(PromotionAnnouncements);
         if (this.promotionAnnouncement) {
             this.promotionAnnouncement.miniPanel = this;
         }
+        this.promotionAnnouncement.node.active = false;
         this.announcementContainer.addChild(node);
+    }
+
+    showAnnouncement() {
+        this.promotionAnnouncement.node.active = true;
     }
 
     showErrorNotice(error): Notice {

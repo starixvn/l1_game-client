@@ -16,20 +16,18 @@ export default class PromotionNotifications extends cc.Component {
     @property(cc.Node)
     announcementContainer: cc.Node = null;
 
-    start(): void {
-        PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, (data) => {
-            this.showNotification(data);
-        });
+    onLoad(): void {
+        PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, this.showNotification.bind(this));
     }
 
-    onDestroy() {
-        PromotionNotificationsHandler.getInstance().removeAllListeners();
-    }
-
-    showNotification(data: PromotionNotification[]) {
+    showNotification() {
+        const promotion = PromotionNotificationsHandler.getInstance()._promotionNotifications;
+        if (!this.icon || !this.countNode) {
+            return;
+        }
         this.icon.active = false;
-        if (data.length > 0) {
-            this.countNode.getChildByName("count").getComponent(cc.Label).string = data.length.toString();
+        if (promotion?.length > 0) {
+            this.countNode.getChildByName("count").getComponent(cc.Label).string = promotion?.length.toString();
             this.icon.active = true;
         }
     }

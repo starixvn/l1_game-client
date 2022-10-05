@@ -1,7 +1,6 @@
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import PromotionAnnouncementItem, { PromotionAnnouncementItemEvent } from "./PromotionAnnouncementItem";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import PromotionNotificationsHandler, { PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -57,26 +56,23 @@ export default class PromotionAnnouncements extends cc.Component {
 
     onLoad(): void {
         PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, this.setData.bind(this));
-        this.dialog.addOnDidHide(() => this.node.destroy());
-
         this.setData();
-    }
-
-    onDestroy() {
-        PromotionNotificationsHandler.getInstance().removeAllListeners();
     }
 
     public setData() {
         const promotion = PromotionNotificationsHandler.getInstance()._promotionNotifications;
         const isRenderItem = PromotionNotificationsHandler.getInstance()._reloadAnnouncementPopup;
-        if (promotion.length < 1) {
+        if (!this.count || !this.content) {
+            return;
+        }
+        if (promotion?.length < 1) {
             this.dialog.closeDialog();
             return;
         }
         if (isRenderItem || this.announcementItems?.length < 1) {
             this.announcementItems?.forEach((item) => item.destroy());
             this.announcementItems = [];
-            this.count.string = promotion.length.toString();
+            this.count.string = promotion?.length.toString();
             this.count.node.parent.active = true;
             promotion.forEach((detail) => {
                 const node = cc.instantiate(this.promoItemPrefab);
@@ -87,7 +83,7 @@ export default class PromotionAnnouncements extends cc.Component {
                 }
                 item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
                 item.setData(detail);
-                this.announcementItems.push(node);
+                this.announcementItems?.push(node);
             });
         }
     }
