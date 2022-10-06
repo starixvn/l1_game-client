@@ -77,6 +77,10 @@ export default class MegaKeno extends TableGameBase {
     }
 
     showSettlementResult(settlement: any) {
+        if (!this.settlementResultAnimation) {
+            this.gameData.settlement.finishShowResult(settlement, true);
+            return;
+        }
         this.settlementResultAnimation.show();
         this.settlementResultAnimation.playResultAnimation(settlement, () => {
             this.settlementResultAnimation.hide();
