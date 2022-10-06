@@ -97,7 +97,7 @@ export default class MultiplayGame extends GameViewBase {
 
         const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         this.collapsedExpandButton.isChecked = gameSetting.openSubGames ?? true;
-        this.showHideSubAreas();
+        this.showHideSubAreas(false);
         this.promotionGuideComp && this.promotionGuideComp.showGuide();
     }
 
@@ -267,6 +267,10 @@ export default class MultiplayGame extends GameViewBase {
 
     handleSubGamesArea() {
         this.showHideSubAreas();
+        this.storeStatusSubGameArea();
+    }
+
+    storeStatusSubGameArea() {
         const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         gameSetting.openSubGames = this.collapsedExpandButton.isChecked;
         GameUtils.setSpecificGameSetting(this.gameId, gameSetting);
@@ -307,7 +311,13 @@ export default class MultiplayGame extends GameViewBase {
         this.promotionGuideComp.addComponent(DraggableItem).targetNode = this.node;
     }
 
-    showHideSubAreas() {
-        this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation() : this.hideSubGamesWithAnimation();
+    showHideSubAreas(animated = true) {
+        this.collapsedExpandButton.isChecked
+            ? animated
+                ? this.showSubGamesWithAnimation()
+                : this.showSubGamesWithAnimation(false)
+            : animated
+            ? this.hideSubGamesWithAnimation()
+            : this.hideSubGamesWithAnimation(false);
     }
 }

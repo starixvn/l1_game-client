@@ -50,10 +50,16 @@ export default class MultiplayTableGame extends MultiplayGame {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    subContainer: cc.Node = null;
+
     inGameMenu: MultiplayTableGameMenu;
     userProfile: UserProfile;
     public gameState = GameState.None;
     isWinningNotification = true;
+    subContainerWidth: number;
+    subContainerWidget: cc.Widget;
+    mainGameWidget: cc.Widget;
 
     assignPropertiesForSingle(single: GameBase, isMain: boolean) {
         super.assignPropertiesForSingle(single, isMain);
@@ -73,6 +79,9 @@ export default class MultiplayTableGame extends MultiplayGame {
         cc.RedT && (cc.RedT.inGame = this);
         this.loadUserData(cc.RedT?.user);
         initMusicBackground(this)();
+        this.subContainerWidth = this.subContainer.width;
+        this.subContainerWidget = this.subContainer.getComponent(cc.Widget);
+        this.mainGameWidget = this.mainContainer.getComponent(cc.Widget);
     }
 
     onDestroy() {
@@ -185,20 +194,66 @@ export default class MultiplayTableGame extends MultiplayGame {
         loadUserData(this)(user);
     }
 
-    showHideSubAreas() {
-        super.showHideSubAreas();
-        const widgetNode = this.collapsedExpandButton.node.getComponent(cc.Widget);
-        if (!this.collapsedExpandButton.isChecked) {
-            this.mainContainer.x = 0;
-            widgetNode.enabled = true;
-            widgetNode.isAbsoluteRight = true;
-            widgetNode.updateAlignment();
+    handleSubGamesArea() {
+        super.handleSubGamesArea();
+        const icon = this.collapsedExpandButton.node.getChildByName("icon-arrow");
+        icon.scaleX = this.collapsedExpandButton.isChecked ? 1 : -1;
+    }
+
+    showSubGamesWithAnimation(isAnimated = true) {
+        if (isAnimated) {
+            cc.tween(this.subContainerWidget)
+                .to(
+                    0.2,
+                    { right: 0 },
+                    {
+                        easing: "sineOut",
+                        onUpdate: (target) => {
+                            this.onUpdatSubContainerWidgetWidget(target);
+                        }
+                    }
+                )
+                .start();
         } else {
-            widgetNode.enabled = false;
-            widgetNode.updateAlignment();
-            this.mainContainer.x = -170;
-            this.collapsedExpandButton.node.x = 17;
+            this.subContainerWidget.right = 0;
+            this.subContainerWidget.updateAlignment();
+
+            // align main game
+            this.mainGameWidget.right = this.subContainerWidth;
+            this.mainGameWidget.updateAlignment();
         }
+    }
+
+    hideSubGamesWithAnimation(isAnimated = true) {
+        if (isAnimated) {
+            cc.tween(this.subContainerWidget)
+                .to(
+                    0.2,
+                    { right: -this.subContainerWidth },
+                    {
+                        easing: "sineIn",
+                        onUpdate: (target) => {
+                            // align main game
+                            this.onUpdatSubContainerWidgetWidget(target);
+                        }
+                    }
+                )
+
+                .start();
+        } else {
+            this.subContainerWidget.right = -this.subContainerWidth;
+            this.subContainerWidget.updateAlignment();
+
+            // align main game
+            this.mainGameWidget.right = 0;
+            this.mainGameWidget.updateAlignment();
+        }
+    }
+
+    onUpdatSubContainerWidgetWidget(target) {
+        this.subContainerWidget.updateAlignment();
+        this.mainGameWidget.right = target.right + this.subContainerWidth;
+        this.mainGameWidget.updateAlignment();
     }
 
     //#endregion Methods for room game
