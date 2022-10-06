@@ -28,4 +28,7 @@ export default class MegaKenoSubGame extends MegaKeno {
     musicBg: cc.AudioSource = null;
 
     public showOtherPlayerChips = false;
+
+    //TODO:missing custom duration for Keno Mini
+    showResultDuration = 5;
 }
