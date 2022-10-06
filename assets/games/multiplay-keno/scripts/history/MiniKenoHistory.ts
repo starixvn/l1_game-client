@@ -1,17 +1,8 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import GameUtils from "../../../../common/GameUtils";
-import {
-    KenoEastId,
-    KenoMini2Id,
-    KenoMiniId,
-    KenoNorthId,
-    KenoSouthId,
-    KenoWestId,
-    MegaKenoId
-} from "../../../mini-keno/view-models/KenoUtils";
 import DropdownListMultiplayGameHistory from "../../../multiplay/scripts/DropdownListMultiplayGameHistory";
-import { MegaKeno2Id } from "../MegaKenoConfig";
+import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "../MegaKenoConfig";
 import MiniKenoHistoryDetail from "./MiniKenoHistoryDetail";
 import MiniKenoHistoryItem from "./MiniKenoHistoryItem";
 import NewDropDownOption from "../../../../common/new-drop-down-list/view-models/NewDropDownOption";
@@ -27,14 +18,14 @@ export default class MiniKenoHistory extends DropdownListMultiplayGameHistory {
 
     protected readonly options: NewDropDownOption[] = [
         new NewDropDownOption(DropdownListMultiplayGameHistory.AllGameHistory, i18n.t("ui.all")),
-        new NewDropDownOption(MegaKenoId, "Mega Keno"),
-        new NewDropDownOption(MegaKeno2Id, "Mega Keno 2"),
-        new NewDropDownOption(KenoMiniId, "Keno Mini"),
-        new NewDropDownOption(KenoMini2Id, "Keno Mini 2"),
-        new NewDropDownOption(KenoEastId, GameUtils.getGameNameString(KenoEastId)),
-        new NewDropDownOption(KenoWestId, GameUtils.getGameNameString(KenoWestId)),
-        new NewDropDownOption(KenoSouthId, GameUtils.getGameNameString(KenoSouthId)),
-        new NewDropDownOption(KenoNorthId, GameUtils.getGameNameString(KenoNorthId))
+        new NewDropDownOption(MegaKeno1Id, GameUtils.getGameNameString(MegaKeno1Id)),
+        new NewDropDownOption(MegaKeno2Id, GameUtils.getGameNameString(MegaKeno2Id)),
+        new NewDropDownOption(MegaKeno3Id, GameUtils.getGameNameString(MegaKeno3Id)),
+        new NewDropDownOption(MegaKeno4Id, GameUtils.getGameNameString(MegaKeno4Id)),
+        new NewDropDownOption(MegaKeno5Id, GameUtils.getGameNameString(MegaKeno5Id)),
+        new NewDropDownOption(MegaKeno6Id, GameUtils.getGameNameString(MegaKeno6Id)),
+        new NewDropDownOption(MegaKeno7Id, GameUtils.getGameNameString(MegaKeno7Id)),
+        new NewDropDownOption(MegaKeno8Id, GameUtils.getGameNameString(MegaKeno8Id))
     ];
 
     bindItemRowData(betLog, index) {
