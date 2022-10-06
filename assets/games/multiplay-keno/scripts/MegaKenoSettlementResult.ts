@@ -14,8 +14,18 @@ export default class MegaKenoSettlementResult extends cc.Component {
     @property(KenoSettlementWinChoices)
     settlementChoices: KenoSettlementWinChoices = null;
 
+    @property(cc.Label)
+    totalLabel: cc.Label = null;
+
+    @property()
+    drawingBallDelay = 1;
+
+    @property()
+    drawingBallDuration = 4;
+
     numberLabels: cc.Label[] = [];
 
+    protected appearanceOrderNumbers: number[];
     onLoad() {
         this.numberLabels = this.numberContainer.getComponentsInChildren(cc.Label);
     }
@@ -30,22 +40,57 @@ export default class MegaKenoSettlementResult extends cc.Component {
     }
 
     playResultAnimation(settlement: any, onComplete: () => void) {
+        this.show();
+
         const { result, settlementResult } = settlement;
 
+        this.totalLabel && (this.totalLabel.string = "");
         this.setResultsNumber(result);
         this.settlementChoices.setSettlement(settlementResult);
 
+        this.scheduleOnce(this.startCountTotal, this.drawingBallDelay);
         this.animation.clear();
         this.animation.on("finished", onComplete);
         this.animation.play();
     }
 
+    startCountTotal() {
+        if (!this.totalLabel) {
+            return;
+        }
+
+        let index = 1;
+        let total = this.appearanceOrderNumbers[0];
+        this.totalLabel.string = total.toString();
+        const repeatTime = this.appearanceOrderNumbers.length - 1;
+        const drawingStepDelay = this.drawingBallDuration / repeatTime;
+        cc.tween(this.node)
+            .repeat(
+                repeatTime,
+                cc
+                    .tween()
+                    .delay(drawingStepDelay)
+                    .call(() => {
+                        if (index >= this.appearanceOrderNumbers.length) {
+                            console.warn("wrong index in appearanceOrderNumbers ", index);
+                            return;
+                        }
+                        total += this.appearanceOrderNumbers[index];
+                        this.totalLabel.string = total.toString();
+                        index++;
+                    })
+            )
+            .start();
+    }
+
     setResultsNumber(results: number[]) {
+        this.appearanceOrderNumbers = [...results];
         const half = results.length / 2;
         results.forEach((result, index) => {
             const isLeft = index < half;
-            const labelIndex = isLeft ? index * 2 : (index - half) * 2 + 1;
+            const labelIndex = isLeft ? index * 2 : (results.length - 1 - index) * 2 + 1;
             this.numberLabels[labelIndex].string = result.toString();
+            this.appearanceOrderNumbers[labelIndex] = result;
         });
     }
 }
