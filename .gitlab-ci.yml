@@ -29,7 +29,7 @@ include:
     - project: "ci/repos-ci/pentagon_l1_unbalanced_bigsmall_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
-      
+
     - project: "ci/repos-ci/pentagon_l2_blockchain_baccarat_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
@@ -52,7 +52,11 @@ include:
 
     - project: "ci/repos-ci/pentagon_l2_mini_sedie_client"
       ref: master
-      file: "gitlab-ci-mixing.yml"  
+      file: "gitlab-ci-mixing.yml"
+
+    - project: "ci/repos-ci/pentagon_l1_mega_keno_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
 
     - local: "ci/*.yml"
 
@@ -141,10 +145,10 @@ variables:
     <<: *build_cocos_creator_script
     extends:
         - .build:image:l1_mini_sedie_client:rules
-        
+
 .base_build_cocos_web_l2_blockchain_baccarat_client:
     <<: *build_cocos_creator_script
-    extends:        
+    extends:
         - .build:image:l2_blockchain_baccarat_client:rules
 
 .base_build_cocos_web_l2_unbalanced_bigsmall_client:
@@ -165,4 +169,9 @@ variables:
 .base_build_cocos_web_l2_mini_sedie_client:
     <<: *build_cocos_creator_script
     extends:
-        - .build:image:l2_mini_sedie_client:rules        
+        - .build:image:l2_mini_sedie_client:rules
+
+.base_build_cocos_web_l1_mega_keno_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l1_way_to_goal_client:rules
