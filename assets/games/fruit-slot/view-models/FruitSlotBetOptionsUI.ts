@@ -22,7 +22,13 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     bigSmallResult: cc.Label = null;
 
     @property(cc.Node)
+    bigSmallResultBackground: cc.Node = null;
+
+    @property(cc.Node)
     bgLockSpin: cc.Node = null;
+
+    @property(cc.Animation)
+    lightAnimation: cc.Animation = null;
 
     main: FruitSlot;
 
@@ -36,12 +42,19 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         this.main.onBetItemClick(event);
     }
 
+    highlightBigSmall() {
+        cc.tween(this.bigSmallResultBackground)
+            .repeat(20, cc.tween().to(0.15, { opacity: 255 }).to(0.15, { opacity: 100 }))
+            .start();
+    }
+
     highlightWinningChoice(finish: any) {
         const choiceWining = this.getWinningOption(finish.result.symbols[0]);
         const symbolPositions = finish.result.symbolPositions[0];
         const bigSmallWining = finish.result.bigSmall.choice;
 
         this.spinItems[symbolPositions].setHighlightItems(true, true);
+        this.highlightBigSmall();
         cc.tween(this.betItems)
             .call(() => {
                 this.betItems.forEach((betItem: FruitSlotBetItem) => {
@@ -87,14 +100,14 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
     randomNumberAnimation() {
         let currentIndex = 0;
-        const arr = Array.from({ length: 40 }, () => Math.floor(Math.random() * 14));
+        const arr = Array.from({ length: 100 }, () => Math.floor(Math.random() * 14));
         cc.tween({ itemIndex: 0 })
             .to(
-                5,
+                6.5,
                 { itemIndex: 39 },
                 {
-                    easing: "circOut",
-                    onUpdate: (target, ratio) => {
+                    easing: "sineInOut",
+                    onUpdate: (target) => {
                         const node = Math.round(target.itemIndex);
                         if (currentIndex !== node) {
                             currentIndex = node;
@@ -113,18 +126,18 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         const maxItem = this.spinItems.length;
         const position = finish.result.symbolPositions[0];
         const temp = position + maxItem * 5;
-        
+
         this.betItems.forEach((betItem: FruitSlotBetItem) => {
             betItem.node.opacity = 150;
         });
 
         cc.tween({ itemIndex: 0 })
             .to(
-                7,
+                6.5,
                 { itemIndex: temp },
                 {
-                    easing: "quartOut",
-                    onUpdate: (target, ratio) => {
+                    easing: "sineInOut",
+                    onUpdate: (target) => {
                         const node = Math.round(target.itemIndex);
                         if (currentIndex <= node) {
                             let index = currentIndex;
@@ -140,5 +153,15 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
                 }
             )
             .start();
+    }
+
+    resetUIBettingZone() {
+        this.bigSmallResult.string = "";
+        this.bigSmallResultBackground.opacity = 0;
+        console.log("bigSmallResultBackground", this.bigSmallResultBackground.opacity);
+        this.lightAnimation.node.active = true;
+        this.betItems.forEach((item) => (item.node.opacity = 255));
+        this.spinItems.forEach((item) => item.resetHighlight());
+        this.main.setBgVisibility(this.bgLockSpin, true);
     }
 }

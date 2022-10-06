@@ -4,18 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FruitSlotAnimatedTimer extends AnimatedTime {
-    @property(cc.Node)
-    waitingContainer: cc.Node = null;
-
-    @property(cc.Node)
-    waitingDot1: cc.Node = null;
-
-    @property(cc.Node)
-    waitingDot2: cc.Node = null;
-
-    @property(cc.Node)
-    waitingDot3: cc.Node = null;
-
     isShowWaiting = false;
 
     setRedTime(time: number) {
@@ -72,23 +60,7 @@ export default class FruitSlotAnimatedTimer extends AnimatedTime {
         this.secondChar.node.color = this.firstChar.node.color;
     }
 
-    //   public hasJumpAnimation(hasJump: boolean) {
-    //     this.hasJump = hasJump;
-    //     return this;
-    //   }
-
     handleBetTimeAnimation(node: cc.Node) {}
-
-    public showWaiting() {
-        if (this.isShowWaiting) {
-            return;
-        }
-
-        const anim = this.waitingContainer.getComponent(cc.Animation);
-
-        this.waitingContainer.active = true;
-        anim.play();
-    }
 
     public showHideCountdown(show: boolean) {
         this.firstChar.node.active = show;

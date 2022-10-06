@@ -6,8 +6,6 @@ import FruitSlotGameData from "../event-models/FruitSlotGameData";
 import FruitSlotMiniRoundHistory from "./FruitSlotMiniRoundHistory";
 import FruitSlotStatistic from "./FruitSlotStatistic";
 import FruitSlotAnimatedTimer from "./FruitSlotAnimatedTimer";
-import { updateWaiting } from "./FruitSlotRenderClock";
-import { NewDurations } from "../../_base_new/models/NewDurations";
 import GameUtils from "../../../common/GameUtils";
 import FruitSlotPlacingBet from "./FruitSlotPlacingBet";
 import { FruitSlotChoicesConst } from "../event-models/FruitSlotChoices";
@@ -47,13 +45,10 @@ export default class FruitSlot extends NewGameRoomBase {
     statisticPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    timeWaitDot: cc.Node = null;
-
-    // @property(cc.Node)
-    // chipContainer: cc.Node = null;
+    ownBetContainer: cc.Node = null;
 
     @property(cc.Node)
-    ownBetContainer: cc.Node = null;
+    chipContainer: cc.Node = null;
 
     @property(cc.Node)
     totalBetContainer: cc.Node = null;
@@ -150,6 +145,7 @@ export default class FruitSlot extends NewGameRoomBase {
         this.betItems?.forEach((item) => {
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
+            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
         });
     }
 
@@ -262,6 +258,16 @@ export default class FruitSlot extends NewGameRoomBase {
             }, []);
     }
 
+    setBgVisibility(node: cc.Node, visible: boolean, animated = true) {
+        if (animated) {
+            cc.tween(node)
+                .to(0.3, { opacity: visible ? 255 : 0 })
+                .start();
+        } else {
+            node.opacity = visible ? 255 : 0;
+        }
+    }
+
     updateBetStatus(forceUpdate = false) {
         const disableButton = "btn_disable";
         if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
@@ -273,20 +279,6 @@ export default class FruitSlot extends NewGameRoomBase {
 
         this.btnDouble.interactable = !isEmptyBetChoice;
         this.btnDouble.node.getChildByName(disableButton).active = !this.btnDouble.interactable;
-    }
-
-    showGenerateResult(finish: any) {
-        const generatedItem = finish;
-        this.spinItems.forEach((spinItem: FruitSlotSpinItem) => {
-            const item = spinItem.node.name;
-            spinItem.setHighlightItems(generatedItem[item], true);
-            // console.log(generatedItem[item]);
-        });
-    }
-
-    showSettlementResult(finish: any) {
-        const winChoice = finish;
-        // console.log("showSettlementResult", winChoice);
     }
 
     clearTempBetChoices() {

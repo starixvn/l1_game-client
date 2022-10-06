@@ -14,17 +14,20 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.timeAnimShowResult(!this.main.finishShowResult);
     }
 
-    showRoundTime() {
-        super.showRoundTime();
-        if (this.main.timeWaitDot) {
-            this.main.timeWaitDot.active = false;
-        }
+    // handleInRoundTime() {
+    //     super.handleInRoundTime();
+    //     this.main.betItems.forEach((item) => (item.node.opacity = 255));
+    //     this.main.spinItems.forEach((item) => item.resetHighlight());
+    //     this.main.setBgVisibility(this.main.betOptionsUI.bgLockSpin, true);
+    //     this.main.betOptionsUI.bigSmallResultBackground.opacity = 0;
+    // }
+
+    handleStartingNewGameRound() {
+        super.handleStartingNewGameRound();
+        this.main.betOptionsUI.resetUIBettingZone();
     }
 
     showWaitTime() {
-        //const timeWaitAnim = this.main.timeWaitDot.getComponent(cc.Animation);
-        this.main.timeWaitDot.active = true;
-        //timeWaitAnim.play();
         this.main.timeWaitNode.active = true;
         this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
     }
