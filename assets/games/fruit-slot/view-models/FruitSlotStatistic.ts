@@ -75,7 +75,7 @@ export default class FruitSlotStatistic extends cc.Component {
         if (this.isRenderNext) {
             this.isRenderNext = false;
         }
-
+        // console.log("FruitSlotRoundHistory", round);
         const index = this.rounds.findIndex((r) => r !== null);
         if (index > 0) {
             this.rounds[index - 1] = round;

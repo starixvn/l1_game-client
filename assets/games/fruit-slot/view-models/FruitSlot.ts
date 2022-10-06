@@ -12,6 +12,7 @@ import GameUtils from "../../../common/GameUtils";
 import FruitSlotPlacingBet from "./FruitSlotPlacingBet";
 import { FruitSlotChoicesConst } from "../event-models/FruitSlotChoices";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
+import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { handleRenderMiniRoundHistoryAndStatistic, handleRenderOwnBet } from "../actions/FruitSlotJoinRoomActions";
@@ -21,6 +22,10 @@ import FruitSlotChips from "./FruitSlotChips";
 import { BetModel } from "../../_base_new/models/BetModel";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
+import NewButton from "../../../common/custom-button/NewButton";
+import _ = require("lodash");
+import { updateOwnBets } from "../actions/FruitSlotCustomActions";
+import { i18n } from "../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;
 export const FruitSlotGameId = 59;
@@ -78,7 +83,9 @@ export default class FruitSlot extends NewGameRoomBase {
 
     currentBetChoices: any = {};
     betChoicesStack = [];
+    tempBetChoices: any = {};
 
+    previousRoundBetChoices: any = {};
     constructor() {
         super();
         this.gameId = FruitSlotGameId;
@@ -89,7 +96,11 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData = new FruitSlotGameData();
         super.onLoad();
         this.initStatistic();
+        this.updateBetStatus(true);
+        this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
         this.initGameDataEvents();
+        this.initPlacingBet();
+        this.initButtonStatus();
     }
 
     openStatistic() {
@@ -105,6 +116,10 @@ export default class FruitSlot extends NewGameRoomBase {
         this.betHandler = new FruitSlotBetHandler(this);
     }
 
+    private initPlacingBet() {
+        this.placingBet = new FruitSlotPlacingBet(this.gameData, this, () => this.connection);
+    }
+
     emitterListener(emitter: EventEmitterBase, eventName: string, listener: (param: any) => any) {
         const storage = {
             emitter,
@@ -113,7 +128,6 @@ export default class FruitSlot extends NewGameRoomBase {
         };
         emitter.addListener(eventName, storage.listener);
         this.emitterStorages.push(storage);
-        console.log("emitterListener");
     }
 
     initGameDataEvents() {
@@ -121,6 +135,12 @@ export default class FruitSlot extends NewGameRoomBase {
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP_FAKE, handleRenderOwnBet);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
+    }
+
+    public initButtonStatus() {
+        const disableButton = "btn-disable";
+        this.btnDouble.node.on("click", this.onDoubleClick, this);
+        this.btnRebet.node.on("click", this.onRebetClick, this);
     }
 
     private initBetOptionsUI(node: cc.Node) {
@@ -151,31 +171,68 @@ export default class FruitSlot extends NewGameRoomBase {
     }
 
     onDoubleClick() {
-        this.playClick();
-        console.log(this.placingBet);
-        this.placingBet.doubleBet(FruitSlotChoicesConst.big, this.gameData.placeBetModel.choices[FruitSlotChoicesConst.big]);
-    }
-
-    onRebetClick() {
-        this.playClick();
-        console.log("buttonRebet");
-    }
-
-    updateBetStatus(forceUpdate = false) {
-        const disableButton = "btn_disable";
-        if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
+        if (!this.isReadyBet()) {
             return;
         }
 
-        const currentLength = Object.keys(this.currentBetChoices).length;
-        this.btnDouble.node.active = !this.btnRebet.node.active;
+        this.playClick();
+        this.betChips.playSingleChipsSound();
+        this.lockBet();
 
-        this.btnDouble.interactable = currentLength > 0;
-        this.btnDouble.node.getChildByName(disableButton).active = !this.btnDouble.interactable;
+        const { ownBets } = this.gameData.betModel;
+
+        const sum = this.sumValueBetChoices(ownBets);
+        if (!this.checkAvailableBalance(sum)) {
+            return;
+        }
+
+        const ownBetTemp = Object.keys(ownBets).reduce(
+            (attrs, key) => ({
+                ...attrs,
+                [key]: ownBets[key] * 2
+            }),
+            {}
+        );
+
+        this.gameData.betModel.changeOwnBets(ownBetTemp);
+        this.placeBet(ownBets);
     }
 
-    addToBetChoicesStack(betChoices: any) {
-        this.betChoicesStack.push(betChoices);
+    onRebetClick() {
+        if (!this.isReadyBet()) {
+            return;
+        }
+
+        this.playClick();
+        this.betChips.playSingleChipsSound();
+        this.lockBet();
+
+        this.gameData.betModel.changeOwnBets(this.previousRoundBetChoices);
+        this.placeBet(this.previousRoundBetChoices);
+    }
+
+    placeBet(betChoices) {
+        Object.keys(betChoices).forEach((choice) => {
+            this.betHandler.handle({ ...this.gameData.betModel, betChoice: choice });
+
+            const chips = this.seperateChips(betChoices[choice]);
+            console.log(`seperateChips ${chips} `);
+            chips.forEach((chip) => {
+                this.socket.emit("bet", {
+                    betChoice: choice,
+                    amount: chip,
+                    username: cc.RedT.user.name
+                });
+            });
+        });
+    }
+
+    checkAvailableBalance(bet: number): boolean {
+        const total = this.sumValueBetChoices(this.tempBetChoices);
+        const available = total + bet <= cc.RedT.user.red;
+
+        !available && this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
+        return available;
     }
 
     sumValueBetChoices(totalChoices: any) {
@@ -186,5 +243,58 @@ export default class FruitSlot extends NewGameRoomBase {
             }
         }
         return total;
-    }    
+    }
+
+    seperateChips(amount: number) {
+        return _.clone(this.betChips.chipValues)
+            .sort((a, b) => b - a)
+            .reduce((chips, value) => {
+                let chipsTmp = [];
+                const numberOfChips = amount / value;
+                if (numberOfChips > 0) {
+                    for (let i = 0; i < Math.floor(numberOfChips); i++) {
+                        amount = amount - value;
+                        chipsTmp = chipsTmp.concat([value]);
+                    }
+                }
+
+                return chips.concat(chipsTmp);
+            }, []);
+    }
+
+    updateBetStatus(forceUpdate = false) {
+        const disableButton = "btn_disable";
+        if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
+            return;
+        }
+
+        const isEmptyBetChoice = _.isEmpty(this.gameData.betModel?.ownBets);
+        this.btnRebet.interactable = isEmptyBetChoice && !_.isEmpty(this.previousRoundBetChoices);
+
+        this.btnDouble.interactable = !isEmptyBetChoice;
+        this.btnDouble.node.getChildByName(disableButton).active = !this.btnDouble.interactable;
+    }
+
+    showGenerateResult(finish: any) {
+        const generatedItem = finish;
+        this.spinItems.forEach((spinItem: FruitSlotSpinItem) => {
+            const item = spinItem.node.name;
+            spinItem.setHighlightItems(generatedItem[item], true);
+            // console.log(generatedItem[item]);
+        });
+    }
+
+    showSettlementResult(finish: any) {
+        const winChoice = finish;
+        // console.log("showSettlementResult", winChoice);
+    }
+
+    clearTempBetChoices() {
+        this.tempBetChoices = {};
+    }
+
+    onDestroy() {
+        super.onDestroy();
+        this.unschedule(this.updateBetStatus);
+    }
 }

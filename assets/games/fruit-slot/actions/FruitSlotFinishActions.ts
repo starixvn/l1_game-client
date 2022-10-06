@@ -50,6 +50,8 @@ export const handleAfterSettlementResult =
         game.miniRoundHistory.addNewItem(settlement);
         game.betOptionsUI.ledLightAnimation.active = false;
         game.betOptionsUI.highlightWinningChoice(settlement);
+
+        game.gameData.betModel.ownBets = {};
     };
 
 const setBgVisibility = (node: cc.Node, visible: boolean, animated = true) => {

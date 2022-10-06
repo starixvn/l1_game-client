@@ -7,7 +7,7 @@ export class TotalBets extends EventEmitterBase {
         CHANGE: "totalBets:change"
     };
 
-    protected data: Choices;
+    public data: Choices;
 
     clearData() {
         this.data = null;

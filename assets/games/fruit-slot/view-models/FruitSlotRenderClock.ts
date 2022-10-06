@@ -13,7 +13,7 @@ export const renderWaitingTimeClock = (clock: FruitSlotAnimatedTimer) => () => {
 // };
 
 export const updateWaiting = (mainGame: FruitSlot) => () => {
-    console.log("updateWaiting");
+    // console.log("updateWaiting");
     const clock = mainGame.animatedTime;
     clock.showWaiting();
 };

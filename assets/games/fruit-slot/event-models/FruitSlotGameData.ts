@@ -14,7 +14,7 @@ export default class FruitSlotGameData extends NewGameData {
 
     receiveUIData(data: any) {
         if (!!data.bet) {
-            console.log("Placebet");
+            // console.log("Placebet");
             this.placeBetModel.placeBet(data.bet.choice, data.bet.amount);
         }
         if (!!data.double) {
