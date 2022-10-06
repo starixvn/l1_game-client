@@ -116,8 +116,6 @@ export default class MultiplayTableGame extends MultiplayGame {
 
     openGuide() {
         AudioManager.getInstance().playClick();
-        const dialog = cc.instantiate(this.guidePrefab);
-        this.currentMiniPanel.addDialog(dialog);
     }
 
     onScoreBoardClick() {

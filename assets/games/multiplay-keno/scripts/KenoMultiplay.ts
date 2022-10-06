@@ -3,6 +3,7 @@ import MultiplayTableGame from "../../multiplay/scripts/MultiplayTableGame";
 import MegaKeno from "./MegaKeno";
 import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "./MegaKenoConfig";
 import MegaKenoSubGame from "./MegaKenoSubGame";
+import MegaKenoGuide from "./MegaKenoGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,5 +40,9 @@ export default class KenoMultiplay extends MultiplayTableGame {
 
     openGuide() {
         super.openGuide();
+        const dialog = cc.instantiate(this.guidePrefab);
+        this.currentMiniPanel.addDialog(dialog);
+        const guide = dialog.getComponent(MegaKenoGuide);
+        guide.games = this.games;
     }
 }
