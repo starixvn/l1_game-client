@@ -12,10 +12,10 @@ import MiniKeno from "../../mini-keno/view-models/MiniKeno";
 import KenoPageIndicatorItem from "./components/KenoPageIndicatorItem";
 import KenoStatusBanner from "./components/KenoStatusBanner";
 import MiniKenoGuide from "./components/MiniKenoGuide";
-import MiniKenoHistory from "./components/MiniKenoHistory";
 import MiniKenoPresetBet from "./components/MiniKenoPresetBet";
 import KenoUtils, { KenoType, MegaKenoId } from "./KenoUtils";
 import MiniKenoConfig from "./MiniKenoConfig";
+// import MiniKenoHistory from "../../multiplay-keno/scripts/history/MiniKenoHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -76,7 +76,7 @@ export default class KenoProViet extends GameViewBase {
     private miniPanel: MiniPanel;
     private readonly statusQueue: any[] = [];
     private presetBetSettingKey: string;
-    private miniKenoHistory: MiniKenoHistory;
+    // private miniKenoHistory: MiniKenoHistory;
     private gameConfigs: any;
 
     initMiniPanel(miniPanel: MiniPanel) {
@@ -167,9 +167,9 @@ export default class KenoProViet extends GameViewBase {
         const indicator = this.indicatorItems.find((item) => item.miniKeno.gameName === gameName);
         indicator.setData(data);
 
-        if (data.history && this.miniKenoHistory) {
-            this.miniKenoHistory.receivedData(data.history, gameName);
-        }
+        // if (data.history && this.miniKenoHistory) {
+        //     this.miniKenoHistory.receivedData(data.history, gameName);
+        // }
 
         if (data.gameConfigs && this.presetBet) {
             this.gameConfigs = data.gameConfigs;
@@ -379,11 +379,11 @@ export default class KenoProViet extends GameViewBase {
     }
 
     openHistory() {
-        AudioManager.getInstance().playClick();
-        const node = cc.instantiate(this.historyPrefab);
-        this.miniKenoHistory = node.getComponent(MiniKenoHistory);
-        this.miniPanel.addDialog(node);
-        node.name = "KenoProVietHistory";
+        // AudioManager.getInstance().playClick();
+        // const node = cc.instantiate(this.historyPrefab);
+        // this.miniKenoHistory = node.getComponent(MiniKenoHistory);
+        // this.miniPanel.addDialog(node);
+        // node.name = "KenoProVietHistory";
     }
 
     openPresetBetDialog() {
