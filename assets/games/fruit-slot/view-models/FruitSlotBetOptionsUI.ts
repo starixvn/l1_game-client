@@ -22,7 +22,7 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     bigSmallResult: cc.Label = null;
 
     @property(cc.Node)
-    spinOverlay: cc.Node = null;
+    bgLockSpin: cc.Node = null;
 
     main: FruitSlot;
 
@@ -47,6 +47,7 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
                 this.betItems.forEach((betItem: FruitSlotBetItem) => {
                     const nodeName = betItem.node.name;
                     if (nodeName === choiceWining || nodeName === bigSmallWining) {
+                        betItem.node.opacity = 255;
                         betItem.setHighlight(true, true);
                     }
                 });
@@ -112,10 +113,14 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         const maxItem = this.spinItems.length;
         const position = finish.result.symbolPositions[0];
         const temp = position + maxItem * 5;
+        
+        this.betItems.forEach((betItem: FruitSlotBetItem) => {
+            betItem.node.opacity = 150;
+        });
 
         cc.tween({ itemIndex: 0 })
             .to(
-                6,
+                7,
                 { itemIndex: temp },
                 {
                     easing: "quartOut",

@@ -186,49 +186,5 @@ export default class FruitSlot extends NewGameRoomBase {
             }
         }
         return total;
-    }
-
-    showGenerateResult(finish: any) {
-        this.timeAnimShowResult(true);
-        this.finishShowResult = false;
-        const delaySpinAnim = 5;
-        const isLucky = finish.result.isLucky;
-        this.setBgVisibility(this.betOptionsUI.spinOverlay, false);
-
-        if (!isLucky) {
-            cc.tween(this.spinItems)
-                .call(() => {
-                    this.betOptionsUI.spinItemAnimation(finish);
-                    this.betOptionsUI.playLedLightAnimation();
-                    this.betOptionsUI.randomNumberAnimation();
-                })
-                .delay(delaySpinAnim)
-                .call(() => {
-                    this.gameData.settlement.finishShowResult(finish, true);
-                    this.betOptionsUI.ledLightAnimation.active = false;
-                    this.betOptionsUI.highlightWinningChoice(finish);
-                })
-                .delay(1)
-                .call(
-                    () =>
-                        (this.betOptionsUI.bigSmallResult.string =
-                            finish.result.bigSmall.value < 10
-                                ? "0" + finish.result.bigSmall.value.toString()
-                                : finish.result.bigSmall.value.toString())
-                )
-                .delay(0.5)
-                .call(() => this.showSettlementResult(finish))
-                .start();
-        }
-    }
-
-    showSettlementResult(finish: any) {
-        const winChoice = finish;
-        this.betOptionsUI.bigSmallResult.string = "00000";
-        console.log("showSettlementResult", winChoice);
-    }
-
-    setBgVisibility(node: cc.Node, visible: boolean) {
-        node.active = visible ? true : false;
-    }
+    }    
 }

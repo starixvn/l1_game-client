@@ -1,7 +1,12 @@
+export type FruitSlotBigSmallResult = {
+    value: number;
+    choice: string;
+};
+
 export type FruitSlotResult = {
     symbols: string[];
     symbolPositions: number[];
-    number: number;
+    bigSmall: FruitSlotBigSmallResult;
     isLucky: boolean;
 };
 
