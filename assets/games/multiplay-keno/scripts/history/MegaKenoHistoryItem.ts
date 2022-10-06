@@ -1,12 +1,12 @@
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
-import MiniKenoHistory from "./MiniKenoHistory";
+import MegaKenoHistory from "./MegaKenoHistory";
 import MultiplayGameHistoryItem from "../../../multiplay/scripts/MultiplayGameHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniKenoHistoryItem extends MultiplayGameHistoryItem {
+export default class MegaKenoHistoryItem extends MultiplayGameHistoryItem {
     @property(cc.Label)
     big: cc.Label = null;
 
@@ -41,10 +41,10 @@ export default class MiniKenoHistoryItem extends MultiplayGameHistoryItem {
     public settlementResult: any;
     public betLogDetails: any[];
 
-    private main: MiniKenoHistory;
+    private main: MegaKenoHistory;
     private readonly betChoices = ["even", "odd", "big", "small", "gold", "wood", "water", "fire", "earth"];
 
-    init(main: MiniKenoHistory) {
+    init(main: MegaKenoHistory) {
         this.main = main;
     }
 

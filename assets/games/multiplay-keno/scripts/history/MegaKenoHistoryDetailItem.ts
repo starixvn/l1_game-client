@@ -5,7 +5,7 @@ import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniKenoHistoryDetailItem extends cc.Component {
+export default class MegaKenoHistoryDetailItem extends cc.Component {
     @property(cc.Label)
     time: cc.Label = null;
 

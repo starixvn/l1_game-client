@@ -1,14 +1,13 @@
-import * as _ from "lodash";
-
+import { lodash } from "../../../../ClientModules";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import KenoNumber from "../../../keno-pro/view-models/KenoNumber";
-import MiniKenoHistoryDetailItem from "./MiniKenoHistoryDetailItem";
+import MegaKenoHistoryDetailItem from "./MegaKenoHistoryDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MiniKenoHistoryDetail extends cc.Component {
+export default class MegaKenoHistoryDetail extends cc.Component {
     @property(cc.Label)
     roundId: cc.Label = null;
 
@@ -67,7 +66,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
     instantiateDetailItem(prefabDetail: cc.Prefab) {
         if (prefabDetail) {
             const node = cc.instantiate(this.prefabDetail);
-            return node.getComponent(MiniKenoHistoryDetailItem);
+            return node.getComponent(MegaKenoHistoryDetailItem);
         }
         return null;
     }
@@ -96,7 +95,7 @@ export default class MiniKenoHistoryDetail extends cc.Component {
         for (let index = 0; index < this.result.length; index++) {
             shuffle.push(index);
         }
-        shuffle = _.shuffle(shuffle);
+        shuffle = lodash.shuffle(shuffle);
 
         let i = 0;
 
