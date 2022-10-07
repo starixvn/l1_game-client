@@ -84,6 +84,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     showResultDuration = 2;
     wholeResultTime = 3;
     isPlacingFakeChip = true;
+    streakChoices = [];
 
     override onLoad() {
         super.onLoad();

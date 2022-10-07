@@ -1,10 +1,10 @@
-import GameUtils from "../../../common/GameUtils";
-import KenoNotificationItem from "./KenoNotificationItem";
+import GameUtils from "../GameUtils";
+import NotificationItem from "./NotificationItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class KenoWinningStreakItem extends KenoNotificationItem {
+export default class WinningStreakItem extends NotificationItem {
     @property(cc.Label)
     gameName: cc.Label = null;
 

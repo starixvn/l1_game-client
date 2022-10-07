@@ -1,9 +1,9 @@
-import KenoNotificationItem from "./KenoNotificationItem";
+import NotificationItem from "./NotificationItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class KenoNotification extends cc.Component {
+export default class InternalGameNotification extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -24,7 +24,7 @@ export default class KenoNotification extends cc.Component {
     protected displayNotification(data: any) {
         const node = cc.instantiate(this.itemPrefab);
         this.content.addChild(node);
-        const item = node.getComponent(KenoNotificationItem);
+        const item = node.getComponent(NotificationItem);
         item.setData(data);
 
         node.opacity = 0;
