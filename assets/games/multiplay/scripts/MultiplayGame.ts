@@ -63,6 +63,7 @@ export default class MultiplayGame extends GameViewBase {
     protected isGameOpened = false;
 
     onLoad() {
+        super.onLoad();
         this.initLocations();
         this.initMultiplayLayout();
         this.initSockets();

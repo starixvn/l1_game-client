@@ -1,6 +1,9 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import AudioManager from "../../../common/audio/AudioManager";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
 import * as sessionManager from "../../../common/auth/SessionManager";
+import GameUtils from "../../../common/GameUtils";
 import InGameMenu, { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import MultiplayGameStatisticBoard from "../../../common/statistic-board/MultiplayGameStatisticBoard";
 import UserProfile from "../../../common/user-profile/UserProfile";
@@ -10,14 +13,12 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame
+    outRoomGame,
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
 import MultiplayGame from "./MultiplayGame";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import MultiplayTableGameMenu from "./MultiplayTableGameMenu";
-import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -157,6 +158,11 @@ export default class MultiplayTableGame extends MultiplayGame {
         noticeComponent.text.string = data;
         this.mainContainer.addChild(notice);
         return notice;
+    }
+
+    onGameHide() {
+        super.onGameHide();
+        this.closeGame();
     }
 
     //#region Methods for room game
