@@ -14,7 +14,7 @@ import {
     placeBetSuccess,
     placeOwnChip,
     updateOwnBets,
-    updateTotalBets
+    updateTotalBets,
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -30,7 +30,7 @@ import {
     handleShowStatus,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String
+    updateMD5String,
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -41,7 +41,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting
+    updateWaiting,
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { BoostedChoicesModel } from "../models/BoostedChoicesModel";
@@ -156,7 +156,6 @@ export default class MiniGameBase extends NewMiniGameBase {
 
     onDisconnected() {
         //override to prevent delete socket
-        this.sendRetryMessage();
         this.showProcessingWarning(false);
         this.md5Component && this.md5Component.resetMd5();
     }
