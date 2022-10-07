@@ -9,7 +9,7 @@ export const MegaKeno8Id = 19;
 
 const megaConfig = {
     minBetTime: 1,
-    fullTime: 55,
+    fullTime: 58,
     betTime: 45,
     stopBetTime: 5,
     waitTime: 10
@@ -17,7 +17,7 @@ const megaConfig = {
 
 const miniKenoConfig = {
     minBetTime: 1,
-    fullTime: 47,
+    fullTime: 51,
     betTime: 40,
     stopBetTime: 5,
     waitTime: 7
@@ -25,7 +25,7 @@ const miniKenoConfig = {
 
 const miniKenoConfig2 = {
     minBetTime: 1,
-    fullTime: 37,
+    fullTime: 41,
     betTime: 30,
     stopBetTime: 5,
     waitTime: 7
@@ -33,7 +33,7 @@ const miniKenoConfig2 = {
 
 const normalConfig = {
     minBetTime: 1,
-    fullTime: 40,
+    fullTime: 43,
     betTime: 30,
     stopBetTime: 5,
     waitTime: 5

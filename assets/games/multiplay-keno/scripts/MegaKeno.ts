@@ -38,6 +38,11 @@ export default class MegaKeno extends TableGameBase {
         this.gameId = MegaKeno1Id;
     }
 
+    onLoad() {
+        super.onLoad();
+        this.animatedTime.setAnimatedY(30, -5);
+    }
+
     setGameId(gameId: number) {
         this.gameId = gameId;
         this.config = MegaKenoConfigs[gameId];
