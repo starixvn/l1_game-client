@@ -367,11 +367,11 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     private storageStatusStatistic(status: boolean) {
-        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.mainGameId}`, status);
+        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.gameId}`, status);
     }
 
     resetStatisticShow() {
-        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.gameIds[0]}`, "true");
+        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.gameId}`, "true");
     }
 
     initPromotionGuide(node: cc.Node) {
