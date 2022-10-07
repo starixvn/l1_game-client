@@ -24,7 +24,8 @@ import { UMModel } from "./UMModel";
 
 export default class NewGameData extends GameData {
     static Events = {
-        CHANGE_ROUND_ID: "NewGameData:CHANGE_ROUND_ID"
+        CHANGE_ROUND_ID: "NewGameData:CHANGE_ROUND_ID",
+        CHANGE_STATUS_SHOW_STATISTIC: "NewGameData:CHANGE_STATUS_SHOW_STATISTIC"
     };
 
     protected readonly eventEmitters: EventEmitterBase[] = [];
@@ -106,5 +107,9 @@ export default class NewGameData extends GameData {
             OddsHandler
         ];
         this.eventHandlers.push(...handlers.map((Handler) => new Handler(this)));
+    }
+
+    changeStatusShowStatistic(status) {
+        this.emit(NewGameData.Events.CHANGE_STATUS_SHOW_STATISTIC, status);
     }
 }

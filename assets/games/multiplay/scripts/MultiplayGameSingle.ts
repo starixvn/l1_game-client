@@ -12,7 +12,7 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
     public isBetSound = false;
     protected showStatistic = true;
     protected statisticHistory: cc.Component = null;
-    protected mainGameId: number;
+    protected groupDefaultGameId: number;
 
     onEnable() {
         super.onEnable();
@@ -45,18 +45,14 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
     private openStatistic() {
         this.showStatistic = !this.showStatistic;
         this.handleShowStatistic(this.showStatistic);
-        this.storageStatusStatistic(this.showStatistic);
+        this.gameData.changeStatusShowStatistic(this.showStatistic);
     }
 
     private handleShowStatistic(show: boolean) {
         this.statisticHistory && (this.statisticHistory.node.active = show);
     }
 
-    private storageStatusStatistic(status: boolean) {
-        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.mainGameId}`, status);
-    }
-
     private getStorageStatusStatistic(): boolean {
-        return cc.sys.localStorage.getItem(`${KeyStorageStatisticOpen}_${this.mainGameId}`) === "false" ? false : true;
+        return cc.sys.localStorage.getItem(`${KeyStorageStatisticOpen}_${this.groupDefaultGameId}`) === "false" ? false : true;
     }
 }

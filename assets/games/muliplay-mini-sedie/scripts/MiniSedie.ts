@@ -51,7 +51,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     constructor() {
         super();
         this.gameId = MiniSedie1Id;
-        this.mainGameId = MiniSedie1Id;
+        this.groupDefaultGameId = MiniSedie1Id;
     }
 
     onGameHide() {

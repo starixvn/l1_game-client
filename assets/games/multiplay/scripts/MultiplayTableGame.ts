@@ -4,7 +4,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
 import * as sessionManager from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
-import InGameMenu, { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
+import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import MultiplayGameStatisticBoard from "../../../common/statistic-board/MultiplayGameStatisticBoard";
 import UserProfile from "../../../common/user-profile/UserProfile";
 import {
@@ -13,7 +13,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame,
+    outRoomGame
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";

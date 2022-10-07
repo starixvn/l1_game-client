@@ -13,6 +13,7 @@ import { Settlement } from "../../_base_new/models/Settlement";
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import MultiplayGameSingle, { KeyStorageStatisticOpen } from "./MultiplayGameSingle";
 import MultiplayPromotionGuide from "./MultiplayPromotionGuide";
+import NewGameData from "../../_base_new/models/NewGameData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -72,6 +73,14 @@ export default class MultiplayGame extends GameViewBase {
         this.resetStatisticShow();
         this.initWinningStreakListeners();
         this.initWinningResultNotification();
+        this.initGameDataEvents();
+    }
+
+    initGameDataEvents() {
+        const game = this.games[this.gameId] as MiniGameBase;
+        game.gameData.on(NewGameData.Events.CHANGE_STATUS_SHOW_STATISTIC, (status) => {
+            this.storageStatusStatistic(status);
+        });
     }
 
     onInitializeGameNotification(node: cc.Node) {
@@ -238,6 +247,7 @@ export default class MultiplayGame extends GameViewBase {
         single.currentMiniPanel = this.currentMiniPanel;
         single.betChips = this.betChips;
         single.isCollectChip = isMain;
+        single.groupDefaultGameId = this.gameId;
     }
 
     createMainGameUI(gameId: number) {
@@ -354,6 +364,10 @@ export default class MultiplayGame extends GameViewBase {
                 node.scale = 0;
             });
         }
+    }
+
+    private storageStatusStatistic(status: boolean) {
+        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.mainGameId}`, status);
     }
 
     resetStatisticShow() {

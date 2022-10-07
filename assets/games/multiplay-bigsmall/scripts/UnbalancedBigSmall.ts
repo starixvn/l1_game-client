@@ -47,7 +47,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     constructor() {
         super();
         this.gameId = UnbalancedBigSmall1Id;
-        this.mainGameId = UnbalancedBigSmall1Id;
+        this.groupDefaultGameId = UnbalancedBigSmall1Id;
     }
 
     onGameHide() {
