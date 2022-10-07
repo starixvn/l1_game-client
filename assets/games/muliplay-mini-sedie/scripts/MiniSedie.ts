@@ -237,7 +237,6 @@ export default class MiniSedie extends MultiplayGameSingle {
 
     highlightAndPayout(settlement: any) {
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
-        this.gameData.settlement.showStatus();
     }
 
     initMiniRoundHistory(node: cc.Node) {

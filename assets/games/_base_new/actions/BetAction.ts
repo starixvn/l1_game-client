@@ -74,7 +74,11 @@ export const handleTotalChips = (game: MiniGameBase) => (dataChips) => {
 };
 
 export const handlePayChips = (gameBase: MiniGameBase) => (finishData) => {
-    const { settlement } = finishData;
+    const { settlement, animated } = finishData;
+    if (!animated) {
+        return;
+    }
+
     gameBase.isCollectChip
         ? dealerGetChipsMiniGame(
               gameBase,

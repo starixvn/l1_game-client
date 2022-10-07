@@ -16,6 +16,7 @@ export default class MiniSedieSubGame extends MiniSedie {
 
         const doLaterPayOut = () => {
             this.highlightAndPayout(settlement);
+            this.gameData.settlement.showStatus();
         };
 
         if (animated) {
@@ -23,7 +24,7 @@ export default class MiniSedieSubGame extends MiniSedie {
         } else {
             this.showDicesAndPlates();
             this.dishNode.opacity = 0;
-            this.highlightAndPayout(settlement);
+            doLaterPayOut();
         }
     }
 

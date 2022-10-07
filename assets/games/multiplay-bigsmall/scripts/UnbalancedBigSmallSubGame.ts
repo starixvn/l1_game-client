@@ -17,12 +17,13 @@ export default class UnbalancedBigSmallSubGame extends UnbalancedBigSmall {
         const doLater = () => {
             this.highlightAndPayout(settlement);
             this.setBlurDishAndHideDices();
+            this.gameData.settlement.showStatus();
         };
         if (animated) {
             this.scheduleOnce(doLater, 3);
         } else {
             this.showDicesAndPlates();
-            this.highlightAndPayout(settlement);
+            doLater();
         }
     }
 

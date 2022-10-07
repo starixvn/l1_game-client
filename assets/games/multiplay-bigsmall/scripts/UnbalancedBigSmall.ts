@@ -148,7 +148,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     highlightAndPayout(settlement: any) {
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
-        this.gameData.settlement.showStatus();
         this.thePlate.opacity = 0;
     }
 

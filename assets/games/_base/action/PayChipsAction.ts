@@ -159,7 +159,7 @@ export const playWinningEffect = (mainRoomGame: WebSocketTableGameBase, playerNo
     );
 };
 
-export const dealerGetChipsMiniGame = (main: any, settlementResult: any, currentStatusData: any, ownBets: any) => {
+export const dealerGetChipsMiniGame = (main: any, settlementResult: any, statusData: any, ownBets: any) => {
     if (!cc.RedT.GAME_IS_SHOWED) {
         return;
     }
@@ -172,7 +172,10 @@ export const dealerGetChipsMiniGame = (main: any, settlementResult: any, current
             dealerGetChips(main, lostBetItems);
         })
         .delay(main.betChips.chipDelayFlyingTime)
-        .call(() => payChipToLoginPlayerMiniGame(main, currentStatusData, ownBets))
+        .call(() => {
+            payChipToLoginPlayerMiniGame(main, statusData, ownBets);
+            main.gameData.settlement.showStatus();
+        })
         .start();
 };
 

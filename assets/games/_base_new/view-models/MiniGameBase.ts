@@ -14,7 +14,7 @@ import {
     placeBetSuccess,
     placeOwnChip,
     updateOwnBets,
-    updateTotalBets,
+    updateTotalBets
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -30,7 +30,7 @@ import {
     handleShowStatus,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String,
+    updateMD5String
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -41,7 +41,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { BoostedChoicesModel } from "../models/BoostedChoicesModel";
@@ -81,6 +81,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     startRoundDuration = 1;
     showResultDuration = 2;
     wholeResultTime = 3;
+    isPlacingFakeChip = true;
 
     override onLoad() {
         super.onLoad();
@@ -305,7 +306,6 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.gameData.roundHistory.update();
         this.showWaittingTime(true);
         this.gameData.resultHash.updateUI();
-        this.gameData.settlement.showStatus();
     }
 
     /**
@@ -321,7 +321,6 @@ export default class MiniGameBase extends NewMiniGameBase {
         }
 
         const { win, bet } = status;
-
         if (win) {
             this.showWinningBet(bet);
             this.updateUserBalance();
@@ -332,6 +331,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.gameData.betModel.clearData();
         this.gameData.totalBets.clearData();
         this.gameData.settlement.clearSettlement();
+        this.gameData.settlement.clearStatus();
     }
 
     setWaitingDotsVisibility(show: boolean, animated = true) {
