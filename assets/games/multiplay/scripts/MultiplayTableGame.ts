@@ -50,9 +50,6 @@ export default class MultiplayTableGame extends MultiplayGame {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
-    @property(cc.Node)
-    subContainer: cc.Node = null;
-
     inGameMenu: MultiplayTableGameMenu;
     userProfile: UserProfile;
     public gameState = GameState.None;
@@ -79,8 +76,8 @@ export default class MultiplayTableGame extends MultiplayGame {
         cc.RedT && (cc.RedT.inGame = this);
         this.loadUserData(cc.RedT?.user);
         initMusicBackground(this)();
-        this.subContainerWidth = this.subContainer.width;
-        this.subContainerWidget = this.subContainer.getComponent(cc.Widget);
+        this.subContainerWidth = this.subGamesArea[0].width;
+        this.subContainerWidget = this.subGamesArea[0].getComponent(cc.Widget);
         this.mainGameWidget = this.mainContainer.getComponent(cc.Widget);
     }
 
