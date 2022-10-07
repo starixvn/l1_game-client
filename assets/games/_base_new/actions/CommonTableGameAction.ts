@@ -4,6 +4,10 @@ import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import RoomPlayer, { PlayerData } from "../../_base/view-models/RoomPlayer";
 import TableGameBase from "../view-models/TableGameBase";
 
+export const handlePlacingBet = (game: TableGameBase) => () => {
+    game.highlightLastResult();
+};
+
 export const hanleAddPlayer = (mainGame: TableGameBase) => (player: PlayerData) => {
     mainGame.addPlayer(player);
 };

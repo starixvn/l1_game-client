@@ -9,10 +9,11 @@ import {
     handleAddPlayers,
     handlePlaceOwnChip,
     handlePlaceTotalChips,
+    handlePlacingBet,
     handlePlayerChipAction,
     hanleAddPlayer,
     removePlayer,
-    updateTablePlayer,
+    updateTablePlayer
 } from "../actions/CommonTableGameAction";
 import { clearChipsForLostChoices, payChips, resetUIAndClearChips } from "../actions/NewPayChipsAction";
 import { BetModel } from "../models/BetModel";
@@ -61,6 +62,7 @@ export default class TableGameBase extends MiniGameBase {
         const clearNewRoundEvent = this.startRoundDuration > 0 ? Durations.Events.BEGIN_STARTING_ROUND : Durations.Events.BEGIN_PLACING_BET;
         this.emitterListener(this.gameData.durations, clearNewRoundEvent, updateTablePlayer);
         this.emitterListener(this.gameData.durations, clearNewRoundEvent, resetUIAndClearChips);
+        this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP, handlePlaceOwnChip);
         if (this.showOtherPlayerChips) {
             this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_PLAYER_CHIP, handlePlayerChipAction);
@@ -79,6 +81,7 @@ export default class TableGameBase extends MiniGameBase {
         this.showWaittingTime(true);
         this.gameData.resultHash.updateUI();
         this.handlePayChips(settlement);
+        this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
     }
 
     handlePayChips(settlement) {
@@ -175,5 +178,19 @@ export default class TableGameBase extends MiniGameBase {
             this.otherPlayersCache[data.playerId] = player;
             RoomPlayer.storePlayerToCache(player, this.gameName);
         }
+    }
+
+    highlightLastResult() {
+        if (this.currentTimeRemaining <= this.config.stopBetTime) {
+            return;
+        }
+        const dataLog = this.currentDataLogs[0];
+        dataLog && this.highlightWonItems(dataLog.settlementResult, false);
+    }
+
+    private highlightWonItems(settlementResult: any, isAnimated = true) {
+        this.betItems.forEach((betItem) => {
+            betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
+        });
     }
 }
