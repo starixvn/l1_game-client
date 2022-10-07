@@ -38,15 +38,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     @property(cc.Node)
     bgTimer: cc.Node = null;
 
-    @property(cc.Sprite)
-    gameNameImage: cc.Sprite = null;
-
-    @property(cc.Node)
-    tableGameBg: cc.Node = null;
-
-    @property(cc.SpriteAtlas)
-    mainAtlas: cc.SpriteAtlas = null;
-
     protected scaleResultNode = 1;
     startRoundDuration = 2;
     config = new BigSmallConfigs();
@@ -84,7 +75,7 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     renderTableGame(gameId: number) {
         if (this.gameNameImage && this.tableGameBg) {
-            this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`tablename-${gameId}`);
+            this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`game-name-${gameId}`);
             this.tableGameBg.color = cc.Color.BLACK.fromHEX(tableGameColor[gameId]);
         }
     }

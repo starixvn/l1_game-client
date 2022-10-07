@@ -85,8 +85,8 @@ export default class MiniSedie extends MultiplayGameSingle {
     }
 
     renderTableGame(gameId: number) {
-        if (this.gameNameImage && this.tableGameBg) {
-            this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`game-name-${window.i18n.curLang}-${gameId}`);
+        super.renderTableGame(gameId);
+        if (this.tableGameBg) {
             this.tableGameBg.color = cc.Color.BLACK.fromHEX(tableGameColor[gameId]);
             this.gameId = gameId;
         }

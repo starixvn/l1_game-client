@@ -37,6 +37,7 @@ export default class MegaKenoSubGame extends MegaKeno {
         this.showWaittingTime(true);
         this.gameData.resultHash.updateUI();
         this.gameData.settlement.showStatus();
+        this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
     }
 
     showStatus(status: any) {
