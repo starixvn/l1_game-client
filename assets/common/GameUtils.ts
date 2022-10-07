@@ -511,4 +511,12 @@ export default class GameUtils {
 
         return percentage;
     }
+
+    public static checkIntersectNodes(container: cc.Node, child: cc.Node) {
+        const box = container.getBoundingBox();
+        const pos = container.convertToWorldSpaceAR(cc.v2(0, 0));
+        const srcBox = cc.rect(pos.x - box.width / 2, pos.y - box.height / 2, box.width, box.height);
+        const destBox = child.getBoundingBoxToWorld();
+        return srcBox.intersects(destBox);
+    }
 }

@@ -92,7 +92,12 @@ export default class MultiplayGame extends GameViewBase {
             game.gameData.settlement.on(Settlement.Events.SHOW_STATUS, (status: { win: boolean; bet: number }) => {
                 const { win, bet } = status;
                 if (win) {
-                    this.addWinningResultNotification(game.gameId, bet);
+                    const node = game.betItems[0].node;
+                    const onScreen = GameUtils.checkIntersectNodes(this.subGamesArea[0], node);
+                    const isNotMainGame = game.gameId !== this.mainGameId;
+                    if (isNotMainGame && (!onScreen || !this.collapsedExpandButton.isChecked)) {
+                        this.addWinningResultNotification(game.gameId, bet);
+                    }
                 }
             });
         });
