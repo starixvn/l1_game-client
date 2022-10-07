@@ -4,7 +4,7 @@ import NotificationItem from "./NotificationItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class KenoWinningItem extends NotificationItem {
+export default class WinningItem extends NotificationItem {
     @property(cc.Label)
     amount: cc.Label = null;
 

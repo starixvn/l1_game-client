@@ -7,8 +7,8 @@ export default class InternalGameNotification extends cc.Component {
     @property(cc.Node)
     content: cc.Node = null;
 
-    @property(cc.Prefab)
-    itemPrefab: cc.Prefab = null;
+    @property({ type: cc.Prefab })
+    itemPrefabs: cc.Prefab[] = [];
 
     @property
     movingOffset = 50;
@@ -16,13 +16,14 @@ export default class InternalGameNotification extends cc.Component {
     readonly queue = [];
     readonly showDuration = 2;
 
-    addNotification(data: any) {
-        this.queue.push(data);
+    addNotification(data: any, type: number) {
+        this.queue.push({ data, type });
         this.checkShowNext();
     }
 
-    protected displayNotification(data: any) {
-        const node = cc.instantiate(this.itemPrefab);
+    protected displayNotification(queueData: { data: any; type: number }) {
+        const { data, type } = queueData;
+        const node = cc.instantiate(this.itemPrefabs[type]);
         this.content.addChild(node);
         const item = node.getComponent(NotificationItem);
         item.setData(data);

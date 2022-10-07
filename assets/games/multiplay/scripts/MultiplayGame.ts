@@ -70,6 +70,7 @@ export default class MultiplayGame extends GameViewBase {
         (this.games[this.gameIds[0]] as GameBase).gameData.gameConfigs.on(GameConfigs.Events.CHANGE, this.setGameConfigs.bind(this));
         this.resetStatisticShow();
         this.initWinningStreakListeners();
+        this.initWinningResultNotification();
     }
 
     onInitializeGameNotification(node: cc.Node) {
@@ -100,8 +101,8 @@ export default class MultiplayGame extends GameViewBase {
         if (!this.gameNotification) {
             return;
         }
-
-        this.gameNotification.addNotification({ gameId, amount });
+        console.log(`gameId ${gameId} win amount ${amount}`);
+        this.gameNotification.addNotification({ gameId, amount }, 0);
     }
 
     addWinningStreakNotification(gameId: number, data: { choice: string; count: number }) {
@@ -110,7 +111,7 @@ export default class MultiplayGame extends GameViewBase {
         }
         const { choice, count } = data;
         console.log(`choice ${choice} winning streak count ${count}`);
-        this.gameNotification.addNotification({ gameId, choice, count });
+        this.gameNotification.addNotification({ gameId, choice, count }, 1);
     }
 
     start() {

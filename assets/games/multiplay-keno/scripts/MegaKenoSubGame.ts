@@ -31,4 +31,24 @@ export default class MegaKenoSubGame extends MegaKeno {
 
     //TODO:missing custom duration for Keno Mini
     showResultDuration = 5;
+
+    handleAfterSettlementResult(settlement: any, animated: boolean) {
+        this.gameData.roundHistory.update();
+        this.showWaittingTime(true);
+        this.gameData.resultHash.updateUI();
+        this.gameData.settlement.showStatus();
+    }
+
+    showStatus(status: any) {
+        if (!cc.RedT.GAME_IS_SHOWED) {
+            return;
+        }
+
+        const { win, bet } = status;
+
+        if (win) {
+            this.showWinningBet(bet);
+            this.updateUserBalance();
+        }
+    }
 }
