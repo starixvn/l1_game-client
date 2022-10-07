@@ -39,15 +39,6 @@ export default class MiniSedie extends MultiplayGameSingle {
     @property(cc.AudioSource)
     shakeDishAudio: cc.AudioSource = null;
 
-    @property(cc.Sprite)
-    gameNameImage: cc.Sprite = null;
-
-    @property(cc.Node)
-    tableGameBg: cc.Node = null;
-
-    @property(cc.SpriteAtlas)
-    mainAtlas: cc.SpriteAtlas = null;
-
     @property(cc.Node)
     positionRandomDot: cc.Node = null;
 
