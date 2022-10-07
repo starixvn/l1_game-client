@@ -51,7 +51,6 @@ export default class DraggableItem extends cc.Component {
             console.log("not touch in collider");
             return;
         }
-        console.log("onTouchStart");
         this.isTouchStarted = true;
         this.touchCallback.start(this.node);
         this.startPosition = this.target.position;

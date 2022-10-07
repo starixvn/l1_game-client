@@ -1,5 +1,6 @@
 import _ = require("lodash");
 
+import GameUtils from "../GameUtils";
 import AudioManager from "./AudioManager";
 
 export default class MusicPlayer {
@@ -17,6 +18,8 @@ export default class MusicPlayer {
     readonly stepIntervalVolume = (this.duration * 1000) / (this.volume / this.stepVolume);
     private static instanceMusic: MusicPlayer;
     private lastLoadSongTask: { promise: Promise<cc.AudioClip>; cancel: () => void };
+    touchBinded = false;
+    touchStart = false;
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
@@ -78,6 +81,26 @@ export default class MusicPlayer {
         };
     }
 
+    private initTouchBinded() {
+        const touchend = "ontouchend" in window ? "touchend" : "mouseup";
+        const touchStart = "ontouchstart" in window ? "touchstart" : "mousedown";
+        const touchMove = "ontouchmove" in window ? "touchmove" : "mousemove";
+        cc.game.canvas.addEventListener(touchStart, () => {
+            this.touchStart = true;
+        });
+        cc.game.canvas.addEventListener(touchMove, () => {
+            this.touchStart = false;
+        });
+        cc.game.canvas.addEventListener(touchend, () => {
+            if (!this.touchStart || this.touchBinded) {
+                return;
+            }
+
+            this.touchStart = false;
+            this.touchBinded = true;
+        });
+    }
+
     private async loadResourceAudio(song: string) {
         if (this.lastLoadSongTask) {
             this.lastLoadSongTask.cancel();
@@ -86,18 +109,26 @@ export default class MusicPlayer {
 
         const audioClip = await this.lastLoadSongTask.promise;
         if (this.isPlayBgMusic) {
-            this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
-            this.bgMusicId = this.audioManager.playMusic(audioClip, false);
-            cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
-            cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
-                this.stopBackgroundAudio();
-                this.playBgAudio(true);
-            });
+            while (!this.touchBinded) {
+                await GameUtils.delayTime(0.5);
+            }
+            this.playAudioClip(audioClip);
         }
+    }
+
+    playAudioClip(audioClip: cc.AudioClip) {
+        this.bgMusicId && cc.audioEngine.stop(this.bgMusicId);
+        this.bgMusicId = this.audioManager.playMusic(audioClip, false);
+        cc.audioEngine.setVolume(this.bgMusicId, this.volumeDefault);
+        cc.audioEngine.setFinishCallback(this.bgMusicId, () => {
+            this.stopBackgroundAudio();
+            this.playBgAudio(true);
+        });
     }
 
     init() {
         this.joinRoomMusic = false;
+        this.initTouchBinded();
         if (!this.isPlayBgMusic) {
             this.playBgAudio(this.audioManager.musicEnabled);
         }
