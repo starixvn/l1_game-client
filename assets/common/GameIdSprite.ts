@@ -20,6 +20,6 @@ export default class GameIdSprite extends cc.Component {
     }
 
     updateSprite() {
-        this.sprite.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${this._gameId}`);
+        this.sprite.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${window.i18n.curLang}-${this._gameId}`);
     }
 }

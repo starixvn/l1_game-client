@@ -14,6 +14,6 @@ export default class WinningStreakItem extends NotificationItem {
     setData(data: any) {
         const { choice, count, gameId } = data;
         this.gameName.string = `(${GameUtils.getGameNameString(gameId)})`;
-        this.result.string = `<img src='icon_${choice}'> x${count}`;
+        this.result.string = `<img src="dot_${choice}" width=20 height=20 /> x${count}`;
     }
 }
