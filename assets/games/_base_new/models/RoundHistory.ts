@@ -13,10 +13,14 @@ export class RoundHistory extends EventEmitterBase {
     roundHistory: any[] = [];
     historySize = 100;
     winningStreak = {};
-    streakChoices = ["big", "small"];
+    private streakChoices = ["big", "small"];
 
     get lastRoundId() {
         return this.roundHistory[0]?.roundId || 0;
+    }
+
+    setStreakChoices(choices) {
+        this.streakChoices = choices;
     }
 
     add(roundHistory: any) {
@@ -31,13 +35,13 @@ export class RoundHistory extends EventEmitterBase {
         const { settlementResult } = roundHistory;
         this.streakChoices.forEach((choice) => {
             if (settlementResult[choice]) {
-                this.streakChoices[choice]++;
+                this.winningStreak[choice]++;
             } else {
-                this.streakChoices[choice] = 0;
+                this.winningStreak[choice] = 0;
             }
 
-            if (this.streakChoices[choice] >= 4) {
-                this.emit(RoundHistory.Events.WINNING_STREAK, { choice, count: this.streakChoices[choice] });
+            if (this.winningStreak[choice] >= 4) {
+                this.emit(RoundHistory.Events.WINNING_STREAK, { choice, count: this.winningStreak[choice] });
             }
         });
     }

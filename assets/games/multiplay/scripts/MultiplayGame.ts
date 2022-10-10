@@ -89,7 +89,7 @@ export default class MultiplayGame extends GameViewBase {
 
     initWinningStreakListeners() {
         Object.values(this.games).forEach((game: MiniGameBase) => {
-            game.gameData.roundHistory.streakChoices = [...game.streakChoices];
+            game.gameData.roundHistory.setStreakChoices(game.streakChoices);
             game.gameData.roundHistory.on(RoundHistory.Events.WINNING_STREAK, (data: { choice: string; count: number }) => {
                 this.addWinningStreakNotification(game.gameId, data);
             });

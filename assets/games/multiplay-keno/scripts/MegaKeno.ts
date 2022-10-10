@@ -19,6 +19,7 @@ export default class MegaKeno extends TableGameBase {
     bigSmallStatistic: StatisticBoard = null;
     evenOddStatistic: StatisticBoard = null;
 
+    streakChoices = ["big", "small", "odd", "even"];
     //TODO:missing custom duration for Keno Mini
     showResultDuration = 6;
 
