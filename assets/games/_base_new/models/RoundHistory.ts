@@ -14,6 +14,7 @@ export class RoundHistory extends EventEmitterBase {
     historySize = 100;
     winningStreak = {};
     private streakChoices = ["big", "small"];
+    private consecutiveWinningTimes = 4;
 
     get lastRoundId() {
         return this.roundHistory[0]?.roundId || 0;
@@ -40,7 +41,7 @@ export class RoundHistory extends EventEmitterBase {
                 this.winningStreak[choice] = 0;
             }
 
-            if (this.winningStreak[choice] >= 4) {
+            if (this.winningStreak[choice] >= this.consecutiveWinningTimes) {
                 this.emit(RoundHistory.Events.WINNING_STREAK, { choice, count: this.winningStreak[choice] });
             }
         });
@@ -48,11 +49,12 @@ export class RoundHistory extends EventEmitterBase {
 
     initWinningStreakData() {
         this.streakChoices.forEach((choice) => {
-            this.streakChoices[choice] = 0;
-            for (let i = 0; i < this.roundHistory.length; i++) {
-                const { settlementResult } = this.roundHistory[i];
+            this.winningStreak[choice] = 0;
+
+            for (const round of this.roundHistory) {
+                const { settlementResult } = round;
                 if (settlementResult[choice]) {
-                    this.streakChoices[choice]++;
+                    this.winningStreak[choice]++;
                 } else {
                     break;
                 }
