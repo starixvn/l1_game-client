@@ -1,4 +1,5 @@
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
+import MD5Component from "../../_base/view-models/MD5Component";
 import TableGameBase from "../../_base_new/view-models/TableGameBase";
 import { KenoTableGameColor, MegaKeno1Id, MegaKeno3Id, MegaKeno4Id, MegaKenoConfigs } from "./MegaKenoConfig";
 import MegaKenoSettlementResult from "./MegaKenoSettlementResult";
@@ -80,5 +81,9 @@ export default class MegaKeno extends TableGameBase {
             this.settlementResultAnimation.hide();
             this.gameData.settlement.finishShowResult(settlement, true);
         });
+    }
+
+    initMD5String(node: cc.Node) {
+        this.md5Component = node.getChildByName("md5-content").getComponent(MD5Component);
     }
 }
