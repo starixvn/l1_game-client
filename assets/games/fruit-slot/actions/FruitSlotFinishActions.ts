@@ -1,5 +1,6 @@
 import { payChips, playWinningEffect } from "../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
+import FruitSlotChoices from "../event-models/FruitSlotChoices";
 import { FruitSlotResult, FruitSlotSettlementResult } from "../FruitSlotType";
 import FruitSlot from "../view-models/FruitSlot";
 
@@ -51,11 +52,27 @@ export const handleAfterSettlementResult =
         game.betOptionsUI.ledLightAnimation.active = false;
         game.betOptionsUI.highlightWinningChoice(settlement);
         game.gameData.betModel.ownBets = {};
-       // game.betOptionsUI.spinItems[settlement.result.symbolPositions[0]].highlight.opacity = 255;
+        game.gameData.totalBetAmount = new FruitSlotChoices();
+        // game.betOptionsUI.spinItems[settlement.result.symbolPositions[0]].highlight.opacity = 255;
 
         const finish = game.finishHandler as GameBaseFinishHandler;
-        payChips(game, settlement, null, 1.2, 3);
+        payChips(game, transformSettlementResult(settlement.settlementResult), settlement.winningPlayers, 1.2, 3);
     };
+
+const transformSettlementResult = (settlementResult: FruitSlotSettlementResult) => {
+    return {
+        bar: settlementResult.bar || settlementResult.bar25 || settlementResult.bar50,
+        tripleSeven: settlementResult.tripleSeven || settlementResult.tripleSeven3,
+        star: settlementResult.star || settlementResult.star3,
+        watermelon: settlementResult.watermelon || settlementResult.watermelon3,
+        bell: settlementResult.bell || settlementResult.bell3,
+        lemon: settlementResult.lemon || settlementResult.lemon3,
+        orange: settlementResult.orange || settlementResult.orange3,
+        cherry: settlementResult.cherry || settlementResult.cherry3,
+        big: settlementResult.big,
+        small: settlementResult.small
+    };
+};
 
 const showSettlementResult = (finish: FruitSlotFinishModel) => {
     const winChoice = finish;

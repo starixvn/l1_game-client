@@ -521,7 +521,6 @@ export default class GameUtils {
         chipStack.chipSize = 26;
         chipStack.thickness = 10;
         chipStack.skewX = skewX;
-        console.log("createChipStack", chipStack);
 
         const keys = Object.keys(values).sort((a, b) => +b - +a);
         let firstChip = true;

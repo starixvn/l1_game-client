@@ -8,12 +8,3 @@ export const handleRenderMiniRoundHistoryAndStatistic = (game: FruitSlot) => (ro
     game.miniRoundHistory.render(roundHistory);
     game.statistic.render(roundHistory);
 };
-
-export const handleRenderOwnBet = (game: FruitSlot) => (ownBets: FruitSlotChoices) => {
-    Object.keys(ownBets).forEach((key) => {
-        const betItem = _.find(game.betItems, (item) => item.node.name.toLowerCase() === key.toLowerCase());
-        const destNode = betItem.chipNode;
-        const chipStack = GameUtils.createChipStack(ownBets[key], game.betChips, game.shadowChip, destNode.skewX);
-        destNode.addChild(chipStack);
-    });
-};

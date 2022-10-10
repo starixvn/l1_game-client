@@ -13,11 +13,10 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
-import { handleRenderMiniRoundHistoryAndStatistic, handleRenderOwnBet } from "../actions/FruitSlotJoinRoomActions";
+import { handleRenderMiniRoundHistoryAndStatistic } from "../actions/FruitSlotJoinRoomActions";
 import { handleAfterSettlementResult, handleShowResult } from "../actions/FruitSlotFinishActions";
 import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotChips from "./FruitSlotChips";
-import { BetModel } from "../../_base_new/models/BetModel";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 import NewButton from "../../../common/custom-button/NewButton";
@@ -127,7 +126,6 @@ export default class FruitSlot extends NewGameRoomBase {
 
     initGameDataEvents() {
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.FIRST_LOAD, handleRenderMiniRoundHistoryAndStatistic);
-        this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP_FAKE, handleRenderOwnBet);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
     }
