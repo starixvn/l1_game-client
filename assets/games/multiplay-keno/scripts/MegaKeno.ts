@@ -86,4 +86,9 @@ export default class MegaKeno extends TableGameBase {
     initMD5String(node: cc.Node) {
         this.md5Component = node.getChildByName("md5-content").getComponent(MD5Component);
     }
+
+    updateRebetButtonStatus() {
+        super.updateRebetButtonStatus();
+        this.rebetButton && (this.rebetButton.node.getChildByName("disabled").active = !this.checkRebetStatus());
+    }
 }
