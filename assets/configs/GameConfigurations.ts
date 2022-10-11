@@ -90,6 +90,12 @@ export function getGameId(key: string) {
     return gameConfiguration?.id;
 }
 
+export function isMiniGame(key: string) {
+    const gameConfiguration = getAllGameConfigurations().find((configuration) => configuration.key === key);
+
+    return gameConfiguration?.mini != null;
+}
+
 export function getGameConfiguration(gameId: number | string) {
     return getAllGameConfigurations().find((configuration) => configuration.id === Number(gameId));
 }

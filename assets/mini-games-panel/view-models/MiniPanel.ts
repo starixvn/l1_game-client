@@ -13,7 +13,7 @@ import LoadWebView from "../../common/LoadWebView";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
-import { getGameId, isUsingRemoteBundle } from "../../configs/GameConfigurations";
+import { getGameId, isMiniGame, isUsingRemoteBundle } from "../../configs/GameConfigurations";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SocketIOController from "../../SocketIOController";
@@ -304,7 +304,7 @@ export default class MiniPanel extends BaseComponent {
     loadGameRoom(name) {
         const gameId = getGameId(name);
 
-        if (GameUIManager.getInstance().getCurrentGameId() !== +gameId) {
+        if (GameUIManager.getInstance().getCurrentGameId() !== +gameId || isMiniGame(name)) {
             return;
         }
 
