@@ -33,6 +33,9 @@ const data = {
         42: "Texas Hold'em",
         45: "Hi-Lo",
         46: "Nightclub Lady"
+        52: "Mega Keno",
+        53: "Mega Keno 2",
+        59: "Fruit Slot"
     },
     messages: {
         accountNotExist: "發生了錯誤。詳情請聯繫CSD，謝謝。(%{errorCode})",

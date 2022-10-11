@@ -44,7 +44,8 @@ const data = {
         45: "Hi-Lo",
         46: "Nightclub Lady",
         52: "Mega Keno",
-        53: "Mega Keno 2"
+        53: "Mega Keno 2",
+        59: "Fruit Slot"
     },
     messages: {
         accountNotExist: "เกิดข้อผิดพลาด กรุณาติดต่อแอดมินสำหรับรายละเอียดเพิ่มเติม ขอบคุณค่ะ (%{errorCode})",
