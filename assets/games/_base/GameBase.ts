@@ -776,7 +776,7 @@ export default class GameBase extends GameViewBase {
                 const chipValues = GameUtils.getChipQuantity(total, this.betChips.chipValues);
                 Object.keys(chipValues).forEach((chipValue) => {
                     const count = chipValues[chipValue];
-                    for (i = 0; i < count; i++) {
+                    for (let i = 0; i < count; i++) {
                         this.sendBetAtChoice(choice, +chipValue);
                     }
                 });
