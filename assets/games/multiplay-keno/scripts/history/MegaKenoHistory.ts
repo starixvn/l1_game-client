@@ -1,11 +1,10 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import GameUtils from "../../../../common/GameUtils";
 import DropdownListMultiplayGameHistory from "../../../multiplay/scripts/DropdownListMultiplayGameHistory";
 import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "../MegaKenoConfig";
 import MegaKenoHistoryDetail from "./MegaKenoHistoryDetail";
 import MegaKenoHistoryItem from "./MegaKenoHistoryItem";
 import NewDropDownOption from "../../../../common/new-drop-down-list/view-models/NewDropDownOption";
+import { i18n } from "../../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;
 
