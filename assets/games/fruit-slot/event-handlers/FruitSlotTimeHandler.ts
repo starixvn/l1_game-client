@@ -11,16 +11,8 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        this.main.timeAnimShowResult(!this.main.finishShowResult);
+        this.main.timeAnimShowResult(!this.main.finishShowResult);        
     }
-
-    // handleInRoundTime() {
-    //     super.handleInRoundTime();
-    //     this.main.betItems.forEach((item) => (item.node.opacity = 255));
-    //     this.main.spinItems.forEach((item) => item.resetHighlight());
-    //     this.main.setBgVisibility(this.main.betOptionsUI.bgLockSpin, true);
-    //     this.main.betOptionsUI.bigSmallResultBackground.opacity = 0;
-    // }
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();

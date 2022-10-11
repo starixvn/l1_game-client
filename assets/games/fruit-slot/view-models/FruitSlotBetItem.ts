@@ -19,4 +19,17 @@ export default class FruitSlotBetItem extends BetItem {
             this.odds.string = `x${value}`;
         }
     }
+
+    protected setHighlightItems(highlight: boolean, isAnimated = true) {
+        this.highlight.active = highlight && isAnimated;
+        if (this.highlightBackground) {
+            this.highlightBackground.active = highlight && isAnimated;
+        }
+        if (this.highlightBorder) {
+            this.highlightBorder.active = highlight && !isAnimated;
+        }
+        if (this.normalBorder) {
+            this.normalBorder.active = true;
+        }
+    }
 }

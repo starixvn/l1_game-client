@@ -163,5 +163,5 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         this.betItems.forEach((item) => (item.node.opacity = 255));
         this.spinItems.forEach((item) => item.resetHighlight());
         this.main.setBgVisibility(this.bgLockSpin, true);
-    }
+    }    
 }
