@@ -25,6 +25,8 @@ import { updateOwnBets } from "../actions/FruitSlotCustomActions";
 import { i18n } from "../../../ClientModules";
 import GameDataManager from "../../_base_new/models/GameDataManager";
 import NewGameData from "../../_base_new/models/NewGameData";
+import AudioManager from "../../../common/audio/AudioManager";
+import FruitSlotHistory from "./FruitSlotHistory";
 
 const { ccclass, property } = cc._decorator;
 export const FruitSlotGameId = 59;
@@ -177,12 +179,6 @@ export default class FruitSlot extends NewGameRoomBase {
         this.lockBet();
 
         const { ownBets } = this.gameData.betModel;
-
-        const sum = this.sumValueBetChoices(ownBets);
-        if (!this.checkAvailableBalance(sum)) {
-            return;
-        }
-
         const ownBetTemp = Object.keys(ownBets).reduce(
             (attrs, key) => ({
                 ...attrs,
@@ -190,6 +186,11 @@ export default class FruitSlot extends NewGameRoomBase {
             }),
             {}
         );
+
+        const sum = this.sumValueBetChoices(ownBets);
+        if (!this.checkAvailableBalance(sum, ownBets)) {
+            return;
+        }
 
         this.gameData.betModel.changeOwnBets(ownBetTemp);
         this.placeBet(ownBets);
@@ -224,22 +225,17 @@ export default class FruitSlot extends NewGameRoomBase {
         });
     }
 
-    checkAvailableBalance(bet: number): boolean {
-        const total = this.sumValueBetChoices(this.tempBetChoices);
+    checkAvailableBalance(bet: number, ownBetTemp): boolean {
+        const total = this.sumValueBetChoices(ownBetTemp);
         const available = total + bet <= cc.RedT.user.red;
 
         !available && this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
+
         return available;
     }
 
     sumValueBetChoices(totalChoices: any) {
-        let total = 0;
-        for (const type in totalChoices) {
-            for (const key in totalChoices[type]) {
-                total += totalChoices[type][key];
-            }
-        }
-        return total;
+        return Object.keys(totalChoices).reduce((total, key) => total + totalChoices[key], 0);
     }
 
     seperateChips(amount: number) {
