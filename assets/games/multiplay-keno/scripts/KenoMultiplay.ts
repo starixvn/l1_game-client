@@ -1,15 +1,37 @@
 import MultiplayGameHistory from "../../multiplay/scripts/MultiplayGameHistory";
 import MultiplayTableGame from "../../multiplay/scripts/MultiplayTableGame";
 import MegaKeno from "./MegaKeno";
-import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "./MegaKenoConfig";
-import MegaKenoSubGame from "./MegaKenoSubGame";
+import {
+    MegaKeno1Id,
+    MegaKeno2Id,
+    MegaKeno3Id,
+    MegaKeno4Id,
+    MegaKeno5Id,
+    MegaKeno6Id,
+    MegaKeno7Id,
+    MegaKeno8Id,
+} from "./MegaKenoConfig";
 import MegaKenoGuide from "./MegaKenoGuide";
+import MegaKenoSubGame from "./MegaKenoSubGame";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoMultiplay extends MultiplayTableGame {
     gameIds: number[] = [MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id];
+
+    @property(cc.ScrollView)
+    scrollView: cc.ScrollView = null;
+
+    @property(cc.Node)
+    bottomSubGameBg: cc.Node = null;
+
+    private sizeSubGame = 150;
+
+    onLoad() {
+        super.onLoad();
+        this.scrollView.node.on("scroll-ended", this.checkHandleScroll, this);
+    }
 
     constructor() {
         super();
@@ -44,5 +66,11 @@ export default class KenoMultiplay extends MultiplayTableGame {
         this.currentMiniPanel.addDialog(dialog);
         const guide = dialog.getComponent(MegaKenoGuide);
         guide.games = this.games;
+    }
+
+    checkHandleScroll() {
+        const offset = this.scrollView.getScrollOffset();
+        const offsetEnableSubGameBg = this.scrollView.getMaxScrollOffset().y - this.sizeSubGame;
+        this.bottomSubGameBg.active = offset.y < offsetEnableSubGameBg ? true : false;
     }
 }
