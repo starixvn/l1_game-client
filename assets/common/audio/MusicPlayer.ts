@@ -109,9 +109,12 @@ export default class MusicPlayer {
 
         const audioClip = await this.lastLoadSongTask.promise;
         if (this.isPlayBgMusic) {
-            while (!this.touchBinded) {
-                await GameUtils.delayTime(0.5);
+            if (cc.sys.os === cc.sys.OS_IOS) {
+                while (!this.touchBinded) {
+                    await GameUtils.delayTime(0.5);
+                }
             }
+
             this.playAudioClip(audioClip);
         }
     }
