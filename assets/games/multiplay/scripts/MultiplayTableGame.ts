@@ -13,7 +13,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame
+    outRoomGame,
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
@@ -131,7 +131,7 @@ export default class MultiplayTableGame extends MultiplayGame {
         this.currentMiniPanel.addDialog(node);
 
         const scoreBoard = node.getComponent(MultiplayGameStatisticBoard);
-        scoreBoard.init(this.games);
+        scoreBoard.init(this.games, this.gameIds);
         scoreBoard.openGameCallback = (gameId) => {
             this.switchGameToMain(gameId);
         };
