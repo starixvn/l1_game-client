@@ -21,8 +21,6 @@ export default class MegaKeno extends TableGameBase {
     evenOddStatistic: StatisticBoard = null;
 
     streakChoices = ["big", "small", "odd", "even"];
-    //TODO:missing custom duration for Keno Mini
-    showResultDuration = 6;
 
     settlementResultAnimation: MegaKenoSettlementResult;
 
@@ -36,11 +34,24 @@ export default class MegaKeno extends TableGameBase {
         this.animatedTime.setAnimatedY(30, -5);
     }
 
+    customShowResultDuration() {
+        this.showResultDuration = 6;
+        if (this.isMiniKeno(this.gameId)) {
+            this.showResultDuration = 4;
+        }
+    }
+
+    isMiniKeno(gameId: number) {
+        return gameId === MegaKeno3Id || gameId === MegaKeno4Id;
+    }
+
     setGameId(gameId: number) {
         this.gameId = gameId;
         this.config = MegaKenoConfigs[gameId];
         this.renderTableGame(gameId);
         this.initSettlementResultAnimation(gameId);
+        this.customShowResultDuration();
+        this.initGameDataDurations();
     }
 
     renderTableGame(gameId: number) {
@@ -64,8 +75,7 @@ export default class MegaKeno extends TableGameBase {
         if (!this.settlementResultContainer || !this.settlementResultPrefabs.length) {
             return;
         }
-        const isMini = gameId === MegaKeno3Id || gameId === MegaKeno4Id;
-        const index = isMini ? 1 : 0;
+        const index = this.isMiniKeno(gameId) ? 1 : 0;
         const node = cc.instantiate(this.settlementResultPrefabs[index]);
         this.settlementResultContainer.addChild(node);
         this.settlementResultAnimation = node.getComponent(MegaKenoSettlementResult);

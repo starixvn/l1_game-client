@@ -29,8 +29,12 @@ export default class MegaKenoSubGame extends MegaKeno {
 
     public showOtherPlayerChips = false;
 
-    //TODO:missing custom duration for Keno Mini
-    showResultDuration = 5;
+    customShowResultDuration() {
+        this.showResultDuration = 8;
+        if (this.isMiniKeno(this.gameId)) {
+            this.showResultDuration = 6;
+        }
+    }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
         this.gameData.roundHistory.update();
