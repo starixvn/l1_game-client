@@ -13,7 +13,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame,
+    outRoomGame
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
@@ -56,6 +56,8 @@ export default class MultiplayTableGame extends MultiplayGame {
     public gameState = GameState.None;
     isWinningNotification = true;
     subContainer: cc.Node;
+    expandedNotificationWidth = 350;
+    collapsedNotificationWidth = 250;
 
     assignPropertiesForSingle(single: GameBase, isMain: boolean) {
         super.assignPropertiesForSingle(single, isMain);
@@ -220,6 +222,8 @@ export default class MultiplayTableGame extends MultiplayGame {
 
         this.notificationWidget.right = 10;
         this.notificationWidget.updateAlignment();
+        this.notificationWidget.node.width = this.expandedNotificationWidth;
+        this.notificationWidget.node.children[0].getComponent(cc.Widget).updateAlignment();
     }
 
     hideSubGamesWithAnimation(isAnimated = true) {
@@ -243,6 +247,8 @@ export default class MultiplayTableGame extends MultiplayGame {
         }
         this.notificationWidget.right = subGamesWidth + 10;
         this.notificationWidget.updateAlignment();
+        this.notificationWidget.node.width = this.collapsedNotificationWidth;
+        this.notificationWidget.node.children[0].getComponent(cc.Widget).updateAlignment();
     }
 
     onMainGamePosition(target) {
