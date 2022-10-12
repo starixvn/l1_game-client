@@ -127,7 +127,7 @@ export default class MultiplayTableGame extends MultiplayGame {
         this.currentMiniPanel.addDialog(node);
 
         const scoreBoard = node.getComponent(MultiplayGameStatisticBoard);
-        scoreBoard.init(this.games, this.gameIds);
+        scoreBoard.init(this.games);
         scoreBoard.openGameCallback = (gameId) => {
             this.switchGameToMain(gameId);
         };

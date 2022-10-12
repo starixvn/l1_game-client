@@ -10,7 +10,7 @@ export default class MultiplayGameStatisticBoard extends CommonDialog {
 
     @property(cc.Prefab)
     scoreBoardPrefab: cc.Prefab = null;
-
+    gameIds = [];
     statisticBoards: MultipleStatisticBoard[] = [];
     openGameCallback = (gameId) => {};
 
@@ -22,20 +22,21 @@ export default class MultiplayGameStatisticBoard extends CommonDialog {
         });
     }
 
-    init(games: any, gameIds: number[]) {
-        // const gameIds = [MegaKeno1Id, MegaKeno3Id, MegaKeno2Id, MegaKeno4Id, MegaKeno5Id, MegaKeno7Id, MegaKeno6Id, MegaKeno8Id];
-        gameIds.forEach((gameId) => {
-            const node = cc.instantiate(this.scoreBoardPrefab);
-            this.content.addChild(node);
-            const statisticBoard = node.getComponent(MultipleStatisticBoard);
-            this.statisticBoards.push(statisticBoard);
+    init(games: any) {
+        if (this.gameIds) {
+            this.gameIds.forEach((gameId) => {
+                const node = cc.instantiate(this.scoreBoardPrefab);
+                this.content.addChild(node);
+                const statisticBoard = node.getComponent(MultipleStatisticBoard);
+                this.statisticBoards.push(statisticBoard);
 
-            const game = games[gameId];
-            statisticBoard.init(game);
-            statisticBoard.openGameCallback = (gameId) => {
-                this.openGameCallback(gameId);
-                this.closeDialog();
-            };
-        });
+                const game = games[gameId];
+                statisticBoard.init(game);
+                statisticBoard.openGameCallback = (gameId) => {
+                    this.openGameCallback(gameId);
+                    this.closeDialog();
+                };
+            });
+        }
     }
 }
