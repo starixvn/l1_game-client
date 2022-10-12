@@ -12,8 +12,8 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     }
 
     private _betAmount = 0;
-    private readonly chipScaleX = 0.25;
-    private readonly chipScaleY = 0.2;
+    private readonly chipScaleX = 0.3;
+    private readonly chipScaleY = 0.25;
 
     handle(data: any) {
         if (this.main.isStopGame || this.main.isDisableGame) {
@@ -73,7 +73,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     placeOwnChip(data) {
         this.calculateTotalBetAmount(data.betChoice, data.ownChip.amount);
         const startNode = this.main.betChips.getChipNode(data.ownChip.amount);
-        this.handleChipStack(data.ownChip.amount, startNode, data.betChoice, true);
+        this.handleChipStack(data.ownChip.amount, startNode, data.betChoice, this.main.gameData.totalBetAmount[data.betChoice], true);
     }
 
     placePlayerChip(data) {
@@ -95,7 +95,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         Object.keys(chipValues).forEach((chipValue) => {
             let count = chipValues[chipValue];
             for (; count > 0; count--) {
-                this.handleChipStack(+chipValue, startNode, betChoice);
+                this.handleChipStack(+chipValue, startNode, betChoice, this.main.gameData.totalBetAmount[betChoice]);
             }
         });
 
@@ -114,7 +114,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         this.main.gameData.totalBetAmount[betChoice] = (this.main.gameData.totalBetAmount[betChoice] || 0) + amount;
     }
 
-    handleChipStack(betAmount: number, startNode: cc.Node, betChoice: string, isOwnBet = false) {
+    handleChipStack(betAmount: number, startNode: cc.Node, betChoice: string, totalAmount: number, isOwnBet = false) {
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
         const destNode = betItem.chipNode;
         const durationMoveChip = 0.8;
@@ -136,19 +136,21 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
             cc.sequence(
                 actionMove,
                 cc.callFunc(() => {
-                    this.addChipStack(destNode, this.main.gameData.totalBetAmount[betChoice]);
+                    chipNode.destroy();
+                    this.addChipStack(destNode, totalAmount);
                 })
             )
         );
     }
 
     addChipStack(destNode: cc.Node, totalAmount: number) {
-        destNode.destroyAllChildren();
+        const nameChipStack = "chipStackNode";
+        destNode.getChildByName(nameChipStack)?.destroy();
         const chipStack = GameUtils.createChipStack(totalAmount, this.main.betChips, this.main.shadowChip, destNode.skewX);
         chipStack.zIndex = -1;
         chipStack.scaleX = this.chipScaleX;
         chipStack.scaleY = this.chipScaleY;
         chipStack.childrenCount > 0 && chipStack.children[chipStack.childrenCount - 1].getComponent(ChipView).applyForSmallChip();
-        destNode.addChild(chipStack);
+        destNode.addChild(chipStack, -1, nameChipStack);
     }
 }
