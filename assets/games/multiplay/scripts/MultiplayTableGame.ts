@@ -55,9 +55,7 @@ export default class MultiplayTableGame extends MultiplayGame {
     userProfile: UserProfile;
     public gameState = GameState.None;
     isWinningNotification = true;
-    subContainerWidth: number;
-    subContainerWidget: cc.Widget;
-    mainGameWidget: cc.Widget;
+    subContainer: cc.Node;
 
     assignPropertiesForSingle(single: GameBase, isMain: boolean) {
         super.assignPropertiesForSingle(single, isMain);
@@ -77,9 +75,7 @@ export default class MultiplayTableGame extends MultiplayGame {
         cc.RedT && (cc.RedT.inGame = this);
         this.loadUserData(cc.RedT?.user);
         initMusicBackground(this)();
-        this.subContainerWidth = this.subGamesArea[0].width;
-        this.subContainerWidget = this.subGamesArea[0].getComponent(cc.Widget);
-        this.mainGameWidget = this.mainContainer.getComponent(cc.Widget);
+        this.subContainer = this.subGamesArea[0];
     }
 
     onDestroy() {
@@ -205,58 +201,52 @@ export default class MultiplayTableGame extends MultiplayGame {
 
     showSubGamesWithAnimation(isAnimated = true) {
         if (isAnimated) {
-            cc.tween(this.subContainerWidget)
+            cc.tween(this.subContainer)
                 .to(
                     0.2,
-                    { right: 0 },
+                    { position: cc.v3(0, 0, 0) },
                     {
                         easing: "sineOut",
                         onUpdate: (target) => {
-                            this.onUpdatSubContainerWidgetWidget(target);
+                            this.onMainGamePosition(target);
                         }
                     }
                 )
                 .start();
         } else {
-            this.subContainerWidget.right = 0;
-            this.subContainerWidget.updateAlignment();
-
-            // align main game
-            this.mainGameWidget.right = this.subContainerWidth;
-            this.mainGameWidget.updateAlignment();
+            this.subContainer.position = cc.v3(0, 0, 0);
+            this.mainContainer.position = cc.v3(0, 0, 0);
         }
+
+        this.notificationWidget.right = 10;
+        this.notificationWidget.updateAlignment();
     }
 
     hideSubGamesWithAnimation(isAnimated = true) {
+        const subGamesWidth = this.subContainer.width;
         if (isAnimated) {
-            cc.tween(this.subContainerWidget)
+            cc.tween(this.subContainer)
                 .to(
                     0.2,
-                    { right: -this.subContainerWidth },
+                    { position: cc.v3(subGamesWidth, this.subContainer.position.y, 0) },
                     {
                         easing: "sineIn",
                         onUpdate: (target) => {
-                            // align main game
-                            this.onUpdatSubContainerWidgetWidget(target);
+                            this.onMainGamePosition(target);
                         }
                     }
                 )
-
                 .start();
         } else {
-            this.subContainerWidget.right = -this.subContainerWidth;
-            this.subContainerWidget.updateAlignment();
-
-            // align main game
-            this.mainGameWidget.right = 0;
-            this.mainGameWidget.updateAlignment();
+            this.subContainer.position = cc.v3(subGamesWidth, this.subContainer.position.y, 0);
+            this.mainContainer.position = cc.v3(subGamesWidth / 2, this.mainContainer.position.y, 0);
         }
+        this.notificationWidget.right = subGamesWidth + 10;
+        this.notificationWidget.updateAlignment();
     }
 
-    onUpdatSubContainerWidgetWidget(target) {
-        this.subContainerWidget.updateAlignment();
-        this.mainGameWidget.right = target.right + this.subContainerWidth;
-        this.mainGameWidget.updateAlignment();
+    onMainGamePosition(target) {
+        this.mainContainer.position = cc.v3(target.position.x / 2, this.mainContainer.position.y, 0);
     }
 
     //#endregion Methods for room game

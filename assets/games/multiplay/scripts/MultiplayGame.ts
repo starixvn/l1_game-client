@@ -11,7 +11,7 @@ import { GameConfigs } from "../../_base_new/models/GameConfigs";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
-import MultiplayGameSingle, { KeyStorageStatisticOpen } from "./MultiplayGameSingle";
+import { KeyStorageStatisticOpen } from "./MultiplayGameSingle";
 import MultiplayPromotionGuide from "./MultiplayPromotionGuide";
 import NewGameData from "../../_base_new/models/NewGameData";
 
@@ -52,6 +52,7 @@ export default class MultiplayGame extends GameViewBase {
 
     promotionGuideComp: MultiplayPromotionGuide = null;
     gameNotification: InternalGameNotification = null;
+    notificationWidget: cc.Widget;
 
     normalPrefabs: cc.Prefab[] = [];
     smallPrefabs: cc.Prefab[] = [];
@@ -85,6 +86,7 @@ export default class MultiplayGame extends GameViewBase {
 
     onInitializeGameNotification(node: cc.Node) {
         this.gameNotification = node.getComponent(InternalGameNotification);
+        this.notificationWidget = node.parent.getComponent(cc.Widget);
     }
 
     initWinningStreakListeners() {
