@@ -29,7 +29,6 @@ export class RoundHistory extends EventEmitterBase {
         if (this.roundHistory.length > this.historySize) {
             this.roundHistory.pop();
         }
-        this.checkWinningStreak(roundHistory);
     }
 
     checkWinningStreak(roundHistory) {

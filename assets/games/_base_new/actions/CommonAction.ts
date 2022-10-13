@@ -120,4 +120,5 @@ export const handleAfterSettlementResult =
             return;
         }
         game.handleAfterSettlementResult(settlement, animated);
+        game.gameData.roundHistory.checkWinningStreak(settlement);
     };
