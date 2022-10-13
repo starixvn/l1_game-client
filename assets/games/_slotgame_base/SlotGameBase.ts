@@ -24,10 +24,10 @@ import SlotGameSettlementHandler from "./handlers/SlotGameSettlementHandler";
 import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
+import { RoundType } from "./SlotGameBottomMessage";
 import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
-import { RoundType } from "./SlotGameBottomMessage";
 
 export interface LineData {
     payline: number;
@@ -951,10 +951,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
 
         this.updateBottomMessageStatus();
-    }
-
-    playMusicBgCallback() {
-        this.musicBg.play();
     }
 
     playMusicBackground(play: boolean) {

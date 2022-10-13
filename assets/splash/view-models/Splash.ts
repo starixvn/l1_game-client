@@ -1,4 +1,5 @@
 import { appContainer } from "../../Application";
+import AudioManager from "../../common/audio/AudioManager";
 import * as authManager from "../../common/auth/AuthManager";
 import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
@@ -34,6 +35,7 @@ export default class Splash extends cc.Component {
     private loadSceneTimeout: any;
 
     protected onLoad(): void {
+        AudioManager.getInstance().init();
         this.initLanguage();
         this.initOneSign();
         sentryLogger.start();

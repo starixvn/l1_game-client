@@ -327,8 +327,11 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         node.position = promotionNode.position = cc.v3(node.x, localPosition.y);
     }
 
-    playMusicBgCallback() {
-        this.musicBg.play();
+    async playMusicBgCallback() {
+        await AudioManager.getInstance().awaitForReady();
+        if (AudioManager.getInstance().musicEnabled) {
+            this.musicBg.play();
+        }
     }
 
     playMusicBackground(play: boolean) {

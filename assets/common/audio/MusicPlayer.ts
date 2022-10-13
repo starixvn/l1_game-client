@@ -1,6 +1,5 @@
 import _ = require("lodash");
 
-import GameUtils from "../GameUtils";
 import AudioManager from "./AudioManager";
 
 export default class MusicPlayer {
@@ -18,8 +17,6 @@ export default class MusicPlayer {
     readonly stepIntervalVolume = (this.duration * 1000) / (this.volume / this.stepVolume);
     private static instanceMusic: MusicPlayer;
     private lastLoadSongTask: { promise: Promise<cc.AudioClip>; cancel: () => void };
-    touchBinded = false;
-    touchStart = false;
 
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
@@ -81,26 +78,6 @@ export default class MusicPlayer {
         };
     }
 
-    private initTouchBinded() {
-        const touchend = "ontouchend" in window ? "touchend" : "mouseup";
-        const touchStart = "ontouchstart" in window ? "touchstart" : "mousedown";
-        const touchMove = "ontouchmove" in window ? "touchmove" : "mousemove";
-        cc.game.canvas.addEventListener(touchStart, () => {
-            this.touchStart = true;
-        });
-        cc.game.canvas.addEventListener(touchMove, () => {
-            this.touchStart = false;
-        });
-        cc.game.canvas.addEventListener(touchend, () => {
-            if (!this.touchStart || this.touchBinded) {
-                return;
-            }
-
-            this.touchStart = false;
-            this.touchBinded = true;
-        });
-    }
-
     private async loadResourceAudio(song: string) {
         if (this.lastLoadSongTask) {
             this.lastLoadSongTask.cancel();
@@ -109,17 +86,13 @@ export default class MusicPlayer {
 
         const audioClip = await this.lastLoadSongTask.promise;
         if (this.isPlayBgMusic) {
-            if (cc.sys.os === cc.sys.OS_IOS) {
-                while (!this.touchBinded) {
-                    await GameUtils.delayTime(0.5);
-                }
-
-                if (!this.isPlayBgMusic) {
-                    return;
-                }
+            await AudioManager.getInstance().awaitForReady();
+            if (!this.isPlayBgMusic) {
+                return;
             }
-
-            this.playAudioClip(audioClip);
+            if (AudioManager.getInstance().musicEnabled) {
+                this.playAudioClip(audioClip);
+            }
         }
     }
 
@@ -135,7 +108,6 @@ export default class MusicPlayer {
 
     init() {
         this.joinRoomMusic = false;
-        this.initTouchBinded();
         if (!this.isPlayBgMusic) {
             this.playBgAudio(this.audioManager.musicEnabled);
         }

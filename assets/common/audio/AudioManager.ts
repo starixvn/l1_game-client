@@ -1,8 +1,8 @@
+import GameUtils from "../GameUtils";
+
 const MusicStorageKey = "SOUND_BACKGROUND";
 const SFXStorageKey = "SOUND_GAME";
 export default class AudioManager {
-    public clickAudio: cc.AudioClip = null;
-
     public static getInstance(): AudioManager {
         if (!this.instance) {
             this.instance = new AudioManager();
@@ -12,15 +12,42 @@ export default class AudioManager {
     }
 
     private static instance: AudioManager;
+    public clickAudio: cc.AudioClip = null;
+    readonly soundObservers = { music: {}, sfx: {} };
+    private isReady = false;
+    private touchStart = false;
 
-    constructor() {
-        this.init();
+    init() {
+        this.initDefaultStorage();
+        this.initTouchBinded();
     }
 
-    readonly soundObservers = { music: {}, sfx: {} };
+    async awaitForReady() {
+        if (cc.sys.os === cc.sys.OS_IOS) {
+            while (!this.isReady) {
+                await GameUtils.delayTime(0.5);
+            }
+        }
+    }
 
-    private init() {
-        this.initDefaultStorage();
+    private initTouchBinded() {
+        const touchend = "ontouchend" in window ? "touchend" : "mouseup";
+        const touchStart = "ontouchstart" in window ? "touchstart" : "mousedown";
+        const touchMove = "ontouchmove" in window ? "touchmove" : "mousemove";
+        cc.game.canvas.addEventListener(touchStart, () => {
+            this.touchStart = true;
+        });
+        cc.game.canvas.addEventListener(touchMove, () => {
+            this.touchStart = false;
+        });
+        cc.game.canvas.addEventListener(touchend, () => {
+            if (!this.touchStart || this.isReady) {
+                return;
+            }
+
+            this.touchStart = false;
+            this.isReady = true;
+        });
     }
 
     playClick() {
