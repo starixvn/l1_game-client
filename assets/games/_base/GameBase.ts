@@ -176,7 +176,7 @@ export default class GameBase extends GameViewBase {
     // using multiplay game
     public gameData: any;
     public onDisconnectCallback = () => {};
-    protected managedByContainer = true;
+    protected managedByContainer = false;
     emitterStorages: EmitterStorage[] = [];
     internalTweenNodes: cc.Node[] = [];
     readonly internalTweenTag = 99;
@@ -512,7 +512,7 @@ export default class GameBase extends GameViewBase {
     public updateDisplayForRemoteConfig() {
         this.updateOddsFromConfigs();
 
-        if (this.betChips) {
+        if (!this.managedByContainer && this.betChips) {
             this.betChips.setChipValues(this.gameConfigs);
         }
     }

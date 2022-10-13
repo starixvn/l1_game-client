@@ -19,6 +19,7 @@ export default class MegaKeno extends TableGameBase {
 
     bigSmallStatistic: StatisticBoard = null;
     evenOddStatistic: StatisticBoard = null;
+    protected override managedByContainer = true;
 
     streakChoices = ["big", "small", "odd", "even"];
 

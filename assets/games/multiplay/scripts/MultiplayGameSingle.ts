@@ -31,11 +31,6 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
         control.initDefaultGame(this.gameId);
     }
 
-    updateDisplayForRemoteConfig() {
-        this.updateOddsFromConfigs();
-        // without set value bet chip
-    }
-
     private initStatusStatistic() {
         const status = this.getStorageStatusStatistic();
         this.handleShowStatistic(status);
