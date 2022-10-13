@@ -11,6 +11,12 @@ export default class InternalGameNotification extends cc.Component {
     itemPrefabs: cc.Prefab[] = [];
 
     @property
+    expandedWidth = 350;
+
+    @property
+    collapsedWidth = 250;
+
+    @property
     movingOffset = 50;
 
     readonly queue = [];
@@ -73,5 +79,13 @@ export default class InternalGameNotification extends cc.Component {
         });
 
         return validChildren.length > 0 ? duration : 0;
+    }
+
+    setWidthWhenCollapseSubGames() {
+        this.node.width = this.collapsedWidth;
+    }
+
+    setWidthWhenExpandedSubGames() {
+        this.node.width = this.expandedWidth;
     }
 }

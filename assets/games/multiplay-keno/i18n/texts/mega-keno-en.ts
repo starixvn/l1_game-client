@@ -12,7 +12,7 @@ export const phrases = {
         19: "Keno North"
     },
     lobbyNames: {
-        52: "Mega Keno"
+        52: "Keno Multiplay"
     },
     megaKeno: {
         intro: "“Mega Keno - Mutilplay” is an RNG game with a new feature that allows you to play 8 tables (Mega Keno, Mega Keno 2, Keno Mini, Keno Mini 2, Keno North, Keno South, Keno West, Keno East) at the same time with many exciting new experiences.",
