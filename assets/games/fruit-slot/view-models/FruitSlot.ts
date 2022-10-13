@@ -13,7 +13,7 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
-import { handleRenderMiniRoundHistoryAndStatistic, handleRenderOwnBet } from "../actions/FruitSlotJoinRoomActions";
+import { handleRenderMiniRoundHistoryAndStatistic } from "../actions/FruitSlotJoinRoomActions";
 import { handleAfterSettlementResult, handleShowResult, handleFirstLoadRoundHistory } from "../actions/FruitSlotFinishActions";
 import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotChips from "./FruitSlotChips";

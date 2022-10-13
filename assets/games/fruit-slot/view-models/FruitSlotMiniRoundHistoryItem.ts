@@ -1,4 +1,4 @@
-import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistoryModel";
+import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 

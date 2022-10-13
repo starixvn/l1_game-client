@@ -117,8 +117,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     handleChipStack(betAmount: number, startNode: cc.Node, betChoice: string, totalAmount: number, isOwnBet = false) {
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
         const destNode = betItem.chipNode;
-        const durationMoveChip = 0.8;
-        const durationJumpChip = 0.5;
+        const durationMoveChip = 0.7;
         const chipNode = this.main.betChips.createSmallChip(betAmount);
         if (!isOwnBet) {
             chipNode.scaleX = this.chipScaleX;
@@ -130,7 +129,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         destPosition = this.handleDestPosition(destNode, destPosition);
 
         const actionMove = isOwnBet
-            ? cc.jumpTo(durationJumpChip, destPosition, 150, 1)
+            ? cc.jumpTo(durationMoveChip, destPosition, 150, 1)
             : cc.moveTo(durationMoveChip, destPosition).easing(cc.easeSineOut());
         chipNode.runAction(
             cc.sequence(

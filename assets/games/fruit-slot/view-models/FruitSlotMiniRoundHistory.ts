@@ -1,4 +1,4 @@
-import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistoryModel";
+import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 import FruitSlot from "./FruitSlot";
 import FruitSlotMiniRoundHistoryItem from "./FruitSlotMiniRoundHistoryItem";
 
