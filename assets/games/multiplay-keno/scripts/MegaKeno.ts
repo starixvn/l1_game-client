@@ -45,13 +45,17 @@ export default class MegaKeno extends TableGameBase {
         return gameId === MegaKeno3Id || gameId === MegaKeno4Id;
     }
 
+    initOnStart() {
+        super.initOnStart();
+        this.customShowResultDuration();
+        this.initGameDataDurations();
+    }
+
     setGameId(gameId: number) {
         this.gameId = gameId;
         this.config = MegaKenoConfigs[gameId];
         this.renderTableGame(gameId);
         this.initSettlementResultAnimation(gameId);
-        this.customShowResultDuration();
-        this.initGameDataDurations();
     }
 
     renderTableGame(gameId: number) {

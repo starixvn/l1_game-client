@@ -101,6 +101,10 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.initGameDataEvents();
     }
 
+    override start() {
+        this.initOnStart();
+    }
+
     override onEnable() {
         this.grantSocket();
         this.initSocketListener();
@@ -139,6 +143,8 @@ export default class MiniGameBase extends NewMiniGameBase {
         }
         super.onData(data);
     }
+
+    initOnStart() {}
 
     onGameHide() {
         super.onGameHide();
