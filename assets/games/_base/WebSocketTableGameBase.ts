@@ -1,13 +1,9 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import { lazyInject } from "../../Application";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
-import { NoticeData } from "../../common/notice/view-models/Notice";
 import UmWarning from "../../common/um-warning/UmWarning";
-import NoticeUtil from "../../common/utils/NoticeUtil";
 import SocketIOController from "../../SocketIOController";
 import {
     closeGame,
@@ -114,27 +110,15 @@ export default class WebSocketTableGameBase extends GameBase {
             return;
         }
 
-        const message = NoticeUtil.getMessageByLocale(data.um_message);
-
-        const text = message ? message : i18n.t("messages.disabledGame");
-        const noticeData = { text: text, button: { text: "OK" } } as NoticeData;
-        noticeData.button = { text: "OK" };
-        this.showNotice(
-            noticeData,
-            () => {
-                this.onCloseGameClick();
-            },
-            () => {
-                this.onCloseGameClick();
-            }
-        );
-    }
-
-    showNotice(noticeData: NoticeData, onClickOk: () => void, onClose: () => void) {
-        this.currentMiniPanel.showNotice(noticeData, onClickOk, onClose);
+        this.showUmMessagePopup(data);
     }
 
     onCloseGameClick() {
+        //keep function name, for old game prefab
+        this.onCloseGame();
+    }
+
+    onCloseGame() {
         if (this.musicBg) {
             MusicPlayer.getInstance().handleIncreaseVolume();
         }
@@ -222,7 +206,7 @@ export default class WebSocketTableGameBase extends GameBase {
     initEventForInGameMenu() {
         const node = super.initEventForInGameMenu();
 
-        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGameClick, this);
+        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGame, this);
 
         return node;
     }

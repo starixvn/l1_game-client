@@ -10,10 +10,12 @@ import BetChips from "../../common/bet-chips/view-models/BetChips";
 import EventEmitterBase from "../../common/emitter/EventEmitterBase";
 import GameUtils from "../../common/GameUtils";
 import InGameMenu, { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
+import { NoticeData } from "../../common/notice/view-models/Notice";
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
+import NoticeUtil from "../../common/utils/NoticeUtil";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 import GameDataManager from "../_base_new/models/GameDataManager";
@@ -360,6 +362,27 @@ export default class GameBase extends GameViewBase {
         }
 
         this.umNotice && this.umNotice.show(data);
+    }
+
+    showUmMessagePopup(data: any) {
+        const message = NoticeUtil.getMessageByLocale(data.um_message);
+
+        const text = message ? message : i18n.t("messages.disabledGame");
+        const noticeData = { text: text, button: { text: "OK" } } as NoticeData;
+        noticeData.button = { text: "OK" };
+        this.showNotice(
+            noticeData,
+            () => {
+                this.onCloseGame();
+            },
+            () => {
+                this.onCloseGame();
+            }
+        );
+    }
+
+    showNotice(noticeData: NoticeData, onClickOk: () => void, onClose: () => void) {
+        this.currentMiniPanel.showNotice(noticeData, onClickOk, onClose);
     }
 
     hideUmMessage() {

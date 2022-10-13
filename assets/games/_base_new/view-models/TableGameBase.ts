@@ -13,7 +13,7 @@ import {
     handlePlayerChipAction,
     hanleAddPlayer,
     removePlayer,
-    updateTablePlayer
+    updateTablePlayer,
 } from "../actions/CommonTableGameAction";
 import { clearChipsForLostChoices, payChips, resetUIAndClearChips } from "../actions/NewPayChipsAction";
 import { BetModel } from "../models/BetModel";
@@ -192,5 +192,13 @@ export default class TableGameBase extends MiniGameBase {
         this.betItems.forEach((betItem) => {
             betItem.setHighlight(settlementResult[betItem.node.name], isAnimated);
         });
+    }
+
+    override showUmMessage(data: any) {
+        if (this.isDisableGame) {
+            return;
+        }
+
+        this.showUmMessagePopup(data);
     }
 }

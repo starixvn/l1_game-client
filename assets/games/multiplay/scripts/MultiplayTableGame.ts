@@ -13,7 +13,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame
+    outRoomGame,
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
@@ -105,7 +105,7 @@ export default class MultiplayTableGame extends MultiplayGame {
         node.on(InGameMenuEvents.OPEN_HISTORY, this.openHistory, this);
         node.on(InGameMenuEvents.OPEN_GUIDE, this.openGuide, this);
         node.on(InGameMenuEvents.CLOSE_GAME, this.onCloseGame, this);
-        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGameClick, this);
+        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGame, this);
         node.on(InGameMenuEvents.OPEN_STATISTIC, this.onScoreBoardClick, this);
         node.on(InGameMenuEvents.CHANGE_WINNING_NOTIFICATION, this.onWinningNotificationClick, this);
         return node;
@@ -114,8 +114,6 @@ export default class MultiplayTableGame extends MultiplayGame {
     openHistory() {
         AudioManager.getInstance().playClick();
     }
-
-    onCloseGame() {}
 
     openGuide() {
         AudioManager.getInstance().playClick();
@@ -162,7 +160,7 @@ export default class MultiplayTableGame extends MultiplayGame {
     }
 
     //#region Methods for room game
-    onCloseGameClick() {
+    onCloseGame() {
         if (this.musicBg) {
             MusicPlayer.getInstance().handleIncreaseVolume();
         }
