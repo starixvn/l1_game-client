@@ -11,8 +11,8 @@ export default class FruitSlotHistoryItem extends cc.Component {
     @property(cc.Label)
     roundLabel: cc.Label = null;
 
-    @property(cc.Sprite)
-    symbols: cc.Sprite[] = [];
+    @property({ type: cc.Sprite })
+    symbol: cc.Sprite = null;
 
     @property(cc.Label)
     bigSmallLabel: cc.Label = null;
@@ -23,25 +23,26 @@ export default class FruitSlotHistoryItem extends cc.Component {
     @property(cc.Label)
     winLabel: cc.Label = null;
 
-    time: string = null;
-    round: number = null;
-    result: any = {};
-    winning: number = null;
-    amount: number = null;
-    betLogDetails: any = null;
-    settlementResult: any = null;
+    @property(cc.SpriteFrame)
+    symbolSprites: cc.SpriteFrame[] = [];
 
-    public showTicketDetail = (round: number, time: string, result: any, betLogDetails: any, settlementResult: any) => {};
+    @property(cc.Prefab)
+    ticketDetailPrefab: cc.Prefab = null;
 
-    openTicketDetail() {
-        this.showTicketDetail(this.round, this.time, this.result, this.betLogDetails, this.settlementResult);
-    }
+    betLog: BetLog;
+
+    openTicketDetail(parentNode: cc.Node, data: any, symbolSprites: cc.SpriteFrame[]) {}
 
     setData(betLog: BetLog) {
+        this.betLog = betLog;
         this.timeLabel.string = getStringDateByTime(betLog.time);
         this.bigSmallLabel.string = betLog.result.number.toString();
         this.roundLabel.string = betLog.phien.toString();
         this.winLabel.string = betLog.betwin.toString();
-        // this.amountLabel.string = betLog.amount.toString();
+        this.amountLabel.string = betLog.totalAmount.toString();
+
+        const matched = (sprite: cc.SpriteFrame, symbol: string) => sprite.name === symbol;
+        const symbolName = betLog.result.isLucky ? "lucky" : betLog.result.symbols[0];
+        this.symbol.spriteFrame = this.symbolSprites.find((sprite) => matched(sprite, `item_${symbolName}`));
     }
 }

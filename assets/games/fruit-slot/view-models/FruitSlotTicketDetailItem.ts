@@ -10,17 +10,20 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
     time: cc.Label = null;
 
     @property(cc.Label)
-    type: cc.Label = null;
-
-    @property(cc.Label)
-    choice: cc.Label = null;
+    odd: cc.Label = null;
 
     @property(cc.Label)
     amount: cc.Label = null;
 
+    @property(cc.Label)
+    win: cc.Label = null;
+
+    @property({ type: cc.Sprite })
+    symbol: cc.Sprite = null;
+
     height: number = null;
 
-    updateContent(log: any, settlementResult: any) {
+    updateContent(log: any, odds: any, settlementResult: any, symbolsSpriteFrames: cc.SpriteFrame[]) {
         const typeNumberText = GameUtils.getText("ui.type_bet_number");
         const totalScoreText = GameUtils.getText("ui.total_score");
         const betTypes = {
@@ -49,17 +52,18 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
         };
 
         this.time.string = getStringHourByTime(log.time);
-        this.type.string = betTypes[log.choice];
-        this.choice.string = betChoices[log.choice];
+        this.symbol.spriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${log.choice}`);
+        this.odd.string = odds[log.choice];
         this.amount.string = numberWithCommas(log.amount);
+        this.win.string = numberWithCommas(settlementResult[log.choice] ? log.amount * odds[log.choice] : 0);
 
-        if (settlementResult[log.choice]) {
-            this.choice.node.color = cc.Color.YELLOW;
-            this.amount.node.color = cc.Color.YELLOW;
-        } else {
-            this.choice.node.color = cc.Color.WHITE;
-            this.amount.node.color = cc.Color.WHITE;
-        }
+        // if (settlementResult[log.choice]) {
+        //     this.choice.node.color = cc.Color.YELLOW;
+        //     this.amount.node.color = cc.Color.YELLOW;
+        // } else {
+        //     this.choice.node.color = cc.Color.WHITE;
+        //     this.amount.node.color = cc.Color.WHITE;
+        // }
 
         this.height = this.node.height;
     }

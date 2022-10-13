@@ -1,5 +1,3 @@
-import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
-
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -16,7 +14,7 @@ export default class FruitSlotMiniRoundHistoryItem extends cc.Component {
     @property(cc.Node)
     nextNode: cc.Node = null;
 
-    public setData(data: FruitSlotRoundHistory, isBlink = false) {
+    public setData(data: any, isBlink = false) {
         if (data === null) {
             this.symbol.spriteFrame = null;
             this.bigSmall.active = false;

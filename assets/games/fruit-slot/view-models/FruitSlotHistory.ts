@@ -1,5 +1,7 @@
 import BetHistory from "../../_new/common/BetHistory";
 import FruitSlotHistoryItem from "./FruitSlotHistoryItem";
+import FruitSlotTicketDetail from "./FruitSlotTicketDetail";
+import FruitSlotTicketDetailItem from "./FruitSlotTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
 export interface BetLog {
@@ -8,9 +10,11 @@ export interface BetLog {
     result: {
         symbols: any;
         number: any;
+        isLucky: boolean;
     };
-    amount: number;
+    totalAmount: number;
     betwin: number;
+    betLogDetails: any;
     settlementResult: {
         bar: boolean;
         tripleSeven: boolean;
@@ -20,42 +24,38 @@ export interface BetLog {
         orange: boolean;
         lemon: boolean;
         cherry: boolean;
+        lucky: boolean;
         big: boolean;
         small: boolean;
     };
 }
-
 @ccclass
 export default class FruitSlotHistory extends BetHistory {
-    // @property(cc.Prefab)
-    // ticketDetailPrefab: cc.Prefab = null;
+    @property(cc.Node)
+    ticketDetailContent: cc.Node;
 
-    // @property(cc.SpriteFrame)
-    // symbols: cc.SpriteFrame[] = [];
+    @property(cc.Prefab)
+    ticketDetailPrefab: cc.Prefab = null;
 
-    // bindItemRowData(log: any, index: number) {
-    //     const historyItemPrefab = cc.instantiate(this.itemPrefab);
-    //     const item = historyItemPrefab.getComponent(FruitSlotHistoryItem);
-    //     this.content.addChild(historyItemPrefab);
-    //     item.setData(log, this.symbols);
-    //     this.handleSomeItemRowData(this, item, log);
-    // }
+    @property(cc.SpriteFrame)
+    symbols: cc.SpriteFrame[] = [];
 
-    // showTicketDetail(round: number, time: string, result: any, betLogDetails: any, settlementResult: any) {
-    //     const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
-    //     const ticketDetailComponent = ticketDetailPrefab.getComponent(FruitSlotTicketDetail);
-    //     this.node.addChild(ticketDetailPrefab);
-    //     ticketDetailComponent.setSicboDetailData(round, result, this.dices);
-    //     ticketDetailComponent.setData(betLogDetails, settlementResult);
-    //     ticketDetailComponent.showbetLogs();
-    // }
+    openTicketDetail(parentNode: cc.Node, betLog: any, symbolSprites: cc.SpriteFrame[]) {
+        const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
+        parentNode.getComponent(FruitSlotHistory).ticketDetailContent.addChild(ticketDetailPrefab);
+        const ticketDetailComponent = ticketDetailPrefab.getComponent(FruitSlotTicketDetail);
+        ticketDetailComponent.setData(betLog.betLogDetails, betLog.settlementResult);
+        ticketDetailComponent.showbetLogs(symbolSprites, betLog.odds, betLog);
+    }
 
     renderTicketHistory(data: any) {
         const betLogs: BetLog[] = data.betLogs;
         betLogs.forEach((log, index) => {
             const historyItemPrefab = cc.instantiate(this.prefabItem);
             const historyControl = historyItemPrefab.getComponent(FruitSlotHistoryItem);
+
             historyControl.setData(log);
+            historyControl.openTicketDetail = () => this.openTicketDetail(this.node, log, historyControl.symbolSprites);
             this.content.addChild(historyItemPrefab);
         });
     }
