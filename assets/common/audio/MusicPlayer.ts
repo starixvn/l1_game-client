@@ -113,6 +113,10 @@ export default class MusicPlayer {
                 while (!this.touchBinded) {
                     await GameUtils.delayTime(0.5);
                 }
+
+                if (!this.isPlayBgMusic) {
+                    return;
+                }
             }
 
             this.playAudioClip(audioClip);
