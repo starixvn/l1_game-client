@@ -54,7 +54,7 @@ export const updateWaiting =
         game.showMainTime(false);
         game.showProcessingWarning(false);
 
-        game.setWaitingTimeLabel(numberPad(remaining, 2));
+        game.setWaitingTimeLabel(numberPad(remaining - 1, 2));
 
         const condition =
             globalRemaining < game.config.fullTime - game.wholeResultTime &&

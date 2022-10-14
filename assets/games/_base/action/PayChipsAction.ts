@@ -165,16 +165,16 @@ export const dealerGetChipsMiniGame = (main: any, settlementResult: any, statusD
     }
     const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
     const lostBetItems = _.filter(main.betItems, (item) => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
-
+    const status = { ...statusData };
     cc.tween(main.node)
         .delay(main.betChips.chipDelayFlyingTime)
         .call(() => {
+            main.gameData.settlement.showStatus();
             dealerGetChips(main, lostBetItems);
         })
         .delay(main.betChips.chipDelayFlyingTime)
         .call(() => {
-            payChipToLoginPlayerMiniGame(main, statusData, ownBets);
-            main.gameData.settlement.showStatus();
+            payChipToLoginPlayerMiniGame(main, status, ownBets);
         })
         .start();
 };
