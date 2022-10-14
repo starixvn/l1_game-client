@@ -19,7 +19,9 @@ export default class MegaKenoMd5 extends MD5Component {
             const suffix = formatValue.split("_");
             const totalPoints = suffix[0].replace(/([{}])/g, "");
             const bigPoints = this.isMiniType ? bigPointsType.mini : bigPointsType.normall;
-            formatValue = `{<color=${parseInt(totalPoints) >= bigPoints ? "#0066ff" : "#ff0000"}>${totalPoints}</color>}_${suffix[1]}`;
+            formatValue = `{<color=${parseInt(totalPoints) >= bigPoints ? "#00CCFF" : "#FF0000"}><b>${totalPoints}</b></color>}_${
+                suffix[1]
+            }`;
         }
 
         this.md5Value.string = `${formatValue}`;
