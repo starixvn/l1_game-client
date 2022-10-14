@@ -1,10 +1,18 @@
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import { payChips, playWinningEffect } from "../../_base/action/PayChipsAction";
+import { dealerGetChips, dealerPayChips, payChips, playWinningEffect } from "../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import FruitSlotChoices from "../event-models/FruitSlotChoices";
 import { FruitSlotResult, FruitSlotSettlementResult } from "../FruitSlotType";
 import FruitSlot from "../view-models/FruitSlot";
+import { lodash as _ } from "../../../ClientModules";
+import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
+import BetItem from "../../_base/view-models/BetItem";
+import GameUtils from "../../../common/GameUtils";
+
+const duraionPayChips = 1.2;
+const duraionWinning = 3;
+const nameChipStack = "chipStackNode";
 
 export type FruitSlotFinishModel = {
     result: FruitSlotResult;
@@ -57,7 +65,7 @@ export const handleAfterSettlementResult =
         game.gameData.totalBetAmount = new FruitSlotChoices();
 
         const finish = game.finishHandler as GameBaseFinishHandler;
-        payChips(game, transformSettlementResult(settlement.settlementResult), settlement.winningPlayers, 1.2, 3);
+        payChips(game, transformSettlementResult(settlement.settlementResult), settlement.winningPlayers, 1.2, 3, true);
     };
 
 const transformSettlementResult = (settlementResult: FruitSlotSettlementResult) => {
@@ -111,4 +119,123 @@ export const handleFirstLoadRoundHistory = (game: FruitSlot) => (roundHistory) =
         }
         console.log("handleFirstLoadRoundHistory iswaiting", game.gameData.durations.isWaiting());
     }
+};
+
+const testPayChip = (main: FruitSlot, settlementResult: any, winningPlayers: any[]) => {
+    const mainRoomGame = main as WebSocketTableGameBase;
+    const settlementResultKeys = getLowercaseObjectKeys(settlementResult);
+    const lostBetItems = _.filter(main.betItems, (item) => !settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+    const winBetItems = _.filter(main.betItems, (item) => !!settlementResult[settlementResultKeys[item.node.name.toLowerCase()]]);
+    main.node.runAction(
+        cc.sequence(
+            cc.delayTime(main.betChips.chipDelayFlyingTime),
+            cc.callFunc(() => dealerGetChips(mainRoomGame, lostBetItems)),
+            cc.delayTime(main.betChips.chipDelayFlyingTime),
+            cc.callFunc(() => dealerPayChips(mainRoomGame, winBetItems)),
+            cc.delayTime(main.betChips.chipDelayFlyingTime),
+            cc.callFunc(() => {
+                _.forEach(winBetItems, (item) => {
+                    const chipStack = item.chipNode.getChildByName(nameChipStack);
+                    item.chipNode.removeChild();
+                    chipStack && item.chipNode.removeChild(chipStack);
+                    chipStack?.destroy();
+                });
+                testPayChipToAllPlayers(mainRoomGame, winBetItems, winningPlayers);
+            })
+        )
+    );
+};
+
+const testPayChipToAllPlayers = (mainRoomGame: WebSocketTableGameBase, winBetItems: BetItem[], winningPlayers) => {
+    testPayChipsToLoginPlayer(mainRoomGame, mainRoomGame.statusHandler.currentStatusData, winBetItems, mainRoomGame.otherPlayers !== null);
+    if (mainRoomGame.otherPlayers) {
+        testPayChipsToOtherPlayers(mainRoomGame, winBetItems);
+    }
+
+    testPayChipsToInGamePlayers(winningPlayers, mainRoomGame, winBetItems);
+};
+
+const testPayChipsToLoginPlayer = (mainRoomGame: WebSocketTableGameBase, statusData, winBetItems: BetItem[], isOtherPlayers = true) => {
+    if (!statusData || !statusData.win) {
+        return;
+    }
+
+    testMoveChipPlayers(mainRoomGame, statusData, winBetItems, isOtherPlayers);
+
+    mainRoomGame.showWinningBet(statusData.bet);
+    const playerNode = mainRoomGame.userProfile?.userAvatar?.node?.parent;
+    playerNode && playWinningEffect(mainRoomGame, playerNode);
+    mainRoomGame.updateUserBalance();
+};
+
+const testMoveChipPlayers = (mainRoomGame: any, statusData, winBetItems: BetItem[], isOtherPlayers = true) => {
+    const betItems = statusData.winningByChoices;
+    if (isOtherPlayers) {
+        testMoveChipWithRandomAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
+    } else {
+        testMoveChipWithAmountToLoginPlayer(winBetItems, betItems, mainRoomGame);
+    }
+};
+
+const testMoveChipWithRandomAmountToLoginPlayer = (winBetItems: BetItem[], betItems, mainRoomGame: any) => {
+    const destNode = mainRoomGame?.userProfile?.userAvatar?.node;
+    if (!destNode) {
+        return;
+    }
+    _.forEach(winBetItems, (item) => {
+        if (betItems[item.node.name.toLowerCase()]) {
+            mainRoomGame.betChips.moveChipsWithRandomAmount(item.chipNode.children[0], destNode, duraionPayChips);
+        }
+    });
+};
+
+const testMoveChipWithAmountToLoginPlayer = (winBetItems: BetItem[], betItems, mainRoomGame: any) => {
+    const destNode = mainRoomGame?.userProfile?.userAvatar?.node;
+    if (!destNode) {
+        return;
+    }
+    const betItemLowercaseObjectKeys = getLowercaseObjectKeys(betItems);
+    _.forEach(winBetItems, (item) => {
+        if (betItems[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
+            mainRoomGame.betChips.moveChips(item.chipNode.children[0], destNode);
+        }
+    });
+};
+
+export const testPayChipsToOtherPlayers = (roomGame: any, winBetItems: BetItem[]) => {
+    if (!roomGame.otherPlayers) {
+        return;
+    }
+
+    _.forEach(winBetItems, (item) => {
+        roomGame.betChips.moveChips(item.chipNode.children[0], roomGame.otherPlayers);
+    });
+};
+
+const testPayChipsToInGamePlayers = (winningPlayers: any, mainRoomGame: any, winBetItems: BetItem[]) => {
+    if (!winningPlayers) {
+        return;
+    }
+
+    const winningPlayerIds = Object.keys(winningPlayers);
+
+    _.forEach(winningPlayerIds, (playerId) => {
+        const winningPlayerData = winningPlayers[playerId];
+        const playerSlot = mainRoomGame.playerHandler.getPlayerSlot(playerId);
+        const playerBetItems = winningPlayerData.winningByChoices;
+        const bet = winningPlayerData.bet;
+
+        if (playerSlot) {
+            _.forEach(winBetItems, (item) => {
+                if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
+                    mainRoomGame.betChips.moveChipsWithRandomAmount(item.chipNode.children[0], playerSlot.avatar.node, duraionPayChips);
+                }
+            });
+
+            playerSlot.increaseBalance(winningPlayerData.bet);
+            const convertValue = GameUtils.getValueByCurrency(bet, winningPlayerData.rate || 1);
+            GameUtils.addFlyingText(playerSlot.node, true, convertValue, duraionWinning, 0, 10);
+            playWinningEffect(mainRoomGame, playerSlot.node);
+        }
+    });
 };
