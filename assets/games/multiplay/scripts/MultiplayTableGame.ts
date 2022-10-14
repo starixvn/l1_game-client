@@ -1,8 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../../common/audio/AudioManager";
-import MusicPlayer from "../../../common/audio/MusicPlayer";
-import * as sessionManager from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import MultiplayGameStatisticBoard from "../../../common/statistic-board/MultiplayGameStatisticBoard";
@@ -10,6 +8,7 @@ import UserProfile from "../../../common/user-profile/UserProfile";
 import {
     closeGame,
     initMusicBackground,
+    leaveGameRoom,
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
@@ -17,6 +16,7 @@ import {
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
+import TableGameBase from "../../_base_new/view-models/TableGameBase";
 import MultiplayGame from "./MultiplayGame";
 import MultiplayTableGameMenu from "./MultiplayTableGameMenu";
 
@@ -57,9 +57,10 @@ export default class MultiplayTableGame extends MultiplayGame {
     isWinningNotification = true;
     subContainer: cc.Node;
 
-    assignPropertiesForSingle(single: GameBase, isMain: boolean) {
+    assignPropertiesForSingle(single: TableGameBase, isMain: boolean) {
         super.assignPropertiesForSingle(single, isMain);
         single.userProfile = this.userProfile;
+        single.onCloseGameCallback = this.onCloseGame.bind(this);
     }
 
     initBetChipByLoader(node: cc.Node) {
@@ -104,7 +105,6 @@ export default class MultiplayTableGame extends MultiplayGame {
 
         node.on(InGameMenuEvents.OPEN_HISTORY, this.openHistory, this);
         node.on(InGameMenuEvents.OPEN_GUIDE, this.openGuide, this);
-        node.on(InGameMenuEvents.CLOSE_GAME, this.onCloseGame, this);
         node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGame, this);
         node.on(InGameMenuEvents.OPEN_STATISTIC, this.onScoreBoardClick, this);
         node.on(InGameMenuEvents.CHANGE_WINNING_NOTIFICATION, this.onWinningNotificationClick, this);
@@ -161,35 +161,34 @@ export default class MultiplayTableGame extends MultiplayGame {
 
     //#region Methods for room game
     onCloseGame() {
-        if (this.musicBg) {
-            MusicPlayer.getInstance().handleIncreaseVolume();
-        }
-        this.closeGame();
-        sessionManager.removeInRoomGameId();
+        leaveGameRoom(this)();
     }
 
     closeGame() {
         closeGame(this)();
     }
 
+    outRoomGame() {
+        return outRoomGame(this)();
+    }
+
+    loadUserData(user) {
+        loadUserData(this)(user);
+    }
+
+    //#region  Methods for room game => Multiplay
     stopGame() {
         Object.values(this.games).forEach((game: GameBase) => {
             game.stopGame();
         });
     }
 
-    outRoomGame() {
-        return outRoomGame(this)();
-    }
-
     onUserProfileInitialized(node: cc.Node) {
         onUserProfileInitialized(this)(node);
         Object.values(this.games).forEach((game: GameBase) => (game.userProfile = this.userProfile));
     }
-
-    loadUserData(user) {
-        loadUserData(this)(user);
-    }
+    //#endregion Methods for room game => Multiplay
+    //#endregion Methods for room game
 
     handleSubGamesArea() {
         super.handleSubGamesArea();
@@ -248,6 +247,4 @@ export default class MultiplayTableGame extends MultiplayGame {
     onMainGamePosition(target) {
         this.mainContainer.position = cc.v3(target.position.x / 2, this.mainContainer.position.y, 0);
     }
-
-    //#endregion Methods for room game
 }

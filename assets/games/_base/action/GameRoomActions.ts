@@ -79,3 +79,11 @@ export const closeGame = (game: any) => () => {
         cc.director.loadScene("MainGame");
     });
 };
+
+export const leaveGameRoom = (game: any) => () => {
+    if (game.musicBg) {
+        MusicPlayer.getInstance().handleIncreaseVolume();
+    }
+    game.closeGame();
+    sessionManager.removeInRoomGameId();
+};

@@ -46,6 +46,7 @@ export default class TableGameBase extends MiniGameBase {
     startRoundDuration = 1;
     showResultDuration = 1;
     public gameData: NewTableGameData;
+    onCloseGameCallback = () => {};
 
     onLoad() {
         super.onLoad();
@@ -200,5 +201,9 @@ export default class TableGameBase extends MiniGameBase {
         }
 
         this.showUmMessagePopup(data);
+    }
+
+    override onCloseGame() {
+        this.onCloseGameCallback();
     }
 }
