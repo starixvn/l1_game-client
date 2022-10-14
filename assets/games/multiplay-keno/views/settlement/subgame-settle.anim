@@ -3,85 +3,13 @@
   "_name": "subgame-settle",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 7,
+  "_duration": 8,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
   "curveData": {
     "paths": {
       "numbers/purple1": {
-        "props": {
-          "position": [
-            {
-              "frame": 0,
-              "value": [
-                84,
-                -312,
-                0
-              ]
-            },
-            {
-              "frame": 0.16666666666666666,
-              "value": [
-                84,
-                -376,
-                0
-              ]
-            },
-            {
-              "frame": 0.6666666666666666,
-              "value": [
-                210,
-                -376,
-                0
-              ]
-            }
-          ],
-          "opacity": [
-            {
-              "frame": 0,
-              "value": 255
-            },
-            {
-              "frame": 0.6666666666666666,
-              "value": 255
-            },
-            {
-              "frame": 1,
-              "value": 0
-            }
-          ],
-          "scale": [
-            {
-              "frame": 0,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 0
-              }
-            },
-            {
-              "frame": 0.16666666666666666,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            }
-          ],
-          "angle": [
-            {
-              "frame": 0,
-              "value": 0
-            },
-            {
-              "frame": 0.6666666666666666,
-              "value": -360
-            }
-          ]
-        }
-      },
-      "numbers/green2": {
         "props": {
           "position": [
             {
@@ -153,7 +81,7 @@
           ]
         }
       },
-      "numbers/cyan3": {
+      "numbers/green2": {
         "props": {
           "position": [
             {
@@ -225,7 +153,7 @@
           ]
         }
       },
-      "numbers/orange4": {
+      "numbers/cyan3": {
         "props": {
           "position": [
             {
@@ -297,7 +225,7 @@
           ]
         }
       },
-      "numbers/red5": {
+      "numbers/orange4": {
         "props": {
           "position": [
             {
@@ -369,7 +297,7 @@
           ]
         }
       },
-      "numbers/orange6": {
+      "numbers/red5": {
         "props": {
           "position": [
             {
@@ -441,7 +369,7 @@
           ]
         }
       },
-      "numbers/purple7": {
+      "numbers/orange6": {
         "props": {
           "position": [
             {
@@ -513,7 +441,7 @@
           ]
         }
       },
-      "numbers/green8": {
+      "numbers/purple7": {
         "props": {
           "position": [
             {
@@ -585,7 +513,7 @@
           ]
         }
       },
-      "numbers/red9": {
+      "numbers/green8": {
         "props": {
           "position": [
             {
@@ -657,7 +585,7 @@
           ]
         }
       },
-      "numbers/cyan10": {
+      "numbers/red9": {
         "props": {
           "position": [
             {
@@ -729,7 +657,7 @@
           ]
         }
       },
-      "numbers/green11": {
+      "numbers/cyan10": {
         "props": {
           "position": [
             {
@@ -801,7 +729,7 @@
           ]
         }
       },
-      "numbers/green12": {
+      "numbers/green11": {
         "props": {
           "position": [
             {
@@ -873,7 +801,7 @@
           ]
         }
       },
-      "numbers/purple13": {
+      "numbers/green12": {
         "props": {
           "position": [
             {
@@ -945,7 +873,7 @@
           ]
         }
       },
-      "numbers/red14": {
+      "numbers/purple13": {
         "props": {
           "position": [
             {
@@ -1017,7 +945,7 @@
           ]
         }
       },
-      "numbers/orange15": {
+      "numbers/red14": {
         "props": {
           "position": [
             {
@@ -1089,7 +1017,7 @@
           ]
         }
       },
-      "numbers/orange16": {
+      "numbers/orange15": {
         "props": {
           "position": [
             {
@@ -1161,7 +1089,7 @@
           ]
         }
       },
-      "numbers/cyan17": {
+      "numbers/orange16": {
         "props": {
           "position": [
             {
@@ -1233,7 +1161,7 @@
           ]
         }
       },
-      "numbers/orange18": {
+      "numbers/cyan17": {
         "props": {
           "position": [
             {
@@ -1305,7 +1233,7 @@
           ]
         }
       },
-      "numbers/purple19": {
+      "numbers/orange18": {
         "props": {
           "position": [
             {
@@ -1377,7 +1305,7 @@
           ]
         }
       },
-      "numbers/red20": {
+      "numbers/purple19": {
         "props": {
           "position": [
             {
@@ -1411,11 +1339,11 @@
               "value": 255
             },
             {
-              "frame": 4.166666666666667,
+              "frame": 3.8333333333333335,
               "value": 255
             },
             {
-              "frame": 4.5,
+              "frame": 4.166666666666667,
               "value": 0
             }
           ],
@@ -1449,6 +1377,78 @@
           ]
         }
       },
+      "numbers/red20": {
+        "props": {
+          "position": [
+            {
+              "frame": 3.3333333333333335,
+              "value": [
+                84,
+                -312,
+                0
+              ]
+            },
+            {
+              "frame": 3.5,
+              "value": [
+                84,
+                -376,
+                0
+              ]
+            },
+            {
+              "frame": 4,
+              "value": [
+                210,
+                -376,
+                0
+              ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 3.3333333333333335,
+              "value": 255
+            },
+            {
+              "frame": 4.333333333333333,
+              "value": 255
+            },
+            {
+              "frame": 4.666666666666667,
+              "value": 0
+            }
+          ],
+          "scale": [
+            {
+              "frame": 3.3333333333333335,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "frame": 3.5,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "angle": [
+            {
+              "frame": 3.3333333333333335,
+              "value": 0
+            },
+            {
+              "frame": 4,
+              "value": -360
+            }
+          ]
+        }
+      },
       "result": {
         "props": {
           "opacity": [
@@ -1457,21 +1457,21 @@
               "value": 0
             },
             {
-              "frame": 4.333333333333333,
+              "frame": 6,
               "value": 0
             },
             {
-              "frame": 4.5,
+              "frame": 6.166666666666667,
               "value": 255
             },
             {
-              "frame": 4.583333333333333,
+              "frame": 8,
               "value": 255
             }
           ],
           "scale": [
             {
-              "frame": 4.333333333333333,
+              "frame": 6,
               "value": {
                 "__type__": "cc.Vec2",
                 "x": 0.4,
@@ -1479,7 +1479,7 @@
               }
             },
             {
-              "frame": 4.5,
+              "frame": 6.166666666666667,
               "value": {
                 "__type__": "cc.Vec2",
                 "x": 1.1,
@@ -1487,7 +1487,7 @@
               }
             },
             {
-              "frame": 4.583333333333333,
+              "frame": 6.25,
               "value": {
                 "__type__": "cc.Vec2",
                 "x": 1,
