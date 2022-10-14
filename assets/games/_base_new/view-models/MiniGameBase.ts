@@ -29,6 +29,7 @@ import {
     handleRoundHistory,
     handleShowResult,
     handleShowStatus,
+    handleWinningStreak,
     onUM,
     showHashAtPlacingBet,
     updateMD5String,
@@ -94,6 +95,8 @@ export default class MiniGameBase extends NewMiniGameBase {
     wholeResultTime = 3;
     isPlacingFakeChip = true;
     streakChoices = [];
+    callbackWinningResult: (game: any, status: any) => void;
+    callbackWinningStreak: (game: any) => void;
 
     override onLoad() {
         super.onLoad();
@@ -115,13 +118,13 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     override onDestroy() {
-        super.onDestroy();
         this.stopInternalTweens();
         this.removeGameDataEvents();
         if (!this.managedByContainer) {
             GameDataManager.getInstance().clearGameLoop(this.gameId);
             this.clearGameData();
         }
+        super.onDestroy();
     }
 
     cleanGame() {
@@ -269,6 +272,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.notice, NoticeModel.Events.CHANGE, handleNotice);
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.FIRST_LOAD, handleFirstLoadRoundHistory);
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, handleRoundHistory);
+        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.WINNING_STREAK, handleWinningStreak);
 
         this.emitterListener(this.gameData, NewGameData.Events.CHANGE_ROUND_ID, changeGameRound);
         this.emitterListener(this.gameData.resultHash, ResultHash.Events.CHANGE, updateMD5String);

@@ -8,12 +8,10 @@ import SocketIOController from "../../../SocketIOController";
 import GameBase from "../../_base/GameBase";
 import GameViewBase from "../../_base/GameViewBase";
 import { GameConfigs } from "../../_base_new/models/GameConfigs";
-import { RoundHistory } from "../../_base_new/models/RoundHistory";
-import { Settlement } from "../../_base_new/models/Settlement";
+import NewGameData from "../../_base_new/models/NewGameData";
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import { KeyStorageStatisticOpen } from "./MultiplayGameSingle";
 import MultiplayPromotionGuide from "./MultiplayPromotionGuide";
-import NewGameData from "../../_base_new/models/NewGameData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -72,8 +70,6 @@ export default class MultiplayGame extends GameViewBase {
 
         (this.games[this.gameIds[0]] as GameBase).gameData.gameConfigs.on(GameConfigs.Events.CHANGE, this.setGameConfigs.bind(this));
         this.resetStatisticShow();
-        this.initWinningStreakListeners();
-        this.initWinningResultNotification();
         this.initGameDataEvents();
     }
 
@@ -89,30 +85,22 @@ export default class MultiplayGame extends GameViewBase {
         this.notificationWidget = node.parent.getComponent(cc.Widget);
     }
 
-    initWinningStreakListeners() {
-        Object.values(this.games).forEach((game: MiniGameBase) => {
-            game.gameData.roundHistory.setStreakChoices(game.streakChoices);
-            game.gameData.roundHistory.on(RoundHistory.Events.WINNING_STREAK, (data: { choice: string; count: number }) => {
-                this.addWinningStreakNotification(game.gameId, data);
-            });
-        });
-    }
+    callbackWinningStreak = (game, data: { choice: string; count: number }) => {
+        game.gameData.roundHistory.setStreakChoices(game.streakChoices);
+        this.addWinningStreakNotification(game.gameId, data);
+    };
 
-    initWinningResultNotification() {
-        Object.values(this.games).forEach((game: MiniGameBase) => {
-            game.gameData.settlement.on(Settlement.Events.SHOW_STATUS, (status: { win: boolean; bet: number }) => {
-                const { win, bet } = status;
-                if (win) {
-                    const node = game.betItems[0].node;
-                    const onScreen = GameUtils.checkIntersectNodes(this.subGamesArea[0], node);
-                    const isNotMainGame = game.gameId !== this.mainGameId;
-                    if (isNotMainGame && (!onScreen || !this.collapsedExpandButton.isChecked)) {
-                        this.addWinningResultNotification(game.gameId, bet);
-                    }
-                }
-            });
-        });
-    }
+    callbackWinningResult = (game, status: { win: boolean; bet: number }) => {
+        const { win, bet } = status;
+        if (win) {
+            const node = game.betItems[0].node;
+            const onScreen = GameUtils.checkIntersectNodes(this.subGamesArea[0], node);
+            const isNotMainGame = game.gameId !== this.mainGameId;
+            if (isNotMainGame && (!onScreen || !this.collapsedExpandButton.isChecked)) {
+                this.addWinningResultNotification(game.gameId, bet);
+            }
+        }
+    };
 
     addWinningResultNotification(gameId: number, amount: number) {
         if (!this.gameNotification) {
@@ -250,6 +238,8 @@ export default class MultiplayGame extends GameViewBase {
         single.betChips = this.betChips;
         single.isCollectChip = isMain;
         single.groupDefaultGameId = this.gameId;
+        single.callbackWinningResult = this.callbackWinningResult;
+        single.callbackWinningStreak = this.callbackWinningStreak;
     }
 
     createMainGameUI(gameId: number) {

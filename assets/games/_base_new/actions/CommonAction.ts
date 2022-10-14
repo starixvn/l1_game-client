@@ -83,6 +83,10 @@ export const handleRoundHistory = (game: any) => (roundHistory) => {
     }
 };
 
+export const handleWinningStreak = (game: any) => (roundHistory) => {
+    game.callbackWinningStreak(game, roundHistory);
+};
+
 export const changeGameRound = (game: any) => (roundId) => {
     game.roundId = roundId;
     game.setGameRound(roundId);
@@ -97,6 +101,7 @@ export const showHashAtPlacingBet = (game: any) => () => {
 };
 
 export const handleShowStatus = (game: any) => (status) => {
+    game.callbackWinningResult(game, status);
     game.showStatus(status);
     game.gameData.settlement.clearStatus();
 };
