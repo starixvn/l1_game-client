@@ -57,6 +57,9 @@ export class Durations extends EventEmitterBase {
         this.waiting = waitingTime || this.wholeRound - this.placingBet;
     }
 
+    /**
+     * Not recommend using this function
+     */
     reset() {
         this._remaining = 0;
     }
@@ -199,5 +202,16 @@ export class Durations extends EventEmitterBase {
         this.on(LOCKING_BET, handleEmitEvent(LOCKING_BET, BEGIN_LOCKING_BET));
         this.on(SHOW_ANIMATION, handleEmitEvent(SHOW_ANIMATION, BEGIN_SHOW_ANIMATION));
         this.on(STARTING_ROUND, handleEmitEvent(STARTING_ROUND, BEGIN_STARTING_ROUND));
+    }
+
+    isTimeOut(): boolean {
+        return this.remaining === 0;
+    }
+
+    resetTimeForUM() {
+        if (this.isTimeOut()) {
+            this.remaining = this.wholeRound;
+            this.start();
+        }
     }
 }

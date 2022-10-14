@@ -14,7 +14,7 @@ import {
     placeBetSuccess,
     placeOwnChip,
     updateOwnBets,
-    updateTotalBets
+    updateTotalBets,
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -30,7 +30,7 @@ import {
     handleShowStatus,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String
+    updateMD5String,
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -41,7 +41,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting
+    updateWaiting,
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { BoostedChoicesModel } from "../models/BoostedChoicesModel";
@@ -274,14 +274,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     checkShowUmMessage(data: any) {
-        if (this.currentTimeRemaining === undefined && data.remainingTime === undefined) {
-            return true;
-        }
-        return (
-            this.currentTimeRemaining <= this.config.betTime ||
-            this.currentTimeRemaining === this.config.fullTime ||
-            data.remainingTime === this.config.fullTime
-        );
+        return this.gameData.durations.isBeingSpecificPhase(Durations.Events.PLACING_BET);
     }
 
     removeGameDataEvents() {

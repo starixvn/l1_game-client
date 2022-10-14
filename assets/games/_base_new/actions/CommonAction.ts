@@ -1,12 +1,21 @@
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MiniGameBase from "../view-models/MiniGameBase";
 import { showCurrentRoundId, showLastRoundId } from "./TimeAction";
 
 export const onUM = (game: MiniGameBase) => (data) => {
-    if (game.checkShowUmMessage(data)) {
+    if (game.gameState === GameState.Disabled) {
+        return;
+    }
+    const joinGameInUM = !!data.remainingTime;
+    if (!joinGameInUM) {
+        game.gameData.durations.resetTimeForUM();
+    }
+
+    if (joinGameInUM || game.checkShowUmMessage(data)) {
         game.showUmMessage(data);
         game.disableGame();
     }
