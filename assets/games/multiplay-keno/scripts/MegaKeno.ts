@@ -22,7 +22,7 @@ export default class MegaKeno extends TableGameBase {
     bigSmallStatistic: StatisticBoard = null;
     evenOddStatistic: StatisticBoard = null;
     protected override managedByContainer = true;
-
+    startRoundDuration = 0;
     streakChoices = ["big", "small", "odd", "even"];
 
     settlementResultAnimation: MegaKenoSettlementResult;
