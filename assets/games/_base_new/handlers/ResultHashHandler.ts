@@ -15,7 +15,7 @@ export class ResultHashHandler extends BaseEventHandler<ResultHashType> {
     protected handle(event: ResultHashType) {
         const data = event.resultHash;
         const changeLater =
-            this.gameData.durations.isBeingSpecificPhase(Durations.Events.BEGIN_STARTING_ROUND) ||
+            this.gameData.durations.isBeingSpecificPhase(Durations.Events.STARTING_ROUND) ||
             this.gameData.durations.isBeingSpecificPhase(Durations.Events.WAITING);
         if (!!data.rawValue || changeLater) {
             this.gameData.resultHash.changeLater(data);
