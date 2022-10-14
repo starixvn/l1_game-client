@@ -1,8 +1,10 @@
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
-import MD5Component from "../../_base/view-models/MD5Component";
 import TableGameBase from "../../_base_new/view-models/TableGameBase";
 import { KenoTableGameColor, MegaKeno1Id, MegaKeno3Id, MegaKeno4Id, MegaKenoConfigs } from "./MegaKenoConfig";
 import MegaKenoSettlementResult from "./MegaKenoSettlementResult";
+import MegaKenoMd5 from "./MegaKenoMd5";
+import { ResultHash } from "../../_base_new/models/ResultHash";
+import { updateMD5String } from "./actions/CustomCommonAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -33,6 +35,11 @@ export default class MegaKeno extends TableGameBase {
     onLoad() {
         super.onLoad();
         this.animatedTime.setAnimatedY(30, -5);
+    }
+
+    initGameDataEvents() {
+        super.initGameDataEvents();
+        this.emitterListener(this.gameData.resultHash, ResultHash.Events.CHANGE, updateMD5String);
     }
 
     customShowResultDuration() {
@@ -99,7 +106,7 @@ export default class MegaKeno extends TableGameBase {
     }
 
     initMD5String(node: cc.Node) {
-        this.md5Component = node.getChildByName("md5-content").getComponent(MD5Component);
+        this.md5Component = node.getChildByName("md5-content").getComponent(MegaKenoMd5);
     }
 
     updateRebetButtonStatus() {
