@@ -27,7 +27,7 @@ export default class InternalGameNotification extends cc.Component {
         this.checkShowNext();
     }
 
-    protected displayNotification(queueData: { data: any; type: number }) {
+    protected createNotification(queueData: { data: any; type: number }) {
         const { data, type } = queueData;
         const node = cc.instantiate(this.itemPrefabs[type]);
         this.content.addChild(node);
@@ -35,6 +35,10 @@ export default class InternalGameNotification extends cc.Component {
         item.setData(data);
 
         node.opacity = 0;
+        return node;
+    }
+
+    protected displayNotification(node: cc.Node) {
         cc.tween(node)
             .to(0.3, { opacity: 255 })
             .delay(this.showDuration)
@@ -58,9 +62,10 @@ export default class InternalGameNotification extends cc.Component {
             return;
         }
         const duration = this.moveOtherItems();
+        const data = this.queue.shift();
+        const node = this.createNotification(data);
         this.scheduleOnce(() => {
-            const data = this.queue.shift();
-            this.displayNotification(data);
+            this.displayNotification(node);
         }, duration);
     }
 
