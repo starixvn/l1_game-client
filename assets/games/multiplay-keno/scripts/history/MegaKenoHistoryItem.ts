@@ -1,7 +1,7 @@
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
-import MegaKenoHistory from "./MegaKenoHistory";
 import MultiplayGameHistoryItem from "../../../multiplay/scripts/MultiplayGameHistoryItem";
+import MegaKenoHistory from "./MegaKenoHistory";
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,7 +50,7 @@ export default class MegaKenoHistoryItem extends MultiplayGameHistoryItem {
 
     onTotalClick() {
         this.main.dropdownList.closeDropDown();
-        this.main.showHistoryDetail(this.round.string, this.result, this.settlementResult, this.betLogDetails);
+        this.main.showHistoryDetail(this.round.string, this.result, this.settlementResult);
     }
 
     setData(betLog: any, index) {

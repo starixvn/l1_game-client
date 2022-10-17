@@ -1,6 +1,6 @@
 import { lodash } from "../../../../ClientModules";
-import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
+import GameUtils from "../../../../common/GameUtils";
 import KenoNumber from "../../../keno-pro/view-models/KenoNumber";
 import MegaKenoHistoryDetailItem from "./MegaKenoHistoryDetailItem";
 
@@ -27,9 +27,6 @@ export default class MegaKenoHistoryDetail extends cc.Component {
     prefabDetail: cc.Prefab = null;
 
     @property(cc.Node)
-    betDetails: cc.Node = null;
-
-    @property(cc.Node)
     mainFrame: cc.Node = null;
 
     private result: number[] = [];
@@ -47,20 +44,9 @@ export default class MegaKenoHistoryDetail extends cc.Component {
         });
     }
 
-    public setData(result: number[], settlementResult: any, betLogDetails: any[]) {
+    public setData(result: number[], settlementResult: any) {
         this.result = result;
         this.settlementResult = settlementResult;
-        this.setDataHistoryDetailItem(betLogDetails);
-    }
-
-    setDataHistoryDetailItem(betLogDetails: any[]) {
-        betLogDetails.forEach((item) => {
-            const detailItem = this.instantiateDetailItem(this.prefabDetail);
-            if (detailItem) {
-                detailItem.setData(item);
-                this.betDetails.addChild(detailItem.node);
-            }
-        });
     }
 
     instantiateDetailItem(prefabDetail: cc.Prefab) {

@@ -1,10 +1,19 @@
+import { i18n } from "../../../../ClientModules";
 import GameUtils from "../../../../common/GameUtils";
+import NewDropDownOption from "../../../../common/new-drop-down-list/view-models/NewDropDownOption";
 import DropdownListMultiplayGameHistory from "../../../multiplay/scripts/DropdownListMultiplayGameHistory";
-import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "../MegaKenoConfig";
+import {
+    MegaKeno1Id,
+    MegaKeno2Id,
+    MegaKeno3Id,
+    MegaKeno4Id,
+    MegaKeno5Id,
+    MegaKeno6Id,
+    MegaKeno7Id,
+    MegaKeno8Id,
+} from "../MegaKenoConfig";
 import MegaKenoHistoryDetail from "./MegaKenoHistoryDetail";
 import MegaKenoHistoryItem from "./MegaKenoHistoryItem";
-import NewDropDownOption from "../../../../common/new-drop-down-list/view-models/NewDropDownOption";
-import { i18n } from "../../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,13 +45,13 @@ export default class MegaKenoHistory extends DropdownListMultiplayGameHistory {
         this.content.addChild(node);
     }
 
-    showHistoryDetail(round, result, settlementResult, betLogDetails) {
+    showHistoryDetail(round, result, settlementResult) {
         const dialog = cc.instantiate(this.detailPrefab);
         this.historyDetail = dialog.getComponent(MegaKenoHistoryDetail);
         this.historyDetail.roundId.string = round;
         this.historyDetail.roundLabel.string = i18n.t("ui.round");
         this.node.addChild(dialog);
-        this.historyDetail.setData(result, settlementResult, betLogDetails);
+        this.historyDetail.setData(result, settlementResult);
         this.historyDetail.show();
     }
 }
