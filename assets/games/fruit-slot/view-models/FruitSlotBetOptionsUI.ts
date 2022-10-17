@@ -1,5 +1,6 @@
 import FruitSlot from "./FruitSlot";
 import FruitSlotBetItem from "./FruitSlotBetItem";
+import FruitSlotLedLightItem from "./FruitSlotLedLightItem";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
 
 const { ccclass, property } = cc._decorator;
@@ -30,7 +31,11 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     @property(cc.Animation)
     lightAnimation: cc.Animation = null;
 
+    @property(cc.Node)
+    ledZone: cc.Node = null;
+
     main: FruitSlot;
+    ledSpin: FruitSlotLedLightItem = null;
 
     initBetOptions(main: FruitSlot) {
         this.main = main;
@@ -92,10 +97,31 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         return result;
     }
 
-    playLedLightAnimation() {
-        this.ledLightAnimation.active = true;
-        const ledSkeleton = this.ledLightAnimation.getComponent(sp.Skeleton);
-        ledSkeleton.setAnimation(0, ledSkeleton.animation, true);
+    playLedLightAnimation() {       
+        let currentIndex = 0;
+        cc.tween({ value: 0 })
+            .to(
+                6.5,
+                { value: 200 },
+                {
+                    easing: "sineInOut",
+                    onUpdate: (target: { value: number }) => {
+                        const nextIndex = Math.round(target.value);
+
+                        if (currentIndex <= nextIndex) {
+                            let index = currentIndex;
+
+                            currentIndex = nextIndex;
+
+                            for (; index < nextIndex; index++) {
+                                const position = index % 40;
+                                this.ledZone.children[position].getComponent(FruitSlotLedLightItem).setHighlightItems();                               
+                            }
+                        }
+                    }
+                }
+            )
+            .start();
     }
 
     randomNumberAnimation() {
