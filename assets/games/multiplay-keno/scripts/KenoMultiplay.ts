@@ -30,7 +30,6 @@ export default class KenoMultiplay extends MultiplayTableGame {
 
     onLoad() {
         super.onLoad();
-        this.scrollView.node.on("scroll-ended", this.checkHandleScroll, this);
     }
 
     constructor() {
