@@ -1,5 +1,6 @@
 import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
+import ExtraFeature from "../../../common/extra-features/ExtraFeature";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -97,11 +98,13 @@ export default class MiniGameBase extends NewMiniGameBase {
     streakChoices = [];
     callbackWinningResult: (game: any, status: any) => void;
     callbackWinningStreak: (game: any) => void;
+    extraFeature: ExtraFeature;
 
     override onLoad() {
         super.onLoad();
         this.initGameData();
         this.initGameDataEvents();
+        this.extraFeature = this.node.getComponent(ExtraFeature);
     }
 
     override start() {
@@ -371,6 +374,30 @@ export default class MiniGameBase extends NewMiniGameBase {
             this.countDownProgressBar = countDownTimer;
             countDownTimer.setFullRoundTime(this.config.betTime);
             this.animatedTime.setNumberColor("#0fdb5e", "#ff0000");
+        }
+    }
+
+    showAcceptedBet(bet: number) {
+        if (this.extraFeature) {
+            this.extraFeature.showAcceptedBet(bet);
+        } else {
+            super.showAcceptedBet(bet);
+        }
+    }
+
+    showWinningBet(bet: number) {
+        if (this.extraFeature) {
+            this.extraFeature.showWinningBet(bet);
+        } else {
+            super.showWinningBet(bet);
+        }
+    }
+
+    clearWinningBet() {
+        if (this.extraFeature) {
+            this.extraFeature.clearWinningBet();
+        } else {
+            super.clearWinningBet();
         }
     }
 }

@@ -300,6 +300,13 @@ export default class GameBase extends GameViewBase {
         winningBet.name = "winningBet";
     }
 
+    clearWinningBet() {
+        const winningBet = this.noticeNode.getChildByName("winningBet");
+        if (winningBet) {
+            winningBet.destroy();
+        }
+    }
+
     clearGameRound() {
         this.gameRound && (this.gameRound.string = "");
     }
