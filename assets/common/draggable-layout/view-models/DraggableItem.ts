@@ -70,7 +70,7 @@ export default class DraggableItem extends cc.Component {
             return;
         }
         this.isTouchStarted = false;
-        this.touchCallback.end(this.isClicked(e));
+        this.touchCallback.end(e && this.isClicked(e));
     }
 
     isClicked(e): boolean {

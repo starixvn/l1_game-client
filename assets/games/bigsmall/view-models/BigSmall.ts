@@ -106,6 +106,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     statistic: BigSmallDicesStatistic;
     private showStatistic = true;
     public resultAnimating = false;
+    private highlightOddsColor: ColorAssembler2D = null;
 
     readonly choices = ["small", "big"];
 
@@ -120,6 +121,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.setValueBetAmount();
         this.initRoundHistory();
         this.initStatistic();
+        this.highlightOddsColor = this.odds.node.getComponent(ColorAssembler2D);
     }
 
     onEnable() {
@@ -305,9 +307,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     highLightBoostedOdds() {
         const color = cc.Color.WHITE;
         if (this.boostedChoices?.includes(this.choices[0])) {
-            const highlightOddsColor = this.odds.node.getComponent(ColorAssembler2D);
             this.odds.node.color = color.fromHEX("#FA3A35");
-            highlightOddsColor.enabled = true;
             this.highlightOdds && this.enabledHighLightOdds(true);
         } else {
             this.odds.node.color = color;
@@ -317,5 +317,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
     private enabledHighLightOdds(enabled: boolean) {
         this.highlightOdds.active = enabled;
+        this.highlightOddsColor.enabled = enabled;
     }
 }
