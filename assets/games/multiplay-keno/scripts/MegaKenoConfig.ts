@@ -51,8 +51,8 @@ export const MegaKenoConfigs = {
 };
 
 export const KenoTableGameColor = {
-    [MegaKeno1Id]: "#00becc",
-    [MegaKeno2Id]: "#00becc",
+    [MegaKeno1Id]: "#106C8A",
+    [MegaKeno2Id]: "#106C8A",
     [MegaKeno3Id]: "#00cc44",
     [MegaKeno4Id]: "#00cc44",
     [MegaKeno5Id]: "#6d00cc",
