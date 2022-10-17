@@ -1,7 +1,6 @@
 const { ccclass, property } = cc._decorator;
 
 import * as _ from "lodash";
-import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { BetLog } from "./FruitSlotHistory";
 import FruitSlotTicketDetailGroupItem from "./FruitSlotTicketDetailGroupItem";
 
@@ -34,6 +33,8 @@ export default class FruitSlotTicketDetailIGroup extends cc.Component {
         });
 
         this.node.height = height;
+        this.node.parent.parent.height = height + 48;
+        // this.node.getChildByName("roundCell").height = height;
     }
 
     private createTicketDetailItem(symbol: any, index, symbolsSpriteFrames: cc.SpriteFrame[]): number {
