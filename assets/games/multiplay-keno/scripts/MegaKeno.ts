@@ -1,10 +1,10 @@
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
-import TableGameBase from "../../_base_new/view-models/TableGameBase";
-import { KenoTableGameColor, MegaKeno1Id, MegaKeno3Id, MegaKeno4Id, MegaKenoConfigs } from "./MegaKenoConfig";
-import MegaKenoSettlementResult from "./MegaKenoSettlementResult";
-import MegaKenoMd5 from "./MegaKenoMd5";
 import { ResultHash } from "../../_base_new/models/ResultHash";
+import TableGameBase from "../../_base_new/view-models/TableGameBase";
 import { updateMD5String } from "./actions/CustomCommonAction";
+import { KenoTableGameColor, MegaKeno1Id, MegaKeno3Id, MegaKeno4Id, MegaKenoConfigs } from "./MegaKenoConfig";
+import MegaKenoMd5 from "./MegaKenoMd5";
+import MegaKenoSettlementResult from "./MegaKenoSettlementResult";
 
 const { ccclass, property } = cc._decorator;
 
@@ -51,12 +51,6 @@ export default class MegaKeno extends TableGameBase {
 
     isMiniKeno(gameId: number) {
         return gameId === MegaKeno3Id || gameId === MegaKeno4Id;
-    }
-
-    initOnStart() {
-        super.initOnStart();
-        this.customShowResultDuration();
-        this.initGameDataDurations();
     }
 
     setGameId(gameId: number) {
