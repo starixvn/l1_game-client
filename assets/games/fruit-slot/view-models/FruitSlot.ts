@@ -83,6 +83,9 @@ export default class FruitSlot extends NewGameRoomBase {
     betChoicesStack = [];
     tempBetChoices: any = {};
 
+    startRoundDuration = 1;
+    showResultDuration = 3;
+
     previousRoundBetChoices: any = {};
     constructor() {
         super();
@@ -96,6 +99,7 @@ export default class FruitSlot extends NewGameRoomBase {
         this.initStatistic();
         this.updateBetStatus(true);
         this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
+        this.initGameData();
         this.initGameDataEvents();
         this.initPlacingBet();
         this.initButtonStatus();
@@ -116,6 +120,42 @@ export default class FruitSlot extends NewGameRoomBase {
 
     private initPlacingBet() {
         this.placingBet = new FruitSlotPlacingBet(this.gameData, this, () => this.connection);
+    }
+
+    initGameData() {
+        const dataManager = GameDataManager.getInstance();
+        let gameData = dataManager.getGameData(this.gameId);
+        if (!gameData) {
+            gameData = this.createGameData();
+            dataManager.setGameData(this.gameId, gameData);
+        }
+
+        //this.gameData = gameData;
+        this.gameData.durations.initialize({
+            wholeRound: this.config.fullTime,
+            placingBet: this.config.betTime,
+            lockingBet: this.config.stopBetTime
+        });
+
+        this.gameData.durations.addEvent(
+            Durations.Events.SHOW_ANIMATION,
+            {
+                startTimePoint: this.config.fullTime,
+                endTimePoint: this.config.fullTime - this.showResultDuration + 1
+            },
+            null,
+            Durations.Events.WAITING
+        );
+
+        this.gameData.durations.addEvent(
+            Durations.Events.STARTING_ROUND,
+            {
+                startTimePoint: this.config.betTime + this.startRoundDuration,
+                endTimePoint: this.config.betTime
+            },
+            Durations.Events.WAITING,
+            Durations.Events.PLACING_BET
+        );
     }
 
     emitterListener(emitter: EventEmitterBase, eventName: string, listener: (param: any) => any) {
