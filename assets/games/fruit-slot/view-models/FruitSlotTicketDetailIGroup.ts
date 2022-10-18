@@ -29,7 +29,12 @@ export default class FruitSlotTicketDetailIGroup extends cc.Component {
         let height = 0;
 
         betLogs.result.symbols.forEach((symbol, index) => {
-            height += this.createTicketDetailItem(betLogs.result.isLucky && index === 0 ? "lucky" : symbol, index, symbolsSpriteFrames);
+            height += this.createTicketDetailItem(
+                betLogs.result.isLucky && index === 0 ? "lucky" : symbol,
+                index,
+                betLogs.result.number,
+                symbolsSpriteFrames
+            );
         });
 
         this.node.height = height;
@@ -37,14 +42,14 @@ export default class FruitSlotTicketDetailIGroup extends cc.Component {
         // this.node.getChildByName("roundCell").height = height;
     }
 
-    private createTicketDetailItem(symbol: any, index, symbolsSpriteFrames: cc.SpriteFrame[]): number {
+    private createTicketDetailItem(symbol: any, index: number, bigSmallValue: number, symbolsSpriteFrames: cc.SpriteFrame[]): number {
         if (!this.betItemPrefab) {
             return 0;
         }
         const betItem = cc.instantiate(this.betItemPrefab);
         const betItemComponent = betItem.getComponent(FruitSlotTicketDetailGroupItem);
         this.betChoiceGroupNode.addChild(betItem);
-        betItemComponent.updateContent(symbol, index, symbolsSpriteFrames);
+        betItemComponent.updateContent(symbol, index, bigSmallValue, symbolsSpriteFrames);
         return betItemComponent.height;
     }
 }

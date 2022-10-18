@@ -24,46 +24,14 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
     height: number = null;
 
     updateContent(log: any, odds: any, settlementResult: any, symbolsSpriteFrames: cc.SpriteFrame[]) {
-        const typeNumberText = GameUtils.getText("ui.type_bet_number");
-        const totalScoreText = GameUtils.getText("ui.total_score");
-        const betTypes = {
-            small: GameUtils.getText("ui.type_big_small"),
-            big: GameUtils.getText("ui.type_big_small"),
-            bar: typeNumberText,
-            watermelon: typeNumberText,
-            star: typeNumberText,
-            bell: typeNumberText,
-            orange: typeNumberText,
-            lemon: typeNumberText,
-            cherry: totalScoreText
-        };
-
-        const betChoices = {
-            small: GameUtils.getBetChoiceString("small"),
-            big: GameUtils.getBetChoiceString("big"),
-            bar: "bar",
-            tripleSeven: "tripleSeven",
-            watermelon: "watermelon",
-            star: "star",
-            bell: "bell",
-            orange: "orange",
-            lemon: "lemon",
-            cherry: "cherry"
-        };
-
         this.time.string = getStringHourByTime(log.time);
         this.symbol.spriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${log.choice}`);
         this.odd.string = odds[log.choice];
         this.amount.string = numberWithCommas(log.amount);
-        this.win.string = numberWithCommas(settlementResult[log.choice] ? log.amount * odds[log.choice] : 0);
 
-        // if (settlementResult[log.choice]) {
-        //     this.choice.node.color = cc.Color.YELLOW;
-        //     this.amount.node.color = cc.Color.YELLOW;
-        // } else {
-        //     this.choice.node.color = cc.Color.WHITE;
-        //     this.amount.node.color = cc.Color.WHITE;
-        // }
+        const winningAmount = settlementResult[log.choice] ? log.amount * odds[log.choice] : 0;
+        this.win.string = numberWithCommas(winningAmount);
+        this.win.node.color = winningAmount > 0 ? cc.Color.YELLOW : cc.Color.WHITE;
 
         this.height = this.node.height;
     }

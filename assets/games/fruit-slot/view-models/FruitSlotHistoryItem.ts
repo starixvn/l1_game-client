@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { BetLog } from "./FruitSlotHistory";
 
@@ -15,7 +16,10 @@ export default class FruitSlotHistoryItem extends cc.Component {
     symbol: cc.Sprite = null;
 
     @property(cc.Label)
-    bigSmallLabel: cc.Label = null;
+    bigSmallValueLabel: cc.Label = null;
+
+    @property({ type: cc.Sprite })
+    bigSmallResultSymbol: cc.Sprite = null;
 
     @property(cc.Label)
     amountLabel: cc.Label = null;
@@ -36,13 +40,19 @@ export default class FruitSlotHistoryItem extends cc.Component {
     setData(betLog: BetLog) {
         this.betLog = betLog;
         this.timeLabel.string = getStringDateByTime(betLog.time);
-        this.bigSmallLabel.string = betLog.result.number.toString();
         this.roundLabel.string = betLog.phien.toString();
-        this.winLabel.string = betLog.betwin.toString();
-        this.amountLabel.string = betLog.totalAmount.toString();
 
         const matched = (sprite: cc.SpriteFrame, symbol: string) => sprite.name === symbol;
         const symbolName = betLog.result.isLucky ? "lucky" : betLog.result.symbols[0];
         this.symbol.spriteFrame = this.symbolSprites.find((sprite) => matched(sprite, `item_${symbolName}`));
+
+        this.bigSmallValueLabel.string = betLog.result.number.toString();
+        this.bigSmallResultSymbol.spriteFrame = this.symbolSprites.find((sprite) =>
+            matched(sprite, `item_${betLog.result.number > 7 ? "big" : "small"}`)
+        );
+
+        this.amountLabel.string = betLog.totalAmount.toString();
+        this.winLabel.string = betLog.betwin.toString();
+        this.winLabel.node.color = betLog.betwin > 0 ? cc.Color.YELLOW : cc.Color.WHITE;
     }
 }

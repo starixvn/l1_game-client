@@ -7,9 +7,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FruitSlotTicketDetail extends GameTicketDetailBase {
-    @property(cc.Label)
-    roundLabel: cc.Label = null;
-
     @property(cc.Prefab)
     ticketDetailItemPrefab: cc.Prefab = null;
 
@@ -18,12 +15,6 @@ export default class FruitSlotTicketDetail extends GameTicketDetailBase {
 
     @property(cc.Node)
     groupContent: cc.Node = null;
-
-    @property(cc.Label)
-    total: cc.Label = null;
-
-    roundID: number;
-    result: number;
 
     public showbetLogs(symbolSprites: cc.SpriteFrame[], odds, betLogs) {
         this.node.active = true;
@@ -39,11 +30,5 @@ export default class FruitSlotTicketDetail extends GameTicketDetailBase {
             this.content.addChild(ticketDetailItem);
             ticketDetailItemComponent.updateContent(betLogDetail, odds, this.settlementResult, symbolSprites);
         }
-    }
-
-    setFruitSlotDetailData(round: number, result: any, symbolSpriteFrames: cc.SpriteFrame[]) {
-        this.roundLabel.string = round.toString();
-
-        this.total.string = "10000";
     }
 }
