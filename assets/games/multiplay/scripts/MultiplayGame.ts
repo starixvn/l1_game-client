@@ -115,7 +115,7 @@ export default class MultiplayGame extends GameViewBase {
             return;
         }
         const { choice, count } = data;
-        console.log(`choice ${choice} winning streak count ${count}`);
+        console.log(`${GameUtils.getGameNameString(gameId)} choice ${choice} winning streak count ${count}`);
         this.gameNotification.addNotification({ gameId, choice, count }, 1);
     }
 
