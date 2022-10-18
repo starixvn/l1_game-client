@@ -234,7 +234,6 @@ export default class MultiplayGame extends GameViewBase {
 
     assignPropertiesForSingle(single: any, isMain: boolean) {
         single.currentMiniPanel = this.currentMiniPanel;
-        single.currentMiniPanel = this.currentMiniPanel;
         single.betChips = this.betChips;
         single.isCollectChip = isMain;
         single.groupDefaultGameId = this.gameId;
