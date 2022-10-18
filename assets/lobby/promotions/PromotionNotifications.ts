@@ -1,4 +1,4 @@
-import PromotionNotificationsHandler, { PromotionNotification, PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
+import PromotionNotificationsHandler, { PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -9,12 +9,6 @@ export default class PromotionNotifications extends cc.Component {
 
     @property(cc.Node)
     countNode: cc.Node = null;
-
-    @property(cc.Prefab)
-    announcementPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    announcementContainer: cc.Node = null;
 
     onLoad(): void {
         PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, this.showNotification.bind(this));
@@ -33,7 +27,6 @@ export default class PromotionNotifications extends cc.Component {
     }
 
     onClickNotification() {
-        const node = cc.instantiate(this.announcementPrefab);
-        this.announcementContainer.addChild(node);
+        PromotionNotificationsHandler.getInstance().emit(PromotionNotificationsEvent.OPEN_ANNOUNCEMENT);
     }
 }

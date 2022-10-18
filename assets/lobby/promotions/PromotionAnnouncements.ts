@@ -56,6 +56,7 @@ export default class PromotionAnnouncements extends cc.Component {
 
     onLoad(): void {
         PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, this.setData.bind(this));
+        this.dialog.addOnDidHide(() => this.node.destroy());
         this.setData();
     }
 

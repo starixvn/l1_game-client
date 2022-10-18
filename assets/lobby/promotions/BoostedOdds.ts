@@ -1,3 +1,5 @@
+import PromotionNotificationsHandler, { PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
+
 const { ccclass, property } = cc._decorator;
 
 export const BoostedOddsEvent = {
@@ -7,6 +9,10 @@ export const BoostedOddsEvent = {
 export default class BoostedOdds extends cc.Component {
     @property(cc.Node)
     icon: cc.Node = null;
+
+    onLoad() {
+        PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.OPEN_ANNOUNCEMENT, this.onClickBoostedOdds.bind(this));
+    }
 
     handleBoostedOdds() {
         cc.tween(this.icon)
@@ -21,6 +27,6 @@ export default class BoostedOdds extends cc.Component {
     }
 
     onClickBoostedOdds() {
-        this.node.emit(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT);
+        this.node?.emit(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT);
     }
 }

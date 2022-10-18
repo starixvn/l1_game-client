@@ -2,7 +2,8 @@ import NotificationService from "../../common/auth/NotificationService";
 import EventEmitterBase from "../../common/emitter/EventEmitterBase";
 
 export const PromotionNotificationsEvent = {
-    NEW_PROMOTION: "NEW_PROMOTION"
+    NEW_PROMOTION: "NEW_PROMOTION",
+    OPEN_ANNOUNCEMENT: "OPEN_ANNOUNCEMENT"
 };
 
 export class PromotionNotification {

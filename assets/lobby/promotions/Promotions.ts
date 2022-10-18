@@ -82,7 +82,6 @@ export class Promotions extends EventEmitterBase {
     }
 
     emitEvent() {
-        console.log("BoostedOddsEvent");
         this.emit(PromotionsEvent.SHOW_BOOSTED_ODDS);
         this.setTimeoutShowBoostedOdds();
     }

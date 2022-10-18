@@ -123,7 +123,6 @@ export default class MiniPanel extends BaseComponent {
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
 
-        this.initAnnouncement();
         this.initPopUpMiniGames();
         this.initBoostedOdds();
 
@@ -136,6 +135,8 @@ export default class MiniPanel extends BaseComponent {
         this.guideContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
         this.dialog.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.dialog.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
+        this.announcementContainer.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
+        this.announcementContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
 
         NotificationService.getInstance().addDataObserver(this.kickedOutKey, this.kickedOutKey, (data) =>
             this.dataHandlers.handleDataKickedOut(data)
@@ -178,6 +179,7 @@ export default class MiniPanel extends BaseComponent {
             this.boostedOdds = boostedOddsNode.getComponent(BoostedOdds);
             boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
             Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
+
             this.promotionContainer.addChild(boostedOddsNode);
         });
     }
@@ -358,18 +360,14 @@ export default class MiniPanel extends BaseComponent {
         );
     }
 
-    initAnnouncement() {
+    showAnnouncement() {
         const node = cc.instantiate(this.announcementPrefab);
         this.promotionAnnouncement = node.getComponent(PromotionAnnouncements);
         if (this.promotionAnnouncement) {
             this.promotionAnnouncement.miniPanel = this;
         }
-        this.promotionAnnouncement.node.active = false;
-        this.announcementContainer.addChild(node);
-    }
 
-    showAnnouncement() {
-        this.promotionAnnouncement.node.active = true;
+        this.announcementContainer.addChild(node);
     }
 
     showErrorNotice(error): Notice {
