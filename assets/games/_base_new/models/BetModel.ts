@@ -24,6 +24,9 @@ export class BetModel extends EventEmitterBase {
 
     clearData() {
         this.ownBets = null;
+        this.ownChip = null;
+        this.playerChip = null;
+        this.totalChips = null;
         this.betPercentage = null;
     }
 
