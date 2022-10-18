@@ -26,9 +26,9 @@ export const handleAddPlayers = (mainGame: TableGameBase) => (playersData) => {
     });
 };
 
-export const removePlayer = (mainGame: TableGameBase) => (playerData) => {
-    if (playerData.playerId) {
-        const slot = mainGame.getPlayerSlot(playerData.playerId);
+export const removePlayer = (mainGame: TableGameBase) => (playerId) => {
+    if (playerId) {
+        const slot = mainGame.getPlayerSlot(playerId);
 
         if (slot) {
             slot.setInfo(null);
@@ -41,7 +41,7 @@ export const removePlayer = (mainGame: TableGameBase) => (playerData) => {
                 delete mainGame.otherPlayersCache[newPlayer.id];
             }
         } else {
-            delete mainGame.otherPlayersCache[playerData.playerId];
+            delete mainGame.otherPlayersCache[playerId];
         }
     }
 };
