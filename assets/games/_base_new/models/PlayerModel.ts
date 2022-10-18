@@ -12,7 +12,7 @@ export default class PlayerModel extends EventEmitterBase {
 
     receivedPlayer(playerData: PlayerData) {
         this.player = playerData;
-        this.players[playerData.id] = playerData;
+        this.players = Object.assign(this.players, { [playerData.id]: playerData });
         this.emit(PlayerModel.Events.ADD_PLAYER, playerData);
     }
 
