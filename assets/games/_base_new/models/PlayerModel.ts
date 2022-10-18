@@ -8,11 +8,11 @@ export default class PlayerModel extends EventEmitterBase {
         REMOVE_PLAYER: "PlayerModel:REMOVE_PLAYER"
     };
     player: any;
-    players: any;
+    players = {};
 
     receivedPlayer(playerData: PlayerData) {
         this.player = playerData;
-        this.players = Object.assign(this.players, { [playerData.id]: playerData });
+        this.players[playerData.id] = playerData;
         this.emit(PlayerModel.Events.ADD_PLAYER, playerData);
     }
 
@@ -27,6 +27,6 @@ export default class PlayerModel extends EventEmitterBase {
     }
 
     updateUI() {
-        this.players && this.emit(PlayerModel.Events.ADD_PLAYERS, this.players);
+        Object.keys(this.players).length > 0 && this.emit(PlayerModel.Events.ADD_PLAYERS, this.players);
     }
 }
