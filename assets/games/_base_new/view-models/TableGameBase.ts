@@ -63,9 +63,8 @@ export default class TableGameBase extends MiniGameBase {
     initGameDataEvents() {
         super.initGameDataEvents();
 
-        const clearNewRoundEvent = this.startRoundDuration > 0 ? Durations.Events.BEGIN_STARTING_ROUND : Durations.Events.BEGIN_PLACING_BET;
-        this.emitterListener(this.gameData.durations, clearNewRoundEvent, updateTablePlayer);
-        this.emitterListener(this.gameData.durations, clearNewRoundEvent, resetUIAndClearChips);
+        this.emitterListener(this.gameData.durations, this.startRoundEvent, updateTablePlayer);
+        this.emitterListener(this.gameData.durations, this.startRoundEvent, resetUIAndClearChips);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP, handlePlaceOwnChip);
         if (this.showOtherPlayerChips) {

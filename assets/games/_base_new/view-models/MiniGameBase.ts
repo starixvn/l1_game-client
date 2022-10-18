@@ -246,11 +246,15 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterStorages.push(storage);
     }
 
+    get startRoundEvent() {
+        return this.startRoundDuration > 0 ? Durations.Events.BEGIN_STARTING_ROUND : Durations.Events.BEGIN_PLACING_BET;
+    }
+
     initGameDataEvents() {
         this.emitterListener(this.gameData.umModel, UMModel.Events.ON_UM, onUM);
         this.emitterListener(this.gameData.umModel, UMModel.Events.CHECK_OFF_UM, checkToOffUM);
 
-        this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_STARTING_ROUND, clearRoundData);
+        this.emitterListener(this.gameData.durations, this.startRoundEvent, clearRoundData);
         this.emitterListener(this.gameData.durations, Durations.Events.START_GAME_LOOP, startGameLoop);
         this.emitterListener(this.gameData.durations, Durations.Events.STOP_GAME_LOOP, stopGameLoop);
         this.emitterListener(this.gameData.durations, Durations.Events.TIMEOUT, updateTimeOut);
