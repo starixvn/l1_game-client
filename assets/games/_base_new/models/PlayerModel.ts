@@ -1,4 +1,3 @@
-import _ = require("lodash");
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { PlayerData } from "../../_base/view-models/RoomPlayer";
 
@@ -13,15 +12,21 @@ export default class PlayerModel extends EventEmitterBase {
 
     receivedPlayer(playerData: PlayerData) {
         this.player = playerData;
+        this.players[playerData.id] = playerData;
         this.emit(PlayerModel.Events.ADD_PLAYER, playerData);
     }
 
     receivedPlayers(playersData) {
         this.players = playersData;
-        this.emit(PlayerModel.Events.ADD_PLAYERS, playersData);
+        this.emit(PlayerModel.Events.ADD_PLAYERS, this.players);
     }
 
     receivedRemovedPlayer(playerData: any) {
         playerData.playerId && this.emit(PlayerModel.Events.REMOVE_PLAYER, playerData.playerId);
+        delete this.players[playerData.playerId];
+    }
+
+    updateUI() {
+        this.players && this.emit(PlayerModel.Events.ADD_PLAYERS, this.players);
     }
 }

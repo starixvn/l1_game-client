@@ -47,6 +47,7 @@ export default class TableGameBase extends MiniGameBase {
     showResultDuration = 1;
     public gameData: NewTableGameData;
     onCloseGameCallback = () => {};
+    alternativeGameId?: number;
 
     onLoad() {
         super.onLoad();
@@ -108,7 +109,8 @@ export default class TableGameBase extends MiniGameBase {
 
     addPlayer(player: PlayerData) {
         const playerSlot = this.getPlayerSlot(player.id);
-        const playerFromCache = RoomPlayer.getPlayerFromCache(player.id, this.gameName);
+
+        const playerFromCache = RoomPlayer.getPlayerFromCache(player.id, this.getPlayerStorageKey());
         player.idleCount = playerFromCache ? playerFromCache.idleCount : 0;
 
         if (!playerSlot) {
@@ -164,10 +166,15 @@ export default class TableGameBase extends MiniGameBase {
         this.playerChips.pop();
     }
 
+    getPlayerStorageKey(): string {
+        const gameId = this.alternativeGameId ?? this.gameId;
+        return gameId.toString();
+    }
+
     updatePlayerSlotDataStorage(data: any, playerSlot: any) {
         playerSlot.setBalance(data.red);
         playerSlot.data.idleCount = 0;
-        RoomPlayer.storePlayerToCache(playerSlot.data, this.gameName);
+        RoomPlayer.storePlayerToCache(playerSlot.data, this.getPlayerStorageKey());
     }
 
     updateOtherDataStorage(data: any) {
@@ -177,7 +184,7 @@ export default class TableGameBase extends MiniGameBase {
             player.idleCount = 0;
             player.red = data.red;
             this.otherPlayersCache[data.playerId] = player;
-            RoomPlayer.storePlayerToCache(player, this.gameName);
+            RoomPlayer.storePlayerToCache(player, this.getPlayerStorageKey());
         }
     }
 

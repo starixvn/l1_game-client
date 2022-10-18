@@ -55,7 +55,7 @@ export const updateTablePlayer = (mainGame: TableGameBase) => () => {
         }
 
         player.data.idleCount++;
-        RoomPlayer.storePlayerToCache(player.data, mainGame.gameName);
+        RoomPlayer.storePlayerToCache(player.data, mainGame.getPlayerStorageKey());
 
         if (player.isIdle) {
             const oldPlayerData = player.data;
