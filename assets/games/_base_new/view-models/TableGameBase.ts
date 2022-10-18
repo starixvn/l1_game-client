@@ -13,12 +13,14 @@ import {
     handlePlayerChipAction,
     hanleAddPlayer,
     removePlayer,
+    updateOtherPlayersBalance,
     updateTablePlayer,
 } from "../actions/CommonTableGameAction";
 import { clearChipsForLostChoices, payChips, resetUIAndClearChips } from "../actions/NewPayChipsAction";
 import { BetModel } from "../models/BetModel";
 import NewTableGameData from "../models/NewTableGameData";
 import PlayerModel from "../models/PlayerModel";
+import { Settlement } from "../models/Settlement";
 import MiniGameBase from "./MiniGameBase";
 
 const { ccclass, property } = cc._decorator;
@@ -73,6 +75,7 @@ export default class TableGameBase extends MiniGameBase {
         this.emitterListener(this.gameData.playerModel, PlayerModel.Events.ADD_PLAYER, hanleAddPlayer);
         this.emitterListener(this.gameData.playerModel, PlayerModel.Events.ADD_PLAYERS, handleAddPlayers);
         this.emitterListener(this.gameData.playerModel, PlayerModel.Events.REMOVE_PLAYER, removePlayer);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, updateOtherPlayersBalance);
     }
 
     /**

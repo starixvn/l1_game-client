@@ -131,3 +131,16 @@ export const handlePlayerChipAction = (mainGame: TableGameBase) => (data) => {
         );
     }
 };
+
+export const updateOtherPlayersBalance = (mainGame: TableGameBase) => (settlement) => {
+    const { winningPlayers } = settlement;
+    const players = mainGame.gameData.playerModel.players;
+    Object.keys(winningPlayers).forEach((playerId) => {
+        const otherPlayerData = players[playerId];
+        if (otherPlayerData) {
+            const winningPlayerData = winningPlayers[playerId];
+            otherPlayerData.red += winningPlayerData.bet;
+            RoomPlayer.storePlayerToCache(otherPlayerData, mainGame.getPlayerStorageKey());
+        }
+    });
+};
