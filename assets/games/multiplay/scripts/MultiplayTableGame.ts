@@ -90,6 +90,7 @@ export default class MultiplayTableGame extends MultiplayGame {
         const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         this.isWinningNotification = gameSetting.showWinningNotification ?? true;
         this.inGameMenu.winningNotifiationComp.setSwapStatus(this.isWinningNotification);
+        this.handleSubGamesArea();
     }
 
     onIngameMenuInitialized(node: cc.Node) {
