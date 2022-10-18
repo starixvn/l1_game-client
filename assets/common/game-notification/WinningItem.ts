@@ -1,4 +1,5 @@
 import GameUtils from "../GameUtils";
+import { numberWithCommas } from "../helpers/NumberHelper";
 import NotificationItem from "./NotificationItem";
 
 const { ccclass, property } = cc._decorator;
@@ -13,7 +14,7 @@ export default class WinningItem extends NotificationItem {
 
     setData(data: { amount: number; gameId: number }) {
         const { amount, gameId } = data;
-        this.amount.string = `+${amount.toString()}`;
+        this.amount.string = `+${numberWithCommas(amount, 0)}`;
         this.gameName.string = `(${GameUtils.getGameNameString(gameId)})`;
     }
 }
