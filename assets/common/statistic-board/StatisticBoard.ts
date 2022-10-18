@@ -76,22 +76,24 @@ export default class StatisticBoard extends cc.Component {
 
     updateRoundHistory = (roundHistory) => {
         this.hideNextItem();
+        if (roundHistory.length > 0) {
+            const originalChoices = this.originalChoices;
+            const percentage = GameUtils.calculateWinPercentage(originalChoices, roundHistory);
 
-        const originalChoices = this.originalChoices;
-        const percentage = GameUtils.calculateWinPercentage(originalChoices, roundHistory);
-        this.itemPercentList.forEach((item, index) => {
-            item.setPercent(percentage[this.originalChoices[index]]);
-        });
+            this.itemPercentList.forEach((item, index) => {
+                item.setPercent(percentage[this.originalChoices[index]]);
+            });
 
-        const data = roundHistory.map((history) => {
-            const result = {};
-            const winChoice = this.originalChoices.find((choice) => history.settlementResult[choice]);
-            result["type"] = originalChoices.findIndex((choice) => choice === winChoice);
-            result["choice"] = winChoice;
-            result["extra"] = this.generateExtra(history.result);
-            return result;
-        });
-        const reverseData = lodash.cloneDeep(data).reverse();
-        this.logControl.setExtendedData(reverseData);
+            const data = roundHistory.map((history) => {
+                const result = {};
+                const winChoice = this.originalChoices.find((choice) => history.settlementResult[choice]);
+                result["type"] = originalChoices.findIndex((choice) => choice === winChoice);
+                result["choice"] = winChoice;
+                result["extra"] = this.generateExtra(history.result);
+                return result;
+            });
+            const reverseData = lodash.cloneDeep(data).reverse();
+            this.logControl.setExtendedData(reverseData);
+        }
     };
 }
