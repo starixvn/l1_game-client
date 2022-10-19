@@ -1,5 +1,4 @@
-import GameUtils from "../../../common/GameUtils";
-import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { formatDateTime } from "../../../common/helpers/DateTimeHelper";
 import { BetLog } from "./FruitSlotHistory";
 
 const { ccclass, property } = cc._decorator;
@@ -39,7 +38,7 @@ export default class FruitSlotHistoryItem extends cc.Component {
 
     setData(betLog: BetLog) {
         this.betLog = betLog;
-        this.timeLabel.string = getStringDateByTime(betLog.time);
+        this.timeLabel.string = formatDateTime(betLog.time);
         this.roundLabel.string = betLog.phien.toString();
 
         const matched = (sprite: cc.SpriteFrame, symbol: string) => sprite.name === symbol;

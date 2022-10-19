@@ -1,6 +1,4 @@
-import GameUtils from "../../../common/GameUtils";
-
-import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
+import { formatDateTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
@@ -24,7 +22,7 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
     height: number = null;
 
     updateContent(log: any, odds: any, settlementResult: any, symbolsSpriteFrames: cc.SpriteFrame[]) {
-        this.time.string = getStringHourByTime(log.time);
+        this.time.string = formatDateTime(log.time);
         this.symbol.spriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${log.choice}`);
         this.odd.string = odds[log.choice];
         this.amount.string = numberWithCommas(log.amount);
