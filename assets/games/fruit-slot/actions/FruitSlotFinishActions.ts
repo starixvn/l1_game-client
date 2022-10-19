@@ -34,19 +34,17 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
         .start();
 };
 
-export const handleAfterSettlementResult =
-    (game: FruitSlot) =>
-    ({ settlement }: { settlement: FruitSlotFinishModel }) => {
-        game.finishShowResult = true;
-        game.timeAnimShowResult(false);
-        game.statistic.addItem(settlement);
-        game.miniRoundHistory.addNewItem(settlement);
-        game.betOptionsUI.ledLightAnimation.active = false;
-        game.betOptionsUI.highlightBigSmallWinning(settlement);
-        game.gameData.betModel.ownBets = {};
-        game.gameData.totalBetAmount = new FruitSlotChoices();
-        payChips(game, transformSettlementResult(settlement.settlementResult), settlement.winningPlayers, 1.2, 3, true);
-    };
+export const handleAfterSettlementResult = (game: FruitSlot) => (finish: FruitSlotFinishModel) => {
+    game.finishShowResult = true;
+    game.timeAnimShowResult(false);
+    game.statistic.addItem(finish);
+    game.miniRoundHistory.addNewItem(finish);
+    game.betOptionsUI.ledLightAnimation.active = false;
+    game.betOptionsUI.highlightBigSmallWinning(finish);
+    game.gameData.betModel.ownBets = {};
+    game.gameData.totalBetAmount = new FruitSlotChoices();
+    payChips(game, transformSettlementResult(finish.settlementResult), finish.winningPlayers, 1.2, 3, true);
+};
 
 const transformSettlementResult = (settlementResult: FruitSlotSettlementResult) => {
     return {

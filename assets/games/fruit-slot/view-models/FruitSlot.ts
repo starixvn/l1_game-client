@@ -8,33 +8,20 @@ import FruitSlotStatistic from "./FruitSlotStatistic";
 import FruitSlotAnimatedTimer from "./FruitSlotAnimatedTimer";
 import GameUtils from "../../../common/GameUtils";
 import FruitSlotPlacingBet from "./FruitSlotPlacingBet";
-import { FruitSlotChoicesConst } from "../event-models/FruitSlotChoices";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
-import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
-import { handleRenderMiniRoundHistoryAndStatistic } from "../actions/FruitSlotJoinRoomActions";
-import { handleAfterSettlementResult, handleShowResult, handleFirstLoadRoundHistory } from "../actions/FruitSlotFinishActions";
+import { FruitSlotFinishModel, handleAfterSettlementResult, handleShowResult } from "../actions/FruitSlotFinishActions";
 import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotChips from "./FruitSlotChips";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
-import NewButton from "../../../common/custom-button/NewButton";
 import _ = require("lodash");
-import { updateOwnBets } from "../actions/FruitSlotCustomActions";
 import { i18n } from "../../../ClientModules";
-import GameDataManager from "../../_base_new/models/GameDataManager";
-import NewGameData from "../../_base_new/models/NewGameData";
-import AudioManager from "../../../common/audio/AudioManager";
-import FruitSlotHistory from "./FruitSlotHistory";
+import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 
 const { ccclass, property } = cc._decorator;
 export const FruitSlotGameId = 59;
-interface EmitterStorage {
-    emitter: EventEmitterBase;
-    eventName: string;
-    listener: (param?: any) => void;
-}
 
 @ccclass
 export default class FruitSlot extends NewGameRoomBase {
@@ -77,7 +64,6 @@ export default class FruitSlot extends NewGameRoomBase {
     public animatedTime: FruitSlotAnimatedTimer = null;
     private placingBet: FruitSlotPlacingBet = null;
     public fruitSlotChips: FruitSlotChips;
-    emitterStorages: EmitterStorage[] = [];
 
     currentBetChoices: any = {};
     betChoicesStack = [];
@@ -99,10 +85,10 @@ export default class FruitSlot extends NewGameRoomBase {
         this.initStatistic();
         this.updateBetStatus(true);
         this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
-        this.initGameData();
-        this.initGameDataEvents();
         this.initPlacingBet();
         this.initButtonStatus();
+        this.registerRoundHistoryEvents();
+        this.registerSettlementEvents();
     }
 
     openStatistic() {
@@ -122,57 +108,20 @@ export default class FruitSlot extends NewGameRoomBase {
         this.placingBet = new FruitSlotPlacingBet(this.gameData, this, () => this.connection);
     }
 
-    initGameData() {
-        const dataManager = GameDataManager.getInstance();
-        let gameData = dataManager.getGameData(this.gameId);
-        if (!gameData) {
-            gameData = this.createGameData();
-            dataManager.setGameData(this.gameId, gameData);
-        }
-
-        //this.gameData = gameData;
-        this.gameData.durations.initialize({
-            wholeRound: this.config.fullTime,
-            placingBet: this.config.betTime,
-            lockingBet: this.config.stopBetTime
+    private registerRoundHistoryEvents() {
+        this.gameData.roundHistory.on(RoundHistory.Events.CHANGE, (roundHistory: FruitSlotRoundHistory[]) => {
+            this.miniRoundHistory?.render(roundHistory);
+            this.statistic?.render(roundHistory);
         });
-
-        this.gameData.durations.addEvent(
-            Durations.Events.SHOW_ANIMATION,
-            {
-                startTimePoint: this.config.fullTime,
-                endTimePoint: this.config.fullTime - this.showResultDuration + 1
-            },
-            null,
-            Durations.Events.WAITING
-        );
-
-        this.gameData.durations.addEvent(
-            Durations.Events.STARTING_ROUND,
-            {
-                startTimePoint: this.config.betTime + this.startRoundDuration,
-                endTimePoint: this.config.betTime
-            },
-            Durations.Events.WAITING,
-            Durations.Events.PLACING_BET
-        );
     }
 
-    emitterListener(emitter: EventEmitterBase, eventName: string, listener: (param: any) => any) {
-        const storage = {
-            emitter,
-            eventName,
-            listener: listener(this)
-        };
-        emitter.addListener(eventName, storage.listener);
-        this.emitterStorages.push(storage);
-    }
-
-    initGameDataEvents() {
-        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.FIRST_LOAD, handleRenderMiniRoundHistoryAndStatistic);
-        this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
-        this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
-        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.FIRST_LOAD, handleFirstLoadRoundHistory);
+    private registerSettlementEvents() {
+        this.gameData.settlement.on(Settlement.Events.SHOW_RESULT, (finish: FruitSlotFinishModel) => {
+            handleShowResult(this)(finish);
+        });
+        this.gameData.settlement.on(Settlement.Events.END_SHOW_RESULT, ({ settlement }: { settlement: FruitSlotFinishModel }) => {
+            handleAfterSettlementResult(this)(settlement);
+        });
     }
 
     public initButtonStatus() {
