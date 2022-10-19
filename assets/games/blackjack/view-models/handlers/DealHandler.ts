@@ -1,3 +1,4 @@
+import { showMessageForExpiredToken } from "../../../../common/auth/AuthManager";
 import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import GameUtils from "../../../../common/GameUtils";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
@@ -170,6 +171,12 @@ export default class DealHandler implements DataHandler {
 
     showNoticesErrors(data: any) {
         data.forEach((error) => {
+            const errorCode = error.errorCode.toString();
+            const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
+            if (expiredTokenErrorCode) {
+                showMessageForExpiredToken(errorCode);
+                return;
+            }
             const notice = this.main.currentMiniPanel.showErrorNotice(error);
             notice.handleClose = () => {
                 const positions = error.pos;
