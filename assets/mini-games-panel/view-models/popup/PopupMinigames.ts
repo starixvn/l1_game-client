@@ -174,6 +174,8 @@ export default class PopupMinigames extends cc.Component {
                 cc.tween(this.menuIcon).to(0.2, { scale: 0.9 }, { easing: "sineOut" }).start();
             })
             .start();
+
+        this.callMoveToEdge();
     }
 
     setTop() {
