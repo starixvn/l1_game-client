@@ -98,9 +98,4 @@ export default class MegaKeno extends TableGameBase {
         const comp = this.md5Component as MegaKenoMd5;
         comp.isMiniType = this.isMiniKeno(this.gameId);
     }
-
-    updateRebetButtonStatus() {
-        super.updateRebetButtonStatus();
-        this.rebetButton && (this.rebetButton.node.getChildByName("disabled").active = !this.checkRebetStatus());
-    }
 }
