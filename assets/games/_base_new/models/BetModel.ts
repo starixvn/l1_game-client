@@ -80,4 +80,19 @@ export class BetModel extends EventEmitterBase {
     actionFlyOwnChipFake(ownBets) {
         this.emit(BetModel.Events.CHANGE_OWN_CHIP_FAKE, ownBets);
     }
+
+    handleRebet(rebet: any) {
+        Object.keys(rebet).forEach((choice) => {
+            const chips = rebet[choice];
+            Object.keys(chips).forEach((chipValue) => {
+                const quantity = chips[chipValue];
+                for (let i = 0; i < quantity; i++) {
+                    this.changeOwnChip({
+                        betChoice: choice,
+                        amount: chipValue
+                    });
+                }
+            });
+        });
+    }
 }

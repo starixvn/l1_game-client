@@ -25,7 +25,7 @@ export default class MultiOrientationGame extends SocketIOTableGameBase {
 
     createCommonBetData() {
         const betData = super.createCommonBetData();
-        betData["m"] = `${this.orientation + 1}`;
+        this.addOrientationData(betData);
         return betData;
     }
 

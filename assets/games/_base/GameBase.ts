@@ -34,6 +34,7 @@ import GameBaseOddsHandler from "./handlers/GameBaseOddsHandler";
 import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
+import { Orientation } from "./Orientation";
 import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
@@ -124,6 +125,7 @@ export default class GameBase extends GameViewBase {
     @property(cc.Prefab)
     guidePrefab: cc.Prefab = null;
 
+    orientation = Orientation.Landscape;
     userProfile: UserProfile;
 
     protected historyComponent: SocketIOGameHistoryBase;
@@ -211,7 +213,6 @@ export default class GameBase extends GameViewBase {
     }
 
     onDestroy() {
-        this.saveRebetStorage(this.previousOwnBets);
         super.onDestroy();
         this.md5Component = null;
     }
@@ -772,6 +773,10 @@ export default class GameBase extends GameViewBase {
         }
     }
 
+    addOrientationData(data: any) {
+        data["m"] = `${this.orientation + 1}`;
+    }
+
     onInitializeRebetButton(node: cc.Node) {
         this.rebetButton = node.getComponent(cc.Button);
         node.on("click", this.onClickRebet.bind(this));
@@ -793,36 +798,24 @@ export default class GameBase extends GameViewBase {
             this.showProcessingWarning(true);
         } else {
             this.lockBet();
-            this.rebetAllChoices();
+            this.sendRebetData();
         }
     }
 
-    rebetAllChoices() {
-        const { ownBets } = this.previousOwnBets;
-        Object.keys(ownBets).forEach((choice) => {
-            const total = ownBets[choice];
-
-            if (this.betChips) {
-                const chipValues = GameUtils.getChipQuantity(total, this.betChips.chipValues);
-                Object.keys(chipValues).forEach((chipValue) => {
-                    const count = chipValues[chipValue];
-                    for (let i = 0; i < count; i++) {
-                        this.sendBetAtChoice(choice, +chipValue);
-                    }
-                });
-            } else {
-                this.sendBetAtChoice(choice, total);
-            }
-        });
+    sendRebetData() {
+        const betData = {};
+        this.addOrientationData(betData);
+        this.sendSocketData("rebet", betData);
     }
 
     checkRebetStatus(): boolean {
-        if (!this.previousOwnBets || this.roundId < 2) {
+        if (!this.previousOwnBets) {
             return false;
         }
 
         const { roundId, ownBets } = this.previousOwnBets;
-        return roundId === this.roundId - 1 && ownBets && Object.keys(ownBets).length > 0;
+        const result = roundId === this.roundId - 1 && ownBets && Object.keys(ownBets).length > 0;
+        return result;
     }
 
     loadRebetStorage() {

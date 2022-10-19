@@ -23,6 +23,7 @@ export const updatePreviousBets = (gameBase: MiniGameBase) => (data) => {
             ownBets: data
         };
         gameBase.updateRebetButtonStatus();
+        gameBase.saveRebetStorage(gameBase.previousOwnBets);
     }
 };
 
