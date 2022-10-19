@@ -15,6 +15,7 @@ export class RoundHistory extends EventEmitterBase {
     winningStreak = {};
     private streakChoices = ["big", "small", "odd", "even"];
     private consecutiveWinningTimes = 4;
+    winningStreakTimeOut;
 
     get lastRoundId() {
         return this.roundHistory[0]?.roundId || 0;
@@ -25,25 +26,28 @@ export class RoundHistory extends EventEmitterBase {
     }
 
     add(roundHistory: any) {
+        this.winningStreakTimeOut && clearTimeout(this.winningStreakTimeOut);
         this.roundHistory.unshift(roundHistory);
         if (this.roundHistory.length > this.historySize) {
             this.roundHistory.pop();
         }
     }
 
-    checkWinningStreak(roundHistory) {
+    checkWinningStreak(roundHistory, waitingTime: number) {
         const { settlementResult } = roundHistory;
-        this.streakChoices.forEach((choice) => {
-            if (settlementResult[choice]) {
-                this.winningStreak[choice]++;
-            } else {
-                this.winningStreak[choice] = 0;
-            }
+        this.winningStreakTimeOut = setTimeout(() => {
+            this.streakChoices.forEach((choice) => {
+                if (settlementResult[choice]) {
+                    this.winningStreak[choice]++;
+                } else {
+                    this.winningStreak[choice] = 0;
+                }
 
-            if (this.winningStreak[choice] >= this.consecutiveWinningTimes) {
-                this.emit(RoundHistory.Events.WINNING_STREAK, { choice, count: this.winningStreak[choice] });
-            }
-        });
+                if (this.winningStreak[choice] >= this.consecutiveWinningTimes) {
+                    this.emit(RoundHistory.Events.WINNING_STREAK, { choice, count: this.winningStreak[choice] });
+                }
+            });
+        }, waitingTime * 1000);
     }
 
     initWinningStreakData() {

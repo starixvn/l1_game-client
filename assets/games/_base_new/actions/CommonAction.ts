@@ -112,6 +112,7 @@ export const handleShowResult = (game: any) => (settlement) => {
     }
     game.showSettlementResult(settlement);
     game.gameData.roundHistory.add(settlement);
+    game.gameData.roundHistory.checkWinningStreak(settlement, game.showResultDuration);
     if (game.countDownProgressBar) {
         game.animatedTime.node.active = false;
         game.setWaitingDotsVisibility(true);
@@ -125,5 +126,4 @@ export const handleAfterSettlementResult =
             return;
         }
         game.handleAfterSettlementResult(settlement, animated);
-        game.gameData.roundHistory.checkWinningStreak(settlement);
     };

@@ -8,7 +8,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class KenoMultiplay extends MultiplayTableGame {
-    gameIds: number[] = [MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id];
+    gameIds: number[] = [MegaKeno1Id, MegaKeno2Id];
 
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;

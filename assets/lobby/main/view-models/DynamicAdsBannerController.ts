@@ -35,16 +35,18 @@ export default class DynamicAdsBannerController extends BannerController {
         const bannerSpriteFrame = await GameUtils.getBanner(this.lobbyMenuConfig, id);
         if (bannerSpriteFrame) {
             const item = cc.instantiate(this.adsItemPrefab);
-            this.createBasicItem(id, bannerSpriteFrame, item);
+            if (item) {
+                this.createBasicItem(id, bannerSpriteFrame, item);
 
-            const button = item.getComponent(cc.Button);
-            const event = new cc.Component.EventHandler();
-            event.target = this.node;
-            event.component = "BannerController";
-            event.handler = "openGame";
-            event.customEventData = id.toString();
-            button.clickEvents.push(event);
-            this.handleShowBanner();
+                const button = item.getComponent(cc.Button);
+                const event = new cc.Component.EventHandler();
+                event.target = this.node;
+                event.component = "BannerController";
+                event.handler = "openGame";
+                event.customEventData = id.toString();
+                button.clickEvents.push(event);
+                this.handleShowBanner();
+            }
         }
     }
 
