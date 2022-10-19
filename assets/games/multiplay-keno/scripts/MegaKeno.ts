@@ -24,7 +24,6 @@ export default class MegaKeno extends TableGameBase {
     streakChoices = ["big", "small", "odd", "even"];
 
     settlementResultAnimation: MegaKenoSettlementResult;
-    override alternativeGameId = MegaKeno1Id;
 
     constructor() {
         super();
