@@ -1,6 +1,6 @@
-import MultiplayGameStatisticBoard from "./MultiplayGameStatisticBoard";
 import AudioManager from "../audio/AudioManager";
 import SnappedScrollView from "../bet-chips/view-models/SnappedScrollView";
+import MultiplayGameStatisticBoard from "./MultiplayGameStatisticBoard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,6 +26,12 @@ export default class MultiplayTableGameStatisticBoard extends MultiplayGameStati
     onLoad() {
         super.onLoad();
         this.prevButton.active = false;
+        this.snappedScrollView.onScrollEnded = () => {
+            const min = this.snappedScrollView.getMinDisplayIndex();
+            this.selectedIndex = min;
+            this.updateArrowVisibility();
+            this.updatePageIndicator();
+        };
     }
 
     public onPrevious() {
