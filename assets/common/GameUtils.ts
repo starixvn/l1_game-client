@@ -153,9 +153,9 @@ export default class GameUtils {
     }
 
     static setSubGameSetting(gameId, key, subData) {
-        const data = GameUtils.getGameSetting(gameId);
+        const data = GameUtils.getSpecificGameSetting(gameId);
         data[key] = subData;
-        GameUtils.setGameSetting(gameId, data);
+        GameUtils.setSpecificGameSetting(gameId, data);
     }
 
     static getGameSetting(gameId) {

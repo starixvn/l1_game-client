@@ -200,12 +200,12 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     initLocations() {
-        const gameSetting = GameUtils.getGameSetting(this.gameId);
+        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         if (!gameSetting.locations) {
             const locations = {};
             this.gameIds.forEach((id, index) => (locations[id] = index - 1));
             gameSetting.locations = locations;
-            GameUtils.setGameSetting(this.gameId, gameSetting);
+            GameUtils.setSpecificGameSetting(this.gameId, gameSetting);
         }
         this.locations = gameSetting.locations;
     }
