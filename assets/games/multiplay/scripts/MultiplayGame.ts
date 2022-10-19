@@ -295,9 +295,8 @@ export default class MultiplayGame extends GameViewBase {
     initBetChipByLoader(node: cc.Node) {
         this.betChips = node.getComponent(BetChips);
         Object.values(this.games).forEach((game: GameBase) => {
-            game.betChips = node.getComponent(BetChips);
+            game.betChips = this.betChips;
         });
-
         this.betChips.init((bet) => {
             this.onChangedBetChip(+bet);
         });

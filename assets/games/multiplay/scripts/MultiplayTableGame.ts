@@ -12,7 +12,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame,
+    outRoomGame
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
@@ -63,11 +63,6 @@ export default class MultiplayTableGame extends MultiplayGame {
         single.onCloseGameCallback = this.onCloseGame.bind(this);
     }
 
-    initBetChipByLoader(node: cc.Node) {
-        super.initBetChipByLoader(node);
-        Object.values(this.games).forEach((game: GameBase) => (game.betChips = this.betChips));
-    }
-
     onLoad() {
         loadMiniPanel(this)();
         super.onLoad();
@@ -91,6 +86,25 @@ export default class MultiplayTableGame extends MultiplayGame {
         this.isWinningNotification = gameSetting.showWinningNotification ?? true;
         this.inGameMenu.winningNotifiationComp.setSwapStatus(this.isWinningNotification);
         this.handleSubGamesArea();
+    }
+
+    setGameConfigs(gameConfigs: any) {
+        const storageData = GameUtils.getGameSetting(this.gameId);
+        if (!storageData.currentBet) {
+            super.setGameConfigs(gameConfigs);
+            return;
+        }
+
+        this.betChips.setCurrentBet(`${storageData.currentBet}`);
+        super.setGameConfigs(gameConfigs);
+        this.betChips.setSelectedIndexAndScroll(`${storageData.currentBet}`);
+    }
+
+    onChangedBetChip(bet: number) {
+        super.onChangedBetChip(bet);
+        const storageData = GameUtils.getGameSetting(this.gameId);
+        storageData.currentBet = bet;
+        GameUtils.setGameSetting(this.gameId, storageData);
     }
 
     onIngameMenuInitialized(node: cc.Node) {
