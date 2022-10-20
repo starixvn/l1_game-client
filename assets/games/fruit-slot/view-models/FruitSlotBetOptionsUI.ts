@@ -228,6 +228,7 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
                 this.highlightWinningSymbol(winSymbol);
             }
         }
+        this.main.gameData.settlement.finishShowResult(finish, true);
     }
 
     resetUIBettingZone() {

@@ -27,7 +27,6 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
         })
         .delay(delaySpinAnim)
         .call(() => {
-            game.gameData.settlement.finishShowResult(finish, true);
             game.betOptionsUI.bigSmallResult.string =
                 finish.result.bigSmall.value < 10 ? "0" + finish.result.bigSmall.value.toString() : finish.result.bigSmall.value.toString();
         })
