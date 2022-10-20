@@ -1,3 +1,5 @@
+import _ = require("lodash");
+
 import { lazyInject } from "../../Application";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import * as sessionManager from "../../common/auth/SessionManager";
@@ -209,5 +211,9 @@ export default class WebSocketTableGameBase extends GameBase {
         node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGame, this);
 
         return node;
+    }
+
+    getPlayerSlot(playerId: string): RoomPlayer {
+        return _.find(this.players, (player) => player.data && player.data.id === playerId);
     }
 }
