@@ -512,8 +512,7 @@ export default class GameUtils {
         const destBox = child.getBoundingBoxToWorld();
         return srcBox.intersects(destBox);
     }
-    }
-    
+
     public static createChipStack(bet: number, betChips: BetChips, shadowFrame: cc.SpriteFrame, skewX: number) {
         const values = GameUtils.getChipQuantity(bet, betChips.chipValues);
         const node = new cc.Node();
@@ -544,4 +543,5 @@ export default class GameUtils {
             }
         });
         return node;
+    }
 }
