@@ -98,6 +98,9 @@ export const payChipsToLoginPlayer = (info: PayChipInfo, isOtherPlayers = true) 
 
 const showPayoutForLoginPlayer = (info: PayChipInfo) => {
     const { mainRoomGame, statusData, winningDuration } = info;
+    if (!statusData || !statusData.win) {
+        return;
+    }
     mainRoomGame.showWinningBet(statusData.bet);
     const playerNode = mainRoomGame.userProfile?.userAvatar?.node?.parent;
     playerNode && playWinningEffect(mainRoomGame, playerNode, winningDuration);
