@@ -24,11 +24,14 @@ export default class FruitSlotTicketDetail extends GameTicketDetailBase {
         this.groupContent.addChild(fruitSlotTicketDetailGroup);
         fruitSlotTicketDetailGroupmComponent.createBetLogItem(betLogs, symbolSprites);
 
-        for (const betLogDetail of this.betLogDetails) {
+        this.betLogDetails.forEach((betLogDetail, index) => {
             const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const ticketDetailItemComponent = ticketDetailItem.getComponent(FruitSlotTicketDetailItem);
+            if (index === 0) {
+                ticketDetailItemComponent.node.getChildByName("topBorder").active = false;
+            }
             this.content.addChild(ticketDetailItem);
             ticketDetailItemComponent.updateContent(betLogDetail, odds, this.settlementResult, symbolSprites);
-        }
+        });
     }
 }

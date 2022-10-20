@@ -50,6 +50,7 @@ export default class FruitSlotTicketDetailIGroup extends cc.Component {
         const betItemComponent = betItem.getComponent(FruitSlotTicketDetailGroupItem);
         this.betChoiceGroupNode.addChild(betItem);
         betItemComponent.updateContent(symbol, index, bigSmallValue, symbolsSpriteFrames);
+
         return betItemComponent.height;
     }
 }

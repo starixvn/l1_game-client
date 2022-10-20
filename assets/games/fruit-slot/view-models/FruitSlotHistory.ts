@@ -48,6 +48,10 @@ export default class FruitSlotHistory extends BetHistory {
         ticketDetailComponent.showbetLogs(symbolSprites, betLog.odds, betLog);
     }
 
+    isLastRow(betLogs: any, index: number) {
+        return index === betLogs.length - 1;
+    }
+
     renderTicketHistory(data: any) {
         const betLogs: BetLog[] = data.betLogs;
         betLogs.forEach((log, index) => {
@@ -56,6 +60,11 @@ export default class FruitSlotHistory extends BetHistory {
 
             historyControl.setData(log);
             historyControl.openTicketDetail = () => this.openTicketDetail(this.node, log, historyControl.symbolSprites);
+
+            if (this.isLastRow(betLogs, index)) {
+                historyControl.node.getChildByName("bottomBorder").active = false;
+            }
+
             this.content.addChild(historyItemPrefab);
         });
     }

@@ -28,9 +28,6 @@ export default class FruitSlot extends NewGameRoomBase {
     @property(cc.Button)
     btnRebet: cc.Button = null;
 
-    @property(cc.Button)
-    btnDouble: cc.Button = null;
-
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
@@ -125,8 +122,6 @@ export default class FruitSlot extends NewGameRoomBase {
     }
 
     public initButtonStatus() {
-        const disableButton = "btn-disable";
-        this.btnDouble.node.on("click", this.onDoubleClick, this);
         this.btnRebet.node.on("click", this.onRebetClick, this);
     }
 
@@ -156,33 +151,6 @@ export default class FruitSlot extends NewGameRoomBase {
 
     timeAnimShowResult(show: boolean) {
         this.timeShowResult.active = show;
-    }
-
-    onDoubleClick() {
-        if (!this.isReadyBet()) {
-            return;
-        }
-
-        this.playClick();
-        this.betChips.playSingleChipsSound();
-        this.lockBet();
-
-        const { ownBets } = this.gameData.betModel;
-        const ownBetTemp = Object.keys(ownBets).reduce(
-            (attrs, key) => ({
-                ...attrs,
-                [key]: ownBets[key] * 2
-            }),
-            {}
-        );
-
-        const sum = this.sumValueBetChoices(ownBets);
-        if (!this.checkAvailableBalance(sum, ownBets)) {
-            return;
-        }
-
-        this.gameData.betModel.changeOwnBets(ownBetTemp);
-        this.placeBet(ownBets);
     }
 
     onRebetClick() {
@@ -255,16 +223,12 @@ export default class FruitSlot extends NewGameRoomBase {
     }
 
     updateBetStatus(forceUpdate = false) {
-        const disableButton = "btn_disable";
         if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
             return;
         }
 
         const isEmptyBetChoice = _.isEmpty(this.gameData.betModel?.ownBets);
         this.btnRebet.interactable = isEmptyBetChoice && !_.isEmpty(this.previousRoundBetChoices);
-
-        this.btnDouble.interactable = !isEmptyBetChoice;
-        this.btnDouble.node.getChildByName(disableButton).active = !this.btnDouble.interactable;
     }
 
     clearTempBetChoices() {
