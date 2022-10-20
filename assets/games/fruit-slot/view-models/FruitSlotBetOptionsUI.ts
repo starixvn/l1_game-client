@@ -84,12 +84,12 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
             .start();
     }
 
-    highlightWinningSymbol(symbols: string) {
+    highlightWinningSymbol(symbols: string, isAnimated = true) {
         this.betItems.forEach((betItem: FruitSlotBetItem) => {
             const nodeName = betItem.node.name;
             if (nodeName === symbols) {
                 betItem.node.opacity = 255;
-                betItem.setHighlight(true, true);
+                betItem.setHighlight(true, isAnimated);
             }
         });
     }
@@ -137,13 +137,21 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
                             for (; index < nextIndex; index++) {
                                 const position = index % numberOfSymbols;
-                                this.ledZone.children[position].getComponent(FruitSlotLedLightItem).setHighlightItems();
+                                if (this.ledZone) {
+                                    this.ledZone.children[position].getComponent(FruitSlotLedLightItem)?.setHighlightItems();
+                                }
                             }
                         }
                     }
                 }
             )
             .start();
+    }
+
+    formatBigSmallResult(result: number) {
+        const resultText = result < 10 ? "0" + result.toString() : result.toString();
+        console.log(result, resultText);
+        return resultText;
     }
 
     randomNumberAnimation(timeDuration: number) {
@@ -161,7 +169,7 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
                             currentIndex = node;
 
                             const numberText = arr[currentIndex] < 10 ? "0" + arr[currentIndex].toString() : arr[currentIndex].toString();
-                            this.bigSmallResult.string = numberText;
+                            this.bigSmallResult && (this.bigSmallResult.string = numberText);
                         }
                     }
                 }
@@ -189,7 +197,7 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
                                 for (; index < nextIndex; index++) {
                                     const highlightPosition = index % numberOfSymbols;
-                                    highlightItem[highlightPosition].setHighlightItems(true, false);
+                                    highlightItem[highlightPosition]?.setHighlightItems(true, false);
                                 }
                             }
                         }
@@ -210,22 +218,26 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
             betItem.node.opacity = 150;
         });
 
-        if (!finish.result.isLucky) {
-            await this.executeAnim(timeDuration, 0, steps, numberOfSymbols, this.spinItems);
-            this.spinItems[firstPosition].setHighlightItems(true, true);
-            this.highlightWinningChoice(finish);
-        } else {
-            await this.executeAnim(timeDuration, 0, steps, numberOfSymbols, this.spinItems);
-            this.spinItems[firstPosition].setHighlightItems(true, true);
+        if (this.spinItems && this.spinItems[firstPosition]) {
+            if (!finish.result.isLucky) {
+                await this.executeAnim(timeDuration, 0, steps, numberOfSymbols, this.spinItems);
+                if (this.spinItems[firstPosition]) {
+                    this.spinItems[firstPosition]?.setHighlightItems(true, true);
+                }
+                this.highlightWinningChoice(finish);
+            } else {
+                await this.executeAnim(timeDuration, 0, steps, numberOfSymbols, this.spinItems);
+                this.spinItems[firstPosition]?.setHighlightItems(true, true);
 
-            for (i = 0; i < symbolPositions.length - 1; i++) {
-                const totalSteps = (symbolPositions[i + 1] - symbolPositions[i] + numberOfSymbols) % numberOfSymbols;
-                const nextPosition = symbolPositions[i] + totalSteps + 72;
-                const winSymbol = this.getWinningOption(finish.result.symbols[i]);
+                for (i = 0; i < symbolPositions.length - 1; i++) {
+                    const totalSteps = (symbolPositions[i + 1] - symbolPositions[i] + numberOfSymbols) % numberOfSymbols;
+                    const nextPosition = symbolPositions[i] + totalSteps + 72;
+                    const winSymbol = this.getWinningOption(finish.result.symbols[i]);
 
-                await this.executeAnim(4, symbolPositions[i], nextPosition, numberOfSymbols, this.spinItems);
-                this.spinItems[symbolPositions[i + 1]].setHighlightItems(true, true);
-                this.highlightWinningSymbol(winSymbol);
+                    await this.executeAnim(4, symbolPositions[i], nextPosition, numberOfSymbols, this.spinItems);
+                    this.spinItems[symbolPositions[i + 1]]?.setHighlightItems(true, true);
+                    this.highlightWinningSymbol(winSymbol);
+                }
             }
         }
         this.main.gameData.settlement.finishShowResult(finish, true);
@@ -235,7 +247,11 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         this.bigSmallResult.string = "";
         this.bigSmallResultBackground.opacity = 0;
         this.lightAnimation.node.active = true;
-        this.betItems.forEach((item) => (item.node.opacity = 255));
+        this.betItems.forEach((item) => {
+            item.node.opacity = 255;
+            item.resetHighlight();
+        });
+
         this.spinItems.forEach((item) => item.resetHighlight());
         this.main.setBgVisibility(this.bgLockSpin, true);
     }

@@ -27,8 +27,10 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
         })
         .delay(delaySpinAnim)
         .call(() => {
-            game.betOptionsUI.bigSmallResult.string =
-                finish.result.bigSmall.value < 10 ? "0" + finish.result.bigSmall.value.toString() : finish.result.bigSmall.value.toString();
+            game.gameData?.settlement?.finishShowResult(finish, true);
+            if (game.betOptionsUI && game.betOptionsUI.bigSmallResult) {
+                game.betOptionsUI.bigSmallResult.string = game.betOptionsUI.formatBigSmallResult(finish.result.bigSmall.value);
+            }
         })
         .start();
 };

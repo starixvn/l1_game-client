@@ -274,34 +274,5 @@ export default class FruitSlot extends NewGameRoomBase {
     onDestroy() {
         super.onDestroy();
         this.unschedule(this.updateBetStatus);
-    }
-
-    showResult(animated: boolean) {
-        if (this.currentDataLogs.length > 0) {
-            const { settlementResult } = this.currentDataLogs[0];
-            if (animated) {
-                this.betOptionsUI.highlightWinningChoice(settlementResult);
-                console.log("this.betOptionsUI.highlightWinningChoice(settlementResult);");
-                this.betItems.forEach((betItem: FruitSlotBetItem) => {
-                    const nodeName = betItem.node.name;
-                    betItem.node.opacity = 255;
-                    betItem.setHighlight(true, true);
-                });
-            }
-        }
-    }
-    highlightLastResult(animated: boolean) {
-        if (this.currentTimeRemaining <= this.config.stopBetTime) {
-            return;
-        }
-        const dataLog = this.currentDataLogs[0];
-
-        if (dataLog) {
-            this.betItems.forEach((betItem: FruitSlotBetItem) => {
-                const choice = betItem.node.name;
-                betItem.setHighlight(dataLog?.settlementResult[choice], false);
-                console.log("this.betOptionsUI.highlightWinningChoice(settlementResult);");
-            });
-        }
-    }
+    }       
 }
