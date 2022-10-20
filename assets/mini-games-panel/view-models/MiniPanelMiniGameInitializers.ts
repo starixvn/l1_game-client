@@ -1,7 +1,6 @@
 import { Socket } from "socket.io-client";
 
 import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
-import { getSession } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
@@ -84,18 +83,20 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     async openNewSocket(gameId) {
-        const currentSocket: Socket = this.socketIOController.getSocketGame(gameId);
-        const multiplay = this.socketIOController.isMultiplayGame(gameId);
-        if (currentSocket && !currentSocket.connected && multiplay) {
-            currentSocket.connect();
-            return;
-        }
+        let socket: Socket = this.socketIOController.getSocketGame(gameId);
 
-        if (currentSocket && currentSocket.connected) {
+        if (socket && socket.connected) {
             this.openMiniGame(gameId);
         } else {
+            const multiplay = this.socketIOController.isMultiplayGame(gameId);
+            if (socket && multiplay) {
+                socket.removeAllListeners();
+                socket.connect();
+            } else {
+                socket = this.createMiniGameSocket(gameId, true);
+            }
             const gameName = await GameUtils.getDisplayGameName(gameId);
-            const socket = this.setUpSocketForGame(gameName, gameId, true, null);
+            this.initMiniGameSocketListeners(socket, gameId, gameName, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {
                     return;
@@ -106,16 +107,26 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         this.main.isOpenSS0 = false;
     }
 
-    setUpSocketForGame(gameName: string, gameId: number, forceNew: boolean, gameContainer: any): Socket {
+    createMiniGameSocket(gameId: number, forceNew: boolean): Socket {
         const proxyRoute = getProxyRoute(gameId);
         const gameServerUrl = buildServerUrl("http", "", gameId);
 
         const option = {
             gameId,
             socketUri: gameServerUrl,
-            gameName,
             proxyRoute,
-            onConnectCallback: (returnedSocket) => returnedSocket.emit("signin", getSession()),
+            forceNew,
+            enableMsgpackParser: enableMsgpackParserAllGames
+        };
+        const socket = this.socketIOController.connectGameSocket(option);
+        this.socketIOController.assignSocket(gameId, socket);
+        return socket;
+    }
+
+    initMiniGameSocketListeners(socket, gameId: number, gameName: string, gameContainer: any) {
+        const listenerOptions = {
+            gameId,
+            gameName,
             onConnectFailed: (name, isGameRoom) => {
                 this.main.onConnectSocketFailed(name, gameId, isGameRoom);
 
@@ -124,14 +135,10 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                 }
             },
             isGameRoom: false,
-            forceNew,
-            gameContainer,
-            enableMsgpackParser: enableMsgpackParserAllGames
+            gameContainer
         };
-        const socket = this.socketIOController.connectGameSocket(option);
+        this.socketIOController.initBaseListeners(socket, listenerOptions);
 
         this.handleSocket(socket, gameId);
-        this.socketIOController.assignSocket(gameId, socket);
-        return socket;
     }
 }

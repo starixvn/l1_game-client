@@ -137,7 +137,7 @@ export default class MultiplayGame extends GameViewBase {
     onDestroy() {
         Object.values(this.games).forEach((game: GameBase) => game.clearGameData());
         this.gameIds.forEach((gameId: number) => {
-            this.socketIOController.deleteCachedSocket(gameId);
+            this.socketIOController.closeSocket(gameId);
         });
     }
 
@@ -163,20 +163,28 @@ export default class MultiplayGame extends GameViewBase {
 
     initSockets() {
         this.gameIds.forEach((gameId) => {
+            if (gameId === this.gameId) {
+                return;
+            }
             let socket = this.socketIOController.getSocketGame(gameId);
+            const gameName = GameUtils.getGameNameString(gameId);
             if (!socket) {
-                const gameName = GameUtils.getGameNameString(gameId);
-                socket = this.currentMiniPanel.gameMiniInitializers.setUpSocketForGame(gameName, gameId, false, null);
+                socket = this.currentMiniPanel.gameMiniInitializers.createMiniGameSocket(gameId, false);
+            } else {
+                socket.removeAllListeners();
+                socket.connect();
             }
 
+            this.currentMiniPanel.gameMiniInitializers.initMiniGameSocketListeners(socket, gameId, gameName, null);
             socket.on("signedIn", () => {
                 this.initForSingle(gameId);
             });
-
-            if (gameId === this.gameId) {
-                this.initForSingle(gameId);
-            }
         });
+        this.initForDefaultGame();
+    }
+
+    initForDefaultGame() {
+        this.initForSingle(this.gameId);
     }
 
     grantSocketForSingle(gameId: number) {
@@ -194,11 +202,15 @@ export default class MultiplayGame extends GameViewBase {
 
     reConnectSockets() {
         this.gameIds.forEach((gameId) => {
+            if (gameId === this.gameId) {
+                return;
+            }
             const socket = this.socketIOController.getSocketGame(gameId);
             if (socket && !socket.connected) {
                 socket.connect();
             }
         });
+        this.initForDefaultGame();
     }
 
     initLocations() {

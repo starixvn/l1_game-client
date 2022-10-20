@@ -8,7 +8,6 @@ import { getProxyRoute } from "./common/helpers/UrlHelper";
 import { sentryLogger } from "./common/logger.js";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
 import { getGameConfiguration } from "./configs/GameConfigurations";
-import MiniPanel from "./mini-games-panel/view-models/MiniPanel";
 
 @injectable()
 export default class SocketIOController {
@@ -41,28 +40,33 @@ export default class SocketIOController {
         this.gameSockets[gameId.toString()] = socket;
     }
 
-    openSocketByUri(
-        miniPanel: MiniPanel,
-        gameId,
-        socketUri,
-        onConnectCallback = (returnedSocket) => returnedSocket.emit("signin", getSession())
-    ) {
-        const gameName = GameUtils.getGameNameString(gameId);
+    createSocketByUrl(gameId, socketUri) {
         const proxyRoute = getProxyRoute(gameId);
 
         const option = {
             socketUri,
-            gameName,
             proxyRoute,
-            onConnectCallback,
-            onConnectFailed: miniPanel.onConnectSocketFailed.bind(miniPanel),
-            isGameRoom: true,
             forceNew: true,
-            gameContainer: null,
             enableMsgpackParser: enableMsgpackParserAllGames,
-            gameId: gameId
+            gameId
         };
-        return this.connectGameSocket(option);
+        const socket = this.connectGameSocket(option);
+
+        return socket;
+    }
+
+    initBaseListenersForSocketUrl(socket, gameId, onConnectFailed, onConnectCallback?) {
+        const gameName = GameUtils.getGameNameString(gameId);
+
+        const listenerOptions = {
+            gameName,
+            onConnectCallback,
+            onConnectFailed,
+            isGameRoom: true,
+            gameContainer: null,
+            gameId
+        };
+        this.initBaseListeners(socket, listenerOptions);
     }
 
     isMultiplayGame(gameId: number): boolean {
@@ -71,28 +75,12 @@ export default class SocketIOController {
 
     connectGameSocket = (option: {
         socketUri: string;
-        gameName: string;
         proxyRoute: string;
-        onConnectCallback: (returnedSocket) => void;
-        onConnectFailed: (gameName, gameId, isGameRoom) => void;
-        isGameRoom: boolean;
         forceNew: boolean;
-        gameContainer: any;
         enableMsgpackParser: boolean;
         gameId: any;
     }): Socket => {
-        const {
-            socketUri,
-            gameName,
-            proxyRoute,
-            onConnectCallback,
-            onConnectFailed,
-            isGameRoom,
-            forceNew,
-            gameContainer,
-            enableMsgpackParser,
-            gameId
-        } = option;
+        const { socketUri, proxyRoute, forceNew, enableMsgpackParser, gameId } = option;
         const multiplay = this.isMultiplayGame(gameId);
         const socketOptions: Partial<ManagerOptions & SocketOptions> = {
             forceNew: !multiplay && forceNew,
@@ -107,6 +95,22 @@ export default class SocketIOController {
 
         const socket = io(socketUri, socketOptions);
 
+        return socket;
+    };
+
+    initBaseListeners(
+        socket,
+        option: {
+            gameName: string;
+            onConnectCallback?: Function;
+            onConnectFailed: (gameName, gameId, isGameRoom) => void;
+            isGameRoom: boolean;
+            gameContainer: any;
+            gameId: any;
+        }
+    ) {
+        const { gameName, onConnectFailed, isGameRoom, gameContainer, gameId, onConnectCallback } = option;
+
         const needCallCallback = !gameContainer || gameContainer.isMain;
         let name = gameName;
         if (gameContainer && gameContainer.alternativeName) {
@@ -114,7 +118,11 @@ export default class SocketIOController {
         }
 
         socket.on("connect", () => {
-            onConnectCallback(socket);
+            if (onConnectCallback) {
+                onConnectCallback(socket);
+            } else {
+                socket.emit("signin", getSession());
+            }
         });
 
         socket.on("connect_error", (error) => {
@@ -129,9 +137,7 @@ export default class SocketIOController {
         socket.on("disconnect", (reason, detail: { description }) => {
             sentryLogger.log(`socket disconnect - ${gameName} - ${reason}:   ${detail?.description}`);
         });
-
-        return socket;
-    };
+    }
 
     async closeSocket(gameId) {
         const socket: Socket = this.gameSockets[gameId];

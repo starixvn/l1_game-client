@@ -69,7 +69,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         if (!this.trialConnection) {
             this.trialConnection = new SocketIOConnection();
             const socketUri = getTrialSocket(this.gameId);
-            const socket = this.currentMiniPanel.openSocketByUri(this.gameId, socketUri, this.registerTrialMode.bind(this));
+            const socket = this.currentMiniPanel.openSocketByUrl(this.gameId, socketUri, this.registerTrialMode.bind(this));
             this.trialConnection.setSocket(socket, this.gameName);
             this.initGameEvents(socket);
         } else {

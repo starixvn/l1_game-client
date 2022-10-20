@@ -10,14 +10,14 @@ export default class MiniPanelSocketIOInitializers {
 
     public handleSocket(socket, gameId) {
         socket.on("message", (data) => {
+            if (!this.main.isAlive()) {
+                return;
+            }
             if (data.um) {
                 this.socketIOController.closeSocket(gameId);
                 if (data.um_message) {
                     this.main.handleUmMessage(data.um_message, gameId);
                 }
-            }
-            if (!this.main.isAlive()) {
-                return;
             }
 
             this.main.onGeneralData(data);

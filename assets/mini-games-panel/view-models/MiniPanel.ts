@@ -317,8 +317,9 @@ export default class MiniPanel extends BaseComponent {
         }
     }
 
-    openSocketByUri(gameId, socketUri, onConnectCallback) {
-        const socket = this.socketIOController.openSocketByUri(this, gameId, socketUri, onConnectCallback);
+    openSocketByUrl(gameId, socketUri, onConnectCallback) {
+        const socket = this.socketIOController.createSocketByUrl(gameId, socketUri);
+        this.socketIOController.initBaseListenersForSocketUrl(socket, gameId, this.onConnectSocketFailed.bind(this), onConnectCallback);
         this.socketIOGameInitializers.handleSocket(socket, gameId);
         return socket;
     }
