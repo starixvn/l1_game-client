@@ -13,7 +13,7 @@ export class RoundHistory extends EventEmitterBase {
     roundHistory: any[] = [];
     historySize = 100;
     winningStreak = {};
-    private streakChoices = ["big", "small", "odd", "even"];
+    private streakChoices = ["big", "small"];
     private consecutiveWinningTimes = 4;
     winningStreakTimeOut;
 

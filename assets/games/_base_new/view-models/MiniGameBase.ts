@@ -346,6 +346,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     initMiniRoundHistory(node: cc.Node) {
         this.miniRoundHistory = node.getComponent(MiniRoundHistory);
         this.miniRoundHistory.managedByParent = true;
+        this.gameData.roundHistory.setStreakChoices(this.streakChoices);
 
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, () => () => {
             this.miniRoundHistory.nextItemActive = false;

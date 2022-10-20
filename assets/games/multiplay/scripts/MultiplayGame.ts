@@ -86,17 +86,20 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     callbackWinningStreak = (game, data: { choice: string; count: number }) => {
-        game.gameData.roundHistory.setStreakChoices(game.streakChoices);
-        this.addWinningStreakNotification(game.gameId, data);
+        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
+        if (gameSetting.showWinningNotification) {
+            this.addWinningStreakNotification(game.gameId, data);
+        }
     };
 
     callbackWinningResult = (game, status: { win: boolean; bet: number }) => {
         const { win, bet } = status;
+        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         if (win) {
             const node = game.betItems[0].node;
             const onScreen = GameUtils.checkIntersectNodes(this.subGamesArea[0], node);
             const isNotMainGame = game.gameId !== this.mainGameId;
-            if (isNotMainGame && (!onScreen || !this.collapsedExpandButton.isChecked)) {
+            if (isNotMainGame && gameSetting.showWinningNotification && (!onScreen || !this.collapsedExpandButton.isChecked)) {
                 this.addWinningResultNotification(game.gameId, bet);
             }
         }
