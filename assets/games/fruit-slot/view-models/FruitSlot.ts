@@ -16,7 +16,7 @@ import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotChips from "./FruitSlotChips";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
-import _ = require("lodash");
+import * as _ from "lodash";
 import { i18n } from "../../../ClientModules";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 

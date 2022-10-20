@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import GameUtils from "../../../common/GameUtils";
+import { i18n } from "../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -19,13 +19,11 @@ export default class FruitSlotTicketDetailGroupItem extends cc.Component {
     height: number = null;
 
     updateContent(symbol: any, index: number, bigSmallValue: number, symbolsSpriteFrames: cc.SpriteFrame[]) {
-        // TO DO
-        // this.spin.string = index === 0 ? "Spin Result" : "Extra Spin";
         this.symbol.spriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${symbol}`);
 
         this.height = this.node.height;
         if (index === 0) {
-            this.spin.string = "Spin Result";
+            this.spin.string = i18n.t("fruitSlot.spinResult");
             this.bigSmallValueLabel.string = bigSmallValue.toString();
             const matched = (sprite: cc.SpriteFrame, symbol: string) => sprite.name === symbol;
             this.bigSmallResultSymbol.spriteFrame = symbolsSpriteFrames.find((sprite) =>
@@ -34,7 +32,7 @@ export default class FruitSlotTicketDetailGroupItem extends cc.Component {
             this.node.getChildByName("topBorder").active = false;
         } else {
             this.node.getChildByName("bigSmall").active = false;
-            this.spin.string = "Extra Spin";
+            this.spin.string = i18n.t("fruitSlot.extraSpin");
         }
     }
 }
