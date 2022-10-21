@@ -19,11 +19,6 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
         this.initStatusStatistic();
     }
 
-    onDisconnected() {
-        super.onDisconnected();
-        this.onDisconnectCallback && this.onDisconnectCallback();
-    }
-
     public openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.currentMiniPanel.addDialog(dialog);

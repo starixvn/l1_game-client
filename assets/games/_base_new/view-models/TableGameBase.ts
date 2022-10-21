@@ -56,11 +56,6 @@ export default class TableGameBase extends MiniGameBase {
         this.players.forEach((player) => (player.node.active = false));
     }
 
-    onDisconnected() {
-        super.onDisconnected();
-        this.onDisconnectCallback && this.onDisconnectCallback();
-    }
-
     grantSocket() {
         super.grantSocket();
         this.socket && this.initGameEvents(this.socket);
