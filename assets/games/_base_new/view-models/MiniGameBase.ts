@@ -205,6 +205,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         }
 
         this.gameData = gameData;
+        this.gameData.roundHistory.setStreakChoices(this.streakChoices);
         this.initGameDataDurations();
     }
 
@@ -263,7 +264,9 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_PLACING_BET, showHashAtPlacingBet);
         this.emitterListener(this.gameData.durations, Durations.Events.WAITING, updateWaiting);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, showCurrentRoundId);
-        this.emitterListener(this.gameData.durations, Durations.Events.STARTING_ROUND, showCurrentRoundId);
+        if (this.startRoundDuration > 0) {
+            this.emitterListener(this.gameData.durations, Durations.Events.STARTING_ROUND, showCurrentRoundId);
+        }
         this.emitterListener(this.gameData.durations, Durations.Events.WAITING, showLastRoundId);
 
         this.emitterListener(this.gameData.totalBets, TotalBets.Events.CHANGE, updateTotalBets);
@@ -346,7 +349,6 @@ export default class MiniGameBase extends NewMiniGameBase {
     initMiniRoundHistory(node: cc.Node) {
         this.miniRoundHistory = node.getComponent(MiniRoundHistory);
         this.miniRoundHistory.managedByParent = true;
-        this.gameData.roundHistory.setStreakChoices(this.streakChoices);
 
         this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, () => () => {
             this.miniRoundHistory.nextItemActive = false;

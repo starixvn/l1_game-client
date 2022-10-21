@@ -83,6 +83,9 @@ export default class NewGameData extends GameData {
     }
 
     changeRoundId(roundId: number) {
+        if (this.roundId === roundId) {
+            return;
+        }
         this.roundId = roundId;
         this.emit(NewGameData.Events.CHANGE_ROUND_ID, this.roundId);
     }

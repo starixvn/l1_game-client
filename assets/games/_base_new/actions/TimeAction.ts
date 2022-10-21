@@ -35,6 +35,9 @@ export const updateLockBet =
     ({ globalRemaining }) => {
         updateClockTime(game)({ globalRemaining });
         game.betItems.forEach((item: any) => item.resetHighlight());
+        if (game.rebetButton) {
+            game.rebetButton.interactable = false;
+        }
     };
 
 export const updatePlacingBet =
