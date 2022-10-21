@@ -17,7 +17,7 @@ import {
     placeOwnChip,
     updateOwnBets,
     updatePreviousBets,
-    updateTotalBets,
+    updateTotalBets
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -34,7 +34,7 @@ import {
     handleWinningStreak,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String,
+    updateMD5String
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -45,7 +45,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { BoostedChoicesModel } from "../models/BoostedChoicesModel";
@@ -75,14 +75,11 @@ export default class MiniGameBase extends NewMiniGameBase {
     @property(cc.Node)
     waitingDotsSubGame: cc.Node = null;
 
-    @property(cc.Sprite)
-    gameNameImage: cc.Sprite = null;
+    @property(GameIdSprite)
+    gameNameSprite: GameIdSprite = null;
 
     @property(cc.Node)
     tableGameBg: cc.Node = null;
-
-    @property(cc.SpriteAtlas)
-    mainAtlas: cc.SpriteAtlas = null;
 
     protected managedByContainer = false;
     miniRoundHistory: MiniRoundHistory;
@@ -330,8 +327,9 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     renderTableGame(gameId: number) {
-        if (this.gameNameImage && this.mainAtlas) {
-            this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`game-name-${window.i18n.curLang}-${gameId}`);
+        if (this.gameNameSprite) {
+            this.gameNameSprite.prefix = `game-name-${window.i18n.curLang}-`;
+            this.gameNameSprite.gameId = gameId;
         }
     }
 

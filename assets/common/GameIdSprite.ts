@@ -8,18 +8,14 @@ export default class GameIdSprite extends cc.Component {
     @property
     prefix = "";
 
-    sprite: cc.Sprite;
     _gameId: number;
     set gameId(value: number) {
         this._gameId = value;
         this.updateSprite();
     }
 
-    onLoad() {
-        this.sprite = this.node.getComponent(cc.Sprite);
-    }
-
     updateSprite() {
-        this.sprite.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${this._gameId}`);
+        const sprite = this.node.getComponent(cc.Sprite);
+        sprite.spriteFrame = this.atlas.getSpriteFrame(`${this.prefix}${this._gameId}`);
     }
 }

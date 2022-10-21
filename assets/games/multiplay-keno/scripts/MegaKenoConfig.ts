@@ -51,12 +51,12 @@ export const MegaKenoConfigs = {
 };
 
 export const KenoTableGameColor = {
-    [MegaKeno1Id]: "#106C8A",
-    [MegaKeno2Id]: "#106C8A",
-    [MegaKeno3Id]: "#00cc44",
-    [MegaKeno4Id]: "#00cc44",
-    [MegaKeno5Id]: "#6d00cc",
-    [MegaKeno6Id]: "#6d00cc",
-    [MegaKeno7Id]: "#6d00cc",
-    [MegaKeno8Id]: "#6d00cc"
+    [MegaKeno1Id]: "#520092",
+    [MegaKeno2Id]: "#520092",
+    [MegaKeno3Id]: "#196c00",
+    [MegaKeno4Id]: "#196c00",
+    [MegaKeno5Id]: "#956200",
+    [MegaKeno6Id]: "#956200",
+    [MegaKeno7Id]: "#956200",
+    [MegaKeno8Id]: "#956200"
 };

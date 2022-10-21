@@ -74,8 +74,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     }
 
     renderTableGame(gameId: number) {
-        if (this.gameNameImage && this.tableGameBg) {
-            this.gameNameImage.spriteFrame = this.mainAtlas.getSpriteFrame(`game-name-${gameId}`);
+        if (this.gameNameSprite && this.tableGameBg) {
+            this.gameNameSprite.prefix = `game-name-`;
+            this.gameNameSprite.gameId = gameId;
             this.tableGameBg.color = cc.Color.BLACK.fromHEX(tableGameColor[gameId]);
         }
     }
