@@ -1,7 +1,6 @@
 import BetHistory from "../../_new/common/BetHistory";
 import FruitSlotHistoryItem from "./FruitSlotHistoryItem";
 import FruitSlotTicketDetail from "./FruitSlotTicketDetail";
-import FruitSlotTicketDetailItem from "./FruitSlotTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
 export interface BetLog {

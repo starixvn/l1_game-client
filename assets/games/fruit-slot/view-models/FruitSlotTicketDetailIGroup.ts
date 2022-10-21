@@ -1,6 +1,5 @@
 const { ccclass, property } = cc._decorator;
 
-import * as _ from "lodash";
 import { BetLog } from "./FruitSlotHistory";
 import FruitSlotTicketDetailGroupItem from "./FruitSlotTicketDetailGroupItem";
 

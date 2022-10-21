@@ -1,10 +1,10 @@
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import FruitSlot from "../view-models/FruitSlot";
 import GameUtils from "../../../common/GameUtils";
-import * as _ from "lodash";
 import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import ChipView from "../../../common/bet-chips/view-models/ChipView";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
+import { lodash } from "../../../ClientModules";
 
 export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     constructor(protected readonly main: FruitSlot) {
@@ -22,11 +22,11 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
 
         if (!this.main.isStopGame && !this.main.isDisableGame) {
             if (data.ownBets) {
-                this.main.previousRoundBetChoices = _.cloneDeep(data.ownBets);
+                this.main.previousRoundBetChoices = lodash.cloneDeep(data.ownBets);
             }
         }
 
-        if (!_.isEmpty(data.totalBets) || !_.isEmpty(data.ownBets)) {
+        if (!lodash.isEmpty(data.totalBets) || !lodash.isEmpty(data.ownBets)) {
             this.main.betItems.forEach((item) => {
                 item.setData(data);
             });
@@ -104,7 +104,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
 
     placeTotalBets(totalBets: any) {
         Object.keys(totalBets).forEach((betChoice) => {
-            const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
+            const betItem = lodash.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
             this.main.gameData.totalBetAmount[betChoice] = totalBets[betChoice];
             this.addChipStack(betItem.chipNode, totalBets[betChoice]);
         });
@@ -115,7 +115,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     }
 
     handleChipStack(betAmount: number, startNode: cc.Node, betChoice: string, totalAmount: number, isOwnBet = false) {
-        const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
+        const betItem = lodash.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
         const destNode = betItem.chipNode;
         const durationMoveChip = 0.7;
         const chipNode = this.main.betChips.createSmallChip(betAmount);

@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import { i18n } from "../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;

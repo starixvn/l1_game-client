@@ -1,4 +1,3 @@
-import { FruitSlotBetHandler } from "./../event-handlers/FruitSlotHandler";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import { FruitSlotConfig } from "./FruitSlotConfig";
 import FruitSlotBetOptionsUI from "./FruitSlotBetOptionsUI";
@@ -8,7 +7,6 @@ import FruitSlotStatistic from "./FruitSlotStatistic";
 import FruitSlotAnimatedTimer from "./FruitSlotAnimatedTimer";
 import GameUtils from "../../../common/GameUtils";
 import FruitSlotPlacingBet from "./FruitSlotPlacingBet";
-import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { FruitSlotFinishModel, handleAfterSettlementResult, handleShowResult } from "../actions/FruitSlotFinishActions";
@@ -16,9 +14,9 @@ import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotChips from "./FruitSlotChips";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
-import * as _ from "lodash";
-import { i18n } from "../../../ClientModules";
+import { i18n, lodash } from "../../../ClientModules";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
+import { FruitSlotBetHandler } from "../event-handlers/FruitSlotBetHandler";
 
 const { ccclass, property } = cc._decorator;
 export const FruitSlotGameId = 59;
@@ -227,8 +225,8 @@ export default class FruitSlot extends NewGameRoomBase {
             return;
         }
 
-        const isEmptyBetChoice = _.isEmpty(this.gameData.betModel?.ownBets);
-        this.btnRebet.interactable = isEmptyBetChoice && !_.isEmpty(this.previousRoundBetChoices);
+        const isEmptyBetChoice = lodash.isEmpty(this.gameData.betModel?.ownBets);
+        this.btnRebet.interactable = isEmptyBetChoice && !lodash.isEmpty(this.previousRoundBetChoices);
     }
 
     clearTempBetChoices() {
@@ -238,5 +236,5 @@ export default class FruitSlot extends NewGameRoomBase {
     onDestroy() {
         super.onDestroy();
         this.unschedule(this.updateBetStatus);
-    }       
+    }
 }

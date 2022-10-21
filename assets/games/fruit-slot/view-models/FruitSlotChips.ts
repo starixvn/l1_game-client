@@ -40,7 +40,7 @@ export default class FruitSlotChips extends cc.Component {
                 const count = chipQuantity[chip];
                 for (let i = 0; i < count; i++) {
                     const chipNode = this.createChip(betChips, +chip);
-                    chipStack.addChip(chipNode);                    
+                    chipStack.addChip(chipNode);
                 }
             }
         });

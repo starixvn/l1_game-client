@@ -6,7 +6,7 @@ export default class FruitSlotSpinItem extends cc.Component {
     highlight: cc.Node = null;
 
     public setHighlightItems(highlight: boolean, isRepeatAnim: boolean, isAnimated = true) {
-       // console.log("Set highlight");
+        // console.log("Set highlight");
         if (this.highlight) {
             this.highlight.opacity = highlight && isAnimated ? 255 : 0;
             if (highlight && isAnimated) {
