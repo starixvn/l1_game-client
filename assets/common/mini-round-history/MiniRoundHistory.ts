@@ -48,7 +48,7 @@ export default class MiniRoundHistory extends cc.Component {
             const data = node.getComponent(MiniRoundHistoryItem).data;
             if (this.tip) {
                 const pos = this.tip.node.parent.convertToNodeSpaceAR(node.convertToWorldSpaceAR(cc.v3(0, 0, 0)));
-                this.tip.node.position = cc.v3(pos.x, this.tip.node.y, 0);
+                this.tip.node.position = pos;
                 this.tip.setData(data);
                 this.tip.show();
             }

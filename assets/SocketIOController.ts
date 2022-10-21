@@ -50,9 +50,7 @@ export default class SocketIOController {
             enableMsgpackParser: enableMsgpackParserAllGames,
             gameId
         };
-        const socket = this.connectGameSocket(option);
-
-        return socket;
+        return this.connectGameSocket(option);
     }
 
     initBaseListenersForSocketUrl(socket, gameId, onConnectFailed, onConnectCallback?) {

@@ -49,10 +49,6 @@ interface EmitterStorage {
     listener: (param?: any) => void;
 }
 
-enum StorageKey {
-    SpecificGame = "SpecificGame"
-}
-
 @ccclass
 export default class GameBase extends GameViewBase {
     @property({ type: BetItem })
@@ -819,7 +815,7 @@ export default class GameBase extends GameViewBase {
     }
 
     loadRebetStorage() {
-        const storage = GameUtils.getStorageGame(StorageKey.SpecificGame, this.gameId);
+        const storage = GameUtils.getSpecificGameSetting(this.gameId);
         const { rebet } = storage;
         if (rebet) {
             this.previousOwnBets = rebet;
@@ -832,9 +828,9 @@ export default class GameBase extends GameViewBase {
         }
         const { roundId, ownBets } = data;
         if (ownBets && roundId > 0) {
-            const storage = GameUtils.getStorageGame(StorageKey.SpecificGame, this.gameId);
+            const storage = GameUtils.getSpecificGameSetting(this.gameId);
             storage.rebet = data;
-            GameUtils.setStorageGame(StorageKey.SpecificGame, this.gameId, storage);
+            GameUtils.setSpecificGameSetting(this.gameId, storage);
         }
     }
 }
