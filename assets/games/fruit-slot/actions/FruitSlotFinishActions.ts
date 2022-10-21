@@ -2,7 +2,14 @@ import { payChips } from "../../_base/action/PayChipsAction";
 import FruitSlotChoices from "../event-models/FruitSlotChoices";
 import { FruitSlotResult, FruitSlotSettlementResult } from "../FruitSlotType";
 import FruitSlot from "../view-models/FruitSlot";
-import * as _ from "lodash";
+import { lodash as _ } from "../../../ClientModules";
+import {
+    formatBigSmallResult,
+    highlightBigSmallWinning,
+    playLedLightAnimation,
+    randomNumberAnimation,
+    spinItemAnimation
+} from "./FruitSlotWinningAction";
 
 export type FruitSlotFinishModel = {
     result: FruitSlotResult;
@@ -20,16 +27,15 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
     game.betOptionsUI.lightAnimation.node.active = false;
 
     cc.tween(game.spinItems)
-        .call(() => {
-            game.betOptionsUI.spinItemAnimation(finish, delaySpinAnim);
-            game.betOptionsUI.playLedLightAnimation();
-            game.betOptionsUI.randomNumberAnimation(delaySpinAnim);
+        .call(() => {           
+            spinItemAnimation(game)(finish, delaySpinAnim);
+            playLedLightAnimation(game.betOptionsUI);
+            randomNumberAnimation(game.betOptionsUI)(delaySpinAnim);
         })
         .delay(delaySpinAnim)
-        .call(() => {
-            game.gameData?.settlement?.finishShowResult(finish, true);
+        .call(() => {            
             if (game.betOptionsUI && game.betOptionsUI.bigSmallResult) {
-                game.betOptionsUI.bigSmallResult.string = game.betOptionsUI.formatBigSmallResult(finish.result.bigSmall.value);
+                game.betOptionsUI.bigSmallResult.string = formatBigSmallResult(finish.result.bigSmall.value);
             }
         })
         .start();
@@ -41,7 +47,7 @@ export const handleAfterSettlementResult = (game: FruitSlot) => (finish: FruitSl
     game.statistic.addItem(finish);
     game.miniRoundHistory.addNewItem(finish);
     game.betOptionsUI.ledLightAnimation.active = false;
-    game.betOptionsUI.highlightBigSmallWinning(finish);
+    highlightBigSmallWinning(game.betOptionsUI)(finish);
     game.gameData.betModel.ownBets = {};
     game.gameData.totalBetAmount = new FruitSlotChoices();
     payChips(game, transformSettlementResult(finish.settlementResult), finish.winningPlayers, 1.2, 3, true);

@@ -1,4 +1,5 @@
 import GameBaseTimeHandler from "../../_base/handlers/GameBaseTimeHandler";
+import { formatBigSmallResult, getWinningOption, highlightWinningSymbol } from "../actions/FruitSlotWinningAction";
 import FruitSlot from "../view-models/FruitSlot";
 
 const { ccclass, property } = cc._decorator;
@@ -50,19 +51,17 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
     showLastRoundResult(resultData: any, isAnimated: boolean) {
         const listSymbolWin = resultData.symbols;
         const bigSmallWin = resultData.number > 7 ? "big" : "small";
-        this.main.betOptionsUI.highlightWinningSymbol(bigSmallWin, isAnimated);
-        console.log("showLastRoundResultttt", resultData.symbolPositions);
-        this.main.betOptionsUI.bigSmallResult.string = this.main.betOptionsUI.formatBigSmallResult(resultData.number);
+        highlightWinningSymbol(this.main.betOptionsUI)(bigSmallWin, isAnimated);
+        this.main.betOptionsUI.bigSmallResult.string = formatBigSmallResult(resultData.number);
 
         for (let i = 0; i <= listSymbolWin.length; i++) {
-            const winSymbol = this.main.betOptionsUI.getWinningOption(listSymbolWin[i]);
-            this.main.betOptionsUI.highlightWinningSymbol(winSymbol, isAnimated);
+            const winSymbol = getWinningOption(listSymbolWin[i]);
+            highlightWinningSymbol(this.main.betOptionsUI)(winSymbol, isAnimated);
         }
 
         for (let i = 0; i <= resultData.symbolPositions.length; i++) {
             const symbolPositions = resultData.symbolPositions[i];
-            console.log("resultData.symbolPositions", resultData.symbolPositions);
-            //this.main.betOptionsUI.spinItems[symbolPositions]?.setHighlightItems(true, false);
+            this.main.betOptionsUI.spinItems[symbolPositions]?.setHighlightSpinItem(true);
         }
     }
 }
