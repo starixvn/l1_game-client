@@ -150,15 +150,6 @@ export default class MiniSedie extends MultiplayGameSingle {
             .start();
     }
 
-    resetDataAndUI() {
-        super.resetDataAndUI();
-    }
-
-    disableGame() {
-        super.disableGame();
-        this.gameData.durations.stop();
-    }
-
     handleRoundHistory() {
         this.updateRoundHistory();
     }

@@ -221,11 +221,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
         this.disableResultNode();
     }
 
-    disableGame() {
-        super.disableGame();
-        this.gameData.durations.stop();
-    }
-
     disableResultNode() {
         this.resultNode.active = false;
         this.resultNode.opacity = 0;
