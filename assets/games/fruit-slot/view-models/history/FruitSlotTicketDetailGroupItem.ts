@@ -20,20 +20,26 @@ export default class FruitSlotTicketDetailGroupItem extends cc.Component {
 
     height: number = null;
 
-    updateContent(symbol: any, index: number, bigSmallValue: number, symbolsSpriteFrames: cc.SpriteFrame[]) {
-        this.symbol.spriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${symbol}`);
-
+    updateContent(symbolSpriteFrame: cc.SpriteFrame, index: number, bigSmallValue: number) {
+        this.symbol.spriteFrame = symbolSpriteFrame;
         this.height = this.node.height;
+
         if (index === 0) {
-            this.spin.string = i18n.t("fruitSlot.spinResult");
-            this.bigSmallValueLabel.string = bigSmallValue.toString();
-            const isBigSymbol = bigSmallValue > 7;
-            this.bigSymbol.active = isBigSymbol;
-            this.smallSymbol.active = !isBigSymbol;
-            this.node.getChildByName("topBorder").active = false;
+            this.updateFirstRowContent(bigSmallValue);
         } else {
             this.node.getChildByName("bigSmall").active = false;
             this.spin.string = i18n.t("fruitSlot.extraSpin");
         }
+    }
+
+    private updateFirstRowContent(bigSmallValue: number) {
+        this.spin.string = i18n.t("fruitSlot.spinResult");
+
+        this.bigSmallValueLabel.string = bigSmallValue.toString();
+        const isBigSymbol = bigSmallValue > 7;
+        this.bigSymbol.active = isBigSymbol;
+        this.smallSymbol.active = !isBigSymbol;
+
+        this.node.getChildByName("topBorder").active = false;
     }
 }

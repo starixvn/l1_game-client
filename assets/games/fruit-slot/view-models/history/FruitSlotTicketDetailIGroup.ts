@@ -6,7 +6,7 @@ import FruitSlotTicketDetailGroupItem from "./FruitSlotTicketDetailGroupItem";
 @ccclass
 export default class FruitSlotTicketDetailIGroup extends cc.Component {
     @property(cc.Label)
-    timeLabel: cc.Label = null;
+    roundIdLabel: cc.Label = null;
 
     @property(cc.Node)
     betChoiceGroupNode: cc.Node = null;
@@ -22,33 +22,35 @@ export default class FruitSlotTicketDetailIGroup extends cc.Component {
         this.betChoiceGroupNode.destroyAllChildren();
     }
 
-    createBetLogItem(betLogs: BetLog, symbolsSpriteFrames: cc.SpriteFrame[]) {
-        this.timeLabel.string = betLogs.phien.toString();
+    createBetLogItem(betLog: BetLog, symbolsSpriteFrames: cc.SpriteFrame[]) {
+        const { result, phien } = betLog;
+        const { symbols, number, isLucky } = result;
+
+        this.roundIdLabel.string = phien.toString();
 
         let height = 0;
-
-        betLogs.result.symbols.forEach((symbol, index) => {
-            height += this.createTicketDetailItem(
-                betLogs.result.isLucky && index === 0 ? "lucky" : symbol,
-                index,
-                betLogs.result.number,
-                symbolsSpriteFrames
+        symbols.forEach((symbol: cc.SpriteFrame, index: number) => {
+            const symbolSpriteFrame = symbolsSpriteFrames.find(
+                (sprite) => sprite.name === `item_${isLucky && index === 0 ? "lucky" : symbol}`
             );
+
+            height += this.createTicketDetailItem(symbolSpriteFrame, index, number);
         });
 
         this.node.height = height;
         this.node.parent.parent.height = height + 48;
-        // this.node.getChildByName("roundCell").height = height;
     }
 
-    private createTicketDetailItem(symbol: any, index: number, bigSmallValue: number, symbolsSpriteFrames: cc.SpriteFrame[]): number {
+    private createTicketDetailItem(symbolSpriteFrame: cc.SpriteFrame, index: number, bigSmallValue: number): number {
         if (!this.betItemPrefab) {
             return 0;
         }
+
         const betItem = cc.instantiate(this.betItemPrefab);
         const betItemComponent = betItem.getComponent(FruitSlotTicketDetailGroupItem);
         this.betChoiceGroupNode.addChild(betItem);
-        betItemComponent.updateContent(symbol, index, bigSmallValue, symbolsSpriteFrames);
+
+        betItemComponent.updateContent(symbolSpriteFrame, index, bigSmallValue);
 
         return betItemComponent.height;
     }

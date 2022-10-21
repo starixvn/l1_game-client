@@ -1,5 +1,6 @@
 import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
-import { BetLog } from "./FruitSlotHistory";
+import FruitSlotHistory, { BetLog } from "./FruitSlotHistory";
+import FruitSlotTicketDetail from "./FruitSlotTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,11 +37,22 @@ export default class FruitSlotHistoryItem extends cc.Component {
     ticketDetailPrefab: cc.Prefab = null;
 
     betLog: BetLog;
+    historyMainNode: FruitSlotHistory = null;
 
-    openTicketDetail(parentNode: cc.Node, data: any, symbolSprites: cc.SpriteFrame[]) {}
+    openTicketDetail() {
+        const { betLogDetails, odds, settlementResult } = this.betLog;
 
-    async setData(betLog: BetLog) {
+        const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
+        this.historyMainNode.ticketDetailContent.addChild(ticketDetailPrefab);
+
+        const ticketDetailComponent = ticketDetailPrefab.getComponent(FruitSlotTicketDetail);
+        ticketDetailComponent.setData(betLogDetails, settlementResult);
+        ticketDetailComponent.showbetLogs(this.symbolSprites, odds, this.betLog);
+    }
+
+    async setData(betLog: BetLog, historyMainNode: FruitSlotHistory) {
         this.betLog = betLog;
+        this.historyMainNode = historyMainNode;
         this.timeLabel.string = formatDateTime(betLog.time);
         this.roundLabel.string = betLog.phien.toString();
 

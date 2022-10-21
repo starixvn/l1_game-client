@@ -28,26 +28,31 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
     height: number = null;
 
     updateContent(log: any, odds: any, settlementResult: any, symbolsSpriteFrames: cc.SpriteFrame[]) {
-        this.time.string = formatDateTime(log.time);
+        const { time, choice, amount } = log;
+        this.time.string = formatDateTime(time);
 
-        if (["big", "small"].includes(log.choice)) {
-            this.symbol.node.active = false;
-            const isBigChoice = log.choice === "big";
-            this.bigSymbol.active = isBigChoice;
-            this.smallSymbol.active = !isBigChoice;
-        } else {
-            this.symbol.spriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${log.choice}`);
-            this.bigSymbol.active = false;
-            this.smallSymbol.active = false;
-        }
+        ["big", "small"].includes(choice) ? this.updateBigSmallSymbol(choice) : this.updateNormalSymbol(symbolsSpriteFrames, choice);
 
-        this.odd.string = odds[log.choice];
-        this.amount.string = numberWithCommas(log.amount);
+        this.odd.string = odds[choice];
+        this.amount.string = numberWithCommas(amount);
 
-        const winningAmount = settlementResult[log.choice] ? log.amount * odds[log.choice] : 0;
+        const winningAmount = settlementResult[choice] ? amount * odds[choice] : 0;
         this.win.string = numberWithCommas(winningAmount);
         this.win.node.color = winningAmount > 0 ? cc.Color.YELLOW : cc.Color.WHITE;
 
         this.height = this.node.height;
+    }
+
+    private updateBigSmallSymbol(choice: string) {
+        this.symbol.node.active = false;
+        const isBigChoice = choice === "big";
+        this.bigSymbol.active = isBigChoice;
+        this.smallSymbol.active = !isBigChoice;
+    }
+
+    private updateNormalSymbol(symbolsSpriteFrames: cc.SpriteFrame[], choice: string) {
+        this.symbol.spriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${choice}`);
+        this.bigSymbol.active = false;
+        this.smallSymbol.active = false;
     }
 }

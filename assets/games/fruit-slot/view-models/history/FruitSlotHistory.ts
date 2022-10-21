@@ -12,6 +12,7 @@ export interface BetLog {
         isLucky: boolean;
     };
     totalAmount: number;
+    odds: any;
     betwin: number;
     betLogDetails: any;
     settlementResult: {
@@ -36,32 +37,15 @@ export default class FruitSlotHistory extends BetHistory {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
-    @property(cc.SpriteFrame)
-    symbols: cc.SpriteFrame[] = [];
-
-    openTicketDetail(parentNode: cc.Node, betLog: any, symbolSprites: cc.SpriteFrame[]) {
-        const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
-        parentNode.getComponent(FruitSlotHistory).ticketDetailContent.addChild(ticketDetailPrefab);
-        const ticketDetailComponent = ticketDetailPrefab.getComponent(FruitSlotTicketDetail);
-        ticketDetailComponent.setData(betLog.betLogDetails, betLog.settlementResult);
-        ticketDetailComponent.showbetLogs(symbolSprites, betLog.odds, betLog);
-    }
-
-    isLastRow(betLogs: any, index: number) {
-        return index === betLogs.length - 1;
-    }
-
     renderTicketHistory(data: any) {
         const betLogs: BetLog[] = data.betLogs;
         betLogs.forEach((log, index) => {
             const historyItemPrefab = cc.instantiate(this.prefabItem);
             const historyControl = historyItemPrefab.getComponent(FruitSlotHistoryItem);
 
-            historyControl.setData(log);
-            historyControl.openTicketDetail = () => this.openTicketDetail(this.node, log, historyControl.symbolSprites);
-
-            if (this.isLastRow(betLogs, index)) {
-                historyControl.node.getChildByName("bottomBorder").active = false;
+            historyControl.setData(log, this);
+            if (index === 0) {
+                historyControl.node.getChildByName("topBorder").active = false;
             }
 
             this.content.addChild(historyItemPrefab);
