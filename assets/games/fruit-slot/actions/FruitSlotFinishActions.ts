@@ -2,7 +2,7 @@ import { payChips } from "../../_base/action/PayChipsAction";
 import FruitSlotChoices from "../event-models/FruitSlotChoices";
 import { FruitSlotResult, FruitSlotSettlementResult } from "../FruitSlotType";
 import FruitSlot from "../view-models/FruitSlot";
-import { lodash as _ } from "../../../ClientModules";
+import * as _ from "lodash";
 
 export type FruitSlotFinishModel = {
     result: FruitSlotResult;

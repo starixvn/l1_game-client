@@ -17,8 +17,11 @@ export default class FruitSlotHistoryItem extends cc.Component {
     @property(cc.Label)
     bigSmallValueLabel: cc.Label = null;
 
-    @property({ type: cc.Sprite })
-    bigSmallResultSymbol: cc.Sprite = null;
+    @property(cc.Node)
+    bigSymbol: cc.Node = null;
+
+    @property(cc.Node)
+    smallSymbol: cc.Node = null;
 
     @property(cc.Label)
     amountLabel: cc.Label = null;
@@ -36,7 +39,7 @@ export default class FruitSlotHistoryItem extends cc.Component {
 
     openTicketDetail(parentNode: cc.Node, data: any, symbolSprites: cc.SpriteFrame[]) {}
 
-    setData(betLog: BetLog) {
+    async setData(betLog: BetLog) {
         this.betLog = betLog;
         this.timeLabel.string = formatDateTime(betLog.time);
         this.roundLabel.string = betLog.phien.toString();
@@ -46,9 +49,9 @@ export default class FruitSlotHistoryItem extends cc.Component {
         this.symbol.spriteFrame = this.symbolSprites.find((sprite) => matched(sprite, `item_${symbolName}`));
 
         this.bigSmallValueLabel.string = betLog.result.number.toString();
-        this.bigSmallResultSymbol.spriteFrame = this.symbolSprites.find((sprite) =>
-            matched(sprite, `item_${betLog.result.number > 7 ? "big" : "small"}`)
-        );
+        const isBigSymbol = betLog.result.number > 7;
+        this.bigSymbol.active = isBigSymbol;
+        this.smallSymbol.active = !isBigSymbol;
 
         this.amountLabel.string = betLog.totalAmount.toString();
         this.winLabel.string = betLog.betwin.toString();

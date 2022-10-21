@@ -13,8 +13,11 @@ export default class FruitSlotTicketDetailGroupItem extends cc.Component {
     @property(cc.Label)
     bigSmallValueLabel: cc.Label = null;
 
-    @property({ type: cc.Sprite })
-    bigSmallResultSymbol: cc.Sprite = null;
+    @property(cc.Node)
+    bigSymbol: cc.Node = null;
+
+    @property(cc.Node)
+    smallSymbol: cc.Node = null;
 
     height: number = null;
 
@@ -25,10 +28,9 @@ export default class FruitSlotTicketDetailGroupItem extends cc.Component {
         if (index === 0) {
             this.spin.string = i18n.t("fruitSlot.spinResult");
             this.bigSmallValueLabel.string = bigSmallValue.toString();
-            const matched = (sprite: cc.SpriteFrame, symbol: string) => sprite.name === symbol;
-            this.bigSmallResultSymbol.spriteFrame = symbolsSpriteFrames.find((sprite) =>
-                matched(sprite, `item_${bigSmallValue > 7 ? "big" : "small"}`)
-            );
+            const isBigSymbol = bigSmallValue > 7;
+            this.bigSymbol.active = isBigSymbol;
+            this.smallSymbol.active = !isBigSymbol;
             this.node.getChildByName("topBorder").active = false;
         } else {
             this.node.getChildByName("bigSmall").active = false;
