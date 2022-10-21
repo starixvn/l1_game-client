@@ -66,6 +66,7 @@ export default class UnbalancedBigSmallScoreBoard extends cc.Component {
         this.gameId = game.gameId;
         this.duration = game.gameData.durations;
         this.roundHistory = game.gameData.roundHistory;
+        this.gameName.prefix = `game-name-`;
         this.gameName.gameId = this.gameId;
 
         this.roundHistory.on(RoundHistory.Events.CHANGE, this.updateRoundHistory);
