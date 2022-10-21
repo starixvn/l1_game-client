@@ -1,5 +1,5 @@
-import { formatDateTime } from "../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

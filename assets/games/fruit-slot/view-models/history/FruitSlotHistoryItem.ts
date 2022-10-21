@@ -1,4 +1,4 @@
-import { formatDateTime } from "../../../common/helpers/DateTimeHelper";
+import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
 import { BetLog } from "./FruitSlotHistory";
 
 const { ccclass, property } = cc._decorator;

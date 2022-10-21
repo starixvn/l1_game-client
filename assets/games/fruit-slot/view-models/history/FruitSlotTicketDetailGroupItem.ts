@@ -1,4 +1,4 @@
-import { i18n } from "../../../ClientModules";
+import { i18n } from "../../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

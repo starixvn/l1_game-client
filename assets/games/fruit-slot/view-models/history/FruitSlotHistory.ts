@@ -1,4 +1,4 @@
-import BetHistory from "../../_new/common/BetHistory";
+import BetHistory from "../../../_new/common/BetHistory";
 import FruitSlotHistoryItem from "./FruitSlotHistoryItem";
 import FruitSlotTicketDetail from "./FruitSlotTicketDetail";
 

@@ -1,5 +1,4 @@
-import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
-import FruitSlotTicketDetailGroupItem from "./FruitSlotTicketDetailGroupItem";
+import GameTicketDetailBase from "../../../_base/view-models/GameTicketDetailBase";
 import FruitSlotTicketDetailIGroup from "./FruitSlotTicketDetailIGroup";
 import FruitSlotTicketDetailItem from "./FruitSlotTicketDetailItem";
 

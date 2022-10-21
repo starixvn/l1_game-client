@@ -169,7 +169,6 @@ export default class FruitSlot extends NewGameRoomBase {
             this.betHandler.handle({ ...this.gameData.betModel, betChoice: choice });
 
             const chips = this.seperateChips(betChoices[choice]);
-            console.log(`seperateChips ${chips} `);
             chips.forEach((chip) => {
                 this.socket.emit("bet", {
                     betChoice: choice,
@@ -194,7 +193,8 @@ export default class FruitSlot extends NewGameRoomBase {
     }
 
     seperateChips(amount: number) {
-        return _.clone(this.betChips.chipValues)
+        return lodash
+            .clone(this.betChips.chipValues)
             .sort((a, b) => b - a)
             .reduce((chips, value) => {
                 let chipsTmp = [];
