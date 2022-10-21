@@ -262,9 +262,13 @@ export default class MultiplayGame extends GameViewBase {
 
         this.games[gameId] = single;
         single.onDisconnectCallback = () => {
-            this.onCloseClick();
+            this.onDisconnected();
         };
         return node;
+    }
+
+    onDisconnected() {
+        this.onCloseClick();
     }
 
     addSubGameUI(gameId: number, location: number) {

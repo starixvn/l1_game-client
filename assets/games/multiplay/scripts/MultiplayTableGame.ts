@@ -12,7 +12,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame
+    outRoomGame,
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
@@ -98,6 +98,10 @@ export default class MultiplayTableGame extends MultiplayGame {
         this.betChips.setCurrentBet(`${storageData.currentBet}`);
         super.setGameConfigs(gameConfigs);
         this.betChips.setSelectedIndexAndScroll(`${storageData.currentBet}`);
+    }
+
+    onDisconnected() {
+        this.onCloseGame();
     }
 
     onChangedBetChip(bet: number) {

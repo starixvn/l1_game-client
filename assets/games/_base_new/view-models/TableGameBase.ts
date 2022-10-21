@@ -14,7 +14,7 @@ import {
     hanleAddPlayer,
     removePlayer,
     updateOtherPlayersBalance,
-    updateTablePlayer
+    updateTablePlayer,
 } from "../actions/CommonTableGameAction";
 import { clearChipsForLostChoices, payChips, resetUIAndClearChips } from "../actions/NewPayChipsAction";
 import { BetModel } from "../models/BetModel";
@@ -54,6 +54,11 @@ export default class TableGameBase extends MiniGameBase {
     onLoad() {
         super.onLoad();
         this.players.forEach((player) => (player.node.active = false));
+    }
+
+    onDisconnected() {
+        super.onDisconnected();
+        this.onDisconnectCallback && this.onDisconnectCallback();
     }
 
     grantSocket() {
