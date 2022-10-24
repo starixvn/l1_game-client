@@ -104,5 +104,6 @@ export default class MegaKeno extends TableGameBase {
         }
 
         this.umNotice && this.umNotice.show(data);
+        this.onUmCallback(this.gameId, data);
     }
 }

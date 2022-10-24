@@ -56,11 +56,13 @@ export default class MultiplayTableGame extends MultiplayGame {
     public gameState = GameState.None;
     isWinningNotification = true;
     subContainer: cc.Node;
+    onUMGameIds = [];
 
     assignPropertiesForSingle(single: TableGameBase, isMain: boolean) {
         super.assignPropertiesForSingle(single, isMain);
         single.userProfile = this.userProfile;
         single.onCloseGameCallback = this.onCloseGame.bind(this);
+        single.onUmCallback = this.checkToShowUMPopup.bind(this);
     }
 
     onLoad() {
@@ -176,6 +178,15 @@ export default class MultiplayTableGame extends MultiplayGame {
     onGameHide() {
         super.onGameHide();
         this.closeGame();
+    }
+
+    checkToShowUMPopup(gameId, data) {
+        this.onUMGameIds.push(gameId);
+
+        const notUmAll = this.gameIds.some((gameId) => !this.onUMGameIds.includes(gameId));
+        if (!notUmAll) {
+            (this.games[this.gameId] as TableGameBase).showUmMessagePopup(data);
+        }
     }
 
     //#region Methods for room game

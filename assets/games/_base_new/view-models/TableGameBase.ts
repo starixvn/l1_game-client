@@ -48,6 +48,7 @@ export default class TableGameBase extends MiniGameBase {
     showResultDuration = 1;
     public gameData: NewTableGameData;
     onCloseGameCallback = () => {};
+    onUmCallback = (gameId: number, data: any) => {};
     alternativeGameId?: number;
 
     onLoad() {
