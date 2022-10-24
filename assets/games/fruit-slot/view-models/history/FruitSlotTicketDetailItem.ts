@@ -27,7 +27,7 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
 
     height: number = null;
 
-    updateContent(log: any, odds: any, settlementResult: any, symbolsSpriteFrames: cc.SpriteFrame[]) {
+    updateContent(log: any, odds: any, settlementResult: any, symbolsSpriteFrames: cc.SpriteFrame[], index: number) {
         const { time, choice, amount } = log;
         this.time.string = formatDateTime(time);
 
@@ -39,6 +39,10 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
         const winningAmount = settlementResult[choice] ? amount * odds[choice] : 0;
         this.win.string = numberWithCommas(winningAmount);
         this.win.node.color = winningAmount > 0 ? cc.Color.YELLOW : cc.Color.WHITE;
+
+        if (index === 0) {
+            this.node.getChildByName("topBorder").active = false;
+        }
 
         this.height = this.node.height;
     }
