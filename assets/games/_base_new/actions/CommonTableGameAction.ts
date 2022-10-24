@@ -98,7 +98,9 @@ export const handlePlaceTotalChips = (mainGame: TableGameBase) => (dataChips) =>
     if (!dataChips) {
         return;
     }
-
+    if (mainGame.isShowingResultLastRound()) {
+        return;
+    }
     Object.keys(dataChips).forEach((rate) => {
         const chips = dataChips[rate];
         const chipsKeys = getLowercaseObjectKeys(chips);

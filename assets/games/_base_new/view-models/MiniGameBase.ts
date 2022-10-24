@@ -1,6 +1,7 @@
 import CountDownProgressBar from "../../../common/count-down-progress-bar/view-models/CountDownProgressBar";
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import ExtraFeature from "../../../common/extra-features/ExtraFeature";
+import GameIdSprite from "../../../common/GameIdSprite";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -413,5 +414,13 @@ export default class MiniGameBase extends NewMiniGameBase {
         } else {
             super.clearWinningBet();
         }
+    }
+
+    isShowingResultLastRound() {
+        return (
+            this.gameData.durations.isWaiting() ||
+            this.gameData.durations.isBeingSpecificPhase(Durations.Events.SHOW_ANIMATION) ||
+            this.gameData.durations.isBeingSpecificPhase(Durations.Events.STARTING_ROUND)
+        );
     }
 }

@@ -98,8 +98,10 @@ export default class TableGameBase extends MiniGameBase {
         this.gameData.roundHistory.update();
         this.showWaittingTime(true);
         this.gameData.resultHash.updateUI();
-        this.handlePayChips(settlement);
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
+        if (animated) {
+            this.handlePayChips(settlement);
+        }
     }
 
     handlePayChips(settlement) {
