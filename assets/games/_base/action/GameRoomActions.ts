@@ -75,15 +75,15 @@ export const closeGame = (game: any) => () => {
     if (game.loading) {
         game.loading.active = true;
     }
+    if (game.musicBg) {
+        MusicPlayer.getInstance().handleIncreaseVolume();
+    }
     game.outRoomGame().then(() => {
         cc.director.loadScene("MainGame");
     });
 };
 
 export const leaveGameRoom = (game: any) => () => {
-    if (game.musicBg) {
-        MusicPlayer.getInstance().handleIncreaseVolume();
-    }
     game.closeGame();
     sessionManager.removeInRoomGameId();
 };

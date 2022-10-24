@@ -103,7 +103,7 @@ export default class MultiplayTableGame extends MultiplayGame {
     }
 
     onDisconnected() {
-        this.onCloseGame();
+        this.closeGame();
     }
 
     onChangedBetChip(bet: number) {
