@@ -62,8 +62,6 @@ export class BetModel extends EventEmitterBase {
         this.ownBets && this.emit(BetModel.Events.CHANGE_OWN_BET, this.ownBets);
         this.ownBets && this.actionFlyOwnChipFake(this.ownBets);
         this.betPercentage && this.emit(BetModel.Events.CHANGE_BET_PERCENTAGE, this.betPercentage);
-        this.ownChip && this.emit(BetModel.Events.CHANGE_OWN_CHIP, this.ownChip);
-        this.playerChip && this.emit(BetModel.Events.CHANGE_PLAYER_CHIP, this.playerChip);
         this.totalChips && this.emit(BetModel.Events.CHANGE_TOTAL_CHIPS, this.totalChips);
     }
 
