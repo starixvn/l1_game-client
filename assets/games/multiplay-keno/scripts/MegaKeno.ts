@@ -97,4 +97,12 @@ export default class MegaKeno extends TableGameBase {
         const comp = this.md5Component as MegaKenoMd5;
         comp.isMiniType = this.isMiniKeno(this.gameId);
     }
+
+    override showUmMessage(data: any) {
+        if (this.isDisableGame) {
+            return;
+        }
+
+        this.umNotice && this.umNotice.show(data);
+    }
 }
