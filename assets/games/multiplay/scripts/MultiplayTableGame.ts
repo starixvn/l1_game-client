@@ -12,7 +12,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame,
+    outRoomGame
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
@@ -87,6 +87,8 @@ export default class MultiplayTableGame extends MultiplayGame {
         const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
         this.isWinningNotification = gameSetting.showWinningNotification ?? true;
         this.inGameMenu.winningNotifiationComp.setSwapStatus(this.isWinningNotification);
+        gameSetting.showWinningNotification = this.isWinningNotification;
+        GameUtils.setSpecificGameSetting(this.gameId, gameSetting);
         this.handleSubGamesArea();
     }
 

@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -10,10 +11,6 @@ export default class HandleWinningNotification extends cc.Component {
 
     @property(cc.SpriteFrame)
     notificationOffFrame: cc.SpriteFrame = null;
-
-    onLoad() {
-        this.setIonSwapOn();
-    }
 
     setSwapStatus(status: boolean) {
         status ? this.setIonSwapOn() : this.setIonSwapOff();
