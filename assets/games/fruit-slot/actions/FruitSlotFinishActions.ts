@@ -27,13 +27,13 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
     game.betOptionsUI.lightAnimation.node.active = false;
 
     cc.tween(game.spinItems)
-        .call(() => {           
+        .call(() => {
             spinItemAnimation(game)(finish, delaySpinAnim);
             playLedLightAnimation(game.betOptionsUI);
             randomNumberAnimation(game.betOptionsUI)(delaySpinAnim);
         })
         .delay(delaySpinAnim)
-        .call(() => {            
+        .call(() => {
             if (game.betOptionsUI && game.betOptionsUI.bigSmallResult) {
                 game.betOptionsUI.bigSmallResult.string = formatBigSmallResult(finish.result.bigSmall.value);
             }
@@ -46,7 +46,6 @@ export const handleAfterSettlementResult = (game: FruitSlot) => (finish: FruitSl
     game.timeAnimShowResult(false);
     game.statistic.addItem(finish);
     game.miniRoundHistory.addNewItem(finish);
-    game.betOptionsUI.ledLightAnimation.active = false;
     highlightBigSmallWinning(game.betOptionsUI)(finish);
     game.gameData.betModel.ownBets = {};
     game.gameData.totalBetAmount = new FruitSlotChoices();

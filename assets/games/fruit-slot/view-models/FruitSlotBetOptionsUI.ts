@@ -16,9 +16,6 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     @property(cc.Animation)
     spinAnimation: cc.Animation = null;
 
-    @property(cc.Node)
-    ledLightAnimation: cc.Node = null;
-
     @property(cc.Label)
     bigSmallResult: cc.Label = null;
 
@@ -45,11 +42,12 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
     onBetClick(event) {
         this.main.onBetItemClick(event);
-    }        
-      
+    }
+
     resetUIBettingZone() {
         this.bigSmallResult.string = "";
         this.bigSmallResultBackground.opacity = 0;
+        console.log(this.bigSmallResultBackground.opacity);
         this.lightAnimation.node.active = true;
         this.betItems.forEach((item) => {
             item.node.opacity = 255;

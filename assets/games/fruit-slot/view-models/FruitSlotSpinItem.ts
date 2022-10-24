@@ -1,9 +1,13 @@
+import FruitSlotSymbolSpineAnimation from "./FruitSlotSymbolSpineAnimation";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FruitSlotSpinItem extends cc.Component {
     @property(cc.Node)
     highlight: cc.Node = null;
+
+    @property(cc.Node)
+    symbolSpineAnim: cc.Node = null;
 
     public setHighlightItems(highlight: boolean, isRepeatAnim: boolean, isAnimated = true) {
         if (this.highlight) {
@@ -23,7 +27,15 @@ export default class FruitSlotSpinItem extends cc.Component {
         }
     }
 
+    public playSpineSymbolAnimation(play: boolean) {
+        this.highlight.opacity = play ? 255 : 0;
+        if (this.symbolSpineAnim && play) {
+            this.symbolSpineAnim.getComponent(FruitSlotSymbolSpineAnimation).playAnimSymbol(true);
+        }
+    }
+
     public resetHighlight() {
         this.highlight && (this.highlight.opacity = 0);
+        this.symbolSpineAnim.getComponent(FruitSlotSymbolSpineAnimation).playAnimSymbol(false);
     }
 }
