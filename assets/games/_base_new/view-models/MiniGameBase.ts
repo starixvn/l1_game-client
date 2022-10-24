@@ -212,6 +212,7 @@ export default class MiniGameBase extends NewMiniGameBase {
 
         this.gameData = gameData;
         this.gameData.roundHistory.setStreakChoices(this.streakChoices);
+        this.gameData.betModel.getChipValues = () => this.betChips.chipValues;
         this.initGameDataDurations();
     }
 

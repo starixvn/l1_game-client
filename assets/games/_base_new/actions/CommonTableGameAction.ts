@@ -110,11 +110,11 @@ export const handlePlaceTotalChips = (mainGame: TableGameBase) => (dataChips) =>
     });
 };
 
-export const handlePlayerChipAction = (mainGame: TableGameBase) => (data) => {
-    mainGame.playerChips.push(data.playerChip);
+export const handlePlayerChipAction = (mainGame: TableGameBase) => (playerChip) => {
+    mainGame.playerChips.push(playerChip);
 
     if (!mainGame.node.activeInHierarchy) {
-        mainGame.placePlayerChip(data.playerChip);
+        mainGame.placePlayerChip(playerChip);
     } else {
         let delayTime = 0;
 
@@ -126,7 +126,7 @@ export const handlePlayerChipAction = (mainGame: TableGameBase) => (data) => {
         mainGame.node.runAction(
             cc.sequence(
                 cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
-                cc.callFunc(() => mainGame.placePlayerChip(data.playerChip))
+                cc.callFunc(() => mainGame.placePlayerChip(playerChip))
             )
         );
     }

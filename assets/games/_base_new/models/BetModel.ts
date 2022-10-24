@@ -1,4 +1,5 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
+import GameUtils from "../../../common/GameUtils";
 
 type Choices = any;
 
@@ -17,6 +18,7 @@ export class BetModel extends EventEmitterBase {
     };
 
     ownBets: Choices;
+    getChipValues = () => [];
     protected ownChip: any;
     protected playerChip: any;
     protected totalChips: any;
@@ -46,6 +48,8 @@ export class BetModel extends EventEmitterBase {
 
     changeOwnChip(ownChip: any) {
         this.ownChip = ownChip;
+        const { betChoice, amount } = ownChip;
+        this.updateTotalChips(betChoice, cc.RedT.user.rate, { [amount]: 1 });
         this.emit(BetModel.Events.CHANGE_OWN_CHIP, this.ownChip);
     }
 
@@ -65,9 +69,25 @@ export class BetModel extends EventEmitterBase {
         this.totalChips && this.emit(BetModel.Events.CHANGE_TOTAL_CHIPS, this.totalChips);
     }
 
-    changePlayerChip(playerChip: any) {
-        this.playerChip = playerChip;
+    changePlayerChip(data: any) {
+        const { betChoice, amount, rate } = data.playerChip;
+        const convertValue = GameUtils.getValueByCurrency(amount, rate);
+        const chips = GameUtils.getChipQuantity(convertValue, this.getChipValues());
+
+        this.playerChip = { ...data.playerChip, chips };
+        this.updateTotalChips(betChoice, rate, { [amount]: 1 });
         this.emit(BetModel.Events.CHANGE_PLAYER_CHIP, this.playerChip);
+    }
+
+    private updateTotalChips(betChoice, rate, chips: any) {
+        this.totalChips = this.totalChips ?? {};
+        this.totalChips[rate] = this.totalChips[rate] ?? {};
+        this.totalChips[rate][betChoice] = this.totalChips[rate][betChoice] ?? {};
+        const currentChips = this.totalChips[rate][betChoice];
+        Object.keys(chips).forEach((chipValue) => {
+            currentChips[chipValue] = currentChips[chipValue] ?? 0;
+            currentChips[chipValue] += chips[chipValue];
+        });
     }
 
     changeTotalChips(totalChips: any) {

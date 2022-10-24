@@ -1,6 +1,5 @@
 import _ = require("lodash");
 
-import GameUtils from "../../../common/GameUtils";
 import { playWinningEffect } from "../../_base/action/PayChipsAction";
 import RoomPlayer, { PlayerData } from "../../_base/view-models/RoomPlayer";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -155,7 +154,7 @@ export default class TableGameBase extends MiniGameBase {
     }
 
     placePlayerChip(data) {
-        const { betChoice, amount, rate } = data;
+        const { betChoice, chips } = data;
         let startNode: cc.Node;
         const playerSlot = this.getPlayerSlot(data.playerId);
         const betItem = _.find(this.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
@@ -168,11 +167,8 @@ export default class TableGameBase extends MiniGameBase {
         }
 
         if (betItem) {
-            const convertValue = GameUtils.getValueByCurrency(amount, rate);
-            const chipValues = GameUtils.getChipQuantity(convertValue, this.betChips.chipValues);
-
-            Object.keys(chipValues).forEach((chipValue) => {
-                let count = chipValues[chipValue];
+            Object.keys(chips).forEach((chipValue) => {
+                let count = chips[chipValue];
                 for (; count > 0; count--) {
                     this.betChips.placeChipToChipBox(+chipValue, betItem.chipNode, startNode, null);
                 }
