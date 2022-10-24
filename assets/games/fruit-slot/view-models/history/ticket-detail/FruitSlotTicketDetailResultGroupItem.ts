@@ -1,8 +1,8 @@
-import { i18n } from "../../../../ClientModules";
+import { i18n } from "../../../../../ClientModules";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class FruitSlotTicketDetailGroupItem extends cc.Component {
+export default class FruitSlotTicketDetailResultGroupItem extends cc.Component {
     @property(cc.Label)
     spin: cc.Label = null;
 

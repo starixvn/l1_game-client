@@ -1,6 +1,6 @@
 import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
 import FruitSlotHistory, { BetLog } from "./FruitSlotHistory";
-import FruitSlotTicketDetail from "./FruitSlotTicketDetail";
+import FruitSlotTicketDetail from "./ticket-detail/FruitSlotTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 

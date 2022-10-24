@@ -1,34 +1,64 @@
 import BetHistory from "../../../_new/common/BetHistory";
 import FruitSlotHistoryItem from "./FruitSlotHistoryItem";
-import FruitSlotTicketDetail from "./FruitSlotTicketDetail";
 
 const { ccclass, property } = cc._decorator;
+
+export interface FruitSlotBetLogDetail {
+    amount: number;
+    choice: string;
+    time: number;
+}
+
+export interface FruitSlotOdds {
+    bar: number;
+    tripleSeven: number;
+    watermelon: number;
+    star: number;
+    bell: number;
+    orange: number;
+    lemon: number;
+    cherry: number;
+    big: number;
+    small: number;
+    bar25: number;
+    tripleSeven3: number;
+    watermelon3: number;
+    star3: number;
+    bell3: number;
+    orange3: number;
+    lemon3: number;
+    cherry3: number;
+    bar50: number;
+}
+
+export interface FruitSlotSettlementResult {
+    bar: boolean;
+    tripleSeven: boolean;
+    watermelon: boolean;
+    star: boolean;
+    bell: boolean;
+    orange: boolean;
+    lemon: boolean;
+    cherry: boolean;
+    lucky: boolean;
+    big: boolean;
+    small: boolean;
+}
 export interface BetLog {
     time: Date;
     phien: number;
     result: {
-        symbols: any;
-        number: any;
+        symbols: string[];
+        number: number;
         isLucky: boolean;
     };
     totalAmount: number;
-    odds: any;
+    odds: FruitSlotOdds;
     betwin: number;
-    betLogDetails: any;
-    settlementResult: {
-        bar: boolean;
-        tripleSeven: boolean;
-        watermelon: boolean;
-        star: boolean;
-        bell: boolean;
-        orange: boolean;
-        lemon: boolean;
-        cherry: boolean;
-        lucky: boolean;
-        big: boolean;
-        small: boolean;
-    };
+    betLogDetails: FruitSlotBetLogDetail;
+    settlementResult: FruitSlotSettlementResult;
 }
+
 @ccclass
 export default class FruitSlotHistory extends BetHistory {
     @property(cc.Node)

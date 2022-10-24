@@ -1,5 +1,6 @@
-import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { formatDateTime } from "../../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../../common/helpers/NumberHelper";
+import { FruitSlotBetLogDetail, FruitSlotOdds, FruitSlotSettlementResult } from "../FruitSlotHistory";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -27,8 +28,14 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
 
     height: number = null;
 
-    updateContent(log: any, odds: any, settlementResult: any, symbolsSpriteFrames: cc.SpriteFrame[], index: number) {
-        const { time, choice, amount } = log;
+    updateContent(
+        betLogDetail: FruitSlotBetLogDetail,
+        odds: FruitSlotOdds,
+        settlementResult: FruitSlotSettlementResult,
+        symbolsSpriteFrames: cc.SpriteFrame[],
+        index: number
+    ) {
+        const { time, choice, amount } = betLogDetail;
         this.time.string = formatDateTime(time);
 
         ["big", "small"].includes(choice) ? this.updateBigSmallSymbol(choice) : this.updateNormalSymbol(symbolsSpriteFrames, choice);

@@ -1,10 +1,9 @@
+import { BetLog } from "../FruitSlotHistory";
+import FruitSlotTicketDetailGroupItem from "./FruitSlotTicketDetailResultGroupItem";
+
 const { ccclass, property } = cc._decorator;
-
-import { BetLog } from "./FruitSlotHistory";
-import FruitSlotTicketDetailGroupItem from "./FruitSlotTicketDetailGroupItem";
-
 @ccclass
-export default class FruitSlotTicketDetailIGroup extends cc.Component {
+export default class FruitSlotTicketDetailResultGroup extends cc.Component {
     @property(cc.Label)
     roundIdLabel: cc.Label = null;
 
@@ -29,7 +28,7 @@ export default class FruitSlotTicketDetailIGroup extends cc.Component {
         this.roundIdLabel.string = phien.toString();
 
         let height = 0;
-        symbols.forEach((symbol: cc.SpriteFrame, index: number) => {
+        symbols.forEach((symbol: string, index: number) => {
             const symbolSpriteFrame = symbolsSpriteFrames.find(
                 (sprite) => sprite.name === `item_${isLucky && index === 0 ? "lucky" : symbol}`
             );
