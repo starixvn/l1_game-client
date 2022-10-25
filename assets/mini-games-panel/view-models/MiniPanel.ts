@@ -68,9 +68,6 @@ export default class MiniPanel extends BaseComponent {
     announcementPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    announcementContainer: cc.Node = null;
-
-    @property(cc.Node)
     promotionContainer: cc.Node = null;
 
     public popupMiniGame: PopupMinigames;
@@ -135,8 +132,6 @@ export default class MiniPanel extends BaseComponent {
         this.guideContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
         this.dialog.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
         this.dialog.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
-        this.announcementContainer.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
-        this.announcementContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
 
         NotificationService.getInstance().addDataObserver(this.kickedOutKey, this.kickedOutKey, (data) =>
             this.dataHandlers.handleDataKickedOut(data)
@@ -367,7 +362,7 @@ export default class MiniPanel extends BaseComponent {
             this.promotionAnnouncement.miniPanel = this;
         }
 
-        this.announcementContainer.addChild(node);
+        this.addDialog(node);
     }
 
     showErrorNotice(error): Notice {
