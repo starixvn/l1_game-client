@@ -27,15 +27,16 @@ export default class FruitSlotSpinItem extends cc.Component {
         }
     }
 
-    public playSpineSymbolAnimation(play: boolean) {
-        this.highlight.opacity = play ? 255 : 0;
-        if (this.symbolSpineAnim && play) {
+    public playSpineSymbolAnimation() {
+        if (this.symbolSpineAnim) {
             this.symbolSpineAnim.getComponent(FruitSlotSymbolSpineAnimation).playAnimSymbol(true);
+            this.symbolSpineAnim.getComponent(FruitSlotSymbolSpineAnimation).highlightSymbol(true);
         }
     }
 
     public resetHighlight() {
         this.highlight && (this.highlight.opacity = 0);
         this.symbolSpineAnim.getComponent(FruitSlotSymbolSpineAnimation).playAnimSymbol(false);
+        this.symbolSpineAnim.getComponent(FruitSlotSymbolSpineAnimation).highlightSymbol(false);
     }
 }

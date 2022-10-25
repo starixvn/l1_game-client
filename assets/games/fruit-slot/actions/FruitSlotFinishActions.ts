@@ -34,6 +34,7 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
         })
         .delay(delaySpinAnim)
         .call(() => {
+            highlightBigSmallWinning(game.betOptionsUI)(finish);
             if (game.betOptionsUI && game.betOptionsUI.bigSmallResult) {
                 game.betOptionsUI.bigSmallResult.string = formatBigSmallResult(finish.result.bigSmall.value);
             }
@@ -46,7 +47,6 @@ export const handleAfterSettlementResult = (game: FruitSlot) => (finish: FruitSl
     game.timeAnimShowResult(false);
     game.statistic.addItem(finish);
     game.miniRoundHistory.addNewItem(finish);
-    highlightBigSmallWinning(game.betOptionsUI)(finish);
     game.gameData.betModel.ownBets = {};
     game.gameData.totalBetAmount = new FruitSlotChoices();
     payChips(game, transformSettlementResult(finish.settlementResult), finish.winningPlayers, 1.2, 3, true);

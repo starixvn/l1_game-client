@@ -3,122 +3,35 @@
   "_name": "winning",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 1,
+  "_duration": 1.3333333333333333,
   "sample": 60,
   "speed": 1,
   "wrapMode": 2,
   "curveData": {
-    "paths": {
-      "halo": {
-        "comps": {},
-        "props": {
-          "angle": [
-            {
-              "frame": 0,
-              "value": 0
-            },
-            {
-              "frame": 0.5,
-              "value": -180
-            },
-            {
-              "frame": 1,
-              "value": -360
-            }
-          ],
-          "scale": [
-            {
-              "frame": 0,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 0.25,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0.9,
-                "y": 0.9
-              }
-            },
-            {
-              "frame": 0.5,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            },
-            {
-              "frame": 0.75,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0.9,
-                "y": 0.9
-              }
-            },
-            {
-              "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
-            }
-          ],
-          "opacity": [
-            {
-              "frame": 0,
-              "value": 255
-            },
-            {
-              "frame": 0.25,
-              "value": 150
-            },
-            {
-              "frame": 0.5,
-              "value": 255
-            },
-            {
-              "frame": 0.75,
-              "value": 150
-            },
-            {
-              "frame": 1,
-              "value": 255
-            }
-          ]
+    "paths": {},
+    "props": {
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 100
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": 255
+        },
+        {
+          "frame": 0.6666666666666666,
+          "value": 100
+        },
+        {
+          "frame": 1,
+          "value": 255
+        },
+        {
+          "frame": 1.3333333333333333,
+          "value": 100
         }
-      },
-      "bg-win": {
-        "comps": {},
-        "props": {
-          "opacity": [
-            {
-              "frame": 0,
-              "value": 150
-            },
-            {
-              "frame": 0.25,
-              "value": 255
-            },
-            {
-              "frame": 0.5,
-              "value": 150
-            },
-            {
-              "frame": 0.75,
-              "value": 255
-            },
-            {
-              "frame": 1,
-              "value": 150
-            }
-          ]
-        }
-      }
+      ]
     }
   },
   "events": []

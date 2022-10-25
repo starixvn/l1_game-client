@@ -175,11 +175,11 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
     if (game.betOptionsUI.spinItems && game.betOptionsUI.spinItems[firstPosition]) {
         if (!finish.result.isLucky) {
             await executeAnim(timeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
-            game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation(true);
+            game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation();
             highlightWinningChoice(game.betOptionsUI)(finish);
         } else {
             await executeAnim(timeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
-            game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation(true);
+            game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation();
 
             for (i = 0; i < symbolPositions.length - 1; i++) {
                 const totalSteps = (symbolPositions[i + 1] - symbolPositions[i] + numberOfSymbols) % numberOfSymbols;
@@ -187,7 +187,7 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
                 const winSymbol = getWinningOption(finish.result.symbols[i]);
 
                 await executeAnim(4, symbolPositions[i], nextPosition, numberOfSymbols, game.betOptionsUI?.spinItems);
-                game.betOptionsUI?.spinItems?.[symbolPositions[i + 1]].playSpineSymbolAnimation(true);
+                game.betOptionsUI?.spinItems?.[symbolPositions[i + 1]].playSpineSymbolAnimation();
                 highlightWinningSymbol(game.betOptionsUI)(winSymbol);
             }
         }

@@ -36,7 +36,7 @@ export default class FruitSlot extends NewGameRoomBase {
     chipContainer: cc.Node = null;
 
     @property(cc.Node)
-    totalBetContainer: cc.Node = null;
+    totalBetContainer: cc.Node = null;   
 
     @property(cc.Node)
     timeShowResult: cc.Node = null;

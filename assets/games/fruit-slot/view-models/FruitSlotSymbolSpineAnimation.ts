@@ -10,10 +10,19 @@ export default class FruitSlotSymbolSpineAnimation extends cc.Component {
     @property(sp.Skeleton)
     animSkeleton: sp.Skeleton[] = [];
 
+    @property(cc.Node)
+    winSymbolHighlight: cc.Node = null;
+
     playAnimSymbol(play: boolean) {
         const anim = play ? SymbolAnimationType.PLAY : SymbolAnimationType.IDLE;
         for (let animSymbol of this.animSkeleton) {
-            animSymbol.setAnimation(0, anim, true);           
+            animSymbol.setAnimation(0, anim, true);
+        }
+    }
+
+    highlightSymbol(highlight: boolean) {
+        if (this.winSymbolHighlight) {
+            this.winSymbolHighlight.active = highlight ? true : false;
         }
     }
 }

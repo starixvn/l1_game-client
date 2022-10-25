@@ -6,7 +6,9 @@ export const phrases = {
     },
     fruitSlot: {
         spinResult: "Spin Result",
-        extraSpin: "Extra Spin"
+        extraSpin: "Extra Spin",
+        oddsBig: "TÀI (8-14)",
+        oddsSmall: "XỈU (1-7)"
     }
 };
 
