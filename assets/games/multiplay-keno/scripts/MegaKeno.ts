@@ -124,8 +124,6 @@ export default class MegaKeno extends TableGameBase {
 
     initMD5String(node: cc.Node) {
         this.md5Component = node.getChildByName("md5-content").getComponent(MegaKenoMd5);
-        const comp = this.md5Component as MegaKenoMd5;
-        comp.isMiniType = this.isMiniKeno(this.gameId);
     }
 
     override showUmMessage(data: any) {
