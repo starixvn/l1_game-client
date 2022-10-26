@@ -28,6 +28,7 @@ export default class MegaKeno extends TableGameBase {
     streakChoices = ["big", "small", "odd", "even"];
 
     settlementResultAnimation: MegaKenoSettlementResult;
+    settlementEndResult: MegaKenoSettlementResult;
 
     constructor() {
         super();
@@ -116,6 +117,7 @@ export default class MegaKeno extends TableGameBase {
         }
         this.settlementResultAnimation.playResultAnimation(settlement, () => {
             this.settlementResultAnimation.hide();
+            this.settlementEndResult && this.settlementEndResult.showResult(settlement);
             this.gameData.settlement.finishShowResult(settlement, true);
         });
     }
@@ -133,5 +135,15 @@ export default class MegaKeno extends TableGameBase {
 
         this.umNotice && this.umNotice.show(data);
         this.onUmCallback(this.gameId, data);
+    }
+
+    initSettlementEndResult(node: cc.Node) {
+        this.settlementEndResult = node.getComponent(MegaKenoSettlementResult);
+        this.settlementEndResult.hide();
+    }
+
+    clearData() {
+        super.clearData();
+        this.settlementEndResult && this.settlementEndResult.hide();
     }
 }
