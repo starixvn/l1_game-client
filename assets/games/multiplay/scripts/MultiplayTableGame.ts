@@ -39,6 +39,9 @@ export default class MultiplayTableGame extends MultiplayGame {
     @property(cc.Node)
     mainContainer: cc.Node = null;
 
+    @property(cc.Node)
+    noticeNode: cc.Node = null;
+
     @property(cc.Prefab)
     miniNoticePrefab: cc.Prefab = null;
 
@@ -173,7 +176,7 @@ export default class MultiplayTableGame extends MultiplayGame {
         const notice = cc.instantiate(this.miniNoticePrefab);
         const noticeComponent = notice.getComponent("mini_warning");
         noticeComponent.text.string = data;
-        this.mainContainer.addChild(notice);
+        this.noticeNode.addChild(notice);
         return notice;
     }
 
