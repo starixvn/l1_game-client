@@ -17,6 +17,7 @@ import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 import { i18n, lodash } from "../../../ClientModules";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 import { FruitSlotBetHandler } from "../event-handlers/FruitSlotBetHandler";
+import { updateWinning } from "../actions/FruitSlotWinningAction";
 
 const { ccclass, property } = cc._decorator;
 export const FruitSlotGameId = 59;
@@ -36,7 +37,7 @@ export default class FruitSlot extends NewGameRoomBase {
     chipContainer: cc.Node = null;
 
     @property(cc.Node)
-    totalBetContainer: cc.Node = null;   
+    totalBetContainer: cc.Node = null;
 
     @property(cc.Node)
     timeShowResult: cc.Node = null;
@@ -78,12 +79,16 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData = new FruitSlotGameData();
         super.onLoad();
         this.initStatistic();
-        this.updateBetStatus(true);
-        this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
+        //this.updateBetStatus(true);
+        //this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
         this.initPlacingBet();
-        this.initButtonStatus();
+        //this.initButtonStatus();
         this.registerRoundHistoryEvents();
         this.registerSettlementEvents();
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
     }
 
     openStatistic() {
@@ -107,6 +112,7 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData.roundHistory.on(RoundHistory.Events.CHANGE, (roundHistory: FruitSlotRoundHistory[]) => {
             this.miniRoundHistory?.render(roundHistory);
             this.statistic?.render(roundHistory);
+            updateWinning(this.betOptionsUI, this.timeHandler)(roundHistory);
         });
     }
 
@@ -119,9 +125,9 @@ export default class FruitSlot extends NewGameRoomBase {
         });
     }
 
-    public initButtonStatus() {
-        this.btnRebet.node.on("click", this.onRebetClick, this);
-    }
+    // public initButtonStatus() {
+    //     this.btnRebet.node.on("click", this.onRebetClick, this);
+    // }
 
     private initBetOptionsUI(node: cc.Node) {
         this.betOptionsUI = node.getComponent(FruitSlotBetOptionsUI);
@@ -220,14 +226,14 @@ export default class FruitSlot extends NewGameRoomBase {
         }
     }
 
-    updateBetStatus(forceUpdate = false) {
-        if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
-            return;
-        }
+    // updateBetStatus(forceUpdate = false) {
+    //     if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
+    //         return;
+    //     }
 
-        const isEmptyBetChoice = lodash.isEmpty(this.gameData.betModel?.ownBets);
-        this.btnRebet.interactable = isEmptyBetChoice && !lodash.isEmpty(this.previousRoundBetChoices);
-    }
+    //     const isEmptyBetChoice = lodash.isEmpty(this.gameData.betModel?.ownBets);
+    //     this.btnRebet.interactable = isEmptyBetChoice && !lodash.isEmpty(this.previousRoundBetChoices);
+    // }
 
     clearTempBetChoices() {
         this.tempBetChoices = {};
@@ -235,6 +241,6 @@ export default class FruitSlot extends NewGameRoomBase {
 
     onDestroy() {
         super.onDestroy();
-        this.unschedule(this.updateBetStatus);
+        //this.unschedule(this.updateBetStatus);
     }
 }

@@ -1,5 +1,5 @@
 import GameBaseTimeHandler from "../../_base/handlers/GameBaseTimeHandler";
-import { formatBigSmallResult, getWinningOption, highlightWinningSymbol } from "../actions/FruitSlotWinningAction";
+import { formatBigSmallResult, getWinningOption, highlightWinningSymbol, showHighlightBet } from "../actions/FruitSlotWinningAction";
 import FruitSlot from "../view-models/FruitSlot";
 
 const { ccclass, property } = cc._decorator;
@@ -36,7 +36,7 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.betOptionsUI.resetUIBettingZone();
+        this.main.betOptionsUI.resetUIBettingZone();        
     }
 
     showWaitTime() {
@@ -44,8 +44,14 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
     }
 
+    handleInRoundTime() {
+        super.handleInRoundTime();
+        this.main.setBgVisibility(this.main.betOptionsUI.bgLockSpin, true, false);
+    }
+
     handleInLockBetTime() {
         this.main.statistic.addNextItemHistory();
+        this.main.betItems.forEach((item) => item.setHighlight(false));
     }
 
     showLastRoundResult(resultData: any, isAnimated: boolean) {
