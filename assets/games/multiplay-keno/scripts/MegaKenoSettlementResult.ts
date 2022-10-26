@@ -27,7 +27,9 @@ export default class MegaKenoSettlementResult extends cc.Component {
 
     protected appearanceOrderNumbers: number[];
     onLoad() {
-        this.numberLabels = this.numberContainer.getComponentsInChildren(cc.Label);
+        if (this.numberContainer) {
+            this.numberLabels = this.numberContainer.getComponentsInChildren(cc.Label);
+        }
     }
 
     hide() {
@@ -92,5 +94,16 @@ export default class MegaKenoSettlementResult extends cc.Component {
             this.numberLabels[labelIndex].string = result.toString();
             this.appearanceOrderNumbers[labelIndex] = result;
         });
+    }
+
+    showResult(settlement: any) {
+        this.show();
+        const { result, settlementResult } = settlement;
+        let total = 0;
+        result.forEach((item) => {
+            total += item;
+        });
+        this.totalLabel && (this.totalLabel.string = total.toString());
+        this.settlementChoices.setSettlement(settlementResult);
     }
 }
