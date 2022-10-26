@@ -19,6 +19,7 @@ export type FruitSlotFinishModel = {
 };
 
 export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishModel) => {
+    game.timeHandler.resetNewTime(finish.result);
     game.roundId = finish.roundId + 1;
     game.timeAnimShowResult(true);
     game.finishShowResult = false;
@@ -50,7 +51,7 @@ export const handleAfterSettlementResult = (game: FruitSlot) => (finish: FruitSl
     game.miniRoundHistory.addNewItem(finish);
     game.gameData.betModel.ownBets = {};
     game.gameData.totalBetAmount = new FruitSlotChoices();
-    payChips(game, transformSettlementResult(finish.settlementResult), finish.winningPlayers, 1.2, 3, true);    
+    payChips(game, transformSettlementResult(finish.settlementResult), finish.winningPlayers, 1.2, 3, true);
 };
 
 const transformSettlementResult = (settlementResult: FruitSlotSettlementResult) => {
