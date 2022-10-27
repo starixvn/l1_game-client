@@ -1,7 +1,7 @@
 import MusicPlayer from "../../../common/audio/MusicPlayer";
 import * as sessionManager from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { truncate2Decimals } from "../../../common/helpers/NumberHelper";
 import UserProfile from "../../../common/user-profile/UserProfile";
 
 export const loadMiniPanel = (game: any) => () => {
@@ -37,7 +37,7 @@ export const loadUserData = (game: any) => (user: any) => {
     }
 
     if (void 0 !== user.red) {
-        game.userProfile && game.userProfile.setUserBalance(numberWithCommas(user.red, 2));
+        game.userProfile && game.userProfile.setUserBalance(truncate2Decimals(user.red, 2));
     }
 
     if (void 0 !== user.avatarId) {

@@ -11,6 +11,13 @@ const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
     return "0";
 };
 
+const truncate2Decimals = (number, fixed) => {
+    const withFixedDecimals = `${number}`.match(new RegExp(`^-?\\d+(?:\.\\d{0,${fixed}})?`))[0];
+    return parseFloat(withFixedDecimals)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 const nFormatter = (num, digits = 0) => {
     const si = [
         { value: 1, symbol: "" },
@@ -93,4 +100,4 @@ export function getInternationalFractionalOdds(value: number) {
     return `1:${value}`;
 }
 
-export { numberWithCommas, getOnlyNumberInString, numberPad, numberTo, zeroPad, nFormatter };
+export { numberWithCommas, getOnlyNumberInString, numberPad, numberTo, zeroPad, nFormatter, truncate2Decimals };

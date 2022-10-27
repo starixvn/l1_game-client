@@ -1,6 +1,6 @@
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { numberWithCommas, truncate2Decimals } from "../../../common/helpers/NumberHelper";
 import { getTrialSocket } from "../../../common/helpers/UrlHelper";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
 import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
@@ -328,7 +328,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.trialModel.on(CascadingSlotTrialModel.Events.CHANGE_USER_BALANCE, (value) => {
             this.trialUserBalance = value;
-            this.userProfile.setUserBalance(numberWithCommas(value));
+            this.userProfile.setUserBalance(truncate2Decimals(value, 2));
         });
 
         this.gameData.on(CommonEvents.API_ERROR, (error) => {

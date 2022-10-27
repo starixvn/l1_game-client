@@ -7,7 +7,7 @@ import MusicPlayer from "../../../common/audio/MusicPlayer";
 import NotificationService from "../../../common/auth/NotificationService";
 import UserService from "../../../common/auth/UserService";
 import GameUtils from "../../../common/GameUtils";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { truncate2Decimals } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
@@ -16,6 +16,8 @@ import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import SplashConfig from "../../../splash/view-models/SplashConfig";
 import NewsContent from "../../news/NewsContent";
+import PromotionNotificationsHandler from "../../promotions/PromotionNotificationsHandler";
+import { Promotions } from "../../promotions/Promotions";
 import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
@@ -24,8 +26,6 @@ import CategoryItem from "./CategoryItem";
 import GameUIManager from "./GameUIManager";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import { Promotions } from "../../promotions/Promotions";
-import PromotionNotificationsHandler from "../../promotions/PromotionNotificationsHandler";
 
 const socketIOController = appContainer.get(SocketIOController);
 const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
@@ -397,9 +397,9 @@ export default class MainGame extends cc.Component {
                 userCurrency = currency ? currency : "";
             }
 
-            return `${numberWithCommas(red, 2)} ${userCurrency}`;
+            return `${truncate2Decimals(red, 2)} ${userCurrency}`;
         } else {
-            return `${numberWithCommas(red, 2)}`;
+            return `${truncate2Decimals(red, 2)}`;
         }
     }
 
