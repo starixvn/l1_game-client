@@ -94,12 +94,12 @@ export default class MultiplayGame extends GameViewBase {
 
     callbackWinningResult = (game, status: { win: boolean; bet: number }) => {
         const { win, bet } = status;
-        const gameSetting = GameUtils.getSpecificGameSetting(this.gameId);
+
         if (win) {
             const node = game.betItems[0].node;
             const onScreen = GameUtils.checkIntersectNodes(this.subGamesArea[0], node);
             const isNotMainGame = game.gameId !== this.mainGameId;
-            if (isNotMainGame && gameSetting.showWinningNotification && (!onScreen || !this.collapsedExpandButton.isChecked)) {
+            if (isNotMainGame && (!onScreen || !this.collapsedExpandButton.isChecked)) {
                 this.addWinningResultNotification(game.gameId, bet);
             }
         }
@@ -281,9 +281,10 @@ export default class MultiplayGame extends GameViewBase {
             child.getComponent(GameBase)?.removeGameDataEvents();
             child.destroy();
         }
-
-        content.addChild(this.createSubGameUI(gameId, location));
+        const subGameNode = this.createSubGameUI(gameId, location);
+        content.addChild(subGameNode);
         this.locations[gameId] = location;
+        return subGameNode;
     }
 
     createSubGameUI(gameId: number, location: number) {

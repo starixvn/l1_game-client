@@ -33,24 +33,4 @@ export default class MiniSedieSubGame extends MiniSedie {
         this.animation.node.position = cc.v3(0, 18, 0);
         this.animation.node.scale = 0.9;
     }
-
-    initMiniRoundHistory(node: cc.Node) {
-        super.initMiniRoundHistory(node);
-        this.miniRoundHistory.tip.node.opacity = 0;
-    }
-
-    customScaleNode(node: cc.Node) {
-        node.scale = !cc.sys.isMobile ? MINI_GAMES_SCALE_ON_DESKTOP : 1;
-    }
-
-    showAcceptedBet(bet: number) {
-        const node = GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
-        this.customScaleNode(node);
-    }
-
-    showWinningBet(bet: number) {
-        const node = GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
-        node.name = "winningBet";
-        this.customScaleNode(node);
-    }
 }

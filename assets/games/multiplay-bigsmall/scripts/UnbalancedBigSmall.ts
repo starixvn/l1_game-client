@@ -41,7 +41,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
     protected scaleResultNode = 1;
     startRoundDuration = 2;
     config = new BigSmallConfigs();
-    public miniRoundHistory: BigSmallMiniRoundHistory;
     public statisticHistory: BigSmallDicesStatistic;
 
     constructor() {

@@ -1,5 +1,6 @@
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import MultiplayGameHistory from "./MultiplayGameHistory";
+import GameUtils, { MINI_GAMES_SCALE_ON_DESKTOP } from "../../../common/GameUtils";
 
 const { ccclass } = cc._decorator;
 
@@ -13,10 +14,29 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
     protected showStatistic = true;
     protected statisticHistory: cc.Component = null;
     protected groupDefaultGameId: number;
+    isMainGame = true;
 
     onEnable() {
         super.onEnable();
         this.initStatusStatistic();
+    }
+
+    customScaleNode(node: cc.Node) {
+        if (this.isMainGame) {
+            return;
+        }
+        node.scale = !cc.sys.isMobile ? MINI_GAMES_SCALE_ON_DESKTOP : 1;
+    }
+
+    showAcceptedBet(bet: number) {
+        const node = GameUtils.addFlyingText(this.noticeNode, false, bet, 1);
+        this.customScaleNode(node);
+    }
+
+    showWinningBet(bet: number) {
+        const node = GameUtils.addFlyingText(this.noticeNode, true, bet, 4);
+        node.name = "winningBet";
+        this.customScaleNode(node);
     }
 
     public openHistory() {

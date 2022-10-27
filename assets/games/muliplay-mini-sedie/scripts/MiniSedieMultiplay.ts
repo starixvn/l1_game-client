@@ -26,6 +26,14 @@ export default class MiniSedieMultiplay extends MultiplayGame {
         return node;
     }
 
+    addSubGameUI(gameId: number, location: number) {
+        const subGameNode = super.addSubGameUI(gameId, location);
+        const multiplaySingle = subGameNode.getComponent(MiniSedieSubGame);
+        multiplaySingle.miniRoundHistory.tip.node.opacity = 0;
+        multiplaySingle.isMainGame = false;
+        return subGameNode;
+    }
+
     createMainGameUI(gameId: number) {
         const node = super.createMainGameUI(gameId);
         const multiplaySingle = node.getComponent(MiniSedie);

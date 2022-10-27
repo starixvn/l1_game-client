@@ -26,6 +26,13 @@ export default class UnbalancedBigSmallMultiplay extends MultiplayGame {
         return node;
     }
 
+    addSubGameUI(gameId: number, location: number) {
+        const subGameNode = super.addSubGameUI(gameId, location);
+        const multiplaySingle = subGameNode.getComponent(UnbalancedBigSmallSubGame);
+        multiplaySingle.miniRoundHistory && (multiplaySingle.miniRoundHistory.tip.node.opacity = 0);
+        return subGameNode;
+    }
+
     createMainGameUI(gameId: number) {
         const node = super.createMainGameUI(gameId);
         const multiplaySingle = node.getComponent(UnbalancedBigSmall);
