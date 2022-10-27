@@ -273,7 +273,7 @@ export default class MultiplayGame extends GameViewBase {
 
     addSubGameUI(gameId: number, location: number) {
         if (location < 0) {
-            return;
+            return null;
         }
         const content = this.subContents[location];
         const child = content.children[0];

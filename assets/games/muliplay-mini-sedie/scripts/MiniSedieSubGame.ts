@@ -1,4 +1,3 @@
-import GameUtils, { MINI_GAMES_SCALE_ON_DESKTOP } from "../../../common/GameUtils";
 import MiniSedie from "./MiniSedie";
 
 const { ccclass, property } = cc._decorator;

@@ -1,4 +1,3 @@
-import GameUtils, { MINI_GAMES_SCALE_ON_DESKTOP } from "../../../common/GameUtils";
 import UnbalancedBigSmall from "./UnbalancedBigSmall";
 
 const { ccclass, property } = cc._decorator;
