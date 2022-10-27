@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import GameUtils from "../../../../common/GameUtils";
 import KenoUtils from "../../../mini-keno/view-models/KenoUtils";
 import BetChoice from "../BetChoice";

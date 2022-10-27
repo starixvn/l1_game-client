@@ -7,32 +7,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MegaKenoHistoryItem extends MultiplayGameHistoryItem {
-    @property(cc.Label)
-    big: cc.Label = null;
-
-    @property(cc.Label)
-    small: cc.Label = null;
-
-    @property(cc.Label)
-    odd: cc.Label = null;
-
-    @property(cc.Label)
-    even: cc.Label = null;
-
-    @property(cc.Label)
-    gold: cc.Label = null;
-
-    @property(cc.Label)
-    wood: cc.Label = null;
-
-    @property(cc.Label)
-    water: cc.Label = null;
-
-    @property(cc.Label)
-    fire: cc.Label = null;
-
-    @property(cc.Label)
-    earth: cc.Label = null;
+    @property(cc.Node)
+    choices: cc.Node = null;
 
     @property(cc.Label)
     total: cc.Label = null;
@@ -40,9 +16,7 @@ export default class MegaKenoHistoryItem extends MultiplayGameHistoryItem {
     public result: number[];
     public settlementResult: any;
     public betLogDetails: any[];
-
     private main: MegaKenoHistory;
-    private readonly betChoices = ["even", "odd", "big", "small", "gold", "wood", "water", "fire", "earth"];
 
     init(main: MegaKenoHistory) {
         this.main = main;
@@ -55,7 +29,7 @@ export default class MegaKenoHistoryItem extends MultiplayGameHistoryItem {
 
     setData(betLog: any, index) {
         super.setData(betLog, index);
-
+        const betChoices = this.choices.getComponentsInChildren(cc.Label);
         const { phien, betLogDetails, betwin, result, settlementResult } = betLog;
 
         this.node.active = true;
@@ -65,18 +39,15 @@ export default class MegaKenoHistoryItem extends MultiplayGameHistoryItem {
         this.time.string = getStringDateByTime(betLog.time);
         this.round.string = phien;
 
-        this.betChoices.forEach((choice) => {
-            this[choice].string = numberWithCommas(betLog[choice]);
+        betChoices.forEach((item) => {
+            item.string = numberWithCommas(betLog[item.node.name]);
+            if (settlementResult[item.node.name]) {
+                item.node.color = cc.Color.YELLOW;
+            }
         });
 
         const total = result.reduce((resultTotal: number, number: number) => resultTotal + number, 0);
         this.total.string = total;
-
-        Object.keys(settlementResult).forEach((key) => {
-            if (settlementResult[key]) {
-                this[key].node.color = cc.Color.YELLOW;
-            }
-        });
         this.win.string = numberWithCommas(betwin, 2);
         this.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
     }

@@ -126,7 +126,6 @@ export default class SingleScoreBoard extends cc.Component {
             const result = {};
             const winChoice = Object.keys(history.settlementResult).find((choice) => history.settlementResult[choice]);
             result["type"] = this.choices.findIndex((choice) => choice === winChoice);
-            //const sum = Object.values(history.result).reduce((prev: number, value: number) => prev + value, 0);
             const sum = this.generalExtraInfo(history);
             result["extra"] = { sum };
             return result;
