@@ -66,9 +66,6 @@ export default class Sedie extends FreeBetGameBase {
     @property(cc.Prefab)
     portraitGuide: cc.Prefab = null;
 
-    @property(cc.Node)
-    defaultPromotion: cc.Node = null;
-
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
     openPlateDuration = 0.5;
@@ -87,8 +84,8 @@ export default class Sedie extends FreeBetGameBase {
     onLoad() {
         super.onLoad();
         this.initRoundHistory();
+
         this.animatedTime.setAnimatedY(30, -5);
-        this.setDefaultPositionForPromotion();
 
         this.betItems.forEach((item) => {
             GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
@@ -106,19 +103,14 @@ export default class Sedie extends FreeBetGameBase {
         }
     }
 
-    setDefaultPositionForPromotion() {
-        if (!this.defaultPromotion) {
-            return;
-        }
+    hidePromotionOnPortrait() {
         if (!this.currentMiniPanel.boostedOdds) {
-            this.scheduleOnce(this.setDefaultPositionForPromotion, 0.1);
             return;
         }
 
-        const promotionNode = this.currentMiniPanel.boostedOdds.node;
-        const wPosition = this.defaultPromotion.convertToWorldSpaceAR(cc.v2(0, 0));
-        const localPosition = promotionNode.parent.convertToNodeSpaceAR(wPosition);
-        promotionNode.position = cc.v3(promotionNode.x, localPosition.y);
+        if (this.orientation === Orientation.Portrait) {
+            this.currentMiniPanel.boostedOdds.node.active = false;
+        }
     }
 
     onEnable() {
@@ -127,7 +119,7 @@ export default class Sedie extends FreeBetGameBase {
         if (this.orientation === Orientation.Portrait) {
             this.currentMiniPanel.miniMenu.active = false;
         }
-
+        this.hidePromotionOnPortrait();
         if (GameUtils.isSafariIOSPhone() && this.orientation === Orientation.Portrait) {
             this.addTutorial("IOSPortraitGuide");
         }
