@@ -138,11 +138,15 @@ export default class MegaKeno extends TableGameBase {
     initSettlementEndResult(node: cc.Node) {
         this.settlementEndResult = node.getComponent(MegaKenoSettlementResult);
         this.settlementEndResult.node.active = false;
-        this.settlementEndResult.hide();
     }
 
     clearData() {
         super.clearData();
         this.settlementEndResult && this.settlementEndResult.hide();
+    }
+
+    handleAfterSettlementResult(settlement: any) {
+        super.handleAfterSettlementResult(settlement, false);
+        this.settlementEndResult && this.settlementEndResult.showResult(settlement);
     }
 }
