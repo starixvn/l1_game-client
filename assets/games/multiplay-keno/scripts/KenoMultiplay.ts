@@ -16,7 +16,7 @@ export default class KenoMultiplay extends MultiplayTableGame {
     @property(cc.Node)
     bottomSubGameBg: cc.Node = null;
 
-    private sizeSubGame = 150;
+    private readonly sizeSubGame = 150;
 
     onLoad() {
         super.onLoad();

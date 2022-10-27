@@ -91,9 +91,7 @@ export default class SocketIOController {
             socketOptions.parser = MsgpackParser;
         }
 
-        const socket = io(socketUri, socketOptions);
-
-        return socket;
+        return io(socketUri, socketOptions);
     };
 
     initBaseListeners(

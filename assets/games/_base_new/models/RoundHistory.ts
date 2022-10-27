@@ -14,7 +14,7 @@ export class RoundHistory extends EventEmitterBase {
     historySize = 100;
     winningStreak = {};
     private streakChoices = ["big", "small"];
-    private consecutiveWinningTimes = 4;
+    private readonly consecutiveWinningTimes = 4;
     winningStreakTimeOut;
 
     get lastRoundId() {

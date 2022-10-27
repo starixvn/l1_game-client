@@ -1,4 +1,3 @@
-import GameUtils from "../../../common/GameUtils";
 const { ccclass, property } = cc._decorator;
 
 @ccclass

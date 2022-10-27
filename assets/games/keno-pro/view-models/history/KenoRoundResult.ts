@@ -42,22 +42,15 @@ export default class KenoRoundResult extends cc.Component {
         if (animated) {
             this.total.string = "0";
             this.kenoNumbers.forEach((keno) => keno.hide());
-            let shuffle = [];
 
-            for (let i = 0; i < this.result.length; i++) {
-                shuffle.push(i);
-            }
-
-            shuffle = _.shuffle(shuffle);
-
-            let i = 0;
+            const i = 0;
             const miniType = this.result.length < 20;
             let index = this.result.length - 1;
             let total = 0;
             const sequence = cc.sequence(
-                cc.callFunc(() => {                    
+                cc.callFunc(() => {
                     const number = this.result[index];
-                    this.kenoNumbers[index].setNumber(number, true);                    
+                    this.kenoNumbers[index].setNumber(number, true);
                     total += number;
                     this.showSettleResult(KenoUtils.getSettleResult(total, miniType));
                     this.total.string = total.toString();

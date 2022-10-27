@@ -810,8 +810,7 @@ export default class GameBase extends GameViewBase {
         }
 
         const { roundId, ownBets } = this.previousOwnBets;
-        const result = roundId === this.roundId - 1 && ownBets && Object.keys(ownBets).length > 0;
-        return result;
+        return roundId === this.roundId - 1 && ownBets && Object.keys(ownBets).length > 0;
     }
 
     loadRebetStorage() {

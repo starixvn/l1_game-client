@@ -1,5 +1,4 @@
-import InGameMenu from "../../../common/in-game-menu/InGameMenu";
-import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
+import InGameMenu, { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import HandleWinningNotification from "./HandleWinningNotification";
 
 const { ccclass, property } = cc._decorator;

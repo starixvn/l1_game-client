@@ -19,11 +19,6 @@ export default class MiniSedieMultiplay extends MultiplayGame {
         this.gameId = MiniSedie1Id;
     }
 
-    onLoad() {
-        super.onLoad();
-        // cc.sys.localStorage.setItem(KeyOpenScoreBoardStorage, "true");
-    }
-
     createSubGameUI(gameId: number, location: number): cc.Node {
         const node = super.createSubGameUI(gameId, location);
         const multiplaySingle = node.getComponent(MiniSedieSubGame);
