@@ -10,7 +10,6 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
     }
 
     placeOwnChip(data) {
-        console.log("PlaceOwnChipGameRomBase", data);
         const { betChoice, amount } = data;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
 

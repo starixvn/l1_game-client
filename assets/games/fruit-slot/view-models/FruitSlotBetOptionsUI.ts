@@ -47,7 +47,6 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     resetUIBettingZone() {
         this.bigSmallResult.string = "";
         this.bigSmallResultBackground.opacity = 0;
-        console.log(this.bigSmallResultBackground.opacity);
         this.lightAnimation.node.active = true;
         this.betItems.forEach((item) => {
             item.node.opacity = 255;

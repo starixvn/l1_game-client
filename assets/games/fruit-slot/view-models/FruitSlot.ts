@@ -11,7 +11,6 @@ import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { FruitSlotFinishModel, handleAfterSettlementResult, handleShowResult } from "../actions/FruitSlotFinishActions";
 import FruitSlotBetItem from "./FruitSlotBetItem";
-import FruitSlotChips from "./FruitSlotChips";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 import { i18n, lodash } from "../../../ClientModules";
@@ -59,7 +58,6 @@ export default class FruitSlot extends NewGameRoomBase {
     public timeHandler: FruitSlotTimeHandler;
     public animatedTime: FruitSlotAnimatedTimer = null;
     private placingBet: FruitSlotPlacingBet = null;
-    public fruitSlotChips: FruitSlotChips;
 
     currentBetChoices: any = {};
     betChoicesStack = [];

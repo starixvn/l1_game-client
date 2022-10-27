@@ -7,6 +7,7 @@ export interface FruitSlotBetLogDetail {
     amount: number;
     choice: string;
     time: number;
+    subChoices: string[];
 }
 
 export interface FruitSlotOdds {

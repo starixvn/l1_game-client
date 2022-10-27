@@ -35,16 +35,16 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
         symbolsSpriteFrames: cc.SpriteFrame[],
         index: number
     ) {
-        const { time, choice, amount } = betLogDetail;
+        const { time, choice, amount, subChoices } = betLogDetail;
         this.time.string = formatDateTime(time);
 
         ["big", "small"].includes(choice) ? this.updateBigSmallSymbol(choice) : this.updateNormalSymbol(symbolsSpriteFrames, choice);
-
-        this.odd.string = odds[choice];
+        const winningChoice = this.getWinningChoice(subChoices, choice, settlementResult);
+        this.odd.string = odds[winningChoice];
         this.amount.string = numberWithCommas(amount);
 
-        const winningAmount = settlementResult[choice] ? amount * odds[choice] : 0;
-        this.win.string = numberWithCommas(winningAmount);
+        const winningAmount = settlementResult[winningChoice] ? amount * odds[winningChoice] : 0;
+        this.win.string = numberWithCommas(winningAmount, 2);
         this.win.node.color = winningAmount > 0 ? cc.Color.YELLOW : cc.Color.WHITE;
 
         if (index === 0) {
@@ -52,6 +52,14 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
         }
 
         this.height = this.node.height;
+    }
+
+    private getWinningChoice(subChoices: string[], mainChoice: string, settlementResult: FruitSlotSettlementResult) {
+        let choice = mainChoice;
+        subChoices?.forEach((c) => {
+            settlementResult[c] && (choice = c);
+        });
+        return choice;
     }
 
     private updateBigSmallSymbol(choice: string) {
