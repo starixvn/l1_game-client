@@ -5,6 +5,8 @@ import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import ChipView from "../../../common/bet-chips/view-models/ChipView";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import { lodash } from "../../../ClientModules";
+import FruitSlotChipView from "../view-models/FruitSlotChipView";
+import BetChips from "../../../common/bet-chips/view-models/BetChips";
 
 export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     constructor(protected readonly main: FruitSlot) {
@@ -13,7 +15,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
 
     private _betAmount = 0;
     private readonly chipScaleX = 0.3;
-    private readonly chipScaleY = 0.25;
+    private readonly chipScaleY = 0.22;
 
     handle(data: any) {
         if (this.main.isStopGame || this.main.isDisableGame) {
@@ -142,14 +144,49 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         );
     }
 
+    createChipStack(bet: number, betChips: BetChips, shadowFrame: cc.SpriteFrame, skewX: number) {
+        const values = GameUtils.getChipQuantity(bet, betChips.chipValues);
+        const node = new cc.Node();
+        const chipStack = node.addComponent(ChipStack);
+        chipStack.chipSize = 26;
+        chipStack.thickness = 18;
+        chipStack.skewX = skewX;
+
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
+        let firstChip = true;
+        keys.forEach((chip) => {
+            const count = values[chip];
+            for (let i = 0; i < count; i++) {
+                let chipNode: cc.Node;
+                if (+chip === 0) {
+                    chipNode = betChips.createLowValueChip();
+                    console.log("createChipStacksaa");
+                } else {
+                    chipNode = betChips.createBigChip(+chip);
+                    console.log("createChipStacksbbbbbb");
+                }
+                chipStack.addChip(chipNode);
+
+                if (firstChip && i === 0) {
+                    firstChip = false;
+                    const shadow = new cc.Node();
+                    shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
+                    chipNode.addChild(shadow);
+                }
+            }
+        });
+        return node;
+    }
+
     addChipStack(destNode: cc.Node, totalAmount: number) {
         const nameChipStack = "chipStackNode";
-        const chipStack = GameUtils.createChipStack(totalAmount, this.main.betChips, this.main.shadowChip, destNode.skewX);
+        const chipStack = this.createChipStack(totalAmount, this.main.betChips, this.main.shadowChip, destNode.skewX);
         chipStack.zIndex = -1;
         chipStack.scaleX = this.chipScaleX;
         chipStack.scaleY = this.chipScaleY;
+
         chipStack.children.forEach((child) => {
-            child.getComponent(ChipView)?.applyForSmallChip();
+            child.getComponent(FruitSlotChipView)?.applyForSmallChip();
         });
         const oldChipStack = destNode.getChildByName(nameChipStack);
         oldChipStack && destNode.removeChild(oldChipStack);

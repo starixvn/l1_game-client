@@ -14,6 +14,7 @@ export default class ChipStack extends cc.Component {
     addChip(chipNode: cc.Node) {
         chipNode.position = cc.v2(this.calcPositionX(), this.getCurrentHeight());
         this.node.addChild(chipNode);
+        console.log("calcPositionX", this.calcPositionX(), this.getCurrentHeight());
     }
 
     getChipNumber() {
@@ -26,7 +27,7 @@ export default class ChipStack extends cc.Component {
 
     calcPositionX() {
         if (this.skewX === 0) {
-            return 0;
+            return Math.floor(Math.random() * 3 - Math.random() * 4);
         }
 
         let positionX = 0;
