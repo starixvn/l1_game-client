@@ -1,4 +1,3 @@
-import GameIdSprite from "../../../common/GameIdSprite";
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
 import TableGameBase from "../../_base_new/view-models/TableGameBase";
 import { KenoTableGameColor, MegaKeno1Id, MegaKeno3Id, MegaKeno4Id, MegaKenoConfigs } from "./MegaKenoConfig";
@@ -118,7 +117,7 @@ export default class MegaKeno extends TableGameBase {
         this.settlementEndResult && this.settlementEndResult.hide();
     }
 
-    handleAfterSettlementResult(settlement: any) {
+    handleAfterSettlementResult(settlement: any, animated: boolean) {
         super.handleAfterSettlementResult(settlement, false);
         this.settlementEndResult && this.settlementEndResult.showResult(settlement);
     }

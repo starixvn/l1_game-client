@@ -56,7 +56,7 @@ export const updateWaiting =
     ({ remaining, globalRemaining }) => {
         game.showMainTime(false);
         game.showProcessingWarning(false);
-
+        game.showWaittingTime(true);
         game.setWaitingTimeLabel(numberPad(remaining - 1, 2));
 
         const condition =

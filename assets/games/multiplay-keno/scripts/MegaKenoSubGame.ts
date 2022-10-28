@@ -1,4 +1,5 @@
 import MD5Component from "../../_base/view-models/MD5Component";
+import { clearChipsForLostChoices } from "../../_base_new/actions/NewPayChipsAction";
 import MegaKeno from "./MegaKeno";
 
 const { ccclass, property } = cc._decorator;
@@ -38,10 +39,10 @@ export default class MegaKenoSubGame extends MegaKeno {
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
         this.gameData.roundHistory.update();
-        this.showWaittingTime(true);
         this.gameData.resultHash.updateUI();
         this.gameData.settlement.showStatus();
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
+        clearChipsForLostChoices(this, settlement.settlementResult);
     }
 
     showStatus(status: any) {

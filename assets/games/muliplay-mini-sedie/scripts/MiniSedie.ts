@@ -211,7 +211,6 @@ export default class MiniSedie extends MultiplayGameSingle {
 
     showWinChoiceAndUpdateHistory(settlement: any) {
         this.gameData.roundHistory.update();
-        this.showWaittingTime(true);
         this.updateRoundHistory();
         this.gameData.resultHash.updateUI();
         this.setDots(settlement.result);

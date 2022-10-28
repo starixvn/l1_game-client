@@ -126,7 +126,6 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
 
     showWinChoiceAndUpdateHistory(settlement: any) {
         this.gameData.roundHistory.update();
-        this.showWaittingTime(true);
         this.updateRoundHistory();
         this.showResultNode();
         this.gameData.resultHash.updateUI();

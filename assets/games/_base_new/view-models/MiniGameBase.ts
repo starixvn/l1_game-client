@@ -315,7 +315,6 @@ export default class MiniGameBase extends NewMiniGameBase {
      */
     handleAfterSettlementResult(settlement: any, animated: boolean) {
         this.gameData.roundHistory.update();
-        this.showWaittingTime(true);
         this.gameData.resultHash.updateUI();
     }
 

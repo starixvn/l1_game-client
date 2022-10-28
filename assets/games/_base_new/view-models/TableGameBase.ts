@@ -96,7 +96,6 @@ export default class TableGameBase extends MiniGameBase {
      */
     handleAfterSettlementResult(settlement: any, animated: boolean) {
         this.gameData.roundHistory.update();
-        this.showWaittingTime(true);
         this.gameData.resultHash.updateUI();
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
         if (animated) {
