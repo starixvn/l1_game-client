@@ -1,4 +1,5 @@
 import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import FruitSlotHistory, { BetLog } from "./FruitSlotHistory";
 import FruitSlotTicketDetail from "./ticket-detail/FruitSlotTicketDetail";
 
@@ -51,6 +52,7 @@ export default class FruitSlotHistoryItem extends cc.Component {
     }
 
     async setData(betLog: BetLog, historyMainNode: FruitSlotHistory) {
+        const winColor = new cc.Color(255, 246, 100);
         this.betLog = betLog;
         this.historyMainNode = historyMainNode;
         this.timeLabel.string = formatDateTime(betLog.time);
@@ -65,8 +67,8 @@ export default class FruitSlotHistoryItem extends cc.Component {
         this.bigSymbol.active = isBigSymbol;
         this.smallSymbol.active = !isBigSymbol;
 
-        this.amountLabel.string = betLog.totalAmount.toString();
-        this.winLabel.string = betLog.betwin.toString();
-        this.winLabel.node.color = betLog.betwin > 0 ? cc.Color.YELLOW : cc.Color.WHITE;
+        this.amountLabel.string = numberWithCommas(betLog.totalAmount, 2);
+        this.winLabel.string = numberWithCommas(betLog.betwin, 2);
+        this.winLabel.node.color = betLog.betwin > 0 ? winColor : cc.Color.WHITE;
     }
 }

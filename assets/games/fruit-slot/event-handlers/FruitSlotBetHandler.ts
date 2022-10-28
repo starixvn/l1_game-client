@@ -156,14 +156,13 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         let firstChip = true;
         keys.forEach((chip) => {
             const count = values[chip];
+            //console.log("Add Chip Stack", count);
             for (let i = 0; i < count; i++) {
                 let chipNode: cc.Node;
                 if (+chip === 0) {
                     chipNode = betChips.createLowValueChip();
-                    console.log("createChipStacksaa");
                 } else {
                     chipNode = betChips.createBigChip(+chip);
-                    console.log("createChipStacksbbbbbb");
                 }
                 chipStack.addChip(chipNode);
 
@@ -187,6 +186,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
 
         chipStack.children.forEach((child) => {
             child.getComponent(FruitSlotChipView)?.applyForSmallChip();
+            //console.log("chipStack.children", child);
         });
         const oldChipStack = destNode.getChildByName(nameChipStack);
         oldChipStack && destNode.removeChild(oldChipStack);

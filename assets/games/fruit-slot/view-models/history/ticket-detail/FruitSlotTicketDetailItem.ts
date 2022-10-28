@@ -36,6 +36,7 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
         index: number
     ) {
         const { time, choice, amount, subChoices } = betLogDetail;
+        const winColor = new cc.Color(255, 246, 100);
         this.time.string = formatDateTime(time);
 
         ["big", "small"].includes(choice) ? this.updateBigSmallSymbol(choice) : this.updateNormalSymbol(symbolsSpriteFrames, choice);
@@ -45,7 +46,7 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
 
         const winningAmount = settlementResult[winningChoice] ? amount * odds[winningChoice] : 0;
         this.win.string = numberWithCommas(winningAmount, 2);
-        this.win.node.color = winningAmount > 0 ? cc.Color.YELLOW : cc.Color.WHITE;
+        this.win.node.color = winningAmount > 0 ? winColor : cc.Color.WHITE;
 
         if (index === 0) {
             this.node.getChildByName("topBorder").active = false;
