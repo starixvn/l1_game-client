@@ -17,6 +17,12 @@ export default class MegaKeno extends TableGameBase {
     @property({ type: cc.Prefab })
     settlementResultPrefabs: cc.Prefab[] = [];
 
+    @property(cc.Node)
+    countdownBg: cc.Node = null;
+
+    @property(cc.Node)
+    countdownBgClone: cc.Node = null;
+
     bigSmallStatistic: StatisticBoard = null;
     evenOddStatistic: StatisticBoard = null;
     protected override managedByContainer = true;
@@ -57,6 +63,9 @@ export default class MegaKeno extends TableGameBase {
     renderTableGame(gameId: number) {
         super.renderTableGame(gameId);
         this.tableGameBg && (this.tableGameBg.color = cc.Color.BLACK.fromHEX(KenoTableGameColor[gameId]));
+        if (this.countdownBg && this.countdownBgClone) {
+            this.countdownBg.color = this.countdownBgClone.color = cc.Color.BLACK.fromHEX(KenoTableGameColor[gameId]);
+        }
     }
 
     onInitializeBigSmallStatistic(node: cc.Node) {
