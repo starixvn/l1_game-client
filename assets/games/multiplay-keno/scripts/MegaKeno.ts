@@ -18,9 +18,6 @@ export default class MegaKeno extends TableGameBase {
     @property({ type: cc.Prefab })
     settlementResultPrefabs: cc.Prefab[] = [];
 
-    @property(GameIdSprite)
-    gameNameTitleBg: GameIdSprite = null;
-
     bigSmallStatistic: StatisticBoard = null;
     evenOddStatistic: StatisticBoard = null;
     protected override managedByContainer = true;
@@ -55,31 +52,7 @@ export default class MegaKeno extends TableGameBase {
         this.gameId = gameId;
         this.config = MegaKenoConfigs[gameId];
         this.renderTableGame(gameId);
-        this.renderTitleGameBg(gameId);
         this.initSettlementResultAnimation(gameId);
-    }
-
-    renderTitleGameBg(gameId: number) {
-        if (this.gameNameTitleBg) {
-            this.gameNameTitleBg.prefix = `main_table_bgtitle_`;
-
-            switch (gameId) {
-                case 52:
-                case 53:
-                    this.gameNameTitleBg.gameId = 52;
-                    break;
-                case 14:
-                case 15:
-                    this.gameNameTitleBg.gameId = 14;
-                    break;
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                    this.gameNameTitleBg.gameId = 16;
-                    break;
-            }
-        }
     }
 
     renderTableGame(gameId: number) {
