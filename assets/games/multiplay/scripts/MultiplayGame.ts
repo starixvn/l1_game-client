@@ -12,6 +12,7 @@ import NewGameData from "../../_base_new/models/NewGameData";
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import { KeyStorageStatisticOpen } from "./MultiplayGameSingle";
 import MultiplayPromotionGuide from "./MultiplayPromotionGuide";
+import MultiplayScoreBoard from "./MultiplayScoreBoard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,6 +45,9 @@ export default class MultiplayGame extends GameViewBase {
 
     @property(cc.Node)
     bgShadow: cc.Node = null;
+
+    @property(cc.Prefab)
+    scoreBoardPrefab: cc.Prefab = null;
 
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
@@ -396,5 +400,17 @@ export default class MultiplayGame extends GameViewBase {
             : animated
             ? this.hideSubGamesWithAnimation()
             : this.hideSubGamesWithAnimation(false);
+    }
+
+    onScoreBoardClick() {
+        AudioManager.getInstance().playClick();
+        const node = cc.instantiate(this.scoreBoardPrefab);
+        this.currentMiniPanel.addDialog(node);
+
+        const scoreBoard = node.getComponent(MultiplayScoreBoard);
+        scoreBoard.init(this.games);
+        scoreBoard.openGameCallback = (gameId) => {
+            this.switchGameToMain(gameId);
+        };
     }
 }

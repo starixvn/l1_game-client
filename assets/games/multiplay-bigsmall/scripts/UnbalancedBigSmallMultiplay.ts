@@ -1,6 +1,4 @@
-import AudioManager from "../../../common/audio/AudioManager";
 import MultiplayGame from "../../multiplay/scripts/MultiplayGame";
-import BigSmallMultiplayScoreBoard from "./BigSmallMultiplayScoreBoard";
 import UnbalancedBigSmall from "./UnbalancedBigSmall";
 import { UnbalancedBigSmall1Id, UnbalancedBigSmall2Id, UnbalancedBigSmall3Id, UnbalancedBigSmall4Id } from "./UnbalancedBigSmallConfig";
 import UnbalancedBigSmallSubGame from "./UnbalancedBigSmallSubGame";
@@ -9,9 +7,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class UnbalancedBigSmallMultiplay extends MultiplayGame {
-    @property(cc.Prefab)
-    scoreBoardPrefab: cc.Prefab = null;
-
     gameIds: number[] = [UnbalancedBigSmall1Id, UnbalancedBigSmall2Id, UnbalancedBigSmall3Id, UnbalancedBigSmall4Id];
 
     constructor() {
@@ -28,8 +23,12 @@ export default class UnbalancedBigSmallMultiplay extends MultiplayGame {
 
     addSubGameUI(gameId: number, location: number) {
         const subGameNode = super.addSubGameUI(gameId, location);
-        const multiplaySingle = subGameNode.getComponent(UnbalancedBigSmallSubGame);
-        multiplaySingle.miniRoundHistory && (multiplaySingle.miniRoundHistory.tip.node.opacity = 0);
+        if (subGameNode) {
+            const multiplaySingle = subGameNode.getComponent(UnbalancedBigSmallSubGame);
+            multiplaySingle.miniRoundHistory && (multiplaySingle.miniRoundHistory.tip.node.opacity = 0);
+            multiplaySingle.isMainGame = false;
+        }
+
         return subGameNode;
     }
 
@@ -38,17 +37,5 @@ export default class UnbalancedBigSmallMultiplay extends MultiplayGame {
         const multiplaySingle = node.getComponent(UnbalancedBigSmall);
         multiplaySingle.setGameId(gameId);
         return node;
-    }
-
-    onScoreBoardClick() {
-        AudioManager.getInstance().playClick();
-        const node = cc.instantiate(this.scoreBoardPrefab);
-        this.currentMiniPanel.addDialog(node);
-
-        const scoreBoard = node.getComponent(BigSmallMultiplayScoreBoard);
-        scoreBoard.init(this.games);
-        scoreBoard.openGameCallback = (gameId) => {
-            this.switchGameToMain(gameId);
-        };
     }
 }
