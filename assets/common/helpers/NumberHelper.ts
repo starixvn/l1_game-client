@@ -11,7 +11,7 @@ const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
     return "0";
 };
 
-const truncate2Decimals = (number, fixed) => {
+const truncateFixedDecimals = (number, fixed) => {
     const withFixedDecimals = `${number}`.match(new RegExp(`^-?\\d+(?:\.\\d{0,${fixed}})?`))[0];
     return parseFloat(withFixedDecimals)
         .toString()
@@ -100,4 +100,4 @@ export function getInternationalFractionalOdds(value: number) {
     return `1:${value}`;
 }
 
-export { numberWithCommas, getOnlyNumberInString, numberPad, numberTo, zeroPad, nFormatter, truncate2Decimals };
+export { numberWithCommas, getOnlyNumberInString, numberPad, numberTo, zeroPad, nFormatter, truncateFixedDecimals };

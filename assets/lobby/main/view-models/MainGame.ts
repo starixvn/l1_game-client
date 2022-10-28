@@ -7,7 +7,7 @@ import MusicPlayer from "../../../common/audio/MusicPlayer";
 import NotificationService from "../../../common/auth/NotificationService";
 import UserService from "../../../common/auth/UserService";
 import GameUtils from "../../../common/GameUtils";
-import { truncate2Decimals } from "../../../common/helpers/NumberHelper";
+import { truncateFixedDecimals } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
@@ -397,9 +397,9 @@ export default class MainGame extends cc.Component {
                 userCurrency = currency ? currency : "";
             }
 
-            return `${truncate2Decimals(red, 2)} ${userCurrency}`;
+            return `${truncateFixedDecimals(red, 2)} ${userCurrency}`;
         } else {
-            return `${truncate2Decimals(red, 2)}`;
+            return `${truncateFixedDecimals(red, 2)}`;
         }
     }
 
