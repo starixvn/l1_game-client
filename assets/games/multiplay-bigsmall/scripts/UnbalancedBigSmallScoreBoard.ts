@@ -8,9 +8,9 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class UnbalancedBigSmallScoreBoard extends SingleScoreBoard {
     override choices = ["big", "small"];
+
     override generalExtraInfo(history) {
-        const count = Object.values(history.result).reduce((prev: number, value: number) => prev + value, 0);
-        return count;
+        return Object.values(history.result).reduce((prev: number, value: number) => prev + value, 0);
     }
 
     override init(game: MiniGameBase) {
