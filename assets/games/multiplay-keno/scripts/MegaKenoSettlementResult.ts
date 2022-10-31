@@ -1,5 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import KenoSettlementWinChoices from "../../mini-keno/view-models/KenoSettlementWinChoices";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,6 +23,9 @@ export default class MegaKenoSettlementResult extends cc.Component {
 
     @property()
     drawingBallDuration = 4;
+
+    @property(cc.AudioClip)
+    rollingBallsClip: cc.AudioClip = null;
 
     numberLabels: cc.Label[] = [];
 
@@ -54,6 +58,7 @@ export default class MegaKenoSettlementResult extends cc.Component {
         this.animation.clear();
         this.animation.on("finished", onComplete);
         this.animation.play();
+        this.rollingBallsClip && AudioManager.getInstance().playSFX(this.rollingBallsClip);
     }
 
     startCountTotal() {
