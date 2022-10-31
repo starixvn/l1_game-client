@@ -35,13 +35,13 @@ export const placeBetSuccess = (gameBase: MiniGameBase) => (endBet: number) => {
     gameBase.showAcceptedBet(endBet);
 };
 
-export const placeOwnChip = (gameBase: MiniGameBase) => (ownBet) => {
+export const placeOwnChipsFake = (gameBase: MiniGameBase) => (ownBets) => {
     if (!gameBase.isPlacingFakeChip || gameBase.isDisableGame) {
         return;
     }
     gameBase.betItems.forEach((item) => {
         const choice = item.node.name;
-        const betValue = ownBet[choice];
+        const betValue = ownBets[choice];
         gameBase.betChips.showChipOwnBet(item, betValue);
     });
 };
@@ -56,7 +56,7 @@ export const changeBetPercentage = (game: MiniGameBase) => (betPercentage: any) 
     });
 };
 
-export const handleFlyChips = (game: MiniGameBase) => (data) => {
+export const handleFlyOwnChipFake = (game: MiniGameBase) => (data) => {
     if (!game.isPlacingFakeChip) {
         return;
     }

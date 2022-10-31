@@ -10,11 +10,11 @@ import { TotalBets } from "../../_new/_base/game-data-management/models/total-be
 import NewMiniGameBase from "../../_new/_base/NewMiniGameBase";
 import {
     changeBetPercentage,
-    handleFlyChips,
+    handleFlyOwnChipFake,
     handlePayChips,
     placeBetFailed,
     placeBetSuccess,
-    placeOwnChip,
+    placeOwnChipsFake,
     updateOwnBets,
     updatePreviousBets,
     updateTotalBets,
@@ -280,8 +280,8 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_FAILED, placeBetFailed);
         this.emitterListener(this.gameData.betModel, BetModel.Events.PLACE_BET_SUCCESS, placeBetSuccess);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_BET_PERCENTAGE, changeBetPercentage);
-        this.emitterListener(this.gameData.betModel, BetModel.Events.FLY_OWN_CHIP, handleFlyChips);
-        this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP_FAKE, placeOwnChip);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.FLY_OWN_CHIP_FAKE, handleFlyOwnChipFake);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIPS_FAKE, placeOwnChipsFake);
 
         this.emitterListener(this.gameData.gameConfigs, GameConfigs.Events.CHANGE, handleGameConfigs);
         this.emitterListener(this.gameData.notice, NoticeModel.Events.CHANGE, handleNotice);

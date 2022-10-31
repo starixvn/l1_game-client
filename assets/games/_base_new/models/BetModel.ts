@@ -14,8 +14,8 @@ export class BetModel extends EventEmitterBase {
         CHANGE_OWN_CHIPS: "BetModel:CHANGE_OWN_CHIPS",
         PLACE_BET_FAILED: "BetModel:PLACE_BET_FAILED",
         PLACE_BET_SUCCESS: "BetModel:PLACE_BET_SUCCESS",
-        FLY_OWN_CHIP: "BetModel:FLY_OWN_CHIP",
-        CHANGE_OWN_CHIP_FAKE: "BetModel:CHANGE_OWN_CHIP_FAKE"
+        FLY_OWN_CHIP_FAKE: "BetModel:FLY_OWN_CHIP_FAKE",
+        CHANGE_OWN_CHIPS_FAKE: "BetModel:CHANGE_OWN_CHIPS_FAKE"
     };
 
     ownBets: Choices;
@@ -41,6 +41,15 @@ export class BetModel extends EventEmitterBase {
         this.emit(BetModel.Events.UPDATE_PREVIOUS_BET, this.ownBets);
     }
 
+    initOwnChipsByOwnBets(ownBets: any) {
+        Object.keys(ownBets).forEach((choice) => {
+            const bet = ownBets[choice];
+            const chips = GameUtils.getChipQuantity(bet, this.getChipValues());
+            this.updateOwnChips(choice, chips);
+        });
+        this.ownChips && this.emit(BetModel.Events.CHANGE_OWN_CHIPS, this.ownChips);
+    }
+
     placeBetSuccess(endBet: number) {
         this.emit(BetModel.Events.PLACE_BET_SUCCESS, endBet);
     }
@@ -56,8 +65,8 @@ export class BetModel extends EventEmitterBase {
         this.emit(BetModel.Events.CHANGE_OWN_CHIP, this.ownChip);
     }
 
-    flyOwnChip(ownBet: any) {
-        this.emit(BetModel.Events.FLY_OWN_CHIP, ownBet);
+    flyOwnChipFake(ownBet: any) {
+        this.emit(BetModel.Events.FLY_OWN_CHIP_FAKE, ownBet);
     }
 
     changeBetPercentage(percentage: number) {
@@ -67,10 +76,11 @@ export class BetModel extends EventEmitterBase {
 
     updateUI() {
         this.ownBets && this.emit(BetModel.Events.CHANGE_OWN_BET, this.ownBets);
-        this.ownBets && this.actionFlyOwnChipFake(this.ownBets);
         this.betPercentage && this.emit(BetModel.Events.CHANGE_BET_PERCENTAGE, this.betPercentage);
         this.totalChips && this.emit(BetModel.Events.CHANGE_TOTAL_CHIPS, this.totalChips);
+
         this.ownChips && this.emit(BetModel.Events.CHANGE_OWN_CHIPS, this.ownChips);
+        this.ownBets && this.changeOwnChipsFake(this.ownBets);
     }
 
     changePlayerChip(data: any) {
@@ -109,8 +119,8 @@ export class BetModel extends EventEmitterBase {
         this.emit(BetModel.Events.CHANGE_TOTAL_CHIPS, this.totalChips);
     }
 
-    actionFlyOwnChipFake(ownBets) {
-        this.emit(BetModel.Events.CHANGE_OWN_CHIP_FAKE, ownBets);
+    changeOwnChipsFake(ownBets) {
+        this.emit(BetModel.Events.CHANGE_OWN_CHIPS_FAKE, ownBets);
     }
 
     handleRebet(rebet: any) {

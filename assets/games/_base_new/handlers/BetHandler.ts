@@ -26,14 +26,17 @@ export class BetHandler extends BaseEventHandler<BetEventType> {
                 this.gameData.betModel.placeBetFailed();
             } else {
                 this.gameData.betModel.placeBetSuccess(event.endBet);
-                this.gameData.betModel.flyOwnChip({ endBet: event.endBet, betChoice: event.betChoice });
+                this.gameData.betModel.flyOwnChipFake({ endBet: event.endBet, betChoice: event.betChoice });
             }
         }
 
         if (event.ownBets) {
             this.gameData.betModel.changeOwnBets(event.ownBets);
-            const isInGame = event.gameConfigs !== undefined;
-            isInGame && this.gameData.betModel.actionFlyOwnChipFake(event.ownBets);
+            const isInGamePackage = event.gameConfigs !== undefined;
+            if (isInGamePackage) {
+                this.gameData.betModel.changeOwnChipsFake(event.ownBets);
+                this.gameData.betModel.initOwnChipsByOwnBets(event.ownBets);
+            }
         }
 
         if (event.betPercentage) {
