@@ -23,6 +23,9 @@ export default class FruitSlotSymbolSpineAnimation extends cc.Component {
     highlightSymbol(highlight: boolean) {
         if (this.winSymbolHighlight) {
             this.winSymbolHighlight.active = highlight ? true : false;
+            cc.tween(this.winSymbolHighlight)
+                .repeatForever(cc.tween().to(0.3, { opacity: 255 }).to(0.3, { opacity: 0 }))
+                .start();
         }
     }
 }

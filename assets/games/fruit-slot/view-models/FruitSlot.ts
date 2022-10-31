@@ -214,16 +214,6 @@ export default class FruitSlot extends NewGameRoomBase {
             }, []);
     }
 
-    setBgVisibility(node: cc.Node, visible: boolean, animated = true) {
-        if (animated) {
-            cc.tween(node)
-                .to(0.3, { opacity: visible ? 255 : 0 })
-                .start();
-        } else {
-            node.opacity = visible ? 255 : 0;
-        }
-    }
-
     // updateBetStatus(forceUpdate = false) {
     //     if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
     //         return;

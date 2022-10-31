@@ -8,6 +8,7 @@ import {
     highlightBigSmallWinning,
     playLedLightAnimation,
     randomNumberAnimation,
+    setBgVisibility,
     spinItemAnimation
 } from "./FruitSlotWinningAction";
 
@@ -25,7 +26,7 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
     game.finishShowResult = false;
     const delaySpinAnim = 6.5;
 
-    game.setBgVisibility(game.betOptionsUI.bgLockSpin, false);
+    setBgVisibility(game.betOptionsUI.bgLockSpin, false);
     game.betOptionsUI.lightAnimation.node.active = false;
 
     cc.tween(game.spinItems)

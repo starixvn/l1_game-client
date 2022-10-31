@@ -1,3 +1,4 @@
+import { setBgVisibility } from "../actions/FruitSlotWinningAction";
 import FruitSlot from "./FruitSlot";
 import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotLedLightItem from "./FruitSlotLedLightItem";
@@ -54,6 +55,6 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         });
 
         this.spinItems.forEach((item) => item.resetHighlight());
-        this.main.setBgVisibility(this.bgLockSpin, true);
+        setBgVisibility(this.bgLockSpin, true);
     }
 }

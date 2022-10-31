@@ -1,6 +1,5 @@
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
-import { FruitSlotResult, FruitSlotSettlementResult } from "../FruitSlotType";
 import FruitSlot from "../view-models/FruitSlot";
 import FruitSlotBetItem from "../view-models/FruitSlotBetItem";
 import FruitSlotBetOptionsUI from "../view-models/FruitSlotBetOptionsUI";
@@ -37,7 +36,7 @@ const executeAnim = async (duration: number, from: number, to: number, numberOfS
                 duration,
                 { value: to },
                 {
-                    easing: "sineInOut",
+                    easing: "quadOut",
                     onUpdate: (target: { value: number }) => {
                         const nextIndex = Math.round(target.value);
 
@@ -59,6 +58,16 @@ const executeAnim = async (duration: number, from: number, to: number, numberOfS
     });
 };
 
+export const setBgVisibility = (node: cc.Node, visible: boolean, animated = true) => {
+    if (animated) {
+        cc.tween(node)
+            .to(0.3, { opacity: visible ? 255 : 0 })
+            .start();
+    } else {
+        node.opacity = visible ? 255 : 0;
+    }
+};
+
 export const formatBigSmallResult = (result: number) => {
     const resultText = result < 10 ? "0" + result.toString() : result.toString();
     return resultText;
@@ -72,7 +81,7 @@ export const randomNumberAnimation = (betOptionsUI: FruitSlotBetOptionsUI) => (t
             timeDuration,
             { itemIndex: 39 },
             {
-                easing: "sineInOut",
+                easing: "quadOut",
                 onUpdate: (target) => {
                     const node = Math.round(target.itemIndex);
                     if (currentIndex !== node) {
@@ -140,7 +149,7 @@ export const playLedLightAnimation = async (betOptionsUI: FruitSlotBetOptionsUI)
             timeDuration,
             { value: steps },
             {
-                easing: "sineInOut",
+                easing: "quadOut",
                 onUpdate: (target: { value: number }) => {
                     const nextIndex = Math.round(target.value);
 
@@ -166,7 +175,8 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
     const numberOfSymbols = game.betOptionsUI.spinItems.length;
     const symbolPositions = finish.result.symbolPositions;
     const firstPosition = symbolPositions[0];
-    const steps = firstPosition + numberOfSymbols * 5;
+    const steps = firstPosition + numberOfSymbols * 4;
+    const firstSpinTimeDuration = 6.5;
 
     game.betOptionsUI?.betItems?.forEach((betItem: FruitSlotBetItem) => {
         betItem.node.opacity = 150;
@@ -174,16 +184,16 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
 
     if (game.betOptionsUI?.spinItems && game.betOptionsUI?.spinItems[firstPosition]) {
         if (!finish.result.isLucky) {
-            await executeAnim(timeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
+            await executeAnim(firstSpinTimeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
             game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation();
             highlightWinningChoice(game.betOptionsUI)(finish);
         } else {
-            await executeAnim(timeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
+            await executeAnim(firstSpinTimeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
             game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation();
 
             for (let i = 0; i < symbolPositions.length - 1; i++) {
                 const totalSteps = (symbolPositions[i + 1] - symbolPositions[i] + numberOfSymbols) % numberOfSymbols;
-                const nextPosition = symbolPositions[i] + totalSteps + 72;
+                const nextPosition = symbolPositions[i] + totalSteps + 48;
                 const winSymbol = getWinningOption(finish.result.symbols[i]);
 
                 await executeAnim(4, symbolPositions[i], nextPosition, numberOfSymbols, game.betOptionsUI?.spinItems);

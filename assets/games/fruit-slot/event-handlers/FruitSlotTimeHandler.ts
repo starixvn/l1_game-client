@@ -1,6 +1,6 @@
 import { FruitSlotFinishModel } from "./../actions/FruitSlotFinishActions";
 import GameBaseTimeHandler from "../../_base/handlers/GameBaseTimeHandler";
-import { formatBigSmallResult, getWinningOption, highlightWinningSymbol, showHighlightBet } from "../actions/FruitSlotWinningAction";
+import { formatBigSmallResult, getWinningOption, highlightWinningSymbol, setBgVisibility, showHighlightBet } from "../actions/FruitSlotWinningAction";
 import FruitSlot from "../view-models/FruitSlot";
 import { FruitSlotResult } from "../FruitSlotType";
 
@@ -27,7 +27,7 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
         const gameRoundHistoryData = this.main.gameData.roundHistory.roundHistory[0].result;
         this.main.timeAnimShowResult(!this.main.finishShowResult);
-        this.main.setBgVisibility(this.main.betOptionsUI.bgLockSpin, false);
+        setBgVisibility(this.main.betOptionsUI.bgLockSpin, false);
         this.main.betOptionsUI.lightAnimation.node.active = false;
 
         if (this.isFirstJoinRoom) {
@@ -48,7 +48,7 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
     handleInRoundTime() {
         super.handleInRoundTime();
-        this.main.setBgVisibility(this.main.betOptionsUI.bgLockSpin, true, false);
+        setBgVisibility(this.main.betOptionsUI.bgLockSpin, true, false);
     }
 
     handleInLockBetTime() {
