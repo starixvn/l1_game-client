@@ -1,11 +1,13 @@
+const formatCommasReg = /\B(?=(\d{3})+(?!\d))/g;
 const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
     if (number) {
+        let trimZeroNumber;
         if (noZeroSuffix) {
-            const trimZeroNumber = +(+number).toFixed(toFixed);
-            return trimZeroNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            trimZeroNumber = `${+(+number).toFixed(toFixed)}`;
         } else {
-            return (+number).toFixed(toFixed).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            trimZeroNumber = (+number).toFixed(toFixed);
         }
+        return trimZeroNumber.replace(formatCommasReg, ",");
     }
 
     return "0";
@@ -13,9 +15,7 @@ const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
 
 const truncateFixedDecimals = (number, fixed) => {
     const withFixedDecimals = `${number}`.match(new RegExp(`^-?\\d+(?:\.\\d{0,${fixed}})?`))[0];
-    return parseFloat(withFixedDecimals)
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parseFloat(withFixedDecimals).toString().replace(formatCommasReg, ",");
 };
 
 const nFormatter = (num, digits = 0) => {
