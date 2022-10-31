@@ -14,6 +14,7 @@ import { GameData } from "../../_new/_base/game-data-management/models/game-data
 import {
     handleAddPlayers,
     handlePlaceOwnChip,
+    handlePlaceOwnChips,
     handlePlaceTotalChips,
     handlePlacingBet,
     handlePlayerChipAction,
@@ -88,6 +89,7 @@ export default class TableGameBase extends MiniGameBase {
         this.emitterListener(this.gameData.durations, this.startRoundEvent, resetUIAndClearChips);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
         this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIP, handlePlaceOwnChip);
+        this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_OWN_CHIPS, handlePlaceOwnChips);
         if (this.showOtherPlayerChips) {
             this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_PLAYER_CHIP, handlePlayerChipAction);
             this.emitterListener(this.gameData.betModel, BetModel.Events.CHANGE_TOTAL_CHIPS, handlePlaceTotalChips);

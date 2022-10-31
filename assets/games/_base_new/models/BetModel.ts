@@ -11,6 +11,7 @@ export class BetModel extends EventEmitterBase {
         CHANGE_OWN_CHIP: "BetModel:CHANGE_OWN_CHIP",
         CHANGE_PLAYER_CHIP: "BetModel:CHANGE_PLAYER_CHIP",
         CHANGE_TOTAL_CHIPS: "BetModel:CHANGE_TOTAL_CHIPS",
+        CHANGE_OWN_CHIPS: "BetModel:CHANGE_OWN_CHIPS",
         PLACE_BET_FAILED: "BetModel:PLACE_BET_FAILED",
         PLACE_BET_SUCCESS: "BetModel:PLACE_BET_SUCCESS",
         FLY_OWN_CHIP: "BetModel:FLY_OWN_CHIP",
@@ -22,6 +23,7 @@ export class BetModel extends EventEmitterBase {
     protected ownChip: any;
     protected playerChip: any;
     protected totalChips: any;
+    protected ownChips: any;
     protected betPercentage: any;
 
     clearData() {
@@ -30,6 +32,7 @@ export class BetModel extends EventEmitterBase {
         this.playerChip = null;
         this.totalChips = null;
         this.betPercentage = null;
+        this.ownChips = null;
     }
 
     changeOwnBets(choices: Choices) {
@@ -49,7 +52,7 @@ export class BetModel extends EventEmitterBase {
     changeOwnChip(ownChip: any) {
         this.ownChip = ownChip;
         const { betChoice, amount } = ownChip;
-        this.updateTotalChips(betChoice, cc.RedT.user.rate, { [amount]: 1 });
+        this.updateOwnChips(betChoice, { [amount]: 1 });
         this.emit(BetModel.Events.CHANGE_OWN_CHIP, this.ownChip);
     }
 
@@ -67,6 +70,7 @@ export class BetModel extends EventEmitterBase {
         this.ownBets && this.actionFlyOwnChipFake(this.ownBets);
         this.betPercentage && this.emit(BetModel.Events.CHANGE_BET_PERCENTAGE, this.betPercentage);
         this.totalChips && this.emit(BetModel.Events.CHANGE_TOTAL_CHIPS, this.totalChips);
+        this.ownChips && this.emit(BetModel.Events.CHANGE_OWN_CHIPS, this.ownChips);
     }
 
     changePlayerChip(data: any) {
@@ -84,6 +88,16 @@ export class BetModel extends EventEmitterBase {
         this.totalChips[rate] = this.totalChips[rate] ?? {};
         this.totalChips[rate][betChoice] = this.totalChips[rate][betChoice] ?? {};
         const currentChips = this.totalChips[rate][betChoice];
+        Object.keys(chips).forEach((chipValue) => {
+            currentChips[chipValue] = currentChips[chipValue] ?? 0;
+            currentChips[chipValue] += chips[chipValue];
+        });
+    }
+
+    private updateOwnChips(betChoice, chips: any) {
+        this.ownChips = this.ownChips ?? {};
+        this.ownChips[betChoice] = this.ownChips[betChoice] ?? {};
+        const currentChips = this.ownChips[betChoice];
         Object.keys(chips).forEach((chipValue) => {
             currentChips[chipValue] = currentChips[chipValue] ?? 0;
             currentChips[chipValue] += chips[chipValue];

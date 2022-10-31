@@ -94,6 +94,22 @@ export const handlePlaceOwnChip = (mainGame: TableGameBase) => (data) => {
     betItem && mainGame.betChips.placeChipToChipBox(amount, betItem.chipNode, null, null);
 };
 
+export const handlePlaceOwnChips = (mainGame: TableGameBase) => (dataChips) => {
+    if (!dataChips) {
+        return;
+    }
+    if (mainGame.isShowingResultLastRound()) {
+        return;
+    }
+    const chips = dataChips;
+    const betChoices = getLowercaseObjectKeys(chips);
+
+    _.forEach(mainGame.betItems, (item) => {
+        const betItemData = chips[betChoices[item.node.name.toLowerCase()]];
+        mainGame.betChips.addChips(betItemData, item.chipNode);
+    });
+};
+
 export const handlePlaceTotalChips = (mainGame: TableGameBase) => (dataChips) => {
     if (!dataChips) {
         return;

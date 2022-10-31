@@ -1,6 +1,6 @@
 import * as _ from "lodash";
-import BetItem from "../../../games/_base/view-models/BetItem";
 
+import BetItem from "../../../games/_base/view-models/BetItem";
 import AudioManager from "../../audio/AudioManager";
 import GameUtils from "../../GameUtils";
 import ChipConfig from "./ChipConfig";
@@ -361,6 +361,21 @@ export default class BetChips extends cc.Component {
                 })
             )
         );
+    }
+
+    public addChips(chipsData: any, chipsBox: cc.Node) {
+        if (!chipsData) {
+            return;
+        }
+
+        Object.keys(chipsData).forEach((chipValue) => {
+            const count = chipsData[chipValue];
+            for (let i = 0; i < count; i++) {
+                const chip = this.createSmallChip(+chipValue);
+                chip.position = this.getRandomPositionChip(chip, chipsBox);
+                chipsBox.addChild(chip);
+            }
+        });
     }
 
     public addChipsToChipBox(rate: number, chipsData: any, chipsBox: cc.Node) {
