@@ -1,4 +1,3 @@
-import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
 import MiniGameBase from "../view-models/MiniGameBase";
 import { collectChipsLost, dealerGetChipsMiniGame } from "./../../_base/action/PayChipsAction";
 
@@ -64,24 +63,6 @@ export const handleFlyChips = (game: MiniGameBase) => (data) => {
     if (data.endBet) {
         const betItem = game.betItems.find((item) => item.node.name.toLowerCase() === data.betChoice.toLowerCase());
         game.betChips.placeChipToChipBox(data.endBet, betItem.chipNode, null, null);
-    }
-};
-
-export const handleTotalChips = (game: MiniGameBase) => (dataChips) => {
-    if (game.currentTimeRemaining < game.config.betTime) {
-        if (!dataChips) {
-            return;
-        }
-
-        Object.keys(dataChips).forEach((rate) => {
-            const chips = dataChips[rate];
-            const chipsKeys = getLowercaseObjectKeys(chips);
-
-            game.betItems.forEach((item) => {
-                const betItemData = chips[chipsKeys[item.node.name.toLowerCase()]];
-                game.betChips.addChipsToChipBox(+rate, betItemData, item.chipNode);
-            });
-        });
     }
 };
 
