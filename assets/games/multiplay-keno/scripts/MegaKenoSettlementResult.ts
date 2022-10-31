@@ -30,10 +30,16 @@ export default class MegaKenoSettlementResult extends cc.Component {
     numberLabels: cc.Label[] = [];
 
     protected appearanceOrderNumbers: number[];
+    protected rollingSoundId: number;
+
     onLoad() {
         if (this.numberContainer) {
             this.numberLabels = this.numberContainer.getComponentsInChildren(cc.Label);
         }
+    }
+
+    onDestroy() {
+        this.rollingBallsClip && AudioManager.getInstance().stopSFX(this.rollingSoundId);
     }
 
     hide() {
@@ -58,7 +64,7 @@ export default class MegaKenoSettlementResult extends cc.Component {
         this.animation.clear();
         this.animation.on("finished", onComplete);
         this.animation.play();
-        this.rollingBallsClip && AudioManager.getInstance().playSFX(this.rollingBallsClip);
+        this.rollingBallsClip && (this.rollingSoundId = AudioManager.getInstance().playSFX(this.rollingBallsClip));
     }
 
     startCountTotal() {
