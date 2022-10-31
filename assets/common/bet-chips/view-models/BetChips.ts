@@ -368,6 +368,10 @@ export default class BetChips extends cc.Component {
             return;
         }
 
+        this.addChipsByChipsData(chipsData, chipsBox);
+    }
+
+    private addChipsByChipsData(chipsData: any, chipsBox: cc.Node) {
         Object.keys(chipsData).forEach((chipValue) => {
             const count = chipsData[chipValue];
             for (let i = 0; i < count; i++) {
@@ -383,21 +387,13 @@ export default class BetChips extends cc.Component {
             return;
         }
 
-        const values = Object.keys(chipsData);
-        _.forEach(values, (value) => {
-            const chipCountOfBet = chipsData[value];
-            const convertChip = GameUtils.getValueByCurrency(+value, rate);
+        const chipValues = Object.keys(chipsData);
+        _.forEach(chipValues, (originalChipValue) => {
+            const chipCountOfBet = chipsData[originalChipValue];
+            const convertChip = GameUtils.getValueByCurrency(+originalChipValue, rate);
             const convertValues = GameUtils.getChipQuantity(convertChip, this.chipValues);
             for (let i = 0; i < chipCountOfBet; i++) {
-                Object.keys(convertValues).forEach((chipValue) => {
-                    let count = convertValues[chipValue];
-                    for (; count > 0; count--) {
-                        const chip = this.createSmallChip(+chipValue);
-                        const randomPosition = this.getRandomPositionChip(chip, chipsBox);
-                        chip.position = randomPosition;
-                        chipsBox.addChild(chip);
-                    }
-                });
+                this.addChipsByChipsData(convertValues, chipsBox);
             }
         });
     }
