@@ -37,12 +37,12 @@ export const payChips = (
         winningPlayers,
         payChipsDuration,
         winningDuration,
-        statusData: mainRoomGame.statusHandler.currentStatusData
+        statusData: mainRoomGame.getCurrentStatusData()
     };
     if (!main.node.activeInHierarchy) {
         dealerGetChips(mainRoomGame, lostBetItems);
         dealerPayChips(mainRoomGame, winBetItems);
-        payChipToAllPlayers(payChipInfo);
+        mainRoomGame.payChipToAllPlayers(payChipInfo);
     } else {
         main.node.runAction(
             cc.sequence(
@@ -52,22 +52,11 @@ export const payChips = (
                 cc.callFunc(() => dealerPayChips(mainRoomGame, winBetItems)),
                 cc.delayTime(main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => {
-                    payChipToAllPlayers(payChipInfo);
+                    mainRoomGame.payChipToAllPlayers(payChipInfo);
                 })
             )
         );
     }
-};
-
-export const payChipToAllPlayers = (info: PayChipInfo) => {
-    const { mainRoomGame } = info;
-    payChipsToLoginPlayer(info, mainRoomGame.otherPlayers !== null);
-    showPayoutForLoginPlayer(info);
-    if (mainRoomGame.otherPlayers) {
-        payChipsToOtherPlayers(info);
-    }
-
-    payChipsToInGamePlayers(info);
 };
 
 export const dealerGetChips = (mainRoomGame: any, lostBetItems: BetItem[]) => {
@@ -96,7 +85,7 @@ export const payChipsToLoginPlayer = (info: PayChipInfo, isOtherPlayers = true) 
     }
 };
 
-const showPayoutForLoginPlayer = (info: PayChipInfo) => {
+export const showPayoutForLoginPlayer = (info: PayChipInfo) => {
     const { mainRoomGame, statusData, winningDuration } = info;
     if (!statusData || !statusData.win) {
         return;

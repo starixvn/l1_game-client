@@ -40,6 +40,13 @@ import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
+import {
+    PayChipInfo,
+    payChipsToInGamePlayers,
+    payChipsToLoginPlayer,
+    payChipsToOtherPlayers,
+    showPayoutForLoginPlayer
+} from "./action/PayChipsAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -831,5 +838,20 @@ export default class GameBase extends GameViewBase {
             storage.rebet = data;
             GameUtils.setSpecificGameSetting(this.gameId, storage);
         }
+    }
+
+    getCurrentStatusData() {
+        return this.statusHandler.currentStatusData;
+    }
+
+    payChipToAllPlayers(info: PayChipInfo) {
+        const { mainRoomGame } = info;
+        payChipsToLoginPlayer(info, mainRoomGame.otherPlayers !== null);
+        showPayoutForLoginPlayer(info);
+        if (mainRoomGame.otherPlayers) {
+            payChipsToOtherPlayers(info);
+        }
+
+        payChipsToInGamePlayers(info);
     }
 }

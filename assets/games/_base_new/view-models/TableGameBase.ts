@@ -1,6 +1,13 @@
 import _ = require("lodash");
 
-import { playWinningEffect } from "../../_base/action/PayChipsAction";
+import {
+    playWinningEffect,
+    PayChipInfo,
+    payChipsToLoginPlayer,
+    payChipsToOtherPlayers,
+    payChipsToInGamePlayers,
+    payChips
+} from "../../_base/action/PayChipsAction";
 import RoomPlayer, { PlayerData } from "../../_base/view-models/RoomPlayer";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
@@ -13,9 +20,9 @@ import {
     hanleAddPlayer,
     removePlayer,
     updateOtherPlayersBalance,
-    updateTablePlayer,
+    updateTablePlayer
 } from "../actions/CommonTableGameAction";
-import { clearChipsForLostChoices, payChips, resetUIAndClearChips } from "../actions/NewPayChipsAction";
+import { clearChipsForLostChoices, resetUIAndClearChips } from "../actions/NewPayChipsAction";
 import { BetModel } from "../models/BetModel";
 import NewTableGameData from "../models/NewTableGameData";
 import PlayerModel from "../models/PlayerModel";
@@ -226,5 +233,20 @@ export default class TableGameBase extends MiniGameBase {
 
     override onCloseGame() {
         this.onCloseGameCallback();
+    }
+
+    override getCurrentStatusData() {
+        return this.gameData.settlement.status;
+    }
+
+    override payChipToAllPlayers(info: PayChipInfo) {
+        const { mainRoomGame } = info;
+        payChipsToLoginPlayer(info, mainRoomGame.otherPlayers !== null);
+        mainRoomGame.gameData.settlement.showStatus();
+        if (mainRoomGame.otherPlayers) {
+            payChipsToOtherPlayers(info);
+        }
+
+        payChipsToInGamePlayers(info);
     }
 }
