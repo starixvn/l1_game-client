@@ -17,7 +17,7 @@ import {
     placeOwnChipsFake,
     updateOwnBets,
     updatePreviousBets,
-    updateTotalBets,
+    updateTotalBets
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -34,10 +34,11 @@ import {
     handleWinningStreak,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String,
+    updateMD5String
 } from "../actions/CommonAction";
 import {
     clearRoundData,
+    handleForceTimeOut,
     showCurrentRoundId,
     showLastRoundId,
     startGameLoop,
@@ -45,7 +46,7 @@ import {
     updateLockBet,
     updatePlacingBet,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { BoostedChoicesModel } from "../models/BoostedChoicesModel";
@@ -295,6 +296,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handlePayChips);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.FORCE_TIMEOUT, handleForceTimeOut);
         this.emitterListener(this.gameData.boostedOddsModel, BoostedOddsModel.Events.CHANGE, handleBoostedOdds);
         this.emitterListener(this.gameData.boostedChoicesModel, BoostedChoicesModel.Events.CHANGE, handleBoostedChoices);
     }

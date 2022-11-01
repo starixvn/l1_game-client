@@ -4,11 +4,15 @@ export class Settlement extends EventEmitterBase {
     static Events = {
         SHOW_STATUS: "Settlement:SHOW_STATUS",
         SHOW_RESULT: "Settlement:SHOW_RESULT",
-        END_SHOW_RESULT: "Settlement:END_SHOW_RESULT"
+        END_SHOW_RESULT: "Settlement:END_SHOW_RESULT",
+        FORCE_TIMEOUT: "Settlement: FORCE_TIMEOUT"
     };
     settlement: any;
     status: any;
+    isWaitingSettlement: boolean;
+
     showResult(settlement: any) {
+        this.isWaitingSettlement = false;
         this.settlement = settlement;
         this.emit(Settlement.Events.SHOW_RESULT, this.settlement);
     }
@@ -20,6 +24,10 @@ export class Settlement extends EventEmitterBase {
 
     showStatus() {
         this.status && this.emit(Settlement.Events.SHOW_STATUS, this.status);
+    }
+
+    foreTimeOut() {
+        this.emit(Settlement.Events.FORCE_TIMEOUT, this);
     }
 
     receiveStatus(status: any) {

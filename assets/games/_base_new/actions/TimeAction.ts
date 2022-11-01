@@ -13,9 +13,19 @@ export const stopGameLoop = (game: MiniGameBase) => () => {
     GameDataManager.getInstance().clearGameLoop(game.gameId);
 };
 
-export const updateTimeOut = (game: MiniGameBase) => () => {
+const hideMainTimeAndClearGame = (game: MiniGameBase) => {
     game.showMainTime(false);
     GameDataManager.getInstance().clearGameLoop(game.gameId);
+};
+
+export const updateTimeOut = (game: MiniGameBase) => () => {
+    game.gameData.settlement.isWaitingSettlement = true;
+    hideMainTimeAndClearGame(game);
+};
+
+export const handleForceTimeOut = (game: any) => (settlement) => {
+    game.gameData.durations.remaining = 0;
+    hideMainTimeAndClearGame(game);
 };
 
 export const updateClockTime =

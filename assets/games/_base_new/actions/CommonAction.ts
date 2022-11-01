@@ -5,6 +5,7 @@ import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MiniGameBase from "../view-models/MiniGameBase";
 import { showCurrentRoundId, showLastRoundId } from "./TimeAction";
+import GameDataManager from "../models/GameDataManager";
 
 export const onUM = (game: MiniGameBase) => (data) => {
     if (game.gameState === GameState.Disabled) {
@@ -57,6 +58,10 @@ export const handleBoostedChoices = (game: MiniGameBase) => (boostedChoices) => 
 
 export const handleFirstLoadRoundHistory = (game: any) => (roundHistory) => {
     if (roundHistory.length === 0) {
+        return;
+    }
+
+    if (game.gameData.settlement.isWaitingSettlement) {
         return;
     }
 
@@ -113,7 +118,6 @@ export const handleShowResult = (game: any) => (settlement) => {
     if (game.rebetButton) {
         game.rebetButton.interactable = false;
     }
-
     game.showSettlementResult(settlement);
     game.gameData.roundHistory.add(settlement);
     game.gameData.roundHistory.checkWinningStreak(settlement, game.showResultDuration);
@@ -123,6 +127,7 @@ export const handleShowResult = (game: any) => (settlement) => {
         game.countDownProgressBar.setIndicatorVisibility(false);
     }
 };
+
 export const handleAfterSettlementResult =
     (game: any) =>
     ({ settlement, animated }) => {
