@@ -89,4 +89,10 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.timeAnimShowResult(true);
         this.main.finishShowResult = false;
     }
+
+    showRoundTime() {
+        super.showRoundTime();
+        this.main.timeAnimShowResult(false);
+        this.main.finishShowResult = false;
+    }
 }

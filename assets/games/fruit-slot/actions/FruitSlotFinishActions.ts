@@ -22,13 +22,14 @@ export type FruitSlotFinishModel = {
 export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishModel) => {
     game.timeHandler.resetNewTime(finish.result);
     game.roundId = finish.roundId + 1;
-    // game.timeAnimShowResult(true);
-    // game.finishShowResult = false;
+    game.timeAnimShowResult(true);
+    game.timeWaitNode.active = false;
+    game.finishShowResult = false;
     const delaySpinAnim = 6.5;
     game.betOptionsUI.lightAnimation.node.active = false;
 
     cc.tween(game.spinItems)
-        .call(() => {            
+        .call(() => {
             spinItemAnimation(game)(finish, delaySpinAnim);
             playLedLightAnimation(game.betOptionsUI);
             randomNumberAnimation(game.betOptionsUI)(delaySpinAnim);
