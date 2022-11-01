@@ -1,14 +1,5 @@
 import MultiplayTableGameStatisticBoard from "../../../common/statistic-board/MultiplayTableGameStatisticBoard";
-import {
-    MegaKeno1Id,
-    MegaKeno2Id,
-    MegaKeno3Id,
-    MegaKeno4Id,
-    MegaKeno5Id,
-    MegaKeno6Id,
-    MegaKeno7Id,
-    MegaKeno8Id,
-} from "./MegaKenoConfig";
+import { MegaKeno1Id, MegaKeno2Id, MegaKeno3Id, MegaKeno4Id, MegaKeno5Id, MegaKeno6Id, MegaKeno7Id, MegaKeno8Id } from "./MegaKenoConfig";
 
 const { ccclass, property } = cc._decorator;
 
