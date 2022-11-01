@@ -187,7 +187,7 @@ export default class TableGameBase extends MiniGameBase {
             Object.keys(chips).forEach((chipValue) => {
                 let count = chips[chipValue];
                 for (; count > 0; count--) {
-                    this.betChips.placeChipToChipBox(+chipValue, betItem.chipNode, startNode, null);
+                    this.betChips.throwChipToChipBox(+chipValue, betItem.chipNode, startNode, null);
                 }
             });
         }

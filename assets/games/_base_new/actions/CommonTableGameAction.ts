@@ -91,7 +91,7 @@ export const handlePlaceOwnChip = (mainGame: TableGameBase) => (data) => {
     const { betChoice, amount } = data;
     const betItem = _.find(mainGame.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
 
-    betItem && mainGame.betChips.placeChipToChipBox(amount, betItem.chipNode, null, null);
+    betItem && mainGame.betChips.throwChipToChipBox(amount, betItem.chipNode, null, null);
 };
 
 export const handlePlaceOwnChips = (mainGame: TableGameBase) => (dataChips) => {

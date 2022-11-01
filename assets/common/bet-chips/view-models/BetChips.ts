@@ -292,10 +292,49 @@ export default class BetChips extends cc.Component {
         });
     }
 
+    public throwChipToChipBox(bet: number, chipBoxNode: cc.Node, startNode: cc.Node, onComplete: () => void) {
+        const isLoginUserPlaceBet = startNode === null;
+
+        const flyingDuration = isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime;
+        this.checkPlaySoundPlaceBetForLoginUser(isLoginUserPlaceBet);
+        const info = this.createStartNodeInfo(startNode, bet);
+        const notNullStartNode = info.node;
+        const startWPos = info.worldPos;
+        const startPosition = notNullStartNode.convertToNodeSpaceAR(startWPos);
+
+        const chipNode = this.createSmallChip(bet);
+        chipNode.position = startPosition;
+        const randomInChipBoxPosition = this.getRandomPositionChip(chipNode, chipBoxNode);
+        const destWPos = chipBoxNode.convertToWorldSpaceAR(randomInChipBoxPosition);
+        const randomPosition = notNullStartNode.convertToNodeSpaceAR(destWPos);
+        notNullStartNode.addChild(chipNode);
+
+        const onEnded = () => {
+            chipNode.parent = chipBoxNode;
+            chipNode.position = randomInChipBoxPosition;
+        };
+        if (!chipNode.activeInHierarchy) {
+            onEnded();
+        } else {
+            chipNode.runAction(
+                cc.sequence(
+                    this.moveChipTo(randomPosition, flyingDuration),
+                    cc.callFunc(() => {
+                        onEnded();
+                        if (onComplete) {
+                            onComplete();
+                        }
+                    })
+                )
+            );
+        }
+    }
+
     public placeChipToChipBox(bet: number, destNode: cc.Node, startNode: cc.Node, onComplete: () => void) {
         const isLoginUserPlaceBet = startNode == null;
-        this.checkLoginUserPlaceBet(startNode);
-        const chipPosition = destNode.convertToNodeSpaceAR(this.getPositonChipOnContainer(startNode, bet));
+        const flyingDuration = isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime;
+        this.checkPlaySoundPlaceBetForLoginUser(isLoginUserPlaceBet);
+        const chipPosition = destNode.convertToNodeSpaceAR(this.createStartNodeInfo(startNode, bet).worldPos);
         const chipNode = this.createSmallChip(bet);
         chipNode.position = chipPosition;
         const randomPosition = this.getRandomPositionChip(chipNode, destNode);
@@ -306,7 +345,7 @@ export default class BetChips extends cc.Component {
         } else {
             chipNode.runAction(
                 cc.sequence(
-                    this.moveChipTo(randomPosition, isLoginUserPlaceBet ? this.loginUserChipFlyingTime : this.chipFlyingTime),
+                    this.moveChipTo(randomPosition, flyingDuration),
                     cc.callFunc(() => {
                         if (onComplete) {
                             onComplete();
@@ -321,33 +360,33 @@ export default class BetChips extends cc.Component {
         return this.chips.children.find((child) => child.name === bet.toString());
     }
 
-    private checkLoginUserPlaceBet(startNode: cc.Node) {
-        const isLoginUserPlaceBet = startNode == null;
+    private checkPlaySoundPlaceBetForLoginUser(isLoginUserPlaceBet: boolean) {
         if (isLoginUserPlaceBet) {
             this.playSingleChipsSound();
         }
     }
 
-    private getPositonChipOnContainer(startNode: cc.Node, bet: number) {
-        let chipPosition: cc.Vec3;
+    private createStartNodeInfo(startNode: cc.Node, bet: number) {
+        let worldPos: cc.Vec3;
+        let node = startNode;
         if (startNode) {
-            chipPosition = startNode.parent.convertToWorldSpaceAR(startNode.position);
+            worldPos = startNode.parent.convertToWorldSpaceAR(startNode.position);
         } else {
             let chip = this.getChipNode(bet);
             if (!chip) {
                 const chips = this.chips.children.filter((child) => +child.name < bet).sort((b, a) => +a.name - +b.name);
                 chip = chips[0];
-                bet = +chip.name;
             }
-            chipPosition = chip.parent.convertToWorldSpaceAR(chip.position.add(cc.v3(0, chip.height / 2)));
+            worldPos = chip.parent.convertToWorldSpaceAR(chip.position.add(cc.v3(0, chip.height / 2)));
+            node = this.node;
         }
 
-        return chipPosition;
+        return { node, worldPos };
     }
 
     public moveChipWithCallback({ chipNode, bet, destNode, startNode, onComplete, delayDestroy, duration, fadeDuration }) {
-        this.checkLoginUserPlaceBet(startNode);
-        const chipPosition = destNode.convertToNodeSpaceAR(this.getPositonChipOnContainer(startNode, bet));
+        this.checkPlaySoundPlaceBetForLoginUser(startNode === null);
+        const chipPosition = destNode.convertToNodeSpaceAR(this.createStartNodeInfo(startNode, bet).worldPos);
         chipNode.position = chipPosition;
         destNode.addChild(chipNode);
 
