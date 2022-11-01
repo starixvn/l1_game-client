@@ -28,10 +28,9 @@ export default class FruitSlotTicketDetailResultGroup extends cc.Component {
         this.roundIdLabel.string = phien.toString();
 
         let height = 0;
-        symbols.forEach((symbol: string, index: number) => {
-            const symbolSpriteFrame = symbolsSpriteFrames.find(
-                (sprite) => sprite.name === `item_${isLucky && index === 0 ? "lucky" : symbol}`
-            );
+
+        (isLucky ? ["lucky"] : []).concat(symbols).forEach((symbol: string, index: number) => {
+            const symbolSpriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${symbol}`);
 
             height += this.createTicketDetailItem(symbolSpriteFrame, index, number);
         });
