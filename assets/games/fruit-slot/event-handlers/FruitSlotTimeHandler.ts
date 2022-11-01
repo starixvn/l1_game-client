@@ -1,6 +1,11 @@
-import { FruitSlotFinishModel } from "./../actions/FruitSlotFinishActions";
 import GameBaseTimeHandler from "../../_base/handlers/GameBaseTimeHandler";
-import { formatBigSmallResult, getWinningOption, highlightWinningSymbol, setBgVisibility, showHighlightBet } from "../actions/FruitSlotWinningAction";
+import {
+    formatBigSmallResult,
+    getWinningOption,
+    highlightWinningSymbol,
+    setBgVisibility,
+    showHighlightBet
+} from "../actions/FruitSlotWinningAction";
 import FruitSlot from "../view-models/FruitSlot";
 import { FruitSlotResult } from "../FruitSlotType";
 
@@ -77,5 +82,11 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         const durationLucky = 4;
         super.resetTime();
         result.isLucky && (this.main.currentTimeRemaining = this.main.config.fullTime + durationLucky * result.symbols.length);
+    }
+
+    handleInEndTime() {
+        super.handleInEndTime();
+        this.main.timeAnimShowResult(true);
+        this.main.finishShowResult = false;
     }
 }

@@ -66,6 +66,7 @@ export const setBgVisibility = (node: cc.Node, visible: boolean, animated = true
     } else {
         node.opacity = visible ? 255 : 0;
     }
+    console.log("setBgVisibility", visible);
 };
 
 export const formatBigSmallResult = (result: number) => {
@@ -178,6 +179,7 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
     const steps = firstPosition + numberOfSymbols * 4;
     const firstSpinTimeDuration = 6.5;
 
+    setBgVisibility(game.betOptionsUI.bgLockSpin, false);
     game.betOptionsUI?.betItems?.forEach((betItem: FruitSlotBetItem) => {
         betItem.node.opacity = 150;
     });
