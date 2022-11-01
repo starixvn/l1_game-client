@@ -1,12 +1,12 @@
 import _ = require("lodash");
 
 import {
-    playWinningEffect,
     PayChipInfo,
+    payChips,
+    payChipsToInGamePlayers,
     payChipsToLoginPlayer,
     payChipsToOtherPlayers,
-    payChipsToInGamePlayers,
-    payChips
+    playWinningEffect,
 } from "../../_base/action/PayChipsAction";
 import RoomPlayer, { PlayerData } from "../../_base/view-models/RoomPlayer";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -21,7 +21,7 @@ import {
     hanleAddPlayer,
     removePlayer,
     updateOtherPlayersBalance,
-    updateTablePlayer
+    updateTablePlayer,
 } from "../actions/CommonTableGameAction";
 import { clearChipsForLostChoices, resetUIAndClearChips } from "../actions/NewPayChipsAction";
 import { BetModel } from "../models/BetModel";
@@ -62,6 +62,12 @@ export default class TableGameBase extends MiniGameBase {
     onLoad() {
         super.onLoad();
         this.players.forEach((player) => (player.node.active = false));
+    }
+
+    onInitRoomPlayer(node: cc.Node) {
+        const roomPlayer = node.getComponent(RoomPlayer);
+        node.active = false;
+        this.players.push(roomPlayer);
     }
 
     grantSocket() {
