@@ -12,7 +12,7 @@ export const phrases = {
         19: "Keno Bắc"
     },
     lobbyNames: {
-        52: "Keno Multiplay"
+        52: "Mega Keno"
     },
     megaKeno: {
         intro: "“Mega Keno - Multiplay” là thể loại game phòng RNG với tính năng mới, độc đáo cho phép chơi cùng lúc 8 bàn game (Mega Keno, Mega Keno 2, Keno Mini, Keno Mini 2, Keno Đông, Keno Tây, Keno Nam, Keno Bắc ) với nhiều trải nghiệm mới hấp dẫn.",
