@@ -38,7 +38,7 @@ body {
     padding: 0;
     border: 0;
     margin: 0;
-    background: url(./background.jpg) #000 repeat-x;
+    background: url(./themes/wc2022/bg.jpg) #000;
     background-size: 100vw 100vh;
 
     cursor: default;
@@ -232,7 +232,7 @@ p.footer {
     position: absolute;
 }
 
-.conner-top{
+.conner-top {
     background: url(./seagame2022/bg_top.png) no-repeat;
     width: 43.64vh;
     height: 28.5vh;
@@ -241,7 +241,7 @@ p.footer {
     left: 0;
 }
 
-.conner-bottom{
+.conner-bottom {
     background: url(./seagame2022/bg_bottom.png) no-repeat;
     width: 30.15vh;
     height: 38.8vh;
@@ -310,7 +310,6 @@ p.footer {
         height: 43.64vw;
         right: 0;
         left: unset;
-
     }
 }
 
