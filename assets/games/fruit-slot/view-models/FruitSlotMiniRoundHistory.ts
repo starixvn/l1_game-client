@@ -27,8 +27,14 @@ export default class FruitSlotMiniRoundHistory extends cc.Component {
     }
 
     addNewItem(round: FruitSlotRoundHistory) {
-        this.rounds.unshift(round);
-        this.rounds.length > this.maxItems && this.rounds.pop();
+        const index = this.rounds.findIndex((round) => round !== null);
+        if (index === 0) {
+            this.rounds.unshift(round);
+            this.rounds.length > this.maxItems && this.rounds.pop();
+        } else {
+            const i = index === -1 ? this.maxItems - 1 : index - 1;
+            this.rounds[i] = round;
+        }
         this.setDataContent();
     }
 

@@ -94,7 +94,7 @@ export default class FruitSlotStatistic extends cc.Component {
         if (this.isRenderNext) {
             return;
         }
-        this.rounds.unshift(null);
+        this.rounds[0] && this.rounds.unshift(null);
         while (this.rounds.length > this.maxItems) {
             this.rounds.pop();
         }
@@ -158,7 +158,8 @@ export default class FruitSlotStatistic extends cc.Component {
 
     private setDataHistory(isNextItem: boolean) {
         this.rounds.forEach((round, index) => {
-            this.items[index].getComponent(FruitSlotMiniRoundHistoryItem).setData(round, isNextItem);
+            const isBlink = index < this.maxItems - 1 && this.rounds[index + 1] ? isNextItem : false;
+            this.items[index].getComponent(FruitSlotMiniRoundHistoryItem).setData(round, isBlink);
         });
     }
 }
