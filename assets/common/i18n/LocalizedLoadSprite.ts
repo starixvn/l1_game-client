@@ -1,4 +1,5 @@
 import { BundleManager } from "bundle-management";
+
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 
 const { ccclass, property, menu, executeInEditMode } = cc._decorator;
@@ -46,7 +47,7 @@ export default class LocalizedLoadSprite extends cc.Component {
             const devPath = `../games/*/${path}`;
 
             try {
-                const sprite = await bundleManager.loadAsset({
+                const sprite = await bundleManager.loadAsset<cc.SpriteFrame>({
                     type: cc.SpriteFrame,
                     bundleId: `${gameId}`,
                     path,
@@ -70,6 +71,9 @@ export default class LocalizedLoadSprite extends cc.Component {
         }
 
         const spriteFrame = await this.getSpriteFrameByLang(language, name, gameId);
+        if (!this || !this.isValid || !this.node.isValid) {
+            return;
+        }
         this.sprite.spriteFrame = spriteFrame;
     }
 }
