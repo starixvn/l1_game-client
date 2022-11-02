@@ -29,6 +29,6 @@ export default class FruitSlotMiniRoundHistoryItem extends cc.Component {
         this.bigSmall.active = true;
         const color = cc.Color.WHITE;
         this.bigSmall.color = color.fromHEX(bigSmallColor);
-        this.nextNode && (this.nextNode.active = false);
+        this.nextNode && (this.nextNode.active = isBlink);
     }
 }

@@ -158,7 +158,7 @@ export default class FruitSlotStatistic extends cc.Component {
 
     private setDataHistory(isNextItem: boolean) {
         this.rounds.forEach((round, index) => {
-            const isBlink = index < this.maxItems - 1 && this.rounds[index + 1] ? isNextItem : false;
+            const isBlink = index < this.maxItems - 1 && this.rounds[index + 1] && this.rounds[index] === null ? isNextItem : false;
             this.items[index].getComponent(FruitSlotMiniRoundHistoryItem).setData(round, isBlink);
         });
     }

@@ -43,8 +43,10 @@ export default class FruitSlotMiniRoundHistory extends cc.Component {
     }
 
     private setDataContent() {
+        const lastIndex = this.rounds.findIndex((round) => round);
+        const blinkNodeIndex = lastIndex !== 0 ? lastIndex - 1 : lastIndex;
         this.rounds.forEach((round, index) => {
-            this.content.children[index]?.getComponent(FruitSlotMiniRoundHistoryItem).setData(round, true);
+            this.content.children[index]?.getComponent(FruitSlotMiniRoundHistoryItem).setData(round, blinkNodeIndex === index);
         });
     }
 }
