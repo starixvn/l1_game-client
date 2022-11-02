@@ -90,6 +90,9 @@ export default class NotificationService {
     }
 
     emitEvent(eventName, data) {
+        if (!this.socket) {
+            return;
+        }
         try {
             this.socket.emit(eventName, data);
         } catch (err) {
