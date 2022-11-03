@@ -5,7 +5,6 @@ import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MiniGameBase from "../view-models/MiniGameBase";
 import { showCurrentRoundId, showLastRoundId } from "./TimeAction";
-import GameDataManager from "../models/GameDataManager";
 
 export const onUM = (game: MiniGameBase) => (data) => {
     if (game.gameState === GameState.Disabled) {
