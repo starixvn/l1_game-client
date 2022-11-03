@@ -174,4 +174,4 @@ variables:
 .base_build_cocos_web_l1_mega_keno_client:
     <<: *build_cocos_creator_script
     extends:
-        - .build:image:l1_way_to_goal_client:rules
+        - .build:image:l1_mega_keno_client:rules
