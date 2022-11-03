@@ -15,7 +15,7 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     spinItems: FruitSlotSpinItem[] = [];
 
     @property(cc.Animation)
-    spinAnimation: cc.Animation = null;
+    bettingAnimation: cc.Animation = null;
 
     @property(cc.Label)
     bigSmallResult: cc.Label = null;
@@ -25,9 +25,6 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
     @property(cc.Node)
     bgLockSpin: cc.Node = null;
-
-    @property(cc.Animation)
-    lightAnimation: cc.Animation = null;
 
     @property(cc.Node)
     ledZone: cc.Node = null;
@@ -45,16 +42,32 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         this.main.onBetItemClick(event);
     }
 
+    playBettingAnim(play: boolean) {
+        if (play) {
+            this.bettingAnimation?.play();
+        } else {
+            this.bettingAnimation?.stop();
+        }
+    }
+
     resetUIBettingZone() {
         this.bigSmallResult.string = "";
         this.bigSmallResultBackground.opacity = 0;
-        this.lightAnimation.node.active = true;
-        this.betItems.forEach((item) => {
+        this.playBettingAnim(true);
+        this.betItems?.forEach((item) => {
             item.node.opacity = 255;
-            item.resetHighlight();
+            item?.resetHighlight();
+            cc.tween(item?.startRoundAnim)
+                .call(() => {
+                    item.startRoundAnim.setAnimation(0, "nextround_normal", true);
+                    item.startRoundAnim.node.active = true;
+                })
+                .delay(0.5)
+                .call(() => (item.startRoundAnim.node.active = false))
+                .start();
         });
 
-        this.spinItems.forEach((item) => item.resetHighlight());
+        this.spinItems.forEach((item) => item?.resetHighlight());
         setBgVisibility(this.bgLockSpin, true);
     }
 }

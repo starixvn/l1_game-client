@@ -65,7 +65,7 @@ export const setBgVisibility = (node: cc.Node, visible: boolean, animated = true
             .start();
     } else {
         node.opacity = visible ? 255 : 0;
-    }    
+    }
 };
 
 export const formatBigSmallResult = (result: number) => {

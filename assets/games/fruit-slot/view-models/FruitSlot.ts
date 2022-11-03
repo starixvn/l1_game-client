@@ -16,7 +16,7 @@ import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 import { i18n, lodash } from "../../../ClientModules";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 import { FruitSlotBetHandler } from "../event-handlers/FruitSlotBetHandler";
-import { updateWinning } from "../actions/FruitSlotWinningAction";
+import { CountdownAnimationType } from "../FruitSlotType";
 
 const { ccclass, property } = cc._decorator;
 export const FruitSlotGameId = 59;
@@ -50,6 +50,12 @@ export default class FruitSlot extends NewGameRoomBase {
     @property({ type: FruitSlotSpinItem })
     spinItems: FruitSlotSpinItem[] = [];
 
+    @property(sp.Skeleton)
+    animCountdownSkeleton: sp.Skeleton[] = [];
+
+    @property(cc.Node)
+    countdownLight: cc.Node = null;
+
     public gameData: FruitSlotGameData = null;
     public config: FruitSlotConfig;
     public betOptionsUI: FruitSlotBetOptionsUI = null;
@@ -77,10 +83,10 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData = new FruitSlotGameData();
         super.onLoad();
         this.initStatistic();
-        //this.updateBetStatus(true);
-        //this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
+        this.updateBetStatus(true);
+        this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
         this.initPlacingBet();
-        //this.initButtonStatus();
+        this.initButtonStatus();
         this.registerRoundHistoryEvents();
         this.registerSettlementEvents();
     }
@@ -109,8 +115,7 @@ export default class FruitSlot extends NewGameRoomBase {
     private registerRoundHistoryEvents() {
         this.gameData.roundHistory.on(RoundHistory.Events.CHANGE, (roundHistory: FruitSlotRoundHistory[]) => {
             this.miniRoundHistory?.render(roundHistory);
-            this.statistic?.render(roundHistory);
-            updateWinning(this.betOptionsUI, this.timeHandler)(roundHistory);
+            this.statistic?.render(roundHistory);           
         });
     }
 
@@ -123,9 +128,9 @@ export default class FruitSlot extends NewGameRoomBase {
         });
     }
 
-    // public initButtonStatus() {
-    //     this.btnRebet.node.on("click", this.onRebetClick, this);
-    // }
+    public initButtonStatus() {
+        this.btnRebet.node.on("click", this.onRebetClick, this);
+    }
 
     private initBetOptionsUI(node: cc.Node) {
         this.betOptionsUI = node.getComponent(FruitSlotBetOptionsUI);
@@ -153,6 +158,19 @@ export default class FruitSlot extends NewGameRoomBase {
 
     timeAnimShowResult(show: boolean) {
         this.timeShowResult.active = show;
+    }
+
+    stopCountDownAnim(stop: boolean) {
+        const anim = stop ? CountdownAnimationType.IDLE : CountdownAnimationType.PLAY;
+        for (let animSymbol of this.animCountdownSkeleton) {
+            animSymbol.setAnimation(0, anim, true);
+        }
+    }
+
+    countdownLightAnim(isAnimated: boolean) {
+        if (this.countdownLight) {
+            this.countdownLight.active = isAnimated;
+        }
     }
 
     onRebetClick() {
@@ -214,14 +232,14 @@ export default class FruitSlot extends NewGameRoomBase {
             }, []);
     }
 
-    // updateBetStatus(forceUpdate = false) {
-    //     if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
-    //         return;
-    //     }
+    updateBetStatus(forceUpdate = false) {
+        if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
+            return;
+        }
 
-    //     const isEmptyBetChoice = lodash.isEmpty(this.gameData.betModel?.ownBets);
-    //     this.btnRebet.interactable = isEmptyBetChoice && !lodash.isEmpty(this.previousRoundBetChoices);
-    // }
+        const isEmptyBetChoice = lodash.isEmpty(this.gameData.betModel?.ownBets);
+        this.btnRebet.interactable = isEmptyBetChoice && !lodash.isEmpty(this.previousRoundBetChoices);
+    }
 
     clearTempBetChoices() {
         this.tempBetChoices = {};
@@ -229,6 +247,6 @@ export default class FruitSlot extends NewGameRoomBase {
 
     onDestroy() {
         super.onDestroy();
-        //this.unschedule(this.updateBetStatus);
+        this.unschedule(this.updateBetStatus);
     }
 }

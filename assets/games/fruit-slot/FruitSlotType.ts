@@ -55,3 +55,8 @@ export type FruitSlotSettlementResultText = {
     big: "big";
     small: "small";
 };
+
+export enum CountdownAnimationType {
+    IDLE = "item_idle",
+    PLAY = "item"
+}

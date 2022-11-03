@@ -23,11 +23,10 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
     game.statistic.addNextItemHistory();
     game.timeHandler.resetNewTime(finish.result);
     game.roundId = finish.roundId + 1;
-    game.timeAnimShowResult(true);
+    game.timeAnimShowResult(true);   
     game.timeWaitNode.active = false;
     game.finishShowResult = false;
     const delaySpinAnim = 6.5;
-    game.betOptionsUI.lightAnimation.node.active = false;
 
     cc.tween(game.spinItems)
         .call(() => {
