@@ -43,10 +43,8 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     }
 
     playBettingAnim(play: boolean) {
-        if (play) {
-            this.bettingAnimation?.play();
-        } else {
-            this.bettingAnimation?.stop();
+        if (this.bettingAnimation) {
+            this.bettingAnimation.node.active = play;            
         }
     }
 

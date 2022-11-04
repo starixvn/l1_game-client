@@ -32,8 +32,7 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
         const gameRoundHistoryData = this.main.gameData.roundHistory.roundHistory[0].result;
         this.main.timeAnimShowResult(!this.main.finishShowResult);
-        setBgVisibility(this.main.betOptionsUI.bgLockSpin, false);
-        //this.main.stopCountDownAnim(true);
+        setBgVisibility(this.main.betOptionsUI.bgLockSpin, false);        
 
         if (this.isFirstJoinRoom) {
             this.isFirstJoinRoom = false;
@@ -45,27 +44,27 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         super.handleStartingNewGameRound();
         this.main.betOptionsUI.resetUIBettingZone();
         this.main.countdownLightAnim(true);
+        this.main.betOptionsUI.playBettingAnim(true);
     }
 
     showWaitTime() {
         this.main.timeWaitNode.active = true;
-        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
-        //this.main.stopCountDownAnim(true);
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);  
     }
 
     handleInRoundTime() {
         super.handleInRoundTime();
         setBgVisibility(this.main.betOptionsUI.bgLockSpin, true, false);
         this.main.countdownLightAnim(true);
+        this.main.betOptionsUI.playBettingAnim(true);
     }
 
     handleInLockBetTime() {
         this.main.miniRoundHistory.addNextItemHistory();
         this.main.statistic.addNextItemHistory();
         this.main.betItems.forEach((item) => item.setHighlight(false));
-        // this.main.stopCountDownAnim(true);
-        this.main.betOptionsUI.playBettingAnim(false);
         this.main.countdownLightAnim(false);
+        this.main.betOptionsUI.playBettingAnim(false);        
     }
 
     showLastRoundResult(resultData: any, isAnimated: boolean) {
@@ -94,14 +93,12 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
     handleInEndTime() {
         super.handleInEndTime();
         this.main.timeAnimShowResult(true);
-        //this.main.stopCountDownAnim(true);
         this.main.finishShowResult = false;
     }
 
     showRoundTime() {
         super.showRoundTime();
         this.main.timeAnimShowResult(false);
-        // this.main.stopCountDownAnim(false);
         this.main.finishShowResult = false;
     }
 }
