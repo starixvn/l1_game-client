@@ -5,7 +5,7 @@ const defaultConfig = {
         localhost: "lumigame.com",
         "l1-games1.lumigame.com": "lumigame.com"
     },
-    subDomain: "l1-proxy1",
+    subDomain: "l1-proxy3",
     env: "",
     sentry: {
         url: "",
