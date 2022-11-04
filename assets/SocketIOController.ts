@@ -29,7 +29,8 @@ export default class SocketIOController {
         16,
         17,
         18,
-        19 //mega keno
+        19, //mega keno
+        60
     ];
 
     getSocketGame(gameId: number) {

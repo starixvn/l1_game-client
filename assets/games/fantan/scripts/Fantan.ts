@@ -6,8 +6,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Fantan extends StandAloneTableGameBase {
-    initMiniPanel(miniPanel: MiniPanel) {
-        super.initMiniPanel(miniPanel);
+    constructor() {
+        super();
         this.gameId = FantanId;
         this.setConfig(FantanConfig);
     }

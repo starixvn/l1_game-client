@@ -33,6 +33,15 @@ export default class StandAloneTableGameBase extends TableGameBase {
     umNotice: UmWarning = null;
     //end region override
 
+    @property(cc.Prefab)
+    miniPanelPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    miniPanelContainer: cc.Node = null;
+
+    @property(cc.Prefab)
+    noticePrefab: cc.Prefab = null;
+
     @property(cc.Node)
     loading: cc.Node = null;
 
