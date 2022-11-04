@@ -1,6 +1,5 @@
+import FantanBowlAnimation from "../../scripts/FantanBowlAnimation";
 import _ = require("lodash");
-
-import FantanBowlAnimation from "./FantanBowlAnimation";
 
 const { ccclass, property } = cc._decorator;
 

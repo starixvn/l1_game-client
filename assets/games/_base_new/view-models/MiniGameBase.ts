@@ -95,8 +95,8 @@ export default class MiniGameBase extends NewMiniGameBase {
     wholeResultTime = 3;
     isPlacingFakeChip = true;
     streakChoices = [];
-    callbackWinningResult: (game: any, status: any) => void;
-    callbackWinningStreak: (game: any) => void;
+    callbackWinningResult = (game: any, status: any) => {};
+    callbackWinningStreak = (game: any) => {};
     extraFeature: ExtraFeature;
 
     override onLoad() {
