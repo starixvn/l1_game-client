@@ -52,7 +52,7 @@ export default class FruitSlotHistoryItem extends cc.Component {
     }
 
     async setData(betLog: BetLog, historyMainNode: FruitSlotHistory) {
-        const winColor = new cc.Color(255, 246, 100);
+        const winColor = cc.Color.WHITE.fromHEX("#fff664");
         this.betLog = betLog;
         this.historyMainNode = historyMainNode;
         this.timeLabel.string = formatDateTime(betLog.time);
