@@ -60,6 +60,7 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
     }
 
     handleInLockBetTime() {
+        this.main.miniRoundHistory.addNextItemHistory();
         this.main.statistic.addNextItemHistory();
         this.main.betItems.forEach((item) => item.setHighlight(false));
         // this.main.stopCountDownAnim(true);

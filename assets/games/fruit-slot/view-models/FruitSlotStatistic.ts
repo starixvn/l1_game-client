@@ -76,15 +76,12 @@ export default class FruitSlotStatistic extends cc.Component {
             this.isRenderNext = false;
         }
         const index = this.rounds.findIndex((r) => r !== null);
-        if (index > 0) {
-            this.rounds[index - 1] = round;
+        if (index === 0) {
+            this.rounds.unshift(round);
+            this.rounds.length > this.maxItems && this.rounds.pop();
         } else {
-            if (index === 0) {
-                this.rounds[0] = round;
-            } else {
-                this.rounds.unshift(round);
-                this.rounds.length > this.maxItems && this.rounds.pop();
-            }
+            const i = index === -1 ? this.maxItems - 1 : index - 1;
+            this.rounds[i] = round;
         }
         this.calculatePercent();
         this.setDataHistory(false);

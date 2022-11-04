@@ -20,6 +20,7 @@ export type FruitSlotFinishModel = {
 };
 
 export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishModel) => {
+    game.miniRoundHistory.addNextItemHistory();
     game.statistic.addNextItemHistory();
     game.timeHandler.resetNewTime(finish.result);
     game.roundId = finish.roundId + 1;

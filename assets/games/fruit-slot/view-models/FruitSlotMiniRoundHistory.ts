@@ -11,6 +11,7 @@ export default class FruitSlotMiniRoundHistory extends cc.Component {
 
     private rounds: any[] = [];
     private readonly maxItems = 18;
+    private isRenderNext = false;
 
     main: FruitSlot;
 
@@ -23,10 +24,13 @@ export default class FruitSlotMiniRoundHistory extends cc.Component {
         while (this.rounds.length < this.maxItems) {
             this.rounds.unshift(null);
         }
-        this.setDataContent();
+        this.setDataContent(false);
     }
 
     addNewItem(round: FruitSlotRoundHistory) {
+        if (this.isRenderNext) {
+            this.isRenderNext = false;
+        }
         const index = this.rounds.findIndex((round) => round !== null);
         if (index === 0) {
             this.rounds.unshift(round);
@@ -35,16 +39,31 @@ export default class FruitSlotMiniRoundHistory extends cc.Component {
             const i = index === -1 ? this.maxItems - 1 : index - 1;
             this.rounds[i] = round;
         }
-        this.setDataContent();
+        this.setDataContent(false);
+    }
+
+    addNextItemHistory() {
+        if (this.isRenderNext) {
+            return;
+        }
+        this.rounds[0] && this.rounds.unshift(null);
+        while (this.rounds.length > this.maxItems) {
+            this.rounds.pop();
+        }
+        this.setDataContent(true);
+        this.isRenderNext = true;
     }
 
     openStatistic() {
         this.main.openStatistic();
     }
 
-    private setDataContent() {
+    private setDataContent(isNextItem: boolean) {
         const lastIndex = this.rounds.findIndex((round) => round);
-        const blinkNodeIndex = lastIndex !== 0 ? lastIndex - 1 : lastIndex;
+        let blinkNodeIndex = lastIndex !== 0 ? lastIndex - 1 : lastIndex;
+        if (isNextItem) {
+            blinkNodeIndex = lastIndex !== -1 ? lastIndex - 1 : this.maxItems - 1;
+        }
         this.rounds.forEach((round, index) => {
             this.content.children[index]?.getComponent(FruitSlotMiniRoundHistoryItem).setData(round, blinkNodeIndex === index);
         });
