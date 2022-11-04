@@ -56,26 +56,14 @@ export const handleBoostedOdds = (game: MiniGameBase) => (boostedOdds) => game.a
 export const handleBoostedChoices = (game: MiniGameBase) => (boostedChoices) => game.setBoostedChoices(boostedChoices);
 
 export const handleFirstLoadRoundHistory = (game: any) => (roundHistory) => {
-    if (roundHistory.length === 0) {
-        return;
-    }
-
-    if (game.gameData.settlement.isWaitingSettlement) {
-        return;
-    }
-
     if (game.gameData.durations.isWaiting() || game.gameData.durations.isBeingSpecificPhase(Durations.Events.SHOW_ANIMATION)) {
-        const settlement = roundHistory[0];
-        if (settlement) {
-            game.gameData.settlement.finishShowResult(settlement, false);
+        if (roundHistory.length > 0) {
+            const settlement = roundHistory[0];
+            if (settlement && !game.gameData.settlement.isWaitingSettlement) {
+                game.gameData.settlement.finishShowResult(settlement, false);
+            }
         }
-    }
-};
-export const handleRoundHistory = (game: any) => (roundHistory) => {
-    game.currentDataLogs = roundHistory;
-    game.handleRoundHistory(roundHistory);
 
-    if (game.gameData.durations.isWaiting()) {
         showLastRoundId(game)();
     }
     if (
@@ -85,6 +73,10 @@ export const handleRoundHistory = (game: any) => (roundHistory) => {
     ) {
         showCurrentRoundId(game)();
     }
+};
+export const handleRoundHistory = (game: any) => (roundHistory) => {
+    game.currentDataLogs = roundHistory;
+    game.handleRoundHistory(roundHistory);
 };
 
 export const handleWinningStreak = (game: any) => (roundHistory) => {
