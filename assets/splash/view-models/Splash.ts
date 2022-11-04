@@ -74,8 +74,7 @@ export default class Splash extends cc.Component {
     }
 
     loadAssets() {
-        this.updateProgress(0.038);
-        this.progressBar.node.getChildByName("progress-bar").getComponent(cc.Sprite).enabled = false;
+        this.updateProgress(0);
         if (cc.sys.isBrowser && authManager) {
             authManager.checkSSO(this.messageComp, () => {
                 this.loadScene();
@@ -101,7 +100,6 @@ export default class Splash extends cc.Component {
     }
 
     onProgress(completedCount, totalCount) {
-        this.progressBar.node.getChildByName("progress-bar").getComponent(cc.Sprite).enabled = true;
         const percent = completedCount / totalCount;
         this.updateProgress(percent);
     }
