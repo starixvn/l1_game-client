@@ -16,9 +16,16 @@ export class RoundHistory extends EventEmitterBase {
     private streakChoices = ["big", "small"];
     private readonly consecutiveWinningTimes = 4;
     winningStreakTimeOut;
+    enterGameRoundId: number;
 
     get lastRoundId() {
-        return this.roundHistory[0]?.roundId || 0;
+        if (this.roundHistory.length > 0) {
+            return this.roundHistory[0].roundId;
+        }
+        if (this.enterGameRoundId !== undefined) {
+            return this.enterGameRoundId - 1;
+        }
+        return 0;
     }
 
     setStreakChoices(choices) {

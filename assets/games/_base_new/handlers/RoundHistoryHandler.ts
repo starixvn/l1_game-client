@@ -3,6 +3,7 @@ import NewGameData from "../models/NewGameData";
 
 export type RoundHistoryType = {
     roundHistory: any;
+    roundId: number;
 };
 
 export class RoundHistoryHandler extends BaseEventHandler<RoundHistoryType> {
@@ -12,6 +13,10 @@ export class RoundHistoryHandler extends BaseEventHandler<RoundHistoryType> {
     }
 
     protected handle(event: RoundHistoryType) {
+        if (event.roundId) {
+            this.gameData.roundHistory.enterGameRoundId = event.roundId;
+        }
+
         this.gameData.roundHistory.change(event.roundHistory);
     }
 }
