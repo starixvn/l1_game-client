@@ -95,12 +95,10 @@ export const handlePlaceOwnChip = (mainGame: TableGameBase) => (data) => {
 };
 
 export const handlePlaceOwnChips = (mainGame: TableGameBase) => (dataChips) => {
-    if (!dataChips) {
+    if (mainGame.showOtherPlayerChips || !dataChips || mainGame.isShowingResultLastRound()) {
         return;
     }
-    if (mainGame.isShowingResultLastRound()) {
-        return;
-    }
+
     const chips = dataChips;
     const betChoices = getLowercaseObjectKeys(chips);
 
