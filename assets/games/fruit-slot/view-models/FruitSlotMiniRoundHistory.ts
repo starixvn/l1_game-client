@@ -60,7 +60,7 @@ export default class FruitSlotMiniRoundHistory extends cc.Component {
 
     private setDataContent(isNextItem: boolean) {
         const lastIndex = this.rounds.findIndex((round) => round);
-        let blinkNodeIndex = lastIndex !== 0 ? lastIndex - 1 : lastIndex;
+        let blinkNodeIndex = lastIndex;
         if (isNextItem) {
             blinkNodeIndex = lastIndex !== -1 ? lastIndex - 1 : this.maxItems - 1;
         }

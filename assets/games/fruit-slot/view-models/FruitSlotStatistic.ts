@@ -110,8 +110,10 @@ export default class FruitSlotStatistic extends cc.Component {
 
     private calculatePercent() {
         const bigSmallStatistic = { big: 0, small: 0 };
+        let total = 0;
         this.rounds.forEach((round) => {
             if (round) {
+                total += 1;
                 if (round.settlementResult.big) {
                     bigSmallStatistic.big += 1;
                 } else {
@@ -119,8 +121,11 @@ export default class FruitSlotStatistic extends cc.Component {
                 }
             }
         });
-        this.bigPercent.string = `${bigSmallStatistic.big}% `;
-        this.smallPercent.string = ` ${bigSmallStatistic.small}%`;
+        const bigPercentage = +numberWithCommas((bigSmallStatistic.big * 100) / total, 2);
+        this.bigPercent.string = `${bigPercentage}% `;
+        this.smallPercent.string = ` ${
+            bigPercentage === 0 && bigSmallStatistic.small === 0 ? 0 : +numberWithCommas(100 - bigPercentage, 2)
+        }%`;
         this.renderSymbolStatistic();
     }
 
@@ -147,10 +152,9 @@ export default class FruitSlotStatistic extends cc.Component {
             key !== this.symbolsKey.cherry && (percentTotal += percent);
             this.symbolPercent.getChildByName(key).getComponent(cc.Label).string = `${percent}%`;
         }
-        this.symbolPercent.getChildByName(this.symbolsKey.cherry).getComponent(cc.Label).string = `${numberWithCommas(
-            100 - percentTotal,
-            2
-        )}%`;
+        this.symbolPercent.getChildByName(this.symbolsKey.cherry).getComponent(cc.Label).string = `${
+            percentTotal === 0 ? 0 : numberWithCommas(100 - percentTotal, 2)
+        }%`;
     }
 
     private setDataHistory(isNextItem: boolean) {
