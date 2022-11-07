@@ -79,7 +79,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Node",
+    "_name": "maingame_top_chiptrang",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -97,15 +97,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 253,
-      "g": 0,
-      "b": 0,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 66,
-      "height": 66
+      "width": 12,
+      "height": 12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -123,8 +123,8 @@
         0,
         0,
         1,
-        0.1,
-        0.1,
+        1,
+        1,
         1
       ]
     },
@@ -157,7 +157,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "dcc88202-c830-43eb-b766-d1c23d5494af"
+      "__uuid__": "b072bfe9-977d-40e7-bc89-5b77c0d76a06"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -170,7 +170,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "051e2a0a-10ef-4892-84b8-921877d25a8c"
+    },
     "_id": ""
   },
   {
@@ -181,7 +183,7 @@
     "asset": {
       "__uuid__": "55bd3006-b867-48a8-98c9-ec8c0de50c76"
     },
-    "fileId": "8dcfMlofxL+LVsnQUX+3f5",
+    "fileId": "5eSK9c9O5GTrFjkYT+OVIR",
     "sync": false
   },
   {

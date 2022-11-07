@@ -1,7 +1,7 @@
 export const FantanConfig = {
     minBetTime: 1,
     fullTime: 43,
-    betTime: 25,
+    betTime: 30,
     stopBetTime: 5,
     waitTime: 5
 };

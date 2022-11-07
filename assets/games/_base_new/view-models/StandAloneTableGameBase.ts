@@ -2,6 +2,7 @@ import TableGameBase from "./TableGameBase";
 import MD5Component from "../../_base/view-models/MD5Component";
 import GameIdSprite from "../../../common/GameIdSprite";
 import UmWarning from "../../../common/um-warning/UmWarning";
+import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import {
     closeGame,
     initMusicBackground,
@@ -52,6 +53,14 @@ export default class StandAloneTableGameBase extends TableGameBase {
         cc.RedT && (cc.RedT.inGame = this);
         this.loadUserData(cc.RedT?.user);
         initMusicBackground(this)();
+    }
+
+    initEventForInGameMenu() {
+        const node = super.initEventForInGameMenu();
+
+        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGame, this);
+
+        return node;
     }
 
     loadUserData(user) {
