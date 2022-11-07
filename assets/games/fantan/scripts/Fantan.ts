@@ -1,7 +1,7 @@
 import StandAloneTableGameBase from "../../_base_new/view-models/StandAloneTableGameBase";
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import { FantanConfig, FantanId } from "./FantanConfig";
+import StandAloneTableGameHistory from "../../_base_new/view-models/StandAloneTableGameHistory";
 import FantanBowlAnimation from "./FantanBowlAnimation";
+import { FantanConfig, FantanId } from "./FantanConfig";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,5 +20,11 @@ export default class Fantan extends StandAloneTableGameBase {
         if (animation) {
             this.animation = animation;
         }
+    }
+    openHistory() {
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(StandAloneTableGameHistory);
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.addDialog(dialog);
     }
 }

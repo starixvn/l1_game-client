@@ -1,27 +1,16 @@
+import StandAloneTableGameHistoryItem from "../../../_base_new/view-models/StandAloneTableGameHistoryItem";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class FanTanHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
+export default class FanTanHistoryItem extends StandAloneTableGameHistoryItem {
+    @property(cc.Sprite)
+    result: cc.Sprite = null;
 
-    @property(cc.Label)
-    roundId: cc.Label = null;
+    @property(cc.SpriteAtlas)
+    atlas: cc.SpriteAtlas = null;
 
-    @property(cc.Label)
-    stake: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
-
-    @property(cc.Label)
-    result: cc.Label = null;
-
-    setData(data: any, index: number) {
-        const { time, roundId, stake, win } = data;
-        this.time.string = time;
-        this.roundId.string = roundId;
-        this.stake.string = stake;
-        this.win.string = win;
+    handleResult(result: any) {
+        this.result.spriteFrame = this.atlas.getSpriteFrame("khuvuc_ketqua_" + result.finalBeads);
     }
 }
