@@ -281,7 +281,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1190,
+      "width": 1040,
       "height": 540
     },
     "_anchorPoint": {
@@ -1142,7 +1142,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        514.0819999999999,
+        507.619,
         257.519,
         0,
         0,
@@ -1295,7 +1295,7 @@
     "_target": null,
     "_alignFlags": 33,
     "_left": 0,
-    "_right": 48.91800000000006,
+    "_right": -19.619000000000028,
     "_top": -19.519000000000005,
     "_bottom": 0,
     "_verticalCenter": 0,
@@ -2102,7 +2102,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 270.83,
+      "width": 146.58,
       "height": 81.9
     },
     "_anchorPoint": {
@@ -2147,7 +2147,7 @@
       "__id__": 58
     },
     "_enabled": true,
-    "_dataId": "ui.choice_even",
+    "_dataId": "ui.stake",
     "format": 3,
     "suffix": "",
     "_id": ""
@@ -2167,8 +2167,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.choice_even",
-    "_N$string": "Ui.choice_even",
+    "_string": "Ui.stake",
+    "_N$string": "Ui.stake",
     "_fontSize": 36,
     "_lineHeight": 65,
     "_enableWrapText": true,
@@ -6230,8 +6230,13 @@
     "itemPrefab": {
       "__uuid__": "fd6aac34-78bd-44fb-8101-327ed21ae9f2"
     },
-    "mainFrame": null,
+    "mainFrame": {
+      "__id__": 5
+    },
     "scrollView": null,
+    "ticketDetailPrefab": {
+      "__uuid__": "f5216153-7968-4c0f-8547-4230648b3d5a"
+    },
     "_id": ""
   },
   {
