@@ -29,9 +29,12 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-        const gameRoundHistoryData = this.main.gameData.roundHistory.roundHistory[0].result;
         this.main.timeAnimShowResult(!this.main.finishShowResult);
         setBgVisibility(this.main.betOptionsUI.bgLockSpin, false);
+        if (this.main.gameData.roundHistory.roundHistory[0].length === 0) {
+            return;
+        }
+        const gameRoundHistoryData = this.main.gameData.roundHistory.roundHistory[0]?.result;
 
         if (this.isFirstJoinRoom) {
             this.isFirstJoinRoom = false;

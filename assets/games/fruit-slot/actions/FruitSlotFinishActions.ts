@@ -8,7 +8,6 @@ import {
     highlightBigSmallWinning,
     playLedLightAnimation,
     randomNumberAnimation,
-    setBgVisibility,
     spinItemAnimation
 } from "./FruitSlotWinningAction";
 
