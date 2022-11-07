@@ -29,14 +29,13 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
     handleWaitTime() {
         super.handleWaitTime();
-
         const gameRoundHistoryData = this.main.gameData.roundHistory.roundHistory[0].result;
         this.main.timeAnimShowResult(!this.main.finishShowResult);
-        setBgVisibility(this.main.betOptionsUI.bgLockSpin, false);        
+        setBgVisibility(this.main.betOptionsUI.bgLockSpin, false);
 
         if (this.isFirstJoinRoom) {
             this.isFirstJoinRoom = false;
-            this.showLastRoundResult(gameRoundHistoryData, false);
+            !this.main.isShowAnimSettlement && this.showLastRoundResult(gameRoundHistoryData, false);
         }
     }
 
@@ -45,11 +44,12 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.betOptionsUI.resetUIBettingZone();
         this.main.countdownLightAnim(true);
         this.main.betOptionsUI.playBettingAnim(true);
+        this.main.updateShowAnimSettlementStatus();
     }
 
     showWaitTime() {
         this.main.timeWaitNode.active = true;
-        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);  
+        this.main.timeWaitLabel.string = this.formatTime(this.main.currentTimeRemaining - this.main.config.betTime - 1);
     }
 
     handleInRoundTime() {
@@ -64,7 +64,7 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.statistic.addNextItemHistory();
         this.main.betItems.forEach((item) => item.setHighlight(false));
         this.main.countdownLightAnim(false);
-        this.main.betOptionsUI.playBettingAnim(false);        
+        this.main.betOptionsUI.playBettingAnim(false);
     }
 
     showLastRoundResult(resultData: any, isAnimated: boolean) {

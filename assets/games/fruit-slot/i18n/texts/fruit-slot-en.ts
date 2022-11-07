@@ -4,6 +4,9 @@ export const phrases = {
     gameNames: {
         59: "Fruit Slot"
     },
+    lobbyNames: {
+        59: "Fruit Slot"
+    },
     fruitSlot: {
         spinResult: "Spin Result",
         extraSpin: "Extra Spin",

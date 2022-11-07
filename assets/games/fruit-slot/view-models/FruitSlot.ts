@@ -64,6 +64,7 @@ export default class FruitSlot extends NewGameRoomBase {
     public timeHandler: FruitSlotTimeHandler;
     public animatedTime: FruitSlotAnimatedTimer = null;
     private placingBet: FruitSlotPlacingBet = null;
+    public isShowAnimSettlement = false;
 
     currentBetChoices: any = {};
     betChoicesStack = [];
@@ -115,13 +116,14 @@ export default class FruitSlot extends NewGameRoomBase {
     private registerRoundHistoryEvents() {
         this.gameData.roundHistory.on(RoundHistory.Events.CHANGE, (roundHistory: FruitSlotRoundHistory[]) => {
             this.miniRoundHistory?.render(roundHistory);
-            this.statistic?.render(roundHistory);           
+            this.statistic?.render(roundHistory);
         });
     }
 
     private registerSettlementEvents() {
         this.gameData.settlement.on(Settlement.Events.SHOW_RESULT, (finish: FruitSlotFinishModel) => {
             handleShowResult(this)(finish);
+            this.updateShowAnimSettlementStatus(true);
         });
         this.gameData.settlement.on(Settlement.Events.END_SHOW_RESULT, ({ settlement }: { settlement: FruitSlotFinishModel }) => {
             handleAfterSettlementResult(this)(settlement);
@@ -162,7 +164,7 @@ export default class FruitSlot extends NewGameRoomBase {
 
     stopCountDownAnim(stop: boolean) {
         const anim = stop ? CountdownAnimationType.IDLE : CountdownAnimationType.PLAY;
-        for (let animSymbol of this.animCountdownSkeleton) {
+        for (const animSymbol of this.animCountdownSkeleton) {
             animSymbol.setAnimation(0, anim, true);
         }
     }
@@ -248,5 +250,9 @@ export default class FruitSlot extends NewGameRoomBase {
     onDestroy() {
         super.onDestroy();
         this.unschedule(this.updateBetStatus);
+    }
+
+    updateShowAnimSettlementStatus(status = false) {
+        this.isShowAnimSettlement = status;
     }
 }
