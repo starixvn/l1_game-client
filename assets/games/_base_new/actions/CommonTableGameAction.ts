@@ -141,12 +141,11 @@ export const handlePlayerChipAction = (mainGame: TableGameBase) => (playerChip) 
         } else {
             delayTime = mainGame.playerChips.length * 0.01;
         }
-        mainGame.node.runAction(
-            cc.sequence(
-                cc.delayTime(delayTime > 1 ? delayTime / 2 : delayTime),
-                cc.callFunc(() => mainGame.placePlayerChip(playerChip))
-            )
-        );
+        mainGame
+            .tween(mainGame.node)
+            .delay(delayTime > 1 ? delayTime / 2 : delayTime)
+            .call(() => mainGame.placePlayerChip(playerChip))
+            .start();
     }
 };
 

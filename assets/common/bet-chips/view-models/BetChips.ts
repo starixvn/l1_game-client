@@ -310,6 +310,10 @@ export default class BetChips extends cc.Component {
         notNullStartNode.addChild(chipNode);
 
         const onEnded = () => {
+            if (!chipBoxNode || !chipBoxNode.isValid) {
+                chipNode.destroy();
+                return;
+            }
             chipNode.parent = chipBoxNode;
             chipNode.position = randomInChipBoxPosition;
         };
