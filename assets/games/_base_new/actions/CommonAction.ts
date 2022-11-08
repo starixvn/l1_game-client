@@ -123,5 +123,6 @@ export const handleAfterSettlementResult =
         if (game.isDisableGame) {
             return;
         }
+        game.disableRebetButton();
         game.handleAfterSettlementResult(settlement, animated);
     };
