@@ -153,13 +153,14 @@ export default class FruitSlotStatistic extends cc.Component {
             this.symbolPercent.getChildByName(key).getComponent(cc.Label).string = `${percent}%`;
         }
         this.symbolPercent.getChildByName(this.symbolsKey.cherry).getComponent(cc.Label).string = `${
-            percentTotal === 0 ? 0 : numberWithCommas(100 - percentTotal, 2)
+            percentTotal === 0 && total === 0 ? 0 : numberWithCommas(100 - percentTotal, 2)
         }%`;
     }
 
     private setDataHistory(isNextItem: boolean) {
         this.rounds.forEach((round, index) => {
-            const isBlink = index < this.maxItems - 1 && this.rounds[index + 1] && this.rounds[index] === null ? isNextItem : false;
+            let isBlink = index < this.maxItems - 1 && this.rounds[index + 1] && this.rounds[index] === null ? isNextItem : false;
+            index === this.maxItems - 1 && (isBlink = isNextItem);
             this.items[index].getComponent(FruitSlotMiniRoundHistoryItem).setData(round, isBlink);
         });
     }
