@@ -178,9 +178,6 @@ export default class GameUtils {
         },
         callBackLobby = () => {
             // handle
-        },
-        callBackMiniGame = () => {
-            // handle
         }
     ) {
         const gameConfiguration = getGameConfiguration(gameId);
@@ -205,7 +202,7 @@ export default class GameUtils {
             return;
         }
 
-        miniPanel.openNewSocketMiniGame(null, gameId, callBackMiniGame);
+        miniPanel.openNewSocketMiniGame(null, gameId);
     }
 
     public static roundFixed(num: number, fixedNumber: number): number {

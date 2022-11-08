@@ -88,6 +88,7 @@ export default class MainGame extends cc.Component {
     signName: any;
     isLoadAllBanners = false;
     private isSSOGameMini = false;
+    private isSSOToGame = false;
 
     onDestroy() {
         cc.RedT.MiniPanel = null;
@@ -121,13 +122,16 @@ export default class MainGame extends cc.Component {
         const manager = GameUIManager.getInstance();
         manager.emitterListener(GameUIManager.Events.LOAD_ALL_BANNERS, (param) => {
             this.initBanners(param);
-            if (this.isSSOGameMini) {
-                this.lobbyMenu.isLoadMiniGame = false;
-                this.lobbyMenu.initializedCallback();
-            }
+            this.isSSOGameMini && manager.emitter.emit(GameUIManager.Events.LOAD_ICON_HIDE);
             this.miniPanel?.isOpenSS0 && (this.miniPanel.isOpenSS0 = false);
         });
         manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby());
+        manager.emitterListener(GameUIManager.Events.LOAD_ICON_HIDE, () => this.loadHiddenIcons());
+    }
+
+    loadHiddenIcons() {
+        this.lobbyMenu.isSSOToGame = false;
+        this.lobbyMenu.triggerLoadHideIcons();
     }
 
     initPromotions() {
@@ -281,11 +285,10 @@ export default class MainGame extends cc.Component {
     }
 
     onSignIn() {
-        const isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
-
-        if (isSSOToGame || sessionManager.getInRoomGameId()) {
-            this.loadLobby(isSSOToGame && GameUtils.isMiniGame(window.openGameId));
-            GameUtils.isMiniGame(window.openGameId) && (this.isSSOGameMini = true);
+        this.isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
+        if (this.isSSOToGame || sessionManager.getInRoomGameId()) {
+            this.isSSOGameMini = this.isSSOToGame && GameUtils.isMiniGame(window.openGameId);
+            this.loadLobby(this.isSSOGameMini);
             this.openGameSSO();
             window.isSSO && this.setCategoryOnSSOGame();
         } else {
@@ -337,12 +340,11 @@ export default class MainGame extends cc.Component {
         lobbyMenu.miniPanel = this.miniPanel;
 
         this.lobbyMenu = lobbyMenu;
-        this.isSSOGameMini && (this.lobbyMenu.isLoadMiniGame = true);
+        this.isSSOToGame && (this.lobbyMenu.isSSOToGame = true);
     }
 
     initCategory() {
         let category = GameCategory.All;
-        GameUtils.isMiniGame(window.openGameId) && (this.lobbyMenu.isLoadMiniGame = true);
         if (!window.isSSO) {
             category = this.activeCategoryFromStorage();
         }
@@ -472,9 +474,7 @@ export default class MainGame extends cc.Component {
         if (window.openGameId) {
             const gameId = parseInt(window.openGameId);
             GameUtils.clearGameSetting(gameId);
-            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this), () => {
-                this.miniPanel.isOpenSS0 = true;
-            });
+            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
             window.openGameId = null;
             sessionManager.removeInRoomGameId();
             return;

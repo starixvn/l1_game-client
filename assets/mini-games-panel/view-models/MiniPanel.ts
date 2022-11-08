@@ -83,7 +83,7 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
-    isOpenSS0 = false;
+    public isOpenSS0 = false;
     public boostedOdds: BoostedOdds;
     public promotionAnnouncement: PromotionAnnouncements;
 
@@ -281,14 +281,13 @@ export default class MiniPanel extends BaseComponent {
         });
     }
 
-    openNewSocketMiniGame(e, id, callBackMiniGame?: any) {
+    openNewSocketMiniGame(e, id) {
         GameUIManager.getInstance().setCurrentGameId(id);
         this.loadGame(id, () => {
             this.gameMiniInitializers.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
                 chartWebView && chartWebView.hideWebView();
             });
-            callBackMiniGame && callBackMiniGame();
         });
     }
 

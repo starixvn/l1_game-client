@@ -13,7 +13,8 @@ export default class GameUIManager {
     public emitter: EventEmitterBase;
     static Events = {
         LOAD_ALL_BANNERS: "banner: update",
-        RELOAD_LOBBY: "lobby: change"
+        RELOAD_LOBBY: "lobby: change",
+        LOAD_ICON_HIDE: "icon: load all icons hide"
     };
 
     public static getInstance(): GameUIManager {
