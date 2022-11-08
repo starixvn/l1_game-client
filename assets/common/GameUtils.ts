@@ -485,7 +485,7 @@ export default class GameUtils {
 
     public static isMiniGame(gameId: string): boolean {
         const gameConfiguration = getGameConfiguration(gameId);
-        return !!gameConfiguration?.mini && +gameId !== 0;
+        return +gameId !== 0 && !!gameConfiguration?.mini;
     }
 
     public static calculateWinPercentage(originalChoices: string[], roundHistory: any) {

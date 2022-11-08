@@ -164,15 +164,16 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     private createIconNode(gameId: number, prefab: cc.Prefab) {
+        const batchIndex = Math.abs(Math.floor(this.getList().findIndex((id) => id === gameId) / 10));
         const iconNode = cc.instantiate(prefab);
         const skeletonIconComponent = iconNode.getComponent(SkeletonIcon);
 
         this.lateUpdateGameName(skeletonIconComponent, gameId);
-        const callbackSetContent = async (icon: SkeletonIcon) => {
+        const addListIconObscure = (icon: SkeletonIcon) => {
             this.listIconObscure.push(icon);
         };
 
-        skeletonIconComponent.setGameContent(gameId, this.getList(), callbackSetContent);
+        skeletonIconComponent.setGameContent(gameId, batchIndex, addListIconObscure);
 
         return iconNode;
     }
