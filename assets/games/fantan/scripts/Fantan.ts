@@ -4,6 +4,8 @@ import { FantanConfig, FantanId } from "./FantanConfig";
 import FantanBowlAnimation from "./FantanBowlAnimation";
 import { handlePlacingBet, handleShakeDish } from "./actions/FantanCustomActions";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
+import BetItem from "../../_base/view-models/BetItem";
+import FantanBetOptionsUI from "./FantanBetOptionsUI";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,6 +14,7 @@ export default class Fantan extends StandAloneTableGameBase {
     animation: FantanBowlAnimation = null;
     startRoundDuration = 7;
     showResultDuration = 6;
+    betOptionsUI: FantanBetOptionsUI;
 
     constructor() {
         super();
@@ -35,6 +38,11 @@ export default class Fantan extends StandAloneTableGameBase {
         if (animation) {
             this.animation = animation;
         }
+    }
+
+    initBetItems(node: cc.Node) {
+        this.betOptionsUI = node.getComponent(FantanBetOptionsUI);
+        this.betOptionsUI.initBetOptions(this);
     }
 
     openHistory() {
