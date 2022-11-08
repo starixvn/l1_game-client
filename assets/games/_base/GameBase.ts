@@ -765,6 +765,10 @@ export default class GameBase extends GameViewBase {
     }
 
     public onBetItemClick(e) {
+        this.handleBetItemClick(e.target.name);
+    }
+
+    handleBetItemClick(choice: string) {
         if (!this.isReadyBet()) {
             return;
         }
@@ -772,7 +776,7 @@ export default class GameBase extends GameViewBase {
             this.showProcessingWarning(true);
         } else {
             this.lockBet();
-            this.sendBetAtChoice(e.target.name, this.currentBet);
+            this.sendBetAtChoice(choice, this.currentBet);
         }
     }
 
