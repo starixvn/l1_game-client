@@ -4,7 +4,7 @@ import ShortAnimatedTime from "./ShortAnimatedTime";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class MiniKenoTimer extends ShortAnimatedTime {
+export default class HhmmssAnimatedTime extends ShortAnimatedTime {
     @property(cc.Label)
     firstHourChar: cc.Label = null;
 
