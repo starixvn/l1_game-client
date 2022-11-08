@@ -5,6 +5,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FantanBetOptionsUI extends cc.Component {
+    @property(cc.Node)
+    betContainer: cc.Node = null;
+
     betItems: BetItem[] = [];
     main: Fantan;
 
@@ -15,7 +18,7 @@ export default class FantanBetOptionsUI extends cc.Component {
 
     initBetOptions(main: Fantan) {
         this.main = main;
-        this.node.getComponentsInChildren(BetItem).forEach((betItem) => {
+        this.betContainer.getComponentsInChildren(BetItem).forEach((betItem) => {
             this.betItems.push(betItem);
         });
         main.betItems = this.betItems;
@@ -24,10 +27,9 @@ export default class FantanBetOptionsUI extends cc.Component {
     onBetClick(e: cc.Event.EventTouch) {
         this.main.isBetSound && AudioManager.getInstance().playClick();
         const location = e.getLocation();
-        const betItem = this.node.children.find((item) => {
+        const betItem = this.betContainer.children.find((item) => {
             const collider = item.getComponent(cc.PolygonCollider);
-            const isCollider = this.checkCollider(location, collider);
-            return isCollider;
+            return this.checkCollider(location, collider);
         });
 
         if (!betItem) {
