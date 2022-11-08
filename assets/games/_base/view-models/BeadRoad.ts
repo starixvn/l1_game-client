@@ -1,7 +1,6 @@
 import MiniRoundHistoryItem from "../../../common/mini-round-history/MiniRoundHistoryItem";
 
 const { ccclass, property } = cc._decorator;
-const ROW_MAX = 5;
 
 @ccclass
 export default class BeadRoad extends cc.Component {
@@ -22,6 +21,9 @@ export default class BeadRoad extends cc.Component {
 
     @property
     verticalSpacing = 0;
+
+    @property
+    rowMax = 5;
 
     private scrollView: cc.ScrollView = null;
     private nextItem: cc.Node = null;
@@ -92,11 +94,11 @@ export default class BeadRoad extends cc.Component {
 
     updatePositions(nodes: cc.Node[]) {
         nodes.forEach((node, index) => {
-            const column = Math.floor(index / ROW_MAX);
-            let row = index % ROW_MAX;
+            const column = Math.floor(index / this.rowMax);
+            let row = index % this.rowMax;
 
             if (column % 2 === 1) {
-                row = ROW_MAX - row - 1; //reverse
+                row = this.rowMax - row - 1; //reverse
             }
             node.position = this.calculatePosition(row, column);
         });
@@ -112,7 +114,7 @@ export default class BeadRoad extends cc.Component {
     }
 
     updateContentSize(nodes: cc.Node[]) {
-        const columnsCount = Math.ceil(nodes.length / ROW_MAX);
+        const columnsCount = Math.ceil(nodes.length / this.rowMax);
         this.content.width = this.startHorizontalPadding + columnsCount * this.horizontalSpacing;
     }
 }
