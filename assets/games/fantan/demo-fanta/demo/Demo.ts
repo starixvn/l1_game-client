@@ -9,15 +9,15 @@ export default class Demo extends cc.Component {
     animation: FantanBowlAnimation = null;
 
     Restart() {
-        this.animation.Restart();
+        this.animation.restart();
     }
 
     StartRound() {
-        this.animation.StartRound();
+        this.animation.startRound();
     }
 
     CloseRound() {
-        this.animation.SetNumberOfSeed(_.random(29, 40));
-        this.animation.CloseRound();
+        this.animation.setNumberOfSeed(_.random(29, 40));
+        this.animation.closeRound();
     }
 }

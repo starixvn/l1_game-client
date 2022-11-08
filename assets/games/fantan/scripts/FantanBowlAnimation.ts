@@ -1,4 +1,5 @@
 import Seed from "./Seed";
+import { callFunc } from "../../../../packages/i18n/runtime-scripts/creator";
 
 const { ccclass, property } = cc._decorator;
 
@@ -56,7 +57,7 @@ export default class FantanBowlAnimation extends cc.Component {
     private readonly SmallBowlRadius_Inner = 38;
 
     onLoad() {
-        this.Spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
+        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
         this.spBigBowl = this.BowlAnimation.findBone("bigBowl");
         this.spSmallBowl = this.BowlAnimation.findBone("smallBowl");
         this.BowlAnimation.clearTracks();
@@ -82,7 +83,7 @@ export default class FantanBowlAnimation extends cc.Component {
         this.tabIn = !0;
         this.ClearSeedGrouping();
         this.ResetBigBowlSeeds();
-        this.Spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
+        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
         this.PrepareNewSeeds();
         this.HideAllResultSeeds();
 
@@ -90,7 +91,7 @@ export default class FantanBowlAnimation extends cc.Component {
         clearTimeout(this.timeoutSeq2);
         clearTimeout(this.timeoutSeq3);
         const n = 2;
-        this.SetResultNumberSprite(n);
+        this.setResultNumberSprite(n);
         this.ResultNumber.node.stopAllActions();
         this.ResultNumber.node.opacity = 255;
     }
@@ -265,34 +266,40 @@ export default class FantanBowlAnimation extends cc.Component {
         return t >= e && n < e;
     }
 
-    RevealResultAnimation(numbersOfSeed) {
+    async revealResultAnimation(numbersOfSeed) {
         if (null === this.SeedsToDisplayList || void 0 === this.SeedsToDisplayList) {
             return;
         }
-        this.Spine_FreezeAnimationFrame(this.BowlAnimation, 0.99);
-        this.BowlAnimation.update(0.01);
-        this.spSmallBowl.update();
-        this.PreviousSmallBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
-            new cc.Vec3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
-        );
-        this.BowlAnimation.node.active = !0;
-        this.BowlAnimation.setAnimation(0, "uncover", !1);
-        this.BowlAnimation.timeScale = 1;
-        this.timeoutSeq1 = setTimeout(() => {
-            this.SpawnResultSeeds(numbersOfSeed);
-            let n = 1e3 * this.BowlAnimation.findAnimation("uncover").duration;
-            this.timeoutSeq2 = setTimeout(() => {
-                this.SpraySeedsIntoArc();
-            }, n);
-            n += 500 + 10 * this.SeedsToDisplayList.length;
-            this.timeoutSeq3 = setTimeout(() => {
-                this.GroupSeedsIntoFours();
-            }, n);
-        }, 100);
+
+        return new Promise<void>((resolve) => {
+            this.spine_FreezeAnimationFrame(this.BowlAnimation, 0.99);
+            this.BowlAnimation.update(0.01);
+            this.spSmallBowl.update();
+            this.PreviousSmallBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
+                new cc.Vec3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
+            );
+            this.BowlAnimation.node.active = !0;
+            this.BowlAnimation.setAnimation(0, "uncover", !1);
+            this.BowlAnimation.timeScale = 1;
+            this.timeoutSeq1 = setTimeout(() => {
+                this.spawnResultSeeds(numbersOfSeed);
+                let n = 1e3 * this.BowlAnimation.findAnimation("uncover").duration;
+                this.timeoutSeq2 = setTimeout(() => {
+                    console.log("timeoutSeq2");
+                    this.spraySeedsIntoArc();
+                }, n);
+                n += 500 + 10 * this.SeedsToDisplayList.length;
+                this.timeoutSeq3 = setTimeout(() => {
+                    console.log("timeoutSeq3");
+                    this.groupSeedsIntoFours(resolve());
+                }, n);
+            }, 100);
+        });
     }
 
-    SpawnResultSeeds(numbersOfSeed) {
+    spawnResultSeeds(numbersOfSeed) {
         if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
+            console.log("spawnResultSeeds");
             const t = this.SeedsRoot.convertToNodeSpaceAR(this.PreviousSmallBowlPosition),
                 n = Seed.SmallBowlSeedPool.length;
             let r;
@@ -314,8 +321,9 @@ export default class FantanBowlAnimation extends cc.Component {
         }
     }
 
-    SpraySeedsIntoArc() {
+    spraySeedsIntoArc() {
         if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
+            console.log("spraySeedsIntoArc");
             // this.tabIn || //AudioManager.playEffect("beads_mass");
             for (
                 let e = 1.1 * Math.PI, t = (0.2 * Math.PI) / this.SeedsToDisplayList.length, n = 0;
@@ -342,8 +350,10 @@ export default class FantanBowlAnimation extends cc.Component {
         //AudioManager.playEffect("beads_final")
     }
 
-    GroupSeedsIntoFours() {
+    groupSeedsIntoFours(onComplete) {
         if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
+            console.log("groupSeedsIntoFours", new Date());
+
             this.SeedsToDisplayList.reverse();
             let e = Math.floor(this.SeedsToDisplayList.length / 4);
             e = this.SeedsToDisplayList.length % 4 == 0 ? e - 1 : e;
@@ -373,13 +383,15 @@ export default class FantanBowlAnimation extends cc.Component {
                 const s = this.SeedsToDisplayList.pop();
                 this.MoveTo(s.node, d[0] + 40 * o - h, d[1], 200, cc.easeQuadraticActionIn(), n, !0), (n += 100);
                 const m = 100 * o;
-                this.BounceScale(s.node, 1.375, 250, n + 375 + m),
-                    this.BounceScale(s.node, 1, 250, n + 750 + m),
-                    this.RemainingSeedsList.push(s);
+                this.BounceScale(s.node, 1.375, 250, n + 375 + m);
+                this.BounceScale(s.node, 1, 250, n + 750 + m);
+                this.RemainingSeedsList.push(s);
             }
-            this.SetResultNumberSprite(p), (this.ResultNumber.node.opacity = 0);
+            this.setResultNumberSprite(p);
+            this.ResultNumber.node.opacity = 0;
             let g;
             const _ = n / 1e3 - f;
+
             (g = this.tabIn
                 ? cc.sequence(cc.delayTime(f), cc.callFunc(this.PlayBeadsFinalSound), cc.delayTime(_ + 1.5), cc.fadeIn(0.5))
                 : cc.sequence(cc.delayTime(f), cc.delayTime(_ + 1.5), cc.fadeIn(0.5))),
@@ -431,31 +443,31 @@ export default class FantanBowlAnimation extends cc.Component {
         }
     }
 
-    SetResultNumberSprite(resultNumber: number) {
+    setResultNumberSprite(resultNumber: number) {
         this.ResultNumber.node.active = !0;
         this.ResultNumber.spriteFrame = this.ResultNumberSprites[resultNumber - 1];
     }
 
     RoundAlreadyStarted() {
-        this.Spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
+        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
         this.BowlAnimation.update(0.01);
         this.IsPlaying = !1;
     }
 
     RoundAlmostFinish() {
         this.HideAllResultSeeds();
-        this.Spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
+        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
         this.BowlAnimation.update(0.01);
         this.IsPlaying = !1;
     }
 
     RoundAlreadyClosed() {
         this.HideAllResultSeeds();
-        this.Spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
+        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
         this.IsPlaying = !1;
     }
 
-    Restart() {
+    restart() {
         if (this.tabIn) {
             this.tabIn = !1;
             this.FadeOut(this.ResultNumber.node, 200, 0, !0);
@@ -464,12 +476,12 @@ export default class FantanBowlAnimation extends cc.Component {
         }
     }
 
-    StartRound() {
+    startRound() {
         this.ResetBigBowlSeeds();
     }
 
-    CloseRound() {
-        this.RevealResultAnimation(this.numberOfSeed);
+    async closeRound() {
+        await this.revealResultAnimation(this.numberOfSeed);
     }
 
     StartRound_Completed() {
@@ -480,7 +492,7 @@ export default class FantanBowlAnimation extends cc.Component {
         this.RoundAlreadyClosed();
     }
 
-    Spine_FreezeAnimationFrame(spineAnimation: sp.Skeleton, startProgress: number, animationName = "shaking") {
+    spine_FreezeAnimationFrame(spineAnimation: sp.Skeleton, startProgress: number, animationName = "shaking") {
         (spineAnimation.node.active = !0), (spineAnimation.timeScale = 0), spineAnimation.setAnimation(0, animationName, !1);
         const trackEntry = spineAnimation.getCurrent(0);
         trackEntry.animationStart = trackEntry.animationEnd * startProgress;
@@ -515,7 +527,7 @@ export default class FantanBowlAnimation extends cc.Component {
         e.runAction(cc.sequence(cc.delayTime(n / 1e3), r));
     }
 
-    SetNumberOfSeed(e) {
+    setNumberOfSeed(e) {
         this.numberOfSeed = e;
     }
 }

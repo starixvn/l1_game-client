@@ -11,6 +11,7 @@ const { ccclass, property } = cc._decorator;
 export default class Fantan extends StandAloneTableGameBase {
     animation: FantanBowlAnimation = null;
     startRoundDuration = 7;
+    showResultDuration = 6;
 
     constructor() {
         super();
@@ -35,6 +36,7 @@ export default class Fantan extends StandAloneTableGameBase {
             this.animation = animation;
         }
     }
+
     openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(StandAloneTableGameHistory);
@@ -43,22 +45,18 @@ export default class Fantan extends StandAloneTableGameBase {
     }
 
     shakeThePlate() {
-        this.animation.Restart();
+        this.animation.restart();
     }
 
-    showSettlementResult(settlement: any) {
-        if (!this.animation) {
-            this.gameData.settlement.finishShowResult(settlement, true);
-            return;
-        }
-
-        this.animation.SetNumberOfSeed(settlement.result.totalBeads);
-        this.animation.CloseRound();
+    async showSettlementResult(settlement: any) {
+        this.animation.setNumberOfSeed(settlement.result.totalBeads);
+        console.log("showSettlementResult before", new Date());
+        await this.animation.closeRound();
+        console.log("showSettlementResult after", new Date());
         this.gameData.settlement.finishShowResult(settlement, true);
     }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
         super.handleAfterSettlementResult(settlement, animated);
-        // this.animation && this.animation.showResult(settlement);
     }
 }
