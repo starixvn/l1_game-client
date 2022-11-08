@@ -1,4 +1,5 @@
 import { BetLog } from "../FruitSlotHistory";
+import { getSymbolName } from "../FruitSlotHistoryHelper";
 import FruitSlotTicketDetailGroupItem from "./FruitSlotTicketDetailResultGroupItem";
 
 const { ccclass, property } = cc._decorator;
@@ -30,7 +31,8 @@ export default class FruitSlotTicketDetailResultGroup extends cc.Component {
         let height = 0;
 
         (isLucky ? ["lucky"] : []).concat(symbols).forEach((symbol: string, index: number) => {
-            const symbolSpriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${symbol}`);
+            const symbolName = getSymbolName(symbol);
+            const symbolSpriteFrame = symbolsSpriteFrames.find((sprite) => sprite.name === `item_${symbolName}`);
 
             height += this.createTicketDetailItem(symbolSpriteFrame, index, number);
         });

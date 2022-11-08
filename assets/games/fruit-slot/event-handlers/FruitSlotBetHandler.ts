@@ -119,6 +119,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     handleChipStack(betAmount: number, startNode: cc.Node, betChoice: string, totalAmount: number, isOwnBet = false) {
         const betItem = lodash.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
         const destNode = betItem.chipNode;
+        this.main.betOptionsUI?.playSingleChipsSound(isOwnBet);
         const durationMoveChip = 0.7;
         const chipNode = this.main.betChips.createSmallChip(betAmount);
         if (!isOwnBet) {

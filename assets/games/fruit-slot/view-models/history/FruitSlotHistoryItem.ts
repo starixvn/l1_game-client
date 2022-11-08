@@ -1,6 +1,7 @@
 import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import FruitSlotHistory, { BetLog } from "./FruitSlotHistory";
+import { getSymbolName } from "./FruitSlotHistoryHelper";
 import FruitSlotTicketDetail from "./ticket-detail/FruitSlotTicketDetail";
 
 const { ccclass, property } = cc._decorator;
@@ -59,7 +60,7 @@ export default class FruitSlotHistoryItem extends cc.Component {
         this.roundLabel.string = betLog.phien.toString();
 
         const matched = (sprite: cc.SpriteFrame, symbol: string) => sprite.name === symbol;
-        const symbolName = betLog.result.isLucky ? "lucky" : betLog.result.symbols[0];
+        const symbolName = betLog.result.isLucky ? "lucky" : getSymbolName(betLog.result.symbols[0]);
         this.symbol.spriteFrame = this.symbolSprites.find((sprite) => matched(sprite, `item_${symbolName}`));
 
         this.bigSmallValueLabel.string = betLog.result.number.toString();

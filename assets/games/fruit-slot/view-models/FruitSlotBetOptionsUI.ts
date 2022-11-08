@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import { setBgVisibility } from "../actions/FruitSlotWinningAction";
 import FruitSlot from "./FruitSlot";
 import FruitSlotBetItem from "./FruitSlotBetItem";
@@ -32,6 +33,9 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     main: FruitSlot;
     ledSpin: FruitSlotLedLightItem = null;
 
+    @property(cc.AudioSource)
+    singleChipAudio: cc.AudioSource = null;
+
     initBetOptions(main: FruitSlot) {
         this.main = main;
         main.betItems = this.betItems;
@@ -44,7 +48,7 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
     playBettingAnim(play: boolean) {
         if (this.bettingAnimation) {
-            this.bettingAnimation.node.active = play;            
+            this.bettingAnimation.node.active = play;
         }
     }
 
@@ -67,5 +71,9 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
         this.spinItems.forEach((item) => item?.resetHighlight());
         setBgVisibility(this.bgLockSpin, true);
+    }
+
+    playSingleChipsSound(isLoginUserPlaceBet = false) {
+        isLoginUserPlaceBet && AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
     }
 }
