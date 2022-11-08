@@ -20,6 +20,13 @@ import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 import GameDataManager from "../_base_new/models/GameDataManager";
 import { GameData } from "../_new/_base/game-data-management/models/game-data";
+import {
+    PayChipInfo,
+    payChipsToInGamePlayers,
+    payChipsToLoginPlayer,
+    payChipsToOtherPlayers,
+    showPayoutForLoginPlayer,
+} from "./action/PayChipsAction";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
 import DataHandler from "./handlers/DataHandler";
@@ -40,13 +47,6 @@ import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
-import {
-    PayChipInfo,
-    payChipsToInGamePlayers,
-    payChipsToLoginPlayer,
-    payChipsToOtherPlayers,
-    showPayoutForLoginPlayer
-} from "./action/PayChipsAction";
 
 const { ccclass, property } = cc._decorator;
 
@@ -790,6 +790,12 @@ export default class GameBase extends GameViewBase {
 
     updateRebetButtonStatus() {
         this.rebetButton && (this.rebetButton.interactable = this.checkRebetStatus());
+    }
+
+    disableRebetButton() {
+        if (this.rebetButton) {
+            this.rebetButton.interactable = false;
+        }
     }
 
     onClickRebet() {

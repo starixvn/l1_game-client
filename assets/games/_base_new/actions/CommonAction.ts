@@ -106,9 +106,7 @@ export const handleShowResult = (game: any) => (settlement) => {
     if (game.isDisableGame) {
         return;
     }
-    if (game.rebetButton) {
-        game.rebetButton.interactable = false;
-    }
+    game.disableRebetButton();
     game.showSettlementResult(settlement);
     game.gameData.roundHistory.add(settlement);
     game.gameData.roundHistory.checkWinningStreak(settlement, game.showResultDuration);

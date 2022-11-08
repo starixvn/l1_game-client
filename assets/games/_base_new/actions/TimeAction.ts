@@ -45,9 +45,7 @@ export const updateLockBet =
     ({ globalRemaining }) => {
         updateClockTime(game)({ globalRemaining });
         game.betItems.forEach((item: any) => item.resetHighlight());
-        if (game.rebetButton) {
-            game.rebetButton.interactable = false;
-        }
+        game.disableRebetButton();
     };
 
 export const updatePlacingBet =
@@ -59,11 +57,14 @@ export const updatePlacingBet =
             game.countDownProgressBar.updateBetFrame();
             game.countDownProgressBar.updateProgress(globalRemaining);
         }
+        showCurrentRoundId(game)();
+        game.updateRebetButtonStatus();
     };
 
 export const updateWaiting =
     (game: MiniGameBase) =>
     ({ remaining, globalRemaining }) => {
+        game.disableRebetButton();
         game.showMainTime(false);
         game.showProcessingWarning(false);
         game.showWaittingTime(true);
@@ -80,6 +81,11 @@ export const updateWaiting =
             game.countDownProgressBar.revertCountDown(duration);
         }
     };
+
+export const updateStartingRound = (game: MiniGameBase) => () => {
+    showCurrentRoundId(game)();
+    game.disableRebetButton();
+};
 
 export const showCurrentRoundId = (game: MiniGameBase) => () => {
     game.gameData.roundHistory.gotIngameData && game.gameData.changeRoundId(game.gameData.roundHistory.lastRoundId + 1);
