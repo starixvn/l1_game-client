@@ -1,5 +1,4 @@
 import Seed from "./Seed";
-import { callFunc } from "../../../../packages/i18n/runtime-scripts/creator";
 
 const { ccclass, property } = cc._decorator;
 
@@ -285,12 +284,10 @@ export default class FantanBowlAnimation extends cc.Component {
                 this.spawnResultSeeds(numbersOfSeed);
                 let n = 1e3 * this.BowlAnimation.findAnimation("uncover").duration;
                 this.timeoutSeq2 = setTimeout(() => {
-                    console.log("timeoutSeq2");
                     this.spraySeedsIntoArc();
                 }, n);
                 n += 500 + 10 * this.SeedsToDisplayList.length;
                 this.timeoutSeq3 = setTimeout(() => {
-                    console.log("timeoutSeq3");
                     this.groupSeedsIntoFours(resolve());
                 }, n);
             }, 100);
@@ -299,7 +296,6 @@ export default class FantanBowlAnimation extends cc.Component {
 
     spawnResultSeeds(numbersOfSeed) {
         if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
-            console.log("spawnResultSeeds");
             const t = this.SeedsRoot.convertToNodeSpaceAR(this.PreviousSmallBowlPosition),
                 n = Seed.SmallBowlSeedPool.length;
             let r;
@@ -323,7 +319,6 @@ export default class FantanBowlAnimation extends cc.Component {
 
     spraySeedsIntoArc() {
         if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
-            console.log("spraySeedsIntoArc");
             // this.tabIn || //AudioManager.playEffect("beads_mass");
             for (
                 let e = 1.1 * Math.PI, t = (0.2 * Math.PI) / this.SeedsToDisplayList.length, n = 0;
@@ -346,18 +341,15 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     PlayBeadsFinalSound() {
-        console.log("Play Beads Final");
         //AudioManager.playEffect("beads_final")
     }
 
     groupSeedsIntoFours(onComplete) {
         if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
-            console.log("groupSeedsIntoFours", new Date());
-
             this.SeedsToDisplayList.reverse();
             let e = Math.floor(this.SeedsToDisplayList.length / 4);
             e = this.SeedsToDisplayList.length % 4 == 0 ? e - 1 : e;
-            let n = 0,
+            let delay = 0,
                 o = 0;
 
             for (let t = this.arcAngle / (e - 1); o < e; ++o) {
@@ -366,37 +358,50 @@ export default class FantanBowlAnimation extends cc.Component {
                     const s = this.SeedsToDisplayList.pop();
                     0 === a &&
                         !1 === this.tabIn &&
-                        s.node.runAction(cc.sequence(cc.delayTime(n / 1e3), cc.callFunc(this.PlayBeadsColumnSound)));
+                        s.node.runAction(cc.sequence(cc.delayTime(delay / 1e3), cc.callFunc(this.PlayBeadsColumnSound)));
                     const c = this.SeedGroupArcPosY + 15 * a,
                         l = Math.sin(i) * c * 1.2, // this.halfWidth,
                         u = Math.cos(i) * c;
-                    this.MoveTo(s.node, l + (2 * Math.random() - 1), u + (1 * Math.random() - 1), 150, cc.easeQuadraticActionIn(), n, !0),
+                    this.MoveTo(
+                        s.node,
+                        l + (2 * Math.random() - 1),
+                        u + (1 * Math.random() - 1),
+                        150,
+                        cc.easeQuadraticActionIn(),
+                        delay,
+                        !0
+                    ),
                         r.push(s);
                 }
-                this.SeedGroupingsList.push(r), (n += 230);
+                this.SeedGroupingsList.push(r);
+                delay += 230;
             }
             const d = [0, this.ResultNumber.node.y],
                 p = this.SeedsToDisplayList.length,
                 h = 20 * (p - 1),
-                f = n / 1e3;
+                f = delay / 1e3;
             for (o = 0; o < p; ++o) {
                 const s = this.SeedsToDisplayList.pop();
-                this.MoveTo(s.node, d[0] + 40 * o - h, d[1], 200, cc.easeQuadraticActionIn(), n, !0), (n += 100);
+                this.MoveTo(s.node, d[0] + 40 * o - h, d[1], 200, cc.easeQuadraticActionIn(), delay, !0);
+                delay += 100;
+                /* dev: remove bounce scale effect
                 const m = 100 * o;
-                this.BounceScale(s.node, 1.375, 250, n + 375 + m);
-                this.BounceScale(s.node, 1, 250, n + 750 + m);
+                this.BounceScale(s.node, 1.375, 250, delay + 375 + m);
+                this.BounceScale(s.node, 1, 250, delay + 750 + m);
+                */
                 this.RemainingSeedsList.push(s);
             }
             this.setResultNumberSprite(p);
             this.ResultNumber.node.opacity = 0;
-            let g;
-            const _ = n / 1e3 - f;
+            const _ = delay / 1e3 - f;
+            const spawn = cc.spawn(cc.callFunc(onComplete), cc.fadeIn(0.5));
+            let resultNumberAction = cc.sequence(cc.delayTime(f), cc.delayTime(_ + 1.5), spawn);
 
-            (g = this.tabIn
-                ? cc.sequence(cc.delayTime(f), cc.callFunc(this.PlayBeadsFinalSound), cc.delayTime(_ + 1.5), cc.fadeIn(0.5))
-                : cc.sequence(cc.delayTime(f), cc.delayTime(_ + 1.5), cc.fadeIn(0.5))),
-                this.ResultNumber.node.stopAllActions(),
-                this.ResultNumber.node.runAction(g);
+            if (this.tabIn) {
+                resultNumberAction = cc.sequence(cc.delayTime(f), cc.callFunc(this.PlayBeadsFinalSound), cc.delayTime(_ + 1.5), spawn);
+            }
+            this.ResultNumber.node.stopAllActions();
+            this.ResultNumber.node.runAction(resultNumberAction);
         }
     }
 
@@ -505,11 +510,12 @@ export default class FantanBowlAnimation extends cc.Component {
         node.runAction(cc.sequence(cc.delayTime(delay / 1e3), s));
     }
 
-    BounceScale(e, t, n, o) {
-        void 0 === t && (t = 1.2), void 0 === n && (n = 200), void 0 === o && (o = 0), (e.scale = 1);
-        const r = cc.scaleTo(n / 2, t).easing(cc.easeCircleActionOut()),
-            i = cc.scaleTo(n / 2, 1).easing(cc.easeCircleActionOut());
-        e.runAction(cc.sequence(cc.delayTime(o / 1e3), r, cc.delayTime(n / 2), i));
+    BounceScale(node: cc.Node, scale = 1.2, duration = 200, delayTime = 0) {
+        node.scale = 1;
+        const convertDuration = duration / 1e3;
+        const r = cc.scaleTo(convertDuration / 2, scale).easing(cc.easeCircleActionOut()),
+            i = cc.scaleTo(convertDuration / 2, 1).easing(cc.easeCircleActionOut());
+        node.runAction(cc.sequence(cc.delayTime(delayTime / 1e3), r, cc.delayTime(convertDuration / 2), i));
     }
 
     FadeOut(e, t, n, o) {
