@@ -62,10 +62,12 @@ export default class Fantan extends StandAloneTableGameBase {
     async showSettlementResult(settlement: any) {
         const totalBeads = settlement.result.totalBeads;
         this.animation.setNumberOfSeed(totalBeads);
-        console.log("showSettlementResult before", new Date());
         await this.animation.closeRound();
-        console.log("showSettlementResult after", new Date());
-        this.gameData.settlement.finishShowResult(settlement, true);
+        try {
+            this.gameData.settlement.finishShowResult(settlement, true);
+        } catch (error) {
+            console.warn(error.message);
+        }
     }
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {

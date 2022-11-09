@@ -55,6 +55,11 @@ export default class StandAloneTableGameBase extends TableGameBase {
         initMusicBackground(this)();
     }
 
+    onDestroy() {
+        super.onDestroy();
+        cc.RedT.inGame = null;
+    }
+
     initEventForInGameMenu() {
         const node = super.initEventForInGameMenu();
 
@@ -86,5 +91,10 @@ export default class StandAloneTableGameBase extends TableGameBase {
 
     outRoomGame() {
         return outRoomGame(this)();
+    }
+
+    onGameHide() {
+        super.onGameHide();
+        this.closeGame();
     }
 }
