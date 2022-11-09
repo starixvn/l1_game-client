@@ -1,5 +1,4 @@
-import _ = require("lodash");
-
+import { lodash } from "../../../../ClientModules";
 import FantanBowlAnimation from "../../scripts/FantanBowlAnimation";
 
 const { ccclass, property } = cc._decorator;
@@ -18,11 +17,11 @@ export default class Demo extends cc.Component {
     }
 
     CloseRound() {
-        this.animation.setNumberOfSeed(_.random(29, 40));
+        this.animation.setNumberOfSeed(lodash.random(29, 40));
         this.animation.closeRound();
     }
 
     Finished() {
-        this.animation.showStaticResult(_.random(29, 40));
+        this.animation.showStaticResult(lodash.random(29, 40));
     }
 }
