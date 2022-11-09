@@ -70,6 +70,10 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
+    - project: "ci/repos-ci/pentagon_l1_fantan_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
     - local: "ci/*.yml"
 
 variables:
@@ -219,3 +223,8 @@ bundle-verification:
     <<: *build_cocos_creator_script
     extends:
         - .build:image:l2_fruit_slot_client:rules
+
+.base_build_cocos_web_l1_fantan_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l1_fantan_client:rules
