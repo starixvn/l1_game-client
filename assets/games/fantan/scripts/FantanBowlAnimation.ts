@@ -383,7 +383,7 @@ export default class FantanBowlAnimation extends cc.Component {
                         !1 === this.tabIn &&
                         s.node.runAction(cc.sequence(cc.delayTime(delay / 1e3), cc.callFunc(this.PlayBeadsColumnSound)));
                     const c = this.SeedGroupArcPosY + 15 * a,
-                        l = Math.sin(i) * c * 1.2, // this.halfWidth,
+                        l = Math.sin(i) * c * 1.2,
                         u = Math.cos(i) * c;
                     const x = l + (2 * Math.random() - 1);
                     const y = u + (1 * Math.random() - 1);
@@ -421,12 +421,11 @@ export default class FantanBowlAnimation extends cc.Component {
             this.setResultNumberSprite(p);
             if (animated) {
                 this.ResultNumber.node.opacity = 0;
-                const _ = delay / 1e3 - f;
                 const spawn = cc.spawn(cc.callFunc(resolve), cc.fadeIn(0.5));
-                let resultNumberAction = cc.sequence(cc.delayTime(f), cc.delayTime(_ + 1.5), spawn);
+                let resultNumberAction = cc.sequence(cc.delayTime(f), spawn);
 
                 if (this.tabIn) {
-                    resultNumberAction = cc.sequence(cc.delayTime(f), cc.callFunc(this.PlayBeadsFinalSound), cc.delayTime(_ + 1.5), spawn);
+                    resultNumberAction = cc.sequence(cc.delayTime(f), cc.callFunc(this.PlayBeadsFinalSound), spawn);
                 }
                 this.ResultNumber.node.stopAllActions();
                 this.ResultNumber.node.runAction(resultNumberAction);
