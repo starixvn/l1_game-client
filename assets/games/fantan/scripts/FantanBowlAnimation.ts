@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import Seed from "./Seed";
 
 const { ccclass, property } = cc._decorator;
@@ -37,10 +38,6 @@ export default class FantanBowlAnimation extends cc.Component {
     designResolution = null;
     isResetDoneOnce = !1;
 
-    timeoutSeq1;
-    timeoutSeq2;
-    timeoutSeq3;
-
     static Instance: FantanBowlAnimation;
 
     private readonly ArcRadius = 450;
@@ -48,12 +45,24 @@ export default class FantanBowlAnimation extends cc.Component {
     private readonly SeedGroupArcPosY = 150;
 
     private readonly BigBowlSeedNumbers = 100;
-    private readonly BigBowlRandomWidth = 50;
-    private readonly BigBowlRadius_Small = 48;
-    private readonly BigBowlRadius_Big = 88;
+    private get BigBowlRandomWidth() {
+        return this.node.scale * 50;
+    }
 
-    private readonly SmallBowlRadius = 45;
-    private readonly SmallBowlRadius_Inner = 38;
+    private get BigBowlRadius_Small() {
+        return this.node.scale * 48;
+    }
+    private get BigBowlRadius_Big() {
+        return this.node.scale * 88;
+    }
+
+    private get SmallBowlRadius() {
+        return this.node.scale * 45;
+    }
+
+    private get SmallBowlRadius_Inner() {
+        return this.node.scale * 38;
+    }
 
     onLoad() {
         this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
@@ -86,9 +95,6 @@ export default class FantanBowlAnimation extends cc.Component {
         this.PrepareNewSeeds();
         this.HideAllResultSeeds();
 
-        clearTimeout(this.timeoutSeq1);
-        clearTimeout(this.timeoutSeq2);
-        clearTimeout(this.timeoutSeq3);
         const n = 2;
         this.setResultNumberSprite(n);
         this.ResultNumber.node.stopAllActions();
@@ -266,32 +272,33 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     async revealResultAnimation(numbersOfSeed) {
-        if (null === this.SeedsToDisplayList || void 0 === this.SeedsToDisplayList) {
+        if (!this.SeedsToDisplayList) {
             return;
         }
 
-        return new Promise<void>((resolve) => {
-            this.spine_FreezeAnimationFrame(this.BowlAnimation, 0.99);
-            this.BowlAnimation.update(0.01);
-            this.spSmallBowl.update();
-            this.PreviousSmallBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
-                new cc.Vec3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
-            );
-            this.BowlAnimation.node.active = !0;
-            this.BowlAnimation.setAnimation(0, "uncover", !1);
-            this.BowlAnimation.timeScale = 1;
-            this.timeoutSeq1 = setTimeout(() => {
-                this.spawnResultSeeds(numbersOfSeed);
-                let n = 1e3 * this.BowlAnimation.findAnimation("uncover").duration;
-                this.timeoutSeq2 = setTimeout(() => {
-                    this.spraySeedsIntoArc();
-                }, n);
-                n += 500 + 10 * this.SeedsToDisplayList.length;
-                this.timeoutSeq3 = setTimeout(() => {
-                    this.groupSeedsIntoFours(resolve());
-                }, n);
-            }, 100);
-        });
+        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0.99);
+        this.BowlAnimation.update(0.01);
+        this.spSmallBowl.update();
+        this.PreviousSmallBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
+            new cc.Vec3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
+        );
+        this.BowlAnimation.node.active = !0;
+        this.BowlAnimation.setAnimation(0, "uncover", !1);
+        this.BowlAnimation.timeScale = 1;
+        try {
+            await GameUtils.delayTime(100 / 1e3);
+            this.spawnResultSeeds(numbersOfSeed);
+            const n = 1e3 * this.BowlAnimation.findAnimation("uncover").duration;
+
+            await GameUtils.delayTime(n / 1e3);
+            this.spraySeedsIntoArc();
+
+            const delay = 500 + 10 * this.SeedsToDisplayList.length;
+            await GameUtils.delayTime(delay / 1e3);
+            await this.groupSeedsIntoFours();
+        } catch (e) {
+            console.warn(e.message);
+        }
     }
 
     spawnResultSeeds(numbersOfSeed) {
@@ -344,8 +351,13 @@ export default class FantanBowlAnimation extends cc.Component {
         //AudioManager.playEffect("beads_final")
     }
 
-    groupSeedsIntoFours(onComplete) {
-        if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
+    groupSeedsIntoFours() {
+        return new Promise<void>((resolve, reject) => {
+            if (!this.SeedsToDisplayList) {
+                reject("this.SeedsToDisplayList null");
+                return;
+            }
+
             this.SeedsToDisplayList.reverse();
             let e = Math.floor(this.SeedsToDisplayList.length / 4);
             e = this.SeedsToDisplayList.length % 4 == 0 ? e - 1 : e;
@@ -385,16 +397,16 @@ export default class FantanBowlAnimation extends cc.Component {
                 this.MoveTo(s.node, d[0] + 40 * o - h, d[1], 200, cc.easeQuadraticActionIn(), delay, !0);
                 delay += 100;
                 /* dev: remove bounce scale effect
-                const m = 100 * o;
-                this.BounceScale(s.node, 1.375, 250, delay + 375 + m);
-                this.BounceScale(s.node, 1, 250, delay + 750 + m);
-                */
+                    const m = 100 * o;
+                    this.BounceScale(s.node, 1.375, 250, delay + 375 + m);
+                    this.BounceScale(s.node, 1, 250, delay + 750 + m);
+                    */
                 this.RemainingSeedsList.push(s);
             }
             this.setResultNumberSprite(p);
             this.ResultNumber.node.opacity = 0;
             const _ = delay / 1e3 - f;
-            const spawn = cc.spawn(cc.callFunc(onComplete), cc.fadeIn(0.5));
+            const spawn = cc.spawn(cc.callFunc(resolve), cc.fadeIn(0.5));
             let resultNumberAction = cc.sequence(cc.delayTime(f), cc.delayTime(_ + 1.5), spawn);
 
             if (this.tabIn) {
@@ -402,7 +414,7 @@ export default class FantanBowlAnimation extends cc.Component {
             }
             this.ResultNumber.node.stopAllActions();
             this.ResultNumber.node.runAction(resultNumberAction);
-        }
+        });
     }
 
     ClearSeedGrouping(e = false) {
