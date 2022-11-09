@@ -12,6 +12,7 @@ export interface PayChipInfo {
     winningDuration: number;
     payChipsDuration: number;
     statusData: any;
+    isChipStack: boolean;
 }
 
 export const payChips = (
@@ -19,7 +20,8 @@ export const payChips = (
     settlementResult: any,
     winningPlayers: any,
     payChipFlyTime: number,
-    winningAnimationDuration: number
+    winningAnimationDuration: number,
+    isChipStack = false
 ) => {
     const mainRoomGame = main as WebSocketTableGameBase;
     const payChipsDuration = payChipFlyTime;
@@ -37,11 +39,13 @@ export const payChips = (
         winningPlayers,
         payChipsDuration,
         winningDuration,
-        statusData: mainRoomGame.getCurrentStatusData()
+        statusData: mainRoomGame.getCurrentStatusData(),
+        isChipStack
     };
     if (!main.node.activeInHierarchy) {
         dealerGetChips(mainRoomGame, lostBetItems);
         dealerPayChips(mainRoomGame, winBetItems);
+        isChipStack && removeChipStack(winBetItems);
         mainRoomGame.payChipToAllPlayers(payChipInfo);
     } else {
         main.node.runAction(
@@ -52,11 +56,20 @@ export const payChips = (
                 cc.callFunc(() => dealerPayChips(mainRoomGame, winBetItems)),
                 cc.delayTime(main.betChips.chipDelayFlyingTime),
                 cc.callFunc(() => {
+                    isChipStack && removeChipStack(winBetItems);
                     mainRoomGame.payChipToAllPlayers(payChipInfo);
                 })
             )
         );
     }
+};
+
+const removeChipStack = (winBetItems: BetItem[]) => {
+    _.forEach(winBetItems, (item) => {
+        const stackNode = item.chipNode.children[0];
+        stackNode && item.chipNode.removeChild(stackNode);
+        stackNode?.destroy();
+    });
 };
 
 export const dealerGetChips = (mainRoomGame: any, lostBetItems: BetItem[]) => {
@@ -104,7 +117,8 @@ const moveChipWithRandomAmountToLoginPlayer = (info: PayChipInfo, winningByChoic
     }
     _.forEach(winBetItems, (item) => {
         if (winningByChoices[item.node.name.toLowerCase()]) {
-            mainRoomGame.betChips.moveChipsWithRandomAmount(item.chipNode, destNode, payChipsDuration);
+            const chipNode = !info.isChipStack ? item.chipNode : item.chipNode.children[0];
+            chipNode && mainRoomGame.betChips.moveChipsWithRandomAmount(chipNode, destNode, payChipsDuration);
         }
     });
 };
@@ -118,7 +132,8 @@ const moveChipWithAmountToLoginPlayer = (info: PayChipInfo, winningByChoices) =>
     const betItemLowercaseObjectKeys = getLowercaseObjectKeys(winningByChoices);
     _.forEach(winBetItems, (item) => {
         if (winningByChoices[betItemLowercaseObjectKeys[item.node.name.toLowerCase()]]) {
-            mainRoomGame.betChips.moveChips(item.chipNode, destNode);
+            const chipNode = !info.isChipStack ? item.chipNode : item.chipNode.children[0];
+            chipNode && mainRoomGame.betChips.moveChips(chipNode, destNode);
         }
     });
 };
@@ -130,7 +145,8 @@ export const payChipsToOtherPlayers = (info: PayChipInfo) => {
     }
 
     _.forEach(winBetItems, (item) => {
-        mainRoomGame.betChips.moveChips(item.chipNode, mainRoomGame.otherPlayers);
+        const chipNode = !info.isChipStack ? item.chipNode : item.chipNode.children[0];
+        chipNode && mainRoomGame.betChips.moveChips(chipNode, mainRoomGame.otherPlayers);
     });
 };
 
@@ -151,7 +167,8 @@ export const payChipsToInGamePlayers = (info: PayChipInfo) => {
         if (playerSlot) {
             _.forEach(winBetItems, (item) => {
                 if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
-                    mainRoomGame.betChips.moveChipsWithRandomAmount(item.chipNode, playerSlot.avatar.node, payChipsDuration);
+                    const chipNode = !info.isChipStack ? item.chipNode : item.chipNode.children[0];
+                    chipNode && mainRoomGame.betChips.moveChipsWithRandomAmount(chipNode, playerSlot.avatar.node, payChipsDuration);
                 }
             });
 

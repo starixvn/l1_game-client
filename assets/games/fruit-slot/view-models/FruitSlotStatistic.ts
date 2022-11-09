@@ -153,7 +153,7 @@ export default class FruitSlotStatistic extends cc.Component {
             this.symbolPercent.getChildByName(key).getComponent(cc.Label).string = `${percent}%`;
         }
         this.symbolPercent.getChildByName(this.symbolsKey.cherry).getComponent(cc.Label).string = `${
-            percentTotal === 0 && total === 0 ? 0 : numberWithCommas(100 - percentTotal, 2)
+            (percentTotal === 0 && total === 0) || statistic["cherry"] === 0 ? 0 : numberWithCommas(100 - percentTotal, 2)
         }%`;
     }
 
