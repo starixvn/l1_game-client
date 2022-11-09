@@ -1,4 +1,4 @@
-FROM hub.lumigame.com/base/nginx:1.22-alpine-slim
+FROM hub.lumigame.com/base/nginx:brotli-1.20.2
 
 ## Add user permissions
 RUN chown -R nginx:nginx /usr/share/nginx && chmod -R 755 /usr/share/nginx && \
