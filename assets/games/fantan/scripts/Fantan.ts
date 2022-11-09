@@ -60,7 +60,8 @@ export default class Fantan extends StandAloneTableGameBase {
     }
 
     async showSettlementResult(settlement: any) {
-        this.animation.setNumberOfSeed(settlement.result.totalBeads);
+        const totalBeads = settlement.result.totalBeads;
+        this.animation.setNumberOfSeed(totalBeads);
         console.log("showSettlementResult before", new Date());
         await this.animation.closeRound();
         console.log("showSettlementResult after", new Date());
@@ -69,6 +70,10 @@ export default class Fantan extends StandAloneTableGameBase {
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
         super.handleAfterSettlementResult(settlement, animated);
+        if (!animated) {
+            const totalBeads = settlement.result.totalBeads;
+            this.animation.showStaticResult(totalBeads);
+        }
     }
 
     initBeadRoad(node: cc.Node) {

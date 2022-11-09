@@ -151,7 +151,6 @@ export default class FantanBowlAnimation extends cc.Component {
         }
         setTimeout(() => {
             this.PrepareNewSeeds();
-            // this.ResetBigBowlSeeds();
         }, 5e3);
     }
 
@@ -302,44 +301,55 @@ export default class FantanBowlAnimation extends cc.Component {
         }
     }
 
-    spawnResultSeeds(numbersOfSeed) {
-        if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
-            const t = this.SeedsRoot.convertToNodeSpaceAR(this.PreviousSmallBowlPosition),
-                n = Seed.SmallBowlSeedPool.length;
-            let r;
-            if (n < numbersOfSeed) {
-                for (r = 0; r < numbersOfSeed - n; ++r) {
-                    const i = cc.instantiate(this.SeedPrefab);
-                    i.parent = this.SeedsRoot;
-                    Seed.SmallBowlSeedPool.push(i.getComponent(Seed));
-                }
-            }
+    showStaticResult(numbersOfSeed) {
+        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0.99, "uncover");
 
-            for (r = 0; r < numbersOfSeed; r++) {
-                const i = Seed.SmallBowlSeedPool[r];
-                (i.node.position = new cc.Vec3(t.x + 10 * Math.random() - 5, t.y + 10 * Math.random() - 5)),
-                    (i.node.active = !0),
-                    this.SeedsToDisplayList.push(i),
-                    i.node.stopAllActions();
+        const animated = false;
+        this.spawnResultSeeds(numbersOfSeed);
+        this.spraySeedsIntoArc(animated);
+        this.groupSeedsIntoFours(animated);
+    }
+
+    spawnResultSeeds(numbersOfSeed) {
+        if (!this.SeedsToDisplayList) {
+            return;
+        }
+        const t = this.SeedsRoot.convertToNodeSpaceAR(this.PreviousSmallBowlPosition),
+            n = Seed.SmallBowlSeedPool.length;
+        let r;
+        if (n < numbersOfSeed) {
+            for (r = 0; r < numbersOfSeed - n; ++r) {
+                const i = cc.instantiate(this.SeedPrefab);
+                i.parent = this.SeedsRoot;
+                Seed.SmallBowlSeedPool.push(i.getComponent(Seed));
             }
+        }
+
+        for (r = 0; r < numbersOfSeed; r++) {
+            const i = Seed.SmallBowlSeedPool[r];
+            (i.node.position = new cc.Vec3(t.x + 10 * Math.random() - 5, t.y + 10 * Math.random() - 5)),
+                (i.node.active = !0),
+                this.SeedsToDisplayList.push(i),
+                i.node.stopAllActions();
         }
     }
 
-    spraySeedsIntoArc() {
-        if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
-            // this.tabIn || //AudioManager.playEffect("beads_mass");
-            for (
-                let e = 1.1 * Math.PI, t = (0.2 * Math.PI) / this.SeedsToDisplayList.length, n = 0;
-                n < this.SeedsToDisplayList.length;
-                n++
-            ) {
-                const o = this.SeedsToDisplayList[n];
-                o.IsPhysicsEnabled = false;
-                const i = e - t * n,
-                    a = this.ArcRadius + 15 * Math.random(),
-                    s = Math.sin(i) * a,
-                    c = Math.cos(i) * a + this.SmallBowlToArcDistance;
+    spraySeedsIntoArc(animated = true) {
+        if (!this.SeedsToDisplayList) {
+            return;
+        }
+        // this.tabIn || //AudioManager.playEffect("beads_mass");
+        for (let e = 1.1 * Math.PI, t = (0.2 * Math.PI) / this.SeedsToDisplayList.length, n = 0; n < this.SeedsToDisplayList.length; n++) {
+            const o = this.SeedsToDisplayList[n];
+            o.IsPhysicsEnabled = false;
+            const i = e - t * n,
+                a = this.ArcRadius + 15 * Math.random(),
+                s = Math.sin(i) * a,
+                c = Math.cos(i) * a + this.SmallBowlToArcDistance;
+            if (animated) {
                 this.MoveTo(o.node, s, c, 300, cc.easeQuadraticActionIn(), 10 * n, !0);
+            } else {
+                o.node.position = cc.v3(s, c);
             }
         }
     }
@@ -352,7 +362,7 @@ export default class FantanBowlAnimation extends cc.Component {
         //AudioManager.playEffect("beads_final")
     }
 
-    groupSeedsIntoFours() {
+    groupSeedsIntoFours(animated = true) {
         return new Promise<void>((resolve, reject) => {
             if (!this.SeedsToDisplayList) {
                 reject("this.SeedsToDisplayList null");
@@ -375,16 +385,14 @@ export default class FantanBowlAnimation extends cc.Component {
                     const c = this.SeedGroupArcPosY + 15 * a,
                         l = Math.sin(i) * c * 1.2, // this.halfWidth,
                         u = Math.cos(i) * c;
-                    this.MoveTo(
-                        s.node,
-                        l + (2 * Math.random() - 1),
-                        u + (1 * Math.random() - 1),
-                        150,
-                        cc.easeQuadraticActionIn(),
-                        delay,
-                        !0
-                    ),
-                        r.push(s);
+                    const x = l + (2 * Math.random() - 1);
+                    const y = u + (1 * Math.random() - 1);
+                    if (animated) {
+                        this.MoveTo(s.node, x, y, 150, cc.easeQuadraticActionIn(), delay, !0);
+                    } else {
+                        s.node.position = cc.v3(x, y);
+                    }
+                    r.push(s);
                 }
                 this.SeedGroupingsList.push(r);
                 delay += 230;
@@ -395,7 +403,13 @@ export default class FantanBowlAnimation extends cc.Component {
                 f = delay / 1e3;
             for (o = 0; o < p; ++o) {
                 const s = this.SeedsToDisplayList.pop();
-                this.MoveTo(s.node, d[0] + 40 * o - h, d[1], 200, cc.easeQuadraticActionIn(), delay, !0);
+                const x = d[0] + 40 * o - h;
+                const y = d[1];
+                if (animated) {
+                    this.MoveTo(s.node, x, y, 200, cc.easeQuadraticActionIn(), delay, !0);
+                } else {
+                    s.node.position = cc.v3(x, y);
+                }
                 delay += 100;
                 /* dev: remove bounce scale effect
                     const m = 100 * o;
@@ -405,16 +419,21 @@ export default class FantanBowlAnimation extends cc.Component {
                 this.RemainingSeedsList.push(s);
             }
             this.setResultNumberSprite(p);
-            this.ResultNumber.node.opacity = 0;
-            const _ = delay / 1e3 - f;
-            const spawn = cc.spawn(cc.callFunc(resolve), cc.fadeIn(0.5));
-            let resultNumberAction = cc.sequence(cc.delayTime(f), cc.delayTime(_ + 1.5), spawn);
+            if (animated) {
+                this.ResultNumber.node.opacity = 0;
+                const _ = delay / 1e3 - f;
+                const spawn = cc.spawn(cc.callFunc(resolve), cc.fadeIn(0.5));
+                let resultNumberAction = cc.sequence(cc.delayTime(f), cc.delayTime(_ + 1.5), spawn);
 
-            if (this.tabIn) {
-                resultNumberAction = cc.sequence(cc.delayTime(f), cc.callFunc(this.PlayBeadsFinalSound), cc.delayTime(_ + 1.5), spawn);
+                if (this.tabIn) {
+                    resultNumberAction = cc.sequence(cc.delayTime(f), cc.callFunc(this.PlayBeadsFinalSound), cc.delayTime(_ + 1.5), spawn);
+                }
+                this.ResultNumber.node.stopAllActions();
+                this.ResultNumber.node.runAction(resultNumberAction);
+            } else {
+                this.ResultNumber.node.opacity = 255;
+                resolve();
             }
-            this.ResultNumber.node.stopAllActions();
-            this.ResultNumber.node.runAction(resultNumberAction);
         });
     }
 
@@ -436,15 +455,17 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     HideAllResultSeeds() {
-        if (null !== this.SeedsToDisplayList && void 0 !== this.SeedsToDisplayList) {
-            for (let e = 0; e < this.SeedsToDisplayList.length; e++) {
-                this.SeedsToDisplayList[e].node.active = !1;
-            }
-            this.SeedsToDisplayList.length = 0;
-            this.ClearSeedGrouping(!0);
-            Seed.HideSmallBowlSeed();
+        if (!this.SeedsToDisplayList) {
+            return;
         }
+        for (let e = 0; e < this.SeedsToDisplayList.length; e++) {
+            this.SeedsToDisplayList[e].node.active = !1;
+        }
+        this.SeedsToDisplayList.length = 0;
+        this.ClearSeedGrouping(!0);
+        Seed.HideSmallBowlSeed();
     }
+
     ResetBigBowlSeeds() {
         for (let e = 0; e < Seed.BigBowlSeedPool.length; e++) {
             const t = Seed.BigBowlSeedPool[e];
@@ -474,9 +495,7 @@ export default class FantanBowlAnimation extends cc.Component {
 
     RoundAlmostFinish() {
         this.HideAllResultSeeds();
-        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
-        this.BowlAnimation.update(0.01);
-        this.IsPlaying = !1;
+        this.RoundAlreadyStarted();
     }
 
     RoundAlreadyClosed() {
@@ -511,7 +530,9 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     spine_FreezeAnimationFrame(spineAnimation: sp.Skeleton, startProgress: number, animationName = "shaking") {
-        (spineAnimation.node.active = !0), (spineAnimation.timeScale = 0), spineAnimation.setAnimation(0, animationName, !1);
+        spineAnimation.node.active = true;
+        spineAnimation.timeScale = 0;
+        spineAnimation.setAnimation(0, animationName, false);
         const trackEntry = spineAnimation.getCurrent(0);
         trackEntry.animationStart = trackEntry.animationEnd * startProgress;
     }
