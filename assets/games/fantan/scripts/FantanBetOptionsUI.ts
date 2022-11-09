@@ -8,8 +8,7 @@ export default class FantanBetOptionsUI extends cc.Component {
     @property(cc.Node)
     betContainer: cc.Node = null;
 
-    betItems: BetItem[] = [];
-    main: Fantan;
+    private main: Fantan;
 
     start() {
         // Open the collision manager, without this part statement you will not detect any collision.
@@ -18,19 +17,17 @@ export default class FantanBetOptionsUI extends cc.Component {
 
     initBetOptions(main: Fantan) {
         this.main = main;
+        const betItems: BetItem[] = [];
         this.betContainer.getComponentsInChildren(BetItem).forEach((betItem) => {
-            this.betItems.push(betItem);
+            betItems.push(betItem);
         });
-        main.betItems = this.betItems;
+        main.betItems = betItems;
     }
 
     onBetClick(e: cc.Event.EventTouch) {
         this.main.isBetSound && AudioManager.getInstance().playClick();
         const location = e.getLocation();
-        const betItem = this.betContainer.children.find((item) => {
-            const collider = item.getComponent(cc.PolygonCollider);
-            return this.checkCollider(location, collider);
-        });
+        const betItem = this.betContainer.children.find((item) => this.checkCollider(location, item.getComponent(cc.PolygonCollider)));
 
         if (!betItem) {
             return;
@@ -39,7 +36,7 @@ export default class FantanBetOptionsUI extends cc.Component {
         this.main.handleBetItemClick(betItem.name);
     }
 
-    checkCollider(location, collider) {
+    checkCollider(location: cc.Vec2, collider: cc.PolygonCollider) {
         return cc.Intersection.pointInPolygon(location, collider.world.points);
     }
 }
