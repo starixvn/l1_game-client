@@ -42,7 +42,7 @@ export default class MD5Component extends cc.Component {
     readonly duration: number = 0.5;
     readonly delayShowHashValue: number = 1.35;
     protected md5Tooltip: MD5Tooltip = null;
-    readonly maximumStringAllowed = 32;
+    maximumStringAllowed = 32;
     public hintLabel: cc.Label = null;
 
     onLoad() {
