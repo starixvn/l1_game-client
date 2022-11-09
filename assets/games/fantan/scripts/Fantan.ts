@@ -1,11 +1,8 @@
-import { lodash } from "../../../ClientModules";
-import BeadRoad from "../../_base/view-models/BeadRoad";
-import ExtendedGameLogControl from "../../_base/view-models/ExtendedGameLogControl";
-import { RoundHistory } from "../../_base_new/models/RoundHistory";
+import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
 import StandAloneTableGameBase from "../../_base_new/view-models/StandAloneTableGameBase";
 import StandAloneTableGameHistory from "../../_base_new/view-models/StandAloneTableGameHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
-import { handlePlacingBet, handleShakeDish, updateScoreBoard } from "./actions/FantanCustomActions";
+import { handlePlacingBet, handleShakeDish } from "./actions/FantanCustomActions";
 import FantanBetOptionsUI from "./FantanBetOptionsUI";
 import FantanBowlAnimation from "./FantanBowlAnimation";
 import { FantanConfig, FantanId } from "./FantanConfig";
@@ -14,8 +11,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Fantan extends StandAloneTableGameBase {
-    beadRoad: BeadRoad = null;
-    bigRoad: ExtendedGameLogControl = null;
+    beadRoad: StatisticBoard = null;
+    bigRoad: StatisticBoard = null;
     animation: FantanBowlAnimation = null;
     startRoundDuration = 7;
     showResultDuration = 6;
@@ -37,7 +34,6 @@ export default class Fantan extends StandAloneTableGameBase {
         super.initGameDataEvents();
         this.emitterListener(this.gameData.durations, Durations.Events.BEGIN_STARTING_ROUND, handleShakeDish);
         this.emitterListener(this.gameData.durations, Durations.Events.PLACING_BET, handlePlacingBet);
-        this.emitterListener(this.gameData.roundHistory, RoundHistory.Events.CHANGE, updateScoreBoard);
     }
 
     initBowlAnimation(node) {
@@ -76,37 +72,14 @@ export default class Fantan extends StandAloneTableGameBase {
     }
 
     initBeadRoad(node: cc.Node) {
-        this.beadRoad = node.getComponent(BeadRoad);
+        this.beadRoad = node.getComponent(StatisticBoard);
+        this.beadRoad.setSupportChoices("fan1,fan2,fan3,fan4");
+        this.beadRoad.init(this);
     }
 
     initBigRoad(node: cc.Node) {
-        this.bigRoad = node.getComponent(ExtendedGameLogControl);
+        this.bigRoad = node.getComponent(StatisticBoard);
+        this.bigRoad.setSupportChoices("fan1,fan2,fan3,fan4");
+        this.bigRoad.init(this);
     }
-
-    updateScoreBoard(roundHistory) {
-        const count = roundHistory.reduce((count: any, history) => {
-            this.choices.forEach((choice) => {
-                if (history.settlementResult[choice]) {
-                    count[choice] = (count[choice] ?? 0) + 1;
-                }
-            });
-            return count;
-        }, {});
-        const choices = [...this.choices].sort((a, b) => count[a] - count[b]);
-
-        const data = roundHistory.map((history) => {
-            const result = {};
-            //const winChoice = Object.keys(history.settlementResult).find((choice) => history.settlementResult[choice]);
-            result["type"] = history.result.finalBeads;
-            // const sum = this.generalExtraInfo(history);
-            // result["extra"] = { sum };
-            return result;
-        });
-        console.log(data);
-        this.beadRoad.setData(data);
-        const reverseData = lodash.cloneDeep(data).reverse();
-        this.bigRoad.setExtendedData(reverseData);
-    }
-
-    generalExtraInfo(history) {}
 }

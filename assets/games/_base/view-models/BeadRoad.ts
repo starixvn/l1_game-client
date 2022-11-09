@@ -25,6 +25,9 @@ export default class BeadRoad extends cc.Component {
     @property
     rowMax = 5;
 
+    @property
+    startHorizontalPaddingExtra = 0;
+
     private scrollView: cc.ScrollView = null;
     private nextItem: cc.Node = null;
     private itemNodes: cc.Node[] = [];
@@ -115,6 +118,6 @@ export default class BeadRoad extends cc.Component {
 
     updateContentSize(nodes: cc.Node[]) {
         const columnsCount = Math.ceil(nodes.length / this.rowMax);
-        this.content.width = this.startHorizontalPadding + columnsCount * this.horizontalSpacing;
+        this.content.width = this.startHorizontalPadding - this.startHorizontalPaddingExtra + columnsCount * this.horizontalSpacing;
     }
 }

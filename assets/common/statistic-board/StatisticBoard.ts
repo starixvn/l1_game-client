@@ -63,11 +63,15 @@ export default class StatisticBoard extends cc.Component {
     }
 
     showNextItem = () => {
-        this.logControl.nextMark && (this.logControl.nextMark.active = true);
+        if (this.logControl) {
+            this.logControl.nextMark && (this.logControl.nextMark.active = true);
+        }
     };
 
     hideNextItem() {
-        this.logControl.nextMark && (this.logControl.nextMark.active = false);
+        if (this.logControl) {
+            this.logControl.nextMark && (this.logControl.nextMark.active = false);
+        }
     }
 
     generateExtra(result: any): any {
@@ -93,7 +97,7 @@ export default class StatisticBoard extends cc.Component {
                 return result;
             });
             const reverseData = lodash.cloneDeep(data).reverse();
-            this.logControl.setExtendedData(reverseData);
+            this.logControl && this.logControl.setExtendedData(reverseData);
         }
     };
 }

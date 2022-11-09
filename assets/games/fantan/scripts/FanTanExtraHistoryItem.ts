@@ -10,10 +10,4 @@ export default class FanTanExtraHistoryItem extends ExtraDataHistoryItem {
         2: "scoreboard_chamxanhla",
         3: "scoreboard_chamxanhduong"
     };
-
-    public setData(data: any) {
-        super.setData(data);
-        const { type, extra } = data;
-        this.icon.spriteFrame = this.atlas.getSpriteFrame(this.choiceSpriteName[type - 1]);
-    }
 }
