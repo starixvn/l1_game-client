@@ -133,8 +133,8 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     RoundSetupAnimation_Init() {
-        this.ResetBigBowlSeeds();
-        this.PrepareNewSeeds();
+        // this.ResetBigBowlSeeds();
+        // this.PrepareNewSeeds();
         this.IsPlaying = !0;
         this.BowlAnimation.setAnimation(0, "shaking", !1);
         this.BowlAnimation.timeScale = 1;
@@ -151,7 +151,8 @@ export default class FantanBowlAnimation extends cc.Component {
         }
         setTimeout(() => {
             this.PrepareNewSeeds();
-        }, 6e3);
+            // this.ResetBigBowlSeeds();
+        }, 5e3);
     }
 
     RoundSetupAnimation_Update(dt: number) {
