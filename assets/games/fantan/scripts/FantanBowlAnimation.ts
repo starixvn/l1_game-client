@@ -65,15 +65,12 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     onLoad() {
-        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
         this.spBigBowl = this.BowlAnimation.findBone("bigBowl");
         this.spSmallBowl = this.BowlAnimation.findBone("smallBowl");
+        this.PrepareNewSeeds();
+        this.BowlAnimation.setAnimationCacheMode(sp.Skeleton.AnimationCacheMode.REALTIME);
+        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
         this.BowlAnimation.clearTracks();
-
-        setTimeout(() => {
-            //TODO : fix not using timeout here
-            this.PrepareNewSeeds();
-        }, 1e3);
     }
 
     onDestroy() {
@@ -85,20 +82,6 @@ export default class FantanBowlAnimation extends cc.Component {
     update(dt: number) {
         this.RoundSetupAnimation_Update(dt);
         Seed.UpdateAllSeeds();
-    }
-
-    constructScene() {
-        this.tabIn = true;
-        this.ClearSeedGrouping();
-        this.ResetBigBowlSeeds();
-        this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
-        this.PrepareNewSeeds();
-        this.HideAllResultSeeds();
-
-        const n = 2;
-        this.setResultNumberSprite(n);
-        this.ResultNumber.node.stopAllActions();
-        this.ResultNumber.node.opacity = 255;
     }
 
     PrepareNewSeeds() {
