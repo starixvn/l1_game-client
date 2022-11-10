@@ -129,10 +129,9 @@ export default class FantanBowlAnimation extends cc.Component {
         }
     }
 
-    RoundSetupAnimation_Init() {
+    async RoundSetupAnimation_Init() {
         this.IsPlaying = true;
         this.BowlAnimation.setAnimation(0, "shaking", false);
-        this.playShakeBowlSound();
         this.BowlAnimation.timeScale = 1;
         this.TotalElapsedTime = 0;
         this.BowlAnimation.updateWorldTransform();
@@ -146,6 +145,9 @@ export default class FantanBowlAnimation extends cc.Component {
         setTimeout(() => {
             this.PrepareNewSeeds();
         }, 5e3);
+
+        await GameUtils.delayTime(1);
+        this.playShakeBowlSound();
     }
 
     RoundSetupAnimation_Update(dt: number) {
@@ -409,7 +411,7 @@ export default class FantanBowlAnimation extends cc.Component {
                 for (let a = 0; a < 4; ++a) {
                     const s = this.SeedsToDisplayList.pop();
                     if (0 === a && false === this.tabIn) {
-                        s.node.runAction(cc.sequence(cc.delayTime(delay / 1e3), cc.callFunc(this.playBeadsColumnSound)));
+                        s.node.runAction(cc.sequence(cc.delayTime(delay / 1e3), cc.callFunc(this.playBeadsColumnSound())));
                     }
                     const c = this.SeedGroupArcPosY + 15 * a,
                         l = Math.sin(i) * c * 1.2,
