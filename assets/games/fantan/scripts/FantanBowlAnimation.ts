@@ -1,6 +1,6 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import Seed from "./Seed";
-import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -60,6 +60,8 @@ export default class FantanBowlAnimation extends cc.Component {
     private readonly SeedGroupArcPosY = 150;
 
     private readonly BigBowlSeedNumbers = 100;
+    private readonly seedAccelerator = 0.45; //0.11;
+
     private get BigBowlRandomWidth() {
         return this.node.scale * 50;
     }
@@ -192,7 +194,7 @@ export default class FantanBowlAnimation extends cc.Component {
                 let d = bigBowlWPos.sub(uPos);
                 const p = d.magSqr();
                 if (p < bigRadiusSqr) {
-                    seed.Velocity = seed.Velocity.add(deltaPos.mul(0.11));
+                    seed.Velocity = seed.Velocity.add(deltaPos.mul(this.seedAccelerator));
                     if (p > smallRadiusSqr) {
                         const l = Math.sqrt(p);
                         d = d.mul(smallRadius / l);
@@ -215,7 +217,7 @@ export default class FantanBowlAnimation extends cc.Component {
     handleBigBowlMoveForSmallBowlSeed(seed: Seed, p: number, smallRadiusSqr: number, deltaPos: cc.Vec3, bigBowlInSeedRootPos: cc.Vec3) {
         if (seed.node.active) {
             if (p < smallRadiusSqr) {
-                seed.Velocity = seed.Velocity.add(deltaPos.mul(0.11));
+                seed.Velocity = seed.Velocity.add(deltaPos.mul(this.seedAccelerator));
             } else {
                 if (seed.Velocity.x < 0 && deltaPos.x >= 0) {
                     seed.Velocity = cc.Vec3.ZERO;
