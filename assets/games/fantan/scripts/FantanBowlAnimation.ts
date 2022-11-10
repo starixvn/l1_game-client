@@ -411,7 +411,12 @@ export default class FantanBowlAnimation extends cc.Component {
                 for (let a = 0; a < 4; ++a) {
                     const s = this.SeedsToDisplayList.pop();
                     if (0 === a && false === this.tabIn) {
-                        s.node.runAction(cc.sequence(cc.delayTime(delay / 1e3), cc.callFunc(this.playBeadsColumnSound())));
+                        s.node.runAction(
+                            cc.sequence(
+                                cc.delayTime(delay / 1e3),
+                                cc.callFunc(() => this.playBeadsColumnSound())
+                            )
+                        );
                     }
                     const c = this.SeedGroupArcPosY + 15 * a,
                         l = Math.sin(i) * c * 1.2,
