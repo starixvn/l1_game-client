@@ -1,5 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import Seed from "./Seed";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,12 +21,26 @@ export default class FantanBowlAnimation extends cc.Component {
     @property({ type: cc.SpriteFrame })
     ResultNumberSprites: cc.SpriteFrame[] = [];
 
+    @property(cc.Node)
+    bigBowlOriginalNode: cc.Node = null;
+
+    @property(cc.AudioClip)
+    beadsColumnSound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    beadsMassSound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    shakeSound: cc.AudioClip = null;
+
+    @property(cc.AudioClip)
+    openBowlSound: cc.AudioClip = null;
+
     spBigBowl: sp.spine.Bone = null;
     spSmallBowl: sp.spine.Bone = null;
-    PreviousBigBowlPosition = cc.Vec3.ZERO;
+    PreviousBigBowlPosition: cc.Vec3;
     PreviousSmallBowlPosition = cc.Vec3.ZERO;
     numberOfSeed = 0;
-    originBigBowlPosition = cc.Vec3.ZERO;
     tabIn = false;
     IsPlaying = false;
     TotalElapsedTime = 0;
@@ -68,7 +83,6 @@ export default class FantanBowlAnimation extends cc.Component {
         this.spBigBowl = this.BowlAnimation.findBone("bigBowl");
         this.spSmallBowl = this.BowlAnimation.findBone("smallBowl");
         this.PrepareNewSeeds();
-        this.BowlAnimation.setAnimationCacheMode(sp.Skeleton.AnimationCacheMode.REALTIME);
         this.spine_FreezeAnimationFrame(this.BowlAnimation, 0, "uncover");
         this.BowlAnimation.clearTracks();
     }
@@ -87,13 +101,14 @@ export default class FantanBowlAnimation extends cc.Component {
     PrepareNewSeeds() {
         if (this.BowlAnimation) {
             this.BowlAnimation.updateWorldTransform();
+
+            const originalBigBowl = this.PreviousBigBowlPosition || this.bigBowlOriginalNode.convertToWorldSpaceAR(cc.v3());
             this.PreviousBigBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
                 cc.v3(this.spBigBowl.worldX, this.spBigBowl.worldY)
             );
             this.PreviousSmallBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
                 cc.v3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
             );
-            this.originBigBowlPosition = this.PreviousBigBowlPosition;
             if (0 === Seed.BigBowlSeedPool.length) {
                 for (let e = 0; e < this.BigBowlSeedNumbers; e++) {
                     const seedNode = cc.instantiate(this.SeedPrefab);
@@ -102,7 +117,7 @@ export default class FantanBowlAnimation extends cc.Component {
                 }
             }
 
-            const r = this.SeedsRoot.convertToNodeSpaceAR(this.originBigBowlPosition);
+            const r = this.SeedsRoot.convertToNodeSpaceAR(originalBigBowl);
             for (const seed of Seed.BigBowlSeedPool) {
                 seed.Velocity = cc.Vec3.ZERO;
                 seed.node.position = cc.v3(
@@ -117,6 +132,7 @@ export default class FantanBowlAnimation extends cc.Component {
     RoundSetupAnimation_Init() {
         this.IsPlaying = true;
         this.BowlAnimation.setAnimation(0, "shaking", false);
+        this.playShakeBowlSound();
         this.BowlAnimation.timeScale = 1;
         this.TotalElapsedTime = 0;
         this.BowlAnimation.updateWorldTransform();
@@ -260,6 +276,8 @@ export default class FantanBowlAnimation extends cc.Component {
             return;
         }
 
+        AudioManager.getInstance().playSFX(this.openBowlSound);
+
         this.spine_FreezeAnimationFrame(this.BowlAnimation, 0.99);
         this.BowlAnimation.update(0.01);
         this.spSmallBowl.update();
@@ -322,7 +340,8 @@ export default class FantanBowlAnimation extends cc.Component {
         if (!this.SeedsToDisplayList) {
             return;
         }
-        // this.tabIn || //AudioManager.playEffect("beads_mass");
+
+        this.playBeadsMassSound();
         for (let e = 1.1 * Math.PI, t = (0.2 * Math.PI) / this.SeedsToDisplayList.length, n = 0; n < this.SeedsToDisplayList.length; n++) {
             const o = this.SeedsToDisplayList[n];
             o.IsPhysicsEnabled = false;
@@ -338,11 +357,19 @@ export default class FantanBowlAnimation extends cc.Component {
         }
     }
 
-    PlayBeadsColumnSound() {
-        //AudioManager.playEffect("beads_column")
+    playBeadsColumnSound() {
+        AudioManager.getInstance().playSFX(this.beadsColumnSound);
     }
 
-    PlayBeadsFinalSound() {
+    playShakeBowlSound() {
+        AudioManager.getInstance().playSFX(this.shakeSound);
+    }
+
+    playBeadsMassSound() {
+        AudioManager.getInstance().playSFX(this.beadsMassSound);
+    }
+
+    playBeadsFinalSound() {
         //AudioManager.playEffect("beads_final")
     }
 
@@ -382,7 +409,7 @@ export default class FantanBowlAnimation extends cc.Component {
                 for (let a = 0; a < 4; ++a) {
                     const s = this.SeedsToDisplayList.pop();
                     if (0 === a && false === this.tabIn) {
-                        s.node.runAction(cc.sequence(cc.delayTime(delay / 1e3), cc.callFunc(this.PlayBeadsColumnSound)));
+                        s.node.runAction(cc.sequence(cc.delayTime(delay / 1e3), cc.callFunc(this.playBeadsColumnSound)));
                     }
                     const c = this.SeedGroupArcPosY + 15 * a,
                         l = Math.sin(i) * c * 1.2,
@@ -419,7 +446,7 @@ export default class FantanBowlAnimation extends cc.Component {
                 let resultNumberAction = cc.sequence(cc.delayTime(delayTime), spawn);
 
                 if (this.tabIn) {
-                    resultNumberAction = cc.sequence(cc.delayTime(delayTime), cc.callFunc(this.PlayBeadsFinalSound), spawn);
+                    resultNumberAction = cc.sequence(cc.delayTime(delayTime), cc.callFunc(this.playBeadsFinalSound), spawn);
                 }
                 this.ResultNumber.node.stopAllActions();
                 this.ResultNumber.node.runAction(resultNumberAction);
