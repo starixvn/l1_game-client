@@ -207,22 +207,26 @@ export default class FantanBowlAnimation extends cc.Component {
             const uPos = seed.node.convertToWorldSpaceAR(cc.v3());
             const d = bigBowlWPos.sub(uPos);
             const p = d.magSqr();
-            if (seed.node.active) {
-                if (p < smallRadiusSqr) {
-                    seed.Velocity = seed.Velocity.add(deltaPos.mul(0.11));
-                } else {
-                    if (seed.Velocity.x < 0 && deltaPos.x >= 0) {
-                        seed.Velocity = cc.Vec3.ZERO;
-                        seed.node.active = false;
-                        Seed.SwapSeeds(bigBowlInSeedRootPos);
-                    }
+            this.handleBigBowlMoveForSmallBowlSeed(seed, p, smallRadiusSqr, deltaPos, bigBowlInSeedRootPos);
+        }
+    }
+
+    handleBigBowlMoveForSmallBowlSeed(seed: Seed, p: number, smallRadiusSqr: number, deltaPos: cc.Vec3, bigBowlInSeedRootPos: cc.Vec3) {
+        if (seed.node.active) {
+            if (p < smallRadiusSqr) {
+                seed.Velocity = seed.Velocity.add(deltaPos.mul(0.11));
+            } else {
+                if (seed.Velocity.x < 0 && deltaPos.x >= 0) {
+                    seed.Velocity = cc.Vec3.ZERO;
+                    seed.node.active = false;
+                    Seed.SwapSeeds(bigBowlInSeedRootPos);
                 }
             }
-            if (0 !== seed.Velocity.magSqr() && p >= smallRadiusSqr) {
-                seed.Velocity = cc.Vec3.ZERO;
-                seed.node.active = false;
-                Seed.SwapSeeds(bigBowlInSeedRootPos);
-            }
+        }
+        if (0 !== seed.Velocity.magSqr() && p >= smallRadiusSqr) {
+            seed.Velocity = cc.Vec3.ZERO;
+            seed.node.active = false;
+            Seed.SwapSeeds(bigBowlInSeedRootPos);
         }
     }
 
@@ -372,23 +376,37 @@ export default class FantanBowlAnimation extends cc.Component {
             let delay = 0,
                 o = 0;
 
+            let moveSeedToColumn = (s, x, y) => {
+                this.MoveTo(s.node, x, y, 150, cc.easeQuadraticActionIn(), delay, true);
+            };
+            let moveResultSeed = (s, x, y) => {
+                this.MoveTo(s.node, x, y, 200, cc.easeQuadraticActionIn(), delay, true);
+            };
+
+            if (!animated) {
+                moveSeedToColumn = (s, x, y) => {
+                    s.node.position = cc.v3(x, y);
+                };
+
+                moveResultSeed = (s, x, y) => {
+                    s.node.position = cc.v3(x, y);
+                };
+            }
+
             for (let t = this.arcAngle / (e - 1); o < e; ++o) {
                 const r = [];
-                for (let i = this.arcStartAngle - t * o, a = 0; a < 4; ++a) {
+                const i = this.arcStartAngle - t * o;
+                for (let a = 0; a < 4; ++a) {
                     const s = this.SeedsToDisplayList.pop();
-                    0 === a &&
-                        false === this.tabIn &&
+                    if (0 === a && false === this.tabIn) {
                         s.node.runAction(cc.sequence(cc.delayTime(delay / 1e3), cc.callFunc(this.PlayBeadsColumnSound)));
+                    }
                     const c = this.SeedGroupArcPosY + 15 * a,
                         l = Math.sin(i) * c * 1.2,
                         u = Math.cos(i) * c;
                     const x = l + (2 * Math.random() - 1);
                     const y = u + (1 * Math.random() - 1);
-                    if (animated) {
-                        this.MoveTo(s.node, x, y, 150, cc.easeQuadraticActionIn(), delay, true);
-                    } else {
-                        s.node.position = cc.v3(x, y);
-                    }
+                    moveSeedToColumn(s, x, y);
                     r.push(s);
                 }
                 this.SeedGroupingsList.push(r);
@@ -397,16 +415,12 @@ export default class FantanBowlAnimation extends cc.Component {
             const d = [0, this.ResultNumber.node.y],
                 p = this.SeedsToDisplayList.length,
                 h = 20 * (p - 1),
-                f = delay / 1e3;
+                delayTime = delay / 1e3;
             for (o = 0; o < p; ++o) {
                 const s = this.SeedsToDisplayList.pop();
                 const x = d[0] + 40 * o - h;
                 const y = d[1];
-                if (animated) {
-                    this.MoveTo(s.node, x, y, 200, cc.easeQuadraticActionIn(), delay, true);
-                } else {
-                    s.node.position = cc.v3(x, y);
-                }
+                moveResultSeed(s, x, y);
                 delay += 100;
                 /* dev: remove bounce scale effect
                     const m = 100 * o;
@@ -419,10 +433,10 @@ export default class FantanBowlAnimation extends cc.Component {
             if (animated) {
                 this.ResultNumber.node.opacity = 0;
                 const spawn = cc.spawn(cc.callFunc(resolve), cc.fadeIn(0.5));
-                let resultNumberAction = cc.sequence(cc.delayTime(f), spawn);
+                let resultNumberAction = cc.sequence(cc.delayTime(delayTime), spawn);
 
                 if (this.tabIn) {
-                    resultNumberAction = cc.sequence(cc.delayTime(f), cc.callFunc(this.PlayBeadsFinalSound), spawn);
+                    resultNumberAction = cc.sequence(cc.delayTime(delayTime), cc.callFunc(this.PlayBeadsFinalSound), spawn);
                 }
                 this.ResultNumber.node.stopAllActions();
                 this.ResultNumber.node.runAction(resultNumberAction);
