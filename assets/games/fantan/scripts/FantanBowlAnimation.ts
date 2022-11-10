@@ -105,10 +105,10 @@ export default class FantanBowlAnimation extends cc.Component {
         if (this.BowlAnimation) {
             this.BowlAnimation.updateWorldTransform();
             this.PreviousBigBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
-                new cc.Vec3(this.spBigBowl.worldX, this.spBigBowl.worldY)
+                cc.v3(this.spBigBowl.worldX, this.spBigBowl.worldY)
             );
             this.PreviousSmallBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
-                new cc.Vec3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
+                cc.v3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
             );
             this.originBigBowlPosition = this.PreviousBigBowlPosition;
             if (0 === Seed.BigBowlSeedPool.length) {
@@ -122,7 +122,7 @@ export default class FantanBowlAnimation extends cc.Component {
             const r = this.SeedsRoot.convertToNodeSpaceAR(this.originBigBowlPosition);
             for (const seed of Seed.BigBowlSeedPool) {
                 seed.Velocity = cc.Vec3.ZERO;
-                seed.node.position = new cc.Vec3(
+                seed.node.position = cc.v3(
                     r.x + this.BigBowlRandomWidth * (Math.random() - 0.5),
                     r.y + this.BigBowlRandomWidth * (Math.random() - 0.5)
                 );
@@ -132,18 +132,14 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     RoundSetupAnimation_Init() {
-        // this.ResetBigBowlSeeds();
-        // this.PrepareNewSeeds();
         this.IsPlaying = true;
         this.BowlAnimation.setAnimation(0, "shaking", false);
         this.BowlAnimation.timeScale = 1;
         this.TotalElapsedTime = 0;
         this.BowlAnimation.updateWorldTransform();
-        this.PreviousBigBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
-            new cc.Vec3(this.spBigBowl.worldX, this.spBigBowl.worldY)
-        );
+        this.PreviousBigBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(cc.v3(this.spBigBowl.worldX, this.spBigBowl.worldY));
         this.PreviousSmallBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
-            new cc.Vec3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
+            cc.v3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
         );
         if (this.SeedGroupingsList.length > 0 || this.RemainingSeedsList.length > 0) {
             this.ClearSeedGrouping();
@@ -158,30 +154,30 @@ export default class FantanBowlAnimation extends cc.Component {
             const t = this.TotalElapsedTime;
             this.TotalElapsedTime += dt;
             this.BowlAnimation.updateWorldTransform();
-            const bigBowlWPos = this.BowlAnimation.node.convertToWorldSpaceAR(new cc.Vec3(this.spBigBowl.worldX, this.spBigBowl.worldY)),
-                smallBowlWPos = this.BowlAnimation.node.convertToWorldSpaceAR(
-                    new cc.Vec3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
+            const bigBowlWPos = this.BowlAnimation.node.convertToWorldSpaceAR(cc.v3(this.spBigBowl.worldX, this.spBigBowl.worldY)),
+                smallBowlWPos = this.BowlAnimation.node.convertToWorldSpaceAR(cc.v3(this.spSmallBowl.worldX, this.spSmallBowl.worldY));
+            if (this.TotalElapsedTime < 4.3) {
+                this.BigBowlMove(
+                    bigBowlWPos,
+                    bigBowlWPos.sub(this.PreviousBigBowlPosition),
+                    this.BigBowlRadius_Small,
+                    this.BigBowlRadius_Big
                 );
-            this.TotalElapsedTime < 4.3
-                ? this.BigBowlMove(
-                      bigBowlWPos,
-                      bigBowlWPos.sub(this.PreviousBigBowlPosition),
-                      this.BigBowlRadius_Small,
-                      this.BigBowlRadius_Big
-                  )
-                : this.TotalElapsedTime > 5 &&
-                  this.TotalElapsedTime < 7.5 &&
-                  this.BigBowlMove(
-                      bigBowlWPos,
-                      bigBowlWPos.sub(this.PreviousBigBowlPosition),
-                      this.BigBowlRadius_Small,
-                      this.BigBowlRadius_Big
-                  ),
-                this.PassedTimeStamp(5, this.TotalElapsedTime, t) && this.SmallBowlRemove(smallBowlWPos, this.SmallBowlRadius_Inner),
-                this.TotalElapsedTime > 5.5 && this.SmallBowlMove(smallBowlWPos, this.SmallBowlRadius),
-                this.PassedTimeStamp(7.5, this.TotalElapsedTime, t) && (this.IsPlaying = false),
-                (this.PreviousBigBowlPosition = bigBowlWPos),
-                (this.PreviousSmallBowlPosition = smallBowlWPos);
+            } else {
+                if (this.TotalElapsedTime > 5 && this.TotalElapsedTime < 7.5) {
+                    this.BigBowlMove(
+                        bigBowlWPos,
+                        bigBowlWPos.sub(this.PreviousBigBowlPosition),
+                        this.BigBowlRadius_Small,
+                        this.BigBowlRadius_Big
+                    );
+                }
+            }
+            this.PassedTimeStamp(5, this.TotalElapsedTime, t) && this.SmallBowlRemove(smallBowlWPos, this.SmallBowlRadius_Inner);
+            this.TotalElapsedTime > 5.5 && this.SmallBowlMove(smallBowlWPos, this.SmallBowlRadius);
+            this.PassedTimeStamp(7.5, this.TotalElapsedTime, t) && (this.IsPlaying = false);
+            this.PreviousBigBowlPosition = bigBowlWPos;
+            this.PreviousSmallBowlPosition = smallBowlWPos;
         }
     }
 
@@ -191,14 +187,19 @@ export default class FantanBowlAnimation extends cc.Component {
         const bigRadiusSqr = bigRadius * bigRadius;
         for (const seed of Seed.BigBowlSeedPool) {
             const uPos = seed.node.convertToWorldSpaceAR(cc.v3());
-            let d = bigBowlWPos.sub(uPos);
-            const p = d.magSqr();
-            if (seed.node.active && p < bigRadiusSqr && ((seed.Velocity = seed.Velocity.add(deltaPos.mul(0.11))), p > smallRadiusSqr)) {
-                const l = Math.sqrt(p);
-                d = d.mul(smallRadius / l);
-                const newUPos = bigBowlInSeedRootPos.sub(d);
-                seed.node.position = newUPos;
-                seed.Velocity = seed.Velocity.add(d.mul(0.02));
+            if (seed.node.active) {
+                let d = bigBowlWPos.sub(uPos);
+                const p = d.magSqr();
+                if (p < bigRadiusSqr) {
+                    seed.Velocity = seed.Velocity.add(deltaPos.mul(0.11));
+                    if (p > smallRadiusSqr) {
+                        const l = Math.sqrt(p);
+                        d = d.mul(smallRadius / l);
+                        const newUPos = bigBowlInSeedRootPos.sub(d);
+                        seed.node.position = newUPos;
+                        seed.Velocity = seed.Velocity.add(d.mul(0.02));
+                    }
+                }
             }
         }
 
@@ -210,13 +211,17 @@ export default class FantanBowlAnimation extends cc.Component {
                 if (p < smallRadiusSqr) {
                     seed.Velocity = seed.Velocity.add(deltaPos.mul(0.11));
                 } else {
-                    seed.Velocity.x < 0 &&
-                        deltaPos.x >= 0 &&
-                        ((seed.Velocity = cc.Vec3.ZERO), (seed.node.active = false), Seed.SwapSeeds(bigBowlInSeedRootPos)),
-                        0 !== seed.Velocity.magSqr() &&
-                            p >= smallRadiusSqr &&
-                            ((seed.Velocity = cc.Vec3.ZERO), (seed.node.active = false), Seed.SwapSeeds(bigBowlInSeedRootPos));
+                    if (seed.Velocity.x < 0 && deltaPos.x >= 0) {
+                        seed.Velocity = cc.Vec3.ZERO;
+                        seed.node.active = false;
+                        Seed.SwapSeeds(bigBowlInSeedRootPos);
+                    }
                 }
+            }
+            if (0 !== seed.Velocity.magSqr() && p >= smallRadiusSqr) {
+                seed.Velocity = cc.Vec3.ZERO;
+                seed.node.active = false;
+                Seed.SwapSeeds(bigBowlInSeedRootPos);
             }
         }
     }
@@ -257,18 +262,6 @@ export default class FantanBowlAnimation extends cc.Component {
                 }
             }
         }
-
-        // for (const seed of Seed.SmallBowlSeedPool) {
-        //     if (seed.node.active) {
-        //         let s = smallBowlWPos.sub(seed.node.convertToWorldSpaceAR(cc.v3()));
-        //         const c = s.magSqr();
-        //         if (c < radiusSqr) {
-        //             const i = Math.sqrt(c);
-        //             s = s.mul(smallBowlRadius / i);
-        //             seed.node.position = smallBowlInSeedRootPos.sub(s);
-        //         }
-        //     }
-        // }
     }
 
     PassedTimeStamp(e: number, t: number, n: number) {
@@ -284,7 +277,7 @@ export default class FantanBowlAnimation extends cc.Component {
         this.BowlAnimation.update(0.01);
         this.spSmallBowl.update();
         this.PreviousSmallBowlPosition = this.BowlAnimation.node.convertToWorldSpaceAR(
-            new cc.Vec3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
+            cc.v3(this.spSmallBowl.worldX, this.spSmallBowl.worldY)
         );
         this.BowlAnimation.node.active = true;
         this.BowlAnimation.setAnimation(0, "uncover", false);
@@ -478,12 +471,13 @@ export default class FantanBowlAnimation extends cc.Component {
             if (seed.node.active) {
                 const r = this.PreviousBigBowlPosition.sub(seed.node.convertToNodeSpaceAR(cc.v3(0))).magSqr(),
                     i = this.SeedsRoot.convertToNodeSpaceAR(this.PreviousBigBowlPosition);
-                r > this.BigBowlRandomWidth &&
-                    ((seed.Velocity = cc.Vec3.ZERO),
-                    (seed.node.position = new cc.Vec3(
+                if (r > this.BigBowlRandomWidth) {
+                    seed.Velocity = cc.Vec3.ZERO;
+                    seed.node.position = cc.v3(
                         i.x + this.BigBowlRandomWidth * (Math.random() - 0.5),
                         i.y + this.BigBowlRandomWidth * (Math.random() - 0.5)
-                    )));
+                    );
+                }
             }
         }
     }
