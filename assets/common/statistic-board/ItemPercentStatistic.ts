@@ -20,6 +20,6 @@ export default class ItemPercentStatistic extends cc.Component {
     }
 
     setPercent(percent: number) {
-        this.percent && (this.percent.string = `${percent}${this.isShowPercent ? `%` : ``}`);
+        this.percent && (this.percent.string = this.isShowPercent ? `${percent}%` : `${percent}`);
     }
 }

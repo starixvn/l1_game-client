@@ -23,7 +23,7 @@ export default class StandAloneTableGameHistoryItem extends cc.Component {
     data: any = null;
 
     setData(data: any, index: number) {
-        const { time, roundId, stake, result, betwin, settlementResult } = data;
+        const { time, roundId, result, betwin, settlementResult } = data;
         this.time.string = getStringDateByTime(time);
         this.roundId.string = roundId;
         this.stake.string = numberWithCommas(this.handleStake(settlementResult, data));

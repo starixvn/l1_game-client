@@ -479,14 +479,7 @@ export default class GameUtils {
     }
 
     public static calculateWinPercentage(originalChoices: string[], roundHistory: any) {
-        const count = roundHistory.reduce((count: any, history) => {
-            originalChoices.forEach((choice) => {
-                if (history.settlementResult[choice]) {
-                    count[choice] = (count[choice] ?? 0) + 1;
-                }
-            });
-            return count;
-        }, {});
+        const count = this.calculateWin(originalChoices, roundHistory);
 
         const choices = [...originalChoices].sort((a, b) => count[a] - count[b]);
 

@@ -18,7 +18,7 @@ export default class FanTanTicketDetail extends StandAloneTableGameTicketDetail 
     setData(data: any) {
         this.handleResult(data.result);
         this.roundId.string = data.roundId;
-        const { settlementResult, odds } = data;
+        const { settlementResult } = data;
         let index = 0;
         Object.keys(settlementResult).forEach((choice) => {
             if (data[choice] > 0) {
