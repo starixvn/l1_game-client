@@ -107,7 +107,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         Object.keys(totalBets).forEach((betChoice) => {
             const betItem = lodash.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
             this.main.gameData.totalBetAmount[betChoice] = totalBets[betChoice];
-            this.addChipStack(betItem.chipNode, totalBets[betChoice]);
+            this.addChipStack(betItem.chipNode, betChoice, cc.RedT.user.rate, totalBets[betChoice]);
         });
     }
 
@@ -176,9 +176,9 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         return node;
     }
 
-    addChipStack(destNode: cc.Node, betChoice: string, rate: number) {
+    addChipStack(destNode: cc.Node, betChoice: string, rate: number, totalAmount?: number) {
         const nameChipStack = "chipStackNode";
-        const totalAmountOfBetChoice = this.main.gameData.totalBetAmount[betChoice];
+        const totalAmountOfBetChoice = totalAmount ? totalAmount : this.main.gameData.totalBetAmount[betChoice];
         const chipStack = this.createChipStack(totalAmountOfBetChoice, this.main.betChips, destNode.skewX, rate);
 
         chipStack.zIndex = -1;
