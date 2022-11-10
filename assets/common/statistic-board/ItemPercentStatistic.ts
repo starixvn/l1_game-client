@@ -11,12 +11,15 @@ export default class ItemPercentStatistic extends cc.Component {
     @property(cc.Label)
     percent: cc.Label = null;
 
+    @property
+    isShowPercent = true;
+
     init(spriteFrame: cc.SpriteFrame, choiceName: string) {
         this.icon && (this.icon.spriteFrame = spriteFrame);
         this.choiceName && (this.choiceName.string = `${choiceName.toUpperCase()}:`);
     }
 
     setPercent(percent: number) {
-        this.percent && (this.percent.string = `${percent}%`);
+        this.percent && (this.percent.string = `${percent}${this.isShowPercent ? `%` : ``}`);
     }
 }

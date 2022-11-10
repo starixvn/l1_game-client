@@ -31,6 +31,7 @@ export default class StandAloneTableGameHistoryItem extends cc.Component {
         this.handleResult(result);
         this.handleStake(settlementResult, data);
         this.data = data;
+        this.bg.active = index % 2 > 0;
     }
 
     handleStake(settlementResult: any, data: any) {

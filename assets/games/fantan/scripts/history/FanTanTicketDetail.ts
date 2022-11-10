@@ -19,12 +19,14 @@ export default class FanTanTicketDetail extends StandAloneTableGameTicketDetail 
         this.handleResult(data.result);
         this.roundId.string = data.roundId;
         const { settlementResult, odds } = data;
+        let index = 0;
         Object.keys(settlementResult).forEach((choice) => {
             if (data[choice] > 0) {
                 const ticketItem = cc.instantiate(this.itemPrefab);
                 const control = ticketItem.getComponent(FanTanTicketDetailItem);
-                control.setData(data, choice);
+                control.setData(data, choice, index);
                 this.content.addChild(ticketItem);
+                index++;
             }
         });
     }

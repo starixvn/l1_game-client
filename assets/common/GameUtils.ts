@@ -505,6 +505,17 @@ export default class GameUtils {
         return percentage;
     }
 
+    public static calculateWin(originalChoices: string[], roundHistory: any) {
+        return roundHistory.reduce((count: any, history) => {
+            originalChoices.forEach((choice) => {
+                if (history.settlementResult[choice]) {
+                    count[choice] = (count[choice] ?? 0) + 1;
+                }
+            });
+            return count;
+        }, {});
+    }
+
     public static checkIntersectNodes(container: cc.Node, child: cc.Node) {
         const box = container.getBoundingBox();
         const pos = container.convertToWorldSpaceAR(cc.v2(0, 0));

@@ -1,3 +1,4 @@
+import { lodash } from "../../../ClientModules";
 import GameUtils from "../../../common/GameUtils";
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
 import BeadRoad from "../../_base/view-models/BeadRoad";
@@ -8,6 +9,10 @@ const { ccclass, property } = cc._decorator;
 export default class FanTanStatBoard extends StatisticBoard {
     @property(BeadRoad)
     beadRoad: BeadRoad = null;
+
+    @property
+    isBeadRoad = false;
+
     percentChoices = ["odd", "even"];
 
     onChangedSupportChoices() {
@@ -22,12 +27,20 @@ export default class FanTanStatBoard extends StatisticBoard {
         this.hideNextItem();
         if (roundHistory.length > 0) {
             const originalChoices = this.originalChoices;
-            const percentChoices = ["odd", "even"];
-            const percentage = GameUtils.calculateWinPercentage(this.percentChoices, roundHistory);
+            let percentage = {};
 
-            this.itemPercentList.forEach((item, index) => {
-                item.setPercent(percentage[this.percentChoices[index]]);
-            });
+            if (this.isBeadRoad) {
+                percentage = GameUtils.calculateWin(this.percentChoices, roundHistory);
+                this.itemPercentList.forEach((item, index) => {
+                    item.setPercent(percentage[this.percentChoices[index]]);
+                });
+            } else {
+                const originalChoices = this.originalChoices;
+                percentage = GameUtils.calculateWin(originalChoices, roundHistory);
+                this.itemPercentList.forEach((item, index) => {
+                    item.setPercent(percentage[this.originalChoices[index]]);
+                });
+            }
 
             const data = roundHistory.map((history) => {
                 const result = {};
@@ -38,6 +51,8 @@ export default class FanTanStatBoard extends StatisticBoard {
                 return result;
             });
             this.beadRoad && this.beadRoad.setData(data);
+            const reverseData = lodash.cloneDeep(data).reverse();
+            this.logControl && this.logControl.setExtendedData(reverseData);
         }
     };
 }
