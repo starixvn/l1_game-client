@@ -1,3 +1,4 @@
+import GameBase from "../../_base/GameBase";
 import MiniGameBase from "../view-models/MiniGameBase";
 import { collectChipsLost, dealerGetChipsMiniGame } from "./../../_base/action/PayChipsAction";
 
@@ -15,7 +16,7 @@ export const updateOwnBets = (gameBase: MiniGameBase) => (data) => {
     gameBase.betItems.forEach((item) => item.setOwnBetsData(data));
 };
 
-export const updatePreviousBets = (gameBase: MiniGameBase) => (data) => {
+export const updatePreviousBets = (gameBase: GameBase) => (data) => {
     if (Object.keys(data).length > 0) {
         gameBase.previousOwnBets = {
             roundId: gameBase.roundId,

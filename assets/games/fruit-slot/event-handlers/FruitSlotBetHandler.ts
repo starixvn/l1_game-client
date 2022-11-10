@@ -18,6 +18,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     private readonly chipScaleY = 0.22;
 
     handle(data: any) {
+        super.handle(data);
         if (this.main.isStopGame || this.main.isDisableGame) {
             return;
         }

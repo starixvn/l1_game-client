@@ -48,6 +48,7 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.countdownLightAnim(true);
         this.main.betOptionsUI.playBettingAnim(true);
         this.main.updateShowAnimSettlementStatus();
+        this.main.updateRebetButtonStatus();
     }
 
     showWaitTime() {

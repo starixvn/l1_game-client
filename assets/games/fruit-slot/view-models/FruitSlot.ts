@@ -84,16 +84,14 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData = new FruitSlotGameData();
         super.onLoad();
         this.initStatistic();
-        this.updateBetStatus(true);
-        this.schedule(this.updateBetStatus, 0.3, cc.macro.REPEAT_FOREVER, 1);
         this.initPlacingBet();
-        this.initButtonStatus();
         this.registerRoundHistoryEvents();
         this.registerSettlementEvents();
     }
 
     resetDataAndUI() {
         super.resetDataAndUI();
+        this.updateRebetButtonStatus();
     }
 
     openStatistic() {
@@ -128,10 +126,6 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData.settlement.on(Settlement.Events.END_SHOW_RESULT, ({ settlement }: { settlement: FruitSlotFinishModel }) => {
             handleAfterSettlementResult(this)(settlement);
         });
-    }
-
-    public initButtonStatus() {
-        this.btnRebet.node.on("click", this.onRebetClick, this);
     }
 
     private initBetOptionsUI(node: cc.Node) {
@@ -173,83 +167,6 @@ export default class FruitSlot extends NewGameRoomBase {
         if (this.countdownLight) {
             this.countdownLight.active = isAnimated;
         }
-    }
-
-    onRebetClick() {
-        if (!this.isReadyBet()) {
-            return;
-        }
-
-        this.playClick();
-        this.betChips.playSingleChipsSound();
-        this.lockBet();
-
-        this.gameData.betModel.changeOwnBets(this.previousRoundBetChoices);
-        this.placeBet(this.previousRoundBetChoices);
-    }
-
-    placeBet(betChoices) {
-        Object.keys(betChoices).forEach((choice) => {
-            this.betHandler.handle({ ...this.gameData.betModel, betChoice: choice });
-
-            const chips = this.seperateChips(betChoices[choice]);
-            chips.forEach((chip) => {
-                this.socket.emit("bet", {
-                    betChoice: choice,
-                    amount: chip,
-                    username: cc.RedT.user.name
-                });
-            });
-        });
-    }
-
-    checkAvailableBalance(bet: number, ownBetTemp): boolean {
-        const total = this.sumValueBetChoices(ownBetTemp);
-        const available = total + bet <= cc.RedT.user.red;
-
-        !available && this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
-
-        return available;
-    }
-
-    sumValueBetChoices(totalChoices: any) {
-        return Object.keys(totalChoices).reduce((total, key) => total + totalChoices[key], 0);
-    }
-
-    seperateChips(amount: number) {
-        return lodash
-            .clone(this.betChips.chipValues)
-            .sort((a, b) => b - a)
-            .reduce((chips, value) => {
-                let chipsTmp = [];
-                const numberOfChips = amount / value;
-                if (numberOfChips > 0) {
-                    for (let i = 0; i < Math.floor(numberOfChips); i++) {
-                        amount = amount - value;
-                        chipsTmp = chipsTmp.concat([value]);
-                    }
-                }
-
-                return chips.concat(chipsTmp);
-            }, []);
-    }
-
-    updateBetStatus(forceUpdate = false) {
-        if (this.currentTimeRemaining > this.config.betTime || !forceUpdate) {
-            return;
-        }
-
-        const isEmptyBetChoice = lodash.isEmpty(this.gameData.betModel?.ownBets);
-        this.btnRebet.interactable = isEmptyBetChoice && !lodash.isEmpty(this.previousRoundBetChoices);
-    }
-
-    clearTempBetChoices() {
-        this.tempBetChoices = {};
-    }
-
-    onDestroy() {
-        super.onDestroy();
-        this.unschedule(this.updateBetStatus);
     }
 
     updateShowAnimSettlementStatus(status = false) {

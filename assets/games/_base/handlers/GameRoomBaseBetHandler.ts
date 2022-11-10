@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
+import { updatePreviousBets } from "../../_base_new/actions/BetAction";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import GameBaseBetHandler from "./GameBaseBetHandler";
 
@@ -9,11 +10,37 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
         super(main);
     }
 
+    handle(data: any) {
+        super.handle(data);
+        if (data.ownBets) {
+            updatePreviousBets(this.main)(data.ownBets);
+        }
+
+        if (data.rebet) {
+            this.handleRebet(data.rebet);
+        }
+    }
+
+    handleRebet(rebet: any) {
+        Object.keys(rebet).forEach((choice) => {
+            const chips = rebet[choice];
+            Object.keys(chips).forEach((chipValue) => {
+                const quantity = chips[chipValue];
+                for (let i = 0; i < quantity; i++) {
+                    this.placeOwnChip({
+                        betChoice: choice,
+                        amount: chipValue
+                    });
+                }
+            });
+        });
+    }
+
     placeOwnChip(data) {
         const { betChoice, amount } = data;
         const betItem = _.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
 
-        this.main.betChips.placeChipToChipBox(amount, betItem.chipNode, null, null);
+        betItem && this.main.betChips.placeChipToChipBox(amount, betItem.chipNode, null, null);
     }
 
     placePlayerChip(data) {
