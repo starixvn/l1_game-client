@@ -3,11 +3,12 @@ import CommonDialog from "../../_base/view-models/CommonDialog";
 import AudioManager from "../../audio/AudioManager";
 import BetBoardConfig from "../../bet-board/view-models/BetBoardConfig";
 import { nFormatter, numberWithCommas } from "../../helpers/NumberHelper";
+import BaseComponent from "../../BaseComponent";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class PresetBet extends cc.Component {
+export default class PresetBet extends BaseComponent {
     @property(cc.Label)
     betValue: cc.Label = null;
 
@@ -70,8 +71,10 @@ export default class PresetBet extends cc.Component {
     }
 
     public forceClose() {
-        this.isOpened = false;
-        this.node.active = false;
+        if (this.isAlive()) {
+            this.isOpened = false;
+            this.node.active = false;
+        }
     }
 
     public onResetBet() {

@@ -1,6 +1,7 @@
 import { lazyInject } from "../../../Application";
 import { nFormatter } from "../../../common/helpers/NumberHelper";
 import AudioManager from "../../audio/AudioManager";
+import BaseComponent from "../../BaseComponent";
 import BetBoardConfig from "./BetBoardConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -13,7 +14,7 @@ export interface BetInfo {
 }
 
 @ccclass
-export default class BetBoard extends cc.Component {
+export default class BetBoard extends BaseComponent {
     @property(cc.Button)
     okButton: cc.Button = null;
 
@@ -69,8 +70,10 @@ export default class BetBoard extends cc.Component {
     }
 
     protected closeBoard() {
-        this.node.active = false;
-        this.info = null;
+        if (this.isAlive()) {
+            this.node.active = false;
+            this.info = null;
+        }
     }
 
     public onCloseClick() {

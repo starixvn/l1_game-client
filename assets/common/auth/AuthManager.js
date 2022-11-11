@@ -6,6 +6,7 @@ import ChipConfig from "../bet-chips/view-models/ChipConfig";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
 import logger from "../logger";
 import NoticeUtil from "../utils/NoticeUtil";
+import NotificationService from "./NotificationService";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
 
@@ -255,4 +256,5 @@ export function showMessageForExpiredToken(errorCode) {
 function showMessageAndAutoSignOut(noticeData) {
     setTimeout(signOut, 10000);
     cc.RedT.inGame && cc.RedT.inGame.showNotice(noticeData, signOut, signOut);
+    NotificationService.getInstance().forceKickedOut();
 }
