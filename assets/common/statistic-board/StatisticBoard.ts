@@ -28,19 +28,19 @@ export default class StatisticBoard extends cc.Component {
     originalChoices: string[];
 
     onLoad() {
-        this.onChangedSupportChoices();
+        this.onChangedSupportChoices(this.originalChoices);
     }
 
     setSupportChoices(choices: string) {
         this.supportChoices = choices;
-        this.onChangedSupportChoices();
+        this.originalChoices = this.supportChoices.split(",");
+        this.onChangedSupportChoices(this.originalChoices);
     }
 
-    onChangedSupportChoices() {
-        this.originalChoices = this.supportChoices.split(",");
+    onChangedSupportChoices(originalChoices: string[]) {
         this.itemPercentList.forEach((item, index) => {
-            const iconFrame = this.atlas.getSpriteFrame(`dot_${this.originalChoices[index]}`);
-            item.init(iconFrame, GameUtils.getBetChoiceString(this.originalChoices[index]));
+            const iconFrame = this.atlas.getSpriteFrame(`dot_${originalChoices[index]}`);
+            item.init(iconFrame, GameUtils.getBetChoiceString(originalChoices[index]));
         });
     }
 
@@ -82,22 +82,32 @@ export default class StatisticBoard extends cc.Component {
         this.hideNextItem();
         if (roundHistory.length > 0) {
             const originalChoices = this.originalChoices;
-            const percentage = GameUtils.calculateWinPercentage(originalChoices, roundHistory);
+            this.calculateWin(originalChoices, roundHistory);
 
-            this.itemPercentList.forEach((item, index) => {
-                item.setPercent(percentage[this.originalChoices[index]]);
-            });
-
-            const data = roundHistory.map((history) => {
-                const result = {};
-                const winChoice = this.originalChoices.find((choice) => history.settlementResult[choice]);
-                result["type"] = originalChoices.findIndex((choice) => choice === winChoice);
-                result["choice"] = winChoice;
-                result["extra"] = this.generateExtra(history.result);
-                return result;
-            });
+            const data = this.handleDataRound(originalChoices, roundHistory);
+            this.updateBeadRoad(data);
             const reverseData = lodash.cloneDeep(data).reverse();
             this.logControl && this.logControl.setExtendedData(reverseData);
         }
     };
+
+    calculateWin(originalChoices: string[], roundHistory: any) {
+        const percentage = GameUtils.calculateWinPercentage(originalChoices, roundHistory);
+        this.itemPercentList.forEach((item, index) => {
+            item.setPercent(percentage[this.originalChoices[index]]);
+        });
+    }
+
+    handleDataRound(originalChoices: string[], roundHistory: any) {
+        return roundHistory.map((history) => {
+            const result = {};
+            const winChoice = this.originalChoices.find((choice) => history.settlementResult[choice]);
+            result["type"] = originalChoices.findIndex((choice) => choice === winChoice);
+            result["choice"] = winChoice;
+            result["extra"] = this.generateExtra(history.result);
+            return result;
+        });
+    }
+
+    updateBeadRoad(data: any) {}
 }

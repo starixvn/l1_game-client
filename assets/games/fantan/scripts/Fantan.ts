@@ -6,18 +6,17 @@ import { handlePlacingBet, handleShakeDish } from "./actions/FantanCustomActions
 import FantanBetOptionsUI from "./FantanBetOptionsUI";
 import FantanBowlAnimation from "./FantanBowlAnimation";
 import { FantanConfig, FantanId } from "./FantanConfig";
+import FanTanStatBoard from "./FanTanStatBoard";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Fantan extends StandAloneTableGameBase {
-    beadRoad: StatisticBoard = null;
-    bigRoad: StatisticBoard = null;
+    statisticRoad: StatisticBoard = null;
     animation: FantanBowlAnimation = null;
     startRoundDuration = 7;
     showResultDuration = 6;
     betOptionsUI: FantanBetOptionsUI;
-    choices = ["even", "odd"];
 
     constructor() {
         super();
@@ -78,15 +77,9 @@ export default class Fantan extends StandAloneTableGameBase {
         }
     }
 
-    initBeadRoad(node: cc.Node) {
-        this.beadRoad = node.getComponent(StatisticBoard);
-        this.beadRoad.setSupportChoices("fan1,fan2,fan3,fan4");
-        this.beadRoad.init(this);
-    }
-
-    initBigRoad(node: cc.Node) {
-        this.bigRoad = node.getComponent(StatisticBoard);
-        this.bigRoad.setSupportChoices("fan1,fan2,fan3,fan4");
-        this.bigRoad.init(this);
+    initStatisticBoard(node: cc.Node) {
+        this.statisticRoad = node.getComponent(FanTanStatBoard);
+        this.statisticRoad.setSupportChoices("fan1,fan2,fan3,fan4");
+        this.statisticRoad.init(this);
     }
 }

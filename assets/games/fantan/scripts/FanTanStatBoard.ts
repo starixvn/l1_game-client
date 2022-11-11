@@ -1,4 +1,3 @@
-import { lodash } from "../../../ClientModules";
 import GameUtils from "../../../common/GameUtils";
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
 import BeadRoad from "../../_base/view-models/BeadRoad";
@@ -15,44 +14,29 @@ export default class FanTanStatBoard extends StatisticBoard {
 
     percentChoices = ["odd", "even"];
 
-    onChangedSupportChoices() {
-        this.originalChoices = this.supportChoices.split(",");
+    setSupportChoices(choices: string) {
+        super.setSupportChoices(choices);
+        if (this.isBeadRoad) {
+            this.onChangedSupportChoices(this.percentChoices);
+        }
+    }
+
+    calculateWin(originalChoices: string[], roundHistory: any) {
+        let percentage = {};
+        let percentBetChoices: string[];
+        if (this.isBeadRoad) {
+            percentBetChoices = this.percentChoices;
+            percentage = GameUtils.calculateWin(this.percentChoices, roundHistory);
+        } else {
+            percentBetChoices = this.originalChoices;
+            percentage = GameUtils.calculateWin(originalChoices, roundHistory);
+        }
         this.itemPercentList.forEach((item, index) => {
-            const iconFrame = this.atlas.getSpriteFrame(`dot_${this.percentChoices[index]}`);
-            item.init(iconFrame, GameUtils.getBetChoiceString(this.percentChoices[index]));
+            item.setPercent(percentage[percentBetChoices[index]]);
         });
     }
 
-    updateRoundHistory = (roundHistory) => {
-        this.hideNextItem();
-        if (roundHistory.length > 0) {
-            const originalChoices = this.originalChoices;
-            let percentage = {};
-
-            if (this.isBeadRoad) {
-                percentage = GameUtils.calculateWin(this.percentChoices, roundHistory);
-                this.itemPercentList.forEach((item, index) => {
-                    item.setPercent(percentage[this.percentChoices[index]]);
-                });
-            } else {
-                const originalChoices = this.originalChoices;
-                percentage = GameUtils.calculateWin(originalChoices, roundHistory);
-                this.itemPercentList.forEach((item, index) => {
-                    item.setPercent(percentage[this.originalChoices[index]]);
-                });
-            }
-
-            const data = roundHistory.map((history) => {
-                const result = {};
-                const winChoice = this.originalChoices.find((choice) => history.settlementResult[choice]);
-                result["type"] = originalChoices.findIndex((choice) => choice === winChoice);
-                result["choice"] = winChoice;
-                result["extra"] = this.generateExtra(history.result);
-                return result;
-            });
-            this.beadRoad && this.beadRoad.setData(data);
-            const reverseData = lodash.cloneDeep(data).reverse();
-            this.logControl && this.logControl.setExtendedData(reverseData);
-        }
-    };
+    updateBeadRoad(data: any) {
+        this.beadRoad && this.beadRoad.setData(data);
+    }
 }
