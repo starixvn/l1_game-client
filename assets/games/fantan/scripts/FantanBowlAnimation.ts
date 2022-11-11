@@ -60,7 +60,7 @@ export default class FantanBowlAnimation extends cc.Component {
     private readonly SeedGroupArcPosY = 150;
 
     private readonly BigBowlSeedNumbers = 100;
-    private readonly seedAccelerator = 0.45; //0.11;
+    private readonly seedAccelerator = 0.5; //0.11;
 
     private get BigBowlRandomWidth() {
         return this.node.scale * 50;
@@ -146,7 +146,7 @@ export default class FantanBowlAnimation extends cc.Component {
         }
         setTimeout(() => {
             this.PrepareNewSeeds();
-        }, 5e3);
+        }, 5.9e3);
 
         await GameUtils.delayTime(1);
         this.playShakeBowlSound();
@@ -159,22 +159,13 @@ export default class FantanBowlAnimation extends cc.Component {
             this.BowlAnimation.updateWorldTransform();
             const bigBowlWPos = this.BowlAnimation.node.convertToWorldSpaceAR(cc.v3(this.spBigBowl.worldX, this.spBigBowl.worldY)),
                 smallBowlWPos = this.BowlAnimation.node.convertToWorldSpaceAR(cc.v3(this.spSmallBowl.worldX, this.spSmallBowl.worldY));
-            if (this.TotalElapsedTime < 4.3) {
+            if (this.TotalElapsedTime < 4.4 || (this.TotalElapsedTime > 5.1 && this.TotalElapsedTime < 5.8)) {
                 this.BigBowlMove(
                     bigBowlWPos,
                     bigBowlWPos.sub(this.PreviousBigBowlPosition),
                     this.BigBowlRadius_Small,
                     this.BigBowlRadius_Big
                 );
-            } else {
-                if (this.TotalElapsedTime > 5 && this.TotalElapsedTime < 7.5) {
-                    this.BigBowlMove(
-                        bigBowlWPos,
-                        bigBowlWPos.sub(this.PreviousBigBowlPosition),
-                        this.BigBowlRadius_Small,
-                        this.BigBowlRadius_Big
-                    );
-                }
             }
             this.PassedTimeStamp(5, this.TotalElapsedTime, t) && this.SmallBowlRemove(smallBowlWPos, this.SmallBowlRadius_Inner);
             this.TotalElapsedTime > 5.5 && this.SmallBowlMove(smallBowlWPos, this.SmallBowlRadius);
@@ -191,16 +182,16 @@ export default class FantanBowlAnimation extends cc.Component {
         for (const seed of Seed.BigBowlSeedPool) {
             const uPos = seed.node.convertToWorldSpaceAR(cc.v3());
             if (seed.node.active) {
-                let d = bigBowlWPos.sub(uPos);
-                const p = d.magSqr();
-                if (p < bigRadiusSqr) {
+                let distanceVec = bigBowlWPos.sub(uPos);
+                const distanceSqr = distanceVec.magSqr();
+                if (distanceSqr < bigRadiusSqr) {
                     seed.Velocity = seed.Velocity.add(deltaPos.mul(this.seedAccelerator));
-                    if (p > smallRadiusSqr) {
-                        const l = Math.sqrt(p);
-                        d = d.mul(smallRadius / l);
-                        const newUPos = bigBowlInSeedRootPos.sub(d);
+                    if (distanceSqr > smallRadiusSqr) {
+                        const distance = Math.sqrt(distanceSqr);
+                        distanceVec = distanceVec.mul(smallRadius / distance);
+                        const newUPos = bigBowlInSeedRootPos.sub(distanceVec);
                         seed.node.position = newUPos;
-                        seed.Velocity = seed.Velocity.add(d.mul(0.02));
+                        seed.Velocity = seed.Velocity.add(distanceVec.mul(0.2));
                     }
                 }
             }

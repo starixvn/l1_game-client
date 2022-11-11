@@ -8,7 +8,9 @@ export default class Seed extends cc.Component {
     static BigBowlSeedPool: Seed[] = [];
     static SmallBowlSeedPool: Seed[] = [];
     static BigBowlSeedSwapIdx = [];
-    Radius = 5.8;
+    Radius = 5;
+
+    private readonly decreaseVelocityRate = 0.65;
 
     get RadiusSQ() {
         return this.Radius * this.Radius;
@@ -43,7 +45,7 @@ export default class Seed extends cc.Component {
     PhysicsUpdate() {
         if (this.node.active && this.IsPhysicsEnabled) {
             this.node.position = this.node.position.add(this.Velocity);
-            this.Velocity = this.Velocity.mul(0.7);
+            this.Velocity = this.Velocity.mul(this.decreaseVelocityRate);
             for (const seed of [...Seed.BigBowlSeedPool, ...Seed.SmallBowlSeedPool]) {
                 if (seed !== this && seed.node.active) {
                     const i = this.node.position.sub(seed.node.position);
