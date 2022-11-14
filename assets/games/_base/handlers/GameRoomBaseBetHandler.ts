@@ -29,7 +29,7 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
                 for (let i = 0; i < quantity; i++) {
                     this.placeOwnChip({
                         betChoice: choice,
-                        amount: chipValue
+                        amount: +chipValue
                     });
                 }
             });
