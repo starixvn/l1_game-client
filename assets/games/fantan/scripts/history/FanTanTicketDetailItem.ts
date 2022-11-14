@@ -19,11 +19,26 @@ export default class FanTanTicketDetailItem extends cc.Component {
     @property(cc.Node)
     bgRow: cc.Node = null;
 
-    setData(data: any, choice: string, index: number) {
+    setData(data: any, choice: string, index: number, isWin: boolean) {
         this.odd.string = data.odds[choice];
-        this.betChoice.string = choice;
+        this.betChoice.string = this.renderBetChoice(choice);
         this.stake.string = data[choice];
-        this.win.string = numberWithCommas(data[choice] * data.odds[choice], 2);
+        this.win.string = isWin ? numberWithCommas(data[choice] * data.odds[choice], 2) : 0;
         this.bgRow.active = index % 2 > 0;
+    }
+
+    renderBetChoice(choice: string) {
+        const textArr = choice.split(/([0-9]+)/);
+        const textStr = textArr[0];
+        const text = textStr.charAt(0).toUpperCase() + textStr.slice(1);
+        let numberStr = "";
+        if (textArr.length > 1) {
+            numberStr = textArr[1]
+                .split("")
+                .map((a) => a + " ")
+                .join("");
+        }
+
+        return numberStr + text;
     }
 }

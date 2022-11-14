@@ -24,7 +24,7 @@ export default class FanTanTicketDetail extends StandAloneTableGameTicketDetail 
             if (data[choice] > 0) {
                 const ticketItem = cc.instantiate(this.itemPrefab);
                 const control = ticketItem.getComponent(FanTanTicketDetailItem);
-                control.setData(data, choice, index);
+                control.setData(data, choice, index, settlementResult[choice]);
                 this.content.addChild(ticketItem);
                 index++;
             }
