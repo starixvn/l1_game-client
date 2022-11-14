@@ -90,7 +90,7 @@ export default class BeadRoad extends cc.Component {
             }
             nodes.unshift(this.nextItem);
         }
-
+        this.nextItem && (this.nextItem.active = this._showNext);
         this.updatePositions(nodes);
         this.updateContentSize(nodes);
     }

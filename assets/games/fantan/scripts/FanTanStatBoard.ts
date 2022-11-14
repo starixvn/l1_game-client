@@ -15,11 +15,12 @@ export default class FanTanStatBoard extends StatisticBoard {
 
     percentChoices = ["odd", "even"];
 
-    setSupportChoices(choices: string) {
-        super.setSupportChoices(choices);
-        if (this.isBeadRoad) {
-            this.onChangedSupportChoices(this.percentChoices);
-        }
+    onChangedSupportChoices() {
+        this.originalChoices = this.supportChoices.split(",");
+        this.itemPercentList.forEach((item, index) => {
+            const iconFrame = this.atlas.getSpriteFrame(`dot_${this.percentChoices[index]}`);
+            item.init(iconFrame, GameUtils.getBetChoiceString(this.percentChoices[index]));
+        });
     }
 
     calculateWin(originalChoices: string[], roundHistory: any) {
@@ -40,5 +41,10 @@ export default class FanTanStatBoard extends StatisticBoard {
     updateBeadRoad(data: any) {
         const reverseData = lodash.cloneDeep(data).reverse();
         this.beadRoad && this.beadRoad.setData(reverseData);
+    }
+
+    enableNextItem(show: boolean) {
+        super.enableNextItem(show);
+        this.beadRoad && (this.beadRoad.showNext = show);
     }
 }

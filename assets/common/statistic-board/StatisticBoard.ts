@@ -28,19 +28,19 @@ export default class StatisticBoard extends cc.Component {
     originalChoices: string[];
 
     onLoad() {
-        this.onChangedSupportChoices(this.originalChoices);
+        this.onChangedSupportChoices();
     }
 
     setSupportChoices(choices: string) {
         this.supportChoices = choices;
-        this.originalChoices = this.supportChoices.split(",");
-        this.onChangedSupportChoices(this.originalChoices);
+        this.onChangedSupportChoices();
     }
 
-    onChangedSupportChoices(originalChoices: string[]) {
+    onChangedSupportChoices() {
+        this.originalChoices = this.supportChoices.split(",");
         this.itemPercentList.forEach((item, index) => {
-            const iconFrame = this.atlas.getSpriteFrame(`dot_${originalChoices[index]}`);
-            item.init(iconFrame, GameUtils.getBetChoiceString(originalChoices[index]));
+            const iconFrame = this.atlas.getSpriteFrame(`dot_${this.originalChoices[index]}`);
+            item.init(iconFrame, GameUtils.getBetChoiceString(this.originalChoices[index]));
         });
     }
 
@@ -63,14 +63,16 @@ export default class StatisticBoard extends cc.Component {
     }
 
     showNextItem = () => {
-        if (this.logControl) {
-            this.logControl.nextMark && (this.logControl.nextMark.active = true);
-        }
+        this.enableNextItem(true);
     };
 
     hideNextItem() {
+        this.enableNextItem(false);
+    }
+
+    enableNextItem(show: boolean) {
         if (this.logControl) {
-            this.logControl.nextMark && (this.logControl.nextMark.active = false);
+            this.logControl.nextMark && (this.logControl.nextMark.active = show);
         }
     }
 
