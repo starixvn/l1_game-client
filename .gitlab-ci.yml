@@ -63,6 +63,20 @@ include:
 variables:
     COCOS_VERSION: 2.4.6
 
+bundle-test:
+    stage: build
+    image: registry.nexdev.net:5050/docker/node:14.15
+    tags:
+        - docker
+    before_script:
+        - npm set registry http://npm.lumigame.com
+        - yarn global add fs-extra
+        - cd "$SRC_PATH"
+        - yarn install
+    script:
+        - node ./test_bundle/check_duplicate_uuid.js
+    allow_failure: true
+
 .build_cocos_creator_script: &build_cocos_creator_script
     stage: build-cocos-web
     script:
