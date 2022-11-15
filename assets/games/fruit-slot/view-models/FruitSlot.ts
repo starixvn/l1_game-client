@@ -23,9 +23,6 @@ export const FruitSlotGameId = 59;
 
 @ccclass
 export default class FruitSlot extends NewGameRoomBase {
-    @property(cc.Button)
-    btnRebet: cc.Button = null;
-
     @property(cc.Prefab)
     statisticPrefab: cc.Prefab = null;
 
@@ -91,7 +88,6 @@ export default class FruitSlot extends NewGameRoomBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-        this.updateRebetButtonStatus();
     }
 
     openStatistic() {
@@ -102,7 +98,6 @@ export default class FruitSlot extends NewGameRoomBase {
 
     initHandlers() {
         super.initHandlers();
-        this.finishHandler = null;
         this.timeHandler = new FruitSlotTimeHandler(this);
         this.betHandler = new FruitSlotBetHandler(this);
     }
