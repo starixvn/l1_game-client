@@ -1,4 +1,3 @@
-import { lodash } from "../../../ClientModules";
 import GameUtils from "../../../common/GameUtils";
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
 import BeadRoad from "../../_base/view-models/BeadRoad";
@@ -39,8 +38,7 @@ export default class FanTanStatBoard extends StatisticBoard {
     }
 
     updateBeadRoad(data: any) {
-        const reverseData = lodash.cloneDeep(data).reverse();
-        this.beadRoad && this.beadRoad.setData(reverseData);
+        this.beadRoad && this.beadRoad.setData(data);
     }
 
     enableNextItem(show: boolean) {
