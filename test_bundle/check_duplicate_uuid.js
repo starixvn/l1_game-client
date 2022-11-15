@@ -1,7 +1,7 @@
 const fse = require("fs-extra");
 const decodeUuid = require("./decode-uuid");
 function duplicateUuidCheck() {
-    const assetsDirPath = "build/web-mobile/assets";
+    const assetsDirPath = "../build/web-mobile/assets";
     const versions = fse.readJsonSync(`${assetsDirPath}/versions.json`);
     ["main", "resources", "internal"].forEach((key) => delete versions[key]);
 
