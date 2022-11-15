@@ -14,7 +14,7 @@ export default class GameUIManager {
     static Events = {
         LOAD_ALL_BANNERS: "banner: update",
         RELOAD_LOBBY: "lobby: change",
-        LOAD_ICON_HIDE: "icon: load all icons hide"
+        LOAD_HIDDEN_ICONS: "icon: load all icons hide"
     };
 
     public static getInstance(): GameUIManager {

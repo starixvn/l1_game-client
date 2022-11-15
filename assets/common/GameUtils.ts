@@ -173,10 +173,7 @@ export default class GameUtils {
     public static async openGame(
         gameId: number,
         miniPanel: MiniPanel,
-        openLuckyWheelFunc = () => {
-            // handle
-        },
-        callBackLobby = () => {
+        onOpenMiniGame = () => {
             // handle
         }
     ) {
@@ -195,13 +192,7 @@ export default class GameUtils {
             return;
         }
 
-        openLuckyWheelFunc && openLuckyWheelFunc();
-
-        if (gameId === 0) {
-            callBackLobby && callBackLobby();
-            return;
-        }
-
+        onOpenMiniGame && onOpenMiniGame();
         miniPanel.openNewSocketMiniGame(null, gameId);
     }
 

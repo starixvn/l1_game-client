@@ -80,7 +80,6 @@ export default class MainGame extends cc.Component {
     @property(cc.Prefab)
     signNamePrefab = null;
 
-    private inRoomGameId: string;
     private initializedLobby = false;
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
@@ -122,11 +121,11 @@ export default class MainGame extends cc.Component {
         const manager = GameUIManager.getInstance();
         manager.emitterListener(GameUIManager.Events.LOAD_ALL_BANNERS, (param) => {
             this.initBanners(param);
-            this.isSSOGameMini && manager.emitter.emit(GameUIManager.Events.LOAD_ICON_HIDE);
+            this.isSSOGameMini && manager.emitter.emit(GameUIManager.Events.LOAD_HIDDEN_ICONS);
             this.miniPanel?.isOpenSS0 && (this.miniPanel.isOpenSS0 = false);
         });
         manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby());
-        manager.emitterListener(GameUIManager.Events.LOAD_ICON_HIDE, () => this.loadHiddenIcons());
+        manager.emitterListener(GameUIManager.Events.LOAD_HIDDEN_ICONS, () => this.loadHiddenIcons());
     }
 
     loadHiddenIcons() {
@@ -286,21 +285,25 @@ export default class MainGame extends cc.Component {
 
     onSignIn() {
         this.isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
-        if (this.isSSOToGame || sessionManager.getInRoomGameId()) {
+        if (this.isSSOToGame) {
             this.isSSOGameMini = this.isSSOToGame && GameUtils.isMiniGame(window.openGameId);
             this.loadLobby(this.isSSOGameMini);
-            this.openGameSSO();
-            window.isSSO && this.setCategoryOnSSOGame();
+            this.miniPanel.isOpenSS0 = true;
+            this.openGameSSO(() => {
+                this.openLuckyWheel();
+            });
+            this.setCategoryAllWhenSSOGame();
+        } else if (sessionManager.getInRoomGameId()) {
+            this.reloadCurrentRoomGame();
         } else {
             window.isSSO && this.openLuckyWheel();
             this.loadLobby(true);
         }
     }
 
-    setCategoryOnSSOGame() {
+    setCategoryAllWhenSSOGame() {
         this.initLobbyMenu();
-        const category = GameCategory.All;
-        this.lobbyMenu?.setCategory(category, false);
+        this.lobbyMenu?.setCategory(GameCategory.All, false);
     }
 
     loadLobby(loadBanner = true) {
@@ -469,22 +472,18 @@ export default class MainGame extends cc.Component {
         this.onSignIn();
     }
 
-    openGameSSO() {
-        this.miniPanel.isOpenSS0 = true;
-        if (window.openGameId) {
-            const gameId = parseInt(window.openGameId);
-            GameUtils.clearGameSetting(gameId);
-            GameUtils.openGame(gameId, this.miniPanel, this.openLuckyWheel.bind(this), this.loadLobby.bind(this));
-            window.openGameId = null;
-            sessionManager.removeInRoomGameId();
-            return;
-        }
+    openGameSSO(onComplete: () => void) {
+        const gameId = parseInt(window.openGameId);
+        GameUtils.clearGameSetting(gameId);
+        GameUtils.openGame(gameId, this.miniPanel, onComplete);
+        window.openGameId = null;
+        sessionManager.removeInRoomGameId();
+    }
 
-        this.inRoomGameId = sessionManager.getInRoomGameId();
-        if (this.inRoomGameId) {
-            GameUtils.openGame(+this.inRoomGameId, this.miniPanel, null);
-        } else {
-            window.isSSO && this.openLuckyWheel();
+    reloadCurrentRoomGame() {
+        const inRoomGameId = sessionManager.getInRoomGameId();
+        if (inRoomGameId) {
+            GameUtils.openGame(+inRoomGameId, this.miniPanel, null);
         }
     }
 
