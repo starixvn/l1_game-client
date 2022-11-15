@@ -100,9 +100,10 @@ export default class BeadRoad extends cc.Component {
             const column = Math.floor(index / this.rowMax);
             let row = index % this.rowMax;
 
-            if (column % 2 === 1) {
-                row = this.rowMax - row - 1; //reverse
-            }
+            // if (column % 2 === 1) {
+            //     row = this.rowMax - row - 1; //reverse
+            // }
+            row = this.reverseDisplayNode(row, column);
             node.position = this.calculatePosition(row, column);
         });
     }
@@ -119,5 +120,13 @@ export default class BeadRoad extends cc.Component {
     updateContentSize(nodes: cc.Node[]) {
         const columnsCount = Math.ceil(nodes.length / this.rowMax);
         this.content.width = this.startHorizontalPadding - this.startHorizontalPaddingExtra + columnsCount * this.horizontalSpacing;
+    }
+
+    reverseDisplayNode(row: number, column: number) {
+        let rowNode = row;
+        if (column % 2 === 1) {
+            rowNode = this.rowMax - row - 1; //reverse
+        }
+        return rowNode;
     }
 }
