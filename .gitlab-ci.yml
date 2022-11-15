@@ -74,7 +74,7 @@ bundle-test:
         - cd "$SRC_PATH"
         - yarn install
     script:
-        - node ./test_bundle/check_duplicate_uuid.js
+        - node ../test_bundle/check_duplicate_uuid.js
     allow_failure: true
 
 .build_cocos_creator_script: &build_cocos_creator_script
