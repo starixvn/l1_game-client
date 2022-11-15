@@ -40,7 +40,6 @@ export default class FanTanStatBoard extends StatisticBoard {
 
     updateBeadRoad(data: any) {
         const reverseData = lodash.cloneDeep(data).reverse();
-        console.log(reverseData);
         this.beadRoad && this.beadRoad.setData(reverseData);
     }
 

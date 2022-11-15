@@ -25,9 +25,6 @@ export default class BeadRoad extends cc.Component {
     @property
     rowMax = 5;
 
-    @property
-    startHorizontalPaddingExtra = 0;
-
     private scrollView: cc.ScrollView = null;
     private nextItem: cc.Node = null;
     private itemNodes: cc.Node[] = [];
@@ -99,10 +96,6 @@ export default class BeadRoad extends cc.Component {
         nodes.forEach((node, index) => {
             const column = Math.floor(index / this.rowMax);
             let row = index % this.rowMax;
-
-            // if (column % 2 === 1) {
-            //     row = this.rowMax - row - 1; //reverse
-            // }
             row = this.reverseDisplayNode(row, column);
             node.position = this.calculatePosition(row, column);
         });
@@ -119,7 +112,7 @@ export default class BeadRoad extends cc.Component {
 
     updateContentSize(nodes: cc.Node[]) {
         const columnsCount = Math.ceil(nodes.length / this.rowMax);
-        this.content.width = this.startHorizontalPadding - this.startHorizontalPaddingExtra + columnsCount * this.horizontalSpacing;
+        this.content.width = this.startHorizontalPadding + columnsCount * this.horizontalSpacing;
     }
 
     reverseDisplayNode(row: number, column: number) {
