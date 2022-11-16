@@ -19,13 +19,6 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     private readonly chipScaleY = 0.22;
 
     handle(data: any) {
-        if (data.ownBets) {
-            updatePreviousBets(this.main)(data.ownBets);
-        }
-
-        if (data.rebet) {
-            this.handleRebet(data.rebet);
-        }
         if (this.main.isStopGame || this.main.isDisableGame) {
             return;
         }
@@ -46,6 +39,18 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
 
         if (this.main.gameConfigs) {
             this.handleChipInMainRoom(data);
+        }
+
+        if (data.roundId) {
+            this.main.roundId = data.roundId;
+        }
+
+        if (data.ownBets) {
+            updatePreviousBets(this.main)(data.ownBets);
+        }
+
+        if (data.rebet) {
+            this.handleRebet(data.rebet);
         }
     }
 
