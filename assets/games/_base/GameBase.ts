@@ -785,7 +785,7 @@ export default class GameBase extends GameViewBase {
         node.on("click", this.onClickRebet.bind(this));
 
         this.loadRebetStorage();
-        //this.updateRebetButtonStatus();
+        this.updateRebetButtonStatus();
     }
 
     updateRebetButtonStatus() {
