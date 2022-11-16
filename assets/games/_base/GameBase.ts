@@ -785,7 +785,7 @@ export default class GameBase extends GameViewBase {
         node.on("click", this.onClickRebet.bind(this));
 
         this.loadRebetStorage();
-        this.updateRebetButtonStatus();
+        //this.updateRebetButtonStatus();
     }
 
     updateRebetButtonStatus() {
@@ -818,7 +818,7 @@ export default class GameBase extends GameViewBase {
     }
 
     checkRebetStatus(): boolean {
-        if (!this.previousOwnBets) {
+        if (!this.previousOwnBets || !this.gameData.durations.isPlacingBet()) {
             return false;
         }
 
