@@ -10,7 +10,7 @@ function bundleVerification() {
     const uuidInfo = {};
     const realEntries = {};
 
-    const mainAndMicroBundles = ["main", ...microBundles];
+    const mainAndMicroBundles = ["main", "resources", ...microBundles];
     mainAndMicroBundles.forEach((bundleId) => {
         const config = fse.readJsonSync(`${assetsDirPath}/${bundleId}/config.${versions[bundleId]}.json`);
         const { paths } = config;
@@ -39,9 +39,9 @@ function bundleVerification() {
     const { bundlePaths, pathInfo } = getPathsInfo();
     const duplicatedUuidList = [];
     if (
-        checkMainPackResourcesInSpecificBundle(microBundles, uuidInfo, bundlePaths, pathInfo) ||
         checkDuplicatedUuids(microBundles, uuidInfo, duplicatedUuidList, realEntries) ||
-        checkOuterBundleResources(microBundles, uuidInfo, duplicatedUuidList, bundlePaths, pathInfo)
+        checkOuterBundleResources(microBundles, uuidInfo, duplicatedUuidList, bundlePaths, pathInfo) ||
+        checkMainPackResourcesInSpecificBundle(microBundles, uuidInfo, bundlePaths, pathInfo)
     ) {
         exitCode = 1;
     }
@@ -51,27 +51,30 @@ function bundleVerification() {
 
 function checkMainPackResourcesInSpecificBundle(microBundles, uuidInfo, bundlePaths, pathInfo) {
     let exitCode = 0;
-    const uuids = uuidInfo["main"];
-    const wrongPackUuids = [];
-    uuids.forEach((uuid) => {
-        const decodeId = decodeUuid(uuid);
-        const filePath = pathInfo[decodeId];
-        if (!filePath) {
-            return;
-        }
-        microBundles.forEach((bundleId) => {
-            const bundlePath = bundlePaths[bundleId];
-            if (filePath.includes(bundlePath)) {
-                wrongPackUuids.push(decodeUuid(uuid));
+    ["main", "resources"].forEach((bundleId) => {
+        const uuids = uuidInfo[bundleId];
+        const wrongPackUuids = [];
+        uuids.forEach((uuid) => {
+            const decodeId = decodeUuid(uuid);
+            const filePath = pathInfo[decodeId];
+            if (!filePath) {
+                return;
             }
+            microBundles.forEach((bundleId) => {
+                const bundlePath = bundlePaths[bundleId];
+                if (filePath.includes(bundlePath)) {
+                    wrongPackUuids.push(decodeUuid(uuid));
+                }
+            });
         });
+
+        if (wrongPackUuids.length > 0) {
+            console.log(`${bundleId} bundle pack resources in other bundle:`);
+            console.log(wrongPackUuids);
+            exitCode = 1;
+        }
     });
 
-    if (wrongPackUuids.length > 0) {
-        console.log("Main bundle pack resources in other bundle:");
-        console.log(wrongPackUuids);
-        exitCode = 1;
-    }
     return exitCode;
 }
 
