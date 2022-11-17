@@ -123,9 +123,6 @@ export default class SocketIOMiniGameBase extends GameBase {
 
     onDestroy() {
         super.onDestroy();
-        const multiplayGame = this.socketIOController.isMultiplayGame(this.gameId);
-        if (!multiplayGame) {
-            this.socketIOController.closeSocket(this.gameId);
-        }
+        this.socketIOController.closeSocket(this.gameId);
     }
 }
