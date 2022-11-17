@@ -1,3 +1,4 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 import FruitSlot from "../view-models/FruitSlot";
@@ -183,14 +184,18 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
         betItem.node.opacity = 150;
     });
 
+    game.betOptionsUI?.playSpinSound();
+
     if (game.betOptionsUI?.spinItems && game.betOptionsUI?.spinItems[firstPosition]) {
         if (!finish.result.isLucky) {
             await executeAnim(firstSpinTimeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
-            game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation();
+            game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation();     
+            game.betOptionsUI?.playWinSound();     
             highlightWinningChoice(game.betOptionsUI)(finish);
         } else {
             await executeAnim(firstSpinTimeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
             game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation();
+            game.betOptionsUI?.playWinSound(); 
 
             for (let i = 0; i < symbolPositions.length - 1; i++) {
                 const totalSteps = (symbolPositions[i + 1] - symbolPositions[i] + numberOfSymbols) % numberOfSymbols;
@@ -199,6 +204,7 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
 
                 await executeAnim(4, symbolPositions[i], nextPosition, numberOfSymbols, game.betOptionsUI?.spinItems);
                 game.betOptionsUI?.spinItems?.[symbolPositions[i + 1]].playSpineSymbolAnimation();
+                game.betOptionsUI?.playWinSound(); 
                 highlightWinningSymbol(game.betOptionsUI)(winSymbol);
             }
         }

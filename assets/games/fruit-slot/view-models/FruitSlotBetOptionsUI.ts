@@ -36,6 +36,12 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
     @property(cc.AudioSource)
     singleChipAudio: cc.AudioSource = null;
 
+    @property(cc.AudioSource)
+    spinAudio: cc.AudioSource = null;
+
+    @property(cc.AudioSource)
+    winAudio: cc.AudioSource = null;
+
     initBetOptions(main: FruitSlot) {
         this.main = main;
         main.betItems = this.betItems;
@@ -75,5 +81,17 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
     playSingleChipsSound(isLoginUserPlaceBet = false) {
         isLoginUserPlaceBet && AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
+    }
+
+    playWinSound() {
+        if (this.winAudio) {
+            AudioManager.getInstance().playSFX(this.winAudio.clip);
+        }
+    }
+
+    playSpinSound() {
+        if (this.spinAudio) {
+            AudioManager.getInstance().playSFX(this.spinAudio.clip);
+        }
     }
 }
