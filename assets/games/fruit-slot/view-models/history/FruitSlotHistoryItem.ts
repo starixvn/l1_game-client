@@ -38,6 +38,9 @@ export default class FruitSlotHistoryItem extends cc.Component {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    bgRow: cc.Node = null;
+
     betLog: BetLog;
     historyMainNode: FruitSlotHistory = null;
 
@@ -52,7 +55,8 @@ export default class FruitSlotHistoryItem extends cc.Component {
         ticketDetailComponent.showbetLogs(this.symbolSprites, odds, this.betLog);
     }
 
-    async setData(betLog: BetLog, historyMainNode: FruitSlotHistory) {
+    async setData(betLog: BetLog, historyMainNode: FruitSlotHistory, index: number) {
+        this.bgRow.active = index % 2 === 1;
         const winColor = cc.Color.WHITE.fromHEX("#fff664");
         this.betLog = betLog;
         this.historyMainNode = historyMainNode;

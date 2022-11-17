@@ -74,7 +74,7 @@ export default class FruitSlotHistory extends BetHistory {
             const historyItemPrefab = cc.instantiate(this.prefabItem);
             const historyControl = historyItemPrefab.getComponent(FruitSlotHistoryItem);
 
-            historyControl.setData(log, this);
+            historyControl.setData(log, this, index);
             if (index === 0) {
                 historyControl.node.getChildByName("topBorder").active = false;
             }

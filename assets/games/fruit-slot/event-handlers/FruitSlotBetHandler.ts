@@ -93,7 +93,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
 
     placePlayerChip(data) {
         const { betChoice, amount, rate } = data;
-        this.calculateTotalBetAmount(betChoice, amount);
+        this.calculateTotalBetAmount(betChoice, +amount);
         let startNode: cc.Node;
         const playerSlot = this.main.playerHandler.getPlayerSlot(data.playerId);
         if (playerSlot) {
