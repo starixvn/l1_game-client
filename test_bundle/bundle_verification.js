@@ -41,7 +41,7 @@ function bundleVerification() {
     if (
         checkDuplicatedUuids(microBundles, uuidInfo, duplicatedUuidList, realEntries) ||
         checkOuterBundleResources(microBundles, uuidInfo, duplicatedUuidList, bundlePaths, pathInfo) ||
-        checkMainPackResourcesInSpecificBundle(microBundles, uuidInfo, bundlePaths, pathInfo)
+        checkPackResourcesFromMicroGameBundle(microBundles, uuidInfo, bundlePaths, pathInfo)
     ) {
         exitCode = 1;
     }
@@ -49,7 +49,7 @@ function bundleVerification() {
     process.exit(exitCode);
 }
 
-function checkMainPackResourcesInSpecificBundle(microBundles, uuidInfo, bundlePaths, pathInfo) {
+function checkPackResourcesFromMicroGameBundle(microBundles, uuidInfo, bundlePaths, pathInfo) {
     let exitCode = 0;
     ["main", "resources"].forEach((bundleId) => {
         const uuids = uuidInfo[bundleId];
