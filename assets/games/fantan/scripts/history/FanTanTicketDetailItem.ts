@@ -1,9 +1,13 @@
+import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FanTanTicketDetailItem extends cc.Component {
+    @property(cc.Label)
+    time: cc.Label = null;
+
     @property(cc.Label)
     odd: cc.Label = null;
 
@@ -20,6 +24,7 @@ export default class FanTanTicketDetailItem extends cc.Component {
     bgRow: cc.Node = null;
 
     setData(data: any, choice: string, index: number, isWin: boolean) {
+        this.time.string = getStringDateByTime(data.time);
         this.odd.string = data.odds[choice];
         this.betChoice.string = this.renderBetChoice(choice);
         this.stake.string = data[choice];
