@@ -1,3 +1,5 @@
+import _ = require("lodash");
+
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import Loading from "../../../common/loading/view-models/Loading";
 
@@ -57,5 +59,12 @@ export default class GameUIManager {
         };
         this.emitter.on(eventName, storage.callback);
         this.emitterStorages.push(storage);
+    }
+
+    removeEmitterListener(eventName: string) {
+        const callbacks = _.remove(this.emitterStorages, (storage) => storage.eventName === eventName).map((storage) => storage.callback);
+        callbacks.forEach((callback) => {
+            this.emitter.removeListener(eventName, callback);
+        });
     }
 }

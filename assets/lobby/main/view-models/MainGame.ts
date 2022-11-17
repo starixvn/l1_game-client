@@ -94,6 +94,7 @@ export default class MainGame extends cc.Component {
         cc.RedT.inGame = null;
         window.isSSO = false;
         PromotionNotificationsHandler.getInstance().setJoinGameId(0);
+        this.removeGameUIEvent();
     }
 
     onLoad() {
@@ -138,13 +139,10 @@ export default class MainGame extends cc.Component {
         PromotionNotificationsHandler.getInstance().addDataObserver();
     }
 
-    removeGame() {
+    removeGameUIEvent() {
         const manager = GameUIManager.getInstance();
-        manager.emitter.removeListener(
-            GameUIManager.Events.LOAD_ALL_BANNERS,
-            manager.emitterStorages[GameUIManager.Events.LOAD_ALL_BANNERS]
-        );
-        manager.emitter.removeListener(GameUIManager.Events.RELOAD_LOBBY, manager.emitterStorages[GameUIManager.Events.RELOAD_LOBBY]);
+        manager.removeEmitterListener(GameUIManager.Events.LOAD_ALL_BANNERS);
+        manager.removeEmitterListener(GameUIManager.Events.RELOAD_LOBBY);
     }
 
     initScrollListener() {

@@ -176,7 +176,7 @@ export default class MiniGameBase extends NewMiniGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-        this.betPercentage.forEach((label) => (label.string = `0%`));
+        this.betPercentage && this.betPercentage.forEach((label) => (label.string = `0%`));
     }
 
     disableGame() {
