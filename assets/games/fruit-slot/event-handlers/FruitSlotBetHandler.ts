@@ -88,7 +88,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     placeOwnChip(data) {
         this.calculateTotalBetAmount(data.betChoice, data.amount);
         const startNode = this.main.betChips.getChipNode(data.amount);
-        this.handleChipStack(data.amount, startNode, data.betChoice, true);
+        this.handleChipStack(data.amount, startNode, data.betChoice, this.main.gameData.totalBetAmount[data.betChoice], true);
     }
 
     placePlayerChip(data) {
@@ -104,14 +104,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
             this.updateOtherDataStorage(data);
         }
 
-        const chipValues = this.getChipValues(amount, rate, false);
-
-        Object.keys(chipValues).forEach((chipValue) => {
-            let count = chipValues[chipValue];
-            for (; count > 0; count--) {
-                this.handleChipStack(+chipValue, startNode, betChoice, false, rate);
-            }
-        });
+        this.handleChipStack(amount, startNode, betChoice, this.main.gameData.totalBetAmount[betChoice], false, rate);
 
         this.playerChips.pop();
     }
@@ -128,16 +121,23 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         this.main.gameData.totalBetAmount[betChoice] = (this.main.gameData.totalBetAmount[betChoice] || 0) + amount;
     }
 
-    handleChipStack(betAmount: number, startNode: cc.Node, betChoice: string, isOwnBet = false, rate = 1) {
+    handleChipStack(
+        betAmount: number,
+        startNode: cc.Node,
+        betChoice: string,
+        totalBet: number,
+        isOwnBet = false,
+        rate = cc.RedT.user.rate
+    ) {
         const betItem = lodash.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
         const destNode = betItem.chipNode;
         this.main.betOptionsUI?.playSingleChipsSound(isOwnBet);
         const durationMoveChip = 0.7;
-        const chipNode = this.main.betChips.createSmallChip(betAmount);
-        if (!isOwnBet) {
-            chipNode.scaleX = this.chipScaleX;
-            chipNode.scaleY = this.chipScaleY;
-        }
+        const chipNode =
+            isOwnBet || this.isPlayerBySameCurrency(rate)
+                ? this.main.betChips.createSmallChip(betAmount)
+                : this.createChipOtherPlayer(totalBet, this.main.betChips, destNode.skewX, rate);
+
         chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
         destNode.addChild(chipNode);
         let destPosition = cc.v2(0, 0);
@@ -151,24 +151,27 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
                 actionMove,
                 cc.callFunc(() => {
                     chipNode.destroy();
-                    this.addChipStack(destNode, this.main.gameData.totalBetAmount[betChoice], isOwnBet, rate);
+                    this.addChipStack(destNode, totalBet, rate);
                 })
             )
         );
     }
+    isPlayerBySameCurrency(rate: number) {
+        return rate === cc.RedT.user.rate;
+    }
 
-    createChipStack(totalBet: number, betChips: BetChips, skewX: number, rate: number, isOwnBet: boolean) {
-        const values = this.getChipValues(totalBet, rate, isOwnBet);
+    createChipStackOnBetOption(totalBet: number, betChips: BetChips, skewX: number, rate: number) {
+        const chipValues = this.getChipValues(totalBet, rate);
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
         chipStack.chipSize = 26;
         chipStack.thickness = 18;
         chipStack.skewX = skewX;
 
-        const keys = Object.keys(values).sort((a, b) => +b - +a);
+        const keys = Object.keys(chipValues).sort((a, b) => +b - +a);
         let firstChip = true;
         keys.forEach((chip) => {
-            const count = values[chip];
+            const count = chipValues[chip];
             for (let i = 0; i < count; i++) {
                 let chipNode: cc.Node;
                 if (+chip === 0) {
@@ -189,9 +192,9 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         return node;
     }
 
-    addChipStack(destNode: cc.Node, totalAmount: number, isOwnBet: boolean, rate = 1) {
+    addChipStack(destNode: cc.Node, totalAmount: number, rate = cc.RedT.user.rate) {
         const nameChipStack = "chipStackNode";
-        const chipStack = this.createChipStack(totalAmount, this.main.betChips, destNode.skewX, rate, isOwnBet);
+        const chipStack = this.createChipStackOnBetOption(totalAmount, this.main.betChips, destNode.skewX, rate);
 
         chipStack.zIndex = -1;
         chipStack.scaleX = this.chipScaleX;
@@ -207,10 +210,37 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         destNode.addChild(chipStack, -1, nameChipStack);
     }
 
-    getChipValues(amount: number, rate: number, isOwnBet: boolean) {
+    getChipValues(amount: number, rate: number) {
         const convertValue = GameUtils.getValueByCurrency(amount, rate);
-        const betValue = isOwnBet ? amount : convertValue;
-        const values = GameUtils.getChipQuantity(betValue, this.main.betChips?.chipValues);
-        return values;
+        const betValue = this.isPlayerBySameCurrency(rate) ? amount : convertValue;
+        const chipValues = GameUtils.getChipQuantity(betValue, this.main.betChips?.chipValues);
+        return chipValues;
+    }
+
+    createChipOtherPlayer(totalBet: number, betChips: BetChips, skewX: number, rate: number) {
+        const values = this.getChipValues(totalBet, rate);
+        const node = new cc.Node();
+        const chipStack = node.addComponent(ChipStack);
+        chipStack.chipSize = 26;
+        chipStack.thickness = 18;
+        chipStack.skewX = skewX;
+
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
+        let firstChip = true;
+        keys.forEach((chip) => {
+            const count = values[chip];
+            for (let i = 0; i < count; i++) {
+                const chipNode = betChips.createSmallChip(+chip);
+                chipStack.addChip(chipNode);
+
+                if (firstChip && i === 0) {
+                    firstChip = false;
+                    const shadow = new cc.Node();
+                    shadow.addComponent(cc.Sprite).spriteFrame = this.main.shadowChip;
+                    chipNode.addChild(shadow);
+                }
+            }
+        });
+        return node;
     }
 }
