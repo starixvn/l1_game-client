@@ -26,6 +26,9 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
     @property(cc.Node)
     smallSymbol: cc.Node = null;
 
+    @property(cc.Node)
+    bgRow: cc.Node = null;
+
     height: number = null;
 
     updateContent(
@@ -35,6 +38,7 @@ export default class FruitSlotTicketDetailItem extends cc.Component {
         symbolsSpriteFrames: cc.SpriteFrame[],
         index: number
     ) {
+        this.bgRow.active = index % 2 === 1;
         const { time, choice, amount, subChoices } = betLogDetail;
         const winColor = new cc.Color(255, 246, 100);
         this.time.string = formatDateTime(time);
