@@ -12,14 +12,17 @@ export default class FantanBowlAnimation extends cc.Component {
     @property(cc.Node)
     SeedsRoot: cc.Node = null;
 
-    @property(cc.Sprite)
-    ResultNumber: cc.Sprite = null;
-
     @property(sp.Skeleton)
     BowlAnimation: sp.Skeleton = null;
 
     @property({ type: cc.SpriteFrame })
     ResultNumberSprites: cc.SpriteFrame[] = [];
+
+    @property(cc.Node)
+    groupIntoFourSeedsContainer: cc.Node = null;
+
+    @property(cc.Sprite)
+    resultNumber: cc.Sprite = null;
 
     @property(cc.Node)
     bigBowlOriginalNode: cc.Node = null;
@@ -422,7 +425,7 @@ export default class FantanBowlAnimation extends cc.Component {
                 this.SeedGroupingsList.push(r);
                 delay += 230;
             }
-            const d = [0, this.ResultNumber.node.y],
+            const d = [0, this.groupIntoFourSeedsContainer.y],
                 p = this.SeedsToDisplayList.length,
                 h = 20 * (p - 1),
                 delayTime = delay / 1e3;
@@ -441,17 +444,17 @@ export default class FantanBowlAnimation extends cc.Component {
             }
             this.setResultNumberSprite(p);
             if (animated) {
-                this.ResultNumber.node.opacity = 0;
+                this.groupIntoFourSeedsContainer.opacity = 0;
                 const spawn = cc.spawn(cc.callFunc(resolve), cc.fadeIn(0.5));
                 let resultNumberAction = cc.sequence(cc.delayTime(delayTime), spawn);
 
                 if (this.tabIn) {
                     resultNumberAction = cc.sequence(cc.delayTime(delayTime), cc.callFunc(this.playBeadsFinalSound), spawn);
                 }
-                this.ResultNumber.node.stopAllActions();
-                this.ResultNumber.node.runAction(resultNumberAction);
+                this.groupIntoFourSeedsContainer.stopAllActions();
+                this.groupIntoFourSeedsContainer.runAction(resultNumberAction);
             } else {
-                this.ResultNumber.node.opacity = 255;
+                this.groupIntoFourSeedsContainer.opacity = 255;
                 resolve();
             }
         });
@@ -472,9 +475,9 @@ export default class FantanBowlAnimation extends cc.Component {
         }
         this.SeedGroupingsList.length = 0;
         if (noAnimated) {
-            this.ResultNumber.node.active = false;
+            this.groupIntoFourSeedsContainer.active = false;
         } else {
-            this.FadeOut(this.ResultNumber.node, 200, 0, true);
+            this.FadeOut(this.groupIntoFourSeedsContainer, 200, 0, true);
         }
     }
 
@@ -507,8 +510,8 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     setResultNumberSprite(resultNumber: number) {
-        this.ResultNumber.node.active = true;
-        this.ResultNumber.spriteFrame = this.ResultNumberSprites[resultNumber - 1];
+        this.resultNumber.node.active = true;
+        this.resultNumber.spriteFrame = this.ResultNumberSprites[resultNumber - 1];
     }
 
     RoundAlreadyStarted() {
@@ -531,7 +534,7 @@ export default class FantanBowlAnimation extends cc.Component {
     restart() {
         if (this.tabIn) {
             this.tabIn = false;
-            this.FadeOut(this.ResultNumber.node, 200, 0, true);
+            this.FadeOut(this.groupIntoFourSeedsContainer, 200, 0, true);
         } else {
             this.RoundSetupAnimation_Init();
         }
