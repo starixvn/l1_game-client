@@ -1,6 +1,6 @@
 const { ccclass, property } = cc._decorator;
 
-const State = cc.Enum({
+export const ButtonState = cc.Enum({
     NORMAL: 0,
     HOVER: 1,
     PRESSED: 2,
@@ -18,10 +18,10 @@ export default class StatusButton extends cc.Button {
     _applyTransition(state) {
         super._applyTransition(state);
         if (this.activeNode) {
-            this.activeNode.active = state === State.HOVER || state === State.PRESSED;
+            this.activeNode.active = state === ButtonState.HOVER || state === ButtonState.PRESSED;
         }
         if (this.disableNode) {
-            this.disableNode.active = state === State.DISABLED;
+            this.disableNode.active = state === ButtonState.DISABLED;
         }
     }
 }

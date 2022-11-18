@@ -25,7 +25,7 @@ import {
     payChipsToInGamePlayers,
     payChipsToLoginPlayer,
     payChipsToOtherPlayers,
-    showPayoutForLoginPlayer,
+    showPayoutForLoginPlayer
 } from "./action/PayChipsAction";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
@@ -47,6 +47,7 @@ import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
+import RebetButton from "./view-models/RebetButton";
 
 const { ccclass, property } = cc._decorator;
 
@@ -178,7 +179,7 @@ export default class GameBase extends GameViewBase {
     public needHideNextDotRoundHistory = false;
     hideUmDataKeys = ["remainingTime"];
     previousOwnBets: any;
-    rebetButton: cc.Button;
+    rebetButton: RebetButton;
 
     // using multiplay game
     public gameData: any;
@@ -781,12 +782,14 @@ export default class GameBase extends GameViewBase {
     }
 
     onInitializeRebetButton(node: cc.Node) {
-        this.rebetButton = node.getComponent(cc.Button);
+        this.rebetButton = node.getComponent(RebetButton);
         node.on("click", this.onClickRebet.bind(this));
 
         this.loadRebetStorage();
         this.updateRebetButtonStatus();
     }
+
+    setEnabedRebetButtonColor() {}
 
     updateRebetButtonStatus() {
         this.rebetButton && (this.rebetButton.interactable = this.checkRebetStatus());
