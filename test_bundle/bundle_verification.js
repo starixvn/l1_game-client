@@ -143,7 +143,7 @@ function checkOuterBundleResources(bundleList, uuidInfo, duplicatedUuidList, bun
 }
 
 function getPathsInfo() {
-    const metaFilePaths = glob.sync("**/*!(.ts).meta");
+    const metaFilePaths = glob.sync("assets/**/*!(.ts).meta");
     const pathInfo = {};
     const bundlePaths = {};
     metaFilePaths.forEach((metaPath) => {
