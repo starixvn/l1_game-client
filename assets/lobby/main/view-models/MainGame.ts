@@ -283,7 +283,7 @@ export default class MainGame extends cc.Component {
 
     onSignIn() {
         this.isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
-        if (this.isSSOToGame) {
+        if (this.isSSOToGame || sessionManager.getInRoomGameId()) {
             this.isSSOGameMini = this.isSSOToGame && GameUtils.isMiniGame(window.openGameId);
             this.loadLobby(this.isSSOGameMini);
             this.miniPanel.isOpenSS0 = true;
@@ -291,8 +291,6 @@ export default class MainGame extends cc.Component {
                 this.openLuckyWheel();
             });
             this.setCategoryAllWhenSSOGame();
-        } else if (sessionManager.getInRoomGameId()) {
-            this.reloadCurrentRoomGame();
         } else {
             window.isSSO && this.openLuckyWheel();
             this.loadLobby(true);
@@ -472,10 +470,15 @@ export default class MainGame extends cc.Component {
 
     openGameSSO(onComplete: () => void) {
         const gameId = parseInt(window.openGameId);
-        GameUtils.clearGameSetting(gameId);
-        GameUtils.openGame(gameId, this.miniPanel, onComplete);
-        window.openGameId = null;
-        sessionManager.removeInRoomGameId();
+        if (gameId) {
+            GameUtils.clearGameSetting(gameId);
+            GameUtils.openGame(gameId, this.miniPanel, onComplete);
+            window.openGameId = null;
+            sessionManager.removeInRoomGameId();
+            return;
+        }
+
+        this.reloadCurrentRoomGame();
     }
 
     reloadCurrentRoomGame() {
