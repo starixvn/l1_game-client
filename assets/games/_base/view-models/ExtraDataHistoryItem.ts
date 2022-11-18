@@ -25,7 +25,6 @@ export default class ExtraDataHistoryItem extends MiniRoundHistoryItem {
         if (data === null) {
             this.icon.spriteFrame = this.atlas.getSpriteFrame("pending-icon");
             this.extraInfo && (this.extraInfo.spriteFrame = null);
-            this.icon.node.color = cc.Color.GRAY;
             this.icon.addComponent(BlinkNode).interval = 0.5;
             return;
         }
