@@ -41,12 +41,13 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
             this.handleChipInMainRoom(data);
         }
 
-        if (data.roundId) {
-            this.main.roundId = data.roundId;
-        }
-
         if (data.ownBets) {
-            updatePreviousBets(this.main)(data.ownBets);
+            if (this.main.roundId === -1 && data.roundId) {
+                this.main.roundId = data.roundId;
+                this.main.loadRebetStorage();
+            } else {
+                updatePreviousBets(this.main)(data.ownBets);
+            }
         }
 
         if (data.rebet) {
@@ -202,7 +203,6 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
 
         chipStack.children.forEach((child) => {
             child.getComponent(FruitSlotChipView)?.applyForSmallChip();
-            //console.log("chipStack.children", child);
         });
         const oldChipStack = destNode.getChildByName(nameChipStack);
         oldChipStack && destNode.removeChild(oldChipStack);

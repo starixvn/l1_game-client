@@ -6,7 +6,6 @@ import FruitSlotMiniRoundHistory from "./FruitSlotMiniRoundHistory";
 import FruitSlotStatistic from "./FruitSlotStatistic";
 import FruitSlotAnimatedTimer from "./FruitSlotAnimatedTimer";
 import GameUtils from "../../../common/GameUtils";
-import FruitSlotPlacingBet from "./FruitSlotPlacingBet";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import { FruitSlotFinishModel, handleAfterSettlementResult, handleShowResult } from "../actions/FruitSlotFinishActions";
@@ -60,7 +59,6 @@ export default class FruitSlot extends NewGameRoomBase {
     public statistic: FruitSlotStatistic = null;
     public timeHandler: FruitSlotTimeHandler;
     public animatedTime: FruitSlotAnimatedTimer = null;
-    private placingBet: FruitSlotPlacingBet = null;
     public isShowAnimSettlement = false;
 
     currentBetChoices: any = {};
@@ -81,7 +79,6 @@ export default class FruitSlot extends NewGameRoomBase {
         this.gameData = new FruitSlotGameData();
         super.onLoad();
         this.initStatistic();
-        this.initPlacingBet();
         this.registerRoundHistoryEvents();
         this.registerSettlementEvents();
     }
@@ -100,10 +97,6 @@ export default class FruitSlot extends NewGameRoomBase {
         super.initHandlers();
         this.timeHandler = new FruitSlotTimeHandler(this);
         this.betHandler = new FruitSlotBetHandler(this);
-    }
-
-    private initPlacingBet() {
-        this.placingBet = new FruitSlotPlacingBet(this.gameData, this, () => this.connection);
     }
 
     private registerRoundHistoryEvents() {

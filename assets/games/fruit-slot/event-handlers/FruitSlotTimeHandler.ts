@@ -107,4 +107,13 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         this.main.timeAnimShowResult(false);
         this.main.finishShowResult = false;
     }
+
+    protected setCurrentTimeRemaining(data: any) {
+        this.main.currentTimeRemaining = data.remainingTime;
+    }
+
+    playTime(): void {
+        this.gameUpdate();
+        super.playTime();
+    }
 }
