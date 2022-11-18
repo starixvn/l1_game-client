@@ -29,7 +29,7 @@ export const getWinningOption = (choice: string) => {
 };
 
 const executeAnim = async (duration: number, from: number, to: number, numberOfSymbols: number, highlightItem: any) => {
-    let currentIndex: number = from;
+    let currentIndex: number = from;     
 
     return new Promise((resolve) => {
         cc.tween({ value: from })
@@ -202,9 +202,10 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
                 const nextPosition = symbolPositions[i] + totalSteps + 48;
                 const winSymbol = getWinningOption(finish.result.symbols[i]);
 
-                await executeAnim(4, symbolPositions[i], nextPosition, numberOfSymbols, game.betOptionsUI?.spinItems);
-                game.betOptionsUI?.spinItems?.[symbolPositions[i + 1]].playSpineSymbolAnimation();
-                game.betOptionsUI?.playWinSound(); 
+                game.betOptionsUI?.playSpinSound();                
+                await executeAnim(4, symbolPositions[i], nextPosition, numberOfSymbols, game.betOptionsUI?.spinItems);                
+                game.betOptionsUI?.spinItems?.[symbolPositions[i + 1]].playSpineSymbolAnimation();     
+                game.betOptionsUI?.playWinSound();           
                 highlightWinningSymbol(game.betOptionsUI)(winSymbol);
             }
         }
