@@ -221,9 +221,6 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         const values = this.getChipValues(totalBet, rate);
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
-        chipStack.chipSize = 26;
-        chipStack.thickness = 18;
-        chipStack.skewX = skewX;
 
         const keys = Object.keys(values).sort((a, b) => +b - +a);
         let firstChip = true;

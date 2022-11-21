@@ -457,7 +457,7 @@ export default class BetChips extends cc.Component {
         return cc.moveTo(time, cc.v2(position.x, position.y)).easing(cc.easeSineOut());
     }
 
-    private getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec3 {
+    public getRandomPositionChip(chip: cc.Node, box: cc.Node): cc.Vec3 {
         const chipBoundingBox = chip.getBoundingBox();
         const xDest = _.random(Math.floor(chip.width / 4), Math.floor(box.width - chipBoundingBox.width / 2) + 1);
         const yDest = _.random(Math.floor(chip.height / 4), Math.floor(box.height - chipBoundingBox.height / 2) + 1);
