@@ -27,7 +27,7 @@ export default class FanTanTicketDetailItem extends cc.Component {
         this.time.string = getStringDateByTime(data.time);
         this.odd.string = data.odds[choice];
         this.betChoice.string = this.renderBetChoice(choice);
-        this.stake.string = data[choice];
+        this.stake.string = numberWithCommas(data[choice], 2);
         this.win.string = isWin ? numberWithCommas(data[choice] * data.odds[choice], 2) : 0;
         this.bgRow.active = index % 2 > 0;
     }
