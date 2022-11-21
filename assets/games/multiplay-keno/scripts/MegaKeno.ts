@@ -130,8 +130,4 @@ export default class MegaKeno extends TableGameBase {
         super.handleAfterSettlementResult(settlement, animated);
         this.settlementEndResult && this.settlementEndResult.showResult(settlement);
     }
-
-    setEnabedRebetButtonColor() {
-        this.rebetButton && this.rebetButton.setEnabledRebetColor("#901e01");
-    }
 }

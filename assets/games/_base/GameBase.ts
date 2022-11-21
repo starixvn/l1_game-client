@@ -789,8 +789,6 @@ export default class GameBase extends GameViewBase {
         this.updateRebetButtonStatus();
     }
 
-    setEnabedRebetButtonColor() {}
-
     updateRebetButtonStatus() {
         this.rebetButton && (this.rebetButton.interactable = this.checkRebetStatus());
     }

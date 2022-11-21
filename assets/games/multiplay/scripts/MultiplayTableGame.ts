@@ -126,11 +126,6 @@ export default class MultiplayTableGame extends MultiplayGame {
         }
     }
 
-    addMainGameUI(gameId: number) {
-        super.addMainGameUI(gameId);
-        this.games[gameId].setEnabedRebetButtonColor();
-    }
-
     initEventForInGameMenu(): cc.Node {
         const node = this.inGameMenu.node;
 
