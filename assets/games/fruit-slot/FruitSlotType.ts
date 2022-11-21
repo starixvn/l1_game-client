@@ -60,3 +60,13 @@ export enum CountdownAnimationType {
     IDLE = "item_idle",
     PLAY = "item"
 }
+
+export type ChipType = {
+    betAmount: number;
+    betChoice: string;
+    durationMoveChip: number;
+    startNode: cc.Node;
+    totalBet: number;
+    isOwnBet: boolean;
+    rate: number;
+};
