@@ -30,6 +30,11 @@ export default class FanTanTicketDetailItem extends cc.Component {
         this.stake.string = numberWithCommas(data[choice], 2);
         this.win.string = isWin ? numberWithCommas(data[choice] * data.odds[choice], 2) : 0;
         this.bgRow.active = index % 2 > 0;
+        if (isWin) {
+            this.betChoice.node.color = cc.Color.YELLOW;
+            this.stake.node.color = cc.Color.YELLOW;
+            this.odd.node.color = cc.Color.YELLOW;
+        }
     }
 
     renderBetChoice(choice: string) {

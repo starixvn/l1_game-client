@@ -12,7 +12,7 @@ export default class FanTanStatBoard extends StatisticBoard {
     @property
     isBeadRoad = false;
 
-    percentChoices = ["odd", "even"];
+    percentChoices = ["even", "odd"];
 
     onChangedSupportChoices() {
         this.originalChoices = this.supportChoices.split(",");
