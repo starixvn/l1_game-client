@@ -1,8 +1,8 @@
 import { lazyInject } from "../../../Application";
+import GameUtils from "../../../common/GameUtils";
 import BannerController from "./BannerController";
 import BannerItem from "./BannerItem";
 import LobbyMenuConfig from "./LobbyMenuConfig";
-import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,11 +16,10 @@ export default class DynamicAdsBannerController extends BannerController {
 
     private isFirstLoadBanner = false;
 
-    async setGameAds(games: number[], initJackpot: () => void) {
+    async setGameAds(games: number[]) {
         for (const gameId of games) {
             await this.createAdsItem(gameId);
         }
-        initJackpot();
     }
 
     private handleShowBanner() {

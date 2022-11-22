@@ -14,43 +14,51 @@ const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 
 @ccclass
 export default class Banner extends cc.Component {
-    private adsBannerContainer: cc.Node = null;
+    private adsBannerController: DynamicAdsBannerController = null;
+
     private jackpotBannerContainer: cc.Node = null;
     private jackpotNavigationContainer: cc.Node = null;
     private adsToggle: cc.Toggle = null;
     private jackpotToggle: cc.Toggle = null;
 
-    async handleBanner(prefab: cc.Prefab, isLoadAllBanners: boolean) {
-        if (this.adsBannerContainer && this.adsBannerContainer.childrenCount > 0) {
-            this.adsBannerContainer.destroyAllChildren();
-        }
+    showJackpotBanner = false;
+    bannerPrefabNode: cc.Node = null;
 
+    private async init() {
+        console.log("banner init");
+        const prefab = await GameUtils.loadResource(`lobby/banner/bannerContainer`);
         const bannerPrefabNode = cc.instantiate(prefab);
+        this.bannerPrefabNode = bannerPrefabNode;
         this.node.addChild(bannerPrefabNode);
-        this.adsBannerContainer = bannerPrefabNode.getChildByName("adsBannerController");
-        const adsBannerController = this.adsBannerContainer.getComponent(DynamicAdsBannerController);
-        const showJackpotBanner =
-            isLoadAllBanners && cc.RedT.user.offerGames.includes(FourGuardiansId) && fourGuardiansConfig.jackpotEnabled;
-
-        adsBannerController.menuLoop = !showJackpotBanner;
-        const filterList: number[] = this.getGameIdOfferBanner(isLoadAllBanners);
-        adsBannerController.setGameAds(filterList, async () => {
-            showJackpotBanner && (await this.handleJackpotBanner(bannerPrefabNode));
-        });
-
-        adsBannerController.onEndingRound = () => {
-            if (showJackpotBanner && this.adsToggle && this.jackpotToggle) {
+        const adsBannerContainerNode = bannerPrefabNode.getChildByName("adsBannerController");
+        this.adsBannerController = adsBannerContainerNode.getComponent(DynamicAdsBannerController);
+        this.showJackpotBanner = cc.RedT.user.offerGames.includes(FourGuardiansId) && fourGuardiansConfig.jackpotEnabled;
+        this.adsBannerController.menuLoop = !this.showJackpotBanner;
+        this.adsBannerController.onEndingRound = () => {
+            if (this.showJackpotBanner && this.adsToggle && this.jackpotToggle) {
                 this.adsToggle.isChecked = false;
                 this.jackpotToggle.isChecked = true;
                 this.switchBanner(true);
             }
         };
-        adsBannerController.showFirstPage();
+        this.showJackpotBanner && (await this.handleJackpotBanner());
     }
 
-    private async handleJackpotBanner(bannerPrefabNode: cc.Node) {
-        const jackpotContainer = bannerPrefabNode.getChildByName("jackpotController");
-        this.jackpotNavigationContainer = bannerPrefabNode.getChildByName("jackpotNavigationController");
+    async reloadBanner(needLoadAllBanners: boolean) {
+        if (!this.adsBannerController) {
+            await this.init();
+        }
+
+        console.log("banner reloadBanner", needLoadAllBanners);
+        this.adsBannerController.node.destroyAllChildren();
+        const filterList: number[] = this.getGameIdOfferBanner(needLoadAllBanners);
+        await this.adsBannerController.setGameAds(filterList);
+        this.adsBannerController.showFirstPage();
+    }
+
+    private async handleJackpotBanner() {
+        const jackpotContainer = this.bannerPrefabNode.getChildByName("jackpotController");
+        this.jackpotNavigationContainer = this.bannerPrefabNode.getChildByName("jackpotNavigationController");
         if (jackpotContainer?.childrenCount > 0 || this.jackpotNavigationContainer?.childrenCount > 0) {
             return;
         }
@@ -109,11 +117,11 @@ export default class Banner extends cc.Component {
         cc.tween(this.node)
             .delay(0.1)
             .call(() => {
-                this.adsBannerContainer.active = !showJackpot;
+                this.adsBannerController.node.active = !showJackpot;
                 this.jackpotBannerContainer.active = showJackpot;
 
-                const currentContainer = showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
-                const newContainer = !showJackpot ? this.adsBannerContainer : this.jackpotBannerContainer;
+                const currentContainer = showJackpot ? this.adsBannerController : this.jackpotBannerContainer;
+                const newContainer = !showJackpot ? this.adsBannerController : this.jackpotBannerContainer;
 
                 const currentController = currentContainer.getComponent(BannerController);
                 const newController = newContainer.getComponent(BannerController);

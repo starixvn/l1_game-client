@@ -353,9 +353,7 @@ export default class MainGame extends cc.Component {
     }
 
     initBanners(isLoadAllBanner: boolean) {
-        GameUtils.loadResource(`lobby/banner/bannerContainer`).then(async (prefab) => {
-            this.banner && this.banner.handleBanner(prefab, isLoadAllBanner);
-        });
+        this.banner.reloadBanner(isLoadAllBanner);
     }
 
     outRoomGame() {
