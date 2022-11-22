@@ -124,7 +124,7 @@ export default class MainGame extends cc.Component {
             this.isSSOGameMini && manager.emitter.emit(GameUIManager.Events.LOAD_HIDDEN_ICONS);
             this.miniPanel?.isOpenSS0 && (this.miniPanel.isOpenSS0 = false);
         });
-        manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby());
+        manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby(true));
         manager.emitterListener(GameUIManager.Events.LOAD_HIDDEN_ICONS, () => this.loadHiddenIcons());
     }
 
@@ -303,9 +303,9 @@ export default class MainGame extends cc.Component {
         this.lobbyMenu?.setCategory(GameCategory.All, false);
     }
 
-    loadLobby(loadBanner = true) {
+    loadLobby(loadAllBanners: boolean) {
         if (!this.initializedLobby) {
-            this.initLobby(loadBanner);
+            this.initLobbyCategoryBanner(loadAllBanners);
         }
     }
 
@@ -315,17 +315,17 @@ export default class MainGame extends cc.Component {
             if (storage) {
                 cc.RedT.user.offerGames = JSON.parse(storage);
             }
-            this.initLobby();
+            this.initLobbyCategoryBanner(true);
         }
     }
 
-    initLobby(loadBanner = true) {
+    initLobbyCategoryBanner(loadAllBanners: boolean) {
         if (cc.RedT.user.offerGames.length === 0) {
             this.showNotice({ text: i18n.t("messages.noGameOffer") });
         }
         this.initLobbyMenu();
         this.initCategory();
-        this.initBanners(loadBanner);
+        this.initBanners(loadAllBanners);
 
         this.initializedLobby = true;
     }
