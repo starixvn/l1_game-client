@@ -104,7 +104,6 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
 
     placePlayerChip(data) {
         const { betChoice, amount, rate } = data;
-        const delayTime = this.isPlayerBySameCurrency(rate) ? 0.7 : 0.15;
         let startNode: cc.Node;
         const playerSlot = this.main.playerHandler.getPlayerSlot(data.playerId);
         if (playerSlot) {
@@ -116,22 +115,26 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         }
         const chips = this.getChipValues(amount, rate);
         let indexChipValue = 0;
-        const keys = Object.keys(chips).sort((a, b) => +b - +a);
-        keys.forEach((chipValue) => {
+        Object.keys(chips).forEach((chipValue) => {
             const quantity = chips[chipValue];
-            if (quantity > 0) {
-                indexChipValue++;
-            }
             for (let i = 0; i < quantity; i++) {
-                const duration = (indexChipValue + i) * delayTime;
-                this.placeOtherPlayerChip({
-                    betChoice: betChoice,
-                    amount: +chipValue,
-                    startNode: startNode,
-                    durationMoveChip: duration,
-                    rate: rate
-                });
-                indexChipValue += duration;
+                const duration = indexChipValue * 0.1 + 0.7;
+                this.main.node.runAction(
+                    cc.sequence(
+                        cc.delayTime(duration),
+                        cc.callFunc(() =>
+                            this.placeOtherPlayerChip({
+                                betChoice: betChoice,
+                                amount: +chipValue,
+                                startNode: startNode,
+                                durationMoveChip: duration,
+                                rate: rate
+                            })
+                        )
+                    )
+                );
+
+                indexChipValue++;
             }
         });
         this.playerChips.pop();
@@ -147,6 +150,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
             isOwnBet: false,
             rate: data.rate
         };
+
         this.handleChipStack(chipType);
     }
 
