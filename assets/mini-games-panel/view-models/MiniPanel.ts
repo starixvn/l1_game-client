@@ -199,7 +199,13 @@ export default class MiniPanel extends BaseComponent {
         }
 
         this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
-        this.isOpenSS0 && GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
+        this.handleWhenNotJoinRoomGame(gameId);
+    }
+
+    handleWhenNotJoinRoomGame(gameId) {
+        const uiManager = GameUIManager.getInstance();
+        this.isOpenSS0 && uiManager.emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
+        !GameUtils.isMiniGame(gameId) && uiManager.emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
     }
 
     redirectToResultPage(redirectUrl) {
@@ -429,7 +435,7 @@ export default class MiniPanel extends BaseComponent {
 
         this.setLoadingVisibility(false);
         this.unCacheAndHideGameLoading(this.getGameLoadingComp(gameId), gameId);
-        this.isOpenSS0 && GameUIManager.getInstance().emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS);
+        this.handleWhenNotJoinRoomGame(gameId);
     }
 
     redirectToLobby() {
