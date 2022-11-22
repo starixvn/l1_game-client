@@ -85,7 +85,6 @@ export default class MainGame extends cc.Component {
     private lobbyMenu: LobbyMenu;
     private miniPanel: MiniPanel;
     signName: any;
-    isLoadAllBanners = false;
     private isSSOGameMini = false;
     private isSSOToGame = false;
 
@@ -357,8 +356,6 @@ export default class MainGame extends cc.Component {
         GameUtils.loadResource(`lobby/banner/bannerContainer`).then(async (prefab) => {
             this.banner && this.banner.handleBanner(prefab, isLoadAllBanner);
         });
-
-        this.isLoadAllBanners = isLoadAllBanner;
     }
 
     outRoomGame() {
