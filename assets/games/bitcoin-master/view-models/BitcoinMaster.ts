@@ -1,6 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
+import { formatOdds } from "../../../common/helpers/NumberHelper";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -404,8 +405,8 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     public updateOddsFromConfigs() {
         if (this.gameConfigs.odds) {
-            this.upDownOdds.string = `1:${this.gameConfigs.odds[this.choices[0]]}`;
-            this.evenOddOdds.string = `1:${this.gameConfigs.odds[this.choices[2]]}`;
+            this.upDownOdds.string = formatOdds(this.gameConfigs.odds[this.choices[0]], cc.RedT?.user?.fractionalOddsFormat);
+            this.evenOddOdds.string = formatOdds(this.gameConfigs.odds[this.choices[2]], cc.RedT?.user?.fractionalOddsFormat);
         }
     }
 

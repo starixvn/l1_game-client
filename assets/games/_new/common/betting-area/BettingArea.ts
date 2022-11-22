@@ -1,5 +1,5 @@
 import GameUtils from "../../../../common/GameUtils";
-import { getInternationalFractionalOdds, numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { formatOdds, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import BettingAreaTheme from "./BettingAreaTheme";
 
 const { ccclass, property, menu } = cc._decorator;
@@ -60,7 +60,7 @@ export default class BettingArea extends cc.Component {
 
     set odds(value: number) {
         if (this.oddsLabel) {
-            this.oddsLabel.string = getInternationalFractionalOdds(value);
+            this.oddsLabel.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
         }
     }
 }

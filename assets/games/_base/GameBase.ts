@@ -575,7 +575,13 @@ export default class GameBase extends GameViewBase {
         const locale = getLocale();
         const isInPromotionTime = this.boostedChoices?.length > 0;
         const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
-        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, isInPromotionTime);
+        guide.initURL(
+            this.gameId,
+            language,
+            { minBet, maxBet, used: this.isUsingMaxStakeLevel() },
+            isInPromotionTime,
+            cc.RedT?.user.fractionalOddsFormat
+        );
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();
@@ -587,7 +593,14 @@ export default class GameBase extends GameViewBase {
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
         const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
-        guide.initURL(this.gameId, language, { minBet, maxBet, used: this.isUsingMaxStakeLevel() }, false, "&md5=1");
+        guide.initURL(
+            this.gameId,
+            language,
+            { minBet, maxBet, used: this.isUsingMaxStakeLevel() },
+            false,
+            cc.RedT?.user.fractionalOddsFormat,
+            "&md5=1"
+        );
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
         guide.loadWebView();

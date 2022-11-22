@@ -73,6 +73,9 @@ module.exports = {
         if (void 0 !== data.scoins) {
             this.user.scoins = data.scoins;
         }
+        if (void 0 !== data.fractionalOddsFormat) {
+            this.user.fractionalOddsFormat = data.fractionalOddsFormat;
+        }
     },
     userStakeLevelData: function (data) {
         if (this.userStakeLevel.minBet === data.minBet && this.userStakeLevel.maxBet === data.maxBet) {

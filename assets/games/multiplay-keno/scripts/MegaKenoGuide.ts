@@ -35,7 +35,13 @@ export default class MegaKenoGuide extends cc.Component {
         const { minBet, maxBet } = game.getBetRange();
         const locale = getLocale();
         const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
-        this.content.initURL(gameId, language, { minBet, maxBet, used: game.isUsingMaxStakeLevel() });
+        this.content.initURL(
+            gameId,
+            language,
+            { minBet, maxBet, used: game.isUsingMaxStakeLevel() },
+            false,
+            cc.RedT.user?.fractionalOddsFormat
+        );
         this.content.sendDataToIframe(game.gameConfigs);
         this.content.loadWebView();
     }

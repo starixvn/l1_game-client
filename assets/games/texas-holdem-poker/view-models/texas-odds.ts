@@ -1,4 +1,4 @@
-import { getInternationalFractionalOdds } from "../../../common/helpers/NumberHelper";
+import { formatOdds } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,7 +15,7 @@ export default class TexasOdds extends cc.Component {
 
     set OddValue(value: number) {
         try {
-            this.oddValue.string = getInternationalFractionalOdds(value);
+            this.oddValue.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
         } catch (error) {
             console.log("oddName, oddValue, key", this.oddName, this.oddValue, this.key);
         }

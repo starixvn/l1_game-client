@@ -14,6 +14,7 @@ import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
 import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
 import ColorAssembler2D from "../../../common/ColorAssembler2D";
+import { formatOdds } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -296,12 +297,12 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
     public updateOddsFromConfigs() {
         if (this.gameConfigs.odds) {
-            this.odds.string = `1:${this.gameConfigs.odds[this.choices[0]]}`;
+            this.odds.string = formatOdds(this.gameConfigs.odds[this.choices[0]], cc.RedT?.user?.fractionalOddsFormat);
         }
     }
 
     public applyPromotion(values) {
-        this.odds.string = `1:${values[this.choices[0]]}`;
+        this.odds.string = formatOdds(values[this.choices[0]], cc.RedT?.user?.fractionalOddsFormat);
     }
 
     highLightBoostedOdds() {

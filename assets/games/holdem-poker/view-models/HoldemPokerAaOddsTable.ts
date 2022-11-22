@@ -1,4 +1,4 @@
-import { getInternationalFractionalOdds } from "../../../common/helpers/NumberHelper";
+import { formatOdds } from "../../../common/helpers/NumberHelper";
 import HoldemPokerAnteOddsTable from "./HoldemPokerAnteOddsTable";
 
 const { ccclass, property } = cc._decorator;
@@ -9,6 +9,6 @@ export default class HoldemPokerAaOddsTable extends HoldemPokerAnteOddsTable {
     pairOfAcesOrHigher: cc.Label = null;
 
     set PairOfAcesOrHigher(value: number) {
-        this.pairOfAcesOrHigher.string = getInternationalFractionalOdds(value);
+        this.pairOfAcesOrHigher.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 }

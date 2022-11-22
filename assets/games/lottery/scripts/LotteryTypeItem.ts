@@ -1,3 +1,5 @@
+import { formatOdds } from "../../../common/helpers/NumberHelper";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -18,6 +20,6 @@ export default class LotteryTypeItem extends cc.Component {
 
     setOdds(value: string) {
         this.odds.node.active = true;
-        this.odds.string = `1:${value}`;
+        this.odds.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 }

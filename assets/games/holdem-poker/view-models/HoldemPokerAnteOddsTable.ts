@@ -1,4 +1,4 @@
-import { getInternationalFractionalOdds } from "../../../common/helpers/NumberHelper";
+import { formatOdds } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,26 +23,26 @@ export default class HoldemPokerAnteOddsTable extends cc.Component {
     straightOrLower: cc.Label = null;
 
     set RoyalFlush(value: number) {
-        this.royalFlush.string = getInternationalFractionalOdds(value);
+        this.royalFlush.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 
     set StraightFlush(value: number) {
-        this.straightFlush.string = getInternationalFractionalOdds(value);
+        this.straightFlush.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 
     set FourOfAKind(value: number) {
-        this.fourOfAKind.string = getInternationalFractionalOdds(value);
+        this.fourOfAKind.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 
     set FullHouse(value: number) {
-        this.fullHouse.string = getInternationalFractionalOdds(value);
+        this.fullHouse.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 
     set Flush(value: number) {
-        this.flush.string = getInternationalFractionalOdds(value);
+        this.flush.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 
     set StraightOrLower(value: number) {
-        this.straightOrLower.string = getInternationalFractionalOdds(value);
+        this.straightOrLower.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 }

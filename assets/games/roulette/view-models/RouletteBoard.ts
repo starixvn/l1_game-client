@@ -33,6 +33,12 @@ export default class RouletteBoard extends cc.Component {
     @property(cc.Prefab)
     tipPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    imageDecimalOdds: cc.Node = null;
+
+    @property(cc.Node)
+    imageFractionalOdds: cc.Node = null;
+
     middleCellOffset = 12;
 
     private cellSize: cc.Size;
@@ -63,6 +69,8 @@ export default class RouletteBoard extends cc.Component {
         this.touchArea.on(cc.Node.EventType.MOUSE_ENTER, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
         this.touchArea.on(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
+
+        this.initImageBackground();
     }
 
     onDestroy() {
@@ -74,6 +82,12 @@ export default class RouletteBoard extends cc.Component {
         this.touchArea.off(cc.Node.EventType.MOUSE_ENTER, this.onTouchMove, this);
         this.touchArea.off(cc.Node.EventType.MOUSE_MOVE, this.onTouchMove, this);
         this.touchArea.off(cc.Node.EventType.MOUSE_LEAVE, this.onTouchCancel, this);
+    }
+
+    initImageBackground() {
+        const isFractionalOddsFormat = cc.RedT.user?.fractionalOddsFormat;
+        this.imageDecimalOdds.active = !isFractionalOddsFormat;
+        this.imageFractionalOdds.active = isFractionalOddsFormat;
     }
 
     onTouchMove(e) {

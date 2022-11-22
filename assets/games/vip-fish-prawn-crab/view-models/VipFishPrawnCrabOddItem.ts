@@ -1,3 +1,5 @@
+import { formatOdds } from "../../../common/helpers/NumberHelper";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -6,6 +8,6 @@ export default class VipFishPrawnCrabOddItem extends cc.Component {
     value: cc.Label = null;
 
     setValue(value: string) {
-        this.value.string = `1:${value}`;
+        this.value.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
     }
 }
