@@ -34,7 +34,7 @@ export default class MegaKenoGuide extends cc.Component {
         const game = this.games[gameId];
         const { minBet, maxBet } = game.getBetRange();
         const locale = getLocale();
-        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
+        const language = getLanguage(locale);
         this.content.initURL(
             gameId,
             language,

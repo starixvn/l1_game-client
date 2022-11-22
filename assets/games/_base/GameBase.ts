@@ -574,7 +574,7 @@ export default class GameBase extends GameViewBase {
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
         const isInPromotionTime = this.boostedChoices?.length > 0;
-        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
+        const language = getLanguage(locale);       
         guide.initURL(
             this.gameId,
             language,
@@ -592,7 +592,7 @@ export default class GameBase extends GameViewBase {
         const guide = dialog.getComponent(WebViewGuide);
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
-        const language = getLanguage(locale !== "vi-VN" && locale !== "en-US" ? "en-US" : locale);
+        const language = getLanguage(locale);
         guide.initURL(
             this.gameId,
             language,
