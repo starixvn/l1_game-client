@@ -124,13 +124,15 @@ export default class MainGame extends cc.Component {
             this.isSSOGameMini && manager.emitter.emit(GameUIManager.Events.LOAD_HIDDEN_ICONS);
             this.miniPanel?.isOpenSS0 && (this.miniPanel.isOpenSS0 = false);
         });
-        manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => this.loadLobby(true));
+        manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => {
+            console.log("Events.RELOAD_LOBBY");
+            this.loadLobby(true);
+        });
         manager.emitterListener(GameUIManager.Events.LOAD_HIDDEN_ICONS, () => this.loadHiddenIcons());
     }
 
     loadHiddenIcons() {
-        this.lobbyMenu.isSSOToGame = false;
-        this.lobbyMenu.triggerLoadHideIcons();
+        this.lobbyMenu.loadHiddenIcons();
     }
 
     initPromotions() {
@@ -284,23 +286,16 @@ export default class MainGame extends cc.Component {
         this.isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
         if (this.isSSOToGame) {
             this.isSSOGameMini = this.isSSOToGame && GameUtils.isMiniGame(window.openGameId);
-            this.loadLobby(this.isSSOGameMini);
             this.miniPanel.isOpenSS0 = true;
             this.openGameSSO(() => {
                 this.openLuckyWheel();
             });
-            this.setCategoryAllWhenSSOGame();
         } else if (sessionManager.getInRoomGameId()) {
             this.reloadCurrentRoomGame();
         } else {
             window.isSSO && this.openLuckyWheel();
             this.loadLobby(true);
         }
-    }
-
-    setCategoryAllWhenSSOGame() {
-        this.initLobbyMenu();
-        this.lobbyMenu?.setCategory(GameCategory.All, false);
     }
 
     loadLobby(loadAllBanners: boolean) {
@@ -340,7 +335,9 @@ export default class MainGame extends cc.Component {
         lobbyMenu.miniPanel = this.miniPanel;
 
         this.lobbyMenu = lobbyMenu;
-        this.isSSOToGame && (this.lobbyMenu.isSSOToGame = true);
+        if (this.isSSOToGame && !this.isSSOGameMini) {
+            this.lobbyMenu.skipLoadHiddenIcons = true;
+        }
     }
 
     initCategory() {

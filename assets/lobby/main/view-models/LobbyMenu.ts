@@ -28,20 +28,19 @@ export default class LobbyMenu extends GameIconMenu {
     currentRow: cc.Node = null;
     rowChildrenCount = 0;
     currentCategory = -1;
-    public isSSOToGame = false;
+    public skipLoadHiddenIcons = false;
 
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
-    public triggerLoadHideIcons = async () => {
-        if (!this.isSSOToGame) {
-            await GameUtils.delayTime(this.durationAutoHideSkeleton);
-            this.handleLoadIconsHide();
-        }
-    };
-
     onLoad() {
         //override super
+    }
+
+    async loadHiddenIcons() {
+        console.log("schedule loadHiddenIcons ", Math.floor(Date.now() / 1000));
+        await GameUtils.delayTime(this.durationAutoHideSkeleton);
+        this.handleLoadIconsHide();
     }
 
     private splitWhenever<T>(filter: (element: T) => boolean, list: T[]) {
@@ -132,7 +131,9 @@ export default class LobbyMenu extends GameIconMenu {
     onInitialized() {
         const layout = this.content.getComponent(cc.Layout);
         layout.updateLayout();
-        this.triggerLoadHideIcons();
+        if (!this.skipLoadHiddenIcons) {
+            this.loadHiddenIcons();
+        }
     }
 
     addItem(id: number, prefab: cc.Prefab): cc.Node {
@@ -181,6 +182,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     handleLoadIconsHide() {
+        console.log("handleLoadIconsHide", Math.floor(Date.now() / 1000));
         this.listIconObscure?.forEach((icon) => {
             const idGame = +icon.node.name;
             icon.loadAnimation(idGame);
@@ -255,6 +257,7 @@ export default class LobbyMenu extends GameIconMenu {
         if (this.currentCategory === category) {
             return;
         }
+        console.log("lobby menu set category", category, isUpdateIcons);
         this.currentCategory = category;
         this.saveCategory();
         !!isUpdateIcons && this.updateIcons();

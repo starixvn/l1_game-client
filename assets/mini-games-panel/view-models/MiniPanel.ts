@@ -204,8 +204,10 @@ export default class MiniPanel extends BaseComponent {
 
     handleWhenNotJoinRoomGame(gameId) {
         const uiManager = GameUIManager.getInstance();
-        this.isOpenSS0 && uiManager.emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
-        !GameUtils.isMiniGame(gameId) && uiManager.emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
+        // this.isOpenSS0 && uiManager.emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
+        // if (!GameUtils.isMiniGame(gameId)) {
+        uiManager.emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
+        // }
     }
 
     redirectToResultPage(redirectUrl) {
