@@ -1,8 +1,6 @@
-import TableGameBase from "./TableGameBase";
-import MD5Component from "../../_base/view-models/MD5Component";
 import GameIdSprite from "../../../common/GameIdSprite";
-import UmWarning from "../../../common/um-warning/UmWarning";
 import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
+import UmWarning from "../../../common/um-warning/UmWarning";
 import {
     closeGame,
     initMusicBackground,
@@ -10,8 +8,10 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame
+    outRoomGame,
 } from "../../_base/action/GameRoomActions";
+import MD5Component from "../../_base/view-models/MD5Component";
+import TableGameBase from "./TableGameBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -95,6 +95,10 @@ export default class StandAloneTableGameBase extends TableGameBase {
 
     onGameHide() {
         super.onGameHide();
+        this.closeGame();
+    }
+
+    onDisconnected() {
         this.closeGame();
     }
 }
