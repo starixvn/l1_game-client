@@ -39,7 +39,7 @@ export default class LobbyMenu extends GameIconMenu {
 
     async loadHiddenIcons() {
         await GameUtils.delayTime(this.durationAutoHideSkeleton);
-        this.handleLoadIconsHide();
+        this.handleLoadHiddenIcons();
     }
 
     private splitWhenever<T>(filter: (element: T) => boolean, list: T[]) {
@@ -180,7 +180,7 @@ export default class LobbyMenu extends GameIconMenu {
         return iconNode;
     }
 
-    handleLoadIconsHide() {
+    handleLoadHiddenIcons() {
         this.listIconObscure?.forEach((icon) => {
             const idGame = +icon.node.name;
             icon.loadAnimation(idGame);
