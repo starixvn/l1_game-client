@@ -14,9 +14,8 @@ export default class GameUIManager {
     public emitterStorages: EmitterStorageType[] = [];
     public emitter: EventEmitterBase;
     static Events = {
-        LOAD_ALL_BANNERS: "banner: update",
-        RELOAD_LOBBY: "lobby: change",
-        LOAD_HIDDEN_ICONS: "icon: load all icons hide"
+        LOAD_OTHER_ICONS_AND_BANNERS: "lobby: load other icons and banners",
+        OPEN_GAME_MINI: "lobby: open game mini"
     };
 
     public static getInstance(): GameUIManager {

@@ -87,6 +87,7 @@ export default class MainGame extends cc.Component {
     signName: any;
     private isSSOGameMini = false;
     private isSSOToGame = false;
+    private loadedOtherIconsAndBanners = false;
 
     onDestroy() {
         cc.RedT.MiniPanel = null;
@@ -119,20 +120,22 @@ export default class MainGame extends cc.Component {
 
     initGameUIEvents() {
         const manager = GameUIManager.getInstance();
-        manager.emitterListener(GameUIManager.Events.LOAD_ALL_BANNERS, (param) => {
-            this.initBanners(param);
-            this.isSSOGameMini && manager.emitter.emit(GameUIManager.Events.LOAD_HIDDEN_ICONS);
-            this.miniPanel?.isOpenSS0 && (this.miniPanel.isOpenSS0 = false);
+        manager.emitterListener(GameUIManager.Events.LOAD_OTHER_ICONS_AND_BANNERS, () => {
+            this.loadOtherIconsAndBanners();
         });
-        manager.emitterListener(GameUIManager.Events.RELOAD_LOBBY, () => {
-            console.log("Events.RELOAD_LOBBY");
-            this.loadLobby(true);
+
+        manager.emitterListener(GameUIManager.Events.OPEN_GAME_MINI, () => {
+            this.loadOtherIconsAndBanners();
         });
-        manager.emitterListener(GameUIManager.Events.LOAD_HIDDEN_ICONS, () => this.loadHiddenIcons());
     }
 
-    loadHiddenIcons() {
+    loadOtherIconsAndBanners() {
+        if (this.loadedOtherIconsAndBanners) {
+            return;
+        }
+        this.loadedOtherIconsAndBanners = true;
         this.lobbyMenu.loadHiddenIcons();
+        this.banner.reloadBanner(true);
     }
 
     initPromotions() {
@@ -142,8 +145,8 @@ export default class MainGame extends cc.Component {
 
     removeGameUIEvent() {
         const manager = GameUIManager.getInstance();
-        manager.removeEmitterListener(GameUIManager.Events.LOAD_ALL_BANNERS);
-        manager.removeEmitterListener(GameUIManager.Events.RELOAD_LOBBY);
+        manager.removeEmitterListener(GameUIManager.Events.LOAD_OTHER_ICONS_AND_BANNERS);
+        manager.removeEmitterListener(GameUIManager.Events.OPEN_GAME_MINI);
     }
 
     initScrollListener() {
@@ -286,14 +289,16 @@ export default class MainGame extends cc.Component {
         this.isSSOToGame = window.openGameId && parseInt(window.openGameId) > 0;
         if (this.isSSOToGame) {
             this.isSSOGameMini = this.isSSOToGame && GameUtils.isMiniGame(window.openGameId);
-            this.miniPanel.isOpenSS0 = true;
+            this.loadLobby(false);
             this.openGameSSO(() => {
                 this.openLuckyWheel();
             });
         } else if (sessionManager.getInRoomGameId()) {
+            this.loadLobby(false);
             this.reloadCurrentRoomGame();
         } else {
             window.isSSO && this.openLuckyWheel();
+            this.loadedOtherIconsAndBanners = true;
             this.loadLobby(true);
         }
     }
@@ -335,7 +340,7 @@ export default class MainGame extends cc.Component {
         lobbyMenu.miniPanel = this.miniPanel;
 
         this.lobbyMenu = lobbyMenu;
-        if (this.isSSOToGame && !this.isSSOGameMini) {
+        if (this.isSSOToGame) {
             this.lobbyMenu.skipLoadHiddenIcons = true;
         }
     }

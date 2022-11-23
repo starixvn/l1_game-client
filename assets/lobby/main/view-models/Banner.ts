@@ -25,7 +25,6 @@ export default class Banner extends cc.Component {
     bannerPrefabNode: cc.Node = null;
 
     private async init() {
-        console.log("banner init");
         const prefab = await GameUtils.loadResource(`lobby/banner/bannerContainer`);
         const bannerPrefabNode = cc.instantiate(prefab);
         this.bannerPrefabNode = bannerPrefabNode;
@@ -48,8 +47,6 @@ export default class Banner extends cc.Component {
         if (!this.adsBannerController) {
             await this.init();
         }
-
-        console.log("banner reloadBanner", needLoadAllBanners);
         this.adsBannerController.node.destroyAllChildren();
         const filterList: number[] = this.getGameIdOfferBanner(needLoadAllBanners);
         await this.adsBannerController.setGameAds(filterList);

@@ -61,7 +61,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                 gameComponent.initMiniPanel(this.main);
                 this.main.addMiniGame(gameComponent, gameId);
                 gameComponent.openGame();
-                GameUIManager.getInstance().emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
+                GameUIManager.getInstance().emitter.emit(GameUIManager.Events.OPEN_GAME_MINI);
             } catch (error) {
                 console.error(error);
                 this.main.loading.node.active = false;
@@ -98,7 +98,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             this.initMiniGameSocketListeners(socket, gameId, gameName, null);
             socket.on("signedIn", () => {
                 if (!this.main.isAlive()) {
-                    this.main.isOpenSS0 = false;
                     return;
                 }
                 this.openMiniGame(gameId);

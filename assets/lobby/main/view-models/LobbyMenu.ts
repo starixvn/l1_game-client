@@ -38,7 +38,6 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async loadHiddenIcons() {
-        console.log("schedule loadHiddenIcons ", Math.floor(Date.now() / 1000));
         await GameUtils.delayTime(this.durationAutoHideSkeleton);
         this.handleLoadIconsHide();
     }
@@ -182,7 +181,6 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     handleLoadIconsHide() {
-        console.log("handleLoadIconsHide", Math.floor(Date.now() / 1000));
         this.listIconObscure?.forEach((icon) => {
             const idGame = +icon.node.name;
             icon.loadAnimation(idGame);
@@ -257,7 +255,6 @@ export default class LobbyMenu extends GameIconMenu {
         if (this.currentCategory === category) {
             return;
         }
-        console.log("lobby menu set category", category, isUpdateIcons);
         this.currentCategory = category;
         this.saveCategory();
         !!isUpdateIcons && this.updateIcons();

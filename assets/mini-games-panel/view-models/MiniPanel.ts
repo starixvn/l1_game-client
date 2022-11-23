@@ -83,7 +83,6 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
-    public isOpenSS0 = false;
     public boostedOdds: BoostedOdds;
     public promotionAnnouncement: PromotionAnnouncements;
 
@@ -204,10 +203,7 @@ export default class MiniPanel extends BaseComponent {
 
     handleWhenNotJoinRoomGame(gameId) {
         const uiManager = GameUIManager.getInstance();
-        // this.isOpenSS0 && uiManager.emitter.emit(GameUIManager.Events.LOAD_ALL_BANNERS, true);
-        // if (!GameUtils.isMiniGame(gameId)) {
-        uiManager.emitter.emit(GameUIManager.Events.RELOAD_LOBBY);
-        // }
+        uiManager.emitter.emit(GameUIManager.Events.LOAD_OTHER_ICONS_AND_BANNERS);
     }
 
     redirectToResultPage(redirectUrl) {
