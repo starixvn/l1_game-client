@@ -9,6 +9,7 @@ import FruitSlotChipView from "../view-models/FruitSlotChipView";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import { updatePreviousBets } from "../../_base_new/actions/BetAction";
 import { ChipType } from "../FruitSlotType";
+
 export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     constructor(protected readonly main: FruitSlot) {
         super(main);
@@ -17,6 +18,8 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     private _betAmount = 0;
     private readonly chipScaleX = 0.3;
     private readonly chipScaleY = 0.22;
+    private readonly durationMoveChipDefault = 0.7;
+    private readonly lowValueChip = 1e-8;
 
     handle(data: any) {
         if (this.main.isStopGame || this.main.isDisableGame) {
@@ -113,19 +116,22 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
             startNode = this.main.otherPlayers;
             this.updateOtherDataStorage(data);
         }
-        const chips = this.getChipValues(amount, rate);
+        const convertValue = GameUtils.getValueByCurrency(amount, rate);
+        const chipValues = GameUtils.getChipQuantity(convertValue, this.main.betChips?.chipValues);
+
         let indexChipValue = 0;
-        Object.keys(chips).forEach((chipValue) => {
-            const quantity = chips[chipValue];
+        Object.keys(chipValues).forEach((chipValue) => {
+            const quantity = chipValues[chipValue];
             for (let i = 0; i < quantity; i++) {
-                const duration = indexChipValue * 0.1 + 0.7;
+                const betAmount = +chipValue === 0 ? this.lowValueChip : +chipValue;
+                const duration = indexChipValue * 0.1 + this.durationMoveChipDefault;
                 this.main.node.runAction(
                     cc.sequence(
                         cc.delayTime(duration),
                         cc.callFunc(() =>
                             this.placeOtherPlayerChip({
                                 betChoice: betChoice,
-                                amount: +chipValue,
+                                amount: betAmount,
                                 startNode: startNode,
                                 durationMoveChip: duration,
                                 rate: rate
@@ -141,8 +147,9 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     }
 
     placeOtherPlayerChip(data: { betChoice: string; amount: number; startNode: cc.Node; durationMoveChip: number; rate: number }) {
+        this.calculateTotalBetAmount(data.betChoice, data.amount);
         const chipType: ChipType = {
-            betAmount: data.amount,
+            betAmount: data.amount === this.lowValueChip ? 0 : data.amount,
             betChoice: data.betChoice,
             durationMoveChip: data.durationMoveChip,
             startNode: data.startNode,
@@ -167,17 +174,11 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     }
 
     handleChipStack(chipStack: ChipType) {
-        const { betAmount, betChoice, durationMoveChip, totalBet, startNode, isOwnBet, rate } = chipStack;
-        let totalBetAmount = totalBet;
-        if (!isOwnBet) {
-            this.calculateTotalBetAmount(betChoice, betAmount);
-            totalBetAmount = this.main.gameData.totalBetAmount[betChoice];
-        }
+        const { betAmount, betChoice, durationMoveChip, totalBet, startNode, isOwnBet } = chipStack;
         const betItem = lodash.find(this.main.betItems, (item) => item.node.name.toLowerCase() === betChoice.toLowerCase());
         const destNode = betItem.chipNode;
         this.main.betOptionsUI?.playSingleChipsSound(isOwnBet);
         const chipNode = this.main.betChips.createSmallChip(betAmount);
-
         chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
         destNode.addChild(chipNode);
         let destPosition = cc.v2(0, 0);
@@ -190,17 +191,16 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
                 actionMove,
                 cc.callFunc(() => {
                     chipNode.destroy();
-                    this.addChipStack(destNode, totalBetAmount, rate);
+                    this.addChipStack(destNode, totalBet);
                 })
             )
         );
     }
-    isPlayerBySameCurrency(rate: number) {
-        return rate === cc.RedT.user.rate;
-    }
 
-    createChipStackOnBetOption(totalBet: number, betChips: BetChips, skewX: number, rate: number) {
-        const chipValues = this.getChipValues(totalBet, rate);
+    createChipStackOnBetOption(totalBet: number, betChips: BetChips, skewX: number, isRejoinGame: boolean) {
+        console.log("totalBet", totalBet);
+        const convertValue = isRejoinGame ? GameUtils.getValueByCurrency(totalBet || 0) : totalBet;
+        const chipValues = GameUtils.getChipQuantity(convertValue, this.main.betChips?.chipValues);
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
         chipStack.chipSize = 26;
@@ -231,9 +231,9 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         return node;
     }
 
-    addChipStack(destNode: cc.Node, totalAmount: number, rate = cc.RedT.user.rate) {
+    addChipStack(destNode: cc.Node, totalAmount: number, isRejoinGame = false) {
         const nameChipStack = "chipStackNode";
-        const chipStack = this.createChipStackOnBetOption(totalAmount, this.main.betChips, destNode.skewX, rate);
+        const chipStack = this.createChipStackOnBetOption(totalAmount, this.main.betChips, destNode.skewX, isRejoinGame);
 
         chipStack.zIndex = -1;
         chipStack.scaleX = this.chipScaleX;
@@ -246,12 +246,5 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
         oldChipStack && destNode.removeChild(oldChipStack);
         oldChipStack?.destroy();
         destNode.addChild(chipStack, -1, nameChipStack);
-    }
-
-    getChipValues(amount: number, rate: number) {
-        const convertValue = GameUtils.getValueByCurrency(amount, rate);
-        const betValue = this.isPlayerBySameCurrency(rate) ? amount : convertValue;
-        const chipValues = GameUtils.getChipQuantity(betValue, this.main.betChips?.chipValues);
-        return chipValues;
     }
 }
