@@ -44,9 +44,9 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.betOptionsUI.resetUIBettingZone();
+        this.main.betOptionsUI?.resetUIBettingZone();
         this.main.countdownLightAnim(true);
-        this.main.betOptionsUI.playBettingAnim(true);
+        this.main.betOptionsUI?.playBettingAnim(true);
         this.main.updateShowAnimSettlementStatus();
     }
 

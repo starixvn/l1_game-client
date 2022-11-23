@@ -198,7 +198,6 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     }
 
     createChipStackOnBetOption(totalBet: number, betChips: BetChips, skewX: number, isRejoinGame: boolean) {
-        console.log("totalBet", totalBet);
         const convertValue = isRejoinGame ? GameUtils.getValueByCurrency(totalBet || 0) : totalBet;
         const chipValues = GameUtils.getChipQuantity(convertValue, this.main.betChips?.chipValues);
         const node = new cc.Node();

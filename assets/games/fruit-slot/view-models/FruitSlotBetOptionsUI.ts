@@ -58,9 +58,13 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         }
     }
 
+    updateBigSmallResultBackground(opacity: number) {
+        this.bigSmallResultBackground.opacity = opacity;
+    }
+
     resetUIBettingZone() {
         this.bigSmallResult.string = "";
-        this.bigSmallResultBackground.opacity = 0;
+        this.updateBigSmallResultBackground(0);
         this.playBettingAnim(true);
         this.betItems?.forEach((item) => {
             item.node.opacity = 255;
@@ -91,7 +95,7 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
 
     playSpinSound() {
         if (this.spinAudio) {
-            AudioManager.getInstance().playSFX(this.spinAudio.clip);           
+            AudioManager.getInstance().playSFX(this.spinAudio.clip);
         }
     }
 }

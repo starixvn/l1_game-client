@@ -28,7 +28,7 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
     game.finishShowResult = false;
     const delaySpinAnim = 6.5;
 
-    cc.tween(game.spinItems)
+    cc.tween(game?.spinItems)
         .call(() => {
             spinItemAnimation(game)(finish, delaySpinAnim);
             playLedLightAnimation(game.betOptionsUI);
@@ -37,7 +37,7 @@ export const handleShowResult = (game: FruitSlot) => (finish: FruitSlotFinishMod
         .delay(delaySpinAnim)
         .call(() => {
             highlightBigSmallWinning(game.betOptionsUI)(finish);
-            if (game.betOptionsUI && game.betOptionsUI.bigSmallResult) {
+            if (game.betOptionsUI && game.betOptionsUI?.bigSmallResult) {
                 game.betOptionsUI.bigSmallResult.string = formatBigSmallResult(finish.result.bigSmall.value);
             }
         })
@@ -51,7 +51,7 @@ export const handleAfterSettlementResult = (game: FruitSlot) => (finish: FruitSl
     game.miniRoundHistory.addNewItem(finish);
     game.gameData.betModel.ownBets = {};
     game.gameData.totalBetAmount = new FruitSlotChoices();
-    payChips(game, transformSettlementResult(finish.settlementResult), finish.winningPlayers, 1.2, 3, true);
+    payChips(game, transformSettlementResult(finish.settlementResult), finish.winningPlayers, 0.6, 2, true);
 };
 
 const transformSettlementResult = (settlementResult: FruitSlotSettlementResult) => {
