@@ -121,10 +121,12 @@ export default class MainGame extends cc.Component {
     initGameUIEvents() {
         const manager = GameUIManager.getInstance();
         manager.emitterListener(GameUIManager.Events.LOAD_OTHER_ICONS_AND_BANNERS, () => {
+            console.log("Events.LOAD_OTHER_ICONS_AND_BANNERS");
             this.loadOtherIconsAndBanners();
         });
 
         manager.emitterListener(GameUIManager.Events.OPEN_GAME_MINI, () => {
+            console.log("Events.OPEN_GAME_MINI");
             this.loadOtherIconsAndBanners();
         });
     }
@@ -133,6 +135,7 @@ export default class MainGame extends cc.Component {
         if (this.loadedOtherIconsAndBanners) {
             return;
         }
+        console.log("Lobby call loadOtherIconsAndBanners");
         this.loadedOtherIconsAndBanners = true;
         this.lobbyMenu.loadHiddenIcons();
         this.banner.reloadBanner(true);
