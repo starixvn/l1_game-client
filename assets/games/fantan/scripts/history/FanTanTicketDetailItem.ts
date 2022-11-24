@@ -1,3 +1,4 @@
+import { i18n } from "../../../../ClientModules";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
@@ -40,13 +41,16 @@ export default class FanTanTicketDetailItem extends cc.Component {
     renderBetChoice(choice: string) {
         const textArr = choice.split(/([0-9]+)/);
         const textStr = textArr[0];
-        const text = textStr.charAt(0).toUpperCase() + textStr.slice(1);
+        let text = textStr.charAt(0).toUpperCase() + textStr.slice(1);
         let numberStr = "";
         if (textArr.length > 1) {
             numberStr = textArr[1]
                 .split("")
                 .map((a) => a + " ")
                 .join("");
+        } else {
+            const choice = `ui.choice_${textStr}`;
+            text = i18n.t(choice);
         }
 
         return numberStr + text;

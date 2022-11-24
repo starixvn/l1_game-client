@@ -27,7 +27,7 @@ export default class StandAloneTableGameHistoryItem extends cc.Component {
         this.time.string = getStringDateByTime(time);
         this.roundId.string = roundId;
         this.stake.string = numberWithCommas(this.handleStake(settlementResult, data));
-        this.win.string = betwin;
+        this.win.string = numberWithCommas(betwin, 2);
         this.handleResult(result);
         this.handleStake(settlementResult, data);
         this.data = data;
