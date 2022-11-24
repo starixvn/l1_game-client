@@ -501,8 +501,9 @@ export default class GameUtils {
     public static calculateWin(originalChoices: string[], roundHistory: any) {
         return roundHistory.reduce((count: any, history) => {
             originalChoices.forEach((choice) => {
+                count[choice] = count[choice] ?? 0;
                 if (history.settlementResult[choice]) {
-                    count[choice] = (count[choice] ?? 0) + 1;
+                    count[choice] = count[choice] + 1;
                 }
             });
             return count;
