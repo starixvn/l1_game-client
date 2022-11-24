@@ -9,9 +9,6 @@ export default class FanTanStatBoard extends StatisticBoard {
     @property(BeadRoad)
     beadRoad: BeadRoad = null;
 
-    @property
-    isBeadRoad = false;
-
     percentChoices = ["even", "odd"];
 
     onChangedSupportChoices() {
@@ -25,7 +22,7 @@ export default class FanTanStatBoard extends StatisticBoard {
     calculateWin(originalChoices: string[], roundHistory: any) {
         let percentage = {};
         let percentBetChoices: string[];
-        if (this.isBeadRoad) {
+        if (this.beadRoad) {
             percentBetChoices = this.percentChoices;
             percentage = GameUtils.calculateWin(this.percentChoices, roundHistory);
         } else {

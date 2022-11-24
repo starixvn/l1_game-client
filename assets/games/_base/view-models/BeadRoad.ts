@@ -25,8 +25,8 @@ export default class BeadRoad extends cc.Component {
     @property
     rowMax = 5;
 
+    nextItem: cc.Node = null;
     private scrollView: cc.ScrollView = null;
-    private nextItem: cc.Node = null;
     private itemNodes: cc.Node[] = [];
     private _showNext = false;
 
@@ -52,7 +52,7 @@ export default class BeadRoad extends cc.Component {
 
     checkScrollViewActivation() {
         const scrollEnable = this.content.width > this.scrollView.node.width;
-        this.scrollView.enabled = scrollEnable;
+        this.scrollView.horizontal = scrollEnable;
     }
 
     createNextItem() {
@@ -80,16 +80,21 @@ export default class BeadRoad extends cc.Component {
     }
 
     updateDisplay() {
-        const nodes = [...this.itemNodes];
+        let nodes = [...this.itemNodes];
+        nodes = this.addNode(nodes);
+        this.nextItem && (this.nextItem.active = this._showNext);
+        this.updatePositions(nodes);
+        this.updateContentSize(nodes);
+    }
+
+    addNode(nodes: cc.Node[]) {
         if (this._showNext) {
             if (!this.nextItem) {
                 this.nextItem = this.createNextItem();
             }
             nodes.unshift(this.nextItem);
         }
-        this.nextItem && (this.nextItem.active = this._showNext);
-        this.updatePositions(nodes);
-        this.updateContentSize(nodes);
+        return nodes;
     }
 
     updatePositions(nodes: cc.Node[]) {
