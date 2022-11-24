@@ -42,7 +42,8 @@ export default class LotteryTicketDetailItem extends cc.Component {
             Object.keys(values).forEach((choiceValue, index) => {
                 const winCount = LotteryHelper.getWinOnChoice(choiceKey, choiceValue, settlementResult);
                 const bet = numberWithCommas(values[choiceValue]);
-                const ratio = winCount > 1 ? `${odds[choiceKey]} (x${winCount})` : `${odds[choiceKey]}`;
+                const oddsValue = cc.RedT.user?.fractionalOddsFormat ? numberWithCommas(+odds[choiceKey] - 1, 2) : odds[choiceKey];
+                const ratio = winCount > 1 ? `${oddsValue} (x${winCount})` : `${oddsValue}`;
                 const winAmount = odds[choiceKey] * winCount * values[choiceValue];
                 const win = numberWithCommas(winAmount, 2);
                 const isOthers = choiceKey === "others";

@@ -46,7 +46,7 @@ export default class HoldemPokerTicketDetailItem extends cc.Component {
         this.stake.string = numberWithCommas(bet.stake);
         this.win.string = numberWithCommas(bet.win);
         this.time.string = getStringHourByTime(bet.time);
-        this.odd.string = bet.odds ? bet.odds : "-";
+        this.odd.string = cc.RedT.user?.fractionalOddsFormat && bet.odds ? numberWithCommas(+bet.odds - 1, 2) : bet.odds || "-";
         this.setBgItem(index, totalRow);
         if (bet.win > 0) {
             this.stake.node.color = cc.Color.YELLOW;
