@@ -183,6 +183,8 @@ export default class GameUtils {
 
         if (!!gameConfiguration.remoteBundle) {
             const bundleManager = BundleManager.getInstance();
+            const loading = miniPanel.getGameLoadingComp(gameId);
+            loading.setLoadingVisibility(true);
 
             await bundleManager.loadBundle(gameId.toString());
             await preloadAssets(gameId.toString());
