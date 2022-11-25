@@ -48,21 +48,20 @@ export default class SkeletonIcon extends cc.Component {
         }
     }
 
-    async loadAnimation(id: number, isLoaded = false) {
-        if (isLoaded) {
-            this.hideSkeleton();
+    async loadAnimation(id: number) {
+        let prefab: cc.Prefab;
+        if (SkeletonIcon.iconAnimationCache[id]) {
+            prefab = SkeletonIcon.iconAnimationCache[id];
+        } else {
+            prefab = await GameUtils.loadGameIcon(id);
         }
+        this.hideSkeleton();
 
-        const prefab = await GameUtils.loadGameIcon(id);
         const gameNode = cc.instantiate(prefab);
         this.gameContent?.addChild(gameNode);
         this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id));
 
-        if (!isLoaded) {
-            this.hideSkeleton();
-        }
-
-        SkeletonIcon.iconAnimationCache[id] = true;
+        SkeletonIcon.iconAnimationCache[id] = prefab;
     }
 
     private hideSkeleton() {
