@@ -100,18 +100,11 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     abstract getCustomDuration(type: string): number;
 
     onLoad() {
-        super.onLoad();
-        this.initForMusicBackground();
+        super.onLoad();        
         this.setDefaultPositionForMiniMenu();
         this.initForHoldActionButton();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
-    }
-
-    initForMusicBackground() {
-        const audioManager = AudioManager.getInstance();
-        this.playMusicBackground(audioManager.musicEnabled);
-        audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
-    }
+    }    
 
     initForHoldActionButton() {
         this.holdActionButton.checkPreventFunctioning = () => {
@@ -325,28 +318,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
         node.position = promotionNode.position = cc.v3(node.x, localPosition.y);
-    }
-
-    async playMusicBgCallback() {
-        await AudioManager.getInstance().awaitForReady();
-        if (AudioManager.getInstance().musicEnabled) {
-            this.musicBg.play();
-        }
-    }
-
-    playMusicBackground(play: boolean) {
-        const musicPlayer = MusicPlayer.getInstance();
-        if (play) {
-            if (musicPlayer.isPlayBgMusic) {
-                this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
-            } else {
-                this.playMusicBgCallback();
-            }
-        } else {
-            this.unschedule(this.playMusicBgCallback);
-            this.musicBg?.stop();
-        }
-    }
+    }    
 
     initShowBottomMessage(node: cc.Node) {
         this.bottomMessage = node.getComponent(SlotGameBottomMessage);

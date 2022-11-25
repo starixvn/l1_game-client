@@ -1,6 +1,7 @@
 import _ = require("lodash");
 
 import { lazyInject } from "../../Application";
+import AudioManager from "../../common/audio/AudioManager";
 import MusicPlayer from "../../common/audio/MusicPlayer";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
@@ -70,6 +71,7 @@ export default class WebSocketTableGameBase extends GameBase {
         this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
         initMusicBackground(this)();
+        this.initOwnGameMusicBackground();
     }
 
     onDestroy() {
@@ -126,6 +128,36 @@ export default class WebSocketTableGameBase extends GameBase {
         }
         this.closeGame();
         sessionManager.removeInRoomGameId();
+    }
+
+    initOwnGameMusicBackground() {
+        const audioManager = AudioManager.getInstance();
+        if (this.musicBg) {
+            this.playMusicBackground(audioManager.musicEnabled);
+            audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
+        }
+        
+    }
+
+    async playMusicBgCallback() {
+        await AudioManager.getInstance().awaitForReady();
+        if (AudioManager.getInstance().musicEnabled) {
+            this.musicBg.play();
+        }
+    }
+
+    playMusicBackground(play: boolean) {
+        const musicPlayer = MusicPlayer.getInstance();
+        if (play) {
+            if (musicPlayer.isPlayBgMusic) {
+                this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
+            } else {
+                this.playMusicBgCallback();
+            }
+        } else {
+            this.unschedule(this.playMusicBgCallback);
+            this.musicBg?.stop();
+        }
     }
 
     closeGame() {

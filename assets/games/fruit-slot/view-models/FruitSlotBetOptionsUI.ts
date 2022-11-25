@@ -91,11 +91,5 @@ export default class FruitSlotBetOptionsUI extends cc.Component {
         if (this.winAudio) {
             AudioManager.getInstance().playSFX(this.winAudio.clip);
         }
-    }
-
-    playSpinSound() {
-        if (this.spinAudio) {
-            AudioManager.getInstance().playSFX(this.spinAudio.clip);
-        }
-    }
+    }    
 }

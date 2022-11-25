@@ -951,21 +951,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
 
         this.updateBottomMessageStatus();
-    }
-
-    playMusicBackground(play: boolean) {
-        const musicPlayer = MusicPlayer.getInstance();
-        if (play) {
-            if (musicPlayer.isPlayBgMusic) {
-                this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
-            } else {
-                this.playMusicBgCallback();
-            }
-        } else {
-            this.unschedule(this.playMusicBgCallback);
-            this.musicBg.stop();
-        }
-    }
+    }    
 
     playSound(type: SlotGameSound) {
         AudioManager.getInstance().playSFX(this.soundSources[type].clip);

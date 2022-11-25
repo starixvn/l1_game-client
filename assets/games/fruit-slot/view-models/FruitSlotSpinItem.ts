@@ -1,3 +1,5 @@
+import AudioManager from "../../../common/audio/AudioManager";
+import FruitSlotBetOptionsUI from "./FruitSlotBetOptionsUI";
 import FruitSlotSymbolSpineAnimation from "./FruitSlotSymbolSpineAnimation";
 const { ccclass, property } = cc._decorator;
 
@@ -8,6 +10,9 @@ export default class FruitSlotSpinItem extends cc.Component {
 
     @property(cc.Node)
     symbolSpineAnim: cc.Node = null;
+
+    @property(cc.AudioSource)
+    spinAudio: cc.AudioSource = null;   
 
     public setHighlightItems(highlight: boolean, isRepeatAnim: boolean, isAnimated = true) {
         if (this.highlight) {
@@ -31,6 +36,12 @@ export default class FruitSlotSpinItem extends cc.Component {
         if (this.symbolSpineAnim) {
             this.symbolSpineAnim.getComponent(FruitSlotSymbolSpineAnimation).playAnimSymbol(true);
             this.symbolSpineAnim.getComponent(FruitSlotSymbolSpineAnimation).highlightSymbol(true);
+        }
+    }
+
+    public playSpinSound() {
+        if (this.spinAudio) {
+            AudioManager.getInstance().playSFX(this.spinAudio.clip);
         }
     }
 
