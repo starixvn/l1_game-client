@@ -182,8 +182,10 @@ export default class GameBase extends GameViewBase {
     rebetButton: RebetButton;
 
     // using multiplay game
-    public gameData: any;
-    public onDisconnectCallback = () => {};
+    public gameData: GameData;
+    public onDisconnectCallback = () => {
+        // handle
+    };
     protected managedByContainer = false;
     emitterStorages: EmitterStorage[] = [];
     internalTweenNodes: cc.Node[] = [];
@@ -286,7 +288,9 @@ export default class GameBase extends GameViewBase {
     }
 
     /** Register with game on server */
-    public registerViewGame() {}
+    public registerViewGame() {
+        // handle
+    }
 
     onSignIn() {
         if (!this.node.active) {
@@ -658,9 +662,13 @@ export default class GameBase extends GameViewBase {
         return this.hideUmDataKeys.some((key) => data[key] !== undefined);
     }
 
-    openHistory() {}
+    openHistory() {
+        // handle
+    }
 
-    onCloseGame() {}
+    onCloseGame() {
+        // handle
+    }
 
     needShowNextDot() {
         return !this.needHideNextDotRoundHistory && this.normalShowNextDotCondition();
@@ -745,11 +753,17 @@ export default class GameBase extends GameViewBase {
         this.gameData.settlement.clearStatus();
     }
 
-    cleanGame() {}
+    cleanGame() {
+        // handle
+    }
 
-    grantSocket() {}
+    grantSocket() {
+        // handle
+    }
 
-    initSocketListener() {}
+    initSocketListener() {
+        // handle
+    }
 
     sendSocketData(eventName: string, data: any) {
         this.socket && this.socket.connected && this.socket.emit(eventName, data);
@@ -822,8 +836,12 @@ export default class GameBase extends GameViewBase {
         this.sendSocketData("rebet", betData);
     }
 
+    isPlacingBet() {
+        return this.gameData.durations.isPlacingBet();
+    }
+
     checkRebetStatus(): boolean {
-        if (!this.previousOwnBets || !this.gameData.durations.isPlacingBet()) {
+        if (!this.previousOwnBets || !this.isPlacingBet()) {
             return false;
         }
 

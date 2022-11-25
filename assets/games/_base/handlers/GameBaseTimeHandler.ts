@@ -147,6 +147,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     handleInRoundTime() {
         this.showRoundTime();
         this.main.setGameRound(this.main.roundId);
+        this.main.updateRebetButtonStatus();
     }
 
     /**

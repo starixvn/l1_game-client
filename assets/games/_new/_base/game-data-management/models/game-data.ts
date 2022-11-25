@@ -20,6 +20,9 @@ export class GameData extends EventEmitterBase {
     readonly totalBets: TotalBets;
     readonly userHandler: UserHandler;
     md5Data: any;
+    betModel: any;
+    settlement: any;
+    gameConfigs: any;
 
     get isUnderMaintenance() {
         return this.underMaintenanceFlag;

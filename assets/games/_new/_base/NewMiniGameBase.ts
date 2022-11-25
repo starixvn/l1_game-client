@@ -40,4 +40,8 @@ export default class NewMiniGameBase extends SocketIOMiniGameBase {
         this.currentMiniPanel.addDialog(dialog);
         this.newHistoryComp.showDialog();
     }
+
+    isPlacingBet() {
+        return this.gameData.durations.isPlacingBet();
+    }
 }
