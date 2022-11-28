@@ -123,6 +123,8 @@ export default class SocketIOMiniGameBase extends GameBase {
 
     onDestroy() {
         super.onDestroy();
-        this.socketIOController.closeSocket(this.gameId);
+        if (!this.managedByContainer) {
+            this.socketIOController.closeSocket(this.gameId);
+        }
     }
 }
