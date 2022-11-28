@@ -37,7 +37,7 @@ export default class CircleMenu extends GameIconMenu {
             return;
         }
         try {
-            const gameNameNode = node.children[0].getChildByName("game_name");
+            const gameNameNode = node.getChildByName("game_name");
             const label = gameNameNode.getComponent(cc.Label);
             const text = await GameUtils.getDisplayGameName(gameId);
             label.string = text.toUpperCase();
