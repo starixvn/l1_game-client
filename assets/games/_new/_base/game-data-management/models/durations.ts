@@ -74,6 +74,9 @@ export class Durations extends EventEmitterBase {
 
     set remaining(value: number) {
         this._remaining = value;
+        if (value === 0) {
+            this.emit(Durations.Events.TIMEOUT);
+        }
         this.calculateAndEmitEvent();
     }
 
@@ -95,7 +98,6 @@ export class Durations extends EventEmitterBase {
         } else {
             if (this.remaining > 0) {
                 this.remaining = 0;
-                this.emit(Durations.Events.TIMEOUT);
             }
         }
     }
