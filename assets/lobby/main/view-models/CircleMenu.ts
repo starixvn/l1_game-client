@@ -32,12 +32,18 @@ export default class CircleMenu extends GameIconMenu {
         return Promise.resolve(gameId === 0 ? this.homeIcon : this.skeletonPrefab);
     }
 
-    private updateGameName(gameId: number, node: cc.Node) {
+    private async updateGameName(gameId: number, node: cc.Node) {
         if (gameId === 0) {
             return;
         }
-        const gameNameNode = node.children[0].getChildByName("game_name");
-        gameNameNode.getComponent("LocalizedLabelWithFormat").dataId = `gameNames.${gameId}`;
+        try {
+            const gameNameNode = node.children[0].getChildByName("game_name");
+            const label = gameNameNode.getComponent(cc.Label);
+            const text = await GameUtils.getDisplayGameName(gameId);
+            label.string = text.toUpperCase();
+        } catch (e) {
+            console.warn(e);
+        }
     }
 
     async loadGameIcon(gameId: number, node: cc.Node) {
