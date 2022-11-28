@@ -17,6 +17,9 @@ export default class CircleMenu extends GameIconMenu {
     @property(cc.Prefab)
     skeletonPrefab: cc.Prefab = null;
 
+    @property(cc.Prefab)
+    homeIcon: cc.Prefab = null;
+
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
@@ -26,17 +29,30 @@ export default class CircleMenu extends GameIconMenu {
     }
 
     loadPrefab(gameId: number): Promise<cc.Prefab> {
-        return Promise.resolve(this.skeletonPrefab);
+        return Promise.resolve(gameId === 0 ? this.homeIcon : this.skeletonPrefab);
     }
 
     private updateGameName(gameId: number, node: cc.Node) {
+        if (gameId === 0) {
+            return;
+        }
         const gameNameNode = node.children[0].getChildByName("game_name");
         gameNameNode.getComponent("LocalizedLabelWithFormat").dataId = `gameNames.${gameId}`;
     }
 
     async loadGameIcon(gameId: number, node: cc.Node) {
+        if (gameId === 0) {
+            return;
+        }
         try {
-            const prefab = await GameUtils.loadResource(`minipanel/games/${gameId}`);
+            const uiManager = GameUIManager.getInstance();
+            let prefab: cc.Prefab;
+            if (uiManager.prefabCache.miniPanelIcons[gameId]) {
+                prefab = uiManager.prefabCache.miniPanelIcons[gameId];
+            } else {
+                prefab = await GameUtils.loadResource(`minipanel/games/${gameId}`);
+                uiManager.prefabCache.miniPanelIcons[gameId] = prefab;
+            }
             node.addChild(cc.instantiate(prefab));
             node.children[0].active = false;
         } catch (e) {

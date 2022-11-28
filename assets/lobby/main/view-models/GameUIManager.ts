@@ -27,6 +27,11 @@ export default class GameUIManager {
         return this.instance;
     }
 
+    public prefabCache = {
+        lobbyIcons: {},
+        miniPanelIcons: {}
+    };
+
     initEmitter() {
         this.emitter = new EventEmitterBase();
     }
