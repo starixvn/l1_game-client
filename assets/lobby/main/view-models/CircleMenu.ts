@@ -14,6 +14,9 @@ export default class CircleMenu extends GameIconMenu {
     @property(cc.Node)
     miniMenu: cc.Node = null;
 
+    @property(cc.Prefab)
+    skeletonPrefab: cc.Prefab = null;
+
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
@@ -23,13 +26,30 @@ export default class CircleMenu extends GameIconMenu {
     }
 
     loadPrefab(gameId: number): Promise<cc.Prefab> {
-        return GameUtils.loadResource(`minipanel/games/${gameId}`);
+        return Promise.resolve(this.skeletonPrefab);
+    }
+
+    private updateGameName(gameId: number, node: cc.Node) {
+        const gameNameNode = node.children[0].getChildByName("game_name");
+        gameNameNode.getComponent("LocalizedLabelWithFormat").dataId = `gameNames.${gameId}`;
+    }
+
+    async loadGameIcon(gameId: number, node: cc.Node) {
+        try {
+            const prefab = await GameUtils.loadResource(`minipanel/games/${gameId}`);
+            node.addChild(cc.instantiate(prefab));
+            node.children[0].active = false;
+        } catch (e) {
+            console.warn(e);
+        }
     }
 
     addItem(id: number, prefab: cc.Prefab): cc.Node {
         const node = cc.instantiate(prefab);
         node.scale = 0.68;
         this.content.addChild(node);
+        this.updateGameName(id, node);
+        this.loadGameIcon(id, node);
 
         const hoverScale = node.getComponent("hoverScale");
         if (hoverScale) {
