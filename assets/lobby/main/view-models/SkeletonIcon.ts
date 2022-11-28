@@ -1,6 +1,7 @@
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import Loading from "../../../common/loading/view-models/Loading";
+import SplashConfig from "../../../splash/view-models/SplashConfig";
 import GameUIManager from "./GameUIManager";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 
@@ -29,6 +30,9 @@ export default class SkeletonIcon extends cc.Component {
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
+    @lazyInject(SplashConfig)
+    protected readonly splashConfig: SplashConfig;
+
     setGameName(text: string) {
         this.gameName.string = text;
     }
@@ -55,6 +59,9 @@ export default class SkeletonIcon extends cc.Component {
             prefab = uiManager.prefabCache.lobbyIcons[id];
         } else {
             prefab = await GameUtils.loadGameIcon(id);
+            if (!prefab) {
+                prefab = await GameUtils.loadGameIcon(id, this.splashConfig.customPath);
+            }
         }
         this.hideSkeleton();
 
