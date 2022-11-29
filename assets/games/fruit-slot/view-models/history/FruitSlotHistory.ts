@@ -63,7 +63,7 @@ export interface BetLog {
 @ccclass
 export default class FruitSlotHistory extends BetHistory {
     @property(cc.Node)
-    ticketDetailContent: cc.Node;
+    ticketDetailContent: cc.Node = null;
 
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
