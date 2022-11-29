@@ -88,7 +88,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "groupIntoFourSeedsContainer",
+    "_name": "groupSeedsContainer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -567,16 +567,16 @@
       "__id__": 1
     },
     "_enabled": true,
-    "SeedPrefab": {
+    "seedPreab": {
       "__uuid__": "55bd3006-b867-48a8-98c9-ec8c0de50c76"
     },
-    "SeedsRoot": {
+    "seedContainer": {
       "__id__": 8
     },
-    "BowlAnimation": {
+    "bowlSpine": {
       "__id__": 11
     },
-    "ResultNumberSprites": [
+    "resultSpriteFrames": [
       {
         "__uuid__": "1f732597-7fc0-443c-9b06-0483ded91432"
       },
@@ -590,7 +590,7 @@
         "__uuid__": "ce0ca274-a458-400f-a862-7495c73bb51a"
       }
     ],
-    "groupIntoFourSeedsContainer": {
+    "groupSeedsContainer": {
       "__id__": 2
     },
     "resultNumber": {

@@ -7,19 +7,19 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class FantanBowlAnimation extends cc.Component {
     @property(cc.Prefab)
-    SeedPrefab: cc.Prefab = null;
+    seedPreab: cc.Prefab = null;
 
     @property(cc.Node)
-    SeedsRoot: cc.Node = null;
+    seedContainer: cc.Node = null;
 
     @property(sp.Skeleton)
     bowlSpine: sp.Skeleton = null;
 
     @property({ type: cc.SpriteFrame })
-    ResultNumberSprites: cc.SpriteFrame[] = [];
+    resultSpriteFrames: cc.SpriteFrame[] = [];
 
     @property(cc.Node)
-    groupIntoFourSeedsContainer: cc.Node = null;
+    groupSeedsContainer: cc.Node = null;
 
     @property(cc.Sprite)
     resultNumber: cc.Sprite = null;
@@ -131,13 +131,13 @@ export default class FantanBowlAnimation extends cc.Component {
             this.prevSmallBowlPos = this.bowlSpine.node.convertToWorldSpaceAR(cc.v3(this.smallBowlBone.worldX, this.smallBowlBone.worldY));
             if (0 === Seed.BigBowlSeedPool.length) {
                 for (let e = 0; e < this.BigBowlSeedNumbers; e++) {
-                    const seedNode = cc.instantiate(this.SeedPrefab);
-                    this.SeedsRoot.addChild(seedNode);
+                    const seedNode = cc.instantiate(this.seedPreab);
+                    this.seedContainer.addChild(seedNode);
                     Seed.BigBowlSeedPool.push(seedNode.getComponent(Seed));
                 }
             }
 
-            const r = this.SeedsRoot.convertToNodeSpaceAR(originalBigBowl);
+            const r = this.seedContainer.convertToNodeSpaceAR(originalBigBowl);
             for (const seed of Seed.BigBowlSeedPool) {
                 seed.Velocity = cc.Vec3.ZERO;
                 seed.node.position = cc.v3(
@@ -187,7 +187,7 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     handleBigBowlMove(bigBowlWPos: cc.Vec3, deltaPos: cc.Vec3, smallRadius: number, bigRadius: number) {
-        const bigBowlInSeedRootPos = this.SeedsRoot.convertToNodeSpaceAR(bigBowlWPos);
+        const bigBowlInSeedRootPos = this.seedContainer.convertToNodeSpaceAR(bigBowlWPos);
         const smallRadiusSqr = smallRadius * smallRadius;
         const bigRadiusSqr = bigRadius * bigRadius;
         for (const seed of Seed.BigBowlSeedPool) {
@@ -258,7 +258,7 @@ export default class FantanBowlAnimation extends cc.Component {
 
     handleSmallBowlMove(smallBowlWPos, smallBowlRadius) {
         const radiusSqr = smallBowlRadius * smallBowlRadius;
-        const smallBowlInSeedRootPos = this.SeedsRoot.convertToNodeSpaceAR(smallBowlWPos);
+        const smallBowlInSeedRootPos = this.seedContainer.convertToNodeSpaceAR(smallBowlWPos);
         for (const seed of [...Seed.BigBowlSeedPool, ...Seed.SmallBowlSeedPool]) {
             if (seed.node.active) {
                 const aWpos = seed.node.convertToWorldSpaceAR(cc.v3());
@@ -311,13 +311,13 @@ export default class FantanBowlAnimation extends cc.Component {
         if (!this.diplayedSeeds) {
             return;
         }
-        const t = this.SeedsRoot.convertToNodeSpaceAR(this.prevSmallBowlPos),
+        const t = this.seedContainer.convertToNodeSpaceAR(this.prevSmallBowlPos),
             n = Seed.SmallBowlSeedPool.length;
         let r;
         if (n < numbersOfSeed) {
             for (r = 0; r < numbersOfSeed - n; ++r) {
-                const i = cc.instantiate(this.SeedPrefab);
-                i.parent = this.SeedsRoot;
+                const i = cc.instantiate(this.seedPreab);
+                i.parent = this.seedContainer;
                 Seed.SmallBowlSeedPool.push(i.getComponent(Seed));
             }
         }
@@ -418,7 +418,7 @@ export default class FantanBowlAnimation extends cc.Component {
                 this.seedGroups.push(r);
                 delay += 230;
             }
-            const d = [0, this.groupIntoFourSeedsContainer.y],
+            const d = [0, this.groupSeedsContainer.y],
                 p = this.diplayedSeeds.length,
                 h = 20 * (p - 1),
                 delayTime = delay / 1e3;
@@ -432,14 +432,14 @@ export default class FantanBowlAnimation extends cc.Component {
             }
             this.setResultNumberSprite(p);
             if (animated) {
-                this.groupIntoFourSeedsContainer.opacity = 0;
+                this.groupSeedsContainer.opacity = 0;
                 const spawn = cc.spawn(cc.callFunc(resolve), cc.fadeIn(0.5));
                 const resultNumberAction = cc.sequence(cc.delayTime(delayTime), spawn);
 
-                this.groupIntoFourSeedsContainer.stopAllActions();
-                this.groupIntoFourSeedsContainer.runAction(resultNumberAction);
+                this.groupSeedsContainer.stopAllActions();
+                this.groupSeedsContainer.runAction(resultNumberAction);
             } else {
-                this.groupIntoFourSeedsContainer.opacity = 255;
+                this.groupSeedsContainer.opacity = 255;
                 resolve();
             }
         });
@@ -460,9 +460,9 @@ export default class FantanBowlAnimation extends cc.Component {
         }
         this.seedGroups.length = 0;
         if (noAnimated) {
-            this.groupIntoFourSeedsContainer.active = false;
+            this.groupSeedsContainer.active = false;
         } else {
-            this.FadeOut(this.groupIntoFourSeedsContainer, 200, 0, true);
+            this.FadeOut(this.groupSeedsContainer, 200, 0, true);
         }
     }
 
@@ -470,7 +470,7 @@ export default class FantanBowlAnimation extends cc.Component {
         for (const seed of Seed.BigBowlSeedPool) {
             if (seed.node.active) {
                 const r = this.prevBigBowlPos.sub(seed.node.convertToNodeSpaceAR(cc.v3(0))).magSqr(),
-                    i = this.SeedsRoot.convertToNodeSpaceAR(this.prevBigBowlPos);
+                    i = this.seedContainer.convertToNodeSpaceAR(this.prevBigBowlPos);
                 if (r > this.BigBowlRandomWidth) {
                     seed.Velocity = cc.Vec3.ZERO;
                     seed.node.position = cc.v3(
@@ -484,7 +484,7 @@ export default class FantanBowlAnimation extends cc.Component {
 
     setResultNumberSprite(resultNumber: number) {
         this.resultNumber.node.active = true;
-        this.resultNumber.spriteFrame = this.ResultNumberSprites[resultNumber - 1];
+        this.resultNumber.spriteFrame = this.resultSpriteFrames[resultNumber - 1];
     }
 
     startRound() {
