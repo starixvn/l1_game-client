@@ -1,5 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import FruitSlotSymbolSpineAnimation from "./FruitSlotSymbolSpineAnimation";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -11,7 +12,7 @@ export default class FruitSlotSpinItem extends cc.Component {
     symbolSpineAnim: cc.Node = null;
 
     @property(cc.AudioSource)
-    spinAudio: cc.AudioSource = null;   
+    spinAudio: cc.AudioSource = null;
 
     public setHighlightItems(highlight: boolean, isRepeatAnim: boolean, isAnimated = true) {
         if (this.highlight) {

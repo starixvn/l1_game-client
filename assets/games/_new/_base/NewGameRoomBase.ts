@@ -30,7 +30,6 @@ export default class NewGameRoomBase extends SocketIOTableGameBase {
     }
 
     onDataGameRoom(data: any) {
-        // console.log(JSON.stringify(data, null, 2));
         super.onDataGameRoom(data);
         if (this.gameData) {
             this.gameData.receiveData(data);

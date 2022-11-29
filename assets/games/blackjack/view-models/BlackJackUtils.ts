@@ -1,5 +1,4 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import GameUtils from "../../../common/GameUtils";
 
 export default class BlackJackUtils {
@@ -35,34 +34,6 @@ export default class BlackJackUtils {
     }
 
     public static createChipStack(bet: number, betChips: BetChips, shadowFrame: cc.SpriteFrame, skewX: number) {
-        const values = GameUtils.getChipQuantity(bet, betChips.chipValues);
-        const node = new cc.Node();
-        const chipStack = node.addComponent(ChipStack);
-        chipStack.chipSize = 26;
-        chipStack.thickness = 10;
-        chipStack.skewX = skewX;
-
-        const keys = Object.keys(values).sort((a, b) => +b - +a);
-        let firstChip = true;
-        keys.forEach((chip) => {
-            const count = values[chip];
-            for (let i = 0; i < count; i++) {
-                let chipNode: cc.Node;
-                if (+chip === 0) {
-                    chipNode = betChips.createLowValueChip();
-                } else {
-                    chipNode = betChips.createBigChip(+chip);
-                }
-                chipStack.addChip(chipNode);
-
-                if (firstChip && i === 0) {
-                    firstChip = false;
-                    const shadow = new cc.Node();
-                    shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
-                    chipNode.addChild(shadow);
-                }
-            }
-        });
-        return node;
+        return GameUtils.createChipStack(bet, betChips, shadowFrame, skewX);
     }
 }
