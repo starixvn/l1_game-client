@@ -28,7 +28,7 @@ export default class MD5Tooltip extends cc.Component {
     eventOnHover() {
         this.tip.setData(this.data);
         this.tip.show(!!this.data);
-        cc.tween(this.tip.node).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
+        cc.tween(this.tip.node).to(0.2, { opacity: 255 }).delay(2).to(0.1, { opacity: 0 }).start();
     }
 
     eventOnTouchStart() {
