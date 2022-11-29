@@ -1,7 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../common/audio/AudioManager";
-import MusicPlayer from "../../common/audio/MusicPlayer";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import UserProfile from "../../common/user-profile/UserProfile";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
@@ -100,11 +99,11 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     abstract getCustomDuration(type: string): number;
 
     onLoad() {
-        super.onLoad();        
+        super.onLoad();
         this.setDefaultPositionForMiniMenu();
         this.initForHoldActionButton();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
-    }    
+    }
 
     initForHoldActionButton() {
         this.holdActionButton.checkPreventFunctioning = () => {
@@ -318,7 +317,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const wPosition = this.defaultMiniMenu.convertToWorldSpaceAR(cc.v2(0, 0));
         const localPosition = node.parent.convertToNodeSpaceAR(wPosition);
         node.position = promotionNode.position = cc.v3(node.x, localPosition.y);
-    }    
+    }
 
     initShowBottomMessage(node: cc.Node) {
         this.bottomMessage = node.getComponent(SlotGameBottomMessage);

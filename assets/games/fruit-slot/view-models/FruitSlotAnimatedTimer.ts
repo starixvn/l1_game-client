@@ -35,7 +35,7 @@ export default class FruitSlotAnimatedTimer extends AnimatedTime {
         this.firstChar.string = firstTimeChar;
         this.secondChar.string = secondTimeChar;
 
-        const colorChange = forceChangeColor || (this.timeToChangeColor != undefined && time <= this.timeToChangeColor);
+        const colorChange = forceChangeColor || (this.timeToChangeColor !== undefined && time <= this.timeToChangeColor);
         this.firstChar.node.color = colorChange ? this.changedColor : cc.Color.WHITE;
         this.secondChar.node.color = this.firstChar.node.color;
 

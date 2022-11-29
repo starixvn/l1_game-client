@@ -70,8 +70,7 @@ export const setBgVisibility = (node: cc.Node, visible: boolean, animated = true
 };
 
 export const formatBigSmallResult = (result: number) => {
-    const resultText = result < 10 ? "0" + result.toString() : result.toString();
-    return resultText;
+    return result < 10 ? "0" + result.toString() : result.toString();
 };
 
 export const randomNumberAnimation = (betOptionsUI: FruitSlotBetOptionsUI) => (timeDuration: number) => {
@@ -88,7 +87,7 @@ export const randomNumberAnimation = (betOptionsUI: FruitSlotBetOptionsUI) => (t
                     if (currentIndex !== node) {
                         currentIndex = node;
 
-                        const numberText = arr[currentIndex] < 10 ? "0" + arr[currentIndex].toString() : arr[currentIndex].toString();
+                        const numberText = formatBigSmallResult(arr[currentIndex]);
                         betOptionsUI.bigSmallResult && (betOptionsUI.bigSmallResult.string = numberText);
                     }
                 }
@@ -162,7 +161,7 @@ export const playLedLightAnimation = async (betOptionsUI: FruitSlotBetOptionsUI)
                         for (; index < nextIndex; index++) {
                             const position = index % numberOfSymbols;
                             if (betOptionsUI?.ledZone) {
-                                betOptionsUI?.ledZone.children[position].getComponent(FruitSlotLedLightItem)?.setHighlightItems();                                
+                                betOptionsUI?.ledZone.children[position].getComponent(FruitSlotLedLightItem)?.setHighlightItems();
                             }
                         }
                     }
@@ -182,7 +181,7 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
     setBgVisibility(game.betOptionsUI.bgLockSpin, false);
     game.betOptionsUI?.betItems?.forEach((betItem: FruitSlotBetItem) => {
         betItem.node.opacity = 150;
-    });    
+    });
 
     if (game.betOptionsUI?.spinItems && game.betOptionsUI?.spinItems[firstPosition]) {
         if (!finish.result.isLucky) {
@@ -199,7 +198,7 @@ export const spinItemAnimation = (game: FruitSlot) => async (finish: any, timeDu
                 const totalSteps = (symbolPositions[i + 1] - symbolPositions[i] + numberOfSymbols) % numberOfSymbols;
                 const nextPosition = symbolPositions[i] + totalSteps + 48;
                 const winSymbol = getWinningOption(finish.result.symbols[i]);
-                
+
                 await executeAnim(4, symbolPositions[i], nextPosition, numberOfSymbols, game.betOptionsUI?.spinItems);
                 game.betOptionsUI?.spinItems?.[symbolPositions[i + 1]].playSpineSymbolAnimation();
                 game.betOptionsUI?.playWinSound();

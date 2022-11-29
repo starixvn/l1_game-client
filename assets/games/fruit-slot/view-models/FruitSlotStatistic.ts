@@ -1,5 +1,5 @@
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 import FruitSlotMiniRoundHistoryItem from "./FruitSlotMiniRoundHistoryItem";
 
@@ -34,8 +34,8 @@ export default class FruitSlotStatistic extends cc.Component {
     private readonly maxCol = 20;
     private isRenderNext = false;
     private rounds: FruitSlotRoundHistory[] = [];
-    private items: cc.Node[] = [];
-    private symbolsKey = {
+    private readonly items: cc.Node[] = [];
+    private readonly symbolsKey = {
         bar: "bar",
         tripleSeven: "tripleSeven",
         star: "star",
@@ -45,7 +45,7 @@ export default class FruitSlotStatistic extends cc.Component {
         lemon: "lemon",
         cherry: "cherry"
     };
-    private relatedSymbol = {
+    private readonly relatedSymbol = {
         bar: ["bar", "bar50", "bar25"],
         tripleSeven: ["tripleSeven", "tripleSeven3"],
         star: ["star", "star3"],

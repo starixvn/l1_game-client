@@ -1,20 +1,19 @@
-import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
-import FruitSlot from "../view-models/FruitSlot";
-import GameUtils from "../../../common/GameUtils";
-import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
-import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import { lodash } from "../../../ClientModules";
-import FruitSlotChipView from "../view-models/FruitSlotChipView";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import ChipStack from "../../../common/chip-stack/views/ChipStack";
+import GameUtils from "../../../common/GameUtils";
+import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
+import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import { updatePreviousBets } from "../../_base_new/actions/BetAction";
 import { ChipType } from "../FruitSlotType";
+import FruitSlot from "../view-models/FruitSlot";
+import FruitSlotChipView from "../view-models/FruitSlotChipView";
 
 export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
     constructor(protected readonly main: FruitSlot) {
         super(main);
     }
 
-    private _betAmount = 0;
     private readonly chipScaleX = 0.3;
     private readonly chipScaleY = 0.22;
     private readonly durationMoveChipDefault = 0.7;
@@ -81,10 +80,6 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
             }
         }
         return destPosition;
-    }
-
-    getBetAmount(): number {
-        return this._betAmount;
     }
 
     placeOwnChip(data) {

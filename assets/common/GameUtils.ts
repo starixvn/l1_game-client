@@ -5,10 +5,10 @@ import { getGameConfiguration } from "../configs/GameConfigurations";
 import GameUIManager from "../lobby/main/view-models/GameUIManager";
 import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
-import { numberWithCommas } from "./helpers/NumberHelper";
-import { preloadAssets } from "./PreloadRemoteAsset";
 import BetChips from "./bet-chips/view-models/BetChips";
 import ChipStack from "./chip-stack/views/ChipStack";
+import { numberWithCommas } from "./helpers/NumberHelper";
+import { preloadAssets } from "./PreloadRemoteAsset";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 

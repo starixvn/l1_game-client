@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 
 import AudioManager from "../../common/audio/AudioManager";
-import MusicPlayer from "../../common/audio/MusicPlayer";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableMenu";
 import GameUtils from "../../common/GameUtils";
@@ -951,7 +950,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
 
         this.updateBottomMessageStatus();
-    }    
+    }
 
     playSound(type: SlotGameSound) {
         AudioManager.getInstance().playSFX(this.soundSources[type].clip);

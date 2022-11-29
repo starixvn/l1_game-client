@@ -1,7 +1,7 @@
 import GameBaseTimeHandler from "../../_base/handlers/GameBaseTimeHandler";
 import { formatBigSmallResult, getWinningOption, highlightWinningSymbol, setBgVisibility } from "../actions/FruitSlotWinningAction";
-import FruitSlot from "../view-models/FruitSlot";
 import { FruitSlotResult } from "../FruitSlotType";
+import FruitSlot from "../view-models/FruitSlot";
 
 const { ccclass, property } = cc._decorator;
 
