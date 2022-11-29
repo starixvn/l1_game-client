@@ -59,6 +59,8 @@ export default class FantanBowlAnimation extends cc.Component {
 
     private readonly BigBowlSeedNumbers = 100;
     private readonly seedAccelerator = 0.5;
+    private readonly animationShakingName = "shakingBeads";
+    private readonly animationOpenName = "openBowl";
 
     private get BigBowlRandomWidth() {
         return this.node.scale * 50;
@@ -81,7 +83,7 @@ export default class FantanBowlAnimation extends cc.Component {
     }
 
     public showStaticResult(numbersOfSeed) {
-        this.pauseSpineAnimation(this.bowlSpine, 0.99, "uncover");
+        this.pauseSpineAnimation(this.bowlSpine, 0.99, this.animationOpenName);
 
         const animated = false;
         this.generateResultSeeds(numbersOfSeed);
@@ -105,7 +107,7 @@ export default class FantanBowlAnimation extends cc.Component {
         this.bigBowlBone = this.bowlSpine.findBone("bigBowl");
         this.smallBowlBone = this.bowlSpine.findBone("smallBowl");
         this.initNewSeeds();
-        this.pauseSpineAnimation(this.bowlSpine, 0, "uncover");
+        this.pauseSpineAnimation(this.bowlSpine, 0, this.animationOpenName);
         this.bowlSpine.clearTracks();
     }
 
@@ -149,7 +151,7 @@ export default class FantanBowlAnimation extends cc.Component {
 
     async playShakingAnimation() {
         this.isPlayingAnimation = true;
-        this.bowlSpine.setAnimation(0, "shaking", false);
+        this.bowlSpine.setAnimation(0, this.animationShakingName, false);
         this.bowlSpine.timeScale = 1;
         this.animationElapsedTime = 0;
         this.bowlSpine.updateWorldTransform();
@@ -287,12 +289,12 @@ export default class FantanBowlAnimation extends cc.Component {
         this.smallBowlBone.update();
         this.prevSmallBowlPos = this.bowlSpine.node.convertToWorldSpaceAR(cc.v3(this.smallBowlBone.worldX, this.smallBowlBone.worldY));
         this.bowlSpine.node.active = true;
-        this.bowlSpine.setAnimation(0, "uncover", false);
+        this.bowlSpine.setAnimation(0, this.animationOpenName, false);
         this.bowlSpine.timeScale = 1;
         try {
             await GameUtils.delayTime(100 / 1e3);
             this.generateResultSeeds(numbersOfSeed);
-            const n = 1e3 * this.bowlSpine.findAnimation("uncover").duration;
+            const n = 1e3 * this.bowlSpine.findAnimation(this.animationOpenName).duration;
 
             await GameUtils.delayTime(n / 1e3);
             this.moveSeedsToArc();
@@ -489,7 +491,7 @@ export default class FantanBowlAnimation extends cc.Component {
         this.ResetBigBowlSeeds();
     }
 
-    pauseSpineAnimation(spineAnimation: sp.Skeleton, startProgress: number, animationName = "shaking") {
+    pauseSpineAnimation(spineAnimation: sp.Skeleton, startProgress: number, animationName = this.animationShakingName) {
         spineAnimation.node.active = true;
         spineAnimation.timeScale = 0;
         spineAnimation.setAnimation(0, animationName, false);
