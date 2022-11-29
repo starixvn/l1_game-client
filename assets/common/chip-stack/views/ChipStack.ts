@@ -12,7 +12,7 @@ export default class ChipStack extends cc.Component {
     }
 
     addChip(chipNode: cc.Node) {
-        chipNode.position = cc.v2(this.calcPositionX(), this.getCurrentHeight());
+        chipNode.position = cc.v3(this.calcPositionX(), this.getCurrentHeight());
         this.node.addChild(chipNode);
     }
 

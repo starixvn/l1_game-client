@@ -24,8 +24,8 @@ export default class FruitSlotAnimatedTimer extends AnimatedTime {
 
     public setTime(time: number | string, forceChangeColor = false) {
         this.node.active = true;
-        const firstTimeChar = time.toString().substr(0, 1);
-        const secondTimeChar = time.toString().substr(1, 1);
+        const firstTimeChar = time.toString().slice(0, 1);
+        const secondTimeChar = time.toString().slice(1, 1);
 
         if (this.firstChar.string !== firstTimeChar) {
             this.handleBetTimeAnimation(this.firstChar.node);
