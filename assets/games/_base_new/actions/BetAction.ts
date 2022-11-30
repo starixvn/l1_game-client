@@ -10,7 +10,7 @@ export const updateTotalBets = (gameBase: MiniGameBase) => (data) => {
 };
 
 export const updateOwnBets = (gameBase: MiniGameBase) => (data) => {
-    if (gameBase.isDisableGame) {
+    if (gameBase.isDisableGame || gameBase.isStartingRound()) {
         return;
     }
     gameBase.betItems.forEach((item) => item.setOwnBetsData(data));

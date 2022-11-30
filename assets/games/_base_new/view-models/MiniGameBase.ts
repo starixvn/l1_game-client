@@ -414,4 +414,8 @@ export default class MiniGameBase extends NewMiniGameBase {
             this.gameData.durations.isBeingSpecificPhase(Durations.Events.STARTING_ROUND)
         );
     }
+
+    isStartingRound() {
+        return this.gameData.durations.isBeingSpecificPhase(Durations.Events.STARTING_ROUND);
+    }
 }
