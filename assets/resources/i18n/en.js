@@ -330,7 +330,7 @@ const data = {
         clear: "Clear",
         close: "Close",
         confirm: "Confirm",
-        history: "Ticket History",
+        history: "Bet History",
         round_history: "Round History",
         preset_bet: "Preset Stake",
         refund: "Refund",
