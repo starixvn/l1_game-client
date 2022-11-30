@@ -89,7 +89,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     protected totalFreeSpins = 0;
     protected cacheApiError: any = null;
     protected isHoldAction: boolean;
-    protected enabledBottomMessage = true;
 
     public gameData: FeatureSlotGameData;
 
@@ -250,7 +249,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     updateBottomMessageStatus() {
-        if (!this.enabledBottomMessage) {
+        if (!this.bottomMessage) {
             return;
         }
         this.bottomMessage.isAutoSpin = this.isAutoSpinMode() && !this.isFreeSpin();

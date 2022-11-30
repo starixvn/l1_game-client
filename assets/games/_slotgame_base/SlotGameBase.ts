@@ -472,7 +472,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     setAutoSpinCount(count: number) {
         this.autoSpinCount = count;
-        if (this.enabledBottomMessage && this.bottomMessage) {
+        if (this.bottomMessage) {
             this.bottomMessage.autoSpinCount = count;
         } else {
             this.spinButton && this.spinButton.setAutoSpinCount(count);

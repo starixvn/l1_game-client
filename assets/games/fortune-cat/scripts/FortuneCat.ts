@@ -9,6 +9,5 @@ export default class FortuneCat extends SlotGameBase {
     constructor() {
         super();
         this.gameId = FortuneCatsId;
-        this.enabledBottomMessage = false;
     }
 }
