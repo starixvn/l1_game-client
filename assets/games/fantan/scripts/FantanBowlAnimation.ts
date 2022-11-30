@@ -336,7 +336,7 @@ export default class FantanBowlAnimation extends cc.Component {
             return;
         }
 
-        this.playBeadsMassSound();
+        animated && this.playBeadsMassSound();
         for (let e = 1.1 * Math.PI, t = (0.2 * Math.PI) / this.diplayedSeeds.length, n = 0; n < this.diplayedSeeds.length; n++) {
             const o = this.diplayedSeeds[n];
             o.IsPhysicsEnabled = false;
@@ -403,7 +403,7 @@ export default class FantanBowlAnimation extends cc.Component {
                         s.node.runAction(
                             cc.sequence(
                                 cc.delayTime(delay / 1e3),
-                                cc.callFunc(() => this.playBeadsColumnSound())
+                                cc.callFunc(() => animated && this.playBeadsColumnSound())
                             )
                         );
                     }
