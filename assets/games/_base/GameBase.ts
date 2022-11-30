@@ -524,7 +524,6 @@ export default class GameBase extends GameViewBase {
     }
 
     public applyPromotion(values) {
-        this.gameConfigs.odds = values;
         this.betItems.forEach((item) => item.setOdd(values[item.node.name]));
     }
 

@@ -2,7 +2,6 @@ import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler"
 import FruitSlot from "../view-models/FruitSlot";
 import GameUtils from "../../../common/GameUtils";
 import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
-import ChipView from "../../../common/bet-chips/view-models/ChipView";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import { lodash } from "../../../ClientModules";
 import FruitSlotChipView from "../view-models/FruitSlotChipView";

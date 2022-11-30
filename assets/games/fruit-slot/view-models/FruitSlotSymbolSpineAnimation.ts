@@ -15,7 +15,7 @@ export default class FruitSlotSymbolSpineAnimation extends cc.Component {
 
     playAnimSymbol(play: boolean) {
         const anim = play ? SymbolAnimationType.PLAY : SymbolAnimationType.IDLE;
-        for (let animSymbol of this.animSkeleton) {
+        for (const animSymbol of this.animSkeleton) {
             animSymbol.setAnimation(0, anim, true);
         }
     }

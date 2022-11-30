@@ -1,5 +1,4 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import FruitSlotBetOptionsUI from "./FruitSlotBetOptionsUI";
 import FruitSlotSymbolSpineAnimation from "./FruitSlotSymbolSpineAnimation";
 const { ccclass, property } = cc._decorator;
 

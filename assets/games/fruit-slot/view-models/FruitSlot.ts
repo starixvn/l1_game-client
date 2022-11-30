@@ -12,7 +12,6 @@ import { FruitSlotFinishModel, handleAfterSettlementResult, handleShowResult } f
 import FruitSlotBetItem from "./FruitSlotBetItem";
 import FruitSlotSpinItem from "./FruitSlotSpinItem";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
-import { i18n, lodash } from "../../../ClientModules";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 import { FruitSlotBetHandler } from "../event-handlers/FruitSlotBetHandler";
 import { CountdownAnimationType } from "../FruitSlotType";
