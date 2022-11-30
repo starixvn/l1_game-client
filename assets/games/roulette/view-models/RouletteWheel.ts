@@ -273,7 +273,7 @@ export default class RouletteWheel extends cc.Component {
     setWheelContactZone(t, e) {
         return (
             (t += e) <= 0 && (t += this.sectorsNumber),
-            1 == t || 3 == t || Math.round(Math.random()) ? (t += this.sectorsNumber) : (t += 0),
+            1 == t || 3 == t || Math.round(_.random(true)) ? (t += this.sectorsNumber) : (t += 0),
             t
         );
     }
@@ -448,43 +448,8 @@ export default class RouletteWheel extends cc.Component {
             }
         ];
         this.wheelNumbersIndices = [
-            0,
-            32,
-            15,
-            19,
-            4,
-            21,
-            2,
-            25,
-            17,
-            34,
-            6,
-            27,
-            13,
-            36,
-            11,
-            30,
-            8,
-            23,
-            10,
-            5,
-            24,
-            16,
-            33,
-            1,
-            20,
-            14,
-            31,
-            9,
-            22,
-            18,
-            29,
-            7,
-            28,
-            12,
-            35,
-            3,
-            26
+            0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33, 1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12,
+            35, 3, 26
         ];
         this.numbersColorsVOs = [
             { id: -1, value: " ", color: "empty" },

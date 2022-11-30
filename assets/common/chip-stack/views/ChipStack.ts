@@ -1,3 +1,5 @@
+import { lodash } from "../../../ClientModules";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -26,7 +28,7 @@ export default class ChipStack extends cc.Component {
 
     calcPositionX() {
         if (this.skewX === 0) {
-            return Math.floor(Math.random() * 3 - Math.random() * 4);
+            return lodash.random(-3, 3);
         }
 
         let positionX = 0;

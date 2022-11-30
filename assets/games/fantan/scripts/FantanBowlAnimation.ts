@@ -1,3 +1,4 @@
+import { lodash } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import Seed from "./Seed";
@@ -141,8 +142,8 @@ export default class FantanBowlAnimation extends cc.Component {
             for (const seed of Seed.BigBowlSeedPool) {
                 seed.Velocity = cc.Vec3.ZERO;
                 seed.node.position = cc.v3(
-                    r.x + this.BigBowlRandomWidth * (Math.random() - 0.5),
-                    r.y + this.BigBowlRandomWidth * (Math.random() - 0.5)
+                    r.x + this.BigBowlRandomWidth * (lodash.random(true) - 0.5),
+                    r.y + this.BigBowlRandomWidth * (lodash.random(true) - 0.5)
                 );
                 seed.node.active = true;
             }
@@ -324,7 +325,7 @@ export default class FantanBowlAnimation extends cc.Component {
 
         for (r = 0; r < numbersOfSeed; r++) {
             const i = Seed.SmallBowlSeedPool[r];
-            i.node.position = cc.v3(t.x + 10 * Math.random() - 5, t.y + 10 * Math.random() - 5);
+            i.node.position = cc.v3(t.x + 10 * lodash.random(true) - 5, t.y + 10 * lodash.random(true) - 5);
             i.node.active = true;
             this.diplayedSeeds.push(i);
             i.node.stopAllActions();
@@ -341,7 +342,7 @@ export default class FantanBowlAnimation extends cc.Component {
             const o = this.diplayedSeeds[n];
             o.IsPhysicsEnabled = false;
             const i = e - t * n,
-                a = this.ArcRadius + 15 * Math.random(),
+                a = this.ArcRadius + 15 * lodash.random(true),
                 s = Math.sin(i) * a,
                 c = Math.cos(i) * a + this.SmallBowlToArcDistance;
             if (animated) {
@@ -410,8 +411,8 @@ export default class FantanBowlAnimation extends cc.Component {
                     const c = this.SeedGroupArcPosY + 15 * a,
                         l = Math.sin(i) * c * 1.2,
                         u = Math.cos(i) * c;
-                    const x = l + (2 * Math.random() - 1);
-                    const y = u + (1 * Math.random() - 1);
+                    const x = l + (2 * lodash.random(true) - 1);
+                    const y = u + (1 * lodash.random(true) - 1);
                     moveSeedToColumn(s, x, y);
                     r.push(s);
                 }
@@ -474,8 +475,8 @@ export default class FantanBowlAnimation extends cc.Component {
                 if (r > this.BigBowlRandomWidth) {
                     seed.Velocity = cc.Vec3.ZERO;
                     seed.node.position = cc.v3(
-                        i.x + this.BigBowlRandomWidth * (Math.random() - 0.5),
-                        i.y + this.BigBowlRandomWidth * (Math.random() - 0.5)
+                        i.x + this.BigBowlRandomWidth * (lodash.random(true) - 0.5),
+                        i.y + this.BigBowlRandomWidth * (lodash.random(true) - 0.5)
                     );
                 }
             }

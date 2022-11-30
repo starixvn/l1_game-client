@@ -1,3 +1,4 @@
+import { lodash } from "../../../ClientModules";
 import FruitSlotTimeHandler from "../event-handlers/FruitSlotTimeHandler";
 import { FruitSlotRoundHistory } from "../event-models/FruitSlotRoundHistory";
 import FruitSlot from "../view-models/FruitSlot";
@@ -75,7 +76,7 @@ export const formatBigSmallResult = (result: number) => {
 
 export const randomNumberAnimation = (betOptionsUI: FruitSlotBetOptionsUI) => (timeDuration: number) => {
     let currentIndex = 0;
-    const arr = Array.from({ length: 100 }, () => Math.floor(Math.random() * 14));
+    const arr = Array.from({ length: 100 }, () => lodash.random(1, 14));
     cc.tween({ itemIndex: 0 })
         .to(
             timeDuration,
