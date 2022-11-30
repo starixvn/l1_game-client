@@ -151,5 +151,8 @@ export default class AudioManager {
     set sfxEnabled(value: boolean) {
         cc.sys.localStorage.setItem(SFXStorageKey, value);
         this.onSfxChanged(value);
+        if (!value) {
+            this.stopAllSFX();
+        }
     }
 }
