@@ -345,13 +345,6 @@ export default class MiniGameBase extends NewMiniGameBase {
         }
     }
 
-    clearData() {
-        this.gameData.betModel.clearData();
-        this.gameData.totalBets.clearData();
-        this.gameData.settlement.clearSettlement();
-        this.gameData.settlement.clearStatus();
-    }
-
     initMiniRoundHistory(node: cc.Node) {
         this.miniRoundHistory = node.getComponent(MiniRoundHistory);
         this.miniRoundHistory.managedByParent = true;

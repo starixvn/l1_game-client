@@ -25,7 +25,7 @@ import {
     payChipsToInGamePlayers,
     payChipsToLoginPlayer,
     payChipsToOtherPlayers,
-    showPayoutForLoginPlayer
+    showPayoutForLoginPlayer,
 } from "./action/PayChipsAction";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
@@ -46,8 +46,8 @@ import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
-import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 import RebetButton from "./view-models/RebetButton";
+import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -742,6 +742,7 @@ export default class GameBase extends GameViewBase {
         this.gameData.betModel.clearData();
         this.gameData.totalBets.clearData();
         this.gameData.settlement.clearSettlement();
+        this.gameData.settlement.clearStatus();
     }
 
     cleanGame() {}
