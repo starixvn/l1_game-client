@@ -58,6 +58,10 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
+    - project: "ci/repos-ci/pentagon_l2_mega_keno_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
     - project: "ci/repos-ci/pentagon_l1_fruit_slot_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
@@ -200,6 +204,11 @@ bundle-verification:
     <<: *build_cocos_creator_script
     extends:
         - .build:image:l1_mega_keno_client:rules
+
+.base_build_cocos_web_l1_mega_keno_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l2_mega_keno_client:rules
 
 .base_build_cocos_web_l1_fruit_slot_client:
     <<: *build_cocos_creator_script

@@ -1,4 +1,4 @@
-FROM registry.nexdev.net:5050/docker/nginx:brotli-1.20.2
+FROM hub.lumigame.com/base/nginx:brotli-1.20.2-zlib
 
 ## Add user permissions
 RUN chown -R nginx:nginx /usr/share/nginx && chmod -R 755 /usr/share/nginx && \
