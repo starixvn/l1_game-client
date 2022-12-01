@@ -190,6 +190,7 @@ export default class GameBase extends GameViewBase {
     emitterStorages: EmitterStorage[] = [];
     internalTweenNodes: cc.Node[] = [];
     readonly internalTweenTag = 99;
+    truthyRoundId: number;
     maximizeCallback = (gameId: number) => {
         //callback
     };
@@ -227,13 +228,13 @@ export default class GameBase extends GameViewBase {
         this.initHandlers();
         this.addHandlers(
             this.umHandler,
+            this.timeHandler,
             this.configsHandler,
+            this.logsHandler,
+            this.betHandler,
             this.noticeHandler,
             this.statusHandler,
-            this.betHandler,
-            this.timeHandler,
             this.errorHandler,
-            this.logsHandler,
             this.finishHandler,
             this.md5Handler,
             this.oddsHandler
@@ -321,6 +322,7 @@ export default class GameBase extends GameViewBase {
     }
 
     setGameRound(gameRoundId) {
+        this.truthyRoundId = gameRoundId;
         if (!this.gameRound || gameRoundId < 0) {
             return;
         }
@@ -837,7 +839,11 @@ export default class GameBase extends GameViewBase {
     }
 
     isPlacingBet() {
-        return this.gameData.durations.isPlacingBet();
+        if (!this.timeHandler) {
+            console.error("Warning should check isPlacingBet without time-handler");
+            return false;
+        }
+        return !this.timeHandler.isInLockBetTime && this.timeHandler.isInRoundTime;
     }
 
     checkRebetStatus(): boolean {

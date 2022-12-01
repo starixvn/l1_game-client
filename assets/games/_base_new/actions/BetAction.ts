@@ -19,7 +19,7 @@ export const updateOwnBets = (gameBase: MiniGameBase) => (data) => {
 export const updatePreviousBets = (gameBase: GameBase) => (data) => {
     if (Object.keys(data).length > 0) {
         gameBase.previousOwnBets = {
-            roundId: gameBase.roundId,
+            roundId: gameBase.truthyRoundId,
             ownBets: data
         };
         gameBase.updateRebetButtonStatus();

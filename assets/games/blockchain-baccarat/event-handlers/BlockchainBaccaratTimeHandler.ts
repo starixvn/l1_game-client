@@ -113,7 +113,6 @@ export class BlockchainBaccaratTimeHandler extends BaccaratTimeDataBaseHandler {
         clearPercentBet(this.main.betItems as BlockchainBaccaratBetItem[]);
         await cardContainer.handleFlyCards(currentCardIndex, numberCardsFlied);
         this.isResetUI = false;
-        this.main.updateRebetButtonStatus();
     }
 
     handleInLockBetTime() {

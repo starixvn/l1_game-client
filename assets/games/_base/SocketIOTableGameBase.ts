@@ -105,8 +105,4 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
         this.socketIOController.closeSocket(this.gameId);
         return super.outRoomGame();
     }
-
-    isPlacingBet() {
-        return !this.timeHandler.isInLockBetTime && this.timeHandler.isInRoundTime;
-    }
 }
