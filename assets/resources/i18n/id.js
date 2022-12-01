@@ -39,7 +39,8 @@ const data = {
         46: "Nightclub Lady",
         52: "Mega Keno",
         53: "Mega Keno 2",
-        59: "Fruit Slot"
+        59: "Fruit Slot",
+        61: "Win Three Cards"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
