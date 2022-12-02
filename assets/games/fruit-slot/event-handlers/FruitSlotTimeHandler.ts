@@ -3,9 +3,6 @@ import { formatBigSmallResult, getWinningOption, highlightWinningSymbol, setBgVi
 import { FruitSlotResult } from "../FruitSlotType";
 import FruitSlot from "../view-models/FruitSlot";
 
-const { ccclass, property } = cc._decorator;
-
-@ccclass
 export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
     isFirstJoinRoom = true;
 
