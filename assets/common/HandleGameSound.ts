@@ -1,3 +1,4 @@
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../analytics/AnalyticsManager";
 import AudioManager from "./audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
@@ -59,10 +60,22 @@ export default class HandleGameSound extends cc.Component {
     }
 
     toggleSoundOn() {
-        AudioManager.getInstance()[this.getKey()] = true;
+        const key = this.getKey();
+        AudioManager.getInstance()[key] = true;
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: TrackingAction.ToggleOn,
+            object_name: key.toUpperCase()
+        });
     }
 
     toggleSoundOff() {
-        AudioManager.getInstance()[this.getKey()] = false;
+        const key = this.getKey();
+        AudioManager.getInstance()[key] = false;
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: TrackingAction.ToggleOff,
+            object_name: key.toUpperCase()
+        });
     }
 }

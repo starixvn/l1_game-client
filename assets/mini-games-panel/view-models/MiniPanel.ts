@@ -439,7 +439,7 @@ export default class MiniPanel extends BaseComponent {
     redirectToLobby() {
         const currentSceneName = cc.director.getScene().name;
 
-        currentSceneName !== "MainGame" && cc.director.loadScene("MainGame");
+        currentSceneName !== "Lobby" && cc.director.loadScene("Lobby");
     }
 
     addDialog(dialogNode: cc.Node) {

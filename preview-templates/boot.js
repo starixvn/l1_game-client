@@ -1,29 +1,58 @@
-(function () {
-    'use strict';
+function initGA() {
+    const gaCode = "G-W13X2FGNGN";
+    loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
+        () => {
+            console.log("Init GA");
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaCode, { debug_mode: true });
+            window.gtag = gtag;
+        },
+        (reason) => {
+            console.log("Init GA failed with" + reason);
+        }
+    );
 
-    var canvas = document.getElementById('GameCanvas');
+    function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+            let script;
+            script = document.createElement("script");
+            script.src = src;
+            script.async = true;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+}
+
+(function () {
+    "use strict";
+
+    var canvas = document.getElementById("GameCanvas");
     window.onload = function () {
         if (window.__quick_compile_engine__) {
             window.__quick_compile_engine__.load(onload);
-        }
-        else {
+        } else {
             onload();
         }
     };
 
-    function onload () {
-
+    function onload() {
         // socket
         // =======================
 
         // Receives a refresh event from the editor, which triggers the reload of the page
         var socket = window.io();
-        socket.on('browser:reload', function () {
+        socket.on("browser:reload", function () {
             window.location.reload();
         });
-        socket.on('browser:confirm-reload', function () {
-            var r = confirm( 'Reload?' );
-            if ( r ) {
+        socket.on("browser:confirm-reload", function () {
+            var r = confirm("Reload?");
+            if (r) {
                 window.location.reload();
             }
         });
@@ -38,11 +67,11 @@
             cc.view.resizeWithBrowserSize(true);
 
             // Loading splash scene
-            var splash = document.getElementById('splash');
-            var progressBar = splash.querySelector('.progress-bar span');
+            var splash = document.getElementById("splash");
+            var progressBar = splash.querySelector(".progress-bar span");
 
             cc.director.once(cc.Director.EVENT_AFTER_SCENE_LAUNCH, function () {
-                splash.style.display = 'none';
+                splash.style.display = "none";
             });
 
             cc.game.pause();
@@ -50,24 +79,29 @@
             // init assets
             engineInited = true;
 
-            cc.assetManager.loadAny({url: 'preview-scene.json', __isNative__: false }, null, function (finish, totalCount) {
-                var percent = 100 * finish / totalCount;
-                if (progressBar) {
-                    progressBar.style.width = percent.toFixed(2) + '%';
+            cc.assetManager.loadAny(
+                { url: "preview-scene.json", __isNative__: false },
+                null,
+                function (finish, totalCount) {
+                    var percent = (100 * finish) / totalCount;
+                    if (progressBar) {
+                        progressBar.style.width = percent.toFixed(2) + "%";
+                    }
+                },
+                function (err, sceneAsset) {
+                    if (err) {
+                        console.error(err.message, err.stack);
+                        return;
+                    }
+                    var scene = sceneAsset.scene;
+                    scene._name = sceneAsset._name;
+                    cc.assetManager.dependUtil._depends.add(scene._id, cc.assetManager.dependUtil._depends.get("preview-scene.json"));
+                    cc.director.runSceneImmediate(scene, function () {
+                        // play game
+                        cc.game.resume();
+                    });
                 }
-            }, function (err, sceneAsset) {
-                if (err) {
-                    console.error(err.message, err.stack);
-                    return;
-                }
-                var scene = sceneAsset.scene;
-                scene._name = sceneAsset._name;
-                cc.assetManager.dependUtil._depends.add(scene._id, cc.assetManager.dependUtil._depends.get('preview-scene.json'));
-                cc.director.runSceneImmediate(scene, function () {
-                    // play game
-                    cc.game.resume();
-                });
-            });
+            );
 
             // purge
             //noinspection JSUnresolvedVariable
@@ -80,20 +114,20 @@
             showFPS: _CCSettings.debug,
             frameRate: 60,
             groupList: _CCSettings.groupList,
-            collisionMatrix: _CCSettings.collisionMatrix,
+            collisionMatrix: _CCSettings.collisionMatrix
         };
 
         cc.assetManager.init({
-            importBase: 'assets/others/import',
-            nativeBase: 'assets/others/native'
+            importBase: "assets/others/import",
+            nativeBase: "assets/others/native"
         });
 
         let { RESOURCES, INTERNAL, MAIN } = cc.AssetManager.BuiltinBundleName;
         var bundleRoot = [INTERNAL];
-		_CCSettings.hasResourcesBundle && bundleRoot.push(RESOURCES);
+        _CCSettings.hasResourcesBundle && bundleRoot.push(RESOURCES);
 
         var count = 0;
-        function cb (err) {
+        function cb(err) {
             if (err) return console.error(err);
             count++;
             if (count === bundleRoot.length + 1) {
@@ -104,12 +138,17 @@
         }
 
         // load plugins
-        cc.assetManager.loadScript(_CCSettings.jsList.map(function (x) { return '/plugins/' + x; }), cb);
+        cc.assetManager.loadScript(
+            _CCSettings.jsList.map(function (x) {
+                return "/plugins/" + x;
+            }),
+            cb
+        );
 
         // load bundles
         for (let i = 0; i < bundleRoot.length; i++) {
-            cc.assetManager.loadBundle('assets/' + bundleRoot[i], cb);
+            cc.assetManager.loadBundle("assets/" + bundleRoot[i], cb);
         }
     }
 })();
-
+initGA();

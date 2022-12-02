@@ -79,7 +79,7 @@ export const closeGame = (game: any) => () => {
         MusicPlayer.getInstance().handleIncreaseVolume();
     }
     game.outRoomGame().then(() => {
-        cc.director.loadScene("MainGame");
+        cc.director.loadScene("Lobby");
     });
 };
 

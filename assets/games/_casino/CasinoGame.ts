@@ -1,8 +1,10 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../analytics/AnalyticsManager";
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import NewButton from "../../common/custom-button/NewButton";
+import GameUtils from "../../common/GameUtils";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import InGameSwapMenu from "../../common/in-game-menu/InGameSwapMenu";
 import DataHandler from "../_base/handlers/DataHandler";
@@ -137,6 +139,15 @@ export default class CasinoGame extends NewGameRoomBase {
             !this.holdButton.getChildByName(disableButton).active && this.onHoldClick();
     }
 
+    trackSwapButtonShow() {
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            game_name: GameUtils.getGameNameString(this.gameId),
+            action: TrackingAction.Show,
+            object_name: "Swap Card"
+        });
+    }
+
     sendRetryMessage(): void {
         this.connection.emit("retry");
     }
@@ -212,6 +223,12 @@ export default class CasinoGame extends NewGameRoomBase {
     }
 
     onSwapClick() {
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            game_name: GameUtils.getGameNameString(this.gameId),
+            action: TrackingAction.Click,
+            object_name: "Swap Card"
+        });
         this.playClick();
     }
 

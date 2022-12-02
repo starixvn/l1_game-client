@@ -1,3 +1,4 @@
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import BannerItem from "./BannerItem";
@@ -228,5 +229,11 @@ export default class BannerController extends cc.Component {
         GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
         GameUIManager.getInstance().setCurrentGameId(gameId);
         GameUtils.openGame(+gameId, cc.RedT.MiniPanel);
+
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: TrackingAction.Click,
+            object_name: "Banner"
+        });
     }
 }

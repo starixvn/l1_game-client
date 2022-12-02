@@ -1,15 +1,14 @@
-import { TexasChoices, TexasChoicesConst } from "../texas-constants";
-import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import { TexasChoicesType, TexasState } from "../texas-type";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";
 import TexasGameDataModel from "../event-models/texas-game-data-model";
 import TexasPlaceBetModel from "../event-models/texas-place-bet-model";
 import TexasStateModel from "../event-models/texas-state-model";
+import { TexasChoices, TexasChoicesConst } from "../texas-constants";
+import { TexasChoicesType, TexasState } from "../texas-type";
 import Texas from "../view-models/texas";
 import TexasBettingArea from "../view-models/texas-betting-area";
 import TexasChips from "../view-models/texas-chips";
-import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";
 
 export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) => {
     switch (stateModel.state) {
@@ -42,6 +41,7 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
             main.reBetAndDealButton.active = main.newButton.active = false;
             break;
         case TexasState.dealt:
+            main.trackSwapButtonShow();
             main.swapButton.active = main.holdButton.active = true;
             break;
         case TexasState.calling_call:

@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../analytics/AnalyticsManager";
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import UserProfile from "../../common/user-profile/UserProfile";
@@ -102,6 +103,21 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.setDefaultPositionForMiniMenu();
         this.initForHoldActionButton();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
+        this.trackOnLoadEvents();
+    }
+
+    trackOnLoadEvents() {
+        const location = cc.director.getScene().name;
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location,
+            action: TrackingAction.Show,
+            object_name: "AutoSpin"
+        });
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location,
+            action: TrackingAction.Show,
+            object_name: "TurboMode"
+        });
     }
 
     initForHoldActionButton() {
@@ -137,12 +153,24 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const notice = this.showMiniWarning(message);
         notice.name = turboWarningName;
         this.updateBottomMessageStatus();
+
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: toggle.isChecked ? TrackingAction.ToggleOn : TrackingAction.ToggleOff,
+            object_name: "TurboMode"
+        });
     }
 
     onAutoSpinChanged() {
         AudioManager.getInstance().playClick();
+        const isAutoSpin = this.isAutoSpinMode();
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: isAutoSpin ? TrackingAction.ToggleOn : TrackingAction.ToggleOff,
+            object_name: "AutoSpin"
+        });
 
-        if (!this.isReadyBet() || !this.isAutoSpinMode() || !this.checkAvailableBalance()) {
+        if (!this.isReadyBet() || !isAutoSpin || !this.checkAvailableBalance()) {
             this.onAutoSpinOff();
             return;
         }

@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../analytics/AnalyticsManager";
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableMenu";
@@ -428,11 +429,17 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     onAutoSpinChanged() {
         AudioManager.getInstance().playClick();
+        const isAutoSpin = this.isAutoSpinMode();
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: isAutoSpin ? TrackingAction.ToggleOn : TrackingAction.ToggleOff,
+            object_name: "AutoSpin"
+        });
         this.expandableMenu.collapseMenu();
         this.deactiveButtons();
         this.hideStakeContrainer();
 
-        if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
+        if (!isAutoSpin || !this.checkAvailableBalance()) {
             this.resetStateButtons();
             return;
         }

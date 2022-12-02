@@ -97,7 +97,7 @@ export default class Splash extends cc.Component {
     loadScene() {
         this.loadSceneTimeout = setTimeout(
             function () {
-                cc.director.preloadScene("MainGame", this.onProgress.bind(this), this.onLoaded.bind(this));
+                cc.director.preloadScene("Lobby", this.onProgress.bind(this), this.onLoaded.bind(this));
             }.bind(this),
             100
         );
@@ -116,7 +116,7 @@ export default class Splash extends cc.Component {
         await this.preLoadGameIcons();
 
         cc.resources.loadDir("lobby/games/skeleton-icon", () => {
-            cc.director.loadScene("MainGame");
+            cc.director.loadScene("Lobby");
         });
     }
 

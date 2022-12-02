@@ -1,3 +1,4 @@
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import { removeInRoomGameId } from "../../../common/auth/SessionManager";
@@ -22,6 +23,15 @@ export default class CircleMenu extends GameIconMenu {
 
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
+
+    onLoad() {
+        super.onLoad();
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: TrackingAction.Show,
+            object_name: "MiniPanel"
+        });
+    }
 
     getList() {
         const list = this.lobbyMenuConfig.miniList;
@@ -102,11 +112,17 @@ export default class CircleMenu extends GameIconMenu {
             GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
             GameUIManager.getInstance().setCurrentGameId(id);
             GameUtils.openGame(id, this.miniPanel);
+            AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+                location: cc.director.getScene().name,
+                action: TrackingAction.Click,
+                object_name: "MiniPanel",
+                game_name: GameUtils.getGameNameString(id)
+            });
         }
     }
 
     closeGame() {
-        const lobbySceneName = "MainGame";
+        const lobbySceneName = "Lobby";
 
         if (cc.director.getScene().name !== lobbySceneName) {
             removeInRoomGameId();

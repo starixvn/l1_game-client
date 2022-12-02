@@ -53,6 +53,7 @@ export const showHideButtons = (main: HoldemPoker) => (stateModel: HoldemPokerSt
             main.reBetAndDealButton.active = main.newButton.active = false;
             break;
         case HoldemPokerState.dealt:
+            main.trackSwapButtonShow();
             main.swapButton.active = main.holdButton.active = true;
             break;
         case HoldemPokerState.calling_call:

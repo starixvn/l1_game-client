@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 import { Socket } from "socket.io-client";
 
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../analytics/AnalyticsManager";
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
@@ -825,6 +826,12 @@ export default class GameBase extends GameViewBase {
 
         this.loadRebetStorage();
         this.updateRebetButtonStatus();
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: TrackingAction.Show,
+            object_name: "RebetButton",
+            game_name: GameUtils.getGameNameString(this.gameId)
+        });
     }
 
     updateRebetButtonStatus() {
@@ -838,6 +845,12 @@ export default class GameBase extends GameViewBase {
     }
 
     onClickRebet() {
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: TrackingAction.Click,
+            object_name: "RebetButton",
+            game_name: GameUtils.getGameNameString(this.gameId)
+        });
         AudioManager.getInstance().playClick();
         if (!this.isReadyBet()) {
             return;

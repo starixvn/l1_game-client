@@ -1,3 +1,4 @@
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
@@ -75,6 +76,12 @@ export default class MultiplayGame extends GameViewBase {
         (this.games[this.gameIds[0]] as GameBase).gameData.gameConfigs.on(GameConfigs.Events.CHANGE, this.setGameConfigs.bind(this));
         this.resetStatisticShow();
         this.initGameDataEvents();
+
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            game_name: GameUtils.getGameNameString(this.gameId),
+            action: TrackingAction.Show,
+            object_name: "Show SubGames"
+        });
     }
 
     initGameDataEvents() {
@@ -392,13 +399,13 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     showHideSubAreas(animated = true) {
-        this.collapsedExpandButton.isChecked
-            ? animated
-                ? this.showSubGamesWithAnimation()
-                : this.showSubGamesWithAnimation(false)
-            : animated
-            ? this.hideSubGamesWithAnimation()
-            : this.hideSubGamesWithAnimation(false);
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            game_name: GameUtils.getGameNameString(this.gameId),
+            action: this.collapsedExpandButton.isChecked ? TrackingAction.ToggleOn : TrackingAction.ToggleOff,
+            object_name: "Show SubGames"
+        });
+
+        this.collapsedExpandButton.isChecked ? this.showSubGamesWithAnimation(animated) : this.hideSubGamesWithAnimation(animated);
     }
 
     onScoreBoardClick() {

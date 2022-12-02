@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../analytics/AnalyticsManager";
 import AudioManager from "../../common/audio/AudioManager";
 import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import GameUtils from "../../common/GameUtils";
@@ -83,11 +84,24 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
         this.presetBetSettingKey = `presetBet_${this.gameName}_${cc.RedT.user.UID}`;
         this.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
+
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            game_name: GameUtils.getGameNameString(this.gameId),
+            action: TrackingAction.Show,
+            object_name: "Preset Bet"
+        });
     }
 
     private changedPresetBet(value: number) {
         this.presetBetValue = value;
         cc.sys.localStorage.setItem(this.presetBetSettingKey, this.presetBetValue);
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            game_name: GameUtils.getGameNameString(this.gameId),
+            action: TrackingAction.Click,
+            object_name: "Preset Bet"
+        });
     }
 
     private getPresetBet() {

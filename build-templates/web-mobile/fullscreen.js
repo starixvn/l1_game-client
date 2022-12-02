@@ -211,7 +211,7 @@ function initGameEngine() {
 }
 
 function initGA() {
-    const gaCode = window.envConfig.systemType === "SC1" ? "G-GJDD3FENTH" : "G-JHKMX35LM3";
+    const gaCode = "G-W13X2FGNGN";
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
         () => {
             console.log("Init GA");
@@ -221,6 +221,7 @@ function initGA() {
             }
             gtag("js", new Date());
             gtag("config", gaCode);
+            window.gtag = gtag;
         },
         (reason) => {
             console.log("Init GA failed with" + reason);
