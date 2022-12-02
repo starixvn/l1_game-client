@@ -1,7 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
-import MD5Component from "../../_base/view-models/MD5Component";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
@@ -247,10 +246,6 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.emitterListener(this.gameData.durations, Durations.Events.LOCKING_BET, () => () => {
             this.statisticHistory.logControl.nextItemActive = true;
         });
-    }
-
-    initMD5String(node: cc.Node) {
-        this.md5Component = node.getChildByName("md5-content").getComponent(MD5Component);
     }
 
     openPlate(animated: boolean) {

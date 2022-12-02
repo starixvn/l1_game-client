@@ -11,7 +11,6 @@ import {
     onUserProfileInitialized,
     outRoomGame,
 } from "../../_base/action/GameRoomActions";
-import MD5Component from "../../_base/view-models/MD5Component";
 import TableGameBase from "./TableGameBase";
 
 const { ccclass, property } = cc._decorator;
@@ -87,10 +86,6 @@ export default class StandAloneTableGameBase extends TableGameBase {
 
     onUserProfileInitialized(node: cc.Node) {
         onUserProfileInitialized(this)(node);
-    }
-
-    initMD5String(node: cc.Node) {
-        this.md5Component = node.getChildByName("md5-content").getComponent(MD5Component);
     }
 
     //#region Methods for room game

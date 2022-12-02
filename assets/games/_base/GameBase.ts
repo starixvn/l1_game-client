@@ -913,4 +913,8 @@ export default class GameBase extends GameViewBase {
     protected showPayoutForLoginPlayer(mainRoomGame: TableGameBaseInterface) {
         showPayoutForLoginPlayer(mainRoomGame);
     }
+
+    initMD5String(node: cc.Node) {
+        this.md5Component = node.getChildByName("md5-content").getComponent(MD5Component);
+    }
 }

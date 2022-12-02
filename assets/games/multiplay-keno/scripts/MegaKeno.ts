@@ -1,7 +1,6 @@
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
 import TableGameBase from "../../_base_new/view-models/TableGameBase";
 import { KenoTableGameColor, MegaKeno1Id, MegaKeno3Id, MegaKeno4Id, MegaKenoConfigs } from "./MegaKenoConfig";
-import MegaKenoMd5 from "./MegaKenoMd5";
 import MegaKenoSettlementResult from "./MegaKenoSettlementResult";
 
 const { ccclass, property } = cc._decorator;
@@ -100,10 +99,6 @@ export default class MegaKeno extends TableGameBase {
             this.settlementResultAnimation.hide();
             this.gameData.settlement.finishShowResult(settlement, true);
         });
-    }
-
-    initMD5String(node: cc.Node) {
-        this.md5Component = node.getChildByName("md5-content").getComponent(MegaKenoMd5);
     }
 
     override showUmMessage(data: any) {
