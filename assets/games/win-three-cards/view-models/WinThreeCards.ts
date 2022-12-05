@@ -20,10 +20,10 @@ export const WinThreeCardsId = 61;
 @ccclass
 export default class WinThreeCards extends NewGameRoomBase {
     @property({ type: WinThreeCardsCards })
-    playerCards: WinThreeCardsCards = null;
+    dragonCards: WinThreeCardsCards = null;
 
     @property({ type: WinThreeCardsCards })
-    bankerCards: WinThreeCardsCards = null;
+    phoenixCards: WinThreeCardsCards = null;
 
     @property(cc.Node)
     basicHistoryBoardNode: cc.Node = null;
@@ -125,10 +125,10 @@ export default class WinThreeCards extends NewGameRoomBase {
     }
 
     private initCards() {
-        this.bankerCards.init(() => {
+        this.phoenixCards.init(() => {
             this.playGetCardAudio();
         });
-        this.playerCards.init(() => {
+        this.dragonCards.init(() => {
             this.playGetCardAudio();
         });
     }
