@@ -4,6 +4,7 @@ if (!window.i18n.languages.zh_tw) window.i18n.languages.zh_tw = {};
 
 const data = {
     gameNames: {
+        "-1": "幸運輪",
         1: "大小",
         2: "色碟",
         3: "魚蝦蟹",

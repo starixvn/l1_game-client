@@ -1,11 +1,11 @@
 const defaultConfig = {
-    systemType: "SC1",
+    systemType: "SC2",
     ssl: true,
     serverDomainMapper: {
         localhost: "lumigame.com",
-        "l1-games1.lumigame.com": "lumigame.com"
+        "l2-games1.lumigame.com": "lumigame.com"
     },
-    subDomain: "l1-proxy3",
+    subDomain: "l2-proxy1",
     env: "",
     sentry: {
         url: "",
@@ -15,7 +15,7 @@ const defaultConfig = {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
-    guideDomain: "https://l1-guide-1.lumigame.com",
+    guideDomain: "https://l2-guide-1.lumigame.com",
     enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false
 };

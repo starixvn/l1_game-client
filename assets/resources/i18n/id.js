@@ -7,6 +7,7 @@ const data = {
         26: "VIP Ikan\nUdang Kepiting"
     },
     gameNames: {
+        "-1": "Lucky Wheel",
         1: "Besar Kecil",
         2: "Se Die",
         3: "Ikan Udang Kepiting",
