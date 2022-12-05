@@ -13,12 +13,12 @@ export default class WinThreeCardsLogsHandler extends BaccaratLogsHandler {
     }
 
     protected getOwnFinishHandle(): any {
-        // const ownMain = this.getOwnMain();
-        // return ownMain.finishHandler as WinThreeCardsFinishHandler;
+        const ownMain = this.getOwnMain();
+        return ownMain.finishHandler as WinThreeCardsFinishHandler;
     }
 
     protected updateMiniHistoryLogs(dataLogs: any) {
-        // const ownMain = this.getOwnMain();
-        // ownMain.miniRoundHistory.setData(dataLogs);
+        const ownMain = this.getOwnMain();
+        ownMain.miniRoundHistory.setData(dataLogs);
     }
 }

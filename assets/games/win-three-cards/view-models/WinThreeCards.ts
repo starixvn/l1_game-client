@@ -77,17 +77,23 @@ export default class WinThreeCards extends NewGameRoomBase {
 
     onLoad() {
         super.onLoad();
-        // this.initCards();
-        // this.initScoreBoards();
-        // this.initMiniRoundHistory();
+        this.initCards();
+        this.initScoreBoards();
+        this.initMiniRoundHistory();
 
-        // this.betItems.forEach((item) => {
-        //     GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
-        //     GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
-        //     GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
-        // });
+        this.betItems.forEach((item) => {
+            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
+            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
+            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
+        });
 
-        // this.handlePositionMiniRoundHistory();
+        this.handlePositionMiniRoundHistory();
+    }
+
+    resetDataAndUI() {
+        super.resetDataAndUI();
+
+        this.winNoticeLabel.node.parent.active = false;
     }
 
     handlePositionMiniRoundHistory() {
@@ -111,12 +117,6 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.historyComponent = dialog.getComponent(WinThreeCardsHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
-    }
-
-    resetDataAndUI() {
-        super.resetDataAndUI();
-
-        this.winNoticeLabel.node.parent.active = false;
     }
 
     playGetCardAudio() {
