@@ -8,7 +8,7 @@ import WinThreeCardsFinishHandler from "./data-handlers/WinThreeCardsFinishHandl
 import WinThreeCardsLogsHandler from "./data-handlers/WinThreeCardsLogsHandler";
 import WinThreeCardsTimeDataHandler from "./data-handlers/WinThreeCardsTimeDataHandler";
 import WinThreeCardsCards from "./WinThreeCardsCards";
-import WinThreeCardsHistory from "./WinThreeCardsHistory";
+import WinThreeCardsHistory from "./history/WinThreeCardsHistory";
 import WinThreeCardsMiniRoundHistory from "./WinThreeCardsMiniRoundHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
 import BaccaratBigRoad from "../../_baccarat/view-models/BaccaratBigRoad";
@@ -117,6 +117,7 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.historyComponent = dialog.getComponent(WinThreeCardsHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
+        console.log("this.currentMiniPanel", this.currentMiniPanel)
     }
 
     playGetCardAudio() {
