@@ -184,6 +184,13 @@ export default class GameBase extends GameViewBase {
 
     public usingNewSettlement = false;
     public inSettlementSequence = false;
+    // MD5 Component
+    Md5OfLength = 32;
+    Md5delayShowRawValue = 1;
+    Md5IsShowTooltip = true;
+    Md5NodeWidth = 372;
+    Md5HashIsShowTooltip = false;
+
     // using multiplay game
     public gameData: GameData;
     public onDisconnectCallback = () => {
@@ -916,5 +923,12 @@ export default class GameBase extends GameViewBase {
 
     initMD5String(node: cc.Node) {
         this.md5Component = node.getChildByName("md5-content").getComponent(MD5Component);
+        this.md5Component.setParamGame(
+            this.Md5delayShowRawValue,
+            this.Md5OfLength,
+            this.Md5IsShowTooltip,
+            this.Md5NodeWidth,
+            this.Md5HashIsShowTooltip
+        );
     }
 }

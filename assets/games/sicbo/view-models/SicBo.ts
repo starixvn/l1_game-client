@@ -106,6 +106,11 @@ export default class SicBo extends SocketIOTableGameBase {
     specific5Statistic = 0;
     specific6Statistic = 0;
 
+    Md5OfLength = 37;
+    Md5delayShowRawValue = 3;
+    Md5IsShowTooltip = false;
+    Md5NodeWidth = 395;
+
     private dicesStatisticComponent: SicBoDicesStatistic;
     private majorChoicesStatisticComponent: SicBoMajorChoicesStatistic;
 

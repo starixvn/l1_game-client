@@ -1,4 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import ColorAssembler2D from "../../../common/ColorAssembler2D";
+import { formatOdds } from "../../../common/helpers/NumberHelper";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -13,8 +15,6 @@ import BigSmallBetHandler from "./handlers/BigSmallBetHandler";
 import BigSmallFinishHandler from "./handlers/BigSmallFinishHandler";
 import BigSmallLogsHandler from "./handlers/BigSmallLogsHandler";
 import BigSmallTimeHandler from "./handlers/BigSmallTimeHandler";
-import ColorAssembler2D from "../../../common/ColorAssembler2D";
-import { formatOdds } from "../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -108,6 +108,9 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     private showStatistic = true;
     public resultAnimating = false;
     private highlightOddsColor: ColorAssembler2D = null;
+
+    Md5IsShowTooltip = false;
+    Md5NodeWidth = 395;
 
     readonly choices = ["small", "big"];
 

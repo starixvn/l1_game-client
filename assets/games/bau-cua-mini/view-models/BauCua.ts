@@ -96,6 +96,8 @@ export default class BauCua extends SocketIOMiniGameBase {
     public readonly shakeThePlateTime = 31;
     public finishShakeThePlate = false;
 
+    Md5NodeWidth = 350;
+
     onLoad() {
         super.onLoad();
         this.logNode.active = false;
