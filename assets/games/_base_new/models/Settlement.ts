@@ -26,7 +26,7 @@ export class Settlement extends EventEmitterBase {
         this.status && this.emit(Settlement.Events.SHOW_STATUS, this.status);
     }
 
-    foreTimeOut() {
+    forceTimeOut() {
         this.emit(Settlement.Events.FORCE_TIMEOUT, this);
     }
 

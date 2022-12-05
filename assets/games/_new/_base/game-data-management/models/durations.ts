@@ -112,6 +112,10 @@ export class Durations extends EventEmitterBase {
         return this.remaining <= this.placingBet && this.remaining > this.lockingBet && this.wholeRound !== 0;
     }
 
+    isBeforePlacingBet() {
+        return this.remaining > this.placingBet;
+    }
+
     forceEvent(eventName: string, duration: number) {
         this.overrideEvent = {
             name: eventName,

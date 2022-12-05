@@ -102,18 +102,24 @@ export const handleShowStatus = (game: any) => (status) => {
     game.gameData.settlement.clearStatus();
 };
 
-export const handleShowResult = (game: any) => (settlement) => {
+export const handleShowResult = (game: MiniGameBase) => (settlement) => {
     if (game.isDisableGame) {
         return;
     }
-    game.disableRebetButton();
-    game.showSettlementResult(settlement);
     game.gameData.roundHistory.add(settlement);
     game.gameData.roundHistory.checkWinningStreak(settlement, game.showResultDuration);
+    game.disableRebetButton();
     if (game.countDownProgressBar) {
         game.animatedTime.node.active = false;
         game.setWaitingDotsVisibility(true);
         game.countDownProgressBar.setIndicatorVisibility(false);
+    }
+
+    const isDelayEndGame = game.gameData.durations.isBeforePlacingBet();
+    if (isDelayEndGame) {
+        game.gameData.settlement.finishShowResult(settlement, true);
+    } else {
+        game.showSettlementResult(settlement);
     }
 };
 
