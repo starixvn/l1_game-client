@@ -1,12 +1,14 @@
+import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";
+import WinThreeCardsTicketDetail from "./ticket-detail/WinThreeCardsTicketDetail";
 import WinThreeCardsHistoryItem from "./WinThreeCardsHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
-export interface WinThreeCardBetLogDetail {
-    amount: number;
-    choice: string;
-}
+
+export type WinThreeCardsResultData = string [];
+
+export type WinThreeCardsGameResultData = CardModel[];
 
 export interface WinThreeCardsOdds {
     dragon: number;
@@ -32,27 +34,42 @@ export interface WinThreeCardsSettlementResult {
     tie: boolean
 }
 
-export interface BetLog {
-    time: Date;
-    phien: number;
-    result: {
-        symbols: string[];
-        number: number;
-        isLucky: boolean;
-    };
-    totalAmount: number;
-    odds: WinThreeCardsOdds;
+export interface WinThreeCardsBetData {
+    dragon: number;
+    phoenix: number;
+    pair8Plus: number;
+    threeOfAKind: number;
+    straightFlush: number;
+    flush: number;    
+    straight: number;
+
+    time: string;
+    phien: string;
     betwin: number;
-    betLogDetails: WinThreeCardBetLogDetail;
+    result: WinThreeCardsGameResultData;
     settlementResult: WinThreeCardsSettlementResult;
+    odds: WinThreeCardsOdds;
 }
 @ccclass
 export default class WinThreeCardsHistory extends SocketIOGameHistoryBase {
+    @property(cc.Prefab)
+    ticketDetailPrefab: cc.Prefab = null;
+
     bindItemRowData(betLog: any, index: number) {
-        const historyItemPrefab = cc.instantiate(this.itemPrefab);
-        const item = historyItemPrefab.getComponent(WinThreeCardsHistoryItem);
-        this.node.active = true;
-        this.content.addChild(historyItemPrefab);
-        item.setData(betLog, index);
+        const itemNode = cc.instantiate(this.itemPrefab);
+        const item = itemNode.getComponent(WinThreeCardsHistoryItem);
+        item.setData(betLog);
+        item.showTicketDetail = (data) => this.showTicketDetail(data);
+        item.showBackground(index % 2 !== 0);
+        this.content.addChild(itemNode);
+       console.log("WinThreeCardsHistory", betLog, index)
+    }
+
+    showTicketDetail(data: any) {
+        const node = cc.instantiate(this.ticketDetailPrefab);
+        this.node.addChild(node);
+
+        const item = node.getComponent(WinThreeCardsTicketDetail);
+        item.setData(data);
     }
 }

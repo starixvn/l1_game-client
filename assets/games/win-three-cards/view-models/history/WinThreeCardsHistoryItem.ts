@@ -1,6 +1,7 @@
-import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
+import AudioManager from "../../../../common/audio/AudioManager";
+import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
-import WinThreeCardsHistory, { BetLog } from "./WinThreeCardsHistory";
+import { WinThreeCardsBetData } from "./WinThreeCardsHistory";
 
 const {ccclass, property} = cc._decorator;
 
@@ -24,18 +25,40 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
     @property(cc.Node)
     bgRow: cc.Node = null;
 
-    betLog: BetLog;
-    historyMainNode: WinThreeCardsHistory = null;
+    // @property(cc.Node)
+    // bottomLine: cc.Node = null;    
 
-    async setData(betLog: BetLog,  index: number) {
-        this.bgRow.active = index % 2 === 1;
-        const winColor = cc.Color.WHITE.fromHEX("#fff664");
-        this.betLog = betLog;       
-        this.timeLabel.string = formatDateTime(betLog.time);
-        this.roundLabel.string = betLog.phien.toString();
+    data: WinThreeCardsBetData = null;
 
-        this.amountLabel.string = numberWithCommas(betLog.totalAmount, 2);
-        this.winLabel.string = numberWithCommas(betLog.betwin, 2);
-        this.winLabel.node.color = betLog.betwin > 0 ? winColor : cc.Color.WHITE;
+    public showTicketDetail = (data: any) => {};    
+
+    setData(betData: WinThreeCardsBetData) {
+        this.data = betData;
+
+        this.timeLabel.string = getStringDateByTime(betData.time);
+        this.roundLabel.string = betData.phien;
+        this.winLabel.string = numberWithCommas(betData.betwin, 2);
+        //this.winChoices && this.winChoices.setData(betData);
+        this.amountLabel.string = this.summarizeBet(betData);
+    }
+
+    showBackground(show: boolean) {
+        this.bgRow.active = show;
+        //this.bottomLine.active = !show;
+    }
+
+    summarizeBet(data: WinThreeCardsBetData): string {
+        const keys = ["dragon", "phoenix", "pair8Plus", "threeOfAKind", "straightFlush", "flush", "straight"];
+
+        let total = 0;
+        keys.forEach((key) => {
+            total += data[key];
+        });
+        return numberWithCommas(total);
+    }
+
+    openTicketDetail() {
+        AudioManager.getInstance().playClick();
+        this.showTicketDetail(this.data);
     }
 }

@@ -112,12 +112,12 @@ export default class WinThreeCards extends NewGameRoomBase {
     }
 
     openHistory() {
-        // this.playClick();
-        // const dialog = cc.instantiate(this.historyPrefab);
-        // this.historyComponent = dialog.getComponent(WinThreeCardsHistory);
-        // this.historyComponent.init(this.socket);
-        // this.currentMiniPanel.node.addChild(dialog);
-        // console.log("this.currentMiniPanel", this.currentMiniPanel);
+        this.playClick();
+        const dialog = cc.instantiate(this.historyPrefab);
+        this.historyComponent = dialog.getComponent(WinThreeCardsHistory);
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.node.addChild(dialog);
+        console.log("this.currentMiniPanel", this.currentMiniPanel);
     }
 
     playGetCardAudio() {
