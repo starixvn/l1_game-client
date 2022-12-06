@@ -21,4 +21,34 @@ export default class WinThreeCardsLogsHandler extends BaccaratLogsHandler {
         const ownMain = this.getOwnMain();
         ownMain.miniRoundHistory.setData(dataLogs);
     }
+
+    protected getLogDataFollowTypePlayer(isBanker: boolean, data: any) {
+        const resultTmp = data.result;
+        if (isBanker) {
+            return Object.values(resultTmp.phoenix).filter((value) => value != null);
+        }
+        return Object.values(resultTmp.dragon).filter((value) => value != null);
+    }
+
+    public convertLogsDataLogs(dataLogs: any) {
+        const logs = [];
+        dataLogs.forEach((element: any) => {
+            const data = {
+                banker: {},
+                player: {},
+                result: {},
+                roundId: 0
+            };
+            const settlementResult = element.settlementResult;
+            const result = element.result;
+            data.banker = Object.values(result.phoenix).filter((value) => value != null);
+            data.player = Object.values(result.dragon).filter((value) => value != null);
+            data.result = settlementResult;
+            data.roundId = element.roundId;
+
+            logs.push(data);
+        });
+
+        return logs;
+    }
 }

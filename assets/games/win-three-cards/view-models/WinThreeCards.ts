@@ -20,10 +20,10 @@ export const WinThreeCardsId = 61;
 @ccclass
 export default class WinThreeCards extends NewGameRoomBase {
     @property({ type: WinThreeCardsCards })
-    dragonCards: WinThreeCardsCards = null;
+    playerCards: WinThreeCardsCards = null;
 
     @property({ type: WinThreeCardsCards })
-    phoenixCards: WinThreeCardsCards = null;
+    bankerCards: WinThreeCardsCards = null;
 
     @property(cc.Node)
     basicHistoryBoardNode: cc.Node = null;
@@ -78,8 +78,8 @@ export default class WinThreeCards extends NewGameRoomBase {
     onLoad() {
         super.onLoad();
         this.initCards();
-        this.initScoreBoards();
-        this.initMiniRoundHistory();
+        // this.initScoreBoards();
+        // this.initMiniRoundHistory();
 
         this.betItems.forEach((item) => {
             GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
@@ -87,7 +87,7 @@ export default class WinThreeCards extends NewGameRoomBase {
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
         });
 
-        this.handlePositionMiniRoundHistory();
+        // this.handlePositionMiniRoundHistory();
     }
 
     resetDataAndUI() {
@@ -106,29 +106,29 @@ export default class WinThreeCards extends NewGameRoomBase {
 
         this.timeHandler = new WinThreeCardsTimeDataHandler(this);
         this.finishHandler = new WinThreeCardsFinishHandler(this);
-        this.logsHandler = new WinThreeCardsLogsHandler(this);
+        // this.logsHandler = new WinThreeCardsLogsHandler(this);
         this.betHandler = new WinThreeCardsBetHandler(this);
         this.md5Handler = new BaccaratMd5Handler(this);
     }
 
     openHistory() {
-        this.playClick();
-        const dialog = cc.instantiate(this.historyPrefab);
-        this.historyComponent = dialog.getComponent(WinThreeCardsHistory);
-        this.historyComponent.init(this.socket);
-        this.currentMiniPanel.node.addChild(dialog);
-        console.log("this.currentMiniPanel", this.currentMiniPanel)
+        // this.playClick();
+        // const dialog = cc.instantiate(this.historyPrefab);
+        // this.historyComponent = dialog.getComponent(WinThreeCardsHistory);
+        // this.historyComponent.init(this.socket);
+        // this.currentMiniPanel.node.addChild(dialog);
+        // console.log("this.currentMiniPanel", this.currentMiniPanel);
     }
 
     playGetCardAudio() {
-        AudioManager.getInstance().playSFX(this.getCardAudioSource.clip);
+        // AudioManager.getInstance().playSFX(this.getCardAudioSource.clip);
     }
 
     private initCards() {
-        this.phoenixCards.init(() => {
+        this.bankerCards.init(() => {
             this.playGetCardAudio();
         });
-        this.dragonCards.init(() => {
+        this.playerCards.init(() => {
             this.playGetCardAudio();
         });
     }
