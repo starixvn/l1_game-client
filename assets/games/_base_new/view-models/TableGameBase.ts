@@ -115,6 +115,9 @@ export default class TableGameBase extends MiniGameBase {
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
         if (animated) {
             this.handlePayChips(settlement);
+        } else {
+            clearChipsForLostChoices(this, settlement.settlementResult);
+            this.gameData.settlement.showStatus();
         }
     }
 

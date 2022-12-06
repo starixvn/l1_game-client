@@ -5,26 +5,10 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class MiniSedieSubGame extends MiniSedie {
     openPlatePos = cc.v2(20, 40);
+    protected delayPayoutDuration = 1.5;
 
     setBlurDishAndHideDices() {
         this.animation.node.opacity = 0;
-    }
-
-    handleAfterSettlementResult(settlement: any, animated: boolean) {
-        this.showWinChoiceAndUpdateHistory(settlement);
-
-        const doLaterPayOut = () => {
-            this.highlightAndPayout(settlement);
-            this.gameData.settlement.showStatus();
-        };
-
-        if (animated) {
-            this.scheduleOnce(doLaterPayOut, 1.5);
-        } else {
-            this.showDicesAndPlates();
-            this.dishNode.opacity = 0;
-            doLaterPayOut();
-        }
     }
 
     showOriginalDish() {

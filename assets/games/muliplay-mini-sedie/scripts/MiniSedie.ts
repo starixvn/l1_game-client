@@ -47,6 +47,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     openPlateDuration = 0.5;
     openPlatePos = cc.v2(15, 30);
     startRoundDuration = 2;
+    protected delayPayoutDuration = 1;
 
     constructor() {
         super();
@@ -193,13 +194,18 @@ export default class MiniSedie extends MultiplayGameSingle {
 
     handleAfterSettlementResult(settlement: any, animated: boolean) {
         this.showWinChoiceAndUpdateHistory(settlement);
-        this.scheduleOnce(() => {
-            this.highlightAndPayout(settlement);
-        }, 1);
 
-        if (!animated) {
-            this.dishNode.opacity = 0;
+        const doLaterPayOut = () => {
+            this.highlightAndPayout(settlement);
+            !animated && this.gameData.settlement.showStatus();
+        };
+
+        if (animated) {
+            this.scheduleOnce(doLaterPayOut, this.delayPayoutDuration);
+        } else {
             this.showDicesAndPlates();
+            this.dishNode.opacity = 0;
+            doLaterPayOut();
         }
     }
 
