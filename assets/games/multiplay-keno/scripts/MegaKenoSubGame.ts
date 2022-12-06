@@ -43,6 +43,7 @@ export default class MegaKenoSubGame extends MegaKeno {
         this.gameData.settlement.showStatus();
         this.betItems.forEach((betItem) => betItem.setHighlight(settlement.settlementResult[betItem.node.name.toLowerCase()], true));
         clearChipsForLostChoices(this, settlement.settlementResult);
+        this.settlementEndResult && this.settlementEndResult.showResult(settlement);
     }
 
     showStatus(status: any) {
