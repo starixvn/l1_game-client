@@ -26,6 +26,9 @@ export default class BonusDialog extends cc.Component {
     @property({ type: cc.AudioSource })
     soundBigWin: cc.AudioSource = null;
 
+    @property(cc.Prefab)
+    bonusItem: cc.Prefab = null;
+
     items: BonusItem[] = [];
 
     public onBonusFinished = () => {};
@@ -36,8 +39,11 @@ export default class BonusDialog extends cc.Component {
     private openedBonus = 0;
     private totalValue = 0;
     private timerTween: cc.Tween;
+    private readonly bonusNumber = 10;
 
     onLoad() {
+        this.bonusItem && this.initBonusList();
+
         this.content.children.forEach((child, index) => {
             const item = child.getComponent(BonusItem);
             item && this.items.push(item);
@@ -50,6 +56,15 @@ export default class BonusDialog extends cc.Component {
                 }
             });
         });
+    }
+
+    initBonusList() {
+        this.content.destroyAllChildren();
+        for (let i = 0; i < this.bonusNumber; i++) {
+            const item = cc.instantiate(this.bonusItem);
+            item.name = `bonus${i}`;
+            this.content.addChild(item);
+        }
     }
 
     openBonus(index: number, value: number) {
