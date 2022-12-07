@@ -1,44 +1,18 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import EffectAppearanceLabel from "../../common/EffectAppearanceLabel";
+
 import { OldCardModel } from "../../common/new-card/view-models/NewCard";
+import MD5Component from "../_base/view-models/MD5Component";
 import { FormatMD5Result } from "./MD5Format";
-import GameUtils from "../../common/GameUtils";
-import MD5Tooltip from "../../common/md5-tooltip/MD5Tooltip";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CasinoMD5 extends cc.Component {
-    @property(cc.Label)
-    md5Text: cc.Label = null;
-
-    @property(EffectAppearanceLabel)
-    md5Value: EffectAppearanceLabel = null;
-
-    @property(cc.Button)
-    copyButton: cc.Button = null;
-
-    @property(cc.Node)
-    hintCopyNode: cc.Node = null;
-
-    @property(cc.Prefab)
-    md5TooltipPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    md5TooltipContainer: cc.Node = null;
-
-    private md5CopyString: string = null;
-    protected md5Tooltip: MD5Tooltip = null;
+export default class CasinoMD5 extends MD5Component {
     readonly maximumStringAllowed = 352;
-    public hintLabel: cc.Label = null;
 
-    onLoad() {
-        this.initMD5Tooltip();
-        this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
-        this.hintLabel.string = i18n.t("messages.copy_success");
-        this.setCaptionAndHintForMD5(false);
+    initMD5Wrapper(node: cc.Node) {
+        super.initMD5Wrapper(node);
         this.enableCopyButton(false);
-        this.showHint = this.showHint.bind(this);
     }
 
     enableCopyButton(enabled: boolean) {
@@ -63,13 +37,11 @@ export default class CasinoMD5 extends cc.Component {
         if (!this.md5TooltipPrefab || !this.md5TooltipContainer) {
             return;
         }
-        const mini = GameUtils.createNodeFromPrefab(this.md5TooltipPrefab);
-        this.md5Tooltip = mini.getComponent(MD5Tooltip);
-        this.md5TooltipContainer.addChild(mini);
+        super.initMD5Tooltip();
     }
 
     setCopyString(text: string) {
-        this.md5CopyString = text;
+        super.setCopyString(text);
         this.enableCopyButton(text.length > 0);
     }
 
@@ -93,15 +65,6 @@ export default class CasinoMD5 extends cc.Component {
             length: this.maximumStringAllowed,
             roundId
         });
-    }
-
-    onClickCopyButton() {
-        GameUtils.copyToClipboard(this.md5CopyString, this.hintLabel, this.showHint);
-        this.md5Tooltip.hideToolTip();
-    }
-
-    showHint() {
-        cc.tween(this.hintCopyNode).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }
 
     setCaptionAndHintForMD5(isMD5Key: boolean) {

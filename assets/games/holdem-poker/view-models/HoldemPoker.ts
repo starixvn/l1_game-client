@@ -198,7 +198,7 @@ export default class HoldemPoker extends CasinoGame {
 
     private registerMD5Event() {
         this.gameData.md5Data.on(MD5ModelBase.Events.CHANGE, (md5: MD5ModelBase) => {
-            updateMD5(this.md5Comp)(md5);
+            updateMD5(this.md5Component)(md5);
         });
     }
 
@@ -281,7 +281,7 @@ export default class HoldemPoker extends CasinoGame {
                 this.pokerCardScript,
                 this.gameData.callModel,
                 () => {
-                    this.md5Comp.createResultDetails(this.gameData.md5Data.md5);
+                    this.md5Component.createResultDetails(this.gameData.md5Data.md5);
                 },
                 () => {
                     this.gameData.settlement.finishShowCards();

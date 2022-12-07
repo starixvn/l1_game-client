@@ -10,7 +10,7 @@ export const handleMD5 = (main: Texas) => (stateModel: TexasStateModel) => {
         case TexasState.blank_new:
         case TexasState.calling_fold:
         case TexasState.calling_deal:
-            main.md5Comp.clearMD5();
+            main.md5Component.clearMD5();
             break;
         default:
             break;

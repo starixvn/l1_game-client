@@ -20,7 +20,7 @@ import {
     showHideButtons,
     showHideTooltip,
     showPlaceBetChips,
-    updateAllChips
+    updateAllChips,
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -31,7 +31,7 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards
+    swapPlayerAndDealerCards,
 } from "../cards-component/view-models/cards-wrapper";
 import TexasCards from "../cards-component/view-models/texas-cards";
 import TexasConfigsModel from "../event-models/texas-configs-model";
@@ -49,7 +49,10 @@ import { handleMD5 } from "./../actions/texas-md5-action";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
 import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
-import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
+import {
+    dealPlayerAndDealerCardsWithoutSwap,
+    holdPlayerAndDealerCards,
+} from "./../cards-component/view-models/cards-wrapper";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
 import TexasBettingArea from "./texas-betting-area";
@@ -300,7 +303,7 @@ export default class Texas extends CasinoGame {
                     this.gameData?.settlement.finishShowCards();
                 },
                 () => {
-                    this.md5Comp.createResultDetails(this.gameData.md5Data.md5);
+                    this.md5Component.createResultDetails(this.gameData.md5Data.md5);
                 }
             );
         });
@@ -404,7 +407,7 @@ export default class Texas extends CasinoGame {
 
     private registerMD5Event() {
         this.gameData.md5Data.on(MD5ModelBase.Events.CHANGE, (md5: MD5ModelBase) => {
-            updateMD5(this.md5Comp)(md5);
+            updateMD5(this.md5Component)(md5);
         });
     }
 

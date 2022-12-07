@@ -3,6 +3,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
+import MD5Frame from "./MD5Frame";
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,10 +51,21 @@ export default class MD5Component extends cc.Component {
 
     onLoad() {
         this.initMD5Tooltip();
+    }
+
+    initMD5Wrapper(node: cc.Node) {
+        const md5Wrapper = node.getComponent(MD5Frame);
+        this.md5Text = md5Wrapper.md5Label;
+        this.copyButton = md5Wrapper.md5CopyBtn;
+        this.hintCopyNode = md5Wrapper.md5HintCopy;
+        md5Wrapper.md5Node.width = this.node.getChildByName("md5-node").width;
         this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         this.hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
-        this.showHint = this.showHint.bind(this);
+        md5Wrapper.onClickCopyButton = () => {
+            this.onClickCopyButton();
+        };
+        md5Wrapper.updateLayout();
     }
 
     onEnable() {}
@@ -104,7 +116,7 @@ export default class MD5Component extends cc.Component {
     }
 
     onClickCopyButton() {
-        GameUtils.copyToClipboard(this.md5CopyString, this.hintLabel, this.showHint);
+        GameUtils.copyToClipboard(this.md5CopyString, this.hintLabel, () => this.showHint());
         this.md5Tooltip.hideToolTip();
     }
 

@@ -1,15 +1,16 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
-import CasinoMD5 from "./CasinoMD5";
-import DataHandler from "../_base/handlers/DataHandler";
-import NewButton from "../../common/custom-button/NewButton";
-import { events } from "../_new/connection/SocketIOConnection";
+
+import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
+import NewButton from "../../common/custom-button/NewButton";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
+import InGameSwapMenu from "../../common/in-game-menu/InGameSwapMenu";
+import DataHandler from "../_base/handlers/DataHandler";
 import BetItem from "../_base/view-models/BetItem";
 import RoomPlayer from "../_base/view-models/RoomPlayer";
-import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
-import InGameSwapMenu from "../../common/in-game-menu/InGameSwapMenu";
+import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
+import { events } from "../_new/connection/SocketIOConnection";
+import CasinoMD5 from "./CasinoMD5";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -71,8 +72,7 @@ export default class CasinoGame extends NewGameRoomBase {
     @property(cc.Label)
     totalBetLabel: cc.Label = null;
 
-    @property(CasinoMD5)
-    md5Comp: CasinoMD5 = null;
+    md5Component: CasinoMD5 = null;
 
     @property(cc.AudioSource)
     gameNotificationsAudio: cc.AudioSource = null;
