@@ -59,8 +59,8 @@ export default class CasinoMD5 extends MD5Component {
             suffix,
             firstCharacter: "{",
             endCharacter: "}",
-            suitBlack: "#050f04",
-            suitRed: "#ff2626",
+            suitBlack: "#ffffff",
+            suitRed: "#ffffff",
             isShowIconSuit: true,
             length: this.maximumStringAllowed,
             roundId

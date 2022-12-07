@@ -26,20 +26,17 @@ export default class MD5Component extends cc.Component {
     @property(cc.Node)
     hintCopyNode: cc.Node = null;
 
+    @property
+    lengthOfMd5 = 21;
+
     @property(cc.Prefab)
     md5TooltipPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     md5TooltipContainer: cc.Node = null;
 
-    @property(cc.Node)
-    md5Node: cc.Node = null;
-
-    lengthOfMd5: number;
-    delayShowRawValue: number;
-    isShowTooltip: boolean;
-    widthMd5Node: number;
-    Md5HashIsShowTooltip: boolean;
+    @property
+    delayShowRawValue = 0;
 
     public timeout: any;
     private md5CopyString: string = null;

@@ -51,8 +51,8 @@ export const FormatMD5Result = ({
     suffix,
     firstCharacter = "[",
     endCharacter = "]",
-    suitBlack = "#000000",
-    suitRed = "#E92E2E",
+    suitBlack = "#ffffff",
+    suitRed = "#ffffff",
     isShowIconSuit: isShowIconSuit,
     length,
     roundId = ""
