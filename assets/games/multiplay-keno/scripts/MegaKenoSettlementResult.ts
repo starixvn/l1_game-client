@@ -1,6 +1,6 @@
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import KenoSettlementWinChoices from "../../mini-keno/view-models/KenoSettlementWinChoices";
-import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,6 +39,7 @@ export default class MegaKenoSettlementResult extends cc.Component {
     }
 
     onDestroy() {
+        this.animation.clear();
         this.rollingSoundId && AudioManager.getInstance().stopSFX(this.rollingSoundId);
     }
 
