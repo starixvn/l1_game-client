@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { numberPad } from "../../../common/helpers/NumberHelper";
 import GameDataManager from "../models/GameDataManager";
 import MiniGameBase from "../view-models/MiniGameBase";
@@ -19,6 +20,7 @@ const hideMainTimeAndClearGame = (game: MiniGameBase) => {
 };
 
 export const updateTimeOut = (game: MiniGameBase) => () => {
+    console.log(`${GameUtils.getGameNameString(game.gameId)} client timeout`);
     game.gameData.settlement.isWaitingSettlement = true;
     hideMainTimeAndClearGame(game);
 };
