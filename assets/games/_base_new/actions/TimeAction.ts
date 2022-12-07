@@ -21,8 +21,12 @@ const hideMainTimeAndClearGame = (game: MiniGameBase) => {
 
 export const updateTimeOut = (game: MiniGameBase) => () => {
     console.log(`${GameUtils.getGameNameString(game.gameId)} client timeout`);
-    game.gameData.settlement.isWaitingSettlement = true;
-    hideMainTimeAndClearGame(game);
+
+    const isReceivedSettlement = game.gameData.settlement.settlement !== null;
+    if (!isReceivedSettlement) {
+        game.gameData.settlement.isWaitingSettlement = true;
+        hideMainTimeAndClearGame(game);
+    }
 };
 
 export const handleForceTimeOut = (game: any) => (settlement) => {
