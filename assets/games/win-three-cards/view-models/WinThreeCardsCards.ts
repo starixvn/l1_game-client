@@ -90,16 +90,7 @@ export default class WinThreeCardsCards extends cc.Component {
         this.resetSomeActionCards();
         this.openCard(0, cards, false);
         this.openCard(1, cards, false);
-        if (cards.length > 2 && cards[2]) {
-            this.openCard(2, cards, false);
-            if (this.otherCard) {
-                this.otherCard.active = true;
-            }
-        } else {
-            if (this.otherCard) {
-                this.otherCard.active = false;
-            }
-        }
+        this.openCard(2, cards, false);
     }
 
     showCards(cards: any[], onFinishShowCards: () => void, playerHasCard3 = false): void {
@@ -254,8 +245,8 @@ export default class WinThreeCardsCards extends cc.Component {
 
             const newCard = currentCard.children[0].getComponent(NewCard);
             newCard.setCardOldStyle({
-                rank: cardData.card,
-                suit: cardData.type
+                rank: cardData.rank,
+                suit: cardData.suit
             });
 
             newCard.faceUp();
