@@ -29,9 +29,6 @@ export default class WinThreeCardsCards extends cc.Component {
     @property(cc.Node)
     cardsBox: cc.Node = null;
 
-    @property(cc.Label)
-    point: cc.Label = null;
-
     @property(cc.Node)
     cardsTmp: cc.Node[] = [null, null];
 
@@ -65,13 +62,11 @@ export default class WinThreeCardsCards extends cc.Component {
         if (playAudio) {
             this.playGetCardAudio = playAudio;
         }
-        // isMainPage && this.resetCard(this.card3);
+
         this.isMainPage = isMainPage;
     }
 
     resetCards() {
-        this.point.node.parent.active = false;
-        this.point.string = "0";
         this.resetCard(this.card1);
         this.resetCard(this.card2);
         this.resetCard(this.card3);
@@ -93,11 +88,7 @@ export default class WinThreeCardsCards extends cc.Component {
         this.openCard(2, cards, false);
     }
 
-    showCards(cards: any[], onFinishShowCards: () => void, playerHasCard3 = false): void {
-        this.point.string = "0";
-        // this.resetCard(this.card3);
-        // let delayTime = 0;
-        // const hasCard3 = cards.length === 3;
+    showCards(cards: any[], onFinishShowCards: () => void): void {
         const handleCard = cc.sequence(
             cc.callFunc(() => {
                 this.openCard(0, cards);
@@ -105,28 +96,14 @@ export default class WinThreeCardsCards extends cc.Component {
             cc.delayTime(this.openCardSecond), // Waiting for open 1st card
 
             cc.callFunc(() => {
-                this.openCard2(cards);
+                this.openCard(1, cards);
             }),
             cc.delayTime(this.openSecondCardSecond), // Waiting for open 2nd card
 
             cc.callFunc(() => {
-                this.openCard3(cards);
+                this.openCard(2, cards);
             }),
-            cc.delayTime(this.openThirdCardSecond) // Waiting for open 2nd card
-
-            // cc.callFunc(() => {
-            //     delayTime = this.openSecondCardSecond; // Waiting for the other side open 2nd card
-            //     if (hasCard3) {
-            //         delayTime = this.flyAndOpenCard3(cards, delayTime, playerHasCard3);
-            //     }
-            //     const handleFinishCard = cc.sequence(
-            //         cc.delayTime(delayTime),
-            //         cc.callFunc(() => onFinishShowCards && onFinishShowCards())
-            //     );
-
-            //     handleFinishCard.setTag(this.SHOW_FINISH_CARD);
-            //     this.node.runAction(handleFinishCard);
-            // })
+            cc.delayTime(this.openThirdCardSecond) // Waiting for open 3rd card
         );
 
         this.resetSomeActionCards();
@@ -138,9 +115,9 @@ export default class WinThreeCardsCards extends cc.Component {
     protected resetSomeActionCards() {
         this.node.stopActionByTag(this.SHOW_CARD);
         this.node.stopActionByTag(this.SHOW_FINISH_CARD);
-        this.card1.stopActionByTag(this.SET_POINT);
-        this.card2.stopActionByTag(this.SET_POINT);
-        this.card3.stopActionByTag(this.SET_POINT);
+        // this.card1.stopActionByTag(this.SET_POINT);
+        // this.card2.stopActionByTag(this.SET_POINT);
+        // this.card3.stopActionByTag(this.SET_POINT);
     }
 
     flyFirstCard() {
@@ -153,16 +130,6 @@ export default class WinThreeCardsCards extends cc.Component {
 
     flyThirdCard() {
         this.flyCard(this.card3);
-    }
-
-    protected setPoint(point: number) {
-        this.point.node.active = true;
-        this.point.node.parent.active = true;
-
-        const currentPoint = parseInt(this.point.string);
-        this.point.node.parent.runAction(cc.sequence(cc.scaleTo(this.setPointSecond, 1.1, 1.1), cc.scaleTo(this.setPointSecond, 1, 1)));
-
-        this.point.string = ((currentPoint + point) % 10).toString();
     }
 
     private openCard2(cards: any[]) {
@@ -200,10 +167,6 @@ export default class WinThreeCardsCards extends cc.Component {
         card.position = from;
         card.opacity = 255;
         card?.getComponent(BaccaratCard) && (card.getComponent(BaccaratCard).numberTag.parent.active = true);
-
-        // if (isCard3) {
-        //     card.getComponent(BaccaratCard).numberTag.runAction(cc.scaleTo(this.flyCardSecond, 2).easing(cc.easeInOut(2)));
-        // }
 
         card.runAction(
             cc.spawn(
@@ -252,10 +215,6 @@ export default class WinThreeCardsCards extends cc.Component {
             newCard.faceUp();
 
             delayTime = this.handleCardWithAnimated(isAnimated, index, currentCard, delayTime);
-
-            if (this.point) {
-                this.handleSetPoint(cardData, delayTime, currentCard);
-            }
         }
     }
 
@@ -307,17 +266,5 @@ export default class WinThreeCardsCards extends cc.Component {
                 })
             )
         );
-    }
-
-    private handleSetPoint(data: any, delayTime: number, currentCard: cc.Node) {
-        const pointValue: number = data.rank + 1;
-        const setPoint = cc.sequence(
-            cc.delayTime(delayTime),
-            cc.callFunc(() => this.setPoint(pointValue >= 10 ? 0 : pointValue))
-        );
-
-        currentCard.stopActionByTag(this.SET_POINT);
-        setPoint.setTag(this.SET_POINT);
-        currentCard.runAction(setPoint);
     }
 }

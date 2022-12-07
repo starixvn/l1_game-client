@@ -15,9 +15,9 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
 
     protected getDataFollowTypePlayer(data: any, isBanker: boolean) {
         if (isBanker) {
-            return Object.values(data.phoenix).filter((value) => value != null);
+            return Object.values(data.phoenix.cards).filter((value) => value != null);
         }
-        return Object.values(data.dragon).filter((value) => value != null);
+        return Object.values(data.dragon.cards).filter((value) => value != null);
     }
 
     protected showCards(dataFinish: any, dataResultHash: any, baccaratMain: any, onFinishHandlingData: () => void) {

@@ -25,9 +25,9 @@ export default class WinThreeCardsLogsHandler extends BaccaratLogsHandler {
     protected getLogDataFollowTypePlayer(isBanker: boolean, data: any) {
         const resultTmp = data.result;
         if (isBanker) {
-            return Object.values(resultTmp.phoenix).filter((value) => value != null);
+            return Object.values(resultTmp.phoenix.cards).filter((value) => value != null);
         }
-        return Object.values(resultTmp.dragon).filter((value) => value != null);
+        return Object.values(resultTmp.dragon.cards).filter((value) => value != null);
     }
 
     public convertLogsDataLogs(dataLogs: any) {
@@ -41,8 +41,8 @@ export default class WinThreeCardsLogsHandler extends BaccaratLogsHandler {
             };
             const settlementResult = element.settlementResult;
             const result = element.result;
-            data.banker = Object.values(result.phoenix).filter((value) => value != null);
-            data.player = Object.values(result.dragon).filter((value) => value != null);
+            data.banker = Object.values(result.phoenix.cards).filter((value) => value != null);
+            data.player = Object.values(result.dragon.cards).filter((value) => value != null);
             data.result = settlementResult;
             data.roundId = element.roundId;
 
