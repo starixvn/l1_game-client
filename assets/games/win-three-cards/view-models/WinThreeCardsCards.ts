@@ -126,16 +126,17 @@ export default class WinThreeCardsCards extends cc.Component {
         const handleCard = cc.sequence(
             cc.callFunc(() => {
                 this.openCard(0, cards);
+                this.openCard(1, cards);
             }),
             cc.delayTime(this.openCardSecond), // Waiting for open 1st card
 
-            cc.callFunc(() => {
-                this.openCard(1, cards);
-            }),
-            cc.delayTime(this.openSecondCardSecond), // Waiting for open 2nd card
+            // cc.callFunc(() => {
+            //     this.openCard(1, cards);
+            // }),
+            // cc.delayTime(this.openCardSecond), // Waiting for open 2nd card
 
             cc.callFunc(() => {
-                delayTime = this.openSecondCardSecond; // Waiting for the other side open 2nd card
+                delayTime = this.openCardSecond; // Waiting for the other side open 2nd card
                 this.openCard(2, cards);
                 const handleFinishCard = cc.sequence(
                     cc.delayTime(delayTime),
@@ -190,33 +191,11 @@ export default class WinThreeCardsCards extends cc.Component {
     }
 
     private openCard2(cards: any[]) {
-        if (this.isBanker) {
-            this.node.runAction(
-                cc.sequence(
-                    cc.delayTime(this.openSecondCardSecond), // Waiting for player open 2nd card
-                    cc.callFunc(() => {
-                        this.openCard(1, cards);
-                    })
-                )
-            );
-        } else {
-            this.openCard(1, cards);
-        }
+        this.openCard(1, cards);
     }
 
     private openCard3(cards: any[]) {
-        if (this.isBanker) {
-            this.node.runAction(
-                cc.sequence(
-                    cc.delayTime(this.openThirdCardSecond), // Waiting for player open 2nd card
-                    cc.callFunc(() => {
-                        this.openCard(2, cards);
-                    })
-                )
-            );
-        } else {
-            this.openCard(2, cards);
-        }
+        this.openCard(2, cards);
     }
 
     flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position, isCard3 = false) {
@@ -289,13 +268,15 @@ export default class WinThreeCardsCards extends cc.Component {
     }
 
     private calculateDelayTimeWithAnimation(index: number, currentCard: cc.Node, delayTime: number) {
-        if (index === 0) {
-            // 1st card
-            currentCard.scaleX = 0;
-            currentCard.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
-            this.card1.getComponent(BaccaratCard).numberTag.active = false;
-            delayTime += this.openCardSecond;
-        } else {
+        // currentCard.scaleX = 0;
+        // currentCard.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
+        // this.card1.getComponent(BaccaratCard).numberTag.active = false;
+        // delayTime += this.openCardSecond;
+
+        // return delayTime;
+
+        if (index === 2) {
+            // 3rd card
             this.cardBack.node.active = true;
             const position = cc.v3(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2, 0);
             this.cardBack.node.position = position;
@@ -303,10 +284,13 @@ export default class WinThreeCardsCards extends cc.Component {
             card.numberTag.active = false;
             this.numberTagCardBack.string = card.getNumberTag();
             this.setActionCardBack();
-
-            delayTime += this.openSecondCardSecond;
+        } else {
+            currentCard.scaleX = 0;
+            currentCard.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
+            this.card1.getComponent(BaccaratCard).numberTag.active = false;
         }
 
+        delayTime += this.openCardSecond;
         return delayTime;
     }
 
