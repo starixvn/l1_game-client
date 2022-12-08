@@ -39,7 +39,6 @@ export default class MegaKenoSettlementResult extends cc.Component {
     }
 
     onDestroy() {
-        this.animation.clear();
         this.rollingSoundId && AudioManager.getInstance().stopSFX(this.rollingSoundId);
     }
 
