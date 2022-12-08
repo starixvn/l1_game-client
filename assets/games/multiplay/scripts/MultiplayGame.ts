@@ -113,7 +113,6 @@ export default class MultiplayGame extends GameViewBase {
         if (!this.gameNotification) {
             return;
         }
-        console.log(`gameId ${gameId} win amount ${amount}`);
         this.gameNotification.addNotification({ gameId, amount }, 0);
     }
 

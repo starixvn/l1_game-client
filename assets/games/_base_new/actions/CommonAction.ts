@@ -115,7 +115,6 @@ export const handleShowResult = (game: MiniGameBase) => (settlement) => {
         game.countDownProgressBar.setIndicatorVisibility(false);
     }
 
-    console.log(`${GameUtils.getGameNameString(game.gameId)} received settlement`);
     const isDelayEndGame = game.gameData.durations.isBeforePlacingBet();
     if (isDelayEndGame) {
         game.gameData.settlement.finishShowResult(settlement, false);
