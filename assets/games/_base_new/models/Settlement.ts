@@ -5,11 +5,15 @@ export class Settlement extends EventEmitterBase {
         SHOW_STATUS: "Settlement:SHOW_STATUS",
         SHOW_RESULT: "Settlement:SHOW_RESULT",
         END_SHOW_RESULT: "Settlement:END_SHOW_RESULT",
-        FORCE_TIMEOUT: "Settlement: FORCE_TIMEOUT"
+        FORCE_TIMEOUT: "Settlement: FORCE_TIMEOUT",
+
+        RECEIVED_OTHERS_STATUS: "Settlement:RECEIVED_OTHERS_STATUS",
+        RECEIVED_LOGIN_PLAYER_STATUS: "Settlement:RECEIVED_LOGIN_PLAYER_STATUS"
     };
     settlement: any;
     status: any;
     isWaitingSettlement: boolean;
+    winningPlayers: any;
 
     showResult(settlement: any) {
         this.isWaitingSettlement = false;
@@ -32,6 +36,16 @@ export class Settlement extends EventEmitterBase {
 
     receiveStatus(status: any) {
         this.status = status;
+        this.emit(Settlement.Events.RECEIVED_LOGIN_PLAYER_STATUS, this.status);
+    }
+
+    receiveWinners(winningPlayers: any) {
+        this.winningPlayers = winningPlayers;
+        this.emit(Settlement.Events.RECEIVED_OTHERS_STATUS, this.winningPlayers);
+    }
+
+    clearWinnersData() {
+        this.winningPlayers = null;
     }
 
     clearStatus() {

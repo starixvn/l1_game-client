@@ -1,29 +1,48 @@
 import * as _ from "lodash";
 
+import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
+import UserProfile from "../../../common/user-profile/UserProfile";
+import { GameData } from "../../_new/_base/game-data-management/models/game-data";
 import BetItem from "../view-models/BetItem";
-import WebSocketTableGameBase from "../WebSocketTableGameBase";
+
+interface TableGameBaseInterface {
+    node: cc.Node;
+    dealerChipBox: cc.Node;
+    otherPlayers: cc.Node;
+    betItems: BetItem[];
+    enablePlaceChips: boolean;
+    betChips: BetChips;
+    userProfile: UserProfile;
+    winningPlayerEffectPrefab: cc.Prefab;
+
+    gameData?: GameData;
+    getPlayerSlot(playerId);
+    getCurrentStatusData();
+    payChipToAllPlayers(payChipInfo);
+    showWinningBet(statusDataBet);
+    updateUserBalance();
+}
 
 export interface PayChipInfo {
-    mainRoomGame: WebSocketTableGameBase;
+    mainRoomGame: TableGameBaseInterface;
     winBetItems: BetItem[];
     winningPlayers: any;
     winningDuration: number;
     payChipsDuration: number;
-    statusData: any;
     isChipStack: boolean;
 }
 
 export const payChips = (
-    main: any,
+    main: TableGameBaseInterface,
     settlementResult: any,
     winningPlayers: any,
     payChipFlyTime: number,
     winningAnimationDuration: number,
     isChipStack = false
 ) => {
-    const mainRoomGame = main as WebSocketTableGameBase;
+    const mainRoomGame = main;
     const payChipsDuration = payChipFlyTime;
     const winningDuration = winningAnimationDuration;
     if (!mainRoomGame || !settlementResult || !mainRoomGame.enablePlaceChips || !main.node) {
@@ -39,7 +58,6 @@ export const payChips = (
         winningPlayers,
         payChipsDuration,
         winningDuration,
-        statusData: mainRoomGame.getCurrentStatusData(),
         isChipStack
     };
     if (!main.node.activeInHierarchy) {
@@ -72,20 +90,21 @@ const removeChipStack = (winBetItems: BetItem[]) => {
     });
 };
 
-export const dealerGetChips = (mainRoomGame: any, lostBetItems: BetItem[]) => {
+export const dealerGetChips = (mainRoomGame: TableGameBaseInterface, lostBetItems: BetItem[]) => {
     _.forEach(lostBetItems, (item) => {
         mainRoomGame.betChips.moveChips(item.chipNode, mainRoomGame.dealerChipBox);
     });
 };
 
-export const dealerPayChips = (mainRoomGame: any, winBetItems: BetItem[]) => {
+export const dealerPayChips = (mainRoomGame: TableGameBaseInterface, winBetItems: BetItem[]) => {
     _.forEach(winBetItems, (item) => {
         mainRoomGame.betChips.payChipsToWinningBetItem(item.chipNode, mainRoomGame.dealerChipBox);
     });
 };
 
 export const payChipsToLoginPlayer = (info: PayChipInfo, isOtherPlayers = true) => {
-    const { statusData } = info;
+    const { mainRoomGame } = info;
+    const statusData = mainRoomGame.getCurrentStatusData();
     if (!statusData || !statusData.win) {
         return;
     }
@@ -99,7 +118,8 @@ export const payChipsToLoginPlayer = (info: PayChipInfo, isOtherPlayers = true) 
 };
 
 export const showPayoutForLoginPlayer = (info: PayChipInfo) => {
-    const { mainRoomGame, statusData, winningDuration } = info;
+    const { mainRoomGame, winningDuration } = info;
+    const statusData = mainRoomGame.getCurrentStatusData();
     if (!statusData || !statusData.win) {
         return;
     }
@@ -151,12 +171,19 @@ export const payChipsToOtherPlayers = (info: PayChipInfo) => {
 };
 
 export const payChipsToInGamePlayers = (info: PayChipInfo) => {
-    const { winningPlayers, mainRoomGame, winBetItems, payChipsDuration, winningDuration } = info;
-    if (!winningPlayers) {
-        return;
+    const { mainRoomGame, winBetItems, payChipsDuration, winningDuration } = info;
+    let winningPlayers = info.winningPlayers;
+
+    if (mainRoomGame?.gameData.settlement.winningPlayers) {
+        console.log("get winningPlayers from new way");
+        winningPlayers = mainRoomGame?.gameData.settlement.winningPlayers;
     }
 
     const winningPlayerIds = Object.keys(winningPlayers);
+
+    if (!winningPlayerIds.length) {
+        return;
+    }
 
     _.forEach(winningPlayerIds, (playerId) => {
         const winningPlayerData = winningPlayers[playerId];
@@ -180,7 +207,7 @@ export const payChipsToInGamePlayers = (info: PayChipInfo) => {
     });
 };
 
-export const playWinningEffect = (mainRoomGame: any, playerNode: cc.Node, duration: number) => {
+export const playWinningEffect = (mainRoomGame: TableGameBaseInterface, playerNode: cc.Node, duration: number) => {
     const winningEffect = cc.instantiate(mainRoomGame.winningPlayerEffectPrefab);
     winningEffect.name = "winningEffect";
     playerNode.addChild(winningEffect);

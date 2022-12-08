@@ -4,6 +4,7 @@ import NewGameData from "../models/NewGameData";
 export type SettlementType = {
     finish?: any;
     status?: any;
+    winners?: any;
 };
 
 export class SettlemenHandler extends BaseEventHandler<SettlementType> {
@@ -19,6 +20,10 @@ export class SettlemenHandler extends BaseEventHandler<SettlementType> {
 
         if (event.status != null) {
             this.gameData.settlement.receiveStatus(event.status);
+        }
+
+        if (event.winners) {
+            this.gameData.settlement.receiveWinners(event.winners.winningPlayer);
         }
     }
 }
