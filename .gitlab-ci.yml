@@ -69,6 +69,10 @@ include:
     - project: "ci/repos-ci/pentagon_l2_fruit_slot_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
+    - project: "ci/repos-ci/pentagon_l1_win_three_cards_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
 
     - project: "ci/repos-ci/pentagon_l1_fantan_client"
       ref: master
@@ -255,3 +259,8 @@ bundle-verification:
     <<: *build_cocos_creator_script
     extends:
         - .build:image:l2_fortune_cat_client:rules
+        
+.base_build_cocos_web_l1_win_three_cards_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l1_win_three_cards_client:rules
