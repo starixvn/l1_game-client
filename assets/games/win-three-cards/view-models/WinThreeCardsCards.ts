@@ -1,8 +1,34 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import NewCard from "../../../common/new-card/view-models/NewCard";
+import { getNameCard } from "../../../common/helpers/CardHelper";
+import NewCard, { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BaccaratCard from "../../baccarat/view-models/BaccaratCard";
 
 const { ccclass, property } = cc._decorator;
+
+export class WinThreeCardResult {
+    cards: CardModel[];
+    cardRankId: number;
+    handRankId: number;
+
+    constructor(cardResult: any) {
+        this.cardRankId = cardResult?.cardRankId ?? -1;
+        this.handRankId = cardResult?.handRankId ?? -1;
+        if (cardResult.cards) {
+            this.cards = Object.values(cardResult.cards);
+        }
+    }
+}
+
+enum Ranks {
+    highCard = 1,
+    onePair,
+    straight,
+    flush,
+    straightFlush,
+    threeOfAKind,
+    killer235
+}
+
 @ccclass
 export default class WinThreeCardsCards extends cc.Component {
     @property(cc.Node)
@@ -37,6 +63,12 @@ export default class WinThreeCardsCards extends cc.Component {
 
     @property(cc.Label)
     numberTagCardBack: cc.Label = null;
+
+    @property(cc.Label)
+    handRank: cc.Label = null;
+
+    @property(cc.Label)
+    cardRank: cc.Label = null;
 
     protected playGetCardAudio = () => {
         // handle
@@ -88,7 +120,9 @@ export default class WinThreeCardsCards extends cc.Component {
         this.openCard(2, cards, false);
     }
 
-    showCards(cards: any[], onFinishShowCards: () => void): void {
+    showCards(cardResult: WinThreeCardResult, onFinishShowCards: () => void): void {
+        const { cards } = cardResult;
+        let delayTime = 0;
         const handleCard = cc.sequence(
             cc.callFunc(() => {
                 this.openCard(0, cards);
@@ -101,15 +135,38 @@ export default class WinThreeCardsCards extends cc.Component {
             cc.delayTime(this.openSecondCardSecond), // Waiting for open 2nd card
 
             cc.callFunc(() => {
+                delayTime = this.openSecondCardSecond; // Waiting for the other side open 2nd card
                 this.openCard(2, cards);
-            }),
-            cc.delayTime(this.openThirdCardSecond) // Waiting for open 3rd card
+                const handleFinishCard = cc.sequence(
+                    cc.delayTime(delayTime),
+                    cc.callFunc(() => onFinishShowCards && onFinishShowCards()),
+                    cc.callFunc(() => this.setRank(cardResult))
+                );
+
+                handleFinishCard.setTag(this.SHOW_FINISH_CARD);
+                this.node.runAction(handleFinishCard);
+            })
         );
 
         this.resetSomeActionCards();
         handleCard.setTag(this.SHOW_CARD);
 
         this.node.runAction(handleCard);
+    }
+
+    private setRank(cardResult: WinThreeCardResult) {
+        this.handRank.node.active = true;
+        this.handRank.string = Ranks[cardResult.handRankId];
+
+        if (cardResult.cardRankId >= 0) {
+            this.cardRank.node.active = true;
+            this.cardRank.string = getNameCard(cardResult.cardRankId);
+        }
+    }
+
+    hideRank() {
+        this.handRank.node.active = false;
+        this.cardRank.node.active = false;
     }
 
     protected resetSomeActionCards() {
@@ -187,6 +244,7 @@ export default class WinThreeCardsCards extends cc.Component {
     }
 
     resetCard(card: cc.Node) {
+        this.hideRank();
         card.children[0].getComponent(NewCard).faceDown();
         card.opacity = 0;
         card.scale = 0.5;

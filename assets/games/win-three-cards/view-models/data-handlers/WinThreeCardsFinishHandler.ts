@@ -1,5 +1,6 @@
 import BaccaratFinishHandler from "../../../baccarat/view-models/data-handlers/BaccaratFinishHandler";
 import WinThreeCards from "../WinThreeCards";
+import { WinThreeCardResult } from "../WinThreeCardsCards";
 import WinThreeCardsLogsHandler from "./WinThreeCardsLogsHandler";
 
 export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
@@ -13,19 +14,21 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
         // baccaratMain.miniRoundHistory.setData(currentDataLogs);
     }
 
-    protected getDataFollowTypePlayer(data: any, isBanker: boolean) {
-        if (isBanker) {
-            return Object.values(data.phoenix.cards).filter((value) => value != null);
+    handleFinishData(dataFinish: any, dataResultHash: any, onFinishHandlingData: () => void = null) {
+        super.handleFinishData(dataFinish, onFinishHandlingData);
+
+        const baccaratMain = this.getOwnMain();
+        if (!dataFinish.result) {
+            return;
         }
-        return Object.values(data.dragon.cards).filter((value) => value != null);
+
+        this.showCards(dataFinish, dataResultHash, baccaratMain, onFinishHandlingData);
     }
 
     protected showCards(dataFinish: any, dataResultHash: any, baccaratMain: any, onFinishHandlingData: () => void) {
         // baccaratMain.showScoreBoardNextDot = true;
         const result = dataFinish.result;
         const settlementResult = dataFinish.settlementResult;
-        const playerCards = this.getDataFollowTypePlayer(result, false);
-        const bankerCards = this.getDataFollowTypePlayer(result, true);
         const showResultFunc = () => {
             // baccaratMain.showScoreBoardNextDot = false;
             this.main.md5Component?.updateMD5String(dataResultHash);
@@ -39,7 +42,7 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
             // this.handleBuildMiniLogs(baccaratMain);
         };
 
-        baccaratMain.playerCards.showCards(playerCards, bankerCards.length === 3 ? null : showResultFunc);
-        baccaratMain.bankerCards.showCards(bankerCards, bankerCards.length === 3 ? showResultFunc : null, playerCards.length === 3);
+        baccaratMain.playerCards.showCards(new WinThreeCardResult(result.phoenix), showResultFunc);
+        baccaratMain.bankerCards.showCards(new WinThreeCardResult(result.dragon), showResultFunc);
     }
 }
