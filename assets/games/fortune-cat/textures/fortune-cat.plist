@@ -649,21 +649,6 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>effect_line_light.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{123,27}</string>
-                <key>spriteSourceSize</key>
-                <string>{123,27}</string>
-                <key>textureRect</key>
-                <string>{{616,146},{123,27}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
             <key>history-cell.png</key>
             <dict>
                 <key>aliases</key>
@@ -963,21 +948,6 @@
                 <string>{{708,1180},{77,73}}</string>
                 <key>textureRotated</key>
                 <false/>
-            </dict>
-            <key>line-blue.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{62,9}</string>
-                <key>spriteSourceSize</key>
-                <string>{62,9}</string>
-                <key>textureRect</key>
-                <string>{{1009,486},{62,9}}</string>
-                <key>textureRotated</key>
-                <true/>
             </dict>
             <key>menu-button.png</key>
             <dict>
@@ -1384,6 +1354,36 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
+            <key>winning-line-effect.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{123,27}</string>
+                <key>spriteSourceSize</key>
+                <string>{123,27}</string>
+                <key>textureRect</key>
+                <string>{{616,146},{123,27}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>winning-line.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{62,7}</string>
+                <key>spriteSourceSize</key>
+                <string>{62,7}</string>
+                <key>textureRect</key>
+                <string>{{1009,486},{62,7}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
             <key>winning-lines-bg.png</key>
             <dict>
                 <key>aliases</key>
@@ -1428,7 +1428,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:a2ac2a4254fe963a85e9ee23665def61:3f47df8e68524c0d4f92c30703895a6e:848e081e4d285ae2b2ca84c0200b5d87$</string>
+            <string>$TexturePacker:SmartUpdate:2f85a43dcfd9e26a0862bf2f04178a88:f81a4c34ed391a453b728a71fac9a274:848e081e4d285ae2b2ca84c0200b5d87$</string>
             <key>textureFileName</key>
             <string>fortune-cat.png</string>
         </dict>
