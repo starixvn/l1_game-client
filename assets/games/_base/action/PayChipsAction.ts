@@ -97,8 +97,7 @@ export const payChipsToLoginPlayer = (info: PayChipInfo, isOtherPlayers = true) 
     }
 };
 
-export const showPayoutForLoginPlayer = (info: PayChipInfo) => {
-    const { mainRoomGame } = info;
+export const showPayoutForLoginPlayer = (mainRoomGame: TableGameBaseInterface) => {
     const statusData = mainRoomGame.getCurrentStatusData();
     payoutLoginPlayer(mainRoomGame, statusData);
 };

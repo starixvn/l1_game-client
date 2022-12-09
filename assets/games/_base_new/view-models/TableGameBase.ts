@@ -1,13 +1,6 @@
 import _ = require("lodash");
 
-import {
-    PayChipInfo,
-    payChips,
-    payChipsToInGamePlayers,
-    payChipsToLoginPlayer,
-    payChipsToOtherPlayers,
-    playWinningEffect,
-} from "../../_base/action/PayChipsAction";
+import { payChips, playWinningEffect } from "../../_base/action/PayChipsAction";
 import RoomPlayer, { PlayerData } from "../../_base/view-models/RoomPlayer";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
@@ -251,14 +244,7 @@ export default class TableGameBase extends MiniGameBase implements TableGameBase
         return this.gameData.settlement.status;
     }
 
-    override payChipToAllPlayers(info: PayChipInfo) {
-        const { mainRoomGame } = info;
-        payChipsToLoginPlayer(info, mainRoomGame.otherPlayers !== null);
+    protected override showPayoutForLoginPlayer(mainRoomGame: TableGameBaseInterface) {
         mainRoomGame.gameData.settlement.showStatus();
-        if (mainRoomGame.otherPlayers) {
-            payChipsToOtherPlayers(info);
-        }
-
-        payChipsToInGamePlayers(info);
     }
 }

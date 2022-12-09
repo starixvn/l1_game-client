@@ -19,6 +19,7 @@ import NoticeUtil from "../../common/utils/NoticeUtil";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 import GameDataManager from "../_base_new/models/GameDataManager";
+import TableGameBaseInterface from "../_base_new/view-models/TableGameBaseInterface";
 import { GameData } from "../_new/_base/game-data-management/models/game-data";
 import {
     PayChipInfo,
@@ -885,12 +886,18 @@ export default class GameBase extends GameViewBase {
     payChipToAllPlayers(info: PayChipInfo) {
         const { mainRoomGame } = info;
         payChipsToLoginPlayer(info, mainRoomGame.otherPlayers !== null);
-        showPayoutForLoginPlayer(info);
+
+        this.showPayoutForLoginPlayer(mainRoomGame);
+
         if (mainRoomGame.otherPlayers) {
             payChipsToOtherPlayers(info);
         }
 
         payChipsToInGamePlayers(info);
         this.inSettlementSequence = false;
+    }
+
+    protected showPayoutForLoginPlayer(mainRoomGame: TableGameBaseInterface) {
+        showPayoutForLoginPlayer(mainRoomGame);
     }
 }
