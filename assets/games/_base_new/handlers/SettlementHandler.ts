@@ -10,7 +10,7 @@ export type SettlementType = {
 export class SettlemenHandler extends BaseEventHandler<SettlementType> {
     protected readonly gameData: NewGameData;
     protected verifyEvent(event: SettlementType) {
-        return event.finish != null || event.status != null;
+        return event.finish != null || event.status != null || event.winners != null;
     }
 
     protected handle(event: SettlementType) {
@@ -23,7 +23,7 @@ export class SettlemenHandler extends BaseEventHandler<SettlementType> {
         }
 
         if (event.winners) {
-            this.gameData.settlement.receiveWinners(event.winners.winningPlayer);
+            this.gameData.settlement.receiveWinners(event.winners.winningPlayers);
         }
     }
 }

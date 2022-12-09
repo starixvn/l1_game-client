@@ -129,6 +129,7 @@ export const onReceiveLoginPlayerStatus = (mainRoomGame: any) => (statusData) =>
 export const onReceiveOthersStatus = (mainRoomGame: any) => (winningPlayers) => {
     if (checkNeedShowPayoutIfDelayEndgame(mainRoomGame)) {
         showWinningEffectForPlayers(mainRoomGame, winningPlayers);
+        mainRoomGame.gameData.settlement.clearWinnersData();
     }
 };
 
@@ -179,7 +180,8 @@ export const payChipsToInGamePlayers = (info: PayChipInfo) => {
 
     if (mainRoomGame?.gameData.settlement.winningPlayers) {
         console.log("get winningPlayers from new way");
-        winningPlayers = mainRoomGame?.gameData.settlement.winningPlayers;
+        winningPlayers = mainRoomGame.gameData.settlement.winningPlayers;
+        mainRoomGame.gameData.settlement.clearWinnersData();
     }
 
     const winningPlayerIds = Object.keys(winningPlayers);
