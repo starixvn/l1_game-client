@@ -32,20 +32,24 @@ export default class DynamicAdsBannerController extends BannerController {
 
     async createAdsItem(id: number) {
         const bannerSpriteFrame = await GameUtils.getBanner(this.lobbyMenuConfig, id);
-        if (bannerSpriteFrame) {
-            const item = cc.instantiate(this.adsItemPrefab);
-            if (item) {
-                this.createBasicItem(id, bannerSpriteFrame, item);
+        try {
+            if (bannerSpriteFrame) {
+                const item = cc.instantiate(this.adsItemPrefab);
+                if (item) {
+                    this.createBasicItem(id, bannerSpriteFrame, item);
 
-                const button = item.getComponent(cc.Button);
-                const event = new cc.Component.EventHandler();
-                event.target = this.node;
-                event.component = "BannerController";
-                event.handler = "openGame";
-                event.customEventData = id.toString();
-                button.clickEvents.push(event);
-                this.handleShowBanner();
+                    const button = item.getComponent(cc.Button);
+                    const event = new cc.Component.EventHandler();
+                    event.target = this.node;
+                    event.component = "BannerController";
+                    event.handler = "openGame";
+                    event.customEventData = id.toString();
+                    button.clickEvents.push(event);
+                    this.handleShowBanner();
+                }
             }
+        } catch (e) {
+            console.warn("Catch error after await method", e.message);
         }
     }
 

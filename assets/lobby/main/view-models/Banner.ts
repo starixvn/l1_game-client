@@ -44,13 +44,17 @@ export default class Banner extends cc.Component {
     }
 
     async reloadBanner(needLoadAllBanners: boolean) {
-        if (!this.adsBannerController) {
-            await this.init();
+        try {
+            if (!this.adsBannerController) {
+                await this.init();
+            }
+            this.adsBannerController.node.destroyAllChildren();
+            const filterList: number[] = this.getGameIdOfferBanner(needLoadAllBanners);
+            await this.adsBannerController.setGameAds(filterList);
+            this.adsBannerController.showFirstPage();
+        } catch (e) {
+            console.warn("Catch error after await method", e.message);
         }
-        this.adsBannerController.node.destroyAllChildren();
-        const filterList: number[] = this.getGameIdOfferBanner(needLoadAllBanners);
-        await this.adsBannerController.setGameAds(filterList);
-        this.adsBannerController.showFirstPage();
     }
 
     private async handleJackpotBanner() {
