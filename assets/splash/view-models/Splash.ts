@@ -37,7 +37,6 @@ export default class Splash extends cc.Component {
     protected onLoad(): void {
         AudioManager.getInstance().init();
         this.initLanguage();
-        this.initOneSign();
         sentryLogger.start();
         this.loadAssets();
 
@@ -52,25 +51,6 @@ export default class Splash extends cc.Component {
             language = getLanguage(urlParams.get("lang") ?? "en-US");
         }
         setLanguage(language);
-    }
-
-    initOneSign() {
-        if (this.checkPlugin()) {
-            sdkbox.PluginOneSignal.init();
-            sdkbox.PluginOneSignal.setListener({
-                onSendTag: function (t, e, i) {},
-                onGetTags: function (t) {},
-                onIdsAvailable: function (t, e) {},
-                onPostNotification: function (t, e) {},
-                onNotification: function (t, e, i) {}
-            });
-        }
-    }
-
-    checkPlugin() {
-        return "undefined" == typeof sdkbox
-            ? (console.log("sdkbox is undefined"), !1)
-            : void 0 !== sdkbox.PluginOneSignal || (console.log("sdkbox.PluginFacebook is undefined"), !1);
     }
 
     loadAssets() {
