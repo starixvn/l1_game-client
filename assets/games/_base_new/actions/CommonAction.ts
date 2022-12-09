@@ -107,6 +107,10 @@ export const handleShowResult = (game: MiniGameBase) => (settlement) => {
         return;
     }
     game.inSettlementSequence = true;
+    if (game.usingNewSettlement) {
+        game.gameData.settlement.clearStatus();
+        game.gameData.settlement.clearWinnersData();
+    }
     game.gameData.roundHistory.add(settlement);
     game.gameData.roundHistory.checkWinningStreak(settlement, game.showResultDuration);
     game.disableRebetButton();
