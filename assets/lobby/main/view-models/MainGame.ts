@@ -1,11 +1,9 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
-import { appContainer } from "../../../Application";
-import * as baseControl from "../../../BaseController";
+import { appContainer, lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
 import NotificationService from "../../../common/auth/NotificationService";
-import UserService from "../../../common/auth/UserService";
 import GameUtils from "../../../common/GameUtils";
 import { truncateFixedDecimals } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
@@ -28,7 +26,6 @@ import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 
 const socketIOController = appContainer.get(SocketIOController);
-const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 const sentryLogger = logger();
 
 const { ccclass, property } = cc._decorator;
@@ -80,6 +77,9 @@ export default class MainGame extends cc.Component {
     @property(cc.Prefab)
     signNamePrefab = null;
 
+    @lazyInject(LobbyMenuConfig)
+    private readonly lobbyMenuConfig: LobbyMenuConfig;
+
     private initializedLobby = false;
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
@@ -100,9 +100,7 @@ export default class MainGame extends cc.Component {
     onLoad() {
         document.cookie = "redT=1702;path=/";
 
-        this.initRedT();
         cc.RedT.inGame = this;
-        this.initAppEvent();
 
         NotificationService.getInstance().connect();
         NotificationService.getInstance().emitEvent("promotionNotifications", {});
@@ -194,8 +192,8 @@ export default class MainGame extends cc.Component {
         };
 
         Object.keys(categoryList).forEach((key) => {
-            const isNew = lobbyMenuConfig.categoryList[key].some(
-                (gameId) => lobbyMenuConfig.isNewGame(gameId) && cc.RedT.user?.offerGames?.includes(gameId)
+            const isNew = this.lobbyMenuConfig.categoryList[key].some(
+                (gameId) => this.lobbyMenuConfig.isNewGame(gameId) && cc.RedT.user?.offerGames?.includes(gameId)
             );
             const categoryNode = this.categoryContainer.children.find((child) => child.name === categoryList[key].toString());
             if (categoryNode) {
@@ -234,30 +232,6 @@ export default class MainGame extends cc.Component {
         }
 
         this.mainScroll.scrollToOffset(cc.v2(newOffset, 0), 0.4);
-    }
-
-    initRedT() {
-        if (void 0 === cc.RedT) {
-            cc.RedT = baseControl;
-            cc.RedT.init();
-        }
-    }
-
-    initAppEvent() {
-        cc.game.on(
-            cc.game.EVENT_HIDE,
-            function () {
-                cc.RedT.GAME_IS_SHOWED = false;
-            }.bind(this)
-        );
-
-        cc.game.on(
-            cc.game.EVENT_SHOW,
-            function () {
-                cc.RedT.GAME_IS_SHOWED = true;
-                UserService.getBalance();
-            }.bind(this)
-        );
     }
 
     initMiniPanel() {

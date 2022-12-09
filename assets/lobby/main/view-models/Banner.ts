@@ -1,4 +1,4 @@
-import { appContainer } from "../../../Application";
+import { appContainer, lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
@@ -10,10 +10,12 @@ import JackpotNavigation from "./JackpotNavigation";
 const { ccclass, property } = cc._decorator;
 
 const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
-const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 
 @ccclass
 export default class Banner extends cc.Component {
+    @lazyInject(LobbyMenuConfig)
+    private readonly lobbyMenuConfig: LobbyMenuConfig;
+
     private adsBannerController: DynamicAdsBannerController = null;
 
     private jackpotBannerContainer: cc.Node = null;
@@ -98,7 +100,7 @@ export default class Banner extends cc.Component {
 
     private getGameIdOfferBanner(isLoadAllBanners: boolean) {
         const filterList: number[] = [];
-        const gameAds = isLoadAllBanners ? lobbyMenuConfig.bannerAds : lobbyMenuConfig.bannerAds.slice(0, 1);
+        const gameAds = isLoadAllBanners ? this.lobbyMenuConfig.bannerAds : this.lobbyMenuConfig.bannerAds.slice(0, 1);
         const offerGames = cc.RedT.user.offerGames;
         gameAds.forEach((id: number) => {
             if (offerGames.includes(id)) {
@@ -106,7 +108,7 @@ export default class Banner extends cc.Component {
             }
         });
 
-        if (lobbyMenuConfig.smPromotion) {
+        if (this.lobbyMenuConfig.smPromotion) {
             // Add SM promotion banner at page 2
             filterList.splice(1, 0, 0);
         }

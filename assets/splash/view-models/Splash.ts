@@ -1,7 +1,9 @@
-import { appContainer } from "../../Application";
+import { appContainer, lazyInject } from "../../Application";
+import * as baseControl from "../../BaseController";
 import AudioManager from "../../common/audio/AudioManager";
 import * as authManager from "../../common/auth/AuthManager";
 import { getCacheLanguage, getLanguage, setLanguage } from "../../common/auth/SessionManager";
+import UserService from "../../common/auth/UserService";
 import GameUtils from "../../common/GameUtils";
 import logger from "../../common/logger";
 import { initialize } from "../../configs/GameConfigurations";
@@ -11,7 +13,6 @@ import SplashConfig from "./SplashConfig";
 
 const splashConfig = appContainer.get(SplashConfig);
 const sentryLogger = logger();
-const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,6 +33,9 @@ export default class Splash extends cc.Component {
     @property(cc.Node)
     sloganSC2: cc.Node = null;
 
+    @lazyInject(LobbyMenuConfig)
+    private readonly lobbyMenuConfig: LobbyMenuConfig;
+
     private loadSceneTimeout: any;
 
     protected onLoad(): void {
@@ -42,6 +46,23 @@ export default class Splash extends cc.Component {
 
         this.sloganSC1.active = splashConfig.enabledSC1;
         this.sloganSC2.active = !splashConfig.enabledSC1;
+    }
+
+    initRedT() {
+        cc.RedT = baseControl;
+        cc.RedT.init();
+        this.initShowHideAppEvent();
+    }
+
+    initShowHideAppEvent() {
+        cc.game.on(cc.game.EVENT_HIDE, () => {
+            cc.RedT.GAME_IS_SHOWED = false;
+        });
+
+        cc.game.on(cc.game.EVENT_SHOW, () => {
+            cc.RedT.GAME_IS_SHOWED = true;
+            UserService.getBalance();
+        });
     }
 
     initLanguage() {
@@ -86,6 +107,8 @@ export default class Splash extends cc.Component {
 
     async onLoaded() {
         await initialize();
+        this.initRedT();
+
         await this.preLoadBanner();
         await this.preLoadGameIcons();
 
@@ -98,12 +121,14 @@ export default class Splash extends cc.Component {
         try {
             const preLoadGameCount = 10;
             const preLoadGameIds =
-                lobbyMenuConfig.list?.length >= preLoadGameCount ? lobbyMenuConfig.list.slice(0, preLoadGameCount) : lobbyMenuConfig.list;
+                this.lobbyMenuConfig.list?.length >= preLoadGameCount
+                    ? this.lobbyMenuConfig.list.slice(0, preLoadGameCount)
+                    : this.lobbyMenuConfig.list;
 
             const preLoadGameAwaiters = preLoadGameIds.map((gameId) => GameUtils.loadGameIcon(gameId));
 
             const preLoadGameBySystemAwaiters = preLoadGameIds
-                .filter((gameId) => lobbyMenuConfig.customGameIconBySystem.includes(gameId))
+                .filter((gameId) => this.lobbyMenuConfig.customGameIconBySystem.includes(gameId))
                 .map((gameId) => GameUtils.loadGameIcon(gameId, splashConfig.customPath));
 
             await Promise.all(preLoadGameAwaiters.concat(preLoadGameBySystemAwaiters));
@@ -114,8 +139,8 @@ export default class Splash extends cc.Component {
 
     private async preLoadBanner() {
         try {
-            const bannerId = lobbyMenuConfig.bannerAds[0];
-            const spriteAwaiters = GameUtils.getBanner(lobbyMenuConfig, bannerId);
+            const bannerId = this.lobbyMenuConfig.bannerAds[0];
+            const spriteAwaiters = GameUtils.getBanner(this.lobbyMenuConfig, bannerId);
             const bannerContainerAwaiters = new Promise((resolve) => {
                 cc.resources.load("lobby/banner/bannerContainer", resolve);
             });

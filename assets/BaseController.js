@@ -1,3 +1,4 @@
+import { appContainer } from "./Application";
 import logger from "./common/logger";
 import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
 
@@ -15,8 +16,8 @@ module.exports = {
     init: function () {
         this.initPrototype();
 
-        const menuConfig = new LobbyMenuConfig();
-        this.user.offerGames = menuConfig.list;
+        const lobbyMenuConfig = appContainer.get(LobbyMenuConfig);
+        this.user.offerGames = lobbyMenuConfig.list;
     },
     initPrototype: function () {
         if (!String.format) {
@@ -31,7 +32,7 @@ module.exports = {
     userData: function (data) {
         if (void 0 !== data.offerGames) {
             const offerGames = data.offerGames.map((game) => game.gameId);
-            const menuConfig = new LobbyMenuConfig();
+            const menuConfig = appContainer.get(LobbyMenuConfig);
             const list = [];
             menuConfig.list.forEach((id) => {
                 if (offerGames.includes(id)) {
