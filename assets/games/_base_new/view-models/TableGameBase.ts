@@ -29,11 +29,12 @@ import NewTableGameData from "../models/NewTableGameData";
 import PlayerModel from "../models/PlayerModel";
 import { Settlement } from "../models/Settlement";
 import MiniGameBase from "./MiniGameBase";
+import TableGameBaseInterface from "./TableGameBaseInterface";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class TableGameBase extends MiniGameBase {
+export default class TableGameBase extends MiniGameBase implements TableGameBaseInterface {
     @property({ type: RoomPlayer })
     players: RoomPlayer[] = [];
 
@@ -43,7 +44,7 @@ export default class TableGameBase extends MiniGameBase {
     @property(cc.Prefab)
     winningPlayerEffectPrefab: cc.Prefab = null;
 
-    protected get WinningAnimationDuration() {
+    get WinningAnimationDuration() {
         return 3;
     }
 

@@ -3,6 +3,7 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import ExtraFeature from "../../../common/extra-features/ExtraFeature";
 import GameIdSprite from "../../../common/GameIdSprite";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import { onReceiveLoginPlayerStatus, onReceiveOthersStatus } from "../../_base/action/PayChipsAction";
 import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import { GameData } from "../../_new/_base/game-data-management/models/game-data";
@@ -291,6 +292,8 @@ export default class MiniGameBase extends NewMiniGameBase {
 
         this.emitterListener(this.gameData, NewGameData.Events.CHANGE_ROUND_ID, changeGameRound);
         this.emitterListener(this.gameData.resultHash, ResultHash.Events.CHANGE, updateMD5String);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.RECEIVED_LOGIN_PLAYER_STATUS, onReceiveLoginPlayerStatus);
+        this.emitterListener(this.gameData.settlement, Settlement.Events.RECEIVED_OTHERS_STATUS, onReceiveOthersStatus);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_STATUS, handleShowStatus);
         this.emitterListener(this.gameData.settlement, Settlement.Events.SHOW_RESULT, handleShowResult);
         this.emitterListener(this.gameData.settlement, Settlement.Events.END_SHOW_RESULT, handleAfterSettlementResult);

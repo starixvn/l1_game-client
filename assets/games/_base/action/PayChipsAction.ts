@@ -1,29 +1,9 @@
 import * as _ from "lodash";
 
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import UserProfile from "../../../common/user-profile/UserProfile";
-import { GameData } from "../../_new/_base/game-data-management/models/game-data";
+import TableGameBaseInterface from "../../_base_new/view-models/TableGameBaseInterface";
 import BetItem from "../view-models/BetItem";
-
-interface TableGameBaseInterface {
-    node: cc.Node;
-    dealerChipBox: cc.Node;
-    otherPlayers: cc.Node;
-    betItems: BetItem[];
-    enablePlaceChips: boolean;
-    betChips: BetChips;
-    userProfile: UserProfile;
-    winningPlayerEffectPrefab: cc.Prefab;
-
-    gameData?: GameData;
-    getPlayerSlot(playerId);
-    getCurrentStatusData();
-    payChipToAllPlayers(payChipInfo);
-    showWinningBet(statusDataBet);
-    updateUserBalance();
-}
 
 export interface PayChipInfo {
     mainRoomGame: TableGameBaseInterface;
@@ -118,15 +98,38 @@ export const payChipsToLoginPlayer = (info: PayChipInfo, isOtherPlayers = true) 
 };
 
 export const showPayoutForLoginPlayer = (info: PayChipInfo) => {
-    const { mainRoomGame, winningDuration } = info;
+    const { mainRoomGame } = info;
     const statusData = mainRoomGame.getCurrentStatusData();
+    payoutLoginPlayer(mainRoomGame, statusData);
+};
+
+const payoutLoginPlayer = (mainRoomGame: TableGameBaseInterface, statusData) => {
     if (!statusData || !statusData.win) {
         return;
     }
     mainRoomGame.showWinningBet(statusData.bet);
     const playerNode = mainRoomGame.userProfile?.userAvatar?.node?.parent;
-    playerNode && playWinningEffect(mainRoomGame, playerNode, winningDuration);
+    playerNode && playWinningEffect(mainRoomGame, playerNode, 3);
     mainRoomGame.updateUserBalance();
+};
+
+const checkNeedShowPayoutIfDelayEndgame = (mainRoomGame: any) => {
+    if (!mainRoomGame.usingNewSettlement || mainRoomGame.inSettlementSequence) {
+        return false;
+    }
+    return mainRoomGame.gameData.durations.isWaiting();
+};
+
+export const onReceiveLoginPlayerStatus = (mainRoomGame: any) => (statusData) => {
+    if (checkNeedShowPayoutIfDelayEndgame(mainRoomGame)) {
+        payoutLoginPlayer(mainRoomGame, statusData);
+    }
+};
+
+export const onReceiveOthersStatus = (mainRoomGame: any) => (winningPlayers) => {
+    if (checkNeedShowPayoutIfDelayEndgame(mainRoomGame)) {
+        showWinningEffectForPlayers(mainRoomGame, winningPlayers);
+    }
 };
 
 const moveChipWithRandomAmountToLoginPlayer = (info: PayChipInfo, winningByChoices) => {
@@ -186,24 +189,55 @@ export const payChipsToInGamePlayers = (info: PayChipInfo) => {
     }
 
     _.forEach(winningPlayerIds, (playerId) => {
-        const winningPlayerData = winningPlayers[playerId];
         const playerSlot = mainRoomGame.getPlayerSlot(playerId);
-        const playerBetItems = winningPlayerData.winningByChoices;
-        const bet = winningPlayerData.bet;
-
-        if (playerSlot) {
-            _.forEach(winBetItems, (item) => {
-                if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
-                    const chipNode = !info.isChipStack ? item.chipNode : item.chipNode.children[0];
-                    chipNode && mainRoomGame.betChips.moveChipsWithRandomAmount(chipNode, playerSlot.avatar.node, payChipsDuration);
-                }
-            });
-
-            playerSlot.increaseBalance(winningPlayerData.bet);
-            const convertValue = GameUtils.getValueByCurrency(bet, winningPlayerData.rate || 1);
-            GameUtils.addFlyingText(playerSlot.node, true, convertValue, winningDuration, 0, 10);
-            playWinningEffect(mainRoomGame, playerSlot.node, winningDuration);
+        if (!playerSlot) {
+            return;
         }
+
+        const winningPlayerData = winningPlayers[playerId];
+        const playerBetItems = winningPlayerData.winningByChoices;
+        const { bet, rate } = winningPlayerData;
+
+        _.forEach(winBetItems, (item) => {
+            if (playerBetItems && playerBetItems[item.node.name.toLowerCase()] > 0) {
+                const chipNode = !info.isChipStack ? item.chipNode : item.chipNode.children[0];
+                chipNode && mainRoomGame.betChips.moveChipsWithRandomAmount(chipNode, playerSlot.avatar.node, payChipsDuration);
+            }
+        });
+        showWinningEffectForPlayerSlot(playerSlot, bet, rate, winningDuration, mainRoomGame);
+    });
+};
+
+function showWinningEffectForPlayerSlot(
+    playerSlot: any,
+    bet: any,
+    rate: any,
+    winningDuration: number,
+    mainRoomGame: TableGameBaseInterface
+) {
+    playerSlot.increaseBalance(bet);
+    const convertValue = GameUtils.getValueByCurrency(bet, rate || 1);
+    GameUtils.addFlyingText(playerSlot.node, true, convertValue, winningDuration, 0, 10);
+    playWinningEffect(mainRoomGame, playerSlot.node, winningDuration);
+}
+
+const showWinningEffectForPlayers = (mainRoomGame, winningPlayers) => {
+    const winningPlayerIds = Object.keys(winningPlayers);
+
+    if (!winningPlayerIds.length) {
+        return;
+    }
+
+    const winningDuration = 3;
+    _.forEach(winningPlayerIds, (playerId) => {
+        const playerSlot = mainRoomGame.getPlayerSlot(playerId);
+        if (!playerSlot) {
+            return;
+        }
+
+        const winningPlayerData = winningPlayers[playerId];
+        const { bet, rate } = winningPlayerData;
+        showWinningEffectForPlayerSlot(playerSlot, bet, rate, winningDuration, mainRoomGame);
     });
 };
 

@@ -17,6 +17,7 @@ export default class Fantan extends StandAloneTableGameBase {
     startRoundDuration = 7;
     showResultDuration = 6;
     betOptionsUI: FantanBetOptionsUI;
+    public usingNewSettlement = true;
 
     constructor() {
         super();

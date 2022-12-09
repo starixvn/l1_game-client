@@ -106,6 +106,7 @@ export const handleShowResult = (game: MiniGameBase) => (settlement) => {
     if (game.isDisableGame) {
         return;
     }
+    game.inSettlementSequence = true;
     game.gameData.roundHistory.add(settlement);
     game.gameData.roundHistory.checkWinningStreak(settlement, game.showResultDuration);
     game.disableRebetButton();

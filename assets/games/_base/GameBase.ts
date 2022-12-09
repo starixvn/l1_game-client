@@ -181,6 +181,8 @@ export default class GameBase extends GameViewBase {
     previousOwnBets: any;
     rebetButton: RebetButton;
 
+    public usingNewSettlement = false;
+    public inSettlementSequence = false;
     // using multiplay game
     public gameData: GameData;
     public onDisconnectCallback = () => {
@@ -888,5 +890,6 @@ export default class GameBase extends GameViewBase {
         }
 
         payChipsToInGamePlayers(info);
+        this.inSettlementSequence = false;
     }
 }
