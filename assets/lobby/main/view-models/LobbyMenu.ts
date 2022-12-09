@@ -38,7 +38,6 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async loadHiddenIcons() {
-        console.log("schedule loadHiddenIcons");
         await GameUtils.delayTime(this.durationAutoHideSkeleton);
         this.handleLoadHiddenIcons();
     }
@@ -182,8 +181,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     handleLoadHiddenIcons() {
-        console.log("======== load hidden icons");
-        this.listIconObscure?.forEach((icon) => {
+        this.listIconObscure.forEach((icon) => {
             const idGame = +icon.node.name;
             icon.loadAnimation(idGame);
         });

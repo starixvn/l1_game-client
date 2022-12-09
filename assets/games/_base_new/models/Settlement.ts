@@ -40,7 +40,6 @@ export class Settlement extends EventEmitterBase {
     }
 
     receiveWinners(winningPlayers: any) {
-        console.log("Receive Winners ", winningPlayers);
         this.winningPlayers = winningPlayers;
         this.emit(Settlement.Events.RECEIVED_OTHERS_STATUS, this.winningPlayers);
     }

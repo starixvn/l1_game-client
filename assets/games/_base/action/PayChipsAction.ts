@@ -179,7 +179,6 @@ export const payChipsToInGamePlayers = (info: PayChipInfo) => {
     let winningPlayers = info.winningPlayers;
 
     if (mainRoomGame?.gameData.settlement.winningPlayers) {
-        console.log("get winningPlayers from new way");
         winningPlayers = mainRoomGame.gameData.settlement.winningPlayers;
         mainRoomGame.gameData.settlement.clearWinnersData();
     }
