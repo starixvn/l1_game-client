@@ -21,6 +21,10 @@ export default class NewDropDownList extends cc.Component {
 
     public onSelectedItemChanged: (itemId: number) => void;
 
+    public isOpenDropDown = false;
+
+    public checkLayerCloseDrop = (isShow: boolean) => {};
+
     onLoad() {
         this.optionContainer.scaleY = 0;
     }
@@ -28,8 +32,10 @@ export default class NewDropDownList extends cc.Component {
     onCaptionClick() {
         if (this.optionContainer.scaleY === 0) {
             this.openDropDown();
+            this.isOpenDropDown = true;
         } else {
             this.closeDropDown();
+            this.isOpenDropDown = false;
         }
     }
 
@@ -81,6 +87,7 @@ export default class NewDropDownList extends cc.Component {
         } else {
             this.optionContainer.scaleY = 1;
         }
+        this.checkLayerCloseDrop(true);
     }
 
     closeDropDown(animated = true) {
@@ -89,5 +96,6 @@ export default class NewDropDownList extends cc.Component {
         } else {
             this.optionContainer.scaleY = 0;
         }
+        this.checkLayerCloseDrop(false);
     }
 }

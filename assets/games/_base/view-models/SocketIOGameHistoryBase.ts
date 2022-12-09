@@ -2,8 +2,9 @@ import { Socket } from "socket.io-client";
 
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
-import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
+import HistoryFrame from "../../../common/new-history/HistoryFrame";
 
 const { ccclass, property } = cc._decorator;
 
@@ -28,18 +29,20 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
 
     onUpdatedData = () => {};
 
+    HEIGHT_CONTENT = 520;
+
     init(socket: Socket) {
         this.socket = socket;
     }
 
     onLoad() {
-        this.pagination.init(this);
-
         const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();
         });
     }
+
+    start() {}
 
     onEnable() {
         this.get_data();
@@ -79,5 +82,15 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         item.showTicketDetail = (round, time, result, betLogDetails, settlementResult) => {
             context.showTicketDetail(round, time, result, betLogDetails, settlementResult);
         };
+    }
+
+    initHistoryWrapper(node: cc.Node) {
+        const historyFrame = node.getComponent(HistoryFrame);
+        this.pagination = historyFrame.pagination;
+        this.pagination.init(this);
+        historyFrame.clickCloseButton = () => {
+            this.mainFrame.getComponent(CommonDialog).closeDialog();
+        };
+        historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT);
     }
 }
