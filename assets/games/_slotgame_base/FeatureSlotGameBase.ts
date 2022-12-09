@@ -276,7 +276,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         callbackAnim.setDuration(this.getCustomDuration("bigWin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
         const floatNumberDuration = this.getCustomDuration("bigWinFloatNumber");
-        bigWinAnimation.setAmount(betWin, floatNumberDuration);
+        bigWinAnimation.setAmount({ amount: betWin, duration: floatNumberDuration });
         await this.showEffect(effect);
     }
 
@@ -285,7 +285,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         const callbackAnim = effect.getComponent(CallbackAnimation);
         callbackAnim.setDuration(this.getCustomDuration("freeSpin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setAmount(count, 0, true);
+        bigWinAnimation.setAmount({ amount: count, noZeroSuffix: true });
         await this.showEffect(effect);
     }
 

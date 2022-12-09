@@ -492,7 +492,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         if (this.isTurboMode()) {
             this.soundEndForBigWin();
-            bigWinAnimation.setAmount(betWin, 0);
+            bigWinAnimation.setAmount({ amount: betWin });
             callbackAnim.skipTouchToContinue();
         } else {
             bigWinAnimation
@@ -505,7 +505,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         callbackAnim.skipCallback = () => {
             this.soundEndForBigWin();
-            bigWinAnimation.setAmount(betWin, 0);
+            bigWinAnimation.setAmount({ amount: betWin });
         };
 
         await this.showEffect(effect);

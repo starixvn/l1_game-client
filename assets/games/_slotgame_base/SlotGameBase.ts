@@ -152,6 +152,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     public isShowAutoSpinSettingDialog = false;
     public isRound = false;
     public autoOpenAutoSpinDialog = false;
+    public delayShowBigWinValue = 0;
     protected userSettings: SlotGameUserSettings;
     private showingWinningLine = false;
 
@@ -374,8 +375,8 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     updateWinningBetLabel(bet: number) {
-        this.winningBet.string = numberWithCommas(bet);
         this.updateUserBalance();
+        this.winningBet.string = numberWithCommas(bet);
     }
 
     onLineSelectionClick() {
@@ -843,9 +844,10 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         callbackAnim.setDuration(this.getCustomDuration("bigwin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
         const showBigWinValueTime = this.getCustomDuration("showBigWinValue");
-        bigWinAnimation.setAmount(betWin, showBigWinValueTime);
+        bigWinAnimation.setAmount({ amount: betWin, duration: showBigWinValueTime, delayTime: this.delayShowBigWinValue });
+        const delayWinningBetLabel = showBigWinValueTime + this.delayShowBigWinValue;
         cc.tween(this)
-            .delay(showBigWinValueTime)
+            .delay(delayWinningBetLabel)
             .call(() => this.updateWinningBetLabel(betWin))
             .start();
         await this.showEffect(effect);
@@ -883,7 +885,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         const jackpotDuration = this.getCustomDuration("jackpot");
         callbackAnim.setDuration(jackpotDuration);
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setAmount(amount, jackpotDuration - 1);
+        bigWinAnimation.setAmount({ amount, duration: jackpotDuration - 1 });
         await this.showEffect(effect);
     }
 
