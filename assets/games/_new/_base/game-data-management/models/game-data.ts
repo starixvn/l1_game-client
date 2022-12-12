@@ -15,6 +15,7 @@ export class GameData extends EventEmitterBase {
 
     protected processingBetFlag = false;
     private underMaintenanceFlag = false;
+    gotIngameData = false;
 
     durations: Durations;
     readonly totalBets: TotalBets;

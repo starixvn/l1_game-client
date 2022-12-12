@@ -17,6 +17,7 @@ export class RoundHistoryHandler extends BaseEventHandler<RoundHistoryType> {
             this.gameData.roundHistory.enterGameRoundId = event.roundId;
         }
 
+        this.gameData.gotIngameData = true;
         this.gameData.roundHistory.change(event.roundHistory);
     }
 }

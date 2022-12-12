@@ -9,7 +9,6 @@ export class RoundHistory extends EventEmitterBase {
         CHANGE: "RoundHistory:CHANGE"
     };
 
-    gotIngameData = false;
     roundHistory: any[] = [];
     historySize = 100;
     winningStreak = {};
@@ -77,7 +76,7 @@ export class RoundHistory extends EventEmitterBase {
     }
 
     change(roundHistory: any) {
-        this.gotIngameData = true;
+        
         const data = _.cloneDeep(roundHistory);
         data.unshift(...this.roundHistory);
         this.roundHistory = data;
