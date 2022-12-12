@@ -15,7 +15,7 @@ export class TableGameBetHandler extends BetHandler {
             this.gameData.betModel.changeOwnChip(event.ownChip);
         }
 
-        if (event.playerChip) {
+        if (event.playerChip && this.gameData.gotIngameData) {
             this.gameData.betModel.changePlayerChip(event);
         }
 
