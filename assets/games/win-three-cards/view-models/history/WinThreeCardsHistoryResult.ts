@@ -1,3 +1,4 @@
+import { i18n } from "../../../../ClientModules";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
 import { WinThreeCardResult } from "./WinThreeCardsHistory";
 
@@ -8,25 +9,25 @@ export const getCardsResult = (result: number) => {
 
     switch (result) {
         case 1: 
-            resultText = "High Card";
+            resultText = i18n.t("winThreeCards.highCard");
             break;
         case 2:             
-            resultText = "One Pair";
+            resultText = i18n.t("winThreeCards.onePair");
             break;
         case 3:        
-            resultText = "Straight";
+            resultText = i18n.t("winThreeCards.straight");
             break;
         case 4:
-            resultText = "Flush";
+            resultText = i18n.t("winThreeCards.flush");
             break;
         case 5:
-            resultText = "Straight Flush";
+            resultText = i18n.t("winThreeCards.straightFlush");
             break;
         case 6:
-            resultText = "Three Of A Kind";
+            resultText = i18n.t("winThreeCards.threeOfAKind");
             break;
         case 7:
-            resultText = "Killer 235";
+            resultText = i18n.t("winThreeCards.killer235");
             break;
     }
 
@@ -60,7 +61,6 @@ export default class WinThreeCardsHistoryResult extends cc.Component {
         this.handRank.string = getCardsResult(betData.handRankId);
         this.cardRank.string = convertRank(+betData.cardRankId);
         this.setCards(betData.cards); 
-        console.log("this.cardRank", convertRank(+betData.cardRankId))
     }
 
     setCards(results: any) {        

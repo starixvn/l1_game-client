@@ -2,7 +2,7 @@ import AudioManager from "../../../../common/audio/AudioManager";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
-import { WinThreeCardsBetData } from "./WinThreeCardsHistory";
+import WinThreeCardsHistory, { WinThreeCardsBetData } from "./WinThreeCardsHistory";
 import WinThreeCardsHistoryResult from "./WinThreeCardsHistoryResult";
 
 const {ccclass, property} = cc._decorator;
@@ -37,7 +37,9 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
 
     data: WinThreeCardsBetData = null;
 
-    public showTicketDetail = (data: any) => {};    
+    public showTicketDetail = (data: WinThreeCardsBetData) => {};    
+
+    historyMainNode: WinThreeCardsHistory = null;
 
     setData(betData: WinThreeCardsBetData) {
         this.data = betData;
@@ -67,14 +69,6 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
 
     openTicketDetail() {
         AudioManager.getInstance().playClick();
-        const { betLogDetails, odds, settlementResult } = this.data;
-        console.log(this.data.betLogDetails);
-
-        // const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
-        // this.historyMainNode.ticketDetailContent.addChild(ticketDetailPrefab);
-
-        // const ticketDetailComponent = ticketDetailPrefab.getComponent(FruitSlotTicketDetail);
-        // ticketDetailComponent.setData(betLogDetails, settlementResult);
-        // ticketDetailComponent.showbetLogs(this.symbolSprites, odds, this.betLog);
+        this.showTicketDetail(this.data);
     }
 }

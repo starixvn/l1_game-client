@@ -8,8 +8,17 @@ export const phrases = {
         61: "Trác Kim Hoa"
     },
     winThreeCards: {
-        dragon: "Rồng",
-        phoenix: "Phượng",
+        dragon: "Long",
+        phoenix: "Phụng",
+        result: "Kết Quả (Long | Phụng)",
+        killer235: "Sát Thủ Bão",
+        threeOfAKind: "Bão",
+        straightFlush: "Thùng Phá Sảnh", 
+        flush: "Thùng",
+        straight: "Sảnh",
+        onePair: "Đôi",
+        highCard: "Bài Cao",
+        pair8Plus: "Đôi 8 trở lên",
     }
 };
 

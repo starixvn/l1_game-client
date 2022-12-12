@@ -48,6 +48,7 @@ export interface WinThreeCardsResultCards {
 }
 
 export interface WinThreeCardsBetData {
+    freeBet: boolean;
     betLogDetails: WinThreeCardsBetLogDetails;
     dragon: number;
     phoenix: number;
@@ -70,7 +71,7 @@ export default class WinThreeCardsHistory extends SocketIOGameHistoryBase {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
-    bindItemRowData(betLog: any, index: number) {
+    bindItemRowData(betLog: WinThreeCardsBetData, index: number) {
         const itemNode = cc.instantiate(this.itemPrefab);
         const item = itemNode.getComponent(WinThreeCardsHistoryItem);
         item.setData(betLog);
@@ -82,11 +83,13 @@ export default class WinThreeCardsHistory extends SocketIOGameHistoryBase {
         }
     }
 
-    showTicketDetail(data: any) {
-        const node = cc.instantiate(this.ticketDetailPrefab);
-        this.node.addChild(node);
+    showTicketDetail(data: WinThreeCardsBetData) {
+        const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
+        this.node.addChild(ticketDetailPrefab);
 
-        const item = node.getComponent(WinThreeCardsTicketDetail);
-        item.setData(data);
+        const ticketDetailComponent = ticketDetailPrefab.getComponent(WinThreeCardsTicketDetail);
+        ticketDetailComponent.setData(data);
+        ticketDetailComponent.showBetLogs(data);
     }
+        
 }
