@@ -316,6 +316,10 @@ export default class BetChips extends cc.Component {
             }
             chipNode.parent = chipBoxNode;
             chipNode.position = randomInChipBoxPosition;
+
+            if (onComplete) {
+                onComplete();
+            }
         };
         if (!chipNode.activeInHierarchy || !cc.RedT.GAME_IS_SHOWED) {
             onEnded();
@@ -325,9 +329,6 @@ export default class BetChips extends cc.Component {
                     this.moveChipTo(randomPosition, flyingDuration),
                     cc.callFunc(() => {
                         onEnded();
-                        if (onComplete) {
-                            onComplete();
-                        }
                     })
                 )
             );
