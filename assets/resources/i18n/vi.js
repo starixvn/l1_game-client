@@ -564,6 +564,15 @@ const data = {
     },
     promotions: {
         notPromotion: "Hiện tại chưa có chưa có chương trình khuyến mãi, vui lòng quay lại sau"
+    },
+    win3Cards: {
+        straight: "Sảnh",
+        straightFlush: "Thùng Phá Sảnh",
+        flush: "Thùng",
+        highCard: "Mậu Thầu",
+        pair: "Đôi",
+        threeOfAKind: "Sám",
+        pair8Plus: "Pair 8 Plus"
     }
 };
 
