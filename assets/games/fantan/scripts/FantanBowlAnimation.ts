@@ -40,6 +40,8 @@ export default class FantanBowlAnimation extends cc.Component {
     @property(cc.AudioClip)
     openBowlSound: cc.AudioClip = null;
 
+    rootNode: cc.Node = null;
+
     private readonly diplayedSeeds = [];
     private readonly seedGroups = [];
     private readonly remainingSeeds = [];
@@ -63,24 +65,31 @@ export default class FantanBowlAnimation extends cc.Component {
     private readonly animationShakingName = "shakingBeads";
     private readonly animationOpenName = "openBowl";
 
+    get nodeScale() {
+        if (this.rootNode) {
+            return this.rootNode.scale * this.node.scale;
+        }
+        return this.node.scale;
+    }
+
     private get BigBowlRandomWidth() {
-        return this.node.scale * 50;
+        return this.nodeScale * 50;
     }
 
     private get BigBowlInnerRadius() {
-        return this.node.scale * 48;
+        return this.nodeScale * 48;
     }
 
     private get BigBowlRadius() {
-        return this.node.scale * 88;
+        return this.nodeScale * 88;
     }
 
     private get SmallBowlRadius() {
-        return this.node.scale * 45;
+        return this.nodeScale * 45;
     }
 
     private get SmallBowlInnerRadius() {
-        return this.node.scale * 38;
+        return this.nodeScale * 38;
     }
 
     public showStaticResult(numbersOfSeed) {

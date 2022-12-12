@@ -12,6 +12,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Fantan extends StandAloneTableGameBase {
+    @property(cc.Node)
+    animationRootNode: cc.Node = null;
+
     statisticRoad: StatisticBoard = null;
     animation: FantanBowlAnimation = null;
     startRoundDuration = 7;
@@ -40,6 +43,7 @@ export default class Fantan extends StandAloneTableGameBase {
         const animation = node.getComponent(FantanBowlAnimation);
         if (animation) {
             this.animation = animation;
+            this.animation.rootNode = this.animationRootNode;
         }
     }
 
