@@ -121,7 +121,7 @@ export const handleShowResult = (game: MiniGameBase) => (settlement) => {
     }
 
     const isDelayEndGame = game.gameData.durations.isBeforePlacingBet();
-    if (isDelayEndGame) {
+    if (isDelayEndGame || !cc.RedT.GAME_IS_SHOWED) {
         game.gameData.settlement.finishShowResult(settlement, false);
     } else {
         game.showSettlementResult(settlement);

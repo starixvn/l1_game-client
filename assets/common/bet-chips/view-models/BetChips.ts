@@ -317,7 +317,7 @@ export default class BetChips extends cc.Component {
             chipNode.parent = chipBoxNode;
             chipNode.position = randomInChipBoxPosition;
         };
-        if (!chipNode.activeInHierarchy) {
+        if (!chipNode.activeInHierarchy || !cc.RedT.GAME_IS_SHOWED) {
             onEnded();
         } else {
             chipNode.runAction(

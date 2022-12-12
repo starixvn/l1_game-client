@@ -129,7 +129,7 @@ export const handlePlaceTotalChips = (mainGame: TableGameBase) => (dataChips) =>
 export const handlePlayerChipAction = (mainGame: TableGameBase) => (playerChip) => {
     mainGame.playerChips.push(playerChip);
 
-    if (!mainGame.node.activeInHierarchy) {
+    if (!mainGame.node.activeInHierarchy || !cc.RedT.GAME_IS_SHOWED) {
         mainGame.placePlayerChip(playerChip);
     } else {
         let delayTime = 0;
