@@ -1,3 +1,4 @@
+import { i18n } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
 import { getNameCard } from "../../../common/helpers/CardHelper";
 import NewCard, { CardModel } from "../../../common/new-card/view-models/NewCard";
@@ -160,7 +161,7 @@ export default class WinThreeCardsCards extends cc.Component {
 
     private setRank(cardResult: WinThreeCardResult) {
         this.handRank.node.active = true;
-        this.handRank.string = Ranks[cardResult.handRankId];
+        this.handRank.string = i18n.t(`win3Cards.${Ranks[cardResult.handRankId]}`);
 
         if (cardResult.cardRankId >= 0) {
             this.cardRank.node.active = true;
