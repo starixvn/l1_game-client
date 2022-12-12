@@ -12,7 +12,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame
+    outRoomGame,
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
@@ -77,6 +77,7 @@ export default class MultiplayTableGame extends MultiplayGame {
         this.loadUserData(cc.RedT?.user);
         initMusicBackground(this)();
         this.subContainer = this.subGamesArea[0];
+        this.loading.active = true;
     }
 
     onDestroy() {
@@ -96,6 +97,7 @@ export default class MultiplayTableGame extends MultiplayGame {
     }
 
     setGameConfigs(gameConfigs: any) {
+        this.loading.active = false;
         const storageData = GameUtils.getGameSetting(this.gameId);
         if (!storageData.currentBet) {
             super.setGameConfigs(gameConfigs);

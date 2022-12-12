@@ -72,6 +72,12 @@ export default class WebSocketTableGameBase extends GameBase {
         this.players.forEach((player) => (player.node.active = false));
         initMusicBackground(this)();
         this.initOwnGameMusicBackground();
+        this.loading.active = true;
+    }
+
+    public updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.loading.active = false;
     }
 
     onDestroy() {
@@ -136,7 +142,6 @@ export default class WebSocketTableGameBase extends GameBase {
             this.playMusicBackground(audioManager.musicEnabled);
             audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
         }
-        
     }
 
     async playMusicBgCallback() {
