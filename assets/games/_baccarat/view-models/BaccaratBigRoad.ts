@@ -7,7 +7,7 @@ const { ccclass } = cc._decorator;
 class BaccaratBigRoadConverter extends Converter<BaccaratSettlementResult> {}
 
 @ccclass
-export default class BaccaratBigRoad extends BigRoad {
+export default abstract class BaccaratBigRoad extends BigRoad {
     initialBigRoad = () => {
         const converter = new BaccaratBigRoadConverter();
 
@@ -20,7 +20,7 @@ export default class BaccaratBigRoad extends BigRoad {
         if (this.bigRoadData?.length) {
             const emptyIndex = this.bigRoadData[0].findIndex((data) => data.status === undefined);
             if (emptyIndex !== -1) {
-                if (emptyIndex > 0 && !this.content.children[emptyIndex - 1]?.getComponent(BaccaratBigRoadItem).isFilledColumn()) {
+                if (emptyIndex > 0 && !this.getComponentItem(this.content.children[emptyIndex - 1]).isFilledColumn()) {
                     lastCol = emptyIndex - 1;
                 } else {
                     lastCol = emptyIndex;
@@ -28,18 +28,18 @@ export default class BaccaratBigRoad extends BigRoad {
             } else {
                 lastCol = this.bigRoadData[0].length - 1;
             }
-            if (this.content.children[lastCol]?.getComponent(BaccaratBigRoadItem).isFilledColumn()) {
+            if (this.getComponentItem(this.content.children[lastCol]).isFilledColumn()) {
                 lastCol += 1;
             }
 
-            if (this.content.children[this.content.childrenCount - 1].getComponent(BaccaratBigRoadItem).isFilledColumn()) {
+            if (this.getComponentItem(this.content.children[this.content.childrenCount - 1]).isFilledColumn()) {
                 this.updateContentChild(1);
                 lastCol = this.content.childrenCount - 1;
                 this.container.getComponent(cc.ScrollView).scrollToRight();
             }
         }
 
-        const scoreBoardItem = this.content.children[lastCol].getComponent(BaccaratBigRoadItem);
+        const scoreBoardItem = this.getComponentItem(this.content.children[lastCol]);
         scoreBoardItem.renderNextNode();
     }
 
@@ -52,7 +52,7 @@ export default class BaccaratBigRoad extends BigRoad {
 
         for (let column = 0; column < bigRoadLength; column++) {
             const scoreboardItem = this.content.children[column];
-            const scoreBoardItemWorker = scoreboardItem.getComponent(BaccaratBigRoadItem);
+            const scoreBoardItemWorker = this.getComponentItem(scoreboardItem);
             for (let row = 0; row < 6; row++) {
                 const bigRoadScoreBoardPoint = bigRoadMatrix[row][column];
                 !this.firstRender && scoreBoardItemWorker.resetNode(bigRoadScoreBoardPoint);
@@ -70,7 +70,11 @@ export default class BaccaratBigRoad extends BigRoad {
         this.bigRoadData = [];
         this.updateContentChild(this.minColumn - this.content.childrenCount);
         this.content.children.forEach((child) => {
-            child.getComponent(BaccaratBigRoadItem).resetAll();
+            this.getComponentItem(child).resetAll();
         });
+    }
+
+    getComponentItem(node: cc.Node) {
+        return node.getComponent(BaccaratBigRoadItem);
     }
 }

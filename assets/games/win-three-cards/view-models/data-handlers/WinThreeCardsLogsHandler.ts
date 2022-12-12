@@ -1,4 +1,6 @@
+import * as _ from "lodash";
 import BaccaratLogsHandler from "../../../baccarat/view-models/data-handlers/BaccaratLogsHandler";
+import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import WinThreeCards from "../WinThreeCards";
 import WinThreeCardsFinishHandler from "./WinThreeCardsFinishHandler";
@@ -18,8 +20,7 @@ export default class WinThreeCardsLogsHandler extends BaccaratLogsHandler {
     }
 
     protected updateMiniHistoryLogs(dataLogs: any) {
-        const ownMain = this.getOwnMain();
-        ownMain.miniRoundHistory.setData(dataLogs);
+        // handle
     }
 
     protected getLogDataFollowTypePlayer(isBanker: boolean, data: any) {
@@ -50,5 +51,30 @@ export default class WinThreeCardsLogsHandler extends BaccaratLogsHandler {
         });
 
         return logs;
+    }
+
+    protected buildBasicScoreBoard(dataLogs: any) {
+        // handle
+        const historyData = _.map(dataLogs, (log) => {
+            const result = log.result;
+            if (result.dragon) {
+                return new BasicHistoryData("dragon", "0");
+            }
+            if (result.phoenix) {
+                return new BasicHistoryData("phoenix", "0");
+            }
+            if (result.tie) {
+                return new BasicHistoryData("tie", "0");
+            }
+
+            return new BasicHistoryData("", "0");
+        });
+
+        const ownMain = this.getOwnMain();
+        const tmpData = [...historyData].reverse();
+        ownMain.basicHistoryBoard.setData(tmpData);
+    }
+    protected buildTotalScoreBoard(dataLogs: any) {
+        // handle
     }
 }

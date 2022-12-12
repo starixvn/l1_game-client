@@ -6,16 +6,16 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeHandler {
         return this.main as WinThreeCards;
     }
 
-    handleInLockBetTime() {
-        // super.handleInLockBetTime();
-        this.main.betItems.forEach((item) => item.setHighlight(false));
+    // handleInLockBetTime() {
+    //     super.handleInLockBetTime();
+    //     this.main.betItems.forEach((item) => item.setHighlight(false));
 
-        // this.getOwnMain().bigRoad.renderNextNode();
-        // if (this.main.currentTimeRemaining <= this.main.config.stopBetTime && this.main.currentDataLogs.length >= 102) {
-        //     this.main.currentDataLogs.pop();
-        //     (this.main.logsHandler as BaccaratLogsHandler).buildLogs(this.main.currentDataLogs);
-        // }
-    }
+    //     this.getOwnMain().bigRoad.renderNextNode();
+    //     if (this.main.currentTimeRemaining <= this.main.config.stopBetTime && this.main.currentDataLogs.length >= 102) {
+    //         this.main.currentDataLogs.pop();
+    //         (this.main.logsHandler as BaccaratLogsHandler).buildLogs(this.main.currentDataLogs);
+    //     }
+    // }
 
     handleFlyCards() {
         const baccarat = this.getOwnMain();

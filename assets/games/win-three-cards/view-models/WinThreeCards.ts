@@ -1,6 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
-import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
 import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
 import WinThreeCardsBetHandler from "./data-handlers/WinThreeCardsBetHandler";
@@ -13,6 +12,7 @@ import WinThreeCardsMiniRoundHistory from "./WinThreeCardsMiniRoundHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
 import BaccaratBigRoad from "../../_baccarat/view-models/BaccaratBigRoad";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
+import WinThreeCardsBasicHistoryBoard from "../components/score-board/view-models/WinThreeCardsBasicHistoryBoard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -64,7 +64,7 @@ export default class WinThreeCards extends NewGameRoomBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
-    basicHistoryBoard: BasicHistoryBoard;
+    basicHistoryBoard: WinThreeCardsBasicHistoryBoard;
     bigRoad: BaccaratBigRoad;
     showScoreBoardNextDot = false;
     protected miniRoundHistory: WinThreeCardsMiniRoundHistory;
@@ -78,7 +78,7 @@ export default class WinThreeCards extends NewGameRoomBase {
     onLoad() {
         super.onLoad();
         this.initCards();
-        // this.initScoreBoards();
+        this.initScoreBoards();
         // this.initMiniRoundHistory();
 
         this.betItems.forEach((item) => {
@@ -106,7 +106,7 @@ export default class WinThreeCards extends NewGameRoomBase {
 
         this.timeHandler = new WinThreeCardsTimeDataHandler(this);
         this.finishHandler = new WinThreeCardsFinishHandler(this);
-        // this.logsHandler = new WinThreeCardsLogsHandler(this);
+        this.logsHandler = new WinThreeCardsLogsHandler(this);
         this.betHandler = new WinThreeCardsBetHandler(this);
         this.md5Handler = new BaccaratMd5Handler(this);
     }
@@ -139,12 +139,12 @@ export default class WinThreeCards extends NewGameRoomBase {
         };
 
         const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
-        this.basicHistoryBoard = historyBoardNode.getComponent("BasicHistoryBoard");
+        this.basicHistoryBoard = historyBoardNode.getComponent("WinThreeCardsBasicHistoryBoard");
         this.basicHistoryBoard.init(condition);
         this.basicHistoryBoardNode.addChild(historyBoardNode);
 
         const bigRoadNode = cc.instantiate(this.bigRoadPrefab);
-        this.bigRoad = bigRoadNode.getComponent("BaccaratBigRoad");
+        this.bigRoad = bigRoadNode.getComponent("WinThreeCardsBigRoad");
         this.bigRoadNode.addChild(bigRoadNode);
     }
 

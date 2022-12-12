@@ -73,7 +73,7 @@ export default class BasicHistoryBoard extends cc.Component {
         }
     }
 
-    private addNextMark() {
+    protected addNextMark() {
         const dot = cc.instantiate(this.itemNext);
         dot.active = false;
         dot.addComponent(BlinkNode).interval = 0.5;

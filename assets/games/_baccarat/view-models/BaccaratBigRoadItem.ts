@@ -1,11 +1,12 @@
 import { BigRoadScoreboardPoint } from "sc-scoreboards";
 import { BaccaratSettlementResult } from "../../baccarat/view-models/event-models/BaccaratSettlementResult";
+import BigRoadItem from "./base/BigRoadItem";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
-export default class BaccaratBigRoadItem extends cc.Component {
-    private readonly NodeItems = {
+export default class BaccaratBigRoadItem extends BigRoadItem {
+    protected NodeItems = {
         BANKER: "banker",
         PLAYER: "player",
         NATURAL: "natural",
@@ -15,15 +16,6 @@ export default class BaccaratBigRoadItem extends cc.Component {
         COUNT: "count",
         NEXT: "next"
     };
-
-    @property([cc.Node])
-    nodes: cc.Node[] = [];
-
-    protected hasValueArray: boolean[] = [];
-
-    protected onLoad(): void {
-        this.hasValueArray = this.nodes.map(() => false);
-    }
 
     resetNode(bigRoadScoreboardPoint: BigRoadScoreboardPoint<BaccaratSettlementResult>) {
         const node = this.nodes[bigRoadScoreboardPoint.y];
@@ -63,24 +55,5 @@ export default class BaccaratBigRoadItem extends cc.Component {
             node.getChildByName(this.NodeItems.COUNT).getComponent(cc.Label).string = tieCount.toString();
         }
         this.hasValueArray[bigRoadScoreboardPoint.y] = true;
-    }
-
-    renderNextNode() {
-        const row = this.hasValueArray.findIndex((value) => !value);
-        const node = this.nodes[row];
-        node.getChildByName(this.NodeItems.NEXT).active = true;
-    }
-
-    isFilledColumn() {
-        return this.hasValueArray.every((value) => value);
-    }
-
-    resetAll() {
-        this.nodes.forEach((node) => {
-            node.children.forEach((child) => {
-                child.active = false;
-            });
-        });
-        this.hasValueArray = this.nodes.map(() => false);
     }
 }

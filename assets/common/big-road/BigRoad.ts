@@ -3,7 +3,7 @@ import { cloneDeep } from "lodash";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BigRoad extends cc.Component {
+export default abstract class BigRoad extends cc.Component {
     @property(cc.Node)
     container: cc.Node = null;
 
@@ -112,4 +112,6 @@ export default class BigRoad extends cc.Component {
     public getData() {
         return this.bigRoadData;
     }
+
+    abstract getComponentItem(node: cc.Node): any;
 }
