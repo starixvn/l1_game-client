@@ -78,7 +78,9 @@ export class RoundHistory extends EventEmitterBase {
 
     change(roundHistory: any) {
         this.gotIngameData = true;
-        this.roundHistory = _.cloneDeep(roundHistory);
+        const data = _.cloneDeep(roundHistory);
+        data.unshift(...this.roundHistory);
+        this.roundHistory = data;
         this.initWinningStreakData();
         this.emit(RoundHistory.Events.FIRST_LOAD, this.roundHistory);
         this.emit(RoundHistory.Events.CHANGE, this.roundHistory);
