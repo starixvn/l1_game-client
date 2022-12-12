@@ -177,7 +177,7 @@ export const payChipsToInGamePlayers = (info: PayChipInfo) => {
     const { mainRoomGame, winBetItems, payChipsDuration, winningDuration } = info;
     let winningPlayers = info.winningPlayers;
 
-    if (mainRoomGame?.gameData.settlement.winningPlayers) {
+    if (mainRoomGame?.gameData?.settlement?.winningPlayers) {
         winningPlayers = mainRoomGame.gameData.settlement.winningPlayers;
         mainRoomGame.gameData.settlement.clearWinnersData();
     }
