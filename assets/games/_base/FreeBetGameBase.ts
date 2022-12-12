@@ -1,5 +1,3 @@
-import { Socket } from "socket.io-client";
-
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import UserProfile from "../../common/user-profile/UserProfile";
 import SedieWallet from "../sedie/view-models/SedieWallet";
@@ -42,7 +40,6 @@ export default class FreeBetGameBase extends MultiOrientationGame {
 
     private isFreeBet = false;
     private isFocusScoin = false;
-    protected socket: Socket;
     protected wrapperLayout: cc.Layout = null;
 
     onLoad() {
