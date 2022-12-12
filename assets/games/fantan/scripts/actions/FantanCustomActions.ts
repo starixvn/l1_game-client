@@ -10,7 +10,3 @@ export const handleShakeDish = (game: Fantan) => () => {
     game.highlightLastResult();
     game.shakeThePlate();
 };
-
-export const updateScoreBoard = (game: Fantan) => (roundHistory) => {
-    game.updateScoreBoard(roundHistory);
-};
