@@ -56,7 +56,8 @@ export default class Fantan extends StandAloneTableGameBase {
     }
 
     shakeThePlate() {
-        this.animation.restart();
+        const animated = cc.RedT.GAME_IS_SHOWED;
+        this.animation.playShakingAnimation(animated);
     }
 
     async showSettlementResult(settlement: any) {

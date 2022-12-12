@@ -92,10 +92,6 @@ export default class FantanBowlAnimation extends cc.Component {
         this.groupingSeeds(animated);
     }
 
-    public restart() {
-        this.playShakingAnimation();
-    }
-
     public async closeRound() {
         await this.showResultAnimation(this.finalBead);
     }
@@ -150,23 +146,33 @@ export default class FantanBowlAnimation extends cc.Component {
         }
     }
 
-    async playShakingAnimation() {
-        this.isPlayingAnimation = true;
-        this.bowlSpine.setAnimation(0, this.animationShakingName, false);
-        this.bowlSpine.timeScale = 1;
-        this.animationElapsedTime = 0;
-        this.bowlSpine.updateWorldTransform();
-        this.prevBigBowlPos = this.bowlSpine.node.convertToWorldSpaceAR(cc.v3(this.bigBowlBone.worldX, this.bigBowlBone.worldY));
-        this.prevSmallBowlPos = this.bowlSpine.node.convertToWorldSpaceAR(cc.v3(this.smallBowlBone.worldX, this.smallBowlBone.worldY));
+    async playShakingAnimation(animated = true) {
+        this.isPlayingAnimation = animated;
         if (this.seedGroups.length > 0 || this.remainingSeeds.length > 0) {
             this.ClearSeedGrouping();
         }
-        setTimeout(() => {
-            this.initNewSeeds();
-        }, 5.9e3);
+        if (!animated) {
+            this.pauseSpineAnimation(this.bowlSpine, 0, this.animationOpenName);
+        } else {
+            this.bowlSpine.setAnimation(0, this.animationShakingName, false);
+            this.bowlSpine.timeScale = 1;
+            this.animationElapsedTime = 0;
+        }
 
-        await GameUtils.delayTime(1);
-        this.playShakeBowlSound();
+        this.bowlSpine.updateWorldTransform();
+        this.prevBigBowlPos = this.bowlSpine.node.convertToWorldSpaceAR(cc.v3(this.bigBowlBone.worldX, this.bigBowlBone.worldY));
+        this.prevSmallBowlPos = this.bowlSpine.node.convertToWorldSpaceAR(cc.v3(this.smallBowlBone.worldX, this.smallBowlBone.worldY));
+
+        try {
+            if (animated) {
+                await GameUtils.delayTime(1);
+                this.playShakeBowlSound();
+                await GameUtils.delayTime(4.9);
+            }
+            this.initNewSeeds();
+        } catch (e) {
+            console.warn(e.message);
+        }
     }
 
     updateAnimation(dt: number) {
