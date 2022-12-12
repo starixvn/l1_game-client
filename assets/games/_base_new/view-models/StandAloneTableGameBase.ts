@@ -53,6 +53,12 @@ export default class StandAloneTableGameBase extends TableGameBase {
         cc.RedT && (cc.RedT.inGame = this);
         this.loadUserData(cc.RedT?.user);
         initMusicBackground(this)();
+        this.loading.active = true;
+    }
+
+    public updateDisplayForRemoteConfig() {
+        super.updateDisplayForRemoteConfig();
+        this.loading.active = false;
     }
 
     onDestroy() {
