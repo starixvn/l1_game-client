@@ -57,17 +57,18 @@ body {
 }
 
 .container-themes{
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0;
-    border: 0;
-    margin: 0;
+    position: relative;
+    top: 10.43vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .img-themes{
-    width: 100vw;
-    height: 100vh;
+    background-size: auto 89.56vh;
+    width: auto;
+    height: 89.56vh;
 }
 
 #Cocos2dGameContainer {
