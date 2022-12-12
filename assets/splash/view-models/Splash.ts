@@ -55,6 +55,8 @@ export default class Splash extends cc.Component {
     }
 
     initShowHideAppEvent() {
+        const hiddenPropName = ["hidden", "mozHidden", "msHidden", "webkitHidden"].find((key) => typeof document[key] !== "undefined");
+        cc.RedT.GAME_IS_SHOWED = !document[hiddenPropName];
         cc.game.on(cc.game.EVENT_HIDE, () => {
             cc.RedT.GAME_IS_SHOWED = false;
         });

@@ -9,7 +9,7 @@ export default class Demo extends cc.Component {
     animation: FantanBowlAnimation = null;
 
     Restart() {
-        this.animation.restart();
+        this.animation.playShakingAnimation();
     }
 
     StartRound() {

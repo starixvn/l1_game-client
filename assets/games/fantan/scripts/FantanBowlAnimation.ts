@@ -149,7 +149,7 @@ export default class FantanBowlAnimation extends cc.Component {
     async playShakingAnimation(animated = true) {
         this.isPlayingAnimation = animated;
         if (this.seedGroups.length > 0 || this.remainingSeeds.length > 0) {
-            this.ClearSeedGrouping();
+            this.ClearSeedGrouping(!animated);
         }
         if (!animated) {
             this.pauseSpineAnimation(this.bowlSpine, 0, this.animationOpenName);
