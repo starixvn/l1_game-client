@@ -125,11 +125,6 @@ p.footer {
         background-size: 100vw 100vh;
     }
 
-    .img-themes{
-        width: 100vh;
-        transform: rotate(90deg);
-    }
-
     .splash-container {
         height: 100vw;
         width: 100vh;
@@ -139,6 +134,27 @@ p.footer {
     .instruction {
         height: 100vh !important;
         transform: rotate(90deg);
+    }
+
+    .container-themes {
+        position: fixed;
+        height: 100vw;
+        -ms-transform: translateY(-100vw) rotate(90deg);
+        -o-transform: translateY(-100vw) rotate(90deg);
+        -ms-transform: translateY(-100vw) rotate(90deg);
+        -o-transform: translateY(-100vw) rotate(90deg);
+        transform: translateY(-100vw) rotate(90deg);
+        -webkit-transform-origin: left bottom;
+        -moz-transform-origin: left bottom; 
+        top: unset;
+        bottom: unset;
+        right: unset;
+    } 
+
+    .img-themes {
+        background-size: auto 50.36vh;
+        width: auto;
+        height: 50.36vh;
     }
 }
 
