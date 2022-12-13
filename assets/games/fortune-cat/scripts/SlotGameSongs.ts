@@ -12,7 +12,7 @@ export default class SlotGameSongs extends cc.Component {
         await AudioManager.getInstance().awaitForReady();
         if (AudioManager.getInstance().musicEnabled) {
             const song = this.songList[lodash.random(this.songList.length - 1)];
-            AudioManager.getInstance().playMusic(song, false);
+            AudioManager.getInstance().playMusic(song, true);
         }
     }
 
