@@ -112,6 +112,9 @@ export default class FantanBowlAnimation extends cc.Component {
     onLoad() {
         this.bigBowlBone = this.bowlSpine.findBone("bigBowl");
         this.smallBowlBone = this.bowlSpine.findBone("smallBowl");
+    }
+
+    start() {
         this.initNewSeeds();
         this.pauseSpineAnimation(this.bowlSpine, 0, this.animationOpenName);
         this.bowlSpine.clearTracks();
@@ -162,6 +165,7 @@ export default class FantanBowlAnimation extends cc.Component {
         }
         if (!animated) {
             this.pauseSpineAnimation(this.bowlSpine, 0, this.animationOpenName);
+            Seed.HideSmallBowlSeed();
         } else {
             this.bowlSpine.setAnimation(0, this.animationShakingName, false);
             this.bowlSpine.timeScale = 1;
