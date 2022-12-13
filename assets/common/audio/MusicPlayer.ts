@@ -26,10 +26,6 @@ export default class MusicPlayer {
         return this.instanceMusic;
     }
 
-    get delayTurnOffMusicBg() {
-        return this.duration;
-    }
-
     private get audioManager() {
         return AudioManager.getInstance();
     }
@@ -117,22 +113,27 @@ export default class MusicPlayer {
     }
 
     decreaseVolumeAndStopBackgroundMusic() {
-        this.clearIntervalSetVolume();
-        if (this.isPlayBgMusic) {
-            this.volume = this.volumeDefault;
-            this.handleDecreaseVolume();
-            this.intervalVolDecrease = setInterval(() => {
-                this.handleDecreaseVolume();
-            }, this.stepIntervalVolume);
-        }
+        return new Promise<void>((resolve) => {
+            this.clearIntervalSetVolume();
+            if (this.isPlayBgMusic) {
+                this.volume = this.volumeDefault;
+                const func = () => this.handleDecreaseVolume(resolve);
+
+                func();
+                this.intervalVolDecrease = setInterval(() => {
+                    func();
+                }, this.stepIntervalVolume);
+            }
+        });
     }
 
-    private handleDecreaseVolume() {
+    private handleDecreaseVolume(onComplete: () => void) {
         cc.audioEngine.setVolume(this.bgMusicId, this.volume);
         this.volume -= this.stepVolume;
         if (this.volume <= 0) {
             clearInterval(this.intervalVolDecrease);
             this.stopBackgroundAudio();
+            onComplete();
         }
     }
 

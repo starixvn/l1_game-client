@@ -15,11 +15,11 @@ export const loadMiniPanel = (game: any) => () => {
     game.miniPanelContainer.addChild(miniPanel);
 };
 
-export const initMusicBackground = (game: any) => () => {
+export const handleMusicWhenJoinGame = (game: any) => async () => {
     const musicPlayer = MusicPlayer.getInstance();
-    if (game.musicBg) {
+    if (game.isOwnGameMusicBackground) {
         musicPlayer.joinRoomMusic = true;
-        musicPlayer.decreaseVolumeAndStopBackgroundMusic();
+        await musicPlayer.decreaseVolumeAndStopBackgroundMusic();
     }
 };
 

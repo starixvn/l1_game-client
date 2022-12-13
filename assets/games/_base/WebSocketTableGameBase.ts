@@ -10,7 +10,7 @@ import UmWarning from "../../common/um-warning/UmWarning";
 import SocketIOController from "../../SocketIOController";
 import {
     closeGame,
-    initMusicBackground,
+    handleMusicWhenJoinGame,
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
@@ -64,14 +64,17 @@ export default class WebSocketTableGameBase extends GameBase {
         super();
     }
 
+    get isOwnGameMusicBackground(): boolean {
+        return !!this.musicBg;
+    }
+
     onLoad() {
         super.onLoad();
         cc.RedT && (cc.RedT.inGame = this);
         loadMiniPanel(this)();
         this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
-        initMusicBackground(this)();
-        this.initOwnGameMusicBackground();
+        this.handleBackgroundMusic();
         this.loading.active = true;
     }
 
@@ -129,16 +132,21 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     onCloseGame() {
-        if (this.musicBg) {
+        if (this.isOwnGameMusicBackground) {
             MusicPlayer.getInstance().handleIncreaseVolume();
         }
         this.closeGame();
         sessionManager.removeInRoomGameId();
     }
 
+    async handleBackgroundMusic() {
+        await handleMusicWhenJoinGame(this)();
+        this.initOwnGameMusicBackground();
+    }
+
     initOwnGameMusicBackground() {
         const audioManager = AudioManager.getInstance();
-        if (this.musicBg) {
+        if (this.isOwnGameMusicBackground) {
             this.playMusicBackground(audioManager.musicEnabled);
             audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
         }
@@ -152,17 +160,15 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     playMusicBackground(play: boolean) {
-        const musicPlayer = MusicPlayer.getInstance();
         if (play) {
-            if (musicPlayer.isPlayBgMusic) {
-                this.scheduleOnce(this.playMusicBgCallback, MusicPlayer.getInstance().delayTurnOffMusicBg);
-            } else {
-                this.playMusicBgCallback();
-            }
+            this.playMusicBgCallback();
         } else {
-            this.unschedule(this.playMusicBgCallback);
-            this.musicBg?.stop();
+            this.stopOwnGameMusicBackground();
         }
+    }
+
+    stopOwnGameMusicBackground() {
+        this.musicBg?.stop();
     }
 
     closeGame() {

@@ -1,10 +1,10 @@
-import MusicPlayer from "../../audio/MusicPlayer";
+import AudioManager from "../../audio/AudioManager";
 
 const { ccclass } = cc._decorator;
 
 @ccclass
 export default class SessionTimeOut extends cc.Component {
     onLoad() {
-        MusicPlayer.getInstance().stopBackgroundAudio();
+        AudioManager.getInstance().stopMusic();
     }
 }

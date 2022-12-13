@@ -178,12 +178,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.setBoardFullItems();
     }
 
-    onDestroy() {
-        super.onDestroy();
-        const audioManager = AudioManager.getInstance();
-        audioManager.removeMusicChanged(`${this.gameId}`);
-    }
-
     protected onGameHide() {
         super.onGameHide();
         this.saveUserSetting();
