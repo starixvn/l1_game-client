@@ -8,11 +8,11 @@ import WinThreeCardsLogsHandler from "./data-handlers/WinThreeCardsLogsHandler";
 import WinThreeCardsTimeDataHandler from "./data-handlers/WinThreeCardsTimeDataHandler";
 import WinThreeCardsCards from "./WinThreeCardsCards";
 import WinThreeCardsHistory from "./history/WinThreeCardsHistory";
-import WinThreeCardsMiniRoundHistory from "./WinThreeCardsMiniRoundHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
 import BaccaratBigRoad from "../../_baccarat/view-models/BaccaratBigRoad";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import WinThreeCardsBasicHistoryBoard from "../components/score-board/view-models/WinThreeCardsBasicHistoryBoard";
+import WinThreeCardsGameData from "./event-models/WinThreeCardsGameData";
 
 const { ccclass, property } = cc._decorator;
 
@@ -64,10 +64,10 @@ export default class WinThreeCards extends NewGameRoomBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
+    public gameData: WinThreeCardsGameData = null;
     basicHistoryBoard: WinThreeCardsBasicHistoryBoard;
     bigRoad: BaccaratBigRoad;
     showScoreBoardNextDot = false;
-    protected miniRoundHistory: WinThreeCardsMiniRoundHistory;
 
     constructor() {
         super();
@@ -76,29 +76,22 @@ export default class WinThreeCards extends NewGameRoomBase {
     }
 
     onLoad() {
+        this.gameData = new WinThreeCardsGameData();
         super.onLoad();
         this.initCards();
         this.initScoreBoards();
-        // this.initMiniRoundHistory();
 
         this.betItems.forEach((item) => {
             GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
         });
-
-        // this.handlePositionMiniRoundHistory();
     }
 
     resetDataAndUI() {
         super.resetDataAndUI();
 
         this.winNoticeLabel.node.parent.active = false;
-    }
-
-    handlePositionMiniRoundHistory() {
-        this.miniRoundHistory.tip.node.zIndex = 100;
-        GameUtils.moveToOtherNode(this.miniRoundHistory.tip.node, this.ownBetContainer);
     }
 
     initHandlers() {
@@ -146,16 +139,5 @@ export default class WinThreeCards extends NewGameRoomBase {
         const bigRoadNode = cc.instantiate(this.bigRoadPrefab);
         this.bigRoad = bigRoadNode.getComponent("WinThreeCardsBigRoad");
         this.bigRoadNode.addChild(bigRoadNode);
-    }
-
-    initMiniRoundHistory() {
-        const condition = () => {
-            return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
-        };
-
-        const mini = cc.instantiate(this.miniRoundHistoryPrefab);
-        this.miniRoundHistory = mini.getComponent(WinThreeCardsMiniRoundHistory);
-        this.miniRoundHistory.init(condition);
-        this.miniRoundHistoryContainer.addChild(mini);
     }
 }
