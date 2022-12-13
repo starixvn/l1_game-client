@@ -21,6 +21,8 @@ export const phrases = {
         pair8Plus: "Đôi 8 trở lên",
         dragon_win: "Rồng thắng",
         phoenix_win: "Phụng thắng",
+        pair8PlusInfo: "Pair 9 to Pair A, Flush, Straight,\nThree of a kind, Straight Flush",
+        handInfo: "Three of a Kind > Straight Flush > Flush > Straight > Pair > High Card",
         tie: "Hòa"
     }
 };
