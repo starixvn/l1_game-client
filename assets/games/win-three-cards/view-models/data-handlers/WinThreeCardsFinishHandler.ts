@@ -3,28 +3,12 @@ import WinThreeCardsBigRoad from "../../components/score-board/view-models/WinTh
 import WinThreeCards from "../WinThreeCards";
 import { WinThreeCardResult } from "../WinThreeCardsCards";
 import BaccaratLogsHandler from "../../../baccarat/view-models/data-handlers/BaccaratLogsHandler";
+import { i18n } from "../../../../ClientModules";
 
 export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
     protected getOwnMain(): any {
         return this.main as WinThreeCards;
     }
-    protected handleBuildMiniLogs(baccaratMain: any) {
-        // const logsHandler = baccaratMain.logsHandler as WinThreeCardsLogsHandler;
-        // const currentDataLogs = logsHandler.convertLogsDataLogs(baccaratMain.currentDataLogs);
-        // baccaratMain.needHideNextDotRoundHistory = true;
-        // baccaratMain.miniRoundHistory.setData(currentDataLogs);
-    }
-
-    // handleFinishData(dataFinish: any, dataResultHash: any, onFinishHandlingData: () => void = null) {
-    //     super.handleFinishData(dataFinish, onFinishHandlingData);
-
-    //     const baccaratMain = this.getOwnMain();
-    //     if (!dataFinish.result) {
-    //         return;
-    //     }
-
-    //     this.showCards(dataFinish, dataResultHash, baccaratMain, onFinishHandlingData);
-    // }
 
     protected showCards(dataFinish: any, dataResultHash: any, baccaratMain: any, onFinishHandlingData: () => void) {
         baccaratMain.showScoreBoardNextDot = true;
@@ -43,7 +27,26 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
             // this.handleBuildMiniLogs(baccaratMain);
         };
 
-        baccaratMain.playerCards.showCards(new WinThreeCardResult(result.phoenix), showResultFunc);
-        baccaratMain.bankerCards.showCards(new WinThreeCardResult(result.dragon), showResultFunc);
+        baccaratMain.playerCards.showCards(new WinThreeCardResult(result.dragon), showResultFunc);
+        baccaratMain.bankerCards.showCards(new WinThreeCardResult(result.phoenix), showResultFunc);
+    }
+
+    public showWinNotice(settlementResult) {
+        const baccaratMain = this.getOwnMain();
+        const winNoticeNode = baccaratMain.winNoticeLabel.node.parent;
+        let key = "";
+
+        if (settlementResult.dragon) {
+            key = "dragon_win";
+            baccaratMain.bankerCards.showHighlightCards();
+        } else if (settlementResult.phoenix) {
+            key = "phoenix_win";
+            baccaratMain.playerCards.showHighlightCards();
+        } else {
+            key = "tie";
+        }
+
+        baccaratMain.winNoticeLabel.string = i18n.t(`winThreeCards.${key}`).toUpperCase();
+        winNoticeNode.active = true;
     }
 }

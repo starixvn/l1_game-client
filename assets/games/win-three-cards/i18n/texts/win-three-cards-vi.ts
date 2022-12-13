@@ -13,12 +13,15 @@ export const phrases = {
         result: "Kết Quả (Long | Phụng)",
         killer235: "Sát Thủ Bão",
         threeOfAKind: "Bão",
-        straightFlush: "Thùng Phá Sảnh", 
+        straightFlush: "Thùng Phá Sảnh",
         flush: "Thùng",
         straight: "Sảnh",
         onePair: "Đôi",
         highCard: "Bài Cao",
         pair8Plus: "Đôi 8 trở lên",
+        dragon_win: "Rồng thắng",
+        phoenix_win: "Phụng thắng",
+        tie: "Hòa"
     }
 };
 

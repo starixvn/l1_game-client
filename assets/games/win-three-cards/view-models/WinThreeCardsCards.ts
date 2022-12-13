@@ -126,7 +126,6 @@ export default class WinThreeCardsCards extends cc.Component {
 
     showCards(cardResult: WinThreeCardResult, onFinishShowCards: () => void): void {
         const { cards } = cardResult;
-        // let delayTime = 0;
         const handleCard = cc.sequence(
             cc.callFunc(() => {
                 this.open2FirstCard(cards);
@@ -139,7 +138,7 @@ export default class WinThreeCardsCards extends cc.Component {
             // cc.delayTime(this.openCardSecond), // Waiting for open 2nd card
 
             cc.callFunc(() => {
-                this.openCard3(cardResult);
+                this.openCard3(cardResult, onFinishShowCards);
                 // delayTime = this.openThirdCardSecond; // Waiting for the other side open 2nd card
                 // this.openCard(2, cards);
                 // const handleFinishCard = cc.sequence(
@@ -161,7 +160,7 @@ export default class WinThreeCardsCards extends cc.Component {
 
     private setRank(cardResult: WinThreeCardResult) {
         this.handRank.node.active = true;
-        this.handRank.string = i18n.t(`win3Cards.${Ranks[cardResult.handRankId]}`);
+        this.handRank.string = i18n.t(`winThreeCards.${Ranks[cardResult.handRankId]}`);
 
         if (cardResult.cardRankId >= 0) {
             this.cardRank.node.active = true;
@@ -207,13 +206,18 @@ export default class WinThreeCardsCards extends cc.Component {
         );
     }
 
-    private openCard3(cardResult: WinThreeCardResult) {
+    private openCard3(cardResult: WinThreeCardResult, onFinishShowCards) {
         this.node.runAction(
             cc.sequence(
                 cc.delayTime(this.openThirdCardSecond + (this.isBanker ? 0 : this.openSecondCardSecond)), // Waiting for player open 2nd card
                 cc.callFunc(() => this.openCard(2, cardResult.cards)),
                 cc.delayTime(1),
-                cc.callFunc(() => this.setRank(cardResult))
+                cc.callFunc(() => {
+                    this.setRank(cardResult);
+                    // onFinishShowCards && onFinishShowCards();
+                }),
+                cc.delayTime(this.openThirdCardSecond),
+                cc.callFunc(() => onFinishShowCards && onFinishShowCards())
             )
         );
     }
