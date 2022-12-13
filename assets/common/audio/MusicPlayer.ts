@@ -123,6 +123,8 @@ export default class MusicPlayer {
                 this.intervalVolDecrease = setInterval(() => {
                     func();
                 }, this.stepIntervalVolume);
+            } else {
+                resolve();
             }
         });
     }
