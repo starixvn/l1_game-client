@@ -74,6 +74,7 @@ export default class WebSocketTableGameBase extends GameBase {
         loadMiniPanel(this)();
         this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
+        this.registerBackgroundMusicListener();
         this.handleBackgroundMusic();
         this.loading.active = true;
     }
@@ -145,11 +146,11 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     initOwnGameMusicBackground() {
-        const audioManager = AudioManager.getInstance();
-        if (this.isOwnGameMusicBackground) {
-            this.playMusicBackground(audioManager.musicEnabled);
-            audioManager.addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
-        }
+        this.isOwnGameMusicBackground && this.playMusicBackground(AudioManager.getInstance().musicEnabled);
+    }
+
+    registerBackgroundMusicListener() {
+        this.isOwnGameMusicBackground && AudioManager.getInstance().addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
     }
 
     async playMusicBgCallback() {
