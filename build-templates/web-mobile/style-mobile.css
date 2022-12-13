@@ -119,7 +119,7 @@ p.footer {
     font-size: x-small;
 }
 
-@media only screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+@media only screen and (min-width: 320px) and (max-width: 1024px) and (orientation: portrait) {
     body {
         /*background: url(./background_90.jpg) #000 repeat-y; */
         background-size: 100vh 100vw;
