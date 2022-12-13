@@ -13,15 +13,18 @@ export class Settlement extends EventEmitterBase {
     settlement: any;
     status: any;
     isWaitingSettlement: boolean;
+    isShowingSettlement: boolean;
     winningPlayers: any;
 
     showResult(settlement: any) {
         this.isWaitingSettlement = false;
+        this.isShowingSettlement = true;
         this.settlement = settlement;
         this.emit(Settlement.Events.SHOW_RESULT, this.settlement);
     }
 
     finishShowResult(settlement: any, animated: boolean) {
+        this.isShowingSettlement = false;
         const data = { settlement: settlement || this.settlement, animated };
         this.emit(Settlement.Events.END_SHOW_RESULT, data);
     }

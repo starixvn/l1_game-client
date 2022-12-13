@@ -59,7 +59,7 @@ export const handleFirstLoadRoundHistory = (game: any) => (roundHistory) => {
     if (game.gameData.durations.isWaiting() || game.gameData.durations.isBeingSpecificPhase(Durations.Events.SHOW_ANIMATION)) {
         if (roundHistory.length > 0) {
             const settlement = roundHistory[0];
-            if (settlement && !game.gameData.settlement.isWaitingSettlement) {
+            if (settlement && !game.gameData.settlement.isWaitingSettlement && !game.gameData.settlement.isShowingSettlement) {
                 game.gameData.settlement.finishShowResult(settlement, false);
             }
         }
