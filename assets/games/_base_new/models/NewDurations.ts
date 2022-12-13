@@ -59,9 +59,6 @@ export class NewDurations extends Durations {
             return false;
         }
         const { startTimePoint, endTimePoint } = this.eventInfo[event];
-        if (startTimePoint === this.wholeRound && this.remaining === 0) {
-            return true;
-        }
         return this.remaining <= startTimePoint && this.remaining > endTimePoint;
     }
 
