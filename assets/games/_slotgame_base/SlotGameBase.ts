@@ -434,6 +434,11 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
         if (!this.isAutoSpinMode() || !this.checkAvailableBalance()) {
             this.resetStateButtons();
+
+            if (this.bottomMessage && this.bottomMessage.currentMessageType === RoundType.SETTLED) {
+                this.showMessageDisplay(RoundType.SETTLED);
+            }
+
             return;
         }
 
