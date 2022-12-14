@@ -104,6 +104,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
 
         this.main.showProcessingWarning(false);
         this.main.setGameRound(this.main.roundId - 1);
+        this.main.updateRebetButtonStatus();
     }
 
     showWaitTime() {

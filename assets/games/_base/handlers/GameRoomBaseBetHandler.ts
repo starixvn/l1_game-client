@@ -13,6 +13,7 @@ export default class GameRoomBaseBetHandler extends GameBaseBetHandler {
     handle(data: any) {
         super.handle(data);
         if (data.ownBets) {
+            this.main.roundId === -1 && (this.main.roundId = data.roundId);
             updatePreviousBets(this.main)(data.ownBets);
         }
 
