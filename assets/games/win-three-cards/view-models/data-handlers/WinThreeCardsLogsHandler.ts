@@ -1,26 +1,55 @@
 import * as _ from "lodash";
-import BaccaratLogsHandler from "../../../baccarat/view-models/data-handlers/BaccaratLogsHandler";
+import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import WinThreeCards from "../WinThreeCards";
 import WinThreeCardsFinishHandler from "./WinThreeCardsFinishHandler";
 
-export default class WinThreeCardsLogsHandler extends BaccaratLogsHandler {
+export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
     constructor(protected readonly main: WebSocketTableGameBase) {
         super(main);
     }
 
-    protected getOwnMain(): any {
+    protected getOwnMain(): WinThreeCards {
         return this.main as WinThreeCards;
     }
 
     protected getOwnFinishHandle(): any {
-        const ownMain = this.getOwnMain();
-        return ownMain.finishHandler as WinThreeCardsFinishHandler;
+        return this.getOwnMain().finishHandler as WinThreeCardsFinishHandler;
     }
 
-    protected updateMiniHistoryLogs(dataLogs: any) {
-        // handle
+    handle(data: any): boolean {
+        super.handle(data);
+
+        if (data.roundHistory && data.roundHistory[0]) {
+            const ownMain = this.getOwnMain();
+            const lastLog = data.roundHistory[0];
+            const settlementResult = lastLog.settlementResult;
+
+            if (this.main.timeHandler.isInWaitTime) {
+                const playerCards = this.getLogDataFollowTypePlayer(false, lastLog);
+                const bankerCards = this.getLogDataFollowTypePlayer(true, lastLog);
+
+                ownMain.playerCards.showCardsWithoutAnimation(playerCards);
+                ownMain.bankerCards.showCardsWithoutAnimation(bankerCards);
+                this.getOwnFinishHandle().showWinNotice(settlementResult);
+            }
+
+            if (this.main.currentTimeRemaining > this.main.config.stopBetTime) {
+                this.getOwnFinishHandle().showResult(settlementResult, false);
+            }
+        }
+
+        return true;
+    }
+
+    buildLogs(dataLogs: any) {
+        if (dataLogs[dataLogs.length - 1] && dataLogs[dataLogs.length - 1].previousLog !== undefined) {
+            dataLogs[dataLogs.length - 1].previousLog = null;
+        }
+
+        this.buildBasicScoreBoard(dataLogs);
+        this.getOwnMain().scoreboard.renderScoreBoardInGame(dataLogs);
     }
 
     protected getLogDataFollowTypePlayer(isBanker: boolean, data: any) {
@@ -31,50 +60,29 @@ export default class WinThreeCardsLogsHandler extends BaccaratLogsHandler {
         return Object.values(resultTmp.dragon.cards).filter((value) => value != null);
     }
 
-    public convertLogsDataLogs(dataLogs: any) {
-        const logs = [];
-        dataLogs.forEach((element: any) => {
-            const data = {
-                banker: {},
-                player: {},
-                result: {},
-                roundId: 0
-            };
-            const settlementResult = element.settlementResult;
-            const result = element.result;
-            data.banker = Object.values(result.phoenix.cards).filter((value) => value != null);
-            data.player = Object.values(result.dragon.cards).filter((value) => value != null);
-            data.result = settlementResult;
-            data.roundId = element.roundId;
-
-            logs.push(data);
-        });
-
-        return logs;
-    }
-
     protected buildBasicScoreBoard(dataLogs: any) {
         // handle
-        const historyData = _.map(dataLogs, (log) => {
-            const result = log.result;
-            if (result.dragon) {
+
+        const historyData = dataLogs.map((log) => {
+            const settlementResult = log?.settlementResult;
+            if (settlementResult?.dragon) {
                 return new BasicHistoryData("dragon", "0");
             }
-            if (result.phoenix) {
+            if (settlementResult?.phoenix) {
                 return new BasicHistoryData("phoenix", "0");
             }
-            if (result.tie) {
+            if (settlementResult?.tie) {
                 return new BasicHistoryData("tie", "0");
             }
 
             return new BasicHistoryData("", "0");
         });
 
-        const ownMain = this.getOwnMain();
-        const tmpData = [...historyData].reverse();
-        ownMain.basicHistoryBoard.setData(tmpData);
+        const historyDataTmp = [...historyData].reverse();
+        this.getOwnMain().basicHistoryBoard.setData(historyDataTmp);
     }
-    protected buildTotalScoreBoard(dataLogs: any) {
+
+    protected buildBigRoadScoreBoard(dataLogs: any) {
         // handle
     }
 }

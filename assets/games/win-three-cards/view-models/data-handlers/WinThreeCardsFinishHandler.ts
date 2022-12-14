@@ -1,8 +1,6 @@
 import BaccaratFinishHandler from "../../../baccarat/view-models/data-handlers/BaccaratFinishHandler";
-import WinThreeCardsBigRoad from "../../components/score-board/view-models/WinThreeCardsBigRoad";
 import WinThreeCards from "../WinThreeCards";
 import { WinThreeCardResult } from "../WinThreeCardsCards";
-import BaccaratLogsHandler from "../../../baccarat/view-models/data-handlers/BaccaratLogsHandler";
 import { i18n } from "../../../../ClientModules";
 
 export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
@@ -10,7 +8,7 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
         return this.main as WinThreeCards;
     }
 
-    protected showCards(dataFinish: any, dataResultHash: any, baccaratMain: any, onFinishHandlingData: () => void) {
+    protected showCards(dataFinish: any, dataResultHash: any, baccaratMain: WinThreeCards, onFinishHandlingData: () => void) {
         baccaratMain.showScoreBoardNextDot = true;
         const result = dataFinish.result;
         const settlementResult = dataFinish.settlementResult;
@@ -22,12 +20,11 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
             onFinishHandlingData && onFinishHandlingData();
             this.insertCurrentDataLogs(baccaratMain, dataFinish);
             baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
-            (baccaratMain.logsHandler as BaccaratLogsHandler).buildLogs(baccaratMain.currentDataLogs);
-            (baccaratMain.bigRoad as WinThreeCardsBigRoad).renderScoreBoardEachRound(settlementResult);
-            // this.handleBuildMiniLogs(baccaratMain);
+            baccaratMain.logsHandler.buildLogs(baccaratMain.currentDataLogs);
+            baccaratMain.scoreboard.renderScoreBoardEachRound(baccaratMain.currentDataLogs);
         };
 
-        baccaratMain.playerCards.showCards(new WinThreeCardResult(result.dragon), showResultFunc);
+        baccaratMain.playerCards.showCards(new WinThreeCardResult(result.dragon), null);
         baccaratMain.bankerCards.showCards(new WinThreeCardResult(result.phoenix), showResultFunc);
     }
 
@@ -48,5 +45,13 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
 
         baccaratMain.winNoticeLabel.string = i18n.t(`winThreeCards.${key}`).toUpperCase();
         winNoticeNode.active = true;
+    }
+
+    protected insertCurrentDataLogs(baccaratMain: any, dataFinish: any) {
+        if (dataFinish.winningPlayers) {
+            delete dataFinish.winningPlayers;
+        }
+
+        baccaratMain.currentDataLogs.unshift(dataFinish);
     }
 }

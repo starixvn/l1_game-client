@@ -9,10 +9,10 @@ import WinThreeCardsTimeDataHandler from "./data-handlers/WinThreeCardsTimeDataH
 import WinThreeCardsCards from "./WinThreeCardsCards";
 import WinThreeCardsHistory from "./history/WinThreeCardsHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
-import BaccaratBigRoad from "../../_baccarat/view-models/BaccaratBigRoad";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import WinThreeCardsBasicHistoryBoard from "../components/score-board/view-models/WinThreeCardsBasicHistoryBoard";
 import WinThreeCardsGameData from "./event-models/WinThreeCardsGameData";
+import WinThreeCardsScoreBoard from "../components/score-board/view-models/WinThreeCardsScoreBoard";
 
 const { ccclass, property } = cc._decorator;
 
@@ -66,8 +66,10 @@ export default class WinThreeCards extends NewGameRoomBase {
 
     public gameData: WinThreeCardsGameData = null;
     basicHistoryBoard: WinThreeCardsBasicHistoryBoard;
-    bigRoad: BaccaratBigRoad;
     showScoreBoardNextDot = false;
+    protected miniRoundHistory: WinThreeCardsMiniRoundHistory;
+    public scoreboard: WinThreeCardsScoreBoard = null;
+    public logsHandler: WinThreeCardsLogsHandler;
 
     constructor() {
         super();
@@ -79,7 +81,7 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.gameData = new WinThreeCardsGameData();
         super.onLoad();
         this.initCards();
-        this.initScoreBoards();
+        this.initBasicScoreboard();
 
         this.betItems.forEach((item) => {
             GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
@@ -104,6 +106,10 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.md5Handler = new BaccaratMd5Handler(this);
     }
 
+    initScoreBoard(node: cc.Node) {
+        this.scoreboard = node.getComponent(WinThreeCardsScoreBoard);
+    }
+
     openHistory() {
         this.playClick();
         const dialog = cc.instantiate(this.historyPrefab);
@@ -126,7 +132,7 @@ export default class WinThreeCards extends NewGameRoomBase {
         });
     }
 
-    private initScoreBoards() {
+    private initBasicScoreboard() {
         const condition = () => {
             return this.currentTimeRemaining < this.config.stopBetTime || this.showScoreBoardNextDot;
         };
@@ -135,9 +141,5 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.basicHistoryBoard = historyBoardNode.getComponent("WinThreeCardsBasicHistoryBoard");
         this.basicHistoryBoard.init(condition);
         this.basicHistoryBoardNode.addChild(historyBoardNode);
-
-        const bigRoadNode = cc.instantiate(this.bigRoadPrefab);
-        this.bigRoad = bigRoadNode.getComponent("WinThreeCardsBigRoad");
-        this.bigRoadNode.addChild(bigRoadNode);
     }
 }
