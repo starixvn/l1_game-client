@@ -161,7 +161,6 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     onGameShow() {
-        super.onGameShow();
         this.stopInternalTweens();
         this.gameState = GameState.Actived;
         this.clearData();

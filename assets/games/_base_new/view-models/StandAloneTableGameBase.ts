@@ -103,6 +103,9 @@ export default class StandAloneTableGameBase extends TableGameBase {
         super.onGameHide();
         this.closeGame();
     }
+    protected onGameShow() {
+        //empty
+    }
 
     onDisconnected() {
         this.closeGame();
