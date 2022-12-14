@@ -1,3 +1,4 @@
+import { WinThreeCardsRoundHistory } from "../../../view-models/models/WinThreeCardsModel";
 import WinThreeCardsBigRoad from "./WinThreeCardsBigRoad";
 import WinThreeCardsRoundResult from "./WinThreeCardsRoundResult";
 
@@ -22,38 +23,24 @@ export default class WinThreeCardsScoreBoard extends cc.Component {
     @property(cc.Prefab)
     roundResultPrefab: cc.Prefab = null;
 
-    derivedScoreBoardController: any;
-
-    private roundHistory: any[] = [];
-
-    resetScoreboard(): void {
-        this.roundHistory = [];
-        this.bigRoads.resetBoard();
-
-        this.resetStatistic();
-    }
-
-    renderScoreBoardInGame(roundHistory: any[]) {
-        this.roundHistory = roundHistory;
-        console.log(roundHistory);
+    public renderScoreBoardInGame(roundHistory: WinThreeCardsRoundHistory[]) {
         this.bigRoads.renderScoreBoardInGame(roundHistory);
-        this.renderStatistic();
+        this.renderStatistic(roundHistory);
         this.updateRoundResult(roundHistory);
     }
 
-    renderScoreBoardEachRound(roundHistory: any[]) {
-        // this.roundHistory.unshift(lastRound);
+    public renderScoreBoardEachRound(roundHistory: WinThreeCardsRoundHistory[]) {
         this.bigRoads.renderScoreBoardInGame(roundHistory);
-        this.renderStatistic();
+        this.renderStatistic(roundHistory);
         this.updateRoundResult(roundHistory);
     }
 
-    renderNextNode() {
+    public renderNextNode() {
         this.bigRoads.renderNextNode();
     }
 
-    private renderStatistic() {
-        const data = this.roundHistory.reduce(
+    private renderStatistic(roundHistory: WinThreeCardsRoundHistory[]) {
+        const data = roundHistory.reduce(
             (total, round) => {
                 for (const key in total) {
                     total[key] += +round.settlementResult[key];
@@ -74,20 +61,16 @@ export default class WinThreeCardsScoreBoard extends cc.Component {
             });
     }
 
-    private resetStatistic() {
-        this.statistic.forEach((label: cc.Label) => {
-            label.string = "0";
-        });
-    }
-
-    updateRoundResult(dataLogs: any[]) {
+    private updateRoundResult(dataLogs: WinThreeCardsRoundHistory[]) {
         this.roundResultContainer.destroyAllChildren();
 
         for (const dataLog of dataLogs) {
-            const { result } = dataLog;
+            const { result, settlementResult } = dataLog;
             const roundResultNode = cc.instantiate(this.roundResultPrefab);
             const roundResultComponent = roundResultNode.getComponent(WinThreeCardsRoundResult);
-            roundResultComponent.changeColorText(result);
+            roundResultComponent.changeColorText(settlementResult);
+            roundResultComponent.changeBackgroundColor(settlementResult);
+            roundResultComponent.changeValueText(result);
             this.roundResultContainer.addChild(roundResultNode);
         }
     }

@@ -111,7 +111,6 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.historyComponent = dialog.getComponent(WinThreeCardsHistory);
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(dialog);
-        console.log("this.currentMiniPanel", this.currentMiniPanel);
     }
 
     playGetCardAudio() {

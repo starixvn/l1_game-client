@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import BasicHistoryBoard from "../../../../_base/view-models/BasicHistoryBoard";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 export class BasicHistoryData {
     constructor(public name: string, public value: string, public playerPair?: boolean, public bankerPair?: boolean) {}

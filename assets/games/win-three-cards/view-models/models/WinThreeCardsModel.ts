@@ -77,3 +77,9 @@ export class WinThreeCardsConfigs implements GameConfigBase {
     stopBetTime = 5;
     waitTime = 20;
 }
+
+export interface WinThreeCardsRoundHistory {
+    result: WinThreeCardsResultCards;
+    settlementResult: WinThreeCardsSettlementResult;
+    roundId: number;
+}
