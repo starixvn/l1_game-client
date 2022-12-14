@@ -1,4 +1,4 @@
-import * as _ from "lodash";
+import { lodash } from "../../../../../ClientModules";
 import BasicHistoryBoard from "../../../../_base/view-models/BasicHistoryBoard";
 
 const { ccclass } = cc._decorator;
@@ -20,7 +20,7 @@ export default class WinThreeCardsBasicHistoryBoard extends BasicHistoryBoard {
         this.nextMark = null;
 
         historyData.forEach((history) => {
-            const historyItem = _.find(this.items, (item) => item.name.toLowerCase() === history.name);
+            const historyItem = lodash.find(this.items, (item) => item.name.toLowerCase() === history.name);
             const historyDot = cc.instantiate(historyItem);
             historyDot.active = true;
             this.content.addChild(historyDot);

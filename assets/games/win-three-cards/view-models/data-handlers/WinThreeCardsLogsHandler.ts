@@ -1,4 +1,3 @@
-import * as _ from "lodash";
 import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
@@ -80,9 +79,5 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
 
         const historyDataTmp = [...historyData].reverse();
         this.getOwnMain().basicHistoryBoard.setData(historyDataTmp);
-    }
-
-    protected buildBigRoadScoreBoard(dataLogs: any) {
-        // handle
     }
 }
