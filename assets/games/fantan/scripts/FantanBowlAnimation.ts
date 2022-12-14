@@ -135,7 +135,6 @@ export default class FantanBowlAnimation extends cc.Component {
         if (this.bowlSpine) {
             this.bowlSpine.updateWorldTransform();
 
-            const originalBigBowl = this.prevBigBowlPos || this.bigBowlOriginalNode.convertToWorldSpaceAR(cc.v3());
             this.prevBigBowlPos = this.bowlSpine.node.convertToWorldSpaceAR(cc.v3(this.bigBowlBone.worldX, this.bigBowlBone.worldY));
             this.prevSmallBowlPos = this.bowlSpine.node.convertToWorldSpaceAR(cc.v3(this.smallBowlBone.worldX, this.smallBowlBone.worldY));
             if (0 === Seed.BigBowlSeedPool.length) {
@@ -146,7 +145,7 @@ export default class FantanBowlAnimation extends cc.Component {
                 }
             }
 
-            const r = this.seedContainer.convertToNodeSpaceAR(originalBigBowl);
+            const r = cc.v3(184, -64);
             for (const seed of Seed.BigBowlSeedPool) {
                 seed.Velocity = cc.Vec3.ZERO;
                 seed.node.position = cc.v3(
