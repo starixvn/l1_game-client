@@ -42,8 +42,6 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         });
     }
 
-    start() {}
-
     onEnable() {
         this.get_data();
     }

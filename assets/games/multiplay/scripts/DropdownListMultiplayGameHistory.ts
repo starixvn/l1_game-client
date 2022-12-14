@@ -12,6 +12,9 @@ export default class DropdownListMultiplayGameHistory extends MultiplayGameHisto
     @property({ visible: false, override: true, type: cc.ScrollView })
     scrollView: cc.ScrollView = null;
 
+    @property(cc.Node)
+    layerCloseDropDown: cc.Node = null;
+
     static AllGameHistory = -1;
     public dropdownList: NewDropDownList;
 
@@ -22,9 +25,16 @@ export default class DropdownListMultiplayGameHistory extends MultiplayGameHisto
     getAllGamesHistory = false;
     defaultGameId: number;
 
+    start() {
+        this.layerCloseDropDown.height = this.HEIGHT_CONTENT + 72;
+    }
+
     onInitializedDropdownList(node: cc.Node) {
         this.dropdownList = node.getComponent(NewDropDownList);
         this.dropdownList.init(this.options, this.onDropdownListChanged.bind(this));
+        this.dropdownList.checkLayerCloseDrop = (isCheck) => {
+            this.layerCloseDropDown.active = isCheck;
+        };
     }
 
     initDefaultGame(gameId: number) {

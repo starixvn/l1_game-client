@@ -9,13 +9,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniSedieHistory extends DropdownListMultiplayGameHistory {
-    @property(cc.Node)
-    layerCloseDropDown: cc.Node = null;
-
-    start() {
-        this.layerCloseDropDown.height = this.HEIGHT_CONTENT + 72;
-    }
-
     protected readonly options: NewDropDownOption[] = [
         new NewDropDownOption(DropdownListMultiplayGameHistory.AllGameHistory, i18n.t("ui.all")),
         new NewDropDownOption(MiniSedie1Id, GameUtils.getGameNameString(MiniSedie1Id)),

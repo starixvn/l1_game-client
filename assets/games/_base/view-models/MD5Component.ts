@@ -51,21 +51,19 @@ export default class MD5Component extends cc.Component {
     }
 
     initMD5Wrapper(node: cc.Node) {
-        const md5Wrapper = node.getComponent(MD5Frame);
-        this.md5Text = md5Wrapper.md5Label;
-        this.copyButton = md5Wrapper.md5CopyBtn;
-        this.hintCopyNode = md5Wrapper.md5HintCopy;
-        md5Wrapper.md5Node.width = this.node.getChildByName("md5-node").width;
+        const md5Frame = node.getComponent(MD5Frame);
+        this.md5Text = md5Frame.md5Label;
+        this.copyButton = md5Frame.md5CopyBtn;
+        this.hintCopyNode = md5Frame.md5HintCopy;
+        const md5ContentWidth = this.node.getChildByName("md5-node").width;
         this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         this.hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
-        md5Wrapper.onClickCopyButton = () => {
+        md5Frame.onClickCopyButton = () => {
             this.onClickCopyButton();
         };
-        md5Wrapper.updateLayout();
+        md5Frame.updateLayout(md5ContentWidth);
     }
-
-    onEnable() {}
 
     initMD5Tooltip() {
         const mini = GameUtils.createNodeFromPrefab(this.md5TooltipPrefab);

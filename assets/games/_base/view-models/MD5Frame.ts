@@ -23,11 +23,19 @@ export default class MD5Frame extends cc.Component {
 
     public clickCopyButton = () => {};
 
+    public assginProperties = () => {};
+    layoutNode: cc.Layout;
+
     onClickCopyButton() {
         this.clickCopyButton();
     }
 
-    updateLayout() {
-        this.node.getComponent(cc.Layout).updateLayout();
+    onLoad() {
+        this.layoutNode = this.node.getComponent(cc.Layout);
+    }
+
+    updateLayout(width: number) {
+        this.md5Node.width = width;
+        this.layoutNode.updateLayout();
     }
 }
