@@ -1,10 +1,10 @@
 import BaccaratFinishHandler from "../../../baccarat/view-models/data-handlers/BaccaratFinishHandler";
 import WinThreeCards from "../WinThreeCards";
-import { WinThreeCardResult } from "../WinThreeCardsCards";
 import { i18n } from "../../../../ClientModules";
+import { WinThreeCardResult } from "../models/WinThreeCardsModel";
 
 export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
-    protected getOwnMain(): any {
+    protected getOwnMain(): WinThreeCards {
         return this.main as WinThreeCards;
     }
 
@@ -24,8 +24,8 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
             baccaratMain.scoreboard.renderScoreBoardEachRound(baccaratMain.currentDataLogs);
         };
 
-        baccaratMain.playerCards.showCards(new WinThreeCardResult(result.dragon), null);
-        baccaratMain.bankerCards.showCards(new WinThreeCardResult(result.phoenix), showResultFunc);
+        baccaratMain.phoenixCards.showCards(new WinThreeCardResult(result.dragon), null);
+        baccaratMain.dragonCards.showCards(new WinThreeCardResult(result.phoenix), showResultFunc);
     }
 
     public showWinNotice(settlementResult) {
@@ -35,10 +35,10 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
 
         if (settlementResult.dragon) {
             key = "dragon_win";
-            baccaratMain.bankerCards.showHighlightCards();
+            baccaratMain.dragonCards.showHighlightCards();
         } else if (settlementResult.phoenix) {
             key = "phoenix_win";
-            baccaratMain.playerCards.showHighlightCards();
+            baccaratMain.phoenixCards.showHighlightCards();
         } else {
             key = "tie";
         }

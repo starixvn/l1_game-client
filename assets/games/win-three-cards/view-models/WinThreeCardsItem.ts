@@ -1,24 +1,11 @@
 import { i18n } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
 import { getNameCard } from "../../../common/helpers/CardHelper";
-import NewCard, { CardModel } from "../../../common/new-card/view-models/NewCard";
+import NewCard from "../../../common/new-card/view-models/NewCard";
 import BaccaratCard from "../../baccarat/view-models/BaccaratCard";
+import { WinThreeCardResult } from "./models/WinThreeCardsModel";
 
 const { ccclass, property } = cc._decorator;
-
-export class WinThreeCardResult {
-    cards: CardModel[];
-    cardRankId: number;
-    handRankId: number;
-
-    constructor(cardResult: any) {
-        this.cardRankId = cardResult?.cardRankId ?? -1;
-        this.handRankId = cardResult?.handRankId ?? -1;
-        if (cardResult.cards) {
-            this.cards = Object.values(cardResult.cards);
-        }
-    }
-}
 
 enum Ranks {
     highCard = 1,
@@ -44,23 +31,14 @@ export default class WinThreeCardsCards extends cc.Component {
     @property(cc.Sprite)
     cardBack: cc.Sprite = null;
 
-    @property(cc.Node)
-    otherCard: cc.Node = null;
-
     @property()
     flyX = 0;
 
     @property
-    isBanker = false;
+    isDragon = false;
 
     @property(cc.Node)
     cardsBox: cc.Node = null;
-
-    @property(cc.Node)
-    cardsTmp: cc.Node[] = [null, null];
-
-    @property(cc.Node)
-    positionCardTmp1: cc.Node = null;
 
     @property(cc.Label)
     numberTagCardBack: cc.Label = null;
@@ -130,26 +108,7 @@ export default class WinThreeCardsCards extends cc.Component {
             cc.callFunc(() => {
                 this.open2FirstCard(cards);
             }),
-            // cc.delayTime(this.openCardSecond), // Waiting for open 1st card
-
-            // cc.callFunc(() => {
-            //     this.openCard2(cards);
-            // }),
-            // cc.delayTime(this.openCardSecond), // Waiting for open 2nd card
-
-            cc.callFunc(() => {
-                this.openCard3(cardResult, onFinishShowCards);
-                // delayTime = this.openThirdCardSecond; // Waiting for the other side open 2nd card
-                // this.openCard(2, cards);
-                // const handleFinishCard = cc.sequence(
-                //     cc.delayTime(delayTime),
-                //     cc.callFunc(() => onFinishShowCards && onFinishShowCards()),
-                //     cc.callFunc(() => this.setRank(cardResult))
-                // );
-
-                // handleFinishCard.setTag(this.SHOW_FINISH_CARD);
-                // this.node.runAction(handleFinishCard);
-            })
+            cc.callFunc(() => this.openCard3(cardResult, onFinishShowCards))
         );
 
         this.resetSomeActionCards();
@@ -177,9 +136,9 @@ export default class WinThreeCardsCards extends cc.Component {
     protected resetSomeActionCards() {
         this.node.stopActionByTag(this.SHOW_CARD);
         this.node.stopActionByTag(this.SHOW_FINISH_CARD);
-        // this.card1.stopActionByTag(this.SET_POINT);
-        // this.card2.stopActionByTag(this.SET_POINT);
-        // this.card3.stopActionByTag(this.SET_POINT);
+        this.card1.stopActionByTag(this.SET_POINT);
+        this.card2.stopActionByTag(this.SET_POINT);
+        this.card3.stopActionByTag(this.SET_POINT);
     }
 
     flyFirstCard() {
@@ -197,7 +156,7 @@ export default class WinThreeCardsCards extends cc.Component {
     private open2FirstCard(cards: any[]) {
         this.node.runAction(
             cc.sequence(
-                cc.delayTime(this.isBanker ? 0 : this.openSecondCardSecond), // Waiting for player open 2nd card
+                cc.delayTime(this.isDragon ? 0 : this.openSecondCardSecond), // Waiting for player open 2nd card
                 cc.callFunc(() => {
                     this.openCard(0, cards);
                     this.openCard(1, cards);
@@ -209,20 +168,17 @@ export default class WinThreeCardsCards extends cc.Component {
     private openCard3(cardResult: WinThreeCardResult, onFinishShowCards) {
         this.node.runAction(
             cc.sequence(
-                cc.delayTime(this.openThirdCardSecond + (this.isBanker ? 0 : this.openSecondCardSecond)), // Waiting for player open 2nd card
+                cc.delayTime(this.openThirdCardSecond + (this.isDragon ? 0 : this.openSecondCardSecond)), // Waiting for player open 2nd card
                 cc.callFunc(() => this.openCard(2, cardResult.cards)),
                 cc.delayTime(1),
-                cc.callFunc(() => {
-                    this.setRank(cardResult);
-                    // onFinishShowCards && onFinishShowCards();
-                }),
+                cc.callFunc(() => this.setRank(cardResult)),
                 cc.delayTime(this.openThirdCardSecond),
                 cc.callFunc(() => onFinishShowCards && onFinishShowCards())
             )
         );
     }
 
-    flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position, isCard3 = false) {
+    flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position) {
         const cardPosition = card.position;
         card.position = from;
         card.opacity = 255;
@@ -292,13 +248,6 @@ export default class WinThreeCardsCards extends cc.Component {
     }
 
     private calculateDelayTimeWithAnimation(index: number, currentCard: cc.Node, delayTime: number) {
-        // currentCard.scaleX = 0;
-        // currentCard.runAction(cc.scaleTo(this.openCardSecond, 1, 1));
-        // this.card1.getComponent(BaccaratCard).numberTag.active = false;
-        // delayTime += this.openCardSecond;
-
-        // return delayTime;
-
         if (index === 2) {
             // 3rd card
             this.cardBack.node.active = true;

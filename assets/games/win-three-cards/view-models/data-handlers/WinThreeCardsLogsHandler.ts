@@ -27,11 +27,11 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
             const settlementResult = lastLog.settlementResult;
 
             if (this.main.timeHandler.isInWaitTime) {
-                const playerCards = this.getLogDataFollowTypePlayer(false, lastLog);
-                const bankerCards = this.getLogDataFollowTypePlayer(true, lastLog);
+                const phoenixCards = this.getLogDataFollowTypePlayer(false, lastLog);
+                const dragonCards = this.getLogDataFollowTypePlayer(true, lastLog);
 
-                ownMain.playerCards.showCardsWithoutAnimation(playerCards);
-                ownMain.bankerCards.showCardsWithoutAnimation(bankerCards);
+                ownMain.phoenixCards.showCardsWithoutAnimation(phoenixCards);
+                ownMain.dragonCards.showCardsWithoutAnimation(dragonCards);
                 this.getOwnFinishHandle().showWinNotice(settlementResult);
             }
 

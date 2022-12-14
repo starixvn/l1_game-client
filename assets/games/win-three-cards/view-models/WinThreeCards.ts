@@ -1,29 +1,27 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
-import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
 import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
 import WinThreeCardsBetHandler from "./data-handlers/WinThreeCardsBetHandler";
 import WinThreeCardsFinishHandler from "./data-handlers/WinThreeCardsFinishHandler";
 import WinThreeCardsLogsHandler from "./data-handlers/WinThreeCardsLogsHandler";
 import WinThreeCardsTimeDataHandler from "./data-handlers/WinThreeCardsTimeDataHandler";
-import WinThreeCardsCards from "./WinThreeCardsCards";
+import WinThreeCardsCards from "./WinThreeCardsItem";
 import WinThreeCardsHistory from "./history/WinThreeCardsHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import WinThreeCardsBasicHistoryBoard from "../components/score-board/view-models/WinThreeCardsBasicHistoryBoard";
-import WinThreeCardsGameData from "./event-models/WinThreeCardsGameData";
+import { WinThreeCardsConfigs } from "./models/WinThreeCardsModel";
 import WinThreeCardsScoreBoard from "../components/score-board/view-models/WinThreeCardsScoreBoard";
-
 const { ccclass, property } = cc._decorator;
 
 export const WinThreeCardsId = 61;
 @ccclass
 export default class WinThreeCards extends NewGameRoomBase {
     @property({ type: WinThreeCardsCards })
-    playerCards: WinThreeCardsCards = null;
+    phoenixCards: WinThreeCardsCards = null;
 
     @property({ type: WinThreeCardsCards })
-    bankerCards: WinThreeCardsCards = null;
+    dragonCards: WinThreeCardsCards = null;
 
     @property(cc.Node)
     basicHistoryBoardNode: cc.Node = null;
@@ -64,21 +62,18 @@ export default class WinThreeCards extends NewGameRoomBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
-    public gameData: WinThreeCardsGameData = null;
     basicHistoryBoard: WinThreeCardsBasicHistoryBoard;
     showScoreBoardNextDot = false;
-    protected miniRoundHistory: WinThreeCardsMiniRoundHistory;
     public scoreboard: WinThreeCardsScoreBoard = null;
     public logsHandler: WinThreeCardsLogsHandler;
 
     constructor() {
         super();
         this.gameId = WinThreeCardsId;
-        this.setConfig(new BaccaratConfigs());
+        this.setConfig(new WinThreeCardsConfigs());
     }
 
     onLoad() {
-        this.gameData = new WinThreeCardsGameData();
         super.onLoad();
         this.initCards();
         this.initBasicScoreboard();
@@ -124,10 +119,10 @@ export default class WinThreeCards extends NewGameRoomBase {
     }
 
     private initCards() {
-        this.bankerCards.init(() => {
+        this.dragonCards.init(() => {
             this.playGetCardAudio();
         });
-        this.playerCards.init(() => {
+        this.phoenixCards.init(() => {
             this.playGetCardAudio();
         });
     }

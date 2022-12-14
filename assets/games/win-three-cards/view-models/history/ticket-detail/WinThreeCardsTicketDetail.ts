@@ -1,5 +1,10 @@
 import GameTicketDetailBase from "../../../../_base/view-models/GameTicketDetailBase";
-import { WinThreeCardsBetData, WinThreeCardsBetLogDetails, WinThreeCardsOdds, WinThreeCardsSettlementResult  } from "../WinThreeCardsHistory";
+import {
+    WinThreeCardsBetData,
+    WinThreeCardsBetLogDetails,
+    WinThreeCardsOdds,
+    WinThreeCardsSettlementResult
+} from "../../models/WinThreeCardsModel";
 import WinThreeCardsHistoryResult from "../WinThreeCardsHistoryResult";
 import WinThreeCardsTicketDetailItem from "./WinThreeCardsTicketDetailItem";
 
@@ -13,15 +18,15 @@ export default class WinThreeCardsTicketDetail extends GameTicketDetailBase {
     @property(cc.Label)
     round: cc.Label = null;
 
-    @property({type: WinThreeCardsHistoryResult})
+    @property({ type: WinThreeCardsHistoryResult })
     cardResultDragon: WinThreeCardsHistoryResult;
 
-    @property({type: WinThreeCardsHistoryResult})
+    @property({ type: WinThreeCardsHistoryResult })
     cardResultPhoenix: WinThreeCardsHistoryResult;
 
     betLogDetails = null;
 
-    setData(data: WinThreeCardsBetData) {       
+    setData(data: WinThreeCardsBetData) {
         const dragonCards = data.result.dragon;
         const phoenixCards = data.result.phoenix;
         this.round.string = data.phien;
@@ -35,16 +40,22 @@ export default class WinThreeCardsTicketDetail extends GameTicketDetailBase {
 
         this.betLogDetails.forEach((betLogDetail: WinThreeCardsBetLogDetails, index: number) => {
             this.builTicketDetailRow(data.freeBet, betLogDetail, index, data.odds, data.settlementResult);
-        })
+        });
     }
 
-    private builTicketDetailRow(freeBet: boolean, betLogDetail: WinThreeCardsBetLogDetails, index: number, odds: WinThreeCardsOdds, settlementResult: WinThreeCardsSettlementResult) {
+    private builTicketDetailRow(
+        freeBet: boolean,
+        betLogDetail: WinThreeCardsBetLogDetails,
+        index: number,
+        odds: WinThreeCardsOdds,
+        settlementResult: WinThreeCardsSettlementResult
+    ) {
         const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
         const ticketDetailItemComponent = ticketDetailItem.getComponent(WinThreeCardsTicketDetailItem);
         if (index === 0) {
             ticketDetailItemComponent.node.getChildByName("topBorder").active = false;
         }
-        this.content.addChild(ticketDetailItem);        
-        ticketDetailItemComponent.updateContent(freeBet, betLogDetail, odds, settlementResult , index);
+        this.content.addChild(ticketDetailItem);
+        ticketDetailItemComponent.updateContent(freeBet, betLogDetail, odds, settlementResult, index);
     }
 }

@@ -1,20 +1,20 @@
 import { i18n } from "../../../../ClientModules";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
-import { WinThreeCardResult } from "./WinThreeCardsHistory";
+import { WinThreeCardResult } from "../models/WinThreeCardsModel";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 export const getCardsResult = (result: number) => {
     let resultText: string;
 
     switch (result) {
-        case 1: 
+        case 1:
             resultText = i18n.t("winThreeCards.highCard");
             break;
-        case 2:             
+        case 2:
             resultText = i18n.t("winThreeCards.onePair");
             break;
-        case 3:        
+        case 3:
             resultText = i18n.t("winThreeCards.straight");
             break;
         case 4:
@@ -32,7 +32,7 @@ export const getCardsResult = (result: number) => {
     }
 
     return resultText;
-}
+};
 
 export const convertRank = (num: number): string => {
     num++;
@@ -41,7 +41,7 @@ export const convertRank = (num: number): string => {
         12: "Q",
         13: "K",
         1: "A",
-        0: " ",
+        0: " "
     };
     return dict[num] || num.toString();
 };
@@ -56,21 +56,21 @@ export default class WinThreeCardsHistoryResult extends cc.Component {
 
     @property({ type: NewCard })
     cards: NewCard[] = [];
-    
-    setData(betData: WinThreeCardResult) {       
+
+    setData(betData: WinThreeCardResult) {
         this.handRank.string = getCardsResult(betData.handRankId);
         this.cardRank.string = convertRank(+betData.cardRankId);
-        this.setCards(betData.cards); 
+        this.setCards(betData.cards);
     }
 
-    setCards(results: any) {        
-        Object.values(results).forEach((result: any, index) => {            
+    setCards(results: any) {
+        Object.values(results).forEach((result: any, index) => {
             this.cards[index].setCardOldStyle({
                 rank: result.rank,
                 suit: result.suit
-            }); 
-           
+            });
+
             this.cards[index].faceUp();
-        });        
+        });
     }
 }

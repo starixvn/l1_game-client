@@ -24873,7 +24873,7 @@
         "__id__": 553
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 559
@@ -24962,7 +24962,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 262.12,
+      "width": 135.96,
       "height": 45
     },
     "_anchorPoint": {
@@ -25036,7 +25036,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        4.900000000000006,
+        67.98,
         0,
         0,
         0,
@@ -25104,7 +25104,7 @@
       "__id__": 553
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 557
@@ -25203,7 +25203,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 262.12,
+      "width": 135.96,
       "height": 45
     },
     "_resize": 1,
@@ -25271,7 +25271,7 @@
     "_id": "3dIt4tHw1IxrdkGgKDe6Of"
   },
   {
-    "__type__": "aab843PzkpGAJLhTnJpfd2A",
+    "__type__": "64218sKaJhLqY3Ll9cttzgQ",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -25290,21 +25290,11 @@
     "cardBack": {
       "__id__": 550
     },
-    "otherCard": null,
-    "flyX": -250,
-    "isBanker": true,
+    "flyX": 250,
+    "isDragon": true,
     "cardsBox": {
       "__id__": 551
     },
-    "cardsTmp": [
-      {
-        "__id__": 361
-      },
-      {
-        "__id__": 398
-      }
-    ],
-    "positionCardTmp1": null,
     "numberTagCardBack": {
       "__id__": 548
     },
@@ -25317,7 +25307,7 @@
     "cardRank": {
       "__id__": 557
     },
-    "_id": "a2OiIP17FIWZDH/usHi9yE"
+    "_id": "f25LvtPYNBpo+YAT5Hdfec"
   },
   {
     "__type__": "cc.Node",
@@ -30343,7 +30333,7 @@
     "_id": "58t9oPIwRAHJ09s7sJyG85"
   },
   {
-    "__type__": "aab843PzkpGAJLhTnJpfd2A",
+    "__type__": "64218sKaJhLqY3Ll9cttzgQ",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -30362,22 +30352,10 @@
     "cardBack": {
       "__id__": 678
     },
-    "otherCard": null,
     "flyX": 250,
-    "isBanker": false,
+    "isDragon": false,
     "cardsBox": {
       "__id__": 679
-    },
-    "cardsTmp": [
-      {
-        "__id__": 362
-      },
-      {
-        "__id__": 398
-      }
-    ],
-    "positionCardTmp1": {
-      "__id__": 433
     },
     "numberTagCardBack": {
       "__id__": 676
@@ -30391,7 +30369,7 @@
     "cardRank": {
       "__id__": 685
     },
-    "_id": "44ar3OtJ1IB7dIynCTm4+G"
+    "_id": "07FAwFtFpMVKTthFS+nu4H"
   },
   {
     "__type__": "cc.Node",
@@ -38857,11 +38835,11 @@
     "historyPrefab": {
       "__uuid__": "f98df012-e936-4fec-b55d-f3748f1eb294"
     },
-    "playerCards": {
-      "__id__": 561
-    },
-    "bankerCards": {
+    "phoenixCards": {
       "__id__": 689
+    },
+    "dragonCards": {
+      "__id__": 561
     },
     "basicHistoryBoardNode": {
       "__id__": 812
