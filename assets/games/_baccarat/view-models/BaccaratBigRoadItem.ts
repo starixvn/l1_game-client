@@ -30,7 +30,7 @@ export default class BaccaratBigRoadItem extends BigRoadItem {
         this.hasValueArray[bigRoadScoreboardPoint.y] = false;
     }
 
-    renderNode(bigRoadScoreboardPoint: BigRoadScoreboardPoint<BaccaratSettlementResult>) {
+    renderNode(bigRoadScoreboardPoint: BigRoadScoreboardPoint<BaccaratSettlementResult>, column?: number, row?: number) {
         const node = this.nodes[bigRoadScoreboardPoint.y];
         const baccaratSettleResult = bigRoadScoreboardPoint.data;
 

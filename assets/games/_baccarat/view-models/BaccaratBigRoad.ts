@@ -57,7 +57,7 @@ export default abstract class BaccaratBigRoad extends BigRoad {
                 const bigRoadScoreBoardPoint = bigRoadMatrix[row][column];
                 !this.firstRender && scoreBoardItemWorker.resetNode(bigRoadScoreBoardPoint);
                 if (bigRoadScoreBoardPoint.status !== undefined) {
-                    scoreBoardItemWorker.renderNode(bigRoadScoreBoardPoint);
+                    scoreBoardItemWorker.renderNode(bigRoadScoreBoardPoint, column, row);
                 }
             }
         }

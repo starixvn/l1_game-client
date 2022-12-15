@@ -36,20 +36,32 @@ export default class WinThreeCardsBigRoadItem extends BigRoadItem {
         this.hasValueArray[bigRoadScoreboardPoint.y] = false;
     }
 
-    renderNode(bigRoadScoreboardPoint: scoreBoard.BigRoadScoreboardPoint<WinThreeCardsSettlementResult>) {
+    renderNode(bigRoadScoreboardPoint: scoreBoard.BigRoadScoreboardPoint<WinThreeCardsSettlementResult>, column: number, row: number) {
+        let countHandWin = 0;
         const componentNode = this.componentNode[bigRoadScoreboardPoint.y];
         const baccaratSettleResult = bigRoadScoreboardPoint.data;
         componentNode.dragon.active = baccaratSettleResult[0].dragon;
         componentNode.phoenix.active = baccaratSettleResult[0].phoenix;
         const tieCount = baccaratSettleResult[0].tie ? baccaratSettleResult.length : baccaratSettleResult.length - 1;
 
+        if (baccaratSettleResult[0].dragon || baccaratSettleResult[0].phoenix) {
+            countHandWin++;
+        }
+
         if (tieCount >= 1) {
-            componentNode.tie.active = true;
+            if (this.isRenderTie1st(column, row, countHandWin)) {
+                componentNode.tie1s.active = true;
+            } else {
+                componentNode.tie.active = true;
+            }
         }
 
         if (tieCount > 1) {
             componentNode.count.active = true;
             componentNode.count.getComponent(cc.Label).string = tieCount.toString();
+            if (this.isRenderTie1st(column, row, countHandWin)) {
+                componentNode.count.getComponent(cc.Label).fontSize = 30;
+            }
         }
         this.hasValueArray[bigRoadScoreboardPoint.y] = true;
     }
@@ -58,5 +70,9 @@ export default class WinThreeCardsBigRoadItem extends BigRoadItem {
         const row = this.hasValueArray.findIndex((value) => !value);
         const componentNode = this.componentNode[row];
         componentNode.next.active = true;
+    }
+
+    private isRenderTie1st(column: number, row: number, countHandWin: number) {
+        return column === 0 && row === 0 && countHandWin === 0;
     }
 }

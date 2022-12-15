@@ -2,7 +2,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigRoadItem extends cc.Component {
-   protected NodeItems = {
+    protected NodeItems = {
         NEXT: "next"
     };
 
@@ -19,7 +19,7 @@ export default class BigRoadItem extends cc.Component {
         // handle
     }
 
-    renderNode(bigRoadScoreboardPoint: any) {
+    renderNode(bigRoadScoreboardPoint: any, row?: number, column?: number) {
         // handle
     }
 
