@@ -1,10 +1,10 @@
 import BaccaratBigRoad from "../../../../_baccarat/view-models/BaccaratBigRoad";
 import WinThreeCardsBigRoadItem from "./WinThreeCardsBigRoadItem";
-import { BigRoadScoreboard, Converter } from "sc-scoreboards";
+import { scoreBoard } from "../../../../../ClientModules";
 import { WinThreeCardsSettlementResult } from "../../../view-models/event-models/WinThreeCardsSettlementResult";
 const { ccclass } = cc._decorator;
 
-class WinThreeCardsConverter extends Converter<WinThreeCardsSettlementResult> {
+class WinThreeCardsConverter extends scoreBoard.Converter<WinThreeCardsSettlementResult> {
     positiveKey() {
         return "dragon";
     }
@@ -15,7 +15,7 @@ export default class WinThreeCardsBigRoad extends BaccaratBigRoad {
     initialBigRoad = (): any => {
         const converter = new WinThreeCardsConverter();
 
-        return new BigRoadScoreboard({ height: 6, converter });
+        return new scoreBoard.BigRoadScoreboard({ height: 6, converter });
     };
 
     getComponentItem(node: cc.Node): any {

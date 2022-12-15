@@ -1,4 +1,4 @@
-import { BigRoadScoreboardPoint } from "sc-scoreboards";
+import { scoreBoard } from "../../../../../ClientModules";
 import BigRoadItem from "../../../../_baccarat/view-models/base/BigRoadItem";
 import { WinThreeCardsSettlementResult } from "../../../view-models/event-models/WinThreeCardsSettlementResult";
 
@@ -23,7 +23,7 @@ export default class WinThreeCardsBigRoadItem extends BigRoadItem {
         this.hasValueArray = this.nodes.map(() => false);
     }
 
-    resetNode(bigRoadScoreboardPoint: BigRoadScoreboardPoint<WinThreeCardsSettlementResult>) {
+    resetNode(bigRoadScoreboardPoint: scoreBoard.BigRoadScoreboardPoint<WinThreeCardsSettlementResult>) {
         const node = this.nodes[bigRoadScoreboardPoint.y];
         node.getChildByName(this.NodeItems.DRAGON).active = false;
         node.getChildByName(this.NodeItems.PHOENIX).active = false;
@@ -33,7 +33,7 @@ export default class WinThreeCardsBigRoadItem extends BigRoadItem {
         this.hasValueArray[bigRoadScoreboardPoint.y] = false;
     }
 
-    renderNode(bigRoadScoreboardPoint: BigRoadScoreboardPoint<WinThreeCardsSettlementResult>) {
+    renderNode(bigRoadScoreboardPoint: scoreBoard.BigRoadScoreboardPoint<WinThreeCardsSettlementResult>) {
         const node = this.nodes[bigRoadScoreboardPoint.y];
         const baccaratSettleResult = bigRoadScoreboardPoint.data;
 
