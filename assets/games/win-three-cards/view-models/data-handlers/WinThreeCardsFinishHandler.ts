@@ -24,8 +24,8 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
             baccaratMain.scoreboard.renderScoreBoardEachRound(baccaratMain.currentDataLogs);
         };
 
-        baccaratMain.phoenixCards.showCards(new WinThreeCardResult(result.dragon), null);
-        baccaratMain.dragonCards.showCards(new WinThreeCardResult(result.phoenix), showResultFunc);
+        baccaratMain.phoenixCards.showCards(new WinThreeCardResult(result.phoenix), null);
+        baccaratMain.dragonCards.showCards(new WinThreeCardResult(result.dragon), showResultFunc);
     }
 
     public showWinNotice(settlementResult) {
