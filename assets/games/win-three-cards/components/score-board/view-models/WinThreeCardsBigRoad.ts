@@ -21,4 +21,10 @@ export default class WinThreeCardsBigRoad extends BaccaratBigRoad {
     getComponentItem(node: cc.Node): any {
         return node.getComponent(WinThreeCardsBigRoadItem);
     }
+
+    public renderScoreBoardInGame(data: any[]) {
+        this.firstRender = false;
+        this.isRenderedNext = false;
+        super.renderScoreBoardInGame(data);
+    }
 }

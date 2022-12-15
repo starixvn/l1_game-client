@@ -14,6 +14,8 @@ export default class WinThreeCardsRoundResult extends cc.Component {
     @property(cc.Label)
     textLabel: cc.Label[] = [];
 
+    private readonly infoNameNode = ["dragon", "phoenix"];
+
     changeColorText(settlementResult: WinThreeCardsSettlementResult) {
         const color = cc.Color.WHITE;
         if (settlementResult.dragon || settlementResult.phoenix) {
@@ -32,14 +34,14 @@ export default class WinThreeCardsRoundResult extends cc.Component {
     }
 
     changeBackgroundColor(settlementResult: WinThreeCardsSettlementResult) {
-        this.backgroundNode[OrderNode.dragon].active = settlementResult.dragon;
-        this.backgroundNode[OrderNode.phoenix].active = settlementResult.phoenix;
+        this.infoNameNode.forEach((name: string, index: number) => {
+            this.backgroundNode[index].active = settlementResult[name];
+        });
     }
 
     changeValueText(result: WinThreeCardsResultCards) {
-        this.textLabel[OrderNode.dragon].string = `${getCardsResult(result.dragon.handRankId)} ${convertRank(+result.dragon.cardRankId)}`;
-        this.textLabel[OrderNode.phoenix].string = `${getCardsResult(result.phoenix.handRankId)} ${convertRank(
-            +result.phoenix.cardRankId
-        )}`;
+        this.infoNameNode.forEach((name: string, index: number) => {
+            this.textLabel[index].string = `${getCardsResult(result[name].handRankId)} ${convertRank(+result[name].cardRankId)}`;
+        });
     }
 }

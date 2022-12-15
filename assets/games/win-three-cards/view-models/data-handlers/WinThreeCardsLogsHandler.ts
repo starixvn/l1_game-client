@@ -43,10 +43,6 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
     }
 
     buildLogs(dataLogs: any) {
-        if (dataLogs[dataLogs.length - 1] && dataLogs[dataLogs.length - 1].previousLog !== undefined) {
-            dataLogs[dataLogs.length - 1].previousLog = null;
-        }
-
         this.buildBasicScoreBoard(dataLogs);
         this.getOwnMain().scoreboard.renderScoreBoardInGame(dataLogs);
     }
@@ -59,8 +55,11 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
         return Object.values(resultTmp.dragon.cards).filter((value) => value != null);
     }
 
-    protected buildBasicScoreBoard(dataLogs: any) {
+    public buildBasicScoreBoard(dataLogs: any) {
         // handle
+        if (dataLogs[dataLogs.length - 1] && dataLogs[dataLogs.length - 1].previousLog !== undefined) {
+            dataLogs[dataLogs.length - 1].previousLog = null;
+        }
 
         const historyData = dataLogs.map((log) => {
             const settlementResult = log?.settlementResult;

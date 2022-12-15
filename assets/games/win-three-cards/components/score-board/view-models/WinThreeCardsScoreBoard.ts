@@ -29,12 +29,6 @@ export default class WinThreeCardsScoreBoard extends cc.Component {
         this.updateRoundResult(roundHistory);
     }
 
-    public renderScoreBoardEachRound(roundHistory: WinThreeCardsRoundHistory[]) {
-        this.bigRoads.renderScoreBoardInGame(roundHistory);
-        this.renderStatistic(roundHistory);
-        this.updateRoundResult(roundHistory);
-    }
-
     public renderNextNode() {
         this.bigRoads.renderNextNode();
     }

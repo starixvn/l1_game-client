@@ -33,7 +33,6 @@ export default class BasicHistoryBoard extends cc.Component {
     dots: cc.Node[] = [];
     nextMark: cc.Node = null;
     private checkShowNext = () => false;
-    private readonly childName = { playerPair: "playerPair", bankerPair: "bankerPair" };
 
     onLoad() {
         const itemsNode = cc.instantiate(this.itemsPrefab);
@@ -58,8 +57,7 @@ export default class BasicHistoryBoard extends cc.Component {
             const historyItem = _.find(this.items, (item) => item.name.toLowerCase() === history.name);
             const historyDot = cc.instantiate(historyItem);
             historyDot.active = true;
-            historyDot.getChildByName(this.childName.playerPair).active = history.playerPair;
-            historyDot.getChildByName(this.childName.bankerPair).active = history.bankerPair;
+            this.handleOptionalData(historyDot, history);
             this.content.addChild(historyDot);
             this.dots.push(historyDot);
         });
@@ -80,5 +78,11 @@ export default class BasicHistoryBoard extends cc.Component {
         this.content.addChild(dot);
         this.nextMark = dot;
         this.dots.push(dot);
+    }
+
+    protected handleOptionalData(dot: cc.Node, history) {
+        const childName = { playerPair: "playerPair", bankerPair: "bankerPair" };
+        dot.getChildByName(childName.playerPair).active = history?.playerPair;
+        dot.getChildByName(childName.bankerPair).active = history?.bankerPair;
     }
 }
