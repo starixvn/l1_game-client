@@ -62,6 +62,9 @@ export default class WinThreeCards extends NewGameRoomBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
+    @property(cc.Node)
+    cardDropBox: cc.Node = null;
+
     basicHistoryBoard: WinThreeCardsBasicHistoryBoard;
     showScoreBoardNextDot = false;
     public scoreboard: WinThreeCardsScoreBoard = null;
@@ -135,5 +138,14 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.basicHistoryBoard = historyBoardNode.getComponent("WinThreeCardsBasicHistoryBoard");
         this.basicHistoryBoard.init(condition);
         this.basicHistoryBoardNode.addChild(historyBoardNode);
+    }
+
+    updateCardDropBox() {
+        const percent = 20;
+        const cardsNode = this.cardDropBox.getChildByName("cards");
+        cardsNode.active = true;
+        cardsNode.children.forEach((child, index) => {
+            child.active = percent - 1 >= index;
+        });
     }
 }

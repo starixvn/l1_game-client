@@ -15,8 +15,24 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeHandler {
     }
     handleFlyCards() {
         const baccarat = this.getOwnMain();
-        baccarat.dragonCards.resetCards();
-        baccarat.phoenixCards.resetCards();
+        // baccarat.phoenixCards.collectCards();
+        // baccarat.dragonCards.collectCards();
+        // baccarat.dragonCards.resetCards();
+        // baccarat.phoenixCards.resetCards();
+        this.main.node.runAction(
+            cc.sequence(
+                cc.callFunc(() => {
+                    baccarat.phoenixCards.collectCards();
+                    baccarat.dragonCards.collectCards();
+                }),
+                cc.delayTime(1),
+                cc.callFunc(() => {
+                    baccarat.dragonCards.resetCards();
+                    baccarat.phoenixCards.resetCards();
+                })
+            )
+        );
+
         this.main.setGameRound(this.main.roundId);
         this.main.node.runAction(
             cc.sequence(

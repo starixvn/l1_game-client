@@ -22,6 +22,9 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
             baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
             baccaratMain.logsHandler.buildBasicScoreBoard(baccaratMain.currentDataLogs);
             baccaratMain.scoreboard.renderScoreBoardInGame(baccaratMain.currentDataLogs);
+
+            // baccaratMain.phoenixCards.collectCards();
+            // baccaratMain.dragonCards.collectCards();
         };
 
         baccaratMain.phoenixCards.showCards(new WinThreeCardResult(result.phoenix), null);
