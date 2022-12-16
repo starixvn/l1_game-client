@@ -182,11 +182,11 @@ export const payChipsToInGamePlayers = (info: PayChipInfo) => {
         mainRoomGame.gameData.settlement.clearWinnersData();
     }
 
-    const winningPlayerIds = Object.keys(winningPlayers);
-
-    if (!winningPlayerIds.length) {
+    if (!winningPlayers) {
         return;
     }
+
+    const winningPlayerIds = Object.keys(winningPlayers);
 
     _.forEach(winningPlayerIds, (playerId) => {
         const playerSlot = mainRoomGame.getPlayerSlot(playerId);
