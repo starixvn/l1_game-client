@@ -89,16 +89,6 @@ export default class WinThreeCards extends NewGameRoomBase {
         });
     }
 
-    testCollectCards() {
-        // handle
-        this.phoenixCards.dropCards();
-        this.dragonCards.dropCards();
-    }
-    testFlyCards() {
-        // handle
-        this.timeHandler.handleFlyCards();
-    }
-
     resetDataAndUI() {
         super.resetDataAndUI();
 

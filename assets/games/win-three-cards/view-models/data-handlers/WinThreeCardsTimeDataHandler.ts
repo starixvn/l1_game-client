@@ -1,3 +1,4 @@
+import BaccaratTimeDataBaseHandler from "../../../_baccarat/data-handler/BaccaratTimeDataBaseHandler";
 import BaccaratTimeHandler from "../../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
 import WinThreeCards from "../WinThreeCards";
 
@@ -7,7 +8,7 @@ enum OrderCardFly {
     card3
 }
 
-export default class WinThreeCardsTimeDataHandler extends BaccaratTimeHandler {
+export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHandler {
     protected getOwnMain(): WinThreeCards {
         return this.main as WinThreeCards;
     }
@@ -22,11 +23,9 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeHandler {
 
     async handleFlyCards() {
         const baccarat = this.getOwnMain();
-
         await Promise.all([...baccarat.dragonCards.dropCards(), ...baccarat.phoenixCards.dropCards()]).catch(() => {
             // handle
         });
-
         this.main.setGameRound(this.main.roundId);
 
         this.flyAllCards();

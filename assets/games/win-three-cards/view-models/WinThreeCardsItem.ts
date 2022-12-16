@@ -108,10 +108,8 @@ export default class WinThreeCardsCards extends cc.Component {
             }),
             cc.callFunc(() => this.openCard3(cardResult, onFinishShowCards))
         );
-
         this.resetSomeActionCards();
         handleCard.setTag(this.SHOW_CARD);
-
         this.node.runAction(handleCard);
     }
 
