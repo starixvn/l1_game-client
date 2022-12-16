@@ -1,4 +1,4 @@
-import { i18n, lodash } from "../../../ClientModules";
+import { i18n } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
 import { getNameCard } from "../../../common/helpers/CardHelper";
 import NewCard, { CardAnimation } from "../../../common/new-card/view-models/NewCard";
@@ -66,25 +66,15 @@ export default class WinThreeCardsCards extends cc.Component {
     protected isMainPage = false;
 
     private readonly SHOW_CARD = 1;
-    private readonly SHOW_FINISH_CARD = 2;
-    protected SET_POINT = 3;
     private clonePositionCards: cc.Vec3[] = [];
+    private cardsNodes: cc.Node[] = [];
 
-    private tempCard1 = null;
-    private tempCard2 = null;
-    private tempCard3 = null;
     onLoad() {
-        this.card1.children[0].getComponent(NewCard).faceDown();
-        this.card2.children[0].getComponent(NewCard).faceDown();
-        this.card3.children[0].getComponent(NewCard).faceDown();
-
-        this.clonePositionCards[0] = this.card1.position;
-        this.clonePositionCards[1] = this.card2.position;
-        this.clonePositionCards[2] = this.card3.position;
-
-        // this.tempCard1 = lodash.clone(this.card1);
-        // this.tempCard2 = lodash.clone(this.card2);
-        // this.tempCard3 = lodash.clone(this.card3);
+        this.cardsNodes = [this.card1, this.card2, this.card3];
+        this.cardsNodes.forEach((cardNode: cc.Node, index: number) => {
+            cardNode.getComponentInChildren(NewCard).faceDown();
+            this.clonePositionCards[index] = cardNode.position;
+        });
     }
 
     init(playAudio, isMainPage = true) {
@@ -93,17 +83,6 @@ export default class WinThreeCardsCards extends cc.Component {
         }
 
         this.isMainPage = isMainPage;
-    }
-
-    resetCards() {
-        this.resetCard(this.card1);
-        this.resetCard(this.card2);
-        this.resetCard(this.card3);
-        // this.card1 = lodash.clone(this.tempCard1);
-        // this.card2 = lodash.clone(this.tempCard2);
-        // this.card3 = lodash.clone(this.tempCard3);
-
-        this.showHighlightCards(false);
     }
 
     showHighlightCards(highlight = true) {
@@ -154,22 +133,6 @@ export default class WinThreeCardsCards extends cc.Component {
 
     protected resetSomeActionCards() {
         this.node.stopActionByTag(this.SHOW_CARD);
-        this.node.stopActionByTag(this.SHOW_FINISH_CARD);
-        this.card1.stopActionByTag(this.SET_POINT);
-        this.card2.stopActionByTag(this.SET_POINT);
-        this.card3.stopActionByTag(this.SET_POINT);
-    }
-
-    flyFirstCard() {
-        this.flyCard(this.card1);
-    }
-
-    flySecondCard() {
-        this.flyCard(this.card2);
-    }
-
-    flyThirdCard() {
-        this.flyCard(this.card3);
     }
 
     private open2FirstCard(cards: any[]) {
@@ -197,41 +160,45 @@ export default class WinThreeCardsCards extends cc.Component {
         );
     }
 
-    flyCard(card: cc.Node, scale = 1, from: cc.Vec3 = this.cardsBox.position) {
-        const cardPosition = card.position;
-        card.position = from;
-        card.opacity = 255;
-        card?.getComponent(BaccaratCard) && (card.getComponent(BaccaratCard).numberTag.parent.active = true);
+    public flyCard(cardNumber: number, scale = 1) {
+        const card = this.cardsNodes[cardNumber];
+        const boxWorldPosition = this.cardsBox.convertToWorldSpaceAR(cc.v2(0, 0));
+        const boxPosition = card.parent.convertToNodeSpaceAR(boxWorldPosition);
+        if (card && card.isValid) {
+            const cardPosition = card.position;
+            card.position = cc.v3(boxPosition.x, boxPosition.y);
+            card.opacity = 255;
+            card.scale = 0.4;
+            card?.getComponent(BaccaratCard) && (card.getComponent(BaccaratCard).numberTag.parent.active = true);
 
-        card.runAction(
-            cc.spawn(
-                cc.rotateTo(this.flyCardSecond, 0).easing(cc.easeInOut(2)),
-                cc.scaleTo(this.flyCardSecond, scale).easing(cc.easeInOut(2)),
-                cc.moveTo(this.flyCardSecond, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
-            )
-        );
-
-        if (AudioManager.getInstance().sfxEnabled) {
             card.runAction(
-                cc.sequence(
-                    cc.delayTime(0.2),
-                    cc.callFunc(() => this.playGetCardAudio())
+                cc.spawn(
+                    cc.rotateTo(this.flyCardSecond, 0).easing(cc.easeInOut(2)),
+                    cc.scaleTo(this.flyCardSecond, scale).easing(cc.easeInOut(2)),
+                    cc.moveTo(this.flyCardSecond, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
                 )
             );
+
+            if (AudioManager.getInstance().sfxEnabled) {
+                card.runAction(
+                    cc.sequence(
+                        cc.delayTime(0.2),
+                        cc.callFunc(() => this.playGetCardAudio())
+                    )
+                );
+            }
         }
     }
 
-    resetCard(card: cc.Node) {
-        this.hideRank();
-        card.children[0].getComponent(NewCard).faceDown();
+    private resetCard(card: cc.Node) {
+        const cardNode = card.getComponentInChildren(NewCard);
+        cardNode.faceDown();
         card.opacity = 0;
-        card.scale = 0.5;
+        card.scale = 1;
         card.angle = -135;
-        card.getComponent(BaccaratCard).numberTag.active = true;
     }
 
-    protected openCard(index: number, cards: any[], isAnimated = true) {
-        let delayTime = 0;
+    private openCard(index: number, cards: any[], isAnimated = true) {
         if (index < cards.length) {
             const cardData = cards[index];
             const currentCard = this[`card${index + 1}`] as cc.Node;
@@ -249,8 +216,7 @@ export default class WinThreeCardsCards extends cc.Component {
             });
 
             newCard.faceUp();
-
-            delayTime = this.handleCardWithAnimated(isAnimated, index, currentCard, delayTime);
+            this.handleCardWithAnimated(isAnimated, index, currentCard, 0);
         }
     }
 
@@ -302,52 +268,53 @@ export default class WinThreeCardsCards extends cc.Component {
         );
     }
 
-    public collectCards() {
+    dropCards(durationJumpToBoxCard = 0.6, duration = 0.2) {
+        this.hideRank();
+        const promises = [];
+        this.cardsNodes.forEach((cardNode: cc.Node, index) => {
+            promises.push(this.actionDropCard(cardNode, index, durationJumpToBoxCard, duration, this.cardDropPlace));
+        });
+
+        return promises;
+    }
+
+    private actionDropCard(cardNode: cc.Node, cardIndex: number, durationJumpToBoxCard: number, duration: number, cardDropPlace: cc.Node) {
         return new Promise<void>((resolve) => {
-            const durationJumpToBoxCard = 0.5;
+            const worldPosition = cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
+            const cardComponent = cardNode.getComponentInChildren(NewCard);
+            const destPosition = cardNode.parent.convertToNodeSpaceAR(worldPosition);
+            const baccaratCardComponent = cardNode.getComponent(BaccaratCard);
+            baccaratCardComponent.numberTag.active = true;
+            baccaratCardComponent.resetHighlight();
 
-            const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
-            const cardsNodes = [this.card1, this.card2, this.card3];
-
-            if (!cardsNodes.length) {
-                resolve();
-                return;
-            }
-
-            cardsNodes.forEach((cardNode, index) => {
-                const destPosition = cardNode.parent.convertToNodeSpaceAR(worldPosition);
-                cc.tween(cardNode)
-                    .to(0.3, { position: cc.v2(0, 0) })
-                    .call(() => {
-                        // const cardComponent = cardNode.getComponent(NewCard);
-                        // cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
-                    })
-                    .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
-                    // .call(() => {
-                    //     this.resetCard(cardNode);
-                    // })
-                    // .delay(0.2)
-                    .call(() => {
-                        const cardComponent = cardNode?.getComponentInChildren(NewCard);
-                        this.setPositionCardsAfterDrop(cardComponent, cardNode, index);
-                        // cardNode.destroy();
-                        resolve();
-                    })
-                    .start();
-            });
+            cc.tween(cardNode)
+                .to(0.3, { position: cc.v2(0, 0) })
+                .call(() => {
+                    cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
+                })
+                .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 100, 1))
+                .delay(0.5)
+                .call(() => {
+                    this.resetCard(cardNode);
+                })
+                .delay(duration)
+                .call(() => {
+                    this.setPositionCardsAfterDrop(cardComponent, cardNode, cardIndex);
+                    resolve();
+                })
+                .start();
         });
     }
 
     private setPositionCardsAfterDrop(cardComponent: cc.Component, cardNode: cc.Node, index: number) {
-        // cardNode && this.clonePositionCards?.[index] && (cardNode.position = this.clonePositionCards[index]);
-        cardNode.position = this.clonePositionCards[index];
+        cardNode && this.clonePositionCards?.[index] && (cardNode.position = this.clonePositionCards[index]);
         if (cardComponent) {
-            cardComponent.node.position = cc.v3(0, 0, 0);
-            cardComponent.node.scale = 1;
-            cardComponent.node.skewX = 0;
-            cardComponent.node.skewY = 0;
-            cardComponent.node.opacity = 255;
-            cardComponent.node.rotation = 0;
+            cardComponent.node.getChildByName("card").position = cc.v3(0, 0, 0);
+            cardComponent.node.getChildByName("card").scale = 0.5;
+            cardComponent.node.getChildByName("card").skewX = 0;
+            cardComponent.node.getChildByName("card").skewY = 0;
+            cardComponent.node.getChildByName("card").opacity = 255;
+            cardComponent.node.getChildByName("card").rotation = 0;
         }
     }
 }

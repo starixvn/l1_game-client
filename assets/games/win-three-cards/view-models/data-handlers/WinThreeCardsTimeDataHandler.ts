@@ -1,6 +1,12 @@
 import BaccaratTimeHandler from "../../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
 import WinThreeCards from "../WinThreeCards";
 
+enum OrderCardFly {
+    card1 = 0,
+    card2,
+    card3
+}
+
 export default class WinThreeCardsTimeDataHandler extends BaccaratTimeHandler {
     protected getOwnMain(): WinThreeCards {
         return this.main as WinThreeCards;
@@ -13,41 +19,35 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeHandler {
             this.getOwnMain().logsHandler.buildLogs(this.main.currentDataLogs);
         }
     }
-    handleFlyCards() {
+
+    async handleFlyCards() {
         const baccarat = this.getOwnMain();
-        // baccarat.phoenixCards.collectCards();
-        // baccarat.dragonCards.collectCards();
-        // baccarat.dragonCards.resetCards();
-        // baccarat.phoenixCards.resetCards();
-        this.main.node.runAction(
-            cc.sequence(
-                cc.callFunc(() => {
-                    baccarat.phoenixCards.collectCards();
-                    baccarat.dragonCards.collectCards();
-                }),
-                cc.delayTime(1),
-                cc.callFunc(() => {
-                    baccarat.dragonCards.resetCards();
-                    baccarat.phoenixCards.resetCards();
-                })
-            )
-        );
+
+        await Promise.all([...baccarat.dragonCards.dropCards(), ...baccarat.phoenixCards.dropCards()]).catch(() => {
+            // handle
+        });
 
         this.main.setGameRound(this.main.roundId);
+
+        this.flyAllCards();
+    }
+
+    flyAllCards() {
+        const baccarat = this.getOwnMain();
         this.main.node.runAction(
             cc.sequence(
                 cc.delayTime(0.1),
-                cc.callFunc(() => baccarat.phoenixCards.flyFirstCard()),
+                cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card1)),
                 cc.delayTime(0.4),
-                cc.callFunc(() => baccarat.dragonCards.flyFirstCard()),
+                cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card1)),
                 cc.delayTime(0.2),
-                cc.callFunc(() => baccarat.phoenixCards.flySecondCard()),
+                cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card2)),
                 cc.delayTime(0.2),
-                cc.callFunc(() => baccarat.dragonCards.flySecondCard()),
+                cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card2)),
                 cc.delayTime(0.2),
-                cc.callFunc(() => baccarat.phoenixCards.flyThirdCard()),
+                cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card3)),
                 cc.delayTime(0.2),
-                cc.callFunc(() => baccarat.dragonCards.flyThirdCard())
+                cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card3))
             )
         );
     }

@@ -69,6 +69,7 @@ export default class WinThreeCards extends NewGameRoomBase {
     showScoreBoardNextDot = false;
     public scoreboard: WinThreeCardsScoreBoard = null;
     public logsHandler: WinThreeCardsLogsHandler;
+    timeHandler: WinThreeCardsTimeDataHandler;
 
     constructor() {
         super();
@@ -86,6 +87,16 @@ export default class WinThreeCards extends NewGameRoomBase {
             GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
             GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
         });
+    }
+
+    testCollectCards() {
+        // handle
+        this.phoenixCards.dropCards();
+        this.dragonCards.dropCards();
+    }
+    testFlyCards() {
+        // handle
+        this.timeHandler.handleFlyCards();
     }
 
     resetDataAndUI() {
@@ -117,7 +128,7 @@ export default class WinThreeCards extends NewGameRoomBase {
     }
 
     playGetCardAudio() {
-        // AudioManager.getInstance().playSFX(this.getCardAudioSource.clip);
+        AudioManager.getInstance().playSFX(this.getCardAudioSource.clip);
     }
 
     private initCards() {
