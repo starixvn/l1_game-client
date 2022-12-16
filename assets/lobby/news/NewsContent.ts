@@ -1,12 +1,13 @@
 import _ = require("lodash");
 
 import NotificationService from "../../common/auth/NotificationService";
+import BaseComponent from "../../common/BaseComponent";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class NewsContent extends cc.Component {
+export default class NewsContent extends BaseComponent {
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -104,6 +105,10 @@ export default class NewsContent extends cc.Component {
     loadFont(name: string) {
         return new Promise<cc.Font>((resolve, reject) => {
             cc.resources.load<cc.Font>(`fonts/${name}`, cc.Font, (err, font) => {
+                if (!this.isAlive() || err) {
+                    reject();
+                    return;
+                }
                 resolve(font);
             });
         });
