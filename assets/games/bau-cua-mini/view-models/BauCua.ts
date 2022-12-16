@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+
 import AudioManager from "../../../common/audio/AudioManager";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
@@ -174,16 +175,6 @@ export default class BauCua extends SocketIOMiniGameBase {
         this.gameConfigs.odds && this.oddItems.forEach((item) => item.setValue(this.gameConfigs.odds[item.node.name]));
     }
 
-    setDiceResult() {
-        if (this.currentDataLogs.length > 0) {
-            const { result } = this.currentDataLogs[0];
-            const dices = _.values(result);
-            dices.forEach((dice, index) => {
-                this.dices[index].spriteFrame = this.iconLV[dice];
-            });
-        }
-    }
-
     setDices(result) {
         const { dice1, dice2, dice3 } = result;
         this.dices[0].spriteFrame = this.diceAtlas.getSpriteFrame(`${dice1}-2`);
@@ -221,18 +212,6 @@ export default class BauCua extends SocketIOMiniGameBase {
         this.betItems.forEach((betItem: BauCuaBetItem) => {
             betItem.resetHighlight();
         });
-    }
-
-    showResult() {
-        if (this.currentDataLogs.length > 0) {
-            cc.tween(this.thePlate)
-                .delay(2)
-                .call(() => {
-                    this.highlightWinningBetItems(true);
-                    this.addLogs();
-                })
-                .start();
-        }
     }
 
     highlightWinningBetItems(type: boolean) {
