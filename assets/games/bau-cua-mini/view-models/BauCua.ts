@@ -39,9 +39,6 @@ export default class BauCua extends SocketIOMiniGameBase {
     @property(cc.Label)
     waitedTime: cc.Label = null;
 
-    @property(cc.Animation)
-    animationNode: cc.Animation = null;
-
     @property(cc.Node)
     logNode: cc.Node = null;
 
@@ -115,6 +112,11 @@ export default class BauCua extends SocketIOMiniGameBase {
         if (this.currentDataLogs && this.currentDataLogs.length > 0) {
             this.logNode.active = true;
         }
+    }
+
+    onDisable() {
+        super.onDisable();
+        this.showOpenPlateEffect(false);
     }
 
     checkShowUmMessage(data) {
