@@ -1,6 +1,7 @@
 import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
+import { CardModel } from "../../../blockchain-baccarat/BlockchainBaccaratType";
 import WinThreeCards from "../WinThreeCards";
 import WinThreeCardsFinishHandler from "./WinThreeCardsFinishHandler";
 
@@ -47,12 +48,10 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
         this.getOwnMain().scoreboard.renderScoreBoardInGame(dataLogs);
     }
 
-    protected getLogDataFollowTypePlayer(isBanker: boolean, data: any) {
-        const resultTmp = data.result;
-        if (isBanker) {
-            return Object.values(resultTmp.phoenix.cards).filter((value) => value != null);
-        }
-        return Object.values(resultTmp.dragon.cards).filter((value) => value != null);
+    protected getLogDataFollowTypePlayer(isDragon: boolean, data: any) {
+        const { dragon, phoenix } = data.result;
+
+        return Object.values(isDragon ? dragon.cards : phoenix.cards).filter((value) => value != null) as CardModel[];
     }
 
     public buildBasicScoreBoard(dataLogs: any) {

@@ -3,55 +3,85 @@ import WinThreeCards from "../WinThreeCards";
 import { i18n } from "../../../../ClientModules";
 import { WinThreeCardResult } from "../models/WinThreeCardsModel";
 
+export const GapTime = {
+    normal: 0.8,
+    thirdCard: 1
+};
+
 export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
     protected getOwnMain(): WinThreeCards {
         return this.main as WinThreeCards;
     }
 
-    protected showCards(dataFinish: any, dataResultHash: any, baccaratMain: WinThreeCards, onFinishHandlingData: () => void) {
-        baccaratMain.showScoreBoardNextDot = true;
-        const result = dataFinish.result;
-        const settlementResult = dataFinish.settlementResult;
-        const showResultFunc = () => {
-            baccaratMain.showScoreBoardNextDot = false;
-            this.main.md5Component?.updateMD5String(dataResultHash);
-            this.showResult(settlementResult);
-            this.showWinNotice(settlementResult);
-            onFinishHandlingData && onFinishHandlingData();
-            this.insertCurrentDataLogs(baccaratMain, dataFinish);
-            baccaratMain.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
-            baccaratMain.logsHandler.buildBasicScoreBoard(baccaratMain.currentDataLogs);
-            baccaratMain.scoreboard.renderScoreBoardInGame(baccaratMain.currentDataLogs);
-        };
+    protected showCards(data: any, dataResultHash: any, mainGame: WinThreeCards, onFinishHandlingData: () => void) {
+        mainGame.showScoreBoardNextDot = true;
 
-        baccaratMain.phoenixCards.showCards(new WinThreeCardResult(result.phoenix), null);
-        baccaratMain.dragonCards.showCards(new WinThreeCardResult(result.dragon), showResultFunc);
+        const { phoenix, dragon } = data.result;
+        const dragonResult = new WinThreeCardResult(dragon);
+        const phonenixResult = new WinThreeCardResult(phoenix);
+
+        const { dragonCards, phoenixCards } = mainGame;
+        mainGame.node.runAction(
+            cc.sequence(
+                cc.callFunc(() => dragonCards.showFirstTwoCards(dragonResult)),
+                cc.delayTime(GapTime.normal),
+                cc.callFunc(() => phoenixCards.showFirstTwoCards(phonenixResult)),
+                cc.delayTime(GapTime.normal),
+
+                cc.callFunc(() => dragonCards.showLastCard(dragonResult)),
+                cc.delayTime(GapTime.thirdCard),
+                cc.callFunc(() => dragonCards.setRank(dragonResult)),
+                cc.delayTime(GapTime.normal),
+
+                cc.callFunc(() => phoenixCards.showLastCard(phonenixResult)),
+                cc.delayTime(GapTime.thirdCard),
+                cc.callFunc(() => phoenixCards.setRank(phonenixResult)),
+                cc.delayTime(GapTime.normal),
+
+                cc.callFunc(() => this.showSettlementResult(data, dataResultHash, mainGame, onFinishHandlingData))
+            )
+        );
+    }
+
+    showSettlementResult(data: any, dataResultHash: any, mainGame: WinThreeCards, onFinishHandlingData: () => void) {
+        mainGame.showScoreBoardNextDot = false;
+        this.main.md5Component?.updateMD5String(dataResultHash);
+
+        const { settlementResult } = data;
+        this.showResult(settlementResult);
+        this.showWinNotice(settlementResult);
+        onFinishHandlingData && onFinishHandlingData();
+        this.insertCurrentDataLogs(mainGame, data);
+
+        mainGame.currentDataLogs.length > 102 && this.main.currentDataLogs.pop();
+        mainGame.logsHandler.buildBasicScoreBoard(mainGame.currentDataLogs);
+        mainGame.scoreboard.renderScoreBoardInGame(mainGame.currentDataLogs);
     }
 
     public showWinNotice(settlementResult) {
-        const baccaratMain = this.getOwnMain();
-        const winNoticeNode = baccaratMain.winNoticeLabel.node.parent;
+        const mainGame = this.getOwnMain();
+        const winNoticeNode = mainGame.winNoticeLabel.node.parent;
         let key = "";
 
         if (settlementResult.dragon) {
             key = "dragon_win";
-            baccaratMain.dragonCards.showHighlightCards();
+            mainGame.dragonCards.showHighlightCards();
         } else if (settlementResult.phoenix) {
             key = "phoenix_win";
-            baccaratMain.phoenixCards.showHighlightCards();
+            mainGame.phoenixCards.showHighlightCards();
         } else {
             key = "tie";
         }
 
-        baccaratMain.winNoticeLabel.string = i18n.t(`winThreeCards.${key}`).toUpperCase();
+        mainGame.winNoticeLabel.string = i18n.t(`winThreeCards.${key}`).toUpperCase();
         winNoticeNode.active = true;
     }
 
-    protected insertCurrentDataLogs(baccaratMain: any, dataFinish: any) {
-        if (dataFinish.winningPlayers) {
-            delete dataFinish.winningPlayers;
+    protected insertCurrentDataLogs(mainGame: any, data: any) {
+        if (data.winningPlayers) {
+            delete data.winningPlayers;
         }
 
-        baccaratMain.currentDataLogs.unshift(dataFinish);
+        mainGame.currentDataLogs.unshift(data);
     }
 }
