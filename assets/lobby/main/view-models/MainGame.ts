@@ -368,20 +368,20 @@ export default class MainGame extends cc.Component {
         }
     }
 
-    formatUserCurrency(red, currency = null) {
+    formatUserCurrency(red, currency = null, isDisplayPlayerCurrency = false) {
         const splashConfig = new SplashConfig();
+        let userCurrency = this.getUserCurrency(currency);
+        if (!splashConfig.enabledSC1) {
+            userCurrency = isDisplayPlayerCurrency || cc.RedT?.user?.isDisplayPlayerCurrency ? userCurrency : "";
+        }
+        return `${truncateFixedDecimals(red, 2)} ${userCurrency}`;
+    }
 
-        if (splashConfig.enabledSC1) {
-            let userCurrency = "";
-            if (cc.RedT.user.currency) {
-                userCurrency = cc.RedT.user.currency.toUpperCase();
-            } else {
-                userCurrency = currency ? currency : "";
-            }
-
-            return `${truncateFixedDecimals(red, 2)} ${userCurrency}`;
+    getUserCurrency(currency = null) {
+        if (cc.RedT.user.currency) {
+            return cc.RedT.user.currency.toUpperCase();
         } else {
-            return `${truncateFixedDecimals(red, 2)}`;
+            return currency ? currency : "";
         }
     }
 
@@ -391,7 +391,7 @@ export default class MainGame extends cc.Component {
 
     loadUserData(data: any) {
         if (void 0 !== data.red && this.header && this.header.userRed) {
-            this.header.setBalance(this.formatUserCurrency(data.red, data.currency));
+            this.header.setBalance(this.formatUserCurrency(data.red, data.currency, data.isDisplayPlayerCurrency));
         }
 
         if (void 0 !== data.avatarId) {

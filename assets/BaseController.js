@@ -76,6 +76,9 @@ module.exports = {
         if (void 0 !== data.fractionalOddsFormat) {
             this.user.fractionalOddsFormat = data.fractionalOddsFormat;
         }
+        if (void 0 !== data.isDisplayPlayerCurrency) {
+            this.user.isDisplayPlayerCurrency = data.isDisplayPlayerCurrency;
+        }
     },
     userStakeLevelData: function (data) {
         if (this.userStakeLevel.minBet === data.minBet && this.userStakeLevel.maxBet === data.maxBet) {
