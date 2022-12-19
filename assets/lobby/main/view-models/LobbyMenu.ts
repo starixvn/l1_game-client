@@ -193,7 +193,11 @@ export default class LobbyMenu extends GameIconMenu {
 
     async lateUpdateGameName(icon: SkeletonIcon, gameId: number) {
         const gameName = await GameUtils.getDisplayGameName(gameId, true);
-        icon.setGameName(gameName.toUpperCase());
+        try {
+            icon.setGameName(gameName.toUpperCase());
+        } catch (e) {
+            console.warn("Catch error after await method", e.message);
+        }
     }
 
     clearRow() {
