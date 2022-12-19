@@ -1,5 +1,4 @@
 import BaccaratTimeDataBaseHandler from "../../../_baccarat/data-handler/BaccaratTimeDataBaseHandler";
-import BaccaratTimeHandler from "../../../baccarat/view-models/data-handlers/BaccaratTimeDataHandler";
 import WinThreeCards from "../WinThreeCards";
 
 enum OrderCardFly {
@@ -12,6 +11,7 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHa
     protected getOwnMain(): WinThreeCards {
         return this.main as WinThreeCards;
     }
+
     handleInLockBetTime() {
         this.main.betItems.forEach((item) => item.setHighlight(false));
         this.getOwnMain().scoreboard.renderNextNode();

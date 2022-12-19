@@ -91,6 +91,7 @@ export default class WinThreeCards extends NewGameRoomBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
+        this.highlightLastResult();
 
         this.winNoticeLabel.node.parent.active = false;
     }
@@ -148,5 +149,18 @@ export default class WinThreeCards extends NewGameRoomBase {
         cardsNode.children.forEach((child, index) => {
             child.active = percent - 1 >= index;
         });
+    }
+
+    highlightLastResult() {
+        if (this.currentTimeRemaining <= this.config.stopBetTime) {
+            return;
+        }
+
+        const dataLog = this.currentDataLogs[0];
+        if (dataLog) {
+            this.betItems.forEach((betItem) => {
+                betItem.setHighlight(dataLog.settlementResult[betItem.node.name], false);
+            });
+        }
     }
 }
