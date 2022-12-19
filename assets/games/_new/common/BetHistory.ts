@@ -1,7 +1,8 @@
-import Connection from "../connection/Connection";
-import { events } from "../connection/SocketIOConnection";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
+import HistoryFrame from "../../../common/new-history/HistoryFrame";
+import Connection from "../connection/Connection";
+import { events } from "../connection/SocketIOConnection";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -17,6 +18,14 @@ export default class BetHistory extends cc.Component {
 
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
+
+    @property(cc.Node)
+    mainFrame: cc.Node = null;
+
+    @property(cc.Node)
+    wrapperContent: cc.Node = null;
+
+    HEIGHT_CONTENT = 520;
 
     protected connection: Connection;
     protected gameName: string;
@@ -67,4 +76,18 @@ export default class BetHistory extends cc.Component {
     renderTicketHistory(data: any) {}
 
     public showTicketDetail(data) {}
+
+    initHistoryWrapper(node: cc.Node) {
+        const historyFrame = node.getComponent(HistoryFrame);
+        this.pages = historyFrame.pagination;
+        this.mainFrame = historyFrame.mainFrame;
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
+        commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
+        this.pages.init(this);
+
+        this.wrapperContent.parent = this.mainFrame;
+        historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT);
+    }
 }

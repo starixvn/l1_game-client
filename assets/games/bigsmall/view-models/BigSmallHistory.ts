@@ -1,4 +1,3 @@
-import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import BigSmallHistoryItem from "./BigSmallHistoryItem";
 
@@ -6,16 +5,12 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigSmallHistory extends SocketIOGameHistoryBase {
-    @property(LocalizedLabelWithFormat)
-    gameName: LocalizedLabelWithFormat = null;
+    // @property(LocalizedLabelWithFormat)
+    // gameName: LocalizedLabelWithFormat = null;
 
-    onLoad() {
-        super.onLoad();
-    }
-
-    setGameName(gameId: number) {
-        this.gameName.dataId = `gameNames.${gameId}`;
-    }
+    // setGameName(gameId: number) {
+    //     this.gameName.dataId = `gameNames.${gameId}`;
+    // }
 
     public handleBetHistory = (roundId) => {};
 

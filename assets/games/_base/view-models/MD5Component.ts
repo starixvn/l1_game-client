@@ -94,10 +94,7 @@ export default class MD5Component extends cc.Component {
 
     generateMD5Result(data: MD5Type) {
         const value = data?.hashValue || data?.rawValue;
-        let formatValue = value;
-        if (this.isShowTooltip || this.Md5HashIsShowTooltip) {
-            formatValue = value.length > this.maximumStringAllowed ? value.slice(0, this.lengthOfMd5) + "..." : value;
-        }
+        const formatValue = value.length > this.maximumStringAllowed ? value.slice(0, this.lengthOfMd5) + "..." : value;
         this.md5Value.string = `${formatValue}`;
     }
 
@@ -129,33 +126,10 @@ export default class MD5Component extends cc.Component {
 
     handleTooltip(data: MD5Type) {
         !!data.hashValue && this.md5Tooltip.hideToolTip();
-        if (this.Md5HashIsShowTooltip) {
-            this.md5Tooltip.setData(data.rawValue || data.hashValue);
-        } else {
-            this.isShowTooltip && this.md5Tooltip.setData(data.rawValue);
-        }
+        this.md5Tooltip.setData(data.rawValue);
     }
 
     setDelayShowRawValue(delay: number) {
         this.delayShowRawValue = delay;
-    }
-
-    setParamGame(
-        delayShowRawValue: number,
-        lengthOfMd5: number,
-        isShowTooltip: boolean,
-        widthMd5Node: number,
-        Md5HashIsShowTooltip: boolean
-    ) {
-        this.delayShowRawValue = delayShowRawValue;
-        this.lengthOfMd5 = lengthOfMd5;
-        this.isShowTooltip = isShowTooltip;
-        this.widthMd5Node = widthMd5Node;
-        this.Md5HashIsShowTooltip = Md5HashIsShowTooltip;
-        this.updateWidthMD5Node();
-    }
-
-    updateWidthMD5Node() {
-        this.md5Node.width = this.widthMd5Node;
     }
 }

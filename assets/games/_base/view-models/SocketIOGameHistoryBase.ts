@@ -22,6 +22,9 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     @property(cc.Node)
     mainFrame: cc.Node = null;
 
+    @property(cc.Node)
+    wrapperContent: cc.Node = null;
+
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;
 
@@ -33,13 +36,6 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
 
     init(socket: Socket) {
         this.socket = socket;
-    }
-
-    onLoad() {
-        const commonDialog = this.mainFrame.getComponent(CommonDialog);
-        commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
     }
 
     onEnable() {
@@ -85,10 +81,14 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     initHistoryWrapper(node: cc.Node) {
         const historyFrame = node.getComponent(HistoryFrame);
         this.pagination = historyFrame.pagination;
+        this.mainFrame = historyFrame.mainFrame;
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
+        commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
         this.pagination.init(this);
-        historyFrame.clickCloseButton = () => {
-            this.mainFrame.getComponent(CommonDialog).closeDialog();
-        };
+
+        this.wrapperContent.parent = this.mainFrame;
         historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT);
     }
 }

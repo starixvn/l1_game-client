@@ -250,7 +250,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
             this.openBetHistory(roundId);
         };
         this.currentMiniPanel.node.addChild(dialog);
-        historyComp.setGameName(this.gameId);
+        //historyComp.setGameName(this.gameId);
     }
 
     public initStatistic() {
