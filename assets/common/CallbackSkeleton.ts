@@ -1,9 +1,9 @@
-import CallbackAnimation from "../../../common/CallbackAnimation";
+import CallbackAnimation from "./CallbackAnimation";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class NightClubCallbackAnimation extends CallbackAnimation {
+export default class CallbackSkeleton extends CallbackAnimation {
     @property(sp.Skeleton)
     effect: sp.Skeleton = null;
 
