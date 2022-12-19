@@ -1,3 +1,4 @@
+import StaticGroup from "../../../../../common/static-node/StaticGroup";
 import { WinThreeCardsRoundHistory } from "../../../view-models/models/WinThreeCardsModel";
 import WinThreeCardsBigRoad from "./WinThreeCardsBigRoad";
 import WinThreeCardsRoundResult from "./WinThreeCardsRoundResult";
@@ -19,6 +20,12 @@ export default class WinThreeCardsScoreBoard extends cc.Component {
 
     @property(cc.Node)
     roundResultContainer: cc.Node = null;
+
+    @property(cc.Node)
+    containerStatic: cc.Node = null;
+
+    @property(StaticGroup)
+    staticGroup: StaticGroup = null;
 
     @property(cc.Prefab)
     roundResultPrefab: cc.Prefab = null;
@@ -57,7 +64,8 @@ export default class WinThreeCardsScoreBoard extends cc.Component {
 
     private updateRoundResult(dataLogs: WinThreeCardsRoundHistory[]) {
         this.roundResultContainer.destroyAllChildren();
-
+        this.containerStatic.destroyAllChildren();
+        let totalWidthChild = 0;
         for (const dataLog of dataLogs) {
             const { result, settlementResult } = dataLog;
             const roundResultNode = cc.instantiate(this.roundResultPrefab);
@@ -66,6 +74,15 @@ export default class WinThreeCardsScoreBoard extends cc.Component {
             roundResultComponent.changeBackgroundColor(settlementResult);
             roundResultComponent.changeValueText(result);
             this.roundResultContainer.addChild(roundResultNode);
+
+            totalWidthChild += roundResultNode.width;
         }
+
+        this.staticGroup.lateUpdate();
+
+        this.roundResultContainer.getComponent(cc.Layout).updateLayout();
+        const parentNode = this.roundResultContainer.parent;
+        parentNode.width = totalWidthChild;
+        parentNode.getComponent(cc.Layout).updateLayout();
     }
 }

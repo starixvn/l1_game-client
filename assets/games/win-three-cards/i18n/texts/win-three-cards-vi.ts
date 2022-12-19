@@ -23,7 +23,12 @@ export const phrases = {
         phoenix_win: "Phụng thắng",
         pair8PlusInfo: "Pair 9 to Pair A, Flush, Straight,\nThree of a kind, Straight Flush",
         handInfo: "Three of a Kind > Straight Flush > Flush > Straight > Pair > High Card",
-        tie: "Hòa"
+        tie: "Hòa",
+        pair8PlusSta: "Đôi 8 +:",
+        dragonSta: "Long:",
+        phoenixSta: "Phụng:",
+        dragonShort: "L",
+        phoenixShort: "P"
     }
 };
 

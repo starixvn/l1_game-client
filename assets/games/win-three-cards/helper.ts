@@ -30,6 +30,20 @@ export const getCardsResult = (result: number) => {
     return resultText;
 };
 
+export const changeCacheMode = (label: cc.Label) => {
+    const lang = window.i18n.curLang;
+    switch (lang) {
+        case "th":
+        case "zh_cn":
+        case "zh_tw":
+            label.cacheMode = cc.Label.CacheMode.BITMAP;
+            return;
+        default:
+            label.cacheMode = cc.Label.CacheMode.CHAR;
+            return;
+    }
+};
+
 export const convertRank = (num: number): string => {
     num++;
     const dict = {

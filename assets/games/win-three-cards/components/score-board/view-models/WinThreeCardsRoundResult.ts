@@ -1,5 +1,5 @@
 import { WinThreeCardsResultCards, WinThreeCardsSettlementResult } from "../../../view-models/models/WinThreeCardsModel";
-import { convertRank, getCardsResult } from "../../../helper";
+import { changeCacheMode, convertRank, getCardsResult } from "../../../helper";
 const { ccclass, property } = cc._decorator;
 
 enum OrderNode {
@@ -42,6 +42,7 @@ export default class WinThreeCardsRoundResult extends cc.Component {
     changeValueText(result: WinThreeCardsResultCards) {
         this.infoNameNode.forEach((name: string, index: number) => {
             this.textLabel[index].string = `${getCardsResult(result[name].handRankId)} ${convertRank(+result[name].cardRankId)}`;
+            changeCacheMode(this.textLabel[index]);
         });
     }
 }
