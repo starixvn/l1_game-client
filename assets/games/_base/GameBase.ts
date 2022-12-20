@@ -930,5 +930,6 @@ export default class GameBase extends GameViewBase {
 
     initMD5String(node: cc.Node) {
         this.md5Component = node.getComponent(MD5Component);
+        this.md5Component.gameId = this.gameId;
     }
 }

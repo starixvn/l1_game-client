@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
@@ -45,9 +46,23 @@ export default class MD5Component extends cc.Component {
     protected md5Tooltip: MD5Tooltip = null;
     maximumStringAllowed = 32;
     public hintLabel: cc.Label = null;
+    public gameId: number;
 
     onLoad() {
         this.initMD5Tooltip();
+    }
+
+    start() {
+        this.trackingAction(TrackingAction.Show);
+    }
+
+    trackingAction(action: string) {
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: action,
+            object_name: "MD5",
+            game_name: GameUtils.getGameNameString(this.gameId)
+        });
     }
 
     initMD5Wrapper(node: cc.Node) {
@@ -110,6 +125,7 @@ export default class MD5Component extends cc.Component {
     onClickCopyButton() {
         GameUtils.copyToClipboard(this.md5CopyString, this.hintLabel, () => this.showHint());
         this.md5Tooltip.hideToolTip();
+        this.trackingAction(TrackingAction.Click);
     }
 
     showHint() {
