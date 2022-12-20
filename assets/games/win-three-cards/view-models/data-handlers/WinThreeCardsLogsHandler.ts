@@ -1,8 +1,8 @@
 import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
-import { CardModel } from "../../../blockchain-baccarat/BlockchainBaccaratType";
 import WinThreeCards from "../WinThreeCards";
+import { WinThreeCardResult } from "../models/WinThreeCardsModel";
 import WinThreeCardsFinishHandler from "./WinThreeCardsFinishHandler";
 
 export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
@@ -23,12 +23,12 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
 
         if (data.roundHistory && data.roundHistory[0]) {
             const ownMain = this.getOwnMain();
-            const lastLog = data.roundHistory[0];
-            const settlementResult = lastLog.settlementResult;
+            const { result, settlementResult } = data.roundHistory[0];
 
             if (this.main.timeHandler.isInWaitTime) {
-                ownMain.phoenixCards.cardResult.cards = this.getLogDataFollowTypePlayer(false, lastLog);
-                ownMain.dragonCards.cardResult.cards = this.getLogDataFollowTypePlayer(true, lastLog);
+                const { dragon, phoenix } = result;
+                ownMain.dragonCards.cardResult = new WinThreeCardResult(dragon);
+                ownMain.phoenixCards.cardResult = new WinThreeCardResult(phoenix);
 
                 ownMain.phoenixCards.showCardsWithoutAnimation();
                 ownMain.dragonCards.showCardsWithoutAnimation();
@@ -46,12 +46,6 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
     buildLogs(dataLogs: any) {
         this.buildBasicScoreBoard(dataLogs);
         this.getOwnMain().scoreboard.renderScoreBoardInGame(dataLogs);
-    }
-
-    protected getLogDataFollowTypePlayer(isDragon: boolean, data: any) {
-        const { dragon, phoenix } = data.result;
-
-        return Object.values(isDragon ? dragon.cards : phoenix.cards).filter((value) => value != null) as CardModel[];
     }
 
     public buildBasicScoreBoard(dataLogs: any) {
