@@ -18,6 +18,11 @@ export default class FortuneCat extends SlotGameBase {
         this.gameId = FortuneCatsId;
     }
 
+    onLoad() {
+        this.gameSongList.gameId = this.gameId;
+        super.onLoad();
+    }
+
     initSlotGameConfig() {
         this.slotGameConfigs = new FortuneCatSlotConfigs();
     }
