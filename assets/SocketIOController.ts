@@ -133,7 +133,7 @@ export default class SocketIOController {
 
         socket.on("disconnect", (reason, detail: any) => {
             if (reason === "ping timeout" || reason === "transport error") {
-                const message = detail.message || detail.description;
+                const message = detail?.message || detail?.description || "";
                 sentryLogger.log(`socket disconnect - ${gameName} - ${reason}:   ${message}`);
             }
         });
