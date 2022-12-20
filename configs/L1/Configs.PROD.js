@@ -8,7 +8,7 @@ window.envConfig = {
         "gamesaba.com": "gamesaba.com"
     },
     subDomain: "proxy",
-    env: "",
+    env: "pro",
     sentry: {
         url: "https://19b3909c434341f0b13eb3a8529e5862@sentry.sabagame.com/9",
         env: "PRO"
