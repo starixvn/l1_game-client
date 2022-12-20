@@ -1,6 +1,6 @@
 import { i18n } from "../../../../ClientModules";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { formatOdds, numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,7 +26,7 @@ export default class FanTanTicketDetailItem extends cc.Component {
 
     setData(data: any, choice: string, index: number, isWin: boolean) {
         this.time.string = getStringDateByTime(data.time);
-        this.odd.string = data.odds[choice];
+        this.odd.string = cc.RedT.user?.fractionalOddsFormat ? numberWithCommas(+data.odds[choice] - 1, 2) : data.odds[choice];
         this.betChoice.string = this.renderBetChoice(choice);
         this.stake.string = numberWithCommas(data[choice], 2);
         this.win.string = isWin ? numberWithCommas(data[choice] * data.odds[choice], 2) : 0;
