@@ -19,10 +19,10 @@ export default class WinThreeCardsTicketDetail extends GameTicketDetailBase {
     round: cc.Label = null;
 
     @property({ type: WinThreeCardsHistoryResult })
-    cardResultDragon: WinThreeCardsHistoryResult;
+    cardResultDragon: WinThreeCardsHistoryResult = null;
 
     @property({ type: WinThreeCardsHistoryResult })
-    cardResultPhoenix: WinThreeCardsHistoryResult;
+    cardResultPhoenix: WinThreeCardsHistoryResult = null;
 
     betLogDetails = null;
 

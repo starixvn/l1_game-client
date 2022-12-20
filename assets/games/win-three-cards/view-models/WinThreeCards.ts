@@ -38,9 +38,6 @@ export default class WinThreeCards extends NewGameRoomBase {
     @property(TotalHistoryBoard)
     totalHistoryBoard: TotalHistoryBoard = null;
 
-    @property(cc.Prefab)
-    historyPrefab: cc.Prefab = null;
-
     @property(cc.Label)
     winNoticeLabel: cc.Label = null;
 

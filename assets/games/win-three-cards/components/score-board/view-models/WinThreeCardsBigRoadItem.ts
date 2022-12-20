@@ -8,9 +8,6 @@ const ROW_NUMBER = 6;
 
 @ccclass
 export default class WinThreeCardsBigRoadItem extends BigRoadItem {
-    @property(cc.Node)
-    nodes: cc.Node[] = [];
-
     @property(cc.Prefab)
     prefabDot: cc.Prefab = null;
 

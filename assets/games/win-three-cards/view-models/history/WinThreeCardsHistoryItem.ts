@@ -5,7 +5,7 @@ import NewCard from "../../../../common/new-card/view-models/NewCard";
 import WinThreeCardsHistory, { WinThreeCardsBetData } from "./WinThreeCardsHistory";
 import WinThreeCardsHistoryResult from "./WinThreeCardsHistoryResult";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class WinThreeCardsHistoryItem extends cc.Component {
     @property(cc.Label)
@@ -24,20 +24,20 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
     ticketDetailPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    bgRow: cc.Node = null;      
+    bgRow: cc.Node = null;
 
     @property({ type: NewCard })
     cards: NewCard[] = [];
 
-    @property({type: WinThreeCardsHistoryResult})
-    cardResultDragon: WinThreeCardsHistoryResult;
+    @property({ type: WinThreeCardsHistoryResult })
+    cardResultDragon: WinThreeCardsHistoryResult = null;
 
-    @property({type: WinThreeCardsHistoryResult})
-    cardResultPhoenix: WinThreeCardsHistoryResult;
+    @property({ type: WinThreeCardsHistoryResult })
+    cardResultPhoenix: WinThreeCardsHistoryResult = null;
 
     data: WinThreeCardsBetData = null;
 
-    public showTicketDetail = (data: WinThreeCardsBetData) => {};    
+    public showTicketDetail = (data: WinThreeCardsBetData) => {};
 
     historyMainNode: WinThreeCardsHistory = null;
 
@@ -49,7 +49,7 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
         this.timeLabel.string = getStringDateByTime(betData.time);
         this.roundLabel.string = betData.phien;
         this.winLabel.string = numberWithCommas(betData.betwin, 2);
-        this.amountLabel.string = this.summarizeBet(betData);        
+        this.amountLabel.string = this.summarizeBet(betData);
         this.cardResultDragon && this.cardResultDragon.setData(dragonCards);
         this.cardResultPhoenix && this.cardResultPhoenix.setData(phoenixCards);
     }

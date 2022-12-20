@@ -12,7 +12,7 @@ enum StatisticChildrenName {
 }
 @ccclass
 export default class WinThreeCardsScoreBoard extends cc.Component {
-    @property([WinThreeCardsBigRoad])
+    @property(WinThreeCardsBigRoad)
     bigRoads: WinThreeCardsBigRoad = null;
 
     @property(cc.Label)
