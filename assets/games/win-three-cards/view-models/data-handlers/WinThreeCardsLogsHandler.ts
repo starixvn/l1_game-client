@@ -30,8 +30,11 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
                 const phoenixCards = this.getLogDataFollowTypePlayer(false, lastLog);
                 const dragonCards = this.getLogDataFollowTypePlayer(true, lastLog);
 
-                ownMain.phoenixCards.showCardsWithoutAnimation(phoenixCards);
-                ownMain.dragonCards.showCardsWithoutAnimation(dragonCards);
+                ownMain.phoenixCards.cardResult.cards = phoenixCards;
+                ownMain.dragonCards.cardResult.cards = dragonCards;
+
+                ownMain.phoenixCards.showCardsWithoutAnimation();
+                ownMain.dragonCards.showCardsWithoutAnimation();
                 this.getOwnFinishHandle().showWinNotice(settlementResult);
             }
 

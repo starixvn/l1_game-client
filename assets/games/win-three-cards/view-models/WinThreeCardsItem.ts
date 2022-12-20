@@ -1,7 +1,7 @@
 import { i18n } from "../../../ClientModules";
 import AudioManager from "../../../common/audio/AudioManager";
 import { getNameCard } from "../../../common/helpers/CardHelper";
-import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
+import NewCard, { CardAnimation } from "../../../common/new-card/view-models/NewCard";
 import BaccaratCard from "../../baccarat/view-models/BaccaratCard";
 import { WinThreeCardResult } from "./models/WinThreeCardsModel";
 
@@ -69,6 +69,7 @@ export default class WinThreeCardsCards extends cc.Component {
     private readonly SHOW_CARD = 1;
     private clonePositionCards: cc.Vec3[] = [];
     private cardsNodes: cc.Node[] = [];
+    public cardResult: WinThreeCardResult = null;
 
     onLoad() {
         this.cardsNodes = [this.card1, this.card2, this.card3];
@@ -94,30 +95,31 @@ export default class WinThreeCardsCards extends cc.Component {
         }
     }
 
-    showCardsWithoutAnimation(cardModels: CardModel[]) {
+    showCardsWithoutAnimation() {
         this.resetSomeActionCards();
         for (let i = 0; i < 3; i++) {
-            this.openCard(i, cardModels, false);
+            this.openCard(i, false);
         }
     }
 
-    showFirstTwoCards(cardResult: WinThreeCardResult) {
+    showFirstTwoCards() {
         for (let i = 0; i < 2; i++) {
-            this.openCard(i, cardResult.cards, true);
+            this.openCard(i, true);
         }
     }
 
-    showLastCard(cardResult: WinThreeCardResult) {
-        this.openCard(2, cardResult.cards);
+    showLastCard() {
+        this.openCard(2);
     }
 
-    setRank(cardResult: WinThreeCardResult) {
+    setRank() {
+        const { cardRankId, handRankId } = this.cardResult;
         this.handRank.node.active = true;
-        this.handRank.string = i18n.t(`winThreeCards.${Ranks[cardResult.handRankId]}`);
+        this.handRank.string = i18n.t(`winThreeCards.${Ranks[handRankId]}`);
 
-        if (cardResult.cardRankId >= 0) {
+        if (cardRankId >= 0) {
             this.cardRank.node.active = true;
-            this.cardRank.string = getNameCard(cardResult.cardRankId);
+            this.cardRank.string = getNameCard(cardRankId);
         }
 
         this.rank.active = true;
@@ -171,9 +173,11 @@ export default class WinThreeCardsCards extends cc.Component {
         card.angle = -135;
     }
 
-    private openCard(index: number, cardModels: CardModel[], isAnimated = true) {
-        if (index < cardModels.length) {
-            const cardData = cardModels[index];
+    private openCard(index: number, isAnimated = true) {
+        const { cards } = this.cardResult;
+
+        if (index < cards.length) {
+            const cardData = cards[index];
             const currentCard = this[`card${index + 1}`] as cc.Node;
 
             currentCard.active = false;

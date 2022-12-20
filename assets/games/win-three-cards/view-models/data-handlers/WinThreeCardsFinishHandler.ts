@@ -17,27 +17,24 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
         mainGame.showScoreBoardNextDot = true;
 
         const { phoenix, dragon } = data.result;
-        const dragonResult = new WinThreeCardResult(dragon);
-        const phonenixResult = new WinThreeCardResult(phoenix);
+        mainGame.dragonCards.cardResult = new WinThreeCardResult(dragon);
+        mainGame.phoenixCards.cardResult = new WinThreeCardResult(phoenix);
 
         const { dragonCards, phoenixCards } = mainGame;
         mainGame.node.runAction(
             cc.sequence(
-                cc.callFunc(() => dragonCards.showFirstTwoCards(dragonResult)),
+                cc.callFunc(() => dragonCards.showFirstTwoCards()),
                 cc.delayTime(GapTime.normal),
-                cc.callFunc(() => phoenixCards.showFirstTwoCards(phonenixResult)),
+                cc.callFunc(() => phoenixCards.showFirstTwoCards()),
                 cc.delayTime(GapTime.normal),
-
-                cc.callFunc(() => dragonCards.showLastCard(dragonResult)),
+                cc.callFunc(() => dragonCards.showLastCard()),
                 cc.delayTime(GapTime.thirdCard),
-                cc.callFunc(() => dragonCards.setRank(dragonResult)),
+                cc.callFunc(() => dragonCards.setRank()),
                 cc.delayTime(GapTime.normal),
-
-                cc.callFunc(() => phoenixCards.showLastCard(phonenixResult)),
+                cc.callFunc(() => phoenixCards.showLastCard()),
                 cc.delayTime(GapTime.thirdCard),
-                cc.callFunc(() => phoenixCards.setRank(phonenixResult)),
+                cc.callFunc(() => phoenixCards.setRank()),
                 cc.delayTime(GapTime.normal),
-
                 cc.callFunc(() => this.showSettlementResult(data, dataResultHash, mainGame, onFinishHandlingData))
             )
         );
@@ -60,8 +57,7 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
 
     public showWinNotice(settlementResult) {
         const mainGame = this.getOwnMain();
-        const winNoticeNode = mainGame.winNoticeLabel.node.parent;
-        let key = "";
+        let key = "tie";
 
         if (settlementResult.dragon) {
             key = "dragon_win";
@@ -69,19 +65,9 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
         } else if (settlementResult.phoenix) {
             key = "phoenix_win";
             mainGame.phoenixCards.showHighlightCards();
-        } else {
-            key = "tie";
         }
 
         mainGame.winNoticeLabel.string = i18n.t(`winThreeCards.${key}`).toUpperCase();
-        winNoticeNode.active = true;
-    }
-
-    protected insertCurrentDataLogs(mainGame: any, data: any) {
-        if (data.winningPlayers) {
-            delete data.winningPlayers;
-        }
-
-        mainGame.currentDataLogs.unshift(data);
+        mainGame.winNoticeLabel.node.parent.active = true;
     }
 }

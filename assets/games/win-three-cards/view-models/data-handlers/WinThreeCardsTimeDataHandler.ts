@@ -37,7 +37,7 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHa
             cc.sequence(
                 cc.delayTime(0.1),
                 cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card1)),
-                cc.delayTime(0.4),
+                cc.delayTime(0.2),
                 cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card1)),
                 cc.delayTime(0.2),
                 cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card2)),
