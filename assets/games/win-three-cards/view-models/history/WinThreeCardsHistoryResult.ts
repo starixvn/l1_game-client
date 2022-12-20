@@ -1,4 +1,3 @@
-import { i18n } from "../../../../ClientModules";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
 import { convertRank, getCardsResult } from "../../helper";
 import { WinThreeCardResult } from "../models/WinThreeCardsModel";
@@ -22,7 +21,7 @@ export default class WinThreeCardsHistoryResult extends cc.Component {
         this.setCards(betData.cards);
     }
 
-    setCards(results: any) {
+    private setCards(results: any) {
         Object.values(results).forEach((result: any, index) => {
             this.cards[index].setCardOldStyle({
                 rank: result.rank,

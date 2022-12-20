@@ -270,7 +270,6 @@ export default class WinThreeCardsCards extends cc.Component {
                 .to(0.3, { position: cc.v2(0, 0) })
                 .call(() => cardComponent.playAnimation(CardAnimation.DropCard, 0.5))
                 .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 100, 1))
-                .delay(0.5)
                 .call(() => this.resetCard(cardNode))
                 .delay(duration)
                 .call(() => {

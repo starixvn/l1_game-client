@@ -1,6 +1,4 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import GameUtils from "../../../common/GameUtils";
-import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
 import WinThreeCardsBetHandler from "./data-handlers/WinThreeCardsBetHandler";
 import WinThreeCardsFinishHandler from "./data-handlers/WinThreeCardsFinishHandler";
 import WinThreeCardsLogsHandler from "./data-handlers/WinThreeCardsLogsHandler";
@@ -35,38 +33,23 @@ export default class WinThreeCards extends NewGameRoomBase {
     @property(cc.Prefab)
     bigRoadPrefab: cc.Prefab = null;
 
-    @property(TotalHistoryBoard)
-    totalHistoryBoard: TotalHistoryBoard = null;
-
     @property(cc.Label)
     winNoticeLabel: cc.Label = null;
 
     @property(cc.AudioSource)
     getCardAudioSource: cc.AudioSource = null;
 
-    @property(cc.Prefab)
-    miniRoundHistoryPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    miniRoundHistoryContainer: cc.Node = null;
-
-    @property(cc.Node)
-    chipContainer: cc.Node = null;
-
-    @property(cc.Node)
-    totalBetContainer: cc.Node = null;
-
-    @property(cc.Node)
-    ownBetContainer: cc.Node = null;
-
     @property(cc.Node)
     cardDropBox: cc.Node = null;
 
-    basicHistoryBoard: WinThreeCardsBasicHistoryBoard;
-    showScoreBoardNextDot = false;
+    @property({ type: cc.AudioSource, visible: false, override: true })
+    musicBg: cc.AudioSource = null;
+
+    public basicHistoryBoard: WinThreeCardsBasicHistoryBoard;
+    public showScoreBoardNextDot = false;
     public scoreboard: WinThreeCardsScoreBoard = null;
     public logsHandler: WinThreeCardsLogsHandler;
-    timeHandler: WinThreeCardsTimeDataHandler;
+    public timeHandler: WinThreeCardsTimeDataHandler;
 
     constructor() {
         super();
@@ -78,12 +61,6 @@ export default class WinThreeCards extends NewGameRoomBase {
         super.onLoad();
         this.initCards();
         this.initBasicScoreboard();
-
-        this.betItems.forEach((item) => {
-            GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);
-            GameUtils.moveToOtherNode(item.totalBet.node, this.totalBetContainer);
-            GameUtils.moveToOtherNode(item.ownBet.node, this.ownBetContainer);
-        });
     }
 
     resetDataAndUI() {
@@ -103,7 +80,7 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.md5Handler = new BaccaratMd5Handler(this);
     }
 
-    initScoreBoard(node: cc.Node) {
+    private initScoreBoard(node: cc.Node) {
         this.scoreboard = node.getComponent(WinThreeCardsScoreBoard);
     }
 
@@ -115,7 +92,7 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    playGetCardAudio() {
+    private playGetCardAudio() {
         AudioManager.getInstance().playSFX(this.getCardAudioSource.clip);
     }
 
@@ -139,16 +116,7 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.basicHistoryBoardNode.addChild(historyBoardNode);
     }
 
-    updateCardDropBox() {
-        const percent = 20;
-        const cardsNode = this.cardDropBox.getChildByName("cards");
-        cardsNode.active = true;
-        cardsNode.children.forEach((child, index) => {
-            child.active = percent - 1 >= index;
-        });
-    }
-
-    highlightLastResult() {
+    private highlightLastResult() {
         if (this.currentTimeRemaining <= this.config.stopBetTime) {
             return;
         }

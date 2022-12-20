@@ -2,7 +2,8 @@ import AudioManager from "../../../../common/audio/AudioManager";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
-import WinThreeCardsHistory, { WinThreeCardsBetData } from "./WinThreeCardsHistory";
+import { WinThreeCardsBetData } from "../models/WinThreeCardsModel";
+import WinThreeCardsHistory from "./WinThreeCardsHistory";
 import WinThreeCardsHistoryResult from "./WinThreeCardsHistoryResult";
 
 const { ccclass, property } = cc._decorator;
@@ -37,7 +38,9 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
 
     data: WinThreeCardsBetData = null;
 
-    public showTicketDetail = (data: WinThreeCardsBetData) => {};
+    public showTicketDetail = (data: WinThreeCardsBetData) => {
+        // handle
+    };
 
     historyMainNode: WinThreeCardsHistory = null;
 
@@ -58,7 +61,7 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
         this.bgRow.active = show;
     }
 
-    summarizeBet(data: WinThreeCardsBetData): string {
+    private summarizeBet(data: WinThreeCardsBetData): string {
         const keys = ["dragon", "phoenix", "pair8Plus", "threeOfAKind", "straightFlush", "flush", "straight"];
         let total = 0;
         keys.forEach((key) => {
@@ -67,7 +70,7 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
         return numberWithCommas(total);
     }
 
-    openTicketDetail() {
+    private openTicketDetail() {
         AudioManager.getInstance().playClick();
         this.showTicketDetail(this.data);
     }

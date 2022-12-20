@@ -21,7 +21,7 @@ export default class WinThreeCardsHistory extends SocketIOGameHistoryBase {
         }
     }
 
-    showTicketDetail(data: WinThreeCardsBetData) {
+   private showTicketDetail(data: WinThreeCardsBetData) {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
         this.node.addChild(ticketDetailPrefab);
 

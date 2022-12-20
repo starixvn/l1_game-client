@@ -15,6 +15,17 @@ export default class LocalizedFont extends cc.Component {
     @property({ type: LanguageFont })
     overrideFonts: LanguageFont[] = [];
 
+    @property
+    enableCacheMode = false;
+
+    @property({
+        type: cc.Label.CacheMode,
+        visible: function (this: LocalizedFont) {
+            return this.enableCacheMode;
+        }
+    })
+    cacheMode = cc.Label.CacheMode.NONE;
+
     label: cc.Label = null;
     color2D: ColorAssembler2D = null;
     fontBases = {};
@@ -41,9 +52,28 @@ export default class LocalizedFont extends cc.Component {
         const name = this.getFontNameByLanguage();
         if (this.label) {
             this.loadFont(name).then((font) => {
-                this.label && (this.label.font = font);
+                if (this.label && this.label.isValid) {
+                    this.label.font = font;
+                    this.enableCacheMode && this.handleCacheMode();
+                }
+
                 this.color2D && this.color2D.updateColors();
             });
+        }
+    }
+
+    handleCacheMode() {
+        const lang = window.i18n.curLang;
+        switch (lang) {
+            case "th":
+            case "zh_cn":
+            case "zh_tw":
+                this.label.cacheMode = cc.Label.CacheMode.BITMAP;
+                break;
+
+            default:
+                this.label.cacheMode = cc.Label.CacheMode.CHAR;
+                break;
         }
     }
 
