@@ -1,6 +1,6 @@
 
 icon-fortunecat.png
-size: 1450,532
+size: 1429,532
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -18,23 +18,9 @@ body
   orig: 126, 128
   offset: 0, 0
   index: -1
-firework1
-  rotate: true
-  xy: 2, 12
-  size: 68, 130
-  orig: 72, 131
-  offset: 2, 1
-  index: -1
-firework2
-  rotate: false
-  xy: 1367, 329
-  size: 81, 201
-  orig: 83, 203
-  offset: 0, 2
-  index: -1
 frame-effect/1
   rotate: false
-  xy: 1358, 241
+  xy: 1339, 21
   size: 88, 86
   orig: 274, 274
   offset: 78, 126
@@ -103,15 +89,15 @@ frame-effect/9
   offset: 24, 4
   index: -1
 gold
-  rotate: true
-  xy: 211, 36
+  rotate: false
+  xy: 317, 44
   size: 44, 36
   orig: 48, 38
   offset: 1, 1
   index: -1
 gold 2
-  rotate: true
-  xy: 249, 36
+  rotate: false
+  xy: 317, 9
   size: 44, 33
   orig: 46, 35
   offset: 1, 1
@@ -125,7 +111,7 @@ head
   index: -1
 lefthand
   rotate: false
-  xy: 134, 4
+  xy: 240, 4
   size: 34, 28
   orig: 36, 30
   offset: 1, 1
@@ -144,16 +130,37 @@ light-top
   orig: 204, 115
   offset: 1, 1
   index: -1
+phao/bottom
+  rotate: false
+  xy: 88, 11
+  size: 67, 69
+  orig: 68, 69
+  offset: 0, 0
+  index: -1
+phao/mid
+  rotate: true
+  xy: 2, 11
+  size: 69, 84
+  orig: 69, 84
+  offset: 0, 0
+  index: -1
+phao/top
+  rotate: true
+  xy: 157, 23
+  size: 57, 81
+  orig: 57, 81
+  offset: 0, 0
+  index: -1
 righthand
   rotate: false
-  xy: 134, 34
+  xy: 240, 34
   size: 37, 46
   orig: 39, 48
   offset: 1, 1
   index: -1
 righthand copy
   rotate: true
-  xy: 173, 34
+  xy: 279, 34
   size: 46, 36
   orig: 48, 38
   offset: 1, 1
