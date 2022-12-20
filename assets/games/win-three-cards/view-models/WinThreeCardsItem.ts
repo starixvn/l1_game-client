@@ -17,9 +17,9 @@ enum Ranks {
     killer235
 }
 
-export const AnimationDurations = {
-    flyCardSecond: 0.8,
-    openCardSecond: 0.6
+export const AnimationTime = {
+    flyCard: 0.8,
+    openCard: 0.6
 };
 
 @ccclass
@@ -76,6 +76,12 @@ export default class WinThreeCardsCards extends cc.Component {
         this.cardsNodes.forEach((cardNode: cc.Node, index: number) => {
             cardNode.getComponentInChildren(NewCard).faceDown();
             this.clonePositionCards[index] = cardNode.position;
+        });
+    }
+
+    onDisable() {
+        this.cardsNodes.forEach((cardTween: cc.Node) => {
+            cardTween.stopAllActions();
         });
     }
 
@@ -137,7 +143,6 @@ export default class WinThreeCardsCards extends cc.Component {
         const card = this.cardsNodes[cardNumber];
         const boxWorldPosition = this.cardsBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const boxPosition = card.parent.convertToNodeSpaceAR(boxWorldPosition);
-        const { flyCardSecond } = AnimationDurations;
 
         if (card && card.isValid) {
             const cardPosition = card.position;
@@ -148,9 +153,9 @@ export default class WinThreeCardsCards extends cc.Component {
 
             card.runAction(
                 cc.spawn(
-                    cc.rotateTo(flyCardSecond, 0).easing(cc.easeInOut(2)),
-                    cc.scaleTo(flyCardSecond, scale).easing(cc.easeInOut(2)),
-                    cc.moveTo(flyCardSecond, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
+                    cc.rotateTo(AnimationTime.flyCard, 0).easing(cc.easeInOut(2)),
+                    cc.scaleTo(AnimationTime.flyCard, scale).easing(cc.easeInOut(2)),
+                    cc.moveTo(AnimationTime.flyCard, cc.v2(cardPosition.x, cardPosition.y)).easing(cc.easeInOut(2))
                 )
             );
 
@@ -211,13 +216,13 @@ export default class WinThreeCardsCards extends cc.Component {
 
     private calculateDelayAnimationTime(index: number, currentCard: cc.Node, delayTime: number) {
         index === 2 ? this.calculateThirdCardDelayAnimationTime(currentCard) : this.calculateTwoFirstCardDelayAnimationTime(currentCard);
-        delayTime += AnimationDurations.openCardSecond;
+        delayTime += AnimationTime.openCard;
         return delayTime;
     }
 
     private calculateTwoFirstCardDelayAnimationTime(currentCard: cc.Node) {
         currentCard.scaleX = 0;
-        currentCard.runAction(cc.scaleTo(AnimationDurations.openCardSecond, 1, 1));
+        currentCard.runAction(cc.scaleTo(AnimationTime.openCard, 1, 1));
         this.card1.getComponent(BaccaratCard).numberTag.active = false;
     }
 
