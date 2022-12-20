@@ -18,14 +18,6 @@ export default class LocalizedFont extends cc.Component {
     @property
     enableCacheMode = false;
 
-    @property({
-        type: cc.Label.CacheMode,
-        visible: function (this: LocalizedFont) {
-            return this.enableCacheMode;
-        }
-    })
-    cacheMode = cc.Label.CacheMode.NONE;
-
     label: cc.Label = null;
     color2D: ColorAssembler2D = null;
     fontBases = {};
