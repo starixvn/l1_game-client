@@ -17,9 +17,6 @@ export default class StaticGroup extends cc.Component {
     @property({ type: cc.Node })
     dynamicRootNodes: cc.Node[] = [];
 
-    @property
-    usingLayout = false;
-
     private initialized = false;
 
     onLoad() {
@@ -49,6 +46,7 @@ export default class StaticGroup extends cc.Component {
     }
 
     moveNodeToContainer(content: cc.Node, container: cc.Node) {
+        content.getComponent(cc.Layout)?.updateLayout();
         const staticNodes = content.getComponentsInChildren(StaticNode).filter((node) => node.groupId === this.groupId);
         staticNodes.forEach((staticNode) => {
             staticNode.init();
