@@ -19,15 +19,15 @@ export const phrases = {
         onePair: "Đôi",
         highCard: "Bài Cao",
         pair8Plus: "Đôi 8 trở lên",
-        dragon_win: "Rồng thắng",
+        dragon_win: "Long thắng",
         phoenix_win: "Phụng thắng",
-        pair8PlusInfo: "Pair 9 to Pair A, Flush, Straight,\nThree of a kind, Straight Flush",
-        handInfo: "Three of a Kind > Straight Flush > Flush > Straight > Pair > High Card",
+        pair8PlusInfo: "Đôi 9 đến đôi A, Thùng, Sảnh,\nBão, Thùng Phá Sảnh",
+        handInfo: "Bão > Thùng Phá Sảnh > Thùng > Sảnh > Đôi > Bài Cao",
         tie: "Hòa",
         pair8PlusSta: "Đôi 8 +:",
         dragonSta: "Long:",
         phoenixSta: "Phụng:",
-        dragonShort: "R",
+        dragonShort: "L",
         phoenixShort: "P"
     }
 };
