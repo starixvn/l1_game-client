@@ -27,7 +27,7 @@ export const phrases = {
         pair8PlusSta: "Đôi 8 +:",
         dragonSta: "Long:",
         phoenixSta: "Phụng:",
-        dragonShort: "L",
+        dragonShort: "R",
         phoenixShort: "P"
     }
 };
