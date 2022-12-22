@@ -74,11 +74,12 @@ export default class WinThreeCardsScoreBoard extends cc.Component {
             totalWidthChild += roundResultNode.width;
         }
 
-        this.roundResultContainer.getComponent(cc.Layout)?.updateLayout();
+        this.roundResultContainer.getComponent(cc.Layout).updateLayout();
         const parentNode = this.roundResultContainer.parent;
+        const maskWidth = parentNode.parent.width;
         parentNode.width = totalWidthChild;
         parentNode.getComponent(cc.Layout).updateLayout();
-        if (dataLogs.length < 5) {
+        if (maskWidth > totalWidthChild) {
             const widget = parentNode.getComponent(cc.Widget);
             widget.right = 0;
             widget.updateAlignment();
