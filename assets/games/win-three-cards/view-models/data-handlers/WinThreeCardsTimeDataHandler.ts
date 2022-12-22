@@ -31,21 +31,28 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHa
         this.flyAllCards();
     }
 
+    showWaitTime() {
+        this.main.timeWaitNode.active = true;
+        this.main.timeWaitLabel.string = this.formatTime(
+            this.main.currentTimeRemaining - this.main.config.betTime - this.dealCardsTime - 1
+        );
+    }
+
     flyAllCards() {
         const baccarat = this.getOwnMain();
         this.main.node.runAction(
             cc.sequence(
                 cc.delayTime(0.1),
                 cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card1)),
-                cc.delayTime(0.2),
+                cc.delayTime(0.1),
                 cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card1)),
-                cc.delayTime(0.2),
+                cc.delayTime(0.1),
                 cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card2)),
-                cc.delayTime(0.2),
+                cc.delayTime(0.1),
                 cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card2)),
-                cc.delayTime(0.2),
+                cc.delayTime(0.1),
                 cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card3)),
-                cc.delayTime(0.2),
+                cc.delayTime(0.1),
                 cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card3))
             )
         );

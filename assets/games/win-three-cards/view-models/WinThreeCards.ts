@@ -10,6 +10,8 @@ import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import WinThreeCardsBasicHistoryBoard from "../components/score-board/view-models/WinThreeCardsBasicHistoryBoard";
 import { WinThreeCardsConfigs } from "./models/WinThreeCardsModel";
 import WinThreeCardsScoreBoard from "../components/score-board/view-models/WinThreeCardsScoreBoard";
+import GameUtils from "../../../common/GameUtils";
+import { i18n } from "../../../ClientModules";
 const { ccclass, property } = cc._decorator;
 
 export const WinThreeCardsId = 61;
@@ -127,5 +129,14 @@ export default class WinThreeCards extends NewGameRoomBase {
                 betItem.setHighlight(dataLog.settlementResult[betItem.node.name], false);
             });
         }
+    }
+
+    getBetChoiceString(choice: string): string {
+        const hedgeBetChoices = ["dragon", "phoenix"];
+        if (hedgeBetChoices.includes(choice.toLowerCase())) {
+            return i18n.t(`winThreeCards.${choice}`);
+        }
+
+        return GameUtils.getBetChoiceString(choice);
     }
 }

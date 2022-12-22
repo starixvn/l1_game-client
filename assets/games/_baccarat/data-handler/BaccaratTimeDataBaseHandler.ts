@@ -37,6 +37,7 @@ export default abstract class BaccaratTimeDataBaseHandler extends GameBaseTimeHa
         } else {
             this.handleNotWaitTime();
         }
+        console.log(this.main.currentTimeRemaining);
         this.main.currentTimeRemaining--;
     }
 

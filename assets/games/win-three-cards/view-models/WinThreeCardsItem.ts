@@ -18,8 +18,8 @@ enum Ranks {
 }
 
 export const AnimationTime = {
-    flyCard: 0.8,
-    openCard: 0.6
+    flyCard: 0.5,
+    openCard: 0.5
 };
 
 @ccclass
@@ -123,7 +123,7 @@ export default class WinThreeCardsCards extends cc.Component {
         this.handRank.node.active = true;
         this.handRank.string = i18n.t(`winThreeCards.${Ranks[handRankId]}`);
 
-        if (cardRankId >= 0) {
+        if (handRankId <= Ranks.onePair && cardRankId >= 0) {
             this.cardRank.node.active = true;
             this.cardRank.string = getNameCard(cardRankId);
         }
