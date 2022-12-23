@@ -455,7 +455,9 @@ const data = {
         joinGame: "Vào Bàn",
         promotion: "Khuyến Mãi",
         terms: "Điều Khoản\n Khuyến Mãi",
-        choice_phoenix: "Phoenix"
+        choice_phoenix: "Phoenix",
+        totalBet: "Total Bet",
+        totalWin: "Total Win"
     },
     termsPromotion: {
         first: "- Tất cả người chơi đều có thể tham gia các chương trình khuyến mãi và có cơ hội giành được những giải thưởng hấp dẫn.\n- Tiền thắng được tính toán dựa theo quy định của chương trình khuyến mãi và tỷ lệ trả thưởng.\n- Chương trình khuyến mãi chỉ được áp dụng trong một khoảng thời gian nhất định do Công ty quy định. Khi chương trình khuyến mãi kết thúc, tỷ lệ trả thưởng sẽ được điều chỉnh trở về như ban đầu.\n- Trong một số tình huống, thể lệ chương trình có thể thay đổi mà không cần thông báo trước.\n- Trong mọi trường hợp xảy ra tranh chấp, quyết định của Công ty sẽ là quyết định cuối cùng."
@@ -565,7 +567,7 @@ const data = {
     },
     promotions: {
         notPromotion: "Hiện tại chưa có chưa có chương trình khuyến mãi, vui lòng quay lại sau"
-    },
+    }
 };
 
 Object.assign(window.i18n.languages.vi, data);

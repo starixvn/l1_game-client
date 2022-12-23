@@ -110,7 +110,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             key = "player_win";
             baccaratMain.playerCards.showHighlightCards();
         } else {
-            key = "tie";
+            key = "tie_win";
         }
 
         baccaratMain.winNoticeLabel.string = i18n.t(`ui.${key}`).toUpperCase();
