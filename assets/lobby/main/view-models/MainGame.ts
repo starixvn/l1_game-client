@@ -369,11 +369,8 @@ export default class MainGame extends cc.Component {
     }
 
     formatUserCurrency(red, currency = null, isDisplayPlayerCurrency = false) {
-        const splashConfig = new SplashConfig();
-        let userCurrency = this.getUserCurrency(currency);
-        if (!splashConfig.enabledSC1) {
-            userCurrency = isDisplayPlayerCurrency || cc.RedT?.user?.isDisplayPlayerCurrency ? userCurrency : "";
-        }
+        const userCurrency = isDisplayPlayerCurrency || cc.RedT?.user?.isDisplayPlayerCurrency ? this.getUserCurrency(currency) : "";
+
         return `${truncateFixedDecimals(red, 2)} ${userCurrency}`;
     }
 
