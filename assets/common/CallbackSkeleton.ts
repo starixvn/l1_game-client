@@ -4,6 +4,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CallbackSkeleton extends CallbackAnimation {
+    @property({ visible: false, override: true })
+    animation: cc.Animation = null;
+
     @property(sp.Skeleton)
     effect: sp.Skeleton = null;
 
