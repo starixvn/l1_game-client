@@ -85,7 +85,7 @@ export default class RouletteBoard extends cc.Component {
     }
 
     initImageBackground() {
-        const isFractionalOddsFormat = cc.RedT.user?.fractionalOddsFormat;
+        const isFractionalOddsFormat = cc.RedT?.user?.fractionalOddsFormat;
         this.imageDecimalOdds.active = !isFractionalOddsFormat;
         this.imageFractionalOdds.active = isFractionalOddsFormat;
     }

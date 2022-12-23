@@ -27,7 +27,7 @@ export default class ThreeCardsTicketDetailItem extends cc.Component {
 
     setData({ choice, odds, bet }) {
         this.choice.string = GameUtils.getBetChoiceString(choice);
-        this.odds.string = cc.RedT.user?.fractionalOddsFormat ? numberWithCommas(+odds - 1, 2) : odds;
+        this.odds.string = cc.RedT?.user?.fractionalOddsFormat ? numberWithCommas(+odds - 1, 2) : odds;
         this.bet.string = numberWithCommas(bet);
     }
 

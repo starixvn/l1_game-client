@@ -40,7 +40,7 @@ export default class MegaKenoGuide extends cc.Component {
             language,
             { minBet, maxBet, used: game.isUsingMaxStakeLevel() },
             false,
-            cc.RedT.user?.fractionalOddsFormat
+            cc.RedT?.user?.fractionalOddsFormat
         );
         this.content.sendDataToIframe(game.gameConfigs);
         this.content.loadWebView();
