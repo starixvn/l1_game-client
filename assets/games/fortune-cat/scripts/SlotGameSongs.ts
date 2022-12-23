@@ -8,7 +8,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SlotGameSongs extends cc.Component {
     @property
-    songNumber: number = 3;
+    songNumber = 3;
 
     gameId: number;
     private readonly audioManager = AudioManager.getInstance();
