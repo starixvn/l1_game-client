@@ -23,6 +23,7 @@ export default class SlotGameBottomMessage extends cc.Component {
     private normalSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2", "FromSettleToSpin3"];
     private turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
 
+    private currentRoundType: number;
     onLoad() {
         this.showMessages(RoundType.BEFORESPIN);
         this.shuffleSettleMessage();
@@ -39,6 +40,10 @@ export default class SlotGameBottomMessage extends cc.Component {
             return;
         }
 
+        if (roundType === this.currentRoundType) {
+            return;
+        }
+        this.currentRoundType = roundType;
         let msg: string;
         switch (roundType) {
             case RoundType.SPINNING:

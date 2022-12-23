@@ -194,7 +194,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     showMessageDisplay(roundType: RoundType) {
-        this.bottomMessage && this.bottomMessage.showMessages(roundType);
+        this.bottomMessage?.showMessages(roundType);
     }
 
     loadUserSetting() {
@@ -460,7 +460,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     onCancelCallbackAutoSpinDialog() {
         this.resetStateButtons();
-        this.autoOpenAutoSpinDialog && this.showMessageDisplay(RoundType.SETTLED);
         this.isShowAutoSpinSettingDialog = false;
         this.autoOpenAutoSpinDialog = false;
     }
@@ -946,7 +945,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
 
         this.updateBottomMessageStatus();
-        this.bottomMessage?.showMessages(RoundType.SETTLED);
+        this.showMessageDisplay(RoundType.SETTLED);
     }
 
     playSound(type: SlotGameSound) {
