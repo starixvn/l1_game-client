@@ -19,7 +19,7 @@ export default class FortuneCat extends SlotGameBase {
     }
 
     onLoad() {
-        this.gameSongList.gameId = this.gameId;
+        this.gameSongList && (this.gameSongList.gameId = this.gameId);
         super.onLoad();
     }
 
@@ -31,11 +31,11 @@ export default class FortuneCat extends SlotGameBase {
         return !!this.gameSongList;
     }
 
-    async playMusicBgCallback() {
+    async playInvidiualMusic() {
         await this.gameSongList?.play();
     }
 
-    stopOwnGameMusicBackground() {
+    stopInvidiualMusic() {
         this.gameSongList?.stop();
     }
 }

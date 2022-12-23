@@ -74,8 +74,7 @@ export default class WebSocketTableGameBase extends GameBase {
         loadMiniPanel(this)();
         this.loadUserData(cc.RedT?.user);
         this.players.forEach((player) => (player.node.active = false));
-        this.registerBackgroundMusicListener();
-        this.handleBackgroundMusic();
+        this.initBackgroundMusic();
         this.loading.active = true;
     }
 
@@ -140,12 +139,13 @@ export default class WebSocketTableGameBase extends GameBase {
         sessionManager.removeInRoomGameId();
     }
 
-    async handleBackgroundMusic() {
+    async initBackgroundMusic() {
+        this.registerBackgroundMusicListener();
         await handleMusicWhenJoinGame(this)();
-        this.initOwnGameMusicBackground();
+        this.playMusicOnEnterGame();
     }
 
-    initOwnGameMusicBackground() {
+    playMusicOnEnterGame() {
         this.isOwnGameMusicBackground && this.playMusicBackground(AudioManager.getInstance().musicEnabled);
     }
 
@@ -153,7 +153,7 @@ export default class WebSocketTableGameBase extends GameBase {
         this.isOwnGameMusicBackground && AudioManager.getInstance().addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
     }
 
-    async playMusicBgCallback() {
+    async playInvidiualMusic() {
         await AudioManager.getInstance().awaitForReady();
         if (AudioManager.getInstance().musicEnabled) {
             this.musicBg.play();
@@ -162,13 +162,13 @@ export default class WebSocketTableGameBase extends GameBase {
 
     playMusicBackground(play: boolean) {
         if (play) {
-            this.playMusicBgCallback();
+            this.playInvidiualMusic();
         } else {
-            this.stopOwnGameMusicBackground();
+            this.stopInvidiualMusic();
         }
     }
 
-    stopOwnGameMusicBackground() {
+    stopInvidiualMusic() {
         this.musicBg?.stop();
     }
 

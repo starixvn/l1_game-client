@@ -23,7 +23,7 @@ export default class SlotReelItemWithSpine extends SlotReelItem {
 
     showMoreEffect(node: cc.Node, show: boolean) {
         const effectNode = node.getChildByName("winningEffect");
-        if (node) {
+        if (effectNode) {
             effectNode.active = show;
         }
     }

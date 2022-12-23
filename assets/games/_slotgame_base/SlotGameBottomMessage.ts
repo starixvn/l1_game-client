@@ -36,6 +36,7 @@ export default class SlotGameBottomMessage extends cc.Component {
 
     showMessages(roundType: RoundType) {
         if (this.isAutoSpin) {
+            this.currentRoundType = -1;
             this.handleTurboAutoSpin();
             return;
         }

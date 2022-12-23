@@ -11,17 +11,23 @@ export default class SlotGameSongs extends cc.Component {
     songNumber: number = 3;
 
     gameId: number;
+    private readonly audioManager = AudioManager.getInstance();
 
     async play() {
-        await AudioManager.getInstance().awaitForReady();
-        if (AudioManager.getInstance().musicEnabled) {
+        if (!this.audioManager.musicEnabled) {
+            return;
+        }
+        try {
+            await this.audioManager.awaitForReady();
             const song = await this.loadAudioClip(lodash.random(this.songNumber - 1));
-            AudioManager.getInstance().playMusic(song, true);
+            this.audioManager.playMusic(song, true);
+        } catch (e) {
+            console.warn("Catch error after await method", e.message);
         }
     }
 
     stop() {
-        AudioManager.getInstance().stopMusic();
+        this.audioManager.stopMusic();
     }
 
     onDestroy() {
