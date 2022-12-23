@@ -20,7 +20,6 @@ export default class SlotGameBottomMessage extends cc.Component {
     isAutoSpin = false;
     autoSpinCount = 0;
     isTrialMode = false;
-    currentMessageType: RoundType;
     private normalSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2", "FromSettleToSpin3"];
     private turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
 
@@ -35,8 +34,6 @@ export default class SlotGameBottomMessage extends cc.Component {
     }
 
     showMessages(roundType: RoundType) {
-        this.currentMessageType = roundType;
-
         if (this.isAutoSpin) {
             this.handleTurboAutoSpin();
             return;
