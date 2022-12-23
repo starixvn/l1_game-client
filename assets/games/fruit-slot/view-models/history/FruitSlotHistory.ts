@@ -1,5 +1,8 @@
+import AudioManager from "../../../../common/audio/AudioManager";
+import GameUtils from "../../../../common/GameUtils";
 import BetHistory from "../../../_new/common/BetHistory";
 import FruitSlotHistoryItem from "./FruitSlotHistoryItem";
+import FruitSlotTicketDetail from "./ticket-detail/FruitSlotTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 
@@ -62,11 +65,13 @@ export interface BetLog {
 
 @ccclass
 export default class FruitSlotHistory extends BetHistory {
-    @property(cc.Node)
-    ticketDetailContent: cc.Node = null;
-
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
+
+    @property(cc.SpriteFrame)
+    symbolSprites: cc.SpriteFrame[] = [];
+
+    HEIGHT_CONTENT = 603;
 
     renderTicketHistory(data: any) {
         const betLogs: BetLog[] = data.betLogs;
@@ -74,12 +79,21 @@ export default class FruitSlotHistory extends BetHistory {
             const historyItemPrefab = cc.instantiate(this.prefabItem);
             const historyControl = historyItemPrefab.getComponent(FruitSlotHistoryItem);
 
-            historyControl.setData(log, this, index);
-            if (index === 0) {
-                historyControl.node.getChildByName("topBorder").active = false;
-            }
-
+            historyControl.setData(log, index, this.symbolSprites);
+            historyControl.openTicketDetail = () => {
+                AudioManager.getInstance().playClick();
+                this.initTicketDetail(log);
+            };
             this.content.addChild(historyItemPrefab);
         });
+    }
+
+    initTicketDetail(data: BetLog) {
+        const { betLogDetails, odds, settlementResult } = data;
+        const ticketDetailNode = GameUtils.createNodeFromPrefab(this.ticketDetailPrefab);
+        this.node.addChild(ticketDetailNode);
+        const detailControl = ticketDetailNode.getComponent(FruitSlotTicketDetail);
+        detailControl.setData(betLogDetails, settlementResult);
+        detailControl.showbetLogs(this.symbolSprites, odds, data);
     }
 }

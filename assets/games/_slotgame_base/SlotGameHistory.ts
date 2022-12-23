@@ -1,3 +1,4 @@
+import CommonDialog from "../../common/_base/view-models/CommonDialog";
 import SocketIOGameHistoryBase from "../_base/view-models/SocketIOGameHistoryBase";
 import SlotGameHistoryItem from "./SlotGameHistoryItem";
 import SlotGameTicketDetail from "./SlotGameTicketDetail";
@@ -8,6 +9,14 @@ const { ccclass, property } = cc._decorator;
 export default class SlotGameHistory extends SocketIOGameHistoryBase {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
+
+    onLoad() {
+        this.pagination.init(this);
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
+        commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
+    }
 
     showTicketDetail(data: any) {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);

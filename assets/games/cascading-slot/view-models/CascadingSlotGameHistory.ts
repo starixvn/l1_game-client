@@ -1,14 +1,11 @@
-import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
+import SlotGameHistory from "../../_slotgame_base/SlotGameHistory";
 import CascadingSlotHistoryItem from "./CascadingSlotHistoryItem";
 import CascadingSlotTicketDetail from "./CascadingSlotTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CascadingSlotGameHistory extends SocketIOGameHistoryBase {
-    @property(cc.Prefab)
-    ticketDetailPrefab: cc.Prefab = null;
-
+export default class CascadingSlotGameHistory extends SlotGameHistory {
     showTicketDetail(data: any) {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
         const ticketDetailComponent = ticketDetailPrefab.getComponent(CascadingSlotTicketDetail);

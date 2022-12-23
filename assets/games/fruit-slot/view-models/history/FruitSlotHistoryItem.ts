@@ -2,7 +2,6 @@ import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import FruitSlotHistory, { BetLog } from "./FruitSlotHistory";
 import { getSymbolName } from "./FruitSlotHistoryHelper";
-import FruitSlotTicketDetail from "./ticket-detail/FruitSlotTicketDetail";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,40 +31,21 @@ export default class FruitSlotHistoryItem extends cc.Component {
     @property(cc.Label)
     winLabel: cc.Label = null;
 
-    @property(cc.SpriteFrame)
-    symbolSprites: cc.SpriteFrame[] = [];
-
-    @property(cc.Prefab)
-    ticketDetailPrefab: cc.Prefab = null;
-
     @property(cc.Node)
     bgRow: cc.Node = null;
 
     betLog: BetLog;
-    historyMainNode: FruitSlotHistory = null;
 
-    openTicketDetail() {
-        const { betLogDetails, odds, settlementResult } = this.betLog;
-
-        const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
-        this.historyMainNode.ticketDetailContent.addChild(ticketDetailPrefab);
-
-        const ticketDetailComponent = ticketDetailPrefab.getComponent(FruitSlotTicketDetail);
-        ticketDetailComponent.setData(betLogDetails, settlementResult);
-        ticketDetailComponent.showbetLogs(this.symbolSprites, odds, this.betLog);
-    }
-
-    async setData(betLog: BetLog, historyMainNode: FruitSlotHistory, index: number) {
+    async setData(betLog: BetLog, index: number, symbolSprites: cc.SpriteFrame[]) {
         this.bgRow.active = index % 2 === 1;
         const winColor = cc.Color.WHITE.fromHEX("#fff664");
         this.betLog = betLog;
-        this.historyMainNode = historyMainNode;
         this.timeLabel.string = formatDateTime(betLog.time);
         this.roundLabel.string = betLog.phien.toString();
 
         const matched = (sprite: cc.SpriteFrame, symbol: string) => sprite.name === symbol;
         const symbolName = betLog.result.isLucky ? "lucky" : getSymbolName(betLog.result.symbols[0]);
-        this.symbol.spriteFrame = this.symbolSprites.find((sprite) => matched(sprite, `item_${symbolName}`));
+        this.symbol.spriteFrame = symbolSprites.find((sprite) => matched(sprite, `item_${symbolName}`));
 
         this.bigSmallValueLabel.string = betLog.result.number.toString();
         const isBigSymbol = betLog.result.number > 7;
@@ -76,4 +56,6 @@ export default class FruitSlotHistoryItem extends cc.Component {
         this.winLabel.string = numberWithCommas(betLog.betwin, 2);
         this.winLabel.node.color = betLog.betwin > 0 ? winColor : cc.Color.WHITE;
     }
+
+    openTicketDetail() {}
 }
