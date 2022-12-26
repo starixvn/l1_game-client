@@ -46,13 +46,11 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
         const winColor = new cc.Color(255, 246, 100);
         this.time.string = formatDateTime(time);
         this.choice.string = choiceNames[choice];
-
-        const winningChoice = this.getWinningChoice(choice, settlementResult);
         this.odd.string = odds[choice];
         this.amount.string = numberWithCommas(amount);
 
         const effectiveOdds = freeBet ? odds[choice] - 1 : odds[choice];
-        const winningAmount = settlementResult[winningChoice] ? amount * effectiveOdds : 0;
+        const winningAmount = this.getWinAmount(settlementResult[choice], amount, effectiveOdds, settlementResult.tie);
         this.win.string = numberWithCommas(winningAmount, 2);
         this.win.node.color = winningAmount > 0 ? winColor : cc.Color.WHITE;
 
@@ -61,9 +59,11 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
         }
     }
 
-    private getWinningChoice(choice: string, settlementResult: WinThreeCardsSettlementResult) {
-        if (settlementResult[choice]) {
-            return choice;
+    private getWinAmount(isWinning: boolean, amount: number, effectiveOdds: number, isTie = false) {
+        if (isTie) {
+            return amount;
         }
+
+        return isWinning ? amount * effectiveOdds : 0;
     }
 }
