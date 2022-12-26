@@ -310,10 +310,14 @@ export default class MiniPanel extends BaseComponent {
 
         if (isUsingRemoteBundle(gameId)) {
             const path = `i18n/images/${language}`;
-
+            const preloadPath = `preload`;
             BundleManager.getInstance()
                 .loadBundle(`${gameId}`)
-                .then((bundle: cc.AssetManager.Bundle) => bundle.loadDir(path, cc.SpriteFrame, null, onComplete))
+                .then((bundle: cc.AssetManager.Bundle) => {
+                    bundle.loadDir(preloadPath, (errors, assets) => {
+                        bundle.loadDir(path, cc.SpriteFrame, null, onComplete);
+                    });
+                })
                 .catch(onComplete);
         } else {
             cc.resources.loadDir(`image/${language}/${gameId}`, cc.SpriteFrame, null, onComplete);

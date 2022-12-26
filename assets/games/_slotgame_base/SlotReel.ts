@@ -24,25 +24,30 @@ export default class SlotReel extends cc.Component {
     private layout: cc.Layout;
     private itemHeight = 0;
     private spacingY = 0;
+    public gameId: number;
 
-    public get itemTypeCount() {
-        return this.items[0].itemPrefabs.length || 0;
+    private initialized = false;
+    onLoad() {
+        this.init();
     }
 
-    onLoad() {
+    private init() {
         this.layout = this.node.getComponent(cc.Layout);
         this.spacingY = this.layout.spacingY;
-
-        this.createReel();
+        this.initialized = true;
     }
 
     createReel() {
+        if (!this.initialized) {
+            this.init();
+        }
         for (let i = 0; i < this.itemCount; i++) {
             const node = cc.instantiate(this.itemPrefab);
             this.node.addChild(node);
             const item = node.getComponent(SlotReelItem);
+            item.gameId = this.gameId;
             this.items.push(item);
-            const random = _.random(this.itemTypeCount - 1);
+            const random = _.random(this.slotGameConfig.itemTypeCount - 1);
             item.setItem(random);
         }
 

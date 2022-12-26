@@ -15,6 +15,7 @@ export default class SlotReelItem extends cc.Component {
     effectSpine: sp.Skeleton = null;
 
     public index = -1;
+    public gameId: number;
 
     onLoad() {
         this.showWinningEffect(false);
@@ -28,10 +29,19 @@ export default class SlotReelItem extends cc.Component {
         this.replaceItem(index);
     }
 
+    protected getItemPrefab(index: number): cc.Prefab {
+        return this.itemPrefabs[index];
+    }
+
     private replaceItem(index: number) {
         this.content.removeAllChildren();
-        const node = cc.instantiate(this.itemPrefabs[index]);
-        this.content.addChild(node);
+        const prefab = this.getItemPrefab(index);
+        if (prefab) {
+            const node = cc.instantiate(prefab);
+            this.content.addChild(node);
+        } else {
+            console.warn("Slot item not loaded ", index);
+        }
     }
 
     showWinningEffect(show: boolean) {

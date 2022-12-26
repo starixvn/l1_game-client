@@ -166,7 +166,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.initDefaultBetChoices();
         this.initEventForNumberContainer();
         this.initSlotGameConfig();
-        this.loadSlotGameConfig();
+        this.initSlotBoard();
         this.showJackpotInfo(this.jackpotEnabled);
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
 
@@ -175,7 +175,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
     }
 
-    start() {
+    initSlotBoard() {
+        this.loadSlotGameConfig();
+        this.slotBoard.initReels();
         this.setBoardFullItems();
     }
 
@@ -266,6 +268,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             return;
         }
         this.slotBoard.setConfig(this.slotGameConfigs);
+        this.slotBoard.gameId = this.gameId;
     }
 
     loadStakeLevelsConfig() {
@@ -519,7 +522,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     setBoardFullItems() {
         const data = [];
-        const itemTypeCount = this.slotBoard.itemTypeCount;
+        const itemTypeCount = this.slotGameConfigs.itemTypeCount;
 
         for (let i = 0; i < 15; i++) {
             if (i < itemTypeCount) {

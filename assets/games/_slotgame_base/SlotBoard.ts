@@ -29,21 +29,22 @@ export default class SlotBoard extends cc.Component {
         return this.reels.length;
     }
 
-    public get itemTypeCount() {
-        return this.reels[0].itemTypeCount || 0;
-    }
-
     protected data: number[] = [];
     public slotGameConfig: SlotGameBaseConfigs;
+    public gameId: number;
 
     onLoad() {
         this.winningOverlayNode.active = false;
+    }
 
+    initReels() {
         this.node.children.forEach((child) => {
             const reel = child.getComponent(SlotReel);
             if (reel) {
                 this.reels.push(reel);
                 reel.slotGameConfig = this.slotGameConfig;
+                reel.gameId = this.gameId;
+                reel.createReel();
             }
             reel.winningContainer = this.winningSymbolsNode;
         });
