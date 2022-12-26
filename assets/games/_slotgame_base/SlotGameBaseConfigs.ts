@@ -1,4 +1,5 @@
 export interface SlotGameBaseConfigs {
+    readonly itemTypeCount: number;
     readonly wildSymbol: number;
     readonly jackpotSymbol: number;
 
