@@ -1,6 +1,6 @@
 import { scoreBoard } from "../../../../../ClientModules";
 import BigRoadItem from "../../../../_baccarat/view-models/base/BigRoadItem";
-import { WinThreeCardsSettlementResult } from "../../../view-models/event-models/WinThreeCardsSettlementResult";
+import { WinThreeCardsSettlementResult } from "../../../view-models/WinThreeCardsModel";
 import WinThreeCardsBigRoadDot from "./WinThreeCardsBigRoadDot";
 
 const { ccclass, property } = cc._decorator;
@@ -21,7 +21,7 @@ export default class WinThreeCardsBigRoadItem extends BigRoadItem {
         for (let i = 0; i < ROW_NUMBER; i++) {
             const dot = cc.instantiate(this.prefabDot);
             this.nodes.push(dot);
-            this.componentNode.push(dot.getComponent("WinThreeCardsBigRoadDot"));
+            this.componentNode.push(dot.getComponent(WinThreeCardsBigRoadDot));
             this.containerDot.addChild(dot);
         }
         this.hasValueArray = this.nodes.map(() => false);

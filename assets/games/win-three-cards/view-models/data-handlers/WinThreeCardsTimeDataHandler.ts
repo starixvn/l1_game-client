@@ -15,10 +15,6 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHa
     handleInLockBetTime() {
         this.main.betItems.forEach((item) => item.setHighlight(false));
         this.getOwnMain().scoreboard.renderNextNode();
-        if (this.main.currentTimeRemaining <= this.main.config.stopBetTime && this.main.currentDataLogs.length >= 102) {
-            this.main.currentDataLogs.pop();
-            this.getOwnMain().logsHandler.buildLogs(this.main.currentDataLogs);
-        }
     }
 
     async handleFlyCards() {
@@ -40,19 +36,20 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHa
 
     flyAllCards() {
         const baccarat = this.getOwnMain();
+        const gapTimeFly = 0.1;
         this.main.node.runAction(
             cc.sequence(
-                cc.delayTime(0.1),
+                cc.delayTime(gapTimeFly),
                 cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card1)),
-                cc.delayTime(0.1),
+                cc.delayTime(gapTimeFly),
                 cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card1)),
-                cc.delayTime(0.1),
+                cc.delayTime(gapTimeFly),
                 cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card2)),
-                cc.delayTime(0.1),
+                cc.delayTime(gapTimeFly),
                 cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card2)),
-                cc.delayTime(0.1),
+                cc.delayTime(gapTimeFly),
                 cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card3)),
-                cc.delayTime(0.1),
+                cc.delayTime(gapTimeFly),
                 cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card3))
             )
         );

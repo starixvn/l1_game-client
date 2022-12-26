@@ -1,7 +1,9 @@
 import BaccaratFinishHandler from "../../../baccarat/view-models/data-handlers/BaccaratFinishHandler";
 import WinThreeCards from "../WinThreeCards";
 import { i18n } from "../../../../ClientModules";
-import { WinThreeCardResult } from "../models/WinThreeCardsModel";
+import { WinThreeCardResult, WinThreeCardsSettlementResult } from "../WinThreeCardsModel";
+import { Choices } from "../WinThreeCardsConstant";
+import { StringHelper } from "../WinThreeCardsHelper";
 
 export const GapTime = {
     normal: 0.8,
@@ -55,19 +57,19 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
         mainGame.scoreboard.renderScoreBoardInGame(mainGame.currentDataLogs);
     }
 
-    public showWinNotice(settlementResult) {
+    public showWinNotice(settlementResult: WinThreeCardsSettlementResult) {
         const mainGame = this.getOwnMain();
-        let key = "tie";
+        let key = StringHelper.Tie;
 
         if (settlementResult.dragon) {
-            key = "dragon_win";
+            key = `${Choices.dragon}_${StringHelper.Win}`;
             mainGame.dragonCards.showHighlightCards();
         } else if (settlementResult.phoenix) {
-            key = "phoenix_win";
+            key = `${Choices.phoenix}_${StringHelper.Win}`;
             mainGame.phoenixCards.showHighlightCards();
         }
 
-        mainGame.winNoticeLabel.string = i18n.t(`winThreeCards.${key}`).toUpperCase();
+        mainGame.winNoticeLabel.string = i18n.t(`${StringHelper.winThreeCardsNameSpace}.${key}`).toUpperCase();
         mainGame.winNoticeLabel.node.parent.active = true;
     }
 }

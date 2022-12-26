@@ -2,8 +2,10 @@ import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import WinThreeCards from "../WinThreeCards";
-import { WinThreeCardResult } from "../models/WinThreeCardsModel";
+import { WinThreeCardResult } from "../WinThreeCardsModel";
 import WinThreeCardsFinishHandler from "./WinThreeCardsFinishHandler";
+import { Choices } from "../WinThreeCardsConstant";
+import { StringHelper } from "../WinThreeCardsHelper";
 
 export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
     constructor(protected readonly main: WebSocketTableGameBase) {
@@ -57,16 +59,18 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
         const historyData = dataLogs.map((log) => {
             const settlementResult = log?.settlementResult;
             if (settlementResult?.dragon) {
-                return new BasicHistoryData("dragon", "0");
-            }
-            if (settlementResult?.phoenix) {
-                return new BasicHistoryData("phoenix", "0");
-            }
-            if (settlementResult?.tie) {
-                return new BasicHistoryData("tie", "0");
+                return new BasicHistoryData(Choices.dragon, StringHelper.Zero);
             }
 
-            return new BasicHistoryData("", "0");
+            if (settlementResult?.phoenix) {
+                return new BasicHistoryData(Choices.phoenix, StringHelper.Zero);
+            }
+
+            if (settlementResult?.tie) {
+                return new BasicHistoryData(StringHelper.Tie, StringHelper.Zero);
+            }
+
+            return new BasicHistoryData(StringHelper.Empty, StringHelper.Zero);
         });
 
         const historyDataTmp = [...historyData].reverse();

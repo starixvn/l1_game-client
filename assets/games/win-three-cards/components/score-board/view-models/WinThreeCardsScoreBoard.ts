@@ -1,4 +1,4 @@
-import { WinThreeCardsRoundHistory } from "../../../view-models/models/WinThreeCardsModel";
+import { WinThreeCardsRoundHistory } from "../../../view-models/WinThreeCardsModel";
 import WinThreeCardsBigRoad from "./WinThreeCardsBigRoad";
 import WinThreeCardsRoundResult from "./WinThreeCardsRoundResult";
 

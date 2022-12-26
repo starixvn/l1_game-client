@@ -4,7 +4,7 @@ import {
     WinThreeCardsBetLogDetails,
     WinThreeCardsOdds,
     WinThreeCardsSettlementResult
-} from "../../models/WinThreeCardsModel";
+} from "../../WinThreeCardsModel";
 import WinThreeCardsHistoryResult from "../WinThreeCardsHistoryResult";
 import WinThreeCardsTicketDetailItem from "./WinThreeCardsTicketDetailItem";
 

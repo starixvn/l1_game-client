@@ -1,5 +1,6 @@
-import { WinThreeCardsResultCards, WinThreeCardsSettlementResult } from "../../../view-models/models/WinThreeCardsModel";
-import { changeCacheMode, convertRank, getCardsResult } from "../../../helper";
+import { WinThreeCardsResultCards, WinThreeCardsSettlementResult } from "../../../view-models/WinThreeCardsModel";
+import { StringHelper, changeCacheMode, convertRank, getCardsResult } from "../../../view-models/WinThreeCardsHelper";
+import { hedgeBetChoices } from "../../../view-models/WinThreeCardsConstant";
 const { ccclass, property } = cc._decorator;
 
 enum OrderNode {
@@ -14,8 +15,6 @@ export default class WinThreeCardsRoundResult extends cc.Component {
     @property(cc.Label)
     textLabel: cc.Label[] = [];
 
-    private readonly infoNameNode = ["dragon", "phoenix"];
-
     changeColorText(settlementResult: WinThreeCardsSettlementResult) {
         const color = cc.Color.WHITE;
         if (settlementResult.dragon || settlementResult.phoenix) {
@@ -25,22 +24,22 @@ export default class WinThreeCardsRoundResult extends cc.Component {
         }
 
         if (!settlementResult.dragon) {
-            this.textLabel[OrderNode.dragon].node.color = color.fromHEX("#008fff");
+            this.textLabel[OrderNode.dragon].node.color = color.fromHEX(StringHelper.dragonSettlementColor);
         }
 
         if (!settlementResult.phoenix) {
-            this.textLabel[OrderNode.phoenix].node.color = color.fromHEX("#f62d2d");
+            this.textLabel[OrderNode.phoenix].node.color = color.fromHEX(StringHelper.phoenixSettlementColor);
         }
     }
 
     changeBackgroundColor(settlementResult: WinThreeCardsSettlementResult) {
-        this.infoNameNode.forEach((name: string, index: number) => {
+        hedgeBetChoices.forEach((name: string, index: number) => {
             this.backgroundNode[index].active = settlementResult[name];
         });
     }
 
     changeValueText(result: WinThreeCardsResultCards) {
-        this.infoNameNode.forEach((name: string, index: number) => {
+        hedgeBetChoices.forEach((name: string, index: number) => {
             this.textLabel[index].string = `${getCardsResult(result[name].handRankId)} ${convertRank(+result[name].cardRankId)}`;
             changeCacheMode(this.textLabel[index]);
         });

@@ -1,27 +1,28 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import WinThreeCardsBetHandler from "./data-handlers/WinThreeCardsBetHandler";
 import WinThreeCardsFinishHandler from "./data-handlers/WinThreeCardsFinishHandler";
 import WinThreeCardsLogsHandler from "./data-handlers/WinThreeCardsLogsHandler";
 import WinThreeCardsTimeDataHandler from "./data-handlers/WinThreeCardsTimeDataHandler";
-import WinThreeCardsCards from "./WinThreeCardsItem";
+import WinThreeCardsItem from "./WinThreeCardsItem";
 import WinThreeCardsHistory from "./history/WinThreeCardsHistory";
 import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import WinThreeCardsBasicHistoryBoard from "../components/score-board/view-models/WinThreeCardsBasicHistoryBoard";
-import { WinThreeCardsConfigs } from "./models/WinThreeCardsModel";
 import WinThreeCardsScoreBoard from "../components/score-board/view-models/WinThreeCardsScoreBoard";
 import GameUtils from "../../../common/GameUtils";
 import { i18n } from "../../../ClientModules";
+import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
+import { WinThreeCardsConfigs, hedgeBetChoices } from "./WinThreeCardsConstant";
+import { StringHelper } from "./WinThreeCardsHelper";
 const { ccclass, property } = cc._decorator;
 
 export const WinThreeCardsId = 61;
 @ccclass
 export default class WinThreeCards extends NewGameRoomBase {
-    @property({ type: WinThreeCardsCards })
-    phoenixCards: WinThreeCardsCards = null;
+    @property({ type: WinThreeCardsItem })
+    phoenixCards: WinThreeCardsItem = null;
 
-    @property({ type: WinThreeCardsCards })
-    dragonCards: WinThreeCardsCards = null;
+    @property({ type: WinThreeCardsItem })
+    dragonCards: WinThreeCardsItem = null;
 
     @property(cc.Node)
     basicHistoryBoardNode: cc.Node = null;
@@ -78,7 +79,7 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.timeHandler = new WinThreeCardsTimeDataHandler(this);
         this.finishHandler = new WinThreeCardsFinishHandler(this);
         this.logsHandler = new WinThreeCardsLogsHandler(this);
-        this.betHandler = new WinThreeCardsBetHandler(this);
+        this.betHandler = new GameRoomBaseBetHandler(this);
         this.md5Handler = new BaccaratMd5Handler(this);
     }
 
@@ -113,7 +114,7 @@ export default class WinThreeCards extends NewGameRoomBase {
         };
 
         const historyBoardNode = cc.instantiate(this.basicHistoryBoardPrefab);
-        this.basicHistoryBoard = historyBoardNode.getComponent("WinThreeCardsBasicHistoryBoard");
+        this.basicHistoryBoard = historyBoardNode.getComponent(WinThreeCardsBasicHistoryBoard);
         this.basicHistoryBoard.init(condition);
         this.basicHistoryBoardNode.addChild(historyBoardNode);
     }
@@ -132,9 +133,8 @@ export default class WinThreeCards extends NewGameRoomBase {
     }
 
     getBetChoiceString(choice: string): string {
-        const hedgeBetChoices = ["dragon", "phoenix"];
         if (hedgeBetChoices.includes(choice.toLowerCase())) {
-            return i18n.t(`winThreeCards.${choice}`);
+            return i18n.t(`${StringHelper.winThreeCardsNameSpace}.${choice}`);
         }
 
         return GameUtils.getBetChoiceString(choice);

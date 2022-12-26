@@ -1,5 +1,5 @@
 import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";
-import { WinThreeCardsBetData } from "../models/WinThreeCardsModel";
+import { WinThreeCardsBetData } from "../WinThreeCardsModel";
 import WinThreeCardsTicketDetail from "./ticket-detail/WinThreeCardsTicketDetail";
 import WinThreeCardsHistoryItem from "./WinThreeCardsHistoryItem";
 
@@ -21,7 +21,7 @@ export default class WinThreeCardsHistory extends SocketIOGameHistoryBase {
         }
     }
 
-   private showTicketDetail(data: WinThreeCardsBetData) {
+    private showTicketDetail(data: WinThreeCardsBetData) {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
         this.node.addChild(ticketDetailPrefab);
 

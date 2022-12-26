@@ -3,19 +3,11 @@ import AudioManager from "../../../common/audio/AudioManager";
 import { getNameCard } from "../../../common/helpers/CardHelper";
 import NewCard, { CardAnimation } from "../../../common/new-card/view-models/NewCard";
 import BaccaratCard from "../../baccarat/view-models/BaccaratCard";
-import { WinThreeCardResult } from "./models/WinThreeCardsModel";
+import { StringHelper } from "./WinThreeCardsHelper";
+import { HandRanks } from "./WinThreeCardsConstant";
+import { WinThreeCardResult } from "./WinThreeCardsModel";
 
 const { ccclass, property } = cc._decorator;
-
-enum Ranks {
-    highCard = 1,
-    onePair,
-    straight,
-    flush,
-    straightFlush,
-    threeOfAKind,
-    killer235
-}
 
 export const AnimationTime = {
     flyCard: 0.5,
@@ -23,7 +15,7 @@ export const AnimationTime = {
 };
 
 @ccclass
-export default class WinThreeCardsCards extends cc.Component {
+export default class WinThreeCardsItem extends cc.Component {
     @property(cc.Node)
     card1: cc.Node = null;
 
@@ -121,9 +113,9 @@ export default class WinThreeCardsCards extends cc.Component {
     setRank() {
         const { cardRankId, handRankId } = this.cardResult;
         this.handRank.node.active = true;
-        this.handRank.string = i18n.t(`winThreeCards.${Ranks[handRankId]}`);
+        this.handRank.string = i18n.t(`${StringHelper.winThreeCardsNameSpace}.${HandRanks[handRankId]}`);
 
-        if (handRankId <= Ranks.onePair && cardRankId >= 0) {
+        if (handRankId <= HandRanks.onePair && cardRankId >= 0) {
             this.cardRank.node.active = true;
             this.cardRank.string = getNameCard(cardRankId);
         }

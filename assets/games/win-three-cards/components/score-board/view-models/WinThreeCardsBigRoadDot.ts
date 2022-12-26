@@ -1,3 +1,5 @@
+import { StringHelper } from "../../../view-models/WinThreeCardsHelper";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -27,6 +29,6 @@ export default class WinThreeCardsBigRoadDot extends cc.Component {
             this[name].active = false;
         });
 
-        this.count.getComponent(cc.Label).string = "";
+        this.count.getComponent(cc.Label).string = StringHelper.Empty;
     }
 }

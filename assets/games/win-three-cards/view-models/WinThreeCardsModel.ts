@@ -1,5 +1,4 @@
-import { CardModel, OldCardModel } from "../../../../common/new-card/view-models/NewCard";
-import { GameConfigBase } from "../../../_base/view-models/GameConfigBase";
+import { CardModel, OldCardModel } from "../../../common/new-card/view-models/NewCard";
 
 export interface WinThreeCardsOdds {
     dragon: number;
@@ -17,18 +16,17 @@ export interface WinThreeCardsBetLogDetails {
     time: Date;
 }
 
-export interface WinThreeCardsSettlementResult {
+export class WinThreeCardsSettlementResult {
     dragon: boolean;
-    flush: boolean;
-    highCard: boolean;
-    killer235: boolean;
-    pair: boolean;
-    pair8Plus: boolean;
     phoenix: boolean;
-    straight: boolean;
-    straightFlush: boolean;
-    threeOfAKind: boolean;
     tie: boolean;
+    threeOfAKind: boolean;
+    straightFlush: boolean;
+    flush: boolean;
+    straight: boolean;
+    pair8Plus: boolean;
+    killer235: boolean;
+    highCard: boolean;
 }
 
 export type WinThreeCardsGameResultData = OldCardModel[];
@@ -68,14 +66,6 @@ export interface WinThreeCardsBetData {
     result: WinThreeCardsResultCards;
     settlementResult: WinThreeCardsSettlementResult;
     odds: WinThreeCardsOdds;
-}
-
-export class WinThreeCardsConfigs implements GameConfigBase {
-    minBetTime = 1;
-    fullTime = 45;
-    betTime = 30;
-    stopBetTime = 5;
-    waitTime = 20;
 }
 
 export interface WinThreeCardsRoundHistory {

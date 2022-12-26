@@ -2,7 +2,8 @@ import AudioManager from "../../../../common/audio/AudioManager";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
-import { WinThreeCardsBetData } from "../models/WinThreeCardsModel";
+import { Choices } from "../WinThreeCardsConstant";
+import { WinThreeCardsBetData } from "../WinThreeCardsModel";
 import WinThreeCardsHistory from "./WinThreeCardsHistory";
 import WinThreeCardsHistoryResult from "./WinThreeCardsHistoryResult";
 
@@ -62,12 +63,7 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
     }
 
     private summarizeBet(data: WinThreeCardsBetData): string {
-        const keys = ["dragon", "phoenix", "pair8Plus", "threeOfAKind", "straightFlush", "flush", "straight"];
-        let total = 0;
-        keys.forEach((key) => {
-            total += data[key];
-        });
-        return numberWithCommas(total);
+        return numberWithCommas(Object.values(Choices).reduce((total, choice) => total + data[choice], 0));
     }
 
     private openTicketDetail() {

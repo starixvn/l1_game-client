@@ -48,7 +48,6 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
 
     handleInRoundTime() {
         super.handleInRoundTime();
-        this.main.updateRebetButtonStatus();
         setBgVisibility(this.main.betOptionsUI.bgLockSpin, true, false);
         this.main.countdownLightAnim(true);
         this.main.betOptionsUI.playBettingAnim(true);

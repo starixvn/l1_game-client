@@ -1,6 +1,6 @@
 import NewCard from "../../../../common/new-card/view-models/NewCard";
-import { convertRank, getCardsResult } from "../../helper";
-import { WinThreeCardResult } from "../models/WinThreeCardsModel";
+import { convertRank, getCardsResult } from "../WinThreeCardsHelper";
+import { WinThreeCardResult } from "../WinThreeCardsModel";
 
 const { ccclass, property } = cc._decorator;
 
