@@ -30,17 +30,17 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 41
-      },
-      {
         "__id__": 42
       },
       {
         "__id__": 43
+      },
+      {
+        "__id__": 44
       }
     ],
     "_prefab": {
-      "__id__": 44
+      "__id__": 45
     },
     "_opacity": 255,
     "_color": {
@@ -589,10 +589,13 @@
       },
       {
         "__id__": 38
+      },
+      {
+        "__id__": 40
       }
     ],
     "_prefab": {
-      "__id__": 40
+      "__id__": 41
     },
     "_opacity": 255,
     "_color": {
@@ -1072,7 +1075,7 @@
       "ctor": "Float64Array",
       "array": [
         48,
-        -44.57,
+        -37.57,
         0,
         0,
         0,
@@ -1359,7 +1362,7 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Button",
+    "__type__": "af560GvmDpA8bfT4OKzaTyt",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -1377,8 +1380,8 @@
     ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
-    "_N$transition": 2,
-    "transition": 2,
+    "_N$transition": 0,
+    "transition": 0,
     "_N$normalColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -1421,19 +1424,16 @@
       "b": 124,
       "a": 255
     },
-    "_N$normalSprite": {
-      "__uuid__": "5ee70b44-46c7-4236-a66f-4ba1ec571dcd"
-    },
-    "_N$pressedSprite": {
-      "__uuid__": "358aff60-40fe-48c6-b2a0-b85b5ab1322c"
-    },
-    "pressedSprite": {
-      "__uuid__": "358aff60-40fe-48c6-b2a0-b85b5ab1322c"
-    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
     "_N$hoverSprite": null,
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
+    "collider": {
+      "__id__": 40
+    },
     "_id": ""
   },
   {
@@ -1445,6 +1445,64 @@
     "_componentId": "d7ffaz+e+dKe5maR/xSIUzS",
     "handler": "onClickCopyButton",
     "customEventData": ""
+  },
+  {
+    "__type__": "cc.PolygonCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 15
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "points": [
+      {
+        "__type__": "cc.Vec2",
+        "x": 33.3,
+        "y": -15
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 43.5,
+        "y": -8
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 44.9,
+        "y": 7.1
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 36.1,
+        "y": 16.1
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -48.4,
+        "y": 17.6
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -34.4,
+        "y": 9.4
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -29,
+        "y": -4.6
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -19.6,
+        "y": -14.5
+      }
+    ],
+    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -1534,9 +1592,7 @@
     "md5Label": {
       "__id__": 4
     },
-    "md5CopyBtn": {
-      "__id__": 38
-    },
+    "md5CopyBtn": null,
     "md5HintCopy": {
       "__id__": 28
     },
