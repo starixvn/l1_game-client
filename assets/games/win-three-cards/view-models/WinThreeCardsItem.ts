@@ -98,6 +98,8 @@ export default class WinThreeCardsItem extends cc.Component {
         for (let i = 0; i < 3; i++) {
             this.openCard(i, false);
         }
+
+        this.setRank();
     }
 
     showFirstTwoCards() {
@@ -125,6 +127,7 @@ export default class WinThreeCardsItem extends cc.Component {
 
     hideRank() {
         this.rank.active = false;
+        this.cardRank.node.active = false;
     }
 
     protected resetSomeActionCards() {

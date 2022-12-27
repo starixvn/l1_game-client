@@ -37,8 +37,8 @@ export class WinThreeCardResult {
     handRankId: number;
 
     constructor(cardResult: any) {
-        this.cardRankId = cardResult?.cardRankId ?? -1;
-        this.handRankId = cardResult?.handRankId ?? -1;
+        this.cardRankId = cardResult.cardRankId;
+        this.handRankId = cardResult.handRankId;
         if (cardResult.cards) {
             this.cards = Object.values(cardResult.cards);
         }
