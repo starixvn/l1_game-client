@@ -14,8 +14,23 @@ export default class BauCuaHistoryItems extends cc.Component {
     @property({ type: cc.Sprite })
     dices: cc.Sprite[] = [];
 
-    @property({ type: cc.Node })
-    betList: cc.Node[] = [];
+    @property(cc.Label)
+    stag: cc.Label = null;
+
+    @property(cc.Label)
+    gourd: cc.Label = null;
+
+    @property(cc.Label)
+    rooster: cc.Label = null;
+
+    @property(cc.Label)
+    fish: cc.Label = null;
+
+    @property(cc.Label)
+    crab: cc.Label = null;
+
+    @property(cc.Label)
+    prawn: cc.Label = null;
 
     @property(cc.Label)
     win: cc.Label = null;
@@ -24,7 +39,7 @@ export default class BauCuaHistoryItems extends cc.Component {
     animalSprites: cc.SpriteFrame[] = [];
 
     setData(betLog: any) {
-        const { time, phien, result, betwin, stag, crab, fish, gourd, prawn, rooster } = betLog;
+        const { time, phien, result, betwin, settlementResult } = betLog;
         this.node.active = true;
         this.time.string = getStringDateByTime(time);
         this.round.string = phien;
@@ -33,38 +48,15 @@ export default class BauCuaHistoryItems extends cc.Component {
         this.dices[1].spriteFrame = this.animalSprites[result.dice2];
         this.dices[2].spriteFrame = this.animalSprites[result.dice3];
 
-        this.betList.forEach((node) => {
-            switch (node.name) {
-                case "stag":
-                    this.handleUINodeBet(node, stag);
-                    break;
-                case "crab":
-                    this.handleUINodeBet(node, crab);
-                    break;
-                case "fish":
-                    this.handleUINodeBet(node, fish);
-                    break;
-                case "gourd":
-                    this.handleUINodeBet(node, gourd);
-                    break;
-                case "prawn":
-                    this.handleUINodeBet(node, prawn);
-                    break;
-                case "rooster":
-                    this.handleUINodeBet(node, rooster);
-                    break;
+        Object.keys(settlementResult).forEach((choice) => {
+            this[choice].string = numberWithCommas(betLog[choice]);
+            if (settlementResult[choice]) {
+                this[choice].node.color = cc.Color.YELLOW;
+            } else {
+                this[choice].node.color = cc.Color.WHITE;
             }
         });
 
         this.win.string = numberWithCommas(betwin, 2);
-        this.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-    }
-
-    handleUINodeBet(node: cc.Node, value: number) {
-        if (value > 0) {
-            node.active = true;
-            node.getComponentInChildren(cc.Label).string = numberWithCommas(value);
-            node.getChildByName("value").color = cc.Color.YELLOW;
-        }
     }
 }
