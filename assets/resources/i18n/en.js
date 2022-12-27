@@ -230,7 +230,7 @@ const data = {
         tie_win: "TIE!",
         dragon_win: "DRAGON WIN",
         tiger_win: "TIGER WIN",
-        result_dragon_tiger: "RESULT (DRAGON | TIGER)",
+        result_dragon_tiger: "Result (Dragon | Tiger)",
         all: "All",
         evenNumbers: "Even Numbers",
         oddNumbers: "Odd Numbers",
