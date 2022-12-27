@@ -35,13 +35,15 @@ export interface LineData {
     symbol: number;
 }
 
-enum SlotGameSound {
+export enum SlotGameSound {
     SPIN = 0,
     WIN = 1,
     BIG_WIN = 2,
     JACKPOT = 3,
     FREESPIN = 4,
-    BONUS = 5
+    BONUS = 5,
+    SPINNING_NORMAL = 6,
+    SPINNING_TURBO = 7
 }
 
 const { ccclass, property } = cc._decorator;
@@ -557,7 +559,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.winningBet.string = "0";
         this.slotBoard.setBoardData(data);
         this.spinButton.playAnimationSpin();
-        await this.slotBoard.spin(this.getCustomDuration("spin"), this.isTurboMode());
+        const turbo = this.isTurboMode();
+        this.playSound(turbo ? SlotGameSound.SPINNING_TURBO : SlotGameSound.SPINNING_NORMAL);
+        await this.slotBoard.spin(this.getCustomDuration("spin"), turbo);
         this.spinButton.playAnimationIdle();
     }
 
@@ -725,7 +729,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     showLoopWinningLines(winningLines: LineData[]) {
         const length = winningLines.length;
-        const timeShowPayline = this.isTurboMode ? 0.75 : 1;
+        const timeShowPayline = this.isTurboMode() ? 0.75 : 1;
         if (length === 0) {
             return;
         }
@@ -803,9 +807,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     async showEffectFreeSpin() {
-        if (this.soundSources[SlotGameSound.FREESPIN]) {
-            this.playSound(SlotGameSound.FREESPIN);
-        }
+        this.playSound(SlotGameSound.FREESPIN);
         const effect = cc.instantiate(this.effectFreeSpin);
         const animation = effect.getComponent(CallbackAnimation);
         animation.setDuration(this.getCustomDuration("freespin"));
@@ -840,9 +842,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     async showEffectBigWin(betWin: number) {
-        if (this.soundSources[SlotGameSound.BIG_WIN]) {
-            this.playSound(SlotGameSound.BIG_WIN);
-        }
+        this.playSound(SlotGameSound.BIG_WIN);
 
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackAnimation);
@@ -859,9 +859,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     async showEffectBonus(bonus: number): Promise<void> {
-        if (this.soundSources[SlotGameSound.BONUS]) {
-            this.playSound(SlotGameSound.BONUS);
-        }
+        this.playSound(SlotGameSound.BONUS);
         return new Promise<void>(async (resolve, reject) => {
             const effect = cc.instantiate(this.effectBonus);
             const animation = effect.getComponent(CallbackAnimation);
@@ -961,7 +959,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     playSound(type: SlotGameSound) {
-        AudioManager.getInstance().playSFX(this.soundSources[type].clip);
+        if (this.soundSources[type]) {
+            AudioManager.getInstance().playSFX(this.soundSources[type].clip);
+        }
     }
 
     override checkShowUmMessage(data: any) {

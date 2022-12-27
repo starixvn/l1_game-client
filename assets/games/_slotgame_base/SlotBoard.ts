@@ -4,8 +4,8 @@ import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 import SlotReel from "./SlotReel";
 
 enum SlotGameSound {
-    ROLLING_NORMAL = 0,
-    ROLLING_TURBO = 1
+    SPINNING_NORMAL = 0,
+    SPINNING_TURBO = 1
 }
 const { ccclass, property } = cc._decorator;
 
@@ -131,11 +131,15 @@ export default class SlotBoard extends cc.Component {
         this.reels.forEach((reel, index) => reel.setReelData(columns[index]));
     }
 
-    async spin(duration: number, turbo: boolean) {
+    protected playSpinningAudio(turbo: boolean) {
         if (this.soundSources.length > 0) {
-            const sound = turbo ? SlotGameSound.ROLLING_TURBO : SlotGameSound.ROLLING_NORMAL;
+            const sound = turbo ? SlotGameSound.SPINNING_TURBO : SlotGameSound.SPINNING_NORMAL;
             AudioManager.getInstance().playSFX(this.soundSources[sound].clip);
         }
+    }
+
+    async spin(duration: number, turbo: boolean) {
+        this.playSpinningAudio(turbo);
         const columns = this.convertDataToColumns(this.data);
         const timeGap = 0.1 * duration;
         for (let i = 0; i < this.reels.length; i++) {

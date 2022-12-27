@@ -20,7 +20,13 @@ export default class StandardSlotReelItem extends SlotReelItem {
                 const anim = show ? "highlight" : "idle";
                 spine.setAnimation(0, anim, true);
             }
-            // this.showMoreEffect(child, show);
+            this.showMoreEffect(child, show);
         });
+    }
+    showMoreEffect(node: cc.Node, show: boolean) {
+        const effectNode = node.getChildByName("winningEffect");
+        if (effectNode) {
+            effectNode.active = show;
+        }
     }
 }
