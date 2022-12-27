@@ -12,7 +12,21 @@ export const sentryLogger = {
                 dsn: configs.sentry.url,
                 environment: configs.sentry.env,
                 maxValueLength: 5000,
-                ignoreErrors: ["fullscreen error", "exitFullscreen", "start the audio device", "Network Error", "zaloJSV2"]
+                ignoreErrors: [
+                    "fullscreen error",
+                    "exitFullscreen",
+                    "start the audio device",
+                    "Network Error",
+                    "zaloJSV2",
+                    "socket disconnect",
+                    "UnhandledRejectionhttps",
+                    "cocos2d-js-min",
+                    "cocos-creator",
+                    "timeout",
+                    "WebGLRenderingContext",
+                    /^.*Cannot read properties.*(?:user|setAvatar|onSet|setLoadingVisibility).*$/gm,
+                    /^.*not an object.*(?:openGame|openNewSocket|gameName|language|this.percent|this.pagination|remoteBundle).*$/gm
+                ]
             });
             sentryLogger.loaded = true;
         }
