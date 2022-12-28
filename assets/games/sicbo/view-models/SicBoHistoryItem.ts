@@ -22,6 +22,9 @@ export default class SicBoHistoryItem extends cc.Component {
     @property(cc.Label)
     winLabel: cc.Label = null;
 
+    @property(cc.Node)
+    bg: cc.Node = null;
+
     time: string = null;
     round: number = null;
     result: object = {};
@@ -36,12 +39,13 @@ export default class SicBoHistoryItem extends cc.Component {
         this.showTicketDetail(this.round, this.time, this.result, this.betLogDetails, this.settlementResult);
     }
 
-    setData(betLog: any, dicesSpriteFrames: cc.SpriteFrame[]) {
+    setData(betLog: any, dicesSpriteFrames: cc.SpriteFrame[], index: number) {
         this.timeLabel.string = getStringDateByTime(betLog.time);
         this.roundLabel.string = betLog.phien.toString();
         this.dices[0].spriteFrame = dicesSpriteFrames[betLog.result.dice1 - 1];
         this.dices[1].spriteFrame = dicesSpriteFrames[betLog.result.dice2 - 1];
         this.dices[2].spriteFrame = dicesSpriteFrames[betLog.result.dice3 - 1];
         this.total.string = betLog.result.dice1 + betLog.result.dice2 + betLog.result.dice3;
+        this.bg.active = index % 2 > 0;
     }
 }

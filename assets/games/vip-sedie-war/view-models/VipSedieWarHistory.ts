@@ -11,14 +11,14 @@ export default class VipSedieWarHistory extends SedieHistory {
         this.content.destroyAllChildren();
 
         if (betLogs && betLogs.length) {
-            betLogs.map((betLog) => {
+            betLogs.map((betLog, index) => {
                 const itemNode = cc.instantiate(this.itemPrefab);
-                itemNode.active = true;
+                //itemNode.active = true;
                 this.content.addChild(itemNode);
 
                 const item = itemNode.getComponent(VipSedieWarHistoryItem);
                 item.getMiniPanel = () => this.node.parent;
-                item.setData(betLog);
+                item.setData(betLog, index);
             });
         }
     }

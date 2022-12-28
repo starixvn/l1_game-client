@@ -15,7 +15,7 @@ export default class SicBoHistory extends SocketIOGameHistoryBase {
         const historyItemPrefab = cc.instantiate(this.itemPrefab);
         const item = historyItemPrefab.getComponent(SicBoHistoryItem);
         this.content.addChild(historyItemPrefab);
-        item.setData(log, this.dices);
+        item.setData(log, this.dices, index);
         this.handleSomeItemRowData(this, item, log);
     }
 

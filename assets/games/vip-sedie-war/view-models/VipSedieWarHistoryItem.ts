@@ -37,7 +37,7 @@ export default class VipSedieWarHistoryItem extends cc.Component {
 
     detailData: any;
 
-    setData(data: any) {
+    setData(data: any, index: number) {
         const { time, phien, result, settlementResult, betwin, totalAmount, betLogDetails } = data;
 
         this.time.string = getStringDateByTime(time);
@@ -53,6 +53,7 @@ export default class VipSedieWarHistoryItem extends cc.Component {
             settlementResult,
             result
         };
+        this.background.active = index % 2 > 0;
     }
 
     onLoad() {
