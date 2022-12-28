@@ -23,23 +23,21 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
         mainGame.phoenixCards.cardResult = new WinThreeCardResult(phoenix);
 
         const { dragonCards, phoenixCards } = mainGame;
-        mainGame.node.runAction(
-            cc.sequence(
-                cc.callFunc(() => dragonCards.showFirstTwoCards()),
-                cc.delayTime(GapTime.normal),
-                cc.callFunc(() => phoenixCards.showFirstTwoCards()),
-                cc.delayTime(GapTime.normal),
-                cc.callFunc(() => dragonCards.showLastCard()),
-                cc.delayTime(GapTime.thirdCard),
-                cc.callFunc(() => dragonCards.setRank()),
-                cc.delayTime(GapTime.normal),
-                cc.callFunc(() => phoenixCards.showLastCard()),
-                cc.delayTime(GapTime.thirdCard),
-                cc.callFunc(() => phoenixCards.setRank()),
-                cc.delayTime(GapTime.normal),
-                cc.callFunc(() => this.showSettlementResult(data, dataResultHash, mainGame, onFinishHandlingData))
-            )
-        );
+        cc.tween(mainGame.node)
+            .call(() => dragonCards.showFirstTwoCards())
+            .delay(GapTime.normal)
+            .call(() => phoenixCards.showFirstTwoCards())
+            .delay(GapTime.normal)
+            .call(() => dragonCards.showLastCard())
+            .delay(GapTime.thirdCard)
+            .call(() => dragonCards.setRank())
+            .delay(GapTime.normal)
+            .call(() => phoenixCards.showLastCard())
+            .delay(GapTime.thirdCard)
+            .call(() => phoenixCards.setRank())
+            .delay(GapTime.normal)
+            .call(() => this.showSettlementResult(data, dataResultHash, mainGame, onFinishHandlingData))
+            .start();
     }
 
     showSettlementResult(data: any, dataResultHash: any, mainGame: WinThreeCards, onFinishHandlingData: () => void) {

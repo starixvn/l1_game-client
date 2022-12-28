@@ -43,7 +43,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             return;
         }
 
-        this.showCards(dataFinish, dataResultHash, baccaratMain, onFinishHandlingData);
+        cc.RedT.GAME_IS_SHOWED && this.showCards(dataFinish, dataResultHash, baccaratMain, onFinishHandlingData);
     }
 
     protected getOwnMain(): any {

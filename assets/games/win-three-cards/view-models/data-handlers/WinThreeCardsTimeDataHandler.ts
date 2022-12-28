@@ -35,23 +35,21 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHa
     }
 
     flyAllCards() {
-        const baccarat = this.getOwnMain();
+        const winThreeCard = this.getOwnMain();
         const gapTimeFly = 0.1;
-        this.main.node.runAction(
-            cc.sequence(
-                cc.delayTime(gapTimeFly),
-                cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card1)),
-                cc.delayTime(gapTimeFly),
-                cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card1)),
-                cc.delayTime(gapTimeFly),
-                cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card2)),
-                cc.delayTime(gapTimeFly),
-                cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card2)),
-                cc.delayTime(gapTimeFly),
-                cc.callFunc(() => baccarat.phoenixCards.flyCard(OrderCardFly.card3)),
-                cc.delayTime(gapTimeFly),
-                cc.callFunc(() => baccarat.dragonCards.flyCard(OrderCardFly.card3))
-            )
-        );
+        cc.tween(this.main.node)
+            .delay(gapTimeFly)
+            .call(() => winThreeCard.phoenixCards.flyCard(OrderCardFly.card1))
+            .delay(gapTimeFly)
+            .call(() => winThreeCard.dragonCards.flyCard(OrderCardFly.card1))
+            .delay(gapTimeFly)
+            .call(() => winThreeCard.phoenixCards.flyCard(OrderCardFly.card2))
+            .delay(gapTimeFly)
+            .call(() => winThreeCard.dragonCards.flyCard(OrderCardFly.card2))
+            .delay(gapTimeFly)
+            .call(() => winThreeCard.phoenixCards.flyCard(OrderCardFly.card3))
+            .delay(gapTimeFly)
+            .call(() => winThreeCard.dragonCards.flyCard(OrderCardFly.card3))
+            .start();
     }
 }
