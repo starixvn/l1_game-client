@@ -1,6 +1,6 @@
 {
     "skeleton": {
-        "hash": "XbOqL7QpuI2rDp27432QBJxrnv8",
+        "hash": "xuLLkAzE+vX5Il29DhMAzaEwPtM",
         "spine": "3.8.99",
         "x": -375,
         "y": -247,
@@ -10,15 +10,16 @@
         "audio": "D:/L5/chineseslot/graphic/animation/spine-file"
     },
     "bones": [
-        { "name": "freespin-matchecd" },
-        { "name": "label", "parent": "freespin-matchecd" },
+        { "name": "freespin" },
+        { "name": "label", "parent": "freespin" },
         { "name": "effect-bonustext", "parent": "label" },
         { "name": "main", "parent": "label" },
         { "name": "freespin-matched-icon", "parent": "main", "y": 43.41 },
         { "name": "main-label", "parent": "main" }
     ],
     "slots": [
-        { "name": "frame-effect", "bone": "label", "attachment": "framesequense/13" },
+        { "name": "frame-effect", "bone": "label", "attachment": "framesequense/13", "blend": "additive" },
+        { "name": "frame-effect2", "bone": "label", "attachment": "framesequense/13", "blend": "additive" },
         { "name": "freespin-matched-icon", "bone": "freespin-matched-icon", "attachment": "freespin-matched-icon" },
         {
             "name": "freespin-matched-icon2",
@@ -49,6 +50,21 @@
                     "framesequense/12": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 },
                     "framesequense/13": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 }
                 },
+                "frame-effect2": {
+                    "framesequense/1": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 72, "height": 70 },
+                    "framesequense/2": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 143, "height": 98 },
+                    "framesequense/3": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 143, "height": 97 },
+                    "framesequense/4": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 141, "height": 97 },
+                    "framesequense/5": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 141, "height": 95 },
+                    "framesequense/6": { "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 },
+                    "framesequense/7": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 },
+                    "framesequense/8": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 },
+                    "framesequense/9": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 },
+                    "framesequense/10": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 },
+                    "framesequense/11": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 },
+                    "framesequense/12": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 },
+                    "framesequense/13": { "y": 0.5, "scaleX": 5, "scaleY": 5, "width": 150, "height": 99 }
+                },
                 "freespin-matched-icon": { "freespin-matched-icon": { "width": 278, "height": 216 } },
                 "freespin-matched-icon2": { "freespin-matched-icon": { "width": 278, "height": 216 } }
             }
@@ -58,6 +74,53 @@
         "freespin": {
             "slots": {
                 "frame-effect": {
+                    "attachment": [
+                        { "name": null },
+                        { "time": 0.2667, "name": "framesequense/1" },
+                        { "time": 0.3333, "name": "framesequense/2" },
+                        { "time": 0.4, "name": "framesequense/3" },
+                        { "time": 0.4667, "name": "framesequense/4" },
+                        { "time": 0.5333, "name": "framesequense/5" },
+                        { "time": 0.6, "name": "framesequense/6" },
+                        { "time": 0.6667, "name": "framesequense/7" },
+                        { "time": 0.7333, "name": "framesequense/8" },
+                        { "time": 0.8, "name": "framesequense/9" },
+                        { "time": 0.8667, "name": "framesequense/10" },
+                        { "time": 0.9333, "name": "framesequense/11" },
+                        { "time": 1, "name": "framesequense/12" },
+                        { "time": 1.0667, "name": "framesequense/13" },
+                        { "time": 1.1333, "name": null },
+                        { "time": 1.2, "name": "framesequense/1" },
+                        { "time": 1.2667, "name": "framesequense/2" },
+                        { "time": 1.3333, "name": "framesequense/3" },
+                        { "time": 1.4, "name": "framesequense/4" },
+                        { "time": 1.4667, "name": "framesequense/5" },
+                        { "time": 1.5333, "name": "framesequense/6" },
+                        { "time": 1.6, "name": "framesequense/7" },
+                        { "time": 1.6667, "name": "framesequense/8" },
+                        { "time": 1.7333, "name": "framesequense/9" },
+                        { "time": 1.8, "name": "framesequense/10" },
+                        { "time": 1.8667, "name": "framesequense/11" },
+                        { "time": 1.9333, "name": "framesequense/12" },
+                        { "time": 2, "name": "framesequense/13" },
+                        { "time": 2.0667, "name": null },
+                        { "time": 3.1333, "name": "framesequense/1" },
+                        { "time": 3.2, "name": "framesequense/2" },
+                        { "time": 3.2667, "name": "framesequense/3" },
+                        { "time": 3.3333, "name": "framesequense/4" },
+                        { "time": 3.4, "name": "framesequense/5" },
+                        { "time": 3.4667, "name": "framesequense/6" },
+                        { "time": 3.5333, "name": "framesequense/7" },
+                        { "time": 3.6, "name": "framesequense/8" },
+                        { "time": 3.6667, "name": "framesequense/9" },
+                        { "time": 3.7333, "name": "framesequense/10" },
+                        { "time": 3.8, "name": "framesequense/11" },
+                        { "time": 3.8667, "name": "framesequense/12" },
+                        { "time": 3.9333, "name": "framesequense/13" },
+                        { "time": 4, "name": null }
+                    ]
+                },
+                "frame-effect2": {
                     "attachment": [
                         { "name": null },
                         { "time": 0.2667, "name": "framesequense/1" },
