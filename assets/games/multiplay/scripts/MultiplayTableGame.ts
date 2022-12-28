@@ -7,7 +7,6 @@ import MultiplayGameStatisticBoard from "../../../common/statistic-board/Multipl
 import UserProfile from "../../../common/user-profile/UserProfile";
 import {
     closeGame,
-    handleMusicWhenJoinGame,
     leaveGameRoom,
     loadMiniPanel,
     loadUserData,
@@ -75,7 +74,6 @@ export default class MultiplayTableGame extends MultiplayGame {
         //for room game
         cc.RedT && (cc.RedT.inGame = this);
         this.loadUserData(cc.RedT?.user);
-        handleMusicWhenJoinGame(this)();
         this.subContainer = this.subGamesArea[0];
         this.loading.active = true;
     }
