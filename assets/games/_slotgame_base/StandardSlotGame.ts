@@ -3,7 +3,9 @@ import { BundleManager } from "bundle-management";
 import AudioManager from "../../common/audio/AudioManager";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
+import StandardSlotBoard from "./StandardSlotBoard";
 import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
+import SymbolPreview from "./SymbolPreview";
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,6 +52,9 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     protected audioClips = {};
+    private previewSymbolLeft: cc.Prefab;
+    private previewSymbolRight: cc.Prefab;
+    slotBoard: StandardSlotBoard;
     onLoad() {
         this.loadAudios();
         super.onLoad();
@@ -69,7 +74,10 @@ export default class StandardSlotGame extends SlotGameBase {
             "dialog-line-selection": "lineSelectionDialog",
             "dialog-bonus": "bonusDialog",
             "line-normal": "linePrefab",
-            "line-glow": "lightLinePrefab"
+            "line-glow": "lightLinePrefab",
+
+            "preview-symbol-left": "previewSymbolLeft",
+            "preview-symbol-right": "previewSymbolRight"
         };
 
         for (const key of Object.keys(dict)) {
@@ -137,12 +145,33 @@ export default class StandardSlotGame extends SlotGameBase {
     initSlotBoard() {
         this.loadSlotSymbols().then(() => {
             super.initSlotBoard();
+
+            this.slotBoard.onSymbolPreview = this.onSymbolPreview.bind(this);
         });
+    }
+
+    onSymbolPreview(symbol: number, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
+        if (!this.gameConfigs?.odds) {
+            return;
+        }
+        const prefabCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId];
+        const prefab = prefabCache[symbol];
+        const node = cc.instantiate(prefab);
+
+        const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
+        const previewNode = cc.instantiate(previewPrefab);
+
+        const symbolPreview = previewNode.getComponent(SymbolPreview);
+        symbolPreview.setInfo({
+            node,
+            odds: this.gameConfigs.odds[symbol]
+        });
+        this.slotBoard.showPreview(previewNode, worldPosition);
     }
 
     async loadSlotSymbols() {
         const prefabCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
-        for (let index = 0; index < 11; index++) {
+        for (let index = 0; index < this.slotGameConfigs.itemTypeCount; index++) {
             if (prefabCache[index]) {
                 continue;
             }

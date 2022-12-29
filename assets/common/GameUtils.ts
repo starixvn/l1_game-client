@@ -437,6 +437,12 @@ export default class GameUtils {
         cc.tween(node).to(transitionTime, { opacity: 255 }).start();
     }
 
+    public static hideNode2(node: cc.Node, options: any) {
+        const duration = options.duration ?? 0.3;
+        const onHidden = options.onHidden;
+        GameUtils.hideNode(node, duration, onHidden);
+    }
+
     public static hideNode(node: cc.Node, transitionTime = 0.3, onHidden?: () => void) {
         cc.tween(node)
             .to(transitionTime, { opacity: 0 })
