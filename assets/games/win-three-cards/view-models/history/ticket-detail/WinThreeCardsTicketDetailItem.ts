@@ -34,7 +34,6 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
     ) {
         this.bgRow.active = index % 2 === 1;
         const { time, choice, amount } = betLogDetail;
-        const winColor = new cc.Color(255, 246, 100);
         this.time.string = formatDateTime(time);
         this.choice.string = i18n.t(`${StringHelper.winThreeCardsNameSpace}.${choice}`);
         this.odds.string = odds[choice];

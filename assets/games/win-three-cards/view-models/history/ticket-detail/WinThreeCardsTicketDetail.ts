@@ -29,9 +29,10 @@ export default class WinThreeCardsTicketDetail extends GameTicketDetailBase {
     setData(data: WinThreeCardsBetData) {
         const dragonCards = data.result.dragon;
         const phoenixCards = data.result.phoenix;
+        const isDragonWin = data?.settlementResult?.dragon;
         this.round.string = data.phien;
-        this.cardResultDragon && this.cardResultDragon.setData(dragonCards);
-        this.cardResultPhoenix && this.cardResultPhoenix.setData(phoenixCards);
+        this.cardResultDragon && this.cardResultDragon.setData(dragonCards, isDragonWin);
+        this.cardResultPhoenix && this.cardResultPhoenix.setData(phoenixCards, !isDragonWin);
     }
 
     public showBetLogs(data: WinThreeCardsBetData) {
