@@ -1,7 +1,7 @@
 import { BundleManager } from "bundle-management";
 
-import { lodash } from "../../../ClientModules";
-import AudioManager from "../../../common/audio/AudioManager";
+import { lodash } from "../../ClientModules";
+import AudioManager from "../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 

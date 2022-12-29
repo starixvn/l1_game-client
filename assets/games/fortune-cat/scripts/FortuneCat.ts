@@ -1,6 +1,6 @@
 import SlotGameBase from "../../_slotgame_base/SlotGameBase";
+import SlotGameSongs from "../../_slotgame_base/SlotGameSongs";
 import { FortuneCatSlotConfigs } from "./FortuneCatSlotConfigs";
-import SlotGameSongs from "./SlotGameSongs";
 
 const { ccclass, property } = cc._decorator;
 
