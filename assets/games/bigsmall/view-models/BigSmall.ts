@@ -245,12 +245,12 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(BigSmallHistory);
         const historyComp = this.historyComponent as BigSmallHistory;
+        historyComp.gameId = this.gameId;
         historyComp.init(this.socket);
         historyComp.handleBetHistory = (roundId) => {
             this.openBetHistory(roundId);
         };
         this.currentMiniPanel.node.addChild(dialog);
-        //historyComp.setGameName(this.gameId);
     }
 
     public initStatistic() {

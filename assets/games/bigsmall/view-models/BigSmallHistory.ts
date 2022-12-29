@@ -5,13 +5,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigSmallHistory extends SocketIOGameHistoryBase {
-    // @property(LocalizedLabelWithFormat)
-    // gameName: LocalizedLabelWithFormat = null;
-
-    // setGameName(gameId: number) {
-    //     this.gameName.dataId = `gameNames.${gameId}`;
-    // }
-
     public handleBetHistory = (roundId) => {};
 
     bindItemRowData(betLog, index) {

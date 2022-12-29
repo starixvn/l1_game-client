@@ -1,5 +1,6 @@
 import { Socket } from "socket.io-client";
 
+import { i18n } from "../../../ClientModules";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
@@ -28,11 +29,19 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;
 
+    @property(cc.Label)
+    gameName: cc.Label = null;
+
+    public gameId = 0;
+
+    historyFrame: HistoryFrame;
+
     protected socket: Socket;
 
     onUpdatedData = () => {};
 
     HEIGHT_CONTENT = 520;
+    WIDTH_SIGN = 120;
 
     init(socket: Socket) {
         this.socket = socket;
@@ -40,6 +49,22 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
 
     onEnable() {
         this.get_data();
+    }
+
+    setGameName() {
+        const dataId = `gameNames.${this.gameId}`;
+        const gameName = ` - ${i18n.t(dataId)}`;
+        this.gameName.string = gameName.toUpperCase();
+        this.gameName.node.active = true;
+    }
+
+    start() {
+        if (this.gameId != 0) {
+            this.setGameName();
+            const node = this.gameName.node.parent;
+            node.getComponent(cc.Layout).updateLayout();
+            this.historyFrame.updateTitleSize(node.width + this.WIDTH_SIGN);
+        }
     }
 
     get_data(page = 1) {
@@ -79,9 +104,10 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     }
 
     initHistoryWrapper(node: cc.Node) {
-        const historyFrame = node.getComponent(HistoryFrame);
-        this.pagination = historyFrame.pagination;
-        this.mainFrame = historyFrame.mainFrame;
+        this.historyFrame = node.getComponent(HistoryFrame);
+        this.pagination = this.historyFrame.pagination;
+        this.mainFrame = this.historyFrame.mainFrame;
+        this.gameName = this.historyFrame.gameName;
         const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();
@@ -89,6 +115,6 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         this.pagination.init(this);
 
         this.wrapperContent.parent = this.mainFrame;
-        historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT);
+        this.historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT);
     }
 }

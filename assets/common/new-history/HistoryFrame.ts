@@ -19,6 +19,15 @@ export default class HistoryFrame extends cc.Component {
     @property(cc.Node)
     backFrame: cc.Node = null;
 
+    @property(cc.Label)
+    gameName: cc.Label = null;
+
+    @property(cc.Node)
+    titleBgNode: cc.Node = null;
+
+    @property(cc.Layout)
+    title: cc.Layout = null;
+
     private PADDING_HEIGHT = 12;
     private PADDING_TOP_HEIGHT = 60;
 
@@ -27,6 +36,7 @@ export default class HistoryFrame extends cc.Component {
     public clickCloseButton = () => {};
 
     onLoad() {
+        this.gameName.node.active = false;
         this.backFrameLayout = this.backFrame.getComponent(cc.Layout);
     }
 
@@ -39,6 +49,13 @@ export default class HistoryFrame extends cc.Component {
         this.tableBg.height = heightContent;
         this.backFrameLayout.updateLayout();
         this.mainFrame.width = this.backFrame.width;
+    }
+
+    updateTitleSize(width: number) {
+        this.titleBgNode.children.forEach((child) => {
+            child.width = width / 2;
+        });
+        this.titleBgNode.getComponent(cc.Layout).updateLayout();
     }
 
     closePopup() {

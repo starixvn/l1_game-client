@@ -244,6 +244,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(SpecialSeDieHistory);
         const historyComp = this.historyComponent as SpecialSeDieHistory;
+        historyComp.gameId = this.gameId;
         historyComp.init(this.socket);
         historyComp.handleBetHistory = (roundId) => {
             this.openBetHistory(roundId);
