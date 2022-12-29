@@ -276,7 +276,7 @@ const data = {
         banker_win: "Banker Menang!",
         player_pair: "Player Pair",
         player_win: "Player Menang!",
-        choice_banker: "Banker ",
+        choice_banker: "Banker",
         choice_player: "Player",
         result_player_banker: "Hasil\n(Player | Banker)",
         type_bet_number: "Nomor Spesifik",
