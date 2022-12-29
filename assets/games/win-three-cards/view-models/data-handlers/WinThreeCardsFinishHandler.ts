@@ -1,7 +1,7 @@
 import BaccaratFinishHandler from "../../../baccarat/view-models/data-handlers/BaccaratFinishHandler";
 import WinThreeCards from "../WinThreeCards";
 import { i18n } from "../../../../ClientModules";
-import { WinThreeCardResult, WinThreeCardsSettlementResult } from "../WinThreeCardsModel";
+import { WinThreeCardsResult, WinThreeCardsSettlementResult } from "../WinThreeCardsModel";
 import { Choices } from "../WinThreeCardsConstant";
 import { StringHelper } from "../WinThreeCardsHelper";
 
@@ -19,8 +19,8 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
         mainGame.showScoreBoardNextDot = true;
 
         const { phoenix, dragon } = data.result;
-        mainGame.dragonCards.cardResult = new WinThreeCardResult(dragon);
-        mainGame.phoenixCards.cardResult = new WinThreeCardResult(phoenix);
+        mainGame.dragonCards.cardResult = new WinThreeCardsResult(dragon);
+        mainGame.phoenixCards.cardResult = new WinThreeCardsResult(phoenix);
 
         const { dragonCards, phoenixCards } = mainGame;
         cc.tween(mainGame.node)

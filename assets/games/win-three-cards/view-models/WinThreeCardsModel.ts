@@ -31,7 +31,7 @@ export class WinThreeCardsSettlementResult {
 
 export type WinThreeCardsGameResultData = OldCardModel[];
 
-export class WinThreeCardResult {
+export class WinThreeCardsResult {
     cards: CardModel[];
     cardRankId: number;
     handRankId: number;
@@ -46,8 +46,8 @@ export class WinThreeCardResult {
 }
 
 export interface WinThreeCardsResultCards {
-    dragon: WinThreeCardResult;
-    phoenix: WinThreeCardResult;
+    dragon: WinThreeCardsResult;
+    phoenix: WinThreeCardsResult;
 }
 
 export interface WinThreeCardsBetData {

@@ -2,7 +2,7 @@ import GameBaseLogsHandler from "../../../_base/handlers/GameBaseLogsHandler";
 import { BasicHistoryData } from "../../../_base/view-models/BasicHistoryBoard";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import WinThreeCards from "../WinThreeCards";
-import { WinThreeCardResult } from "../WinThreeCardsModel";
+import { WinThreeCardsResult } from "../WinThreeCardsModel";
 import WinThreeCardsFinishHandler from "./WinThreeCardsFinishHandler";
 import { Choices } from "../WinThreeCardsConstant";
 import { StringHelper } from "../WinThreeCardsHelper";
@@ -29,8 +29,8 @@ export default class WinThreeCardsLogsHandler extends GameBaseLogsHandler {
 
             if (this.main.timeHandler.isInWaitTime) {
                 const { dragon, phoenix } = result;
-                ownMain.dragonCards.cardResult = new WinThreeCardResult(dragon);
-                ownMain.phoenixCards.cardResult = new WinThreeCardResult(phoenix);
+                ownMain.dragonCards.cardResult = new WinThreeCardsResult(dragon);
+                ownMain.phoenixCards.cardResult = new WinThreeCardsResult(phoenix);
 
                 ownMain.phoenixCards.showCardsWithoutAnimation();
                 ownMain.dragonCards.showCardsWithoutAnimation();

@@ -14,7 +14,7 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
     choice: cc.Label = null;
 
     @property(cc.Label)
-    odd: cc.Label = null;
+    odds: cc.Label = null;
 
     @property(cc.Label)
     amount: cc.Label = null;
@@ -37,13 +37,13 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
         const winColor = new cc.Color(255, 246, 100);
         this.time.string = formatDateTime(time);
         this.choice.string = i18n.t(`${StringHelper.winThreeCardsNameSpace}.${choice}`);
-        this.odd.string = odds[choice];
+        this.odds.string = odds[choice];
         this.amount.string = numberWithCommas(amount);
 
         const effectiveOdds = freeBet ? odds[choice] - 1 : odds[choice];
         const winningAmount = this.getWinAmount(settlementResult[choice], amount, effectiveOdds, settlementResult.tie);
         this.win.string = numberWithCommas(winningAmount, 2);
-        this.win.node.color = winningAmount > 0 ? winColor : cc.Color.WHITE;
+        this.setHighlightTicketDetail(winningAmount > 0);
 
         if (index === 0) {
             this.node.getChildByName("topBorder").active = false;
@@ -56,5 +56,14 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
         }
 
         return isWinning ? amount * effectiveOdds : 0;
+    }
+
+    setHighlightTicketDetail(highlight: boolean) {
+        const winColor = new cc.Color(255, 246, 100);
+        const color = highlight ? winColor : cc.Color.WHITE;
+        this.choice.node.color = color;
+        this.odds.node.color = color;
+        this.amount.node.color = color;
+        this.win.node.color = color;
     }
 }

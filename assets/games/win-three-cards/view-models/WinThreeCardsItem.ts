@@ -5,7 +5,7 @@ import NewCard, { CardAnimation } from "../../../common/new-card/view-models/New
 import BaccaratCard from "../../baccarat/view-models/BaccaratCard";
 import { StringHelper } from "./WinThreeCardsHelper";
 import { HandRanks } from "./WinThreeCardsConstant";
-import { WinThreeCardResult } from "./WinThreeCardsModel";
+import { WinThreeCardsResult } from "./WinThreeCardsModel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -61,7 +61,7 @@ export default class WinThreeCardsItem extends cc.Component {
     private readonly SHOW_CARD = 1;
     private clonePositionCards: cc.Vec3[] = [];
     private cardsNodes: cc.Node[] = [];
-    public cardResult: WinThreeCardResult = null;
+    public cardResult: WinThreeCardsResult = null;
 
     onLoad() {
         this.cardsNodes = [this.card1, this.card2, this.card3];

@@ -39,11 +39,11 @@ export default class WinThreeCardsTicketDetail extends GameTicketDetailBase {
         this.node.active = true;
 
         this.betLogDetails.forEach((betLogDetail: WinThreeCardsBetLogDetails, index: number) => {
-            this.builTicketDetailRow(data.freeBet, betLogDetail, index, data.odds, data.settlementResult);
+            this.buildTicketDetailRow(data.freeBet, betLogDetail, index, data.odds, data.settlementResult);
         });
     }
 
-    private builTicketDetailRow(
+    private buildTicketDetailRow(
         freeBet: boolean,
         betLogDetail: WinThreeCardsBetLogDetails,
         index: number,

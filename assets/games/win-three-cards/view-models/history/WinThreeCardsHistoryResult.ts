@@ -1,6 +1,6 @@
 import NewCard from "../../../../common/new-card/view-models/NewCard";
 import { convertRank, getCardsResult } from "../WinThreeCardsHelper";
-import { WinThreeCardResult } from "../WinThreeCardsModel";
+import { WinThreeCardsResult } from "../WinThreeCardsModel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,7 +15,7 @@ export default class WinThreeCardsHistoryResult extends cc.Component {
     @property({ type: NewCard })
     cards: NewCard[] = [];
 
-    setData(betData: WinThreeCardResult) {
+    setData(betData: WinThreeCardsResult, isWin = false) {
         this.handRank.string = getCardsResult(betData.handRankId);
         this.cardRank.string = convertRank(+betData.cardRankId);
         this.setCards(betData.cards);
