@@ -50,13 +50,14 @@ export default class WinThreeCardsHistoryItem extends cc.Component {
         const dragonCards = betData.result.dragon;
         const phoenixCards = betData.result.phoenix;
         const isDragonWin = betData?.settlementResult?.dragon;
+        const isPhoenixWin = betData?.settlementResult?.phoenix;
 
         this.timeLabel.string = getStringDateByTime(betData.time);
         this.roundLabel.string = betData.phien;
         this.winLabel.string = numberWithCommas(betData.betwin, 2);
         this.amountLabel.string = this.summarizeBet(betData);
         this.cardResultDragon && this.cardResultDragon.setData(dragonCards, isDragonWin);
-        this.cardResultPhoenix && this.cardResultPhoenix.setData(phoenixCards, !isDragonWin);
+        this.cardResultPhoenix && this.cardResultPhoenix.setData(phoenixCards, isPhoenixWin);
     }
 
     showBackground(show: boolean) {
