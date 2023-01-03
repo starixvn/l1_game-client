@@ -138,6 +138,17 @@ export default class StandardSlotGame extends SlotGameBase {
         }
     }
 
+    protected override onStakeChanged() {
+        super.onStakeChanged();
+
+        const index = this.gameConfigs.stakeLevels.findIndex((stake) => stake === this.stake);
+        const decreaseBtn = this.stakeButton.node.getChildByName("decrease").getComponent(cc.Button);
+        const increaseBtn = this.stakeButton.node.getChildByName("increase").getComponent(cc.Button);
+
+        decreaseBtn.interactable = index > 0;
+        increaseBtn.interactable = index < this.gameConfigs.stakeLevels.length - 1;
+    }
+
     initSlotGameConfig() {
         this.slotGameConfigs = new StandardSlotGameConfigs();
     }

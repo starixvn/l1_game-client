@@ -222,7 +222,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             this.turboToggle.isChecked = settings.turboEnabled;
             this.setBetChoices(settings.betChoices);
             this.setStake(settings.stake);
-            this.onStakeChanged();
             this.updateStakeContainer();
         }
 
@@ -280,7 +279,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     loadStakeLevelsConfig() {
         this.setStake(this.gameConfigs.stakeLevels[0] || 0);
-        this.onStakeChanged();
         this.stakeContainer.toggleItems.forEach((item, index) => {
             item.node.getChildByName("value").getComponent(cc.Label).string = numberWithCommas(this.gameConfigs.stakeLevels[index], 1);
         });
@@ -505,6 +503,8 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     setStake(stake: number) {
         this.stake = stake;
         this.stakeLabel.string = numberWithCommas(stake, 1);
+
+        this.onStakeChanged();
     }
 
     updateLineChanged() {
@@ -515,10 +515,21 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     onStakeToggleChanged(event: cc.Event, param: string) {
         AudioManager.getInstance().playClick();
         this.setStake(this.gameConfigs.stakeLevels[+param]);
-        this.onStakeChanged();
     }
 
-    onStakeChanged() {
+    onStakeQuickChange(event: cc.Event) {
+        AudioManager.getInstance().playClick();
+        const increase = event.target.name === "increase";
+        let index = this.gameConfigs.stakeLevels.findIndex((stake) => stake === this.stake);
+        index += increase ? 1 : -1;
+        if (index < 0 || index > this.gameConfigs.stakeLevels.length - 1) {
+            return;
+        }
+
+        this.setStake(this.gameConfigs.stakeLevels[index]);
+    }
+
+    protected onStakeChanged() {
         this.updateTotalBetLabel();
         this.updateDisplayPool();
         this.hideStakeContrainer();
