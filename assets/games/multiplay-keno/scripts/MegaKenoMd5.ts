@@ -15,4 +15,8 @@ export default class MegaKenoMd5 extends MD5Component {
         const value = data?.hashValue || data?.rawValue;
         this.md5Value.string = `${value}`;
     }
+
+    setDataTip(data: MD5Type) {
+        this.data = "";
+    }
 }

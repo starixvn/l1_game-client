@@ -10,7 +10,7 @@ export const handleMD5 = (main: HoldemPoker) => (stateModel: HoldemPokerStateMod
         case HoldemPokerState.blank_new:
         case HoldemPokerState.calling_fold:
         case HoldemPokerState.calling_deal:
-            main.md5Component.clearMD5();
+            main.md5Component.resetMd5();
             break;
 
         default:

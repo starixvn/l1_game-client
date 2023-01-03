@@ -3,7 +3,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
-import MD5Tooltip from "../../../common/md5-tooltip/MD5Tooltip";
+import MD5Tip from "../../../common/md5-tooltip/MD5Tip";
 import MD5Frame from "./MD5Frame";
 
 const { ccclass, property } = cc._decorator;
@@ -27,6 +27,9 @@ export default class MD5Component extends cc.Component {
     @property(cc.Node)
     hintCopyNode: cc.Node = null;
 
+    @property(cc.Node)
+    md5String: cc.Node = null;
+
     @property
     lengthOfMd5 = 21;
 
@@ -43,13 +46,31 @@ export default class MD5Component extends cc.Component {
     private md5CopyString: string = null;
     readonly duration: number = 0.5;
     readonly delayShowHashValue: number = 1.35;
-    protected md5Tooltip: MD5Tooltip = null;
+    protected md5Tip: MD5Tip = null;
     maximumStringAllowed = 32;
     public hintLabel: cc.Label = null;
     public gameId: number;
+    public data: string;
 
     onLoad() {
         this.initMD5Tooltip();
+        this.registerTouchEvents();
+    }
+
+    onDestroy() {
+        this.removeTouchEvents();
+    }
+
+    private registerTouchEvents() {
+        this.md5String.on(cc.Node.EventType.MOUSE_ENTER, this.showTooltip, this);
+        this.md5String.on(cc.Node.EventType.MOUSE_LEAVE, this.hideTooltip, this);
+        this.md5String.on(cc.Node.EventType.TOUCH_START, this.showTooltip, this);
+    }
+
+    private removeTouchEvents() {
+        this.md5String.off(cc.Node.EventType.MOUSE_ENTER, this.showTooltip, this);
+        this.md5String.off(cc.Node.EventType.MOUSE_LEAVE, this.hideTooltip, this);
+        this.md5String.off(cc.Node.EventType.TOUCH_START, this.showTooltip, this);
     }
 
     start() {
@@ -70,7 +91,7 @@ export default class MD5Component extends cc.Component {
         this.md5Text = md5Frame.md5Label;
         this.copyButton = md5Frame.md5CopyBtn;
         this.hintCopyNode = md5Frame.md5HintCopy;
-        const md5ContentWidth = this.node.getChildByName("md5-node").width;
+        const md5ContentWidth = this.md5String.width;
         this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         this.hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
@@ -82,8 +103,20 @@ export default class MD5Component extends cc.Component {
 
     initMD5Tooltip() {
         const mini = GameUtils.createNodeFromPrefab(this.md5TooltipPrefab);
-        this.md5Tooltip = mini.getComponent(MD5Tooltip);
+        this.md5Tip = mini.getComponent(MD5Tip);
         this.md5TooltipContainer.addChild(mini);
+    }
+
+    showTooltip() {
+        if (this.data) {
+            this.md5Tip.setData(this.data);
+            this.md5Tip.show(true);
+            cc.tween(this.md5Tip.node).to(0.2, { opacity: 255 }).delay(2).to(0.1, { opacity: 0 }).start();
+        }
+    }
+
+    hideTooltip() {
+        this.md5Tip.show(false);
     }
 
     updateMD5String(data: MD5Type) {
@@ -99,11 +132,11 @@ export default class MD5Component extends cc.Component {
     }
 
     handleMD5Data(data: MD5Type) {
+        this.setDataTip(data);
         if (this.node && this.node.isValid) {
             this.setCaptionAndHintForMD5(!!data?.rawValue);
             this.generateMD5Result(data);
             this.setCopyString(data?.hashValue || data?.rawValue);
-            this.handleTooltip(data);
         }
     }
 
@@ -122,9 +155,13 @@ export default class MD5Component extends cc.Component {
         this.md5CopyString = text;
     }
 
+    setDataTip(data: MD5Type) {
+        this.data = data.rawValue;
+    }
+
     onClickCopyButton() {
         GameUtils.copyToClipboard(this.md5CopyString, this.hintLabel, () => this.showHint());
-        this.md5Tooltip.hideToolTip();
+        this.md5Tip.show(false);
         this.trackingAction(TrackingAction.Click);
     }
 
@@ -138,11 +175,6 @@ export default class MD5Component extends cc.Component {
         cc.tween(this.md5Text.node)
             .to(0.3, { position: cc.v3(0, 0, 0) })
             .start();
-    }
-
-    handleTooltip(data: MD5Type) {
-        !!data.hashValue && this.md5Tooltip.hideToolTip();
-        this.md5Tooltip.setData(data.rawValue);
     }
 
     setDelayShowRawValue(delay: number) {

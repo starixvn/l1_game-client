@@ -6,8 +6,7 @@ const { ccclass, property } = cc._decorator;
 export default class FantanMD5 extends MD5Component {
     maximumStringAllowed = 26;
 
-    handleTooltip(data: MD5Type) {
-        this.md5Tooltip.hideToolTip();
-        this.md5Tooltip.setData(data.rawValue || data.hashValue);
+    setDataTip(data: MD5Type) {
+        this.data = data.hashValue || data.rawValue;
     }
 }

@@ -16,8 +16,7 @@ export default class BaccaratMD5 extends MD5Component {
         this.md5Value.string = `${result.slice(0, this.lengthOfMd5) + "..."}`;
     }
 
-    handleTooltip(data: MD5Type) {
-        !!data && this.md5Tooltip.hideToolTip();
-        this.md5Tooltip.setData(data.rawValue || data.hashValue);
+    setDataTip(data: MD5Type) {
+        this.data = data.hashValue || data.rawValue;
     }
 }

@@ -19,8 +19,7 @@ export default class BauCuaMD5 extends MD5Component {
         this.md5Value.string = `${result}`;
     }
 
-    handleTooltip(data: MD5Type) {
-        !!data && this.md5Tooltip.hideToolTip();
-        this.md5Tooltip.setData(data.rawValue || data.hashValue);
+    setDataTip(data: MD5Type) {
+        this.data = data.hashValue || data.rawValue;
     }
 }

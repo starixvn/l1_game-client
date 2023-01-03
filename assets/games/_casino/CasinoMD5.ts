@@ -21,16 +21,16 @@ export default class CasinoMD5 extends MD5Component {
         this.copyButton.node.getChildByName("text").color = enabled ? color : color.fromHEX("#a8a8a8");
     }
 
-    clearMD5() {
-        this.setMD5String("");
-        this.md5Tooltip.hideToolTip();
-    }
+    // clearMD5() {
+    //     this.setMD5String("");
+    //     this.md5Tip.hideToolTip();
+    // }
 
     setMD5String(data: string) {
+        this.data = "";
         this.setCaptionAndHintForMD5(false);
         this.md5Value.string = data === "" ? "" : `<color=#ffffff>${data}</color>`;
         this.setCopyString(data);
-        this.md5Tooltip.setData("");
     }
 
     initMD5Tooltip() {
@@ -46,11 +46,12 @@ export default class CasinoMD5 extends MD5Component {
     }
 
     createResultDetails(data: any) {
+        this.data = data.rawValue;
         const { cards, suffix, roundId } = data.formatValue;
         this.setCaptionAndHintForMD5(true);
         this.setCopyString(data.rawValue);
         this.setMD5Value(cards, suffix, roundId);
-        this.md5Tooltip.setData(data.rawValue);
+        //this.md5Tip.setData(data.rawValue);
     }
 
     setMD5Value(cards: OldCardModel[], suffix: string, roundId: string) {

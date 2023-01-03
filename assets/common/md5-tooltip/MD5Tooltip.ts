@@ -9,37 +9,9 @@ export default class MD5Tooltip extends cc.Component {
 
     public data: string;
 
+    public md5Content: cc.Node;
+
     public setData(data: string) {
         this.data = data;
-    }
-
-    onEnable() {
-        this.node.on(cc.Node.EventType.MOUSE_ENTER, this.eventOnHover, this);
-        this.node.on(cc.Node.EventType.MOUSE_LEAVE, this.eventOffHover, this);
-        this.node.on(cc.Node.EventType.TOUCH_START, this.eventOnTouchStart, this);
-    }
-
-    onDisable() {
-        this.node.off(cc.Node.EventType.MOUSE_ENTER, this.eventOnHover, this);
-        this.node.off(cc.Node.EventType.MOUSE_LEAVE, this.eventOffHover, this);
-        this.node.off(cc.Node.EventType.TOUCH_START, this.eventOnTouchStart, this);
-    }
-
-    eventOnHover() {
-        this.tip.setData(this.data);
-        this.tip.show(!!this.data);
-        cc.tween(this.tip.node).to(0.2, { opacity: 255 }).delay(2).to(0.1, { opacity: 0 }).start();
-    }
-
-    eventOnTouchStart() {
-        this.eventOnHover();
-    }
-
-    eventOffHover() {
-        this.tip.show(false);
-    }
-
-    hideToolTip() {
-        this.tip.show(false);
     }
 }

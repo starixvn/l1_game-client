@@ -43,9 +43,4 @@ export default class SedieMD5 extends MD5Component {
 
         return chips.hasOwnProperty(totalRed) ? chips[totalRed] : "";
     }
-
-    handleTooltip(data: MD5Type) {
-        !!data.hashValue && this.md5Tooltip.hideToolTip();
-        this.md5Tooltip.setData(this.md5Result);
-    }
 }
