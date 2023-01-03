@@ -193,13 +193,13 @@ export default class WinThreeCardsItem extends cc.Component {
             });
 
             newCard.faceUp();
-            this.handleCardWithAnimated(isAnimated, index, currentCard, 0);
+            this.handleCardWithAnimated(isAnimated, currentCard, 0);
         }
     }
 
-    private handleCardWithAnimated(isAnimated: boolean, index: number, currentCard: cc.Node, delayTime: number): number {
+    private handleCardWithAnimated(isAnimated: boolean, currentCard: cc.Node, delayTime: number): number {
         if (isAnimated) {
-            delayTime = this.calculateDelayAnimationTime(index, currentCard, delayTime);
+            delayTime = this.calculateDelayAnimationTime(currentCard, delayTime);
         } else {
             if (this.isMainPage) {
                 currentCard.getComponent(BaccaratCard).numberTag.active = false;
@@ -209,8 +209,8 @@ export default class WinThreeCardsItem extends cc.Component {
         return delayTime;
     }
 
-    private calculateDelayAnimationTime(index: number, currentCard: cc.Node, delayTime: number) {
-        index === 2 ? this.calculateThirdCardDelayAnimationTime(currentCard) : this.calculateTwoFirstCardDelayAnimationTime(currentCard);
+    private calculateDelayAnimationTime(currentCard: cc.Node, delayTime: number) {
+        this.calculateTwoFirstCardDelayAnimationTime(currentCard);
         delayTime += AnimationTime.openCard;
         return delayTime;
     }
