@@ -1,4 +1,4 @@
-import configs from "../configs/Configs";
+import * as configs from "../configs/Configs";
 
 export const sentryLogger = {
     sentryUrl: null,

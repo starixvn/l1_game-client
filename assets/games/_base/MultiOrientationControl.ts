@@ -1,6 +1,7 @@
 import { Socket } from "socket.io-client";
 
 import { lazyInject } from "../../Application";
+import { appManager } from "../../managers/AppManager";
 import SocketIOController from "../../SocketIOController";
 import MultiOrientationGame from "./MultiOrientationGame";
 import { Orientation } from "./Orientation";
@@ -109,7 +110,7 @@ export default class MultiOrientationControl extends cc.Component {
             child.node.active = show;
 
             if (show) {
-                cc.RedT.inGame = child;
+                appManager.currentScene = child;
                 child.betChips.setCurrentBet(this.currentBet.toString());
             }
         });

@@ -1,3 +1,4 @@
+import { appManager } from "../../../managers/AppManager";
 import GameBase from "../GameBase";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
@@ -30,7 +31,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
             return;
         }
 
-        if (!cc.RedT.GAME_IS_SHOWED) {
+        if (!appManager.GAME_IS_SHOWED) {
             return;
         }
 
@@ -40,7 +41,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     }
 
     showStatus(win: boolean, bet: number) {
-        if (!cc.RedT.GAME_IS_SHOWED) {
+        if (!appManager.GAME_IS_SHOWED) {
             return;
         }
         if (win) {

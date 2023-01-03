@@ -1,5 +1,6 @@
 import { appContainer, lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
+import { userManager } from "../../../common/user/UserManager";
 import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
@@ -33,7 +34,7 @@ export default class Banner extends cc.Component {
         this.node.addChild(bannerPrefabNode);
         const adsBannerContainerNode = bannerPrefabNode.getChildByName("adsBannerController");
         this.adsBannerController = adsBannerContainerNode.getComponent(DynamicAdsBannerController);
-        this.showJackpotBanner = cc.RedT.user.offerGames.includes(FourGuardiansId) && fourGuardiansConfig.jackpotEnabled;
+        this.showJackpotBanner = userManager.offerGames.includes(FourGuardiansId) && fourGuardiansConfig.jackpotEnabled;
         this.adsBannerController.menuLoop = !this.showJackpotBanner;
         this.adsBannerController.onEndingRound = () => {
             if (this.showJackpotBanner && this.adsToggle && this.jackpotToggle) {
@@ -101,9 +102,8 @@ export default class Banner extends cc.Component {
     private getGameIdOfferBanner(isLoadAllBanners: boolean) {
         const filterList: number[] = [];
         const gameAds = isLoadAllBanners ? this.lobbyMenuConfig.bannerAds : this.lobbyMenuConfig.bannerAds.slice(0, 1);
-        const offerGames = cc.RedT.user.offerGames;
         gameAds.forEach((id: number) => {
-            if (offerGames.includes(id)) {
+            if (userManager.offerGames.includes(id)) {
                 filterList.push(id);
             }
         });

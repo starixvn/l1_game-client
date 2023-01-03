@@ -1,5 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { numberPad } from "../../../common/helpers/NumberHelper";
+import { appManager } from "../../../managers/AppManager";
 import GameBase from "../GameBase";
 import { GameState } from "../GameState";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
@@ -131,7 +132,7 @@ export default class GameBaseTimeHandler implements IGameBaseTimeHandler {
     handleStartingNewGameRoundOptions(context: any) {
         context.highlightLastResult();
 
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             context.finishShakeThePlate = false;
             context.shakeAnimation.node.active = true;
             context.shakeAnimation.play();

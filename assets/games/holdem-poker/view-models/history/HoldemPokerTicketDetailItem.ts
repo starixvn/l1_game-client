@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringHourByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { userManager } from "../../../../common/user/UserManager";
 import SocketIOHistoryItemBase from "../../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property, menu } = cc._decorator;
@@ -28,7 +29,7 @@ export default class HoldemPokerTicketDetailItem extends SocketIOHistoryItemBase
         this.stake.string = numberWithCommas(bet.stake);
         this.win.string = numberWithCommas(bet.win);
         this.time.string = getStringHourByTime(bet.time);
-        this.odd.string = cc.RedT?.user?.fractionalOddsFormat && bet.odds ? numberWithCommas(+bet.odds - 1, 2) : bet.odds || "-";
+        this.odd.string = userManager.fractionalOddsFormat && bet.odds ? numberWithCommas(+bet.odds - 1, 2) : bet.odds || "-";
         this.setBackground(index);
         if (bet.win > 0) {
             this.stake.node.color = cc.Color.YELLOW;

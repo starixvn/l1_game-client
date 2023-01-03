@@ -3,6 +3,7 @@ import * as sessionManager from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import { truncateFixedDecimals } from "../../../common/helpers/NumberHelper";
 import UserProfile from "../../../common/user-profile/UserProfile";
+import { appManager } from "../../../managers/AppManager";
 
 export const loadMiniPanel = (game: any) => () => {
     if (!game.miniPanelPrefab) {
@@ -18,8 +19,12 @@ export const loadMiniPanel = (game: any) => () => {
 export const handleMusicWhenJoinGame = (game: any) => async () => {
     const musicPlayer = MusicPlayer.getInstance();
     if (game.isOwnGameMusicBackground) {
-        musicPlayer.joinRoomMusic = true;
+        musicPlayer.isJoinRoomMusic = true;
         await musicPlayer.decreaseVolumeAndStopBackgroundMusic();
+    } else {
+        if (!musicPlayer.initialized) {
+            musicPlayer.init();
+        }
     }
 };
 
@@ -72,14 +77,31 @@ export const outRoomGame = (game: any) => () => {
 };
 
 export const closeGame = (game: any) => () => {
+    if (game.closingGameRoom) {
+        console.log("Closing game room, please wait...");
+        return;
+    }
+
+    game.closingGameRoom = true;
+
     if (game.loading) {
         game.loading.active = true;
     }
     if (game.musicBg) {
         MusicPlayer.getInstance().handleIncreaseVolume();
     }
+
+    const isGameShow = appManager.GAME_IS_SHOWED;
     game.outRoomGame().then(() => {
-        cc.director.loadScene("Lobby");
+        if (appManager.isDirectMode) {
+            if (isGameShow && game?.closeGameByClick) {
+                appManager.backToOperatorLobby();
+            } else if (!game.openOtherScene) {
+                cc.director.loadScene("Splash");
+            }
+        } else {
+            cc.director.loadScene("Lobby");
+        }
     });
 };
 

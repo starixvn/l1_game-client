@@ -1,4 +1,5 @@
 import GameUtils from "../../../../common/GameUtils";
+import { appManager } from "../../../../managers/AppManager";
 import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
 import { playWinningEffect } from "../../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
@@ -12,7 +13,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
     handle(data: any): boolean {
         if (data.finish) {
-            if (!cc.RedT.GAME_IS_SHOWED) {
+            if (!appManager.GAME_IS_SHOWED) {
                 return false;
             }
             this.main.finishShowResult = false;
@@ -52,7 +53,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
 
         const playerNode = this.main.userProfile.node;
         this.main.showWinningBet(data.bet);
-        playWinningEffect(this.main, playerNode);
+        playWinningEffect(this.main, playerNode, this.WinningAnimationDuration);
         this.main.updateUserBalance();
     }
 
@@ -72,7 +73,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
         playerSlot.increaseBalance(data.bet);
         const convertValue = GameUtils.getValueByCurrency(data.bet, data.rate || 1);
         GameUtils.addFlyingText(playerSlot.node, true, convertValue, 3, 0, 10);
-        playWinningEffect(this.main, playerSlot.node);
+        playWinningEffect(this.main, playerSlot.node, this.WinningAnimationDuration);
     }
 
     public handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {

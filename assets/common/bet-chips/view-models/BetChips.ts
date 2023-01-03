@@ -1,11 +1,14 @@
 import * as _ from "lodash";
 
 import BetItem from "../../../games/_base/view-models/BetItem";
+import { appManager } from "../../../managers/AppManager";
 import AudioManager from "../../audio/AudioManager";
 import GameUtils from "../../GameUtils";
 import ChipConfig from "./ChipConfig";
 import ChipView, { ChipDisplayType } from "./ChipView";
 import SnappedScrollView from "./SnappedScrollView";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 type OnChangedBet = (bet: string) => void;
@@ -84,6 +87,12 @@ export default class BetChips extends cc.Component {
             this.updateArrowVisibility();
             this.updateSelectedChipValue();
         };
+
+        uiManager.emitterListener(InternalEvents.USER_STAKE_LEVEL_UPDATED, this.updateChips.bind(this), this);
+    }
+
+    onDestroy() {
+        uiManager.removeListenersWithTarget(this);
     }
 
     setNeedResetCurrentChip(status: boolean) {
@@ -321,7 +330,7 @@ export default class BetChips extends cc.Component {
                 onComplete();
             }
         };
-        if (!chipNode.activeInHierarchy || !cc.RedT.GAME_IS_SHOWED) {
+        if (!chipNode.activeInHierarchy || !appManager.GAME_IS_SHOWED) {
             onEnded();
         } else {
             chipNode.runAction(

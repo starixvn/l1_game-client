@@ -4,25 +4,26 @@ import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analyt
 import { appContainer, lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
-import NotificationService from "../../../common/auth/NotificationService";
 import GameUtils from "../../../common/GameUtils";
 import { truncateFixedDecimals } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
+import { userManager } from "../../../common/user/UserManager";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
+import { appManager } from "../../../managers/AppManager";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import Category from "../../category/view-models/Category";
 import NewsContent from "../../news/NewsContent";
 import PromotionNotificationsHandler from "../../promotions/PromotionNotificationsHandler";
-import { Promotions } from "../../promotions/Promotions";
 import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 import * as authManager from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
 import Banner from "./Banner";
 import CategoryItem from "./CategoryItem";
-import GameUIManager from "./GameUIManager";
 import Header from "./Header";
 import LobbyManager from "./LobbyManager";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
@@ -108,8 +109,8 @@ export default class Lobby extends cc.Component {
     private loadedOtherIconsAndBanners = false;
 
     onDestroy() {
-        cc.RedT.MiniPanel = null;
-        cc.RedT.inGame = null;
+        appManager.miniPanel = null;
+        appManager.currentScene = null;
         window.isSSO = false;
         PromotionNotificationsHandler.getInstance().setJoinGameId(0);
         this.removeGameUIEvent();
@@ -117,22 +118,15 @@ export default class Lobby extends cc.Component {
 
     onLoad() {
         document.cookie = "redT=1702;path=/";
-
-        cc.RedT.inGame = this;
-
-        NotificationService.getInstance().connect();
-        NotificationService.getInstance().emitEvent("promotionNotifications", {});
+        appManager.currentScene = this;
         this.initMiniPanel();
-
-        this.callTriggerSignIn();
+        this.checkToShowSignName();
         this.loadCategory();
         this.onLoadLobby();
         MusicPlayer.getInstance().init();
 
         this.initScrollListener();
         this.initGameUIEvents();
-        this.initPromotions();
-        this.onClickJoinGame();
         this.trackOnLoadEvents();
     }
 
@@ -162,14 +156,12 @@ export default class Lobby extends cc.Component {
     }
 
     initGameUIEvents() {
-        const manager = GameUIManager.getInstance();
-        manager.emitterListener(GameUIManager.Events.LOAD_OTHER_ICONS_AND_BANNERS, () => {
-            this.loadOtherIconsAndBanners();
-        });
+        uiManager.emitterListener(InternalEvents.LOAD_OTHER_ICONS_AND_BANNERS, this.loadOtherIconsAndBanners.bind(this), this);
+        uiManager.emitterListener(InternalEvents.OPEN_GAME_MINI, this.loadOtherIconsAndBanners.bind(this), this);
+    }
 
-        manager.emitterListener(GameUIManager.Events.OPEN_GAME_MINI, () => {
-            this.loadOtherIconsAndBanners();
-        });
+    removeGameUIEvent() {
+        uiManager.removeListenersWithTarget(this);
     }
 
     loadOtherIconsAndBanners() {
@@ -179,17 +171,6 @@ export default class Lobby extends cc.Component {
         this.loadedOtherIconsAndBanners = true;
         this.lobbyMenu.loadHiddenIcons();
         this.banner.reloadBanner(true);
-    }
-
-    initPromotions() {
-        Promotions.getInstance().addDataObserver();
-        PromotionNotificationsHandler.getInstance().addDataObserver();
-    }
-
-    removeGameUIEvent() {
-        const manager = GameUIManager.getInstance();
-        manager.removeEmitterListener(GameUIManager.Events.LOAD_OTHER_ICONS_AND_BANNERS);
-        manager.removeEmitterListener(GameUIManager.Events.OPEN_GAME_MINI);
     }
 
     initScrollListener() {
@@ -247,7 +228,7 @@ export default class Lobby extends cc.Component {
         const categoryList = LobbyManager.getInstance().getCategoryList();
         categoryList.forEach(({ index, gameIds }) => {
             const isNew = gameIds.some(
-                (gameId) => this.lobbyMenuConfig.isNewGame(gameId, index) && cc.RedT.user?.offerGames?.includes(gameId)
+                (gameId) => this.lobbyMenuConfig.isNewGame(gameId, index) && userManager.offerGames.includes(gameId)
             );
             const categoryNode = this.categoryContainer.children.find((child) => child.name === index.toString());
             if (categoryNode && index !== 0) {
@@ -291,23 +272,23 @@ export default class Lobby extends cc.Component {
     initMiniPanel() {
         const miniPanelNode = cc.instantiate(this.miniPanelPrefab);
         this.miniPanel = miniPanelNode.getComponent(MiniPanel);
-        cc.RedT.MiniPanel = this.miniPanel;
+        appManager.miniPanel = this.miniPanel;
         this.redhat.insertChild(miniPanelNode, 1);
     }
 
-    callTriggerSignIn() {
-        if (authManager && !cc.RedT.IS_LOGIN) {
-            authManager.triggerSignIn(this);
+    checkToShowSignName() {
+        if (!appManager.authorized) {
+            this.showSignName();
         }
     }
 
     onLoadLobby() {
-        if (cc.RedT.IS_LOGIN) {
+        if (appManager.authorized) {
             this.onSignIn();
-            this.header.setUserName(cc.RedT.user.name);
-            this.header.setBalance(this.formatUserCurrency(cc.RedT.user.red));
-            this.header.setAvatar(cc.RedT.user.avatarId);
-            (cc.RedT.user.availSpins || cc.RedT.user.scoins) && this.header.showScoins(cc.RedT.user.scoins);
+            this.header.setUserName(userManager.userName);
+            this.header.setBalance(this.formatUserCurrency(userManager.balance));
+            this.header.setAvatar(userManager.avatarId);
+            (userManager.availSpins || userManager.scoins) && this.header.showScoins(userManager.scoins);
 
             this.renderLuckyWheelIcon();
         }
@@ -343,14 +324,14 @@ export default class Lobby extends cc.Component {
         if (!this.initializedLobby) {
             const storage = cc.sys.localStorage.getItem("latestOfferGames");
             if (storage) {
-                cc.RedT.user.offerGames = JSON.parse(storage);
+                userManager.updateOfferGame(JSON.parse(storage));
             }
             this.initLobbyCategoryBanner(true);
         }
     }
 
     initLobbyCategoryBanner(loadAllBanners: boolean) {
-        if (cc.RedT.user.offerGames.length === 0) {
+        if (userManager.offerGames.length === 0) {
             this.showNotice({ text: i18n.t("messages.noGameOffer") });
         }
         this.initLobbyMenu();
@@ -407,9 +388,7 @@ export default class Lobby extends cc.Component {
     }
 
     handleUserData(user) {
-        cc.RedT.userData(user);
-        this.loadUserData(user);
-
+        userManager.updateUser(user);
         try {
             if (user.name) {
                 if (this.loading) {
@@ -425,14 +404,14 @@ export default class Lobby extends cc.Component {
     }
 
     formatUserCurrency(red, currency = null, isDisplayPlayerCurrency = false) {
-        const userCurrency = isDisplayPlayerCurrency || cc.RedT?.user?.isDisplayPlayerCurrency ? this.getUserCurrency(currency) : "";
+        const userCurrency = isDisplayPlayerCurrency || userManager.isDisplayPlayerCurrency ? this.getUserCurrency(currency) : "";
 
         return `${truncateFixedDecimals(red, 2)} ${userCurrency}`;
     }
 
     getUserCurrency(currency = null) {
-        if (cc.RedT.user.currency) {
-            return cc.RedT.user.currency.toUpperCase();
+        if (userManager.currency) {
+            return userManager.currency.toUpperCase();
         } else {
             return currency ? currency : "";
         }
@@ -470,8 +449,7 @@ export default class Lobby extends cc.Component {
     }
 
     signOut() {
-        cc.RedT.user = {};
-        cc.RedT.IS_LOGIN = false;
+        userManager.updateUser({});
         this.AllReset();
         cc.sys.localStorage.removeItem("infoRed8");
         authManager.signOut();
@@ -483,8 +461,6 @@ export default class Lobby extends cc.Component {
     }
 
     signIn() {
-        cc.RedT.IS_LOGIN = true;
-
         if (this.signName && this.signName.node) {
             const commonDialog = this.signName.dialogNode.getComponent(CommonDialog);
             commonDialog.closeDialog(false);
@@ -506,13 +482,6 @@ export default class Lobby extends cc.Component {
         const inRoomGameId = sessionManager.getInRoomGameId();
         if (inRoomGameId) {
             GameUtils.openGame(+inRoomGameId, this.miniPanel, null);
-        }
-    }
-
-    onClickJoinGame() {
-        const gameRoomId = PromotionNotificationsHandler.getInstance()._joinGameId;
-        if (gameRoomId) {
-            GameUtils.openGame(+gameRoomId, this.miniPanel, null);
         }
     }
 
@@ -544,7 +513,7 @@ export default class Lobby extends cc.Component {
 
     renderLuckyWheelIcon() {
         return new Promise<void>((resolve) => {
-            if (!this.luckyWheelIcon && cc.RedT.user.availSpins > 0) {
+            if (!this.luckyWheelIcon && userManager.availSpins > 0) {
                 GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
                     if (!this.luckyWheelIcon) {
                         const node = cc.instantiate(prefab);
@@ -561,9 +530,9 @@ export default class Lobby extends cc.Component {
     }
 
     openLuckyWheel() {
-        if (cc.RedT.user && cc.RedT.user.name) {
+        if (userManager.userName) {
             this.renderLuckyWheelIcon().then(() => {
-                this.luckyWheelIcon && cc.RedT.user.availSpins && this.luckyWheelIcon.openGame();
+                this.luckyWheelIcon && userManager.availSpins && this.luckyWheelIcon.openGame();
             });
         }
     }
@@ -585,7 +554,9 @@ export default class Lobby extends cc.Component {
 
     handleSignName(response) {
         if (response.authorized) {
+            appManager.authorized = true;
             this.handleUserData(response.user);
+            this.serviceAuthorized(response.authorized);
         } else {
             const errorCode = response.errorCode;
             const text = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });

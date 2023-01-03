@@ -4,7 +4,8 @@ import * as _ from "lodash";
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
-import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 import BonusDialog from "./BonusDialog";
 import { ClassicSlotSound } from "./ClassicSlotSound";
 import SlotBottomArea from "./SlotBottomArea";
@@ -270,7 +271,7 @@ export default class StandardSlotGame extends SlotGameBase {
             return;
         }
         this.playSound(ClassicSlotSound.CLICK);
-        const symbolCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId];
+        const symbolCache = uiManager.prefabCache.slotSymbols[this.gameId];
         const spine = symbolCache[symbol];
 
         const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
@@ -287,7 +288,7 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     async loadSlotSymbols() {
-        const prefabCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
+        const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
         for (let index = 0; index < this.slotGameConfigs.itemTypeCount; index++) {
             if (prefabCache[index]) {
                 continue;
@@ -304,11 +305,11 @@ export default class StandardSlotGame extends SlotGameBase {
             prefabCache[index] = data;
         }
 
-        GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] = prefabCache;
+        uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
     }
 
     async loadWinningSymbolAnimation() {
-        const prefabCache = GameUIManager.getInstance().prefabCache.slotWinningAnimation[this.gameId] || {};
+        const prefabCache = uiManager.prefabCache.slotWinningAnimation[this.gameId] || {};
 
         if (prefabCache !== null) {
             const path = `preload/symbol-spines/winning-animation`;
@@ -320,7 +321,7 @@ export default class StandardSlotGame extends SlotGameBase {
                 type: sp.SkeletonData
             });
 
-            GameUIManager.getInstance().prefabCache.slotWinningAnimation[this.gameId] = data;
+            uiManager.prefabCache.slotWinningAnimation[this.gameId] = data;
         }
     }
 
@@ -471,6 +472,6 @@ export default class StandardSlotGame extends SlotGameBase {
 
     clickOutsideReelArea() {
         this.expandableMenu.collapseMenu();
-        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_OUTSIDE_REEL_AREA);
+        uiManager.emitter.emit(InternalEvents.CLICK_OUTSIDE_REEL_AREA);
     }
 }

@@ -1,6 +1,6 @@
 import axios from "axios";
-
 import UserServiceClient from "sc-user-service-client";
+
 import * as sessionManager from "../../common/auth/SessionManager";
 import * as Configs from "../../configs/Configs";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
@@ -39,7 +39,7 @@ export default class UserService {
         return buildUrlWithPath(path);
     }
 
-    private static getRequestOptions(): object {
+    private static getRequestOptions() {
         return {
             session: window?.authData?.ss,
             username: window?.authData?.username,

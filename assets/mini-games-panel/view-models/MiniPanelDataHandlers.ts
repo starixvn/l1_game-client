@@ -5,7 +5,9 @@ import GameUtils from "../../common/GameUtils";
 import { isSessionTimeoutError } from "../../common/helpers/ErrorCodeHelper";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
+import { userManager } from "../../common/user/UserManager";
 import NoticeUtil from "../../common/utils/NoticeUtil";
+import { appManager } from "../../managers/AppManager";
 import * as authManager from "./../../common/auth/AuthManager";
 import { showMessageForExpiredToken } from "./../../common/auth/AuthManager";
 import { removeInRoomGameId, getSession } from "./../../common/auth/SessionManager";
@@ -66,7 +68,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (data.userStakeLevel && this.main.node.activeInHierarchy) {
-            cc.RedT.userStakeLevelData(data.userStakeLevel);
+            userManager.updateUserStakeLevel(data.userStakeLevel);
         }
     }
 
@@ -95,7 +97,7 @@ export default class MiniPanelDataHandlers {
 
     handleAuth(data: any) {
         if (data.authorized) {
-            cc.RedT.MiniPanel && cc.RedT.MiniPanel.onSignIn();
+            appManager.miniPanel?.onSignIn();
         } else {
             if (data.umInfo) {
                 NotificationService.getInstance().forceKickedOut();
@@ -123,7 +125,7 @@ export default class MiniPanelDataHandlers {
         }
 
         if (error.maxBet && error.maxBet > 0 && this.main.node.activeInHierarchy) {
-            cc.RedT.userStakeLevelData(error);
+            userManager.updateUserStakeLevel(error);
         }
 
         this.main.showErrorNotice(error);

@@ -1,6 +1,7 @@
 import _ = require("lodash");
 
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
+import { appManager } from "../../../managers/AppManager";
 import RoomPlayer, { PlayerData } from "../../_base/view-models/RoomPlayer";
 import TableGameBase from "../view-models/TableGameBase";
 
@@ -129,7 +130,7 @@ export const handlePlaceTotalChips = (mainGame: TableGameBase) => (dataChips) =>
 export const handlePlayerChipAction = (mainGame: TableGameBase) => (playerChip) => {
     mainGame.playerChips.push(playerChip);
 
-    if (!mainGame.node.activeInHierarchy || !cc.RedT.GAME_IS_SHOWED) {
+    if (!mainGame.node.activeInHierarchy || !appManager.GAME_IS_SHOWED) {
         mainGame.placePlayerChip(playerChip);
     } else {
         let delayTime = 0;

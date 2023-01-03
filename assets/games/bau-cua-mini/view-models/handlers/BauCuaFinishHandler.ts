@@ -1,3 +1,4 @@
+import { appManager } from "../../../../managers/AppManager";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import BauCua from "../BauCua";
 
@@ -14,7 +15,7 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
         this.main.setDices(dataFinish.result);
         this.main.thePlate.opacity = 0;
 
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             cc.tween(this.main.node)
                 .call(() => this.main.showOpenPlateEffect(true))
                 .delay(0.1)

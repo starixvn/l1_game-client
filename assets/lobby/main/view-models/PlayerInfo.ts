@@ -1,6 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { shortenName } from "../../../common/helpers/NicknameHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { userManager } from "../../../common/user/UserManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,8 +21,7 @@ export default class PlayerInfo extends cc.Component {
     }
 
     setName(name: string) {
-        const isLoginUser = name === cc.RedT.user.name;
-        this.playerName.string = isLoginUser ? name : shortenName(name);
+        this.playerName.string = userManager.isLoginUser(name) ? name : shortenName(name);
     }
 
     setAmount(amount: number) {

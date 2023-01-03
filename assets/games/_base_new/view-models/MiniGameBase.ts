@@ -3,6 +3,7 @@ import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import ExtraFeature from "../../../common/extra-features/ExtraFeature";
 import GameIdSprite from "../../../common/GameIdSprite";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
+import { appManager } from "../../../managers/AppManager";
 import { onReceiveLoginPlayerStatus, onReceiveOthersStatus } from "../../_base/action/PayChipsAction";
 import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -338,7 +339,7 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     showStatus(status: any) {
-        if (!cc.RedT.GAME_IS_SHOWED) {
+        if (!appManager.GAME_IS_SHOWED) {
             return;
         }
 

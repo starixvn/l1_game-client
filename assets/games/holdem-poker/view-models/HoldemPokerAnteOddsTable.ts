@@ -23,26 +23,26 @@ export default class HoldemPokerAnteOddsTable extends cc.Component {
     straightOrLower: cc.Label = null;
 
     set RoyalFlush(value: number) {
-        this.royalFlush.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.royalFlush.string = formatOdds(value);
     }
 
     set StraightFlush(value: number) {
-        this.straightFlush.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.straightFlush.string = formatOdds(value);
     }
 
     set FourOfAKind(value: number) {
-        this.fourOfAKind.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.fourOfAKind.string = formatOdds(value);
     }
 
     set FullHouse(value: number) {
-        this.fullHouse.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.fullHouse.string = formatOdds(value);
     }
 
     set Flush(value: number) {
-        this.flush.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.flush.string = formatOdds(value);
     }
 
     set StraightOrLower(value: number) {
-        this.straightOrLower.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.straightOrLower.string = formatOdds(value);
     }
 }

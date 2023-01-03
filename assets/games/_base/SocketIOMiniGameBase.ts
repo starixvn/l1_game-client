@@ -2,6 +2,7 @@ import { lazyInject } from "../../Application";
 import AudioManager from "../../common/audio/AudioManager";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
 import { MINI_GAMES_SCALE_ON_DESKTOP } from "../../common/GameUtils";
+import { userManager } from "../../common/user/UserManager";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 
@@ -65,8 +66,7 @@ export default class SocketIOMiniGameBase extends GameBase {
         super.onData(data);
 
         if (data.user) {
-            cc.RedT.inGame?.loadUserData(data.user);
-            cc.RedT.userData(data.user);
+            userManager.updateUser(data.user);
         }
 
         if (data.history && this.historyComponent) {

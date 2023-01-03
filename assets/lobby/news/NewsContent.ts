@@ -3,6 +3,7 @@ import _ = require("lodash");
 import NotificationService from "../../common/auth/NotificationService";
 import BaseComponent from "../../common/BaseComponent";
 import NoticeUtil from "../../common/utils/NoticeUtil";
+import { appManager } from "../../managers/AppManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,7 +58,7 @@ export default class NewsContent extends BaseComponent {
     }
 
     onData(data) {
-        if (!cc.RedT.GAME_IS_SHOWED) {
+        if (!appManager.GAME_IS_SHOWED) {
             return;
         }
 

@@ -9,6 +9,6 @@ export default class HoldemPokerAaOddsTable extends HoldemPokerAnteOddsTable {
     pairOfAcesOrHigher: cc.Label = null;
 
     set PairOfAcesOrHigher(value: number) {
-        this.pairOfAcesOrHigher.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.pairOfAcesOrHigher.string = formatOdds(value);
     }
 }

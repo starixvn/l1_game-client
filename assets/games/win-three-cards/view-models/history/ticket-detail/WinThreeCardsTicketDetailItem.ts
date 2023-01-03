@@ -1,6 +1,7 @@
 import { i18n } from "../../../../../ClientModules";
 import { formatDateTime } from "../../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../../common/helpers/NumberHelper";
+import { userManager } from "../../../../../common/user/UserManager";
 import GameTicketDetailItemBase from "../../../../_base/view-models/GameTicketDetailItemBase";
 import { StringHelper } from "../../WinThreeCardsHelper";
 import { WinThreeCardsBetLogDetails, WinThreeCardsOdds, WinThreeCardsSettlementResult } from "../../WinThreeCardsModel";
@@ -34,7 +35,7 @@ export default class WinThreeCardsTicketDetailItem extends GameTicketDetailItemB
         const { time, choice, amount } = betLogDetail;
         this.time.string = formatDateTime(time);
         this.choice.string = i18n.t(`${StringHelper.winThreeCardsNameSpace}.${choice}`);
-        this.odds.string = cc.RedT?.user?.fractionalOddsFormat ? numberWithCommas(+odds[choice] - 1, 2) : odds[choice];
+        this.odds.string = userManager.fractionalOddsFormat ? numberWithCommas(+odds[choice] - 1, 2) : odds[choice];
         this.amount.string = numberWithCommas(amount);
 
         const effectiveOdds = freeBet ? odds[choice] - 1 : odds[choice];

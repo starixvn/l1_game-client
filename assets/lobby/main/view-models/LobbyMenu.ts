@@ -1,8 +1,9 @@
 import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
+import { userManager } from "../../../common/user/UserManager";
+import { uiManager } from "../../../managers/GameUIManager";
 import GameIconMenu from "./GameIconMenu";
-import GameUIManager from "./GameUIManager";
 import LobbyManager from "./LobbyManager";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 import SkeletonIcon from "./SkeletonIcon";
@@ -118,7 +119,7 @@ export default class LobbyMenu extends GameIconMenu {
 
     getListGamesFromCurrentCategory() {
         const list = LobbyManager.getInstance().getGameIdsByCategoryIndex(this.currentCategory);
-        return list?.filter((i) => cc.RedT.user.offerGames.some((j) => j === i)) ?? [];
+        return list?.filter((i) => userManager.offerGames.some((j) => j === i)) ?? [];
     }
 
     onInitialized() {
@@ -267,9 +268,9 @@ export default class LobbyMenu extends GameIconMenu {
     itemPressed(id: number, node: cc.Node) {
         AudioManager.getInstance().playClick();
         GameUtils.clearGameSetting(id);
-        GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
+        GameUtils.unCacheAndHideGameLoading(uiManager.getCurrentGameId());
         const skeletonComp = node.getComponent(SkeletonIcon);
-        GameUIManager.getInstance().cacheIconLoading(id, skeletonComp.gameLoading);
+        uiManager.cacheIconLoading(id, skeletonComp.gameLoading);
         GameUtils.openGame(id, this.miniPanel);
     }
 }

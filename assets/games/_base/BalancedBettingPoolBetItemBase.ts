@@ -2,6 +2,7 @@ import GameUtils from "../../common/GameUtils";
 import { getStringHourByTime } from "../../common/helpers/DateTimeHelper";
 import { shortenName } from "../../common/helpers/NicknameHelper";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import { userManager } from "../../common/user/UserManager";
 import GameTicketDetailItemBase from "./view-models/GameTicketDetailItemBase";
 
 const { ccclass, property } = cc._decorator;
@@ -28,15 +29,16 @@ export default class BalancedBettingPoolBetItemBase extends GameTicketDetailItem
     }
 
     setData(data: any, userRate: number, multiplier, index: number) {
-        const isLoginUser = data.name === cc.RedT.user.name;
+        const isLoginUser = userManager.isLoginUser(data.name);
         this.highlight.active = isLoginUser;
         this.time.string = getStringHourByTime(data.time);
         this.username.string = isLoginUser ? data.name : shortenName(data.name);
 
-        const convertValue = GameUtils.getTicketValueByCurrency(data.amount, userRate, data.rate || multiplier);
+        const rate = data.rate || multiplier;
+        const convertValue = GameUtils.getTicketValueByCurrency(data.amount, userRate, rate);
         this.betAmount.string = numberWithCommas(convertValue, 2);
 
-        const convertRefund = GameUtils.getTicketValueByCurrency(data.refund, userRate, data.rate || multiplier);
+        const convertRefund = GameUtils.getTicketValueByCurrency(data.refund, userRate, rate);
         this.refund.string = numberWithCommas(convertRefund, 2);
         this.setBackground(index);
     }

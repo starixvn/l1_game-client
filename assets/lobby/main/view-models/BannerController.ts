@@ -1,8 +1,9 @@
 import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
+import { appManager } from "../../../managers/AppManager";
+import { uiManager } from "../../../managers/GameUIManager";
 import BannerItem from "./BannerItem";
-import GameUIManager from "./GameUIManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -226,9 +227,9 @@ export default class BannerController extends cc.Component {
     openGame(e, gameId) {
         AudioManager.getInstance().playClick();
         GameUtils.clearGameSetting(gameId);
-        GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
-        GameUIManager.getInstance().setCurrentGameId(gameId);
-        GameUtils.openGame(+gameId, cc.RedT.MiniPanel);
+        GameUtils.unCacheAndHideGameLoading(uiManager.getCurrentGameId());
+        uiManager.setCurrentGameId(gameId);
+        GameUtils.openGame(+gameId, appManager.miniPanel);
 
         AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
             location: cc.director.getScene().name,

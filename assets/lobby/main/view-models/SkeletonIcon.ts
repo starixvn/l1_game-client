@@ -1,8 +1,8 @@
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import Loading from "../../../common/loading/view-models/Loading";
+import { uiManager } from "../../../managers/GameUIManager";
 import SplashConfig from "../../../splash/view-models/SplashConfig";
-import GameUIManager from "./GameUIManager";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -41,7 +41,6 @@ export default class SkeletonIcon extends cc.Component {
     private readonly timeGap = 0.125;
 
     async setGameContent(id: number, batchIndex: number, categoryIndex: number, addListIconObscure: (icon: SkeletonIcon) => void) {
-        const uiManager = GameUIManager.getInstance();
         if (!uiManager.prefabCache.lobbyIcons[id] && batchIndex !== 0) {
             addListIconObscure(this);
             this.scheduleOnce(async () => {
@@ -53,7 +52,6 @@ export default class SkeletonIcon extends cc.Component {
     }
 
     async loadAnimation(id: number, categoryIndex: number) {
-        const uiManager = GameUIManager.getInstance();
         let prefab: cc.Prefab;
         if (uiManager.prefabCache.lobbyIcons[id]) {
             prefab = uiManager.prefabCache.lobbyIcons[id];

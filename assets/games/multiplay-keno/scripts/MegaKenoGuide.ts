@@ -1,7 +1,8 @@
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import AudioManager from "../../../common/audio/AudioManager";
-import { MegaKeno1Id } from "./MegaKenoConfig";
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
+import { userManager } from "../../../common/user/UserManager";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
+import { MegaKeno1Id } from "./MegaKenoConfig";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -40,7 +41,7 @@ export default class MegaKenoGuide extends cc.Component {
             language,
             { minBet, maxBet, used: game.isUsingMaxStakeLevel() },
             false,
-            cc.RedT?.user?.fractionalOddsFormat
+            userManager.fractionalOddsFormat
         );
         this.content.sendDataToIframe(game.gameConfigs);
         this.content.loadWebView();

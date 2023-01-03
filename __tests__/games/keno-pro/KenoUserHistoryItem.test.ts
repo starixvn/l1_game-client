@@ -10,8 +10,6 @@ describe("Test class KenoUserHistoryItem", () => {
     let node: cc.Node;
     let comp: KenoUserHistoryItem;
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.user = { rate: 1 };
         node = new cc.Node();
         comp = node.addComponent(KenoUserHistoryItem);
         comp.bg = new cc.Node();

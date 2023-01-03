@@ -6,6 +6,7 @@ export default class MusicPlayer {
     private nameSongManager: NameSongManager;
     public isPlayBgMusic = false;
     public isJoinRoomMusic = false;
+    public initialized = false;
     protected bgMusicId: number;
     readonly volumeDefault = 0.7;
     readonly musicChangedKey = "lobby";
@@ -31,10 +32,6 @@ export default class MusicPlayer {
 
     private get audioManager() {
         return AudioManager.getInstance();
-    }
-
-    set joinRoomMusic(status: boolean) {
-        this.isJoinRoomMusic = status;
     }
 
     stopBackgroundAudio() {
@@ -106,7 +103,8 @@ export default class MusicPlayer {
     }
 
     init() {
-        this.joinRoomMusic = false;
+        this.initialized = true;
+        this.isJoinRoomMusic = false;
         if (!this.isPlayBgMusic) {
             this.playBgAudio(this.audioManager.musicEnabled);
         }

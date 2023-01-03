@@ -7,8 +7,11 @@ import BetBoard, { BetInfo } from "../../common/bet-board/view-models/BetBoard";
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
+import { userManager } from "../../common/user/UserManager";
 import SocketIOMiniGameBase from "./SocketIOMiniGameBase";
 import BalancedBettingPoolBetItem from "./view-models/BalancedBettingPoolBetItem";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,6 +53,13 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
         this.presetBetPrefab && this.initPresetBetBoard();
         this.initBetBoard();
+
+        uiManager.emitterListener(InternalEvents.USER_STAKE_LEVEL_UPDATED, this.updateBetBoard.bind(this), this);
+    }
+
+    onDestroy() {
+        super.onDestroy();
+        uiManager.removeListenersWithTarget(this);
     }
 
     onSelectBetChoiceClick(event: cc.Event, choice: string) {
@@ -82,7 +92,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         this.node.addChild(node);
         node.active = false;
 
-        this.presetBetSettingKey = `presetBet_${this.gameName}_${cc.RedT.user.UID}`;
+        this.presetBetSettingKey = `presetBet_${this.gameName}_${userManager.UID}`;
         this.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
 
         AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {

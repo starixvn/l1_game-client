@@ -1,4 +1,5 @@
 import AudioManager from "../../../assets/common/audio/AudioManager";
+import { userManager } from "../../../assets/common/user/UserManager";
 import BetItem from "../../../assets/games/_base/view-models/BetItem";
 
 describe("Test class BetItem", () => {
@@ -7,9 +8,8 @@ describe("Test class BetItem", () => {
     let item: any;
     let label: cc.Label;
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.user = { rate: 1 };
         AudioManager.getInstance().playClick = () => {};
+        userManager.user.rate = 1;
         node = new cc.Node();
         node.name = "big";
         betItem = node.addComponent(BetItem);
@@ -102,10 +102,10 @@ describe("Test class BetItem", () => {
     describe("setData", () => {
         it("should call setTotalBet", () => {
             const data = { totalBets: { big: 100 } };
+            const setTotalBetSpy = jest.spyOn(item, "setTotalBet");
 
             betItem.setData(data);
 
-            const setTotalBetSpy = jest.spyOn(item, "setTotalBet");
             expect(setTotalBetSpy).toBeCalledWith(100);
             expect(betItem.totalBet.string).toEqual("100");
         });

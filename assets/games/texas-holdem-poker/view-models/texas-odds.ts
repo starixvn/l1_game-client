@@ -15,7 +15,7 @@ export default class TexasOdds extends cc.Component {
 
     set OddValue(value: number) {
         try {
-            this.oddValue.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+            this.oddValue.string = formatOdds(value);
         } catch (error) {
             console.log("oddName, oddValue, key", this.oddName, this.oddValue, this.key);
         }

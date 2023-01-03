@@ -16,6 +16,7 @@ import ProcessingWarning from "../../common/processing-warning/view-models/Proce
 import TypingLabel from "../../common/typing-label/view-models/TypingLabel";
 import UmWarning from "../../common/um-warning/UmWarning";
 import UserProfile from "../../common/user-profile/UserProfile";
+import { userManager } from "../../common/user/UserManager";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
@@ -209,10 +210,7 @@ export default class GameBase extends GameViewBase {
     }
 
     getUserBalance(): number {
-        if (!cc.RedT || !cc.RedT.user) {
-            return 0;
-        }
-        return cc.RedT.user.red;
+        return userManager.balance;
     }
 
     onLoad() {
@@ -586,7 +584,7 @@ export default class GameBase extends GameViewBase {
             language,
             { minBet, maxBet, used: this.isUsingMaxStakeLevel() },
             isInPromotionTime,
-            cc.RedT?.user.fractionalOddsFormat
+            userManager.fractionalOddsFormat
         );
         guide.sendDataToIframe(this.gameConfigs);
         this.currentMiniPanel.showGuide(dialog);
@@ -604,7 +602,7 @@ export default class GameBase extends GameViewBase {
             language,
             { minBet, maxBet, used: this.isUsingMaxStakeLevel() },
             false,
-            cc.RedT?.user.fractionalOddsFormat,
+            userManager.fractionalOddsFormat,
             "&md5=1"
         );
         guide.sendDataToIframe(this.gameConfigs);
@@ -617,11 +615,11 @@ export default class GameBase extends GameViewBase {
     }
 
     getMaxBet(): number {
-        return Math.min(this.gameConfigs.maxBet, cc.RedT.userStakeLevel.maxBet);
+        return Math.min(this.gameConfigs.maxBet, userManager.stakeLevel.maxBet);
     }
 
     getMinBet(): number {
-        return Math.max(this.gameConfigs.minBet, cc.RedT.userStakeLevel.minBet);
+        return Math.max(this.gameConfigs.minBet, userManager.stakeLevel.minBet);
     }
 
     protected getNormalBetRange() {
@@ -633,7 +631,7 @@ export default class GameBase extends GameViewBase {
     }
 
     protected getVipBetRange() {
-        return cc.RedT.userStakeLevel;
+        return userManager.stakeLevel;
     }
 
     showMiniWarningLimitBetChanged() {
@@ -644,7 +642,7 @@ export default class GameBase extends GameViewBase {
         let updated = false;
 
         if (data.maxBet && data.minBet && this.node.activeInHierarchy) {
-            updated = cc.RedT.userStakeLevelData(data);
+            updated = userManager.updateUserStakeLevel(data);
         }
         return updated;
     }
@@ -798,7 +796,7 @@ export default class GameBase extends GameViewBase {
         const betData = {
             amount: bet,
             betChoice: choice,
-            username: cc.RedT.user.name
+            username: userManager.userName
         };
 
         this.sendSocketData("bet", betData);

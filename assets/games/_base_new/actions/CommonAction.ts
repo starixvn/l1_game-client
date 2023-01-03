@@ -1,6 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import { appManager } from "../../../managers/AppManager";
 import { GameState } from "../../_base/GameState";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MiniGameBase from "../view-models/MiniGameBase";
@@ -123,7 +124,7 @@ export const handleShowResult = (game: MiniGameBase) => (settlement) => {
     }
 
     const isDelayEndGame = game.gameData.durations.isBeforePlacingBet();
-    if (isDelayEndGame || !cc.RedT.GAME_IS_SHOWED) {
+    if (isDelayEndGame || !appManager.GAME_IS_SHOWED) {
         game.gameData.settlement.finishShowResult(settlement, false);
     } else {
         game.isShowingSettlementOnUI = true;

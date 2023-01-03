@@ -1,4 +1,5 @@
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import { appManager } from "../../../managers/AppManager";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { SedieId } from "../../sedie/view-models/Sedie";
 
@@ -9,7 +10,7 @@ export default class LuckyWheelBanner extends cc.Component {
     private miniPanel: MiniPanel;
 
     onLoad() {
-        this.miniPanel = cc.RedT.MiniPanel;
+        this.miniPanel = appManager.miniPanel;
     }
 
     openSedie() {

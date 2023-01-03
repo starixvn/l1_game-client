@@ -20,34 +20,49 @@ export default class NotificationService {
     private reConnectTimeOut;
     private isForceKickedOut = false;
 
-    connect() {
+    async connect() {
         if (this.socket || this.isForceKickedOut) {
             return;
         }
 
-        const socketOptions: Partial<ManagerOptions & SocketOptions> = {
-            forceNew: false,
-            transports: ["websocket"],
-            upgrade: false,
-            path: `/${getEnvironment()}notification/socket.io`,
-            auth: {
-                ss: window.authData.ss,
-                username: window.authData.username
-            }
-        };
-
-        if (enableMsgpackParserOnNotification) {
-            socketOptions.parser = MsgpackParser;
-        }
-
-        this.socket = io(buildUrl(), socketOptions);
-
-        this.socket.on("connect_error", (error) => {
+        try {
+            await this.createSocket();
+            this.initListeners();
+        } catch (error) {
             sentryLogger.logError(error);
             this.socket && this.socket.disconnect();
             this.reconnect();
-        });
+        }
+    }
 
+    private async createSocket() {
+        return new Promise<void>((resolve, reject) => {
+            const socketOptions: Partial<ManagerOptions & SocketOptions> = {
+                forceNew: false,
+                transports: ["websocket"],
+                upgrade: false,
+                path: `/${getEnvironment()}notification/socket.io`,
+                auth: {
+                    ss: window.authData.ss,
+                    username: window.authData.username
+                }
+            };
+
+            if (enableMsgpackParserOnNotification) {
+                socketOptions.parser = MsgpackParser;
+            }
+
+            this.socket = io(buildUrl(), socketOptions);
+            this.socket.on("connect", () => {
+                resolve();
+            });
+            this.socket.on("connect_error", (error) => {
+                reject(error);
+            });
+        });
+    }
+
+    private initListeners() {
         this.socket.on("disconnect", (reason, detail: any) => {
             if (reason === "ping timeout" || reason === "transport error") {
                 const message = detail?.message || detail?.description || "";
@@ -78,7 +93,7 @@ export default class NotificationService {
         });
     }
 
-    reconnect() {
+    private reconnect() {
         this.socket = null;
 
         this.reConnectTimeOut && clearTimeout(this.reConnectTimeOut);
@@ -93,7 +108,7 @@ export default class NotificationService {
     }
 
     emitEvent(eventName, data) {
-        if (!this.socket) {
+        if (!this.socket || !this.socket.connected) {
             return;
         }
         try {

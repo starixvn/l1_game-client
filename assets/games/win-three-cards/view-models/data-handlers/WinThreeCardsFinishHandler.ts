@@ -1,12 +1,12 @@
-import BaccaratFinishHandler from "../../../baccarat/view-models/data-handlers/BaccaratFinishHandler";
-import WinThreeCards from "../WinThreeCards";
 import { i18n } from "../../../../ClientModules";
-import { WinThreeCardsResult, WinThreeCardsSettlementResult } from "../WinThreeCardsModel";
-import { Choices } from "../WinThreeCardsConstant";
-import { StringHelper } from "../WinThreeCardsHelper";
-import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
 import { payChips, payoutLoginPlayer, showWinningEffectForPlayers } from "../../../_base/action/PayChipsAction";
+import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
+import BaccaratFinishHandler from "../../../baccarat/view-models/data-handlers/BaccaratFinishHandler";
+import WinThreeCards from "../WinThreeCards";
+import { Choices } from "../WinThreeCardsConstant";
+import { StringHelper } from "../WinThreeCardsHelper";
+import { WinThreeCardsResult, WinThreeCardsSettlementResult } from "../WinThreeCardsModel";
 
 export const GapTime = {
     normal: 0.8,

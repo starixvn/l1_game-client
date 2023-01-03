@@ -26,13 +26,11 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
 
     private readonly dataKey = "promotionNotifications";
 
-    public _reloadAnnouncementPopup = false;
+    private _reloadAnnouncementPopup = false;
 
-    public _joinGameId: number;
+    private _joinGameId: number;
 
-    public _promotionNotifications: PromotionNotification[];
-
-    private offerGames: number[];
+    private _promotionNotifications: PromotionNotification[];
 
     public static getInstance(): PromotionNotificationsHandler {
         if (!this.instance) {
@@ -66,11 +64,12 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
     }
 
     receivedData(data: PromotionNotification[]) {
-        const offerGamesStorage = cc.sys.localStorage.getItem("offerGames");
-        if (offerGamesStorage) {
-            this.offerGames = JSON.parse(offerGamesStorage);
+        const offerGames = [];
+        const storage = cc.sys.localStorage.getItem("offerGames");
+        if (storage) {
+            offerGames.push(...JSON.parse(storage));
         }
-        const newPromotionNotification = data.filter((promotionNotification) => this.offerGames?.includes(promotionNotification.gameId));
+        const newPromotionNotification = data.filter((promotionNotification) => offerGames.includes(promotionNotification.gameId));
         if (JSON.stringify(this._promotionNotifications) === JSON.stringify(newPromotionNotification)) {
             this._reloadAnnouncementPopup = false;
         } else {

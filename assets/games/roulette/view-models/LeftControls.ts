@@ -1,28 +1,14 @@
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
+import InGameMenu from "../../../common/in-game-menu/InGameMenu";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class LeftControls extends cc.Component {
-    @property(cc.Node)
-    homeButton: cc.Node = null;
-
-    @property(cc.Node)
-    guideButton: cc.Node = null;
-
-    @property(cc.Node)
-    historyButton: cc.Node = null;
-
-    @property(cc.Node)
-    statisticButton: cc.Node = null;
-
-    @property(ExpandableMenu)
-    expandableMenu: ExpandableMenu = null;
+    @property(InGameMenu)
+    ingameMenu: InGameMenu = null;
 
     collapseMenu() {
-        if (!this.expandableMenu) {
-            return;
-        }
-        this.expandableMenu.collapseMenu(false);
+        this.ingameMenu?.expandableMenu?.collapseMenu(false);
     }
 }

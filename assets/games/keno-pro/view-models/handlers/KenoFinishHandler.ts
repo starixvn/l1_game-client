@@ -1,3 +1,4 @@
+import { appManager } from "../../../../managers/AppManager";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import Keno from "../Keno";
 import KenoTimeHandler from "./KenoTimeHandler";
@@ -12,7 +13,7 @@ export default class KenoFinishHandler extends GameBaseFinishHandler {
         this.main.currentDataLogs.unshift(dataFinish);
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
 
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             this.main.node.runAction(
                 cc.sequence(
                     cc.callFunc(() => this.playResultAnimation()),

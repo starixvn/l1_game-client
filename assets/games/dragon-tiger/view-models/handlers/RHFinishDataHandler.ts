@@ -1,5 +1,6 @@
-import GameBaseFinishHandler from '../../../_base/handlers/GameBaseFinishHandler';
-import RongHo from '../RongHo';
+import { appManager } from "../../../../managers/AppManager";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
+import RongHo from "../RongHo";
 
 export default class RHFinishDataHandler extends GameBaseFinishHandler {
     constructor(protected readonly main: RongHo) {
@@ -13,7 +14,7 @@ export default class RHFinishDataHandler extends GameBaseFinishHandler {
 
         const result = dataFinish.result;
         this.main.resultCards = [result.dragon, result.tiger];
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             this.main.playAnimationResult();
         }
     }

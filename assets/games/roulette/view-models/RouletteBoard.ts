@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import { userManager } from "../../../common/user/UserManager";
 import BetDetailTip from "./BetDetailTip";
 import { RouletteBetInfo } from "./Roulette";
 import { RouletteBetType } from "./RouletteCommon";
@@ -85,7 +86,7 @@ export default class RouletteBoard extends cc.Component {
     }
 
     initImageBackground() {
-        const isFractionalOddsFormat = cc.RedT?.user?.fractionalOddsFormat;
+        const isFractionalOddsFormat = userManager.fractionalOddsFormat;
         this.imageDecimalOdds.active = !isFractionalOddsFormat;
         this.imageFractionalOdds.active = isFractionalOddsFormat;
     }

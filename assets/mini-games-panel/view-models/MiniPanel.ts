@@ -15,10 +15,12 @@ import ScaleActiveController from "../../common/scale-active-item/ScaleActiveCon
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import { getGameId, isMiniGame, isUsingRemoteBundle } from "../../configs/GameConfigurations";
 import CircleMenu from "../../lobby/main/view-models/CircleMenu";
-import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import BoostedOdds, { BoostedOddsEvent } from "../../lobby/promotions/BoostedOdds";
 import PromotionAnnouncements from "../../lobby/promotions/PromotionAnnouncements";
 import { Promotions, PromotionsEvent } from "../../lobby/promotions/Promotions";
+import { appManager } from "../../managers/AppManager";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
@@ -106,10 +108,8 @@ export default class MiniPanel extends BaseComponent {
     }
 
     onLoad() {
-        if (void 0 === cc.RedT.util.fontCong) {
-            cc.RedT.util.fontCong = this.fontCong;
-            cc.RedT.util.fontTru = this.fontTru;
-        }
+        appManager.font.increaseMoney = this.fontCong;
+        appManager.font.decreaseMoney = this.fontTru;
 
         const loadingNode = cc.instantiate(this.loadingPrefab);
         this.loading = loadingNode.getComponent("Loading") as Loading;
@@ -146,25 +146,27 @@ export default class MiniPanel extends BaseComponent {
     }
 
     initPopUpMiniGames() {
-        GameUtils.loadResource(`minipanel/popup-mini-game/PopUpMiniGame`).then((prefab) => {
-            const popUpMiniGameNode = cc.instantiate(prefab);
-            this.popupMiniGame = popUpMiniGameNode.getComponent(PopupMinigames);
-            if (this.popupMiniGame) {
-                const backgroundPopUpMiniGameNode = this.miniMenu.getChildByName("frame");
-                const clickEventHandler = new cc.Component.EventHandler();
-                clickEventHandler.target = popUpMiniGameNode;
-                clickEventHandler.component = "PopupMinigames";
-                clickEventHandler.handler = "toggle";
-                backgroundPopUpMiniGameNode.getComponent(cc.Button).clickEvents.push(clickEventHandler);
-                this.popupMiniGame.background = backgroundPopUpMiniGameNode;
-                this.popupMiniGame.background.opacity = 0;
-            }
-            const gameMenu = popUpMiniGameNode.getChildByName("list")?.getComponent(CircleMenu);
-            if (gameMenu) {
-                gameMenu.miniPanel = this;
-            }
-            this.miniMenu.addChild(popUpMiniGameNode);
-        });
+        GameUtils.loadResource(`minipanel/popup-mini-game/PopUpMiniGame`)
+            .then((prefab) => {
+                const popUpMiniGameNode = cc.instantiate(prefab);
+                this.popupMiniGame = popUpMiniGameNode.getComponent(PopupMinigames);
+                if (this.popupMiniGame) {
+                    const backgroundPopUpMiniGameNode = this.miniMenu.getChildByName("frame");
+                    const clickEventHandler = new cc.Component.EventHandler();
+                    clickEventHandler.target = popUpMiniGameNode;
+                    clickEventHandler.component = "PopupMinigames";
+                    clickEventHandler.handler = "toggle";
+                    backgroundPopUpMiniGameNode.getComponent(cc.Button).clickEvents.push(clickEventHandler);
+                    this.popupMiniGame.background = backgroundPopUpMiniGameNode;
+                    this.popupMiniGame.background.opacity = 0;
+                }
+                const gameMenu = popUpMiniGameNode.getChildByName("list")?.getComponent(CircleMenu);
+                if (gameMenu) {
+                    gameMenu.miniPanel = this;
+                }
+                this.miniMenu.addChild(popUpMiniGameNode);
+            })
+            .catch((err) => console.warn("Failed to init mini game icons - " + err));
     }
 
     initBoostedOdds() {
@@ -202,17 +204,15 @@ export default class MiniPanel extends BaseComponent {
     }
 
     handleWhenNotJoinRoomGame(gameId) {
-        const uiManager = GameUIManager.getInstance();
-        uiManager.emitter.emit(GameUIManager.Events.LOAD_OTHER_ICONS_AND_BANNERS);
+        uiManager.emitter.emit(InternalEvents.LOAD_OTHER_ICONS_AND_BANNERS);
     }
 
     redirectToResultPage(redirectUrl) {
-        cc.RedT.resultPage = window.open(redirectUrl, "", "width=700,height=500");
-        if (cc.RedT.resultPage) {
-            cc.RedT.resultPage.focus();
-
+        appManager.resultPage = window.open(redirectUrl, "", "width=700,height=500");
+        if (appManager.resultPage) {
+            appManager.resultPage.focus();
             window.onbeforeunload = function () {
-                cc.RedT.resultPage.close();
+                appManager.resultPage?.close();
             };
         }
     }
@@ -286,7 +286,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openNewSocketMiniGame(e, id) {
-        GameUIManager.getInstance().setCurrentGameId(id);
+        uiManager.setCurrentGameId(id);
         this.loadGame(id, () => {
             this.gameMiniInitializers.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
@@ -296,7 +296,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openNewSocketTableGame(event, gameId) {
-        GameUIManager.getInstance().setCurrentGameId(gameId);
+        uiManager.setCurrentGameId(gameId);
         this.loadGame(gameId, () => {
             this.socketIOGameInitializers.openGame(gameId);
         });
@@ -334,7 +334,7 @@ export default class MiniPanel extends BaseComponent {
     loadGameRoom(name) {
         const gameId = getGameId(name);
 
-        if (GameUIManager.getInstance().getCurrentGameId() !== +gameId || isMiniGame(name)) {
+        if (uiManager.getCurrentGameId() !== +gameId || isMiniGame(name)) {
             return;
         }
 
@@ -344,20 +344,20 @@ export default class MiniPanel extends BaseComponent {
         cc.director.preloadScene(
             name,
             (completedCount, total, item) => {
-                if (GameUIManager.getInstance().getCurrentGameId() !== +gameId) {
+                if (uiManager.getCurrentGameId() !== +gameId) {
                     this.unCacheAndHideGameLoading(gameLoading, +gameId);
                     return;
                 }
                 gameLoading && gameLoading.onProgress(completedCount, total, item);
             },
             (error) => {
-                const loadingFromManager = GameUIManager.getInstance().getLoadingWithGameID(+gameId);
+                const loadingFromManager = uiManager.getLoadingWithGameID(+gameId);
                 loadingFromManager && this.unCacheAndHideGameLoading(gameLoading, +gameId);
 
                 if (error) {
                     this.onForceReload();
                 } else {
-                    GameUIManager.getInstance().getCurrentGameId() === +gameId && cc.director.loadScene(name);
+                    uiManager.getCurrentGameId() === +gameId && cc.director.loadScene(name);
                 }
             }
         );
@@ -442,8 +442,13 @@ export default class MiniPanel extends BaseComponent {
 
     redirectToLobby() {
         const currentSceneName = cc.director.getScene().name;
-
-        currentSceneName !== "Lobby" && cc.director.loadScene("Lobby");
+        if (currentSceneName !== "Lobby") {
+            if (appManager.isDirectMode) {
+                appManager.backToOperatorLobby();
+            } else {
+                cc.director.loadScene("Lobby");
+            }
+        }
     }
 
     addDialog(dialogNode: cc.Node) {
@@ -461,11 +466,11 @@ export default class MiniPanel extends BaseComponent {
 
     unCacheAndHideGameLoading(loadingComp: Loading, gameId: number) {
         loadingComp && loadingComp.setLoadingVisibility(false);
-        GameUIManager.getInstance().unCacheIconLoading(gameId);
+        uiManager.unCacheIconLoading(gameId);
     }
 
     getGameLoadingComp(gameId: number): Loading {
-        const loadingFromManager = GameUIManager.getInstance().getLoadingWithGameID(gameId);
+        const loadingFromManager = uiManager.getLoadingWithGameID(gameId);
         return loadingFromManager ? loadingFromManager : this.loading;
     }
 }

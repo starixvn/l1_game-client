@@ -1,8 +1,8 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import ColorAssembler2D from "../../../common/ColorAssembler2D";
 import GameUtils from "../../../common/GameUtils";
 import { formatOdds, numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
-import ColorAssembler2D from "../../../common/ColorAssembler2D";
 
 const { ccclass, property } = cc._decorator;
 
@@ -91,7 +91,7 @@ export default class BetItem extends cc.Component {
 
     public setOdd(value: string) {
         if (this.odds) {
-            this.odds.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+            this.odds.string = formatOdds(value);
         }
     }
 

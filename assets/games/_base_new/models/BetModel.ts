@@ -1,5 +1,6 @@
 import EventEmitterBase from "../../../common/emitter/EventEmitterBase";
 import GameUtils from "../../../common/GameUtils";
+import { userManager } from "../../../common/user/UserManager";
 
 type Choices = any;
 
@@ -62,7 +63,7 @@ export class BetModel extends EventEmitterBase {
         this.ownChip = ownChip;
         const { betChoice, amount } = ownChip;
         this.updateOwnChips(betChoice, { [amount]: 1 });
-        this.updateTotalChips(betChoice, cc.RedT.user.rate, { [amount]: 1 });
+        this.updateTotalChips(betChoice, userManager.rate, { [amount]: 1 });
         this.emit(BetModel.Events.CHANGE_OWN_CHIP, this.ownChip);
     }
 

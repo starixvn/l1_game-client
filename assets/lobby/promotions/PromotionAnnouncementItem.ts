@@ -1,8 +1,12 @@
+import { lazyInject } from "../../Application";
+import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import NoticeUtil from "../../common/utils/NoticeUtil";
+import { appManager } from "../../managers/AppManager";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
-import * as sessionManager from "../../common/auth/SessionManager";
+import SocketIOController from "../../SocketIOController";
 import PromotionNotificationsHandler from "./PromotionNotificationsHandler";
+
 const { ccclass, property } = cc._decorator;
 
 export const PromotionAnnouncementItemEvent = {
@@ -28,6 +32,9 @@ export default class PromotionAnnouncementItem extends cc.Component {
 
     public miniPanel: MiniPanel;
 
+    @lazyInject(SocketIOController)
+    private readonly socketIOControler: SocketIOController;
+
     public setData(data: any) {
         this.title.string = NoticeUtil.getMessageByLocale(data.title);
         this.title.node.getComponent(cc.LabelShadow).enabled = true;
@@ -39,14 +46,26 @@ export default class PromotionAnnouncementItem extends cc.Component {
         this.joinButton.node.on("click", this.onClickJoinGame.bind(this, data.gameId));
     }
 
-    onClickJoinGame(gameId: number) {
+    async onClickJoinGame(gameId: number) {
         const currentGameId = sessionManager?.getInRoomGameId();
         this.node.emit(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS);
         if (gameId.toString() === currentGameId) {
             return;
         }
-        !GameUtils.isMiniGame(gameId.toString()) && PromotionNotificationsHandler.getInstance().setJoinGameId(gameId);
-        GameUtils.openGame(this.getGameId(gameId), this.miniPanel);
+        if (!GameUtils.isMiniGame(gameId.toString())) {
+            PromotionNotificationsHandler.getInstance().setJoinGameId(gameId);
+            try {
+                await GameUtils.tryOpenGameDirect(gameId, this.socketIOControler);
+
+                if (appManager.currentScene?.onCloseGame) {
+                    appManager.currentScene.openOtherScene = true;
+                    appManager.currentScene.onCloseGame();
+                }
+                await GameUtils.loadSceneGame(gameId, this.socketIOControler);
+            } catch (error) {}
+        } else {
+            GameUtils.openGame(this.getGameId(gameId), this.miniPanel);
+        }
     }
 
     getGameId(gameId: number) {

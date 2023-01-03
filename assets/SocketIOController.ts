@@ -1,17 +1,33 @@
+import { BundleManager } from "bundle-management";
 import { injectable } from "inversify";
 import { io, ManagerOptions, Socket, SocketOptions } from "socket.io-client";
 import * as MsgpackParser from "socket.io-msgpack-parser";
 
+import { i18n } from "./ClientModules";
 import { getSession } from "./common/auth/SessionManager";
 import GameUtils from "./common/GameUtils";
 import { buildServerUrl, getProxyRoute } from "./common/helpers/UrlHelper";
 import { sentryLogger } from "./common/logger.js";
+import { userManager } from "./common/user/UserManager";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
-import { getGameConfiguration } from "./configs/GameConfigurations";
+import { getGameConfiguration, isUsingRemoteBundle } from "./configs/GameConfigurations";
+import { appManager } from "./managers/AppManager";
+import { uiManager } from "./managers/GameUIManager";
+import { InternalEvents } from "./managers/InternalEvents";
+
+enum SocketState {
+    NOT_CONNECT = 0,
+    CONNECTED,
+    CONNECT_ERROR,
+    SIGNED_IN
+}
 
 @injectable()
 export default class SocketIOController {
     private gameSockets = {};
+    private socketsState = {};
+
+    public gameScene = {};
 
     protected readonly multiplayGames = [
         50,
@@ -33,6 +49,21 @@ export default class SocketIOController {
         60
     ];
 
+    public openMiniGameSocket(gameId, forceNew) {
+        const proxyRoute = getProxyRoute(gameId);
+        const gameServerUrl = buildServerUrl("http", "", gameId);
+
+        const option = {
+            gameId,
+            socketUri: gameServerUrl,
+            proxyRoute,
+            forceNew,
+            enableMsgpackParser: enableMsgpackParserAllGames
+        };
+        const socket = this.createGameSocket(option);
+        this.assignSocket(gameId, socket);
+        return socket;
+    }
     public openNewGameRoomSocket(gameId: number) {
         this.closeSocket(gameId);
         let socket: Socket = this.getSocketGame(gameId);
@@ -54,7 +85,7 @@ export default class SocketIOController {
         return this.gameSockets[gameId.toString()];
     }
 
-    assignSocket(gameId: number, socket: Socket) {
+    private assignSocket(gameId: number, socket: Socket) {
         this.gameSockets[gameId.toString()] = socket;
     }
 
@@ -68,7 +99,7 @@ export default class SocketIOController {
             enableMsgpackParser: enableMsgpackParserAllGames,
             gameId
         };
-        return this.connectGameSocket(option);
+        return this.createGameSocket(option);
     }
 
     initBaseListenersForSocketUrl(socket, gameId, onConnectFailed, onConnectCallback?) {
@@ -89,7 +120,114 @@ export default class SocketIOController {
         return this.multiplayGames.includes(+gameId);
     }
 
-    connectGameSocket = (option: {
+    public async openGameSocket(gameId: number) {
+        return new Promise<void>(async (resolve, reject) => {
+            if (isUsingRemoteBundle(gameId)) {
+                //load bundle for get game name
+                await BundleManager.getInstance().loadBundle(`${gameId}`);
+            }
+
+            const isMiniGame = GameUtils.isMiniGame(gameId.toString());
+            this.closeSocket(gameId);
+            let socket: Socket = this.getSocketGame(gameId);
+            const multiplay = this.isMultiplayGame(gameId);
+            if (socket && !socket.connected && multiplay) {
+                socket.removeAllListeners();
+                socket.connect();
+            }
+
+            if (!socket) {
+                const gameServerUrl = buildServerUrl("http", "", gameId);
+                socket = this.createSocketByUrl(gameId, gameServerUrl);
+            }
+
+            this.newInitListeners(socket, gameId, isMiniGame);
+
+            this.assignSocket(gameId, socket);
+            this.socketsState[gameId] = SocketState.NOT_CONNECT;
+            const onGameConnectionError = () => {
+                const data = {
+                    text: i18n.t("messages.lostGameConnection", { gameName: GameUtils.getGameNameString(gameId) }),
+                    isInfo: false
+                };
+                uiManager.emitter.emit(InternalEvents.NOTICE, {
+                    data,
+                    onConfirm: null,
+                    onClose: () => appManager.backToOperatorLobby()
+                });
+            };
+            try {
+                await this.waitSocketConnected(gameId);
+                if (this.socketsState[gameId] === SocketState.CONNECT_ERROR) {
+                    throw new Error("Socket connect error game id " + gameId);
+                }
+                socket.emit("signin", getSession());
+                await this.waitGameSignedIn(gameId);
+            } catch (err) {
+                onGameConnectionError();
+                reject();
+            }
+
+            resolve();
+        });
+    }
+
+    private newInitListeners(socket, gameId: number, isMiniGame: boolean) {
+        socket.on("connect", () => {
+            this.socketsState[gameId] = SocketState.CONNECTED;
+        });
+        socket.on("connect_error", (error) => {
+            this.socketsState[gameId] = SocketState.CONNECT_ERROR;
+            console.log(error);
+            sentryLogger.logError(error);
+            socket.disconnect();
+        });
+        socket.on("disconnect", (reason, detail: any) => {
+            if (reason === "ping timeout" || reason === "transport error") {
+                const message = detail?.message || detail?.description || "";
+                const gameName = GameUtils.getGameNameString(gameId);
+                sentryLogger.log(`socket disconnect - ${gameName} - ${reason}:   ${message}`);
+            }
+        });
+        socket.on("signedIn", () => {
+            if (isMiniGame) {
+                this.socketsState[gameId] = SocketState.SIGNED_IN;
+            }
+        });
+        socket.on("message", (data) => {
+            if (data.um) {
+                if (data.um_message) {
+                    uiManager.emitter.emit(InternalEvents.GAME_IS_UM, { umMessage: data.um_message, gameId });
+                }
+            }
+            if (data.toGame) {
+                this.socketsState[gameId] = SocketState.SIGNED_IN;
+                this.gameScene[gameId] = data.toGame;
+            }
+
+            if (data.userStakeLevel) {
+                userManager.updateUserStakeLevel(data.userStakeLevel);
+            }
+
+            if (data.unauthorized) {
+                appManager.forceKickedOut();
+            }
+
+            if (data.notPermittedToPlay) {
+                uiManager.emitter.emit(InternalEvents.NOT_PERMITTED_TO_PLAY, { gameId });
+            }
+        });
+    }
+
+    private async waitGameSignedIn(gameId) {
+        await GameUtils.waitUntil(() => this.socketsState[gameId] === SocketState.SIGNED_IN, 200);
+    }
+
+    private async waitSocketConnected(gameId) {
+        await GameUtils.waitUntil(() => this.socketsState[gameId] !== SocketState.NOT_CONNECT, 200);
+    }
+
+    createGameSocket = (option: {
         socketUri: string;
         proxyRoute: string;
         forceNew: boolean;

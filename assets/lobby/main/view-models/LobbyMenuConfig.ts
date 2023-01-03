@@ -1,8 +1,9 @@
 import { injectable } from "inversify";
 
-import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import { ICashSystem, ICreditSystem, System } from "../../../System";
 import LobbyManager from "./LobbyManager";
+
+const FourGuardiansId = 29;
 
 @injectable()
 export default class LobbyMenuConfig extends System implements ICreditSystem, ICashSystem {

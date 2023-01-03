@@ -2,13 +2,14 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
 import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
-import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
-import Baccarat from "../Baccarat";
-import BaccaratLogsHandler from "./BaccaratLogsHandler";
-import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
+import { appManager } from "../../../../managers/AppManager";
+import BaccaratBigRoad from "../../../_baccarat/view-models/BaccaratBigRoad";
 import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
 import { payChips } from "../../../_base/action/PayChipsAction";
-import BaccaratBigRoad from "../../../_baccarat/view-models/BaccaratBigRoad";
+import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
+import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
+import Baccarat from "../Baccarat";
+import BaccaratLogsHandler from "./BaccaratLogsHandler";
 
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
     handle(data: any): boolean {
@@ -43,7 +44,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
             return;
         }
 
-        cc.RedT.GAME_IS_SHOWED && this.showCards(dataFinish, dataResultHash, baccaratMain, onFinishHandlingData);
+        appManager.GAME_IS_SHOWED && this.showCards(dataFinish, dataResultHash, baccaratMain, onFinishHandlingData);
     }
 
     protected getOwnMain(): any {

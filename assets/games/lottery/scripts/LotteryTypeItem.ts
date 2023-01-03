@@ -20,6 +20,6 @@ export default class LotteryTypeItem extends cc.Component {
 
     setOdds(value: string) {
         this.odds.node.active = true;
-        this.odds.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.odds.string = formatOdds(value);
     }
 }

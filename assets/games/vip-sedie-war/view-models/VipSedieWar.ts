@@ -28,7 +28,6 @@ export default class VipSedieWar extends VipSedie {
     @property(cc.Node)
     betChoicesNode: cc.Node = null;
 
-    @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
 
     protected internalInit() {
@@ -169,5 +168,12 @@ export default class VipSedieWar extends VipSedie {
 
     getBetChoiceString(choice: string): string {
         return VipSedieWarUtils.getBetChoiceString(choice);
+    }
+
+    onIngameMenuInitialized(node: cc.Node) {
+        super.onIngameMenuInitialized(node);
+        if (this.inGameMenu) {
+            this.expandableMenu = this.inGameMenu.expandableMenu;
+        }
     }
 }

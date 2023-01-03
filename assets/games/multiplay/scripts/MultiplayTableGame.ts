@@ -5,13 +5,15 @@ import GameUtils from "../../../common/GameUtils";
 import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import MultiplayGameStatisticBoard from "../../../common/statistic-board/MultiplayGameStatisticBoard";
 import UserProfile from "../../../common/user-profile/UserProfile";
+import { userManager } from "../../../common/user/UserManager";
+import { appManager } from "../../../managers/AppManager";
 import {
     closeGame,
     leaveGameRoom,
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame,
+    outRoomGame
 } from "../../_base/action/GameRoomActions";
 import GameBase from "../../_base/GameBase";
 import { GameState } from "../../_base/GameState";
@@ -60,6 +62,10 @@ export default class MultiplayTableGame extends MultiplayGame {
     subContainer: cc.Node;
     onUMGameIds = [];
 
+    closeGameByClick = false;
+    openOtherScene = false;
+    closingGameRoom = false;
+
     assignPropertiesForSingle(single: TableGameBase, isMain: boolean) {
         super.assignPropertiesForSingle(single, isMain);
         single.userProfile = this.userProfile;
@@ -72,15 +78,15 @@ export default class MultiplayTableGame extends MultiplayGame {
         super.onLoad();
 
         //for room game
-        cc.RedT && (cc.RedT.inGame = this);
-        this.loadUserData(cc.RedT?.user);
+        appManager.currentScene = this;
+        this.loadUserData(userManager.user);
         this.subContainer = this.subGamesArea[0];
         this.loading.active = true;
     }
 
     onDestroy() {
         super.onDestroy();
-        cc.RedT.inGame = null;
+        appManager.currentScene = null;
     }
 
     onEnable() {
@@ -131,10 +137,15 @@ export default class MultiplayTableGame extends MultiplayGame {
 
         node.on(InGameMenuEvents.OPEN_HISTORY, this.openHistory, this);
         node.on(InGameMenuEvents.OPEN_GUIDE, this.openGuide, this);
-        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGame, this);
+        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGameClick, this);
         node.on(InGameMenuEvents.OPEN_STATISTIC, this.onScoreBoardClick, this);
         node.on(InGameMenuEvents.CHANGE_WINNING_NOTIFICATION, this.onWinningNotificationClick, this);
         return node;
+    }
+
+    onCloseGameClick() {
+        this.closeGameByClick = true;
+        this.onCloseGame();
     }
 
     openHistory() {

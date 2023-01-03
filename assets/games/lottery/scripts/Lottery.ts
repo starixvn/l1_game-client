@@ -73,9 +73,6 @@ export default class Lottery extends SocketIOTableGameBase {
     @property(cc.Toggle)
     statsToggle: cc.Toggle = null;
 
-    @property(ExpandableMenu)
-    expandableMenu: ExpandableMenu = null;
-
     @property(cc.Node)
     bettingNotice: cc.Node = null;
 
@@ -92,6 +89,7 @@ export default class Lottery extends SocketIOTableGameBase {
     stats = {};
     resultTween: cc.Tween;
     winningTween: cc.Tween;
+    expandableMenu: ExpandableMenu = null;
 
     constructor() {
         super();
@@ -122,7 +120,7 @@ export default class Lottery extends SocketIOTableGameBase {
 
     protected onChangedBetChip(bet) {
         super.onChangedBetChip(bet);
-        this.expandableMenu.collapseMenu();
+        this.expandableMenu?.collapseMenu();
     }
 
     start() {
@@ -245,7 +243,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     onChoiceBet(name: string) {
-        this.expandableMenu.collapseMenu();
+        this.expandableMenu?.collapseMenu();
         if (!this.isReadyBet()) {
             return;
         }
@@ -268,7 +266,7 @@ export default class Lottery extends SocketIOTableGameBase {
         const id = this.lotteryTypeItems.findIndex((item) => item.toggle === toggle);
         this.currentTypeIndex = id;
         this.showChoiceBoard(this.currentTypeIndex);
-        this.expandableMenu.collapseMenu();
+        this.expandableMenu?.collapseMenu();
         this.updateSettingStorage();
         this.updateHeaderColor();
         this.updateMiniRoundHistories();
@@ -609,5 +607,12 @@ export default class Lottery extends SocketIOTableGameBase {
     onResultClick() {
         AudioManager.getInstance().playClick();
         this.currentMiniPanel.openResultPage(this.gameId);
+    }
+
+    onIngameMenuInitialized(node: cc.Node) {
+        super.onIngameMenuInitialized(node);
+        if (this.inGameMenu) {
+            this.expandableMenu = this.inGameMenu.expandableMenu;
+        }
     }
 }

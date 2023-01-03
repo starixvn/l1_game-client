@@ -1,4 +1,5 @@
 import StatisticBoard from "../../../common/statistic-board/StatisticBoard";
+import { appManager } from "../../../managers/AppManager";
 import StandAloneTableGameBase from "../../_base_new/view-models/StandAloneTableGameBase";
 import StandAloneTableGameHistory from "../../_base_new/view-models/StandAloneTableGameHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
@@ -60,7 +61,7 @@ export default class Fantan extends StandAloneTableGameBase {
     }
 
     shakeThePlate() {
-        const animated = cc.RedT.GAME_IS_SHOWED;
+        const animated = appManager.GAME_IS_SHOWED;
         this.animation.playShakingAnimation(animated);
     }
 

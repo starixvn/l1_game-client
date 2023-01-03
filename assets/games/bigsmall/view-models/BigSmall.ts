@@ -301,12 +301,12 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
     public updateOddsFromConfigs() {
         if (this.gameConfigs.odds) {
-            this.odds.string = formatOdds(this.gameConfigs.odds[this.choices[0]], cc.RedT?.user?.fractionalOddsFormat);
+            this.odds.string = formatOdds(this.gameConfigs.odds[this.choices[0]]);
         }
     }
 
     public applyPromotion(values) {
-        this.odds.string = formatOdds(values[this.choices[0]], cc.RedT?.user?.fractionalOddsFormat);
+        this.odds.string = formatOdds(values[this.choices[0]]);
     }
 
     highLightBoostedOdds() {

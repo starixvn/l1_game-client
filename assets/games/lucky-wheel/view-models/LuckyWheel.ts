@@ -6,6 +6,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import UserService from "../../../common/auth/UserService";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { userManager } from "../../../common/user/UserManager";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
@@ -361,7 +362,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         }
 
         this.winningEffect.active = false;
-        if (cc.RedT.user.scoins) {
+        if (userManager.scoins) {
             const bannerNode = cc.instantiate(this.bannerPrefab);
             this.currentMiniPanel.addDialog(bannerNode);
         }

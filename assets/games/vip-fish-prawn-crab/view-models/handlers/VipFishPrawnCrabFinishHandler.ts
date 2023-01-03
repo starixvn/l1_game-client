@@ -1,3 +1,4 @@
+import { appManager } from "../../../../managers/AppManager";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import VipFishPrawnCrab from "../VipFishPrawnCrab";
 
@@ -12,7 +13,7 @@ export default class VipFishPrawnCrabFinishHandler extends GameBaseFinishHandler
         this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
         this.main.setResult();
 
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             cc.tween(this.main.node)
                 .call(this.openDisk.bind(this))
                 .delay(this.playResultAnimationTime)

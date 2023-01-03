@@ -1,3 +1,4 @@
+import { appManager } from "../../../managers/AppManager";
 import Sedie from "../../sedie/view-models/Sedie";
 import { SedieConfigs } from "../../sedie/view-models/SedieConfigs";
 import VipSedieLogHandler from "./handlers/VipSedieLogHandler";
@@ -36,7 +37,7 @@ export default class VipSedie extends Sedie {
     onDestroy() {
         cc.game.off(cc.game.EVENT_HIDE, this.onGameHide, this);
         cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
-        cc.RedT.inGame = null;
+        appManager.currentScene = null;
         this.socketIOController.closeSocket(this.gameId);
     }
 }

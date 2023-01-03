@@ -1,3 +1,4 @@
+import { appManager } from "../../../../managers/AppManager";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
 import SicBo from "../SicBo";
 
@@ -14,7 +15,7 @@ export default class SicBoFinishHandler extends GameBaseFinishHandler {
         const finishHandler = this.main.finishHandler as GameBaseFinishHandler;
         this.main.md5Component?.setDelayShowRawValue(finishHandler.getResultAnimationTime());
 
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             cc.tween(this.main.node)
                 .call(() => {
                     this.main.shakeAnimation.node.active = false;

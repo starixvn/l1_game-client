@@ -9,8 +9,6 @@ describe("Test class BaccaratBetItem", () => {
     let comp: BaccaratBetItem;
 
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.user = { rate: 1 };
         node = new cc.Node();
         comp = node.addComponent(BaccaratBetItem);
         comp.highlight = new cc.Node();

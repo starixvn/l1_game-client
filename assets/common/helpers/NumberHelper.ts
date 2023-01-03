@@ -1,3 +1,5 @@
+import { userManager } from "../user/UserManager";
+
 const formatCommasReg = /\B(?=(\d{3})+(?!\d))/g;
 const numberWithCommas = (number, toFixed = 1, noZeroSuffix = true) => {
     if (number) {
@@ -97,8 +99,8 @@ export function formatUserCurrency(balance, currency, isCash) {
     return `${this.numberWithCommas(balance)} ${isCash ? "" : userCurrency}`;
 }
 
-export const formatOdds = (value: number | string | undefined, isFractionalFormat = false) => {
-    return isFractionalFormat ? `${numberWithCommas(+value - 1, 2)}:1` : `1:${value}`;
+export const formatOdds = (value: number | string | undefined) => {
+    return userManager.fractionalOddsFormat ? `${numberWithCommas(+value - 1, 2)}:1` : `1:${value}`;
 };
 
 export { numberWithCommas, getOnlyNumberInString, numberPad, numberTo, zeroPad, nFormatter, truncateFixedDecimals };

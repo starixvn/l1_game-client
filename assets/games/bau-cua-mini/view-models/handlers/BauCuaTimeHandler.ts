@@ -1,4 +1,5 @@
 import AudioManager from "../../../../common/audio/AudioManager";
+import { appManager } from "../../../../managers/AppManager";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BauCua from "../BauCua";
 
@@ -17,7 +18,7 @@ export default class BauCuaTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             this.main.finishShakeThePlate = false;
             this.main.shakeAnimation.play();
             this.main.showDiceResult(false);

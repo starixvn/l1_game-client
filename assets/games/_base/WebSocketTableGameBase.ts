@@ -7,6 +7,8 @@ import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import UmWarning from "../../common/um-warning/UmWarning";
+import { userManager } from "../../common/user/UserManager";
+import { appManager } from "../../managers/AppManager";
 import SocketIOController from "../../SocketIOController";
 import {
     closeGame,
@@ -54,7 +56,7 @@ export default class WebSocketTableGameBase extends GameBase {
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
 
-    protected get WinningAnimationDuration() {
+    get WinningAnimationDuration() {
         return 3;
     }
 
@@ -68,11 +70,15 @@ export default class WebSocketTableGameBase extends GameBase {
         return !!this.musicBg;
     }
 
+    closeGameByClick = false;
+    openOtherScene = false;
+    closingGameRoom = false;
+
     onLoad() {
         super.onLoad();
-        cc.RedT && (cc.RedT.inGame = this);
+        appManager.currentScene = this;
         loadMiniPanel(this)();
-        this.loadUserData(cc.RedT?.user);
+        this.loadUserData(userManager.user);
         this.players.forEach((player) => (player.node.active = false));
         this.initBackgroundMusic();
         this.loading.active = true;
@@ -85,7 +91,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     onDestroy() {
         super.onDestroy();
-        cc.RedT.inGame = null;
+        appManager.currentScene = null;
     }
 
     initHandlers() {
@@ -128,6 +134,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     onCloseGameClick() {
         //keep function name, for old game prefab
+        this.closeGameByClick = true;
         this.onCloseGame();
     }
 
@@ -210,8 +217,7 @@ export default class WebSocketTableGameBase extends GameBase {
 
     protected onDataGameRoomGeneral(data: any) {
         if (data.user) {
-            this.loadUserData(data.user);
-            cc.RedT.userData(data.user);
+            userManager.updateUser(data.user);
         }
 
         if (data.kickedOut || data.apiError) {
@@ -227,8 +233,8 @@ export default class WebSocketTableGameBase extends GameBase {
 
         if (data.userStakeLevel) {
             if (
-                data.userStakeLevel.minBet !== cc.RedT.userStakeLevel.minBet ||
-                data.userStakeLevel.maxBet !== cc.RedT.userStakeLevel.maxBet
+                data.userStakeLevel.minBet !== userManager.stakeLevel.minBet ||
+                data.userStakeLevel.maxBet !== userManager.stakeLevel.maxBet
             ) {
                 if (this.updateUserStakeLevel(data.userStakeLevel)) {
                     this.showMiniWarningLimitBetChanged();
@@ -252,7 +258,7 @@ export default class WebSocketTableGameBase extends GameBase {
     initEventForInGameMenu() {
         const node = super.initEventForInGameMenu();
 
-        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGame, this);
+        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGameClick, this);
 
         return node;
     }

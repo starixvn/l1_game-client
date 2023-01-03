@@ -3,17 +3,15 @@
  * Date: 2021-10-12 08:20:48
  */
 import { getStringHourByTime } from "../../../assets/common/helpers/DateTimeHelper";
+import { shortenName } from "../../../assets/common/helpers/NicknameHelper";
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
+import { userManager } from "../../../assets/common/user/UserManager";
 import BalancedBettingPoolBetItemBase from "../../../assets/games/_base/BalancedBettingPoolBetItemBase";
 
 describe("Test class BalancedBettingPoolBetItemBase", () => {
     let node: cc.Node;
     let comp: BalancedBettingPoolBetItemBase;
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.user = { rate: 1 };
-        cc.RedT.user.name = "lele6001";
-
         node = new cc.Node();
         comp = node.addComponent(BalancedBettingPoolBetItemBase);
         comp.bg = new cc.Node();
@@ -46,10 +44,11 @@ describe("Test class BalancedBettingPoolBetItemBase", () => {
             comp.setData(data, rate, 1, 0);
 
             // Assert
-            const isLoginUser = data.name === cc.RedT.user.name;
+            const isLoginUser = userManager.isLoginUser(data.name);
+            const userName = isLoginUser ? data.name : shortenName(data.name);
             expect(comp.highlight.active).toEqual(isLoginUser);
             expect(comp.time.string).toMatch(getStringHourByTime(data.time));
-            expect(comp.username.string).toMatch(data.name);
+            expect(comp.username.string).toMatch(userName);
             expect(comp.betAmount.string).toMatch(numberWithCommas(data.amount, 2));
             expect(comp.refund.string).toMatch(numberWithCommas(data.refund, 2));
         });

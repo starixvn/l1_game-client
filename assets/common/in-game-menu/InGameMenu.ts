@@ -58,4 +58,9 @@ export default class InGameMenu extends cc.Component {
         this.doCommons();
         this.node.emit(InGameMenuEvents.CHANGE_ORIENTATION);
     }
+
+    onClickStatistics() {
+        this.doCommons();
+        this.node.emit(InGameMenuEvents.OPEN_STATISTIC);
+    }
 }

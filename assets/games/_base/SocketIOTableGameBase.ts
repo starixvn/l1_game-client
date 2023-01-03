@@ -1,3 +1,4 @@
+import { userManager } from "../../common/user/UserManager";
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
 
 const { ccclass } = cc._decorator;
@@ -91,7 +92,7 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     createCommonBetData() {
         return {
             amount: this.currentBet,
-            username: cc.RedT.user.name
+            username: userManager.userName
         };
     }
 

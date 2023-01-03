@@ -1,5 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { userManager } from "../../../common/user/UserManager";
 import GameTicketDetailItemBase from "../../_base/view-models/GameTicketDetailItemBase";
 
 const { ccclass, property } = cc._decorator;
@@ -17,7 +18,7 @@ export default class ThreeCardsTicketDetailItem extends GameTicketDetailItemBase
 
     setData({ choice, odds, bet }) {
         this.choice.string = GameUtils.getBetChoiceString(choice);
-        this.odds.string = cc.RedT?.user?.fractionalOddsFormat ? numberWithCommas(+odds - 1, 2) : odds;
+        this.odds.string = userManager.fractionalOddsFormat ? numberWithCommas(+odds - 1, 2) : odds;
         this.bet.string = numberWithCommas(bet);
     }
 

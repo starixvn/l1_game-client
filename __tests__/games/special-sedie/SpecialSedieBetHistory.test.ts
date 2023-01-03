@@ -6,9 +6,6 @@ describe("Test class SpecialSedieBetHistory", () => {
     let comp: SpecialSedieBetHistory;
 
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.user = { rate: 1 };
-
         node = new cc.Node();
         comp = node.addComponent(SpecialSedieBetHistory);
         comp.roundIdLabel = new cc.Node().addComponent(cc.Label);

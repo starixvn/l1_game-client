@@ -12,8 +12,6 @@ describe("Test class BitcoinMasterBetHistory", () => {
     let anyComp: any;
     let comp: BitcoinMasterBetHistory;
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.user = { rate: 1 };
         node = new cc.Node();
         comp = node.addComponent(BitcoinMasterBetHistory);
         anyComp = comp;

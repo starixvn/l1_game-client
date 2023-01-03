@@ -2,6 +2,7 @@ import { lodash } from "../../../ClientModules";
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import GameUtils from "../../../common/GameUtils";
+import { userManager } from "../../../common/user/UserManager";
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import { updatePreviousBets } from "../../_base_new/actions/BetAction";
@@ -92,7 +93,7 @@ export class FruitSlotBetHandler extends GameRoomBaseBetHandler {
             startNode: startNode,
             totalBet: this.main.gameData.totalBetAmount[data.betChoice],
             isOwnBet: true,
-            rate: cc.RedT.user.rate
+            rate: userManager.rate
         };
 
         this.handleChipStack(chipType);

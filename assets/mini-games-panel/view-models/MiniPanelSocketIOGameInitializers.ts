@@ -1,4 +1,5 @@
 import * as sessionManager from "../../common/auth/SessionManager";
+import { appManager } from "../../managers/AppManager";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
 export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIOInitializers {
@@ -9,7 +10,7 @@ export default class MiniPanelSocketIOGameInitializers extends MiniPanelSocketIO
             return;
         }
 
-        cc.RedT.inGame.outRoomGame().then(() => {
+        appManager.currentScene.outRoomGame().then(() => {
             sessionManager.removeInRoomGameId();
             this.openNewSocket(gameId);
         });

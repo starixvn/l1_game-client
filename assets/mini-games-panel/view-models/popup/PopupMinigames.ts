@@ -1,5 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import JackpotWinner from "../../../games/four-guardians/scripts/JackpotWinner";
+import { appManager } from "../../../managers/AppManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -23,13 +24,9 @@ export default class PopupMinigames extends cc.Component {
     public background: cc.Node = null;
 
     onLoad() {
-        cc.RedT.setting.popupMini = cc.RedT.setting.popupMini || {};
+        this.node.position = appManager.popupMiniGamesLastPosition;
         this.list.active = false;
         this.list.scale = 0;
-
-        if (void 0 !== cc.RedT.setting.popupMini.position) {
-            this.node.position = cc.RedT.setting.popupMini.position;
-        }
 
         // init jackpot winner icon
         const jackpot = cc.instantiate(this.jackpotWinnerPrefab);
@@ -110,7 +107,7 @@ export default class PopupMinigames extends cc.Component {
         posY = Math.min(maxY - fixTopPadding, posY);
 
         cc.tween(this.node).to(0.1, { x: posX, y: posY }, { easing: "sineOut" }).start();
-        cc.RedT.setting.popupMini.position = cc.v2(posX, posY);
+        appManager.popupMiniGamesLastPosition = cc.v3(posX, posY);
     }
 
     eventEnd(e) {
@@ -142,7 +139,6 @@ export default class PopupMinigames extends cc.Component {
     showListGame() {
         this.background.active = true;
         cc.tween(this.background).to(0.1, { opacity: 224 }).start();
-        cc.RedT.setting.popupMini.open = true;
         this.list.scale = 1;
 
         cc.tween(this.node)
@@ -159,8 +155,6 @@ export default class PopupMinigames extends cc.Component {
     }
 
     hideListGame() {
-        cc.RedT.setting.popupMini.open = false;
-
         cc.tween(this.node)
             .to(0.2, { scale: 0, opacity: 0 }, { easing: "sineIn" })
             .call(() => {

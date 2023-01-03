@@ -1,5 +1,6 @@
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import UserProfile from "../../common/user-profile/UserProfile";
+import { userManager } from "../../common/user/UserManager";
 import SedieWallet from "../sedie/view-models/SedieWallet";
 import MultiOrientationGame from "./MultiOrientationGame";
 import { Orientation } from "./Orientation";
@@ -56,9 +57,8 @@ export default class FreeBetGameBase extends MultiOrientationGame {
 
     public updateDisplayForRemoteConfig(): void {
         super.updateDisplayForRemoteConfig();
-        if (cc.RedT.user.scoins) {
-            this.updateDisplayScoinUI(cc.RedT.user.scoins);
-        }
+
+        this.updateDisplayScoinUI(userManager.scoins);
     }
 
     updateDisplayScoinUI(scoins) {

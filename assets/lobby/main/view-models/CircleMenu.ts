@@ -3,9 +3,12 @@ import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import { removeInRoomGameId } from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
+import { userManager } from "../../../common/user/UserManager";
+import { appManager } from "../../../managers/AppManager";
+import GameUIManager from "../../../managers/GameUIManager";
+import { UrlInfo } from "../../../managers/UrlInfo";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import GameIconMenu from "./GameIconMenu";
-import GameUIManager from "./GameUIManager";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 
 const { ccclass, property } = cc._decorator;
@@ -35,7 +38,7 @@ export default class CircleMenu extends GameIconMenu {
 
     getList() {
         const list = this.lobbyMenuConfig.miniList;
-        return list.filter((i) => i === 0 || cc.RedT.user.offerGames.some((j) => j === i));
+        return list.filter((i) => i === 0 || userManager.offerGames.some((j) => j === i));
     }
 
     loadPrefab(gameId: number): Promise<cc.Prefab> {
@@ -77,7 +80,7 @@ export default class CircleMenu extends GameIconMenu {
     }
 
     addItem(id: number, prefab: cc.Prefab): cc.Node {
-        if (!prefab) {
+        if (!prefab || (id === 0 && appManager.isDirectMode && !appManager.urlInfo[UrlInfo.ReturnUrl])) {
             return null;
         }
         const node = cc.instantiate(prefab);
@@ -126,7 +129,7 @@ export default class CircleMenu extends GameIconMenu {
 
         if (cc.director.getScene().name !== lobbySceneName) {
             removeInRoomGameId();
-            cc.RedT.inGame.closeGame();
+            appManager.currentScene.onCloseGameClick();
         } else {
             this.miniMenu.getComponent(PopupMinigames).hideListGame();
         }

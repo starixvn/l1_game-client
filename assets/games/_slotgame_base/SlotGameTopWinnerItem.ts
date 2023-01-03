@@ -1,4 +1,5 @@
 import { shortenName } from "../../common/helpers/NicknameHelper";
+import { userManager } from "../../common/user/UserManager";
 import { getStringDateByTime } from "./../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "./../../common/helpers/NumberHelper";
 
@@ -22,7 +23,7 @@ export default class SlotGameTopWinnerItem extends cc.Component {
     win: cc.Label = null;
 
     setData(player: any, index: number, showBigWin: boolean) {
-        const isLoginUser = player.name === cc.RedT.user.name;
+        const isLoginUser = userManager.isLoginUser(player.name);
         this.bg.active = index % 2 > 0;
         this.time.string = getStringDateByTime(player.time);
         this.player.string = isLoginUser ? player.name : shortenName(player.name);

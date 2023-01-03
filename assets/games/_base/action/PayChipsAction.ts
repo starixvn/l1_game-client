@@ -2,6 +2,7 @@ import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
 import { getLowercaseObjectKeys } from "../../../common/helpers/ObjectHelper";
+import { appManager } from "../../../managers/AppManager";
 import TableGameBaseInterface from "../../_base_new/view-models/TableGameBaseInterface";
 import BetItem from "../view-models/BetItem";
 
@@ -261,7 +262,7 @@ export const playWinningEffect = (mainRoomGame: TableGameBaseInterface, playerNo
 };
 
 export const dealerGetChipsMiniGame = (main: any, settlementResult: any, statusData: any, ownBets: any) => {
-    if (!cc.RedT.GAME_IS_SHOWED) {
+    if (!appManager.GAME_IS_SHOWED) {
         return;
     }
     const settlementResultKeys = getLowercaseObjectKeys(settlementResult);

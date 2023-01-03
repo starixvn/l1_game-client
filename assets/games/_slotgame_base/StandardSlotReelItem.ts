@@ -1,4 +1,4 @@
-import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../managers/GameUIManager";
 import SlotReelItem from "./SlotReelItem";
 
 const { ccclass, property } = cc._decorator;
@@ -16,7 +16,7 @@ export default class StandardSlotReelItem extends SlotReelItem {
     }
 
     public addWinningEffect() {
-        const cache = GameUIManager.getInstance().prefabCache.slotWinningAnimation[this.gameId] || {};
+        const cache = uiManager.prefabCache.slotWinningAnimation[this.gameId] || {};
         const spine = this.winningEffect.getComponent(sp.Skeleton);
         spine.skeletonData = cache;
         spine.premultipliedAlpha = this.premultipliedAlpha;
@@ -24,7 +24,7 @@ export default class StandardSlotReelItem extends SlotReelItem {
     }
 
     protected replaceItem(index: number, duration = 0) {
-        const cache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
+        const cache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
 
         if (this.effectSpine) {
             const anim = "idle";

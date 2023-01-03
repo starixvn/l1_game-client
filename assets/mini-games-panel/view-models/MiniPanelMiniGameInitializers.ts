@@ -1,11 +1,10 @@
 import { Socket } from "socket.io-client";
 
-import { buildServerUrl, getProxyRoute } from "../.././common/helpers/UrlHelper";
 import GameUtils from "../../common/GameUtils";
-import { enableMsgpackParserAllGames } from "../../configs/Configs";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 import GameViewBase from "../../games/_base/GameViewBase";
-import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 import MiniPanelSocketIOInitializers from "./MiniPanelSocketIOInitializers";
 
 export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInitializers {
@@ -24,7 +23,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     async openMiniGame(gameId) {
-        if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
+        if (uiManager.getCurrentGameId() !== gameId) {
             return;
         }
 
@@ -38,7 +37,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             this.main.loading.setDefaultPercent();
             try {
                 const prefab = await GameUtils.loadMiniGamePrefab(gameId, (completedCount, total, item) => {
-                    if (GameUIManager.getInstance().getCurrentGameId() !== gameId) {
+                    if (uiManager.getCurrentGameId() !== gameId) {
                         this.main.unCacheAndHideGameLoading(gameLoading, gameId);
                         return;
                     }
@@ -52,7 +51,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
 
                 this.main.unCacheAndHideGameLoading(gameLoading, gameId);
 
-                if (GameUIManager.getInstance().getCurrentGameId() !== gameId || this.main.getGameMini(gameId) !== undefined) {
+                if (uiManager.getCurrentGameId() !== gameId || this.main.getGameMini(gameId) !== undefined) {
                     return;
                 }
 
@@ -61,7 +60,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                 gameComponent.initMiniPanel(this.main);
                 this.main.addMiniGame(gameComponent, gameId);
                 gameComponent.openGame();
-                GameUIManager.getInstance().emitter.emit(GameUIManager.Events.OPEN_GAME_MINI);
+                uiManager.emitter.emit(InternalEvents.OPEN_GAME_MINI);
             } catch (error) {
                 console.error(error);
                 this.main.loading.node.active = false;
@@ -106,19 +105,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
     }
 
     createMiniGameSocket(gameId: number, forceNew: boolean): Socket {
-        const proxyRoute = getProxyRoute(gameId);
-        const gameServerUrl = buildServerUrl("http", "", gameId);
-
-        const option = {
-            gameId,
-            socketUri: gameServerUrl,
-            proxyRoute,
-            forceNew,
-            enableMsgpackParser: enableMsgpackParserAllGames
-        };
-        const socket = this.socketIOController.connectGameSocket(option);
-        this.socketIOController.assignSocket(gameId, socket);
-        return socket;
+        return this.socketIOController.openMiniGameSocket(gameId, forceNew);
     }
 
     initMiniGameSocketListeners(socket, gameId: number, gameName: string, gameContainer: any) {

@@ -8,9 +8,6 @@ describe("Test class GameBalancedBettingHistoryBase", () => {
     let node: cc.Node;
     let comp: GameBalancedBettingHistoryBase;
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.user = { rate: 1 };
-
         node = new cc.Node();
         comp = node.addComponent(GameBalancedBettingHistoryBase);
         comp.leftContent = new cc.Node();

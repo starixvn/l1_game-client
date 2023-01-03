@@ -1,17 +1,22 @@
+import { Base64 } from "base64-string";
 import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
-import { getGameConfiguration } from "../configs/GameConfigurations";
-import GameUIManager from "../lobby/main/view-models/GameUIManager";
+import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
 import LobbyManager from "../lobby/main/view-models/LobbyManager";
 import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
+import { appManager } from "../managers/AppManager";
+import { uiManager } from "../managers/GameUIManager";
+import { InternalEvents } from "../managers/InternalEvents";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
+import SocketIOController from "../SocketIOController";
 import BetChips from "./bet-chips/view-models/BetChips";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import { preloadAssets } from "./PreloadRemoteAsset";
 import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
+import { userManager } from "./user/UserManager";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
@@ -21,10 +26,18 @@ declare global {
 }
 
 export default class GameUtils {
+    static base64: Base64;
+
+    public static base64Decode(data: string): string {
+        if (!GameUtils.base64) {
+            GameUtils.base64 = new Base64();
+        }
+        return GameUtils.base64.decode(data);
+    }
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);
         temp.string = (win ? "+" : "-") + numberWithCommas(value, 2);
-        temp.font = win ? cc.RedT.util.fontCong : cc.RedT.util.fontTru;
+        temp.font = win ? appManager.font.increaseMoney : appManager.font.decreaseMoney;
         temp.lineHeight = 130;
         temp.fontSize = 30;
         temp.node.position = cc.v3(0, startY, 0);
@@ -188,6 +201,78 @@ export default class GameUtils {
         return GameUtils.getStorageGame("SpecificGame", gameId);
     }
 
+    public static async openGameDirect(gameId: number, socketIOController: SocketIOController) {
+        await GameUtils.tryOpenGameDirect(gameId, socketIOController);
+        await this.loadSceneGame(gameId, socketIOController);
+    }
+
+    public static async tryOpenGameDirect(gameId: number, socketIOController: SocketIOController) {
+        await socketIOController.openGameSocket(gameId);
+        await this.preloadGameRoom(gameId);
+    }
+
+    public static async loadSceneGame(gameId, socketIOController: SocketIOController) {
+        const sceneName = socketIOController.gameScene[gameId];
+        await new Promise<void>((resolve) => {
+            //start loading game
+            cc.director.preloadScene(
+                sceneName,
+                (progress, total) => {
+                    uiManager.emitter.emit(`${InternalEvents.LOADING_GAME}-${gameId}`, { progress, total });
+                },
+                (error) => {
+                    //hide loading for game
+                    if (error) {
+                        this.onForceReload();
+                    } else {
+                        cc.director.loadScene(sceneName, resolve);
+                    }
+                }
+            );
+        });
+    }
+
+    private static onForceReload(showNotice = true, message = i18n.t("messages.newUpdateAvailable")) {
+        const forceReload = () => {
+            location.reload();
+        };
+
+        if (showNotice) {
+            const data = {
+                text: message,
+                isInfo: true
+            };
+
+            uiManager.emitter.emit(InternalEvents.NOTICE, {
+                data,
+                onConfirm: null,
+                onClose: forceReload
+            });
+        } else {
+            forceReload();
+        }
+    }
+
+    public static preloadGameRoom(gameId) {
+        return new Promise((resolve) => {
+            const language = window.i18n.curLang;
+            if (isUsingRemoteBundle(gameId)) {
+                const path = `i18n/images/${language}`;
+                const preloadPath = `preload`;
+                BundleManager.getInstance()
+                    .loadBundle(`${gameId}`)
+                    .then((bundle: cc.AssetManager.Bundle) => {
+                        bundle.loadDir(preloadPath, () => {
+                            bundle.loadDir(path, cc.SpriteFrame, resolve);
+                        });
+                    })
+                    .catch(resolve);
+            } else {
+                cc.resources.loadDir(`image/${language}/${gameId}`, cc.SpriteFrame, null, resolve);
+            }
+        });
+    }
+
     public static async openGame(
         gameId: number,
         miniPanel: MiniPanel,
@@ -197,14 +282,7 @@ export default class GameUtils {
     ) {
         const gameConfiguration = getGameConfiguration(gameId);
 
-        if (!!gameConfiguration.remoteBundle) {
-            const bundleManager = BundleManager.getInstance();
-            const loading = miniPanel.getGameLoadingComp(gameId);
-            loading.setLoadingVisibility(true);
-
-            await bundleManager.loadBundle(gameId.toString());
-            await preloadAssets(gameId.toString());
-        }
+        await GameUtils.preloadGameAssets(gameConfiguration, miniPanel, gameId);
 
         if (!gameConfiguration.mini && gameId > 0) {
             cc.sys.localStorage.setItem(`orientation`, "");
@@ -214,6 +292,17 @@ export default class GameUtils {
 
         onOpenMiniGame && onOpenMiniGame();
         miniPanel.openNewSocketMiniGame(null, gameId);
+    }
+
+    private static async preloadGameAssets(gameConfiguration: GameConfiguration, miniPanel: MiniPanel, gameId: number) {
+        if (!!gameConfiguration.remoteBundle) {
+            const bundleManager = BundleManager.getInstance();
+            const loading = miniPanel.getGameLoadingComp(gameId);
+            loading.setLoadingVisibility(true);
+
+            await bundleManager.loadBundle(gameId.toString());
+            await preloadAssets(gameId.toString());
+        }
     }
 
     public static roundFixed(num: number, fixedNumber: number): number {
@@ -325,10 +414,11 @@ export default class GameUtils {
 
     public static getAvatarSprite(avatarId: number): Promise<cc.SpriteFrame> {
         return new Promise((resolve) => {
-            cc.resources.load<cc.SpriteAtlas>("profile-picture", cc.SpriteAtlas, (err, atlas) => {
-                const name = avatarId ? avatarId : 1;
-                const frame = atlas.getSpriteFrame(name.toString());
-                resolve(frame);
+            const name = avatarId ? avatarId : 1;
+            cc.resources.load<cc.SpriteFrame>(`avatars/${name}`, cc.SpriteFrame, (err, frame) => {
+                if (frame) {
+                    resolve(frame);
+                }
             });
         });
     }
@@ -363,7 +453,8 @@ export default class GameUtils {
         if (!otherRate) {
             otherRate = 1;
         }
-        return (value * otherRate) / cc.RedT.user.rate;
+
+        return (value * otherRate) / userManager.rate;
     }
 
     public static getTicketValueByCurrency(value: number, userRate?: number, otherRate?: number): number {
@@ -372,7 +463,7 @@ export default class GameUtils {
         }
 
         if (!userRate) {
-            userRate = cc.RedT.user.rate;
+            userRate = userManager.rate;
         }
         return (value * otherRate) / userRate;
     }
@@ -381,14 +472,9 @@ export default class GameUtils {
         let minBet = gameConfigs.minBet;
         let maxBet = gameConfigs.maxBet;
 
-        if (cc.RedT.userStakeLevel) {
-            const minStake = cc.RedT.userStakeLevel.minBet;
-            const maxStake = cc.RedT.userStakeLevel.maxBet;
-
-            minBet = Math.max(minStake, minBet);
-            maxBet = Math.min(maxStake, maxBet);
-        }
-
+        const userStakeLevel = userManager.stakeLevel;
+        minBet = Math.max(userStakeLevel.minBet, minBet);
+        maxBet = Math.min(userStakeLevel.maxBet, maxBet);
         return values.map((a) => +a).filter((value) => value >= minBet && value <= maxBet);
     }
 
@@ -450,6 +536,24 @@ export default class GameUtils {
         });
     }
 
+    public static waitUntil = async (condition, interval = 1000, max_wait = 10000) => {
+        const startTime = new Date().getTime();
+        for (;;) {
+            try {
+                if (await condition()) {
+                    return true;
+                }
+            } catch (e) {
+                throw e;
+            }
+
+            if (new Date().getTime() - startTime > max_wait) {
+                throw new Error("Max wait reached");
+            } else {
+                await new Promise((resolve) => setTimeout(resolve, interval));
+            }
+        }
+    };
     public static showNode(node: cc.Node, transitionTime = 0.3) {
         node.active = true;
         node.opacity = 0;
@@ -472,7 +576,6 @@ export default class GameUtils {
     }
 
     public static unCacheAndHideGameLoading(gameId: number) {
-        const uiManager = GameUIManager.getInstance();
         const loading = uiManager.getLoadingWithGameID(gameId);
         if (loading) {
             loading.setLoadingVisibility(false);

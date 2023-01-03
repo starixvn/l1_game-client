@@ -1,4 +1,5 @@
-import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,28 +14,21 @@ export default class SymbolPreview extends cc.Component {
     @property(cc.Node)
     border: cc.Node = null;
 
-    gameUIManager = GameUIManager.getInstance();
-    callbacks = {};
-    events = [
-        GameUIManager.Events.CLICK_AUTO_SPIN_BUTTON,
-        GameUIManager.Events.CLICK_LINE_SELECTION_BUTTON,
-        GameUIManager.Events.CLICK_SPIN_BUTTON,
-        GameUIManager.Events.CLICK_HAMBURGER_MENU,
-        GameUIManager.Events.CLICK_OUTSIDE_REEL_AREA
-    ];
-
     onLoad() {
-        this.events.forEach((event) => {
-            this.callbacks[event] = this.gameUIManager.emitterListener(event, () => {
-                this.hidePreview();
-            });
+        const events = [
+            InternalEvents.CLICK_AUTO_SPIN_BUTTON,
+            InternalEvents.CLICK_LINE_SELECTION_BUTTON,
+            InternalEvents.CLICK_SPIN_BUTTON,
+            InternalEvents.CLICK_HAMBURGER_MENU,
+            InternalEvents.CLICK_OUTSIDE_REEL_AREA
+        ];
+        events.forEach((event) => {
+            uiManager.emitterListener(event, this.hidePreview.bind(this), this);
         });
     }
 
     onDestroy() {
-        Object.keys(this.callbacks).forEach((key) => {
-            this.gameUIManager.emitter.removeListener(key, this.callbacks[key].callback);
-        });
+        uiManager.removeListenersWithTarget(this);
     }
 
     hidePreview() {

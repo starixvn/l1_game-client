@@ -61,8 +61,8 @@ export default class PromotionAnnouncements extends cc.Component {
     }
 
     public setData() {
-        const promotion = PromotionNotificationsHandler.getInstance()._promotionNotifications;
-        const isRenderItem = PromotionNotificationsHandler.getInstance()._reloadAnnouncementPopup;
+        const promotion = PromotionNotificationsHandler.getInstance().promotionNotifications;
+        const isRenderItem = PromotionNotificationsHandler.getInstance().reloadAnnouncementPopup;
         if (!this.count || !this.content) {
             return;
         }
@@ -70,8 +70,8 @@ export default class PromotionAnnouncements extends cc.Component {
             this.dialog.closeDialog();
             return;
         }
-        if (isRenderItem || this.announcementItems?.length < 1) {
-            this.announcementItems?.forEach((item) => item.destroy());
+        if (isRenderItem || this.announcementItems.length < 1) {
+            this.announcementItems.forEach((item) => item.destroy());
             this.announcementItems = [];
             this.count.string = promotion?.length.toString();
             this.count.node.parent.active = true;
@@ -80,11 +80,11 @@ export default class PromotionAnnouncements extends cc.Component {
                 this.content.addChild(node);
                 const item = node.getComponent(PromotionAnnouncementItem);
                 if (item) {
-                    item.miniPanel = this.miniPanel || cc.RedT.MiniPanel;
+                    item.miniPanel = this.miniPanel;
                 }
                 item.node.on(PromotionAnnouncementItemEvent.CLOSE_PROMOTIONS, () => this.dialog.closeDialog());
                 item.setData(detail);
-                this.announcementItems?.push(node);
+                this.announcementItems.push(node);
             });
         }
     }

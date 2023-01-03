@@ -2,6 +2,7 @@ import i18n from "i18n/runtime-scripts/LanguageData";
 
 import AudioManager from "../../../common/audio/AudioManager";
 import UserService from "../../../common/auth/UserService";
+import { appManager } from "../../../managers/AppManager";
 
 var BrowserUtil = require("BrowserUtil");
 const NameGenerator = require("../../../common/name-generator/NameGenerator");
@@ -96,7 +97,7 @@ cc.Class({
         BrowserUtil.focusEditBox(this.username);
     },
     isTop: function () {
-        return !cc.RedT.inGame.notice.node.active && !cc.RedT.inGame.loading.active;
+        return !appManager.currentScene.notice.node.active && !appManager.currentScene.loading.active;
     },
     clean: function () {
         this.username.string = "";

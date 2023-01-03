@@ -4,6 +4,8 @@ import axios from "axios";
 import { BundleManager } from "bundle-management";
 import { Container } from "inversify";
 import getDecorators from "inversify-inject-decorators";
+
+import LobbyMenuConfig from "./lobby/main/view-models/LobbyMenuConfig";
 import SocketIOController from "./SocketIOController";
 
 export class Application {
@@ -15,6 +17,7 @@ export class Application {
 
     configureServices() {
         this.container.bind<SocketIOController>(SocketIOController).toSelf().inSingletonScope();
+        this.container.bind<LobbyMenuConfig>(LobbyMenuConfig).toSelf().inSingletonScope();
     }
 }
 

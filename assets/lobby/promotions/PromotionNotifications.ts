@@ -15,7 +15,7 @@ export default class PromotionNotifications extends cc.Component {
     }
 
     showNotification() {
-        const promotion = PromotionNotificationsHandler.getInstance()._promotionNotifications;
+        const promotion = PromotionNotificationsHandler.getInstance().promotionNotifications;
         if (!this.icon || !this.countNode) {
             return;
         }

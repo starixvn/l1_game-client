@@ -1,3 +1,4 @@
+import { appManager } from "../../../../managers/AppManager";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import SpecialSeDie from "../SpecialSeDie";
 
@@ -34,7 +35,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
             this.main.enableHistoryButton();
 
             if (this.isDisplayResultTime) {
-                cc.RedT.GAME_IS_SHOWED && this.main.showResult();
+                appManager.GAME_IS_SHOWED && this.main.showResult();
                 this.main.showWinningAnimation();
                 this.main.currentTimeRemaining--;
             } else {
@@ -46,7 +47,7 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.statusHandler.currentStatusData = null;
-        cc.RedT.GAME_IS_SHOWED && this.shakeThePlate();
+        appManager.GAME_IS_SHOWED && this.shakeThePlate();
         this.main.highlightLastResult();
     }
 

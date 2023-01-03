@@ -66,14 +66,10 @@ export default class RongHo extends SocketIOMiniGameBase {
         super.initMiniPanel(miniPanel);
         this.gameId = RongHoId;
         this.setConfig(new RongHoConfigs());
-        cc.RedT.setting[this.gameName] = cc.RedT.setting[this.gameName] || {
-            bet: "1"
-        };
     }
 
     protected onChangedBetChip(bet) {
         super.onChangedBetChip(bet);
-        cc.RedT.setting[this.gameName].bet = bet;
     }
 
     public pressedHistoryDialog() {

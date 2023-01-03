@@ -1,7 +1,8 @@
+import NotificationService from "../../../common/auth/NotificationService";
 import GameUtils from "../../../common/GameUtils";
+import { userManager } from "../../../common/user/UserManager";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
-import NotificationService from "../../../common/auth/NotificationService";
 
 const { ccclass, property } = cc._decorator;
 
@@ -39,7 +40,7 @@ export default class JackpotWinner extends cc.Component {
     }
 
     onData(data: any) {
-        if (cc.RedT.user.name !== data.winnerName) {
+        if (userManager.userName !== data.winnerName) {
             const jackPotContainer = this.popupMiniGame.jackPotContainer;
             jackPotContainer.width = this.node.width;
             jackPotContainer.height = this.node.height;

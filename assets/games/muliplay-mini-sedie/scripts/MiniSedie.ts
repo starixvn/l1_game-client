@@ -1,6 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHistory";
+import { appManager } from "../../../managers/AppManager";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Durations } from "../../_new/_base/game-data-management/models/durations";
 import MultiplayGameSingle from "../../multiplay/scripts/MultiplayGameSingle";
@@ -156,7 +157,7 @@ export default class MiniSedie extends MultiplayGameSingle {
 
     showSettlementResult(settlement: any) {
         this.gameAudios && this.gameAudios.playEndGameAudio();
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             this.setDots(settlement.result);
             this.handleAnimResult();
         }

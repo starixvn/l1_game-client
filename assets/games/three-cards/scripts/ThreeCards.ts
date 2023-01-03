@@ -2,6 +2,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import MiniRoundHistory from "../../../common/mini-round-history/MiniRoundHistory";
 import NewCard from "../../../common/new-card/view-models/NewCard";
+import { userManager } from "../../../common/user/UserManager";
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import { ThreeCardsRoundData } from "./DataDefinition";
@@ -102,7 +103,7 @@ export default class ThreeCards extends SocketIOTableGameBase {
             const betData = {
                 amount: this.currentBet,
                 betChoice: event.target.name,
-                username: cc.RedT.user.name,
+                username: userManager.userName,
                 roundId: this.roundId,
                 time: new Date().toUTCString()
             };

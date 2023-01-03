@@ -1,4 +1,5 @@
 import AudioManager from "../../../../common/audio/AudioManager";
+import { appManager } from "../../../../managers/AppManager";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BigSmall, { DishAnimation } from "../BigSmall";
 
@@ -36,7 +37,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
             this.main.enableHistoryButton();
 
             if (this.isDisplayResultTime) {
-                cc.RedT.GAME_IS_SHOWED && this.main.showResult();
+                appManager.GAME_IS_SHOWED && this.main.showResult();
                 this.main.currentTimeRemaining--;
             } else {
                 super.gameUpdate();
@@ -47,7 +48,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
         this.main.statusHandler.currentStatusData = null;
-        cc.RedT.GAME_IS_SHOWED && this.shakeThePlate();
+        appManager.GAME_IS_SHOWED && this.shakeThePlate();
     }
 
     handleInRoundTime() {

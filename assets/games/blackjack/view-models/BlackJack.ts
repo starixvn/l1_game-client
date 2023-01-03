@@ -9,6 +9,7 @@ import NewButton from "../../../common/custom-button/NewButton";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
+import { userManager } from "../../../common/user/UserManager";
 import { GameState } from "../../_base/GameState";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
@@ -238,7 +239,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                     return;
                 }
 
-                if (this.getCurrentTotalAmount() + this.currentBet > cc.RedT.user.red) {
+                if (this.getCurrentTotalAmount() + this.currentBet > userManager.balance) {
                     this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
                     return;
                 }
@@ -461,7 +462,7 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     socketSendData(key: string, data: any) {
         if (data) {
-            data.username = cc.RedT.user.name;
+            data.username = userManager.userName;
             this.setIntervalReminder();
         }
 
@@ -604,7 +605,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.collectCardsOnTable(() => {
             let total = 0;
             this.lastHandBets.forEach((hand) => (total += hand.bet));
-            if (total > cc.RedT.user.red) {
+            if (total > userManager.balance) {
                 this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
                 this.showProcessingWarning(false);
 

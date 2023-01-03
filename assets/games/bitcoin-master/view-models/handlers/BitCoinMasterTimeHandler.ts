@@ -1,4 +1,5 @@
 import GameUtils from "../../../../common/GameUtils";
+import { appManager } from "../../../../managers/AppManager";
 import GameBaseTimeHandler from "../../../_base/handlers/GameBaseTimeHandler";
 import BitcoinMaster from "../BitcoinMaster";
 import BitCoinMasterAnimatedTime from "../BitCoinMasterAnimatedTime";
@@ -95,7 +96,7 @@ export default class BitcoinMasterTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
 
-        if (cc.RedT.GAME_IS_SHOWED) {
+        if (appManager.GAME_IS_SHOWED) {
             if (this.main.currentTimeRemaining === this.main.config.fullTime - 1) {
                 this.main.showResult(true);
                 this.main.showWinningAnimation(this.main.currentDataLogs[0]);

@@ -1,3 +1,4 @@
+import { appManager } from "../../../managers/AppManager";
 import MD5Component from "../../_base/view-models/MD5Component";
 import { clearChipsForLostChoices } from "../../_base_new/actions/NewPayChipsAction";
 import MegaKeno from "./MegaKeno";
@@ -47,7 +48,7 @@ export default class MegaKenoSubGame extends MegaKeno {
     }
 
     showStatus(status: any) {
-        if (!cc.RedT.GAME_IS_SHOWED) {
+        if (!appManager.GAME_IS_SHOWED) {
             return;
         }
 

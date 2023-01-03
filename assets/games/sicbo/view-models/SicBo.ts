@@ -91,7 +91,6 @@ export default class SicBo extends SocketIOTableGameBase {
     @property(cc.Node)
     ownBetContainer: cc.Node = null;
 
-    @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
 
     public finishShakeThePlate = false;
@@ -257,5 +256,12 @@ export default class SicBo extends SocketIOTableGameBase {
         return () =>
             this.currentTimeRemaining < this.config.stopBetTime ||
             this.currentTimeRemaining > this.config.fullTime - finishHandler.getResultAnimationTime();
+    }
+
+    onIngameMenuInitialized(node: cc.Node) {
+        super.onIngameMenuInitialized(node);
+        if (this.inGameMenu) {
+            this.expandableMenu = this.inGameMenu.expandableMenu;
+        }
     }
 }

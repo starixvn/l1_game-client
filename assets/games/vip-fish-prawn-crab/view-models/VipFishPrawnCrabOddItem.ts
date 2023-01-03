@@ -8,6 +8,6 @@ export default class VipFishPrawnCrabOddItem extends cc.Component {
     value: cc.Label = null;
 
     setValue(value: string) {
-        this.value.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+        this.value.string = formatOdds(value);
     }
 }

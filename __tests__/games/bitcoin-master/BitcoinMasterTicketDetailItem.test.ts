@@ -19,8 +19,6 @@ describe("Test class BitcoinMasterTicketDetailItem", () => {
     let node: cc.Node;
     let comp: BitcoinMasterTicketDetailItem;
     beforeAll(() => {
-        cc.RedT = {};
-        cc.RedT.user = { rate: 1 };
         node = new cc.Node();
         comp = node.addComponent(BitcoinMasterTicketDetailItem);
         comp.bg = new cc.Node();

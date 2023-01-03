@@ -2,6 +2,8 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameIdSprite from "../../../common/GameIdSprite";
 import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import UmWarning from "../../../common/um-warning/UmWarning";
+import { userManager } from "../../../common/user/UserManager";
+import { appManager } from "../../../managers/AppManager";
 import {
     closeGame,
     handleMusicWhenJoinGame,
@@ -49,6 +51,10 @@ export default class StandAloneTableGameBase extends TableGameBase {
     @property(cc.AudioSource)
     musicBg: cc.AudioSource = null;
 
+    closeGameByClick = false;
+    openOtherScene = false;
+    closingGameRoom = false;
+
     onLoad() {
         loadMiniPanel(this)();
         super.onLoad();
@@ -56,8 +62,8 @@ export default class StandAloneTableGameBase extends TableGameBase {
     }
 
     protected initForStandaloneGame() {
-        cc.RedT && (cc.RedT.inGame = this);
-        this.loadUserData(cc.RedT?.user);
+        appManager.currentScene = this;
+        this.loadUserData(userManager.user);
         this.initBackgroundMusic();
         this.loading.active = true;
     }
@@ -69,15 +75,20 @@ export default class StandAloneTableGameBase extends TableGameBase {
 
     onDestroy() {
         super.onDestroy();
-        cc.RedT.inGame = null;
+        appManager.currentScene = null;
     }
 
     initEventForInGameMenu() {
         const node = super.initEventForInGameMenu();
 
-        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGame, this);
+        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGameClick, this);
 
         return node;
+    }
+
+    onCloseGameClick() {
+        this.closeGameByClick = true;
+        this.onCloseGame();
     }
 
     loadUserData(user) {

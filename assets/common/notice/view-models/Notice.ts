@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import { appManager } from "../../../managers/AppManager";
 import AudioManager from "../../audio/AudioManager";
 import { getCacheModeFollowLanguage } from "../../helpers/LanguagesHelper";
 
@@ -57,7 +58,7 @@ export default class Notice extends cc.Component {
     public init(data: NoticeData) {
         this.node.active = true;
 
-        cc.RedT.inGame.loading.active = false;
+        appManager?.currentScene?.loading && (appManager.currentScene.loading.active = false);
 
         this.setTitle(data.title);
         this.setMessage(data.text);

@@ -69,8 +69,7 @@ export default class LobbyManager {
     getMiniPanelList() {
         const isHomeIconId = LobbyManager.lobbyConfigs.miniPanelGameIds?.includes(this.HOME_ICON_ID);
         if (!isHomeIconId) {
-            const middleIndex = Math.round(LobbyManager.lobbyConfigs.miniPanelGameIds?.length / 2);
-            LobbyManager.lobbyConfigs.miniPanelGameIds?.splice(middleIndex, 0, this.HOME_ICON_ID);
+            LobbyManager.lobbyConfigs.miniPanelGameIds?.unshift(this.HOME_ICON_ID);
         }
         return LobbyManager.lobbyConfigs.miniPanelGameIds;
     }
@@ -102,9 +101,9 @@ export default class LobbyManager {
     }
 
     getAllGameIds() {
-        let gameIds = [];
+        const gameIds = [];
         LobbyManager.categoryList?.forEach((category) => {
-            gameIds = [...gameIds, ...category.gameIds];
+            gameIds.push(...category.gameIds);
         });
         return gameIds.filter(this.onlyUniqueGameId);
     }

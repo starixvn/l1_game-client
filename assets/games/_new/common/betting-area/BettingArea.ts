@@ -60,7 +60,7 @@ export default class BettingArea extends cc.Component {
 
     set odds(value: number) {
         if (this.oddsLabel) {
-            this.oddsLabel.string = formatOdds(value, cc.RedT?.user?.fractionalOddsFormat);
+            this.oddsLabel.string = formatOdds(value);
         }
     }
 }

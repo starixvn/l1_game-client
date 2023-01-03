@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { userManager } from "../../../common/user/UserManager";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BottomControls from "./BottomControls";
 import RouletteBetHandler from "./handlers/RouletteBetHandler";
@@ -18,6 +19,7 @@ import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteStatistic from "./RouletteStatistic";
 import RouletteUtils from "./RouletteUtils";
 import TopControls from "./TopControls";
+import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 
 const { ccclass, property } = cc._decorator;
 
@@ -216,10 +218,16 @@ export default class Roulette extends SocketIOTableGameBase {
 
         const leftControlsNode = await this.loadResource("LeftControls", this.leftContainer);
         this.leftControls = leftControlsNode.getComponent(LeftControls);
-        this.leftControls.guideButton.on("click", this.openGuide, this);
-        this.leftControls.historyButton.on("click", this.pressedShowHistory, this);
-        this.leftControls.statisticButton.on("click", this.pressedShowStatistic, this);
-        this.leftControls.homeButton.on("click", this.onCloseGameClick, this);
+        this.initIngameMenuFromLeftControl();
+    }
+
+    private initIngameMenuFromLeftControl() {
+        const node = this.leftControls.ingameMenu.node;
+
+        node.on(InGameMenuEvents.OPEN_HISTORY, this.openHistory, this);
+        node.on(InGameMenuEvents.OPEN_GUIDE, this.openGuide, this);
+        node.on(InGameMenuEvents.OPEN_STATISTIC, this.openStatistic, this);
+        node.on(InGameMenuEvents.GO_TO_LOBBY, this.onCloseGameClick, this);
     }
 
     onUserProfileInitialized(node: cc.Node) {
@@ -414,7 +422,7 @@ export default class Roulette extends SocketIOTableGameBase {
 
     checkAvailableBalance(bet: number): boolean {
         const total = this.sumValueBetChoices(this.tempBetChoices);
-        const available = total + bet <= cc.RedT.user.red;
+        const available = total + bet <= userManager.balance;
 
         !available && this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
         return available;
@@ -673,14 +681,7 @@ export default class Roulette extends SocketIOTableGameBase {
         return Object.keys(this.tempBetChoices).length === 0;
     }
 
-    public openGuide() {
-        if (this.leftControls.expandableMenu) {
-            this.leftControls.expandableMenu.collapseMenu();
-        }
-        super.openGuide();
-    }
-
-    public pressedShowStatistic() {
+    public openStatistic() {
         this.playClick();
         const dialog = cc.instantiate(this.statisticPrefab);
         const statisticData = this.currentDataLogs.map((log) => log.result);
@@ -690,12 +691,7 @@ export default class Roulette extends SocketIOTableGameBase {
         this.currentMiniPanel.node.addChild(dialog);
     }
 
-    public pressedShowHistory() {
-        this.playClick();
-        if (this.leftControls.expandableMenu) {
-            this.leftControls.expandableMenu.collapseMenu();
-        }
-
+    public openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(RouletteHistory);
         this.historyComponent.init(this.socket);

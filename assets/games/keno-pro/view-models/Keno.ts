@@ -56,9 +56,7 @@ export default class Keno extends SocketIOTableGameBase {
         this.betHandler = new KenoBetHandler(this);
     }
 
-    public pressedHistoryDialog() {
-        AudioManager.getInstance().playClick();
-
+    public openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(KenoUserHistory);
         this.historyComponent.init(this.socket);
