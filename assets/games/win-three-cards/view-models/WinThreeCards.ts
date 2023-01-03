@@ -13,11 +13,16 @@ import { i18n } from "../../../ClientModules";
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import { WinThreeCardsConfigs, hedgeBetChoices } from "./WinThreeCardsConstant";
 import { StringHelper } from "./WinThreeCardsHelper";
+import WinThreeCardsBetPercentHandler from "./data-handlers/WinThreeCardsBetPercentHandler";
+import WinThreeCardBetItem from "./WinThreeCardBetItem";
 const { ccclass, property } = cc._decorator;
 
 export const WinThreeCardsId = 61;
 @ccclass
 export default class WinThreeCards extends NewGameRoomBase {
+    @property({ type: WinThreeCardBetItem })
+    betItems: WinThreeCardBetItem[] = [];
+
     @property({ type: WinThreeCardsItem })
     phoenixCards: WinThreeCardsItem = null;
 
@@ -53,6 +58,7 @@ export default class WinThreeCards extends NewGameRoomBase {
     public scoreboard: WinThreeCardsScoreBoard = null;
     public logsHandler: WinThreeCardsLogsHandler;
     public timeHandler: WinThreeCardsTimeDataHandler;
+    public betPercentHandler: WinThreeCardsBetPercentHandler;
 
     constructor() {
         super();
@@ -76,11 +82,14 @@ export default class WinThreeCards extends NewGameRoomBase {
     initHandlers() {
         super.initHandlers();
 
+        this.betPercentHandler = new WinThreeCardsBetPercentHandler(this);
         this.timeHandler = new WinThreeCardsTimeDataHandler(this);
         this.finishHandler = new WinThreeCardsFinishHandler(this);
         this.logsHandler = new WinThreeCardsLogsHandler(this);
         this.betHandler = new GameRoomBaseBetHandler(this);
         this.md5Handler = new BaccaratMd5Handler(this);
+
+        super.addHandlers(this.betPercentHandler);
     }
 
     private initScoreBoard(node: cc.Node) {

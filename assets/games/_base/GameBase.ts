@@ -26,7 +26,7 @@ import {
     payChipsToInGamePlayers,
     payChipsToLoginPlayer,
     payChipsToOtherPlayers,
-    showPayoutForLoginPlayer,
+    showPayoutForLoginPlayer
 } from "./action/PayChipsAction";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
@@ -574,7 +574,7 @@ export default class GameBase extends GameViewBase {
         const { minBet, maxBet } = this.getBetRange();
         const locale = getLocale();
         const isInPromotionTime = this.boostedChoices?.length > 0;
-        const language = getLanguage(locale);       
+        const language = getLanguage(locale);
         guide.initURL(
             this.gameId,
             language,

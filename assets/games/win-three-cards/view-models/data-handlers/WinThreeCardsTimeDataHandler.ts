@@ -1,5 +1,7 @@
 import BaccaratTimeDataBaseHandler from "../../../_baccarat/data-handler/BaccaratTimeDataBaseHandler";
+import WinThreeCardBetItem from "../WinThreeCardBetItem";
 import WinThreeCards from "../WinThreeCards";
+import { clearPercentBet } from "./WinThreeCardsBetPercentHandler";
 
 enum OrderCardFly {
     card1 = 0,
@@ -24,7 +26,7 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHa
         });
 
         this.main.setGameRound(this.main.roundId);
-
+        clearPercentBet(this.main.betItems as WinThreeCardBetItem[]);
         this.flyAllCards();
     }
 
