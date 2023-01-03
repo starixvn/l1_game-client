@@ -266,27 +266,6 @@ p.footer {
     bottom: 0;
     left: 0;
 }
-.conner {
-    position: absolute;
-}
-
-.conner-top {
-    background: url(./seagame2022/bg_top.png) no-repeat;
-    width: 43.64vh;
-    height: 28.5vh;
-    background-size: 43.64vh 28.5vh;
-    top: 0;
-    left: 0;
-}
-
-.conner-bottom {
-    background: url(./seagame2022/bg_bottom.png) no-repeat;
-    width: 30.15vh;
-    height: 38.8vh;
-    background-size: 30.15vh 38.8vh;
-    bottom: 0;
-    right: 0;
-}
 
 @media only screen and (min-width: 767px) and (max-width: 1024px) {
     .light {
@@ -331,24 +310,6 @@ p.footer {
         bottom: unset;
         right: unset;
     }  */
-
-    .conner-bottom {
-        background: url(./seagame2022/bg_bottom_potrait.png) no-repeat;
-        background-size: 34.48vw 29.9vw;
-        width: 34.48vw;
-        height: 29.9vw;
-        left: 0;
-        right: unset;
-    }
-
-    .conner-top {
-        background: url(./seagame2022/bg_top_potrait.png) no-repeat;
-        background-size: 28.5vw 43.64vw;
-        width: 28.5vw;
-        height: 43.64vw;
-        right: 0;
-        left: unset;
-    }
 }
 
 .text {
