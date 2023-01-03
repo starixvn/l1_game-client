@@ -20,7 +20,7 @@ const { ccclass, property } = cc._decorator;
 export const WinThreeCardsId = 61;
 @ccclass
 export default class WinThreeCards extends NewGameRoomBase {
-    @property({ type: WinThreeCardBetItem })
+    @property({ type: WinThreeCardBetItem, override: true })
     betItems: WinThreeCardBetItem[] = [];
 
     @property({ type: WinThreeCardsItem })
