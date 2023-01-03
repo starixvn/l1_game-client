@@ -1,9 +1,9 @@
 const defaultConfig = {
-    systemType: "SC2",
+    systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
         localhost: "lumigame.com",
-        "l2-games1.lumigame.com": "lumigame.com"
+        "l1-games1.lumigame.com": "lumigame.com"
     },
     subDomain: "l1-proxy1",
     env: "",
