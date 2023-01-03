@@ -18,6 +18,10 @@ export default class FruitSlotTimeHandler extends GameBaseTimeHandler {
         }
     }
 
+    get isInRoundTime() {
+        return this.main.currentTimeRemaining >= this.main.config.minBetTime && this.main.currentTimeRemaining <= this.main.config.betTime;
+    }
+
     handleWaitTime() {
         super.handleWaitTime();
         this.main.timeAnimShowResult(!this.main.finishShowResult);

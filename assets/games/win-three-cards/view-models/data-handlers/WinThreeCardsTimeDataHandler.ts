@@ -22,6 +22,7 @@ export default class WinThreeCardsTimeDataHandler extends BaccaratTimeDataBaseHa
         await Promise.all([...baccarat.dragonCards.dropCards(), ...baccarat.phoenixCards.dropCards()]).catch(() => {
             // handle
         });
+
         this.main.setGameRound(this.main.roundId);
 
         this.flyAllCards();

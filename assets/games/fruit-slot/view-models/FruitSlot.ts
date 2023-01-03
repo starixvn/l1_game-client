@@ -159,13 +159,4 @@ export default class FruitSlot extends NewGameRoomBase {
     updateShowAnimSettlementStatus(status = false) {
         this.isShowAnimSettlement = status;
     }
-
-    checkRebetStatus(): boolean {
-        if (!this.previousOwnBets) {
-            return false;
-        }
-
-        const { roundId, ownBets } = this.previousOwnBets;
-        return roundId === this.roundId - 1 && ownBets && Object.keys(ownBets).length > 0;
-    }
 }
