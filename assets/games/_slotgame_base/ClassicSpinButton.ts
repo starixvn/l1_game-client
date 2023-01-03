@@ -25,13 +25,17 @@ export default class ClassicSpinButton extends SpinButton {
 
     hideAll() {
         this.normalSpinNode.active = false;
-        this.freeSpinLabel.node.parent.active = false;
+        this.setVisibilityFreeSpinLabel(false);
         this.needShowAutoSpin && (this.autoSpinCountLabel.node.parent.active = false);
+    }
+
+    setVisibilityFreeSpinLabel(show: boolean) {
+        this.freeSpinLabel && (this.freeSpinLabel.node.parent.active = show);
     }
 
     showFreeSpinMode() {
         this.hideAll();
-        this.freeSpinLabel.node.parent.active = true;
+        this.setVisibilityFreeSpinLabel(true);
     }
 
     override showAutoSpinMode() {
@@ -39,7 +43,7 @@ export default class ClassicSpinButton extends SpinButton {
             this.hideAll();
             this.autoSpinCountLabel.node.parent.active = true;
         } else {
-            this.freeSpinLabel.node.parent.active = false;
+            this.setVisibilityFreeSpinLabel(false);
             this.normalSpinNode.active = true;
         }
     }
@@ -50,11 +54,11 @@ export default class ClassicSpinButton extends SpinButton {
     }
 
     setFreeSpinValue(value: number) {
-        this.freeSpinLabel.string = value.toString();
+        this.freeSpinLabel && (this.freeSpinLabel.string = value.toString());
     }
 
     showTextSpinInFreeSpin(show: boolean) {
-        this.textSpinInFreeSpin.active = show;
+        this.textSpinInFreeSpin && (this.textSpinInFreeSpin.active = show);
     }
 
     protected playAnimation(index: number) {

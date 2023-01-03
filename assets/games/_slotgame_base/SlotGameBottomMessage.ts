@@ -2,11 +2,13 @@ import _ = require("lodash");
 
 import GameUtils from "../../common/GameUtils";
 
-export enum RoundType {
+export enum SlotNotification {
     BEFORESPIN = 0,
     SPINNING = 1,
     SETTLED = 2,
-    TUMBLEWIN = 3
+    TUMBLEWIN = 3,
+
+    FREESPINS = 4
 }
 
 const { ccclass, property } = cc._decorator;
@@ -19,13 +21,15 @@ export default class SlotGameBottomMessage extends cc.Component {
     isTurboMode = false;
     isAutoSpin = false;
     autoSpinCount = 0;
+    isFreeSpin = false;
+    freeSpinCount = 0;
     isTrialMode = false;
     private normalSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2", "FromSettleToSpin3"];
     private turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
 
     private currentRoundType: number;
     onLoad() {
-        this.showMessages(RoundType.BEFORESPIN);
+        this.showMessages(SlotNotification.BEFORESPIN);
         this.shuffleSettleMessage();
     }
 
@@ -34,10 +38,15 @@ export default class SlotGameBottomMessage extends cc.Component {
         this.turboSettledMsg = _.shuffle(this.turboSettledMsg);
     }
 
-    showMessages(roundType: RoundType) {
+    showMessages(roundType: SlotNotification) {
+        if (this.isFreeSpin || this.freeSpinCount > 0) {
+            this.currentRoundType = -1;
+            this.showFreeSpinCount(this.freeSpinCount);
+            return;
+        }
         if (this.isAutoSpin) {
             this.currentRoundType = -1;
-            this.handleTurboAutoSpin();
+            this.showAutoSpinCount();
             return;
         }
 
@@ -47,23 +56,27 @@ export default class SlotGameBottomMessage extends cc.Component {
         this.currentRoundType = roundType;
         let msg: string;
         switch (roundType) {
-            case RoundType.SPINNING:
-                msg = `messages.roundSettleMsg`;
+            case SlotNotification.SPINNING:
+                msg = GameUtils.getText(`messages.roundSettleMsg`);
                 break;
-            case RoundType.BEFORESPIN:
+            case SlotNotification.BEFORESPIN:
                 msg = this.showBeforeSpinMessage();
                 break;
-            case RoundType.TUMBLEWIN:
-                msg = `messages.winTumbleMsg`;
+            case SlotNotification.TUMBLEWIN:
+                msg = GameUtils.getText(`messages.winTumbleMsg`);
                 break;
-            case RoundType.SETTLED:
+            case SlotNotification.SETTLED:
                 msg = this.randomSettledMessages();
                 break;
         }
-        this.msgText.string = GameUtils.capitalizeWordIntoString(GameUtils.getText(msg));
+        msg && (this.msgText.string = GameUtils.capitalizeWordIntoString(msg));
     }
 
-    protected handleTurboAutoSpin() {
+    protected showFreeSpinCount(amount: number) {
+        this.msgText.string = GameUtils.getText(`ui.free_spin_left_amount`, { amount });
+    }
+
+    protected showAutoSpinCount() {
         const msg = GameUtils.getText(`ui.autoSpinLeft`);
         this.msgText.string = GameUtils.capitalizeWordIntoString(`${msg} ${this.autoSpinCount}`);
     }
@@ -73,7 +86,7 @@ export default class SlotGameBottomMessage extends cc.Component {
             return GameUtils.getText(`messages.${this.turboSettledMsg[_.random(this.turboSettledMsg.length - 1)]}`);
         } else {
             const deviceSuffix = cc.sys.isMobile ? "Phone" : "Desktop";
-            return GameUtils.capitalizeWordIntoString(GameUtils.getText(`messages.showMsgWhenSpin${deviceSuffix}`));
+            return GameUtils.getText(`messages.showMsgWhenSpin${deviceSuffix}`);
         }
     }
 

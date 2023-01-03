@@ -24,7 +24,7 @@ import SlotGameSettlementHandler from "./handlers/SlotGameSettlementHandler";
 import LineSelectionDialog from "./LineSelectionDialog";
 import SlotBoard from "./SlotBoard";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
-import { RoundType } from "./SlotGameBottomMessage";
+import { SlotNotification } from "./SlotGameBottomMessage";
 import SlotGameHistory from "./SlotGameHistory";
 import SlotGameTopWinner from "./SlotGameTopWinner";
 import SlotGameUserSettings from "./SlotGameUserSettings";
@@ -205,7 +205,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.jackpotPoolLabel.node.parent.active = show;
     }
 
-    showMessageDisplay(roundType: RoundType) {
+    showMessageDisplay(roundType: SlotNotification) {
         this.bottomMessage?.showMessages(roundType);
     }
 
@@ -458,7 +458,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             this.createAutoSpinDialog();
         }
 
-        this.updateBottomMessageStatus();
+        this.bottomMessage && (this.bottomMessage.isAutoSpin = this.isAutoSpinMode() && !this.isFreeSpin());
     }
 
     createAutoSpinDialog(): AutoSpinSettingDialog {
@@ -582,8 +582,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     spin(): boolean {
-        this.updateBottomMessageStatus();
-
         let success = false;
         if (this.betChoices.length === 0 || this.isAnimatingResult || !this.isReadyBet()) {
             return success;
@@ -616,7 +614,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         if (!isFreeSpin) {
             this.consumeAutoSpinCount();
         }
-        this.showMessageDisplay(RoundType.SPINNING);
+        this.showMessageDisplay(SlotNotification.SPINNING);
         this.socket.emit("bet", data);
         success = true;
         return success;
@@ -624,6 +622,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     setTotalFreeSpins(value: number) {
         this.totalFreeSpins = value;
+        this.bottomMessage && (this.bottomMessage.freeSpinCount = value);
     }
 
     updateDisplaySpinButtons() {
@@ -971,7 +970,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
 
         this.updateBottomMessageStatus();
-        this.showMessageDisplay(RoundType.SETTLED);
+        this.showMessageDisplay(SlotNotification.SETTLED);
     }
 
     playSound(type: SlotGameSound) {

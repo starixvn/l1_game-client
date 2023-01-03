@@ -7,7 +7,7 @@ import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnec
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
-import { RoundType } from "../../_slotgame_base/SlotGameBottomMessage";
+import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
 import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import SlotGameTopMessage from "../../_slotgame_base/SlotGameTopMessage";
 import { handleBetControl } from "../actions/CascadingSlotConfigAction";
@@ -219,7 +219,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.gameSound.playSound(CascadingSlotGameSound.SYMBOL_EXPLODE);
             this.tumbleWinView.showView(true);
             this.checkShowTopMessage();
-            this.bottomMessage.showMessages(RoundType.TUMBLEWIN);
+            this.bottomMessage.showMessages(SlotNotification.TUMBLEWIN);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.CHANGE_TOTAL_WIN, (value: number) => {
@@ -294,7 +294,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     break;
                 case SpinButtonState.AutoSpin:
                     this.spinButton.showAutoSpinMode();
-                    this.bottomMessage.showMessages(RoundType.SPINNING);
+                    this.bottomMessage.showMessages(SlotNotification.SPINNING);
                     break;
             }
 
@@ -366,18 +366,18 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     private showBottomMessageOnGameState() {
         if (!this.gameData.stateModel.state) {
-            this.bottomMessage.showMessages(RoundType.BEFORESPIN);
+            this.bottomMessage.showMessages(SlotNotification.BEFORESPIN);
             return;
         }
         switch (this.gameData.stateModel.state) {
             case CascadingSlotState.Start_Round:
-                this.bottomMessage.showMessages(RoundType.SPINNING);
+                this.bottomMessage.showMessages(SlotNotification.SPINNING);
                 break;
             case CascadingSlotState.Spinning:
                 break;
             case CascadingSlotState.Settled:
                 if (this.totalFreeSpins === 0) {
-                    this.bottomMessage.showMessages(RoundType.SETTLED);
+                    this.bottomMessage.showMessages(SlotNotification.SETTLED);
                 }
                 break;
         }

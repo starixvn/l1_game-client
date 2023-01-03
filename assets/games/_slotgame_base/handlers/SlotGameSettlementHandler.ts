@@ -1,6 +1,6 @@
 import DataHandler from "../../_base/handlers/DataHandler";
 import SlotGameBase, { LineData } from "../SlotGameBase";
-import { RoundType } from "../SlotGameBottomMessage";
+import { SlotNotification } from "../SlotGameBottomMessage";
 
 export default class SlotGameSettlementHandler implements DataHandler {
     constructor(protected readonly main: SlotGameBase) {}
@@ -145,7 +145,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
             .call(() => {
                 this.showWinningLines(betWin, bigWin, jackpot, winningLines, delayTime);
                 if (notWinBigEffect) {
-                    this.main.showMessageDisplay(RoundType.SETTLED);
+                    this.main.showMessageDisplay(SlotNotification.SETTLED);
                 }
             })
             .delay(delayTime)
@@ -155,7 +155,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
                 }
 
                 if (!notWinBigEffect) {
-                    this.main.showMessageDisplay(RoundType.SETTLED);
+                    this.main.showMessageDisplay(SlotNotification.SETTLED);
                 }
 
                 if (freeSpins.count > 0) {
@@ -173,6 +173,8 @@ export default class SlotGameSettlementHandler implements DataHandler {
     }
 
     checkSpinNextRound(freeSpins: any) {
+        this.main.updateBottomMessageStatus();
+        this.main.showMessageDisplay(SlotNotification.SETTLED);
         this.main.waitingSpinResult = false;
         if (!this.main.gotApiError()) {
             const isAutoSpinMode = this.main.isAutoSpinMode();

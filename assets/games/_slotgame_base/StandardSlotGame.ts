@@ -3,6 +3,7 @@ import { BundleManager } from "bundle-management";
 import AudioManager from "../../common/audio/AudioManager";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
+import { SlotNotification } from "./SlotGameBottomMessage";
 import StandardSlotBoard from "./StandardSlotBoard";
 import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
 import SymbolPreview from "./SymbolPreview";
@@ -129,6 +130,15 @@ export default class StandardSlotGame extends SlotGameBase {
                     console.warn("missing audio for", path);
                 });
         }
+    }
+
+    setTotalFreeSpins(value: number) {
+        super.setTotalFreeSpins(value);
+        this.bottomMessage && this.bottomMessage.showMessages(SlotNotification.FREESPINS);
+    }
+    updateBottomMessageStatus() {
+        super.updateBottomMessageStatus();
+        this.bottomMessage && (this.bottomMessage.isFreeSpin = this.isFreeSpin());
     }
 
     override playSound(type: SlotGameSound) {

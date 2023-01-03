@@ -13,9 +13,9 @@ import ClassicSpinButton from "./ClassicSpinButton";
 import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
 import SlotGameBottomMessage from "./SlotGameBottomMessage";
+import SlotGameSongs from "./SlotGameSongs";
 import SlotGameSound, { CascadingSlotGameSound } from "./SlotGameSound";
 import TurboAutoSpinSettingDialog from "./TurboAutoSpinSettingDialog";
-import SlotGameSongs from "./SlotGameSongs";
 
 const { ccclass, property } = cc._decorator;
 
