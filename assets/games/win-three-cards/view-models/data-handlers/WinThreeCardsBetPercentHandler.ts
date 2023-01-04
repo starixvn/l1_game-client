@@ -9,14 +9,16 @@ export default class WinThreeCardsBetPercentHandler implements DataHandler {
     handle(data: any) {
         if (data.betPercentage) {
             const { betPercentage } = data;
+            const percentageDragon = Math.round(betPercentage?.dragon ?? 0);
+            const percentagePhoenix = betPercentage?.phoenix ? Math.round(100 - percentageDragon) : 0;
 
             this.main.betItems.forEach((item) => {
                 switch (item.node.name) {
                     case Choices.dragon:
-                        item.betPercent.string = `${Math.round(betPercentage?.dragon ?? 0)}%`;
+                        item.betPercent.string = `${percentageDragon}%`;
                         break;
                     case Choices.phoenix:
-                        item.betPercent.string = `${Math.round(betPercentage?.phoenix ?? 0)}%`;
+                        item.betPercent.string = `${percentagePhoenix}%`;
                         break;
                     default:
                         break;

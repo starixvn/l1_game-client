@@ -102,7 +102,7 @@ export const showPayoutForLoginPlayer = (mainRoomGame: TableGameBaseInterface) =
     payoutLoginPlayer(mainRoomGame, statusData);
 };
 
-const payoutLoginPlayer = (mainRoomGame: TableGameBaseInterface, statusData) => {
+export const payoutLoginPlayer = (mainRoomGame: TableGameBaseInterface, statusData) => {
     if (!statusData || !statusData.win) {
         return;
     }
@@ -221,7 +221,7 @@ function showWinningEffectForPlayerSlot(
     playWinningEffect(mainRoomGame, playerSlot.node, winningDuration);
 }
 
-const showWinningEffectForPlayers = (mainRoomGame, winningPlayers) => {
+export const showWinningEffectForPlayers = (mainRoomGame, winningPlayers) => {
     const winningPlayerIds = Object.keys(winningPlayers);
 
     if (!winningPlayerIds.length) {

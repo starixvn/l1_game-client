@@ -24,6 +24,7 @@ export const sentryLogger = {
                     "cocos-creator",
                     "timeout",
                     "WebGLRenderingContext",
+                    "websocket error",
                     /^.*Cannot read properties.*(?:user|setAvatar|onSet|setLoadingVisibility).*$/gm,
                     /^.*not an object.*(?:openGame|openNewSocket|gameName|language|this.percent|this.pagination|remoteBundle).*$/gm
                 ]

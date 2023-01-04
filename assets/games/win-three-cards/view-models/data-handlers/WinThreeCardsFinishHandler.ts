@@ -4,6 +4,10 @@ import { i18n } from "../../../../ClientModules";
 import { WinThreeCardsResult, WinThreeCardsSettlementResult } from "../WinThreeCardsModel";
 import { Choices } from "../WinThreeCardsConstant";
 import { StringHelper } from "../WinThreeCardsHelper";
+import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
+import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
+import { payChips, payoutLoginPlayer, showWinningEffectForPlayers } from "../../../_base/action/PayChipsAction";
+import WinThreeCardsTimeDataHandler from "./WinThreeCardsTimeDataHandler";
 
 export const GapTime = {
     normal: 0.8,
@@ -11,6 +15,47 @@ export const GapTime = {
 };
 
 export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
+    private winningPlayers = {};
+
+    protected clearWinningPlayers() {
+        this.winningPlayers = {};
+    }
+
+    protected getOwnTimeHandle(): any {
+        return this.getOwnMain().timeHandler as WinThreeCardsTimeDataHandler;
+    }
+    handle(data): boolean {
+        if (data.finish) {
+            this.main.finishShowResult = false;
+            this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
+            this.setNewGameRound(data);
+            const mainRoomGame = this.main as WebSocketTableGameBase;
+            if (mainRoomGame && mainRoomGame.playerHandler) {
+                updateOtherPlayerBalance(this.winningPlayers, this.main);
+            }
+            this.handleFinishData(data.finish, data.resultHash, () => {
+                payChips(this.main, data.finish.settlementResult, this.winningPlayers, this.payChipFlyTime, this.WinningAnimationDuration);
+                this.main.finishShowResult = true;
+                this.clearWinningPlayers();
+            });
+        }
+
+        if (data.winners) {
+            this.winningPlayers = data.winners?.winningPlayers;
+            if (this.getOwnTimeHandle().isInWaitTime && this.main.finishShowResult) {
+                showWinningEffectForPlayers(this.main, this.winningPlayers);
+                this.clearWinningPlayers();
+            }
+        }
+
+        if (data.status) {
+            if (this.getOwnTimeHandle().isInWaitTime && this.main.finishShowResult) {
+                payoutLoginPlayer(this.main, data.status);
+            }
+        }
+        return true;
+    }
+
     protected getOwnMain(): WinThreeCards {
         return this.main as WinThreeCards;
     }
