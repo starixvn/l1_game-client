@@ -1,7 +1,7 @@
-import LocalizedLabelWithFormat from "../../../common/i18n/LocalizedLabelWithFormat";
 import GameBalancedBettingHistoryBase from "../../_base/view-models/GameBalancedBettingHistoryBase";
 import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import BigSmall from "./BigSmall";
+
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class BigSmallBetHistory extends GameBalancedBettingHistoryBase {
@@ -11,15 +11,11 @@ export default class BigSmallBetHistory extends GameBalancedBettingHistoryBase {
     @property(cc.SpriteFrame)
     diceFrames: cc.SpriteFrame[] = [];
 
-    @property(LocalizedLabelWithFormat)
-    gameName: LocalizedLabelWithFormat = null;
-
     protected main: BigSmall;
     protected roundId = 0;
 
     init(main: BigSmall, roundId: number) {
         super.init(main, roundId);
-        this.gameName.dataId = `gameNames.${this.main.gameId}`;
     }
 
     onData(data: any) {

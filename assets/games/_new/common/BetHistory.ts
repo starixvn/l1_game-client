@@ -80,7 +80,7 @@ export default class BetHistory extends cc.Component {
     initHistoryWrapper(node: cc.Node) {
         const historyFrame = node.getComponent(HistoryFrame);
         this.pages = historyFrame.pagination;
-        this.mainFrame = historyFrame.mainFrame;
+        this.mainFrame = historyFrame.backWrapper;
         const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();

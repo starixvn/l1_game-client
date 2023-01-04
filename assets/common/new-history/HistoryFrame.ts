@@ -14,10 +14,10 @@ export default class HistoryFrame extends cc.Component {
     closeBtn: cc.Node = null;
 
     @property(cc.Node)
-    mainFrame: cc.Node = null;
+    backWrapper: cc.Node = null;
 
     @property(cc.Node)
-    backFrame: cc.Node = null;
+    mainFrame: cc.Node = null;
 
     @property(cc.Label)
     gameName: cc.Label = null;
@@ -37,18 +37,18 @@ export default class HistoryFrame extends cc.Component {
 
     onLoad() {
         this.gameName.node.active = false;
-        this.backFrameLayout = this.backFrame.getComponent(cc.Layout);
+        this.backFrameLayout = this.mainFrame.getComponent(cc.Layout);
     }
 
     updateSizeFrame(widthContent: number, heightContent: number) {
-        this.backFrame.children.forEach((child) => {
+        this.mainFrame.children.forEach((child) => {
             child.width = (widthContent + this.PADDING_HEIGHT * 2) / 2;
             child.height = heightContent + this.PADDING_HEIGHT + this.PADDING_TOP_HEIGHT;
         });
         this.tableBg.width = widthContent;
         this.tableBg.height = heightContent;
         this.backFrameLayout.updateLayout();
-        this.mainFrame.width = this.backFrame.width;
+        this.backWrapper.width = this.mainFrame.width;
     }
 
     updateTitleSize(width: number) {

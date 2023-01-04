@@ -34,6 +34,8 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
 
     public gameId = 0;
 
+    public headerTitleColor = "#ffe800";
+
     historyFrame: HistoryFrame;
 
     protected socket: Socket;
@@ -65,6 +67,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
             node.getComponent(cc.Layout).updateLayout();
             this.historyFrame.updateTitleSize(node.width + this.WIDTH_SIGN);
         }
+        //const header = this.wrapperContent.children[0];
     }
 
     get_data(page = 1) {
@@ -106,7 +109,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     initHistoryWrapper(node: cc.Node) {
         this.historyFrame = node.getComponent(HistoryFrame);
         this.pagination = this.historyFrame.pagination;
-        this.mainFrame = this.historyFrame.mainFrame;
+        this.mainFrame = this.historyFrame.backWrapper;
         this.gameName = this.historyFrame.gameName;
         const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {

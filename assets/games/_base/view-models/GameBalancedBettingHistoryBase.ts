@@ -1,15 +1,15 @@
-import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { systemType } from "../../../configs/Configs";
 import { SystemType } from "../../../ISystem";
 import BalancedBettingPoolBetItemBase from "../BalancedBettingPoolBetItemBase";
 import BalancedBettingPoolGameBase from "../BalancedBettingPoolGameBase";
+import GameTicketDetailBase from "./GameTicketDetailBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class GameBalancedBettingHistoryBase extends cc.Component {
+export default class GameBalancedBettingHistoryBase extends GameTicketDetailBase {
     @property(cc.Label)
     roundIdLabel: cc.Label = null;
 
@@ -43,9 +43,6 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
     @property(cc.Node)
     rightResultNode: cc.Node = null;
 
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
     protected main: BalancedBettingPoolGameBase;
     protected roundId = 0;
     protected data: any;
@@ -65,11 +62,6 @@ export default class GameBalancedBettingHistoryBase extends cc.Component {
         if (!cc.sys.isMobile) {
             this.node.scale = 0.8;
         }
-
-        const commonDialog = this.mainFrame.getComponent(CommonDialog);
-        commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
     }
 
     onNextClick() {
