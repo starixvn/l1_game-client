@@ -2,15 +2,15 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        61: "Win Three Cards"
+        61: "赢三张"
     },
     lobbyNames: {
-        61: "Win Three Cards"
+        61: "赢三张"
     },
     winThreeCards: {
         dragon: "龙",
         phoenix: "凤",
-        result: "Result (龙 | 凤)",
+        result: "结果（龙 | 凤）",
         killer235: "235",
         threeOfAKind: "三条",
         straightFlush: "同花顺",
@@ -18,13 +18,13 @@ export const phrases = {
         straight: "顺子",
         onePair: "一对",
         highCard: "高牌",
-        pair8Plus: "Pair 8 Plus",
+        pair8Plus: "配对 8 Plus",
         dragon_win: "龙 Win",
-        phoenix_win: "Phoenix Win",
-        pair8PlusInfo: "Pair 9 to Pair A, Straight, Flush, Straight Flush, Three of a kind",
-        handInfo: "Three of a Kind > Straight Flush > Flush > Straight > Pair > High Card",
+        phoenix_win: "凤 Win",
+        pair8PlusInfo: "对子9到对子A，顺子, 同花, 同花顺, 三条",
+        handInfo: "三条>同花顺>同花>顺子>对子>高牌",
         tie: "平局",
-        pair8PlusSta: "Pair 8 +:",
+        pair8PlusSta: "配对 8 +:",
         dragonSta: "龙:",
         phoenixSta: "凤:",
         dragonShort: "龙",

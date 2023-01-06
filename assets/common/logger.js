@@ -25,6 +25,7 @@ export const sentryLogger = {
                     "timeout",
                     "WebGLRenderingContext",
                     "websocket error",
+                    "undefined is not an object (evaluating 'cc.RedT.user')",
                     /^.*Cannot read properties.*(?:user|setAvatar|onSet|setLoadingVisibility).*$/gm,
                     /^.*not an object.*(?:openGame|openNewSocket|gameName|language|this.percent|this.pagination|remoteBundle).*$/gm
                 ]
