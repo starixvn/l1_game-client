@@ -4,7 +4,7 @@ import * as MsgpackParser from "socket.io-msgpack-parser";
 
 import { getSession } from "./common/auth/SessionManager";
 import GameUtils from "./common/GameUtils";
-import { getProxyRoute } from "./common/helpers/UrlHelper";
+import { buildServerUrl, getProxyRoute } from "./common/helpers/UrlHelper";
 import { sentryLogger } from "./common/logger.js";
 import { enableMsgpackParserAllGames } from "./configs/Configs.js";
 import { getGameConfiguration } from "./configs/GameConfigurations";
@@ -32,6 +32,23 @@ export default class SocketIOController {
         19, //mega keno
         60
     ];
+
+    public openNewGameRoomSocket(gameId: number) {
+        this.closeSocket(gameId);
+        let socket: Socket = this.getSocketGame(gameId);
+        const multiplay = this.isMultiplayGame(gameId);
+        if (socket && !socket.connected && multiplay) {
+            socket.removeAllListeners();
+            socket.connect();
+        }
+
+        if (!socket) {
+            const gameServerUrl = buildServerUrl("http", "", gameId);
+            socket = this.createSocketByUrl(gameId, gameServerUrl);
+        }
+        this.assignSocket(gameId, socket);
+        return socket;
+    }
 
     getSocketGame(gameId: number) {
         return this.gameSockets[gameId.toString()];
@@ -139,7 +156,7 @@ export default class SocketIOController {
         });
     }
 
-    async closeSocket(gameId) {
+    closeSocket(gameId) {
         const socket: Socket = this.gameSockets[gameId];
         socket && socket.disconnect();
         const multiplay = this.isMultiplayGame(gameId);
