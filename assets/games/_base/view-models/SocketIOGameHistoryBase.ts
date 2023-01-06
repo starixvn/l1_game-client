@@ -11,9 +11,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default abstract class SocketIOGameHistoryBase extends BaseComponent {
-    @property(PaginationCommon)
-    pagination: PaginationCommon = null;
-
     @property(cc.Node)
     content: cc.Node = null;
 
@@ -21,22 +18,19 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     itemPrefab: cc.Prefab = null;
 
     @property(cc.Node)
-    mainFrame: cc.Node = null;
-
-    @property(cc.Node)
     wrapperContent: cc.Node = null;
 
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;
-
-    @property(cc.Label)
-    gameName: cc.Label = null;
 
     public gameId = 0;
 
     public headerTitleColor = "#ffe800";
 
     historyFrame: HistoryFrame;
+    pagination: PaginationCommon;
+    mainFrame: cc.Node;
+    gameName: cc.Label;
 
     protected socket: Socket;
 
