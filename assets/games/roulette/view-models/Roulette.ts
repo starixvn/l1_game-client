@@ -236,13 +236,40 @@ export default class Roulette extends SocketIOTableGameBase {
         if (this.isMobile()) {
             switch (type) {
                 case 0: //regular
-                    items.push(...[this.roundIdContainer, this.mainContainer, this.leftContainer, this.bottomContainer, this.noticeNode]);
+                    items.push(
+                        ...[
+                            this.roundIdContainer,
+                            this.mainContainer,
+                            this.leftContainer,
+                            this.bottomContainer,
+                            this.userProfile.node.parent,
+                            this.noticeNode
+                        ]
+                    );
                     break;
                 case 1: //quickBet
-                    items.push(...[this.leftContainer, this.mainContainer, this.bottomContainer, this.roundIdContainer, this.noticeNode]);
+                    items.push(
+                        ...[
+                            this.leftContainer,
+                            this.mainContainer,
+                            this.bottomContainer,
+                            this.roundIdContainer,
+                            this.userProfile.node.parent,
+                            this.noticeNode
+                        ]
+                    );
                     break;
                 case 2: //show results
-                    items.push(...[this.roundIdContainer, this.leftContainer, this.bottomContainer, this.mainContainer, this.noticeNode]);
+                    items.push(
+                        ...[
+                            this.roundIdContainer,
+                            this.leftContainer,
+                            this.bottomContainer,
+                            this.userProfile.node.parent,
+                            this.mainContainer,
+                            this.noticeNode
+                        ]
+                    );
                     break;
                 default:
                     break;
