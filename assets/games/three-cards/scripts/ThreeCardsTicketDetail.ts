@@ -1,5 +1,6 @@
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import NewCard from "../../../common/new-card/view-models/NewCard";
+import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import { ThreeCardsBetData } from "./DataDefinition";
 import ThreeCardsTicketDetailItem from "./ThreeCardsTicketDetailItem";
 import ThreeCardsWinChoiceView from "./ThreeCardsWinChoiceView";
@@ -7,12 +8,9 @@ import ThreeCardsWinChoiceView from "./ThreeCardsWinChoiceView";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class ThreeCardsTicketDetail extends cc.Component {
+export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
 
     @property({ type: NewCard })
     cards: NewCard[] = [];

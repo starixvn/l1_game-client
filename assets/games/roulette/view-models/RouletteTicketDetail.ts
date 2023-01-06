@@ -17,6 +17,9 @@ export default class RouletteTicketDetail extends GameTicketDetailBase {
     roundID = 2000;
     result = 20;
 
+    HEIGHT_BET_DETAIL_TABLE = 402;
+    WIDTH_BET_DETAIL_TABLE = 549;
+
     public showbetLogs() {
         this.node.active = true;
         this.betLogDetails.forEach((log) => {

@@ -1,18 +1,15 @@
 import * as _ from "lodash";
 
-import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import LotteryResult from "./LotteryResult";
 import LotteryTicketDetailItem from "./LotteryTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class LotteryTicketDetail extends cc.Component {
+export default class LotteryTicketDetail extends GameTicketDetailBase {
     @property(LotteryResult)
     result: LotteryResult = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
 
     @property(cc.Node)
     itemSample: cc.Node = null;
@@ -20,12 +17,8 @@ export default class LotteryTicketDetail extends cc.Component {
     @property(cc.Label)
     roundId: cc.Label = null;
 
-    @property(CommonDialog)
-    dialog: CommonDialog = null;
-
-    onLoad() {
-        this.dialog.addOnDidHide(() => this.node.destroy());
-    }
+    HEIGHT_BET_DETAIL_TABLE = 472;
+    WIDTH_BET_DETAIL_TABLE = 860;
 
     setData(data: any) {
         const { betLogDetails, phien } = data;
@@ -47,7 +40,7 @@ export default class LotteryTicketDetail extends cc.Component {
             node.active = true;
             const item = node.getComponent(LotteryTicketDetailItem);
             item.setData(detail, index, data);
-            item.lineBottom.active = index === total - 1;
+            // item.lineBottom.active = index === total - 1;
         });
     }
 }

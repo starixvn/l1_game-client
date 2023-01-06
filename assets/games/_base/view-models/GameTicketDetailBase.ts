@@ -1,6 +1,7 @@
 import { i18n } from "../../../ClientModules";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BetDetailFrame from "../../../common/new-history/BetDetailFrame";
+import BetDetailTable from "../../../common/new-history/BetDetailTable";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,17 +22,16 @@ export default class GameTicketDetailBase extends cc.Component {
     betLogDetails = null;
     settlementResult = null;
     betDetailFrame: BetDetailFrame;
+    betDetailTable: BetDetailTable;
 
     WIDTH_SIGN = 120;
     public gameId = 0;
 
+    public HEIGHT_BET_DETAIL_TABLE = 452;
+    public WIDTH_BET_DETAIL_TABLE = 1000;
+
     onLoad() {
         this.content.children.forEach((child) => child.destroy());
-
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
     }
 
     setGameName() {
@@ -65,5 +65,10 @@ export default class GameTicketDetailBase extends cc.Component {
         });
         this.betDetailFrame.updateSizeFrame(this.mainFrame.width, this.mainFrame.height);
         this.mainFrame.parent = this.backWrapper;
+    }
+
+    initBetDetailTable(node: cc.Node) {
+        this.betDetailTable = node.getComponent(BetDetailTable);
+        this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, this.HEIGHT_BET_DETAIL_TABLE);
     }
 }

@@ -31,12 +31,12 @@ export default class BetHistory extends cc.Component {
     protected gameName: string;
     private callback: any;
 
-    onLoad() {
-        this.pages.init(this);
-        this.commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
-    }
+    // onLoad() {
+    //     this.pages.init(this);
+    //     this.commonDialog.addOnDidHide(() => {
+    //         this.node.destroy();
+    //     });
+    // }
 
     setConnection(connection: Connection, gameName: string) {
         this.connection = connection;

@@ -1,6 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+
 import { getStringHourByTime } from "../../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 const { ccclass, property, menu } = cc._decorator;
 
@@ -32,14 +33,6 @@ export default class HoldemPokerTicketDetailItem extends cc.Component {
         return bet.betChoice === "call" ? `holdEmPoker.${bet.betChoice}Choice` : `holdEmPoker.${bet.betChoice}`;
     }
 
-    protected setBgItem(index: number, countBets: number) {
-        if (index % 2 && index === countBets - 1) {
-            this.bgRowLatest.active = true;
-        } else {
-            this.bgRow.active = index % 2 !== 0;
-        }
-    }
-
     renderTicketDetailItem(bet: any, index: number, totalRow: number) {
         const bettingOption = this.getBettingOptionName(bet);
         this.bettingOption.string = `${i18n.t(bettingOption).toUpperCase()}`;
@@ -47,7 +40,7 @@ export default class HoldemPokerTicketDetailItem extends cc.Component {
         this.win.string = numberWithCommas(bet.win);
         this.time.string = getStringHourByTime(bet.time);
         this.odd.string = cc.RedT?.user?.fractionalOddsFormat && bet.odds ? numberWithCommas(+bet.odds - 1, 2) : bet.odds || "-";
-        this.setBgItem(index, totalRow);
+        this.bgRow.active = index % 2 !== 0;
         if (bet.win > 0) {
             this.stake.node.color = cc.Color.YELLOW;
             this.win.node.color = cc.Color.YELLOW;

@@ -1,4 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
+import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import { BetLog, BetLogDetail } from "./HiLoBetData";
 import HiLoTicketDetailBaseItem from "./HiLoTicketDetailBaseItem";
 import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
@@ -6,15 +7,12 @@ import HiLoTicketDetailItem from "./HiLoTicketDetailItem";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class HiLoTicketDetail extends cc.Component {
+export default class HiLoTicketDetail extends GameTicketDetailBase {
     @property(cc.Prefab)
     ticketDetailItemPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     detailBaseItemPrefab: cc.Prefab = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
 
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;

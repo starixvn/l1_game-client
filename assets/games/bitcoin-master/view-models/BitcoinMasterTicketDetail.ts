@@ -1,11 +1,11 @@
-import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import BitcoinMasterTicketDetailItem from "./BitcoinMasterTicketDetailItem";
 import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BitcoinMasterTicketDetail extends cc.Component {
+export default class BitcoinMasterTicketDetail extends GameTicketDetailBase {
     @property(cc.Label)
     roundID: cc.Label = null;
 
@@ -15,18 +15,11 @@ export default class BitcoinMasterTicketDetail extends cc.Component {
     @property(cc.Label)
     closeValue: cc.Label = null;
 
-    @property(cc.Node)
-    content: cc.Node = null;
-
     @property(cc.Prefab)
     ticketItemPrefab: cc.Prefab = null;
 
-    @property(CommonDialog)
-    dialog: CommonDialog = null;
-
-    onLoad() {
-        this.dialog.addOnDidHide(() => this.node.destroy());
-    }
+    HEIGHT_BET_DETAIL_TABLE = 290;
+    WIDTH_BET_DETAIL_TABLE = 948;
 
     setData(data: any) {
         const { betLogDetails, result } = data;

@@ -2,6 +2,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
+import GameTicketDetailBase from "../../../_base/view-models/GameTicketDetailBase";
 import { convertCard } from "../../components/cards/view-models/CardWrapper";
 import HoldemPokerCard from "../../components/cards/view-models/HoldemPokerCard";
 import { CombineCardResultLabel } from "../../components/cards/view-models/HoldemPokerCards";
@@ -13,10 +14,7 @@ const { ccclass, property, menu } = cc._decorator;
 
 @ccclass
 @menu("Games/HolemPoker/HoldemPokerTicketHistory")
-export default class HoldemPokerTicketDetail extends cc.Component {
-    @property(cc.Node)
-    content: cc.Node = null;
-
+export default class HoldemPokerTicketDetail extends GameTicketDetailBase {
     @property(cc.Prefab)
     prefabItem: cc.Prefab = null;
 
@@ -50,10 +48,13 @@ export default class HoldemPokerTicketDetail extends cc.Component {
     @property(cc.Label)
     dealerRank: cc.Label = null;
 
-    @property(cc.Sprite)
-    betTable: cc.Sprite = null;
+    @property(cc.Node)
+    betTable: cc.Node = null;
 
     protected heightBetTable = 64;
+
+    HEIGHT_BET_DETAIL_TABLE = 244;
+    WIDTH_BET_DETAIL_TABLE = 850;
 
     renderTitle(roundId: number, time: Date) {
         this.roundId.string = roundId.toString();
@@ -69,7 +70,8 @@ export default class HoldemPokerTicketDetail extends cc.Component {
             this.heightBetTable += 60;
             this.handleTicketDetailItem(bet, index, totalRow);
         });
-        this.betTable.node.height = this.heightBetTable;
+        this.betTable.height = this.heightBetTable;
+        this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, this.heightBetTable);
     }
 
     protected getComponentDetailItem(node: cc.Node): HoldemPokerTicketDetailItem {

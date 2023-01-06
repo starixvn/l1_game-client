@@ -1,12 +1,13 @@
-import { getCacheModeFollowLanguage } from "../../../common/helpers/LanguagesHelper";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import { getCacheModeFollowLanguage } from "../../../common/helpers/LanguagesHelper";
+import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import VipSedieWarTicketDetailItem from "./VipSedieWarTicketDetailItem";
 import VipSedieWarUtils from "./VipSedieWarUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class VipSedieWarTicketDetail extends cc.Component {
+export default class VipSedieWarTicketDetail extends GameTicketDetailBase {
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
@@ -15,12 +16,6 @@ export default class VipSedieWarTicketDetail extends cc.Component {
 
     @property(cc.Label)
     winChoices: cc.Label = null;
-
-    @property(cc.Node)
-    content: cc.Node = null;
-
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
 
     @property(cc.Node)
     playerResultNode: cc.Node = null;

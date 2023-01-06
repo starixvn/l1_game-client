@@ -1,4 +1,5 @@
 import GameUtils from "../../../../common/GameUtils";
+import GameTicketDetailBase from "../../../_base/view-models/GameTicketDetailBase";
 import KenoUtils from "../../../mini-keno/view-models/KenoUtils";
 import BetChoice from "../BetChoice";
 import KenoNumber from "../KenoNumber";
@@ -6,7 +7,7 @@ import KenoNumber from "../KenoNumber";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class KenoRoundResult extends cc.Component {
+export default class KenoRoundResult extends GameTicketDetailBase {
     @property(cc.Label)
     round: cc.Label = null;
 
@@ -20,7 +21,6 @@ export default class KenoRoundResult extends cc.Component {
     resultNumbers: cc.Node = null;
 
     protected result: number[] = [];
-    protected settlementResult: any;
     protected betChoices: BetChoice[] = [];
     protected kenoNumbers: KenoNumber[] = [];
 

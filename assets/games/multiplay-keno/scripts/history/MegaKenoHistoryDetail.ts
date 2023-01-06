@@ -1,13 +1,13 @@
 import { lodash } from "../../../../ClientModules";
-import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import GameUtils from "../../../../common/GameUtils";
+import GameTicketDetailBase from "../../../_base/view-models/GameTicketDetailBase";
 import KenoNumber from "../../../keno-pro/view-models/KenoNumber";
 import MegaKenoHistoryDetailItem from "./MegaKenoHistoryDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MegaKenoHistoryDetail extends cc.Component {
+export default class MegaKenoHistoryDetail extends GameTicketDetailBase {
     @property(cc.Label)
     roundId: cc.Label = null;
 
@@ -26,22 +26,13 @@ export default class MegaKenoHistoryDetail extends cc.Component {
     @property(cc.Prefab)
     prefabDetail: cc.Prefab = null;
 
-    @property(cc.Node)
-    mainFrame: cc.Node = null;
-
     private result: number[] = [];
-    private settlementResult: any;
     private resultLabels: cc.Label[] = [];
     private kenoNumbers: KenoNumber[] = [];
 
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map((child) => child.getComponent(KenoNumber));
         this.resultLabels = this.settleResult.children.map((child) => child.getComponent(cc.Label));
-
-        const commonDialog = this.mainFrame.getComponent(CommonDialog);
-        commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
     }
 
     public setData(result: number[], settlementResult: any) {
