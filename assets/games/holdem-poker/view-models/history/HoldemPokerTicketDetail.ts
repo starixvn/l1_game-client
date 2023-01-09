@@ -53,7 +53,7 @@ export default class HoldemPokerTicketDetail extends GameTicketDetailBase {
 
     protected heightBetTable = 64;
 
-    HEIGHT_BET_DETAIL_TABLE = 244;
+    HEIGHT_BET_DETAIL_TABLE = 270;
     WIDTH_BET_DETAIL_TABLE = 850;
 
     renderTitle(roundId: number, time: Date) {

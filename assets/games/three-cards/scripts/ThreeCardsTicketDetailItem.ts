@@ -22,7 +22,6 @@ export default class ThreeCardsTicketDetailItem extends cc.Component {
 
     showBackground(show: boolean) {
         this.bg.active = show;
-        this.bottomLine.active = !show;
     }
 
     setData({ choice, odds, bet }) {
