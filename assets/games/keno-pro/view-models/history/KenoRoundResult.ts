@@ -23,6 +23,7 @@ export default class KenoRoundResult extends GameTicketDetailBase {
     protected result: number[] = [];
     protected betChoices: BetChoice[] = [];
     protected kenoNumbers: KenoNumber[] = [];
+    isShowTitleBetDetail = false;
 
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map((child) => child.getComponent(KenoNumber));

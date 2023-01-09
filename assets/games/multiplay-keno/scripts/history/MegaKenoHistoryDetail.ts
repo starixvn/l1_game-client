@@ -29,6 +29,7 @@ export default class MegaKenoHistoryDetail extends GameTicketDetailBase {
     private result: number[] = [];
     private resultLabels: cc.Label[] = [];
     private kenoNumbers: KenoNumber[] = [];
+    isShowTitleBetDetail = false;
 
     onLoad() {
         this.kenoNumbers = this.resultNumbers.children.map((child) => child.getComponent(KenoNumber));

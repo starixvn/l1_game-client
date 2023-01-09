@@ -23,18 +23,12 @@ export default class BetDetailFrame extends cc.Component {
     private backFrameLayout: cc.Layout;
 
     public clickCloseButton = () => {};
+    isShowTitleBetDetail: boolean;
 
     onLoad() {
         this.gameName.node.active = false;
         this.backFrameLayout = this.mainFrame.getComponent(cc.Layout);
     }
-
-    // setGameName(gameId: number) {
-    //     const dataId = `gameNames.${gameId}`;
-    //     const gameName = ` - ${i18n.t(dataId)}`;
-    //     this.gameName.string = gameName.toUpperCase();
-    //     this.gameName.node.active = true;
-    // }
 
     updateSizeFrame(widthContent: number, heightContent: number) {
         this.mainFrame.children.forEach((child) => {
@@ -43,6 +37,7 @@ export default class BetDetailFrame extends cc.Component {
         });
         this.backFrameLayout.updateLayout();
         this.backWrapper.width = this.mainFrame.width;
+        this.titleBgNode.parent.active = this.isShowTitleBetDetail;
     }
 
     updateTitleSize(width: number) {

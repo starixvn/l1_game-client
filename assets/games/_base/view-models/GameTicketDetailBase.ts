@@ -1,5 +1,6 @@
 import { i18n } from "../../../ClientModules";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import { FormationHandler } from "../../../common/i18n/LocalizedLabelWithFormat";
 import BetDetailFrame from "../../../common/new-history/BetDetailFrame";
 import BetDetailTable from "../../../common/new-history/BetDetailTable";
 
@@ -26,6 +27,7 @@ export default class GameTicketDetailBase extends cc.Component {
     settlementResult = null;
     betDetailFrame: BetDetailFrame;
     betDetailTable: BetDetailTable;
+    isShowTitleBetDetail = true;
 
     WIDTH_SIGN = 120;
     public gameId = 0;
@@ -66,6 +68,7 @@ export default class GameTicketDetailBase extends cc.Component {
         this.betDetailFrame = node.getComponent(BetDetailFrame);
         this.backWrapper = this.betDetailFrame.backWrapper;
         this.gameName = this.betDetailFrame.gameName;
+        this.betDetailFrame.isShowTitleBetDetail = this.isShowTitleBetDetail;
         const commonDialog = this.backWrapper.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();
@@ -86,7 +89,7 @@ export default class GameTicketDetailBase extends cc.Component {
             childNodes.forEach((child) => {
                 child.color = cc.Color.BLACK.fromHEX(this.colorTitle);
                 child.getComponent(cc.Label).fontSize = this.fontsizeTitle;
-                //child.getComponent(LocalizedLabelWithFormat).
+                child.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;
             });
         });
     }
