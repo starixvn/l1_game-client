@@ -28,6 +28,10 @@ export default class LotteryTicketDetailItem extends cc.Component {
     @property(cc.Node)
     lineBottom: cc.Node = null;
 
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+    }
+
     setData(data: Data, index: number, generalData: any) {
         this.background.active = index % 2 !== 0;
         this.time.string = getStringHourByTime(data.time);

@@ -1,9 +1,10 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class KenoHistoryItem extends cc.Component {
+export default class KenoHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     big: cc.Label = null;
 

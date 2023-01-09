@@ -8,16 +8,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class KenoUserHistoryItem extends KenoHistoryItem {
     @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    round: cc.Label = null;
-
-    @property(cc.Label)
     total: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     public roundId: number;
     public totalResult: number;
