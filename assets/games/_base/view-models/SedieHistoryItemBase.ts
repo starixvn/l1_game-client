@@ -7,9 +7,6 @@ export default class SedieHistoryItemBase extends SocketIOHistoryItemBase {
     @property(cc.Node)
     bg: cc.Node = null;
 
-    @property(cc.Label)
-    round: cc.Label = null;
-
     @property(cc.Sprite)
     kqSprite: cc.Sprite = null;
 

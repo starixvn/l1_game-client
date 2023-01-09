@@ -11,9 +11,6 @@ export default class VipSedieWarHistoryItem extends SocketIOHistoryItemBase {
     background: cc.Node = null;
 
     @property(cc.Label)
-    round: cc.Label = null;
-
-    @property(cc.Label)
     bet: cc.Label = null;
 
     @property(cc.Prefab)
