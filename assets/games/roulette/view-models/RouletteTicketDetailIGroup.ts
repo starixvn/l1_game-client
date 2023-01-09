@@ -1,9 +1,10 @@
-const { ccclass, property } = cc._decorator;
-
 import * as _ from "lodash";
+
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { RouletteBetType } from "./RouletteCommon";
 import RouletteTicketDetailItem from "./RouletteTicketDetailItem";
+
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RouletteTicketDetailIGroup extends cc.Component {

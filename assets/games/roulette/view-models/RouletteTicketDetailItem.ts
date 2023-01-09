@@ -1,6 +1,6 @@
 import * as _ from "lodash";
-import GameUtils from "../../../common/GameUtils";
 
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { RouletteBetType } from "./RouletteCommon";
 
@@ -17,6 +17,10 @@ export default class RouletteTicketDetailItem extends cc.Component {
     amount: cc.Label = null;
 
     height: number = null;
+
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+    }
 
     updateContent(type: string, choice: string, amount: number, isWinning: boolean) {
         const choiceNames = {
