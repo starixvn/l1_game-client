@@ -1,19 +1,15 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import { BetLog, HandResultConst } from "./HoldemPokerTicketHistory";
+
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../../_base/view-models/SocketIOHistoryItemBase";
+import { BetLog, HandResultConst } from "./HoldemPokerTicketHistory";
 
 const { ccclass, property, menu } = cc._decorator;
 
 @ccclass
 @menu("Games/HolemPoker/HoldemPokerTicketHistoryItem")
-export default class HoldemPokerTicketHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    round: cc.Label = null;
-
+export default class HoldemPokerTicketHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     player: cc.Label = null;
 
@@ -22,9 +18,6 @@ export default class HoldemPokerTicketHistoryItem extends cc.Component {
 
     @property(cc.Label)
     stake: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.Node)
     showBg: cc.Node = null;

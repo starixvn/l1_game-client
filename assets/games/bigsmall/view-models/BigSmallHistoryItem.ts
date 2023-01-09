@@ -11,9 +11,6 @@ export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
     bg: cc.Node = null;
 
     @property(cc.Label)
-    round: cc.Label = null;
-
-    @property(cc.Label)
     choice: cc.Label = null;
 
     @property(cc.Label)

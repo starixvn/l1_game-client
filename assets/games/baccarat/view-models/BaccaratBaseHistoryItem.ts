@@ -1,17 +1,13 @@
 import _ = require("lodash");
+
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BaccaratBaseHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    round: cc.Label = null;
-
+export default class BaccaratBaseHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     player: cc.Label = null;
 
@@ -32,9 +28,6 @@ export default class BaccaratBaseHistoryItem extends cc.Component {
 
     @property(cc.Label)
     small: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     setData(betLog: any, index?: number) {
         const { time, phien, settlementResult, betwin } = betLog;

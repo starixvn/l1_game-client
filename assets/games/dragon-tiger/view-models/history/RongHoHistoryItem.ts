@@ -1,17 +1,12 @@
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
+import SocketIOHistoryItemBase from "../../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class RongHoHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    round: cc.Label = null;
-
+export default class RongHoHistoryItem extends SocketIOHistoryItemBase {
     @property({ type: NewCard })
     cards: NewCard[] = [];
 
@@ -23,9 +18,6 @@ export default class RongHoHistoryItem extends cc.Component {
 
     @property(cc.Label)
     betDraw: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     setData(betLog: any) {
         this.node.active = true;

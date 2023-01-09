@@ -2,12 +2,13 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringHourByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property, menu } = cc._decorator;
 
 @ccclass
 @menu("Games/HolemPoker/HoldemPokerTicketDetailItem")
-export default class HoldemPokerTicketDetailItem extends cc.Component {
+export default class HoldemPokerTicketDetailItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     bettingOption: cc.Label = null;
 
@@ -15,13 +16,7 @@ export default class HoldemPokerTicketDetailItem extends cc.Component {
     stake: cc.Label = null;
 
     @property(cc.Label)
-    win: cc.Label = null;
-
-    @property(cc.Label)
     odd: cc.Label = null;
-
-    @property(cc.Label)
-    time: cc.Label = null;
 
     @property(cc.Node)
     bgRow: cc.Node = null;

@@ -2,14 +2,12 @@ import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard from "../../../common/new-card/view-models/NewCard";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BlackJackHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
+export default class BlackJackHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     handId: cc.Label = null;
 
@@ -30,9 +28,6 @@ export default class BlackJackHistoryItem extends cc.Component {
 
     @property(cc.Label)
     bet: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.Prefab)
     cardPrefab: cc.Prefab = null;

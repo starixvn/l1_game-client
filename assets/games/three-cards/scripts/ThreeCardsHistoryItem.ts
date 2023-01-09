@@ -3,27 +3,19 @@ import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NewCard from "../../../common/new-card/view-models/NewCard";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 import { ThreeCardsBetData } from "./DataDefinition";
 import ThreeCardsWinChoiceView from "./ThreeCardsWinChoiceView";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class ThreeCardsHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    round: cc.Label = null;
-
+export default class ThreeCardsHistoryItem extends SocketIOHistoryItemBase {
     @property(ThreeCardsWinChoiceView)
     winChoices: ThreeCardsWinChoiceView = null;
 
     @property(cc.Label)
     bet: cc.Label = null;
-
-    @property(cc.Label)
-    betWin: cc.Label = null;
 
     @property({ type: NewCard })
     cards: NewCard[] = [];
@@ -40,7 +32,7 @@ export default class ThreeCardsHistoryItem extends cc.Component {
 
         this.time.string = getStringDateByTime(betData.time);
         this.round.string = betData.phien;
-        this.betWin.string = numberWithCommas(betData.betwin, 2);
+        this.win.string = numberWithCommas(betData.betwin, 2);
         this.winChoices && this.winChoices.setData(betData);
         this.bet.string = this.summarizeBet(betData);
         this.cards &&

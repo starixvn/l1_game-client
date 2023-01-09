@@ -20,6 +20,10 @@ export default class ThreeCardsTicketDetailItem extends cc.Component {
     @property(cc.Node)
     bottomLine: cc.Node = null;
 
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+    }
+
     showBackground(show: boolean) {
         this.bg.active = show;
     }

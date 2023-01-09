@@ -18,7 +18,7 @@ describe("Test class ThreeCardsHistoryItem", () => {
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.round = new cc.Node().addComponent(cc.Label);
         comp.bet = new cc.Node().addComponent(cc.Label);
-        comp.betWin = new cc.Node().addComponent(cc.Label);
+        comp.win = new cc.Node().addComponent(cc.Label);
         comp.bg = new cc.Node();
         comp.bottomLine = new cc.Node();
     });
@@ -76,7 +76,7 @@ describe("Test class ThreeCardsHistoryItem", () => {
             // Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betData.time));
             expect(comp.round.string).toMatch(betData.phien.toString());
-            expect(comp.betWin.string).toMatch(numberWithCommas(betData.betwin));
+            expect(comp.win.string).toMatch(numberWithCommas(betData.betwin));
             expect(comp.bet.string).toMatch(comp.summarizeBet(betData as any));
         });
     });
