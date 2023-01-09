@@ -1,11 +1,14 @@
-import { CombineCardResultLabel } from "./../../../holdem-poker/components/cards/view-models/HoldemPokerCards";
 import HoldemPokerTicketDetail from "../../../holdem-poker/view-models/history/HoldemPokerTicketDetail";
+import { CombineCardResultLabel } from "./../../../holdem-poker/components/cards/view-models/HoldemPokerCards";
 import TexasTicketDetailItem from "./texas-ticket-detail-item";
 
 const { ccclass } = cc._decorator;
 
 @ccclass
 export default class TexasTicketDetail extends HoldemPokerTicketDetail {
+    HEIGHT_BET_DETAIL_TABLE = 238;
+    WIDTH_BET_DETAIL_TABLE = 850;
+
     protected getComponentDetailItem(node: cc.Node): TexasTicketDetailItem {
         return node.getComponent(TexasTicketDetailItem);
     }
