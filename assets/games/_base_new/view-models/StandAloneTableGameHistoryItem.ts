@@ -1,21 +1,13 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class StandAloneTableGameHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    roundId: cc.Label = null;
-
+export default class StandAloneTableGameHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     stake: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.Node)
     bg: cc.Node = null;
@@ -25,7 +17,7 @@ export default class StandAloneTableGameHistoryItem extends cc.Component {
     setData(data: any, index: number) {
         const { time, roundId, result, betwin, settlementResult } = data;
         this.time.string = getStringDateByTime(time);
-        this.roundId.string = roundId;
+        this.round.string = roundId;
         this.stake.string = numberWithCommas(this.handleStake(settlementResult, data));
         this.win.string = numberWithCommas(betwin, 2);
         this.handleResult(result);

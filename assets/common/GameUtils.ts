@@ -559,4 +559,20 @@ export default class GameUtils {
         });
         return node;
     }
+
+    public static setFontSizeLabelsInNode(node: cc.Node, fontSize = 36) {
+        let parentNode;
+        node.getComponentsInChildren(cc.Label).forEach((label) => {
+            const labelNode = label.node;
+            labelNode.scale = 0.5;
+            label.fontSize = fontSize;
+            label.lineHeight = fontSize;
+
+            if (parentNode !== labelNode.parent) {
+                parentNode = labelNode.parent;
+                const layout = parentNode.getComponent(cc.Layout);
+                layout && (layout.affectedByScale = true);
+            }
+        });
+    }
 }

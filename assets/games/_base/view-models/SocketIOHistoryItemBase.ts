@@ -1,3 +1,5 @@
+import GameUtils from "../../../common/GameUtils";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -12,8 +14,6 @@ export default class SocketIOHistoryItemBase extends cc.Component {
     win: cc.Label = null;
 
     start() {
-        this.node.getComponentsInChildren(cc.Label).forEach((label) => {
-            label.fontSize = 18;
-        });
+        GameUtils.setFontSizeLabelsInNode(this.node);
     }
 }

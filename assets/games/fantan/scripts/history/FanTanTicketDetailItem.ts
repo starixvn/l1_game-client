@@ -1,6 +1,7 @@
 import { i18n } from "../../../../ClientModules";
+import GameUtils from "../../../../common/GameUtils";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
-import { formatOdds, numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,6 +24,10 @@ export default class FanTanTicketDetailItem extends cc.Component {
 
     @property(cc.Node)
     bgRow: cc.Node = null;
+
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+    }
 
     setData(data: any, choice: string, index: number, isWin: boolean) {
         this.time.string = getStringDateByTime(data.time);
