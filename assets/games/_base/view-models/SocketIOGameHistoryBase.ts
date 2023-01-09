@@ -5,6 +5,7 @@ import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
+import { FormationHandler } from "../../../common/i18n/LocalizedLabelWithFormat";
 import HistoryFrame from "../../../common/new-history/HistoryFrame";
 
 const { ccclass, property } = cc._decorator;
@@ -35,6 +36,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     public gameId = 0;
 
     public headerTitleColor = "#ffe800";
+    fontsizeTitle = 18;
 
     historyFrame: HistoryFrame;
 
@@ -67,7 +69,13 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
             node.getComponent(cc.Layout).updateLayout();
             this.historyFrame.updateTitleSize(node.width + this.WIDTH_SIGN);
         }
-        //const header = this.wrapperContent.children[0];
+        const header = this.wrapperContent.children[0];
+        header.children.forEach((child) => {
+            child.color = cc.Color.BLACK.fromHEX(this.headerTitleColor);
+            const label = child.getComponent(cc.Label);
+            label.fontSize = this.fontsizeTitle;
+            child.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;
+        });
     }
 
     get_data(page = 1) {

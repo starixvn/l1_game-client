@@ -26,6 +26,7 @@ export default class DropdownListMultiplayGameHistory extends MultiplayGameHisto
     defaultGameId: number;
 
     start() {
+        super.start();
         this.layerCloseDropDown.height = this.HEIGHT_CONTENT + 72;
     }
 
