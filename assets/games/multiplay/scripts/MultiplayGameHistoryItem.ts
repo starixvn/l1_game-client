@@ -1,21 +1,13 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MultiplayGameHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    round: cc.Label = null;
-
+export default class MultiplayGameHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     gameName: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.Node)
     bgRow: cc.Node = null;
