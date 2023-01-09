@@ -1,4 +1,3 @@
-import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import NewCard from "../../../common/new-card/view-models/NewCard";
 import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import { ThreeCardsBetData } from "./DataDefinition";
@@ -21,14 +20,8 @@ export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
     @property(ThreeCardsWinChoiceView)
     winChoices: ThreeCardsWinChoiceView = null;
 
-    @property(CommonDialog)
-    commonDialog: CommonDialog = null;
-
-    onLoad() {
-        this.commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
-    }
+    HEIGHT_BET_DETAIL_TABLE = 120;
+    WIDTH_BET_DETAIL_TABLE = 490;
 
     setData(data: ThreeCardsBetData) {
         this.round.string = data.phien;

@@ -69,7 +69,7 @@ export default class VipSedieWarHistoryItem extends cc.Component {
     openTicketDetail() {
         const miniPanel = this.getMiniPanel();
         const node = cc.instantiate(this.ticketDetailPrefab);
-        node.getComponent(VipSedieWarTicketDetail).setData(this.detailData);
         miniPanel.addChild(node);
+        node.getComponent(VipSedieWarTicketDetail).setData(this.detailData);
     }
 }

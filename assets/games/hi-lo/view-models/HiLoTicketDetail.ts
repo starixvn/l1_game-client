@@ -29,6 +29,9 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
     private readonly heightPerRow = 50;
     comp: cc.Node;
 
+    HEIGHT_BET_DETAIL_TABLE = 490;
+    WIDTH_BET_DETAIL_TABLE = 1122;
+
     calculateHeights(betLogDetails: BetLogDetail[]) {
         this.contentHeight += betLogDetails.length * this.heightPerRow;
 
@@ -42,17 +45,20 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
     }
 
     updateContentTicketDetail(data: BetLog) {
+        let index = 0;
         this.roundId.string = data.id.toString();
         const betLogDetails = data.betLogDetails;
-        const startRound = this.renderDetailBase(data, true);
+        const startRound = this.renderDetailBase(data, true, index);
         this.content.addChild(startRound);
+        index++;
         betLogDetails.forEach((logDetail) => {
             const ticketDetailItem = GameUtils.createNodeFromPrefab(this.ticketDetailItemPrefab);
             const detailControl = ticketDetailItem.getComponent(HiLoTicketDetailItem);
-            detailControl.renderTicketDetailItem(logDetail);
+            detailControl.renderTicketDetailItem(logDetail, index);
             this.content.addChild(ticketDetailItem);
+            index++;
         });
-        const endRound = this.renderDetailBase(data, false);
+        const endRound = this.renderDetailBase(data, false, index);
         this.content.addChild(endRound);
     }
 
@@ -61,10 +67,10 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
         this.calculateHeights(data.betLogDetails);
     }
 
-    renderDetailBase(data: BetLog, isFirst: boolean): cc.Node {
+    renderDetailBase(data: BetLog, isFirst: boolean, index: number): cc.Node {
         const basedetailItem = GameUtils.createNodeFromPrefab(this.detailBaseItemPrefab);
         const control = basedetailItem.getComponent(HiLoTicketDetailBaseItem);
-        control.setData(data, isFirst);
+        control.setData(data, isFirst, index);
         return basedetailItem;
     }
 }

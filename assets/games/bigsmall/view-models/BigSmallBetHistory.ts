@@ -14,6 +14,9 @@ export default class BigSmallBetHistory extends GameBalancedBettingHistoryBase {
     protected main: BigSmall;
     protected roundId = 0;
 
+    HEIGHT_BET_DETAIL_TABLE = 430;
+    WIDTH_BET_DETAIL_TABLE = 560;
+
     init(main: BigSmall, roundId: number) {
         super.init(main, roundId);
     }

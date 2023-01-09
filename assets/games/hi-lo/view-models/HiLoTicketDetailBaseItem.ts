@@ -12,7 +12,7 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
     @property(cc.Label)
     round: cc.Label = null;
 
-    setData(data: BetLog, isFirst: boolean) {
+    setData(data: BetLog, isFirst: boolean, index) {
         if (isFirst) {
             const startRound = "hiLo.startRound";
             this.time.string = getStringHourByTime(data.time);
@@ -28,5 +28,6 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
             this.win.string = numberWithCommas(data.betwin, 2);
             this.win.node.color = cc.Color.YELLOW;
         }
+        this.bg.active = index % 2 > 0;
     }
 }

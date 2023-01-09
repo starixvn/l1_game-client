@@ -1,4 +1,3 @@
-import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import { getCacheModeFollowLanguage } from "../../../common/helpers/LanguagesHelper";
 import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import VipSedieWarTicketDetailItem from "./VipSedieWarTicketDetailItem";
@@ -26,12 +25,10 @@ export default class VipSedieWarTicketDetail extends GameTicketDetailBase {
     @property({ type: cc.SpriteFrame })
     dotsFrame: cc.SpriteFrame[] = [];
 
-    onLoad() {
-        const commonDialog = this.mainFrame.getComponent(CommonDialog);
-        commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
-    }
+    HEIGHT_BET_DETAIL_TABLE = 158;
+    WIDTH_BET_DETAIL_TABLE = 700;
+
+    onLoad() {}
 
     setData(data: any) {
         this.roundId.string = data.phien;
@@ -48,6 +45,7 @@ export default class VipSedieWarTicketDetail extends GameTicketDetailBase {
                 item.setHighlightWinChoice(data.settlementResult[detail.choice]);
             });
         }
+        this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, 348);
     }
 
     getWinChoices(settlementResult: any): string {

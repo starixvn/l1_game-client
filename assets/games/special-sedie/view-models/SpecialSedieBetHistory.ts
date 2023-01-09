@@ -1,5 +1,6 @@
 import GameBalancedBettingHistoryBase from "../../_base/view-models/GameBalancedBettingHistoryBase";
 import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
+
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class SpecialSedieBetHistory extends GameBalancedBettingHistoryBase {
@@ -13,6 +14,9 @@ export default class SpecialSedieBetHistory extends GameBalancedBettingHistoryBa
     whiteDot: cc.SpriteFrame = null;
 
     protected betType = ["even", "odd"];
+
+    HEIGHT_BET_DETAIL_TABLE = 430;
+    WIDTH_BET_DETAIL_TABLE = 560;
 
     onData(data: any) {
         super.onData(data);

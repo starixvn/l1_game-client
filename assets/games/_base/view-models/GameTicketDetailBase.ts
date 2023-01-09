@@ -19,6 +19,9 @@ export default class GameTicketDetailBase extends cc.Component {
     @property(cc.Label)
     gameName: cc.Label = null;
 
+    @property(cc.Node)
+    titleTables: cc.Node[] = [];
+
     betLogDetails = null;
     settlementResult = null;
     betDetailFrame: BetDetailFrame;
@@ -30,8 +33,12 @@ export default class GameTicketDetailBase extends cc.Component {
     public HEIGHT_BET_DETAIL_TABLE = 452;
     public WIDTH_BET_DETAIL_TABLE = 1000;
 
+    colorTitle = "#ffe800";
+    fontsizeTitle = 18;
+
     onLoad() {
         this.content.children.forEach((child) => child.destroy());
+        this.updateTitle();
     }
 
     setGameName() {
@@ -70,5 +77,17 @@ export default class GameTicketDetailBase extends cc.Component {
     initBetDetailTable(node: cc.Node) {
         this.betDetailTable = node.getComponent(BetDetailTable);
         this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, this.HEIGHT_BET_DETAIL_TABLE);
+        this.updateTitle();
+    }
+
+    updateTitle() {
+        this.titleTables.forEach((title) => {
+            const childNodes = title.children;
+            childNodes.forEach((child) => {
+                child.color = cc.Color.BLACK.fromHEX(this.colorTitle);
+                child.getComponent(cc.Label).fontSize = this.fontsizeTitle;
+                //child.getComponent(LocalizedLabelWithFormat).
+            });
+        });
     }
 }

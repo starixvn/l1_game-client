@@ -30,7 +30,10 @@ export default class HiLoTicketDetailItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    renderTicketDetailItem(logDetail: BetLogDetail) {
+    @property(cc.Node)
+    bg: cc.Node = null;
+
+    renderTicketDetailItem(logDetail: BetLogDetail, index) {
         const high = "hiLo.high";
         const low = "hiLo.low";
         this.time.string = getStringHourByTime(logDetail.time);
@@ -40,5 +43,6 @@ export default class HiLoTicketDetailItem extends cc.Component {
         this.resultCard.setData(logDetail.cards[1]);
         this.stake.string = numberWithCommas(logDetail.amount, 2);
         this.win.string = numberWithCommas(logDetail.betwin, 2);
+        this.bg.active = index % 2 > 0;
     }
 }
