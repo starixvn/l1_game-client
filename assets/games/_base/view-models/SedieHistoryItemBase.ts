@@ -1,24 +1,20 @@
+import SocketIOHistoryItemBase from "./SocketIOHistoryItemBase";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SedieHistoryItemBase extends cc.Component {
+export default class SedieHistoryItemBase extends SocketIOHistoryItemBase {
     @property(cc.Node)
     bg: cc.Node = null;
 
     @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    phien: cc.Label = null;
+    round: cc.Label = null;
 
     @property(cc.Sprite)
     kqSprite: cc.Sprite = null;
 
     @property(cc.Label)
     kqLabel: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.Label)
     date: cc.Label = null;

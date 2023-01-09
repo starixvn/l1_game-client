@@ -1,25 +1,20 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 import { getStringDateByTime } from "./../../../common/helpers/DateTimeHelper";
 import VipSedieWarTicketDetail from "./VipSedieWarTicketDetail";
 import VipSedieWarUtils from "./VipSedieWarUtils";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class VipSedieWarHistoryItem extends cc.Component {
+export default class VipSedieWarHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Node)
     background: cc.Node = null;
 
     @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    roundId: cc.Label = null;
+    round: cc.Label = null;
 
     @property(cc.Label)
     bet: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
@@ -41,7 +36,7 @@ export default class VipSedieWarHistoryItem extends cc.Component {
         const { time, phien, result, settlementResult, betwin, totalAmount, betLogDetails } = data;
 
         this.time.string = getStringDateByTime(time);
-        this.roundId.string = phien;
+        this.round.string = phien;
         this.win.string = numberWithCommas(betwin, 2);
         this.bet.string = numberWithCommas(totalAmount);
 

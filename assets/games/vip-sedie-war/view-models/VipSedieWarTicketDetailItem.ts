@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import VipSedieWarUtils from "./VipSedieWarUtils";
@@ -13,6 +14,10 @@ export default class VipSedieWarTicketDetailItem extends cc.Component {
 
     @property(cc.Label)
     amount: cc.Label = null;
+
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+    }
 
     setData(data: any) {
         this.choice.string = VipSedieWarUtils.getBetChoiceString(data.choice);

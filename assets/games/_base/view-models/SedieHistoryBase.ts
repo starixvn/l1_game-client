@@ -29,7 +29,7 @@ export default class SedieHistoryBase extends SocketIOGameHistoryBase {
             item.hour.string = getStringHourByTime(time);
         }
 
-        item.phien.string = phien;
+        item.round.string = phien;
 
         let number = 0;
         Object.keys(result).forEach((key) => {
