@@ -1,5 +1,6 @@
 import { i18n } from "../../../ClientModules";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import { FormationHandler } from "../../../common/i18n/LocalizedLabelWithFormat";
 import BetDetailFrame from "../../../common/new-history/BetDetailFrame";
 import BetDetailTable from "../../../common/new-history/BetDetailTable";
 
@@ -88,7 +89,7 @@ export default class GameTicketDetailBase extends cc.Component {
             childNodes.forEach((child) => {
                 child.color = cc.Color.BLACK.fromHEX(this.colorTitle);
                 child.getComponent(cc.Label).fontSize = this.fontsizeTitle;
-                //child.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;
+                child.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;
             });
         });
     }
