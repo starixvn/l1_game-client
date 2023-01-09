@@ -1,19 +1,17 @@
 import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BigSmallHistoryItem extends cc.Component {
+export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Node)
     bg: cc.Node = null;
 
     @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    phien: cc.Label = null;
+    round: cc.Label = null;
 
     @property(cc.Label)
     choice: cc.Label = null;
@@ -27,9 +25,6 @@ export default class BigSmallHistoryItem extends cc.Component {
     @property(cc.Label)
     refund: cc.Label = null;
 
-    @property(cc.Label)
-    win: cc.Label = null;
-
     roundId = 0;
 
     public handleRoundIdClick = (roundId: number) => {};
@@ -41,7 +36,7 @@ export default class BigSmallHistoryItem extends cc.Component {
     setData(betLog: any, index: number) {
         const { time, phien, betwin, amount, refund, win, choice, result } = betLog;
         this.time.string = getStringDateByTime(time);
-        this.phien.string = phien;
+        this.round.string = phien;
         this.bet.string = numberWithCommas(amount);
         this.refund.string = numberWithCommas(refund, 2);
         this.roundId = phien;

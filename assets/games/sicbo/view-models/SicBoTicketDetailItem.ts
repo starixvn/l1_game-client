@@ -1,5 +1,4 @@
 import GameUtils from "../../../common/GameUtils";
-
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 
@@ -19,6 +18,10 @@ export default class SicBoTicketDetailItem extends cc.Component {
     amount: cc.Label = null;
 
     height: number = null;
+
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+    }
 
     updateContent(log: any, settlementResult: any) {
         const typeNumberText = GameUtils.getText("ui.type_bet_number");

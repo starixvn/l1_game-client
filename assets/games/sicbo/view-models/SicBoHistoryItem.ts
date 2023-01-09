@@ -1,15 +1,10 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class SicBoHistoryItem extends cc.Component {
-    @property(cc.Label)
-    timeLabel: cc.Label = null;
-
-    @property(cc.Label)
-    roundLabel: cc.Label = null;
-
+export default class SicBoHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Sprite)
     dices: cc.Sprite[] = [];
 
@@ -19,14 +14,11 @@ export default class SicBoHistoryItem extends cc.Component {
     @property(cc.Label)
     amountLabel: cc.Label = null;
 
-    @property(cc.Label)
-    winLabel: cc.Label = null;
-
     @property(cc.Node)
     bg: cc.Node = null;
 
-    time: string = null;
-    round: number = null;
+    timeBet: string = null;
+    roundId: number = null;
     result: object = {};
     winning: number = null;
     amount: number = null;
@@ -36,12 +28,12 @@ export default class SicBoHistoryItem extends cc.Component {
     public showTicketDetail = (round: number, time: string, result: any, betLogDetails: any, settlementResult: any) => {};
 
     openTicketDetail() {
-        this.showTicketDetail(this.round, this.time, this.result, this.betLogDetails, this.settlementResult);
+        this.showTicketDetail(this.roundId, this.timeBet, this.result, this.betLogDetails, this.settlementResult);
     }
 
     setData(betLog: any, dicesSpriteFrames: cc.SpriteFrame[], index: number) {
-        this.timeLabel.string = getStringDateByTime(betLog.time);
-        this.roundLabel.string = betLog.phien.toString();
+        this.time.string = getStringDateByTime(betLog.time);
+        this.round.string = betLog.phien.toString();
         this.dices[0].spriteFrame = dicesSpriteFrames[betLog.result.dice1 - 1];
         this.dices[1].spriteFrame = dicesSpriteFrames[betLog.result.dice2 - 1];
         this.dices[2].spriteFrame = dicesSpriteFrames[betLog.result.dice3 - 1];

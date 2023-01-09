@@ -12,7 +12,7 @@ describe("Test class BigSmallHistoryItem", () => {
         node = new cc.Node();
         comp = node.addComponent(BigSmallHistoryItem);
         comp.time = new cc.Node().addComponent(cc.Label);
-        comp.phien = new cc.Node().addComponent(cc.Label);
+        comp.round = new cc.Node().addComponent(cc.Label);
         comp.choice = new cc.Node().addComponent(cc.Label);
         comp.result = new cc.Node().addComponent(cc.Label);
         comp.bet = new cc.Node().addComponent(cc.Label);
@@ -62,11 +62,11 @@ describe("Test class BigSmallHistoryItem", () => {
 
             // Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
-            expect(comp.phien.string).toMatch(betLog.phien.toString());
+            expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.bet.string).toMatch(numberWithCommas(betLog.amount));
             expect(comp.refund.string).toMatch(numberWithCommas(betLog.refund));
             expect(comp.roundId).toEqual(betLog.phien);
-            expect(comp.phien.string).toMatch(betLog.phien.toString());
+            expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.win.string).toMatch(numberWithCommas(betLog.betwin));
             expect(comp.choice.string).toEqual(`${GameUtils.getBetChoiceString(betLog.choice)}`);
             expect(comp.result.string).toMatch(
@@ -120,11 +120,11 @@ describe("Test class BigSmallHistoryItem", () => {
 
             // Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
-            expect(comp.phien.string).toMatch(betLog.phien.toString());
+            expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.bet.string).toMatch(numberWithCommas(betLog.amount));
             expect(comp.refund.string).toMatch(numberWithCommas(betLog.refund));
             expect(comp.roundId).toEqual(betLog.phien);
-            expect(comp.phien.string).toMatch(betLog.phien.toString());
+            expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.win.string).toMatch(numberWithCommas(betLog.betwin));
             expect(comp.choice.string).toEqual(`${GameUtils.getBetChoiceString(betLog.choice)}`);
             expect(comp.result.string).toMatch(
