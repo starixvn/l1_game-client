@@ -24,6 +24,8 @@ import CategoryItem from "./CategoryItem";
 import GameUIManager from "./GameUIManager";
 import Header from "./Header";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
+import Category from "../../category/view-models/Category";
+import LobbyManager from "./LobbyManager";
 
 const socketIOController = appContainer.get(SocketIOController);
 const sentryLogger = logger();
@@ -80,6 +82,9 @@ export default class MainGame extends cc.Component {
     @lazyInject(LobbyMenuConfig)
     private readonly lobbyMenuConfig: LobbyMenuConfig;
 
+    @property(cc.Prefab)
+    categoryPrefab: cc.Prefab = null;
+
     private initializedLobby = false;
     private luckyWheelIcon: LuckyWheelIcon;
     private lobbyMenu: LobbyMenu;
@@ -107,6 +112,7 @@ export default class MainGame extends cc.Component {
         this.initMiniPanel();
 
         this.callTriggerSignIn();
+        this.loadCategory();
         this.onLoadLobby();
         MusicPlayer.getInstance().init();
 
@@ -181,21 +187,31 @@ export default class MainGame extends cc.Component {
         return category;
     }
 
-    activeBgNewOnCategory() {
-        const categoryList = {
-            seDieGames: GameCategory.SeDie,
-            casinoGames: GameCategory.Casino,
-            cardGames: GameCategory.Card,
-            slotGames: GameCategory.Slot,
-            lotteryGames: GameCategory.Lottery,
-            othersGames: GameCategory.Other
-        };
+    loadCategory() {
+        const categoryList = LobbyManager.getInstance().getCategoryList();
+        const categoryLength = categoryList.length - 1;
+        categoryList.forEach(({ name, index }) => {
+            const categoryNode = cc.instantiate(this.categoryPrefab);
+            categoryNode.name = index.toString();
+            const itemCategory = categoryNode.getComponent(Category);
+            itemCategory.CategoryName = name;
+            itemCategory.Index = index;
+            itemCategory.enabledCategorySeparator(categoryLength);
+            itemCategory.onCategoryChanged = (category) => {
+                this.onCategoryChanged(category);
+            };
+            this.categoryContainer.addChild(categoryNode);
+        });
+    }
 
-        Object.keys(categoryList).forEach((key) => {
-            const isNew = this.lobbyMenuConfig.categoryList[key].some(
-                (gameId) => this.lobbyMenuConfig.isNewGame(gameId) && cc.RedT.user?.offerGames?.includes(gameId)
+    activeBgNewOnCategory() {
+        const categoryList = LobbyManager.getInstance().getCategoryList();
+
+        categoryList.forEach(({ index, gameIds }) => {
+            const isNew = gameIds.some(
+                (gameId) => this.lobbyMenuConfig.isNewGame(gameId, index) && cc.RedT.user?.offerGames?.includes(gameId)
             );
-            const categoryNode = this.categoryContainer.children.find((child) => child.name === categoryList[key].toString());
+            const categoryNode = this.categoryContainer.children.find((child) => child.name === index.toString());
             if (categoryNode) {
                 const newNode = categoryNode.getComponent(CategoryItem);
                 newNode.newNode.active = isNew;
@@ -507,10 +523,9 @@ export default class MainGame extends cc.Component {
         }
     }
 
-    onCategoryChanged(e) {
-        const category = e.node.name;
+    onCategoryChanged(categoryIndex: number) {
         AudioManager.getInstance().playClick();
-        this.lobbyMenu?.setCategory(+category);
+        this.lobbyMenu?.setCategory(+categoryIndex);
         this.updateArrowVisibility();
     }
 

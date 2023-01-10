@@ -67,6 +67,9 @@ export default class CircleMenu extends GameIconMenu {
     }
 
     addItem(id: number, prefab: cc.Prefab): cc.Node {
+        if (!prefab) {
+            return;
+        }
         const node = cc.instantiate(prefab);
         node.scale = 0.68;
         this.content.addChild(node);

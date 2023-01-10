@@ -40,19 +40,19 @@ export default class SkeletonIcon extends cc.Component {
 
     private readonly timeGap = 0.125;
 
-    async setGameContent(id: number, batchIndex: number, addListIconObscure: (icon: SkeletonIcon) => void) {
+    async setGameContent(id: number, batchIndex: number, categoryIndex: number, addListIconObscure: (icon: SkeletonIcon) => void) {
         const uiManager = GameUIManager.getInstance();
         if (!uiManager.prefabCache.lobbyIcons[id] && batchIndex !== 0) {
             addListIconObscure(this);
             this.scheduleOnce(async () => {
-                await this.loadAnimation(id);
+                await this.loadAnimation(id, categoryIndex);
             }, batchIndex * this.timeGap);
         } else {
-            this.loadAnimation(id);
+            this.loadAnimation(id, categoryIndex);
         }
     }
 
-    async loadAnimation(id: number) {
+    async loadAnimation(id: number, categoryIndex: number) {
         const uiManager = GameUIManager.getInstance();
         let prefab: cc.Prefab;
         if (uiManager.prefabCache.lobbyIcons[id]) {
@@ -67,7 +67,7 @@ export default class SkeletonIcon extends cc.Component {
 
         const gameNode = cc.instantiate(prefab);
         this.gameContent?.addChild(gameNode);
-        this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id));
+        this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id, categoryIndex));
 
         uiManager.prefabCache.lobbyIcons[id] = prefab;
     }

@@ -1,13 +1,7 @@
 import { injectable } from "inversify";
-
-import {
-    GameConfiguration,
-    getGameConfiguration,
-    getGameConfigurationsWithFilter,
-    getGameIdsWithFilter,
-} from "../../../configs/GameConfigurations";
 import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import { ICashSystem, ICreditSystem, System } from "../../../System";
+import LobbyManager from "./LobbyManager";
 
 @injectable()
 export default class LobbyMenuConfig extends System implements ICreditSystem, ICashSystem {
@@ -18,46 +12,25 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     smPromotion: boolean;
 
     get categoryList() {
-        return {
-            seDieGames: this.getGameIdsByCategory("sedie"),
-            casinoGames: this.getGameIdsByCategory("bigsmall"),
-            cardGames: this.getGameIdsByCategory("card"),
-            slotGames: this.getGameIdsByCategory("slot"),
-            lotteryGames: this.getGameIdsByCategory("lottery"),
-            othersGames: this.getGameIdsByCategory("other")
-        };
+        return LobbyManager.getInstance().getCategoryList();
     }
 
     get list() {
-        const gameFilter = (configuration: GameConfiguration) => configuration.id > 0 && !!configuration.order;
-
-        return getGameIdsWithFilter(gameFilter);
+        return LobbyManager.getInstance().getGameIdsByCategoryIndex();
     }
 
     get bannerAds() {
-        const bannerFilter = (configuration: GameConfiguration) => !!configuration?.banner;
-        const games = getGameConfigurationsWithFilter(bannerFilter);
-        games.sort((a, b) => a.banner.order - b.banner.order);
-        return games.map((configuration) => configuration.id);
+        const banners = LobbyManager.getInstance().getBanners();
+        return banners?.map((banner) => banner.gameId);
     }
 
     get miniList() {
-        const miniPanelFilter = (configuration: GameConfiguration) => configuration?.mini?.miniPanel && !!configuration.order;
-
-        return getGameIdsWithFilter(miniPanelFilter);
-    }
-
-    getGameIdsByCategory(category: string) {
-        const categoryFilter = (configuration: GameConfiguration) =>
-            configuration?.category === category && configuration.id > 0 && !!configuration.order;
-
-        return getGameIdsWithFilter(categoryFilter);
+        return LobbyManager.getInstance().getMiniPanelList();
     }
 
     getBannerInfo(gameId: number) {
-        const gameConfiguration = getGameConfiguration(gameId);
-
-        return gameConfiguration?.banner;
+        const banner = LobbyManager.getInstance().getBannerByGameId(gameId);
+        return banner;
     }
     customGameIconBySystem = [FourGuardiansId];
 
@@ -69,14 +42,13 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         this.smPromotion = false;
     }
 
-    isNewGame(gameId: number): boolean {
-        const gameConfiguration = getGameConfiguration(gameId);
-
-        return gameConfiguration?.tag === "new";
+    isNewGame(gameId: number, category = 0): boolean {
+        const gameConfiguration = LobbyManager.getInstance().getGame(gameId, category);
+        return gameConfiguration?.newTag;
     }
 
-    isBigSize(gameId: number): boolean {
-        const gameConfiguration = getGameConfiguration(gameId);
+    isBigSize(gameId: number, category = 0): boolean {
+        const gameConfiguration = LobbyManager.getInstance().getGame(gameId, category);
 
         return gameConfiguration?.bigSize;
     }

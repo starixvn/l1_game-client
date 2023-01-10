@@ -3,6 +3,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import GameIconMenu from "./GameIconMenu";
 import GameUIManager from "./GameUIManager";
+import LobbyManager from "./LobbyManager";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 import SkeletonIcon from "./SkeletonIcon";
 
@@ -105,7 +106,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     private isBigSize(id: number) {
-        return this.lobbyMenuConfig.isBigSize(id);
+        return this.lobbyMenuConfig.isBigSize(id, this.currentCategory);
     }
 
     getList() {
@@ -120,14 +121,7 @@ export default class LobbyMenu extends GameIconMenu {
             return cc.RedT.user.offerGames;
         }
 
-        const dict = {};
-        dict[GameCategory.SeDie] = this.lobbyMenuConfig.categoryList.seDieGames;
-        dict[GameCategory.Casino] = this.lobbyMenuConfig.categoryList.casinoGames;
-        dict[GameCategory.Card] = this.lobbyMenuConfig.categoryList.cardGames;
-        dict[GameCategory.Slot] = this.lobbyMenuConfig.categoryList.slotGames;
-        dict[GameCategory.Lottery] = this.lobbyMenuConfig.categoryList.lotteryGames;
-        dict[GameCategory.Other] = this.lobbyMenuConfig.categoryList.othersGames;
-        const list = dict[this.currentCategory];
+        const list = LobbyManager.getInstance().getGameIdsByCategoryIndex(this.currentCategory);
         return list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
     }
 
@@ -162,7 +156,7 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     loadPrefab(gameId: number): Promise<cc.Prefab> {
-        const skeletonIconPath = this.lobbyMenuConfig.isBigSize(gameId)
+        const skeletonIconPath = this.lobbyMenuConfig.isBigSize(gameId, this.currentCategory)
             ? `lobby/games/skeleton-icon/icon-big`
             : `lobby/games/skeleton-icon/icon-small`;
 
@@ -179,7 +173,7 @@ export default class LobbyMenu extends GameIconMenu {
             this.listIconObscure.push(icon);
         };
 
-        skeletonIconComponent.setGameContent(gameId, batchIndex, addListIconObscure);
+        skeletonIconComponent.setGameContent(gameId, batchIndex, this.currentCategory, addListIconObscure);
 
         return iconNode;
     }

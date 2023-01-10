@@ -7,6 +7,7 @@ import UserService from "../../common/auth/UserService";
 import GameUtils from "../../common/GameUtils";
 import logger from "../../common/logger";
 import { initialize } from "../../configs/GameConfigurations";
+import { getLobbyConfigs } from "../../lobby/main/view-models/LobbyManager";
 import LobbyMenuConfig from "../../lobby/main/view-models/LobbyMenuConfig";
 import RandomWaitingMessage from "./RandonWaitingMessage";
 import SplashConfig from "./SplashConfig";
@@ -110,7 +111,7 @@ export default class Splash extends cc.Component {
     async onLoaded() {
         await initialize();
         this.initRedT();
-
+        await getLobbyConfigs();
         await this.preLoadBanner();
         await this.preLoadGameIcons();
 
