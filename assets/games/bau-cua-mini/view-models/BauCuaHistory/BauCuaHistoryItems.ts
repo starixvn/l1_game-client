@@ -1,16 +1,11 @@
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BauCuaHistoryItems extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    round: cc.Label = null;
-
+export default class BauCuaHistoryItems extends SocketIOHistoryItemBase {
     @property({ type: cc.Sprite })
     dices: cc.Sprite[] = [];
 
@@ -31,9 +26,6 @@ export default class BauCuaHistoryItems extends cc.Component {
 
     @property(cc.Label)
     prawn: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.SpriteFrame)
     animalSprites: cc.SpriteFrame[] = [];

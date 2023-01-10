@@ -1,6 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 import { BMBetType } from "./BitcoinMasterCommon";
 import BitcoinMasterEvenOddResultDetail from "./BitcoinMasterEvenOddResultDetail";
 import BitcoinMasterUpDownResultDetail from "./BitcoinMasterUpDownResultDetail";
@@ -9,10 +10,7 @@ import BitcoinMasterUtils from "./BitcoinMasterUtils";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BitcoinMasterTicketDetailItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
+export default class BitcoinMasterTicketDetailItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     choice: cc.Label = null;
 
@@ -27,9 +25,6 @@ export default class BitcoinMasterTicketDetailItem extends cc.Component {
 
     @property(cc.Label)
     refund: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.Node)
     lineBottom: cc.Node = null;

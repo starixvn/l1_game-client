@@ -1,27 +1,19 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 import { BMBetType, BMHeaderMenu } from "./BitcoinMasterCommon";
 import BitcoinMasterUtils from "./BitcoinMasterUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BitcoinMasterHistoryItem extends cc.Component {
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    roundId: cc.Label = null;
-
+export default class BitcoinMasterHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     totalBet: cc.Label = null;
 
     @property(cc.Label)
     refund: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     @property(cc.Node)
     background: cc.Node = null;
@@ -51,7 +43,7 @@ export default class BitcoinMasterHistoryItem extends cc.Component {
         this.roundID = data.phien;
         this.background.active = index % 2 !== 0;
         this.time.string = getStringDateByTime(data.time);
-        this.roundId.string = data.phien.toString();
+        this.round.string = data.phien.toString();
         this.win.string = numberWithCommas(BitcoinMasterUtils.setGrossWinLoss(data), 2);
         this.totalBet.string = numberWithCommas(data.totalAmount);
         this.refund.string = numberWithCommas(data.refund, 2);

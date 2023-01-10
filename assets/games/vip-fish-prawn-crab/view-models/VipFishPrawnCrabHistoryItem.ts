@@ -1,18 +1,13 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class VipFishPrawnCrabHistoryItem extends cc.Component {
+export default class VipFishPrawnCrabHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Node)
     background: cc.Node = null;
-
-    @property(cc.Label)
-    time: cc.Label = null;
-
-    @property(cc.Label)
-    round: cc.Label = null;
 
     @property(cc.Sprite)
     dices: cc.Sprite[] = [];
@@ -43,9 +38,6 @@ export default class VipFishPrawnCrabHistoryItem extends cc.Component {
 
     @property(cc.Label)
     ocean: cc.Label = null;
-
-    @property(cc.Label)
-    win: cc.Label = null;
 
     setData(betLog: any, index: number) {
         this.node.active = true;
