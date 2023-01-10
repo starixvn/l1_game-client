@@ -3,9 +3,9 @@ import { Socket } from "socket.io-client";
 import { i18n } from "../../../ClientModules";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
-import { FormationHandler } from "../../../common/i18n/LocalizedLabelWithFormat";
 import HistoryFrame from "../../../common/new-history/HistoryFrame";
 
 const { ccclass, property } = cc._decorator;
@@ -70,12 +70,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
             this.historyFrame.updateTitleSize(node.width + this.WIDTH_SIGN);
         }
         const header = this.wrapperContent.children[0];
-        header.children.forEach((child) => {
-            child.color = cc.Color.BLACK.fromHEX(this.headerTitleColor);
-            const label = child.getComponent(cc.Label);
-            label.fontSize = this.fontsizeTitle;
-            child.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;
-        });
+        GameUtils.setFontSizeLabelsInNode(header, true);
     }
 
     get_data(page = 1) {

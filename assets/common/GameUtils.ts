@@ -9,6 +9,7 @@ import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import BetChips from "./bet-chips/view-models/BetChips";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
+import { FormationHandler } from "./i18n/LocalizedLabelWithFormat";
 import { preloadAssets } from "./PreloadRemoteAsset";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
@@ -560,14 +561,17 @@ export default class GameUtils {
         return node;
     }
 
-    public static setFontSizeLabelsInNode(node: cc.Node, fontSize = 36) {
+    public static setFontSizeLabelsInNode(node: cc.Node, isCustom = false, fontSize = 36) {
         let parentNode;
         node.getComponentsInChildren(cc.Label).forEach((label) => {
             const labelNode = label.node;
             labelNode.scale = 0.5;
             label.fontSize = fontSize;
             label.lineHeight = fontSize;
-
+            if (isCustom) {
+                labelNode.color = cc.Color.BLACK.fromHEX("#ffe800");
+                labelNode.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;
+            }
             if (parentNode !== labelNode.parent) {
                 parentNode = labelNode.parent;
                 const layout = parentNode.getComponent(cc.Layout);
