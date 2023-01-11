@@ -96,7 +96,6 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     handleSomeItemRowData(context: any, item: any, log: any) {
         item.amountLabel.string = numberWithCommas(log.totalAmount);
         item.win.string = numberWithCommas(log.betwin, 2);
-        item.win.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
         item.betTime = "";
         item.roundId = log.phien;

@@ -37,7 +37,6 @@ export default class HoldemPokerTicketHistoryItem extends SocketIOHistoryItemBas
         }
 
         this.stake.string = numberWithCommas(log.stake);
-        this.win.node.color = cc.Color.YELLOW;
     }
 
     getDealerResult(log: BetLog) {

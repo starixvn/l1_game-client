@@ -41,7 +41,6 @@ export default class BlackJackHistoryItem extends SocketIOHistoryItemBase {
         this.split.active = isSplit;
         this.bet.string = numberWithCommas(log.bet);
         this.win.string = numberWithCommas(log.betwin, 2);
-        this.win.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.setDealerCards(log);
         this.setPlayerCards(log, isSplit);
         this.playerResult.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;

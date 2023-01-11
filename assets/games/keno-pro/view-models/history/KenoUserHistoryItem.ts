@@ -37,7 +37,6 @@ export default class KenoUserHistoryItem extends KenoHistoryItem {
         this.roundId = phien;
         this.round.string = phien;
         this.win.string = numberWithCommas(betwin, 2);
-        this.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
         let total = 0;
         result.forEach((resultItem) => {

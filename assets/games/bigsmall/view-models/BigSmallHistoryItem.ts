@@ -40,11 +40,9 @@ export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
         this.setBackground(index);
 
         if (win) {
-            this.win.node.color = cc.Color.YELLOW;
             this.time.node.color = cc.Color.YELLOW;
             this.choice.node.color = cc.Color.YELLOW;
         } else {
-            this.win.node.color = cc.Color.WHITE;
             this.time.node.color = cc.Color.WHITE;
             this.choice.node.color = cc.Color.WHITE;
         }
