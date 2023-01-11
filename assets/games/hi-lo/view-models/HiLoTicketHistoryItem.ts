@@ -1,11 +1,12 @@
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 import { BetLog } from "./HiLoBetData";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class HiLoTicketHistoryItem extends cc.Component {
+export default class HiLoTicketHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -18,7 +19,7 @@ export default class HiLoTicketHistoryItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    renderTicketItem(item: BetLog) {
+    renderTicketItem(item: BetLog, index: number) {
         this.time.string = getStringDateByTime(item.time);
         this.roundId.string = item.id.toString();
         this.stake.string = numberWithCommas(item.amount, 2);
@@ -26,6 +27,7 @@ export default class HiLoTicketHistoryItem extends cc.Component {
         if (item.betwin > item.amount) {
             this.stake.node.color = cc.Color.YELLOW;
         }
+        this.setBackground(index);
     }
 
     openTicketDetail() {}

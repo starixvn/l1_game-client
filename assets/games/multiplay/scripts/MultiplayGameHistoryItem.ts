@@ -9,14 +9,11 @@ export default class MultiplayGameHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     gameName: cc.Label = null;
 
-    @property(cc.Node)
-    bgRow: cc.Node = null;
-
     setData(data: any, index: number) {
         this.time.string = getStringDateByTime(data.time);
         this.gameName && (this.gameName.string = data.gameName);
         this.round.string = data.roundId.toString();
         this.win.string = numberWithCommas(data.betwin, 2);
-        this.bgRow.active = index % 2 === 1;
+        this.setBackground(index);
     }
 }

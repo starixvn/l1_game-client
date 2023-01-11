@@ -14,17 +14,14 @@ export default class BlockchainBaccaratTicketHistoryItem extends BaccaratBaseHis
     bankerCards: BlockchainBaccaratCards = null;
 
     @property(cc.Node)
-    showBg: cc.Node = null;
-
-    @property(cc.Node)
     playerCard3: cc.Node = null;
 
     @property(cc.Node)
     bankerCard3: cc.Node = null;
 
     setData(betLog: BetLog, index: number) {
-        this.showBg.active = index % 2 === 0 ? false : true;
         super.setData(betLog);
+        this.setBackground(index);
     }
 
     showCards(betLog: BetLog) {

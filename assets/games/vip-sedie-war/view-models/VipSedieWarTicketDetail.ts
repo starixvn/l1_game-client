@@ -39,9 +39,9 @@ export default class VipSedieWarTicketDetail extends GameTicketDetailBase {
 
         const details = data.betLogDetails;
         if (this.itemPrefab) {
-            details.forEach((detail) => {
+            details.forEach((detail, index) => {
                 const item = this.addItem();
-                item.setData(detail);
+                item.setData(detail, index);
                 item.setHighlightWinChoice(data.settlementResult[detail.choice]);
             });
         }

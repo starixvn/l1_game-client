@@ -14,9 +14,6 @@ export default class SicBoHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     amountLabel: cc.Label = null;
 
-    @property(cc.Node)
-    bg: cc.Node = null;
-
     timeBet: string = null;
     roundId: number = null;
     result: object = {};
@@ -38,6 +35,6 @@ export default class SicBoHistoryItem extends SocketIOHistoryItemBase {
         this.dices[1].spriteFrame = dicesSpriteFrames[betLog.result.dice2 - 1];
         this.dices[2].spriteFrame = dicesSpriteFrames[betLog.result.dice3 - 1];
         this.total.string = betLog.result.dice1 + betLog.result.dice2 + betLog.result.dice3;
-        this.bg.active = index % 2 > 0;
+        this.setBackground(index);
     }
 }

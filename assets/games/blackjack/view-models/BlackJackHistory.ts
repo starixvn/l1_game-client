@@ -9,6 +9,6 @@ export default class BlackJackHistory extends SocketIOGameHistoryBase {
         const historyItemPrefab = cc.instantiate(this.itemPrefab);
         const item = historyItemPrefab.getComponent(BlackJackHistoryItem);
         this.content.addChild(historyItemPrefab);
-        item.setData(log);
+        item.setData(log, index);
     }
 }

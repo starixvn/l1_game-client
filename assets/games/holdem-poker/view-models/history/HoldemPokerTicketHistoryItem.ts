@@ -19,14 +19,11 @@ export default class HoldemPokerTicketHistoryItem extends SocketIOHistoryItemBas
     @property(cc.Label)
     stake: cc.Label = null;
 
-    @property(cc.Node)
-    showBg: cc.Node = null;
-
     renderTicketHistoryItem(log: BetLog, index: number) {
         this.time.string = getStringDateByTime(log.time);
         this.round.string = log.roundId.toString();
         this.win.string = numberWithCommas(log.betWin);
-        this.showBg.active = index % 2 === 0 ? false : true;
+        this.setBackground(index);
         if (!log.isFold) {
             const resultPlayer = `holdEmPoker.${HandResultConst[log.playerHandId]}`;
             this.player.string = `${i18n.t(resultPlayer)}`;

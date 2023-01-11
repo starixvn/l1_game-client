@@ -1,10 +1,11 @@
 import GameUtils from "../../../common/GameUtils";
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import GameTicketDetailItemBase from "../../_base/view-models/GameTicketDetailItemBase";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class SicBoTicketDetailItem extends cc.Component {
+export default class SicBoTicketDetailItem extends GameTicketDetailItemBase {
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -19,11 +20,7 @@ export default class SicBoTicketDetailItem extends cc.Component {
 
     height: number = null;
 
-    start() {
-        GameUtils.setFontSizeLabelsInNode(this.node);
-    }
-
-    updateContent(log: any, settlementResult: any) {
+    updateContent(log: any, settlementResult: any, index: number) {
         const typeNumberText = GameUtils.getText("ui.type_bet_number");
         const totalScoreText = GameUtils.getText("ui.total_score");
         const betTypes = {
@@ -92,5 +89,6 @@ export default class SicBoTicketDetailItem extends cc.Component {
         }
 
         this.height = this.node.height;
+        this.setBackground(index);
     }
 }

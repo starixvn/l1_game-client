@@ -1,12 +1,12 @@
 import { i18n } from "../../../../ClientModules";
-import GameUtils from "../../../../common/GameUtils";
 import { getStringDateByTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import GameTicketDetailItemBase from "../../../_base/view-models/GameTicketDetailItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class FanTanTicketDetailItem extends cc.Component {
+export default class FanTanTicketDetailItem extends GameTicketDetailItemBase {
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -22,20 +22,13 @@ export default class FanTanTicketDetailItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    @property(cc.Node)
-    bgRow: cc.Node = null;
-
-    start() {
-        GameUtils.setFontSizeLabelsInNode(this.node);
-    }
-
     setData(data: any, choice: string, index: number, isWin: boolean) {
         this.time.string = getStringDateByTime(data.time);
         this.odd.string = cc.RedT?.user?.fractionalOddsFormat ? numberWithCommas(+data.odds[choice] - 1, 2) : data.odds[choice];
         this.betChoice.string = this.renderBetChoice(choice);
         this.stake.string = numberWithCommas(data[choice], 2);
         this.win.string = isWin ? numberWithCommas(data[choice] * data.odds[choice], 2) : 0;
-        this.bgRow.active = index % 2 > 0;
+        this.setBackground(index);
         if (isWin) {
             this.betChoice.node.color = cc.Color.YELLOW;
             this.stake.node.color = cc.Color.YELLOW;

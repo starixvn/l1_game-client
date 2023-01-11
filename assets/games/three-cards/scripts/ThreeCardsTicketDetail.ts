@@ -20,7 +20,7 @@ export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
     @property(ThreeCardsWinChoiceView)
     winChoices: ThreeCardsWinChoiceView = null;
 
-    HEIGHT_BET_DETAIL_TABLE = 120;
+    HEIGHT_BET_DETAIL_TABLE = 320;
     WIDTH_BET_DETAIL_TABLE = 490;
 
     setData(data: ThreeCardsBetData) {
@@ -52,7 +52,7 @@ export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
                 odds: data.odds[key]
             };
             item.setData(itemData);
-            item.showBackground(i % 2 !== 0);
+            item.setBackground(i);
             item.setHighlight(settlementResult[key]);
         });
     }

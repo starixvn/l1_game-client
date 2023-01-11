@@ -2,11 +2,12 @@ import * as _ from "lodash";
 
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import GameTicketDetailItemBase from "../../_base/view-models/GameTicketDetailItemBase";
 import { RouletteBetType } from "./RouletteCommon";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class RouletteTicketDetailItem extends cc.Component {
+export default class RouletteTicketDetailItem extends GameTicketDetailItemBase {
     @property(cc.Label)
     type: cc.Label = null;
 
@@ -17,10 +18,6 @@ export default class RouletteTicketDetailItem extends cc.Component {
     amount: cc.Label = null;
 
     height: number = null;
-
-    start() {
-        GameUtils.setFontSizeLabelsInNode(this.node);
-    }
 
     updateContent(type: string, choice: string, amount: number, isWinning: boolean) {
         const choiceNames = {
@@ -87,5 +84,6 @@ export default class RouletteTicketDetailItem extends cc.Component {
         this.amount.string = numberWithCommas(amount);
         this.amount.node.color = isWinning ? cc.Color.YELLOW : cc.Color.WHITE;
         this.height = this.node.height;
+        this.setBackground(0);
     }
 }

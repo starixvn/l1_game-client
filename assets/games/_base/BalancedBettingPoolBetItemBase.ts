@@ -2,11 +2,12 @@ import GameUtils from "../../common/GameUtils";
 import { getStringHourByTime } from "../../common/helpers/DateTimeHelper";
 import { shortenName } from "../../common/helpers/NicknameHelper";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
+import GameTicketDetailItemBase from "./view-models/GameTicketDetailItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class BalancedBettingPoolBetItemBase extends cc.Component {
+export default class BalancedBettingPoolBetItemBase extends GameTicketDetailItemBase {
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -22,7 +23,7 @@ export default class BalancedBettingPoolBetItemBase extends cc.Component {
     @property(cc.Node)
     highlight: cc.Node = null;
 
-    setData(data: any, userRate: number, multiplier) {
+    setData(data: any, userRate: number, multiplier, index: number) {
         const isLoginUser = data.name === cc.RedT.user.name;
         this.highlight.active = isLoginUser;
         this.time.string = getStringHourByTime(data.time);
@@ -33,5 +34,6 @@ export default class BalancedBettingPoolBetItemBase extends cc.Component {
 
         const convertRefund = GameUtils.getTicketValueByCurrency(data.refund, userRate, data.rate || multiplier);
         this.refund.string = numberWithCommas(convertRefund, 2);
+        this.setBackground(index);
     }
 }

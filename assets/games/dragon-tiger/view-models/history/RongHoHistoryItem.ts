@@ -19,7 +19,7 @@ export default class RongHoHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     betDraw: cc.Label = null;
 
-    setData(betLog: any) {
+    setData(betLog: any, index) {
         this.node.active = true;
         this.time.string = getStringDateByTime(betLog.time);
         this.round.string = betLog.phien;
@@ -40,6 +40,7 @@ export default class RongHoHistoryItem extends SocketIOHistoryItemBase {
         } else {
             this.betDraw.node.color = cc.Color.YELLOW;
         }
+        this.setBackground(index);
     }
 
     setCards(results: any) {

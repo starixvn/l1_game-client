@@ -7,9 +7,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
-    @property(cc.Node)
-    bg: cc.Node = null;
-
     @property(cc.Label)
     choice: cc.Label = null;
 
@@ -40,7 +37,7 @@ export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
         this.win.string = numberWithCommas(betwin, 2);
         this.choice.string = GameUtils.getBetChoiceString(choice);
         this.result.string = `${result.dice1}-${result.dice2}-${result.dice3}  ${result.dice1 + result.dice2 + result.dice3}`;
-        this.bg.active = index % 2 > 0;
+        this.setBackground(index);
 
         if (win) {
             this.win.node.color = cc.Color.YELLOW;

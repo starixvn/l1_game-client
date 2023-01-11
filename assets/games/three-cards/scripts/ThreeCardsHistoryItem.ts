@@ -20,9 +20,6 @@ export default class ThreeCardsHistoryItem extends SocketIOHistoryItemBase {
     @property({ type: NewCard })
     cards: NewCard[] = [];
 
-    @property(cc.Node)
-    bg: cc.Node = null;
-
     data: ThreeCardsBetData = null;
 
     public showTicketDetail = (data: any) => {};
@@ -40,10 +37,6 @@ export default class ThreeCardsHistoryItem extends SocketIOHistoryItemBase {
                 card.setCard(betData.result[i]);
                 card.faceUp();
             });
-    }
-
-    showBackground(show: boolean) {
-        this.bg.active = show;
     }
 
     public static generateWinChoices(data: ThreeCardsBetData): string {

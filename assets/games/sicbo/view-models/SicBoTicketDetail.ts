@@ -25,11 +25,13 @@ export default class SicBoTicketDetail extends GameTicketDetailBase {
 
     public showbetLogs() {
         this.node.active = true;
+        let index = 0;
         for (const betLogDetail of this.betLogDetails) {
             const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const ticketDetailItemComponent = ticketDetailItem.getComponent(SicBoTicketDetailItem);
-            ticketDetailItemComponent.updateContent(betLogDetail, this.settlementResult);
+            ticketDetailItemComponent.updateContent(betLogDetail, this.settlementResult, index);
             this.content.addChild(ticketDetailItem);
+            index++;
         }
     }
 

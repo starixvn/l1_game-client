@@ -12,7 +12,7 @@ export default class RouletteHistory extends SocketIOGameHistoryBase {
         const historyItemPrefab = cc.instantiate(this.itemPrefab);
         const item = historyItemPrefab.getComponent(RouletteHistoryItem);
         this.content.addChild(historyItemPrefab);
-        item.setData(log);
+        item.setData(log, index);
         this.handleSomeItemRowData(this, item, log);
     }
 

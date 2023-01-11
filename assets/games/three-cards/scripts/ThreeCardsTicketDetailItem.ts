@@ -1,10 +1,11 @@
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import GameTicketDetailItemBase from "../../_base/view-models/GameTicketDetailItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class ThreeCardsTicketDetailItem extends cc.Component {
+export default class ThreeCardsTicketDetailItem extends GameTicketDetailItemBase {
     @property(cc.Label)
     choice: cc.Label = null;
 
@@ -13,20 +14,6 @@ export default class ThreeCardsTicketDetailItem extends cc.Component {
 
     @property(cc.Label)
     bet: cc.Label = null;
-
-    @property(cc.Node)
-    bg: cc.Node = null;
-
-    @property(cc.Node)
-    bottomLine: cc.Node = null;
-
-    start() {
-        GameUtils.setFontSizeLabelsInNode(this.node);
-    }
-
-    showBackground(show: boolean) {
-        this.bg.active = show;
-    }
 
     setData({ choice, odds, bet }) {
         this.choice.string = GameUtils.getBetChoiceString(choice);

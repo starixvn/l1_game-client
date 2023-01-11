@@ -6,9 +6,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipFishPrawnCrabHistoryItem extends SocketIOHistoryItemBase {
-    @property(cc.Node)
-    background: cc.Node = null;
-
     @property(cc.Sprite)
     dices: cc.Sprite[] = [];
 
@@ -41,7 +38,7 @@ export default class VipFishPrawnCrabHistoryItem extends SocketIOHistoryItemBase
 
     setData(betLog: any, index: number) {
         this.node.active = true;
-        this.background.active = index % 2 > 0;
+        this.setBackground(index);
 
         const { time, phien, settlementResult, betwin } = betLog;
 

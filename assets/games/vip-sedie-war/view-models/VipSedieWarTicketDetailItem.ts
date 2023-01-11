@@ -1,11 +1,11 @@
-import GameUtils from "../../../common/GameUtils";
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import GameTicketDetailItemBase from "../../_base/view-models/GameTicketDetailItemBase";
 import VipSedieWarUtils from "./VipSedieWarUtils";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class VipSedieWarTicketDetailItem extends cc.Component {
+export default class VipSedieWarTicketDetailItem extends GameTicketDetailItemBase {
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -15,14 +15,11 @@ export default class VipSedieWarTicketDetailItem extends cc.Component {
     @property(cc.Label)
     amount: cc.Label = null;
 
-    start() {
-        GameUtils.setFontSizeLabelsInNode(this.node);
-    }
-
-    setData(data: any) {
+    setData(data: any, index: number) {
         this.choice.string = VipSedieWarUtils.getBetChoiceString(data.choice);
         this.amount.string = numberWithCommas(data.amount);
         this.time.string = getStringHourByTime(data.time);
+        this.setBackground(index);
     }
 
     setHighlightWinChoice(highlight: boolean) {

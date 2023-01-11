@@ -1,8 +1,8 @@
-import HiLoTicketHistoryItem from "./HiLoTicketHistoryItem";
-import BetHistory from "../../_new/common/BetHistory";
-import HiLoTicketDetail from "./HiLoTicketDetail";
-import { BetLog, TicketHistoryData } from "./HiLoBetData";
 import GameUtils from "../../../common/GameUtils";
+import BetHistory from "../../_new/common/BetHistory";
+import { BetLog, TicketHistoryData } from "./HiLoBetData";
+import HiLoTicketDetail from "./HiLoTicketDetail";
+import HiLoTicketHistoryItem from "./HiLoTicketHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,10 +15,10 @@ export default class HiLoTicketHistory extends BetHistory {
     baseRoundItemPrefab: cc.Prefab = null;
 
     renderTicketHistory(data: TicketHistoryData) {
-        data.betLogs.forEach((item) => {
+        data.betLogs.forEach((item, index) => {
             const itemNode = GameUtils.createNodeFromPrefab(this.prefabItem);
             const control = itemNode.getComponent(HiLoTicketHistoryItem);
-            control.renderTicketItem(item);
+            control.renderTicketItem(item, index);
             control.openTicketDetail = () => {
                 this.initTicketDetail(item);
             };

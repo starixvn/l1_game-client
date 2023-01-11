@@ -13,7 +13,14 @@ export default class SocketIOHistoryItemBase extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
+    @property(cc.Node)
+    bg: cc.Node = null;
+
     start() {
         GameUtils.setFontSizeLabelsInNode(this.node);
+    }
+
+    setBackground(index: number) {
+        this.bg.active = index % 2 > 0;
     }
 }

@@ -29,7 +29,7 @@ export default class KenoUserHistoryItem extends KenoHistoryItem {
         this.node.destroy();
     }
 
-    setData(betLog: any) {
+    setData(betLog: any, index: number) {
         const { time, phien, result, betwin, settlementResult } = betLog;
 
         this.node.active = true;
@@ -49,5 +49,6 @@ export default class KenoUserHistoryItem extends KenoHistoryItem {
         this.totalResult = total;
         this.result = result;
         this.setBasicData(betLog);
+        this.setBackground(index);
     }
 }

@@ -76,11 +76,11 @@ export default class GameBalancedBettingHistoryBase extends GameTicketDetailBase
         this.main.socket.emit("getRound", { roundId });
     }
 
-    addItem(data: any, userRate: number, isOldTicketData = false) {
+    addItem(data: any, userRate: number, isOldTicketData = false, index: number) {
         const item = cc.instantiate(this.itemPrefab);
         const itemComponent = item.getComponent(BalancedBettingPoolBetItemBase);
         const multiplier = this.getMultiplierForTicket(isOldTicketData);
-        itemComponent.setData(data, userRate, multiplier);
+        itemComponent.setData(data, userRate, multiplier, index);
         return item;
     }
 
@@ -110,12 +110,12 @@ export default class GameBalancedBettingHistoryBase extends GameTicketDetailBase
     loadData(choice: string, containerNode: cc.Node, betAmountLabel: cc.Label, refundLabel: cc.Label) {
         let isOldTicketData = false;
         if (this.data[choice] && this.itemPrefab) {
-            this.data[choice].forEach((user) => {
+            this.data[choice].forEach((user, index) => {
                 if (user.rate === undefined) {
                     isOldTicketData = true;
                 }
 
-                const item = this.addItem(user, this.data.playerRate, isOldTicketData);
+                const item = this.addItem(user, this.data.playerRate, isOldTicketData, index);
                 containerNode.addChild(item);
             });
         }

@@ -30,7 +30,7 @@ export default class BauCuaHistoryItems extends SocketIOHistoryItemBase {
     @property(cc.SpriteFrame)
     animalSprites: cc.SpriteFrame[] = [];
 
-    setData(betLog: any) {
+    setData(betLog: any, index: number) {
         const { time, phien, result, betwin, settlementResult } = betLog;
         this.node.active = true;
         this.time.string = getStringDateByTime(time);
@@ -50,5 +50,6 @@ export default class BauCuaHistoryItems extends SocketIOHistoryItemBase {
         });
 
         this.win.string = numberWithCommas(betwin, 2);
+        this.setBackground(index);
     }
 }

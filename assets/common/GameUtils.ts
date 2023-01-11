@@ -561,13 +561,14 @@ export default class GameUtils {
         return node;
     }
 
-    public static setFontSizeLabelsInNode(node: cc.Node, isCustom = false, fontSize = 36) {
+    public static setFontSizeLabelsInNode(node: cc.Node, isCustom = false, overflow = cc.Label.Overflow.NONE, fontSize = 36) {
         let parentNode;
         node.getComponentsInChildren(cc.Label).forEach((label) => {
             const labelNode = label.node;
             labelNode.scale = 0.5;
             label.fontSize = fontSize;
             label.lineHeight = fontSize;
+            label.overflow = overflow;
             if (isCustom) {
                 labelNode.color = cc.Color.BLACK.fromHEX("#ffe800");
                 labelNode.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;

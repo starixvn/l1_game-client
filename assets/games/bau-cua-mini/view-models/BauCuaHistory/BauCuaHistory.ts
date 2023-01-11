@@ -8,7 +8,7 @@ export default class BauCuaHistory extends SocketIOGameHistoryBase {
     bindItemRowData(betLog, index) {
         const itemNode = cc.instantiate(this.itemPrefab);
         const item = itemNode.getComponent(BauCuaHistoryItems);
-        item.setData(betLog);
+        item.setData(betLog, index);
         this.content.addChild(itemNode);
     }
 }

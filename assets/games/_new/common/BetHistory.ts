@@ -1,4 +1,5 @@
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import GameUtils from "../../../common/GameUtils";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import HistoryFrame from "../../../common/new-history/HistoryFrame";
 import Connection from "../connection/Connection";
@@ -31,19 +32,17 @@ export default class BetHistory extends cc.Component {
     protected gameName: string;
     private callback: any;
 
-    // onLoad() {
-    //     this.pages.init(this);
-    //     this.commonDialog.addOnDidHide(() => {
-    //         this.node.destroy();
-    //     });
-    // }
-
     setConnection(connection: Connection, gameName: string) {
         this.connection = connection;
         this.get_data();
         this.gameName = gameName;
         this.callback = (data) => this.onData(data);
         this.connection.on(gameName, this.callback);
+    }
+
+    start() {
+        const header = this.wrapperContent.children[0];
+        GameUtils.setFontSizeLabelsInNode(header, true);
     }
 
     onDestroy() {

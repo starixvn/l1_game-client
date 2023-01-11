@@ -1,7 +1,7 @@
 import _ = require("lodash");
 
-import BaccaratCards from "./BaccaratCards";
 import BaccaratBaseHistoryItem from "./BaccaratBaseHistoryItem";
+import BaccaratCards from "./BaccaratCards";
 
 const { ccclass, property } = cc._decorator;
 
@@ -13,11 +13,8 @@ export default class BaccaratHistoryItem extends BaccaratBaseHistoryItem {
     @property(BaccaratCards)
     bankerCards: BaccaratCards = null;
 
-    @property(cc.Node)
-    showBg: cc.Node = null;
-
     setData(betLog: any, index: number) {
-        this.showBg.active = index % 2 === 0 ? false : true;
+        this.setBackground(index);
         super.setData(betLog);
     }
 

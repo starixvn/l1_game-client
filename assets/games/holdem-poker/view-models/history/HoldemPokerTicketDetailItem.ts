@@ -18,12 +18,6 @@ export default class HoldemPokerTicketDetailItem extends SocketIOHistoryItemBase
     @property(cc.Label)
     odd: cc.Label = null;
 
-    @property(cc.Node)
-    bgRow: cc.Node = null;
-
-    @property(cc.Node)
-    bgRowLatest: cc.Node = null;
-
     protected getBettingOptionName(bet: any) {
         return bet.betChoice === "call" ? `holdEmPoker.${bet.betChoice}Choice` : `holdEmPoker.${bet.betChoice}`;
     }
@@ -35,7 +29,7 @@ export default class HoldemPokerTicketDetailItem extends SocketIOHistoryItemBase
         this.win.string = numberWithCommas(bet.win);
         this.time.string = getStringHourByTime(bet.time);
         this.odd.string = cc.RedT?.user?.fractionalOddsFormat && bet.odds ? numberWithCommas(+bet.odds - 1, 2) : bet.odds || "-";
-        this.bgRow.active = index % 2 !== 0;
+        this.setBackground(index);
         if (bet.win > 0) {
             this.stake.node.color = cc.Color.YELLOW;
             this.win.node.color = cc.Color.YELLOW;

@@ -7,9 +7,6 @@ import VipSedieWarUtils from "./VipSedieWarUtils";
 const { ccclass, property } = cc._decorator;
 @ccclass
 export default class VipSedieWarHistoryItem extends SocketIOHistoryItemBase {
-    @property(cc.Node)
-    background: cc.Node = null;
-
     @property(cc.Label)
     bet: cc.Label = null;
 
@@ -45,7 +42,7 @@ export default class VipSedieWarHistoryItem extends SocketIOHistoryItemBase {
             settlementResult,
             result
         };
-        this.background.active = index % 2 > 0;
+        this.setBackground(index);
     }
 
     onLoad() {

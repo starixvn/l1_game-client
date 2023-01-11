@@ -32,7 +32,7 @@ export default class BlackJackHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Prefab)
     cardPrefab: cc.Prefab = null;
 
-    setData(log: any) {
+    setData(log: any, index: number) {
         const isSplit = log.splitFrom || log.actions.includes("split");
         this.time.string = getStringDateByTime(log.time);
         this.time.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
@@ -45,6 +45,7 @@ export default class BlackJackHistoryItem extends SocketIOHistoryItemBase {
         this.setDealerCards(log);
         this.setPlayerCards(log, isSplit);
         this.playerResult.node.color = log.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+        this.setBackground(index);
     }
 
     setDealerCards(log: any) {

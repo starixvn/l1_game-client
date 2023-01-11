@@ -25,9 +25,10 @@ export default class RouletteHistoryItem extends SocketIOHistoryItemBase {
         this.showTicketDetail(this.roundId, this.betTime, this.result, this.betLogDetails, this.settlementResult);
     }
 
-    setData(log: any) {
+    setData(log: any, index: number) {
         this.time.string = getStringDateByTime(log.time);
         this.round.string = log.phien.toString();
         this.resultLabel.string = log.result.toString();
+        this.setBackground(index);
     }
 }

@@ -9,9 +9,6 @@ export default class StandAloneTableGameHistoryItem extends SocketIOHistoryItemB
     @property(cc.Label)
     stake: cc.Label = null;
 
-    @property(cc.Node)
-    bg: cc.Node = null;
-
     data: any = null;
 
     setData(data: any, index: number) {
@@ -23,7 +20,7 @@ export default class StandAloneTableGameHistoryItem extends SocketIOHistoryItemB
         this.handleResult(result);
         this.handleStake(settlementResult, data);
         this.data = data;
-        this.bg.active = index % 2 > 0;
+        this.setBackground(index);
     }
 
     handleStake(settlementResult: any, data: any) {

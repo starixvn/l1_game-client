@@ -18,12 +18,6 @@ export default class LotteryHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     totalBet: cc.Label = null;
 
-    @property(cc.Node)
-    background: cc.Node = null;
-
-    @property(cc.Node)
-    bottomLine: cc.Node = null;
-
     public showTicketDetail = (data: any) => {};
     protected data: any;
 
@@ -35,7 +29,7 @@ export default class LotteryHistoryItem extends SocketIOHistoryItemBase {
     setData(data: Data, index: number) {
         this.data = data;
 
-        this.background.active = index % 2 !== 0;
+        this.setBackground(index);
         this.time.string = getStringDateByTime(data.time);
         this.round.string = data.phien.toString();
         this.win.string = numberWithCommas(data.betwin, 2);

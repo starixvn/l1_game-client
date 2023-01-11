@@ -1,6 +1,6 @@
-import SocketIOGameHistoryBase from '../../../_base/view-models/SocketIOGameHistoryBase';
-import KenoRoundResult from './KenoRoundResult';
-import KenoUserHistoryItem from './KenoUserHistoryItem';
+import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";
+import KenoRoundResult from "./KenoRoundResult";
+import KenoUserHistoryItem from "./KenoUserHistoryItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,7 +14,7 @@ export default class KenoUserHistory extends SocketIOGameHistoryBase {
         const historyItemPrefab = cc.instantiate(this.itemPrefab);
         const item = historyItemPrefab.getComponent(KenoUserHistoryItem);
         item.init(this);
-        item.setData(betLog);
+        item.setData(betLog, index);
         this.content.addChild(historyItemPrefab);
     }
 

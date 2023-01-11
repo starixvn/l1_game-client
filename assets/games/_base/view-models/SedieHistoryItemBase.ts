@@ -4,9 +4,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SedieHistoryItemBase extends SocketIOHistoryItemBase {
-    @property(cc.Node)
-    bg: cc.Node = null;
-
     @property(cc.Sprite)
     kqSprite: cc.Sprite = null;
 
