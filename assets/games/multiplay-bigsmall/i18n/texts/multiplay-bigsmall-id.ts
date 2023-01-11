@@ -1,4 +1,22 @@
 import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
-import { phrases } from "./multiplay-bigsmall-en";
+export const phrases = {
+    gameNames: {
+        50: "Las Vegas",
+        51: "Marina Bay",
+        54: "Macau",
+        55: "Monte Carlo"
+    },
+    lobbyNames: {
+        50: "Kota\n Besar Kecil"
+    },
+    generalGameNames: {
+        50: "Big Small City"
+    },
+    megaBigSmall: {
+        hotFeature: "Hot Fitur Terbaru dengan....",
+        switchGame: "Perluar meja permainan",
+        clickOrTap: "Klik atau Ketuk untuk memasang taruhan"
+    }
+};
 
 reloadLanguageData("id", phrases);
