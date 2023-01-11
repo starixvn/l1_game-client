@@ -31,7 +31,7 @@ const data = {
         38: "英雄傳說",
         43: "數字貨幣大師",
         39: "Casino Hold'em",
-        42: "Texas Hold'em",
+        42: "德州扑克",
         45: "Hi-Lo",
         46: "Nightclub Lady",
         52: "Mega Keno",

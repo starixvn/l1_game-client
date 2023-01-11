@@ -41,7 +41,7 @@ const data = {
         38: "เดอะ เลเจนด์ ออฟ ฮีโร่",
         43: "บิทคอยน์มาสเตอร์",
         39: "Casino Hold'em",
-        42: "Texas Hold'em",
+        42: "เท็กซัส โฮลเอ็ม",
         45: "Hi-Lo",
         46: "Nightclub Lady",
         52: "Mega Keno",
