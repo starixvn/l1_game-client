@@ -17,7 +17,7 @@ export default class LotteryTicketDetail extends GameTicketDetailBase {
     @property(cc.Label)
     roundId: cc.Label = null;
 
-    HEIGHT_BET_DETAIL_TABLE = 472;
+    HEIGHT_BET_DETAIL_TABLE = 466;
     WIDTH_BET_DETAIL_TABLE = 860;
 
     setData(data: any) {
