@@ -163,13 +163,17 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.stakeButton.interactable = allow;
     }
 
+    async loadCommonPrefabsByCode() {
+        //empty
+    }
+
     async loadPrefabsByCode() {
         //empty
     }
 
     onLoad() {
         super.onLoad();
-        this.initDefaultBetChoices();
+
         this.initEventForNumberContainer();
         this.initSlotGameConfig();
         this.showJackpotInfo(this.jackpotEnabled);
@@ -179,6 +183,10 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             if (this.autoGenerateLines) {
                 this.createAllLines();
             }
+        });
+        this.loadCommonPrefabsByCode().then(() => {
+            this.initBottomArea();
+            this.initDefaultBetChoices();
         });
     }
 
@@ -278,7 +286,10 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     loadStakeLevelsConfig() {
-        this.setStake(this.gameConfigs.stakeLevels[0] || 0);
+        if (!this.stakeContainer || !this.gameConfigs) {
+            return;
+        }
+        this.setStake(this.gameConfigs?.stakeLevels[0] || 0);
         this.stakeContainer.toggleItems.forEach((item, index) => {
             item.node.getChildByName("value").getComponent(cc.Label).string = numberWithCommas(this.gameConfigs.stakeLevels[index], 1);
         });
@@ -981,5 +992,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     override checkShowUmMessage(data: any) {
         return !this.isAnimatingResult;
+    }
+
+    initBottomArea() {
+        //empty
     }
 }

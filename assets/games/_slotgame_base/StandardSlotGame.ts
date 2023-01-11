@@ -2,6 +2,7 @@ import { BundleManager } from "bundle-management";
 
 import AudioManager from "../../common/audio/AudioManager";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import SlotBottomArea from "./SlotBottomArea";
 import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
 import { SlotNotification } from "./SlotGameBottomMessage";
 import StandardSlotBoard from "./StandardSlotBoard";
@@ -34,6 +35,15 @@ export default class StandardSlotGame extends SlotGameBase {
     bonusDialog: cc.Prefab = null;
 
     @property({ type: cc.Prefab, visible: false, override: true })
+    autoSpinDialogPrefab: cc.Prefab = null;
+
+    @property({ type: cc.Prefab, visible: false, override: true })
+    historyPrefab: cc.Prefab = null;
+
+    @property({ type: cc.Prefab, visible: false, override: true })
+    guidePrefab: cc.Prefab = null;
+
+    @property({ type: cc.Prefab, visible: false, override: true })
     linePrefab: cc.Prefab = null;
 
     @property({ type: cc.Prefab, visible: false, override: true })
@@ -41,6 +51,39 @@ export default class StandardSlotGame extends SlotGameBase {
 
     @property({ type: cc.AudioSource, visible: false, override: true })
     soundSources: cc.AudioSource[] = [];
+
+    @property({ type: cc.Toggle, visible: false, override: true })
+    autoSpinToggle: cc.Toggle = null;
+
+    @property({ type: cc.Toggle, visible: false, override: true })
+    turboToggle: cc.Toggle = null;
+
+    @property({ type: cc.Button, visible: false, override: true })
+    stakeButton: cc.Button = null;
+
+    @property({ type: cc.ToggleContainer, visible: false, override: true })
+    stakeContainer: cc.ToggleContainer = null;
+
+    @property({ type: cc.Button, visible: false, override: true })
+    lineButton: cc.Button = null;
+
+    @property({ type: cc.Label, visible: false, override: true })
+    stakeLabel: cc.Label = null;
+
+    @property({ type: cc.Label, visible: false, override: true })
+    lineLabel: cc.Label = null;
+
+    @property({ type: cc.Label, visible: false, override: true })
+    totalBet: cc.Label = null;
+
+    @property({ type: cc.Label, visible: false, override: true })
+    winningBet: cc.Label = null;
+
+    @property({ type: cc.Node, visible: false, override: true })
+    winningBetEffect: cc.Node = null;
+
+    @property(cc.Node)
+    bottomArea: cc.Node = null;
 
     @property
     protected _gameId = 0;
@@ -56,9 +99,36 @@ export default class StandardSlotGame extends SlotGameBase {
     private previewSymbolLeft: cc.Prefab;
     private previewSymbolRight: cc.Prefab;
     slotBoard: StandardSlotBoard;
+    slotBottomAreaPrefab: cc.Prefab;
+
     onLoad() {
         this.loadAudios();
         super.onLoad();
+    }
+
+    async loadCommonPrefabsByCode() {
+        const dict = {
+            // prefab name : prefab property
+            "slot-bottom-area": "slotBottomAreaPrefab"
+        };
+
+        for (const key of Object.keys(dict)) {
+            const path = `shared/slot_game/${key}`;
+            try {
+                const prefab = await new Promise<cc.Prefab>((resolve, reject) => {
+                    cc.resources.load<cc.Prefab>(path, cc.Prefab, (error, prefab) => {
+                        if (error || !prefab) {
+                            reject(error);
+                        } else {
+                            resolve(prefab);
+                        }
+                    });
+                });
+                this[dict[key]] = prefab;
+            } catch (e) {
+                console.warn(`Missing prefab for ${path} `, e);
+            }
+        }
     }
 
     async loadPrefabsByCode() {
@@ -74,6 +144,8 @@ export default class StandardSlotGame extends SlotGameBase {
             "dialog-auto-spin": "autoSpinDialogPrefab",
             "dialog-line-selection": "lineSelectionDialog",
             "dialog-bonus": "bonusDialog",
+            "dialog-history": "historyPrefab",
+            "dialog-guide": "historyPrefab",
             "line-normal": "linePrefab",
             "line-glow": "lightLinePrefab",
 
@@ -150,11 +222,12 @@ export default class StandardSlotGame extends SlotGameBase {
 
     protected override onStakeChanged() {
         super.onStakeChanged();
-
-        const index = this.gameConfigs.stakeLevels.findIndex((stake) => stake === this.stake);
+        if (!this.gameConfigs) {
+            return;
+        }
         const decreaseBtn = this.stakeButton.node.getChildByName("decrease").getComponent(cc.Button);
         const increaseBtn = this.stakeButton.node.getChildByName("increase").getComponent(cc.Button);
-
+        const index = this.gameConfigs.stakeLevels.findIndex((stake) => stake === this.stake);
         decreaseBtn.interactable = index > 0;
         increaseBtn.interactable = index < this.gameConfigs.stakeLevels.length - 1;
     }
@@ -209,5 +282,47 @@ export default class StandardSlotGame extends SlotGameBase {
         }
 
         GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] = prefabCache;
+    }
+
+    initBottomArea() {
+        const slotBottom = cc.instantiate(this.slotBottomAreaPrefab);
+        this.bottomArea.addChild(slotBottom);
+        const slotBottomArea = slotBottom.getComponent(SlotBottomArea);
+
+        if (slotBottomArea) {
+            this.autoSpinToggle = slotBottomArea.autoSpinToggle;
+            this.turboToggle = slotBottomArea.turboToggle;
+            this.stakeButton = slotBottomArea.stakeButton;
+            this.stakeContainer = slotBottomArea.stakeContainer;
+            this.lineButton = slotBottomArea.lineButton;
+            this.stakeLabel = slotBottomArea.stakeLabel;
+            this.lineLabel = slotBottomArea.lineLabel;
+            this.totalBet = slotBottomArea.totalBet;
+            this.winningBet = slotBottomArea.winningBet;
+            this.winningBetEffect = slotBottomArea.winningBetEffect;
+
+            slotBottomArea.onClickListener = {
+                onStakeButtonClick: () => {
+                    this.onStakeButtonClick();
+                },
+                onLineSelectionClick: () => {
+                    this.onLineSelectionClick();
+                },
+                onAutoSpinChanged: () => {
+                    this.onAutoSpinChanged();
+                },
+                onTurboModeChanged: (toggle) => {
+                    this.onTurboModeChanged(toggle);
+                },
+                onStakeQuickChange: (event) => {
+                    this.onStakeQuickChange(event);
+                },
+                onStakeToggleChanged: (event, param) => {
+                    this.onStakeToggleChanged(event, param);
+                }
+            };
+
+            this.loadStakeLevelsConfig();
+        }
     }
 }
