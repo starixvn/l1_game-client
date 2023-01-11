@@ -35,7 +35,6 @@ export default class BaccaratBaseHistoryItem extends SocketIOHistoryItemBase {
         this.time.string = getStringDateByTime(time);
         this.round.string = phien;
         this.win.string = numberWithCommas(betwin, 2);
-        this.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
 
         const resultKeys = _.keys(settlementResult);
 

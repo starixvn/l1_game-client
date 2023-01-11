@@ -45,6 +45,5 @@ export default class LotteryTicketDetailSubItem extends cc.Component {
         this.choice.node.color = color;
         this.ratio.node.color = color;
         this.bet.node.color = color;
-        this.win.node.color = color;
     }
 }

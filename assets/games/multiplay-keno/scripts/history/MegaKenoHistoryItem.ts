@@ -49,6 +49,5 @@ export default class MegaKenoHistoryItem extends MultiplayGameHistoryItem {
         const total = result.reduce((resultTotal: number, number: number) => resultTotal + number, 0);
         this.total.string = total;
         this.win.string = numberWithCommas(betwin, 2);
-        this.win.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
     }
 }

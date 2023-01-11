@@ -31,6 +31,5 @@ export default class SpecialSeDieHistoryItem extends SedieHistoryItemBase {
         this.bet.string = numberWithCommas(amount);
         this.refund.string = numberWithCommas(refund, 2);
         this.roundId = phien;
-        this.win.node.color = win ? cc.Color.YELLOW : cc.Color.WHITE;
     }
 }
