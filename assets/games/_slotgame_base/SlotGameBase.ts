@@ -185,6 +185,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             }
         });
         this.loadCommonPrefabsByCode().then(() => {
+            this.initBottomMessage();
             this.initBottomArea();
             this.initDefaultBetChoices();
         });
@@ -995,6 +996,10 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     initBottomArea() {
+        //empty
+    }
+
+    initBottomMessage() {
         //empty
     }
 }

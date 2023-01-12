@@ -5,7 +5,7 @@ import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SlotBottomArea from "./SlotBottomArea";
 import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
-import { SlotNotification } from "./SlotGameBottomMessage";
+import SlotGameBottomMessage, { SlotNotification } from "./SlotGameBottomMessage";
 import StandardSlotBoard from "./StandardSlotBoard";
 import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
 import SymbolPreview from "./SymbolPreview";
@@ -84,6 +84,9 @@ export default class StandardSlotGame extends SlotGameBase {
     winningBetEffect: cc.Node = null;
 
     @property(cc.Node)
+    bottomMessageArea: cc.Node = null;
+
+    @property(cc.Node)
     bottomArea: cc.Node = null;
 
     @property
@@ -104,6 +107,7 @@ export default class StandardSlotGame extends SlotGameBase {
     private previewSymbolRight: cc.Prefab;
     slotBoard: StandardSlotBoard;
     slotBottomAreaPrefab: cc.Prefab;
+    bottomMessagePrefab: cc.Prefab;
 
     onLoad() {
         this.loadAudios();
@@ -120,7 +124,8 @@ export default class StandardSlotGame extends SlotGameBase {
     async loadCommonPrefabsByCode() {
         const dict = {
             // prefab name : prefab property
-            "slot-bottom-area": "slotBottomAreaPrefab"
+            "slot-bottom-area": "slotBottomAreaPrefab",
+            "bottom-message": "bottomMessagePrefab"
         };
 
         for (const key of Object.keys(dict)) {
@@ -335,5 +340,11 @@ export default class StandardSlotGame extends SlotGameBase {
 
             this.loadStakeLevelsConfig();
         }
+    }
+
+    initBottomMessage() {
+        const node = cc.instantiate(this.bottomMessagePrefab);
+        this.bottomMessageArea.addChild(node);
+        this.initShowBottomMessage(node);
     }
 }
