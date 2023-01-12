@@ -430,7 +430,7 @@ const data = {
         gameType: "Trò chơi",
         note: "Lưu ý",
         noteDetail: "Bạn chỉ có thể xem dữ liệu cách đây 7 ngày tính từ thời điểm hiện tại.",
-        roundId: "Phiên ID",
+        roundId: "Phiên",
         search: "Tìm kiếm",
         firstHalf: "Hiệp 1",
         away: "Đội khách",

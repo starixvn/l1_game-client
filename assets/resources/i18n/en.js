@@ -427,7 +427,7 @@ const data = {
         gameType: "Game Type",
         note: "Note",
         noteDetail: "Data are only available within the last 7 days from the current date.",
-        roundId: "Round ID",
+        roundId: "Round",
         search: "Search",
         firstHalf: "First Half",
         away: "Away",
