@@ -2,10 +2,10 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        62: "Mèo Tài Lộc"
+        99: "Happy Fish"
     },
     lobbyNames: {
-        62: "Mèo Tài Lộc"
+        99: "Happy Fish"
     }
 };
 
