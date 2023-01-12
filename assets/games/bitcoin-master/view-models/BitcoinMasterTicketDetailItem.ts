@@ -26,10 +26,7 @@ export default class BitcoinMasterTicketDetailItem extends SocketIOHistoryItemBa
     @property(cc.Label)
     refund: cc.Label = null;
 
-    @property(cc.Node)
-    lineBottom: cc.Node = null;
-
-    setData(log: any, result: any) {
+    setData(log: any, result: any, index: number) {
         const { time, choice, amount, refund, win } = log;
         this.time.string = getStringHourByTime(time);
         this.choice.string = GameUtils.getBetChoiceString(choice);
@@ -51,5 +48,6 @@ export default class BitcoinMasterTicketDetailItem extends SocketIOHistoryItemBa
                 this.upDownResult.node.active = false;
                 this.evenOddResult.setData(result.close);
         }
+        this.setBackground(index);
     }
 }

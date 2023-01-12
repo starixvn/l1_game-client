@@ -30,10 +30,7 @@ export default class BitcoinMasterTicketDetail extends GameTicketDetailBase {
             this.content.addChild(node);
             node.active = true;
             const item = node.getComponent(BitcoinMasterTicketDetailItem);
-            item.setData(detail, result);
-            if (index === total - 1) {
-                item.lineBottom.active = false;
-            }
+            item.setData(detail, result, index);
         });
     }
 
