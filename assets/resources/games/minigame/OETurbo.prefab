@@ -2260,6 +2260,9 @@
     "highlightBackground": null,
     "highlightBorder": null,
     "normalBorder": null,
+    "enabledHighlightOdds": false,
+    "highlightOddsBackground": null,
+    "opacityOdds": 255,
     "_id": ""
   },
   {
@@ -3026,6 +3029,9 @@
     "highlightBackground": null,
     "highlightBorder": null,
     "normalBorder": null,
+    "enabledHighlightOdds": false,
+    "highlightOddsBackground": null,
+    "opacityOdds": 255,
     "_id": ""
   },
   {
@@ -6415,6 +6421,7 @@
       "__id__": 170
     },
     "animated": true,
+    "effectLastTime": false,
     "_id": ""
   },
   {
@@ -7047,8 +7054,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -362.711,
-        129,
+        -406.967,
+        22,
         0,
         0,
         0,
@@ -7252,8 +7259,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -406.967,
-        22,
+        -362.711,
+        129,
         0,
         0,
         0,
@@ -8607,6 +8614,8 @@
       "__id__": 1
     },
     "_enabled": true,
+    "colliders": [],
+    "targetNode": null,
     "_id": ""
   },
   {
@@ -8784,6 +8793,7 @@
     "shakeDishAudio": {
       "__id__": 3
     },
+    "highlightOdds": null,
     "_id": ""
   },
   {
