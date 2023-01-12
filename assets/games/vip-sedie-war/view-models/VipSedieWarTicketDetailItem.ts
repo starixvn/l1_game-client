@@ -23,7 +23,7 @@ export default class VipSedieWarTicketDetailItem extends GameTicketDetailItemBas
     }
 
     setHighlightWinChoice(highlight: boolean) {
-        const color = highlight ? cc.color(246, 193, 8) : cc.Color.WHITE;
+        const color = highlight ? cc.Color.WHITE.fromHEX("#FFE800") : cc.Color.WHITE;
         this.amount.node.color = color;
         this.choice.node.color = color;
     }
