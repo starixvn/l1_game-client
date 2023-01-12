@@ -1,4 +1,33 @@
 import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
-import { phrases } from "./treasure-island-en";
+
+export const phrases = {
+    gameNames: {
+        47: "Pulau Harta Karun"
+    },
+    treasureIsland: {
+        tumpleWin: "Kemenangan Tumble",
+        totalWin: "Menang",
+        turboMode: "Mode Turbo",
+        trialMode: "Masa Percobaan",
+        betMultiplierX: "Pengganda Taruhan 20x",
+        betLevel: "Tingkat Taruhan",
+        coinValue: "Nilai Koin",
+        congratulation: "Selamat",
+        youWinFreeSpin: "Anda Menang",
+        multiplier: "Pengali",
+        totalMultiplier: "Pengganda Total",
+        no: "Nomor",
+        resultBoard: "Papan Hasil",
+        symbolAndNumber: "Menangkan Simbol",
+        winAmount: "Jumlah Kemenangan",
+        trialModeText: "Anda berada dalam Mode Uji Coba",
+        freeSpin: "Free Spins",
+        extraFreeSpin: "Ekstra Putaran Gratis",
+        autoSpinLeft: "Sisa Putaran Otomatis",
+        bigWinTextNotify: "Tekan dimana saja untuk melanjutkan",
+        reachMaxWin: "Anda mencapai Maksimal Menang",
+        warningTrialMode: "Main Nyata,\nMenang Nyata"
+    }
+};
 
 reloadLanguageData("id", phrases);
