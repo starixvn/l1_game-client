@@ -55,8 +55,8 @@ export default class CascadingBetControl extends cc.Component {
     private totalBetUnique = [];
     private currentCoinIndex = 0;
     private currentCoinValue = 0;
-    private currentBetLevelIndex = 0;
-    private currentBetLevelValue = 0;
+    private readonly DefaultBetLevelIndex = 4;
+    private currentBetLevelIndex = this.DefaultBetLevelIndex;
     private currentTotalBetIndex = 0;
     private currentTotalBet = 0;
     private coinValues: number[];
@@ -71,7 +71,7 @@ export default class CascadingBetControl extends cc.Component {
 
     resetValues() {
         this.currentCoinIndex = 0;
-        this.currentBetLevelIndex = 0;
+        this.currentBetLevelIndex = this.DefaultBetLevelIndex;
         this.currentTotalBetIndex = 0;
         const data = GameUtils.getGameSetting(this.gameId);
         data.betControl = null;
@@ -151,9 +151,8 @@ export default class CascadingBetControl extends cc.Component {
     }
 
     private updateLabelValues() {
-        this.currentBetLevelValue = this.betLevels[0] ?? 0;
         this.currentCoinValue = this.coinValues[0] ?? 0;
-        this.updateTotalBet(this.currentBetLevelValue, this.currentCoinValue);
+        this.updateTotalBet(this.betLevels[this.currentBetLevelIndex], this.currentCoinValue);
         this.updateDisplayLabels();
         this.updateAllButtonStatus();
     }
@@ -162,9 +161,8 @@ export default class CascadingBetControl extends cc.Component {
         AudioManager.getInstance().playClick();
         if (this.currentBetLevelIndex > 0) {
             this.currentBetLevelIndex--;
-            this.currentBetLevelValue = this.betLevels[this.currentBetLevelIndex];
             const valueCoin = this.coinValues[this.currentCoinIndex];
-            this.updateTotalBet(this.currentBetLevelValue, valueCoin);
+            this.updateTotalBet(this.betLevels[this.currentBetLevelIndex], valueCoin);
             this.updateDisplayLabels();
             this.updateAllButtonStatus();
             this.updatePlaceBetAndUIModel();
@@ -175,9 +173,8 @@ export default class CascadingBetControl extends cc.Component {
         AudioManager.getInstance().playClick();
         if (this.currentBetLevelIndex < this.betLevels.length - 1) {
             this.currentBetLevelIndex++;
-            this.currentBetLevelValue = this.betLevels[this.currentBetLevelIndex];
             const valueCoin = this.coinValues[this.currentCoinIndex];
-            this.updateTotalBet(this.currentBetLevelValue, valueCoin);
+            this.updateTotalBet(this.betLevels[this.currentBetLevelIndex], valueCoin);
             this.updateDisplayLabels();
             this.updateAllButtonStatus();
             this.updatePlaceBetAndUIModel();
@@ -236,7 +233,7 @@ export default class CascadingBetControl extends cc.Component {
 
     private updateDisplayLabels() {
         this.coinValue.string = this.currentCoinValue.toString();
-        this.betLevel.string = this.currentBetLevelValue.toString();
+        this.betLevel.string = this.betLevels[this.currentBetLevelIndex].toString();
         this.totalBet.string = this.currentTotalBet.toLocaleString("en-US");
     }
 
@@ -245,7 +242,6 @@ export default class CascadingBetControl extends cc.Component {
         const total = Object.keys(item)[0];
         const detail = item[total];
         this.currentBetLevelIndex = detail.indexLevel;
-        this.currentBetLevelValue = detail.level;
         this.currentCoinIndex = detail.indexCoin;
         this.currentCoinValue = detail.coin;
         this.currentTotalBet = +total;
@@ -256,7 +252,7 @@ export default class CascadingBetControl extends cc.Component {
     private saveData() {
         const betControl = {
             coin: this.currentCoinValue,
-            level: this.currentBetLevelValue,
+            level: this.betLevels[this.currentBetLevelIndex],
             multiplier: this.betMultiplier
         };
         const data = GameUtils.getGameSetting(this.gameId);
@@ -280,7 +276,6 @@ export default class CascadingBetControl extends cc.Component {
         if (coinIndex !== -1 && levelIndex !== -1) {
             this.currentCoinValue = coin;
             this.currentCoinIndex = coinIndex;
-            this.currentBetLevelValue = level;
             this.currentBetLevelIndex = levelIndex;
             this.updateTotalBet(level, coin);
             this.updateDisplayLabels();
@@ -323,7 +318,7 @@ export default class CascadingBetControl extends cc.Component {
         return {
             totalBet: this.currentTotalBet,
             coin: this.currentCoinValue,
-            level: this.currentBetLevelValue,
+            level: this.betLevels[this.currentBetLevelIndex],
             increase: this.nodeButtons[OrderButtonNode.totalIncrease].interactable,
             decrease: this.nodeButtons[OrderButtonNode.totalDecrease].interactable
         };
