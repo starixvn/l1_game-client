@@ -20,7 +20,7 @@ export default class SicBoTicketDetail extends GameTicketDetailBase {
     roundID: number;
     result: number;
 
-    HEIGHT_BET_DETAIL_TABLE = 500;
+    HEIGHT_BET_DETAIL_TABLE = 460;
     WIDTH_BET_DETAIL_TABLE = 549;
 
     public showbetLogs() {

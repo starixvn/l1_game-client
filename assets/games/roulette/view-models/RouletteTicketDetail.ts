@@ -17,7 +17,7 @@ export default class RouletteTicketDetail extends GameTicketDetailBase {
     roundID = 2000;
     result = 20;
 
-    HEIGHT_BET_DETAIL_TABLE = 402;
+    HEIGHT_BET_DETAIL_TABLE = 470;
     WIDTH_BET_DETAIL_TABLE = 549;
 
     public showbetLogs() {
