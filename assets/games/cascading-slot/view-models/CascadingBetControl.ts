@@ -54,7 +54,6 @@ export default class CascadingBetControl extends cc.Component {
 
     private totalBetUnique = [];
     private currentCoinIndex = 0;
-    private currentCoinValue = 0;
     private readonly DefaultBetLevelIndex = 4;
     private currentBetLevelIndex = this.DefaultBetLevelIndex;
     private currentTotalBetIndex = 0;
@@ -109,7 +108,7 @@ export default class CascadingBetControl extends cc.Component {
         this.prepareBetLevelData(data);
         this.prepareCoinData(data);
         this.prepareTotalBetData();
-        this.updateLabelValues();
+        this.updateChangeByLevelOrCoin();
     }
 
     private prepareBetLevelData(data) {
@@ -150,22 +149,18 @@ export default class CascadingBetControl extends cc.Component {
         });
     }
 
-    private updateLabelValues() {
-        this.currentCoinValue = this.coinValues[0] ?? 0;
-        this.updateTotalBet(this.betLevels[this.currentBetLevelIndex], this.currentCoinValue);
+    private updateChangeByLevelOrCoin() {
+        this.updateTotalBet(this.betLevels[this.currentBetLevelIndex], this.coinValues[this.currentCoinIndex]);
         this.updateDisplayLabels();
         this.updateAllButtonStatus();
+        this.updatePlaceBetAndUIModel();
     }
 
     protected onClickDecreaseBetLevel() {
         AudioManager.getInstance().playClick();
         if (this.currentBetLevelIndex > 0) {
             this.currentBetLevelIndex--;
-            const valueCoin = this.coinValues[this.currentCoinIndex];
-            this.updateTotalBet(this.betLevels[this.currentBetLevelIndex], valueCoin);
-            this.updateDisplayLabels();
-            this.updateAllButtonStatus();
-            this.updatePlaceBetAndUIModel();
+            this.updateChangeByLevelOrCoin();
         }
     }
 
@@ -173,11 +168,7 @@ export default class CascadingBetControl extends cc.Component {
         AudioManager.getInstance().playClick();
         if (this.currentBetLevelIndex < this.betLevels.length - 1) {
             this.currentBetLevelIndex++;
-            const valueCoin = this.coinValues[this.currentCoinIndex];
-            this.updateTotalBet(this.betLevels[this.currentBetLevelIndex], valueCoin);
-            this.updateDisplayLabels();
-            this.updateAllButtonStatus();
-            this.updatePlaceBetAndUIModel();
+            this.updateChangeByLevelOrCoin();
         }
     }
 
@@ -185,12 +176,7 @@ export default class CascadingBetControl extends cc.Component {
         AudioManager.getInstance().playClick();
         if (this.currentCoinIndex > 0) {
             this.currentCoinIndex--;
-            this.currentCoinValue = this.coinValues[this.currentCoinIndex];
-            const valueBet = this.betLevels[this.currentBetLevelIndex];
-            this.updateTotalBet(valueBet, this.currentCoinValue);
-            this.updateDisplayLabels();
-            this.updateAllButtonStatus();
-            this.updatePlaceBetAndUIModel();
+            this.updateChangeByLevelOrCoin();
         }
     }
 
@@ -198,12 +184,7 @@ export default class CascadingBetControl extends cc.Component {
         AudioManager.getInstance().playClick();
         if (this.currentCoinIndex < this.coinValues.length - 1) {
             this.currentCoinIndex++;
-            this.currentCoinValue = this.coinValues[this.currentCoinIndex];
-            const betLevelValue = this.betLevels[this.currentBetLevelIndex];
-            this.updateTotalBet(betLevelValue, this.currentCoinValue);
-            this.updateDisplayLabels();
-            this.updateAllButtonStatus();
-            this.updatePlaceBetAndUIModel();
+            this.updateChangeByLevelOrCoin();
         }
     }
 
@@ -211,8 +192,6 @@ export default class CascadingBetControl extends cc.Component {
         if (this.currentTotalBetIndex > 0) {
             this.currentTotalBetIndex--;
             this.handleClickTotalBet();
-            this.updateAllButtonStatus();
-            this.updatePlaceBetAndUIModel();
         }
     }
 
@@ -220,8 +199,6 @@ export default class CascadingBetControl extends cc.Component {
         if (this.currentTotalBetIndex < this.totalBetUnique.length - 1) {
             this.currentTotalBetIndex++;
             this.handleClickTotalBet();
-            this.updateAllButtonStatus();
-            this.updatePlaceBetAndUIModel();
         }
     }
 
@@ -232,7 +209,7 @@ export default class CascadingBetControl extends cc.Component {
     }
 
     private updateDisplayLabels() {
-        this.coinValue.string = this.currentCoinValue.toString();
+        this.coinValue.string = this.coinValues[this.currentCoinIndex].toString();
         this.betLevel.string = this.betLevels[this.currentBetLevelIndex].toString();
         this.totalBet.string = this.currentTotalBet.toLocaleString("en-US");
     }
@@ -243,15 +220,16 @@ export default class CascadingBetControl extends cc.Component {
         const detail = item[total];
         this.currentBetLevelIndex = detail.indexLevel;
         this.currentCoinIndex = detail.indexCoin;
-        this.currentCoinValue = detail.coin;
         this.currentTotalBet = +total;
 
         this.updateDisplayLabels();
+        this.updateAllButtonStatus();
+        this.updatePlaceBetAndUIModel();
     }
 
     private saveData() {
         const betControl = {
-            coin: this.currentCoinValue,
+            coin: this.coinValues[this.currentCoinIndex],
             level: this.betLevels[this.currentBetLevelIndex],
             multiplier: this.betMultiplier
         };
@@ -274,7 +252,6 @@ export default class CascadingBetControl extends cc.Component {
         const levelIndex = this.betLevels.findIndex((value) => value === level);
 
         if (coinIndex !== -1 && levelIndex !== -1) {
-            this.currentCoinValue = coin;
             this.currentCoinIndex = coinIndex;
             this.currentBetLevelIndex = levelIndex;
             this.updateTotalBet(level, coin);
@@ -317,7 +294,7 @@ export default class CascadingBetControl extends cc.Component {
     private generateBetControlData(): TotalBetType {
         return {
             totalBet: this.currentTotalBet,
-            coin: this.currentCoinValue,
+            coin: this.coinValues[this.currentCoinIndex],
             level: this.betLevels[this.currentBetLevelIndex],
             increase: this.nodeButtons[OrderButtonNode.totalIncrease].interactable,
             decrease: this.nodeButtons[OrderButtonNode.totalDecrease].interactable
