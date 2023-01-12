@@ -1,6 +1,7 @@
 import { BundleManager } from "bundle-management";
 
 import AudioManager from "../../common/audio/AudioManager";
+import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SlotBottomArea from "./SlotBottomArea";
 import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
@@ -86,6 +87,9 @@ export default class StandardSlotGame extends SlotGameBase {
     bottomArea: cc.Node = null;
 
     @property
+    themeColor = "#ffffff";
+
+    @property
     protected _gameId = 0;
     @property
     public get gameId(): number {
@@ -104,6 +108,13 @@ export default class StandardSlotGame extends SlotGameBase {
     onLoad() {
         this.loadAudios();
         super.onLoad();
+        this.loadSpritesWithGameId();
+    }
+
+    loadSpritesWithGameId() {
+        this.node.getComponentsInChildren(LocalizedLoadSprite).forEach((comp) => {
+            comp.gameId = this.gameId;
+        });
     }
 
     async loadCommonPrefabsByCode() {
