@@ -333,7 +333,7 @@ const data = {
         clear: "Clear",
         close: "Tutup",
         confirm: "Konfirmasi",
-        history: "Sejarah Tiket",
+        history: "Sejarah Taruhan",
         round_history: "Sejarah Babak",
         preset_bet: "Taruhan Preset",
         refund: "Refund",

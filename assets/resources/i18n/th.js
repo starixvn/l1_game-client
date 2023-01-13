@@ -338,7 +338,7 @@ const data = {
         clear: "ล้าง",
         close: "ปิด",
         confirm: "ยืนยัน",
-        history: "ประวัติตั๋วเดิมพัน",
+        history: "ประวัติการเดิมพัน",
         round_history: "ประวัติรอบ",
         preset_bet: "เดิมพันที่ตั้งไว้ล่วงหน้า",
         refund: "คืนเงิน",

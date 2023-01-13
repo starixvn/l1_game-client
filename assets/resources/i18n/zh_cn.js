@@ -316,7 +316,7 @@ const data = {
         clear: "清除",
         close: "关闭",
         confirm: "确认",
-        history: "票务历史",
+        history: "投注历史",
         round_history: "回合历史",
         preset_bet: "预设赌注",
         refund: "退款",
