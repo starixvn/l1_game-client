@@ -5987,6 +5987,9 @@
     "highlightBackground": null,
     "highlightBorder": null,
     "normalBorder": null,
+    "enabledHighlightOdds": false,
+    "highlightOddsBackground": null,
+    "opacityOdds": 255,
     "inActive": {
       "__id__": 166
     },
@@ -7185,6 +7188,9 @@
     "highlightBackground": null,
     "highlightBorder": null,
     "normalBorder": null,
+    "enabledHighlightOdds": false,
+    "highlightOddsBackground": null,
+    "opacityOdds": 255,
     "inActive": {
       "__id__": 200
     },
@@ -8555,6 +8561,9 @@
     "highlightBackground": null,
     "highlightBorder": null,
     "normalBorder": null,
+    "enabledHighlightOdds": false,
+    "highlightOddsBackground": null,
+    "opacityOdds": 255,
     "inActive": {
       "__id__": 239
     },
@@ -17251,6 +17260,7 @@
       "__id__": 497
     },
     "animated": true,
+    "effectLastTime": false,
     "_id": ""
   },
   {
@@ -20568,7 +20578,7 @@
       "__uuid__": "3391a89c-0709-40d3-b108-362be76d665d"
     },
     "guidePrefab": {
-      "__uuid__": "fa4d55d2-343b-4957-a6cf-ec174f5a91c3"
+      "__uuid__": "6c037c3b-07a0-4baa-a2d9-dfbb20ecf3e2"
     },
     "resultAnimation": {
       "__id__": 348
@@ -20639,6 +20649,8 @@
       "__id__": 1
     },
     "_enabled": true,
+    "colliders": [],
+    "targetNode": null,
     "_id": ""
   },
   {
