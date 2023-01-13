@@ -32,7 +32,6 @@ export default class HoldemPokerTicketDetailItem extends SocketIOHistoryItemBase
         this.setBackground(index);
         if (bet.win > 0) {
             this.stake.node.color = cc.Color.YELLOW;
-            this.win.node.color = cc.Color.YELLOW;
             this.odd.node.color = cc.Color.YELLOW;
             this.bettingOption.node.color = cc.Color.YELLOW;
         }

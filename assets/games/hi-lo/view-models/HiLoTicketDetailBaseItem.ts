@@ -26,7 +26,6 @@ export default class HiLoTicketDetailBaseItem extends HiLoTicketDetailItem {
             this.round.string = `${i18n.t(endRound)}`;
             this.stake.string = "";
             this.win.string = numberWithCommas(data.betwin, 2);
-            this.win.node.color = cc.Color.YELLOW;
         }
         this.bg.active = index % 2 > 0;
     }
