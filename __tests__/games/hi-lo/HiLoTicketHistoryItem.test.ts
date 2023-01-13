@@ -1,7 +1,7 @@
-import HiLoTicketHistoryItem from "../../../assets/games/hi-lo/view-models/HiLoTicketHistoryItem";
+import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import { BetLog } from "../../../assets/games/hi-lo/view-models/HiLoBetData";
-import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelper";
+import HiLoTicketHistoryItem from "../../../assets/games/hi-lo/view-models/HiLoTicketHistoryItem";
 
 describe("Test class HiLoTicketHistoryItem", () => {
     let node: cc.Node;
@@ -10,7 +10,7 @@ describe("Test class HiLoTicketHistoryItem", () => {
         node = new cc.Node();
         comp = node.addComponent(HiLoTicketHistoryItem);
         comp.time = node.addComponent(cc.Label);
-        comp.roundId = node.addComponent(cc.Label);
+        comp.round = node.addComponent(cc.Label);
         comp.stake = node.addComponent(cc.Label);
         comp.win = node.addComponent(cc.Label);
     });
@@ -32,7 +32,7 @@ describe("Test class HiLoTicketHistoryItem", () => {
 
             //Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
-            expect(comp.roundId.string).toMatch(betLog.id.toString());
+            expect(comp.round.string).toMatch(betLog.id.toString());
             expect(comp.stake.string).toMatch(numberWithCommas(betLog.amount, 2));
             expect(comp.win.string).toMatch(numberWithCommas(betLog.betwin, 2));
             expect(comp.stake.node.color).toEqual(cc.Color.YELLOW);
@@ -53,7 +53,7 @@ describe("Test class HiLoTicketHistoryItem", () => {
 
             //Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
-            expect(comp.roundId.string).toMatch(betLog.id.toString());
+            expect(comp.round.string).toMatch(betLog.id.toString());
             expect(comp.stake.string).toMatch(numberWithCommas(betLog.amount, 2));
             expect(comp.win.string).toMatch(numberWithCommas(betLog.betwin, 2));
             expect(comp.stake.node.color).toStrictEqual(new cc.Color(255, 255, 255, 255));
