@@ -44,6 +44,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
 
     onUpdatedData = () => {};
 
+    AUTO_SCALE_NODE_WIDTH = 1398;
     HEIGHT_CONTENT = 520;
     WIDTH_SIGN = 120;
 
@@ -120,6 +121,6 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         this.pagination.init(this);
 
         this.wrapperContent.parent = this.mainFrame;
-        this.historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT);
+        this.historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT, this.AUTO_SCALE_NODE_WIDTH);
     }
 }

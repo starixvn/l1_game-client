@@ -40,7 +40,7 @@ export default class HistoryFrame extends cc.Component {
         this.backFrameLayout = this.mainFrame.getComponent(cc.Layout);
     }
 
-    updateSizeFrame(widthContent: number, heightContent: number) {
+    updateSizeFrame(widthContent: number, heightContent: number, autoScaleNodeWidth: number) {
         this.mainFrame.children.forEach((child) => {
             child.width = (widthContent + this.PADDING_HEIGHT * 2) / 2;
             child.height = heightContent + this.PADDING_HEIGHT + this.PADDING_TOP_HEIGHT;
@@ -49,6 +49,13 @@ export default class HistoryFrame extends cc.Component {
         this.tableBg.height = heightContent;
         this.backFrameLayout.updateLayout();
         this.backWrapper.width = this.mainFrame.width;
+
+        const padding = 80;
+        const autoScaleNode = this.backWrapper.parent;
+        autoScaleNode.width = autoScaleNodeWidth;
+        if (this.backWrapper.width + padding > autoScaleNodeWidth) {
+            autoScaleNode.width = this.backWrapper.width + padding;
+        }
     }
 
     updateTitleSize(width: number) {

@@ -26,6 +26,7 @@ export default class BetHistory extends cc.Component {
     @property(cc.Node)
     wrapperContent: cc.Node = null;
 
+    AUTO_SCALE_NODE_WIDTH = 1398;
     HEIGHT_CONTENT = 520;
 
     protected connection: Connection;
@@ -87,6 +88,6 @@ export default class BetHistory extends cc.Component {
         this.pages.init(this);
 
         this.wrapperContent.parent = this.mainFrame;
-        historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT);
+        historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT, this.AUTO_SCALE_NODE_WIDTH);
     }
 }
