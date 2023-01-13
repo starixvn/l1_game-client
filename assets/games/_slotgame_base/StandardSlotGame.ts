@@ -1,6 +1,7 @@
 import { BundleManager } from "bundle-management";
 
 import AudioManager from "../../common/audio/AudioManager";
+import ChangeNodeColor from "../../common/ChangeNodeColor";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SlotBottomArea from "./SlotBottomArea";
@@ -301,8 +302,16 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     initBottomArea() {
+        if (!this.slotBottomAreaPrefab) {
+            return;
+        }
+
         const slotBottom = cc.instantiate(this.slotBottomAreaPrefab);
         this.bottomArea.addChild(slotBottom);
+        slotBottom.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
+            comp.updateNodeColor(this.themeColor);
+        });
+
         const slotBottomArea = slotBottom.getComponent(SlotBottomArea);
 
         if (slotBottomArea) {
