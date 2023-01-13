@@ -1,4 +1,3 @@
-import GameUtils from "../../../../common/GameUtils";
 import BetHistory from "../../../_new/common/BetHistory";
 import BlockchainBaccaratTicketHistoryItem from "./BlockchainBaccaratTicketHistoryItem";
 
@@ -32,11 +31,6 @@ export interface BetLog {
 
 @ccclass
 export default class BlockchainBaccaratTicketHistory extends BetHistory {
-    start() {
-        super.start();
-        const header = this.wrapperContent.children[1];
-        GameUtils.setFontSizeLabelsInNode(header, true, cc.Label.Overflow.CLAMP);
-    }
     renderTicketHistory(data: any) {
         const betLogs: BetLog[] = data.betLogs;
         betLogs.forEach((log, index) => {

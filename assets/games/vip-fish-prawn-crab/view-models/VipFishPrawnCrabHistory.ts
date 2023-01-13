@@ -1,4 +1,3 @@
-import GameUtils from "../../../common/GameUtils";
 import SocketIOGameHistoryBase from "../../_base/view-models/SocketIOGameHistoryBase";
 import VipFishPrawnCrabHistoryItem from "./VipFishPrawnCrabHistoryItem";
 
@@ -6,11 +5,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class VipFishPrawnCrabHistory extends SocketIOGameHistoryBase {
-    start() {
-        super.start();
-        const header = this.wrapperContent.children[1];
-        GameUtils.setFontSizeLabelsInNode(header, true, cc.Label.Overflow.RESIZE_HEIGHT);
-    }
     @property(cc.SpriteFrame)
     animalSprites: cc.SpriteFrame[] = [];
 
