@@ -36,13 +36,13 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
         const { time, choice, amount } = betLogDetail;
         this.time.string = formatDateTime(time);
         this.choice.string = i18n.t(`${StringHelper.winThreeCardsNameSpace}.${choice}`);
-        this.odds.string = odds[choice];
+        this.odds.string = cc.RedT?.user?.fractionalOddsFormat ? numberWithCommas(+odds[choice] - 1, 2) : odds[choice];
         this.amount.string = numberWithCommas(amount);
 
         const effectiveOdds = freeBet ? odds[choice] - 1 : odds[choice];
         const winningAmount = this.getWinAmount(settlementResult[choice], amount, effectiveOdds, settlementResult.tie);
         this.win.string = numberWithCommas(winningAmount, 2);
-        this.setHighlightTicketDetail(winningAmount > 0);
+        this.setHighlightTicketDetail(winningAmount > amount);
 
         if (index === 0) {
             this.node.getChildByName("topBorder").active = false;
