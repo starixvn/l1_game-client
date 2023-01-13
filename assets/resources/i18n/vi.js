@@ -443,7 +443,7 @@ const data = {
         gameNotSupported: "Rất tiếc, chức năng này hiện chưa được hỗ trợ.",
         noDataAvailable: "Không có dữ liệu",
         ticket_details: "Chi Tiết Cược",
-        bet_details: "Đặt Cược",
+        bet_details: "Chi Tiết Cược",
         new_year: "Phúc Lộc An Khang",
         md5_result: "KẾT QUẢ",
         md5_string: "CHUỖI MD5",
