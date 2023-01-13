@@ -17,17 +17,17 @@ export const phrases = {
         flush: "Flush",
         straight: "Straight",
         onePair: "Pair",
-        highCard: "Kartu Tertinggi",
+        highCard: "Kartu Tinggi",
         pair8Plus: "Pair 8 Plus",
-        dragon_win: "Naga Win",
-        phoenix_win: "Phoenix Win",
-        pair8PlusInfo: "Pasangan 9 untuk Pasangan A, Straight, Flush, Straight Flush, Three of a kind",
-        handInfo: "Three of a Kind > Straight Flush > Flush > Straight > Pair > Kartu Tertinggi",
+        dragon_win: "Naga Menang",
+        phoenix_win: "Phoenix Menang",
+        pair8PlusInfo: "Pasangan 9 untuk Pasangan A, Straight, Flush, Straight Flush, \nThree of a kind",
+        handInfo: "Three of a Kind > Straight Flush > Flush > Straight > Pair > Kartu Tinggi",
         tie: "Seri",
         pair8PlusSta: "Pair 8 +:",
         dragonSta: "Naga:",
         phoenixSta: "Phoenix:",
-        dragonShort: "D",
+        dragonShort: "N",
         phoenixShort: "P"
     }
 };

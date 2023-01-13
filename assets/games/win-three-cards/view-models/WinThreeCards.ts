@@ -79,17 +79,20 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.winNoticeLabel.node.parent.active = false;
     }
 
-    initHandlers() {
-        super.initHandlers();
+    setUpHandlers() {
+        super.setUpHandlers();
 
         this.betPercentHandler = new WinThreeCardsBetPercentHandler(this);
+        super.addHandlers(this.betPercentHandler);
+    }
+
+    initHandlers() {
+        super.initHandlers();
         this.timeHandler = new WinThreeCardsTimeDataHandler(this);
         this.finishHandler = new WinThreeCardsFinishHandler(this);
         this.logsHandler = new WinThreeCardsLogsHandler(this);
         this.betHandler = new GameRoomBaseBetHandler(this);
         this.md5Handler = new BaccaratMd5Handler(this);
-
-        super.addHandlers(this.betPercentHandler);
     }
 
     private initScoreBoard(node: cc.Node) {
