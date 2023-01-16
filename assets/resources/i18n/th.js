@@ -177,9 +177,9 @@ const data = {
         topMessage2a: "กด",
         topMessage2b: "เพื่อเพิ่มอัตราการชนะ",
         topMessage3: "ชนะถึง 2000X เดิมพัน",
-        winTumbleMsg: "CONGRATULATION!",
-        winningNotificationOn: "Winning streak notification “ON”",
-        winningNotificationOff: "Winning streak notification “OFF”"
+        winTumbleMsg: "ขอแสดงความยินดี!",
+        winningNotificationOn: "การแจ้งเตือนแถวที่ชนะ “เปิด”",
+        winningNotificationOff: "การแจ้งเตือนแถวที่ชนะ “ปิด”"
     },
     ui: {
         choice_red2: "2 แดง",
@@ -527,7 +527,7 @@ const data = {
         ante: "Ante",
         clear: "ล้าง",
         straightOrHigher: "สเตรทหรือสูงกว่า",
-        lowerThanStraight: "Three of a Kind or Lower",
+        lowerThanStraight: "ตองหรือต่ำกว่า",
         leftTableOddTitle: "Ante",
         check: "ตรวจสอบ",
         push: "หมอบ",

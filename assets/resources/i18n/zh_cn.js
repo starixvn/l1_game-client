@@ -155,9 +155,9 @@ const data = {
         topMessage2a: "击中",
         topMessage2b: "多次翻滚获胜",
         topMessage3: "赢取 2000X 乘数",
-        winTumbleMsg: "CONGRATULATION!",
-        winningNotificationOn: "Winning streak notification “ON”",
-        winningNotificationOff: "Winning streak notification “OFF”"
+        winTumbleMsg: "恭喜！",
+        winningNotificationOn: "连胜通知“开”",
+        winningNotificationOff: "连胜通知“关”"
     },
     ui: {
         choice_red2: "2 红",
@@ -503,7 +503,7 @@ const data = {
         ante: "底注",
         clear: "清",
         straightOrHigher: "顺子 或 高牌",
-        lowerThanStraight: "Three of a Kind or Lower",
+        lowerThanStraight: "三种或更低",
         leftTableOddTitle: "底注",
         check: "过牌",
         push: "推",

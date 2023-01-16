@@ -172,9 +172,9 @@ const data = {
         topMessage2a: "DAPATKAN",
         topMessage2b: "UNTUK MENGGANDAKAN KEMENANGAN TUMBLE",
         topMessage3: "MENANGKAN HINGGA 2000X TARUHAN",
-        winTumbleMsg: "CONGRATULATION!",
-        winningNotificationOn: "Winning streak notification “ON”",
-        winningNotificationOff: "Winning streak notification “OFF”"
+        winTumbleMsg: "SELAMAT!",
+        winningNotificationOn: 'Notifikasi kemenangan beruntun "AKTIF"',
+        winningNotificationOff: 'Notifikasi kemenangan beruntun "MATI"'
     },
     ui: {
         choice_red2: "2 Merah",
