@@ -12,23 +12,18 @@ export default class SedieMD5 extends MD5Component {
     readonly CHIP_RED = `<img src="chip_do" />`;
     readonly CHIP_WHITE = `<img src="chip_trang" />`;
 
-    protected md5Result;
     generateMD5Result(data: MD5Type) {
         let result = "";
-        let tooltipResult = "";
         if (!!data.extraInfos) {
             const totalRed = Object.values(data.extraInfos).filter((value) => value === true).length;
             const chipResult = this.generateChips(totalRed);
             const suffix = data.rawValue.split("_");
             const suffixFormatLength = suffix[1].length > this.lengthOfMd5 ? suffix[1].slice(0, this.lengthOfMd5) + "..." : suffix[1];
             result = `{${chipResult}}_${suffixFormatLength}`;
-            tooltipResult = `{${chipResult}}_${suffix[1]}`;
         }
         if (!!data.hashValue) {
             result = data.hashValue;
-            tooltipResult = "";
         }
-        this.md5Result = `${tooltipResult}`;
         this.md5Value.string = `${result}`;
     }
 
