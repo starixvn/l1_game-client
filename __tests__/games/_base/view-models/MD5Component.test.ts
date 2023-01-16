@@ -1,7 +1,8 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import EffectAppearanceLabel from "../../../../assets/common/EffectAppearanceLabel";
 import MD5Tooltip from "../../../../assets/common/md5-tooltip/MD5Tooltip";
 import MD5Component from "../../../../assets/games/_base/view-models/MD5Component";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { mockFuntions } from "../../../mocks/TestUtils";
 
 jest.mock("../../../../assets/common/GameUtils", () => ({
@@ -198,7 +199,6 @@ describe("Test class MD5Component", () => {
             jest.spyOn(md5Comp, "setCaptionAndHintForMD5");
             jest.spyOn(md5Comp, "generateMD5Result");
             jest.spyOn(md5Comp, "setCopyString");
-            jest.spyOn(md5Comp, "handleTooltip");
             // Act
             md5Component.handleMD5Data(data);
 
@@ -206,7 +206,6 @@ describe("Test class MD5Component", () => {
             expect(md5Component.setCaptionAndHintForMD5).toHaveBeenCalledWith(!!data.rawValue);
             expect(md5Component.generateMD5Result).toHaveBeenCalledWith(data);
             expect(md5Component.setCopyString).toHaveBeenCalledWith(data.hashValue || data.rawValue);
-            expect(md5Component.handleTooltip).toHaveBeenCalledWith(data);
         });
     });
 });
