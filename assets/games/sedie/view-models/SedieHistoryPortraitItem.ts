@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import PortraitSedieHistoryBetOption from "./PortraitSedieHistoryBetOption";
 import SedieHistoryItem from "./SedieHistoryItem";
@@ -29,12 +30,14 @@ export default class SedieHistoryPortraitItem extends SedieHistoryItem {
                 option.highlightForWinning(settlementResult[choice]);
                 this.betOption.addChild(node);
             }
+
+            GameUtils.setFontSizeLabelsInNode(node);
         });
         this.setSizeAndPosition(this.betOption);
     }
     setSizeAndPosition(betOption: cc.Node) {
         if (betOption.children.length >= 2) {
-            this.node.height = 70 + (this.betOption.children.length - 2) * this.heightEachBetOption;
+            this.node.height = this.betOption.children.length * this.heightEachBetOption;
         }
     }
 }
