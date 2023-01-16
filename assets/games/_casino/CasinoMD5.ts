@@ -27,7 +27,7 @@ export default class CasinoMD5 extends MD5Component {
     // }
 
     setMD5String(data: string) {
-        this.data = "";
+        this.tipString = "";
         this.setCaptionAndHintForMD5(false);
         this.md5Value.string = data === "" ? "" : `<color=#ffffff>${data}</color>`;
         this.setCopyString(data);
@@ -46,12 +46,11 @@ export default class CasinoMD5 extends MD5Component {
     }
 
     createResultDetails(data: any) {
-        this.data = data.rawValue;
+        this.tipString = data.rawValue;
         const { cards, suffix, roundId } = data.formatValue;
         this.setCaptionAndHintForMD5(true);
         this.setCopyString(data.rawValue);
         this.setMD5Value(cards, suffix, roundId);
-        //this.md5Tip.setData(data.rawValue);
     }
 
     setMD5Value(cards: OldCardModel[], suffix: string, roundId: string) {

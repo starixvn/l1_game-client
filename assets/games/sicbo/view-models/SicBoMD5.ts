@@ -14,6 +14,6 @@ export default class SicBoMD5 extends MD5Component {
     }
 
     setDataTip(data: MD5Type) {
-        this.data = "";
+        this.tipString = "";
     }
 }

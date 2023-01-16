@@ -20,6 +20,6 @@ export default class BauCuaMD5 extends MD5Component {
     }
 
     setDataTip(data: MD5Type) {
-        this.data = data.hashValue || data.rawValue;
+        this.tipString = data.hashValue || data.rawValue;
     }
 }

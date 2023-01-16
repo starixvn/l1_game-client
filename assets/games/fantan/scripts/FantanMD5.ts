@@ -7,6 +7,6 @@ export default class FantanMD5 extends MD5Component {
     maximumStringAllowed = 26;
 
     setDataTip(data: MD5Type) {
-        this.data = data.hashValue || data.rawValue;
+        this.tipString = data.hashValue || data.rawValue;
     }
 }

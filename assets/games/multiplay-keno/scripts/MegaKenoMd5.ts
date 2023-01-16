@@ -17,6 +17,6 @@ export default class MegaKenoMd5 extends MD5Component {
     }
 
     setDataTip(data: MD5Type) {
-        this.data = "";
+        this.tipString = "";
     }
 }

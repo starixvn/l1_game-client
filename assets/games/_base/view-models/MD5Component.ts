@@ -50,7 +50,7 @@ export default class MD5Component extends cc.Component {
     maximumStringAllowed = 32;
     public hintLabel: cc.Label = null;
     public gameId: number;
-    public data: string;
+    protected tipString: string;
 
     onLoad() {
         this.initMD5Tooltip();
@@ -108,8 +108,8 @@ export default class MD5Component extends cc.Component {
     }
 
     showTooltip() {
-        if (this.data) {
-            this.md5Tip.setData(this.data);
+        if (this.tipString) {
+            this.md5Tip.setData(this.tipString);
             this.md5Tip.show(true);
             cc.tween(this.md5Tip.node).to(0.2, { opacity: 255 }).delay(2).to(0.1, { opacity: 0 }).start();
         }
@@ -156,7 +156,7 @@ export default class MD5Component extends cc.Component {
     }
 
     setDataTip(data: MD5Type) {
-        this.data = data.rawValue;
+        this.tipString = data.rawValue;
     }
 
     onClickCopyButton() {
