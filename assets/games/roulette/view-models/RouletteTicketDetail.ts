@@ -18,15 +18,15 @@ export default class RouletteTicketDetail extends GameTicketDetailBase {
     result = 20;
 
     HEIGHT_BET_DETAIL_TABLE = 470;
-    WIDTH_BET_DETAIL_TABLE = 549;
+    WIDTH_BET_DETAIL_TABLE = 546;
 
     public showbetLogs() {
         this.node.active = true;
-        this.betLogDetails.forEach((log) => {
+        this.betLogDetails.forEach((log, index) => {
             const group = cc.instantiate(this.groupPrefab);
             const groupComponent = group.getComponent(RouletteTicketDetailIGroup);
             this.content.addChild(group);
-            groupComponent.createBetLogItem(log, this.settlementResult);
+            groupComponent.createBetLogItem(log, this.settlementResult, index);
         });
     }
 

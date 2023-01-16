@@ -18,7 +18,7 @@ export default class BitcoinMasterTicketDetail extends GameTicketDetailBase {
     @property(cc.Prefab)
     ticketItemPrefab: cc.Prefab = null;
 
-    HEIGHT_BET_DETAIL_TABLE = 290;
+    HEIGHT_BET_DETAIL_TABLE = 410;
     WIDTH_BET_DETAIL_TABLE = 948;
 
     setData(data: any) {

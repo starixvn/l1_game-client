@@ -5,7 +5,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class BigSmallHistory extends SocketIOGameHistoryBase {
-    public handleBetHistory = (roundId, gameId) => {};
+    public handleBetHistory = (roundId) => {};
 
     bindItemRowData(betLog, index) {
         const itemNode = cc.instantiate(this.itemPrefab);
@@ -18,6 +18,6 @@ export default class BigSmallHistory extends SocketIOGameHistoryBase {
     }
 
     openBetHistory(roundId: number) {
-        this.handleBetHistory(roundId, this.gameId);
+        this.handleBetHistory(roundId);
     }
 }

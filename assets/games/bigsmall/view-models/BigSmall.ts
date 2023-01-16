@@ -184,7 +184,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         const mini = cc.instantiate(this.miniRoundHistoryPrefab);
         this.miniRoundHistory = mini.getComponent(BigSmallMiniRoundHistory);
         this.miniRoundHistory.handleBetHistory = (roundId) => {
-            this.openBetHistory(roundId, this.gameId);
+            this.openBetHistory(roundId);
         };
         this.miniRoundHistoryContainer.addChild(mini);
     }
@@ -247,8 +247,8 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         const historyComp = this.historyComponent as BigSmallHistory;
         historyComp.gameId = this.gameId;
         historyComp.init(this.socket);
-        historyComp.handleBetHistory = (roundId, gameId) => {
-            this.openBetHistory(roundId, gameId);
+        historyComp.handleBetHistory = (roundId) => {
+            this.openBetHistory(roundId);
         };
         this.currentMiniPanel.addDialog(dialog);
     }
@@ -268,14 +268,14 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.positionStatistic.active = show;
     }
 
-    openBetHistory(roundId: number, gameId: number) {
+    openBetHistory(roundId: number) {
         AudioManager.getInstance().playClick();
 
         const node = cc.instantiate(this.betHistoryPrefab);
         this.betHistory = node.getComponent(BigSmallBetHistory);
         this.currentMiniPanel.addDialog(node);
         this.betHistory.init(this, roundId);
-        this.betHistory.gameId = gameId;
+        this.betHistory.gameId = this.gameId;
     }
 
     resetDataAndUI() {

@@ -17,6 +17,9 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
     @property(cc.Prefab)
     betItemPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    bg: cc.Node = null;
+
     onLoad() {
         this.betChoiceGroupNode.children.forEach((child) => child.destroy());
     }
@@ -25,7 +28,7 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
         this.betChoiceGroupNode.destroyAllChildren();
     }
 
-    createBetLogItem(betLogs: any, settlementResult: any) {
+    createBetLogItem(betLogs: any, settlementResult: any, index: number) {
         this.timeLabel.string = getStringHourByTime(betLogs.time);
 
         let height = 0;
@@ -63,6 +66,7 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
         });
 
         this.node.height = height;
+        this.bg.active = index % 2 > 0;
     }
 
     private createTicketDetailItem(betList: any, result: any, betKey: string, betType: string): number {
