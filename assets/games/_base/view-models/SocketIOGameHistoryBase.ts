@@ -37,6 +37,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
 
     public headerTitleColor = "#ffe800";
     fontsizeTitle = 18;
+    isSlotGame = false;
 
     historyFrame: HistoryFrame;
 
@@ -70,8 +71,10 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
             node.getComponent(cc.Layout).updateLayout();
             this.historyFrame.updateTitleSize(node.width + this.WIDTH_SIGN);
         }
-        const header = this.wrapperContent.children[0];
-        GameUtils.setFontSizeLabelsInNode(header, true);
+        if (!this.isSlotGame) {
+            const header = this.wrapperContent.children[0];
+            GameUtils.setFontSizeLabelsInNode(header, true);
+        }
     }
 
     get_data(page = 1) {

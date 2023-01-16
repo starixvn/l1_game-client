@@ -10,6 +10,8 @@ export default class SlotGameHistory extends SocketIOGameHistoryBase {
     @property(cc.Prefab)
     ticketDetailPrefab: cc.Prefab = null;
 
+    isSlotGame = true;
+
     onLoad() {
         this.pagination.init(this);
         const commonDialog = this.mainFrame.getComponent(CommonDialog);
