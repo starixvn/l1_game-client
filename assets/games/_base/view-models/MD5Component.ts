@@ -28,7 +28,7 @@ export default class MD5Component extends cc.Component {
     hintCopyNode: cc.Node = null;
 
     @property(cc.Node)
-    md5String: cc.Node = null;
+    md5ContentContainer: cc.Node = null;
 
     @property
     lengthOfMd5 = 21;
@@ -62,15 +62,15 @@ export default class MD5Component extends cc.Component {
     }
 
     private registerTouchEvents() {
-        this.md5String.on(cc.Node.EventType.MOUSE_ENTER, this.showTooltip, this);
-        this.md5String.on(cc.Node.EventType.MOUSE_LEAVE, this.hideTooltip, this);
-        this.md5String.on(cc.Node.EventType.TOUCH_START, this.showTooltip, this);
+        this.md5ContentContainer.on(cc.Node.EventType.MOUSE_ENTER, this.showTooltip, this);
+        this.md5ContentContainer.on(cc.Node.EventType.MOUSE_LEAVE, this.hideTooltip, this);
+        this.md5ContentContainer.on(cc.Node.EventType.TOUCH_START, this.showTooltip, this);
     }
 
     private removeTouchEvents() {
-        this.md5String.off(cc.Node.EventType.MOUSE_ENTER, this.showTooltip, this);
-        this.md5String.off(cc.Node.EventType.MOUSE_LEAVE, this.hideTooltip, this);
-        this.md5String.off(cc.Node.EventType.TOUCH_START, this.showTooltip, this);
+        this.md5ContentContainer.off(cc.Node.EventType.MOUSE_ENTER, this.showTooltip, this);
+        this.md5ContentContainer.off(cc.Node.EventType.MOUSE_LEAVE, this.hideTooltip, this);
+        this.md5ContentContainer.off(cc.Node.EventType.TOUCH_START, this.showTooltip, this);
     }
 
     start() {
@@ -91,7 +91,7 @@ export default class MD5Component extends cc.Component {
         this.md5Text = md5Frame.md5Label;
         this.copyButton = md5Frame.md5CopyBtn;
         this.hintCopyNode = md5Frame.md5HintCopy;
-        const md5ContentWidth = this.md5String.width;
+        const md5ContentWidth = this.md5ContentContainer.width;
         this.hintLabel = this.hintCopyNode.getChildByName("content").getComponent(cc.Label);
         this.hintLabel.string = i18n.t("messages.copy_success");
         this.setCaptionAndHintForMD5(false);
