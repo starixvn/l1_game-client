@@ -13,15 +13,6 @@ export default class BlockchainBaccaratGuideItem5 extends BlockchainBaccaratGuid
     stampSprite: cc.Sprite = null;
 
     show() {
-        this.setStampSprite();
         super.show();
-    }
-
-    private setStampSprite() {
-        if (window.i18n.curLang !== "vi") {
-            this.stampSprite.spriteFrame = this.stampEn;
-        } else {
-            this.stampSprite.spriteFrame = this.stampVi;
-        }
     }
 }

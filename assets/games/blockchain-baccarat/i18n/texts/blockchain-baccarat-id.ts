@@ -17,7 +17,7 @@ export const phrases = {
         privateKey: "Kunci Pribadi",
         serialNumber: "Nomor Seri",
         verifiedSerial: "Nomor Seri Terverifikasi dari Kunci Pribadi",
-        copy: "Salinan",
+        copy: "Salin",
         verifiedValue:
             "Periksa keadlian dan transparansi hasil kartu dengan membandingkan Kunci Pribadi (terbit saat kartu dibuka) dengan Nomor Seri.",
         last_round: "Ronde Terakhir:",
