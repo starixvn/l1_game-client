@@ -28,27 +28,25 @@ export default class HistoryFrame extends cc.Component {
     @property(cc.Layout)
     title: cc.Layout = null;
 
-    private PADDING_HEIGHT = 12;
-    private PADDING_TOP_HEIGHT = 60;
-
-    private backFrameLayout: cc.Layout;
+    private readonly PADDING = 12;
+    private readonly PADDING_TOP_HEIGHT = 60;
 
     public clickCloseButton = () => {};
 
     onLoad() {
         this.gameName.node.active = false;
-        this.backFrameLayout = this.mainFrame.getComponent(cc.Layout);
     }
 
     updateSizeFrame(widthContent: number, heightContent: number, autoScaleNodeWidth: number) {
+        const mainFrameWidth = widthContent + this.PADDING * 2;
+        const mainFrameHeight = heightContent + this.PADDING + this.PADDING_TOP_HEIGHT;
         this.mainFrame.children.forEach((child) => {
-            child.width = (widthContent + this.PADDING_HEIGHT * 2) / 2;
-            child.height = heightContent + this.PADDING_HEIGHT + this.PADDING_TOP_HEIGHT;
+            child.width = mainFrameWidth / 2;
+            child.height = mainFrameHeight;
         });
         this.tableBg.width = widthContent;
         this.tableBg.height = heightContent;
-        this.backFrameLayout.updateLayout();
-        this.backWrapper.width = this.mainFrame.width;
+        this.backWrapper.width = mainFrameWidth;
 
         const padding = 80;
         const autoScaleNode = this.backWrapper.parent;
