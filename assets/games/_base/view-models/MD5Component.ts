@@ -148,6 +148,8 @@ export default class MD5Component extends cc.Component {
 
     resetMd5() {
         this.md5Value.string = "";
+        this.tipString = "";
+        this.setCopyString("");
         this.timeout && clearTimeout(this.timeout);
     }
 
