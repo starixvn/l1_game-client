@@ -567,7 +567,7 @@ export default class GameUtils {
             const labelNode = label.node;
             labelNode.scale = 0.5;
             label.fontSize = fontSize;
-            label.lineHeight = fontSize;
+            label.lineHeight = fontSize + 4;
             if (isCustom) {
                 labelNode.color = cc.Color.BLACK.fromHEX("#ffe800");
                 labelNode.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;
