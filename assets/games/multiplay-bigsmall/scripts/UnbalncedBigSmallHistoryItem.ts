@@ -1,7 +1,7 @@
 import { i18n } from "../../../ClientModules";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import HistoryDicesResult from "../../_base/view-models/HistoryDicesResult";
 import MultiplayGameHistoryItem from "../../multiplay/scripts/MultiplayGameHistoryItem";
-import MultiplayGameHistoryResult from "./MultiplayGameHistoryResult";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,7 +34,7 @@ export default class UnbalncedBigSmallHistoryItem extends MultiplayGameHistoryIt
     setResultData(data: any) {
         const { result, settlementResult } = data;
         const resultNode = cc.instantiate(this.resultPrefab);
-        const resultControl = resultNode.getComponent(MultiplayGameHistoryResult);
+        const resultControl = resultNode.getComponent(HistoryDicesResult);
         resultControl.setResult(result, settlementResult);
         this.result.addChild(resultNode);
     }

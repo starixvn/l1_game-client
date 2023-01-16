@@ -23,6 +23,10 @@ export default class BalancedBettingPoolBetItemBase extends GameTicketDetailItem
     @property(cc.Node)
     highlight: cc.Node = null;
 
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+    }
+
     setData(data: any, userRate: number, multiplier, index: number) {
         const isLoginUser = data.name === cc.RedT.user.name;
         this.highlight.active = isLoginUser;

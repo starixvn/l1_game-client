@@ -250,7 +250,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         historyComp.handleBetHistory = (roundId, gameId) => {
             this.openBetHistory(roundId, gameId);
         };
-        this.currentMiniPanel.node.addChild(dialog);
+        this.currentMiniPanel.addDialog(dialog);
     }
 
     public initStatistic() {
@@ -273,7 +273,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
 
         const node = cc.instantiate(this.betHistoryPrefab);
         this.betHistory = node.getComponent(BigSmallBetHistory);
-        this.currentMiniPanel.node.addChild(node);
+        this.currentMiniPanel.addDialog(node);
         this.betHistory.init(this, roundId);
         this.betHistory.gameId = gameId;
     }

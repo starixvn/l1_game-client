@@ -3,7 +3,7 @@ import { i18n } from "../../../ClientModules";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MultiplayGameHistoryResult extends cc.Component {
+export default class HistoryDicesResult extends cc.Component {
     @property(cc.Sprite)
     dice1: cc.Sprite = null;
 

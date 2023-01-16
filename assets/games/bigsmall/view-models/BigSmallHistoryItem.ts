@@ -1,6 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import HistoryDicesResult from "../../_base/view-models/HistoryDicesResult";
 import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
@@ -10,8 +11,11 @@ export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     choice: cc.Label = null;
 
-    @property(cc.Label)
-    result: cc.Label = null;
+    @property(cc.Node)
+    result: cc.Node = null;
+
+    @property(cc.Prefab)
+    resultPrefab: cc.Prefab = null;
 
     @property(cc.Label)
     bet: cc.Label = null;
@@ -36,7 +40,7 @@ export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
         this.roundId = phien;
         this.win.string = numberWithCommas(betwin, 2);
         this.choice.string = GameUtils.getBetChoiceString(choice);
-        this.result.string = `${result.dice1}-${result.dice2}-${result.dice3}  ${result.dice1 + result.dice2 + result.dice3}`;
+        this.setResultData(betLog);
         this.setBackground(index);
 
         if (win) {
@@ -46,5 +50,13 @@ export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
             this.time.node.color = cc.Color.WHITE;
             this.choice.node.color = cc.Color.WHITE;
         }
+    }
+
+    setResultData(data: any) {
+        const { result, settlementResult } = data;
+        const resultNode = cc.instantiate(this.resultPrefab);
+        const resultControl = resultNode.getComponent(HistoryDicesResult);
+        resultControl.setResult(result, settlementResult);
+        this.result.addChild(resultNode);
     }
 }

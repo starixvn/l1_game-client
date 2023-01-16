@@ -58,11 +58,7 @@ export default class GameBalancedBettingHistoryBase extends GameTicketDetailBase
         this.node.destroy();
     }
 
-    onLoad() {
-        if (!cc.sys.isMobile) {
-            this.node.scale = 0.8;
-        }
-    }
+    onLoad() {}
 
     onNextClick() {
         this.getRound(this.roundId + 1);
