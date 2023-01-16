@@ -25,7 +25,7 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
 
     private readonly tableHeight = 80;
     public contentHeight = 110;
-    private readonly maxHeightContent = 510;
+    private readonly maxHeightContent = 450;
     private readonly heightPerRow = 50;
     comp: cc.Node;
 
