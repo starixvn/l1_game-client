@@ -1,3 +1,4 @@
+import GameUtils from "../../../../common/GameUtils";
 import SocketIOGameHistoryBase from "../../../_base/view-models/SocketIOGameHistoryBase";
 import { WinThreeCardsBetData } from "../WinThreeCardsModel";
 import WinThreeCardsTicketDetail from "./ticket-detail/WinThreeCardsTicketDetail";
@@ -16,9 +17,7 @@ export default class WinThreeCardsHistory extends SocketIOGameHistoryBase {
         item.showTicketDetail = (data) => this.showTicketDetail(data);
         item.showBackground(index % 2 !== 0);
         this.content.addChild(itemNode);
-        if (index === 0) {
-            item.node.getChildByName("topBorder").active = false;
-        }
+        GameUtils.setFontSizeLabelsInNode(itemNode);
     }
 
     private showTicketDetail(data: WinThreeCardsBetData) {
