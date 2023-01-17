@@ -32,9 +32,6 @@ export default class FruitSlotTicketDetail extends GameTicketDetailBase {
     private builTicketDetailRow(betLogDetail: FruitSlotBetLogDetail, index: number, symbolSprites: cc.SpriteFrame[], odds: FruitSlotOdds) {
         const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
         const ticketDetailItemComponent = ticketDetailItem.getComponent(FruitSlotTicketDetailItem);
-        if (index === 0) {
-            ticketDetailItemComponent.node.getChildByName("topBorder").active = false;
-        }
         this.content.addChild(ticketDetailItem);
         ticketDetailItemComponent.updateContent(betLogDetail, odds, this.settlementResult, symbolSprites, index);
     }
