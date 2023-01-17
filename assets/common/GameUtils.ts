@@ -573,6 +573,7 @@ export default class GameUtils {
                 const labelFormat = labelNode.getComponent("LocalizedLabelWithFormat");
                 if (labelFormat) {
                     labelFormat.format = FormationHandler.TITLE;
+                    labelFormat.updateLabel();
                 } else {
                     console.warn("Label doesnt has LocalizedLabelWithFormat: ", labelNode.name);
                 }
