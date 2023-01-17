@@ -11,9 +11,10 @@ export const phrases = {
         9: "มินิ Se Die"
     },
     miniSedie: {
-        hotFeature: "Hot New Feature with...",
-        switchGame: "Expand the game table",
-        clickOrTap: "Click or Tap to place bet"
+        hotFeature: "ฟีเจอร์ใหม่มาแรงกับ...",
+        switchGame: "ขยายตารางเกมส์",
+        clickOrTap: "คลิกหรือแตะเพื่อวางเดิมพัน",
+        multiplay: "ผู้เล่นหลายคน"
     }
 };
 

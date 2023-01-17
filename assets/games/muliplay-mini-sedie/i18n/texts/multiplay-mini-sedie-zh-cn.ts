@@ -11,9 +11,10 @@ export const phrases = {
         9: "迷你色碟"
     },
     miniSedie: {
-        hotFeature: "Hot New Feature with...",
-        switchGame: "Expand the game table",
-        clickOrTap: "Click or Tap to place bet"
+        hotFeature: "热门新功能...",
+        switchGame: "展开游戏桌",
+        clickOrTap: "点击下注",
+        multiplay: "多人玩"
     }
 };
 

@@ -15,7 +15,8 @@ export const phrases = {
     megaBigSmall: {
         hotFeature: "Hot Fitur Terbaru dengan....",
         switchGame: "Perluar meja permainan",
-        clickOrTap: "Klik atau Ketuk untuk memasang taruhan"
+        clickOrTap: "Klik atau Ketuk\n untuk memasang taruhan",
+        multiplay: "Multi Permainan"
     }
 };
 

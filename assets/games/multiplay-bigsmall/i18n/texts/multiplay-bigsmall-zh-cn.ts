@@ -15,7 +15,8 @@ export const phrases = {
     megaBigSmall: {
         hotFeature: "热门新功能...",
         switchGame: "展开游戏桌",
-        clickOrTap: "点击下注"
+        clickOrTap: "点击下注",
+        multiplay: "多人玩"
     }
 };
 

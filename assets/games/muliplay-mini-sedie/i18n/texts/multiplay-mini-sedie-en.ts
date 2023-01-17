@@ -13,7 +13,8 @@ export const phrases = {
     miniSedie: {
         hotFeature: "Hot New Feature with...",
         switchGame: "Expand the game table",
-        clickOrTap: "Click or Tap to place bet"
+        clickOrTap: "Click or Tap to place bet",
+        multiplay: "Multiplay"
     }
 };
 
