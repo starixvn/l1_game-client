@@ -14,7 +14,7 @@ export const phrases = {
         coinValue: "มูลค่าเหรียญ",
         congratulation: "ยินดีด้วยค่ะ",
         youWinFreeSpin: "คุณชนะ",
-        multiplier: "คูณ",
+        multiplier: "ตัวคูณ",
         totalMultiplier: "ตัวคูณทั้งหมด",
         no: "หมายเลข",
         resultBoard: "กระดานผลการแข่งขัน",

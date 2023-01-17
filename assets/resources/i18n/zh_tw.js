@@ -199,7 +199,7 @@ const data = {
         betChoice: "投注選擇",
         betType: "投注類型",
         ok: "確認",
-        choice_earth: "地球",
+        choice_earth: "土",
         choice_even: "雙",
         choice_fire: "火",
         choice_gold: "金",
