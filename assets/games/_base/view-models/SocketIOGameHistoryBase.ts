@@ -115,15 +115,16 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     initHistoryWrapper(node: cc.Node) {
         this.historyFrame = node.getComponent(HistoryFrame);
         this.pagination = this.historyFrame.pagination;
-        this.mainFrame = this.historyFrame.backWrapper;
+        this.pagination.init(this);
+
         this.gameName = this.historyFrame.gameName;
-        const commonDialog = this.mainFrame.getComponent(CommonDialog);
+        const mainFrame = this.historyFrame.backWrapper;
+        const commonDialog = mainFrame.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();
         });
-        this.pagination.init(this);
 
-        this.wrapperContent.parent = this.mainFrame;
+        this.wrapperContent.parent = mainFrame;
         this.historyFrame.updateSizeFrame(this.content.width, this.HEIGHT_CONTENT, this.AUTO_SCALE_NODE_WIDTH);
     }
 }
