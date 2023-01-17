@@ -501,16 +501,16 @@ const data = {
         md5Key: "Result"
     },
     hiLo: {
-        collect: "Collect",
-        sorryMessage: "Sorry, you lost the game.",
-        play: "Play",
-        turn: "Turn",
-        baseCard: "Base Card",
-        resultCard: "Result Card",
-        startRound: "Start Round",
-        endRound: "End Round",
-        high: "High",
-        low: "Low"
+        collect: "Ambil",
+        sorryMessage: "Maaf, Anda kalah dalam permainan.",
+        play: "Bermain",
+        turn: "Berbelok",
+        baseCard: "Kartu Dasar",
+        resultCard: "Hasil Kartu",
+        startRound: "Mulai Babak",
+        endRound: "Putaran Akhir",
+        high: "Tinggi",
+        low: "Rendah"
     },
     texasPoker: {
         OddsTitle: "Call / Turn / River",

@@ -482,16 +482,16 @@ const data = {
         md5Key: "結果"
     },
     hiLo: {
-        collect: "Collect",
-        sorryMessage: "Sorry, you lost the game.",
-        play: "Play",
-        turn: "Turn",
-        baseCard: "Base Card",
-        resultCard: "Result Card",
-        startRound: "Start Round",
-        endRound: "End Round",
-        high: "High",
-        low: "Low"
+        collect: "收集",
+        sorryMessage: "對不起。你輸了",
+        play: "玩",
+        turn: "轉牌",
+        baseCard: "底牌",
+        resultCard: "結果卡",
+        startRound: "回合開始",
+        endRound: "回合結束",
+        high: "高",
+        low: "低"
     },
     texasPoker: {
         OddsTitle: "跟注/轉牌/和牌",

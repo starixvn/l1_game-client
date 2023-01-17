@@ -42,7 +42,7 @@ const data = {
         43: "บิทคอยน์มาสเตอร์",
         39: "Casino Hold'em",
         42: "เท็กซัส โฮลเอ็ม",
-        45: "Hi-Lo",
+        45: "ไฮโล",
         46: "Nightclub Lady",
         52: "Mega Keno",
         53: "Mega Keno 2",
@@ -506,16 +506,16 @@ const data = {
         md5Key: "ผลลัพธ์"
     },
     hiLo: {
-        collect: "Collect",
-        sorryMessage: "Sorry, you lost the game.",
-        play: "Play",
-        turn: "Turn",
-        baseCard: "Base Card",
-        resultCard: "Result Card",
-        startRound: "Start Round",
-        endRound: "End Round",
-        high: "High",
-        low: "Low"
+        collect: "รวบรวม",
+        sorryMessage: "ขออภัย คุณแพ้เกมส์นี้",
+        play: "เล่น",
+        turn: "เทิร์น",
+        baseCard: "ไพ่พื้นฐาน",
+        resultCard: "ไพ่ผลลัพธ์",
+        startRound: "รอบเริ่มต้น",
+        endRound: "รอบสุดท้าย",
+        high: "สูง",
+        low: "ต่ำ"
     },
     texasPoker: {
         OddsTitle: "เรียก / เทิร์น / ริเวอร์",
