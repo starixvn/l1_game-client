@@ -570,7 +570,12 @@ export default class GameUtils {
             label.lineHeight = fontSize + 4;
             if (isCustom) {
                 labelNode.color = cc.Color.BLACK.fromHEX("#ffe800");
-                labelNode.getComponent("LocalizedLabelWithFormat").format = FormationHandler.TITLE;
+                const labelFormat = labelNode.getComponent("LocalizedLabelWithFormat");
+                if (labelFormat) {
+                    labelFormat.format = FormationHandler.TITLE;
+                } else {
+                    console.warn("Label doesnt has LocalizedLabelWithFormat: ", labelNode.name);
+                }
             }
             if (parentNode !== labelNode.parent) {
                 parentNode = labelNode.parent;
