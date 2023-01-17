@@ -3,7 +3,7 @@ import {
     WinThreeCardsBetData,
     WinThreeCardsBetLogDetails,
     WinThreeCardsOdds,
-    WinThreeCardsSettlementResult
+    WinThreeCardsSettlementResult,
 } from "../../WinThreeCardsModel";
 import WinThreeCardsHistoryResult from "../WinThreeCardsHistoryResult";
 import WinThreeCardsTicketDetailItem from "./WinThreeCardsTicketDetailItem";
@@ -25,6 +25,8 @@ export default class WinThreeCardsTicketDetail extends GameTicketDetailBase {
     cardResultPhoenix: WinThreeCardsHistoryResult = null;
 
     betLogDetails = null;
+    WIDTH_BET_DETAIL_TABLE = 1150;
+    HEIGHT_BET_DETAIL_TABLE = 390;
 
     setData(data: WinThreeCardsBetData) {
         const dragonCards = data.result.dragon;
@@ -54,9 +56,6 @@ export default class WinThreeCardsTicketDetail extends GameTicketDetailBase {
     ) {
         const ticketDetailItem = cc.instantiate(this.ticketDetailItemPrefab);
         const ticketDetailItemComponent = ticketDetailItem.getComponent(WinThreeCardsTicketDetailItem);
-        if (index === 0) {
-            ticketDetailItemComponent.node.getChildByName("topBorder").active = false;
-        }
         this.content.addChild(ticketDetailItem);
         ticketDetailItemComponent.updateContent(freeBet, betLogDetail, odds, settlementResult, index);
     }

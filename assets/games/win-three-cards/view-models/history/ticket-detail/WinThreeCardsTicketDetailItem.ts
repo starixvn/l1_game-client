@@ -1,12 +1,13 @@
 import { i18n } from "../../../../../ClientModules";
 import { formatDateTime } from "../../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../../common/helpers/NumberHelper";
+import GameTicketDetailItemBase from "../../../../_base/view-models/GameTicketDetailItemBase";
 import { StringHelper } from "../../WinThreeCardsHelper";
 import { WinThreeCardsBetLogDetails, WinThreeCardsOdds, WinThreeCardsSettlementResult } from "../../WinThreeCardsModel";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
-export default class WinThreeCardsTicketDetailItem extends cc.Component {
+export default class WinThreeCardsTicketDetailItem extends GameTicketDetailItemBase {
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -22,9 +23,6 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    @property(cc.Node)
-    bgRow: cc.Node = null;
-
     updateContent(
         freeBet: boolean,
         betLogDetail: WinThreeCardsBetLogDetails,
@@ -32,7 +30,7 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
         settlementResult: WinThreeCardsSettlementResult,
         index: number
     ) {
-        this.bgRow.active = index % 2 === 1;
+        this.setBackground(index);
         const { time, choice, amount } = betLogDetail;
         this.time.string = formatDateTime(time);
         this.choice.string = i18n.t(`${StringHelper.winThreeCardsNameSpace}.${choice}`);
@@ -43,10 +41,6 @@ export default class WinThreeCardsTicketDetailItem extends cc.Component {
         const winningAmount = this.getWinAmount(settlementResult[choice], amount, effectiveOdds, settlementResult.tie);
         this.win.string = numberWithCommas(winningAmount, 2);
         this.setHighlightTicketDetail(winningAmount > amount);
-
-        if (index === 0) {
-            this.node.getChildByName("topBorder").active = false;
-        }
     }
 
     private getWinAmount(isWinning: boolean, amount: number, effectiveOdds: number, isTie = false) {
