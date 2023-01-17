@@ -533,7 +533,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "round",
+    "_name": "button",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -546,7 +546,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 19
+        "__id__": 18
       }
     ],
     "_prefab": {
@@ -555,15 +555,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 37,
-      "g": 128,
-      "b": 241,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 110.66,
-      "height": 40
+      "width": 140,
+      "height": 45
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -574,7 +574,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -258.23350000000005,
+        -258.2335,
         0,
         0,
         0,
@@ -601,7 +601,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Button",
+    "_name": "round",
     "_objFlags": 0,
     "_parent": {
       "__id__": 14
@@ -614,19 +614,19 @@
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 17
     },
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 37,
+      "g": 128,
+      "b": 241,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 140,
+      "width": 110.66,
       "height": 40
     },
     "_anchorPoint": {
@@ -664,11 +664,57 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Button",
+    "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 15
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_string": "22345678910",
+    "_N$string": "22345678910",
+    "_fontSize": 18,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_N$file": {
+      "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_batchAsBitmap": false,
+    "_styleFlags": 0,
+    "_underlineHeight": 0,
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$fontFamily": "Arial",
+    "_N$overflow": 0,
+    "_N$cacheMode": 2,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "ae85f1a7-1ffb-4e34-956f-e5dcfd9fc624"
+    },
+    "fileId": "00B7+3sG1GAJbC6Igwzfmj",
+    "sync": false
+  },
+  {
+    "__type__": "cc.Button",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 14
     },
     "_enabled": true,
     "_normalMaterial": null,
@@ -677,7 +723,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 17
+        "__id__": 19
       }
     ],
     "_N$interactable": true,
@@ -765,53 +811,7 @@
     "asset": {
       "__uuid__": "ae85f1a7-1ffb-4e34-956f-e5dcfd9fc624"
     },
-    "fileId": "5bjv7TtrVEfoNwoNBg006t",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Label",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 14
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_string": "22345678910",
-    "_N$string": "22345678910",
-    "_fontSize": 18,
-    "_lineHeight": 40,
-    "_enableWrapText": true,
-    "_N$file": {
-      "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
-    },
-    "_isSystemFontUsed": false,
-    "_spacingX": 0,
-    "_batchAsBitmap": false,
-    "_styleFlags": 0,
-    "_underlineHeight": 0,
-    "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 1,
-    "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
-    "_N$cacheMode": 2,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "ae85f1a7-1ffb-4e34-956f-e5dcfd9fc624"
-    },
-    "fileId": "3egPGP+WxL5LKNh6EizCu1",
+    "fileId": "30IGqAfvlER6KRtlolkPWs",
     "sync": false
   },
   {
@@ -4050,6 +4050,7 @@
     },
     "_enabled": true,
     "overrideFonts": [],
+    "enableCacheMode": false,
     "_id": ""
   },
   {
@@ -5176,7 +5177,7 @@
       "__id__": 9
     },
     "round": {
-      "__id__": 19
+      "__id__": 16
     },
     "win": {
       "__id__": 137

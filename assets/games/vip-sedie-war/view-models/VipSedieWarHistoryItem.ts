@@ -45,16 +45,6 @@ export default class VipSedieWarHistoryItem extends SocketIOHistoryItemBase {
         this.setBackground(index);
     }
 
-    onLoad() {
-        this.bet.node.on(
-            "click",
-            () => {
-                this.openTicketDetail();
-            },
-            false
-        );
-    }
-
     openTicketDetail() {
         const miniPanel = this.getMiniPanel();
         const node = cc.instantiate(this.ticketDetailPrefab);
