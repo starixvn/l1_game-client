@@ -17,7 +17,7 @@ export const phrases = {
         hotFeature: "ฟีเจอร์ใหม่มาแรงกับ...",
         switchGame: "ขยายตารางเกมส์",
         clickOrTap: "คลิกหรือแตะเพื่อวางเดิมพัน",
-        multiplay: "ผู้เล่นหลายคน"
+        multiplay: "มัลติเพลย์"
     }
 };
 
