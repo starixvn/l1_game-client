@@ -445,7 +445,7 @@ const data = {
     holdEmPoker: {
         ante: "底注",
         aa: "AA",
-        royalFlush: "同花大順",
+        royalFlush: "皇家同花順",
         straightFlush: "同花順",
         fourOfAKind: "四條",
         fullHouse: "葫蘆",
@@ -495,7 +495,7 @@ const data = {
     },
     texasPoker: {
         OddsTitle: "跟注/轉牌/和牌",
-        royalFlush: "同花大順",
+        royalFlush: "皇家同花順",
         highCard: "高牌",
         river: "河牌",
         turn: "轉牌",
