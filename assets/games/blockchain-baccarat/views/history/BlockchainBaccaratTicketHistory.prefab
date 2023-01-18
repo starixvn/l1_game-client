@@ -465,8 +465,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Time",
-    "_N$string": "Time",
+    "_string": "Ui.time",
+    "_N$string": "Ui.time",
     "_fontSize": 18,
     "_lineHeight": 0,
     "_enableWrapText": true,
@@ -606,8 +606,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Round",
-    "_N$string": "Round",
+    "_string": "Ui.round",
+    "_N$string": "Ui.round",
     "_fontSize": 18,
     "_lineHeight": 0,
     "_enableWrapText": true,
@@ -696,7 +696,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 400,
-      "height": 37.8
+      "height": 60
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -747,8 +747,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Result",
-    "_N$string": "Result",
+    "_string": "ui.result",
+    "_N$string": "ui.result",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -907,7 +907,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 70.56,
+      "width": 161.19,
       "height": 40
     },
     "_anchorPoint": {
@@ -983,7 +983,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -66.96000000000001,
+        -157.59,
         0,
         0,
         0,
@@ -1087,7 +1087,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 58.36,
+      "width": 148.99,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -1099,7 +1099,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -7.105427357601002e-15,
+        0,
         0,
         0,
         0,
@@ -1139,8 +1139,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Player",
-    "_N$string": "Player",
+    "_string": "ui.choice_player",
+    "_N$string": "ui.choice_player",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -1205,7 +1205,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 70.56,
+      "width": 161.19,
       "height": 40
     },
     "_resize": 1,
@@ -1382,7 +1382,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 77.86,
+      "width": 167.95999999999998,
       "height": 40
     },
     "_anchorPoint": {
@@ -1452,7 +1452,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 65.66,
+      "width": 155.76,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -1464,7 +1464,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        65.66,
+        155.76,
         0,
         0,
         0,
@@ -1504,8 +1504,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Banker",
-    "_N$string": "Banker",
+    "_string": "ui.choice_banker",
+    "_N$string": "ui.choice_banker",
     "_fontSize": 18,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -1599,7 +1599,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        74.25999999999999,
+        164.35999999999999,
         0,
         0,
         0,
@@ -1680,7 +1680,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 77.86,
+      "width": 167.95999999999998,
       "height": 40
     },
     "_resize": 1,
@@ -1809,8 +1809,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Player",
-    "_N$string": "Player",
+    "_string": "Ui.choice_player",
+    "_N$string": "Ui.choice_player",
     "_fontSize": 18,
     "_lineHeight": 0,
     "_enableWrapText": true,
@@ -1950,8 +1950,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Banker",
-    "_N$string": "Banker",
+    "_string": "Ui.choice_banker",
+    "_N$string": "Ui.choice_banker",
     "_fontSize": 18,
     "_lineHeight": 0,
     "_enableWrapText": true,
@@ -2091,8 +2091,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Tie",
-    "_N$string": "Tie",
+    "_string": "Ui.choice_tie",
+    "_N$string": "Ui.choice_tie",
     "_fontSize": 18,
     "_lineHeight": 0,
     "_enableWrapText": true,
@@ -2232,8 +2232,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Big",
-    "_N$string": "Big",
+    "_string": "Ui.choice_big",
+    "_N$string": "Ui.choice_big",
     "_fontSize": 18,
     "_lineHeight": 0,
     "_enableWrapText": true,
@@ -2373,8 +2373,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Small",
-    "_N$string": "Small",
+    "_string": "Ui.choice_small",
+    "_N$string": "Ui.choice_small",
     "_fontSize": 18,
     "_lineHeight": 36,
     "_enableWrapText": true,
@@ -2514,8 +2514,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Player Pair",
-    "_N$string": "Player Pair",
+    "_string": "Ui.player_pair",
+    "_N$string": "Ui.player_pair",
     "_fontSize": 18,
     "_lineHeight": 0,
     "_enableWrapText": true,
@@ -2655,8 +2655,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Banker Pair",
-    "_N$string": "Banker Pair",
+    "_string": "Ui.banker_pair",
+    "_N$string": "Ui.banker_pair",
     "_fontSize": 18,
     "_lineHeight": 0,
     "_enableWrapText": true,
@@ -2796,8 +2796,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Win",
-    "_N$string": "Win",
+    "_string": "Ui.win",
+    "_N$string": "Ui.win",
     "_fontSize": 18,
     "_lineHeight": 36,
     "_enableWrapText": true,
