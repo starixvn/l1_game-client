@@ -30,7 +30,7 @@ export default class BitcoinMasterGapAmount extends cc.Component {
         } else {
             this.gapAmount.string = BitcoinMasterUtils.absResult(gapValue);
             this.isUpResult = gapValue > 0;
-            this.gapAmount.node.color = this.isUpResult ? color.fromHEX("#c4f738") : color.fromHEX("#ff0028");
+            this.gapAmount.node.color = this.isUpResult ? color.fromHEX("#c4f738") : color.fromHEX("#F3485F");
             this.icon.node.active = true;
             this.icon.spriteFrame = this.isUpResult ? this.upImage : this.downImage;
         }
