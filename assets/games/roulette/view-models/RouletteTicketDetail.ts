@@ -18,7 +18,7 @@ export default class RouletteTicketDetail extends GameTicketDetailBase {
     result = 20;
 
     HEIGHT_BET_DETAIL_TABLE = 470;
-    WIDTH_BET_DETAIL_TABLE = 546;
+    WIDTH_BET_DETAIL_TABLE = 600;
 
     public showbetLogs() {
         this.node.active = true;
