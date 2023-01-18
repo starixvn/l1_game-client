@@ -2,10 +2,10 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        50: "Las Vegas",
-        51: "Marina Bay",
-        54: "Macau",
-        55: "Monte Carlo"
+        50: "拉斯維加斯",
+        51: "濱海灣",
+        54: "澳門",
+        55: "蒙特卡洛"
     },
     lobbyNames: {
         50: "大小城市"
