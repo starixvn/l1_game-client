@@ -461,7 +461,7 @@ const data = {
         call: "跟注",
         callChoice: "跟注",
         x2Double: "X2 雙倍",
-        fold: "蓋牌",
+        fold: "棄牌",
         highCards: "高牌",
         onePair: "一對",
         twoPairs: "兩對",
