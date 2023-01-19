@@ -151,6 +151,7 @@ const data = {
         FromSettleToSpin1: "旋转获胜！",
         FromSettleToSpin2: "旋转更多，赢得更多！",
         FromSettleToSpin3: "尝试涡轮模式！",
+        copyMD5Failed: "复印功能暂时不能用。",
         topMessage1: "符号在屏幕上的任何地方支付",
         topMessage2a: "击中",
         topMessage2b: "多次翻滚获胜",

@@ -168,6 +168,7 @@ const data = {
         FromSettleToSpin1: "PUTAR UNTUK MENANG!",
         FromSettleToSpin2: "PUTAR LEBIH BANYAK, MENANG LEBIH BANYAK!",
         FromSettleToSpin3: "COBA MODE TURBO!",
+        copyMD5Failed: "Fungsi salin untuk sementara tidak tersedia.",
         topMessage1: "SIMBOL MEMBAYAR DI MANA SAJA DI LAYAR",
         topMessage2a: "DAPATKAN",
         topMessage2b: "UNTUK MENGGANDAKAN KEMENANGAN TUMBLE",
