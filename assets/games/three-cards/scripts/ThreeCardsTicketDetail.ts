@@ -21,7 +21,7 @@ export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
     winChoices: ThreeCardsWinChoiceView = null;
 
     HEIGHT_BET_DETAIL_TABLE = 320;
-    WIDTH_BET_DETAIL_TABLE = 490;
+    WIDTH_BET_DETAIL_TABLE = 750;
 
     setData(data: ThreeCardsBetData) {
         this.round.string = data.phien;
