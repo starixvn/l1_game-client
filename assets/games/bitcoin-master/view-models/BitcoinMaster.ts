@@ -349,7 +349,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         const node = cc.instantiate(this.historyPrefab);
         this.historyComponent = node.getComponent(BitcoinMasterHistory);
         const historyComp = this.historyComponent as BitcoinMasterHistory;
-        historyComp.gameId = this.gameId;
         historyComp.init(this.socket);
         historyComp.handleBetHistory = (roundId, view) => {
             this.openBetHistory(roundId, view);
