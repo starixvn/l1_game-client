@@ -59,8 +59,8 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
             const result = settlementResult[betType];
 
             if (_.size(betList) > 0) {
-                Object.keys(betList).forEach((betKey) => {
-                    height += this.createTicketDetailItem(betList, result, betKey, betType);
+                Object.keys(betList).forEach((betKey, betIndex) => {
+                    height += this.createTicketDetailItem(betList, result, betKey, betType, betIndex);
                 });
             }
         });
@@ -69,7 +69,7 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
         this.bg.active = index % 2 > 0;
     }
 
-    private createTicketDetailItem(betList: any, result: any, betKey: string, betType: string): number {
+    private createTicketDetailItem(betList: any, result: any, betKey: string, betType: string, index: number): number {
         if (!this.betItemPrefab) {
             return 0;
         }
@@ -77,7 +77,7 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
         const betItemComponent = betItem.getComponent(RouletteTicketDetailItem);
         this.betChoiceGroupNode.addChild(betItem);
         const isWinning = result && result.indexOf(betKey) !== -1;
-        betItemComponent.updateContent(betType, betKey, betList[betKey], isWinning);
+        betItemComponent.updateContent(betType, betKey, betList[betKey], isWinning, index);
         return betItemComponent.height;
     }
 }

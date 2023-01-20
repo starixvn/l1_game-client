@@ -19,7 +19,7 @@ export default class RouletteTicketDetailItem extends GameTicketDetailItemBase {
 
     height: number = null;
 
-    updateContent(type: string, choice: string, amount: number, isWinning: boolean) {
+    updateContent(type: string, choice: string, amount: number, isWinning: boolean, index: number) {
         const choiceNames = {
             small: "1-18",
             big: "19-36",
@@ -84,6 +84,6 @@ export default class RouletteTicketDetailItem extends GameTicketDetailItemBase {
         this.amount.string = numberWithCommas(amount);
         this.amount.node.color = isWinning ? cc.Color.YELLOW : cc.Color.WHITE;
         this.height = this.node.height;
-        this.setBackground(0);
+        this.setBackground(index);
     }
 }
