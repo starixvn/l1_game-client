@@ -352,7 +352,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         historyComp.gameId = this.gameId;
         historyComp.init(this.socket);
         historyComp.handleBetHistory = (roundId, view) => {
-            this.openBetHistory(roundId, view, this.gameId);
+            this.openBetHistory(roundId, view);
         };
 
         this.currentMiniPanel.addDialog(node);

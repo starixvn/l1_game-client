@@ -42,6 +42,10 @@ export default class BitcoinMasterBetHistory extends GameBalancedBettingHistoryB
     HEIGHT_BET_DETAIL_TABLE = 317;
     WIDTH_BET_DETAIL_TABLE = 516;
 
+    start() {
+        // do not show game name on title
+    }
+
     onData(data: any) {
         super.onData(data);
         this.roundIdLabel.string = `#${data.id}`;
