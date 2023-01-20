@@ -252,7 +252,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1190,
+      "width": 1146,
       "height": 600
     },
     "_anchorPoint": {
@@ -307,6 +307,9 @@
     "_active": true,
     "_components": [
       {
+        "__id__": 18
+      },
+      {
         "__id__": 19
       }
     ],
@@ -323,7 +326,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 184.785,
+      "width": 235.785,
       "height": 40
     },
     "_anchorPoint": {
@@ -335,7 +338,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -558.511,
+        -553,
         -83.517,
         0,
         0,
@@ -543,13 +546,10 @@
     "_components": [
       {
         "__id__": 16
-      },
-      {
-        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 18
+      "__id__": 17
     },
     "_opacity": 255,
     "_color": {
@@ -561,8 +561,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 25.2
+      "width": 302,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -634,18 +634,6 @@
     "_id": ""
   },
   {
-    "__type__": "a8acfDXW6RBdZj4RLwzEfA7",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 15
-    },
-    "_enabled": true,
-    "overrideFonts": [],
-    "enableCacheMode": false,
-    "_id": ""
-  },
-  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -666,7 +654,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 184.785,
+      "width": 235.785,
       "height": 40
     },
     "_resize": 1,
@@ -686,6 +674,33 @@
     "_N$verticalDirection": 1,
     "_N$horizontalDirection": 0,
     "_N$affectedByScale": true,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 8
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 8,
+    "_left": 20,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
     "_id": ""
   },
   {
