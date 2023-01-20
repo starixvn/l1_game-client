@@ -52,8 +52,7 @@ export default class WinThreeCardsTicketDetailItem extends GameTicketDetailItemB
     }
 
     setHighlightTicketDetail(highlight: boolean) {
-        const winColor = new cc.Color(255, 246, 100);
-        const color = highlight ? winColor : cc.Color.WHITE;
+        const color = highlight ? cc.Color.YELLOW : cc.Color.WHITE;
         this.choice.node.color = color;
         this.odds.node.color = color;
         this.amount.node.color = color;

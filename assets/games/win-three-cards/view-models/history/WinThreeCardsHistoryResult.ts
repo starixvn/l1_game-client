@@ -24,7 +24,7 @@ export default class WinThreeCardsHistoryResult extends cc.Component {
 
     private setHighLightResult(isWin: boolean) {
         if (isWin) {
-            this.handRank.node.color = this.cardRank.node.color = new cc.Color(255, 246, 100);
+            this.handRank.node.color = this.cardRank.node.color = cc.Color.YELLOW;
         }
     }
     private setCards(results: any) {
