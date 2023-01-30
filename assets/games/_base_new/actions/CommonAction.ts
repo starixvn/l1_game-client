@@ -55,11 +55,13 @@ export const handleBoostedOdds = (game: MiniGameBase) => (boostedOdds) => game.a
 
 export const handleBoostedChoices = (game: MiniGameBase) => (boostedChoices) => game.setBoostedChoices(boostedChoices);
 
-export const handleFirstLoadRoundHistory = (game: any) => (roundHistory) => {
-    if (game.gameData.durations.isWaiting() || game.gameData.durations.isBeingSpecificPhase(Durations.Events.SHOW_ANIMATION)) {
+export const handleFirstLoadRoundHistory = (game: MiniGameBase) => (roundHistory) => {
+    const isShowingSettlement =
+        game.gameData.settlement.isShowingSettlement || game.gameData.durations.isBeingSpecificPhase(Durations.Events.SHOW_ANIMATION);
+    if (game.gameData.durations.isWaiting() || isShowingSettlement) {
         if (roundHistory.length > 0) {
             const settlement = roundHistory[0];
-            if (settlement && !game.gameData.settlement.isWaitingSettlement && !game.gameData.settlement.isShowingSettlement) {
+            if (settlement && !game.gameData.settlement.isWaitingSettlement && !game.isShowingSettlementOnUI) {
                 game.gameData.settlement.finishShowResult(settlement, false);
             }
         }
@@ -124,13 +126,15 @@ export const handleShowResult = (game: MiniGameBase) => (settlement) => {
     if (isDelayEndGame || !cc.RedT.GAME_IS_SHOWED) {
         game.gameData.settlement.finishShowResult(settlement, false);
     } else {
+        game.isShowingSettlementOnUI = true;
         game.showSettlementResult(settlement);
     }
 };
 
 export const handleAfterSettlementResult =
-    (game: any) =>
+    (game: MiniGameBase) =>
     ({ settlement, animated }) => {
+        game.isShowingSettlementOnUI = false;
         if (game.isDisableGame) {
             return;
         }

@@ -84,6 +84,8 @@ export default class MiniGameBase extends NewMiniGameBase {
     tableGameBg: cc.Node = null;
 
     protected managedByContainer = false;
+
+    isShowingSettlementOnUI = false;
     miniRoundHistory: MiniRoundHistory;
     public gameData: NewGameData;
     public countDownProgressBar: CountDownProgressBar;
@@ -210,7 +212,6 @@ export default class MiniGameBase extends NewMiniGameBase {
         }
 
         this.gameData = gameData;
-        this.gameData.settlement.isShowingSettlement = false;
         this.gameData.roundHistory.setStreakChoices(this.streakChoices);
         this.gameData.betModel.getChipValues = () => this.betChips.chipValues;
         this.initGameDataDurations();
