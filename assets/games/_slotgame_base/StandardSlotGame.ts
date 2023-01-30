@@ -6,7 +6,7 @@ import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SlotBottomArea from "./SlotBottomArea";
 import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
-import SlotGameBottomMessage, { SlotNotification } from "./SlotGameBottomMessage";
+import { SlotNotification } from "./SlotGameBottomMessage";
 import StandardSlotBoard from "./StandardSlotBoard";
 import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
 import SymbolPreview from "./SymbolPreview";
@@ -126,11 +126,13 @@ export default class StandardSlotGame extends SlotGameBase {
         const dict = {
             // prefab name : prefab property
             "slot-bottom-area": "slotBottomAreaPrefab",
-            "bottom-message": "bottomMessagePrefab"
+            "bottom-message": "bottomMessagePrefab",
+            "dialog-line-selection": "lineSelectionDialog",
+            "dialog-auto-spin": "autoSpinDialogPrefab"
         };
 
         for (const key of Object.keys(dict)) {
-            const path = `shared/slot_game/${key}`;
+            const path = `shared/slot-game/${key}`;
             try {
                 const prefab = await new Promise<cc.Prefab>((resolve, reject) => {
                     cc.resources.load<cc.Prefab>(path, cc.Prefab, (error, prefab) => {
@@ -158,8 +160,6 @@ export default class StandardSlotGame extends SlotGameBase {
             "effect-big-win": "effectBigWin",
             "effect-freespin": "effectFreeSpin",
 
-            "dialog-auto-spin": "autoSpinDialogPrefab",
-            "dialog-line-selection": "lineSelectionDialog",
             "dialog-bonus": "bonusDialog",
             "dialog-history": "historyPrefab",
             "dialog-guide": "historyPrefab",
