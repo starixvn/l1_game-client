@@ -30,22 +30,30 @@ export default class LineSelectionDialog extends cc.Component {
     onConfirmCallback = (betChoices: number[]) => {};
 
     onLoad() {
+        this.initPaylines();
+
+        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        commonDialog.addOnDidHide(() => {
+            this.node.destroy();
+        });
+    }
+
+    initPaylines() {
         for (let i = 0; i < 24; i++) {
             this.content.addChild(cc.instantiate(this.itemSample));
         }
         this.content.children.forEach((child, index) => {
             const item = child.getComponent(LineItem);
             const num = index + 1;
-            item.icon.spriteFrame = this.atlas.getSpriteFrame(`dong${num}`);
+            item.icon.spriteFrame = this.loadPaylineSprite(num);
             item.num.string = `${num}`;
             item.setChecked(false);
             this.items.push(item);
         });
+    }
 
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
-        commonDialog.addOnDidHide(() => {
-            this.node.destroy();
-        });
+    loadPaylineSprite(num): cc.SpriteFrame {
+        return this.atlas.getSpriteFrame(`dong${num}`);
     }
 
     setCheckItems(items: number[]) {
