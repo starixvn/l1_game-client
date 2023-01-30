@@ -56,6 +56,5 @@ export default class WinThreeCardsTicketDetailItem extends GameTicketDetailItemB
         this.choice.node.color = color;
         this.odds.node.color = color;
         this.amount.node.color = color;
-        this.win.node.color = color;
     }
 }
