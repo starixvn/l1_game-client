@@ -19,11 +19,6 @@ export default class CasinoMD5 extends MD5Component {
         this.copyButton.node.getChildByName("text").color = enabled ? color : color.fromHEX("#a8a8a8");
     }
 
-    // clearMD5() {
-    //     this.setMD5String("");
-    //     this.md5Tip.hideToolTip();
-    // }
-
     setMD5String(data: string) {
         this.tipString = "";
         this.setCaptionAndHintForMD5(false);

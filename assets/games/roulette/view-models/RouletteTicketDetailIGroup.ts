@@ -67,6 +67,7 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
 
         this.node.height = height;
         this.bg.active = index % 2 > 0;
+        this.bg.height = height;
     }
 
     private createTicketDetailItem(betList: any, result: any, betKey: string, betType: string, index: number): number {
