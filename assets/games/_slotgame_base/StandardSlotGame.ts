@@ -9,6 +9,7 @@ import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
 import { SlotNotification } from "./SlotGameBottomMessage";
 import StandardSlotBoard from "./StandardSlotBoard";
 import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
+import StandardSlotGameHistory from "./StandardSlotGameHistory";
 import SymbolPreview from "./SymbolPreview";
 
 const { ccclass, property } = cc._decorator;
@@ -128,7 +129,9 @@ export default class StandardSlotGame extends SlotGameBase {
             "slot-bottom-area": "slotBottomAreaPrefab",
             "bottom-message": "bottomMessagePrefab",
             "dialog-line-selection": "lineSelectionDialog",
-            "dialog-auto-spin": "autoSpinDialogPrefab"
+            "dialog-auto-spin": "autoSpinDialogPrefab",
+            "dialog-history": "historyPrefab",
+            "dialog-guide": "guidePrefab"
         };
 
         for (const key of Object.keys(dict)) {
@@ -161,8 +164,7 @@ export default class StandardSlotGame extends SlotGameBase {
             "effect-freespin": "effectFreeSpin",
 
             "dialog-bonus": "bonusDialog",
-            "dialog-history": "historyPrefab",
-            "dialog-guide": "historyPrefab",
+
             "line-normal": "linePrefab",
             "line-glow": "lightLinePrefab",
 
@@ -355,5 +357,11 @@ export default class StandardSlotGame extends SlotGameBase {
         const node = cc.instantiate(this.bottomMessagePrefab);
         this.bottomMessageArea.addChild(node);
         this.initShowBottomMessage(node);
+    }
+
+    onClickShowHistory() {
+        super.onClickShowHistory();
+        const history = this.historyComponent as StandardSlotGameHistory;
+        history.gameId = this.gameId;
     }
 }

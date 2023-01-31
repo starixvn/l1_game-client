@@ -34,12 +34,19 @@ export default class SlotGameTicketDetail extends cc.Component {
         });
     }
 
-    setData(data: any) {
+    async setData(data: any) {
         this.roundId.string = data.freeSpin ? `${data.id.toString()} (Free Spin)` : data.id.toString();
 
+        await this.loadSymbolsAtlas();
         this.initResultBoard(data.result);
+
+        await this.loadPaylineAtlas();
         this.createBetLogs(data);
     }
+
+    async loadSymbolsAtlas() {}
+
+    async loadPaylineAtlas() {}
 
     private initResultBoard(board) {
         for (let row = 0; row < 3; row++) {
@@ -145,7 +152,7 @@ export default class SlotGameTicketDetail extends cc.Component {
         this.creatLogItem({
             order,
             paylineSprite: null,
-            symbolsSprite: this.mainAtlas.getSpriteFrame(`item8`),
+            symbolsSprite: this.setSymbolFrame(8),
             amount: bonus.count,
             payout: `${bonus.odds} Bonus`,
             bet: "",
@@ -157,7 +164,7 @@ export default class SlotGameTicketDetail extends cc.Component {
         this.creatLogItem({
             order,
             paylineSprite: null,
-            symbolsSprite: this.mainAtlas.getSpriteFrame(`item7`),
+            symbolsSprite: this.setSymbolFrame(7),
             amount: freeSpins.count,
             payout: `${freeSpins.odds} Free Spins`,
             bet: "",
@@ -165,7 +172,7 @@ export default class SlotGameTicketDetail extends cc.Component {
         });
     }
 
-    private creatLogItem(data: {
+    protected creatLogItem(data: {
         order: number;
         paylineSprite: cc.SpriteFrame;
         symbolsSprite: cc.SpriteFrame;

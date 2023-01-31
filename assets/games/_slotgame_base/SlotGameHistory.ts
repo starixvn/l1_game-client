@@ -20,12 +20,16 @@ export default class SlotGameHistory extends SocketIOGameHistoryBase {
         });
     }
 
-    showTicketDetail(data: any) {
-        const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
-        const ticketDetailComponent = ticketDetailPrefab.getComponent(SlotGameTicketDetail);
+    initTicketDetail(): cc.Node {
+        const node = cc.instantiate(this.ticketDetailPrefab);
+        this.node.addChild(node);
+        return node;
+    }
 
-        this.node.addChild(ticketDetailPrefab);
-        ticketDetailComponent.setData(data);
+    showTicketDetail(data: any) {
+        const node = this.initTicketDetail();
+        const slotGameTicketDetail = node.getComponent(SlotGameTicketDetail);
+        slotGameTicketDetail.setData(data);
     }
 
     bindItemRowData(betLog, index) {
