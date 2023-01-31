@@ -67,11 +67,13 @@ export default class HoldemPokerTicketDetail extends GameTicketDetailBase {
         const totalRow = bets.length;
         this.heightBetTable = isFold ? 76 : 64;
         bets.forEach((bet, index) => {
-            this.heightBetTable += 60;
+            this.heightBetTable += 50;
             this.handleTicketDetailItem(bet, index, totalRow);
         });
         this.betTable.height = this.heightBetTable;
         this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, this.heightBetTable);
+        this.mainFrame.height = 420 + this.heightBetTable;
+        this.betDetailFrame.updateSizeFrame(this.mainFrame.width, this.mainFrame.height);
     }
 
     protected getComponentDetailItem(node: cc.Node): HoldemPokerTicketDetailItem {

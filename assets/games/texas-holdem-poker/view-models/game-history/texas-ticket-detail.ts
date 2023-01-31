@@ -6,7 +6,6 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class TexasTicketDetail extends HoldemPokerTicketDetail {
-    HEIGHT_BET_DETAIL_TABLE = 238;
     WIDTH_BET_DETAIL_TABLE = 850;
 
     protected getComponentDetailItem(node: cc.Node): TexasTicketDetailItem {
