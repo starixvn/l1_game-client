@@ -16,12 +16,16 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     get list() {
-        return LobbyManager.getInstance().getGameIdsByCategoryIndex();
+        return LobbyManager.getInstance().getAllGameIds();
+    }
+
+    get firstCategoryList() {
+        return LobbyManager.getInstance().getGameIdsByCategoryIndex() ?? [];
     }
 
     get bannerAds() {
         const banners = LobbyManager.getInstance().getBanners();
-        return banners?.map((banner) => banner.gameId);
+        return banners?.map((banner) => banner.gameId) ?? [];
     }
 
     get miniList() {

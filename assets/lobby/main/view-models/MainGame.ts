@@ -206,13 +206,12 @@ export default class MainGame extends cc.Component {
 
     activeBgNewOnCategory() {
         const categoryList = LobbyManager.getInstance().getCategoryList();
-
         categoryList.forEach(({ index, gameIds }) => {
             const isNew = gameIds.some(
                 (gameId) => this.lobbyMenuConfig.isNewGame(gameId, index) && cc.RedT.user?.offerGames?.includes(gameId)
             );
             const categoryNode = this.categoryContainer.children.find((child) => child.name === index.toString());
-            if (categoryNode) {
+            if (categoryNode && index !== 0) {
                 const newNode = categoryNode.getComponent(CategoryItem);
                 newNode.newNode.active = isNew;
             }

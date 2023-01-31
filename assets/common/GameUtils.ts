@@ -3,6 +3,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getGameConfiguration } from "../configs/GameConfigurations";
 import GameUIManager from "../lobby/main/view-models/GameUIManager";
+import LobbyManager from "../lobby/main/view-models/LobbyManager";
 import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import BetChips from "./bet-chips/view-models/BetChips";
@@ -60,11 +61,18 @@ export default class GameUtils {
     }
 
     public static async loadGameIcon(gameId: number, systemPath = ""): Promise<cc.Prefab> {
+        const storage = cc.sys.localStorage.getItem("current_game_category");
+        let category = 0;
+        if (storage !== "") {
+            category = parseInt(storage) || 0;
+        }
+
         const gameConfiguration = getGameConfiguration(gameId);
+        const gameSetting = LobbyManager.getInstance().getGame(gameId, category);
 
         if (!!gameConfiguration?.remoteBundle) {
             const directory = systemPath === "" ? "icons" : `icons/${systemPath}`;
-            const path = `${directory}/${gameConfiguration.bigSize ? "Big" : "Small"}`;
+            const path = `${directory}/${gameSetting?.bigSize ? "Big" : "Small"}`;
 
             return BundleManager.getInstance().loadAsset<cc.Prefab>({
                 bundleId: gameId.toString(),

@@ -117,12 +117,8 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     getListGamesFromCurrentCategory() {
-        if (this.currentCategory === GameCategory.All) {
-            return cc.RedT.user.offerGames;
-        }
-
         const list = LobbyManager.getInstance().getGameIdsByCategoryIndex(this.currentCategory);
-        return list.filter((i) => cc.RedT.user.offerGames.some((j) => j === i));
+        return list?.filter((i) => cc.RedT.user.offerGames.some((j) => j === i)) ?? [];
     }
 
     onInitialized() {

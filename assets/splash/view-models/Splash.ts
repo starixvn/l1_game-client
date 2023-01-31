@@ -123,11 +123,11 @@ export default class Splash extends cc.Component {
     private async preLoadGameIcons() {
         try {
             const preLoadGameCount = 10;
-            const preLoadGameIds =
-                this.lobbyMenuConfig.list?.length >= preLoadGameCount
-                    ? this.lobbyMenuConfig.list.slice(0, preLoadGameCount)
-                    : this.lobbyMenuConfig.list;
 
+            const preLoadGameIds =
+                this.lobbyMenuConfig.firstCategoryList?.length >= preLoadGameCount
+                    ? this.lobbyMenuConfig.firstCategoryList.slice(0, preLoadGameCount)
+                    : this.lobbyMenuConfig.firstCategoryList;
             const preLoadGameAwaiters = preLoadGameIds.map((gameId) => GameUtils.loadGameIcon(gameId));
 
             const preLoadGameBySystemAwaiters = preLoadGameIds
@@ -142,6 +142,9 @@ export default class Splash extends cc.Component {
 
     private async preLoadBanner() {
         try {
+            if (this.lobbyMenuConfig.bannerAds.length < 1) {
+                return;
+            }
             const bannerId = this.lobbyMenuConfig.bannerAds[0];
             const spriteAwaiters = GameUtils.getBanner(this.lobbyMenuConfig, bannerId);
             const bannerContainerAwaiters = new Promise((resolve) => {

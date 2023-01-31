@@ -81,7 +81,7 @@ export default class LobbyManager {
         LobbyManager.categoryList = this.createCategoryList(model);
     }
 
-    getGame(gameId: number, category: number): GameSetting {
+    getGame(gameId: number, category = 0): GameSetting {
         return LobbyManager.lobbyConfigs?.categories[category]?.gameSettings.find((game) => game.gameId === gameId);
     }
 
@@ -96,6 +96,19 @@ export default class LobbyManager {
     getGameIdsByCategoryIndex(categoryIndex = 0): number[] {
         const category = LobbyManager.categoryList?.find((category) => category.index === categoryIndex);
         return category?.gameIds;
+    }
+
+    getAllGameIds() {
+        let gameIds = [];
+        LobbyManager.categoryList?.forEach((category) => {
+            gameIds = [...gameIds, ...category.gameIds];
+        });
+        const gameIdsByFilter = gameIds.filter(this.onlyUniqueGameId);
+        return gameIdsByFilter;
+    }
+
+    onlyUniqueGameId(value, index, self) {
+        return self.indexOf(value) === index;
     }
 
     createCategoryList(lobbyConfigs: LobbyConfigs) {
