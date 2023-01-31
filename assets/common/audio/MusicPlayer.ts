@@ -3,7 +3,7 @@ import _ = require("lodash");
 import AudioManager from "./AudioManager";
 
 export default class MusicPlayer {
-    private readonly ListSong = ["song1", "song2", "song3", "song4", "song5"];
+    private readonly ListSong = ["song1", "song2", "song3", "song4", "song5", "song6", "song7"];
     public isPlayBgMusic = false;
     public isJoinRoomMusic = false;
     protected bgMusicId: number;

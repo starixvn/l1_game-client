@@ -38,7 +38,7 @@ body {
     padding: 0;
     border: 0;
     margin: 0;
-    background: url(./themes/tet2023/background.jpg);
+    background: url(./background.jpg);
     background-size: auto 100vh;
 
     cursor: default;
@@ -121,7 +121,7 @@ p.footer {
 
 @media only screen and (min-width: 320px) and (max-width: 1024px) and (orientation: portrait) {
     body {
-        background: url(./themes/tet2023/background_90.jpg) repeat-y;
+        background: url(./background_90.jpg) repeat-y;
         background-size: 100vh auto;
     }
 
