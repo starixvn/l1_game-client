@@ -13,7 +13,7 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
     gameId: number;
 
     async loadPaylineAtlas() {
-        const path = `shared/slot-game/textures/standard-slot-dialog`;
+        const path = `shared/slot-game/textures/shared-standard-slot`;
         try {
             this.paylinesAtlas = await new Promise((resolve) => {
                 cc.resources.load<cc.SpriteAtlas>(path, cc.SpriteAtlas, (err, atlas) => {
