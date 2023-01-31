@@ -1,5 +1,3 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import { OldCardModel } from "../../common/new-card/view-models/NewCard";
 import MD5Component from "../_base/view-models/MD5Component";
 import { FormatMD5Result } from "./MD5Format";
@@ -65,13 +63,5 @@ export default class CasinoMD5 extends MD5Component {
             length: this.maximumStringAllowed,
             roundId
         });
-    }
-
-    setCaptionAndHintForMD5(isMD5Key: boolean) {
-        if (isMD5Key) {
-            this.md5Text.string = i18n.t("ui.result").toUpperCase();
-        } else {
-            this.md5Text.string = i18n.t("holdEmPoker.md5String").toUpperCase();
-        }
     }
 }
