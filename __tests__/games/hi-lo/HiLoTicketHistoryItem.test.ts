@@ -9,6 +9,7 @@ describe("Test class HiLoTicketHistoryItem", () => {
     beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoTicketHistoryItem);
+        comp.bg = new cc.Node();
         comp.time = node.addComponent(cc.Label);
         comp.round = node.addComponent(cc.Label);
         comp.stake = node.addComponent(cc.Label);
@@ -28,7 +29,7 @@ describe("Test class HiLoTicketHistoryItem", () => {
             };
 
             //Act
-            comp.renderTicketItem(betLog);
+            comp.renderTicketItem(betLog, 0);
 
             //Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
@@ -49,7 +50,7 @@ describe("Test class HiLoTicketHistoryItem", () => {
             };
 
             //Act
-            comp.renderTicketItem(betLog);
+            comp.renderTicketItem(betLog, 0);
 
             //Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));

@@ -1,15 +1,10 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import { FormationHandler } from "./FormationHandler";
+
 const LocalizedLabel = require("LocalizedLabel");
 
 const { ccclass, property, menu } = cc._decorator;
-
-export enum FormationHandler {
-    NONE,
-    UPPER,
-    LOWER,
-    TITLE
-}
 
 @ccclass
 @menu("i18n/LocalizedLabelWithFormat")

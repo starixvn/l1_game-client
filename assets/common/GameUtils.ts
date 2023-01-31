@@ -9,7 +9,7 @@ import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import BetChips from "./bet-chips/view-models/BetChips";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
-import { FormationHandler } from "./i18n/LocalizedLabelWithFormat";
+import { FormationHandler } from "./i18n/FormationHandler";
 import { preloadAssets } from "./PreloadRemoteAsset";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;

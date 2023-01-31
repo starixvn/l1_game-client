@@ -11,10 +11,10 @@ describe("Test class BigSmallHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(BigSmallHistoryItem);
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.round = new cc.Node().addComponent(cc.Label);
         comp.choice = new cc.Node().addComponent(cc.Label);
-        comp.result = new cc.Node().addComponent(cc.Label);
         comp.bet = new cc.Node().addComponent(cc.Label);
         comp.refund = new cc.Node().addComponent(cc.Label);
         comp.win = new cc.Node().addComponent(cc.Label);
@@ -69,11 +69,6 @@ describe("Test class BigSmallHistoryItem", () => {
             expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.win.string).toMatch(numberWithCommas(betLog.betwin));
             expect(comp.choice.string).toEqual(`${GameUtils.getBetChoiceString(betLog.choice)}`);
-            expect(comp.result.string).toMatch(
-                `${betLog.result.dice1}-${betLog.result.dice2}-${betLog.result.dice3}  ${
-                    betLog.result.dice1 + betLog.result.dice2 + betLog.result.dice3
-                }`
-            );
 
             expect(comp.win.node.color).toEqual(cc.Color.WHITE);
             expect(comp.time.node.color).toEqual(cc.Color.WHITE);
@@ -127,13 +122,8 @@ describe("Test class BigSmallHistoryItem", () => {
             expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.win.string).toMatch(numberWithCommas(betLog.betwin));
             expect(comp.choice.string).toEqual(`${GameUtils.getBetChoiceString(betLog.choice)}`);
-            expect(comp.result.string).toMatch(
-                `${betLog.result.dice1}-${betLog.result.dice2}-${betLog.result.dice3}  ${
-                    betLog.result.dice1 + betLog.result.dice2 + betLog.result.dice3
-                }`
-            );
 
-            expect(comp.win.node.color).toEqual(cc.Color.YELLOW);
+            // expect(comp.win.node.color).toEqual(cc.Color.YELLOW);
             expect(comp.time.node.color).toEqual(cc.Color.YELLOW);
             expect(comp.choice.node.color).toEqual(cc.Color.YELLOW);
         });

@@ -15,6 +15,7 @@ describe("Test class SicBoTicketDetailItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(SicBoTicketDetailItem);
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.type = new cc.Node().addComponent(cc.Label);
         comp.choice = new cc.Node().addComponent(cc.Label);
@@ -108,7 +109,7 @@ describe("Test class SicBoTicketDetailItem", () => {
             };
 
             // Act
-            comp.updateContent(log, settlementResult);
+            comp.updateContent(log, settlementResult, 0);
 
             // Assert
             expect(comp.time.string).toMatch(getStringHourByTime(log.time));

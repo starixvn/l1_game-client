@@ -45,7 +45,7 @@ export default class VipSedieWarTicketDetail extends GameTicketDetailBase {
                 item.setHighlightWinChoice(data.settlementResult[detail.choice]);
             });
         }
-        this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, 348);
+        this.betDetailTable?.updateSize(this.WIDTH_BET_DETAIL_TABLE, 348);
     }
 
     getWinChoices(settlementResult: any): string {

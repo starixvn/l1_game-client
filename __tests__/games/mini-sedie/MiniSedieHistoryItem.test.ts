@@ -7,6 +7,7 @@ describe("Test class MiniSedieHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(MiniSedieHistoryItem);
+        comp.bg = new cc.Node();
         comp.kqSprite = new cc.Node().addComponent(cc.Sprite);
         comp.kqLabel = new cc.Node().addComponent(cc.Label);
         comp.time = new cc.Node().addComponent(cc.Label);
@@ -18,7 +19,6 @@ describe("Test class MiniSedieHistoryItem", () => {
         comp.red4 = new cc.Node().addComponent(cc.Label);
         comp.white3 = new cc.Node().addComponent(cc.Label);
         comp.white4 = new cc.Node().addComponent(cc.Label);
-        comp.bgRow = new cc.Node();
     });
     describe("Test method setData", () => {
         it("Case: ", () => {

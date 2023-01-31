@@ -71,7 +71,7 @@ export default class HoldemPokerTicketDetail extends GameTicketDetailBase {
             this.handleTicketDetailItem(bet, index, totalRow);
         });
         this.betTable.height = this.heightBetTable;
-        this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, this.heightBetTable);
+        this.betDetailTable?.updateSize(this.WIDTH_BET_DETAIL_TABLE, this.heightBetTable);
         this.mainFrame.height = 420 + this.heightBetTable;
         this.betDetailFrame.updateSizeFrame(this.mainFrame.width, this.mainFrame.height);
     }

@@ -14,6 +14,7 @@ describe("Test class BitcoinMasterHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(BitcoinMasterHistoryItem);
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.round = new cc.Node().addComponent(cc.Label);
         comp.refund = new cc.Node().addComponent(cc.Label);

@@ -1,9 +1,10 @@
-import { getStringHourByTime } from "../../../assets/common/helpers/DateTimeHelper";
-import { BetLogDetail } from "../../../assets/games/hi-lo/view-models/HiLoBetData";
-import HiLoTicketDetailItem from "../../../assets/games/hi-lo/view-models/HiLoTicketDetailItem";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import HiLoCardChoiceView from "../../../assets/games/hi-lo/view-models/HiLoCardChoiceView";
+
+import { getStringHourByTime } from "../../../assets/common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
+import { BetLogDetail } from "../../../assets/games/hi-lo/view-models/HiLoBetData";
+import HiLoCardChoiceView from "../../../assets/games/hi-lo/view-models/HiLoCardChoiceView";
+import HiLoTicketDetailItem from "../../../assets/games/hi-lo/view-models/HiLoTicketDetailItem";
 
 describe("HiLoTicketDetailItem", () => {
     describe("renderTicketDetailItem", () => {
@@ -12,6 +13,7 @@ describe("HiLoTicketDetailItem", () => {
         beforeAll(() => {
             node = new cc.Node();
             comp = node.addComponent(HiLoTicketDetailItem);
+            comp.bg = new cc.Node();
             comp.time = node.addComponent(cc.Label);
             comp.turn = node.addComponent(cc.Label);
             comp.betChoice = node.addComponent(cc.Label);
@@ -39,7 +41,7 @@ describe("HiLoTicketDetailItem", () => {
             comp.resultCard.setData = jest.fn();
 
             //Act
-            comp.renderTicketDetailItem(logDetail);
+            comp.renderTicketDetailItem(logDetail, 0);
 
             //Assert
             expect(comp.time.string).toMatch(`${getStringHourByTime(logDetail.time)}`);

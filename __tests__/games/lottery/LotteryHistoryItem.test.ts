@@ -21,7 +21,7 @@ describe("Test class LotteryHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(LotteryHistoryItem);
-        comp.background = new cc.Node();
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.round = new cc.Node().addComponent(cc.Label);
         comp.totalBet = new cc.Node().addComponent(cc.Label);
@@ -43,7 +43,6 @@ describe("Test class LotteryHistoryItem", () => {
             comp.setData(data, index);
 
             // Assert
-            expect(comp.background.active).toEqual(index % 2 !== 0);
             expect(comp.time.string).toMatch(getStringDateByTime(data.time));
             expect(comp.round.string).toMatch(data.phien.toString());
             expect(comp.win.string).toMatch(numberWithCommas(data.betwin));

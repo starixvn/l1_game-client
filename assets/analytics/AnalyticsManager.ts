@@ -16,6 +16,12 @@ interface TrackingParameter {
     game_name?: string;
 }
 
+declare global {
+    interface Window {
+        gtag: any;
+    }
+}
+
 export default class AnalyticsManager {
     static _instance: AnalyticsManager;
     static get Instance() {

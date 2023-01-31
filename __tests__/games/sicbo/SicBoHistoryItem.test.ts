@@ -12,6 +12,7 @@ describe("Test class SicBoHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(SicBoHistoryItem);
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.round = new cc.Node().addComponent(cc.Label);
         comp.total = new cc.Node().addComponent(cc.Label);
@@ -159,7 +160,7 @@ describe("Test class SicBoHistoryItem", () => {
             const dicesTotal = betLog.result.dice1 + betLog.result.dice2 + betLog.result.dice3;
 
             // Act
-            comp.setData(betLog, dicesSpriteFrames);
+            comp.setData(betLog, dicesSpriteFrames, 0);
 
             // Assert
             expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));

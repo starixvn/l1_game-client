@@ -54,9 +54,11 @@ export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
 
     setResultData(data: any) {
         const { result, settlementResult } = data;
-        const resultNode = cc.instantiate(this.resultPrefab);
-        const resultControl = resultNode.getComponent(HistoryDicesResult);
-        resultControl.setResult(result, settlementResult);
-        this.result.addChild(resultNode);
+        const resultNode = GameUtils.createNodeFromPrefab(this.resultPrefab);
+        if (resultNode) {
+            const resultControl = resultNode.getComponent(HistoryDicesResult);
+            resultControl.setResult(result, settlementResult);
+            this.result.addChild(resultNode);
+        }
     }
 }

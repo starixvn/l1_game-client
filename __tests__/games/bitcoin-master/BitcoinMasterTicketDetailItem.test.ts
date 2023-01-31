@@ -23,6 +23,7 @@ describe("Test class BitcoinMasterTicketDetailItem", () => {
         cc.RedT.user = { rate: 1 };
         node = new cc.Node();
         comp = node.addComponent(BitcoinMasterTicketDetailItem);
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.choice = new cc.Node().addComponent(cc.Label);
         comp.bet = new cc.Node().addComponent(cc.Label);
@@ -59,7 +60,7 @@ describe("Test class BitcoinMasterTicketDetailItem", () => {
             const message = evenOddValue % 2 ? GameUtils.getBetChoiceString(BMBetType.Odd) : GameUtils.getBetChoiceString(BMBetType.Even);
 
             // Act
-            comp.setData(log, result);
+            comp.setData(log, result, 0);
 
             // Assert
             expect(comp.time.string).toMatch(getStringHourByTime(log.time));
@@ -94,7 +95,7 @@ describe("Test class BitcoinMasterTicketDetailItem", () => {
             const gapValue = BitcoinMasterUtils.getUpDownResult(result);
 
             // Act
-            comp.setData(log, result);
+            comp.setData(log, result, 0);
 
             // Assert
             expect(comp.time.string).toMatch(getStringHourByTime(log.time));

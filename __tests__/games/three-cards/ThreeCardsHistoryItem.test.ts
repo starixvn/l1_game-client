@@ -20,7 +20,6 @@ describe("Test class ThreeCardsHistoryItem", () => {
         comp.bet = new cc.Node().addComponent(cc.Label);
         comp.win = new cc.Node().addComponent(cc.Label);
         comp.bg = new cc.Node();
-        comp.bottomLine = new cc.Node();
     });
     describe("Test method setData", () => {
         it("Case: ", () => {
@@ -78,20 +77,6 @@ describe("Test class ThreeCardsHistoryItem", () => {
             expect(comp.round.string).toMatch(betData.phien.toString());
             expect(comp.win.string).toMatch(numberWithCommas(betData.betwin));
             expect(comp.bet.string).toMatch(comp.summarizeBet(betData as any));
-        });
-    });
-
-    describe("Test method showBackground", () => {
-        it("Case: ", () => {
-            // Arrange
-            const show = true;
-
-            // Act
-            comp.showBackground(show);
-
-            // Assert
-            expect(comp.bg.active).toEqual(show);
-            expect(comp.bottomLine.active).toEqual(!show);
         });
     });
 

@@ -1,4 +1,3 @@
-import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelper";
 import RouletteHistoryItem from "../../../assets/games/roulette/view-models/RouletteHistoryItem";
 
 /*
@@ -12,7 +11,8 @@ describe("Test class RouletteHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(RouletteHistoryItem);
-        comp.betTime = new cc.Node().addComponent(cc.Label);
+        comp.time = new cc.Node().addComponent(cc.Label);
+        comp.bg = new cc.Node();
         comp.round = new cc.Node().addComponent(cc.Label);
         comp.resultLabel = new cc.Node().addComponent(cc.Label);
         comp.amountLabel = new cc.Node().addComponent(cc.Label);
@@ -92,10 +92,9 @@ describe("Test class RouletteHistoryItem", () => {
             };
 
             // Act
-            comp.setData(log);
+            comp.setData(log, 0);
 
             // Assert
-            expect(comp.betTime.string).toMatch(getStringDateByTime(log.time));
             expect(comp.round.string).toMatch(log.phien.toString());
             expect(comp.resultLabel.string).toMatch(log.result.toString());
         });

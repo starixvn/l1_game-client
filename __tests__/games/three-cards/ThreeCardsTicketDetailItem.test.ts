@@ -18,20 +18,6 @@ describe("Test class ThreeCardsTicketDetailItem", () => {
         comp.odds = new cc.Node().addComponent(cc.Label);
         comp.bet = new cc.Node().addComponent(cc.Label);
         comp.bg = new cc.Node();
-        comp.bottomLine = new cc.Node();
-    });
-    describe("Test method showBackground", () => {
-        it("Case: ", () => {
-            // Arrange
-            const show = true;
-
-            // Act
-            comp.showBackground(show);
-
-            // Assert
-            expect(comp.bg.active).toEqual(show);
-            expect(comp.bottomLine.active).toEqual(!show);
-        });
     });
 
     describe("Test method setData", () => {

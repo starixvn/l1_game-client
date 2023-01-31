@@ -14,6 +14,7 @@ describe("Test class RouletteTicketDetailItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(RouletteTicketDetailItem);
+        comp.bg = new cc.Node();
         comp.type = new cc.Node().addComponent(cc.Label);
         comp.choice = new cc.Node().addComponent(cc.Label);
         comp.amount = new cc.Node().addComponent(cc.Label);
@@ -27,7 +28,7 @@ describe("Test class RouletteTicketDetailItem", () => {
             const isWinning = false;
 
             // Act
-            comp.updateContent(type, choice, amount, isWinning);
+            comp.updateContent(type, choice, amount, isWinning, 0);
 
             // Assert
             expect(comp.type.string).toMatch(GameUtils.getText(`ui.type_split`));
@@ -46,7 +47,7 @@ describe("Test class RouletteTicketDetailItem", () => {
             const isWinning = true;
 
             // Act
-            comp.updateContent(type, choice, amount, isWinning);
+            comp.updateContent(type, choice, amount, isWinning, 0);
 
             // Assert
             expect(comp.type.string).toMatch(GameUtils.getText(`ui.type_straight_up`));
@@ -65,7 +66,7 @@ describe("Test class RouletteTicketDetailItem", () => {
             const isWinning = true;
 
             // Act
-            comp.updateContent(type, choice, amount, isWinning);
+            comp.updateContent(type, choice, amount, isWinning, 0);
 
             // Assert
             expect(comp.type.string).toMatch(GameUtils.getText(`ui.type_triangle`));
@@ -84,7 +85,7 @@ describe("Test class RouletteTicketDetailItem", () => {
             const isWinning = true;
 
             // Act
-            comp.updateContent(type, choice, amount, isWinning);
+            comp.updateContent(type, choice, amount, isWinning, 0);
 
             // Assert
             expect(comp.type.string).toMatch(GameUtils.getText(`ui.type_line`));
@@ -103,7 +104,7 @@ describe("Test class RouletteTicketDetailItem", () => {
             const isWinning = true;
 
             // Act
-            comp.updateContent(type, choice, amount, isWinning);
+            comp.updateContent(type, choice, amount, isWinning, 0);
 
             // Assert
             expect(comp.type.string).toMatch(GameUtils.getText(`ui.type_column`));
@@ -122,7 +123,7 @@ describe("Test class RouletteTicketDetailItem", () => {
             const isWinning = true;
 
             // Act
-            comp.updateContent(type, choice, amount, isWinning);
+            comp.updateContent(type, choice, amount, isWinning, 0);
 
             // Assert
             expect(comp.type.string).toMatch(GameUtils.getText(`ui.type_red_black`));

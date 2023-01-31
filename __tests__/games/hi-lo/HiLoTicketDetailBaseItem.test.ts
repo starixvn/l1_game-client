@@ -1,8 +1,9 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { getStringHourByTime } from "../../../assets/common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import { BetLog } from "../../../assets/games/hi-lo/view-models/HiLoBetData";
 import HiLoTicketDetailBaseItem from "../../../assets/games/hi-lo/view-models/HiLoTicketDetailBaseItem";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
-import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 
 describe("HiLoTicketDetailBaseItem", () => {
     describe("setData", () => {
@@ -11,6 +12,7 @@ describe("HiLoTicketDetailBaseItem", () => {
         beforeAll(() => {
             node = new cc.Node();
             comp = node.addComponent(HiLoTicketDetailBaseItem);
+            comp.bg = new cc.Node();
             comp.round = node.addComponent(cc.Label);
             comp.stake = node.addComponent(cc.Label);
             comp.win = node.addComponent(cc.Label);
@@ -29,7 +31,7 @@ describe("HiLoTicketDetailBaseItem", () => {
             const startRound = "hiLo.startRound";
 
             //Act
-            comp.setData(data, true);
+            comp.setData(data, true, 0);
 
             //Assert
             expect(comp.time.string).toMatch(`${getStringHourByTime(data.time)}`);
@@ -52,7 +54,7 @@ describe("HiLoTicketDetailBaseItem", () => {
             const startRound = "hiLo.endRound";
 
             //Act
-            comp.setData(data, false);
+            comp.setData(data, false, 0);
 
             //Assert
             expect(comp.time.string).toMatch(`${getStringHourByTime(data.endTime)}`);

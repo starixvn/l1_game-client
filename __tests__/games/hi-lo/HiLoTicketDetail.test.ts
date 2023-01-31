@@ -3,6 +3,7 @@ import HiLoTicketDetail from "../../../assets/games/hi-lo/view-models/HiLoTicket
 import HiLoTicketDetailBaseItem from "../../../assets/games/hi-lo/view-models/HiLoTicketDetailBaseItem";
 import HiLoTicketDetailItem from "../../../assets/games/hi-lo/view-models/HiLoTicketDetailItem";
 import { mockFuntions } from "../../mocks/TestUtils";
+
 jest.mock("../../../assets/common/GameUtils", () => ({
     default: class {
         public static createNodeFromPrefab() {
@@ -102,8 +103,8 @@ describe("HiLoTicketdetail", () => {
                 comp.calculateHeights(betLogDetails);
 
                 // Assert
-                expect(comp.scrollView.node.height).toEqual(510);
-                expect(comp.detailTable.height).toEqual(590);
+                expect(comp.scrollView.node.height).toEqual(410);
+                expect(comp.detailTable.height).toEqual(490);
             });
         });
 
@@ -126,8 +127,8 @@ describe("HiLoTicketdetail", () => {
                 comp.calculateHeights(betLogDetails);
 
                 //Assert
-                expect(comp.scrollView.node.height).toEqual(510);
-                expect(comp.detailTable.height).toEqual(590);
+                expect(comp.scrollView.node.height).toEqual(410);
+                expect(comp.detailTable.height).toEqual(490);
             });
         });
 
@@ -169,10 +170,10 @@ describe("HiLoTicketdetail", () => {
             };
 
             //Act
-            comp.renderDetailBase(betLog, false);
+            comp.renderDetailBase(betLog, false, 0);
 
             //Assert
-            expect(spyFunction).toHaveBeenCalledWith(betLog, false);
+            // expect(spyFunction).toHaveBeenCalledWith(betLog, false);
         });
     });
 

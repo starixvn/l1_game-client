@@ -13,7 +13,7 @@ describe("Test class VipSedieWarHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(VipSedieWarHistoryItem);
-        comp.background = new cc.Node();
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.round = new cc.Node().addComponent(cc.Label);
         comp.bet = new cc.Node().addComponent(cc.Label);
@@ -191,7 +191,7 @@ describe("Test class VipSedieWarHistoryItem", () => {
             };
 
             // Act
-            comp.setData(data);
+            comp.setData(data, 0);
 
             // Assert
             expect(comp.time.string).toMatch(getStringDateByTime(data.time));

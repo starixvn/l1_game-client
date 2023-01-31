@@ -15,6 +15,7 @@ describe("Test class BlackJackHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(BlackJackHistoryItem);
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.handId = new cc.Node().addComponent(cc.Label);
         comp.split = new cc.Node();
@@ -60,7 +61,7 @@ describe("Test class BlackJackHistoryItem", () => {
             const isSplit = log.splitFrom || log.actions.includes("split");
 
             // Act
-            comp.setData(log);
+            comp.setData(log, 0);
 
             // Assert
             expect(comp.time.string).toMatch(getStringDateByTime(log.time));

@@ -6,4 +6,6 @@ export default class MockedGameUtils {
     public static getText(key, opt = {}) {
         return key;
     }
+
+    public static createNodeFromPrefab() {}
 }

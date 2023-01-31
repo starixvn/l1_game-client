@@ -34,6 +34,7 @@ describe("Test class MD5Component", () => {
         md5Component.md5Value = md5Value;
         md5Component.md5TooltipContainer = new cc.Node();
         md5Component.hintCopyNode = new cc.Node();
+        md5Component.md5ContentContainer = new cc.Node();
 
         md5Comp = md5Component as any;
 
@@ -44,7 +45,6 @@ describe("Test class MD5Component", () => {
 
         mockFuntions.createNodeFromPrefab = () => {
             const node = new cc.Node();
-            MD5Tooltip.prototype.hideToolTip = jest.fn();
             MD5Tooltip.prototype.setData = jest.fn();
             node.addComponent(MD5Tooltip);
             return node;
@@ -55,21 +55,6 @@ describe("Test class MD5Component", () => {
         it("Case 1: init initMD5Tooltip ", () => {
             // Act
             md5Component.initMD5Tooltip();
-        });
-    });
-
-    describe("Test method onLoad", () => {
-        it("Case 1: onLoad ", () => {
-            //Arrange
-            const valueLabel = new cc.Node().addComponent(cc.Label);
-            md5Component.hintCopyNode.addChild(valueLabel.node, 1, "content");
-            jest.spyOn(md5Comp, "setCaptionAndHintForMD5");
-
-            // Act
-            md5Component.onLoad();
-
-            // Assert
-            expect(md5Component.setCaptionAndHintForMD5).toBeCalledWith(false);
         });
     });
 

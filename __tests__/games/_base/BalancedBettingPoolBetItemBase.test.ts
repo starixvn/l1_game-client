@@ -16,6 +16,7 @@ describe("Test class BalancedBettingPoolBetItemBase", () => {
 
         node = new cc.Node();
         comp = node.addComponent(BalancedBettingPoolBetItemBase);
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.username = new cc.Node().addComponent(cc.Label);
         comp.betAmount = new cc.Node().addComponent(cc.Label);
@@ -42,7 +43,7 @@ describe("Test class BalancedBettingPoolBetItemBase", () => {
             };
 
             // Act
-            comp.setData(data, rate, 1);
+            comp.setData(data, rate, 1, 0);
 
             // Assert
             const isLoginUser = data.name === cc.RedT.user.name;

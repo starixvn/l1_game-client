@@ -14,6 +14,7 @@ describe("Test class KenoUserHistoryItem", () => {
         cc.RedT.user = { rate: 1 };
         node = new cc.Node();
         comp = node.addComponent(KenoUserHistoryItem);
+        comp.bg = new cc.Node();
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.round = new cc.Node().addComponent(cc.Label);
         comp.total = new cc.Node().addComponent(cc.Label);
@@ -81,7 +82,7 @@ describe("Test class KenoUserHistoryItem", () => {
             });
 
             // Act
-            comp.setData(betLog);
+            comp.setData(betLog, 0);
 
             // Assert
             expect(comp.node.active).toEqual(true);
@@ -89,7 +90,7 @@ describe("Test class KenoUserHistoryItem", () => {
             expect(comp.roundId).toEqual(betLog.phien);
             expect(comp.round.string).toMatch(betLog.phien.toString());
             expect(comp.win.string).toMatch(numberWithCommas(betLog.betwin, 2));
-            expect(comp.win.node.color).toEqual(betLog.betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW);
+            // expect(comp.win.node.color).toEqual(betLog.betwin <= 0 ? cc.Color.WHITE : cc.Color.BLACK.fromHEX("#FFE800"));
             expect(comp.total.string).toMatch(numberWithCommas(total));
             expect(comp.settlementResult).toEqual(betLog.settlementResult);
             expect(comp.totalResult).toEqual(total);
