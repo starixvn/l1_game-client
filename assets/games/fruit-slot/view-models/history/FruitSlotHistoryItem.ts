@@ -1,18 +1,13 @@
 import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
+import SocketIOHistoryItemBase from "../../../_base/view-models/SocketIOHistoryItemBase";
 import FruitSlotHistory, { BetLog } from "./FruitSlotHistory";
 import { getSymbolName } from "./FruitSlotHistoryHelper";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class FruitSlotHistoryItem extends cc.Component {
-    @property(cc.Label)
-    timeLabel: cc.Label = null;
-
-    @property(cc.Label)
-    roundLabel: cc.Label = null;
-
+export default class FruitSlotHistoryItem extends SocketIOHistoryItemBase {
     @property({ type: cc.Sprite })
     symbol: cc.Sprite = null;
 
@@ -28,20 +23,13 @@ export default class FruitSlotHistoryItem extends cc.Component {
     @property(cc.Label)
     amountLabel: cc.Label = null;
 
-    @property(cc.Label)
-    winLabel: cc.Label = null;
-
-    @property(cc.Node)
-    bgRow: cc.Node = null;
-
     betLog: BetLog;
 
     async setData(betLog: BetLog, index: number, symbolSprites: cc.SpriteFrame[]) {
-        this.bgRow.active = index % 2 === 1;
         const winColor = cc.Color.WHITE.fromHEX("#fff664");
         this.betLog = betLog;
-        this.timeLabel.string = formatDateTime(betLog.time);
-        this.roundLabel.string = betLog.phien.toString();
+        this.time.string = formatDateTime(betLog.time);
+        this.round.string = betLog.phien.toString();
 
         const matched = (sprite: cc.SpriteFrame, symbol: string) => sprite.name === symbol;
         const symbolName = betLog.result.isLucky ? "lucky" : getSymbolName(betLog.result.symbols[0]);
@@ -53,8 +41,8 @@ export default class FruitSlotHistoryItem extends cc.Component {
         this.smallSymbol.active = !isBigSymbol;
 
         this.amountLabel.string = numberWithCommas(betLog.totalAmount, 2);
-        this.winLabel.string = numberWithCommas(betLog.betwin, 2);
-        this.winLabel.node.color = betLog.betwin > 0 ? winColor : cc.Color.WHITE;
+        this.win.string = numberWithCommas(betLog.betwin, 2);
+        this.setBackground(index);
     }
 
     openTicketDetail() {}

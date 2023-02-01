@@ -1,3 +1,4 @@
+import GameUtils from "../../../../../common/GameUtils";
 import { BetLog } from "../FruitSlotHistory";
 import { getSymbolName } from "../FruitSlotHistoryHelper";
 import FruitSlotTicketDetailGroupItem from "./FruitSlotTicketDetailResultGroupItem";
@@ -16,6 +17,10 @@ export default class FruitSlotTicketDetailResultGroup extends cc.Component {
 
     onLoad() {
         this.betChoiceGroupNode.children.forEach((child) => child.destroy());
+    }
+
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
     }
 
     onDisable() {

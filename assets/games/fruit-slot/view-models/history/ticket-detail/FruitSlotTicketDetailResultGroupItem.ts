@@ -1,4 +1,5 @@
 import { i18n } from "../../../../../ClientModules";
+import GameUtils from "../../../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -19,6 +20,10 @@ export default class FruitSlotTicketDetailResultGroupItem extends cc.Component {
     smallSymbol: cc.Node = null;
 
     height: number = null;
+
+    start() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+    }
 
     updateContent(symbolSpriteFrame: cc.SpriteFrame, index: number, bigSmallValue: number) {
         this.symbol.spriteFrame = symbolSpriteFrame;
