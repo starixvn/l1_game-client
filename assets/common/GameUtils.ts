@@ -561,11 +561,11 @@ export default class GameUtils {
         return node;
     }
 
-    public static setFontSizeLabelsInNode(node: cc.Node, isCustom = false, fontSize = 24) {
+    public static setFontSizeLabelsInNode(node: cc.Node, isCustom = false, fontSize = 36) {
         let parentNode;
         node.getComponentsInChildren(cc.Label).forEach((label) => {
             const labelNode = label.node;
-            labelNode.scale = 0.8;
+            labelNode.scale = 0.535;
             label.fontSize = fontSize;
             label.lineHeight = fontSize + 4;
             if (isCustom) {
