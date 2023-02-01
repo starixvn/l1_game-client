@@ -14,7 +14,7 @@ export const phrases = {
         hotFeature: "熱門新功能...",
         switchGame: "展開遊戲桌",
         clickOrTap: "點擊下注",
-        multiplay: "多人玩"
+        multiplay: "多人遊戲"
     }
 };
 reloadLanguageData("zh_tw", phrases);

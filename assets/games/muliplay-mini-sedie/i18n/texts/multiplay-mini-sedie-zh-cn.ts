@@ -14,7 +14,7 @@ export const phrases = {
         hotFeature: "热门新功能...",
         switchGame: "展开游戏桌",
         clickOrTap: "点击下注",
-        multiplay: "多人玩"
+        multiplay: "多人游戏"
     }
 };
 
