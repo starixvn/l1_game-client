@@ -26,7 +26,7 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
     }
 
     async loadSymbolsAtlas() {
-        const path = `textures/standard-slot-game`;
+        const path = `resources/textures/standard-slot-game`;
         const devPath = `../games/*/${path}`;
         try {
             const spriteAtlas = await BundleManager.getInstance().loadAsset<cc.SpriteAtlas>({
