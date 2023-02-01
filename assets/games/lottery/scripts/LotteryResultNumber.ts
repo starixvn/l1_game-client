@@ -20,7 +20,11 @@ export default class LotteryResultNumber extends cc.Component {
     addSplitLabel() {
         const node = cc.instantiate(this.sampleSplitLabel);
         node.active = true;
-        this.label.node.addChild(node);
+
+        const tempNode = new cc.Node();
+        tempNode.scale = 1 / this.label.node.scale;
+        tempNode.addChild(node);
+        this.label.node.addChild(tempNode);
 
         const splitLabel = node.getComponent(SplitLabel);
         splitLabel.cloneLabelInfo(this.label);
