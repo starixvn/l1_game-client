@@ -1,3 +1,5 @@
+import GameUtils from "../../../common/GameUtils";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -16,6 +18,7 @@ export default class SplitLabel extends cc.Component {
         this.labels.forEach((label) => {
             label.font = origin.font;
             label.fontSize = origin.fontSize;
+            GameUtils.setFontSizeLabelsInNode(label.node);
         });
     }
 

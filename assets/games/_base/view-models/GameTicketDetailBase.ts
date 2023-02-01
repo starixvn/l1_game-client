@@ -35,10 +35,8 @@ export default class GameTicketDetailBase extends cc.Component {
     public HEIGHT_BET_DETAIL_TABLE = 452;
     public WIDTH_BET_DETAIL_TABLE = 1000;
 
-    colorTitle = "#ffe800";
-    fontsizeTitle = 18;
-
     onLoad() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
         this.content.children.forEach((child) => child.destroy());
         this.updateTitle();
     }

@@ -28,8 +28,6 @@ export default class VipSedieWarTicketDetail extends GameTicketDetailBase {
     HEIGHT_BET_DETAIL_TABLE = 158;
     WIDTH_BET_DETAIL_TABLE = 700;
 
-    onLoad() {}
-
     setData(data: any) {
         this.roundId.string = data.phien;
         this.winChoices.string = this.getWinChoices(data.settlementResult);
