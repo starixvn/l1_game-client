@@ -367,8 +367,16 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     private blinkWinningBet() {
+        const originalScale = this.winningBet.node.scale;
+
         cc.tween(this.winningBet.node)
-            .repeat(3, cc.tween().to(0.1, { scale: 1.1 }).to(0.1, { scale: 1 }))
+            .repeat(
+                3,
+                cc
+                    .tween()
+                    .to(0.1, { scale: originalScale + 0.1 })
+                    .to(0.1, { scale: originalScale })
+            )
             .start();
     }
 

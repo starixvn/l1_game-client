@@ -1,4 +1,4 @@
 import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
-import { phrases } from "./fortune-cat-en";
+import { phrases } from "./happy-fish-en";
 
-reloadLanguageData("zh_tw", phrases);
+reloadLanguageData("th", phrases);
