@@ -59,8 +59,9 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
         this.content.children.forEach((child) => {
             const item = child.getComponent(SlotGameTicketDetailItem);
             const tempNode = new cc.Node();
-            tempNode.position = child.position;
             this.content.addChild(tempNode);
+            const pos = this.content.convertToNodeSpaceAR(child.convertToWorldSpaceAR(cc.v3(0, 0, 0)));
+            tempNode.position = pos;
 
             GameUtils.moveToOtherNode(item.order.node, tempNode);
             GameUtils.moveToOtherNode(item.amount.node, tempNode);
@@ -68,12 +69,12 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
             GameUtils.moveToOtherNode(item.bet.node, tempNode);
             GameUtils.moveToOtherNode(item.win.node, tempNode);
 
-            // fix error related convertToNodeSpaceAR
-            item.order.node.position = cc.v3(item.order.node.x, 0);
-            item.amount.node.position = cc.v3(item.amount.node.x, 0);
-            item.payout.node.position = cc.v3(item.payout.node.x, 0);
-            item.bet.node.position = cc.v3(item.bet.node.x, 0);
-            item.win.node.position = cc.v3(item.win.node.x, 0);
+            // // fix error related convertToNodeSpaceAR
+            // item.order.node.position = cc.v3(item.order.node.x, 0);
+            // item.amount.node.position = cc.v3(item.amount.node.x, 0);
+            // item.payout.node.position = cc.v3(item.payout.node.x, 0);
+            // item.bet.node.position = cc.v3(item.bet.node.x, 0);
+            // item.win.node.position = cc.v3(item.win.node.x, 0);
         });
     }
 }
