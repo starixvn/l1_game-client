@@ -21,17 +21,19 @@ export default class LoadWebView extends cc.Component {
             "loaded",
             () => {
                 const paddingTime = 0.3;
-                cc.tween(this.node)
-                    .delay(paddingTime)
-                    .call(() => {
-                        this.hideLoading();
-                    })
-                    .start();
 
                 if (this.needDisableDivScroll) {
                     this.webView.disableDivScroll();
                 }
-                this.showWebView();
+
+                cc.tween(this.node)
+                    .delay(paddingTime)
+                    .call(() => {
+                        this.hideLoading();
+
+                        this.showWebView();
+                    })
+                    .start();
             },
             this
         );
