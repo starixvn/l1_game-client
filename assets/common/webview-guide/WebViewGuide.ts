@@ -32,7 +32,7 @@ export default class WebViewGuide extends LoadWebView {
         const domain = config.guideDomain;
         let url = `${domain}/${language}?gId=${gameId}&t=${
             this.themeName
-        }&p=${isInPromotionTime}&f=c&v=${Date.now()}&fof=${fractionalOddsFormat}`;
+        }&p=${isInPromotionTime}&f=sc&v=${Date.now()}&fof=${fractionalOddsFormat}`;
         url += `&minBet=${configStake.minBet}&maxBet=${configStake.maxBet}${specialDirection}`;
         this.url = url;
     }
