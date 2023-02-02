@@ -5,7 +5,7 @@ export const phrases = {
         48: "Blockchain Baccarat"
     },
     lobbyNames: {
-        48: "Blockchain\nBaccarat"
+        48: "Bakarat\nBlockchain"
     },
     blockchainBaccarat: {
         headerContent:
@@ -55,7 +55,7 @@ export const phrases = {
             "- 416 kartu akan dibuat secara acak di awal permainan baru.\n\n- Kunci Privat berisi informasi kartu, dan tidak akan diungkapkan sampai kartu dibuka.\n\n- Nomor Seri untuk setiap kartu adalah nilai unik yang dihasilkan dengan mengenkripsi Kunci Pribadi dan akan dipublikasikan setelah kartu dikocok.",
         guide5Title: "Verifikasi Hasil",
         guideNoteLine1:
-            "Catatan: Pemain juga dapat menggunakan alat {SHA-256} pihak ketiga lainnya untuk melakukan verifikasi yang sama <b> \n(https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)<b>",
+            "Catatan: Pemain juga dapat menggunakan alat SHA-256 pihak ketiga lainnya <b> \n(https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)</b> untuk melakukan verifikasi yang sama",
         guideNoteLine2: "",
         note: "<b>Catatan</b>: Pemain juga dapat menggunakan alat {SHA-256} pihak ketiga lainnya untuk melakukan verifikasi yang sama"
     }

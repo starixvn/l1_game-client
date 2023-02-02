@@ -30,13 +30,13 @@ const data = {
         35: "斗三张",
         38: "英雄传说",
         43: "数字货币大师",
-        39: "Casino Hold'em",
+        39: "赌场德州扑克",
         42: "德州扑克",
         45: "Hi-Lo",
         46: "Nightclub Lady",
         52: "Mega Keno",
         53: "Mega Keno 2",
-        59: "Fruit Slot",
+        59: "水果机",
         61: "Win Three Cards"
     },
     messages: {

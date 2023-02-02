@@ -5,7 +5,7 @@ export const phrases = {
         48: "Blockchain Baccarat"
     },
     lobbyNames: {
-        48: "Blockchain\nBaccarat"
+        48: "區塊鏈百家樂"
     },
     blockchainBaccarat: {
         headerContent:
@@ -54,9 +54,9 @@ export const phrases = {
             "- 新遊戲開始時會隨機生成416張卡牌。\n\n- 私鑰包含卡的信息，只有在打開卡時才會顯示出來。\n\n- 每張卡的序列號是通過私鑰加密生成的唯一值，將在洗牌後公佈。",
         guide5Title: "Results Verification",
         guideNoteLine1:
-            "注意: 玩家也可以使用任何其他第三方 {SHA-256} 工具進行相同的驗證 <b> \n(https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)<b>",
-        guideNoteLine2: "",
-        note: "<b>注意</b>: 玩家也可以使用任何其他第三方 {SHA-256} 工具進行相同的驗證"
+            "注意: 玩家也可以是用任何其它第3方SHA-256工具 <b> (https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)</b>",
+        guideNoteLine2: "進行相同的驗證",
+        note: "<b>注意</b>: 玩家也可以是用任何其它第3方SHA-256工具"
     }
 };
 

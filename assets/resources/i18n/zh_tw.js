@@ -30,14 +30,14 @@ const data = {
         35: "斗三張",
         38: "英雄傳說",
         43: "數字貨幣大師",
-        39: "Casino Hold'em",
+        39: "賭場德州撲克",
         42: "德州扑克",
         45: "Hi-Lo",
         46: "Nightclub Lady",
         52: "Mega Keno",
         53: "Mega Keno 2",
-        59: "Fruit Slot",
-        61: "Win Three Cards"
+        59: "水果機",
+        61: "贏三張"
     },
     messages: {
         accountNotExist: "發生了錯誤。詳情請聯繫CSD，謝謝。(%{errorCode})",

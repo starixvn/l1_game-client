@@ -39,8 +39,8 @@ const data = {
         46: "Nightclub Lady",
         52: "Mega Keno",
         53: "Mega Keno 2",
-        59: "Fruit Slot",
-        61: "Win Three Cards"
+        59: "Buah Slot",
+        61: "Menang Tiga Kartu"
     },
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
@@ -129,7 +129,7 @@ const data = {
         askConfirmBet: "Apakah Anda ingin mengkonfirmasi taruhan?",
         newUpdateAvailable: "Pembaruan baru tersedia. Harap segarkan halaman.",
         lostGameConnection: "%{gameName}\n\nKoneksi tidak stabil, silakan periksa.",
-        betProcessing: "Data sedang diproses, mohon tunggu...",
+        betProcessing: "Data sedang diproses, harap tunggu...",
         maxStakeHand: "Total taruhan maksimum di Tangan adalah %{maxBet}",
         limitBetChanged: "Batas taruhan Anda baru saja diubah.",
         enableTurboMode: 'Mode Turbo "ON"',

@@ -1,4 +1,10 @@
 import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
-import { phrases } from "./fortune-cat-en";
-
+export const phrases = {
+    gameNames: {
+        62: "Fortune Cat"
+    },
+    lobbyNames: {
+        62: "招财猫"
+    }
+};
 reloadLanguageData("zh_cn", phrases);
