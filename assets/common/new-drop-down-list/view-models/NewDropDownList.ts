@@ -1,3 +1,4 @@
+import GameUtils from "../../GameUtils";
 import NewDropDownItem from "./NewDropDownItem";
 import NewDropDownOption from "./NewDropDownOption";
 
@@ -27,6 +28,7 @@ export default class NewDropDownList extends cc.Component {
 
     onLoad() {
         this.optionContainer.scaleY = 0;
+        GameUtils.setFontSizeLabelsInNode(this.node);
     }
 
     onCaptionClick() {
