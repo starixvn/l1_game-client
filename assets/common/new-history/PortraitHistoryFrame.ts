@@ -8,5 +8,11 @@ export default class PortraitHistoryFrame extends HistoryFrame {
         super.updateSizeFrame(widthContent, heightContent, autoScaleNodeWidth);
 
         this.backWrapper.height = this.mainFrame.children[0].height;
+
+        const padding = this.PADDING_AROUND_POPUP;
+        const autoScaleNode = this.backWrapper.parent;
+        if (this.backWrapper.height + padding > autoScaleNode.height) {
+            autoScaleNode.height = this.backWrapper.height + padding;
+        }
     }
 }

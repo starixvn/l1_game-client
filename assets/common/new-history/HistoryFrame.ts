@@ -30,6 +30,7 @@ export default class HistoryFrame extends cc.Component {
 
     private readonly PADDING = 12;
     private readonly PADDING_TOP_HEIGHT = 60;
+    protected readonly PADDING_AROUND_POPUP = 80;
 
     public clickCloseButton = () => {};
 
@@ -48,7 +49,7 @@ export default class HistoryFrame extends cc.Component {
         this.tableBg.height = heightContent;
         this.backWrapper.width = mainFrameWidth;
 
-        const padding = 80;
+        const padding = this.PADDING_AROUND_POPUP;
         const autoScaleNode = this.backWrapper.parent;
         autoScaleNode.width = autoScaleNodeWidth;
         if (this.backWrapper.width + padding > autoScaleNodeWidth) {
