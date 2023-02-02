@@ -11,6 +11,7 @@ import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import { preloadAssets } from "./PreloadRemoteAsset";
+import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 
@@ -565,9 +566,12 @@ export default class GameUtils {
         let parentNode;
         node.getComponentsInChildren(cc.Label).forEach((label) => {
             const labelNode = label.node;
-            labelNode.scale = 0.535;
-            label.fontSize = fontSize;
-            label.lineHeight = fontSize + 4;
+            if (!labelNode.getComponent(SetStaticFontSizeLabel)) {
+                labelNode.scale = 0.535;
+                label.fontSize = fontSize;
+                label.lineHeight = fontSize + 4;
+            }
+
             if (isCustom) {
                 labelNode.color = cc.Color.BLACK.fromHEX("#ffe800");
                 const labelFormat = labelNode.getComponent("LocalizedLabelWithFormat");
