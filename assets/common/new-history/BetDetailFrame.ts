@@ -25,6 +25,8 @@ export default class BetDetailFrame extends cc.Component {
     public clickCloseButton = () => {};
     isShowTitleBetDetail: boolean;
 
+    protected readonly PADDING_AROUND_POPUP = 80;
+
     onLoad() {
         this.gameName.node.active = false;
         this.backFrameLayout = this.mainFrame.getComponent(cc.Layout);
@@ -38,6 +40,16 @@ export default class BetDetailFrame extends cc.Component {
         this.backFrameLayout.updateLayout();
         this.backWrapper.width = this.mainFrame.width;
         this.titleBgNode.parent.active = this.isShowTitleBetDetail;
+
+        const padding = this.PADDING_AROUND_POPUP;
+        const autoScaleNode = this.backWrapper.parent;
+        if (this.backWrapper.width + padding > autoScaleNode.width) {
+            autoScaleNode.width = this.backWrapper.width + padding;
+        }
+
+        if (this.backWrapper.height + padding > autoScaleNode.height) {
+            autoScaleNode.height = this.backWrapper.height + padding;
+        }
     }
 
     updateTitleSize(width: number) {
