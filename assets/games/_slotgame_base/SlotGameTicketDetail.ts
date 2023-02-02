@@ -32,6 +32,7 @@ export default class SlotGameTicketDetail extends cc.Component {
         this.commonDialog.addOnDidHide(() => {
             this.node.destroy();
         });
+        this.commonDialog.autoZooming = false;
     }
 
     async setData(data: any) {
@@ -42,6 +43,8 @@ export default class SlotGameTicketDetail extends cc.Component {
 
         await this.loadPaylineAtlas();
         this.createBetLogs(data);
+        await this.commonDialog.zooming();
+        this.enhancePerformanceLoadLabels();
     }
 
     async loadSymbolsAtlas() {}
@@ -121,15 +124,13 @@ export default class SlotGameTicketDetail extends cc.Component {
             });
             order++;
         });
+    }
 
+    enhancePerformanceLoadLabels() {
         const layout = this.content.getComponent(cc.Layout);
         layout.updateLayout();
         layout.enabled = false;
 
-        this.enhancePerformanceLoadLabels();
-    }
-
-    enhancePerformanceLoadLabels() {
         this.content.children.forEach((child) => {
             const item = child.getComponent(SlotGameTicketDetailItem);
 

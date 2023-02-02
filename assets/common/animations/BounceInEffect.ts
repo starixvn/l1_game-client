@@ -7,21 +7,30 @@ export default class BounceInEffect extends cc.Component {
 
     private originScale: number;
 
+    public autoZooming = true;
+
     onLoad() {
         this.originScale = this.node.scale;
     }
 
     onEnable() {
         this.node.opacity = 0;
-        cc.tween(this.node)
-            .delay(0)
-            .call(() => this.zooming())
-            .start();
+        if (this.autoZooming) {
+            cc.tween(this.node)
+                .delay(0)
+                .call(() => this.zooming())
+                .start();
+        }
     }
 
     zooming() {
-        this.node.scale = 0;
-        cc.tween(this.node).to(this.time, { scale: this.originScale, opacity: 255 }, { easing: "backOut" }).start();
+        return new Promise<void>((resolve) => {
+            this.node.scale = 0;
+            cc.tween(this.node)
+                .to(this.time, { scale: this.originScale, opacity: 255 }, { easing: "backOut" })
+                .call(() => resolve())
+                .start();
+        });
     }
 
     onDisable() {
