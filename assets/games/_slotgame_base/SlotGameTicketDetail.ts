@@ -126,8 +126,13 @@ export default class SlotGameTicketDetail extends cc.Component {
         layout.updateLayout();
         layout.enabled = false;
 
+        this.enhancePerformanceLoadLabels();
+    }
+
+    enhancePerformanceLoadLabels() {
         this.content.children.forEach((child) => {
             const item = child.getComponent(SlotGameTicketDetailItem);
+
             GameUtils.moveToOtherNode(item.order.node, this.content);
             GameUtils.moveToOtherNode(item.amount.node, this.content);
             GameUtils.moveToOtherNode(item.payout.node, this.content);
