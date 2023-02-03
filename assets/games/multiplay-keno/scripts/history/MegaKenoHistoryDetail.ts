@@ -26,6 +26,9 @@ export default class MegaKenoHistoryDetail extends GameTicketDetailBase {
     @property(cc.Prefab)
     prefabDetail: cc.Prefab = null;
 
+    @property(cc.Node)
+    resultFrame: cc.Node = null;
+
     private result: number[] = [];
     private resultLabels: cc.Label[] = [];
     private kenoNumbers: KenoNumber[] = [];
@@ -66,6 +69,14 @@ export default class MegaKenoHistoryDetail extends GameTicketDetailBase {
             this.total.string = total.toString();
             this.showSettleResult(this.settlementResult);
         }
+        this.updateHeightContentFrame();
+    }
+
+    updateHeightContentFrame() {
+        const PADDING_BOTTOM_FRAME = 25;
+        this.resultNumbers.getComponent(cc.Layout).updateLayout();
+        this.resultFrame.getComponent(cc.Layout).updateLayout();
+        this.betDetailFrame.updateSizeFrame(this.mainFrame.width, this.resultFrame.height + PADDING_BOTTOM_FRAME);
     }
 
     private showSettleResultAnimation(duration: number, onComplete: () => void = () => {}) {
