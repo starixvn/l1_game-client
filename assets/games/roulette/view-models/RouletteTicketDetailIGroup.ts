@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+import GameUtils from "../../../common/GameUtils";
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { RouletteBetType } from "./RouletteCommon";
 import RouletteTicketDetailItem from "./RouletteTicketDetailItem";
@@ -21,6 +22,7 @@ export default class RouletteTicketDetailIGroup extends cc.Component {
     bg: cc.Node = null;
 
     onLoad() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
         this.betChoiceGroupNode.children.forEach((child) => child.destroy());
     }
 
