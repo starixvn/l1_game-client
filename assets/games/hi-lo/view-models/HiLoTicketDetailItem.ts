@@ -2,13 +2,14 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { getStringHourByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import GameTicketDetailItemBase from "../../_base/view-models/GameTicketDetailItemBase";
 import { BetLogDetail } from "./HiLoBetData";
 import HiLoCardChoiceView from "./HiLoCardChoiceView";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class HiLoTicketDetailItem extends cc.Component {
+export default class HiLoTicketDetailItem extends GameTicketDetailItemBase {
     @property(cc.Label)
     time: cc.Label = null;
 
@@ -30,9 +31,6 @@ export default class HiLoTicketDetailItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
-    @property(cc.Node)
-    bg: cc.Node = null;
-
     renderTicketDetailItem(logDetail: BetLogDetail, index) {
         const high = "hiLo.high";
         const low = "hiLo.low";
@@ -43,6 +41,6 @@ export default class HiLoTicketDetailItem extends cc.Component {
         this.resultCard.setData(logDetail.cards[1]);
         this.stake.string = numberWithCommas(logDetail.amount, 2);
         this.win.string = numberWithCommas(logDetail.betwin, 2);
-        this.bg.active = index % 2 > 0;
+        this.setBackground(index);
     }
 }
