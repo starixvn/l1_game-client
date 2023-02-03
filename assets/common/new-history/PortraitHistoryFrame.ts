@@ -4,6 +4,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class PortraitHistoryFrame extends HistoryFrame {
+    protected override PADDING_AROUND_POPUP = 40;
     updateSizeFrame(widthContent: number, heightContent: number, autoScaleNodeWidth: number) {
         super.updateSizeFrame(widthContent, heightContent, autoScaleNodeWidth);
 
