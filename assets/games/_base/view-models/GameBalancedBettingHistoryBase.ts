@@ -47,6 +47,13 @@ export default class GameBalancedBettingHistoryBase extends GameTicketDetailBase
     protected roundId = 0;
     protected data: any;
 
+    onLoad() {
+        GameUtils.setFontSizeLabelsInNode(this.node);
+        this.leftContent.children.forEach((child) => child.destroy());
+        this.rightContent.children.forEach((child) => child.destroy());
+        this.updateTitle();
+    }
+
     init(main: BalancedBettingPoolGameBase, roundId: number) {
         this.main = main;
         this.roundId = roundId;
