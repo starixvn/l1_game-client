@@ -23,17 +23,17 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
     @property(cc.Label)
     roundId: cc.Label = null;
 
-    private readonly tableHeight = 80;
+    private readonly tableHeight = 90;
     public contentHeight = 110;
     private readonly maxHeightContent = 410;
-    private readonly heightPerRow = 50;
+    private readonly HEIGHT_PER_ROW = 50;
     comp: cc.Node;
 
     HEIGHT_BET_DETAIL_TABLE = 490;
     WIDTH_BET_DETAIL_TABLE = 1122;
 
     calculateHeights(betLogDetails: BetLogDetail[]) {
-        this.contentHeight += betLogDetails.length * this.heightPerRow;
+        this.contentHeight += betLogDetails.length * this.HEIGHT_PER_ROW;
 
         if (this.contentHeight >= this.maxHeightContent) {
             this.scrollView.node.height = this.maxHeightContent;
@@ -65,6 +65,9 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
     renderTicketDetail(data: BetLog) {
         this.updateContentTicketDetail(data);
         this.calculateHeights(data.betLogDetails);
+        const heightBetDetailTable = this.contentHeight + this.HEIGHT_PER_ROW;
+        this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, heightBetDetailTable);
+        this.betDetailFrame.updateSizeFrame(this.mainFrame.width, heightBetDetailTable + this.tableHeight);
     }
 
     renderDetailBase(data: BetLog, isFirst: boolean, index: number): cc.Node {

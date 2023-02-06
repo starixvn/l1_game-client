@@ -20,8 +20,10 @@ export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
     @property(ThreeCardsWinChoiceView)
     winChoices: ThreeCardsWinChoiceView = null;
 
-    HEIGHT_BET_DETAIL_TABLE = 320;
-    WIDTH_BET_DETAIL_TABLE = 750;
+    private heightBetDetailTable = 55;
+    private readonly HEIGHT_BET_DETAIL_ROW = 50;
+    private readonly WIDTH_BET_DETAIL_TABLE = 750;
+    private readonly PADDING_TOP_BET_DETAIL_TABLE = 116;
 
     setData(data: ThreeCardsBetData) {
         this.round.string = data.phien;
@@ -32,6 +34,8 @@ export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
             });
         this.winChoices && this.winChoices.setData(data);
         this.itemPrefab && this.createDetailItems(data);
+        this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, this.heightBetDetailTable);
+        this.betDetailFrame.updateSizeFrame(this.mainFrame.width, this.heightBetDetailTable + this.PADDING_TOP_BET_DETAIL_TABLE);
     }
 
     createDetailItems(data: ThreeCardsBetData) {
@@ -54,6 +58,7 @@ export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
             item.setData(itemData);
             item.setBackground(i);
             item.setHighlight(settlementResult[key]);
+            this.heightBetDetailTable += this.HEIGHT_BET_DETAIL_ROW;
         });
     }
 
