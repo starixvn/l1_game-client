@@ -1,5 +1,6 @@
 import GameUtils from "../../common/GameUtils";
 import SlotBoard from "./SlotBoard";
+import StandardSlotReelItem from "./StandardSlotReelItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,6 +26,14 @@ export default class StandardSlotBoard extends SlotBoard {
                     const worldPosition = item.node.convertToWorldSpaceAR(cc.v3());
                     this.onSymbolTouched(item.index, worldPosition, isInfoOnLeft);
                 });
+            });
+        });
+    }
+
+    setItemWinningEffect(prefab: cc.Prefab) {
+        this.reels.forEach((reel) => {
+            reel.items.forEach((item: StandardSlotReelItem) => {
+                item.addWinningEffect(prefab);
             });
         });
     }

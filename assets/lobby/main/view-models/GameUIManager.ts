@@ -30,7 +30,8 @@ export default class GameUIManager {
     public prefabCache = {
         lobbyIcons: {},
         miniPanelIcons: {},
-        slotSymbols: {}
+        slotSymbols: {},
+        slotWinningEffects: {}
     };
 
     initEmitter() {

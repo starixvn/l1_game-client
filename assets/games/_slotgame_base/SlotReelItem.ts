@@ -33,7 +33,7 @@ export default class SlotReelItem extends cc.Component {
         return this.itemPrefabs[index];
     }
 
-    private replaceItem(index: number) {
+    protected replaceItem(index: number) {
         this.content.removeAllChildren();
         const prefab = this.getItemPrefab(index);
         if (prefab) {

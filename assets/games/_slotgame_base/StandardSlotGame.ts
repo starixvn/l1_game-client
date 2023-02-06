@@ -107,6 +107,7 @@ export default class StandardSlotGame extends SlotGameBase {
     protected audioClips = {};
     private previewSymbolLeft: cc.Prefab;
     private previewSymbolRight: cc.Prefab;
+    private itemWinningEffect: cc.Prefab;
     slotBoard: StandardSlotBoard;
     slotBottomAreaPrefab: cc.Prefab;
     bottomMessagePrefab: cc.Prefab;
@@ -156,6 +157,7 @@ export default class StandardSlotGame extends SlotGameBase {
     async loadPrefabsByCode() {
         const dict = {
             // prefab name : prefab property
+            "item-winning-effect": "itemWinningEffect",
             "top-winner": "topWinnerPrefab",
             "effect-jackpot": "effectJackpot",
 
@@ -260,6 +262,7 @@ export default class StandardSlotGame extends SlotGameBase {
             super.initSlotBoard();
 
             this.slotBoard.onSymbolPreview = this.onSymbolPreview.bind(this);
+            this.slotBoard.setItemWinningEffect(this.itemWinningEffect);
         });
     }
 
@@ -288,16 +291,16 @@ export default class StandardSlotGame extends SlotGameBase {
             if (prefabCache[index]) {
                 continue;
             }
-            const path = `preload/symbols/${index}`;
+            const path = `preload/symbol-spines/symbol-${index}`;
             const devPath = `../games/*/${path}`;
-            const prefab = await BundleManager.getInstance().loadAsset<cc.Prefab>({
+            const data = await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
                 bundleId: this.gameId.toString(),
                 path: path,
                 pathForDevMode: devPath,
-                type: cc.Prefab
+                type: sp.SkeletonData
             });
 
-            prefabCache[index] = prefab;
+            prefabCache[index] = data;
         }
 
         GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] = prefabCache;
