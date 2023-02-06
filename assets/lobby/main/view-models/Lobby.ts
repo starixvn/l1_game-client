@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import { appContainer, lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
@@ -12,7 +13,7 @@ import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIco
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
-import SplashConfig from "../../../splash/view-models/SplashConfig";
+import Category from "../../category/view-models/Category";
 import NewsContent from "../../news/NewsContent";
 import PromotionNotificationsHandler from "../../promotions/PromotionNotificationsHandler";
 import { Promotions } from "../../promotions/Promotions";
@@ -23,9 +24,8 @@ import Banner from "./Banner";
 import CategoryItem from "./CategoryItem";
 import GameUIManager from "./GameUIManager";
 import Header from "./Header";
-import LobbyMenu, { GameCategory } from "./LobbyMenu";
-import Category from "../../category/view-models/Category";
 import LobbyManager from "./LobbyManager";
+import LobbyMenu, { GameCategory } from "./LobbyMenu";
 
 const socketIOController = appContainer.get(SocketIOController);
 const sentryLogger = logger();
@@ -33,7 +33,7 @@ const sentryLogger = logger();
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MainGame extends cc.Component {
+export default class Lobby extends cc.Component {
     @property(cc.Prefab)
     miniPanelPrefab: cc.Prefab = null;
 
@@ -120,6 +120,22 @@ export default class MainGame extends cc.Component {
         this.initGameUIEvents();
         this.initPromotions();
         this.onClickJoinGame();
+        this.trackOnLoadEvents();
+    }
+
+    private trackOnLoadEvents() {
+        const location = cc.director.getScene().name;
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location,
+            action: TrackingAction.Show,
+            object_name: "Result Page"
+        });
+
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location,
+            action: TrackingAction.Show,
+            object_name: "Banner"
+        });
     }
 
     initGameUIEvents() {
@@ -493,6 +509,11 @@ export default class MainGame extends cc.Component {
     }
 
     onGameResultClick() {
+        AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
+            location: cc.director.getScene().name,
+            action: TrackingAction.Click,
+            object_name: "Result Page"
+        });
         this.miniPanel.openResultPage();
     }
 
