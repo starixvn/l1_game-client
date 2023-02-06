@@ -364,4 +364,8 @@ export default class StandardSlotGame extends SlotGameBase {
         const history = this.historyComponent as StandardSlotGameHistory;
         history.gameId = this.gameId;
     }
+
+    setTimeShowPayline(): number {
+        return 2;
+    }
 }
