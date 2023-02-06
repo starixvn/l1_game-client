@@ -2,15 +2,15 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SymbolPreview extends cc.Component {
-    @property(cc.Node)
-    icon: cc.Node = null;
+    @property(sp.Skeleton)
+    icon: sp.Skeleton = null;
 
     @property(cc.Node)
     infoNode: cc.Node = null;
 
-    setInfo(info: { node: cc.Node; odds: any }) {
-        this.icon.addChild(info.node);
-
+    setInfo(info: { spine: sp.SkeletonData; odds: any }) {
+        this.icon.skeletonData = info.spine;
+        this.icon.setAnimation(0, "highlight", false);
         const keys = Object.keys(info.odds);
         this.infoNode.children.forEach((node, index) => {
             const key = keys[index];

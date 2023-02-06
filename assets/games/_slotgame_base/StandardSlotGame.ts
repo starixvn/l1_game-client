@@ -270,16 +270,15 @@ export default class StandardSlotGame extends SlotGameBase {
         if (!this.gameConfigs?.odds) {
             return;
         }
-        const prefabCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId];
-        const prefab = prefabCache[symbol];
-        const node = cc.instantiate(prefab);
+        const symbolCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId];
+        const spine = symbolCache[symbol];
 
         const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
         const previewNode = cc.instantiate(previewPrefab);
 
         const symbolPreview = previewNode.getComponent(SymbolPreview);
         symbolPreview.setInfo({
-            node,
+            spine,
             odds: this.gameConfigs.odds[symbol]
         });
         this.slotBoard.showPreview(previewNode, worldPosition);
