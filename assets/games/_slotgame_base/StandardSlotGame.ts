@@ -368,7 +368,7 @@ export default class StandardSlotGame extends SlotGameBase {
         history.gameId = this.gameId;
     }
 
-    setTimeShowPayline(): number {
-        return 2;
+    getTimeShowPayline(): number {
+        return this.isTurboMode() ? 1 : 2;
     }
 }
