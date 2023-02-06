@@ -765,7 +765,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     showLoopWinningLines(winningLines: LineData[]) {
         const length = winningLines.length;
-        const timeShowPayline = this.isTurboMode() ? 0.75 : 1;
+        const timeShowPayline = 2;
         if (length === 0) {
             return;
         }
