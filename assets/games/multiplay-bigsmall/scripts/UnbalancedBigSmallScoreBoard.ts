@@ -17,7 +17,7 @@ export default class UnbalancedBigSmallScoreBoard extends SingleScoreBoard {
         this.gameId = game.gameId;
         this.duration = game.gameData.durations;
         this.roundHistory = game.gameData.roundHistory;
-        this.gameName.prefix = `game-name-`;
+        this.gameName.prefix = `game-name-${window.i18n.curLang}-`;
         this.gameName.gameId = this.gameId;
 
         this.roundHistory.on(RoundHistory.Events.CHANGE, this.updateRoundHistory);

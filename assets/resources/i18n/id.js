@@ -249,7 +249,7 @@ const data = {
         total_bet: "Total Taruhan",
         bonus_count_text: "Jumlah Peti Harta Karun",
         bonus_count_text_item: "Jumlah Item",
-        auto_spin_guide_text: "Jumlah Putaran Otomatis",
+        auto_spin_guide_text: "Jumlah Auto Putar",
         times: "Kali",
         bigWin: "Kemenangan Besar",
         autoSpin: "Auto Putar",
