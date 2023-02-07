@@ -17,15 +17,12 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
     @property(cc.ScrollView)
     scrollView: cc.ScrollView = null;
 
-    @property(cc.Node)
-    detailTable: cc.Node = null;
-
     @property(cc.Label)
     roundId: cc.Label = null;
 
     private readonly tableHeight = 90;
     public contentHeight = 110;
-    private readonly maxHeightContent = 410;
+    private readonly maxHeightContent = 400;
     private readonly HEIGHT_PER_ROW = 50;
     comp: cc.Node;
 
@@ -33,14 +30,12 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
     WIDTH_BET_DETAIL_TABLE = 1122;
 
     calculateHeights(betLogDetails: BetLogDetail[]) {
-        this.contentHeight += betLogDetails.length * this.HEIGHT_PER_ROW;
+        this.contentHeight += (betLogDetails.length > 6 ? 6 : betLogDetails.length) * this.HEIGHT_PER_ROW;
 
         if (this.contentHeight >= this.maxHeightContent) {
             this.scrollView.node.height = this.maxHeightContent;
-            this.detailTable.height = this.tableHeight + this.maxHeightContent;
         } else {
             this.scrollView.node.height = this.contentHeight;
-            this.detailTable.height = this.tableHeight + this.contentHeight;
         }
     }
 

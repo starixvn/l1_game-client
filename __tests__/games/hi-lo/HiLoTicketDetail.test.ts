@@ -20,7 +20,6 @@ describe("HiLoTicketdetail", () => {
         comp = node.addComponent(HiLoTicketDetail);
         comp.content = new cc.Node();
         comp.scrollView = node.addComponent(cc.ScrollView);
-        comp.detailTable = new cc.Node();
         comp.roundId = node.addComponent(cc.Label);
 
         mockFuntions.createNodeFromPrefab = () => {
@@ -104,7 +103,6 @@ describe("HiLoTicketdetail", () => {
 
                 // Assert
                 expect(comp.scrollView.node.height).toEqual(410);
-                expect(comp.detailTable.height).toEqual(490);
             });
         });
 
@@ -128,7 +126,6 @@ describe("HiLoTicketdetail", () => {
 
                 //Assert
                 expect(comp.scrollView.node.height).toEqual(410);
-                expect(comp.detailTable.height).toEqual(490);
             });
         });
 
@@ -143,7 +140,6 @@ describe("HiLoTicketdetail", () => {
 
                 // Assert
                 expect(comp.scrollView.node.height).toEqual(260);
-                expect(comp.detailTable.height).toEqual(340);
             });
         });
     });
