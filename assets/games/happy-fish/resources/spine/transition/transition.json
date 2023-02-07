@@ -1,0 +1,79 @@
+{
+    "skeleton": {
+        "hash": "CQyLBmZJDtheqrmtWtJL3EI2gOs",
+        "spine": "3.8.99",
+        "x": -700,
+        "y": -394,
+        "width": 1400,
+        "height": 788.1,
+        "images": "../images/",
+        "audio": ""
+    },
+    "bones": [{ "name": "root" }, { "name": "vfx", "parent": "root" }],
+    "slots": [{ "name": "vfx", "bone": "vfx", "blend": "screen" }],
+    "skins": [
+        {
+            "name": "default",
+            "attachments": {
+                "vfx": {
+                    "vfx/04_00052": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00054": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00056": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00058": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00060": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00062": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00064": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00066": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00068": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00070": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00072": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00074": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00076": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00078": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00080": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00082": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00084": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00086": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00088": { "y": 0.5, "width": 699, "height": 393 },
+                    "vfx/04_00090": { "y": 0.5, "width": 699, "height": 393 }
+                }
+            }
+        }
+    ],
+    "animations": {
+        "transition": {
+            "slots": {
+                "vfx": {
+                    "color": [
+                        { "time": 0.6667, "color": "ffffffff" },
+                        { "time": 0.8, "color": "ffffff00" }
+                    ],
+                    "attachment": [
+                        { "time": 0.1667, "name": "vfx/04_00052" },
+                        { "time": 0.2, "name": "vfx/04_00054" },
+                        { "time": 0.2333, "name": "vfx/04_00056" },
+                        { "time": 0.2667, "name": "vfx/04_00058" },
+                        { "time": 0.3, "name": "vfx/04_00060" },
+                        { "time": 0.3333, "name": "vfx/04_00062" },
+                        { "time": 0.3667, "name": "vfx/04_00064" },
+                        { "time": 0.4, "name": "vfx/04_00066" },
+                        { "time": 0.4333, "name": "vfx/04_00068" },
+                        { "time": 0.4667, "name": "vfx/04_00070" },
+                        { "time": 0.5, "name": "vfx/04_00072" },
+                        { "time": 0.5333, "name": "vfx/04_00074" },
+                        { "time": 0.5667, "name": "vfx/04_00076" },
+                        { "time": 0.6, "name": "vfx/04_00078" },
+                        { "time": 0.6333, "name": "vfx/04_00080" },
+                        { "time": 0.6667, "name": "vfx/04_00082" },
+                        { "time": 0.7, "name": "vfx/04_00084" },
+                        { "time": 0.7333, "name": "vfx/04_00086" },
+                        { "time": 0.7667, "name": "vfx/04_00088" },
+                        { "time": 0.8, "name": "vfx/04_00090" }
+                    ]
+                }
+            },
+            "bones": { "vfx": { "scale": [{ "time": 0.1667, "x": 2, "y": 2 }] } },
+            "drawOrder": [{ "time": 1.5 }]
+        }
+    }
+}

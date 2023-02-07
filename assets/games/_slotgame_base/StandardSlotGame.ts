@@ -1,6 +1,7 @@
 import { BundleManager } from "bundle-management";
 
 import AudioManager from "../../common/audio/AudioManager";
+import CallbackAnimation from "../../common/CallbackAnimation";
 import ChangeNodeColor from "../../common/ChangeNodeColor";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
@@ -119,7 +120,7 @@ export default class StandardSlotGame extends SlotGameBase {
     protected audioClips = {};
     private previewSymbolLeft: cc.Prefab;
     private previewSymbolRight: cc.Prefab;
-    private itemWinningEffect: cc.Prefab;
+    private effectTransitionPrefab: cc.Prefab;
     slotBoard: StandardSlotBoard;
     slotBottomAreaPrefab: cc.Prefab;
     bottomMessagePrefab: cc.Prefab;
@@ -169,6 +170,7 @@ export default class StandardSlotGame extends SlotGameBase {
     async loadPrefabsByCode() {
         const dict = {
             // prefab name : prefab property
+            "effect-transition": "effectTransitionPrefab",
             "mini-warning": "miniNoticePrefab",
             "top-winner": "topWinnerPrefab",
             "effect-jackpot": "effectJackpot",
@@ -410,5 +412,35 @@ export default class StandardSlotGame extends SlotGameBase {
         text.node.color = cc.Color.WHITE.fromHEX(this.miniWarningTextColor);
         const outLine = text.node.getComponent(cc.LabelOutline);
         outLine && (outLine.color = cc.Color.WHITE.fromHEX(this.miniWarningOutlineColor));
+    }
+
+    async showEffectFreeSpin() {
+        const transtition = await this.playEffectTransition();
+        super.showEffectFreeSpin();
+        transtition.destroy();
+    }
+
+    async showEffectBigWin(betWin: number) {
+        const transtition = await this.playEffectTransition();
+        await super.showEffectBigWin(betWin);
+        transtition.destroy();
+    }
+
+    async showEffectBonus(bonus: number): Promise<void> {
+        const transtition = await this.playEffectTransition();
+        await super.showEffectBonus(bonus);
+        transtition.destroy();
+    }
+
+    protected async playEffectTransition() {
+        if (!this.effectTransitionPrefab) {
+            return;
+        }
+        const effect = cc.instantiate(this.effectTransitionPrefab);
+        const animation = effect.getComponent(CallbackAnimation);
+        animation.autoDestroyNode = false;
+        // animation.setDuration(this.getCustomDuration("freespin"));
+        await this.showEffect(effect);
+        return effect;
     }
 }

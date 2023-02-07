@@ -900,7 +900,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         await this.showEffect(effect);
     }
 
-    async showEffectBonus(bonus: number): Promise<void> {
+    showEffectBonus(bonus: number): Promise<void> {
         this.playSound(SlotGameSound.BONUS);
         return new Promise<void>(async (resolve, reject) => {
             const effect = cc.instantiate(this.effectBonus);

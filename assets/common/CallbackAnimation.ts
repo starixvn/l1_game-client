@@ -6,7 +6,7 @@ export default class CallbackAnimation extends cc.Component {
     animation: cc.Animation = null;
 
     public onFinishedCallback = () => {};
-
+    public autoDestroyNode = true;
     onLoad() {
         this.animation.on("finished", () => this.finish());
     }
@@ -22,6 +22,6 @@ export default class CallbackAnimation extends cc.Component {
 
     finish() {
         this.onFinishedCallback();
-        this.node.destroy();
+        this.autoDestroyNode && this.node.destroy();
     }
 }

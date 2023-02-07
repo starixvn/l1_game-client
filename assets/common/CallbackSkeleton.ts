@@ -26,7 +26,7 @@ export default class CallbackSkeleton extends CallbackAnimation {
     }
 
     play() {
-        this.updateDuration(this.duration);
+        this.duration && this.updateDuration(this.duration);
         this.effect.setAnimation(0, this.effect.animation, false);
     }
 }
