@@ -15,9 +15,12 @@ export default class StandardSlotReelItem extends SlotReelItem {
         super.onLoad();
     }
 
-    public addWinningEffect(prefab: cc.Prefab) {
-        const node = cc.instantiate(prefab);
-        this.winningEffect.addChild(node);
+    public addWinningEffect() {
+        const cache = GameUIManager.getInstance().prefabCache.slotWinningAnimation[this.gameId] || {};
+        const spine = this.winningEffect.getComponent(sp.Skeleton);
+        spine.skeletonData = cache;
+        spine.premultipliedAlpha = this.premultipliedAlpha;
+        spine.setAnimation(0, "highlight", true);
     }
 
     protected replaceItem(index: number, duration = 0) {

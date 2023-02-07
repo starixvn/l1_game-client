@@ -30,10 +30,10 @@ export default class StandardSlotBoard extends SlotBoard {
         });
     }
 
-    setItemWinningEffect(prefab: cc.Prefab) {
+    setItemWinningEffect() {
         this.reels.forEach((reel) => {
             reel.items.forEach((item: StandardSlotReelItem) => {
-                item.addWinningEffect(prefab);
+                item.addWinningEffect();
             });
         });
     }

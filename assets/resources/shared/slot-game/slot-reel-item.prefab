@@ -21,17 +21,17 @@
         "__id__": 2
       },
       {
-        "__id__": 4
+        "__id__": 5
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 9
+        "__id__": 10
       }
     ],
     "_prefab": {
-      "__id__": 10
+      "__id__": 11
     },
     "_opacity": 255,
     "_color": {
@@ -88,10 +88,14 @@
       "__id__": 1
     },
     "_children": [],
-    "_active": false,
-    "_components": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 3
+      }
+    ],
     "_prefab": {
-      "__id__": 3
+      "__id__": 4
     },
     "_opacity": 255,
     "_color": {
@@ -141,14 +145,54 @@
     "_id": ""
   },
   {
-    "__type__": "cc.PrefabInfo",
-    "root": {
+    "__type__": "sp.Skeleton",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
       "__id__": 2
     },
-    "asset": {
-      "__uuid__": "cb091d9f-7be7-4b3f-8a06-411a8150711c"
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "7afd064b-113f-480e-b793-8817d19f63c3"
+      }
+    ],
+    "paused": false,
+    "defaultSkin": "",
+    "defaultAnimation": "",
+    "_preCacheMode": -1,
+    "_cacheMode": 0,
+    "loop": true,
+    "premultipliedAlpha": false,
+    "timeScale": 1,
+    "_accTime": 0,
+    "_playCount": 0,
+    "_frameCache": null,
+    "_curFrame": null,
+    "_skeletonCache": null,
+    "_animationName": "",
+    "_animationQueue": [],
+    "_headAniInfo": null,
+    "_playTimes": 0,
+    "_isAniComplete": true,
+    "_N$skeletonData": null,
+    "_N$_defaultCacheMode": 0,
+    "_N$debugSlots": false,
+    "_N$debugBones": false,
+    "_N$debugMesh": false,
+    "_N$useTint": false,
+    "_N$enableBatch": false,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
     },
-    "fileId": "72sVkBvZJD7oArql2Nph+7",
+    "asset": {
+      "__uuid__": "7093f816-49ef-461b-8e1f-7cf855c5ee03"
+    },
+    "fileId": "4afBfw8B1GFb837qu7wWUu",
     "sync": false
   },
   {
@@ -160,13 +204,13 @@
     },
     "_children": [
       {
-        "__id__": 5
+        "__id__": 6
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 8
+      "__id__": 9
     },
     "_opacity": 255,
     "_color": {
@@ -220,17 +264,17 @@
     "_name": "icon",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 4
+      "__id__": 5
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 6
+        "__id__": 7
       }
     ],
     "_prefab": {
-      "__id__": 7
+      "__id__": 8
     },
     "_opacity": 255,
     "_color": {
@@ -284,7 +328,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 5
+      "__id__": 6
     },
     "_enabled": true,
     "_materials": [
@@ -298,7 +342,7 @@
     "_preCacheMode": -1,
     "_cacheMode": 0,
     "loop": true,
-    "premultipliedAlpha": true,
+    "premultipliedAlpha": false,
     "timeScale": 1,
     "_accTime": 0,
     "_playCount": 0,
@@ -351,13 +395,13 @@
     "_enabled": true,
     "itemPrefabs": [],
     "content": {
-      "__id__": 4
+      "__id__": 5
     },
     "winningEffect": {
       "__id__": 2
     },
     "effectSpine": {
-      "__id__": 6
+      "__id__": 7
     },
     "premultipliedAlpha": false,
     "_id": ""

@@ -31,7 +31,7 @@ export default class GameUIManager {
         lobbyIcons: {},
         miniPanelIcons: {},
         slotSymbols: {},
-        slotWinningEffects: {}
+        slotWinningAnimation: {}
     };
 
     initEmitter() {
