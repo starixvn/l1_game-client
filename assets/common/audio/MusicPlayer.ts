@@ -1,9 +1,11 @@
-import _ = require("lodash");
+import { systemType } from "../../configs/Configs";
+import { SystemType } from "../../ISystem";
 
 import AudioManager from "./AudioManager";
+import NameSongManager from "./NameSongManager";
 
 export default class MusicPlayer {
-    private readonly ListSong = ["song1", "song2", "song3", "song4", "song5", "song6", "song7"];
+    public listSongs: NameSongManager;
     public isPlayBgMusic = false;
     public isJoinRoomMusic = false;
     protected bgMusicId: number;
@@ -21,6 +23,10 @@ export default class MusicPlayer {
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
             this.instanceMusic = new MusicPlayer();
+            this.instanceMusic.listSongs = new NameSongManager({
+                [SystemType.SC1]: ["song1", "song2", "song3", "song4", "song5", "song6", "song7"],
+                [SystemType.SC2]: ["song1", "song2", "song3", "song4", "song5", "song6", "song7"]
+            });
         }
 
         return this.instanceMusic;
@@ -42,7 +48,7 @@ export default class MusicPlayer {
     }
 
     private getRandomNameSong() {
-        return this.ListSong[_.random(this.ListSong.length - 1)];
+        return this.listSongs.getSongName();
     }
 
     private playBgAudio(play: boolean) {
@@ -61,7 +67,7 @@ export default class MusicPlayer {
         let reject;
         const promise = new Promise<cc.AudioClip>((resolve, rejectInPromise) => {
             reject = rejectInPromise;
-            cc.resources.load("music/" + song, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
+            cc.resources.load(`music/${systemType}/${song}`, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
                 resolve(audioClip);
             });
         });
