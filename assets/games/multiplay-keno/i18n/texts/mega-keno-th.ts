@@ -16,8 +16,8 @@ export const phrases = {
     },
     megaKeno: {
         intro: "“Mega Keno - Mutilplay” เป็นเกมส์ RNG ที่มีคุณสมบัติใหม่ที่ให้คุณเล่นได้ 8 โต๊ะ (Mega Keno, Mega Keno 2, Keno Mini, Keno Mini 2, Keno North, Keno South, Keno West, Keno East) ที่ พร้อมกันกับประสบการณ์ใหม่ที่น่าตื่นเต้นมากมาย",
-        RNGKeno80Balls: "คีโน RNG (80 ลูก)",
-        RNGKeno40Balls: "คีโน RNG (40 ลูก)"
+        RNGKeno80Balls: "RNG Keno (80 ลูก)",
+        RNGKeno40Balls: "RNG Keno (40 ลูก)"
     }
 };
 
