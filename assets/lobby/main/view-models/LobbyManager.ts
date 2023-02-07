@@ -67,8 +67,11 @@ export default class LobbyManager {
     }
 
     getMiniPanelList() {
-        const middle = Math.round(LobbyManager.lobbyConfigs.miniPanelGameIds?.length / 2);
-        LobbyManager.lobbyConfigs.miniPanelGameIds?.splice(middle, 0, this.HOME_ICON_ID);
+        const isHomeIconId = LobbyManager.lobbyConfigs.miniPanelGameIds?.includes(this.HOME_ICON_ID);
+        if (!isHomeIconId) {
+            const middleIndex = Math.round(LobbyManager.lobbyConfigs.miniPanelGameIds?.length / 2);
+            LobbyManager.lobbyConfigs.miniPanelGameIds?.splice(middleIndex, 0, this.HOME_ICON_ID);
+        }
         return LobbyManager.lobbyConfigs.miniPanelGameIds;
     }
 
