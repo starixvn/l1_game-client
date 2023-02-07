@@ -38,6 +38,14 @@ export default class StandardSlotBoard extends SlotBoard {
         });
     }
 
+    updateSymbolDuration(duration: number) {
+        this.reels.forEach((reel) => {
+            reel.items.forEach((item: StandardSlotReelItem) => {
+                item.updateDuration(duration);
+            });
+        });
+    }
+
     showPreview(previewNode: cc.Node, worldPosition: cc.Vec3) {
         this.previewOverlay.active = true;
         this.hideOtherPreview();

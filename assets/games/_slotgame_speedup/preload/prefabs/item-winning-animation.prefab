@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "winningEffect",
+    "_name": "WinningAnimation",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -152,7 +152,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "win_effect",
+    "defaultAnimation": "highlight",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": true,
@@ -163,13 +163,13 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "win_effect",
+    "_animationName": "highlight",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 0,
     "_isAniComplete": true,
     "_N$skeletonData": {
-      "__uuid__": "8fc6dc2a-ed4c-439b-8362-1d15685ab73e"
+      "__uuid__": "ee5b89e4-470b-409d-9f4b-c6e765a58014"
     },
     "_N$_defaultCacheMode": 0,
     "_N$debugSlots": false,

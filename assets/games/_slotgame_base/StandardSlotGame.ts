@@ -104,6 +104,9 @@ export default class StandardSlotGame extends SlotGameBase {
         this._gameId = value;
     }
 
+    normalPaylineDuration = 2;
+    turboPaylineDuration = 1;
+
     protected audioClips = {};
     private previewSymbolLeft: cc.Prefab;
     private previewSymbolRight: cc.Prefab;
@@ -157,7 +160,7 @@ export default class StandardSlotGame extends SlotGameBase {
     async loadPrefabsByCode() {
         const dict = {
             // prefab name : prefab property
-            "item-winning-effect": "itemWinningEffect",
+            "item-winning-animation": "itemWinningEffect",
             "top-winner": "topWinnerPrefab",
             "effect-jackpot": "effectJackpot",
 
@@ -367,7 +370,8 @@ export default class StandardSlotGame extends SlotGameBase {
         history.gameId = this.gameId;
     }
 
-    getTimeShowPayline(): number {
-        return this.isTurboMode() ? 1 : 2;
+    hideWinningEffectOnItems() {
+        super.hideWinningEffectOnItems();
+        this.slotBoard.updateSymbolDuration(this.getWinningPaylineDuration());
     }
 }

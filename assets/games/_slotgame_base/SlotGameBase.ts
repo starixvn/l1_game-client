@@ -158,6 +158,8 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     public delayShowBigWinValue = 0;
     protected userSettings: SlotGameUserSettings;
     private showingWinningLine = false;
+    normalPaylineDuration = 1;
+    turboPaylineDuration = 0.75;
 
     setAllowChangeBet(allow: boolean) {
         this.stakeButton.interactable = allow;
@@ -765,7 +767,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     showLoopWinningLines(winningLines: LineData[]) {
         const length = winningLines.length;
-        const timeShowPayline = this.getTimeShowPayline();
+        const timeShowPayline = this.getWinningPaylineDuration();
         if (length === 0) {
             return;
         }
@@ -791,8 +793,8 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             .start();
     }
 
-    getTimeShowPayline(): number {
-        return this.isTurboMode() ? 0.75 : 1;
+    getWinningPaylineDuration(): number {
+        return this.isTurboMode() ? this.turboPaylineDuration : this.normalPaylineDuration;
     }
 
     stopAllFinishTweens() {
