@@ -69,16 +69,20 @@ export default class SlotGameBottomMessage extends cc.Component {
                 msg = this.randomSettledMessages();
                 break;
         }
-        msg && (this.msgText.string = GameUtils.capitalizeWordIntoString(msg));
+        msg && this.updateMessageContent(GameUtils.capitalizeWordIntoString(msg));
+    }
+
+    updateMessageContent(msg) {
+        this.msgText.string = msg;
     }
 
     protected showFreeSpinCount(amount: number) {
-        this.msgText.string = GameUtils.getText(`ui.free_spin_left_amount`, { amount });
+        this.updateMessageContent(GameUtils.getText(`ui.free_spin_left_amount`, { amount }));
     }
 
     protected showAutoSpinCount() {
         const msg = GameUtils.getText(`ui.autoSpinLeft`);
-        this.msgText.string = GameUtils.capitalizeWordIntoString(`${msg} ${this.autoSpinCount}`);
+        this.updateMessageContent(GameUtils.capitalizeWordIntoString(`${msg} ${this.autoSpinCount}`));
     }
 
     protected showBeforeSpinMessage() {

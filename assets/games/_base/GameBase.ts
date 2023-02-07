@@ -422,9 +422,13 @@ export default class GameBase extends GameViewBase {
         }
         const notice = cc.instantiate(this.miniNoticePrefab);
         const noticeComponent = notice.getComponent("mini_warning");
-        noticeComponent.text.string = data;
+        this.updateMiniWarningContent(noticeComponent, data);
         this.noticeNode.addChild(notice);
         return notice;
+    }
+
+    updateMiniWarningContent(miniWarningComp, data: string) {
+        miniWarningComp.text.string = data;
     }
 
     showMainTime(show: boolean) {

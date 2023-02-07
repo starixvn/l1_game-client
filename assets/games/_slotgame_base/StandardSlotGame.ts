@@ -52,6 +52,9 @@ export default class StandardSlotGame extends SlotGameBase {
     @property({ type: cc.Prefab, visible: false, override: true })
     lightLinePrefab: cc.Prefab = null;
 
+    @property({ type: cc.Prefab, visible: false, override: true })
+    miniNoticePrefab: cc.Prefab = null;
+
     @property({ type: cc.AudioSource, visible: false, override: true })
     soundSources: cc.AudioSource[] = [];
 
@@ -92,7 +95,13 @@ export default class StandardSlotGame extends SlotGameBase {
     bottomArea: cc.Node = null;
 
     @property
-    themeColor = "#ffffff";
+    bottomAreaTextColor = "#ffffff";
+
+    @property
+    miniWarningTextColor = "#ffffff";
+
+    @property
+    miniWarningOutlineColor = "#ffffff";
 
     @property
     protected _gameId = 0;
@@ -160,6 +169,7 @@ export default class StandardSlotGame extends SlotGameBase {
     async loadPrefabsByCode() {
         const dict = {
             // prefab name : prefab property
+            "mini-warning": "miniNoticePrefab",
             "top-winner": "topWinnerPrefab",
             "effect-jackpot": "effectJackpot",
 
@@ -333,7 +343,7 @@ export default class StandardSlotGame extends SlotGameBase {
         const slotBottom = cc.instantiate(this.slotBottomAreaPrefab);
         this.bottomArea.addChild(slotBottom);
         slotBottom.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
-            comp.updateNodeColor(this.themeColor);
+            comp.updateNodeColor(this.bottomAreaTextColor);
         });
 
         const slotBottomArea = slotBottom.getComponent(SlotBottomArea);
@@ -390,5 +400,15 @@ export default class StandardSlotGame extends SlotGameBase {
     hideWinningEffectOnItems() {
         super.hideWinningEffectOnItems();
         this.slotBoard.updateSymbolDuration(this.getWinningPaylineDuration());
+    }
+
+    updateMiniWarningContent(miniWarningComp, data: string) {
+        const text = miniWarningComp.text;
+        text.string = data.toUpperCase();
+
+        // update style
+        text.node.color = cc.Color.WHITE.fromHEX(this.miniWarningTextColor);
+        const outLine = text.node.getComponent(cc.LabelOutline);
+        outLine && (outLine.color = cc.Color.WHITE.fromHEX(this.miniWarningOutlineColor));
     }
 }
