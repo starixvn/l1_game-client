@@ -7,7 +7,7 @@ const testMatch = (process.env.TEST_PATHS || defaultTestPaths)
     .map((path) => `**/${path.replace("./", "")}/**/?(*.)+(spec|test).+(ts)`);
 
 module.exports = {
-    preset: "ts-jest",
+    preset: "ts-jest/presets/js-with-ts",
     testResultsProcessor: "jest-sonar-reporter",
     collectCoverageFrom,
     coverageDirectory: "coverage",
