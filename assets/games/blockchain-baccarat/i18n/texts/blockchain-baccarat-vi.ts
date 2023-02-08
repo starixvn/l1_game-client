@@ -57,7 +57,13 @@ export const phrases = {
         guideNoteLine1:
             "Lưu ý: Người chơi có thể sử dụng bất kỳ công cụ liên quan đến giải thuật SHA-256 từ bên thứ 3 để kiểm tra tính minh bạch của",
         guideNoteLine2: "kết quả <b>(https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)<b>.",
-        note: "<b>Lưu ý</b>: Người chơi có thể sử dụng bất kỳ ứng dụng của bên thứ 3 để kiểm tra tính minh bạch của kết quả và xác minh thông tin lá bài."
+        note: "<b>Lưu ý</b>: Người chơi có thể sử dụng bất kỳ ứng dụng của bên thứ 3 để kiểm tra tính minh bạch của kết quả và xác minh thông tin lá bài.",
+        title: "Blockchain Baccarat",
+        block1: "Block 1",
+        block2: "Block 2",
+        block3: "Block 3",
+        block4: "Block 4",
+        block416: "Block 416"
     }
 };
 

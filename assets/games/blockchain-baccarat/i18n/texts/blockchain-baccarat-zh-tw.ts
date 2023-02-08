@@ -56,7 +56,13 @@ export const phrases = {
         guideNoteLine1:
             "注意: 玩家也可以是用任何其它第3方SHA-256工具 <b> (https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)</b>",
         guideNoteLine2: "進行相同的驗證",
-        note: "<b>注意</b>: 玩家也可以是用任何其它第3方SHA-256工具"
+        note: "<b>注意</b>: 玩家也可以是用任何其它第3方SHA-256工具",
+        title: "區塊鏈百家樂",
+        block1: "區塊1",
+        block2: "區塊2",
+        block3: "區塊3",
+        block4: "區塊4",
+        block416: "區塊416"
     }
 };
 

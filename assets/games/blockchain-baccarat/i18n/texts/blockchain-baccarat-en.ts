@@ -58,7 +58,13 @@ export const phrases = {
         guideNoteLine1:
             "Note: Players can also use any other 3rd party SHA-256 tools <b>(https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)<b>",
         guideNoteLine2: "to do the same verification.",
-        note: "<b>Note</b>: Players can also use any other 3rd party SHA-256 tools to do the same verification"
+        note: "<b>Note</b>: Players can also use any other 3rd party SHA-256 tools to do the same verification",
+        title: "Blockchain Baccarat",
+        block1: "Block 1",
+        block2: "Block 2",
+        block3: "Block 3",
+        block4: "Block 4",
+        block416: "Block 416"
     }
 };
 

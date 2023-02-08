@@ -57,7 +57,13 @@ export const phrases = {
         guideNoteLine1:
             "Catatan: Pemain juga dapat menggunakan alat SHA-256 pihak ketiga lainnya <b> \n(https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)</b> untuk melakukan verifikasi yang sama",
         guideNoteLine2: "",
-        note: "<b>Catatan</b>: Pemain juga dapat menggunakan alat {SHA-256} pihak ketiga lainnya untuk melakukan verifikasi yang sama"
+        note: "<b>Catatan</b>: Pemain juga dapat menggunakan alat {SHA-256} pihak ketiga lainnya untuk melakukan verifikasi yang sama",
+        title: "Bakarat Blockchain",
+        block1: "Blok  1",
+        block2: "Blok  2",
+        block3: "Blok  3",
+        block4: "Blok  4",
+        block416: "Blok 416"
     }
 };
 
