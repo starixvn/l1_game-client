@@ -2,7 +2,7 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        48: "Blockchain Baccarat"
+        48: "区块链百家乐"
     },
     lobbyNames: {
         48: "区块链百家乐"
