@@ -211,6 +211,25 @@ function initGameEngine() {
 }
 
 function initGA() {
+    const gaCode = configs.site === "SC1" ? "G-GJDD3FENTH" : "G-JHKMX35LM3";
+
+    loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
+        () => {
+            console.log("Init GA");
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", gaCode);
+        },
+        (reason) => {
+            console.log("Init GA failed with" + reason);
+        }
+    );
+}
+
+function addGATrackingButton() {
     const gaCode = window.envConfig.env === "pro" ? "G-W13X2FGNGN" : "";
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
         () => {
@@ -227,18 +246,18 @@ function initGA() {
             console.log("Init GA failed with" + reason);
         }
     );
+}
 
-    function loadScript(src) {
-        return new Promise(function (resolve, reject) {
-            let script;
-            script = document.createElement("script");
-            script.src = src;
-            script.async = true;
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-        });
-    }
+function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+        let script;
+        script = document.createElement("script");
+        script.src = src;
+        script.async = true;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
 }
 
 function getLanguageURLparams(locale) {
@@ -299,3 +318,4 @@ updateSplashLogo();
 updateLocalizedImages();
 initGameEngine();
 initGA();
+addGATrackingButton();
