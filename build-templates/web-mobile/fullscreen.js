@@ -230,7 +230,10 @@ function initGA() {
 }
 
 function addGATrackingButton() {
-    const gaCode = window.envConfig.env === "pro" ? "G-W13X2FGNGN" : "";
+    if (window.envConfig.sentry.env !== "PRO") {
+        return;
+    }
+    const gaCode = "G-W13X2FGNGN";
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
         () => {
             console.log("Init GA");
