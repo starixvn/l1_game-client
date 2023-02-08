@@ -211,7 +211,7 @@ function initGameEngine() {
 }
 
 function initGA() {
-    const gaCode = configs.site === "SC1" ? "G-GJDD3FENTH" : "G-JHKMX35LM3";
+    const gaCode = window.envConfig.systemType === "SC1" ? "G-GJDD3FENTH" : "G-JHKMX35LM3";
 
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
         () => {
