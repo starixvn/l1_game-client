@@ -510,7 +510,7 @@ const data = {
         push: "推",
         betTurn: "下注转",
         betRiver: "下注河",
-        swap: "交换牌",
+        swap: "换牌",
         hold: "持牌",
         swapCardOn: "交换牌“开”",
         swapCardOff: "交换牌“关”",
