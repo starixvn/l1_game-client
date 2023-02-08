@@ -482,7 +482,7 @@ const data = {
         callChoice: "CALL",
         x2Double: "X2 DOUBLE",
         fold: "Fold",
-        highCards: "Kartu Tertinggi",
+        highCards: "Kartu Tinggi",
         onePair: "Pair",
         twoPairs: "Dua Pair",
         threeKind: "Three of a Kind",
