@@ -55,7 +55,7 @@ export default class SplitLabel extends cc.Component {
         node.color = color;
         if (animated) {
             node.scale = 1.8;
-            cc.tween(node).to(0.5, { scale: 1 }, { easing: "bounceOut" }).start();
+            cc.tween(node).to(0.5, { scale: 0.5 }, { easing: "bounceOut" }).start();
         }
     }
 }
