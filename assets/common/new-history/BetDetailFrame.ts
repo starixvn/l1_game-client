@@ -25,7 +25,7 @@ export default class BetDetailFrame extends cc.Component {
     public clickCloseButton = () => {};
     isShowTitleBetDetail: boolean;
 
-    protected readonly PADDING_AROUND_POPUP = 80;
+    protected PADDING_AROUND_POPUP = 80;
 
     onLoad() {
         this.gameName.node.active = false;
