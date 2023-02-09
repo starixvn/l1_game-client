@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import AudioManager from "../../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
+import UserService from "../../../common/auth/UserService";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
 import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
@@ -11,7 +12,6 @@ import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOMiniGameBase from "../../_base/SocketIOMiniGameBase";
 import LuckyWheelHistory from "./LuckyWheelHistory";
 import LuckyWheelWinning from "./LuckyWheelWinning";
-import UserService from "../../../common/auth/UserService";
 
 const { ccclass, property } = cc._decorator;
 
@@ -383,7 +383,7 @@ export default class LuckyWheel extends SocketIOMiniGameBase {
         const locale = getLocale();
         const language = getLanguage(locale);
         const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(`/${language}/?name=luckyWheel&t=blue&c=0&v=${Date.now()}`);
+        guide.setURL(`/${language}/?name=luckyWheel&t=blue&c=0&f=sc&v=${Date.now()}`);
         this.currentMiniPanel.addDialog(dialog);
         guide.loadWebView();
     }

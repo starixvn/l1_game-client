@@ -1,21 +1,16 @@
-import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import GameUtils from "../../../common/GameUtils";
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import SocketIOHistoryItemBase from "../../_base/view-models/SocketIOHistoryItemBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class LuckyWheelHistoryItem extends cc.Component {
-    @property(cc.Label)
-    id: cc.Label = null;
-
-    @property(cc.Label)
-    time: cc.Label = null;
-
+export default class LuckyWheelHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     result: cc.Label = null;
 
-    updateData(data: any) {
-        this.id.string = data.id;
+    updateData(data: any, index: number) {
+        this.round.string = data.id;
         this.time.string = getStringDateByTime(data.time);
 
         if (data.result === 0) {
@@ -23,5 +18,6 @@ export default class LuckyWheelHistoryItem extends cc.Component {
         } else {
             this.result.string = `${data.result} Scoin`;
         }
+        this.setBackground(index);
     }
 }
