@@ -42,9 +42,9 @@ export const phrases = {
         guide2Step3: "不能更改",
         guide2Step4: "使用 SHA-256 算法保護",
         guide3Title: "區塊鏈如何應用於百家樂？",
-        guide3Key1: "<color=#ff6060>私鑰</c>\n<color=#08ef95>序列號\n(Card index 001)</color>",
+        guide3Key1: "<color=#ff6060>私鑰</c>\n<color=#08ef95>序列号\n(卡片索引 001)</color>",
         guide3Key2:
-            "<color=#ff6060>私鑰:</c> {Card Value}_{Time}_{<color=#08ef95>Serial Number (Card index 001)</color>}_{UUID}\n<color=#08ef95>Serial Number (Card index 002)</color>",
+            "<color=#ff6060>私鑰:</c> {卡片價值}_{時間}_{<color=#08ef95>序列號 (卡片索引 001)</color>}_{UUID}\n<color=#08ef95>序列号 (卡片索引 002)</color>",
         guide3Content:
             "- 區塊鏈百家樂使用8副牌(每副52張牌) 共416張牌。·每張卡片被視為一個塊，下一張卡片將包含前一張卡片的加密信息，以形成 416 張卡片的不可變序列。",
         guide4Title: "數據加密",
@@ -52,11 +52,11 @@ export const phrases = {
         guide4PublicDetail: "序列號",
         guide4Content:
             "- 新遊戲開始時會隨機生成416張卡牌。\n\n- 私鑰包含卡的信息，只有在打開卡時才會顯示出來。\n\n- 每張卡的序列號是通過私鑰加密生成的唯一值，將在洗牌後公佈。",
-        guide5Title: "Results Verification",
+        guide5Title: "結果驗證",
         guideNoteLine1:
             "注意: 玩家也可以是用任何其它第3方SHA-256工具 <b> (https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)</b>",
         guideNoteLine2: "進行相同的驗證",
-        note: "<b>注意</b>: 玩家也可以是用任何其它第3方SHA-256工具",
+        note: "<b>注意</b>: 玩家也可以使用任何其他第三方 {SHA-256} 工具進行相同的驗證",
         title: "區塊鏈百家樂",
         block1: "區塊1",
         block2: "區塊2",

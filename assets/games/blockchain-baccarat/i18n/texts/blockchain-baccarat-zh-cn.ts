@@ -42,9 +42,9 @@ export const phrases = {
         guide2Step3: "不能更改",
         guide2Step4: "使用 SHA-256 算法保护",
         guide3Title: "区块链如何应用于百家乐？",
-        guide3Key1: "<color=#ff6060>私钥</c>\n<color=#08ef95>序列号\n(Card index 001)</color>",
+        guide3Key1: "<color=#ff6060>私钥</c>\n<color=#08ef95>序列号\n(卡片索引 001)</color>",
         guide3Key2:
-            "<color=#ff6060>私钥:</c> {Card Value}_{Time}_{<color=#08ef95>Serial Number (Card index 001)</color>}_{UUID}\n<color=#08ef95>Serial Number (Card index 002)</color>",
+            "<color=#ff6060>私钥:</c> {卡片价值}_{时间}_{<color=#08ef95>序列号 (卡片索引 001)</color>}_{UUID}\n<color=#08ef95>序列号 (卡片索引 002)</color>",
         guide3Content:
             "- 区块链百家乐使用8副牌(每副52张牌) 共416张牌。·每张卡片被视为一个块，下一张卡片将包含前一张卡片的加密信息，以形成 416 张卡片的不可变序列。",
         guide4Title: "数据加密",
@@ -56,7 +56,7 @@ export const phrases = {
         guideNoteLine1:
             "注意: 玩家也可以是用任何其它第3方SHA-256工具 <b> (https://sha512.online/sha-256; https://atatus.com/tools/sha256-to-hash)</b>",
         guideNoteLine2: "进行相同的验证",
-        note: "<b>注意</b>: 玩家也可以是用任何其它第3方SHA-256工具",
+        note: "<b>注意</b>: 玩家也可以使用任何其他第三方 {SHA-256} 工具进行相同的验证",
         title: "区块链百家乐",
         block1: "区块1",
         block2: "区块2",
