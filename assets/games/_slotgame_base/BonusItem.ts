@@ -13,7 +13,7 @@ export default class BonusItem extends cc.Component {
     onLoad() {}
 
     open(value: number) {
-        this.openChestAnimation.play();
+        this.openChestAnimation && this.openChestAnimation.play();
 
         if (value > 0) {
             this.value.string = numberWithCommas(value);
