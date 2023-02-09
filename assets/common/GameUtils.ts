@@ -14,6 +14,7 @@ import { preloadAssets } from "./PreloadRemoteAsset";
 import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
+export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50, 61];
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
@@ -64,6 +65,7 @@ export default class GameUtils {
 
     public static async loadGameIcon(gameId: number, systemPath = ""): Promise<cc.Prefab> {
         const storage = cc.sys.localStorage.getItem("current_game_category");
+
         let category = 0;
         if (storage !== "") {
             category = parseInt(storage) || 0;
@@ -453,13 +455,13 @@ export default class GameUtils {
         }
     }
 
-    public static getCurrentLangauge() {
+    public static getCurrentLanguage() {
         return window.i18n.curLang;
     }
 
-    public static async getBanner(lobbyMenuConfig: LobbyMenuConfig, id: number) {
+    public static async getBanner(lobbyMenuConfig: LobbyMenuConfig, id: number, systemPath = "") {
         const newSuffix = lobbyMenuConfig.isNewGame(id) ? "_new" : "";
-        const currentLang = this.getCurrentLangauge() !== "vi" ? `_${this.getCurrentLangauge()}` : "";
+        const currentLang = this.getCurrentLanguage() !== "vi" ? `_${this.getCurrentLanguage()}` : "";
         const name1 = `${id}${currentLang}${newSuffix}`;
         const name2 = `${id}${newSuffix}`;
         const name3 = `${id}${currentLang}`;
@@ -468,7 +470,22 @@ export default class GameUtils {
         const bannersType = [name1, name2, name3, name4];
         let frame: cc.SpriteFrame;
         for (const element of bannersType) {
-            frame = await this.getBannerSpriteFrame(id, element);
+            const gameConfiguration = getGameConfiguration(id);
+            if (!!gameConfiguration?.remoteBundle && !MICRO_GAMES_NOT_OFFER_BANNER.includes(id)) {
+                const path = systemPath === "" ? `banners/${element}` : `banners/${systemPath}/${element}}`;
+                try {
+                    frame = await BundleManager.getInstance().loadAsset<cc.SpriteFrame>({
+                        bundleId: id.toString(),
+                        path: path,
+                        type: cc.SpriteFrame
+                    });
+                } catch (error) {
+                    frame = await this.getBannerSpriteFrame(id, element);
+                }
+            } else {
+                frame = await this.getBannerSpriteFrame(id, element);
+            }
+
             if (frame) {
                 break;
             }
