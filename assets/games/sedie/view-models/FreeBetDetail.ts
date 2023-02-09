@@ -1,10 +1,11 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import GameTicketDetailBase from "../../_base/view-models/GameTicketDetailBase";
 import FreeBetDetailItem from "./FreeBetDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class FreeBetDetail extends cc.Component {
+export default class FreeBetDetail extends GameTicketDetailBase {
     @property(cc.Label)
     roundId: cc.Label = null;
 
@@ -20,9 +21,6 @@ export default class FreeBetDetail extends cc.Component {
     @property(cc.SpriteFrame)
     iconWhite: cc.SpriteFrame = null;
 
-    @property(cc.Node)
-    content: cc.Node = null;
-
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
@@ -31,6 +29,11 @@ export default class FreeBetDetail extends cc.Component {
 
     @property(cc.Label)
     win: cc.Label = null;
+
+    HEIGHT_PER_ROW = 50;
+    WIDTH_BET_DETAIL_TABLE = 562;
+    isShowTitleBetDetail = false;
+    private heightBetTable = 150;
 
     init(betLog: any) {
         const { phien, betwin, result, settlementResult } = betLog;
@@ -53,20 +56,24 @@ export default class FreeBetDetail extends cc.Component {
         }
 
         let totalBet = 0;
-        Object.keys(settlementResult).forEach((key) => {
+        let row = 0;
+        Object.keys(settlementResult).forEach((key, index) => {
             if (betLog[key]) {
                 if (this.itemPrefab) {
                     const node = cc.instantiate(this.itemPrefab);
                     const item = node.getComponent(FreeBetDetailItem);
-                    item.setData(key, betLog[key]);
+                    item.setData(key, betLog[key], index);
                     this.content.addChild(node);
+                    row++;
                 }
 
                 totalBet += betLog[key];
             }
         });
-
+        this.heightBetTable += row * this.HEIGHT_PER_ROW;
         this.totalBet.string = numberWithCommas(totalBet);
         this.win.string = numberWithCommas(betwin, 2);
+        this.betDetailTable.updateSize(this.WIDTH_BET_DETAIL_TABLE, this.heightBetTable);
+        this.betDetailFrame.updateSizeFrame(this.mainFrame.width, this.heightBetTable + 90);
     }
 }

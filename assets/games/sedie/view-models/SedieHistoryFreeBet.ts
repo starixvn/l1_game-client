@@ -1,6 +1,6 @@
-import FreeBetDetail from './FreeBetDetail';
-import SedieHistory from './SedieHistory';
-import SedieHistoryItemFreeBet from './SedieHistoryItemFreeBet';
+import FreeBetDetail from "./FreeBetDetail";
+import SedieHistory from "./SedieHistory";
+import SedieHistoryItemFreeBet from "./SedieHistoryItemFreeBet";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,7 +26,7 @@ export default class SedieHistoryFreeBet extends cc.Component {
     showFreeBetDetail(betLog) {
         const freeBetDetailNode = cc.instantiate(this.freeBetDetailPrefab);
         const freeBetDetail = freeBetDetailNode.getComponent(FreeBetDetail);
-        freeBetDetail.init(betLog);
         this.node.addChild(freeBetDetailNode);
+        freeBetDetail.init(betLog);
     }
 }
