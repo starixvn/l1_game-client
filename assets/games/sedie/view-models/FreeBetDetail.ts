@@ -57,12 +57,12 @@ export default class FreeBetDetail extends GameTicketDetailBase {
 
         let totalBet = 0;
         let row = 0;
-        Object.keys(settlementResult).forEach((key, index) => {
+        Object.keys(settlementResult).forEach((key) => {
             if (betLog[key]) {
                 if (this.itemPrefab) {
                     const node = cc.instantiate(this.itemPrefab);
                     const item = node.getComponent(FreeBetDetailItem);
-                    item.setData(key, betLog[key], index);
+                    item.setData(key, betLog[key], row);
                     this.content.addChild(node);
                     row++;
                 }
