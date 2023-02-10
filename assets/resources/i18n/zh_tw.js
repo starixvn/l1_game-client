@@ -434,14 +434,14 @@ const data = {
         turboMode: "渦輪模式",
         start: "開始",
         table: "桌子",
-        joinGame: "Join Game",
-        promotion: "Promotions",
-        terms: "Terms and\n Conditions",
+        joinGame: "加入遊戲",
+        promotion: "促銷活動",
+        terms: "條款和條件",
         totalBet: "Total Bet",
         totalWin: "Total Win"
     },
     termsPromotion: {
-        first: "- All new and existing punters are eligible to join the promotions and take the chance to win bigger prizes. \n- The winning amount is paid according to the promotion rules and payouts. \n- The Promotion is applied for a certain period ruled by the Company. When the promotion expires, the betting odds will be set back to the previous values.\n- The Company reserves the right to vary any of the terms of entry applying to this promotion or to modify, terminate, suspend, or reschedule this promotion at any time.\n- Any dispute arising from or in the connection with this promotion shall be decided by the Company."
+        first: "- 所有新的和現有的投注者都有資格參加促銷活動並抓住機會贏得更大的獎品。 \n- 中獎金額根據促銷規則和獎金支付。 \n- 促銷適用於公司規定的特定時期。促銷期滿後，投注賠率將恢復為之前的值。\n- 促銷適用於公司規定的特定時期。促銷期滿後，投注賠率將恢復為之前的值。\n- 因本推廣活動引起或與之相關的任何爭議均由本公司決定。"
     },
     holdEmPoker: {
         ante: "底注",

@@ -453,14 +453,14 @@ const data = {
         turboMode: "Mode Turbo",
         start: "Mulai",
         table: "Meja",
-        joinGame: "Join Game",
-        promotion: "Promotions",
-        terms: "Terms and\n Conditions",
+        joinGame: "Gabung\n Permainan",
+        promotion: "Promosi",
+        terms: "Syarat dan\n Ketentuan",
         totalBet: "Total Bet",
         totalWin: "Total Win"
     },
     termsPromotion: {
-        first: "- All new and existing punters are eligible to join the promotions and take the chance to win bigger prizes. \n- The winning amount is paid according to the promotion rules and payouts. \n- The Promotion is applied for a certain period ruled by the Company. When the promotion expires, the betting odds will be set back to the previous values.\n- The Company reserves the right to vary any of the terms of entry applying to this promotion or to modify, terminate, suspend, or reschedule this promotion at any time.\n- Any dispute arising from or in the connection with this promotion shall be decided by the Company."
+        first: "- Semua pemain baru dan yang sudah ada berhak untuk mengikuti promosi dan mengambil kesempatan untuk memenangkan hadiah yang lebih besar. \n- Jumlah kemenangan dibayarkan sesuai dengan aturan promosi dan pembayaran. \n- Promosi berlaku untuk periode tertentu yang diatur oleh Perusahaan. Saat promosi kedaluwarsa, peluang taruhan akan diatur kembali ke nilai sebelumnya.\n- Perusahaan berhak mengubah syarat masuk yang berlaku untuk promosi ini atau mengubah, menghentikan, menangguhkan, atau menjadwal ulang promosi ini kapan saja.\n- Setiap perselisihan yang timbul dari atau sehubungan dengan promosi ini akan diputuskan oleh Perusahaan."
     },
     holdEmPoker: {
         ante: "ANTE",

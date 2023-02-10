@@ -458,14 +458,14 @@ const data = {
         turboMode: "โหมด Turbo",
         start: "เริ่ม",
         table: "โต๊ะ",
-        joinGame: "Join Game",
-        promotion: "Promotions",
-        terms: "Terms and\n Conditions",
+        joinGame: "เข้าเกมส์",
+        promotion: "โปรโมชั่น",
+        terms: "ข้อกำหนด\n และเงื่อนไข",
         totalBet: "Total Bet",
         totalWin: "Total Win"
     },
     termsPromotion: {
-        first: "- All new and existing punters are eligible to join the promotions and take the chance to win bigger prizes. \n- The winning amount is paid according to the promotion rules and payouts. \n- The Promotion is applied for a certain period ruled by the Company. When the promotion expires, the betting odds will be set back to the previous values.\n- The Company reserves the right to vary any of the terms of entry applying to this promotion or to modify, terminate, suspend, or reschedule this promotion at any time.\n- Any dispute arising from or in the connection with this promotion shall be decided by the Company."
+        first: "- ผู้เล่นทั้งใหม่และเก่ามีสิทธิ์เข้าร่วมโปรโมชั่น และมีโอกาสชนะรางวัลใหญ่ \n- จำนวนเงินที่ชนะจะจ่ายตามกฎโปรโมชั่น และการจ่ายเงิน \n- โปรโมชั่นจะนำไปใช้ตามช่วงเวลาเงื่อนไขที่บริษัทกำหนด เมื่อโปรโมชั่นหมดเขตลง อัตราการเดิมพันจะถูกตั้งค่ากลับไปเป็นค่าก่อนหน้านี้\n- บริษัทขอสงวนสิทธิ์ในการเปลี่ยนแปลงข้อกำหนดในการเข้าร่วมโปรโมชั่นหรือแก้ไขยุติระงับหรือสามารถทำการแก้ไขโปรโมชั่นนี้ได้ตลอดเวลา\n- ข้อพิพาทใดๆที่เกิดขึ้นจากหรือที่เกี่ยวข้องกับโปรโมชั่นนี้จะถูกตัดสินโดยบริษัท"
     },
     holdEmPoker: {
         ante: "ANTE",
