@@ -394,6 +394,10 @@ export default class StandardSlotGame extends SlotGameBase {
         const node = cc.instantiate(this.bottomMessagePrefab);
         this.bottomMessageArea.addChild(node);
         this.initShowBottomMessage(node);
+
+        if (this.totalFreeSpins) {
+            this.setTotalFreeSpins(this.totalFreeSpins);
+        }
     }
 
     onClickShowHistory() {
