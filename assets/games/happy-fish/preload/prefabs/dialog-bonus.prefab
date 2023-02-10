@@ -27,14 +27,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 82
+        "__id__": 84
       },
       {
-        "__id__": 83
+        "__id__": 85
       }
     ],
     "_prefab": {
-      "__id__": 84
+      "__id__": 86
     },
     "_opacity": 255,
     "_color": {
@@ -250,11 +250,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 80
+        "__id__": 82
       }
     ],
     "_prefab": {
-      "__id__": 81
+      "__id__": 83
     },
     "_opacity": 255,
     "_color": {
@@ -336,7 +336,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 79
+      "__id__": 81
     },
     "_opacity": 255,
     "_color": {
@@ -2448,13 +2448,13 @@
         "__id__": 71
       },
       {
-        "__id__": 75
+        "__id__": 76
       }
     ],
     "_active": false,
     "_components": [],
     "_prefab": {
-      "__id__": 78
+      "__id__": 80
     },
     "_opacity": 255,
     "_color": {
@@ -2582,10 +2582,10 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "",
+    "defaultAnimation": "animation",
     "_preCacheMode": 0,
     "_cacheMode": 0,
-    "loop": true,
+    "loop": false,
     "premultipliedAlpha": false,
     "timeScale": 1,
     "_accTime": 0,
@@ -2596,7 +2596,7 @@
     "_animationName": "animation",
     "_animationQueue": [],
     "_headAniInfo": null,
-    "_playTimes": 0,
+    "_playTimes": 1,
     "_isAniComplete": true,
     "_N$skeletonData": {
       "__uuid__": "b6882b58-6c29-4540-bf83-e7210842a072"
@@ -2635,10 +2635,13 @@
       },
       {
         "__id__": 73
+      },
+      {
+        "__id__": 74
       }
     ],
     "_prefab": {
-      "__id__": 74
+      "__id__": 75
     },
     "_opacity": 255,
     "_color": {
@@ -2650,8 +2653,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 471,
-      "height": 82
+      "width": 253,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2702,7 +2705,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -2726,7 +2728,21 @@
     },
     "_enabled": true,
     "gameId": 99,
-    "nameImage": "text-total-win",
+    "nameImage": "text-total-bonus-win",
+    "_id": ""
+  },
+  {
+    "__type__": "54513El43dLDrtMPHdK5u4s",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 71
+    },
+    "_enabled": true,
+    "skeleton": {
+      "__id__": 69
+    },
+    "boneName": "text",
     "_id": ""
   },
   {
@@ -2751,24 +2767,27 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 76
+        "__id__": 77
+      },
+      {
+        "__id__": 78
       }
     ],
     "_prefab": {
-      "__id__": 77
+      "__id__": 79
     },
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
-      "g": 10,
-      "b": 10,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 4,
-      "height": 130
+      "width": 294,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2809,7 +2828,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 75
+      "__id__": 76
     },
     "_enabled": true,
     "_materials": [
@@ -2821,11 +2840,11 @@
     "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 58,
+    "_fontSize": 128,
     "_lineHeight": 100,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "0763b17c-4af5-4b06-aaf9-9ab41eb64775"
+      "__uuid__": "0630b362-2693-4da9-80ae-838280d7d9bc"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -2837,6 +2856,20 @@
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "54513El43dLDrtMPHdK5u4s",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 76
+    },
+    "_enabled": true,
+    "skeleton": {
+      "__id__": 69
+    },
+    "boneName": "value",
     "_id": ""
   },
   {
@@ -2942,7 +2975,7 @@
       "__id__": 67
     },
     "totalBonusLabel": {
-      "__id__": 76
+      "__id__": 77
     },
     "soundBigWin": null,
     "bonusItem": {
