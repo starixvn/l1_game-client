@@ -36,6 +36,7 @@ export default class SlotBottomArea extends cc.Component {
         onStakeButtonClick: () => {},
         onLineSelectionClick: () => {},
         onAutoSpinChanged: () => {},
+        onHideStakeContainer: () => {},
         onTurboModeChanged: (toggle) => {},
         onStakeQuickChange: (event) => {},
         onStakeToggleChanged: (event, param) => {}
@@ -63,5 +64,9 @@ export default class SlotBottomArea extends cc.Component {
 
     onStakeToggleChanged(event: cc.Event, param: string) {
         this.onClickListener.onStakeToggleChanged(event, param);
+    }
+
+    onHideStakeContainer() {
+        this.onClickListener.onHideStakeContainer();
     }
 }

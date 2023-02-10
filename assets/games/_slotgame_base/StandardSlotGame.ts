@@ -372,6 +372,9 @@ export default class StandardSlotGame extends SlotGameBase {
                 onAutoSpinChanged: () => {
                     this.onAutoSpinChanged();
                 },
+                onHideStakeContainer: () => {
+                    this.hideStakeContrainer();
+                },
                 onTurboModeChanged: (toggle) => {
                     this.onTurboModeChanged(toggle);
                 },

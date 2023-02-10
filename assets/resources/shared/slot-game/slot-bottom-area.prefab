@@ -2232,13 +2232,10 @@
       "__id__": 67
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 69
-      },
-      {
-        "__id__": 70
       }
     ],
     "_prefab": {
@@ -2254,8 +2251,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1398,
-      "height": 786
+      "width": 10000,
+      "height": 1000
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -2266,8 +2263,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        316.3,
-        315.361,
+        0,
+        0,
         0,
         0,
         0,
@@ -2292,33 +2289,6 @@
     "_id": ""
   },
   {
-    "__type__": "cc.Widget",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 68
-    },
-    "_enabled": true,
-    "alignMode": 1,
-    "_target": null,
-    "_alignFlags": 45,
-    "_left": 0,
-    "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
-    "_verticalCenter": 0,
-    "_horizontalCenter": 0,
-    "_isAbsLeft": true,
-    "_isAbsRight": true,
-    "_isAbsTop": true,
-    "_isAbsBottom": true,
-    "_isAbsHorizontalCenter": true,
-    "_isAbsVerticalCenter": true,
-    "_originalWidth": 100,
-    "_originalHeight": 100,
-    "_id": ""
-  },
-  {
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
@@ -2331,7 +2301,9 @@
     "duration": 0.1,
     "zoomScale": 1.2,
     "clickEvents": [
-      null
+      {
+        "__id__": 70
+      }
     ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
@@ -2389,6 +2361,16 @@
     "_id": ""
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1
+    },
+    "component": "",
+    "_componentId": "458c18qrYJLjYLslHzP3oah",
+    "handler": "onHideStakeContainer",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -2401,7 +2383,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "item",
+    "_name": "item1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 67
@@ -2907,7 +2889,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "item",
+    "_name": "item2",
     "_objFlags": 0,
     "_parent": {
       "__id__": 67
@@ -3413,7 +3395,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "item",
+    "_name": "item3",
     "_objFlags": 0,
     "_parent": {
       "__id__": 67
