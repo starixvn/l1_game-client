@@ -15,6 +15,7 @@ import HoldActionButton from "./HoldActionButton";
 import SlotGameBottomMessage from "./SlotGameBottomMessage";
 import SlotGameSound, { CascadingSlotGameSound } from "./SlotGameSound";
 import TurboAutoSpinSettingDialog from "./TurboAutoSpinSettingDialog";
+import SlotGameSongs from "./SlotGameSongs";
 
 const { ccclass, property } = cc._decorator;
 
@@ -82,6 +83,9 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(cc.Node)
     defaultMiniMenu: cc.Node = null;
 
+    @property(SlotGameSongs)
+    gameSongList: SlotGameSongs = null;
+
     countDownAutoSpin: CountDownWarning = null;
     bottomMessage: SlotGameBottomMessage = null;
     gameSound: SlotGameSound;
@@ -90,7 +94,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     protected totalFreeSpins = 0;
     protected cacheApiError: any = null;
     protected isHoldAction: boolean;
-
     public gameData: FeatureSlotGameData;
 
     abstract getCurrentTotalBet(): number;
@@ -104,6 +107,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.initForHoldActionButton();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
         this.trackOnLoadEvents();
+
+        this.gameSongList && (this.gameSongList.gameId = this.gameId);
     }
 
     trackOnLoadEvents() {
@@ -362,5 +367,18 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     clearHoldActionFlag() {
         this.isHoldAction = false;
+    }
+
+    get isOwnGameMusicBackground(): boolean {
+        return !!this.gameSongList || !!this.musicBg;
+    }
+
+    async playInvidiualMusic() {
+        this.gameSongList ? await this.gameSongList?.play() : await super.playInvidiualMusic();
+    }
+
+    stopInvidiualMusic() {
+        this.gameSongList?.stop();
+        super.stopInvidiualMusic();
     }
 }

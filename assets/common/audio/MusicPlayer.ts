@@ -5,7 +5,7 @@ import AudioManager from "./AudioManager";
 import NameSongManager from "./NameSongManager";
 
 export default class MusicPlayer {
-    public listSongs: NameSongManager;
+    private nameSongManager: NameSongManager;
     public isPlayBgMusic = false;
     public isJoinRoomMusic = false;
     protected bgMusicId: number;
@@ -23,7 +23,7 @@ export default class MusicPlayer {
     public static getInstance(): MusicPlayer {
         if (!this.instanceMusic) {
             this.instanceMusic = new MusicPlayer();
-            this.instanceMusic.listSongs = new NameSongManager({
+            this.instanceMusic.nameSongManager = new NameSongManager({
                 [SystemType.SC1]: ["song1", "song2", "song3", "song4", "song5", "song6", "song7"],
                 [SystemType.SC2]: ["song1", "song2", "song3", "song4", "song5", "song6", "song7"]
             });
@@ -48,7 +48,7 @@ export default class MusicPlayer {
     }
 
     private getRandomNameSong() {
-        return this.listSongs.getSongName();
+        return this.nameSongManager.getSongName();
     }
 
     private playBgAudio(play: boolean) {

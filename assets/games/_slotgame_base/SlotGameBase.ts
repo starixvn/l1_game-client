@@ -184,7 +184,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.saveUserSetting();
     }
 
-    override stopGame() {}
+    override stopGame() {
+        // override
+    }
 
     showJackpotInfo(show: boolean) {
         if (!this.jackpotPoolLabel) {

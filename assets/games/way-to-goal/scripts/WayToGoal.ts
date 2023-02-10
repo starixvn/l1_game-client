@@ -6,6 +6,9 @@ export const WayToGoalId = 49;
 
 @ccclass
 export default class WayToGoal extends SlotGameBase {
+    @property({ type: cc.AudioSource, override: true, visible: false })
+    musicBg: cc.AudioSource = null;
+
     constructor() {
         super();
         this.gameId = WayToGoalId;

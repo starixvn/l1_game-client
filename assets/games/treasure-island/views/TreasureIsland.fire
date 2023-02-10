@@ -75,7 +75,7 @@
         "__id__": 5
       },
       {
-        "__id__": 7
+        "__id__": 8
       },
       {
         "__id__": 10
@@ -262,7 +262,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "music_bg",
+    "_name": "sound-list",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -320,30 +320,39 @@
     "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
-    "_id": "e9PBm5iwpFwpodv32SQCwQ"
+    "_id": "6andHzFLZGFY9uQaXY9t/a"
   },
   {
-    "__type__": "cc.AudioSource",
+    "__type__": "2aa89SjKxZNhZGiq4fg66rF",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 5
     },
     "_enabled": true,
-    "_clip": {
-      "__uuid__": "11b37d5b-8e2d-461c-b0d2-860ea205bd51"
+    "prefab": {
+      "__uuid__": "14e60788-14a5-4534-b4ce-9e37b4e173cd"
     },
-    "_volume": 1,
-    "_mute": false,
-    "_loop": true,
-    "_firstlyEnabled": true,
-    "playOnLoad": false,
-    "preload": false,
-    "_id": "07pl8qrzZMUr7D5/ilczaI"
+    "initializationEventHandlers": [
+      {
+        "__id__": 7
+      }
+    ],
+    "_id": "60ldym5nJC65JC8z1Fl1tU"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "5a0b3XPw/pCdr4l1RQF4eCR",
+    "handler": "onSoundListInitialized",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Node",
-    "_name": "sound-list",
+    "_name": "song-list",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -352,7 +361,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 8
+        "__id__": 9
       }
     ],
     "_prefab": null,
@@ -401,35 +410,18 @@
     "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
-    "_id": "6andHzFLZGFY9uQaXY9t/a"
+    "_id": "4dqXVge8lHi7ModF+aT66S"
   },
   {
-    "__type__": "2aa89SjKxZNhZGiq4fg66rF",
+    "__type__": "1d851j7ceFNPKfbiurpB7B1",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 7
+      "__id__": 8
     },
     "_enabled": true,
-    "prefab": {
-      "__uuid__": "14e60788-14a5-4534-b4ce-9e37b4e173cd"
-    },
-    "initializationEventHandlers": [
-      {
-        "__id__": 9
-      }
-    ],
-    "_id": "60ldym5nJC65JC8z1Fl1tU"
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 2
-    },
-    "component": "",
-    "_componentId": "5a0b3XPw/pCdr4l1RQF4eCR",
-    "handler": "onSoundListInitialized",
-    "customEventData": ""
+    "volume": 1,
+    "_id": "48Ro1HLoZPvZ0qtaLZUBEd"
   },
   {
     "__type__": "cc.Node",
@@ -8030,9 +8022,7 @@
       "__id__": 175
     },
     "winningPlayerEffectPrefab": null,
-    "musicBg": {
-      "__id__": 6
-    },
+    "musicBg": null,
     "historyPrefab": {
       "__uuid__": "5e475802-2721-4c82-972a-21f7480f6c32"
     },
@@ -8065,6 +8055,9 @@
     },
     "defaultMiniMenu": {
       "__id__": 158
+    },
+    "gameSongList": {
+      "__id__": 9
     },
     "betControlPrefab": {
       "__uuid__": "d538ef4d-0739-41f5-927e-14465c2f99e7"

@@ -262,7 +262,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "music_bg",
+    "_name": "song-list",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -320,26 +320,18 @@
     "_is3DNode": false,
     "_groupIndex": 0,
     "groupIndex": 0,
-    "_id": "cci9XEY9lLPrYr239zCvow"
+    "_id": "9dlSFafORILJcGOEyrZBr+"
   },
   {
-    "__type__": "cc.AudioSource",
+    "__type__": "1d851j7ceFNPKfbiurpB7B1",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 5
     },
     "_enabled": true,
-    "_clip": {
-      "__uuid__": "69f0fc7a-8975-4fc1-b8e1-26f942e330d2"
-    },
-    "_volume": 0.7,
-    "_mute": false,
-    "_loop": true,
-    "_firstlyEnabled": true,
-    "playOnLoad": false,
-    "preload": false,
-    "_id": "2akymt/H9M4Z2rIqqlTEDn"
+    "volume": 0.7,
+    "_id": "23aNYtThJM96oNE4lSJ7/z"
   },
   {
     "__type__": "cc.Node",
@@ -8176,7 +8168,7 @@
       "__id__": 178
     },
     "groupId": 0,
-    "usingLayout": false,
+    "dynamicRootNodes": [],
     "_id": "7f7jCxRD5A1ItOYYyH8fw3"
   },
   {
@@ -8500,7 +8492,7 @@
       "__id__": 180
     },
     "groupId": 1,
-    "usingLayout": false,
+    "dynamicRootNodes": [],
     "_id": "5bbzXWrdBKwZXJYvC08bAY"
   },
   {
@@ -8582,7 +8574,7 @@
       "__id__": 180
     },
     "groupId": 2,
-    "usingLayout": false,
+    "dynamicRootNodes": [],
     "_id": "89FPavqXVCsaGYr8b64nUA"
   },
   {
@@ -17568,9 +17560,7 @@
       "__id__": 378
     },
     "winningPlayerEffectPrefab": null,
-    "musicBg": {
-      "__id__": 6
-    },
+    "musicBg": null,
     "historyPrefab": {
       "__uuid__": "d3ea1209-0403-4d17-9b5a-4100193fb498"
     },
@@ -17603,6 +17593,9 @@
     },
     "defaultMiniMenu": {
       "__id__": 376
+    },
+    "gameSongList": {
+      "__id__": 6
     },
     "slotBoard": {
       "__id__": 90

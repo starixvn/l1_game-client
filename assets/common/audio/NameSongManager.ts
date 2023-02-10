@@ -3,22 +3,25 @@ import _ = require("lodash");
 import { systemType } from "../../configs/Configs";
 import { SystemType } from "../../ISystem";
 
-interface IDataSongs {
+export interface IDataSongs {
     [SystemType.SC1]: string[];
     [SystemType.SC2]: string[];
 }
 
 export default class NameSongManager {
-    private readonly songs: IDataSongs = { [SystemType.SC1]: [], [SystemType.SC2]: [] };
+    private _songs: IDataSongs = { [SystemType.SC1]: [], [SystemType.SC2]: [] };
 
+    set songs(data: IDataSongs) {
+        this._songs = data;
+    }
     constructor(data: IDataSongs) {
-        this.songs = data;
+        this._songs = data;
     }
 
     public getSongName() {
         return systemType === SystemType.SC2
-            ? this.getRandomNameSong(this.songs[SystemType.SC2])
-            : this.getRandomNameSong(this.songs[SystemType.SC1]);
+            ? this.getRandomNameSong(this._songs[SystemType.SC2])
+            : this.getRandomNameSong(this._songs[SystemType.SC1]);
     }
 
     private getRandomNameSong(songs: string[]) {
