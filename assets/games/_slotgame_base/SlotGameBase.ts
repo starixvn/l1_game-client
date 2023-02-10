@@ -247,6 +247,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.stakeContainer.toggleItems.forEach((item, index) => {
             if (this.stake === this.gameConfigs.stakeLevels[index]) {
                 item.isChecked = true;
+            } else {
+                // fix ToggleContainer not activeInHierarchy
+                item._hideCheckMark();
             }
         });
     }
@@ -550,6 +553,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
 
         this.setStake(this.gameConfigs.stakeLevels[index]);
+        this.updateStakeContainer();
     }
 
     protected onStakeChanged() {
