@@ -258,7 +258,7 @@ export default class StandardSlotGame extends SlotGameBase {
 
     protected override onStakeChanged() {
         super.onStakeChanged();
-        if (!this.gameConfigs) {
+        if (!this.stakeButton || !this.gameConfigs) {
             return;
         }
         const decreaseBtn = this.stakeButton.node.getChildByName("decrease").getComponent(cc.Button);

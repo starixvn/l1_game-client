@@ -233,7 +233,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             this.turboToggle.isChecked = settings.turboEnabled;
             this.setBetChoices(settings.betChoices);
             this.setStake(settings.stake);
-            this.updateStakeContainer();
         }
 
         //clear setting
@@ -241,7 +240,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     updateStakeContainer() {
-        if (!this.gameConfigs) {
+        if (!this.stakeContainer || !this.gameConfigs) {
             return;
         }
         this.stakeContainer.toggleItems.forEach((item, index) => {
@@ -437,7 +436,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
 
-        const isShowing = this.stakeContainer.node.active && this.stakeContainer.node.scaleY === 1;
+        const isShowing = this.stakeContainer && this.stakeContainer.node.active && this.stakeContainer.node.scaleY === 1;
         if (!isShowing) {
             this.showStakeContainer();
         } else {
@@ -446,6 +445,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     hideStakeContrainer() {
+        if (!this.stakeContainer) {
+            return;
+        }
         const node = this.stakeContainer.node;
         cc.tween(node)
             .to(0.2, { scaleY: 0 })
@@ -456,6 +458,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     showStakeContainer() {
+        if (!this.stakeContainer) {
+            return;
+        }
         const node = this.stakeContainer.node;
         node.active = true;
         node.scaleY = 0;
@@ -520,9 +525,16 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         return +total.toFixed(1);
     }
 
+    protected setTotalBetLabel(text: string) {
+        if (!this.totalBet) {
+            return;
+        }
+        this.totalBet.string = text;
+    }
+
     updateTotalBetLabel() {
         const total = this.getCurrentTotalBet();
-        this.totalBet.string = numberWithCommas(total, 1);
+        this.setTotalBetLabel(numberWithCommas(total, 1));
     }
 
     setStake(stake: number) {
@@ -534,7 +546,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     updateLineChanged() {
-        this.lineLabel.string = `${this.betChoices.length}`;
+        this.lineLabel && (this.lineLabel.string = `${this.betChoices.length}`);
         this.updateTotalBetLabel();
     }
 
@@ -553,12 +565,12 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
 
         this.setStake(this.gameConfigs.stakeLevels[index]);
-        this.updateStakeContainer();
     }
 
     protected onStakeChanged() {
         this.updateTotalBetLabel();
         this.updateDisplayPool();
+        this.updateStakeContainer();
         this.hideStakeContrainer();
         if (this.jackpotPoolInfo) {
             this.jackpotPoolInfo.setHighlight(this.stake);
@@ -663,7 +675,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     updateModeSpinButton(isFreeSpin: boolean) {
         if (isFreeSpin) {
-            this.totalBet.string = "0";
+            this.setTotalBetLabel("0");
             this.spinButton.showFreeSpinMode();
             return;
         }
