@@ -1,4 +1,5 @@
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import GameUtils from "../../../common/GameUtils";
 import LotteryHelper from "./LotteryHelper";
 import LotteryResultNumber from "./LotteryResultNumber";
 import SplitLabel from "./SplitLabel";
@@ -31,7 +32,7 @@ export default class LotteryResult extends cc.Component {
                 this.node.destroy();
             });
         }
-
+        GameUtils.setFontSizeLabelsInNode(this.node);
         this.resultNumbers.forEach((resultNumber) => {
             resultNumber.sampleSplitLabel = this.sampleSplitLabel;
             resultNumber.sampleHighlight = this.sampleHighlight;
