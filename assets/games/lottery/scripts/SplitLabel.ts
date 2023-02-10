@@ -4,6 +4,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SplitLabel extends cc.Component {
+    @property()
+    syncFontsize = true;
     labels: cc.Label[] = [];
     layout: cc.Layout = null;
 
@@ -18,7 +20,7 @@ export default class SplitLabel extends cc.Component {
         this.labels.forEach((label) => {
             label.font = origin.font;
             label.fontSize = origin.fontSize;
-            GameUtils.setFontSizeLabelsInNode(label.node);
+            this.syncFontsize && GameUtils.setFontSizeLabelsInNode(label.node);
         });
     }
 
