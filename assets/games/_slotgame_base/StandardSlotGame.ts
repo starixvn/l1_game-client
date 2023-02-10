@@ -1,4 +1,5 @@
 import { BundleManager } from "bundle-management";
+import * as _ from "lodash";
 
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
@@ -398,6 +399,17 @@ export default class StandardSlotGame extends SlotGameBase {
         if (this.totalFreeSpins) {
             this.setTotalFreeSpins(this.totalFreeSpins);
         }
+    }
+
+    generateRandomBoardData() {
+        const samples = [
+            [8, 9, 6, 1, 3, 1, 7, 2, 0, 6, 4, 5, 10, 10, 7],
+            [1, 1, 3, 7, 6, 4, 10, 8, 9, 3, 1, 0, 2, 10, 5],
+            [10, 2, 0, 7, 4, 6, 9, 8, 0, 5, 3, 7, 1, 5, 9]
+        ];
+        const data = samples[_.random(samples.length - 1)];
+        console.log(data);
+        return data;
     }
 
     onClickShowHistory() {

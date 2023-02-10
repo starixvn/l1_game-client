@@ -565,7 +565,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         }
     }
 
-    setBoardFullItems() {
+    protected generateRandomBoardData() {
         const data = [];
         const itemTypeCount = this.slotGameConfigs.itemTypeCount;
 
@@ -576,10 +576,13 @@ export default class SlotGameBase extends FeatureSlotGameBase {
                 data.push(_.random(itemTypeCount - 1));
             }
         }
+        return _.shuffle(data);
+    }
 
-        const shuffleData = _.shuffle(data);
-        this.slotBoard.setBoardData(shuffleData);
-        this.slotBoard.applyData(shuffleData);
+    setBoardFullItems() {
+        const data = this.generateRandomBoardData();
+        this.slotBoard.setBoardData(data);
+        this.slotBoard.applyData(data);
     }
 
     onSpinClick(hold: boolean) {
