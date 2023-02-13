@@ -9,7 +9,7 @@ export const phrases = {
         totalWin: "Menang",
         turboMode: "Mode Turbo",
         trialMode: "Masa Percobaan",
-        betMultiplierX: "Pengganda Taruhan 20x",
+        betMultiplierX: "Pengali Taruhan 20x",
         betLevel: "Tingkat Taruhan",
         coinValue: "Nilai Koin",
         congratulation: "Selamat",
