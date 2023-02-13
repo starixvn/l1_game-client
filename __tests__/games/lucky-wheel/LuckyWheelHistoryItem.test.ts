@@ -15,7 +15,7 @@ describe("Test class LuckyWheelHistoryItem", () => {
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(LuckyWheelHistoryItem);
-        comp.id = new cc.Node().addComponent(cc.Label);
+        comp.round = new cc.Node().addComponent(cc.Label);
         comp.time = new cc.Node().addComponent(cc.Label);
         comp.result = new cc.Node().addComponent(cc.Label);
     });
@@ -28,14 +28,17 @@ describe("Test class LuckyWheelHistoryItem", () => {
                 result: 0,
                 id: 648
             };
+            const index = 0;
+            comp.setBackground = jest.fn();
 
             // Act
-            comp.updateData(data);
+            comp.updateData(data, index);
 
             // Assert
-            expect(comp.id.string).toMatch(data.id.toString());
+            expect(comp.round.string).toMatch(data.id.toString());
             expect(comp.time.string).toMatch(getStringDateByTime(data.time));
             expect(comp.result.string).toMatch(GameUtils.getText(`ui.goodluck`));
+            expect(comp.setBackground).toBeCalledWith(index);
         });
 
         it("Case 1: result != 0", () => {
@@ -46,14 +49,17 @@ describe("Test class LuckyWheelHistoryItem", () => {
                 result: 20,
                 id: 648
             };
+            const index = 0;
+            comp.setBackground = jest.fn();
 
             // Act
-            comp.updateData(data);
+            comp.updateData(data, index);
 
             // Assert
-            expect(comp.id.string).toMatch(data.id.toString());
+            expect(comp.round.string).toMatch(data.id.toString());
             expect(comp.time.string).toMatch(getStringDateByTime(data.time));
             expect(comp.result.string).toMatch(`${data.result} Scoin`);
+            expect(comp.setBackground).toBeCalledWith(index);
         });
     });
 });

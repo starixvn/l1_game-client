@@ -1,3 +1,5 @@
+import BetDetailFrame from "../../../assets/common/new-history/BetDetailFrame";
+import BetDetailTable from "../../../assets/common/new-history/BetDetailTable";
 import { BetLog } from "../../../assets/games/hi-lo/view-models/HiLoBetData";
 import HiLoTicketDetail from "../../../assets/games/hi-lo/view-models/HiLoTicketDetail";
 import HiLoTicketDetailBaseItem from "../../../assets/games/hi-lo/view-models/HiLoTicketDetailBaseItem";
@@ -21,6 +23,9 @@ describe("HiLoTicketdetail", () => {
         comp.content = new cc.Node();
         comp.scrollView = node.addComponent(cc.ScrollView);
         comp.roundId = node.addComponent(cc.Label);
+        comp.betDetailFrame = node.addComponent(BetDetailFrame);
+        comp.betDetailTable = node.addComponent(BetDetailTable);
+        comp.mainFrame = new cc.Node();
 
         mockFuntions.createNodeFromPrefab = () => {
             const node = new cc.Node();
@@ -102,7 +107,7 @@ describe("HiLoTicketdetail", () => {
                 comp.calculateHeights(betLogDetails);
 
                 // Assert
-                expect(comp.scrollView.node.height).toEqual(410);
+                expect(comp.scrollView.node.height).toEqual(400);
             });
         });
 
@@ -125,7 +130,7 @@ describe("HiLoTicketdetail", () => {
                 comp.calculateHeights(betLogDetails);
 
                 //Assert
-                expect(comp.scrollView.node.height).toEqual(410);
+                expect(comp.scrollView.node.height).toEqual(400);
             });
         });
 
@@ -186,6 +191,8 @@ describe("HiLoTicketdetail", () => {
             };
             comp.updateContentTicketDetail = jest.fn();
             comp.calculateHeights = jest.fn();
+            comp.betDetailFrame.updateSizeFrame = jest.fn();
+            comp.betDetailTable.updateSize = jest.fn();
 
             // Act
             comp.renderTicketDetail(betLog);
@@ -193,6 +200,8 @@ describe("HiLoTicketdetail", () => {
             // Assert
             expect(comp.updateContentTicketDetail).toBeCalledWith(betLog);
             expect(comp.calculateHeights).toBeCalledWith(betLog.betLogDetails);
+            expect(comp.betDetailFrame.updateSizeFrame).toBeCalledWith(comp.mainFrame.width, 400);
+            expect(comp.betDetailTable.updateSize).toBeCalledWith(1122, 310);
         });
     });
 });

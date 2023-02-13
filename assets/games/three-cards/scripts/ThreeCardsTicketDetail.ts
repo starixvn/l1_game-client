@@ -22,7 +22,7 @@ export default class ThreeCardsTicketDetail extends GameTicketDetailBase {
 
     private heightBetDetailTable = 55;
     private readonly HEIGHT_BET_DETAIL_ROW = 50;
-    private readonly WIDTH_BET_DETAIL_TABLE = 750;
+    WIDTH_BET_DETAIL_TABLE = 750;
     private readonly PADDING_TOP_BET_DETAIL_TABLE = 116;
 
     setData(data: ThreeCardsBetData) {

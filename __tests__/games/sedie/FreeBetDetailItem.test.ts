@@ -21,14 +21,17 @@ describe("Test class FreeBetDetailItem", () => {
             // Arrange
             const betType = "even";
             const value = 10;
+            const index = 0;
+            comp.setBackground = jest.fn();
 
             // Act
-            comp.setData(betType, value);
+            comp.setData(betType, value, index);
 
             // Assert
             const expectBetType = GameUtils.getBetChoiceString(betType);
             expect(comp.label.string).toMatch(expectBetType);
             expect(comp.value.string).toMatch("10");
+            expect(comp.setBackground).toBeCalledWith(index);
         });
     });
 });
