@@ -60,7 +60,9 @@ describe("Test class BlockchainCardVerificationItem", () => {
 
     it("resetHighLight should run expected", () => {
         // arrange
-        i18n.t.mockReturnValueOnce("player").mockReturnValueOnce("banker").mockReturnValueOnce("last round");
+        i18n.t.mockReturnValueOnce("player");
+        i18n.t.mockReturnValueOnce("banker");
+        i18n.t.mockReturnValueOnce("last round");
 
         // act
         cardVerificationItemComp.resetHighLight();
