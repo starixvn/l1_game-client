@@ -11,11 +11,11 @@ export class StandardSlotGameConfigs implements SlotGameBaseConfigs {
         spinDuration: 0.75,
         winningDuration: 1,
         noWinningDuration: 0.75,
-        bigWinDuration: 2,
+        bigWinDuration: 2.67,
         freespinDuration: 2,
         bonusDuration: 2,
         jackpotDuration: 4.61,
-        showBigWinValueDuration: 1.1
+        showBigWinValueDuration: 1
     };
 
     turboMode = {
