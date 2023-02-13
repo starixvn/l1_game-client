@@ -169,8 +169,8 @@
     "paused": false,
     "defaultSkin": "default",
     "defaultAnimation": "show",
-    "_preCacheMode": 1,
-    "_cacheMode": 1,
+    "_preCacheMode": 0,
+    "_cacheMode": 0,
     "loop": false,
     "premultipliedAlpha": true,
     "timeScale": 1,
@@ -187,7 +187,7 @@
     "_N$skeletonData": {
       "__uuid__": "aef9afc8-d852-440e-ad84-c5f8c1ea54b7"
     },
-    "_N$_defaultCacheMode": 1,
+    "_N$_defaultCacheMode": 0,
     "_N$debugSlots": false,
     "_N$debugBones": false,
     "_N$debugMesh": false,
@@ -375,20 +375,20 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 100
+      "width": 203,
+      "height": 128
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 0
+      "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
         0,
-        -63.265,
+        -134.378,
         0,
         0,
         0,
@@ -443,11 +443,11 @@
     "_dstBlendFactor": 771,
     "_string": "",
     "_N$string": "",
-    "_fontSize": 96,
-    "_lineHeight": 100,
+    "_fontSize": 128,
+    "_lineHeight": 128,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "ddaa9c14-bbc2-425c-a97f-a8ed805d14cb"
+      "__uuid__": "0630b362-2693-4da9-80ae-838280d7d9bc"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -455,7 +455,7 @@
     "_styleFlags": 0,
     "_underlineHeight": 0,
     "_N$horizontalAlign": 1,
-    "_N$verticalAlign": 0,
+    "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
     "_N$cacheMode": 0,
