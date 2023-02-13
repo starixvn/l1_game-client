@@ -146,7 +146,7 @@ const data = {
         disallowHedgeBet: "可以下注 %{betChoice1} 或 %{betChoice2}。",
         copy_success: "复制成功！",
         showMsgWhenSpinDesktop: "按住空格键或点击旋转",
-        showMsgWhenSpinPhone: "TAP OR HOLD SPIN TO BEGIN",
+        showMsgWhenSpinPhone: "点击或按住旋转开始",
         roundSettleMsg: "祝你好运！",
         FromSettleToSpin1: "旋转获胜！",
         FromSettleToSpin2: "旋转更多，赢得更多！",
