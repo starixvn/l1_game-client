@@ -19,13 +19,14 @@ export default class SedieHistoryPortraitItem extends SedieHistoryItem {
     private readonly heightEachBetOption = 35;
 
     setData(betLog: any) {
-        const { settlementResult, odds } = betLog;
+        const { freeBet, settlementResult, odds } = betLog;
 
         Object.keys(settlementResult).forEach((choice) => {
             const node = cc.instantiate(this.betOptionPrefab);
             const option = node.getComponent(PortraitSedieHistoryBetOption);
-            const stake = betLog[choice];
+            let stake = betLog[choice];
             if (+stake > 0) {
+                stake = freeBet ? 0 : stake;
                 option.handleBetOptionItem(choice, numberWithCommas(odds[choice], 2), numberWithCommas(stake));
                 option.highlightForWinning(settlementResult[choice]);
                 this.betOption.addChild(node);
