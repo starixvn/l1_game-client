@@ -12,13 +12,13 @@ export default class SpineBonusItem extends BonusItem {
     openChestSkeleton: sp.Skeleton = null;
 
     onLoad() {
-        this.openChestSkeleton.setAnimation(0, "open-chest", false);
+        this.openChestSkeleton.setAnimation(0, "entry", false);
         GameUtils.delayTime(1);
         this.openChestSkeleton.setAnimation(0, "idle", true);
     }
 
     open(value: number) {
-        this.openChestSkeleton.setAnimation(0, "open-chest", false);
+        this.openChestSkeleton.setAnimation(0, "open", false);
         GameUtils.delayTime(0.5);
 
         super.open(value);
