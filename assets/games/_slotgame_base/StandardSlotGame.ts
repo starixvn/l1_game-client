@@ -445,29 +445,28 @@ export default class StandardSlotGame extends SlotGameBase {
     async showEffectFreeSpin() {
         const transtition = await this.playEffectTransition();
         super.showEffectFreeSpin();
-        transtition.destroy();
+        transtition?.destroy();
     }
 
     async showEffectBigWin(betWin: number) {
         const transtition = await this.playEffectTransition();
         await super.showEffectBigWin(betWin);
-        transtition.destroy();
+        transtition?.destroy();
     }
 
     async showEffectBonus(bonus: number): Promise<void> {
         const transtition = await this.playEffectTransition();
         await super.showEffectBonus(bonus);
-        transtition.destroy();
+        transtition?.destroy();
     }
 
     protected async playEffectTransition() {
         if (!this.effectTransitionPrefab) {
-            return;
+            return null;
         }
         const effect = cc.instantiate(this.effectTransitionPrefab);
         const animation = effect.getComponent(CallbackAnimation);
         animation.autoDestroyNode = false;
-        // animation.setDuration(this.getCustomDuration("freespin"));
         await this.showEffect(effect);
         return effect;
     }
