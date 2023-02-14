@@ -5,7 +5,7 @@ export const phrases = {
         47: "Pulau Harta Karun"
     },
     treasureIsland: {
-        tumpleWin: "Kemenangan Tumble",
+        tumpleWin: "Jatuh Menang",
         totalWin: "Menang",
         turboMode: "Mode Turbo",
         trialMode: "Masa Percobaan",
@@ -13,7 +13,7 @@ export const phrases = {
         betLevel: "Tingkat Taruhan",
         coinValue: "Nilai Koin",
         congratulation: "Selamat",
-        youWinFreeSpin: "Anda Menang",
+        youWinFreeSpin: "Anda memenangkan",
         multiplier: "Pengali",
         totalMultiplier: "Pengganda Total",
         no: "Nomor",
@@ -22,7 +22,7 @@ export const phrases = {
         winAmount: "Jumlah Kemenangan",
         trialModeText: "Anda berada dalam Mode Uji Coba",
         freeSpin: "Free Spins",
-        extraFreeSpin: "Ekstra Putaran Gratis",
+        extraFreeSpin: "Ekstra Free Spins",
         autoSpinLeft: "Sisa Putaran Otomatis",
         bigWinTextNotify: "Tekan dimana saja untuk melanjutkan",
         reachMaxWin: "Anda mencapai Maksimal Menang",

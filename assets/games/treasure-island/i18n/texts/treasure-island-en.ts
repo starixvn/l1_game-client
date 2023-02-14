@@ -13,7 +13,7 @@ export const phrases = {
         betLevel: "Bet Level",
         coinValue: "Coin Value",
         congratulation: "Congratulations",
-        youWinFreeSpin: "You won",
+        youWinFreeSpin: "You win",
         multiplier: "Multiplier",
         totalMultiplier: "Total Multiplier",
         no: "No.",

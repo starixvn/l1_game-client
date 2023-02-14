@@ -514,19 +514,19 @@ const data = {
         hold: "持牌",
         swapCardOn: "交換牌“開”",
         swapCardOff: "交換牌“關”",
-        guideTitle: "介绍德州扑克 MD5",
-        guideIntro: "公平公正的<color=#fff000>MD5</color>和<color=#fff000>可换卡</color>玩法，欢迎验证！",
+        guideTitle: "介紹德州撲克 MD5",
+        guideIntro: "公平公正的<color=#fff000>MD5</color>和<color=#fff000>可換卡</color>玩法，歡迎驗證！",
         guideContentSlide1:
             "- 遊戲結果（9張牌順序）一開始由系統隨機生成，編碼成MD5 钥匙。使用MD5的功能，玩家可以通過任何第三方復查發牌前生成的結果（MD5 鑰匙）與發布結果是否匹配。",
-        guideContent1Slide1: "- 允许玩家在牌面朝上之前将他们的底牌与庄家的底牌交换。",
+        guideContent1Slide1: "- 允許玩家在牌面朝上之前將他們的底牌與莊家的底牌交換。",
         guideContent2Slide1:
-            "- 玩家可以通過將公佈的結果中的牌序與MD5 鑰匙串中的結果進行比較，來檢查遊戲結果的公平性和透明度。 更多信息请参考游戏指南-MD5功能。",
-        guideContentSlide2: "交换 - 可选功能，可以在游戏回合开始前打<color=#fff000>开/关</color>闭。",
+            "- 玩家可以通過將公佈的結果中的牌序與MD5 鑰匙串中的結果進行比較，來檢查遊戲結果的公平性和透明度。更多信息請參考遊戲指南-MD5功能。",
+        guideContentSlide2: "交換 - 可選功能，可以在遊戲回合開始前打<color=#fff000>開/關</color>閉。",
         guideContentSlide3:
-            "玩家可以选择“<color=#fff000>交换</color>”按钮将他们的底牌与庄家的底牌交换，或者选择“<color=#fff000>保留</color>”以保留他们的牌而不改变。",
-        guideContentEnd: "现在就开始体验新功能吧。",
-        skip: "跳过",
-        notShow: "不再显示"
+            "玩家可以選擇“<color=#fff000>交換</color>”按鈕將他們的底牌與莊家的底牌交換，或者選擇“<color=#fff000>保留</color>”以保留他們的牌而不改變。",
+        guideContentEnd: "現在就開始體驗新功能吧。",
+        skip: "跳過",
+        notShow: "不再顯示"
     },
     promotions: {
         notPromotion: "Hiện tại chưa có chưa có chương trình khuyến mãi, vui lòng quay lại sau"

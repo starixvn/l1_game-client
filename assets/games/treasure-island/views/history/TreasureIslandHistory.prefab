@@ -781,7 +781,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 252.19,
+      "width": 208.6,
       "height": 92.2
     },
     "_anchorPoint": {
@@ -873,8 +873,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ประวัติตั๋วเดิมพัน",
-    "_N$string": "ประวัติตั๋วเดิมพัน",
+    "_string": "UI.HISTORY",
+    "_N$string": "UI.HISTORY",
     "_fontSize": 34,
     "_lineHeight": 70,
     "_enableWrapText": true,
@@ -1326,8 +1326,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "เวลา",
-    "_N$string": "เวลา",
+    "_string": "UI.TIME",
+    "_N$string": "UI.TIME",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1467,8 +1467,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "รอบ",
-    "_N$string": "รอบ",
+    "_string": "UI.ROUND",
+    "_N$string": "UI.ROUND",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1608,8 +1608,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ระดับการเดิมพัน",
-    "_N$string": "ระดับการเดิมพัน",
+    "_string": "TREASUREISLAND.BETLEVEL",
+    "_N$string": "TREASUREISLAND.BETLEVEL",
     "_fontSize": 22,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -1749,8 +1749,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "มูลค่าเหรียญ",
-    "_N$string": "มูลค่าเหรียญ",
+    "_string": "TREASUREISLAND.COINVALUE",
+    "_N$string": "TREASUREISLAND.COINVALUE",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1890,8 +1890,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "เดิมพันรวม",
-    "_N$string": "เดิมพันรวม",
+    "_string": "UI.TOTAL_BET",
+    "_N$string": "UI.TOTAL_BET",
     "_fontSize": 22,
     "_lineHeight": 28,
     "_enableWrapText": true,
@@ -2031,8 +2031,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ชนะ",
-    "_N$string": "ชนะ",
+    "_string": "TREASUREISLAND.TOTALWIN",
+    "_N$string": "TREASUREISLAND.TOTALWIN",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -6564,14 +6564,15 @@
     "pagination": {
       "__id__": 175
     },
+    "mainFrame": {
+      "__id__": 5
+    },
+    "gameName": null,
     "content": {
       "__id__": 67
     },
     "itemPrefab": {
       "__uuid__": "285ba603-36d7-4e30-ba98-091d28e439bf"
-    },
-    "mainFrame": {
-      "__id__": 5
     },
     "wrapperContent": null,
     "scrollView": null,
