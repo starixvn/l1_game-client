@@ -3,7 +3,6 @@ import * as _ from "lodash";
 
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
-import ChangeNodeColor from "../../common/ChangeNodeColor";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SlotBottomArea from "./SlotBottomArea";
@@ -98,6 +97,15 @@ export default class StandardSlotGame extends SlotGameBase {
 
     @property
     bottomAreaTextColor = "#ffffff";
+
+    @property
+    bottomAreaButtonBorderColor = "#ffffff";
+
+    @property
+    previewOddsSymbolNumberColor = "#ffffff";
+
+    @property
+    previewOddsWinValueColor = "#ffffff";
 
     @property
     miniWarningTextColor = "#ffffff";
@@ -296,7 +304,8 @@ export default class StandardSlotGame extends SlotGameBase {
         const symbolPreview = previewNode.getComponent(SymbolPreview);
         symbolPreview.setInfo({
             spine,
-            odds: this.gameConfigs.odds[symbol]
+            odds: this.gameConfigs.odds[symbol],
+            colorList: [this.previewOddsSymbolNumberColor, this.previewOddsWinValueColor]
         });
         this.slotBoard.showPreview(previewNode, worldPosition);
     }
@@ -346,11 +355,8 @@ export default class StandardSlotGame extends SlotGameBase {
 
         const slotBottom = cc.instantiate(this.slotBottomAreaPrefab);
         this.bottomArea.addChild(slotBottom);
-        slotBottom.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
-            comp.updateNodeColor(this.bottomAreaTextColor);
-        });
-
         const slotBottomArea = slotBottom.getComponent(SlotBottomArea);
+        slotBottomArea.updateColor(this.bottomAreaTextColor, this.bottomAreaButtonBorderColor);
 
         if (slotBottomArea) {
             this.autoSpinToggle = slotBottomArea.autoSpinToggle;

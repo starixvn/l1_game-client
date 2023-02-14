@@ -1,8 +1,11 @@
-const { ccclass } = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class ChangeNodeColor extends cc.Component {
-    updateNodeColor(color = "#ffffff") {
-        this.node.color = cc.Color.WHITE.fromHEX(color);
+    @property
+    changedColor = "";
+
+    updateColor(color: string) {
+        this.node.color = cc.Color.WHITE.fromHEX(color ? color : this.changedColor);
     }
 }

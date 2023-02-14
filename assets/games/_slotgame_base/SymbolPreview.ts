@@ -8,7 +8,7 @@ export default class SymbolPreview extends cc.Component {
     @property(cc.Node)
     infoNode: cc.Node = null;
 
-    setInfo(info: { spine: sp.SkeletonData; odds: any }) {
+    setInfo(info: { spine: sp.SkeletonData; odds: any; colorList }) {
         this.icon.skeletonData = info.spine;
         this.icon.setAnimation(0, "highlight", false);
         const keys = Object.keys(info.odds);
@@ -23,6 +23,7 @@ export default class SymbolPreview extends cc.Component {
             const values = [key, info.odds[key]];
             node.children.forEach((child, childIndex) => {
                 child.getComponent(cc.Label).string = values[childIndex];
+                child.color = cc.Color.WHITE.fromHEX(info.colorList[childIndex]);
             });
         });
     }

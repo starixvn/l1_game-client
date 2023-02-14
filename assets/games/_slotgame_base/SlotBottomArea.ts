@@ -1,3 +1,5 @@
+import ChangeNodeColor from "../../common/ChangeNodeColor";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -68,5 +70,12 @@ export default class SlotBottomArea extends cc.Component {
 
     onHideStakeContainer() {
         this.onClickListener.onHideStakeContainer();
+    }
+
+    updateColor(textColor: string, buttonBorderColor: string) {
+        this.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
+            let changedColor = comp.node.getComponent(cc.Label) ? textColor : buttonBorderColor;
+            comp.updateColor(changedColor);
+        });
     }
 }
