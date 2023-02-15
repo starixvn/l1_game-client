@@ -449,7 +449,7 @@ export default class StandardSlotGame extends SlotGameBase {
 
     async showEffectFreeSpin() {
         const transtition = await this.playEffectTransition();
-        super.showEffectFreeSpin();
+        await super.showEffectFreeSpin();
         transtition?.destroy();
     }
 
