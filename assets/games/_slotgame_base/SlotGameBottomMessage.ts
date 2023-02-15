@@ -98,4 +98,6 @@ export default class SlotGameBottomMessage extends cc.Component {
         const items = this.isTurboMode || this.isTrialMode ? this.turboSettledMsg : this.normalSettledMsg;
         return GameUtils.getText(`messages.${items[_.random(items.length - 1)]}`);
     }
+
+    updateColor(textColor: string) {}
 }

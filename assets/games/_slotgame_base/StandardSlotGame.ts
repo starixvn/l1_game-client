@@ -114,6 +114,9 @@ export default class StandardSlotGame extends SlotGameBase {
     miniWarningOutlineColor = "#ffffff";
 
     @property
+    noticeTextColor = "#ffffff";
+
+    @property
     protected _gameId = 0;
     @property
     public get gameId(): number {
@@ -402,6 +405,7 @@ export default class StandardSlotGame extends SlotGameBase {
         const node = cc.instantiate(this.bottomMessagePrefab);
         this.bottomMessageArea.addChild(node);
         this.initShowBottomMessage(node);
+        this.bottomMessage.updateColor(this.noticeTextColor);
 
         if (this.totalFreeSpins) {
             this.setTotalFreeSpins(this.totalFreeSpins);

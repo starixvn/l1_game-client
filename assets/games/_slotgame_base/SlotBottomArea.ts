@@ -74,8 +74,7 @@ export default class SlotBottomArea extends cc.Component {
 
     updateColor(textColor: string, buttonBorderColor: string) {
         this.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
-            let changedColor = comp.node.getComponent(cc.Label) ? textColor : buttonBorderColor;
-            comp.updateColor(changedColor);
+            comp.updateColor(comp.node.getComponent(cc.Label) ? textColor : buttonBorderColor);
         });
     }
 }
