@@ -416,8 +416,9 @@ export default class StandardSlotGame extends SlotGameBase {
             [3, 10, 0, 8, 5, 9, 9, 1, 7, 6, 10, 2, 4, 3, 3],
             [9, 7, 5, 4, 6, 5, 10, 3, 1, 9, 8, 6, 2, 0, 8]
         ];
-        const data = samples[_.random(samples.length - 1)];
-        console.log(data);
+        const randomIndex = _.random(samples.length - 1);
+        console.log(`B${randomIndex}`);
+        const data = samples[randomIndex];
         return data;
     }
 
