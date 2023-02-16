@@ -365,8 +365,15 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     private blinkUserBalance() {
+        const currentScale = this.userProfile.userBalance.node.scale;
         cc.tween(this.userProfile.userBalance.node)
-            .repeat(3, cc.tween().to(0.1, { scale: 1.1 }).to(0.1, { scale: 1 }))
+            .repeat(
+                3,
+                cc
+                    .tween()
+                    .to(0.1, { scale: currentScale + 0.1 })
+                    .to(0.1, { scale: currentScale })
+            )
             .start();
     }
 
