@@ -34,6 +34,7 @@ export default class BonusDialog extends cc.Component {
     public onBonusFinished = () => {};
     public onItemClicked = (index: number) => {};
     public slotGameConfigs: SlotGameBaseConfigs;
+    public bonusCountItemTextColor;
 
     private totalBonus = 0;
     private openedBonus = 0;
@@ -108,6 +109,10 @@ export default class BonusDialog extends cc.Component {
     setBonusCount(count: number) {
         this.totalBonus = count;
         this.updateBonusCount();
+    }
+
+    updateBonusCountItemTextColor(color: string) {
+        this.bonusCount.node.color = cc.Color.WHITE.fromHEX(color);
     }
 
     updateBonusCount() {

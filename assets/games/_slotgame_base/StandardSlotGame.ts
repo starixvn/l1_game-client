@@ -5,6 +5,7 @@ import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import BonusDialog from "./BonusDialog";
 import SlotBottomArea from "./SlotBottomArea";
 import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
 import { SlotNotification } from "./SlotGameBottomMessage";
@@ -102,6 +103,9 @@ export default class StandardSlotGame extends SlotGameBase {
     bottomAreaButtonBorderColor = "#ffffff";
 
     @property
+    previewOddsBorderColor = "#ffffff";
+
+    @property
     previewOddsSymbolNumberColor = "#ffffff";
 
     @property
@@ -115,6 +119,9 @@ export default class StandardSlotGame extends SlotGameBase {
 
     @property
     noticeTextColor = "#ffffff";
+
+    @property
+    bonusCountItemTextColor = "#ffffff";
 
     @property
     protected _gameId = 0;
@@ -308,7 +315,8 @@ export default class StandardSlotGame extends SlotGameBase {
         symbolPreview.setInfo({
             spine,
             odds: this.gameConfigs.odds[symbol],
-            colorList: [this.previewOddsSymbolNumberColor, this.previewOddsWinValueColor]
+            colorList: [this.previewOddsSymbolNumberColor, this.previewOddsWinValueColor],
+            borderColor: this.previewOddsBorderColor
         });
         this.slotBoard.showPreview(previewNode, worldPosition);
     }
@@ -463,6 +471,12 @@ export default class StandardSlotGame extends SlotGameBase {
         const transtition = await this.playEffectTransition();
         await super.showEffectBonus(bonus);
         transtition?.destroy();
+    }
+
+    setBonusCount(dialog: BonusDialog, bonus: number): BonusDialog {
+        const comp = super.setBonusCount(dialog, bonus);
+        comp.updateBonusCountItemTextColor(this.bonusCountItemTextColor);
+        return comp;
     }
 
     protected async playEffectTransition() {

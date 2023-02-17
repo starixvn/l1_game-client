@@ -937,7 +937,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             this.currentMiniPanel.addDialog(node);
             const dialog = node.getComponent(BonusDialog);
             dialog.slotGameConfigs = this.slotGameConfigs;
-            dialog.setBonusCount(bonus);
+            this.setBonusCount(dialog, bonus);
             dialog.onBonusFinished = resolve;
             dialog.onItemClicked = (index) => {
                 this.socket.emit("bonus", { chest: index });
@@ -946,6 +946,11 @@ export default class SlotGameBase extends FeatureSlotGameBase {
                 dialog && dialog.openBonus(data.chest, data.amount);
             };
         });
+    }
+
+    setBonusCount(dialog: BonusDialog, bonus: number): BonusDialog {
+        dialog.setBonusCount(bonus);
+        return dialog;
     }
 
     async showEffectJackpot(amount: number) {

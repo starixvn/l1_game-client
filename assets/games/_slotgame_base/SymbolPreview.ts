@@ -8,9 +8,13 @@ export default class SymbolPreview extends cc.Component {
     @property(cc.Node)
     infoNode: cc.Node = null;
 
-    setInfo(info: { spine: sp.SkeletonData; odds: any; colorList }) {
+    @property(cc.Node)
+    border: cc.Node = null;
+
+    setInfo(info: { spine: sp.SkeletonData; odds: any; colorList: [string, string]; borderColor: string }) {
         this.icon.skeletonData = info.spine;
         this.icon.setAnimation(0, "highlight", false);
+        this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);
         const keys = Object.keys(info.odds);
         this.infoNode.children.forEach((node, index) => {
             const key = keys[index];
