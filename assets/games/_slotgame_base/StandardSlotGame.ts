@@ -57,6 +57,9 @@ export default class StandardSlotGame extends SlotGameBase {
     @property({ type: cc.Prefab, visible: false, override: true })
     miniNoticePrefab: cc.Prefab = null;
 
+    @property({ type: cc.Prefab, visible: false, override: true })
+    processWarningPrefab: cc.Prefab = null;
+
     @property({ type: cc.AudioSource, visible: false, override: true })
     soundSources: cc.AudioSource[] = [];
 
@@ -112,12 +115,6 @@ export default class StandardSlotGame extends SlotGameBase {
     previewOddsWinValueColor = "#ffffff";
 
     @property
-    miniWarningTextColor = "#ffffff";
-
-    @property
-    miniWarningOutlineColor = "#ffffff";
-
-    @property
     noticeTextColor = "#ffffff";
 
     @property
@@ -165,7 +162,9 @@ export default class StandardSlotGame extends SlotGameBase {
             "dialog-line-selection": "lineSelectionDialog",
             "dialog-auto-spin": "autoSpinDialogPrefab",
             "dialog-history": "historyPrefab",
-            "dialog-guide": "guidePrefab"
+            "dialog-guide": "guidePrefab",
+            "mini-warning": "miniNoticePrefab",
+            "processing-warning": "processWarningPrefab"
         };
 
         for (const key of Object.keys(dict)) {
@@ -191,7 +190,6 @@ export default class StandardSlotGame extends SlotGameBase {
         const dict = {
             // prefab name : prefab property
             "effect-transition": "effectTransitionPrefab",
-            "mini-warning": "miniNoticePrefab",
             "top-winner": "topWinnerPrefab",
             "effect-jackpot": "effectJackpot",
 
@@ -448,11 +446,6 @@ export default class StandardSlotGame extends SlotGameBase {
     updateMiniWarningContent(miniWarningComp, data: string) {
         const text = miniWarningComp.text;
         text.string = data.toUpperCase();
-
-        // update style
-        text.node.color = cc.Color.WHITE.fromHEX(this.miniWarningTextColor);
-        const outLine = text.node.getComponent(cc.LabelOutline);
-        outLine && (outLine.color = cc.Color.WHITE.fromHEX(this.miniWarningOutlineColor));
     }
 
     async showEffectFreeSpin() {
