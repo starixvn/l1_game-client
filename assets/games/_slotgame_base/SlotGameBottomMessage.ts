@@ -72,7 +72,7 @@ export default class SlotGameBottomMessage extends cc.Component {
         msg && this.updateMessageContent(GameUtils.capitalizeWordIntoString(msg));
     }
 
-    updateMessageContent(msg) {
+    updateMessageContent(msg: string) {
         this.msgText.string = msg;
     }
 

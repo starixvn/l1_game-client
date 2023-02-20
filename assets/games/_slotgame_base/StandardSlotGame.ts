@@ -118,6 +118,9 @@ export default class StandardSlotGame extends SlotGameBase {
     noticeTextColor = "#ffffff";
 
     @property
+    noticeHighlightTextColor = "#ffffff";
+
+    @property
     bonusCountItemTextColor = "#ffffff";
 
     @property
@@ -410,7 +413,7 @@ export default class StandardSlotGame extends SlotGameBase {
         const node = cc.instantiate(this.bottomMessagePrefab);
         this.bottomMessageArea.addChild(node);
         this.initShowBottomMessage(node);
-        this.bottomMessage.updateColor(this.noticeTextColor);
+        this.bottomMessage.updateColor(this.noticeTextColor, this.noticeHighlightTextColor);
 
         if (this.totalFreeSpins) {
             this.setTotalFreeSpins(this.totalFreeSpins);
