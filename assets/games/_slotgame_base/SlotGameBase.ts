@@ -155,7 +155,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     public isShowAutoSpinSettingDialog = false;
     public isRound = false;
     public autoOpenAutoSpinDialog = false;
-    public delayShowBigWinValue = 0;
     protected userSettings: SlotGameUserSettings;
     private showingWinningLine = false;
     normalPaylineDuration = 1;
@@ -891,6 +890,8 @@ export default class SlotGameBase extends FeatureSlotGameBase {
                 return info.bigWinDuration;
             case "showBigWinValue":
                 return info.showBigWinValueDuration;
+            case "delayShowBigWinValue":
+                return info.delayShowBigWinValue;
             case "freespin":
                 return info.freespinDuration;
             case "bonus":
@@ -917,8 +918,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         callbackAnim.setDuration(this.getCustomDuration("bigwin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
         const showBigWinValueTime = this.getCustomDuration("showBigWinValue");
-        bigWinAnimation.setAmount({ amount: betWin, duration: showBigWinValueTime, delayTime: this.delayShowBigWinValue });
-        const delayWinningBetLabel = showBigWinValueTime + this.delayShowBigWinValue;
+        const delayShowBigWinValue = this.getCustomDuration("delayShowBigWinValue");
+        bigWinAnimation.setAmount({ amount: betWin, duration: showBigWinValueTime, delayTime: delayShowBigWinValue });
+        const delayWinningBetLabel = showBigWinValueTime + delayShowBigWinValue;
         cc.tween(this)
             .delay(delayWinningBetLabel)
             .call(() => this.updateWinningBetLabel(betWin))

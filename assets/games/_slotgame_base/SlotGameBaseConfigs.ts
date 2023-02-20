@@ -19,4 +19,5 @@ export interface CustomDuration {
     readonly jackpotDuration: number;
     readonly bonusDuration: number;
     readonly showBigWinValueDuration: number;
+    readonly delayShowBigWinValue: number;
 }

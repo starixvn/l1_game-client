@@ -10,9 +10,6 @@ export const FortuneCatsId = 62;
 export default class FortuneCat extends SlotGameBase {
     @property({ type: cc.AudioSource, override: true, visible: false })
     musicBg: cc.AudioSource = null;
-
-    public delayShowBigWinValue = 0.8;
-
     onLoad() {
         super.onLoad();
         this.gameSongList &&

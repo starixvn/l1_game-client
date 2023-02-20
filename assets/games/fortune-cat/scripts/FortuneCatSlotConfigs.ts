@@ -11,21 +11,25 @@ export class FortuneCatSlotConfigs implements SlotGameBaseConfigs {
         spinDuration: 0.75,
         winningDuration: 1,
         noWinningDuration: 0.75,
-        bigWinDuration: 3,
         freespinDuration: 2,
         bonusDuration: 2,
         jackpotDuration: 4.61,
-        showBigWinValueDuration: 1.2
+
+        bigWinDuration: 3,
+        showBigWinValueDuration: 1.2,
+        delayShowBigWinValue: 0.8
     };
 
     turboMode = {
         spinDuration: 0.3,
         winningDuration: 0.75,
         noWinningDuration: 0.5,
-        bigWinDuration: 2.5,
         freespinDuration: 1.5,
         bonusDuration: 1.5,
         jackpotDuration: 4.61,
-        showBigWinValueDuration: 0.8
+
+        bigWinDuration: 2.5,
+        showBigWinValueDuration: 0.8,
+        delayShowBigWinValue: 0.67
     };
 }

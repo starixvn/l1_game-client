@@ -130,7 +130,6 @@ export default class StandardSlotGame extends SlotGameBase {
         this._gameId = value;
     }
 
-    public delayShowBigWinValue = 1;
     normalPaylineDuration = 2;
     turboPaylineDuration = 1;
 
