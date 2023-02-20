@@ -15,9 +15,9 @@ export class StandardSlotGameConfigs implements SlotGameBaseConfigs {
         bonusDuration: 2,
         jackpotDuration: 4.61,
 
-        bigWinDuration: 4.5,
+        bigWinDuration: 4,
         showBigWinValueDuration: 1,
-        delayShowBigWinValue: 2
+        delayShowBigWinValue: 1.5
     };
 
     turboMode = {
@@ -28,8 +28,8 @@ export class StandardSlotGameConfigs implements SlotGameBaseConfigs {
         bonusDuration: 1.5,
         jackpotDuration: 4.61,
 
-        bigWinDuration: 3.6,
+        bigWinDuration: 3.2,
         showBigWinValueDuration: 0.8,
-        delayShowBigWinValue: 1.6
+        delayShowBigWinValue: 1.2
     };
 }
