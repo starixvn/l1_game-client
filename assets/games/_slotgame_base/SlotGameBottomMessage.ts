@@ -99,5 +99,7 @@ export default class SlotGameBottomMessage extends cc.Component {
         return GameUtils.getText(`messages.${items[_.random(items.length - 1)]}`);
     }
 
-    updateColor(textColor: string) {}
+    updateColor(textColor: string, highlightColor: string) {
+        //empty
+    }
 }

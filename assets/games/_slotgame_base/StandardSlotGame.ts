@@ -6,8 +6,9 @@ import CallbackAnimation from "../../common/CallbackAnimation";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import BonusDialog from "./BonusDialog";
+import { ClassicSlotSound } from "./ClassicSlotSound";
 import SlotBottomArea from "./SlotBottomArea";
-import SlotGameBase, { SlotGameSound } from "./SlotGameBase";
+import SlotGameBase from "./SlotGameBase";
 import { SlotNotification } from "./SlotGameBottomMessage";
 import StandardSlotBoard from "./StandardSlotBoard";
 import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
@@ -228,14 +229,22 @@ export default class StandardSlotGame extends SlotGameBase {
 
     loadAudios() {
         const dict = {
-            [SlotGameSound.SPIN]: "spin-button",
-            [SlotGameSound.WIN]: "win",
-            [SlotGameSound.BIG_WIN]: "big-win",
-            [SlotGameSound.JACKPOT]: "jackpot",
-            [SlotGameSound.FREESPIN]: "freespin",
-            [SlotGameSound.BONUS]: "bonus",
-            [SlotGameSound.SPINNING_NORMAL]: "spinning-normal",
-            [SlotGameSound.SPINNING_TURBO]: "spinning-turbo"
+            [ClassicSlotSound.SPIN]: "spin-button",
+            [ClassicSlotSound.WIN]: "win",
+            [ClassicSlotSound.BIG_WIN]: "big-win",
+            [ClassicSlotSound.JACKPOT]: "jackpot",
+            [ClassicSlotSound.FREESPIN]: "freespin",
+            [ClassicSlotSound.BONUS]: "bonus",
+            [ClassicSlotSound.SPINNING_NORMAL]: "spinning-normal",
+            [ClassicSlotSound.SPINNING_TURBO]: "spinning-turbo",
+
+            [ClassicSlotSound.REEL_STOP]: "reel-stop",
+            [ClassicSlotSound.BONUS_POPUP]: "bonus-popup",
+            [ClassicSlotSound.BONUS_OPEN]: "bonus-open",
+            [ClassicSlotSound.BONUS_TOTAL]: "bonus-total",
+
+            [ClassicSlotSound.TRANSITION]: "transition",
+            [ClassicSlotSound.SYMBOL_WIN]: "symbol-win"
         };
 
         for (const key of Object.keys(dict)) {
@@ -268,7 +277,7 @@ export default class StandardSlotGame extends SlotGameBase {
         this.bottomMessage && (this.bottomMessage.isFreeSpin = this.isFreeSpin());
     }
 
-    override playSound(type: SlotGameSound) {
+    override playSound(type: ClassicSlotSound) {
         const key = type.toString();
         if (this.audioClips[key]) {
             AudioManager.getInstance().playSFX(this.audioClips[key]);
@@ -481,7 +490,17 @@ export default class StandardSlotGame extends SlotGameBase {
         const effect = cc.instantiate(this.effectTransitionPrefab);
         const animation = effect.getComponent(CallbackAnimation);
         animation.autoDestroyNode = false;
+        this.playSound(ClassicSlotSound.TRANSITION);
         await this.showEffect(effect);
         return effect;
+    }
+
+    protected showBonusDialog(bonus: number, onBonusFinished) {
+        this.playSound(ClassicSlotSound.BONUS_POPUP);
+        super.showBonusDialog(bonus, onBonusFinished);
+    }
+
+    protected bonusDialogPlaySound(type: ClassicSlotSound) {
+        this.playSound(type);
     }
 }

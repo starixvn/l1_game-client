@@ -2,6 +2,7 @@ import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import BonusItem from "./BonusItem";
+import { ClassicSlotSound } from "./ClassicSlotSound";
 import { SlotGameBaseConfigs } from "./SlotGameBaseConfigs";
 
 const { ccclass, property } = cc._decorator;
@@ -42,6 +43,7 @@ export default class BonusDialog extends cc.Component {
     private timerTween: cc.Tween;
     private readonly bonusNumber = 10;
 
+    public playSoundCallback = (type: ClassicSlotSound) => {};
     onLoad() {
         this.bonusItem && this.initBonusList();
 
@@ -49,7 +51,7 @@ export default class BonusDialog extends cc.Component {
             const item = child.getComponent(BonusItem);
             item && this.items.push(item);
             child.on("click", () => {
-                AudioManager.getInstance().playClick();
+                this.playSoundCallback(ClassicSlotSound.BONUS_OPEN);
                 if (this.openedBonus < this.totalBonus) {
                     this.onItemClicked(index);
                     const button = child.getComponent(cc.Button);
@@ -83,6 +85,7 @@ export default class BonusDialog extends cc.Component {
     }
 
     showTotalAmount() {
+        this.playSoundCallback(ClassicSlotSound.BONUS_TOTAL);
         if (this.soundBigWin) {
             AudioManager.getInstance().playSFX(this.soundBigWin.clip);
         }
