@@ -17,9 +17,9 @@
         { "name": "left-back-element", "parent": "bone" },
         { "name": "left-front-element", "parent": "bone" },
         { "name": "right-front-element", "parent": "bone" },
-        { "name": "bigwin-title", "parent": "bone" },
+        { "name": "title", "parent": "bone" },
         {
-            "name": "value-number-set",
+            "name": "number-label",
             "parent": "bone",
             "y": -60.12,
             "color": "ff0505ff"
@@ -52,8 +52,8 @@
             "bone": "right-front-element",
             "attachment": "right-front-element"
         },
-        { "name": "bigwin-title", "bone": "bigwin-title" },
-        { "name": "value-number-set", "bone": "value-number-set" }
+        { "name": "title", "bone": "title" },
+        { "name": "number-label", "bone": "number-label" }
     ],
     "skins": [
         {
@@ -114,7 +114,7 @@
     "animations": {
         "show": {
             "slots": {
-                "bigwin-title": {
+                "title": {
                     "color": [
                         { "color": "ffffff00", "curve": "stepped" },
                         { "time": 1.1667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
@@ -149,7 +149,7 @@
                         { "time": 1.1667, "color": "ffffffff" }
                     ]
                 },
-                "value-number-set": {
+                "number-label": {
                     "color": [
                         { "color": "ffffff00", "curve": "stepped" },
                         { "time": 1.6667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
@@ -226,7 +226,7 @@
                         { "time": 1.5333 }
                     ]
                 },
-                "bigwin-title": {
+                "title": {
                     "translate": [
                         { "time": 1.1667, "y": -48.77, "curve": 0.25, "c3": 0.75 },
                         { "time": 1.5, "y": 49.43, "curve": 0.25, "c3": 0.75 },
@@ -246,7 +246,7 @@
                         { "time": 1.7333 }
                     ]
                 },
-                "value-number-set": {
+                "number-label": {
                     "translate": [
                         { "time": 1.5, "y": -25.04, "curve": 0.25, "c3": 0.75 },
                         { "time": 1.8, "curve": 0.25, "c3": 0.75 },
@@ -263,9 +263,9 @@
             "drawOrder": [
                 {
                     "time": 1.1667,
-                    "offsets": [{ "slot": "bigwin-title", "offset": -3 }]
+                    "offsets": [{ "slot": "title", "offset": -3 }]
                 },
-                { "time": 1.5, "offsets": [{ "slot": "bigwin-title", "offset": -2 }] }
+                { "time": 1.5, "offsets": [{ "slot": "title", "offset": -2 }] }
             ]
         }
     }
