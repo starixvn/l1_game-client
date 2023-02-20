@@ -1,6 +1,6 @@
 {
     "skeleton": {
-        "hash": "QZS8HuDM88SAPEELe6jls1Qnoic",
+        "hash": "A7SidVxFduAiDyIb5EB45l9N4GE",
         "spine": "3.8.99",
         "x": -421,
         "y": -189.9,
@@ -18,40 +18,15 @@
         { "name": "left-front-element", "parent": "bone" },
         { "name": "right-front-element", "parent": "bone" },
         { "name": "title", "parent": "bone" },
-        {
-            "name": "number-label",
-            "parent": "bone",
-            "y": -60.12,
-            "color": "ff0505ff"
-        }
+        { "name": "number-label", "parent": "bone", "y": -60.12, "color": "ff0505ff" }
     ],
     "slots": [
         { "name": "mask", "bone": "root", "attachment": "mask" },
-        {
-            "name": "right-back-element",
-            "bone": "right-back-element",
-            "attachment": "right-back-element"
-        },
-        {
-            "name": "left-back-element",
-            "bone": "left-back-element",
-            "attachment": "left-back-element"
-        },
-        {
-            "name": "main_popup_bg",
-            "bone": "main_popup_bg",
-            "attachment": "main_popup_bg"
-        },
-        {
-            "name": "left-front-element",
-            "bone": "left-front-element",
-            "attachment": "left-front-element"
-        },
-        {
-            "name": "right-front-element",
-            "bone": "right-front-element",
-            "attachment": "right-front-element"
-        },
+        { "name": "right-back-element", "bone": "right-back-element", "attachment": "right-back-element" },
+        { "name": "left-back-element", "bone": "left-back-element", "attachment": "left-back-element" },
+        { "name": "main_popup_bg", "bone": "main_popup_bg", "attachment": "main_popup_bg" },
+        { "name": "left-front-element", "bone": "left-front-element", "attachment": "left-front-element" },
+        { "name": "right-front-element", "bone": "right-front-element", "attachment": "right-front-element" },
         { "name": "title", "bone": "title" },
         { "name": "number-label", "bone": "number-label" }
     ],
@@ -59,30 +34,9 @@
         {
             "name": "default",
             "attachments": {
-                "left-back-element": {
-                    "left-back-element": {
-                        "x": -273.5,
-                        "y": 36.6,
-                        "width": 295,
-                        "height": 325
-                    }
-                },
-                "left-front-element": {
-                    "left-front-element": {
-                        "x": -291.5,
-                        "y": -88.4,
-                        "width": 197,
-                        "height": 171
-                    }
-                },
-                "main_popup_bg": {
-                    "main_popup_bg": {
-                        "x": -17.5,
-                        "y": -16.9,
-                        "width": 665,
-                        "height": 230
-                    }
-                },
+                "left-back-element": { "left-back-element": { "x": -273.5, "y": 36.6, "width": 295, "height": 325 } },
+                "left-front-element": { "left-front-element": { "x": -291.5, "y": -88.4, "width": 197, "height": 171 } },
+                "main_popup_bg": { "main_popup_bg": { "x": -17.5, "y": -16.9, "width": 665, "height": 230 } },
                 "mask": {
                     "mask": {
                         "type": "clipping",
@@ -92,35 +46,14 @@
                         "color": "ce3a3aff"
                     }
                 },
-                "right-back-element": {
-                    "right-back-element": {
-                        "x": 272,
-                        "y": 71.6,
-                        "width": 310,
-                        "height": 243
-                    }
-                },
-                "right-front-element": {
-                    "right-front-element": {
-                        "x": 230,
-                        "y": -94.4,
-                        "width": 424,
-                        "height": 191
-                    }
-                }
+                "right-back-element": { "right-back-element": { "x": 272, "y": 71.6, "width": 310, "height": 243 } },
+                "right-front-element": { "right-front-element": { "x": 230, "y": -94.4, "width": 424, "height": 191 } }
             }
         }
     ],
     "animations": {
         "show": {
             "slots": {
-                "title": {
-                    "color": [
-                        { "color": "ffffff00", "curve": "stepped" },
-                        { "time": 1.1667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
-                        { "time": 1.5, "color": "ffffffff" }
-                    ]
-                },
                 "left-back-element": {
                     "color": [
                         { "color": "ffffff00", "curve": "stepped" },
@@ -133,6 +66,13 @@
                         { "color": "ffffff00", "curve": "stepped" },
                         { "time": 1, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
                         { "time": 1.1667, "color": "ffffffff" }
+                    ]
+                },
+                "number-label": {
+                    "color": [
+                        { "color": "ffffff00", "curve": "stepped" },
+                        { "time": 1.6667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+                        { "time": 1.9667, "color": "ffffffff" }
                     ]
                 },
                 "right-back-element": {
@@ -149,11 +89,11 @@
                         { "time": 1.1667, "color": "ffffffff" }
                     ]
                 },
-                "number-label": {
+                "title": {
                     "color": [
                         { "color": "ffffff00", "curve": "stepped" },
-                        { "time": 1.6667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
-                        { "time": 1.9667, "color": "ffffffff" }
+                        { "time": 1.1667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+                        { "time": 1.5, "color": "ffffffff" }
                     ]
                 }
             },
@@ -261,10 +201,7 @@
                 }
             },
             "drawOrder": [
-                {
-                    "time": 1.1667,
-                    "offsets": [{ "slot": "title", "offset": -3 }]
-                },
+                { "time": 1.1667, "offsets": [{ "slot": "title", "offset": -3 }] },
                 { "time": 1.5, "offsets": [{ "slot": "title", "offset": -2 }] }
             ]
         }
