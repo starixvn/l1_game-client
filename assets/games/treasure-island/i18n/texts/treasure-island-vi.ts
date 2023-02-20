@@ -18,7 +18,7 @@ export const phrases = {
         totalMultiplier: "Tổng Số Nhân",
         no: "Stt",
         resultBoard: "Bảng Kết Quả",
-        symbolAndNumber: "Biếu Tượng Thắng",
+        symbolAndNumber: "Biểu Tượng Thắng",
         winAmount: "Tiền Thắng",
         trialModeText: "Bạn Đang Chơi Thử",
         freeSpin: "Free Spins",
