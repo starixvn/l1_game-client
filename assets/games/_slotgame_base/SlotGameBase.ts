@@ -774,12 +774,11 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     showWinningLines(winningLines: LineData[], delayTime: number) {
-        this.playSound(ClassicSlotSound.SYMBOL_WIN);
-        winningLines.forEach((line) => this.showLine(line.payline + 1));
-
         if (winningLines.length === 0) {
             return;
         }
+        this.playSound(ClassicSlotSound.SYMBOL_WIN);
+        winningLines.forEach((line) => this.showLine(line.payline + 1));
 
         this.showingWinningLine = true;
         this.showWinningLinesTween = cc

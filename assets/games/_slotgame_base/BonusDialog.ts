@@ -51,8 +51,8 @@ export default class BonusDialog extends cc.Component {
             const item = child.getComponent(BonusItem);
             item && this.items.push(item);
             child.on("click", () => {
-                this.playSoundCallback(ClassicSlotSound.BONUS_OPEN);
                 if (this.openedBonus < this.totalBonus) {
+                    this.playSoundCallback(ClassicSlotSound.BONUS_OPEN);
                     this.onItemClicked(index);
                     const button = child.getComponent(cc.Button);
                     button.interactable = false;
