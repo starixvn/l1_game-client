@@ -11,7 +11,7 @@ export enum ClassicSlotSound {
     REEL_STOP,
     SYMBOL_WIN,
     BONUS_POPUP,
-    BONUS_OPEN,
     BONUS_TOTAL,
+    CLICK,
     TRANSITION
 }

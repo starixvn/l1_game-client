@@ -240,7 +240,7 @@ export default class StandardSlotGame extends SlotGameBase {
 
             [ClassicSlotSound.REEL_STOP]: "reel-stop",
             [ClassicSlotSound.BONUS_POPUP]: "bonus-popup",
-            [ClassicSlotSound.BONUS_OPEN]: "bonus-open",
+            [ClassicSlotSound.CLICK]: "click",
             [ClassicSlotSound.BONUS_TOTAL]: "bonus-total",
 
             [ClassicSlotSound.TRANSITION]: "transition",
@@ -314,6 +314,7 @@ export default class StandardSlotGame extends SlotGameBase {
         if (!this.gameConfigs?.odds) {
             return;
         }
+        this.playSound(ClassicSlotSound.CLICK);
         const symbolCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId];
         const spine = symbolCache[symbol];
 

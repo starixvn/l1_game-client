@@ -945,7 +945,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     protected bonusDialogPlaySound(type: ClassicSlotSound) {
-        if (type === ClassicSlotSound.BONUS_OPEN) {
+        if (type === ClassicSlotSound.CLICK) {
             AudioManager.getInstance().playClick();
         }
     }
