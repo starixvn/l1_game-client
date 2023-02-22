@@ -23,7 +23,7 @@ export const phrases = {
         trialModeText: "คุณอยู่ในโหมดทดลอง",
         freeSpin: "Free Spins",
         extraFreeSpin: "Free Spins พิเศษ",
-        autoSpinLeft: "หมุนซ้ายอัตโนมัติ",
+        autoSpinLeft: "หมุนอัตโนมัติที่เหลือ",
         bigWinTextNotify: "กดที่ใดก็ได้เพื่อเดิมพันต่อ",
         reachMaxWin: "คุณถึงยอดชนะสูงสุด",
         warningTrialMode: "เล่นจริง\nชนะจริง"
