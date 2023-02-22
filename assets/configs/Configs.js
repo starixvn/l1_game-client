@@ -2,21 +2,23 @@ const defaultConfig = {
     systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
-        localhost: "lumigame.com"
+        localhost: "lumigame.com",
+        "games.lumigame.com": "lumigame.com"
     },
-    subDomain: "l1-proxy3",
+    subDomain: "l1-proxy",
     env: "",
     sentry: {
         url: "",
-        env: "LOCAL3"
+        env: "LOCAL"
     },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
         secretKey: "f41dc948ed66a029406413327a68b6ae27fe4e6c"
     },
-    subGuideDomain: "l1-guide-3",
+    guideDomain: "https://l1-guide.lumigame.com",
     enableMsgpackParserAllGames: false,
-    enableMsgpackParserOnNotification: false
+    enableMsgpackParserOnNotification: false,
+    SGConnectDomain: "https://l1-connect.lumigame.com"
 };
 
 const domainMapper = window.envConfig ? undefined : defaultConfig.serverDomainMapper;

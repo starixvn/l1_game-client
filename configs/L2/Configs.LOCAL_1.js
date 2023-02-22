@@ -9,5 +9,6 @@ window.envConfig = {
     },
     subGuideDomain: "l2-guide-1",
     enableMsgpackParserAllGames: false,
-    enableMsgpackParserOnNotification: false
+    enableMsgpackParserOnNotification: false,
+    SGConnectDomain: "https://l2-connect-1.lumigame.com"
 };

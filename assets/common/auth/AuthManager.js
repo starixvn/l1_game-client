@@ -10,6 +10,8 @@ import NotificationService from "./NotificationService";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
 import NameGenerator from "../name-generator/NameGenerator";
+import * as SGConnectAPI from "./SGConnectAPI";
+import { isSessionTimeoutError, redirectToAppUMPage } from "../helpers/ErrorCodeHelper";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
@@ -72,7 +74,7 @@ function checkSignOut(urlParams, session) {
 
 function checkTimeOut(urlParams) {
     if (urlParams.has("isTimeout") && urlParams.get("isTimeout") === "true") {
-        cc.director.loadScene("sessiontimeout");
+        redirectToTimeOutPage();
         return true;
     }
 
@@ -138,14 +140,22 @@ export function clearTokenOnUrl() {
 }
 
 export function signOut() {
-    cc.director.loadScene("sessiontimeout");
+    redirectToTimeOutPage();
     sessionManager.removeSession();
+}
+
+function redirectToTimeOutPage() {
+    if (window.authData?.system == AppTypes.SabaApp) {
+        SGConnectAPI.redirectToAppTimeoutPage(window.authData?.language);
+    } else {
+        cc.director.loadScene("sessiontimeout");
+    }
 }
 
 function checkUM(response) {
     if (response && response.isUM) {
         window.umInfo = response.umInfo;
-        cc.director.loadScene("um");
+        redirectToUMPage(response);
         return true;
     }
 
@@ -156,6 +166,14 @@ function autoCreateNewNickname(cb) {
     const nickname = NameGenerator.generateName();
     const authData = window.authData;
     UserService.getInstance().auth.signName(authData.ss, authData.username, nickname).then(cb);
+}
+
+export function redirectToUMPage(response) {
+    if (window.authData?.system == AppTypes.SabaApp || response?.system === AppTypes.SabaApp) {
+        SGConnectAPI.redirectToAppUMPage(window.authData?.language || response?.language);
+    } else {
+        cc.director.loadScene("um");
+    }
 }
 
 export function triggerSignIn(main) {
@@ -244,10 +262,9 @@ function handleResponse(session, response) {
 
     if (response.apiError) {
         const errorCode = response.apiError.errorCode.toString();
-        const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
         if (response.isDisableAccount) {
             showMessageForAccountClosed(errorCode);
-        } else if (expiredTokenErrorCode) {
+        } else if (isSessionTimeoutError(errorCode)) {
             showMessageForExpiredToken(errorCode);
         } else {
             const message = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
@@ -275,7 +292,11 @@ export function showMessageForAccountClosed(errorCode) {
 }
 
 export function showMessageForExpiredToken(errorCode) {
-    const text = `${i18n.t("messages.sessionTimeout")} (${errorCode})`;
+    let text = `${i18n.t("messages.sessionTimeout")} (${errorCode})`;
+
+    if (window.authData?.system == AppTypes.SabaApp) {
+        text = `${i18n.t("messages.sessionExpired")} (${errorCode})`;
+    }
     const noticeData = {
         text
     };

@@ -8,3 +8,4 @@ export const gameAnalytics: { [key: string]: string };
 export const subGuideDomain: string;
 export const enableMsgpackParserAllGames: boolean;
 export const enableMsgpackParserOnNotification: boolean;
+export const SGConnectDomain: string;

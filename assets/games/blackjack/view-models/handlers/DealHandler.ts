@@ -1,6 +1,7 @@
 import { showMessageForExpiredToken } from "../../../../common/auth/AuthManager";
 import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import GameUtils from "../../../../common/GameUtils";
+import { isSessionTimeoutError } from "../../../../common/helpers/ErrorCodeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import NoticeUtil from "../../../../common/utils/NoticeUtil";
@@ -172,8 +173,7 @@ export default class DealHandler implements DataHandler {
     showNoticesErrors(data: any) {
         data.forEach((error) => {
             const errorCode = error.errorCode.toString();
-            const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
-            if (expiredTokenErrorCode) {
+            if (isSessionTimeoutError(errorCode)) {
                 showMessageForExpiredToken(errorCode);
                 return;
             }

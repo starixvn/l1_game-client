@@ -16,5 +16,6 @@ window.envConfig = {
     },
     subGuideDomain: "l1guidessit",
     enableMsgpackParserAllGames: true,
-    enableMsgpackParserOnNotification: true
+    enableMsgpackParserOnNotification: true,
+    SGConnectDomain: "https://l1-connect-sit.sgamesuat.com"
 };

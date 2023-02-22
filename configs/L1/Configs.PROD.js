@@ -13,5 +13,6 @@ window.envConfig = {
     },
     subGuideDomain: "guides",
     enableMsgpackParserAllGames: true,
-    enableMsgpackParserOnNotification: true
+    enableMsgpackParserOnNotification: true,
+    SGConnectDomain: "https://connect.sabagame.com"
 };

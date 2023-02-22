@@ -2,12 +2,13 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import NotificationService from "../../common/auth/NotificationService";
 import GameUtils from "../../common/GameUtils";
+import { isSessionTimeoutError } from "../../common/helpers/ErrorCodeHelper";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import * as authManager from "./../../common/auth/AuthManager";
 import { showMessageForExpiredToken } from "./../../common/auth/AuthManager";
-import { removeInRoomGameId } from "./../../common/auth/SessionManager";
+import { removeInRoomGameId, getSession } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
 
 declare global {
@@ -74,7 +75,7 @@ export default class MiniPanelDataHandlers {
         if (data.umInfo) {
             NotificationService.getInstance().forceKickedOut();
             window.umInfo = data.umInfo;
-            cc.director.loadScene("um");
+            authManager.redirectToUMPage();
         } else {
             if (data.isDisabledAccount) {
                 setTimeout(() => {
@@ -99,7 +100,7 @@ export default class MiniPanelDataHandlers {
             if (data.umInfo) {
                 NotificationService.getInstance().forceKickedOut();
                 window.umInfo = data.umInfo;
-                cc.director.loadScene("um");
+                authManager.redirectToUMPage();
             } else {
                 this.main.forceKickedOut();
             }
@@ -112,8 +113,7 @@ export default class MiniPanelDataHandlers {
         const gameId = error.gameTypeId;
 
         const errorCode = error.errorCode.toString();
-        const expiredTokenErrorCode = errorCode === "1001" || errorCode === "1002";
-        if (expiredTokenErrorCode) {
+        if (isSessionTimeoutError(errorCode)) {
             showMessageForExpiredToken(errorCode);
             return;
         }

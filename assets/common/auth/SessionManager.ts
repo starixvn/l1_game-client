@@ -14,6 +14,7 @@ export interface Session {
     ss: string;
     time: Date;
     isAuthenticated: boolean;
+    system: number;
 }
 
 const sessionIdStorageName = "scss";
