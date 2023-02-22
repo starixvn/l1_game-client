@@ -14,6 +14,11 @@ import NameGenerator from "../name-generator/NameGenerator";
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
 
+const AppTypes = {
+    SabaClub: 1,
+    SabaApp: 5
+};
+
 export function getChipSetting() {
     const request = {
         session: window.authData.ss,
@@ -81,12 +86,16 @@ function getRef(urlParams) {
     }
 }
 
+function getAppType(urlParams) {
+    return urlParams.get("appType") == AppTypes.SabaApp ? AppTypes.SabaApp : AppTypes.SabaClub;
+}
+
 function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
     if (urlParams.has("token")) {
         window.isSSO = true;
         getRef(urlParams);
         UserService.getInstance()
-            .auth.sso(urlParams.get("token"))
+            .auth.sso(urlParams.get("token"), getAppType(urlParams))
             .then((response) => {
                 if (checkUM(response)) {
                     return;
