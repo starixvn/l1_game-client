@@ -7,12 +7,12 @@ const { ccclass, menu } = cc._decorator;
 export default class LocalizedSlotFont extends LocalizedFont {
     initData() {
         this.fontBases = {
-            vi: "Kodchasan-ExtraLight",
-            id: "Kodchasan-ExtraLight",
-            en: "Kodchasan-ExtraLight",
-            th: "NotoSerifThai-Bold",
-            zh_cn: "NotoSerifZHCN-Bold",
-            zh_tw: "NotoSerifZHTW-Bold"
+            vi: "Kodchasan-Regular",
+            id: "Kodchasan-Regular",
+            en: "Kodchasan-Regular",
+            th: "NotoSerifThai-Regular",
+            zh_cn: "NotoSerifZHCN-Regular",
+            zh_tw: "NotoSerifZHTW-Regular"
         };
     }
 }
