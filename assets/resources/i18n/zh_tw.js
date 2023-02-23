@@ -439,7 +439,7 @@ const data = {
         terms: "條款和條件",
         totalBet: "Total Bet",
         totalWin: "Total Win",
-        free_spin_left_amount: "Free Spin Left %{amount}."
+        free_spin_left_amount: "Free Spin剩餘 %{amount}"
     },
     termsPromotion: {
         first: "- 所有新的和現有的投注者都有資格參加促銷活動並抓住機會贏得更大的獎品。 \n- 中獎金額根據促銷規則和獎金支付。 \n- 促銷適用於公司規定的特定時期。促銷期滿後，投注賠率將恢復為之前的值。\n- 促銷適用於公司規定的特定時期。促銷期滿後，投注賠率將恢復為之前的值。\n- 因本推廣活動引起或與之相關的任何爭議均由本公司決定。"
