@@ -1,40 +1,47 @@
 
 btn-spin.png
-size: 422,515
+size: 444,536
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 arrow
-  rotate: true
-  xy: 240, 198
+  rotate: false
+  xy: 184, 2
   size: 133, 134
   orig: 144, 144
   offset: 2, 3
   index: -1
+arrow-blur
+  rotate: false
+  xy: 319, 16
+  size: 120, 120
+  orig: 144, 144
+  offset: 12, 12
+  index: -1
 hover
   rotate: true
-  xy: 2, 78
+  xy: 240, 334
   size: 200, 202
   orig: 200, 202
   offset: 0, 0
   index: -1
 light
   rotate: false
-  xy: 240, 333
+  xy: 2, 119
   size: 180, 180
   orig: 186, 186
   offset: 3, 3
   index: -1
-spin-button-base-bg
+btn-spin-base-bg
   rotate: false
-  xy: 206, 2
+  xy: 240, 138
   size: 194, 194
   orig: 199, 200
   offset: 2, 3
   index: -1
 twirling-blue
   rotate: false
-  xy: 2, 280
+  xy: 2, 301
   size: 236, 233
   orig: 263, 257
   offset: 18, 5
