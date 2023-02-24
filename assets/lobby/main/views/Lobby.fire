@@ -93,22 +93,22 @@
         "__id__": 147
       },
       {
-        "__id__": 163
+        "__id__": 164
       },
       {
-        "__id__": 165
+        "__id__": 166
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 167
-      },
-      {
         "__id__": 168
       },
       {
         "__id__": 169
+      },
+      {
+        "__id__": 170
       }
     ],
     "_prefab": null,
@@ -6162,10 +6162,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 161
+        "__id__": 162
       },
       {
-        "__id__": 162
+        "__id__": 163
       }
     ],
     "_prefab": null,
@@ -6767,8 +6767,22 @@
     "prefab": {
       "__uuid__": "8f7f1e1b-eb78-40b3-95c3-f9d00bdbebfd"
     },
-    "initializationEventHandlers": [],
+    "initializationEventHandlers": [
+      {
+        "__id__": 161
+      }
+    ],
     "_id": "92+OXo4H9P27igKgyUhvLu"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "280c3rsZJJKnZ9RqbALVwtK",
+    "handler": "onSettingMenuInitialized",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Layout",
@@ -6840,7 +6854,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 164
+        "__id__": 165
       }
     ],
     "_prefab": null,
@@ -6896,7 +6910,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 163
+      "__id__": 164
     },
     "_enabled": true,
     "alignMode": 1,
@@ -6925,7 +6939,7 @@
       "__id__": 2
     },
     "_prefab": {
-      "__id__": 166
+      "__id__": 167
     },
     "_name": "Loading",
     "_active": false,
@@ -6956,7 +6970,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 165
+      "__id__": 166
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -7019,6 +7033,9 @@
     "miniPanelPrefab": {
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
+    "logoutPrefab": {
+      "__uuid__": "b449fbfd-edd9-4761-b50a-0d3aff13156a"
+    },
     "header": {
       "__id__": 75
     },
@@ -7041,10 +7058,10 @@
       "__id__": 86
     },
     "redhat": {
-      "__id__": 163
+      "__id__": 164
     },
     "loading": {
-      "__id__": 165
+      "__id__": 166
     },
     "audioBG": {
       "__id__": 4

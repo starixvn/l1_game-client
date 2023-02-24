@@ -2,6 +2,10 @@ import AudioManager from "../audio/AudioManager";
 import ExpandableMenu from "../expandable-menu/view-models/ExpandableMenu";
 const { ccclass, property } = cc._decorator;
 
+export enum SettingMenuEvents {
+    LOGOUT = "LOGOUT"
+}
+
 @ccclass
 export default class SettingMenu extends cc.Component {
     @property(ExpandableMenu)
@@ -9,7 +13,6 @@ export default class SettingMenu extends cc.Component {
 
     protected doCommons() {
         AudioManager.getInstance().playClick();
-        //this.expandableMenu && this.expandableMenu.collapseMenu();
     }
 
     collapseMenu(animated: boolean) {}
@@ -27,5 +30,7 @@ export default class SettingMenu extends cc.Component {
     onClickLogout() {
         this.doCommons();
         console.log("click logout");
+        this.node.emit(SettingMenuEvents.LOGOUT);
+        this.expandableMenu && this.expandableMenu.collapseMenu();
     }
 }

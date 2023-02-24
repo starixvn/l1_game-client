@@ -26,6 +26,7 @@ import GameUIManager from "./GameUIManager";
 import Header from "./Header";
 import LobbyManager from "./LobbyManager";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
+import SettingMenu, { SettingMenuEvents } from "../../../common/setting-menu/SettingMenu";
 
 const socketIOController = appContainer.get(SocketIOController);
 const sentryLogger = logger();
@@ -36,6 +37,9 @@ const { ccclass, property } = cc._decorator;
 export default class Lobby extends cc.Component {
     @property(cc.Prefab)
     miniPanelPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    logoutPrefab: cc.Prefab = null;
 
     @property(Header)
     header: Header = null;
@@ -121,6 +125,16 @@ export default class Lobby extends cc.Component {
         this.initPromotions();
         this.onClickJoinGame();
         this.trackOnLoadEvents();
+    }
+
+    onSettingMenuInitialized(node: cc.Node) {
+        const settingMenu = node.getComponent(SettingMenu);
+        if (settingMenu) {
+            settingMenu.node.on(SettingMenuEvents.LOGOUT, () => {
+                const dialog = cc.instantiate(this.logoutPrefab);
+                this.miniPanel.addDialog(dialog);
+            });
+        }
     }
 
     private trackOnLoadEvents() {
