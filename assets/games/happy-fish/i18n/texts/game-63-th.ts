@@ -1,4 +1,13 @@
+
 import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
-import { phrases } from "./game-63-en";
+
+export const phrases = {
+    gameNames: {
+      63: "Happy Fish"
+    },
+    lobbyNames: {
+      63:  "Happy Fish"
+    }
+};
 
 reloadLanguageData("th", phrases);
