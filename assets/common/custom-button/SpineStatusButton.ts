@@ -17,6 +17,7 @@ export default class SpineStatusButton extends StatusButton {
                     this.animation.setAnimation(1, "hover", true);
                 }
             } else {
+                this.animation.setAnimation(1, "hover", true);
                 this.animation.clearTrack(1);
             }
             state === ButtonState.NORMAL && this.animation.setAnimation(0, "idle", true);
