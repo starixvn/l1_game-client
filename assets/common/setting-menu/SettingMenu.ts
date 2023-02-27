@@ -1,5 +1,6 @@
 import AudioManager from "../audio/AudioManager";
 import ExpandableMenu from "../expandable-menu/view-models/ExpandableMenu";
+import CommonDialog from "../_base/view-models/CommonDialog";
 const { ccclass, property } = cc._decorator;
 
 export enum SettingMenuEvents {
@@ -10,6 +11,20 @@ export enum SettingMenuEvents {
 export default class SettingMenu extends cc.Component {
     @property(ExpandableMenu)
     expandableMenu: ExpandableMenu = null;
+
+    @property(CommonDialog)
+    commonDialog: CommonDialog = null;
+
+    onLoad() {
+        //    super.onLoad();
+        console.log("on load", this.commonDialog);
+        if (this.commonDialog) {
+            this.commonDialog.addOnDidHide(() => {
+                console.log("destroy");
+                this.node.destroy();
+            });
+        }
+    }
 
     protected doCommons() {
         AudioManager.getInstance().playClick();
@@ -29,8 +44,6 @@ export default class SettingMenu extends cc.Component {
 
     onClickLogout() {
         this.doCommons();
-        console.log("click logout");
         this.node.emit(SettingMenuEvents.LOGOUT);
-        this.expandableMenu && this.expandableMenu.collapseMenu();
     }
 }
