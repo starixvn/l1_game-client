@@ -292,8 +292,13 @@ export default class StandardSlotGame extends SlotGameBase {
         const decreaseBtn = this.stakeButton.node.getChildByName("decrease").getComponent(cc.Button);
         const increaseBtn = this.stakeButton.node.getChildByName("increase").getComponent(cc.Button);
         const index = this.gameConfigs.stakeLevels.findIndex((stake) => stake === this.stake);
-        decreaseBtn.interactable = index > 0;
-        increaseBtn.interactable = index < this.gameConfigs.stakeLevels.length - 1;
+        this.handleStakeButtonQuickChange(decreaseBtn, index > 0);
+        this.handleStakeButtonQuickChange(increaseBtn, index < this.gameConfigs.stakeLevels.length - 1);
+    }
+
+    handleStakeButtonQuickChange(button: cc.Button, condition: boolean) {
+        button.interactable = condition;
+        button.node.opacity = condition ? 255 : 100;
     }
 
     initSlotGameConfig() {
