@@ -11,5 +11,6 @@ window.envConfig = {
     subGuideDomain: "guides",
     enableMsgpackParserAllGames: true,
     enableMsgpackParserOnNotification: true,
-    SGConnectDomain: "https://connect.v-gaming.net"
+    SGConnectDomain: "https://connect.v-gaming.net",
+    AppDownloadDomain: "http://google.com"
 };

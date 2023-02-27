@@ -27,6 +27,7 @@ import Header from "./Header";
 import LobbyManager from "./LobbyManager";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import SettingMenu, { SettingMenuEvents } from "../../../common/setting-menu/SettingMenu";
+import * as Configs from "../../../configs/Configs";
 
 const socketIOController = appContainer.get(SocketIOController);
 const sentryLogger = logger();
@@ -586,5 +587,9 @@ export default class Lobby extends cc.Component {
         }
 
         this.serviceAuthorized(response.authorized);
+    }
+
+    redirectToDownloadPage() {
+        window.open(Configs.AppDownloadDomain, "_blank");
     }
 }

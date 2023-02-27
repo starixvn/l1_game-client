@@ -11,5 +11,6 @@ window.envConfig = {
     subGuideDomain: "l2guidesuat",
     enableMsgpackParserAllGames: true,
     enableMsgpackParserOnNotification: true,
-    SGConnectDomain: "https://l2-connect-uat.sgamesuat.com"
+    SGConnectDomain: "https://l2-connect-uat.sgamesuat.com",
+    AppDownloadDomain: "http://google.com"
 };
