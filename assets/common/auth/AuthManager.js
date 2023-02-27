@@ -11,7 +11,7 @@ import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
 import NameGenerator from "../name-generator/NameGenerator";
 import * as SGConnectAPI from "./SGConnectAPI";
-import { isSessionTimeoutError, redirectToAppUMPage } from "../helpers/ErrorCodeHelper";
+import { isSessionTimeoutError } from "../helpers/ErrorCodeHelper";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
@@ -170,7 +170,8 @@ function autoCreateNewNickname(cb) {
 
 export function redirectToUMPage(response) {
     if (window.authData?.system == AppTypes.SabaApp || response?.system === AppTypes.SabaApp) {
-        SGConnectAPI.redirectToAppUMPage(window.authData?.language || response?.language);
+        const operatorId = window.umInfo?.operatorId;
+        SGConnectAPI.redirectToAppUMPage(operatorId, window.authData?.language || response?.language);
     } else {
         cc.director.loadScene("um");
     }
