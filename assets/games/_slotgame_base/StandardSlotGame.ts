@@ -509,4 +509,9 @@ export default class StandardSlotGame extends SlotGameBase {
     protected bonusDialogPlaySound(type: ClassicSlotSound) {
         this.playSound(type);
     }
+
+    clickOutsideReelArea() {
+        this.expandableMenu.collapseMenu();
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_OUTSIDE_REEL_AREA);
+    }
 }

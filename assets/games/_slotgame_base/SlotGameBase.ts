@@ -7,6 +7,7 @@ import ExpandableMenu from "../../common/expandable-menu/view-models/ExpandableM
 import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import HoverItemBase from "../../common/HoverItemBase";
+import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { GameState } from "../_base/GameState";
 import LineView from "../AHCL/scripts/LineView";
@@ -405,6 +406,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     onLineSelectionClick() {
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_LINE_SELECTION_BUTTON);
         AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
         this.hideStakeContrainer();
@@ -464,6 +466,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     onAutoSpinChanged() {
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_AUTO_SPIN_BUTTON);
         AudioManager.getInstance().playClick();
         const isAutoSpin = this.isAutoSpinMode();
         AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
@@ -594,6 +597,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     onSpinClick(hold: boolean) {
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_SPIN_BUTTON);
         AudioManager.getInstance().playClick();
         this.isHoldAction = hold;
         this.spinAction();

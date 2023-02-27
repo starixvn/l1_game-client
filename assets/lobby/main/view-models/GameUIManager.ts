@@ -15,7 +15,12 @@ export default class GameUIManager {
     public emitter: EventEmitterBase;
     static Events = {
         LOAD_OTHER_ICONS_AND_BANNERS: "lobby: load other icons and banners",
-        OPEN_GAME_MINI: "lobby: open game mini"
+        OPEN_GAME_MINI: "lobby: open game mini",
+        CLICK_LINE_SELECTION_BUTTON: "slot: click on the line selection button",
+        CLICK_AUTO_SPIN_BUTTON: "slot: click on the auto spin button",
+        CLICK_SPIN_BUTTON: "slot: click on the spin button",
+        CLICK_HAMBURGER_MENU: "slot: click on the hamburger menu",
+        CLICK_OUTSIDE_REEL_AREA: "slot: click outside reeel area"
     };
 
     public static getInstance(): GameUIManager {
@@ -65,6 +70,8 @@ export default class GameUIManager {
         };
         this.emitter.on(eventName, storage.callback);
         this.emitterStorages.push(storage);
+
+        return storage;
     }
 
     removeEmitterListener(eventName: string) {

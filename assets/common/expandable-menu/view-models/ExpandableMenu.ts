@@ -1,3 +1,4 @@
+import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
 import AudioManager from "../../audio/AudioManager";
 import { MenuDirectionType } from "./MenuDirectionType";
 
@@ -54,6 +55,7 @@ export default class ExpandableMenu extends cc.Component {
 
     onMenuClick() {
         AudioManager.getInstance().playClick();
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_HAMBURGER_MENU);
         this.expanded = !this.expanded;
         this.expanded ? this.expandMenu() : this.collapseMenu();
     }
