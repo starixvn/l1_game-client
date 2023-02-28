@@ -490,6 +490,11 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.bottomMessage && (this.bottomMessage.isAutoSpin = this.isAutoSpinMode() && !this.isFreeSpin());
     }
 
+    onTurboModeChanged(toggle: cc.Toggle) {
+        super.onTurboModeChanged(toggle);
+        this.hideStakeContrainer();
+    }
+
     createAutoSpinDialog(): AutoSpinSettingDialog {
         this.isShowAutoSpinSettingDialog = true;
         return super.createAutoSpinDialog();
