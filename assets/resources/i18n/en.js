@@ -454,7 +454,16 @@ const data = {
         terms: "Terms and\n Conditions",
         totalBet: "Total Bet",
         totalWin: "Total Win",
-        free_spin_left_amount: "Free Spins Left %{amount}"
+        free_spin_left_amount: "Free Spins Left %{amount}",
+        download: "Download",
+        app: "APP1",
+        setting: "SETTING",
+        backgroundMusic: "Background Music",
+        soundEffect: "Sound Effect",
+        logout: "Logout",
+        notification: "NOTIFICATION",
+        confirmLogout: "Are you sure you want to logout?",
+        cancel: "Cancel"
     },
     termsPromotion: {
         first: "- All new and existing punters are eligible to join the promotions and take the chance to win bigger prizes. \n- The winning amount is paid according to the promotion rules and payouts. \n- The Promotion is applied for a certain period ruled by the Company. When the promotion expires, the betting odds will be set back to the previous values.\n- The Company reserves the right to vary any of the terms of entry applying to this promotion or to modify, terminate, suspend, or reschedule this promotion at any time.\n- Any dispute arising from or in the connection with this promotion shall be decided by the Company."
