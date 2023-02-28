@@ -600,6 +600,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_SPIN_BUTTON);
         AudioManager.getInstance().playClick();
         this.isHoldAction = hold;
+        this.updateBottomMessageStatus();
         this.spinAction();
     }
 
