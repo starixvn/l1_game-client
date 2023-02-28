@@ -104,6 +104,9 @@ export default class StandardSlotGame extends SlotGameBase {
     bottomAreaTextColor = "#ffffff";
 
     @property
+    bottomAreaNumberColor = "#ffffff";
+
+    @property
     bottomAreaButtonBorderColor = "#ffffff";
 
     @property
@@ -382,7 +385,11 @@ export default class StandardSlotGame extends SlotGameBase {
         const slotBottom = cc.instantiate(this.slotBottomAreaPrefab);
         this.bottomArea.addChild(slotBottom);
         const slotBottomArea = slotBottom.getComponent(SlotBottomArea);
-        slotBottomArea.updateColor(this.bottomAreaTextColor, this.bottomAreaButtonBorderColor);
+        slotBottomArea.updateColor({
+            textColor: this.bottomAreaTextColor,
+            numberColor: this.bottomAreaNumberColor,
+            buttonBorderColor: this.bottomAreaButtonBorderColor
+        });
 
         if (slotBottomArea) {
             this.autoSpinToggle = slotBottomArea.autoSpinToggle;

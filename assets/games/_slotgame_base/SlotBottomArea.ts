@@ -2,6 +2,14 @@ import ChangeNodeColor from "../../common/ChangeNodeColor";
 
 const { ccclass, property } = cc._decorator;
 
+const LocalizedLabel = require("LocalizedLabel");
+
+interface BottomAreaDefinedColor {
+    textColor: string;
+    numberColor: string;
+    buttonBorderColor: string;
+}
+
 @ccclass
 export default class SlotBottomArea extends cc.Component {
     @property(cc.Toggle)
@@ -72,9 +80,16 @@ export default class SlotBottomArea extends cc.Component {
         this.onClickListener.onHideStakeContainer();
     }
 
-    updateColor(textColor: string, buttonBorderColor: string) {
+    updateColor(colorList: BottomAreaDefinedColor) {
+        const { textColor, numberColor, buttonBorderColor } = colorList;
+
         this.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
-            comp.updateColor(comp.node.getComponent(cc.Label) ? textColor : buttonBorderColor);
+            const labelComp = comp.node.getComponent(cc.Label);
+            if (labelComp) {
+                comp.updateColor(comp.node.getComponent(LocalizedLabel) ? textColor : numberColor);
+            } else {
+                comp.updateColor(buttonBorderColor);
+            }
         });
     }
 }
