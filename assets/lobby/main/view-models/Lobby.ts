@@ -28,6 +28,7 @@ import LobbyManager from "./LobbyManager";
 import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import { SettingMenuEvents } from "../../../common/setting-menu/SettingMenu";
 import * as Configs from "../../../configs/Configs";
+import { AppTypes } from "./../../../common/auth/AuthManager";
 
 const socketIOController = appContainer.get(SocketIOController);
 const sentryLogger = logger();
@@ -44,6 +45,9 @@ export default class Lobby extends cc.Component {
 
     @property(cc.Prefab)
     settingMenuPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    appDownload: cc.Node = null;
 
     @property(Header)
     header: Header = null;
@@ -305,6 +309,8 @@ export default class Lobby extends cc.Component {
 
             this.renderLuckyWheelIcon();
         }
+
+        this.appDownload.active = window.authData?.system !== AppTypes.SabaApp;
     }
 
     onSignIn() {

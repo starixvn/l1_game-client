@@ -16,7 +16,7 @@ import { isSessionTimeoutError } from "../helpers/ErrorCodeHelper";
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
 
-const AppTypes = {
+export const AppTypes = {
     SabaClub: 1,
     SabaApp: 5
 };
