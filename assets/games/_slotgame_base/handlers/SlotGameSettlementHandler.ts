@@ -80,7 +80,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
         }
 
         this.main.setTotalFreeSpins(totalOfFreeSpins);
-        const needWaitEffect = bigWin || freeSpins.count > 0 || betByFreeSpin || this.main.isKeyDownSpace || this.main.isHoldSpinButton;
+        const needWaitEffect = bigWin || freeSpins.count > 0 || betByFreeSpin || this.main.holdActionButton.isAutoAction;
         if (!needWaitEffect) {
             this.main.updateModeSpinButton(this.main.isFreeSpin());
             this.finishAnimationResult();

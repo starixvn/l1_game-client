@@ -930,6 +930,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             .call(() => this.updateWinningBetLabel(betWin))
             .start();
         await this.showEffect(effect);
+        this.showWinningBet(betWin);
     }
 
     protected showBonusDialog(bonus: number, onBonusFinished) {
