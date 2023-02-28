@@ -9,7 +9,7 @@ export class StandardSlotGameConfigs implements SlotGameBaseConfigs {
 
     normalMode = {
         spinDuration: 0.75,
-        winningDuration: 1,
+        winningDuration: 2,
         noWinningDuration: 0.75,
         freespinDuration: 2,
         bonusDuration: 2,
@@ -22,7 +22,7 @@ export class StandardSlotGameConfigs implements SlotGameBaseConfigs {
 
     turboMode = {
         spinDuration: 0.3,
-        winningDuration: 0.75,
+        winningDuration: 1,
         noWinningDuration: 0.5,
         freespinDuration: 1.5,
         bonusDuration: 1.5,
