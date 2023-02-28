@@ -396,6 +396,12 @@ export default class StandardSlotGame extends SlotGameBase {
             this.winningBet = slotBottomArea.winningBet;
             this.winningBetEffect = slotBottomArea.winningBetEffect;
 
+            if (this.totalFreeSpins) {
+                this.stakeButton && (this.stakeButton.interactable = false);
+                this.lineButton && (this.lineButton.interactable = false);
+                this.autoSpinToggle && (this.autoSpinToggle.interactable = false);
+            }
+
             slotBottomArea.onClickListener = {
                 onStakeButtonClick: () => {
                     this.onStakeButtonClick();
