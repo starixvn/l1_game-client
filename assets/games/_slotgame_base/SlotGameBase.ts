@@ -930,11 +930,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         const showBigWinValueTime = this.getCustomDuration("showBigWinValue");
         const delayShowBigWinValue = this.getCustomDuration("delayShowBigWinValue");
         bigWinAnimation.setAmount({ amount: betWin, duration: showBigWinValueTime, delayTime: delayShowBigWinValue });
-        const delayWinningBetLabel = showBigWinValueTime + delayShowBigWinValue;
-        cc.tween(this)
-            .delay(delayWinningBetLabel)
-            .call(() => this.updateWinningBetLabel(betWin))
-            .start();
+
         await this.showEffect(effect);
         this.showWinningBet(betWin);
     }
