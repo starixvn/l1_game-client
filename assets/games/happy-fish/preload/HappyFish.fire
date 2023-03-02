@@ -93,34 +93,34 @@
         "__id__": 22
       },
       {
+        "__id__": 176
+      },
+      {
         "__id__": 178
       },
       {
-        "__id__": 180
+        "__id__": 179
       },
       {
         "__id__": 181
       },
       {
-        "__id__": 183
+        "__id__": 182
       },
       {
         "__id__": 184
-      },
-      {
-        "__id__": 186
       }
     ],
     "_active": true,
     "_components": [
       {
+        "__id__": 186
+      },
+      {
+        "__id__": 187
+      },
+      {
         "__id__": 188
-      },
-      {
-        "__id__": 189
-      },
-      {
-        "__id__": 190
       }
     ],
     "_prefab": null,
@@ -1048,7 +1048,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 177
+        "__id__": 175
       }
     ],
     "_prefab": null,
@@ -8194,21 +8194,18 @@
     "_children": [
       {
         "__id__": 169
-      },
-      {
-        "__id__": 171
       }
     ],
     "_active": true,
     "_components": [
       {
+        "__id__": 171
+      },
+      {
+        "__id__": 172
+      },
+      {
         "__id__": 173
-      },
-      {
-        "__id__": 174
-      },
-      {
-        "__id__": 175
       }
     ],
     "_prefab": null,
@@ -8364,98 +8361,6 @@
     "_id": "573uf4rF1Njbm/KRaJ9oa6"
   },
   {
-    "__type__": "cc.Node",
-    "_name": "btn_spin_disable",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 168
-    },
-    "_children": [],
-    "_active": false,
-    "_components": [
-      {
-        "__id__": 172
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 160,
-      "height": 160
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "1bzfYaipdP2JeKXLncgfd8"
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 171
-    },
-    "_enabled": true,
-    "_materials": [
-      {
-        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
-      }
-    ],
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_spriteFrame": null,
-    "_type": 0,
-    "_sizeMode": 1,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_atlas": null,
-    "_id": "f0FJrvJZ1FprJfspKJJttI"
-  },
-  {
     "__type__": "7a9b8ORqw1EFopUfhMAfSOw",
     "_name": "",
     "_objFlags": 0,
@@ -8464,7 +8369,7 @@
     },
     "_enabled": true,
     "spinButton": {
-      "__id__": 174
+      "__id__": 172
     },
     "autoSpinCountLabel": null,
     "normalSpinNode": null,
@@ -8543,9 +8448,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
-    "disableNode": {
-      "__id__": 171
-    },
+    "disableNode": null,
     "activeNode": null,
     "animation": {
       "__id__": 170
@@ -8562,7 +8465,7 @@
     "_enabled": true,
     "clickEvents": [
       {
-        "__id__": 176
+        "__id__": 174
       }
     ],
     "_id": "f28KgZHG9PeLXpg71sVH2O"
@@ -8599,7 +8502,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 179
+        "__id__": 177
       }
     ],
     "_prefab": null,
@@ -8655,7 +8558,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 178
+      "__id__": 176
     },
     "_enabled": true,
     "alignMode": 1,
@@ -8746,7 +8649,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 182
+        "__id__": 180
       }
     ],
     "_prefab": null,
@@ -8802,7 +8705,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 181
+      "__id__": 179
     },
     "_enabled": true,
     "alignMode": 1,
@@ -8893,7 +8796,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 185
+        "__id__": 183
       }
     ],
     "_prefab": null,
@@ -8949,7 +8852,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 184
+      "__id__": 182
     },
     "_enabled": true,
     "alignMode": 1,
@@ -8978,7 +8881,7 @@
       "__id__": 2
     },
     "_prefab": {
-      "__id__": 187
+      "__id__": 185
     },
     "_name": "Loading",
     "_active": false,
@@ -9009,7 +8912,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 186
+      "__id__": 184
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -9077,7 +8980,7 @@
       "__uuid__": "bbd28671-6825-49eb-930d-919acac5b9a0"
     },
     "noticeNode": {
-      "__id__": 183
+      "__id__": 181
     },
     "umNotice": null,
     "timeWaitNode": null,
@@ -9100,13 +9003,13 @@
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
     "miniPanelContainer": {
-      "__id__": 181
+      "__id__": 179
     },
     "noticePrefab": {
       "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
     },
     "loading": {
-      "__id__": 186
+      "__id__": 184
     },
     "winningPlayerEffectPrefab": null,
     "musicBg": null,
@@ -9118,18 +9021,18 @@
     "turboToggle": null,
     "autoSpinDialogPrefab": null,
     "spinButton": {
-      "__id__": 173
+      "__id__": 171
     },
     "effectContainer": {
-      "__id__": 178
+      "__id__": 176
     },
     "effectBigWin": null,
     "effectFreeSpin": null,
     "holdActionButton": {
-      "__id__": 175
+      "__id__": 173
     },
     "defaultMiniMenu": {
-      "__id__": 184
+      "__id__": 182
     },
     "gameSongList": null,
     "slotBoard": {
@@ -9145,7 +9048,7 @@
       "__id__": 98
     },
     "winningNode": {
-      "__id__": 180
+      "__id__": 178
     },
     "stakeButton": null,
     "stakeContainer": null,
