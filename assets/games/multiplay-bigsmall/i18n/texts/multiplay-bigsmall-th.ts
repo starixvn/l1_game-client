@@ -11,7 +11,7 @@ export const phrases = {
         50: "บิ๊ก สมอล ซิตี้"
     },
     generalGameNames: {
-        50: "Big Small City"
+        50: "บิ๊ก สมอล ซิตี้"
     },
     megaBigSmall: {
         hotFeature: "ฟีเจอร์ใหม่มาแรงกับ...",

@@ -10,7 +10,7 @@ export const phrases = {
         50: "Kota\n Besar Kecil"
     },
     generalGameNames: {
-        50: "Big Small City"
+        50: "Kota\n Besar Kecil"
     },
     megaBigSmall: {
         hotFeature: "Hot Fitur Terbaru dengan....",

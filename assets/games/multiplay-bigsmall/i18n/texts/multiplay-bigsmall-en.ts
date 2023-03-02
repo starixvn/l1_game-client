@@ -11,7 +11,7 @@ export const phrases = {
         50: "Big Small\n City"
     },
     generalGameNames: {
-        50: "Big Small City"
+        50: "Big Small\n City"
     },
     megaBigSmall: {
         hotFeature: "Hot New Feature with...",
