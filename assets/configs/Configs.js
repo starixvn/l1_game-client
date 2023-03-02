@@ -18,7 +18,7 @@ const defaultConfig = {
     guideDomain: "https://l1-guide.lumigame.com",
     enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false,
-    SGConnectDomain: "https://l1-connect.lumigame.com",
+    SGConnectDomain: "https://connectsite.lumigame.com",
     AppDownloadDomain: "http://google.com"
 };
 
