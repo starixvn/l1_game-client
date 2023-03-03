@@ -96,6 +96,7 @@ function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
     if (urlParams.has("token")) {
         window.isSSO = true;
         getRef(urlParams);
+        window.appType = getAppType(urlParams);
         UserService.getInstance()
             .auth.sso(urlParams.get("token"), getAppType(urlParams))
             .then((response) => {
@@ -146,7 +147,7 @@ export function signOut() {
 
 function redirectToTimeOutPage() {
     if (window.authData?.system == AppTypes.SabaApp) {
-        SGConnectAPI.redirectToAppTimeoutPage(window.authData?.language);
+        SGConnectAPI.redirectToAppTimeoutPage(window.i18n.curLang);
     } else {
         cc.director.loadScene("sessiontimeout");
     }
@@ -169,9 +170,9 @@ function autoCreateNewNickname(cb) {
 }
 
 export function redirectToUMPage(response) {
-    if (window.authData?.system == AppTypes.SabaApp || response?.system === AppTypes.SabaApp) {
+    if (window.authData?.system == AppTypes.SabaApp || response?.system === AppTypes.SabaApp || window.appType === AppTypes.SabaApp) {
         const operatorId = window.umInfo?.operatorId;
-        SGConnectAPI.redirectToAppUMPage(operatorId, window.authData?.language || response?.language);
+        SGConnectAPI.redirectToAppUMPage(operatorId, window.i18n.curLang);
     } else {
         cc.director.loadScene("um");
     }
