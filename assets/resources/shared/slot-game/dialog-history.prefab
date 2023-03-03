@@ -920,8 +920,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 325.7,
-      "height": 79.38
+      "width": 231.73,
+      "height": 81.9
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -972,10 +972,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.HISTORY",
-    "_N$string": "UI.HISTORY",
+    "_string": "LỊCH SỬ",
+    "_N$string": "LỊCH SỬ",
     "_fontSize": 56,
-    "_lineHeight": 63.2,
+    "_lineHeight": 65,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "8a6912d3-2306-462d-b575-28a102df649d"
@@ -1014,6 +1014,7 @@
     },
     "_enabled": true,
     "overrideFonts": [],
+    "enableCacheMode": false,
     "_id": ""
   },
   {
@@ -1139,7 +1140,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 76.68,
+      "width": 107.88,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1191,8 +1192,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.TIME",
-    "_N$string": "UI.TIME",
+    "_string": "THỜI GIAN",
+    "_N$string": "THỜI GIAN",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1233,6 +1234,7 @@
     },
     "_enabled": true,
     "overrideFonts": [],
+    "enableCacheMode": false,
     "_id": ""
   },
   {
@@ -1279,7 +1281,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 101.08,
+      "width": 63.08,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1331,8 +1333,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.ROUND",
-    "_N$string": "UI.ROUND",
+    "_string": "PHIÊN",
+    "_N$string": "PHIÊN",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1373,6 +1375,7 @@
     },
     "_enabled": true,
     "overrideFonts": [],
+    "enableCacheMode": false,
     "_id": ""
   },
   {
@@ -1419,7 +1422,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 67.26,
+      "width": 120.56,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1471,8 +1474,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.BET",
-    "_N$string": "UI.BET",
+    "_string": "MỨC CƯỢC",
+    "_N$string": "MỨC CƯỢC",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1513,6 +1516,7 @@
     },
     "_enabled": true,
     "overrideFonts": [],
+    "enableCacheMode": false,
     "_id": ""
   },
   {
@@ -1559,7 +1563,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 86.3,
+      "width": 130.9,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1611,8 +1615,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.LINES",
-    "_N$string": "UI.LINES",
+    "_string": "DÒNG CƯỢC",
+    "_N$string": "DÒNG CƯỢC",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1653,6 +1657,7 @@
     },
     "_enabled": true,
     "overrideFonts": [],
+    "enableCacheMode": false,
     "_id": ""
   },
   {
@@ -1699,7 +1704,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 146.2,
+      "width": 128.16,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1751,8 +1756,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.TOTAL_BET",
-    "_N$string": "UI.TOTAL_BET",
+    "_string": "TỔNG CƯỢC",
+    "_N$string": "TỔNG CƯỢC",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1793,6 +1798,7 @@
     },
     "_enabled": true,
     "overrideFonts": [],
+    "enableCacheMode": false,
     "_id": ""
   },
   {
@@ -1839,7 +1845,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 64.72,
+      "width": 73.32,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1891,8 +1897,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "UI.WIN",
-    "_N$string": "UI.WIN",
+    "_string": "THẮNG",
+    "_N$string": "THẮNG",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1933,6 +1939,7 @@
     },
     "_enabled": true,
     "overrideFonts": [],
+    "enableCacheMode": false,
     "_id": ""
   },
   {
@@ -6567,15 +6574,17 @@
     "pagination": {
       "__id__": 174
     },
+    "mainFrame": {
+      "__id__": 5
+    },
+    "gameName": null,
     "content": {
       "__id__": 59
     },
     "itemPrefab": {
       "__uuid__": "b30528a7-476c-421c-b56e-a3c938c0f22c"
     },
-    "mainFrame": {
-      "__id__": 5
-    },
+    "wrapperContent": null,
     "scrollView": null,
     "ticketDetailPrefab": {
       "__uuid__": "c5747480-0be6-4ac5-a099-9c450ea2f462"
