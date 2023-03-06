@@ -137,8 +137,8 @@ export default class StandardSlotGame extends SlotGameBase {
         this._gameId = value;
     }
 
-    normalPaylineDuration = 2;
-    turboPaylineDuration = 2;
+    normalPaylineDuration = 1.3;
+    turboPaylineDuration = 1.3;
 
     protected audioClips = {};
     private previewSymbolLeft: cc.Prefab;
