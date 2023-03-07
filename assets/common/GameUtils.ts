@@ -14,7 +14,7 @@ import { preloadAssets } from "./PreloadRemoteAsset";
 import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
-export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50, 61];
+export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
 
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
