@@ -24,17 +24,15 @@ export default class SettingMenu extends cc.Component {
 
     onLoad() {
         //    super.onLoad();
-        console.log("on load", this.commonDialog);
         if (this.commonDialog) {
             this.commonDialog.addOnDidHide(() => {
-                console.log("destroy");
                 this.node.destroy();
             });
         }
 
         if (window.authData?.system !== AppTypes.SabaApp) {
             this.logoutButton.active = false;
-            this.bgNode.height = 352;
+            this.bgNode.height = 300;
         }
     }
 
@@ -43,16 +41,7 @@ export default class SettingMenu extends cc.Component {
     }
 
     collapseMenu(animated: boolean) {}
-
-    onClickBackgroundMusic() {
-        this.doCommons();
-        console.log("click background music");
-    }
-
-    onClickSoundEffect() {
-        this.doCommons();
-        console.log("click sound effect");
-    }
+   
 
     onClickLogout() {
         this.doCommons();

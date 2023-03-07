@@ -136,6 +136,7 @@ export default class Lobby extends cc.Component {
     }
 
     openSettingMenu() {
+        AudioManager.getInstance().playClick();
         const settingMenu = cc.instantiate(this.settingMenuPrefab);
         settingMenu.on(SettingMenuEvents.LOGOUT, () => {
             const dialog = cc.instantiate(this.logoutPrefab);

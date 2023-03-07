@@ -1,3 +1,4 @@
+import AudioManager from "../audio/AudioManager";
 import { redirectToLoginPage } from "../auth/SGConnectAPI";
 import CommonDialog from "../_base/view-models/CommonDialog";
 
@@ -10,17 +11,15 @@ export default class LogoutPopup extends cc.Component {
 
     onLoad() {
         //    super.onLoad();
-        console.log("on load", this.commonDialog);
         if (this.commonDialog) {
             this.commonDialog.addOnDidHide(() => {
-                console.log("destroy");
                 this.node.destroy();
             });
         }
     }
 
     public logout() {
-        console.log("logout");
+        AudioManager.getInstance().playClick();
         redirectToLoginPage();
     }
 }
