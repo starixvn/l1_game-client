@@ -2,8 +2,8 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        63: "Happy Ocean"
+        63: "快樂海洋"
     }
 };
 
-reloadLanguageData("th", phrases);
+reloadLanguageData("zh_tw", phrases);

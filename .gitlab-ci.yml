@@ -93,7 +93,7 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
-    - project: "ci/repos-ci/pentagon_l1_happy_fish_client"
+    - project: "ci/repos-ci/pentagon_l1_happy_ocean_client"
       ref: master
       file: "gitlab-ci-mixing.yml"
 
@@ -277,7 +277,7 @@ bundle-verification:
     extends:
         - .build:image:l2_win_three_cards_client:rules
 
-.base_build_cocos_web_l1_happy_fish_client:
+.base_build_cocos_web_l1_happy_ocean_client:
     <<: *build_cocos_creator_script
     extends:
-        - .build:image:l1_happy_fish_client:rules
+        - .build:image:l1_happy_ocean_client:rules
