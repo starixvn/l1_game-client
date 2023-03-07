@@ -149,7 +149,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 133.61,
+      "width": 155.24,
       "height": 79.6
     },
     "_anchorPoint": {
@@ -201,8 +201,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "DÒNG",
-    "_N$string": "DÒNG",
+    "_string": "UI.LINE",
+    "_N$string": "UI.LINE",
     "_fontSize": 42,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -325,7 +325,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 273.14,
+      "width": 311.02,
       "height": 79.6
     },
     "_anchorPoint": {
@@ -377,8 +377,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TỔNG CƯỢC",
-    "_N$string": "TỔNG CƯỢC",
+    "_string": "UI.TOTAL_BET",
+    "_N$string": "UI.TOTAL_BET",
     "_fontSize": 42,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -501,7 +501,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 157.97,
+      "width": 139.91,
       "height": 79.6
     },
     "_anchorPoint": {
@@ -553,8 +553,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "THẮNG",
-    "_N$string": "THẮNG",
+    "_string": "UI.WIN",
+    "_N$string": "UI.WIN",
     "_fontSize": 42,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -677,7 +677,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 138.02,
+      "width": 172.97,
       "height": 79.6
     },
     "_anchorPoint": {
@@ -729,8 +729,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CƯỢC",
-    "_N$string": "CƯỢC",
+    "_string": "UI.BET2",
+    "_N$string": "UI.BET2",
     "_fontSize": 42,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -4866,8 +4866,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 221.32,
-      "height": 106.35
+      "width": 200,
+      "height": 150
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4878,8 +4878,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        17.005,
-        30.279,
+        0,
+        0,
         0,
         0,
         0,
@@ -4918,7 +4918,7 @@
     ],
     "paused": false,
     "defaultSkin": "default",
-    "defaultAnimation": "animation_button_win",
+    "defaultAnimation": "coin",
     "_preCacheMode": 0,
     "_cacheMode": 0,
     "loop": false,
@@ -4929,13 +4929,13 @@
     "_frameCache": null,
     "_curFrame": null,
     "_skeletonCache": null,
-    "_animationName": "animation_button_win",
+    "_animationName": "coin",
     "_animationQueue": [],
     "_headAniInfo": null,
     "_playTimes": 1,
     "_isAniComplete": true,
     "_N$skeletonData": {
-      "__uuid__": "49f6943a-dfad-46f1-a8ed-8f0831b38466"
+      "__uuid__": "30082030-11b1-4df2-8f72-5e239b783b56"
     },
     "_N$_defaultCacheMode": 0,
     "_N$debugSlots": false,
@@ -6632,7 +6632,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 166.49,
+      "width": 231.49,
       "height": 79.6
     },
     "_anchorPoint": {
@@ -6684,8 +6684,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TỰ QUAY",
-    "_N$string": "TỰ QUAY",
+    "_string": "UI.AUTOSPIN",
+    "_N$string": "UI.AUTOSPIN",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
@@ -6808,7 +6808,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 171.01,
+      "width": 170.91,
       "height": 79.6
     },
     "_anchorPoint": {
@@ -6860,8 +6860,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "SIÊU TỐC",
-    "_N$string": "SIÊU TỐC",
+    "_string": "UI.TURBO",
+    "_N$string": "UI.TURBO",
     "_fontSize": 34,
     "_lineHeight": 60,
     "_enableWrapText": true,
