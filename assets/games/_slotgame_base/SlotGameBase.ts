@@ -388,9 +388,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     async showWinningBet(bet: number) {
         this.playAnimationWinningBet();
         this.playSound(ClassicSlotSound.WIN);
-        await GameUtils.delayTime(0.5);
         this.updateWinningBetLabel(bet);
         this.blinkWinningBet();
+        await GameUtils.delayTime(0.5);
     }
 
     playAnimationWinningBet() {
