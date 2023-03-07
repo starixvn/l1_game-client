@@ -385,12 +385,11 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.blinkUserBalance();
     }
 
-    async showWinningBet(bet: number) {
+    showWinningBet(bet: number) {
         this.playAnimationWinningBet();
         this.playSound(ClassicSlotSound.WIN);
         this.updateWinningBetLabel(bet);
         this.blinkWinningBet();
-        await GameUtils.delayTime(0.5);
     }
 
     playAnimationWinningBet() {
@@ -930,8 +929,13 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         const delayShowBigWinValue = this.getCustomDuration("delayShowBigWinValue");
         bigWinAnimation.setAmount({ amount: betWin, duration: showBigWinValueTime, delayTime: delayShowBigWinValue });
 
+        const delayWinningBetLabel = showBigWinValueTime + delayShowBigWinValue;
+        cc.tween(this)
+            .delay(delayWinningBetLabel)
+            .call(() => this.showWinningBet(betWin))
+            .start();
+
         await this.showEffect(effect);
-        await this.showWinningBet(betWin);
     }
 
     protected showBonusDialog(bonus: number, onBonusFinished) {
