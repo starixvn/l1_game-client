@@ -19,7 +19,7 @@ const defaultConfig = {
     enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false,
     SGConnectDomain: "https://connectsite.lumigame.com",
-    AppDownloadDomain: "http://google.com"
+    AppDownloadDomain: "https://l1-appdownload.lumigame.com/app-landing-page"
 };
 
 const domainMapper = window.envConfig ? undefined : defaultConfig.serverDomainMapper;

@@ -599,6 +599,7 @@ export default class Lobby extends cc.Component {
     }
 
     redirectToDownloadPage() {
+        AudioManager.getInstance().playClick();
         window.open(Configs.AppDownloadDomain, "_blank");
     }
 }
