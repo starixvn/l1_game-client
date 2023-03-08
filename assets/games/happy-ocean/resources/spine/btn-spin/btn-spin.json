@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "cl23Nlf1UbPsnxHzXK43I+S+S04", "spine": "3.8.99", "images": "./images/", "audio": "D:/Project/Sabaclub/Happyfish/Spine/spin-button-animation" },
+"skeleton": { "hash": "Kbcoj89UWNaMkQU7xtO9MDu1HR8", "spine": "3.8.99", "images": "./images/", "audio": "D:/Project/Sabaclub/Happyfish/Spine/spin-button-animation" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "bone", "parent": "root" },
@@ -59,9 +59,10 @@
 		"slots": {
 			"hover": {
 				"color": [
-					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.5, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
-					{ "time": 1, "color": "ffffff00" }
+					{ "color": "ffffff00" },
+					{ "time": 0.5, "color": "ffffffc7" },
+					{ "time": 1, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.3333, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "name": "hover" }
@@ -71,8 +72,8 @@
 		"bones": {
 			"hover": {
 				"scale": [
-					{ "x": 0.6, "y": 0.6 },
-					{ "time": 1, "x": 2, "y": 2 }
+					{ "x": 0.8, "y": 0.8 },
+					{ "time": 1, "x": 1.6, "y": 1.6 }
 				]
 			}
 		}
