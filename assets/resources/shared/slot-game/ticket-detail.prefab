@@ -1028,7 +1028,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 347.695,
+      "width": 399.495,
       "height": 40
     },
     "_anchorPoint": {
@@ -1098,7 +1098,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 187.21,
+      "width": 290.81,
       "height": 81.9
     },
     "_anchorPoint": {
@@ -1110,7 +1110,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -127.04499999999999,
+        -127.04500000000002,
         0,
         0,
         0,
@@ -1150,8 +1150,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "PHIÊN:",
-    "_N$string": "PHIÊN:",
+    "_string": "UI.ROUND:",
+    "_N$string": "UI.ROUND:",
     "_fontSize": 56,
     "_lineHeight": 65,
     "_enableWrapText": true,
@@ -1245,7 +1245,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        49.30250000000002,
+        75.20249999999999,
         0,
         0,
         0,
@@ -1326,7 +1326,7 @@
     "_enabled": true,
     "_layoutSize": {
       "__type__": "cc.Size",
-      "width": 347.695,
+      "width": 399.495,
       "height": 40
     },
     "_resize": 1,
@@ -1474,7 +1474,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83.16,
+      "width": 176.68,
       "height": 63
     },
     "_anchorPoint": {
@@ -1526,8 +1526,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "STT",
-    "_N$string": "STT",
+    "_string": "UI.INDEX",
+    "_N$string": "UI.INDEX",
     "_fontSize": 40,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -1615,7 +1615,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 261.8,
+      "width": 172.6,
       "height": 63
     },
     "_anchorPoint": {
@@ -1667,8 +1667,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "DÒNG CƯỢC",
-    "_N$string": "DÒNG CƯỢC",
+    "_string": "UI.LINES",
+    "_N$string": "UI.LINES",
     "_fontSize": 40,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -1756,7 +1756,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 260.56,
+      "width": 236.48,
       "height": 63
     },
     "_anchorPoint": {
@@ -1808,8 +1808,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "BIỂU TƯỢNG",
-    "_N$string": "BIỂU TƯỢNG",
+    "_string": "UI.SYMBOL",
+    "_N$string": "UI.SYMBOL",
     "_fontSize": 40,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -1897,7 +1897,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 221.64,
+      "width": 354.72,
       "height": 63
     },
     "_anchorPoint": {
@@ -1949,8 +1949,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "SỐ LƯỢNG",
-    "_N$string": "SỐ LƯỢNG",
+    "_string": "UI.NOOFSYMBOL",
+    "_N$string": "UI.NOOFSYMBOL",
     "_fontSize": 40,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -2038,7 +2038,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 257.84,
+      "width": 174.64,
       "height": 63
     },
     "_anchorPoint": {
@@ -2090,8 +2090,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "TỶ LỆ CƯỢC",
-    "_N$string": "TỶ LỆ CƯỢC",
+    "_string": "UI.ODDS",
+    "_N$string": "UI.ODDS",
     "_fontSize": 40,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -2179,7 +2179,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 241.12,
+      "width": 134.52,
       "height": 63
     },
     "_anchorPoint": {
@@ -2231,8 +2231,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "MỨC CƯỢC",
-    "_N$string": "MỨC CƯỢC",
+    "_string": "UI.BET",
+    "_N$string": "UI.BET",
     "_fontSize": 40,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -2320,7 +2320,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 146.64,
+      "width": 129.44,
       "height": 63
     },
     "_anchorPoint": {
@@ -2372,8 +2372,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "THẮNG",
-    "_N$string": "THẮNG",
+    "_string": "UI.WIN",
+    "_N$string": "UI.WIN",
     "_fontSize": 40,
     "_lineHeight": 50,
     "_enableWrapText": true,
@@ -2905,6 +2905,9 @@
       "__uuid__": "16192cae-f694-4f63-b31d-564d4207f811"
     },
     "mainAtlas": null,
+    "paylinesAtlas": {
+      "__uuid__": "5da43970-8063-499d-9882-c501e8b5334f"
+    },
     "_id": ""
   },
   {

@@ -9,25 +9,10 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
     @property({ type: cc.SpriteAtlas, override: true, visible: false })
     mainAtlas: cc.SpriteAtlas = null;
 
-    private paylinesAtlas: cc.SpriteAtlas;
-    gameId: number;
+    @property(cc.SpriteAtlas)
+    paylinesAtlas: cc.SpriteAtlas = null;
 
-    async loadPaylineAtlas() {
-        const path = `shared/slot-game/textures/shared-standard-slot`;
-        try {
-            this.paylinesAtlas = await new Promise((resolve) => {
-                cc.resources.load<cc.SpriteAtlas>(path, cc.SpriteAtlas, (err, atlas) => {
-                    if (err) {
-                        console.log("aaaaaa");
-                        return;
-                    }
-                    resolve(atlas);
-                });
-            });
-        } catch (e) {
-            console.warn(`Missing Payline spriteAtlas for ${path} `, e);
-        }
-    }
+    gameId: number;
 
     async loadSymbolsAtlas() {
         const path = `resources/textures/standard-slot-game`;

@@ -58,18 +58,23 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     }
 
     setGameName() {
+        if (!this.gameName) {
+            return;
+        }
+
         const dataId = `gameNames.${this.gameId}`;
         const gameName = ` - ${i18n.t(dataId)}`;
         this.gameName.string = gameName.toUpperCase();
         this.gameName.node.active = true;
+
+        const node = this.gameName.node.parent;
+        node.getComponent(cc.Layout).updateLayout();
+        this.historyFrame.updateTitleSize(node.width + this.WIDTH_SIGN);
     }
 
     start() {
         if (this.gameId != 0) {
             this.setGameName();
-            const node = this.gameName.node.parent;
-            node.getComponent(cc.Layout).updateLayout();
-            this.historyFrame.updateTitleSize(node.width + this.WIDTH_SIGN);
         }
         if (!this.isSlotGame) {
             const header = this.wrapperContent.children[0];
