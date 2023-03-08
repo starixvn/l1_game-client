@@ -24,7 +24,7 @@ export default class SpineStatusButton extends StatusButton {
                 this.animation.setAnimation(0, "idle", true);
             }
 
-            // state === ButtonState.DISABLED && this.animation.setAnimation(0, "disable", true);
+            state === ButtonState.DISABLED && this.animation.setAnimation(1, "disable", true);
         }
     }
 }
