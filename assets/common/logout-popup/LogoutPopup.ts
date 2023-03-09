@@ -20,6 +20,6 @@ export default class LogoutPopup extends cc.Component {
 
     public logout() {
         AudioManager.getInstance().playClick();
-        redirectToLoginPage();
+        redirectToLoginPage(window.i18n.curLang);
     }
 }

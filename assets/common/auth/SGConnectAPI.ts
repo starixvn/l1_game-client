@@ -10,7 +10,7 @@ const redirectToAppUMPage = (operatorId: string, language = "en-US"): void => {
 };
 
 const redirectToLoginPage = (language = "en-US"): void => {
-    redirectToAppPage("/login", language);
+    redirectToAppPage("", language);
 };
 
 const redirectToAppPage = (path: string, language: string, otherQueryString = ""): void => {
