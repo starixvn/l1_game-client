@@ -94,6 +94,9 @@ export default class StandardSlotGame extends SlotGameBase {
     @property({ type: cc.Node, visible: false, override: true })
     winningBetEffect: cc.Node = null;
 
+    @property({ type: cc.AudioSource, visible: false, override: true })
+    musicBg: cc.AudioSource = null;
+
     @property(cc.Node)
     bottomMessageArea: cc.Node = null;
 
