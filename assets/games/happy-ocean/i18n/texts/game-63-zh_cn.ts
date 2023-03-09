@@ -2,7 +2,7 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        63: "快乐海洋"
+        63: "快乐鱼"
     }
 };
 
