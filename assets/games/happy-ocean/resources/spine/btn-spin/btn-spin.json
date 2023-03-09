@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "Kbcoj89UWNaMkQU7xtO9MDu1HR8", "spine": "3.8.99", "images": "./images/", "audio": "D:/Project/Sabaclub/Happyfish/Spine/spin-button-animation" },
+"skeleton": { "hash": "Nn31ZFzQLvG+UL8yOmtVSwNqsiI", "spine": "3.8.99", "images": "./images/", "audio": "D:/Project/Sabaclub/Happyfish/Spine/spin-button-animation" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "bone", "parent": "root" },
@@ -12,7 +12,7 @@
 	{ "name": "disable-black-overlay", "parent": "bone" }
 ],
 "slots": [
-	{ "name": "hover", "bone": "hover", "blend": "screen" },
+	{ "name": "hover", "bone": "hover", "attachment": "hover" },
 	{ "name": "twirling-blue", "bone": "twirling-blue" },
 	{ "name": "spin-button-base-bg", "bone": "spin-button-base" },
 	{ "name": "light", "bone": "light" },
@@ -31,7 +31,7 @@
 				"black-72-disable": { "width": 188, "height": 188 }
 			},
 			"hover": {
-				"hover": { "width": 200, "height": 202 }
+				"hover": { "width": 200, "height": 200 }
 			},
 			"light": {
 				"light": { "width": 186, "height": 186 }
@@ -52,6 +52,11 @@
 				"attachment": [
 					{ "name": "black-72-disable" }
 				]
+			},
+			"hover": {
+				"attachment": [
+					{ "name": null }
+				]
 			}
 		}
 	},
@@ -61,11 +66,7 @@
 				"color": [
 					{ "color": "ffffff00" },
 					{ "time": 0.5, "color": "ffffffc7" },
-					{ "time": 1, "color": "ffffff00", "curve": "stepped" },
-					{ "time": 1.3333, "color": "ffffff00" }
-				],
-				"attachment": [
-					{ "name": "hover" }
+					{ "time": 1, "color": "ffffff00" }
 				]
 			}
 		},
