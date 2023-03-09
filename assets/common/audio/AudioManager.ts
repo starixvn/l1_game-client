@@ -1,7 +1,5 @@
 import GameUtils from "../GameUtils";
 
-const MusicStorageKey = "SOUND_BACKGROUND";
-const SFXStorageKey = "SOUND_GAME";
 export default class AudioManager {
     public static getInstance(): AudioManager {
         if (!this.instance) {
@@ -16,6 +14,8 @@ export default class AudioManager {
     readonly soundObservers = { music: {}, sfx: {} };
     private isReady = false;
     private touchStart = false;
+    private readonly MusicStorageKey = "SOUND_BACKGROUND";
+    private readonly SFXStorageKey = "SOUND_GAME";
 
     init() {
         this.initDefaultStorage();
@@ -89,12 +89,12 @@ export default class AudioManager {
     }
 
     private initDefaultStorage() {
-        const background = cc.sys.localStorage.getItem(MusicStorageKey);
+        const background = cc.sys.localStorage.getItem(this.MusicStorageKey);
         if (background === "") {
             this.musicEnabled = true;
         }
 
-        const sfx = cc.sys.localStorage.getItem(SFXStorageKey);
+        const sfx = cc.sys.localStorage.getItem(this.SFXStorageKey);
         if (sfx === "") {
             this.sfxEnabled = true;
         }
@@ -134,22 +134,22 @@ export default class AudioManager {
     }
 
     get musicEnabled(): boolean {
-        const check = cc.sys.localStorage.getItem(MusicStorageKey);
+        const check = cc.sys.localStorage.getItem(this.MusicStorageKey);
         return check === "true";
     }
 
     set musicEnabled(value: boolean) {
-        cc.sys.localStorage.setItem(MusicStorageKey, value);
+        cc.sys.localStorage.setItem(this.MusicStorageKey, value);
         this.onMusicChanged(value);
     }
 
     get sfxEnabled(): boolean {
-        const check = cc.sys.localStorage.getItem(SFXStorageKey);
+        const check = cc.sys.localStorage.getItem(this.SFXStorageKey);
         return check === "true";
     }
 
     set sfxEnabled(value: boolean) {
-        cc.sys.localStorage.setItem(SFXStorageKey, value);
+        cc.sys.localStorage.setItem(this.SFXStorageKey, value);
         this.onSfxChanged(value);
         if (!value) {
             this.stopAllSFX();

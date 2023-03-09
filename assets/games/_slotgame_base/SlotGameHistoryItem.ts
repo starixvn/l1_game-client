@@ -1,3 +1,4 @@
+import AudioManager from "../../common/audio/AudioManager";
 import { getStringDateByTime } from "./../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "./../../common/helpers/NumberHelper";
 
@@ -52,6 +53,7 @@ export default class SlotGameHistoryItem extends cc.Component {
     };
 
     openTicketDetail() {
+        AudioManager.getInstance().playClick();
         this.showTicketDetail(this.data);
     }
 

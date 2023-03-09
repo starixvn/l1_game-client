@@ -858,8 +858,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     openGuide() {
-        super.openGuide();
+        AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
+        super.openGuide();
     }
 
     onClickShowTopWinner() {
