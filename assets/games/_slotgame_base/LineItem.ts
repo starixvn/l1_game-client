@@ -19,6 +19,9 @@ export default class LineItem extends cc.Component {
     @property
     normalLabelColor: cc.Color = cc.color(126, 97, 0);
 
+    selectedIconColor = cc.Color.WHITE;
+    unselectedIconColor = cc.Color.GRAY;
+
     setChecked(checked: boolean) {
         this.toggle.isChecked = checked;
         this.updateDisplay();
@@ -30,9 +33,14 @@ export default class LineItem extends cc.Component {
         this.updateDisplay();
     }
 
+    setPayLineIconColor(selectedColor: cc.Color, unselectedColor: cc.Color) {
+        this.selectedIconColor = selectedColor;
+        this.unselectedIconColor = unselectedColor;
+    }
+
     updateDisplay() {
         const highlight = this.toggle.isChecked;
-        this.icon.node.color = highlight ? cc.Color.WHITE : cc.Color.GRAY;
+        this.icon.node.color = highlight ? this.selectedIconColor : this.unselectedIconColor;
         this.num.node.color = highlight ? this.highlightLabelColor : this.normalLabelColor;
     }
 }
