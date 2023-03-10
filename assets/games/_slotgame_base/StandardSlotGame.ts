@@ -35,19 +35,7 @@ export default class StandardSlotGame extends SlotGameBase {
     effectFreeSpin: cc.Prefab = null;
 
     @property({ type: cc.Prefab, visible: false, override: true })
-    lineSelectionDialog: cc.Prefab = null;
-
-    @property({ type: cc.Prefab, visible: false, override: true })
     bonusDialog: cc.Prefab = null;
-
-    @property({ type: cc.Prefab, visible: false, override: true })
-    autoSpinDialogPrefab: cc.Prefab = null;
-
-    @property({ type: cc.Prefab, visible: false, override: true })
-    historyPrefab: cc.Prefab = null;
-
-    @property({ type: cc.Prefab, visible: false, override: true })
-    guidePrefab: cc.Prefab = null;
 
     @property({ type: cc.Prefab, visible: false, override: true })
     linePrefab: cc.Prefab = null;
@@ -55,11 +43,11 @@ export default class StandardSlotGame extends SlotGameBase {
     @property({ type: cc.Prefab, visible: false, override: true })
     lightLinePrefab: cc.Prefab = null;
 
-    @property({ type: cc.Prefab, visible: false, override: true })
-    miniNoticePrefab: cc.Prefab = null;
+    @property({ type: cc.Prefab })
+    slotBottomAreaPrefab: cc.Prefab = null;
 
-    @property({ type: cc.Prefab, visible: false, override: true })
-    processWarningPrefab: cc.Prefab = null;
+    @property({ type: cc.Prefab })
+    bottomMessagePrefab: cc.Prefab = null;
 
     @property({ type: cc.AudioSource, visible: false, override: true })
     soundSources: cc.AudioSource[] = [];
@@ -148,8 +136,6 @@ export default class StandardSlotGame extends SlotGameBase {
     private previewSymbolRight: cc.Prefab;
     private effectTransitionPrefab: cc.Prefab;
     slotBoard: StandardSlotBoard;
-    slotBottomAreaPrefab: cc.Prefab;
-    bottomMessagePrefab: cc.Prefab;
 
     onLoad() {
         this.loadAudios();
@@ -161,38 +147,6 @@ export default class StandardSlotGame extends SlotGameBase {
         this.node.getComponentsInChildren(LocalizedLoadSprite).forEach((comp) => {
             comp.gameId = this.gameId;
         });
-    }
-
-    async loadCommonPrefabsByCode() {
-        const dict = {
-            // prefab name : prefab property
-            "slot-bottom-area": "slotBottomAreaPrefab",
-            "bottom-message": "bottomMessagePrefab",
-            "dialog-line-selection": "lineSelectionDialog",
-            "dialog-auto-spin": "autoSpinDialogPrefab",
-            "dialog-history": "historyPrefab",
-            "dialog-guide": "guidePrefab",
-            "mini-warning": "miniNoticePrefab",
-            "processing-warning": "processWarningPrefab"
-        };
-
-        for (const key of Object.keys(dict)) {
-            const path = `shared/slot-game/${key}`;
-            try {
-                const prefab = await new Promise<cc.Prefab>((resolve, reject) => {
-                    cc.resources.load<cc.Prefab>(path, cc.Prefab, (error, prefab) => {
-                        if (error || !prefab) {
-                            reject(error);
-                        } else {
-                            resolve(prefab);
-                        }
-                    });
-                });
-                this[dict[key]] = prefab;
-            } catch (e) {
-                console.warn(`Missing prefab for ${path} `, e);
-            }
-        }
     }
 
     async loadPrefabsByCode() {

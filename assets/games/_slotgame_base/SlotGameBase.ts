@@ -155,10 +155,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.stakeButton.interactable = allow;
     }
 
-    async loadCommonPrefabsByCode() {
-        //empty
-    }
-
     async loadPrefabsByCode() {
         //empty
     }
@@ -176,11 +172,9 @@ export default class SlotGameBase extends FeatureSlotGameBase {
                 this.createAllLines();
             }
         });
-        this.loadCommonPrefabsByCode().then(() => {
-            this.initBottomMessage();
-            this.initBottomArea();
-            this.initDefaultBetChoices();
-        });
+        this.initBottomMessage();
+        this.initBottomArea();
+        this.initDefaultBetChoices();
     }
 
     initSlotBoard() {
