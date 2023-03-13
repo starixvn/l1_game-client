@@ -19,8 +19,9 @@ export default class CascadeSlotReel extends cc.Component {
     itemSize = 145;
 
     itemDisplayCount = CascadingSlotConfig.reelItemCount;
+    public gameId: number;
 
-    private items: CascadeSlotReelItem[] = [];
+    protected items: CascadeSlotReelItem[] = [];
     public readonly pixelPerSecond = 145 * 15;
 
     createReel() {
@@ -37,6 +38,7 @@ export default class CascadeSlotReel extends cc.Component {
     addItem() {
         const node = this.createReelItem();
         const item = node.getComponent(CascadeSlotReelItem);
+        item.gameId = this.gameId;
         this.items.push(item);
         return item;
     }

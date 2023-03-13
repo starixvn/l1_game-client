@@ -12,6 +12,7 @@ export default class CascadeSlotReelItem extends cc.Component {
     content: cc.Node = null;
 
     public index = -1;
+    public gameId: number;
 
     setItem(index: number) {
         this.replaceItem(index);
@@ -35,7 +36,7 @@ export default class CascadeSlotReelItem extends cc.Component {
         }
     }
 
-    private replaceItem(index: number) {
+    protected replaceItem(index: number) {
         this.content.removeAllChildren();
         if (index < 0 || index >= this.itemPrefabs.length) {
             console.error("replaceItem wrong index: " + index);

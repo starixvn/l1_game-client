@@ -12,6 +12,7 @@ const { ccclass, property } = cc._decorator;
 export default class CascadeSlotBoard extends cc.Component {
     boardSound: SlotGameSound;
 
+    public gameId: number;
     private readonly reels: CascadeSlotReel[] = [];
 
     onLoad() {
@@ -26,6 +27,7 @@ export default class CascadeSlotBoard extends cc.Component {
             const slotReel = child.getComponent(CascadeSlotReel);
             if (slotReel) {
                 slotReel.itemDisplayCount = CascadingSlotConfig.reelItemCount;
+                slotReel.gameId = this.gameId;
                 slotReel.createReel();
                 this.reels.push(slotReel);
             }

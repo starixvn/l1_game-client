@@ -198,12 +198,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     onLoad() {
         super.onLoad();
-        this.board.initBoardFullItems();
-        this.initGameDataEvents();
+        this.board.gameId = this.gameId;
+        //this.board.initBoardFullItems();
+        //this.initGameDataEvents();
     }
 
     start() {
-        this.gameData.uiModel.resetNewRound();
+        //this.gameData.uiModel.resetNewRound();
     }
 
     protected initGameDataEvents() {

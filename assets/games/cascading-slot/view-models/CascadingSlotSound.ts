@@ -1,0 +1,23 @@
+export enum CascadingSlotSound {
+    SPIN = 0,
+    FALL_OUT = 1,
+    DROP_IN = 2,
+    MULTIPLIER_APPEAR = 3,
+    BIG_WIN = 4,
+    BIG_WIN_STOP = 5,
+    FREE_SPIN = 6,
+    TURBO_FALL_OUT = 7,
+
+    TURBO_DROP_IN,
+    REEL_STOP,
+    REEL_STOP_1,
+    REEL_STOP_2,
+    REEL_STOP_3,
+    REEL_STOP_4,
+    REEL_STOP_5,
+    SYMBOL_EXPLODE,
+    INCREMENT,
+    INCREMENT_STOP,
+    REELHAVEMULTIPLIER,
+    COIN
+}
