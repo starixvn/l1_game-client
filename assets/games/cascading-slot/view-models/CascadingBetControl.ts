@@ -66,7 +66,7 @@ export default class CascadingBetControl extends cc.Component {
     betControlStorageKey = "CASCADING_SLOT_BET_CONTROL";
     gameId: number;
 
-    closeBetControl: () => void;
+    closeBetControl = () => {};
 
     resetValues() {
         this.currentCoinIndex = 0;

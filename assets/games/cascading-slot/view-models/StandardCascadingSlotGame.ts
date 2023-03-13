@@ -6,6 +6,7 @@ import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 import FreeSpinView from "./FreeSpinView";
 import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
+import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 
 const { ccclass, property } = cc._decorator;
@@ -101,10 +102,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     onLoadedPrefabs() {
-        this.initPrefabGame(this.totalMultiplierPrefab, this.totalMultiplierViewNode);
-        this.initPrefabGame(this.tumbleListPrefab, this.tumbleListNode);
+        this.initTumbleWinFrame();
         this.initFreespinView();
-        this.initTumbleList();
+        this.initTumbleWinList();
+        this.initTotalMultiplierFrame();
         super.onLoadedPrefabs();
     }
 
@@ -230,7 +231,14 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.tumbleWinView = node.getComponent(TumbleWinView);
     }
 
+    initTotalMultiplierFrame() {
+        const node = cc.instantiate(this.totalMultiplierPrefab);
+        this.totalMultiplierViewNode.addChild(node);
+        this.totalMultiplierView = node.getComponent(TotalMultiplierView);
+    }
+
     initBottomArea(node: cc.Node) {
         const bottomArea = node.getComponent(StandardCascadingBottomArea);
+        bottomArea.gameId = this.gameId;
     }
 }
