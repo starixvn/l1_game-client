@@ -97,7 +97,7 @@ export function formatUserCurrency(balance, currency, isCash) {
     return `${this.numberWithCommas(balance)} ${isCash ? "" : userCurrency}`;
 }
 
-export const formatOdds = (value: number | string | undefined, isFractionalFormat: boolean | undefined) => {
+export const formatOdds = (value: number | string | undefined, isFractionalFormat = false) => {
     return isFractionalFormat ? `${numberWithCommas(+value - 1, 2)}:1` : `1:${value}`;
 };
 

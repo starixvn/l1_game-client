@@ -26,7 +26,7 @@ export default class WebViewGuide extends LoadWebView {
         language: string,
         configStake: { minBet: number; maxBet: number; used: boolean },
         isInPromotionTime: boolean,
-        fractionalOddsFormat: boolean | undefined,
+        fractionalOddsFormat = false,
         specialDirection = ""
     ) {
         const domain = config.guideDomain;

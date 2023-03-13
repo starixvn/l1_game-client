@@ -11,7 +11,7 @@ export default class StandarSlotGuide extends WebViewGuide {
         language: string,
         configStake: { minBet: number; maxBet: number; used: boolean },
         isInPromotionTime: boolean,
-        fractionalOddsFormat: boolean | undefined,
+        fractionalOddsFormat = false,
         specialDirection = ""
     ) {
         const domain = config.guideDomain;
