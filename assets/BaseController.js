@@ -46,6 +46,9 @@ module.exports = {
         if (data.rate) {
             this.user.rate = data.rate;
         }
+        if (void 0 !== data.currency) {
+            this.user.currency = data.currency;
+        }
         if (void 0 !== data.name) {
             this.user.name = data.name;
         }
@@ -57,15 +60,6 @@ module.exports = {
         }
         if (void 0 !== data.UID) {
             this.user.UID = data.UID;
-        }
-        if (void 0 !== data.joinedOn) {
-            this.user.joinedOn = data.joinedOn;
-        }
-        if (void 0 !== data.security) {
-            this.user.security = data.security;
-        }
-        if (void 0 !== data.currency) {
-            this.user.currency = data.currency;
         }
         if (void 0 !== data.availSpins) {
             this.user.availSpins = data.availSpins;
