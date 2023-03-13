@@ -8,7 +8,6 @@ import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import FeatureSlotGameBase from "../../_slotgame_base/FeatureSlotGameBase";
 import HoldActionButton from "../../_slotgame_base/HoldActionButton";
 import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
-import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import SlotGameTopMessage from "../../_slotgame_base/SlotGameTopMessage";
 import { handleBetControl } from "../actions/CascadingSlotConfigAction";
 import { handleSettle } from "../actions/CascadingSlotSettlementAction";
@@ -28,6 +27,7 @@ import CascadingTotalBet from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
+import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 
 const { ccclass, property } = cc._decorator;
 

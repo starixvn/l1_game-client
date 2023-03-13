@@ -1,9 +1,10 @@
 import _ = require("lodash");
 
 import GameUtils from "../../../common/GameUtils";
-import SlotGameSound, { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
+import SlotGameSound from "../../_slotgame_base/SlotGameSound";
 import CascadeSlotReel from "./CascadeSlotReel";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
+import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 import MultiplierItem from "./MultiplierItem";
 
 const { ccclass, property } = cc._decorator;

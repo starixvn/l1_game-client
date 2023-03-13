@@ -3,7 +3,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
 import CascadingSlotBase from "./CascadingSlotBase";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
-import { CascadingSlotSound } from "./CascadingSlotSound";
+import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 import FreeSpinView from "./FreeSpinView";
 
 const { ccclass, property } = cc._decorator;
@@ -155,28 +155,28 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     loadAudios() {
         const dict = {
-            [CascadingSlotSound.SPIN]: "spin-button",
-            [CascadingSlotSound.FALL_OUT]: "fall_out",
-            [CascadingSlotSound.DROP_IN]: "drop_in",
-            [CascadingSlotSound.MULTIPLIER_APPEAR]: "multiplier_appear",
-            [CascadingSlotSound.BIG_WIN]: "big_win",
-            [CascadingSlotSound.BIG_WIN_STOP]: "big_win_end",
-            [CascadingSlotSound.FREE_SPIN]: "free_spin",
-            [CascadingSlotSound.TURBO_FALL_OUT]: "turbo_fall_out",
+            [CascadingSlotGameSound.SPIN_BUTTON]: "spin-button",
+            [CascadingSlotGameSound.FALL_OUT]: "fall_out",
+            [CascadingSlotGameSound.DROP_IN]: "drop_in",
+            [CascadingSlotGameSound.MULTIPLIER_APPEAR]: "multiplier_appear",
+            [CascadingSlotGameSound.BIG_WIN]: "big_win",
+            [CascadingSlotGameSound.BIG_WIN_STOP]: "big_win_end",
+            [CascadingSlotGameSound.FREE_SPIN]: "free_spin",
+            [CascadingSlotGameSound.TURBO_FALL_OUT]: "turbo_fall_out",
 
-            [CascadingSlotSound.TURBO_DROP_IN]: "turbo_drop_in",
-            [CascadingSlotSound.REEL_STOP]: "reel_stop0",
-            [CascadingSlotSound.REEL_STOP_1]: "reel_stop1",
-            [CascadingSlotSound.REEL_STOP_2]: "reel_stop2",
+            [CascadingSlotGameSound.TURBO_DROP_IN]: "turbo_drop_in",
+            [CascadingSlotGameSound.REEL_STOP]: "reel_stop0",
+            [CascadingSlotGameSound.REEL_STOP_1]: "reel_stop1",
+            [CascadingSlotGameSound.REEL_STOP_2]: "reel_stop2",
 
-            [CascadingSlotSound.REEL_STOP_3]: "reel_stop3",
-            [CascadingSlotSound.REEL_STOP_4]: "reel_stop4",
-            [CascadingSlotSound.REEL_STOP_5]: "reel_stop5",
-            [CascadingSlotSound.SYMBOL_EXPLODE]: "explode",
-            [CascadingSlotSound.INCREMENT]: "increment",
-            [CascadingSlotSound.INCREMENT_STOP]: "increment_stop",
-            [CascadingSlotSound.REELHAVEMULTIPLIER]: "special_symbol_land",
-            [CascadingSlotSound.COIN]: "coin"
+            [CascadingSlotGameSound.REEL_STOP_3]: "reel_stop3",
+            [CascadingSlotGameSound.REEL_STOP_4]: "reel_stop4",
+            [CascadingSlotGameSound.REEL_STOP_5]: "reel_stop5",
+            [CascadingSlotGameSound.SYMBOL_EXPLODE]: "explode",
+            [CascadingSlotGameSound.INCREMENT]: "increment",
+            [CascadingSlotGameSound.INCREMENT_STOP]: "increment_stop",
+            [CascadingSlotGameSound.REELHAVEMULTIPLIER]: "special_symbol_land",
+            [CascadingSlotGameSound.COIN]: "coin"
         };
 
         for (const key of Object.keys(dict)) {

@@ -14,8 +14,9 @@ import CountDownWarning from "./CountDownWarning";
 import HoldActionButton from "./HoldActionButton";
 import SlotGameBottomMessage from "./SlotGameBottomMessage";
 import SlotGameSongs from "./SlotGameSongs";
-import SlotGameSound, { CascadingSlotGameSound } from "./SlotGameSound";
+import SlotGameSound from "./SlotGameSound";
 import TurboAutoSpinSettingDialog from "./TurboAutoSpinSettingDialog";
+import { CascadingSlotGameSound } from "../cascading-slot/view-models/CascadingSlotGameSound";
 
 const { ccclass, property } = cc._decorator;
 

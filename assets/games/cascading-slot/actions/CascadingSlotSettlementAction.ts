@@ -1,11 +1,11 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import GameUtils from "../../../common/GameUtils";
-import { CascadingSlotGameSound } from "../../_slotgame_base/SlotGameSound";
 import { CascadingSlotFinishData, Tumble, WinIconDetail } from "../models/CascadingSlotFinishModel";
 import { CascadingSlotState } from "../models/CascadingSlotStateModel";
 import { SpinButtonState } from "../models/SpinButtonStateModel";
 import CascadingSlotBase from "../view-models/CascadingSlotBase";
+import { CascadingSlotGameSound } from "../view-models/CascadingSlotGameSound";
 import { convertBoardValue, convertData } from "../view-models/CascadingSlotUtils";
 
 export const handleSettle = (mainGame: CascadingSlotBase) => async (data: CascadingSlotFinishData) => {
