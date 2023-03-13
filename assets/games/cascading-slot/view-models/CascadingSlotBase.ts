@@ -22,12 +22,12 @@ import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingBetControl, { TotalBetType } from "./CascadingBetControl";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import CascadingSlotGameHistory from "./CascadingSlotGameHistory";
+import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 import CascadingTotalBet from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
-import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 
 const { ccclass, property } = cc._decorator;
 
@@ -198,13 +198,20 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     onLoad() {
         super.onLoad();
-        this.board.gameId = this.gameId;
-        //this.board.initBoardFullItems();
-        this.initGameDataEvents();
+        this.loadPrefabsByCode().then(() => {
+            this.onLoadedPrefabs();
+        });
     }
 
-    start() {
+    onLoadedPrefabs() {
+        this.board.gameId = this.gameId;
+        this.board.initBoardFullItems();
+        this.initGameDataEvents();
         this.gameData.uiModel.resetNewRound();
+    }
+
+    loadPrefabsByCode(): Promise<void> {
+        return Promise.resolve();
     }
 
     protected initGameDataEvents() {

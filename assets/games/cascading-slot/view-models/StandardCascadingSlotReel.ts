@@ -8,22 +8,20 @@ const { ccclass, property } = cc._decorator;
 export default class StandardCascadingSlotReel extends CascadeSlotReel {
     async highlightItem(index: number) {
         const item = this.items[index];
-        const duration = this.effectSpineSymbol(item, "highlight");
-        await GameUtils.delayTime(duration);
+        GameUtils.moveToOtherNode(item.node, this.effectContainer);
+        await this.effectSpineSymbol(item, "highlight");
     }
 
     async removeItem(index: number) {
         const item = this.items[index];
-        const duration = this.effectSpineSymbol(item, "explode");
-        await GameUtils.delayTime(duration);
+        await this.effectSpineSymbol(item, "explode");
         item.destroy();
     }
 
-    effectSpineSymbol(item: CascadeSlotReelItem, animation: string): number {
-        GameUtils.moveToOtherNode(item.node, this.effectContainer);
+    async effectSpineSymbol(item: CascadeSlotReelItem, animation: string) {
         const effectSpine = item.getComponentInChildren(sp.Skeleton);
         effectSpine.setAnimation(0, animation, true);
         const duration = effectSpine.findAnimation(animation).duration;
-        return duration;
+        await GameUtils.delayTime(duration);
     }
 }

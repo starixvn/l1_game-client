@@ -1,4 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
+import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "./CascadingSlotUtils";
 import MultiplierItem from "./MultiplierItem";
 
 const { ccclass, property } = cc._decorator;
@@ -19,20 +20,22 @@ export default class CascadeSlotReelItem extends cc.Component {
         this.index = index;
     }
 
+    get isScatterSymbol(): boolean {
+        return this.index === SCATTER_SYMBOL;
+    }
+
     async highlightScatterItem() {
-        if (this.index === 9) {
-            const animation = this.content.getComponentInChildren(cc.Animation);
-            animation.play("scatter");
-            const duration = animation.currentClip.duration;
-            await GameUtils.delayTime(duration);
-        }
+        const animation = this.content.getComponentInChildren(cc.Animation);
+        animation.play("scatter");
+        const duration = animation.currentClip.duration;
+        await GameUtils.delayTime(duration);
     }
 
     updateMultiplierItem(multiplier: number[]) {
-        if (this.index === 10 && multiplier.length > 0) {
+        if (this.index === MULTIPLIER_SYMBOL && multiplier.length > 0) {
             const m = multiplier.shift();
             const multiplierItem = this.content.children[0].getComponent(MultiplierItem);
-            multiplierItem.setValue(m);
+            multiplierItem?.setValue(m);
         }
     }
 

@@ -21,22 +21,24 @@ export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
     }
 
     protected replaceItem(index: number) {
-        if (this.effectSpine) {
-            const anim = "idle";
-            this.effectSpine.skeletonData = this.cache[index];
-            this.effectSpine.premultipliedAlpha = this.premultipliedAlpha;
-            this.effectSpine.setAnimation(0, anim, true);
+        if (!this.effectSpine) {
+            return;
         }
+        const anim = "idle";
+        this.effectSpine.skeletonData = this.cache[index];
+        this.effectSpine.premultipliedAlpha = this.premultipliedAlpha;
+        this.effectSpine.setAnimation(0, anim, true);
     }
 
     async highlightScatterItem() {
-        if (this.index === 9) {
-            const anim = "highlight";
-            this.effectSpine.skeletonData = this.cache[this.index];
-            this.effectSpine.premultipliedAlpha = this.premultipliedAlpha;
-            this.effectSpine.setAnimation(0, anim, true);
-            const original = this.effectSpine.findAnimation("highlight").duration;
-            await GameUtils.delayTime(original);
+        if (!this.effectSpine) {
+            return;
         }
+        const anim = "highlight";
+        this.effectSpine.skeletonData = this.cache[this.index];
+        this.effectSpine.premultipliedAlpha = this.premultipliedAlpha;
+        this.effectSpine.setAnimation(0, anim, true);
+        const original = this.effectSpine.findAnimation(anim).duration;
+        await GameUtils.delayTime(original);
     }
 }

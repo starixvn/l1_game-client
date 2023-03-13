@@ -1,5 +1,5 @@
 import { BundleManager } from "bundle-management";
-import AudioManager from "../../../common/audio/AudioManager";
+
 import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
 import CascadingSlotBase from "./CascadingSlotBase";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
@@ -93,12 +93,14 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     onLoad() {
         super.onLoad();
         this.loadAudios();
-        this.loadPrefabsByCode().then(() => {
-            this.initPrefabGame(this.totalMultiplierPrefab, this.totalMultiplierViewNode);
-            this.initPrefabGame(this.tumbleListPrefab, this.tumbleListNode);
-            this.initFreespinView();
-            this.initTumbleList();
-        });
+    }
+
+    onLoadedPrefabs() {
+        this.initPrefabGame(this.totalMultiplierPrefab, this.totalMultiplierViewNode);
+        this.initPrefabGame(this.tumbleListPrefab, this.tumbleListNode);
+        this.initFreespinView();
+        this.initTumbleList();
+        super.onLoadedPrefabs();
     }
 
     async loadPrefabsByCode() {

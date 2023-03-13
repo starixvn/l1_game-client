@@ -1,4 +1,4 @@
-import _ = require("lodash");
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -25,26 +25,15 @@ export default class MultiplierItem extends cc.Component {
         return this._multiplierValue;
     }
 
-    hideMultiplier() {
-        this.value.node.active = false;
-        this.animation.stop();
-    }
-
-    playAnimationGlow() {
-        return new Promise<void>((resolve) => {
+    async playAnimationGlow() {
+        try {
             this.animation.play();
             const duration = this.animation.defaultClip.duration;
-            this.scheduleOnce(() => {
-                this.hideMultiplier();
-                resolve();
-            }, duration);
-        });
-    }
-
-    setRandomValue() {
-        const arr = [2, 3, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25];
-        const value = arr[_.random(0, arr.length - 1)];
-        this.setValue(value);
+            await GameUtils.delayTime(duration);
+            this.hideMultiplier();
+        } catch (e) {
+            console.warn("Catch error after await method", e.message);
+        }
     }
 
     setValue(value: number) {
@@ -53,7 +42,12 @@ export default class MultiplierItem extends cc.Component {
         this.updateColor(value);
     }
 
-    updateColor(value: number) {
+    private hideMultiplier() {
+        this.value.node.active = false;
+        this.animation.stop();
+    }
+
+    private updateColor(value: number) {
         const color = ["green", "blue", "purple", "yellow"];
         let i = 0;
         const range = [10, 20, 30];

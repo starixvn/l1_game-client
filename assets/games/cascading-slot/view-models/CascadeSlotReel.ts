@@ -152,7 +152,8 @@ export default class CascadeSlotReel extends cc.Component {
 
     async highlightScatterItems() {
         this.items.forEach((item) => GameUtils.moveToOtherNode(item.node, this.effectContainer));
-        await Promise.all(this.items.map((item) => item.highlightScatterItem()));
+        const scatterSymbols = this.items.filter((item) => item.isScatterSymbol);
+        await Promise.all(scatterSymbols.map((item) => item.highlightScatterItem()));
         this.items.forEach((item) => GameUtils.moveToOtherNode(item.node, this.node));
     }
 

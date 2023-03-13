@@ -1,3 +1,6 @@
+export const SCATTER_SYMBOL = 9;
+export const MULTIPLIER_SYMBOL = 10;
+
 export const convertBoardValue = (data: number[]): number[][] => {
     const result: number[][] = [];
 
