@@ -198,8 +198,11 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     onLoad() {
         super.onLoad();
-        this.loadPrefabsByCode().then(() => {
-            this.onLoadedPrefabs();
+
+        this.loadSlotSymbols().then(() => {
+            this.loadPrefabsByCode().then(() => {
+                this.onLoadedPrefabs();
+            });
         });
     }
 
@@ -208,6 +211,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.board.initBoardFullItems();
         this.initGameDataEvents();
         this.gameData.uiModel.resetNewRound();
+    }
+
+    loadSlotSymbols(): Promise<void> {
+        return Promise.resolve();
     }
 
     loadPrefabsByCode(): Promise<void> {

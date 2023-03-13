@@ -14,10 +14,9 @@ export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
 
     @property
     premultipliedAlpha = false;
-    private cache: any;
 
-    onLoad() {
-        this.cache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
+    get cache() {
+        return GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
     }
 
     protected replaceItem(index: number) {
