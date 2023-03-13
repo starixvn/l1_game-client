@@ -5,14 +5,13 @@ import CascadingSlotBase from "./CascadingSlotBase";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 import FreeSpinView from "./FreeSpinView";
+import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
+import TumbleWinView from "./TumbleWinView";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StandardCascadingSlotGame extends CascadingSlotBase {
-    @property({ type: cc.Prefab, visible: false, override: true })
-    flyWinLabelPrefab: cc.Prefab = null;
-
     @property({ type: cc.Prefab, visible: false, override: true })
     effectBigWin: cc.Prefab = null;
 
@@ -27,6 +26,12 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     @property({ type: cc.Toggle, visible: false, override: true })
     turboToggle: cc.Toggle = null;
+
+    @property({ type: cc.Label, visible: false, override: true })
+    totalWinLabel: cc.Label = null;
+
+    @property({ type: cc.Prefab, visible: false, override: true })
+    betControlPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     bottomMessageArea: cc.Node = null;
@@ -214,8 +219,18 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.freeSpinView.showViewQuickly(false);
     }
 
-    initTumbleList() {
+    initTumbleWinList() {
         const node = cc.instantiate(this.tumbleListPrefab);
         this.tumbleListNode.addChild(node);
+    }
+
+    initTumbleWinFrame() {
+        const node = cc.instantiate(this.tumbleWinFramePrefab);
+        this.tumbleWinFrameNode.addChild(node);
+        this.tumbleWinView = node.getComponent(TumbleWinView);
+    }
+
+    initBottomArea(node: cc.Node) {
+        const bottomArea = node.getComponent(StandardCascadingBottomArea);
     }
 }
