@@ -1,7 +1,7 @@
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class CreateAminFromAtlas extends cc.Component {
+export default class AtlasSheetAnimation extends cc.Component {
     @property(cc.SpriteAtlas)
     spriteAtlas: cc.SpriteAtlas = null;
 
@@ -25,7 +25,7 @@ export default class CreateAminFromAtlas extends cc.Component {
             () => {
                 index++;
                 spriteNode.getComponent(cc.Sprite).spriteFrame = this.spriteAtlas.getSpriteFrame(
-                    this.prefixNameAtlas + "_" + String(index).padStart(2, "0")
+                    `${this.prefixNameAtlas}_${String(index).padStart(2, "0")}`
                 );
                 if (index === this.frameNumber) {
                     index = 0;

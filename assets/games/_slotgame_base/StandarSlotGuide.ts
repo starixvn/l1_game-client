@@ -16,7 +16,7 @@ export default class StandarSlotGuide extends WebViewGuide {
     ) {
         const domain = config.guideDomain;
         const displayName = GameUtils.getGameNameString(gameId);
-        let url = `${domain}/${language}?gId=${gameId}&displayName=${displayName}&t=${
+        const url = `${domain}/${language}?gId=${gameId}&displayName=${displayName}&t=${
             this.themeName
         }&p=${isInPromotionTime}&f=c&v=${Date.now()}&fof=${fractionalOddsFormat}`;
         this.url = url;

@@ -49,7 +49,7 @@ export default class GameTicketDetailBase extends cc.Component {
     }
 
     start() {
-        if (this.gameId != 0) {
+        if (this.gameId !== 0) {
             this.setGameName();
             const node = this.gameName.node.parent;
             node.getComponent(cc.Layout).updateLayout();

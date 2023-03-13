@@ -1,4 +1,5 @@
 import { injectable } from "inversify";
+
 import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import { ICashSystem, ICreditSystem, System } from "../../../System";
 import LobbyManager from "./LobbyManager";
@@ -33,8 +34,7 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
     }
 
     getBannerInfo(gameId: number) {
-        const banner = LobbyManager.getInstance().getBannerByGameId(gameId);
-        return banner;
+        return LobbyManager.getInstance().getBannerByGameId(gameId);
     }
     customGameIconBySystem = [FourGuardiansId];
 

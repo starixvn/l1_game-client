@@ -42,6 +42,6 @@ export default class Category extends cc.Component {
     }
 
     enabledCategorySeparator(categoryLength: number) {
-        this.separator.active = !(categoryLength === this._index);
+        this.separator.active = categoryLength !== this._index;
     }
 }

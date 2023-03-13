@@ -32,7 +32,7 @@ export default class BigSmallHistoryItem extends SocketIOHistoryItemBase {
     }
 
     setData(betLog: any, index: number) {
-        const { time, phien, betwin, amount, refund, win, choice, result } = betLog;
+        const { time, phien, betwin, amount, refund, win, choice } = betLog;
         this.time.string = getStringDateByTime(time);
         this.round.string = phien;
         this.bet.string = numberWithCommas(amount);

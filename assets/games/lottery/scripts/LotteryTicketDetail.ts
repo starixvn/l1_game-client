@@ -33,14 +33,12 @@ export default class LotteryTicketDetail extends GameTicketDetailBase {
 
         this.roundId.string = `#${phien}`;
 
-        const total = betLogDetails.length;
         betLogDetails.forEach((detail, index) => {
             const node = cc.instantiate(this.itemSample);
             this.content.addChild(node);
             node.active = true;
             const item = node.getComponent(LotteryTicketDetailItem);
             item.setData(detail, index, data);
-            // item.lineBottom.active = index === total - 1;
         });
     }
 }

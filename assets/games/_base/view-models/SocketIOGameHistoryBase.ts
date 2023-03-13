@@ -73,7 +73,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     }
 
     start() {
-        if (this.gameId != 0) {
+        if (this.gameId !== 0) {
             this.setGameName();
         }
         if (!this.isSlotGame) {

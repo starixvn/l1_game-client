@@ -52,7 +52,7 @@ export default class LobbyManager {
     private static lobbyConfigs: LobbyConfigs;
     private static categoryList: CategoryConfig[] = [];
 
-    private HOME_ICON_ID = 0;
+    private readonly HOME_ICON_ID = 0;
 
     public static getInstance(): LobbyManager {
         if (!this.instance) {
@@ -106,8 +106,7 @@ export default class LobbyManager {
         LobbyManager.categoryList?.forEach((category) => {
             gameIds = [...gameIds, ...category.gameIds];
         });
-        const gameIdsByFilter = gameIds.filter(this.onlyUniqueGameId);
-        return gameIdsByFilter;
+        return gameIds.filter(this.onlyUniqueGameId);
     }
 
     onlyUniqueGameId(value, index, self) {

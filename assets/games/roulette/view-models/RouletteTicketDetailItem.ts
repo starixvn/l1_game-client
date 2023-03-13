@@ -84,6 +84,5 @@ export default class RouletteTicketDetailItem extends GameTicketDetailItemBase {
         this.amount.string = numberWithCommas(amount);
         this.amount.node.color = isWinning ? cc.Color.YELLOW : cc.Color.WHITE;
         this.height = this.node.height;
-        //this.setBackground(index);
     }
 }

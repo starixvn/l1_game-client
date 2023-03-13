@@ -24,7 +24,6 @@ export default class BitcoinMasterTicketDetail extends GameTicketDetailBase {
     setData(data: any) {
         const { betLogDetails, result } = data;
         this.setGeneralInfo(data);
-        const total = betLogDetails.length;
         betLogDetails.forEach((detail, index) => {
             const node = cc.instantiate(this.ticketItemPrefab);
             this.content.addChild(node);

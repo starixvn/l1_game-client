@@ -13,7 +13,6 @@ export default class VipSedieWarHistory extends SedieHistory {
         if (betLogs && betLogs.length) {
             betLogs.map((betLog, index) => {
                 const itemNode = cc.instantiate(this.itemPrefab);
-                //itemNode.active = true;
                 this.content.addChild(itemNode);
 
                 const item = itemNode.getComponent(VipSedieWarHistoryItem);

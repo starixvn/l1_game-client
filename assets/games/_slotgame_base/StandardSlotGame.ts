@@ -132,9 +132,9 @@ export default class StandardSlotGame extends SlotGameBase {
     turboPaylineDuration = 1.3;
 
     protected audioClips = {};
-    private previewSymbolLeft: cc.Prefab;
-    private previewSymbolRight: cc.Prefab;
-    private effectTransitionPrefab: cc.Prefab;
+    private readonly previewSymbolLeft: cc.Prefab;
+    private readonly previewSymbolRight: cc.Prefab;
+    private readonly effectTransitionPrefab: cc.Prefab;
     slotBoard: StandardSlotBoard;
 
     onLoad() {
@@ -415,8 +415,7 @@ export default class StandardSlotGame extends SlotGameBase {
         ];
         const randomIndex = _.random(samples.length - 1);
         console.log(`B${randomIndex}`);
-        const data = samples[randomIndex];
-        return data;
+        return samples[randomIndex];
     }
 
     onClickShowHistory() {

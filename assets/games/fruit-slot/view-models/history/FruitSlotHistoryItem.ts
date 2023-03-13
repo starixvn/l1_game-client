@@ -1,7 +1,7 @@
 import { formatDateTime } from "../../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import SocketIOHistoryItemBase from "../../../_base/view-models/SocketIOHistoryItemBase";
-import FruitSlotHistory, { BetLog } from "./FruitSlotHistory";
+import { BetLog } from "./FruitSlotHistory";
 import { getSymbolName } from "./FruitSlotHistoryHelper";
 
 const { ccclass, property } = cc._decorator;
@@ -26,7 +26,6 @@ export default class FruitSlotHistoryItem extends SocketIOHistoryItemBase {
     betLog: BetLog;
 
     async setData(betLog: BetLog, index: number, symbolSprites: cc.SpriteFrame[]) {
-        const winColor = cc.Color.WHITE.fromHEX("#fff664");
         this.betLog = betLog;
         this.time.string = formatDateTime(betLog.time);
         this.round.string = betLog.phien.toString();
