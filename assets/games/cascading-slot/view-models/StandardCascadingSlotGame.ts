@@ -239,6 +239,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     initBottomArea(node: cc.Node) {
         const bottomArea = node.getComponent(StandardCascadingBottomArea);
-        bottomArea.gameId = this.gameId;
+        this.betControl = bottomArea.betControl;
+        this.miniBetControl = bottomArea.miniBetControl;
+        this.checkExistNodeBet();
     }
 }
