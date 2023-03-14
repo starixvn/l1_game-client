@@ -4,6 +4,7 @@ import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
 import CascadingSlotBase from "./CascadingSlotBase";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
+import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 import FreeSpinView from "./FreeSpinView";
 import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
 import TotalMultiplierView from "./TotalMultiplierView";
@@ -223,6 +224,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     initTumbleWinList() {
         const node = cc.instantiate(this.tumbleListPrefab);
         this.tumbleListNode.addChild(node);
+        this.tumbleList = node.getComponent(CascadingSlotTumbleList);
     }
 
     initTumbleWinFrame() {
@@ -242,5 +244,16 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.betControl = bottomArea.betControl;
         this.miniBetControl = bottomArea.miniBetControl;
         this.checkExistNodeBet();
+        this.autoSpinToggle = bottomArea.autoSpinToggle;
+        this.turboToggle = bottomArea.turboToggle;
+        this.totalWinLabel = bottomArea.totalWinLabel;
+        bottomArea.onClickListener = {
+            onAutoSpinChanged: () => {
+                this.onAutoSpinChanged();
+            },
+            onTurboModeChanged: (toggle) => {
+                this.onTurboModeChanged(toggle);
+            }
+        };
     }
 }

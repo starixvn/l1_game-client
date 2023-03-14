@@ -24,4 +24,17 @@ export default class StandardCascadingBottomArea extends cc.Component {
     initBetControl(node: cc.Node) {
         this.betControl = node.getComponent(CascadingBetControl);
     }
+
+    onClickListener = {
+        onAutoSpinChanged: () => {},
+        onTurboModeChanged: (toggle) => {}
+    };
+
+    onAutoSpinChanged() {
+        this.onClickListener.onAutoSpinChanged();
+    }
+
+    onTurboModeChanged(toggle: cc.Toggle) {
+        this.onClickListener.onTurboModeChanged(toggle);
+    }
 }
