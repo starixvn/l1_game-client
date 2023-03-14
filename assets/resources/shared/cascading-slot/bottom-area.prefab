@@ -34,9 +34,6 @@
       },
       {
         "__id__": 52
-      },
-      {
-        "__id__": 55
       }
     ],
     "_active": true,
@@ -71,7 +68,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -320.309,
+        0,
         0,
         0,
         0,
@@ -1930,15 +1927,19 @@
     "_parent": {
       "__id__": 1
     },
-    "_children": [],
-    "_active": false,
-    "_components": [
+    "_children": [
       {
         "__id__": 53
       }
     ],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 57
+      }
+    ],
     "_prefab": {
-      "__id__": 54
+      "__id__": 58
     },
     "_opacity": 255,
     "_color": {
@@ -1988,43 +1989,21 @@
     "_id": ""
   },
   {
-    "__type__": "e6206lG649L0YwbLfXGvxbN",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 52
-    },
-    "_enabled": false,
-    "_policy": 2,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "bfec4b6d-200a-4ee9-9e5d-25e2a5465baa"
-    },
-    "fileId": "37ElqbychCMZj1w9Sfumm1",
-    "sync": false
-  },
-  {
     "__type__": "cc.Node",
     "_name": "betController",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1
+      "__id__": 52
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 56
+        "__id__": 54
       }
     ],
     "_prefab": {
-      "__id__": 58
+      "__id__": 56
     },
     "_opacity": 255,
     "_color": {
@@ -2049,7 +2028,7 @@
       "ctor": "Float64Array",
       "array": [
         -312.325,
-        219.114,
+        -65.118,
         0,
         0,
         0,
@@ -2078,7 +2057,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 55
+      "__id__": 53
     },
     "_enabled": true,
     "prefab": {
@@ -2086,7 +2065,7 @@
     },
     "initializationEventHandlers": [
       {
-        "__id__": 57
+        "__id__": 55
       }
     ],
     "_id": ""
@@ -2109,7 +2088,29 @@
     "asset": {
       "__uuid__": "bfec4b6d-200a-4ee9-9e5d-25e2a5465baa"
     },
-    "fileId": "09zc+pjj1OZpVOIV05HPI5",
+    "fileId": "5eRiaE6ztI2oSC/0d0ekp1",
+    "sync": false
+  },
+  {
+    "__type__": "e6206lG649L0YwbLfXGvxbN",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 52
+    },
+    "_enabled": false,
+    "_policy": 2,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__uuid__": "bfec4b6d-200a-4ee9-9e5d-25e2a5465baa"
+    },
+    "fileId": "37ElqbychCMZj1w9Sfumm1",
     "sync": false
   },
   {
