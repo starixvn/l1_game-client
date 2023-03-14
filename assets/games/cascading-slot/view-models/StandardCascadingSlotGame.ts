@@ -90,7 +90,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this._gameId = value;
     }
 
-    slotBottomAreaPrefab: cc.Prefab;
     bottomMessagePrefab: cc.Prefab;
     freespinViewPrefab: cc.Prefab;
     tumbleListPrefab: cc.Prefab;
