@@ -15,13 +15,15 @@ export default class StandardCascadingSlotReel extends CascadeSlotReel {
     async removeItem(index: number) {
         const item = this.items[index];
         await this.effectSpineSymbol(item, "explode");
-        item.destroy();
+        item.node.destroy();
     }
 
     async effectSpineSymbol(item: CascadeSlotReelItem, animation: string) {
         const effectSpine = item.getComponentInChildren(sp.Skeleton);
-        effectSpine.setAnimation(0, animation, true);
-        const duration = effectSpine.findAnimation(animation).duration;
-        await GameUtils.delayTime(duration);
+        effectSpine.setAnimation(0, animation, false);
+        const duration = effectSpine.findAnimation(animation)?.duration || 0;
+        if (duration > 0) {
+            await GameUtils.delayTime(duration);
+        }
     }
 }
