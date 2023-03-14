@@ -119,7 +119,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
             "tumble-win-frame": "tumbleWinFramePrefab",
             "tumble-list": "tumbleListPrefab"
-            // "bottom-message": "bottomMessage"
         };
 
         for (const key of Object.keys(dict)) {
@@ -164,26 +163,25 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     loadAudios() {
         const dict = {
             [CascadingSlotGameSound.SPIN_BUTTON]: "spin-button",
-            [CascadingSlotGameSound.FALL_OUT]: "fall_out",
-            [CascadingSlotGameSound.DROP_IN]: "drop_in",
-            [CascadingSlotGameSound.MULTIPLIER_APPEAR]: "multiplier_appear",
-            [CascadingSlotGameSound.BIG_WIN]: "big_win",
-            [CascadingSlotGameSound.BIG_WIN_STOP]: "big_win_end",
-            [CascadingSlotGameSound.FREE_SPIN]: "free_spin",
-            [CascadingSlotGameSound.TURBO_FALL_OUT]: "turbo_fall_out",
+            [CascadingSlotGameSound.FALL_OUT]: "symbol-out",
+            [CascadingSlotGameSound.DROP_IN]: "symbol-in",
+            [CascadingSlotGameSound.MULTIPLIER_APPEAR]: "multiplier-appear",
+            [CascadingSlotGameSound.BIG_WIN]: "big-win",
+            [CascadingSlotGameSound.BIG_WIN_STOP]: "big-win-increment-ended",
+            [CascadingSlotGameSound.FREE_SPIN]: "freespin",
+            [CascadingSlotGameSound.TURBO_FALL_OUT]: "symbol-in-out-turbo",
 
-            [CascadingSlotGameSound.TURBO_DROP_IN]: "turbo_drop_in",
-            [CascadingSlotGameSound.REEL_STOP]: "reel_stop0",
-            [CascadingSlotGameSound.REEL_STOP_1]: "reel_stop1",
-            [CascadingSlotGameSound.REEL_STOP_2]: "reel_stop2",
+            [CascadingSlotGameSound.TURBO_DROP_IN]: "symbol-in-out-turbo",
+            [CascadingSlotGameSound.REEL_STOP]: "reelstop1",
+            [CascadingSlotGameSound.REEL_STOP_1]: "reelstop2",
+            [CascadingSlotGameSound.REEL_STOP_2]: "reelstop3",
 
-            [CascadingSlotGameSound.REEL_STOP_3]: "reel_stop3",
-            [CascadingSlotGameSound.REEL_STOP_4]: "reel_stop4",
-            [CascadingSlotGameSound.REEL_STOP_5]: "reel_stop5",
-            [CascadingSlotGameSound.SYMBOL_EXPLODE]: "explode",
+            [CascadingSlotGameSound.REEL_STOP_3]: "reelstop4",
+            [CascadingSlotGameSound.REEL_STOP_4]: "reelstop5",
+            [CascadingSlotGameSound.REEL_STOP_5]: "reelstop5",
+            [CascadingSlotGameSound.SYMBOL_EXPLODE]: "symbol-match",
             [CascadingSlotGameSound.INCREMENT]: "increment",
-            [CascadingSlotGameSound.INCREMENT_STOP]: "increment_stop",
-            [CascadingSlotGameSound.REELHAVEMULTIPLIER]: "special_symbol_land",
+            [CascadingSlotGameSound.INCREMENT_STOP]: "increment-stop",
             [CascadingSlotGameSound.COIN]: "coin"
         };
 
