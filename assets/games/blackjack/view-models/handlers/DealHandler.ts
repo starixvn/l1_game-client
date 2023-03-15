@@ -189,22 +189,30 @@ export default class DealHandler implements DataHandler {
         positions.forEach((position) => {
             const place = this.main.handPlaces[position - 1];
             place.showErrorNotice();
-            const chipContainer = this.main.chipContainers[position - 1];
-            const chips = chipContainer.children[0];
-            const destPosition = chipContainer.convertToNodeSpaceAR(chipContainer.parent.convertToWorldSpaceAR(cc.v2(0, -300)));
+
             this.main.dealButton.getComponent(FadeEffectButton).setActive(false);
             this.main.clearButton.getComponent(FadeEffectButton).setActive(false);
             this.main.rebetButton.getComponent(FadeEffectButton).setActive(false);
             this.main.newBetButton.getComponent(FadeEffectButton).setActive(false);
-            chips.runAction(
-                cc.sequence(
-                    cc.jumpTo(0.7, destPosition, 250, 1),
-                    cc.delayTime(1.8),
-                    cc.callFunc(() => {
-                        place.onClearBetClick(false);
-                    })
-                )
-            );
+            const chipContainer = this.main.chipContainers[position - 1];
+            const chips = chipContainer.children[0];
+            const placeNoticeDuration = 1.8;
+            if (chips) {
+                const destPosition = chipContainer.convertToNodeSpaceAR(chipContainer.parent.convertToWorldSpaceAR(cc.v2(0, -300)));
+                chips.runAction(
+                    cc.sequence(
+                        cc.jumpTo(0.7, destPosition, 250, 1),
+                        cc.delayTime(placeNoticeDuration),
+                        cc.callFunc(() => {
+                            place.onClearBetClick(false);
+                        })
+                    )
+                );
+            } else {
+                place.scheduleOnce(() => {
+                    place.onClearBetClick(false);
+                }, placeNoticeDuration);
+            }
         });
 
         this.main.lockBet();
