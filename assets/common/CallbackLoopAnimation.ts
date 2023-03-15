@@ -7,10 +7,10 @@ export default class CallbackLoopAnimation extends CallbackAnimation {
     @property(cc.AnimationClip)
     loopClip: cc.AnimationClip = null;
 
-    private isLoopClip = false;
+    protected isLoopClip = false;
     private isFinished = false;
     private tapCount = 0;
-    private readonly delayFinishDuration = 2;
+    protected readonly delayFinishDuration = 2;
 
     public skipCallback = () => {};
 
