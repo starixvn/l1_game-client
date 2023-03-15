@@ -28,6 +28,7 @@ import CascadingTotalBet from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
+import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,6 +58,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     public isTrialMode = false;
     public trialUserBalance: number;
 
+    audioClips = {};
     topMessage: SlotGameTopMessage = null;
     protected trialConnection: SocketIOConnection;
     protected miniBetControl: CascadingTotalBet;
@@ -95,6 +97,14 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             return;
         }
         super.loadUserData(user);
+    }
+
+    playSound(type: CascadingSlotGameSound) {
+        this.gameSound.playSound(type);
+    }
+
+    stopSound(type: CascadingSlotGameSound) {
+        this.gameSound.stopSound(type);
     }
 
     getUserBalance() {
@@ -230,7 +240,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.GET_TUMBLE, () => {
-            this.gameSound.playSound(CascadingSlotGameSound.SYMBOL_EXPLODE);
+            this.playSound(CascadingSlotGameSound.SYMBOL_EXPLODE);
             this.tumbleWinView.showView(true);
             this.checkShowTopMessage();
             this.bottomMessage.showMessages(SlotNotification.TUMBLEWIN);
@@ -496,8 +506,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     override async showEffectBigWin(betWin: number) {
-        this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN);
-        this.gameSound.playSound(CascadingSlotGameSound.INCREMENT);
+        this.playSound(CascadingSlotGameSound.BIG_WIN);
+        this.playSound(CascadingSlotGameSound.INCREMENT);
 
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackLoopAnimation);
@@ -526,14 +536,14 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     private soundEndForBigWin() {
-        this.gameSound.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
-        this.gameSound.playSound(CascadingSlotGameSound.INCREMENT_STOP);
-        this.gameSound.stopSound(CascadingSlotGameSound.BIG_WIN);
-        this.gameSound.stopSound(CascadingSlotGameSound.INCREMENT);
+        this.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
+        this.playSound(CascadingSlotGameSound.INCREMENT_STOP);
+        this.stopSound(CascadingSlotGameSound.BIG_WIN);
+        this.stopSound(CascadingSlotGameSound.INCREMENT);
     }
 
     async showEffectFreeSpins(count: number) {
-        this.gameSound.playSound(CascadingSlotGameSound.FREE_SPIN);
+        this.playSound(CascadingSlotGameSound.FREE_SPIN);
         await super.showEffectFreeSpins(count);
     }
 

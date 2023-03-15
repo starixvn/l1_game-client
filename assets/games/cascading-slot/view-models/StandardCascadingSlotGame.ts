@@ -1,4 +1,5 @@
 import { BundleManager } from "bundle-management";
+import AudioManager from "../../../common/audio/AudioManager";
 
 import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
 import CascadingSlotBase from "./CascadingSlotBase";
@@ -19,9 +20,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     @property({ type: cc.Prefab, visible: false, override: true })
     effectFreeSpin: cc.Prefab = null;
-
-    @property({ type: cc.AudioSource, visible: false, override: true })
-    soundSources: cc.AudioSource[] = [];
 
     @property({ type: cc.Toggle, visible: false, override: true })
     autoSpinToggle: cc.Toggle = null;
@@ -95,6 +93,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     tumbleListPrefab: cc.Prefab;
     totalMultiplierPrefab: cc.Prefab;
     tumbleWinFramePrefab: cc.Prefab;
+
+    audioClips = {};
 
     onLoad() {
         super.onLoad();
@@ -197,13 +197,17 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
                 })
                 .then((clip) => {
                     if (clip) {
-                        this.gameSound.soundSources[key] = clip;
+                        this.audioClips[key] = clip;
                     }
                 })
                 .catch(() => {
                     console.warn("missing audio for", path);
                 });
         }
+    }
+
+    playSound(type: CascadingSlotGameSound) {
+        this.audioClips[type] && AudioManager.getInstance().playSFX(this.audioClips[type]);
     }
 
     initPrefabGame(prefab: cc.Prefab, node: cc.Node) {
