@@ -7,7 +7,6 @@ import { StringHelper } from "../WinThreeCardsHelper";
 import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
 import { payChips, payoutLoginPlayer, showWinningEffectForPlayers } from "../../../_base/action/PayChipsAction";
-import WinThreeCardsTimeDataHandler from "./WinThreeCardsTimeDataHandler";
 
 export const GapTime = {
     normal: 0.8,
@@ -22,7 +21,7 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
     }
 
     protected getOwnTimeHandle(): any {
-        return this.getOwnMain().timeHandler as WinThreeCardsTimeDataHandler;
+        return this.getOwnMain().timeHandler;
     }
     handle(data): boolean {
         if (data.finish) {

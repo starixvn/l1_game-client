@@ -221,32 +221,6 @@ export default class WinThreeCardsItem extends cc.Component {
         this.card1.getComponent(BaccaratCard).numberTag.active = false;
     }
 
-    private calculateThirdCardDelayAnimationTime(currentCard: cc.Node) {
-        this.cardBack.node.active = true;
-        const position = cc.v3(currentCard.position.x - currentCard.width / 2, currentCard.position.y - currentCard.height / 2, 0);
-        this.cardBack.node.position = position;
-        const card = currentCard.getComponent(BaccaratCard);
-        card.numberTag.active = false;
-        this.numberTagCardBack.string = card.getNumberTag();
-        this.setActionCardBack();
-    }
-
-    private setActionCardBack() {
-        this.cardBack.node.runAction(
-            cc.sequence(
-                cc.moveBy(0.8, cc.v2(10, -10)).easing(cc.easeSineOut()),
-                cc.spawn(
-                    cc.moveBy(0.8, cc.v2(150, -150)).easing(cc.easeExponentialInOut()),
-                    cc.fadeOut(0.8).easing(cc.easeExponentialInOut())
-                ),
-                cc.callFunc(() => {
-                    this.cardBack.node.active = false;
-                    this.cardBack.node.opacity = 255;
-                })
-            )
-        );
-    }
-
     dropCards(durationJumpToBoxCard = 0.6, duration = 0.2) {
         this.hideRank();
         const promises = [];
