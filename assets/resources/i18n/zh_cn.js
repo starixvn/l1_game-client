@@ -67,7 +67,7 @@ const data = {
         accountSignOut: "该帐户已被注销，因为其他人已登录此帐户。",
         dataProcessing: "正在处理数据。 请稍等...",
         connectionFailed: "与服务器的连接失败。",
-        sessionExpired: "您的会话已过期，请重新登录。",
+        sessionExpired: "您的会话已超时。 请重新登录。",
         nickNameDistance: "昵称的长度必须在 3 到 14 个字符之间。",
         nickNameCharacter: "昵称不能包含空格、特殊字符和非英文字符。",
         existNickName: "昵称已被占用，请尝试另一个。",

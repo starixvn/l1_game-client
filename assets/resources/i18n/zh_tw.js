@@ -67,7 +67,7 @@ const data = {
         accountSignOut: "該帳戶已被註銷，因為其他人已登錄此帳戶。",
         dataProcessing: "正在處理數據。請稍等...",
         connectionFailed: "與服務器的連接失敗。",
-        sessionExpired: "您的會話已過期，請重新登錄。",
+        sessionExpired: "您的會話已超時。請重新登錄。",
         nickNameDistance: "暱稱的長度必須在 3 到 14 個字符之間。",
         nickNameCharacter: "暱稱不能包含空格、特殊字符和非英文字符。",
         existNickName: "暱稱已被佔用，請嘗試另一個。",

@@ -78,7 +78,7 @@ const data = {
         accountSignOut: "Akun telah keluar karena orang lain masuk ke akun ini.",
         dataProcessing: "Data sedang diproses. Mohon tunggu...",
         connectionFailed: "Sambungan ke server gagal.",
-        sessionExpired: "Sesi Anda telah kedaluwarsa, silakan masuk lagi.",
+        sessionExpired: "Sesi Anda telah berakhir. Silakan masuk lagi.",
         nickNameDistance: "Nama panggilan harus antara 3 dan 14 karakter.",
         nickNameCharacter: "Nama panggilan tidak boleh berisi spasi, karakter khusus, dan karakter non-Inggris.",
         existNickName: "Nama panggilan sudah digunakan, silakan coba yang lain.",

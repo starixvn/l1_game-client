@@ -76,7 +76,7 @@ const data = {
         accountSignOut: "Tài khoản bị đăng xuất do có người khác đăng nhập vào tài khoản này.",
         dataProcessing: "Cược đang được xử lý. Vui lòng đợi.",
         connectionFailed: "Không thể kết nối tới máy chủ.",
-        sessionExpired: "Phiên đăng nhập đã hết hạn, bạn vui lòng đăng nhập lại.",
+        sessionExpired: "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại.",
         nickNameDistance: "Tên nhân vật phải có từ 3 đến 14 ký tự.",
         nickNameCharacter: "Không gõ dấu tiếng việt, không chứa khoảng trắng và các ký tự đặc biệt.",
         existNickName: "Tên nhân vật đã tồn tại.",

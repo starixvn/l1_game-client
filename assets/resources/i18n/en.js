@@ -75,7 +75,7 @@ const data = {
         accountSignOut: "The account has been signed out because someone else logged into this account.",
         dataProcessing: "Data are being processed. Please wait...",
         connectionFailed: "The connection to server failed.",
-        sessionExpired: "Your session has expired, please login again.",
+        sessionExpired: "Your session has timed out. Please login again.",
         nickNameDistance: "Nickname must be between 3 and 14 characters long.",
         nickNameCharacter: "Nickname cannot contain spaces, special characters, and non-English characters.",
         existNickName: "Nickname is already taken, please try another one.",
