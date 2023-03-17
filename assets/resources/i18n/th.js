@@ -464,15 +464,14 @@ const data = {
         totalBet: "Total Bet",
         totalWin: "Total Win",
         free_spin_left_amount: "Free Spin ที่เหลือ %{amount}",
-        download: "Download",
-        app: "APP",
-        setting: "SETTING",
-        backgroundMusic: "Background Music",
-        soundEffect: "Sound Effect",
-        logout: "Logout",
-        notification: "NOTIFICATION",
-        confirmLogout: "Are you sure you want to logout?",
-        cancel: "Cancel"
+        download: "ดาวน์โหลด",
+        app: "แอป",
+        setting: "ตั้งค่า",
+        backgroundMusic: "เสียงประกอบ",
+        soundEffect: "เสียงเอฟเฟกต์",
+        logout: "ออกจากระบบ",
+        confirmLogout: "คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ?",
+        cancel: "ยกเลิก"
     },
     termsPromotion: {
         first: "- ผู้เล่นทั้งใหม่และเก่ามีสิทธิ์เข้าร่วมโปรโมชั่น และมีโอกาสชนะรางวัลใหญ่ \n- จำนวนเงินที่ชนะจะจ่ายตามกฎโปรโมชั่น และการจ่ายเงิน \n- โปรโมชั่นจะนำไปใช้ตามช่วงเวลาเงื่อนไขที่บริษัทกำหนด เมื่อโปรโมชั่นหมดเขตลง อัตราการเดิมพันจะถูกตั้งค่ากลับไปเป็นค่าก่อนหน้านี้\n- บริษัทขอสงวนสิทธิ์ในการเปลี่ยนแปลงข้อกำหนดในการเข้าร่วมโปรโมชั่นหรือแก้ไขยุติระงับหรือสามารถทำการแก้ไขโปรโมชั่นนี้ได้ตลอดเวลา\n- ข้อพิพาทใดๆที่เกิดขึ้นจากหรือที่เกี่ยวข้องกับโปรโมชั่นนี้จะถูกตัดสินโดยบริษัท"

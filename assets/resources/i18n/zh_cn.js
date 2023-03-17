@@ -440,15 +440,14 @@ const data = {
         totalBet: "Total Bet",
         totalWin: "Total Win",
         free_spin_left_amount: "Free Spin剩余 %{amount}",
-        download: "Download",
-        app: "APP",
-        setting: "SETTING",
-        backgroundMusic: "Background Music",
-        soundEffect: "Sound Effect",
-        logout: "Logout",
-        notification: "NOTIFICATION",
-        confirmLogout: "Are you sure you want to logout?",
-        cancel: "Cancel"
+        download: "下载",
+        app: "应用程序",
+        setting: "设置",
+        backgroundMusic: "背景音乐",
+        soundEffect: "音效",
+        logout: "登出",
+        confirmLogout: "您确定要退出吗？",
+        cancel: "取消"
     },
     termsPromotion: {
         first: "- 所有新的和现有的投注者都有资格参加促销活动并抓住机会赢得更大的奖品。 \n- 中奖金额根据促销规则和奖金支付。 \n- 促销适用于公司规定的特定时期。 促销期满后，投注赔率将恢复为之前的值。\n- 公司保留随时更改适用于此促销活动的任何参赛条款或修改、终止、暂停或重新安排此促销活动的权利。\n- 因本推广活动引起或与之相关的任何争议均由本公司决定。"

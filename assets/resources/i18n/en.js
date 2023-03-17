@@ -456,12 +456,11 @@ const data = {
         totalWin: "Total Win",
         free_spin_left_amount: "Free Spins Left %{amount}",
         download: "Download",
-        app: "APP1",
+        app: "App",
         setting: "SETTING",
         backgroundMusic: "Background Music",
         soundEffect: "Sound Effect",
         logout: "Logout",
-        notification: "NOTIFICATION",
         confirmLogout: "Are you sure you want to logout?",
         cancel: "Cancel"
     },

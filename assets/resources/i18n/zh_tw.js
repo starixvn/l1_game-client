@@ -440,15 +440,14 @@ const data = {
         totalBet: "Total Bet",
         totalWin: "Total Win",
         free_spin_left_amount: "Free Spin剩餘 %{amount}",
-        download: "Download",
-        app: "APP",
-        setting: "SETTING",
-        backgroundMusic: "Background Music",
-        soundEffect: "Sound Effect",
-        logout: "Logout",
-        notification: "NOTIFICATION",
-        confirmLogout: "Are you sure you want to logout?",
-        cancel: "Cancel"
+        download: "下載",
+        app: "應用程序",
+        setting: "設置",
+        backgroundMusic: "背景音樂",
+        soundEffect: "音效",
+        logout: "登出",
+        confirmLogout: "您確定要退出嗎？",
+        cancel: "取消"
     },
     termsPromotion: {
         first: "- 所有新的和現有的投注者都有資格參加促銷活動並抓住機會贏得更大的獎品。 \n- 中獎金額根據促銷規則和獎金支付。 \n- 促銷適用於公司規定的特定時期。促銷期滿後，投注賠率將恢復為之前的值。\n- 促銷適用於公司規定的特定時期。促銷期滿後，投注賠率將恢復為之前的值。\n- 因本推廣活動引起或與之相關的任何爭議均由本公司決定。"
