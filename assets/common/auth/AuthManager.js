@@ -9,6 +9,7 @@ import NoticeUtil from "../utils/NoticeUtil";
 import NotificationService from "./NotificationService";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
+import NameGenerator from "../name-generator/NameGenerator";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
@@ -73,9 +74,17 @@ function checkTimeOut(urlParams) {
     return false;
 }
 
+function getRef(urlParams) {
+    if (urlParams.has("ref")) {
+        const ref = urlParams.get("ref");
+        (ref === "m_operator_opendirectly" || ref === "d_operator_opendirectly") && (window.autoSignNickname = true);
+    }
+}
+
 function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
     if (urlParams.has("token")) {
         window.isSSO = true;
+        getRef(urlParams);
         UserService.getInstance()
             .auth.sso(urlParams.get("token"))
             .then((response) => {
@@ -134,6 +143,12 @@ function checkUM(response) {
     return false;
 }
 
+function autoCreateNewNickname(cb) {
+    const nickname = NameGenerator.generateName();
+    const authData = window.authData;
+    UserService.getInstance().auth.signName(authData.ss, authData.username, nickname).then(cb);
+}
+
 export function triggerSignIn(main) {
     if (!!window.authData) {
         UserService.getInstance()
@@ -150,6 +165,11 @@ export function triggerSignIn(main) {
 
                 if (response.user) {
                     main.handleUserData(response.user);
+                } else {
+                    if (window.autoSignNickname) {
+                        autoCreateNewNickname(main.handleSignName.bind(main));
+                        return;
+                    }
                 }
                 main.serviceAuthorized(response.authorized);
             })

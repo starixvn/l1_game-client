@@ -3,7 +3,8 @@ window.envConfig = {
     ssl: true,
     serverDomainMapper: {
         "sit.sabagame.com": "sgamesuat.com",
-        "l1sit.sgamesuat.com": "sgamesuat.com"
+        "l1sit.sgamesuat.com": "sgamesuat.com",
+        "demo.saba.games": "sgamesuat.com"
     },
     subDomain: "l1uatproxy",
     env: "sit",
