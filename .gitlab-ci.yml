@@ -108,7 +108,7 @@ variables:
 
 bundle-verification:
     stage: build
-    image: registry.nexdev.net:5050/docker/node:14.15
+    image: hub.lumigame.com/docker-hub/library/node:18.14-alpine
     tags:
         - docker
     before_script:
