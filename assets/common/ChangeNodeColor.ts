@@ -3,9 +3,9 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class ChangeNodeColor extends cc.Component {
     @property
-    changedColor = "";
+    defaultColor = "";
 
-    updateColor(color: string) {
-        this.node.color = cc.Color.WHITE.fromHEX(color ? color : this.changedColor);
+    updateColor(color = this.defaultColor) {
+        this.node.color = cc.Color.WHITE.fromHEX(color);
     }
 }
