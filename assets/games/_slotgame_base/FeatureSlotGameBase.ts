@@ -86,6 +86,8 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     @property(SlotGameSongs)
     gameSongList: SlotGameSongs = null;
 
+    songListConfig: any;
+
     countDownAutoSpin: CountDownWarning = null;
     bottomMessage: SlotGameBottomMessage = null;
     gameSound: SlotGameSound;
@@ -107,8 +109,14 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         this.initForHoldActionButton();
         this.currentMiniPanel.skipShowApiErrorGameIds.push(this.gameId);
         this.trackOnLoadEvents();
+        this.initGameSongList();
+    }
 
-        this.gameSongList && (this.gameSongList.gameId = this.gameId);
+    protected initGameSongList() {
+        if (this.gameSongList) {
+            this.gameSongList.gameId = this.gameId;
+            this.songListConfig && this.gameSongList.setListSongs(this.songListConfig);
+        }
     }
 
     trackOnLoadEvents() {

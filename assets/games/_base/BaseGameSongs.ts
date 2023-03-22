@@ -1,6 +1,6 @@
-import { SystemType } from "./../../ISystem";
 import AudioManager from "../../common/audio/AudioManager";
-import NameSongManager, { IDataSongs } from "../../common/audio/NameSongManager";
+import NameSongManager from "../../common/audio/NameSongManager";
+import { SystemType } from "./../../ISystem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -16,7 +16,7 @@ export default abstract class BaseGameSongs extends cc.Component {
         [SystemType.SC2]: ["song1"]
     });
 
-    public setListSongs(data: IDataSongs) {
+    public setListSongs(data: any) {
         this.nameSongManager.songs = data;
     }
 

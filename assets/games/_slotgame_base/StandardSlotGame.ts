@@ -91,6 +91,9 @@ export default class StandardSlotGame extends SlotGameBase {
     @property(cc.Node)
     bottomArea: cc.Node = null;
 
+    @property(cc.JsonAsset)
+    musicInfo: cc.JsonAsset = null;
+
     @property
     bottomAreaTextColor = "#ffffff";
 
@@ -141,6 +144,11 @@ export default class StandardSlotGame extends SlotGameBase {
         this.loadAudios();
         super.onLoad();
         this.loadSpritesWithGameId();
+    }
+
+    protected initGameSongList() {
+        this.songListConfig = this.musicInfo.json;
+        super.initGameSongList();
     }
 
     loadSpritesWithGameId() {
