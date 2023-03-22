@@ -1,4 +1,4 @@
-import i18n from "i18n/runtime-scripts/LanguageData";
+const i18n = require("./LanguageData");
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -20,7 +20,7 @@ function debounce(func, wait, immediate) {
     };
 }
 
-cc.Class({
+var LocalizedLabel = cc.Class({
     extends: cc.Component,
 
     editor: {
@@ -85,3 +85,5 @@ cc.Class({
         }
     }
 });
+
+module.exports = LocalizedLabel;

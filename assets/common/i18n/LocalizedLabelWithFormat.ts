@@ -1,8 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import LocalizedLabel = require("i18n/runtime-scripts/LocalizedLabel");
 
 import { FormationHandler } from "./FormationHandler";
-
-const LocalizedLabel = require("LocalizedLabel");
 
 const { ccclass, property, menu } = cc._decorator;
 

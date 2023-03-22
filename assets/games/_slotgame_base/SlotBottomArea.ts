@@ -1,8 +1,8 @@
+import LocalizedLabel = require("i18n/runtime-scripts/LocalizedLabel");
+
 import ChangeNodeColor from "../../common/ChangeNodeColor";
 
 const { ccclass, property } = cc._decorator;
-
-const LocalizedLabel = require("LocalizedLabel");
 
 interface BottomAreaDefinedColor {
     textColor: string;
