@@ -600,6 +600,6 @@ export default class Lobby extends cc.Component {
 
     redirectToDownloadPage() {
         AudioManager.getInstance().playClick();
-        window.open(Configs.AppDownloadDomain, "_blank");
+        window.open(`${Configs.AppDownloadDomain}?language=${window.i18n.curLang}`, "_blank");
     }
 }
