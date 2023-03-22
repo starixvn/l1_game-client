@@ -457,7 +457,7 @@ const data = {
         free_spin_left_amount: "Free Spins Left %{amount}",
         download: "Download",
         app: "App",
-        setting: "SETTING",
+        setting: "SETTINGS",
         backgroundMusic: "Background Music",
         soundEffect: "Sound Effect",
         logout: "Logout",
