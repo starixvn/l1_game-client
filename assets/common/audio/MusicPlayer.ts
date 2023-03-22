@@ -1,6 +1,4 @@
-import { systemType } from "../../configs/Configs";
 import { SystemType } from "../../ISystem";
-
 import AudioManager from "./AudioManager";
 import NameSongManager from "./NameSongManager";
 
@@ -24,8 +22,7 @@ export default class MusicPlayer {
         if (!this.instanceMusic) {
             this.instanceMusic = new MusicPlayer();
             this.instanceMusic.nameSongManager = new NameSongManager({
-                [SystemType.SC1]: ["song1", "song2", "song3", "song4", "song5", "song6", "song7"],
-                [SystemType.SC2]: ["song1", "song2", "song3", "song4", "song5", "song6", "song7"]
+                [SystemType.SC1]: ["SC1/song1", "SC1/song2", "SC1/song3", "SC1/song4", "SC1/song5", "SC1/song6", "SC1/song7"]
             });
         }
 
@@ -67,7 +64,7 @@ export default class MusicPlayer {
         let reject;
         const promise = new Promise<cc.AudioClip>((resolve, rejectInPromise) => {
             reject = rejectInPromise;
-            cc.resources.load(`music/${systemType}/${song}`, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
+            cc.resources.load(`music/${song}`, cc.AudioClip, (err, audioClip: cc.AudioClip) => {
                 resolve(audioClip);
             });
         });
