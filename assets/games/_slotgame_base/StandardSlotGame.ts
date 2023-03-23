@@ -94,32 +94,8 @@ export default class StandardSlotGame extends SlotGameBase {
     @property(cc.JsonAsset)
     musicInfo: cc.JsonAsset = null;
 
-    @property
-    bottomAreaTextColor = "#ffffff";
-
-    @property
-    bottomAreaNumberColor = "#ffffff";
-
-    @property
-    bottomAreaButtonBorderColor = "#ffffff";
-
-    @property
-    previewOddsBorderColor = "#ffffff";
-
-    @property
-    previewOddsSymbolNumberColor = "#ffffff";
-
-    @property
-    previewOddsWinValueColor = "#ffffff";
-
-    @property
-    noticeTextColor = "#ffffff";
-
-    @property
-    noticeHighlightTextColor = "#ffffff";
-
-    @property
-    bonusCountItemTextColor = "#ffffff";
+    @property(cc.JsonAsset)
+    colorInfo: cc.JsonAsset = null;
 
     @property
     protected _gameId = 0;
@@ -139,11 +115,17 @@ export default class StandardSlotGame extends SlotGameBase {
     private readonly previewSymbolRight: cc.Prefab;
     private readonly effectTransitionPrefab: cc.Prefab;
     slotBoard: StandardSlotBoard;
+    private colorConfig: any;
 
     onLoad() {
+        this.initColorConfig();
         this.loadAudios();
         super.onLoad();
         this.loadSpritesWithGameId();
+    }
+
+    protected initColorConfig() {
+        this.colorConfig = this.colorInfo.json;
     }
 
     protected initGameSongList() {
@@ -298,8 +280,8 @@ export default class StandardSlotGame extends SlotGameBase {
         symbolPreview.setInfo({
             spine,
             odds: this.gameConfigs.odds[symbol],
-            colorList: [this.previewOddsSymbolNumberColor, this.previewOddsWinValueColor],
-            borderColor: this.previewOddsBorderColor
+            colorList: [this.colorConfig.previewOddsSymbolNumberColor, this.colorConfig.previewOddsWinValueColor],
+            borderColor: this.colorConfig.previewOddsBorderColor
         });
         this.slotBoard.showPreview(previewNode, worldPosition);
     }
@@ -351,9 +333,9 @@ export default class StandardSlotGame extends SlotGameBase {
         this.bottomArea.addChild(slotBottom);
         const slotBottomArea = slotBottom.getComponent(SlotBottomArea);
         slotBottomArea.updateColor({
-            textColor: this.bottomAreaTextColor,
-            numberColor: this.bottomAreaNumberColor,
-            buttonBorderColor: this.bottomAreaButtonBorderColor
+            textColor: this.colorConfig.bottomAreaTextColor,
+            numberColor: this.colorConfig.bottomAreaNumberColor,
+            buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
         });
 
         if (slotBottomArea) {
@@ -406,7 +388,7 @@ export default class StandardSlotGame extends SlotGameBase {
         const node = cc.instantiate(this.bottomMessagePrefab);
         this.bottomMessageArea.addChild(node);
         this.initShowBottomMessage(node);
-        this.bottomMessage.updateColor(this.noticeTextColor, this.noticeHighlightTextColor);
+        this.bottomMessage.updateColor(this.colorConfig.noticeTextColor, this.colorConfig.noticeHighlightTextColor);
 
         if (this.totalFreeSpins) {
             this.setTotalFreeSpins(this.totalFreeSpins);
@@ -462,7 +444,7 @@ export default class StandardSlotGame extends SlotGameBase {
 
     setBonusCount(dialog: BonusDialog, bonus: number): BonusDialog {
         const comp = super.setBonusCount(dialog, bonus);
-        comp.updateBonusCountItemTextColor(this.bonusCountItemTextColor);
+        comp.updateBonusCountItemTextColor(this.colorConfig.bonusCountItemTextColor);
         return comp;
     }
 
