@@ -1,4 +1,4 @@
-import LocalizedLabel = require("i18n/runtime-scripts/LocalizedLabel");
+import LocalizedLabel = require("LocalizedLabel");
 
 import ChangeNodeColor from "../../common/ChangeNodeColor";
 
