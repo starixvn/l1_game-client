@@ -11,5 +11,5 @@ window.envConfig = {
     enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false,
     SGConnectDomain: "https://l2-connect-2.lumigame.com",
-    AppDownloadDomain: "http://google.com"
+    AppDownloadDomain: ""
 };

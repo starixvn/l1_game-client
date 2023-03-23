@@ -12,5 +12,5 @@ window.envConfig = {
     enableMsgpackParserAllGames: true,
     enableMsgpackParserOnNotification: true,
     SGConnectDomain: "https://l2-connect-sit.sgamesuat.com",
-    AppDownloadDomain: "http://google.com"
+    AppDownloadDomain: ""
 };
