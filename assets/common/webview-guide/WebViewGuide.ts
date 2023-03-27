@@ -1,5 +1,5 @@
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
-import * as config from "../../configs/Configs";
+import { buildGameGuideUrl } from "../helpers/UrlHelper";
 import LoadWebView from "../LoadWebView";
 
 const { ccclass, property } = cc._decorator;
@@ -29,7 +29,7 @@ export default class WebViewGuide extends LoadWebView {
         fractionalOddsFormat = false,
         specialDirection = ""
     ) {
-        const domain = config.guideDomain;
+        const domain = buildGameGuideUrl();
         let url = `${domain}/${language}?gId=${gameId}&t=${
             this.themeName
         }&p=${isInPromotionTime}&f=sc&v=${Date.now()}&fof=${fractionalOddsFormat}`;
@@ -38,7 +38,7 @@ export default class WebViewGuide extends LoadWebView {
     }
 
     setURL(url: string) {
-        const domain = config.guideDomain;
+        const domain = buildGameGuideUrl();
         this.url = `${domain}${url}`;
     }
 

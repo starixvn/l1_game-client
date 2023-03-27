@@ -1,5 +1,5 @@
-import { guideDomain } from "../configs/Configs";
 import CustomWebView from "./CustomWebView";
+import { buildGameGuideUrl } from "./helpers/UrlHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -69,8 +69,9 @@ export default class LoadWebView extends cc.Component {
     }
 
     sendDataToIframe(configs: any) {
+        const guideUrl = buildGameGuideUrl();
         this.onWebViewLoaded = () => {
-            this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), guideDomain);
+            this.webView._impl._iframe.contentWindow.postMessage(JSON.stringify(configs), guideUrl);
         };
     }
 }

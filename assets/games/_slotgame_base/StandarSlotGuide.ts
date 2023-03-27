@@ -1,5 +1,5 @@
-import * as config from "../../../assets/configs/Configs";
 import GameUtils from "../../common/GameUtils";
+import { buildGameGuideUrl } from "../../common/helpers/UrlHelper";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 
 const { ccclass, property } = cc._decorator;
@@ -14,7 +14,7 @@ export default class StandarSlotGuide extends WebViewGuide {
         fractionalOddsFormat = false,
         specialDirection = ""
     ) {
-        const domain = config.guideDomain;
+        const domain = buildGameGuideUrl();
         const displayName = GameUtils.getGameNameString(gameId);
         const url = `${domain}/${language}?gId=${gameId}&displayName=${displayName}&t=${
             this.themeName

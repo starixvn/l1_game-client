@@ -5,6 +5,6 @@ export const subDomain: string;
 export const env: string;
 export const sentry: { [key: string]: string };
 export const gameAnalytics: { [key: string]: string };
-export const guideDomain: string;
+export const subGuideDomain: string;
 export const enableMsgpackParserAllGames: boolean;
 export const enableMsgpackParserOnNotification: boolean;
