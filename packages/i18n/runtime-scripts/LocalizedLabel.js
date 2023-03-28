@@ -1,4 +1,4 @@
-const i18n = require("./LanguageData");
+import i18n from "i18n/runtime-scripts/LanguageData";
 
 // Returns a function, that, as long as it continues to be invoked, will not
 // be triggered. The function will be called after it stops being called for
@@ -20,7 +20,7 @@ function debounce(func, wait, immediate) {
     };
 }
 
-var LocalizedLabel = cc.Class({
+cc.Class({
     extends: cc.Component,
 
     editor: {
@@ -50,6 +50,9 @@ var LocalizedLabel = cc.Class({
     onLoad() {
         if (CC_EDITOR) {
             this._debouncedUpdateLabel = debounce(this.updateLabel, 200);
+        }
+        if (!i18n.inst) {
+            i18n.init();
         }
         // cc.log('dataID: ' + this.dataID + ' value: ' + i18n.t(this.dataID));
         this.fetchRender();
@@ -82,5 +85,3 @@ var LocalizedLabel = cc.Class({
         }
     }
 });
-
-module.exports = LocalizedLabel;
