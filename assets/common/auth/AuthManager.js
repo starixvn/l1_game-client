@@ -147,7 +147,7 @@ export function signOut() {
 
 function redirectToTimeOutPage() {
     if (window.authData?.system == AppTypes.SabaApp) {
-        SGConnectAPI.redirectToAppTimeoutPage(window.i18n.curLang);
+        SGConnectAPI.redirectToAppTimeoutPage(sessionManager.getLocale());
     } else {
         cc.director.loadScene("sessiontimeout");
     }
@@ -172,7 +172,7 @@ function autoCreateNewNickname(cb) {
 export function redirectToUMPage(response) {
     if (window.authData?.system == AppTypes.SabaApp || response?.system === AppTypes.SabaApp || window.appType === AppTypes.SabaApp) {
         const operatorId = window.umInfo?.operatorId;
-        SGConnectAPI.redirectToAppUMPage(operatorId, window.i18n.curLang);
+        SGConnectAPI.redirectToAppUMPage(operatorId, sessionManager.getLocale());
     } else {
         cc.director.loadScene("um");
     }

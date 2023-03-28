@@ -1,6 +1,8 @@
 import AudioManager from "../audio/AudioManager";
 import { redirectToLoginPage } from "../auth/SGConnectAPI";
 import CommonDialog from "../_base/view-models/CommonDialog";
+import { getLocale } from "../auth/SessionManager";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,6 +22,6 @@ export default class LogoutPopup extends cc.Component {
 
     public logout() {
         AudioManager.getInstance().playClick();
-        redirectToLoginPage(window.i18n.curLang);
+        redirectToLoginPage(getLocale());
     }
 }
