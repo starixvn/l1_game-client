@@ -30,6 +30,15 @@ export default class BonusDialog extends cc.Component {
     @property(cc.Prefab)
     bonusItem: cc.Prefab = null;
 
+    protected _gameId;
+    public set gameId(value: number) {
+        this._gameId = value;
+        this.initBonusList();
+    }
+    public get gameId(): number {
+        return this._gameId;
+    }
+
     items: BonusItem[] = [];
 
     public onBonusFinished = () => {};
@@ -44,8 +53,19 @@ export default class BonusDialog extends cc.Component {
     private readonly bonusNumber = 10;
 
     public playSoundCallback = (type: ClassicSlotSound) => {};
-    onLoad() {
-        this.bonusItem && this.initBonusList();
+
+    initBonusList() {
+        if (!this.bonusItem) {
+            return;
+        }
+
+        this.content.destroyAllChildren();
+
+        for (let i = 0; i < this.bonusNumber; i++) {
+            const item = cc.instantiate(this.bonusItem);
+            item.name = `bonus${i}`;
+            this.content.addChild(item);
+        }
 
         this.content.children.forEach((child, index) => {
             const item = child.getComponent(BonusItem);
@@ -59,15 +79,6 @@ export default class BonusDialog extends cc.Component {
                 }
             });
         });
-    }
-
-    initBonusList() {
-        this.content.destroyAllChildren();
-        for (let i = 0; i < this.bonusNumber; i++) {
-            const item = cc.instantiate(this.bonusItem);
-            item.name = `bonus${i}`;
-            this.content.addChild(item);
-        }
     }
 
     openBonus(index: number, value: number) {

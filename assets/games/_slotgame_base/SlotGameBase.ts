@@ -938,6 +938,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         const node = cc.instantiate(this.bonusDialog);
         this.currentMiniPanel.addDialog(node);
         const dialog = node.getComponent(BonusDialog);
+        dialog.gameId = this.gameId;
         dialog.slotGameConfigs = this.slotGameConfigs;
         dialog.playSoundCallback = this.bonusDialogPlaySound.bind(this);
         this.setBonusCount(dialog, bonus);

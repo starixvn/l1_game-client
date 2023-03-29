@@ -12,6 +12,7 @@ import SlotBottomArea from "./SlotBottomArea";
 import SlotGameBase from "./SlotGameBase";
 import { SlotNotification } from "./SlotGameBottomMessage";
 import StandardSlotBoard from "./StandardSlotBoard";
+import StandardSlotBonusDialog from "./StandardSlotBonusDialog";
 import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
 import StandardSlotGameHistory from "./StandardSlotGameHistory";
 import SymbolPreview from "./SymbolPreview";
@@ -443,7 +444,7 @@ export default class StandardSlotGame extends SlotGameBase {
         transtition?.destroy();
     }
 
-    setBonusCount(dialog: BonusDialog, bonus: number): BonusDialog {
+    setBonusCount(dialog: StandardSlotBonusDialog, bonus: number): BonusDialog {
         const comp = super.setBonusCount(dialog, bonus);
         comp.updateBonusCountItemTextColor(this.colorConfig.bonusCountItemTextColor);
         return comp;
