@@ -163,8 +163,8 @@
     "paused": false,
     "defaultSkin": "default",
     "defaultAnimation": "entry",
-    "_preCacheMode": 1,
-    "_cacheMode": 1,
+    "_preCacheMode": 0,
+    "_cacheMode": 0,
     "loop": false,
     "premultipliedAlpha": false,
     "timeScale": 1,
@@ -181,12 +181,12 @@
     "_N$skeletonData": {
       "__uuid__": "355414e6-5989-4acc-8e88-a3676a7c68f8"
     },
-    "_N$_defaultCacheMode": 1,
+    "_N$_defaultCacheMode": 0,
     "_N$debugSlots": false,
     "_N$debugBones": false,
     "_N$debugMesh": false,
     "_N$useTint": false,
-    "_N$enableBatch": false,
+    "_N$enableBatch": true,
     "_id": ""
   },
   {
@@ -230,7 +230,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 37.5,
+      "width": 0,
       "height": 36
     },
     "_anchorPoint": {

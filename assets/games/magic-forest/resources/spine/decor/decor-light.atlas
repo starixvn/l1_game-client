@@ -4,17 +4,24 @@ size: 1024,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-eff_spot-small
+blink
   rotate: false
-  xy: 246, 38
-  size: 18, 18
-  orig: 18, 18
+  xy: 181, 15
+  size: 68, 65
+  orig: 68, 65
   offset: 0, 0
   index: -1
 flare
   rotate: false
-  xy: 17, 256
+  xy: 4, 26
   size: 62, 61
   orig: 62, 61
+  offset: 0, 0
+  index: -1
+flare-light
+  rotate: false
+  xy: 291, 107
+  size: 62, 63
+  orig: 62, 63
   offset: 0, 0
   index: -1
