@@ -1,115 +1,39 @@
 {
-"skeleton": { "hash": "RFt7ByikK6WNAWrGAsiOgfCsNPY", "spine": "3.8.99", "images": "./images/", "audio": "D:/CC Backup/Creative Cloud Files/Design/magic-forest-2/spin-button" },
+"skeleton": { "hash": "rUcSZqBYiMQrzcq2GrTuvWpQ3TU", "spine": "3.8.99" },
 "bones": [
 	{ "name": "root" },
-	{ "name": "button", "parent": "root", "color": "2400ffff" },
-	{ "name": "spin-button", "parent": "button", "color": "6fff00ff" },
+	{ "name": "button", "parent": "root" },
+	{ "name": "spin-button", "parent": "button" },
 	{ "name": "spin-button-base", "parent": "spin-button" },
 	{ "name": "light", "parent": "spin-button" },
 	{ "name": "arrow", "parent": "spin-button" },
 	{ "name": "hover", "parent": "button" },
-	{ "name": "disable-black-overlay", "parent": "button" },
-	{ "name": "spin-magic", "parent": "button", "color": "fffc00ff" },
-	{ "name": "blink-total", "parent": "button", "color": "ffec03ff" },
-	{ "name": "blink", "parent": "blink-total", "x": 45.02, "y": -41.97, "color": "00ff0eff" },
-	{ "name": "blink2", "parent": "blink-total", "x": 45.02, "y": -41.97, "color": "00ff0eff" },
-	{ "name": "blink3", "parent": "blink-total", "x": 45.02, "y": -41.97, "color": "00ff0eff" },
-	{
-		"name": "blink4",
-		"parent": "blink-total",
-		"x": 45.02,
-		"y": -41.97,
-		"scaleX": 0.6,
-		"scaleY": 0.6,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink5",
-		"parent": "blink-total",
-		"x": 16.72,
-		"y": -44.65,
-		"scaleX": 0.8,
-		"scaleY": 0.8,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink6",
-		"parent": "blink-total",
-		"x": -32.81,
-		"y": 51.48,
-		"scaleX": 0.8,
-		"scaleY": 0.8,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink7",
-		"parent": "blink-total",
-		"x": -32.81,
-		"y": 51.48,
-		"scaleX": 0.8,
-		"scaleY": 0.8,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink8",
-		"parent": "blink-total",
-		"x": -32.81,
-		"y": -58.32,
-		"scaleX": 0.8,
-		"scaleY": 0.8,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink9",
-		"parent": "blink-total",
-		"x": -32.81,
-		"y": -58.32,
-		"scaleX": 0.8,
-		"scaleY": 0.8,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink11",
-		"parent": "blink-total",
-		"x": -32.81,
-		"y": 71.34,
-		"scaleX": 0.8,
-		"scaleY": 0.8,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink12",
-		"parent": "blink-total",
-		"x": -32.81,
-		"y": 71.34,
-		"scaleX": 0.8,
-		"scaleY": 0.8,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink13",
-		"parent": "blink-total",
-		"x": -32.81,
-		"y": 3.23,
-		"scaleX": 0.8,
-		"scaleY": 0.8,
-		"color": "00ff0eff"
-	},
-	{
-		"name": "blink10",
-		"parent": "blink-total",
-		"x": -32.81,
-		"y": -58.32,
-		"scaleX": 0.6,
-		"scaleY": 0.6,
-		"color": "00ff0eff"
-	},
-	{ "name": "explosion", "parent": "button", "scaleX": 2.2, "scaleY": 2.2, "color": "ff00deff" }
+	{ "name": "disable-black-overlay", "parent": "button", "y": 0.82 },
+	{ "name": "spin-magic", "parent": "button" },
+	{ "name": "blink-total", "parent": "button" },
+	{ "name": "blink", "parent": "blink-total", "x": 45.02, "y": -41.97 },
+	{ "name": "blink2", "parent": "blink-total", "x": 45.02, "y": -41.97 },
+	{ "name": "blink3", "parent": "blink-total", "x": 45.02, "y": -41.97 },
+	{ "name": "blink4", "parent": "blink-total", "x": 45.02, "y": -41.97, "scaleX": 0.6, "scaleY": 0.6 },
+	{ "name": "blink5", "parent": "blink-total", "x": 16.72, "y": -44.65, "scaleX": 0.8, "scaleY": 0.8 },
+	{ "name": "blink6", "parent": "blink-total", "x": -32.81, "y": 51.48, "scaleX": 0.8, "scaleY": 0.8 },
+	{ "name": "blink7", "parent": "blink-total", "x": -32.81, "y": 51.48, "scaleX": 0.8, "scaleY": 0.8 },
+	{ "name": "blink8", "parent": "blink-total", "x": -32.81, "y": -58.32, "scaleX": 0.8, "scaleY": 0.8 },
+	{ "name": "blink9", "parent": "blink-total", "x": -32.81, "y": -58.32, "scaleX": 0.8, "scaleY": 0.8 },
+	{ "name": "blink11", "parent": "blink-total", "x": -32.81, "y": 71.34, "scaleX": 0.8, "scaleY": 0.8 },
+	{ "name": "blink12", "parent": "blink-total", "x": -32.81, "y": 71.34, "scaleX": 0.8, "scaleY": 0.8 },
+	{ "name": "blink13", "parent": "blink-total", "x": -32.81, "y": 3.23, "scaleX": 0.8, "scaleY": 0.8 },
+	{ "name": "blink10", "parent": "blink-total", "x": -32.81, "y": -58.32, "scaleX": 0.6, "scaleY": 0.6 },
+	{ "name": "explosion", "parent": "button", "scaleX": 2.2, "scaleY": 2.2 },
+	{ "name": "explosion2", "parent": "button", "scaleX": 2.2, "scaleY": 2.2 },
+	{ "name": "spin-button-base2", "parent": "spin-button" }
 ],
 "slots": [
 	{ "name": "hover", "bone": "hover" },
 	{ "name": "explosion-1", "bone": "explosion", "blend": "additive" },
+	{ "name": "explosion-2", "bone": "explosion2", "blend": "additive" },
 	{ "name": "spin-button-base-bg", "bone": "spin-button-base" },
+	{ "name": "spin-button-base-bg2", "bone": "spin-button-base2", "color": "ffffff7d", "blend": "additive" },
 	{ "name": "light", "bone": "light", "color": "ffffff8b", "blend": "additive" },
 	{ "name": "black-72-disable", "bone": "disable-black-overlay" },
 	{ "name": "spin_magic", "bone": "spin-magic" },
@@ -206,6 +130,19 @@
 				"sb_vfx_a_add_15.jpg": { "color": "38ec00ff", "width": 124, "height": 124 },
 				"sb_vfx_a_add_16.jpg": { "color": "38ec00ff", "width": 124, "height": 124 }
 			},
+			"explosion-2": {
+				"sb_vfx_a_add_05.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_06.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_07.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_08.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_09.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_11.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_12.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_13.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_14.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_15.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 },
+				"sb_vfx_a_add_16.jpg": { "color": "3bdb09ff", "width": 124, "height": 124 }
+			},
 			"hover": {
 				"hover": { "width": 200, "height": 200 }
 			},
@@ -229,6 +166,9 @@
 				}
 			},
 			"spin-button-base-bg": {
+				"spin-button-base-bg": { "width": 208, "height": 208 }
+			},
+			"spin-button-base-bg2": {
 				"spin-button-base-bg": { "width": 208, "height": 208 }
 			},
 			"spin_magic": {
@@ -278,7 +218,7 @@
 			},
 			"blink": {
 				"color": [
-					{ "color": "ffffff00", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
+					{ "color": "fcff6f00", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
 					{ "time": 3, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 4, "color": "ffffff00" }
 				]
@@ -410,6 +350,16 @@
 				]
 			},
 			"spin-button-base-bg": {
+				"attachment": [
+					{ "name": "spin-button-base-bg" }
+				]
+			},
+			"spin-button-base-bg2": {
+				"color": [
+					{ "color": "ffffff00", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
+					{ "time": 2, "color": "ffffff7c", "curve": 0.25, "c3": 0.75 },
+					{ "time": 4, "color": "ffffff00" }
+				],
 				"attachment": [
 					{ "name": "spin-button-base-bg" }
 				]
@@ -691,6 +641,22 @@
 					{ "time": 1.1, "name": null }
 				]
 			},
+			"explosion-2": {
+				"attachment": [
+					{ "name": "sb_vfx_a_add_05.jpg" },
+					{ "time": 0.1, "name": "sb_vfx_a_add_06.jpg" },
+					{ "time": 0.2, "name": "sb_vfx_a_add_07.jpg" },
+					{ "time": 0.3, "name": "sb_vfx_a_add_08.jpg" },
+					{ "time": 0.4, "name": "sb_vfx_a_add_09.jpg" },
+					{ "time": 0.5, "name": "sb_vfx_a_add_11.jpg" },
+					{ "time": 0.6, "name": "sb_vfx_a_add_12.jpg" },
+					{ "time": 0.7, "name": "sb_vfx_a_add_13.jpg" },
+					{ "time": 0.8, "name": "sb_vfx_a_add_14.jpg" },
+					{ "time": 0.9, "name": "sb_vfx_a_add_15.jpg" },
+					{ "time": 1, "name": "sb_vfx_a_add_16.jpg" },
+					{ "time": 1.1, "name": null }
+				]
+			},
 			"light": {
 				"color": [
 					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
@@ -706,6 +672,11 @@
 			"spin-button-base-bg": {
 				"attachment": [
 					{ "name": "spin-button-base-bg" }
+				]
+			},
+			"spin-button-base-bg2": {
+				"attachment": [
+					{ "time": 0.3333, "name": "spin-button-base-bg" }
 				]
 			},
 			"spin_magic": {
@@ -742,6 +713,12 @@
 				]
 			},
 			"explosion": {
+				"scale": [
+					{ "x": 0.917, "y": 0.917, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.3333, "x": 1.083, "y": 1.083 }
+				]
+			},
+			"explosion2": {
 				"scale": [
 					{ "x": 0.917, "y": 0.917, "curve": 0.25, "c3": 0.75 },
 					{ "time": 1.3333, "x": 1.083, "y": 1.083 }
