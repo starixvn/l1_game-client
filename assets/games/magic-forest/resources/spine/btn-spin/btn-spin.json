@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "rUcSZqBYiMQrzcq2GrTuvWpQ3TU", "spine": "3.8.99" },
+"skeleton": { "hash": "qTummisKY3t8uBiTuwDY0LklMl4", "spine": "3.8.99" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "button", "parent": "root" },
@@ -8,7 +8,7 @@
 	{ "name": "light", "parent": "spin-button" },
 	{ "name": "arrow", "parent": "spin-button" },
 	{ "name": "hover", "parent": "button" },
-	{ "name": "disable-black-overlay", "parent": "button", "y": 0.82 },
+	{ "name": "disable-black-overlay", "parent": "button", "rotation": -0.07 },
 	{ "name": "spin-magic", "parent": "button" },
 	{ "name": "blink-total", "parent": "button" },
 	{ "name": "blink", "parent": "blink-total", "x": 45.02, "y": -41.97 },
@@ -35,7 +35,6 @@
 	{ "name": "spin-button-base-bg", "bone": "spin-button-base" },
 	{ "name": "spin-button-base-bg2", "bone": "spin-button-base2", "color": "ffffff7d", "blend": "additive" },
 	{ "name": "light", "bone": "light", "color": "ffffff8b", "blend": "additive" },
-	{ "name": "black-72-disable", "bone": "disable-black-overlay" },
 	{ "name": "spin_magic", "bone": "spin-magic" },
 	{ "name": "blink", "bone": "blink" },
 	{ "name": "blink2", "bone": "blink2" },
@@ -52,7 +51,8 @@
 	{ "name": "blink12", "bone": "blink12", "color": "ffffff3d" },
 	{ "name": "path-blink", "bone": "button" },
 	{ "name": "path-blink2", "bone": "button" },
-	{ "name": "arrow", "bone": "arrow" }
+	{ "name": "arrow", "bone": "arrow" },
+	{ "name": "black-72-disable", "bone": "disable-black-overlay" }
 ],
 "path": [
 	{
