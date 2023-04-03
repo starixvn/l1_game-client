@@ -112,7 +112,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         const listenerOptions = {
             gameId,
             gameName,
-            onConnectFailed: (name, isGameRoom) => {
+            onConnectFailed: (name, gameId, isGameRoom) => {
                 this.main.onConnectSocketFailed(name, gameId, isGameRoom);
 
                 if (gameContainer && gameContainer.hideContainer) {
