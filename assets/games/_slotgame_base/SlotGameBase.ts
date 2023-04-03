@@ -1058,6 +1058,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     override checkShowUmMessage(data: any) {
+        this.gameState === GameState.Disabled;
         return !this.isAnimatingResult;
     }
 
