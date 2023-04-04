@@ -12,9 +12,9 @@ export default class StandardSlotBonusDialog extends BonusDialog {
     @property({ type: cc.AudioSource, visible: false, override: true })
     soundBigWin: cc.AudioSource = null;
 
-    async initBonusList() {
+    async initBonusItems() {
         await this.loadBonusItemPrefab();
-        super.initBonusList();
+        super.initBonusItems();
     }
 
     async loadBonusItemPrefab() {

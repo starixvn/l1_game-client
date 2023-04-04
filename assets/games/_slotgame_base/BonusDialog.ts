@@ -33,7 +33,7 @@ export default class BonusDialog extends cc.Component {
     protected _gameId;
     public set gameId(value: number) {
         this._gameId = value;
-        this.initBonusList();
+        this.initBonusItems();
     }
     public get gameId(): number {
         return this._gameId;
@@ -54,19 +54,8 @@ export default class BonusDialog extends cc.Component {
 
     public playSoundCallback = (type: ClassicSlotSound) => {};
 
-    initBonusList() {
-        if (!this.bonusItem) {
-            return;
-        }
-
-        this.content.destroyAllChildren();
-
-        for (let i = 0; i < this.bonusNumber; i++) {
-            const item = cc.instantiate(this.bonusItem);
-            item.name = `bonus${i}`;
-            this.content.addChild(item);
-        }
-
+    initBonusItems() {
+        this.createBonusItems();
         this.content.children.forEach((child, index) => {
             const item = child.getComponent(BonusItem);
             item && this.items.push(item);
@@ -79,6 +68,20 @@ export default class BonusDialog extends cc.Component {
                 }
             });
         });
+    }
+
+    createBonusItems() {
+        if (!this.bonusItem) {
+            return;
+        }
+
+        this.content.destroyAllChildren();
+
+        for (let i = 0; i < this.bonusNumber; i++) {
+            const item = cc.instantiate(this.bonusItem);
+            item.name = `bonus${i}`;
+            this.content.addChild(item);
+        }
     }
 
     openBonus(index: number, value: number) {
