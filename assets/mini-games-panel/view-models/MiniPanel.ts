@@ -66,9 +66,6 @@ export default class MiniPanel extends BaseComponent {
     @property(ScaleActiveController)
     activeController: ScaleActiveController = null;
 
-    @property(cc.Prefab)
-    announcementPrefab: cc.Prefab = null;
-
     @property(cc.Node)
     promotionContainer: cc.Node = null;
 
@@ -85,6 +82,7 @@ export default class MiniPanel extends BaseComponent {
     private readonly kickedOutKey = "kickedOut";
     private readonly reloadKey = "reload";
     private readonly authKey = "auth";
+    private announcementPrefab: cc.Prefab;
     public boostedOdds: BoostedOdds;
     public promotionAnnouncement: PromotionAnnouncements;
 
@@ -119,6 +117,7 @@ export default class MiniPanel extends BaseComponent {
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
 
+        this.loadPromotionPrefab();
         this.initPopUpMiniGames();
         this.initBoostedOdds();
 
@@ -137,6 +136,15 @@ export default class MiniPanel extends BaseComponent {
         );
         NotificationService.getInstance().addDataObserver(this.authKey, this.authKey, (data) => this.dataHandlers.handleAuth(data));
         NotificationService.getInstance().addDataObserver(this.reloadKey, this.reloadKey, this.onForceReload.bind(this));
+    }
+
+    async loadPromotionPrefab() {
+        if (!GameUIManager.getInstance().prefabCache.miniPanelIcons["promotion"]) {
+            this.announcementPrefab = await GameUtils.loadResource("boosted-odds/PromotionAnnouncements");
+            GameUIManager.getInstance().prefabCache.miniPanelIcons["promotion"] = this.announcementPrefab;
+        } else {
+            this.announcementPrefab = GameUIManager.getInstance().prefabCache.miniPanelIcons["promotion"];
+        }
     }
 
     onDestroy() {
@@ -367,6 +375,10 @@ export default class MiniPanel extends BaseComponent {
     }
 
     showAnnouncement() {
+        if (!this.announcementPrefab) {
+            return;
+        }
+
         const node = cc.instantiate(this.announcementPrefab);
         this.promotionAnnouncement = node.getComponent(PromotionAnnouncements);
         if (this.promotionAnnouncement) {
