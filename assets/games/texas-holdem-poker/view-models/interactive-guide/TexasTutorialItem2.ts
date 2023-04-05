@@ -1,6 +1,7 @@
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import ExpandableMenu from "../../../../common/expandable-menu/view-models/ExpandableMenu";
 import TutorialItem from "../../../../common/tutorial/TutorialItem";
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import TexasTutorialMain from "./TexasTutorialMain";
 
 const { ccclass, property } = cc._decorator;
@@ -30,9 +31,14 @@ export default class TexasTutorialItem2 extends TutorialItem {
 
         this.menuMain = tutorialMain.menuMain;
         this.menuMain.opacity = 255;
-        const expandableMenu = tutorialMain.menuMain.getChildByName("expandableMenu").getComponent(ExpandableMenu);
-        expandableMenu.expandMenu();
-        const tooltip = tutorialMain.menuMain.getChildByName("tooltip");
+
+        const desktopMenu = this.menuMain.getChildByName("desktop");
+        const mobileMenu = this.menuMain.getChildByName("mobile");
+        desktopMenu.active = !cc.sys.isMobile;
+        mobileMenu.active = cc.sys.isMobile;
+
+        const menu = cc.sys.isMobile ? mobileMenu : desktopMenu;
+        const tooltip = menu.getChildByName("tooltip");
         const tooltipText = tooltip.getChildByName("desRich");
 
         tooltip.opacity = 0;
