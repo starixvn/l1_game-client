@@ -634,7 +634,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     spin(): boolean {
         let success = false;
-        if (this.betChoices.length === 0 || this.isAnimatingResult || !this.isReadyBet()) {
+        if (this.betChoices.length === 0 || this.isAnimatingResult || this.isReceivedUMData || !this.isReadyBet()) {
             return success;
         }
 
@@ -1058,7 +1058,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     override checkShowUmMessage(data: any) {
-        this.gameState === GameState.Disabled;
         return !this.isAnimatingResult;
     }
 

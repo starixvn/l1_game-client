@@ -28,7 +28,7 @@ import {
     payChipsToInGamePlayers,
     payChipsToLoginPlayer,
     payChipsToOtherPlayers,
-    showPayoutForLoginPlayer
+    showPayoutForLoginPlayer,
 } from "./action/PayChipsAction";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
@@ -183,6 +183,7 @@ export default class GameBase extends GameViewBase {
     hideUmDataKeys = ["remainingTime"];
     previousOwnBets: any;
     rebetButton: RebetButton;
+    isReceivedUMData = false;
 
     public usingNewSettlement = false;
     public inSettlementSequence = false;

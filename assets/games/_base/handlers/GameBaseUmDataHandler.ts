@@ -5,6 +5,8 @@ export default class GameBaseUmDataHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {}
 
     handle(data: any) {
+        this.main.isReceivedUMData = !!data.um;
+
         if (!data.um) {
             return;
         }
