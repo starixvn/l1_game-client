@@ -16,6 +16,10 @@ import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
 
+declare global {
+    interface Window { ReactNativeWebView: any; }
+}
+
 export default class GameUtils {
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);
@@ -389,24 +393,35 @@ export default class GameUtils {
     }
 
     public static async copyToClipboard(data: string, hintLabel: cc.Label, callback): Promise<void> {
-        try {
-            await navigator.clipboard.writeText(data).then(() => {
-                hintLabel.string = i18n.t("messages.copy_success");
-                if (callback) {
-                    callback();
-                }
-            });
-        } catch {
-            hintLabel.string = i18n.t("messages.copyMD5Failed");
+        const showResult = (message: string) => {
+            hintLabel.string = message;
             if (callback) {
                 callback();
             }
+        }
+
+        try {
+            if(this.isAndroid()){
+                window.ReactNativeWebView.postMessage(JSON.stringify({eventType: 'copy_to_clipboard', data: data}));
+                showResult(i18n.t("messages.copy_success"));
+            }
+            else{
+                await navigator.clipboard.writeText(data).then(() => {
+                    showResult(i18n.t("messages.copy_success"));
+                });
+            }           
+        } catch (e) {
+            showResult(i18n.t("messages.copyMD5Failed")); //e.message
         }
     }
 
     public static isIpad(): boolean {
         const userAgent = window.navigator.userAgent.toLowerCase();
         return /ipad/.test(userAgent);
+    }
+
+    public static isAndroid(): boolean {
+        return cc.sys.os === cc.sys.OS_ANDROID;
     }
 
     public static isPhone(): boolean {
