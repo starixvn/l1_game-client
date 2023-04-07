@@ -740,4 +740,9 @@ export default class GameUtils {
             }
         });
     }
+
+    public static updateSpineDuration(spine: sp.Skeleton, animationName: string, duration: number) {
+        const original = spine.findAnimation(`${animationName}`).duration;
+        spine.timeScale = original / duration;
+    }
 }

@@ -1,3 +1,4 @@
+import GameUtils from "../../common/GameUtils";
 import { uiManager } from "../../managers/GameUIManager";
 import SlotReelItem from "./SlotReelItem";
 
@@ -51,7 +52,6 @@ export default class StandardSlotReelItem extends SlotReelItem {
     }
 
     updateDuration(duration: number) {
-        const original = this.effectSpine.findAnimation("highlight").duration;
-        this.effectSpine.timeScale = original / duration;
+        GameUtils.updateSpineDuration(this.effectSpine, "highlight", duration);
     }
 }

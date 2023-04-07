@@ -615,11 +615,13 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.playSound(ClassicSlotSound.SPIN);
         this.winningBet.string = "0";
         this.slotBoard.setBoardData(data);
+
+        const spinDuration = this.getCustomDuration("spin");
+        this.spinButton.updateSpinDuration(spinDuration);
         this.spinButton.playAnimationSpin();
         const turbo = this.isTurboMode();
         this.playSound(turbo ? ClassicSlotSound.SPINNING_TURBO : ClassicSlotSound.SPINNING_NORMAL);
 
-        const spinDuration = this.getCustomDuration("spin");
         if (!turbo) {
             cc.tween(this.node)
                 .delay(spinDuration * 0.5)

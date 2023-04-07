@@ -1,3 +1,4 @@
+import GameUtils from "../../common/GameUtils";
 import ClassicSpinButton from "./ClassicSpinButton";
 
 const { ccclass, property } = cc._decorator;
@@ -27,6 +28,13 @@ export default class StandardSlotSpinButton extends ClassicSpinButton {
 
     onLoad() {
         this.hideAutoSpin();
+    }
+
+    updateSpinDuration(duration: number) {
+        if (!this.iconSpinSkeleton) {
+            return;
+        }
+        GameUtils.updateSpineDuration(this.iconSpinSkeleton, "spin", duration);
     }
 
     override playAnimationSpin() {

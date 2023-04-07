@@ -1,4 +1,5 @@
 import CallbackAnimation from "./CallbackAnimation";
+import GameUtils from "./GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,8 +22,7 @@ export default class CallbackSkeleton extends CallbackAnimation {
     }
 
     updateDuration(duration: number) {
-        const original = this.effect.findAnimation(this.effect.defaultAnimation).duration;
-        this.effect.timeScale = original / duration;
+        GameUtils.updateSpineDuration(this.effect, this.effect.defaultAnimation, duration);
     }
 
     play() {
