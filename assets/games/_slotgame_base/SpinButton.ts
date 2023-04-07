@@ -26,8 +26,6 @@ export default abstract class SpinButton extends cc.Component {
         this.spinButton.interactable = false;
     }
 
-    updateSpinDuration(duration: number) {}
-
     abstract playAnimationSpin();
 
     abstract playAnimationSpinTurbo();
