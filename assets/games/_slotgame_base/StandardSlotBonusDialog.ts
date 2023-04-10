@@ -33,4 +33,8 @@ export default class StandardSlotBonusDialog extends BonusDialog {
             console.warn(`Missing prefab for ${path} `, e);
         }
     }
+
+    showTotalBonusWinTime(delayTime: number): number {
+        return this.slotGameConfigs.showTotalBonusAmountDuration;
+    }
 }

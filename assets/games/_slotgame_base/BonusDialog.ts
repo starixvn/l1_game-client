@@ -114,13 +114,17 @@ export default class BonusDialog extends cc.Component {
             cc.tween(this)
                 .delay(delayTime)
                 .call(() => this.showTotalAmount())
-                .delay(this.slotGameConfigs.showTotalBonusAmountDuration - delayTime)
+                .delay(this.showTotalBonusWinTime(delayTime))
                 .call(() => {
                     this.onBonusFinished();
                     this.node.destroy();
                 })
                 .start();
         }
+    }
+
+    showTotalBonusWinTime(delayTime: number): number {
+        return this.slotGameConfigs.showTotalBonusAmountDuration - delayTime;
     }
 
     setBonusCount(count: number) {
