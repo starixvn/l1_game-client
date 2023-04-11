@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "B/s6XJLhqVyFdHz3FsSTccA19r4", "spine": "3.8.99", "x": -243.04, "y": -194.95, "width": 526, "height": 519 },
+"skeleton": { "hash": "r8aKHVbv4tjsUIVhnvBkwluwazs", "spine": "3.8.99", "x": -243.04, "y": -194.95, "width": 526, "height": 519 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "smoke-fly", "parent": "root" },
@@ -8,7 +8,7 @@
 	{ "name": "vfx-plasma", "parent": "root", "scaleX": 4, "scaleY": 4 }
 ],
 "slots": [
-	{ "name": "mask", "bone": "root", "attachment": "mask" },
+	{ "name": "mask", "bone": "root" },
 	{ "name": "smoke2", "bone": "smoke2", "attachment": "smoke", "blend": "additive" },
 	{ "name": "smoke3", "bone": "smoke3", "attachment": "smoke", "blend": "additive" },
 	{ "name": "plasma-fx0", "bone": "vfx-plasma", "blend": "additive" }
@@ -22,7 +22,7 @@
 					"type": "clipping",
 					"end": "mask",
 					"vertexCount": 4,
-					"vertices": [ -697.22, 398.5, 699.02, 396.02, 699.02, -390.14, -697.22, -390.14 ]
+					"vertices": [ -698.9, 393.2, 698.87, 392.75, 699.02, -393.36, -698.85, -392.93 ]
 				}
 			},
 			"plasma-fx0": {

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "zYScmhaeC7BkxsFVST6wGKTNyWE", "spine": "3.8.99" },
+"skeleton": { "hash": "HzrTCdRQdFbOXKQ2S8H6PpIpOzs", "spine": "3.8.99" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "character", "parent": "root", "y": 1.03 },
@@ -156,7 +156,6 @@
 	{ "name": "fx_rotcoin34", "bone": "fx_rotcoin_31" },
 	{ "name": "fx_rotcoin9", "bone": "fx_rotcoin_6" },
 	{ "name": "fx_rotcoin12", "bone": "fx_rotcoin_9" },
-	{ "name": "mask", "bone": "root", "attachment": "mask" },
 	{ "name": "smoke", "bone": "smoke", "blend": "additive" },
 	{ "name": "smoke-white", "bone": "smoke", "blend": "additive" }
 ],
@@ -943,14 +942,6 @@
 			},
 			"fx_sparkle12": {
 				"fx_sparkle": { "width": 50, "height": 51 }
-			},
-			"mask": {
-				"mask": {
-					"type": "clipping",
-					"end": "mask",
-					"vertexCount": 4,
-					"vertices": [ -699, 393.02, -698.99, -393.13, 699.08, -393.07, 699.51, 393.36 ]
-				}
 			},
 			"smoke": {
 				"smoke": {
