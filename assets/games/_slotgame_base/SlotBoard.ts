@@ -150,9 +150,9 @@ export default class SlotBoard extends cc.Component {
             }
 
             if (i < this.reels.length - 1) {
-                reel.spinWithData(duration, columns[i]);
+                reel.spinWithData(duration, columns[i], turbo);
             } else {
-                await reel.spinWithData(duration, columns[i]);
+                await reel.spinWithData(duration, columns[i], turbo);
             }
         }
     }

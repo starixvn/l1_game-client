@@ -258,6 +258,7 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     initSlotBoard() {
+        this.loadGameAtlas();
         this.loadSlotSymbols().then(() => {
             super.initSlotBoard();
             this.slotBoard.onSymbolPreview = this.onSymbolPreview.bind(this);
@@ -307,6 +308,28 @@ export default class StandardSlotGame extends SlotGameBase {
         }
 
         uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
+    }
+
+    async loadGameAtlas() {
+        let spriteAtlas = GameUIManager.getInstance().prefabCache.gameAtlas[this.gameId];
+
+        if (spriteAtlas) {
+            return;
+        }
+
+        const path = `resources/textures/standard-slot-game`;
+        const devPath = `../games/*/${path}`;
+        try {
+            spriteAtlas = await BundleManager.getInstance().loadAsset<cc.SpriteAtlas>({
+                bundleId: this.gameId.toString(),
+                path: path,
+                pathForDevMode: devPath,
+                type: cc.SpriteAtlas
+            });
+        } catch (e) {
+            console.warn(`Missing Symbols spriteAtlas for ${path} `, e);
+        }
+        GameUIManager.getInstance().prefabCache.gameAtlas[this.gameId] = spriteAtlas;
     }
 
     async loadWinningSymbolAnimation() {

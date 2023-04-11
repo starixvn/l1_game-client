@@ -63,19 +63,20 @@ export default class SlotReel extends cc.Component {
         });
     }
 
-    private getMovingOffset(): number {
+    getMovingOffset(): number {
         const offsetHeight = 3 * this.itemHeight + 2 * this.spacingY;
         return -(this.node.height - offsetHeight);
     }
 
-    spinWithData(spinDuration = 1, data: number[]) {
+    spinWithData(spinDuration = 1, data: number[], turbo: boolean) {
         return new Promise<void>((resolve) => {
             const offset = this.getMovingOffset();
 
             cc.tween(this.node)
-                .delay(0.2 * spinDuration)
+                .delay(this.getReelDataDelayTime(spinDuration))
                 .call(() => this.setReelData(data))
                 .start();
+
             cc.tween(this.node)
                 .to(spinDuration, { position: cc.v2(this.node.x, offset) }, { easing: (dt) => cc.easeInOut(3).easing(dt) })
                 .call(() => {
@@ -83,7 +84,17 @@ export default class SlotReel extends cc.Component {
                     resolve();
                 })
                 .start();
+
+            !turbo && this.blurSymbols();
         });
+    }
+
+    getReelDataDelayTime(spinDuration: number): number {
+        return 0.2 * spinDuration;
+    }
+
+    blurSymbols() {
+        // empty
     }
 
     stop() {

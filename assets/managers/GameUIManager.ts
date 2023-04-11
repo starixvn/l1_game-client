@@ -28,7 +28,8 @@ export default class GameUIManager {
         lobbyIcons: {},
         miniPanelIcons: {},
         slotSymbols: {},
-        slotWinningAnimation: {}
+        slotWinningAnimation: {},
+        gameAtlas: {}
     };
 
     initEmitter() {

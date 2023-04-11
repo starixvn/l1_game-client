@@ -14,11 +14,15 @@ export default class SlotReelItem extends cc.Component {
     @property(sp.Skeleton)
     effectSpine: sp.Skeleton = null;
 
+    @property(cc.Node)
+    blurSymbol: cc.Node = null;
+
     public index = -1;
     public gameId: number;
 
     onLoad() {
         this.showWinningEffect(false);
+        this.blurSymbol && (this.blurSymbol.opacity = 0);
     }
 
     setItem(index: number) {

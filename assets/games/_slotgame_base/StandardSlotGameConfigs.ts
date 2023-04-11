@@ -8,7 +8,7 @@ export class StandardSlotGameConfigs implements SlotGameBaseConfigs {
     bonusTimeOut = 120;
 
     normalMode = {
-        spinDuration: 0.75,
+        spinDuration: 1.5,
         winningDuration: 2,
         noWinningDuration: 0.75,
         freespinDuration: 2,

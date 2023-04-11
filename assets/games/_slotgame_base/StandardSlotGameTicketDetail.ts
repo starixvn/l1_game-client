@@ -1,5 +1,4 @@
-import { BundleManager } from "bundle-management";
-
+import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import SlotGameTicketDetail from "./SlotGameTicketDetail";
 
 const { ccclass, property } = cc._decorator;
@@ -15,19 +14,7 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
     gameId: number;
 
     async loadSymbolsAtlas() {
-        const path = `resources/textures/standard-slot-game`;
-        const devPath = `../games/*/${path}`;
-        try {
-            const spriteAtlas = await BundleManager.getInstance().loadAsset<cc.SpriteAtlas>({
-                bundleId: this.gameId.toString(),
-                path: path,
-                pathForDevMode: devPath,
-                type: cc.SpriteAtlas
-            });
-            this.mainAtlas = spriteAtlas;
-        } catch (e) {
-            console.warn(`Missing Symbols spriteAtlas for ${path} `, e);
-        }
+        this.mainAtlas = GameUIManager.getInstance().prefabCache.gameAtlas[this.gameId];
     }
 
     protected getSpriteLine(line: number): cc.SpriteFrame {
