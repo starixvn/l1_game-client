@@ -29,6 +29,7 @@ import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import { SettingMenuEvents } from "../../../common/setting-menu/SettingMenu";
 import * as Configs from "../../../configs/Configs";
 import { AppTypes } from "./../../../common/auth/AuthManager";
+import { buildUrlFromSubDomain } from "../../../common/helpers/UrlHelper";
 
 const socketIOController = appContainer.get(SocketIOController);
 const sentryLogger = logger();
@@ -311,7 +312,7 @@ export default class Lobby extends cc.Component {
             this.renderLuckyWheelIcon();
         }
 
-        this.appDownload.active = Configs.AppDownloadDomain && window.authData?.system !== AppTypes.SabaApp;
+        this.appDownload.active = Configs.AppDownloadSubDomain && window.authData?.system !== AppTypes.SabaApp;
     }
 
     onSignIn() {
@@ -600,6 +601,6 @@ export default class Lobby extends cc.Component {
 
     redirectToDownloadPage() {
         AudioManager.getInstance().playClick();
-        window.open(`${Configs.AppDownloadDomain}?language=${window.i18n.curLang}`, "_blank");
+        window.open(`${buildUrlFromSubDomain(Configs.AppDownloadSubDomain)}?language=${window.i18n.curLang}`, "_blank");
     }
 }

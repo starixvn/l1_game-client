@@ -28,6 +28,10 @@ export function buildGameGuideUrl() {
     return `${"http"}${ssl ? "s" : ""}://${subGuideDomainText}${rootDomain}`;
 }
 
+export function buildUrlFromSubDomain(subDomain) {   
+    return `${"http"}${configs.ssl ? "s" : ""}://${subDomain}.${getRootDomain()}`;
+}
+
 export function buildUrlWithPath(path) {
     return buildUrl("http", path);
 }

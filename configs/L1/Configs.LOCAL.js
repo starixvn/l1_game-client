@@ -14,6 +14,6 @@ window.envConfig = {
     subGuideDomain: "l1-guide",
     enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false,
-    SGConnectDomain: "https://connectsite.lumigame.com",
-    AppDownloadDomain: "https://l1-appdownload.lumigame.com"
+    SGConnectSubDomain: "connectsite",
+    AppDownloadSubDomain: "l1-appdownload"
 };

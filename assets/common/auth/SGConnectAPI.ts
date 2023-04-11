@@ -1,4 +1,5 @@
 import * as Configs from "../../configs/Configs";
+import { buildUrlFromSubDomain } from "../helpers/UrlHelper";
 
 const redirectToAppTimeoutPage = (language = "en-US"): void => {
     redirectToAppPage("/timeout", language);
@@ -14,7 +15,7 @@ const redirectToLoginPage = (language = "en-US"): void => {
 };
 
 const redirectToAppPage = (path: string, language: string, otherQueryString = ""): void => {
-    window.location.href = `${Configs.SGConnectDomain}${path}?language=${language}&${otherQueryString}`;
+    window.location.href = `${buildUrlFromSubDomain(Configs.SGConnectSubDomain)}${path}?language=${language}&${otherQueryString}`;
 };
 
 export { redirectToAppTimeoutPage, redirectToAppUMPage, redirectToLoginPage };

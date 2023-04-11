@@ -14,6 +14,6 @@ window.envConfig = {
     subGuideDomain: "guides",
     enableMsgpackParserAllGames: true,
     enableMsgpackParserOnNotification: true,
-    SGConnectDomain: "https://connect.sabagame.com",
-    AppDownloadDomain: ""
+    SGConnectSubDomain: "connect",
+    AppDownloadSubDomain: ""
 };
