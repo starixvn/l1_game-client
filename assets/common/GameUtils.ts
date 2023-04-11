@@ -401,7 +401,7 @@ export default class GameUtils {
         }
 
         try {
-            if(this.isAndroid()){
+            if(this.isAndroidWebView()){
                 window.ReactNativeWebView.postMessage(JSON.stringify({eventType: 'copy_to_clipboard', data: data}));
                 showResult(i18n.t("messages.copy_success"));
             }
@@ -418,6 +418,10 @@ export default class GameUtils {
     public static isIpad(): boolean {
         const userAgent = window.navigator.userAgent.toLowerCase();
         return /ipad/.test(userAgent);
+    }
+
+    public static isAndroidWebView(): boolean {
+        return this.isAndroid() && window.ReactNativeWebView;
     }
 
     public static isAndroid(): boolean {
