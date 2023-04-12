@@ -32,6 +32,7 @@ export default class SlotBoard extends cc.Component {
     protected data: number[] = [];
     public slotGameConfig: SlotGameBaseConfigs;
     public gameId: number;
+    public reelDelayRatio = 0.1;
 
     onLoad() {
         this.winningOverlayNode.active = false;
@@ -141,12 +142,12 @@ export default class SlotBoard extends cc.Component {
     async spin(duration: number, turbo: boolean) {
         this.playSpinningAudio(turbo);
         const columns = this.convertDataToColumns(this.data);
-        const timeGap = 0.1 * duration;
+        const reelDelayTime = this.reelDelayRatio * duration;
         for (let i = 0; i < this.reels.length; i++) {
             const reel = this.reels[i];
 
             if (i > 0 && !turbo) {
-                await GameUtils.delayTime(timeGap);
+                await GameUtils.delayTime(reelDelayTime);
             }
 
             if (i < this.reels.length - 1) {

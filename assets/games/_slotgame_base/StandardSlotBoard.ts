@@ -10,6 +10,7 @@ export default class StandardSlotBoard extends SlotBoard {
     previewOverlay: cc.Node = null;
 
     private currentPreviewItem: cc.Node = null;
+    public reelDelayRatio = 0.05;
     onSymbolPreview = (symbol: number, worldPosition: cc.Vec3, isInfoOnLeft: boolean) => {};
 
     initReels() {
