@@ -2,7 +2,7 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        47: "寶藏島"
+        199: "Treasure Island 2"
     },
     treasureIsland: {
         tumpleWin: "翻滾贏",
