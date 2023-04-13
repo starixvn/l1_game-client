@@ -31,6 +31,10 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     private readonly MIN_HEIGHT_TOTALROW = 178;
     private readonly HEIGHT_ROW = 89;
 
+    onLoad() {
+        this.resultBoard && this.resultBoard.createReels();
+    }
+
     setData(tumble: any, index: number, data: any, currWinTumble: number) {
         let numberOfIcon = 0;
         let tumbleNode: cc.Node;
