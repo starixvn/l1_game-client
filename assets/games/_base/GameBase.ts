@@ -28,7 +28,7 @@ import {
     payChipsToInGamePlayers,
     payChipsToLoginPlayer,
     payChipsToOtherPlayers,
-    showPayoutForLoginPlayer,
+    showPayoutForLoginPlayer
 } from "./action/PayChipsAction";
 import { GameState } from "./GameState";
 import GameViewBase from "./GameViewBase";
@@ -392,15 +392,10 @@ export default class GameBase extends GameViewBase {
         const text = message ? message : i18n.t("messages.disabledGame");
         const noticeData = { text: text, button: { text: "OK" } } as NoticeData;
         noticeData.button = { text: "OK" };
-        this.showNotice(
-            noticeData,
-            () => {
-                this.onCloseGame();
-            },
-            () => {
-                this.onCloseGame();
-            }
-        );
+        this.showNotice(noticeData, null, () => {
+            this.isReceivedUMData = false;
+            this.onCloseGame();
+        });
     }
 
     showNotice(noticeData: NoticeData, onClickOk: () => void, onClose: () => void) {
@@ -409,6 +404,7 @@ export default class GameBase extends GameViewBase {
 
     hideUmMessage() {
         this.umNotice && this.umNotice.hide();
+        this.isReceivedUMData = false;
     }
 
     clearAllNotices() {
