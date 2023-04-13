@@ -3,6 +3,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { userManager } from "../../../common/user/UserManager";
 import { uiManager } from "../../../managers/GameUIManager";
+import { StorageManager } from "../../../managers/StorageManager";
 import GameIconMenu from "./GameIconMenu";
 import LobbyManager from "./LobbyManager";
 import LobbyMenuConfig from "./LobbyMenuConfig";
@@ -240,11 +241,11 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     saveCategory() {
-        cc.sys.localStorage.setItem("current_game_category", this.currentCategory);
+        StorageManager.set("current_game_category", this.currentCategory);
     }
 
     loadCategory() {
-        const category = cc.sys.localStorage.getItem("current_game_category");
+        const category = StorageManager.get("current_game_category");
         if (category !== "") {
             this.currentCategory = parseInt(category) || GameCategory.All;
         }

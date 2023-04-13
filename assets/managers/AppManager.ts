@@ -15,7 +15,7 @@ import { Promotions } from "../lobby/promotions/Promotions";
 import { uiManager } from "./GameUIManager";
 import { InternalEvents } from "./InternalEvents";
 import { UrlInfo } from "./UrlInfo";
-
+import { StorageManager } from "./StorageManager";
 const sentryLogger = logger();
 class AppManager {
     GAME_IS_SHOWED = true;
@@ -119,13 +119,12 @@ class AppManager {
             returnUrl: this.urlInfo[UrlInfo.ReturnUrl],
             directGameId: this.urlInfo[UrlInfo.DirectGameId]
         };
-        cc.sys.localStorage.setItem("direct_mode", JSON.stringify(data));
+        StorageManager.set("direct_mode", data);
     }
 
     private loadDirectModeInfo() {
-        const storage = cc.sys.localStorage.getItem("direct_mode");
-        if (storage) {
-            const data = JSON.parse(storage);
+        const data = StorageManager.get("direct_mode");
+        if (data) {
             if (window.authData.ss === data.ss) {
                 this.urlInfo[UrlInfo.Ref] = data[UrlInfo.Ref];
                 this.urlInfo[UrlInfo.ReturnUrl] = data[UrlInfo.ReturnUrl];

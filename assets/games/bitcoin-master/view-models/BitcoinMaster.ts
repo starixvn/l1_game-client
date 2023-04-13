@@ -164,9 +164,11 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.currentMiniPanel.chartsWebView[this.gameName] = this.chartWebView;
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
             const zIndex = this.node.getSiblingIndex();
-
+            const aboverOtherNodes = this.currentMiniPanel.miniGames.children.filter(
+                (child) => child.active && zIndex < child.getSiblingIndex()
+            );
             if (
-                zIndex < this.node.parent.childrenCount - 1 ||
+                aboverOtherNodes.length > 0 ||
                 this.currentMiniPanel.noticeContainer.childrenCount > 0 ||
                 this.currentMiniPanel.guideContainer.childrenCount > 0 ||
                 this.currentMiniPanel.dialog.childrenCount > 0

@@ -2,6 +2,7 @@ import { Socket } from "socket.io-client";
 
 import { lazyInject } from "../../Application";
 import { appManager } from "../../managers/AppManager";
+import { StorageManager } from "../../managers/StorageManager";
 import SocketIOController from "../../SocketIOController";
 import MultiOrientationGame from "./MultiOrientationGame";
 import { Orientation } from "./Orientation";
@@ -49,15 +50,12 @@ export default class MultiOrientationControl extends cc.Component {
     }
 
     loadOrientationData() {
-        const content = cc.sys.localStorage.getItem(`orientation`);
-        if (!content || !content.length) {
+        const data = StorageManager.get(`orientation`) ?? {};
+        if (!data.orientation || !data.orientation[this.gameId]) {
             return;
         }
-
-        const data = JSON.parse(content);
         this._orientation = data.orientation[this.gameId];
-
-        cc.sys.localStorage.setItem(`orientation`, "");
+        StorageManager.remove(`orientation`);
     }
 
     saveOrientationData() {
@@ -67,7 +65,7 @@ export default class MultiOrientationControl extends cc.Component {
             }
         };
 
-        cc.sys.localStorage.setItem(`orientation`, JSON.stringify(data));
+        StorageManager.set(`orientation`, data);
     }
 
     initGames() {

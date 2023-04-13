@@ -8,10 +8,11 @@ import GameUtils from "../../common/GameUtils";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import PresetBet from "../../common/preset-bet/view-models/PresetBet";
 import { userManager } from "../../common/user/UserManager";
-import SocketIOMiniGameBase from "./SocketIOMiniGameBase";
-import BalancedBettingPoolBetItem from "./view-models/BalancedBettingPoolBetItem";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import { StorageManager } from "../../managers/StorageManager";
+import SocketIOMiniGameBase from "./SocketIOMiniGameBase";
+import BalancedBettingPoolBetItem from "./view-models/BalancedBettingPoolBetItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -93,7 +94,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         node.active = false;
 
         this.presetBetSettingKey = `presetBet_${this.gameName}_${userManager.UID}`;
-        this.presetBetValue = parseFloat(cc.sys.localStorage.getItem(this.presetBetSettingKey)) || 0;
+        this.presetBetValue = parseFloat(StorageManager.get(this.presetBetSettingKey)) ?? 0;
 
         AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
             location: cc.director.getScene().name,
@@ -105,7 +106,7 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
 
     private changedPresetBet(value: number) {
         this.presetBetValue = value;
-        cc.sys.localStorage.setItem(this.presetBetSettingKey, this.presetBetValue);
+        StorageManager.set(this.presetBetSettingKey, this.presetBetValue);
         AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
             location: cc.director.getScene().name,
             game_name: GameUtils.getGameNameString(this.gameId),

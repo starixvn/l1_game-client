@@ -128,10 +128,8 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     loadPreviousSelection() {
-        const info = cc.sys.localStorage.getItem(`UserSetting_game_${this.gameId}`);
-
-        if (info) {
-            const settings = JSON.parse(info);
+        const settings = GameUtils.getGameSetting(this.gameId);
+        if (settings) {
             this.currentTypeIndex = settings.currentTypeIndex;
             this.lotteryTypeItems[this.currentTypeIndex].toggle.isChecked = true;
             const board = this.getCurrentBoard();
@@ -154,8 +152,7 @@ export default class Lottery extends SocketIOTableGameBase {
     }
 
     clearSetting() {
-        //clear setting
-        cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, "");
+        GameUtils.clearGameSetting(this.gameId);
     }
 
     onCloseGameClick() {
@@ -196,7 +193,7 @@ export default class Lottery extends SocketIOTableGameBase {
             statsEnabled: this.statsToggle.isChecked,
             boardPage: page
         };
-        cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, JSON.stringify(settings));
+        GameUtils.setGameSetting(this.gameId, settings);
     }
 
     resetDataAndUI() {

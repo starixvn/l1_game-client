@@ -23,6 +23,7 @@ export class UserData {
         public isDisplayPlayerCurrency = "",
         public userStakeLevel: IUserStakeLevel = { minBet: 0, maxBet: 0 },
         public offerGames: number[] = [],
+        public offerGamesIncludeSubGames: number[] = [],
         public settings: ISettings = { quickBet: false, theme: "" },
         public isSignedInSM = false,
         public type = false

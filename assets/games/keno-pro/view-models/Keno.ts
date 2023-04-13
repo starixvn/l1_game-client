@@ -1,4 +1,3 @@
-import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import KenoBetHandler from "./handlers/KenoBetHandler";
@@ -65,11 +64,6 @@ export default class Keno extends SocketIOTableGameBase {
 
     onLoad() {
         super.onLoad();
-        const check = cc.sys.localStorage.getItem(this.gameName);
-        if (check === "true") {
-            this.node.active = true;
-        }
-
         this.roundHistory.init(this);
         this.betItems.forEach((item) => {
             GameUtils.moveToOtherNode(item.chipNode, this.chipContainer);

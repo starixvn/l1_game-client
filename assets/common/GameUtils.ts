@@ -8,6 +8,7 @@ import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 import { appManager } from "../managers/AppManager";
 import { uiManager } from "../managers/GameUIManager";
 import { InternalEvents } from "../managers/InternalEvents";
+import { StorageManager } from "../managers/StorageManager";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../SocketIOController";
 import BetChips from "./bet-chips/view-models/BetChips";
@@ -81,13 +82,7 @@ export default class GameUtils {
     }
 
     public static async loadGameIcon(gameId: number, systemPath = ""): Promise<cc.Prefab> {
-        const storage = cc.sys.localStorage.getItem("current_game_category");
-
-        let category = 0;
-        if (storage !== "") {
-            category = parseInt(storage) || 0;
-        }
-
+        const category = StorageManager.get("current_game_category") ?? 0;
         const gameConfiguration = getGameConfiguration(gameId);
         const gameSetting = LobbyManager.getInstance().getGame(gameId, category);
 
@@ -163,22 +158,23 @@ export default class GameUtils {
         return { values, chipTotal };
     }
 
-    static setStorageGame(key, gameId, data) {
-        cc.sys.localStorage.setItem(`${key}_${gameId}`, JSON.stringify(data));
+    private static setStorageGame(key, gameId, data) {
+        StorageManager.set(`${key}_${gameId}`, data);
     }
 
     static getStorageGame(key, gameId) {
-        const storage = cc.sys.localStorage.getItem(`${key}_${gameId}`);
-        if (!storage || !storage.length) {
-            return {};
-        }
-        return JSON.parse(storage);
+        return StorageManager.get(`${key}_${gameId}`) ?? {};
     }
 
     static clearGameSetting(gameId) {
-        cc.sys.localStorage.setItem(`UserSetting_game_${gameId}`, "");
+        StorageManager.remove(`UserSetting_game_${gameId}`);
     }
 
+    /**
+     * Normal Game Setting will CLEAR when enter game by user click
+     * @param gameId
+     * @param data
+     */
     static setGameSetting(gameId, data) {
         GameUtils.setStorageGame(`UserSetting_game`, gameId, data);
     }
@@ -189,10 +185,20 @@ export default class GameUtils {
         GameUtils.setSpecificGameSetting(gameId, data);
     }
 
+    static getSubGameSetting(gameId, key) {
+        const data = GameUtils.getSpecificGameSetting(gameId);
+        return data[key];
+    }
+
     static getGameSetting(gameId) {
         return GameUtils.getStorageGame("UserSetting_game", gameId);
     }
 
+    /**
+     * Specific Game Setting will NOT CLEAR when enter game by user click
+     * @param gameId
+     * @param data
+     */
     static setSpecificGameSetting(gameId, data) {
         GameUtils.setStorageGame("SpecificGame", gameId, data);
     }
@@ -285,7 +291,7 @@ export default class GameUtils {
         await GameUtils.preloadGameAssets(gameConfiguration, miniPanel, gameId);
 
         if (!gameConfiguration.mini && gameId > 0) {
-            cc.sys.localStorage.setItem(`orientation`, "");
+            StorageManager.remove(`orientation`);
             miniPanel.openNewSocketTableGame(null, gameId);
             return;
         }

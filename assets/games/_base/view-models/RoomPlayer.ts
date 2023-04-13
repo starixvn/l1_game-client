@@ -1,5 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { StorageManager } from "../../../managers/StorageManager";
 import { ComponentSystem, ICashSystem, ICreditSystem } from "../../../System";
 
 const { ccclass, property } = cc._decorator;
@@ -87,25 +88,23 @@ export default class RoomPlayer extends ComponentSystem implements ICreditSystem
         });
     }
 
+    static getGamePlayersCache(gameName) {
+        return StorageManager.get(this.playersCacheKey(gameName)) ?? {};
+    }
+
     static storePlayerToCache(playerData: PlayerData, gameName: string) {
         if (playerData.type) {
             return;
         }
 
-        let players = JSON.parse(cc.sys.localStorage.getItem(this.playersCacheKey(gameName)));
-
-        if (!players) {
-            players = {};
-        }
-
+        const players = RoomPlayer.getGamePlayersCache(gameName);
         players[playerData.id] = playerData;
-        cc.sys.localStorage.setItem(this.playersCacheKey(gameName), JSON.stringify(players));
+        StorageManager.set(this.playersCacheKey(gameName), players);
     }
 
     static getPlayerFromCache(playerId: string, gameName: string) {
-        const players = JSON.parse(cc.sys.localStorage.getItem(this.playersCacheKey(gameName)));
-
-        return players ? players[playerId] : null;
+        const players = RoomPlayer.getGamePlayersCache(gameName);
+        return players[playerId];
     }
 
     private static playersCacheKey(gameName: string) {

@@ -1,3 +1,4 @@
+import { StorageManager } from "../../managers/StorageManager";
 import GameUtils from "../GameUtils";
 
 export default class AudioManager {
@@ -89,15 +90,8 @@ export default class AudioManager {
     }
 
     private initDefaultStorage() {
-        const background = cc.sys.localStorage.getItem(this.MusicStorageKey);
-        if (background === "") {
-            this.musicEnabled = true;
-        }
-
-        const sfx = cc.sys.localStorage.getItem(this.SFXStorageKey);
-        if (sfx === "") {
-            this.sfxEnabled = true;
-        }
+        this.musicEnabled = StorageManager.get(this.MusicStorageKey) ?? true;
+        this.sfxEnabled = StorageManager.get(this.SFXStorageKey) ?? true;
     }
 
     addMusicChanged(key: string, observer: (changed: boolean) => void) {
@@ -134,22 +128,20 @@ export default class AudioManager {
     }
 
     get musicEnabled(): boolean {
-        const check = cc.sys.localStorage.getItem(this.MusicStorageKey);
-        return check === "true";
+        return StorageManager.get(this.MusicStorageKey);
     }
 
     set musicEnabled(value: boolean) {
-        cc.sys.localStorage.setItem(this.MusicStorageKey, value);
+        StorageManager.set(this.MusicStorageKey, value);
         this.onMusicChanged(value);
     }
 
     get sfxEnabled(): boolean {
-        const check = cc.sys.localStorage.getItem(this.SFXStorageKey);
-        return check === "true";
+        return StorageManager.get(this.SFXStorageKey);
     }
 
     set sfxEnabled(value: boolean) {
-        cc.sys.localStorage.setItem(this.SFXStorageKey, value);
+        StorageManager.set(this.SFXStorageKey, value);
         this.onSfxChanged(value);
         if (!value) {
             this.stopAllSFX();

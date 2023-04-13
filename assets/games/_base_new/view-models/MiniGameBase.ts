@@ -19,7 +19,7 @@ import {
     placeOwnChipsFake,
     updateOwnBets,
     updatePreviousBets,
-    updateTotalBets,
+    updateTotalBets
 } from "../actions/BetAction";
 import {
     changeGameRound,
@@ -36,7 +36,7 @@ import {
     handleWinningStreak,
     onUM,
     showHashAtPlacingBet,
-    updateMD5String,
+    updateMD5String
 } from "../actions/CommonAction";
 import {
     clearRoundData,
@@ -48,7 +48,7 @@ import {
     updatePlacingBet,
     updateStartingRound,
     updateTimeOut,
-    updateWaiting,
+    updateWaiting
 } from "../actions/TimeAction";
 import { BetModel } from "../models/BetModel";
 import { BoostedChoicesModel } from "../models/BoostedChoicesModel";
@@ -144,6 +144,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.playClick();
         this.cleanGame();
         this.node.active = false;
+        this.currentMiniPanel.onGamesLayerChanged();
     }
 
     override onData(data: unknown) {

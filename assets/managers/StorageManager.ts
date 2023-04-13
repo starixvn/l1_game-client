@@ -1,7 +1,7 @@
 interface Storage {
     remove: (name: string) => void;
-    get: (name: string) => string;
-    set: (name: string, value: string, expiresDay?: number) => void;
+    get: (name: string) => any;
+    set: (name: string, value: any, expiresDay?: number) => void;
     isAvailable: () => boolean;
 }
 
@@ -12,14 +12,18 @@ class LocalStorage implements Storage {
 
     get(name: string) {
         const storage = localStorage.getItem(name);
+        if (storage === "") {
+            return null;
+        }
         try {
             return storage ? JSON.parse(storage) : null;
         } catch (error) {
+            console.warn(`LocalStorage ${name} can not parse`);
             return storage ?? null;
         }
     }
 
-    set(name: string, value: string) {
+    set(name: string, value: any) {
         localStorage.setItem(name, JSON.stringify(value));
     }
 
@@ -49,14 +53,14 @@ class Memory implements Storage {
         this.localMemory = window.localMemory;
     }
     remove(name: string) {
-        this.localMemory[name] = "";
+        delete this.localMemory[name];
     }
 
     get(name: string) {
         return this.localMemory[name] ? this.localMemory[name] : null;
     }
 
-    set(name: string, value: string) {
+    set(name: string, value: any) {
         this.localMemory[name] = value;
     }
 
@@ -80,8 +84,12 @@ class StorageManager {
         return this.storage.get(name);
     }
 
-    static set(name: string, value: string) {
+    static set(name: string, value: any) {
         this.storage.set(name, value);
+    }
+
+    static remove(name: string) {
+        this.storage.remove(name);
     }
 }
 

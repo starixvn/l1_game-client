@@ -346,6 +346,7 @@ export default class MultiplayGame extends GameViewBase {
         AudioManager.getInstance().playClick();
         this.node.active = false;
         this.resetStatisticShow();
+        this.currentMiniPanel.onGamesLayerChanged();
     }
 
     handleSubGamesArea() {
@@ -386,11 +387,11 @@ export default class MultiplayGame extends GameViewBase {
     }
 
     private storageStatusStatistic(status: boolean) {
-        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.gameId}`, status);
+        GameUtils.setSubGameSetting(this.gameId, KeyStorageStatisticOpen, status);
     }
 
     resetStatisticShow() {
-        cc.sys.localStorage.setItem(`${KeyStorageStatisticOpen}_${this.gameId}`, "true");
+        GameUtils.setSubGameSetting(this.gameId, KeyStorageStatisticOpen, true);
     }
 
     initPromotionGuide(node: cc.Node) {

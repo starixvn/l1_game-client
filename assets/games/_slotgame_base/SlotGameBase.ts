@@ -206,22 +206,21 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     loadUserSetting() {
-        const info = cc.sys.localStorage.getItem(`UserSetting_game_${this.gameId}`);
+        const defaultSettings: SlotGameUserSettings = {
+            betChoices: this.betChoices,
+            stake: this.stake,
+            turboEnabled: false
+        };
+        const settings = GameUtils.getGameSetting(this.gameId) ?? defaultSettings;
 
-        if (info) {
-            const defaultSettings: SlotGameUserSettings = {
-                betChoices: this.betChoices,
-                stake: this.stake,
-                turboEnabled: false
-            };
-            const settings: SlotGameUserSettings = JSON.parse(info) || defaultSettings;
+        if (settings) {
             this.turboToggle.isChecked = settings.turboEnabled;
             this.setBetChoices(settings.betChoices);
             this.setStake(settings.stake);
         }
 
         //clear setting
-        cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, "");
+        GameUtils.clearGameSetting(this.gameId);
     }
 
     updateStakeContainer() {
@@ -249,7 +248,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             turboEnabled: this.turboToggle.isChecked
         };
 
-        cc.sys.localStorage.setItem(`UserSetting_game_${this.gameId}`, JSON.stringify(currentSetting));
+        GameUtils.setGameSetting(this.gameId, currentSetting);
     }
 
     initDefaultBetChoices() {

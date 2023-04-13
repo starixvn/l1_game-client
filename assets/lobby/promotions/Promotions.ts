@@ -1,5 +1,6 @@
 import NotificationService from "../../common/auth/NotificationService";
 import EventEmitterBase from "../../common/emitter/EventEmitterBase";
+import { userManager } from "../../common/user/UserManager";
 
 export const PromotionsEvent = {
     SHOW_BOOSTED_ODDS: "SHOW_BOOSTED_ODDS"
@@ -51,11 +52,7 @@ export class Promotions extends EventEmitterBase {
     }
 
     receivedData(data: Promotion[]) {
-        const offerGames = [];
-        const storage = cc.sys.localStorage.getItem("offerGames");
-        if (storage) {
-            offerGames.push(...JSON.parse(storage));
-        }
+        const offerGames = userManager.offerGamesIncludeSubGames;
         const newPromotions = data.filter((promotion) => offerGames.includes(promotion.gameId));
         if (newPromotions.length > 0) {
             let haveNewPromotion = newPromotions.length > this.promotions.length;

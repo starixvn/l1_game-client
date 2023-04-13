@@ -57,6 +57,7 @@ export default class SocketIOMiniGameBase extends GameBase {
         this.socketIOController.closeSocket(this.gameId);
         this.showProcessingWarning(false);
         super.closeGame();
+        this.currentMiniPanel.onGamesLayerChanged();
     }
 
     onData(data) {

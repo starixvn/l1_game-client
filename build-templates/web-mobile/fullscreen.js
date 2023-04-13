@@ -277,7 +277,12 @@ function getLanguageURLparams(locale) {
 }
 
 function getCurrentLanguage() {
-    let language = localStorage.getItem("current_language") || "en";
+    let language = "vi";
+    try {
+        if (localStorage.getItem("current_language")) {
+            language = localStorage.getItem("current_language");
+        }
+    } catch (e) {}
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("lang")) {
         const lang = urlParams.get("lang");

@@ -41,6 +41,10 @@ export default class UserManager {
         return this._data.offerGames;
     }
 
+    get offerGamesIncludeSubGames() {
+        return this._data.offerGamesIncludeSubGames;
+    }
+
     get availSpins() {
         return this._data.availSpins;
     }
@@ -94,9 +98,8 @@ export default class UserManager {
                 list.push(id);
             }
         });
-        userManager.updateOfferGame(list);
-        cc.sys.localStorage.setItem("latestOfferGames", JSON.stringify(list));
-        cc.sys.localStorage.setItem("offerGames", JSON.stringify(offerGames));
+        userManager.updateOfferGamesIncludeSubGames(offerGames);
+        userManager.updateOfferGames(list);
     }
 
     public setSpecificName(name: keyof UserData | any, data: string | number | any): void {
@@ -129,8 +132,12 @@ export default class UserManager {
         return true;
     }
 
-    public updateOfferGame(offerGames: number[]): void {
+    public updateOfferGames(offerGames: number[]) {
         this._data.offerGames = [...offerGames];
+    }
+
+    public updateOfferGamesIncludeSubGames(offerGames: number[]) {
+        this._data.offerGamesIncludeSubGames = [...offerGames];
     }
 }
 

@@ -14,6 +14,7 @@ import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import { appManager } from "../../../managers/AppManager";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
+import { StorageManager } from "../../../managers/StorageManager";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../../SocketIOController";
 import Category from "../../category/view-models/Category";
@@ -193,7 +194,7 @@ export default class Lobby extends cc.Component {
     }
 
     activeCategoryFromStorage(): number {
-        const storage = cc.sys.localStorage.getItem("current_game_category");
+        const storage = StorageManager.get("current_game_category");
         let category = 0;
         if (storage !== "") {
             category = parseInt(storage) || GameCategory.All;
@@ -320,16 +321,6 @@ export default class Lobby extends cc.Component {
         }
     }
 
-    loadLobbyMenuFromStorage() {
-        if (!this.initializedLobby) {
-            const storage = cc.sys.localStorage.getItem("latestOfferGames");
-            if (storage) {
-                userManager.updateOfferGame(JSON.parse(storage));
-            }
-            this.initLobbyCategoryBanner(true);
-        }
-    }
-
     initLobbyCategoryBanner(loadAllBanners: boolean) {
         if (userManager.offerGames.length === 0) {
             this.showNotice({ text: i18n.t("messages.noGameOffer") });
@@ -451,13 +442,11 @@ export default class Lobby extends cc.Component {
     signOut() {
         userManager.updateUser({});
         this.AllReset();
-        cc.sys.localStorage.removeItem("infoRed8");
         authManager.signOut();
     }
 
     onDisconnected() {
         this.AllReset();
-        cc.sys.localStorage.removeItem("infoRed8");
     }
 
     signIn() {

@@ -1,4 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import { StorageManager } from "../../../managers/StorageManager";
+
 const { ccclass } = cc._decorator;
 
 @ccclass
@@ -14,15 +16,14 @@ export default class SedieTutorial extends cc.Component {
     }
 
     getLocalStorageData() {
-        const storage = cc.sys.localStorage.getItem(this.storageKey);
-        return storage
-            ? JSON.parse(storage)
-            : {
-                  enabled: true
-              };
+        return (
+            StorageManager.get(this.storageKey) ?? {
+                enabled: true
+            }
+        );
     }
 
     setLocalStorageData(data: any) {
-        cc.sys.localStorage.setItem(this.storageKey, JSON.stringify(data));
+        StorageManager.set(this.storageKey, data);
     }
 }

@@ -1,6 +1,6 @@
+import GameUtils, { MINI_GAMES_SCALE_ON_DESKTOP } from "../../../common/GameUtils";
 import MiniGameBase from "../../_base_new/view-models/MiniGameBase";
 import MultiplayGameHistory from "./MultiplayGameHistory";
-import GameUtils, { MINI_GAMES_SCALE_ON_DESKTOP } from "../../../common/GameUtils";
 
 const { ccclass } = cc._decorator;
 
@@ -63,6 +63,6 @@ export default abstract class MultiplayGameSingle extends MiniGameBase {
     }
 
     private getStorageStatusStatistic(): boolean {
-        return cc.sys.localStorage.getItem(`${KeyStorageStatisticOpen}_${this.groupDefaultGameId}`) === "false" ? false : true;
+        return GameUtils.getSubGameSetting(this.groupDefaultGameId, KeyStorageStatisticOpen) ?? true;
     }
 }

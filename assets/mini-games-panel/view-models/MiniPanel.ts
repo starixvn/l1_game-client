@@ -103,7 +103,7 @@ export default class MiniPanel extends BaseComponent {
         delete this.chartsWebView[key];
     }
 
-    onNewLayerCallback() {
+    onGamesLayerChanged() {
         Object.values(this.newLayerCallbacks).forEach((callback: NewLayerCallback) => callback());
     }
 
@@ -122,15 +122,15 @@ export default class MiniPanel extends BaseComponent {
         this.initPopUpMiniGames();
         this.initBoostedOdds();
 
-        this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
-        this.miniGames.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
-        this.miniGames.on(cc.Node.EventType.CHILD_REORDER, this.onNewLayerCallback.bind(this));
-        this.noticeContainer.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
-        this.noticeContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
-        this.guideContainer.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
-        this.guideContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
-        this.dialog.on(cc.Node.EventType.CHILD_ADDED, this.onNewLayerCallback.bind(this));
-        this.dialog.on(cc.Node.EventType.CHILD_REMOVED, this.onNewLayerCallback.bind(this));
+        this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onGamesLayerChanged.bind(this));
+        this.miniGames.on(cc.Node.EventType.CHILD_REMOVED, this.onGamesLayerChanged.bind(this));
+        this.miniGames.on(cc.Node.EventType.CHILD_REORDER, this.onGamesLayerChanged.bind(this));
+        this.noticeContainer.on(cc.Node.EventType.CHILD_ADDED, this.onGamesLayerChanged.bind(this));
+        this.noticeContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onGamesLayerChanged.bind(this));
+        this.guideContainer.on(cc.Node.EventType.CHILD_ADDED, this.onGamesLayerChanged.bind(this));
+        this.guideContainer.on(cc.Node.EventType.CHILD_REMOVED, this.onGamesLayerChanged.bind(this));
+        this.dialog.on(cc.Node.EventType.CHILD_ADDED, this.onGamesLayerChanged.bind(this));
+        this.dialog.on(cc.Node.EventType.CHILD_REMOVED, this.onGamesLayerChanged.bind(this));
 
         NotificationService.getInstance().addDataObserver(this.kickedOutKey, this.kickedOutKey, (data) =>
             this.dataHandlers.handleDataKickedOut(data)

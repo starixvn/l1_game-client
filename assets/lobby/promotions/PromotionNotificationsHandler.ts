@@ -1,5 +1,6 @@
 import NotificationService from "../../common/auth/NotificationService";
 import EventEmitterBase from "../../common/emitter/EventEmitterBase";
+import { userManager } from "../../common/user/UserManager";
 
 export const PromotionNotificationsEvent = {
     NEW_PROMOTION: "NEW_PROMOTION",
@@ -64,11 +65,7 @@ export default class PromotionNotificationsHandler extends EventEmitterBase {
     }
 
     receivedData(data: PromotionNotification[]) {
-        const offerGames = [];
-        const storage = cc.sys.localStorage.getItem("offerGames");
-        if (storage) {
-            offerGames.push(...JSON.parse(storage));
-        }
+        const offerGames = userManager.offerGamesIncludeSubGames;
         const newPromotionNotification = data.filter((promotionNotification) => offerGames.includes(promotionNotification.gameId));
         if (JSON.stringify(this._promotionNotifications) === JSON.stringify(newPromotionNotification)) {
             this._reloadAnnouncementPopup = false;

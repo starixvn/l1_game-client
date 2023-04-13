@@ -1,5 +1,6 @@
 import NewButton from "../../../common/custom-button/NewButton";
 import TutorialMain from "../../../common/tutorial/TutorialMain";
+import { StorageManager } from "../../../managers/StorageManager";
 import CasinoGame from "../../_casino/CasinoGame";
 import CallModelBase from "../../_casino/event-models/CallModelBase";
 import DealModelBase from "../../_casino/event-models/DealModelBase";
@@ -20,7 +21,7 @@ import {
     showHideButtons,
     showHideTooltip,
     showPlaceBetChips,
-    updateAllChips,
+    updateAllChips
 } from "../actions/texas-place-bet-actions";
 import { updatePreviousChoices } from "../actions/texas-rejoin-room-actions";
 import { showWinningOption } from "../actions/texas-settlement-actions";
@@ -31,7 +32,7 @@ import {
     dealSecondCard,
     dealThirdCardAndFaceUpDealerCards,
     rawCardWhenRejoin,
-    swapPlayerAndDealerCards,
+    swapPlayerAndDealerCards
 } from "../cards-component/view-models/cards-wrapper";
 import TexasCards from "../cards-component/view-models/texas-cards";
 import TexasConfigsModel from "../event-models/texas-configs-model";
@@ -49,10 +50,7 @@ import { handleMD5 } from "./../actions/texas-md5-action";
 import { prepareNewRound, showOwnBet } from "./../actions/texas-place-bet-actions";
 import { showRejoinOwnBets } from "./../actions/texas-rejoin-room-actions";
 import { renderTicketDetail } from "./../actions/texas-ticket-detail-actions";
-import {
-    dealPlayerAndDealerCardsWithoutSwap,
-    holdPlayerAndDealerCards,
-} from "./../cards-component/view-models/cards-wrapper";
+import { dealPlayerAndDealerCardsWithoutSwap, holdPlayerAndDealerCards } from "./../cards-component/view-models/cards-wrapper";
 import TexasRiverModel from "./../event-models/texas-river-model";
 import TexasStateModel from "./../event-models/texas-state-model";
 import TexasBettingArea from "./texas-betting-area";
@@ -145,12 +143,9 @@ export default class Texas extends CasinoGame {
 
     initInteractiveGuide() {
         const storageKey = "texas_interactive_guide";
-        const storage = cc.sys.localStorage.getItem(storageKey);
-        const data = storage
-            ? JSON.parse(storage)
-            : {
-                  enabled: true
-              };
+        const data = StorageManager.get(storageKey) ?? {
+            enabled: true
+        };
 
         if (!data.enabled || !this.interactiveGuidePrefab) {
             return;
@@ -162,7 +157,7 @@ export default class Texas extends CasinoGame {
         tutorialMain.setTimeConfig(TimerShowInteractiveGuide);
         tutorialMain.toggleCallback = (dontShow: boolean) => {
             data.enabled = !dontShow;
-            cc.sys.localStorage.setItem(storageKey, JSON.stringify(data));
+            StorageManager.set(storageKey, data);
         };
 
         tutorialMain.endSlideCallBack = () => {

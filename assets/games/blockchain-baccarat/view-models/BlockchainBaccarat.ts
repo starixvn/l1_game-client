@@ -1,5 +1,6 @@
 import GameUtils from "../../../common/GameUtils";
 import TutorialMain from "../../../common/tutorial/TutorialMain";
+import { StorageManager } from "../../../managers/StorageManager";
 import { payChips } from "../../_base/action/PayChipsAction";
 import MD5Component from "../../_base/view-models/MD5Component";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
@@ -18,7 +19,7 @@ import {
     BlockchainBaccaratFinish,
     BlockchainBaccaratFinishModel,
     BlockchainBaccaratRoundHistory,
-    BlockchainBaccaratRoundHistoryModel,
+    BlockchainBaccaratRoundHistoryModel
 } from "../event-models/BlockchainBaccaratModel";
 import BlockchainBaccaratBetItem from "./BlockchainBaccaratBetItem";
 import BlockchainBaccaratCardsUI from "./BlockchainBaccaratCardsUI";
@@ -146,12 +147,9 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
 
     initFlashGuide() {
         const storageKey = "blockchain_baccarat_flash_guide";
-        const storage = cc.sys.localStorage.getItem(storageKey);
-        const data = storage
-            ? JSON.parse(storage)
-            : {
-                  enabled: true
-              };
+        const data = StorageManager.get(storageKey) ?? {
+            enabled: true
+        };
         if (!data.enabled || !this.flashGuidePrefab) {
             return;
         }
@@ -166,7 +164,7 @@ export default class BlockchainBaccarat extends NewGameRoomBase {
         const tutorialMain = node.getComponent(TutorialMain);
         tutorialMain.setTimeConfig([]);
         tutorialMain.endSlideCallBack = () => {
-            cc.sys.localStorage.setItem(storageKey, JSON.stringify({ enabled: false }));
+            StorageManager.set(storageKey, { enabled: false });
         };
         tutorialMain.show();
     }

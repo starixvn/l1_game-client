@@ -1,5 +1,7 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import { StorageManager } from "../../managers/StorageManager";
+
 declare global {
     export interface Window {
         i18n?: {
@@ -28,16 +30,16 @@ export function getSessionKey() {
 }
 
 export function removeSession() {
-    cc.sys.localStorage.removeItem(getSessionKey());
+    StorageManager.remove(getSessionKey());
 }
 
 export function getSession(): Session {
-    return JSON.parse(cc.sys.localStorage.getItem(getSessionKey()));
+    return StorageManager.get(getSessionKey()) ?? {};
 }
 
 export function storeSessionData(data) {
     updateLanguage(data);
-    cc.sys.localStorage.setItem(getSessionKey(), JSON.stringify(data));
+    StorageManager.set(getSessionKey(), data);
 }
 
 export function getLanguage(locale) {
@@ -66,29 +68,41 @@ export function updateLanguage(data) {
 
 export function setLanguage(language: string) {
     i18n.init(language);
-    cc.sys.localStorage.setItem(`current_language`, language);
+    StorageManager.set(`current_language`, language);
 }
 
 export function getCacheLanguage(): string {
-    return cc.sys.localStorage.getItem(`current_language`) || "vi";
+    return StorageManager.get(`current_language`) ?? "vi";
 }
 
-export function getInRoomGameIdKey() {
-    const session = getSession();
+function getInRoomGameIdKey() {
+    return "current_game_room_id";
+}
 
-    return session ? `${session.ss}_inroomgame` : "";
+function getInRoomGameIdStorage() {
+    return StorageManager.get(getInRoomGameIdKey()) ?? {};
 }
 
 export function storeInRoomGameId(gameId) {
-    cc.sys.localStorage.setItem(getInRoomGameIdKey(), gameId);
+    const session = getSession();
+    const ss = session.ss;
+    if (ss) {
+        const data = { ss, gameId };
+        StorageManager.set(getInRoomGameIdKey(), data);
+    }
 }
 
 export function getInRoomGameId() {
-    return cc.sys.localStorage.getItem(getInRoomGameIdKey());
+    const data = getInRoomGameIdStorage();
+    const session = getSession();
+    if (data.ss && session.ss && data.ss === session.ss) {
+        return data.gameId;
+    }
+    return 0;
 }
 
 export function removeInRoomGameId() {
-    cc.sys.localStorage.removeItem(getInRoomGameIdKey());
+    StorageManager.remove(getInRoomGameIdKey());
 }
 
 declare global {
