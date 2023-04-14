@@ -60,4 +60,14 @@ export default class SlotReelItem extends cc.Component {
             this.effectSpine.setAnimation(0, this.effectSpine.animation, false);
         }
     }
+
+    handleBlurAnim(swapDuration: number, delaySwap: number, isShowBlurSymbol: boolean) {
+        cc.tween(this.blurSymbol)
+            .to(swapDuration, { opacity: isShowBlurSymbol ? 255 : 0 })
+            .start();
+        cc.tween(this.effectSpine.node)
+            .delay(delaySwap)
+            .to(swapDuration, { opacity: isShowBlurSymbol ? 0 : 255 })
+            .start();
+    }
 }
