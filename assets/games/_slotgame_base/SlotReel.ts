@@ -73,7 +73,7 @@ export default class SlotReel extends cc.Component {
             const offset = this.getMovingOffset();
 
             cc.tween(this.node)
-                .delay(this.getReelDataDelayTime(spinDuration))
+                .delay(this.getChangeDataDelayTime(spinDuration))
                 .call(() => this.setReelData(data))
                 .start();
 
@@ -89,7 +89,7 @@ export default class SlotReel extends cc.Component {
         });
     }
 
-    getReelDataDelayTime(spinDuration: number): number {
+    getChangeDataDelayTime(spinDuration: number): number {
         return 0.2 * spinDuration;
     }
 
