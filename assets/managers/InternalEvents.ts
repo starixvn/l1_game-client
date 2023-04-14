@@ -6,6 +6,7 @@ export enum InternalEvents {
     CLICK_SPIN_BUTTON = "slot= click on the spin button",
     CLICK_HAMBURGER_MENU = "slot= click on the hamburger menu",
     CLICK_OUTSIDE_REEL_AREA = "slot= click outside reeel area",
+    LOADED_PROMOTION_ANNOUNCEMENT = "lobby= loaded promotion announcement",
 
     NOT_PERMITTED_TO_PLAY = "NOT_PERMITTED_TO_PLAY",
     USER_STAKE_LEVEL_UPDATED = "USER_STAKE_LEVEL_UPDATED",
