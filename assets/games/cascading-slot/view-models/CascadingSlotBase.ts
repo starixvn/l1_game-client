@@ -447,6 +447,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     openHistory() {
         const dialog = cc.instantiate(this.historyPrefab);
         this.historyComponent = dialog.getComponent(CascadingSlotGameHistory);
+        this.historyComponent.gameId = this.gameId;
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.addDialog(dialog);
     }

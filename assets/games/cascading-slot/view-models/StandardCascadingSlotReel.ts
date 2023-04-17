@@ -1,11 +1,14 @@
 import GameUtils from "../../../common/GameUtils";
 import CascadeSlotReel from "./CascadeSlotReel";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
+import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StandardCascadingSlotReel extends CascadeSlotReel {
+    protected items: StandardCascadingSlotReelItem[] = [];
+
     async highlightItem(index: number) {
         const item = this.items[index];
         GameUtils.moveToOtherNode(item.node, this.effectContainer);

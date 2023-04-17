@@ -42,6 +42,8 @@ export default class CascadingSlotTicketDetail extends cc.Component {
 
     data: any = null;
 
+    gameId: number;
+
     onLoad() {
         this.commonDialog.addOnDidHide(() => {
             this.node.destroy();
@@ -59,6 +61,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         tumbles.forEach((tumble, index) => {
             const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
             const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
+            control.gameId = this.gameId;
             if ((index === tumbles.length - 1 && !isReachMaxWin) || index < tumbles.length - 1) {
                 currWinTumble += tumble.win;
                 control.setData(tumble, index, data, currWinTumble);

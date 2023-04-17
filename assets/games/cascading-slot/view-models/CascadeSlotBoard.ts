@@ -14,7 +14,7 @@ export default class CascadeSlotBoard extends cc.Component {
     boardSound: SlotGameSound;
 
     public gameId: number;
-    private readonly reels: CascadeSlotReel[] = [];
+    protected readonly reels: CascadeSlotReel[] = [];
 
     public createReels() {
         if (this.reels.length > 0) {
@@ -62,6 +62,7 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public setData(symbols: number[][], multiplier: number[]) {
         for (let i = 0; i < this.reels.length; i++) {
+            this.reels[i].gameId = this.gameId;
             this.reels[i].setItemData(symbols[i], multiplier);
         }
     }

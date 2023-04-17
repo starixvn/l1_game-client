@@ -9,7 +9,7 @@ export default class CascadingSlotGameHistory extends SlotGameHistory {
     showTicketDetail(data: any) {
         const ticketDetailPrefab = cc.instantiate(this.ticketDetailPrefab);
         const ticketDetailComponent = ticketDetailPrefab.getComponent(CascadingSlotTicketDetail);
-
+        ticketDetailComponent.gameId = this.gameId;
         this.node.addChild(ticketDetailPrefab);
         ticketDetailComponent.setData(data);
     }

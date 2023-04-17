@@ -62,6 +62,7 @@ export default class CascadeSlotReel extends cc.Component {
 
     setItemData(data: number[], multiplier: number[]) {
         this.items.forEach((item, index) => {
+            item.gameId = this.gameId;
             item.setItem(data[index]);
         });
 

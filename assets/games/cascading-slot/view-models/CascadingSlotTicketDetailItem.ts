@@ -28,6 +28,8 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     @property({ type: cc.Node })
     lines: cc.Node[] = [];
 
+    gameId: number;
+
     private readonly MIN_HEIGHT_TOTALROW = 178;
     private readonly HEIGHT_ROW = 89;
 
@@ -77,6 +79,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
 
     setDataResultBoard(symbols: string, multiplier: number[]) {
         const board = convertData(symbols);
+        this.resultBoard.gameId = this.gameId;
         this.resultBoard.setData(board, multiplier);
     }
 
