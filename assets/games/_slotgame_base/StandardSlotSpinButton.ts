@@ -31,6 +31,7 @@ export default class StandardSlotSpinButton extends ClassicSpinButton {
 
     override playAnimationSpin() {
         this.iconSpinSkeleton && this.iconSpinSkeleton.setAnimation(0, "spin", true);
+        this.iconSpinSkeleton && this.iconSpinSkeleton.setAnimation(3, "spin-extra", false);
     }
 
     override playAnimationIdle() {
