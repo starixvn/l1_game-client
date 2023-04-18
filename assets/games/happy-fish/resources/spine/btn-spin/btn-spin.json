@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "vgx12Y+hhcqGaZYPLQnwERKe5qs", "spine": "3.8.99" },
+"skeleton": { "hash": "n0K3yg8d3Uc8A+5V4eTKI2swUgI", "spine": "3.8.99" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "bone", "parent": "root" },
@@ -191,8 +191,7 @@
 			"twirling-blue": {
 				"color": [
 					{ "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
-					{ "time": 1, "color": "ffffffd9", "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.2, "color": "ffffff00" }
+					{ "time": 1.1, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "name": "twirling-blue" }
@@ -203,14 +202,11 @@
 			"twirling-blue": {
 				"rotate": [
 					{},
-					{ "time": 0.6, "angle": 180 },
-					{ "time": 1, "angle": 54.69, "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
-					{ "time": 1.2 }
+					{ "time": 1.1, "angle": -180 }
 				],
 				"scale": [
-					{ "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.6, "x": 0.88, "y": 0.88, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.2 }
+					{ "x": 1.05, "y": 1.05, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.1, "x": 1.2, "y": 1.2 }
 				]
 			}
 		}
