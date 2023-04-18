@@ -1,43 +1,38 @@
 import GameUtils from "../../../common/GameUtils";
 import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
+import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "./CascadingSlotUtils";
+import MultiplierItem from "./MultiplierItem";
+import StandardCascadingSlotReelSymbol from "./StandardCascadingSlotReelSymbol";
+import StandardMultiplierItem from "./StandardMultiplierItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
-    @property({ type: cc.Prefab, visible: false, override: true })
-    itemPrefabs: cc.Prefab[] = [];
-
-    @property(sp.Skeleton)
-    effectSpine: sp.Skeleton = null;
-
-    @property
-    premultipliedAlpha = false;
-
     get cache() {
         return GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
     }
 
     protected replaceItem(index: number) {
-        if (!this.effectSpine) {
+        this.content.removeAllChildren();
+        if (index < 0) {
+            console.error("replaceItem wrong index: " + index);
             return;
         }
-        const anim = "idle";
-        this.effectSpine.skeletonData = this.cache[index];
-        this.effectSpine.premultipliedAlpha = this.premultipliedAlpha;
-        this.effectSpine.setAnimation(0, anim, true);
+        const symbolPrefabIndex = index === MULTIPLIER_SYMBOL ? 1 : 0;
+        const node = cc.instantiate(this.itemPrefabs[symbolPrefabIndex]);
+        this.content.addChild(node);
+        const reelSymbol = node.getComponent(StandardCascadingSlotReelSymbol);
+        reelSymbol.setAminamtion(this.cache[index]);
     }
 
     async highlightScatterItem() {
-        if (!this.effectSpine) {
-            return;
-        }
+        const effectSpine = this.content.getComponentInChildren(sp.Skeleton);
         const anim = "highlight";
-        this.effectSpine.skeletonData = this.cache[this.index];
-        this.effectSpine.premultipliedAlpha = this.premultipliedAlpha;
-        this.effectSpine.setAnimation(0, anim, true);
-        const original = this.effectSpine.findAnimation(anim).duration;
+        effectSpine.skeletonData = this.cache[SCATTER_SYMBOL];
+        effectSpine.setAnimation(0, anim, true);
+        const original = effectSpine.findAnimation(anim).duration;
         await GameUtils.delayTime(original);
     }
 }

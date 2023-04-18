@@ -112,6 +112,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     override onEnable() {
+        this.callRegisterGame();
+    }
+
+    callRegisterGame() {
         this.startGame();
         const storage = GameUtils.getGameSetting(this.gameId);
         if (storage.turboEnabled) {
@@ -127,7 +131,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             this.registerViewGame();
         }
     }
-
     updateForTrialMode() {
         this.tumbleList.offerTrialMode(this.isTrialMode);
         this.holdActionButton.onlyButtonFunction = this.isTrialMode;

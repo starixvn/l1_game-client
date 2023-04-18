@@ -107,6 +107,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.initTumbleWinList();
         this.initTotalMultiplierFrame();
         super.onLoadedPrefabs();
+        this.callRegisterGame();
+    }
+    onEnable(): void {
+        //overide empty
     }
 
     async loadPrefabsByCode() {

@@ -35,6 +35,7 @@ export default class CascadeSlotReelItem extends cc.Component {
         if (this.index === MULTIPLIER_SYMBOL && multiplier.length > 0) {
             const m = multiplier.shift();
             const multiplierItem = this.content.children[0].getComponent(MultiplierItem);
+            multiplierItem.gameId = this.gameId;
             multiplierItem?.setValue(m);
         }
     }

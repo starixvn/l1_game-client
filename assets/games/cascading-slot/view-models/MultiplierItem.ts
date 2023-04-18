@@ -21,6 +21,8 @@ export default class MultiplierItem extends cc.Component {
 
     private _multiplierValue = 1;
 
+    gameId: number;
+
     get multiplier() {
         return this._multiplierValue;
     }
@@ -42,7 +44,7 @@ export default class MultiplierItem extends cc.Component {
         this.updateColor(value);
     }
 
-    private hideMultiplier() {
+    protected hideMultiplier() {
         this.value.node.active = false;
         this.animation.stop();
     }
