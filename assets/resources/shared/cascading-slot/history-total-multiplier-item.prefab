@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "TreasureIslandTotalMultiplierItem",
+    "_name": "CascadingHistoryTotalMultiplierItem",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -27,11 +27,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 23
+        "__id__": 22
       }
     ],
     "_prefab": {
-      "__id__": 24
+      "__id__": 23
     },
     "_opacity": 255,
     "_color": {
@@ -44,7 +44,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1058,
-      "height": 74
+      "height": 45
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -88,7 +88,7 @@
       "__id__": 1
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 3
@@ -100,15 +100,15 @@
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 34,
-      "g": 31,
-      "b": 36,
+      "r": 20,
+      "g": 20,
+      "b": 20,
       "a": 255
     },
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1058,
-      "height": 74
+      "height": 45
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -160,7 +160,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "c5e0cbf2-37f7-4de6-8936-7e98310e9785"
+      "__uuid__": "5d7ed668-e6bd-4641-bb8a-68025f27a2d5"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -174,7 +174,7 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_atlas": {
-      "__uuid__": "3f6707ae-ba57-4a69-aea9-b731aa48eeef"
+      "__uuid__": "5da43970-8063-499d-9882-c501e8b5334f"
     },
     "_id": ""
   },
@@ -184,7 +184,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "f2e5ab54-726d-4fac-97d6-07294fa05f92"
+      "__uuid__": "a196a303-7b4c-485c-9d89-d5d279abaf24"
     },
     "fileId": "7aV8KaqxVFz4heBXzAA0EX",
     "sync": false
@@ -214,13 +214,9 @@
       }
     ],
     "_active": true,
-    "_components": [
-      {
-        "__id__": 21
-      }
-    ],
+    "_components": [],
     "_prefab": {
-      "__id__": 22
+      "__id__": 21
     },
     "_opacity": 255,
     "_color": {
@@ -232,8 +228,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1058,
-      "height": 74
+      "width": 629.3199999999999,
+      "height": 45
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -296,8 +292,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 110,
-      "height": 74
+      "width": 14.84,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -308,15 +304,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -474,
+        -473.88,
         0,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -350,11 +346,11 @@
     "_dstBlendFactor": 771,
     "_string": "1",
     "_N$string": "1",
-    "_fontSize": 20,
+    "_fontSize": 40,
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
+      "__uuid__": "8a6912d3-2306-462d-b575-28a102df649d"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -364,7 +360,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -374,7 +370,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "f2e5ab54-726d-4fac-97d6-07294fa05f92"
+      "__uuid__": "a196a303-7b4c-485c-9d89-d5d279abaf24"
     },
     "fileId": "6dPI1DIm5BEpWmTBHGwqSP",
     "sync": false
@@ -406,8 +402,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 348,
-      "height": 74
+      "width": 347.76,
+      "height": 35.28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -425,8 +421,8 @@
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -460,11 +456,11 @@
     "_dstBlendFactor": 771,
     "_string": "9:20 23/03/2022",
     "_N$string": "9:20 23/03/2022",
-    "_fontSize": 20,
+    "_fontSize": 40,
     "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
+      "__uuid__": "8a6912d3-2306-462d-b575-28a102df649d"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -474,7 +470,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -484,7 +480,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "f2e5ab54-726d-4fac-97d6-07294fa05f92"
+      "__uuid__": "a196a303-7b4c-485c-9d89-d5d279abaf24"
     },
     "fileId": "697ONEI0FHyYSCSY4WqJG4",
     "sync": false
@@ -516,8 +512,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 74
+      "width": 143.2,
+      "height": 35.28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -528,15 +524,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        29,
+        28.879999999999995,
         0,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -570,11 +566,11 @@
     "_dstBlendFactor": 771,
     "_string": "382261",
     "_N$string": "382261",
-    "_fontSize": 20,
+    "_fontSize": 40,
     "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
+      "__uuid__": "8a6912d3-2306-462d-b575-28a102df649d"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -584,7 +580,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -594,7 +590,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "f2e5ab54-726d-4fac-97d6-07294fa05f92"
+      "__uuid__": "a196a303-7b4c-485c-9d89-d5d279abaf24"
     },
     "fileId": "349/uk5iRE8qJkoMclkv7i",
     "sync": false
@@ -626,8 +622,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 74
+      "width": 61.76,
+      "height": 35.28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -638,15 +634,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        229,
+        228.88,
         0,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -680,11 +676,11 @@
     "_dstBlendFactor": 771,
     "_string": "0.6",
     "_N$string": "0.6",
-    "_fontSize": 20,
+    "_fontSize": 40,
     "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
+      "__uuid__": "8a6912d3-2306-462d-b575-28a102df649d"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -694,7 +690,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -704,7 +700,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "f2e5ab54-726d-4fac-97d6-07294fa05f92"
+      "__uuid__": "a196a303-7b4c-485c-9d89-d5d279abaf24"
     },
     "fileId": "18r9ARddVGJbHqXZr3dXsL",
     "sync": false
@@ -736,8 +732,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
-      "height": 74
+      "width": 61.76,
+      "height": 35.28
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -748,15 +744,15 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        429,
+        428.88,
         0,
         0,
         0,
         0,
         0,
         1,
-        1,
-        1,
+        0.5,
+        0.5,
         1
       ]
     },
@@ -790,11 +786,11 @@
     "_dstBlendFactor": 771,
     "_string": "0.6",
     "_N$string": "0.6",
-    "_fontSize": 20,
+    "_fontSize": 40,
     "_lineHeight": 28,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
+      "__uuid__": "8a6912d3-2306-462d-b575-28a102df649d"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -804,7 +800,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 1,
+    "_N$overflow": 0,
     "_N$cacheMode": 0,
     "_id": ""
   },
@@ -814,42 +810,10 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "f2e5ab54-726d-4fac-97d6-07294fa05f92"
+      "__uuid__": "a196a303-7b4c-485c-9d89-d5d279abaf24"
     },
     "fileId": "47tYN/971F8aAXZBJnoxIQ",
     "sync": false
-  },
-  {
-    "__type__": "cc.Layout",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 5
-    },
-    "_enabled": true,
-    "_layoutSize": {
-      "__type__": "cc.Size",
-      "width": 1058,
-      "height": 74
-    },
-    "_resize": 1,
-    "_N$layoutType": 1,
-    "_N$cellSize": {
-      "__type__": "cc.Size",
-      "width": 40,
-      "height": 40
-    },
-    "_N$startAxis": 0,
-    "_N$paddingLeft": 0,
-    "_N$paddingRight": 0,
-    "_N$paddingTop": 0,
-    "_N$paddingBottom": 0,
-    "_N$spacingX": 0,
-    "_N$spacingY": 0,
-    "_N$verticalDirection": 1,
-    "_N$horizontalDirection": 0,
-    "_N$affectedByScale": false,
-    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -857,7 +821,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "f2e5ab54-726d-4fac-97d6-07294fa05f92"
+      "__uuid__": "a196a303-7b4c-485c-9d89-d5d279abaf24"
     },
     "fileId": "84aUmBNr9HkJTH7fA36aNJ",
     "sync": false
@@ -896,7 +860,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "f2e5ab54-726d-4fac-97d6-07294fa05f92"
+      "__uuid__": "a196a303-7b4c-485c-9d89-d5d279abaf24"
     },
     "fileId": "",
     "sync": false

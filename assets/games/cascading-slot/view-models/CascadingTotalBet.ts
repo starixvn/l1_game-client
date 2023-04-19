@@ -54,7 +54,7 @@ export default class CascadingTotalBet extends cc.Component {
     setAllowChangeBet(status: boolean) {
         this.buttonIncrease.interactable = status && this.increaseButtonStatus;
         this.buttonDecrease.interactable = status && this.decreaseButtonStatus;
-        this.totalBetImg.interactable = status;
+        this.totalBetImg && (this.totalBetImg.interactable = status);
         this.disabled.active = !status;
     }
 
