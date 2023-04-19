@@ -466,7 +466,8 @@ const data = {
         soundEffect: "Efek suara",
         logout: "Keluar",
         confirmLogout: "Anda yakin ingin logout?",
-        cancel: "Batal"
+        cancel: "Batal",
+        back: "Kembali"
     },
     termsPromotion: {
         first: "- Semua pemain baru dan yang sudah ada berhak untuk mengikuti promosi dan mengambil kesempatan untuk memenangkan hadiah yang lebih besar. \n- Jumlah kemenangan dibayarkan sesuai dengan aturan promosi dan pembayaran. \n- Promosi berlaku untuk periode tertentu yang diatur oleh Perusahaan. Saat promosi kedaluwarsa, peluang taruhan akan diatur kembali ke nilai sebelumnya.\n- Perusahaan berhak mengubah syarat masuk yang berlaku untuk promosi ini atau mengubah, menghentikan, menangguhkan, atau menjadwal ulang promosi ini kapan saja.\n- Setiap perselisihan yang timbul dari atau sehubungan dengan promosi ini akan diputuskan oleh Perusahaan."
