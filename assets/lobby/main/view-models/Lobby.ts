@@ -562,12 +562,6 @@ export default class Lobby extends cc.Component {
             const text = NoticeUtil.getLocalizedErrorMessage(errorCode, { errorCode });
             this.showNotice({ text: text });
         }
-
-        if (response.user) {
-            cc.RedT.userData(response.user);
-        }
-
-        this.serviceAuthorized(response.authorized);
     }
 
     redirectToDownloadPage() {
