@@ -174,7 +174,7 @@ export default class StandardSlotGame extends SlotGameBase {
 
                 this[dict[key]] = prefab;
             } catch (e) {
-                console.warn(`Missing prefab for ${path} `, e);
+                cc.warn(`Missing prefab for ${path} `, e);
             }
         }
     }
@@ -215,7 +215,7 @@ export default class StandardSlotGame extends SlotGameBase {
                     }
                 })
                 .catch(() => {
-                    console.warn("missing audio for", path);
+                    cc.warn("missing audio for", path);
                 });
         }
     }
