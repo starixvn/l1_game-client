@@ -10,7 +10,7 @@ import NoticeUtil from "../../common/utils/NoticeUtil";
 import { appManager } from "../../managers/AppManager";
 import * as authManager from "./../../common/auth/AuthManager";
 import { showMessageForExpiredToken } from "./../../common/auth/AuthManager";
-import { removeInRoomGameId, getSession } from "./../../common/auth/SessionManager";
+import { removeInRoomGameId } from "./../../common/auth/SessionManager";
 import MiniPanel from "./MiniPanel";
 
 declare global {

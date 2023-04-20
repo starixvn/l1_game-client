@@ -1,10 +1,10 @@
+import GameUtils from "../common/GameUtils";
 import AudioManager from "../common/audio/AudioManager";
 import * as authManager from "../common/auth/AuthManager";
-import * as sessionManager from "../common/auth/SessionManager";
 import NotificationService from "../common/auth/NotificationService";
+import * as sessionManager from "../common/auth/SessionManager";
 import { getCacheLanguage, getLanguage, getSession, setLanguage } from "../common/auth/SessionManager";
 import UserService from "../common/auth/UserService";
-import GameUtils from "../common/GameUtils";
 import logger from "../common/logger";
 import NameGenerator from "../common/name-generator/NameGenerator";
 import { userManager } from "../common/user/UserManager";
@@ -14,8 +14,8 @@ import PromotionNotificationsHandler from "../lobby/promotions/PromotionNotifica
 import { Promotions } from "../lobby/promotions/Promotions";
 import { uiManager } from "./GameUIManager";
 import { InternalEvents } from "./InternalEvents";
-import { UrlInfo } from "./UrlInfo";
 import { StorageManager } from "./StorageManager";
+import { UrlInfo } from "./UrlInfo";
 const sentryLogger = logger();
 class AppManager {
     GAME_IS_SHOWED = true;

@@ -196,7 +196,7 @@ export default class Lobby extends cc.Component {
     activeCategoryFromStorage(): number {
         const storage = StorageManager.get("current_game_category");
         let category = 0;
-        if (storage !== "") {
+        if (storage) {
             category = parseInt(storage) || GameCategory.All;
         }
 

@@ -246,7 +246,7 @@ export default class LobbyMenu extends GameIconMenu {
 
     loadCategory() {
         const category = StorageManager.get("current_game_category");
-        if (category !== "") {
+        if (category) {
             this.currentCategory = parseInt(category) || GameCategory.All;
         }
     }

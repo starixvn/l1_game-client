@@ -94,7 +94,8 @@ export default abstract class BalancedBettingPoolGameBase extends SocketIOMiniGa
         node.active = false;
 
         this.presetBetSettingKey = `presetBet_${this.gameName}_${userManager.UID}`;
-        this.presetBetValue = parseFloat(StorageManager.get(this.presetBetSettingKey)) ?? 0;
+        const savedValue = StorageManager.get(this.presetBetSettingKey);
+        this.presetBetValue = savedValue ? parseFloat(savedValue) : 0;
 
         AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
             location: cc.director.getScene().name,
