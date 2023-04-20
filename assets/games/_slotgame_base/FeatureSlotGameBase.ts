@@ -4,9 +4,11 @@ import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../analytics
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import UserProfile from "../../common/user-profile/UserProfile";
+import GameUIManager from "../../lobby/main/view-models/GameUIManager";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import FeatureSlotGameData from "../cascading-slot/models/FeatureSlotGameData";
 import { SpinButtonState } from "../cascading-slot/models/SpinButtonStateModel";
+import { CascadingSlotGameSound } from "../cascading-slot/view-models/CascadingSlotGameSound";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import ClassicSpinButton from "./ClassicSpinButton";
@@ -16,7 +18,6 @@ import SlotGameBottomMessage from "./SlotGameBottomMessage";
 import SlotGameSongs from "./SlotGameSongs";
 import SlotGameSound from "./SlotGameSound";
 import TurboAutoSpinSettingDialog from "./TurboAutoSpinSettingDialog";
-import { CascadingSlotGameSound } from "../cascading-slot/view-models/CascadingSlotGameSound";
 
 const { ccclass, property } = cc._decorator;
 
@@ -183,6 +184,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     onAutoSpinChanged() {
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_AUTO_SPIN_BUTTON);
         AudioManager.getInstance().playClick();
         const isAutoSpin = this.isAutoSpinMode();
         AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
@@ -376,6 +378,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     onSpinClick(hold: boolean) {
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_SPIN_BUTTON);
         this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.isHoldAction = hold;
         this.spin();
@@ -396,5 +399,10 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     stopInvidiualMusic() {
         this.gameSongList?.stop();
         super.stopInvidiualMusic();
+    }
+
+    clickOutsideReelArea() {
+        this.expandableMenu.collapseMenu();
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_OUTSIDE_REEL_AREA);
     }
 }

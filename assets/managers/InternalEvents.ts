@@ -2,6 +2,7 @@ export enum InternalEvents {
     LOAD_OTHER_ICONS_AND_BANNERS = "lobby= load other icons and banners",
     OPEN_GAME_MINI = "lobby= open game mini",
     CLICK_LINE_SELECTION_BUTTON = "slot= click on the line selection button",
+    CLICK_CASCADING_TOTAL_BET = "cascading-slot= click on the total bet button",
     CLICK_AUTO_SPIN_BUTTON = "slot= click on the auto spin button",
     CLICK_SPIN_BUTTON = "slot= click on the spin button",
     CLICK_HAMBURGER_MENU = "slot= click on the hamburger menu",

@@ -3,6 +3,16 @@ import { InternalEvents } from "../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 
+export interface SymbolPreviewType {
+    spine: sp.SkeletonData;
+    odds: any;
+    colorList: [string, string];
+    borderColor: string;
+    coinValue?: number;
+    betLevel?: number;
+    symbol?: number;
+    freespin?: any;
+}
 @ccclass
 export default class SymbolPreview extends cc.Component {
     @property(sp.Skeleton)
@@ -68,14 +78,7 @@ export default class SymbolPreview extends cc.Component {
         });
     }
 
-    setInfo(info: {
-        symbol: number;
-        spine: sp.SkeletonData;
-        odds: any;
-        colorList: [string, string];
-        borderColor: string;
-        isInfoOnLeft: boolean;
-    }) {
+    setInfo(info) {
         this.icon.skeletonData = info.spine;
         this.icon.setAnimation(0, "highlight", false);
         this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);

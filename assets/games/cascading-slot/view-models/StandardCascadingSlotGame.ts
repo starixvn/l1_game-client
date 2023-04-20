@@ -1,13 +1,15 @@
 import { BundleManager } from "bundle-management";
-import AudioManager from "../../../common/audio/AudioManager";
 
+import AudioManager from "../../../common/audio/AudioManager";
 import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
 import CascadingSlotBase from "./CascadingSlotBase";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
+import CascadingSymbolPreview from "./CascadingSymbolPreview";
 import FreeSpinView from "./FreeSpinView";
 import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
+import StandardCascadingSlotBoard from "./StandardCascadingSlotBoard";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 
@@ -51,32 +53,11 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     @property(cc.Node)
     freespinViewNode: cc.Node = null;
 
-    @property
-    bottomAreaTextColor = "#ffffff";
+    @property(cc.JsonAsset)
+    musicInfo: cc.JsonAsset = null;
 
-    @property
-    bottomAreaNumberColor = "#ffffff";
-
-    @property
-    bottomAreaButtonBorderColor = "#ffffff";
-
-    @property
-    previewOddsBorderColor = "#ffffff";
-
-    @property
-    previewOddsSymbolNumberColor = "#ffffff";
-
-    @property
-    previewOddsWinValueColor = "#ffffff";
-
-    @property
-    noticeTextColor = "#ffffff";
-
-    @property
-    noticeHighlightTextColor = "#ffffff";
-
-    @property
-    bonusCountItemTextColor = "#ffffff";
+    @property(cc.JsonAsset)
+    colorInfo: cc.JsonAsset = null;
 
     @property
     protected _gameId = 0;
@@ -93,12 +74,21 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     tumbleListPrefab: cc.Prefab;
     totalMultiplierPrefab: cc.Prefab;
     tumbleWinFramePrefab: cc.Prefab;
+    board: StandardCascadingSlotBoard;
+    private readonly previewSymbolLeft: cc.Prefab;
+    private readonly previewSymbolRight: cc.Prefab;
+    private colorConfig: any;
 
     audioClips = {};
 
     onLoad() {
+        this.initColorConfig();
         super.onLoad();
         this.loadAudios();
+    }
+
+    protected initColorConfig() {
+        this.colorConfig = this.colorInfo.json;
     }
 
     onLoadedPrefabs() {
@@ -106,9 +96,15 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.initFreespinView();
         this.initTumbleWinList();
         this.initTotalMultiplierFrame();
-        super.onLoadedPrefabs();
+
+        this.loadSlotSymbols().then(() => {
+            super.onLoadedPrefabs();
+            this.board.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
+        });
+
         this.callRegisterGame();
     }
+
     onEnable(): void {
         //overide empty
     }
@@ -122,7 +118,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             "total-multiplier-frame": "totalMultiplierPrefab",
 
             "tumble-win-frame": "tumbleWinFramePrefab",
-            "tumble-list": "tumbleListPrefab"
+            "tumble-list": "tumbleListPrefab",
+
+            "preview-symbol-left": "previewSymbolLeft",
+            "preview-symbol-right": "previewSymbolRight"
         };
 
         for (const key of Object.keys(dict)) {
@@ -210,6 +209,31 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         }
     }
 
+    onSymbolPreview(symbol: number, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
+        if (!this.gameConfigs?.odds) {
+            return;
+        }
+        this.playSound(CascadingSlotGameSound.CLICK);
+        const symbolCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId];
+        const spine = symbolCache[symbol];
+
+        const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
+        const previewNode = cc.instantiate(previewPrefab);
+
+        const symbolPreview = previewNode.getComponent(CascadingSymbolPreview);
+        symbolPreview.setInfo({
+            spine,
+            odds: this.gameConfigs.odds.symbols[symbol],
+            colorList: [this.colorConfig.previewOddsSymbolNumberColor, this.colorConfig.previewOddsWinValueColor],
+            borderColor: this.colorConfig.previewOddsBorderColor,
+            coinValue: this.currCoinValue,
+            betLevel: this.currBetLevel,
+            freespin: this.gameConfigs.odds.freeSpins.initialOdds,
+            symbol
+        });
+        this.board.showPreview(previewNode, worldPosition);
+    }
+
     playSound(type: CascadingSlotGameSound) {
         this.audioClips[type] && AudioManager.getInstance().playSFX(this.audioClips[type]);
     }
@@ -260,5 +284,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
                 this.onTurboModeChanged(toggle);
             }
         };
+    }
+
+    clickOutsideReelArea() {
+        this.inGameMenu.expandableMenu.collapseMenu();
+        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_OUTSIDE_REEL_AREA);
     }
 }

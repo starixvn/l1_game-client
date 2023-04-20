@@ -28,7 +28,6 @@ import CascadingTotalBet from "./CascadingTotalBet";
 import FreeSpinView from "./FreeSpinView";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
-import AudioManager from "../../../common/audio/AudioManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -62,9 +61,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     topMessage: SlotGameTopMessage = null;
     protected trialConnection: SocketIOConnection;
     protected miniBetControl: CascadingTotalBet;
+    protected currCoinValue: number;
+    protected currBetLevel: number;
     private historyBtn: cc.Button;
-    private currCoinValue: number;
-    private currBetLevel: number;
     private countRoundTrialMode = 0;
 
     initTrialConnection() {
@@ -77,6 +76,28 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         } else {
             this.registerTrialMode();
         }
+    }
+
+    onLoad() {
+        this.initGameDataEvents();
+        super.onLoad();
+        this.loadPrefabsByCode().then(() => {
+            this.onLoadedPrefabs();
+        });
+    }
+
+    onLoadedPrefabs() {
+        this.board.gameId = this.gameId;
+        this.board.initBoardFullItems();
+        this.gameData.uiModel.resetNewRound();
+    }
+
+    loadSlotSymbols(): Promise<void> {
+        return Promise.resolve();
+    }
+
+    loadPrefabsByCode(): Promise<void> {
+        return Promise.resolve();
     }
 
     onDestroy() {
@@ -207,30 +228,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     getCustomDuration(key: string): number {
         const config = this.isTurboMode() ? CascadingSlotConfig.turbo : CascadingSlotConfig.normal;
         return config[key];
-    }
-
-    onLoad() {
-        this.initGameDataEvents();
-        super.onLoad();
-        this.loadSlotSymbols().then(() => {
-            this.loadPrefabsByCode().then(() => {
-                this.onLoadedPrefabs();
-            });
-        });
-    }
-
-    onLoadedPrefabs() {
-        this.board.gameId = this.gameId;
-        this.board.initBoardFullItems();
-        this.gameData.uiModel.resetNewRound();
-    }
-
-    loadSlotSymbols(): Promise<void> {
-        return Promise.resolve();
-    }
-
-    loadPrefabsByCode(): Promise<void> {
-        return Promise.resolve();
     }
 
     protected initGameDataEvents() {
