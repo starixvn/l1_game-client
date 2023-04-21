@@ -261,7 +261,7 @@ export default class StandardSlotGame extends SlotGameBase {
         await this.loadGameAtlas();
         this.loadSlotSymbols().then(() => {
             super.initSlotBoard();
-            this.slotBoard.onSymbolPreview = this.onSymbolPreview.bind(this);
+            this.slotBoard.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
             this.loadWinningSymbolAnimation().then(() => {
                 this.slotBoard.setItemWinningEffect();
             });
