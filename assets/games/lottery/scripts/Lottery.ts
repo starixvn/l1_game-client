@@ -596,7 +596,7 @@ export default class Lottery extends SocketIOTableGameBase {
         }
     }
 
-    onOpenHistory() {
+    openHistory() {
         AudioManager.getInstance().playClick();
         const node = cc.instantiate(this.historyPrefab);
         this.historyComponent = node.getComponent(LotteryHistory);
