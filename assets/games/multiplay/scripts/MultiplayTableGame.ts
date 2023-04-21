@@ -9,6 +9,7 @@ import { userManager } from "../../../common/user/UserManager";
 import { appManager } from "../../../managers/AppManager";
 import {
     closeGame,
+    handleMusicWhenJoinGame,
     leaveGameRoom,
     loadMiniPanel,
     loadUserData,
@@ -81,6 +82,7 @@ export default class MultiplayTableGame extends MultiplayGame {
         appManager.currentScene = this;
         this.loadUserData(userManager.user);
         this.subContainer = this.subGamesArea[0];
+        this.initBackgroundMusic();
         this.loading.active = true;
     }
 
@@ -115,6 +117,44 @@ export default class MultiplayTableGame extends MultiplayGame {
 
     onDisconnected() {
         this.closeGame();
+    }
+
+    //#region Methods for room game
+    get isOwnGameMusicBackground(): boolean {
+        return !!this.musicBg;
+    }
+
+    async initBackgroundMusic() {
+        this.registerBackgroundMusicListener();
+        await handleMusicWhenJoinGame(this)();
+        this.playMusicOnEnterGame();
+    }
+
+    playMusicOnEnterGame() {
+        this.isOwnGameMusicBackground && this.playMusicBackground(AudioManager.getInstance().musicEnabled);
+    }
+
+    registerBackgroundMusicListener() {
+        this.isOwnGameMusicBackground && AudioManager.getInstance().addMusicChanged(`${this.gameId}`, this.playMusicBackground.bind(this));
+    }
+
+    async playInvidiualMusic() {
+        await AudioManager.getInstance().awaitForReady();
+        if (AudioManager.getInstance().musicEnabled) {
+            this.musicBg.play();
+        }
+    }
+
+    playMusicBackground(play: boolean) {
+        if (play) {
+            this.playInvidiualMusic();
+        } else {
+            this.stopInvidiualMusic();
+        }
+    }
+
+    stopInvidiualMusic() {
+        this.musicBg?.stop();
     }
 
     onChangedBetChip(bet: number) {
