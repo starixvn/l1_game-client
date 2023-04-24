@@ -77,16 +77,20 @@ export default class SlotReel extends cc.Component {
                 .call(() => this.setReelData(data))
                 .start();
 
-            cc.tween(this.node)
-                .to(spinDuration, { position: cc.v2(this.node.x, offset) }, { easing: (dt) => cc.easeInOut(3).easing(dt) })
-                .call(() => {
-                    this.onSpinFinish();
-                    resolve();
-                })
-                .start();
+            this.playSpinAnim(spinDuration, offset, resolve);
 
             !turbo && this.blurSymbols();
         });
+    }
+
+    playSpinAnim(spinDuration: number, offset: number, resolve: () => void) {
+        cc.tween(this.node)
+            .to(spinDuration, { position: cc.v2(this.node.x, offset) }, { easing: (dt) => cc.easeInOut(3).easing(dt) })
+            .call(() => {
+                this.onSpinFinish();
+                resolve();
+            })
+            .start();
     }
 
     getChangeDataDelayTime(spinDuration: number): number {

@@ -31,4 +31,16 @@ export default class StandardSlotReel extends SlotReel {
     getChangeDataDelayTime(spinDuration: number): number {
         return 0.4 * spinDuration;
     }
+
+    playSpinAnim(spinDuration: number, offset: number, resolve: () => void) {
+        const lastDuration = 0.1;
+        cc.tween(this.node)
+            .to(spinDuration - lastDuration, { position: cc.v2(this.node.x, offset - 10) }, { easing: "quadInOut" })
+            .to(lastDuration, { position: cc.v2(this.node.x, offset) }, { easing: "sineIn" })
+            .call(() => {
+                this.onSpinFinish();
+                resolve();
+            })
+            .start();
+    }
 }
