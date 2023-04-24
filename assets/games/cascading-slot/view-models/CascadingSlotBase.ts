@@ -281,15 +281,15 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
             this.totalFreeSpins = value;
-            this.freeSpinView.setValue(value);
+            this.freeSpinView && this.freeSpinView.setValue(value);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.SHOW_FREESPINS, (show: boolean) => {
-            this.freeSpinView.showView(show);
+            this.freeSpinView && this.freeSpinView.showView(show);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.INCREASE_FREESPINS, (value: number) => {
-            this.freeSpinView.setValue(value);
+            this.freeSpinView && this.freeSpinView.setValue(value);
         });
 
         this.gameData.uiModel.on(CascadingUIModel.Events.RESET_NEW_ROUND, () => {
@@ -402,6 +402,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             case CascadingSlotState.Settled:
                 if (this.totalFreeSpins === 0) {
                     this.bottomMessage.showMessages(SlotNotification.SETTLED);
+                } else {
+                    this.bottomMessage.showMessages(SlotNotification.FREESPINS);
                 }
                 break;
         }

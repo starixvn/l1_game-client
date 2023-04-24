@@ -12,6 +12,7 @@ import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
 import StandardCascadingSlotBoard from "./StandardCascadingSlotBoard";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
+import CascadingUIModel from "../models/CascadingUIModel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -93,7 +94,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     onLoadedPrefabs() {
         this.initTumbleWinFrame();
-        this.initFreespinView();
+        //this.initFreespinView();
         this.initTumbleWinList();
         this.initTotalMultiplierFrame();
 
@@ -112,7 +113,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     async loadPrefabsByCode() {
         const dict = {
             // prefab name : prefab property
-            "free-spin-view": "freespinViewPrefab",
             "effect-big-win": "effectBigWin",
             "effect-freespin": "effectFreeSpin",
             "total-multiplier-frame": "totalMultiplierPrefab",
@@ -243,12 +243,12 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         node.addChild(nodeTmp);
     }
 
-    initFreespinView() {
-        const node = cc.instantiate(this.freespinViewPrefab);
-        this.freespinViewNode.addChild(node);
-        this.freeSpinView = node.getComponent(FreeSpinView);
-        this.freeSpinView.showViewQuickly(false);
-    }
+    // initFreespinView() {
+    //     const node = cc.instantiate(this.freespinViewPrefab);
+    //     this.freespinViewNode.addChild(node);
+    //     this.freeSpinView = node.getComponent(FreeSpinView);
+    //     this.freeSpinView.showViewQuickly(false);
+    // }
 
     initTumbleWinList() {
         const node = cc.instantiate(this.tumbleListPrefab);
@@ -289,5 +289,13 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     clickOutsideReelArea() {
         this.inGameMenu.expandableMenu.collapseMenu();
         GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_OUTSIDE_REEL_AREA);
+    }
+
+    initGameDataEvents() {
+        super.initGameDataEvents();
+        this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
+            this.totalFreeSpins = value;
+            this.bottomMessage.freeSpinCount = this.totalFreeSpins;
+        });
     }
 }
