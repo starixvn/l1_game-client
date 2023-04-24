@@ -16,4 +16,15 @@ export default class StandardCascadingSlotBoard extends CascadeSlotBoard {
     showPreview(previewNode: cc.Node, worldPosition: cc.Vec3) {
         this.previewPopup.showPreview(previewNode, worldPosition);
     }
+
+    public addItems(data: number[][]) {
+        this.reels.forEach((reel, index) => {
+            const items = data[index];
+            const reelItems = reel.addItems(items);
+            const isInfoOnLeft = index === this.reels.length - 1;
+            reelItems.forEach((item) => {
+                this.previewPopup.addReelItemEvent(item, isInfoOnLeft);
+            });
+        });
+    }
 }

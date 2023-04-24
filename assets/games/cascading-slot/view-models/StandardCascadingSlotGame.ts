@@ -210,7 +210,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     onSymbolPreview(symbol: number, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
-        if (!this.gameConfigs?.odds) {
+        if (!this.gameConfigs?.odds || this.board.isShowTumbleAnim) {
             return;
         }
         this.playSound(CascadingSlotGameSound.CLICK);

@@ -172,16 +172,19 @@ export default class CascadeSlotReel extends cc.Component {
         this.items = this.items.filter((item, index) => !list.includes(index));
     }
 
-    addItems(data: number[]) {
+    addItems(data: number[]): CascadeSlotReelItem[] {
         let i = 0;
+        const items = [];
         data.forEach((value) => {
             if (value === -1) {
                 return;
             }
             const item = this.addItem();
             item.setItem(value);
+            items.push(item);
             item.node.y = this.getItemPosY(this.itemDisplayCount + i);
             i++;
         });
+        return items;
     }
 }

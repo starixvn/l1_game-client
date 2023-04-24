@@ -15,16 +15,20 @@ export default class PreviewOddsPopup extends cc.Component {
             const isInfoOnLeft = index === reels.length - 1 || index === reels.length - 2;
 
             reel.items.forEach((item) => {
-                item.node.on(cc.Node.EventType.TOUCH_END, () => {
-                    if (this.currentPreviewItem === item.node) {
-                        this.hideSymbolPreview();
-                        return;
-                    }
-                    this.currentPreviewItem = item.node;
-                    const worldPosition = item.node.convertToWorldSpaceAR(cc.v3());
-                    this.onSymbolTouched(item.index, worldPosition, isInfoOnLeft);
-                });
+                this.addReelItemEvent(item, isInfoOnLeft);
             });
+        });
+    }
+
+    addReelItemEvent(item, isInfoOnLeft) {
+        item.node.on(cc.Node.EventType.TOUCH_END, () => {
+            if (this.currentPreviewItem === item.node) {
+                this.hideSymbolPreview();
+                return;
+            }
+            this.currentPreviewItem = item.node;
+            const worldPosition = item.node.convertToWorldSpaceAR(cc.v3());
+            this.onSymbolTouched(item.index, worldPosition, isInfoOnLeft);
         });
     }
 
