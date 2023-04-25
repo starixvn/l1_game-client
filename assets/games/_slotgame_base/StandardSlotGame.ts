@@ -192,6 +192,7 @@ export default class StandardSlotGame extends SlotGameBase {
 
             [ClassicSlotSound.REEL_STOP]: "reel-stop",
             [ClassicSlotSound.BONUS_POPUP]: "bonus-popup",
+            [ClassicSlotSound.BONUS_ITEM]: "bonus-item",
             [ClassicSlotSound.CLICK]: "click",
             [ClassicSlotSound.BONUS_TOTAL]: "bonus-total",
 

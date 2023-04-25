@@ -1,6 +1,7 @@
 import { BundleManager } from "bundle-management";
 
 import BonusDialog from "./BonusDialog";
+import { ClassicSlotSound } from "./ClassicSlotSound";
 
 const { ccclass, property } = cc._decorator;
 
@@ -15,6 +16,10 @@ export default class StandardSlotBonusDialog extends BonusDialog {
     async initBonusItems() {
         await this.loadBonusItemPrefab();
         super.initBonusItems();
+    }
+
+    playBonusItemSound() {
+        this.playSoundCallback(ClassicSlotSound.BONUS_ITEM);
     }
 
     async loadBonusItemPrefab() {
