@@ -33,10 +33,12 @@ export default class StandardSlotReel extends SlotReel {
     }
 
     playSpinAnim(spinDuration: number, offset: number, resolve: () => void) {
-        const lastDuration = 0.1;
+        const moveUpDuration = 0.1;
+        const normalSpinDuration = spinDuration - moveUpDuration;
+
         cc.tween(this.node)
-            .to(spinDuration - lastDuration, { position: cc.v2(this.node.x, offset - 10) }, { easing: "quadInOut" })
-            .to(lastDuration, { position: cc.v2(this.node.x, offset) }, { easing: "sineIn" })
+            .to(normalSpinDuration, { position: cc.v2(this.node.x, offset - 10) }, { easing: "quadInOut" })
+            .to(moveUpDuration, { position: cc.v2(this.node.x, offset) }, { easing: "sineIn" })
             .call(() => {
                 this.onSpinFinish();
                 resolve();
