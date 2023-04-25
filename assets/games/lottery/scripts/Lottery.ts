@@ -129,16 +129,16 @@ export default class Lottery extends SocketIOTableGameBase {
 
     loadPreviousSelection() {
         const settings = GameUtils.getGameSetting(this.gameId);
-        if (settings) {
+        if (settings.currentTypeIndex) {
             this.currentTypeIndex = settings.currentTypeIndex;
             this.lotteryTypeItems[this.currentTypeIndex].toggle.isChecked = true;
             const board = this.getCurrentBoard();
-
             const largeNumberboard = board.getComponent(LotteryLargeNumberBoard);
             if (largeNumberboard) {
                 largeNumberboard.pageView.scrollToPage(settings.boardPage, 0);
             }
-
+        }
+        if (settings.statsEnabled) {
             this.statsToggle.isChecked = settings.statsEnabled;
             if (this.statsToggle.isChecked) {
                 this.requestStatistics();
