@@ -39,12 +39,13 @@ export default class SlotBoard extends cc.Component {
     }
 
     initReels() {
-        this.node.children.forEach((child) => {
+        this.node.children.forEach((child, index) => {
             const reel = child.getComponent(SlotReel);
             if (reel) {
                 this.reels.push(reel);
                 reel.slotGameConfig = this.slotGameConfig;
                 reel.gameId = this.gameId;
+                reel.itemCount = 24 + index * 6;
                 reel.createReel();
             }
             reel.winningContainer = this.winningSymbolsNode;

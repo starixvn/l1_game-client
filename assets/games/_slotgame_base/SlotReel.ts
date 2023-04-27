@@ -8,7 +8,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SlotReel extends cc.Component {
-    @property
     itemCount = 18;
 
     @property(cc.Prefab)

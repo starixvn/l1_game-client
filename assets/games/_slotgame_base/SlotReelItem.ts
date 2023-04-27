@@ -61,13 +61,17 @@ export default class SlotReelItem extends cc.Component {
         }
     }
 
-    handleBlurAnim(swapDuration: number, delaySwap: number, isShowBlurSymbol: boolean) {
-        cc.tween(this.blurSymbol)
-            .to(swapDuration, { opacity: isShowBlurSymbol ? 255 : 0 })
-            .start();
-        cc.tween(this.effectSpine.node)
-            .delay(delaySwap)
-            .to(swapDuration, { opacity: isShowBlurSymbol ? 0 : 255 })
-            .start();
+    handleBlurAnim(isShowBlurSymbol: boolean) {
+        if (isShowBlurSymbol) {
+            this.blurSymbol.opacity = 255;
+            this.blurSymbol.scaleX = 1.5;
+            this.blurSymbol.scaleY = 1.8;
+            this.effectSpine.node.opacity = 0;
+        } else {
+            this.blurSymbol.opacity = 0;
+            this.blurSymbol.scaleX = 1;
+            this.blurSymbol.scaleY = 1.5;
+            this.effectSpine.node.opacity = 255;
+        }
     }
 }
