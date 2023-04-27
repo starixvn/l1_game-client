@@ -1,6 +1,8 @@
 import axios from "axios";
 
 import { buildProxyUrl } from "../common/helpers/UrlHelper";
+import { uiManager } from "../managers/GameUIManager";
+import { InternalEvents } from "../managers/InternalEvents";
 
 export interface GameConfiguration {
     id: number;
@@ -31,13 +33,35 @@ declare global {
     }
 }
 
+function delayTime(seconds: number) {
+    return new Promise<void>((resolve) => {
+        setTimeout(resolve, seconds * 1000);
+    });
+}
+
 export async function initialize() {
     const url = buildProxyUrl("/game/configurations/");
-    const configurations = await axios
-        .get(url)
-        .then((response) => response.data)
-        .catch(() => []);
+    let configurations;
+    let retryCount = 0;
 
+    while (retryCount < 3) {
+        cc.log("try load configuration ", retryCount);
+        configurations = await axios
+            .get(url)
+            .then((response) => response.data)
+            .catch(() => []);
+
+        if (configurations.length > 0) {
+            break;
+        }
+        retryCount++;
+        await delayTime(3);
+    }
+
+    if (configurations.length === 0) {
+        uiManager.emitter.emit(InternalEvents.SSO_FAILED);
+        throw new Error(`Can not load client bundle configuration`);
+    }
     window.gameConfigurations = configurations;
 
     initializeBundleInfos();
