@@ -206,18 +206,19 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     loadUserSetting() {
-        const defaultSettings: SlotGameUserSettings = {
-            betChoices: this.betChoices,
-            stake: this.stake,
-            turboEnabled: false
-        };
-        const settings = GameUtils.getGameSetting(this.gameId) ?? defaultSettings;
+        let settings = GameUtils.getGameSetting(this.gameId);
 
-        if (settings) {
-            this.turboToggle.isChecked = settings.turboEnabled;
-            this.setBetChoices(settings.betChoices);
-            this.setStake(settings.stake);
+        if (!settings.betChoices) {
+            const defaultSettings: SlotGameUserSettings = {
+                betChoices: this.betChoices,
+                stake: this.stake,
+                turboEnabled: false
+            };
+            settings = defaultSettings;
         }
+        this.turboToggle.isChecked = settings.turboEnabled;
+        this.setBetChoices(settings.betChoices);
+        this.setStake(settings.stake);
 
         //clear setting
         GameUtils.clearGameSetting(this.gameId);
