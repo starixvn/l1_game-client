@@ -32,7 +32,7 @@ export default class SlotBoard extends cc.Component {
     protected data: number[] = [];
     public slotGameConfig: SlotGameBaseConfigs;
     public gameId: number;
-    public startReelDelayTime = 0.2;
+    public startReelDelayTime = 0.075;
 
     onLoad() {
         this.winningOverlayNode.active = false;
