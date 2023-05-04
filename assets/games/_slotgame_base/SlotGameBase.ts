@@ -133,7 +133,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     protected settlementHandler: SlotGameSettlementHandler;
     protected jackpotHandler: SlotGameJackpotHandler;
     protected bonusHandler: SlotGameBonusHandler;
-    private jackpotPoolValue = -1;
+    protected jackpotPoolValue = -1;
     public slotGameConfigs: SlotGameBaseConfigs;
     public settleTween: cc.Tween;
     public showWinningLinesTween: cc.Tween;
@@ -173,6 +173,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             if (this.autoGenerateLines) {
                 this.createAllLines();
             }
+            this.jackpotEnabled && this.initJackpot();
         });
         this.initBottomMessage();
         this.initBottomArea();
@@ -192,6 +193,10 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     override stopGame() {
         // override
+    }
+
+    initJackpot() {
+        //empty
     }
 
     showJackpotInfo(show: boolean) {
@@ -567,7 +572,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     protected onStakeChanged() {
         this.updateTotalBetLabel();
-        this.updateDisplayPool();
+        this.updateJackpotPoolBelongToStake();
         this.updateStakeContainer();
         this.hideStakeContrainer();
         if (this.jackpotPoolInfo) {
@@ -996,23 +1001,29 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             return;
         }
         this.jackpotPool[data.pool] = data.amount;
-        this.updateDisplayPool();
+        this.updateJackpotPoolBelongToStake();
+        this.updateJackpotPoolList();
+    }
 
+    updateJackpotPoolBelongToStake() {
+        const poolValue = this.jackpotPool[`${this.stake}`];
+        if (poolValue && poolValue !== this.jackpotPoolValue) {
+            this.jackpotPoolValue = poolValue;
+            GameUtils.floatToNumber({ label: this.jackpotPoolLabel, amount: poolValue, duration: 0.6, noZeroSuffix: false });
+        }
+    }
+
+    updateJackpotPoolList() {
         const dataList = Object.keys(this.jackpotPool).map((key) => {
             return {
                 pool: key,
                 amount: this.jackpotPool[key]
             };
         });
-        this.jackpotPoolInfo.setData(dataList);
-        this.jackpotPoolInfo.setHighlight(this.stake);
-    }
 
-    updateDisplayPool() {
-        const poolValue = this.jackpotPool[`${this.stake}`];
-        if (poolValue && poolValue !== this.jackpotPoolValue) {
-            this.jackpotPoolValue = poolValue;
-            GameUtils.floatToNumber({ label: this.jackpotPoolLabel, amount: poolValue, duration: 0.6, noZeroSuffix: false });
+        if (this.jackpotPoolInfo) {
+            this.jackpotPoolInfo.setData(dataList);
+            this.jackpotPoolInfo.setHighlight(this.stake);
         }
     }
 

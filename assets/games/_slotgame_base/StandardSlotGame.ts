@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
+import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import BonusDialog from "./BonusDialog";
@@ -23,6 +24,12 @@ const { ccclass, property } = cc._decorator;
 export default class StandardSlotGame extends SlotGameBase {
     @property({ type: cc.Prefab, visible: false, override: true })
     topWinnerPrefab: cc.Node = null;
+
+    @property({ type: cc.Label, visible: false, override: true })
+    jackpotPoolLabel: cc.Label = null;
+
+    @property({ type: JackpotPoolInfoBase, visible: false, override: true })
+    jackpotPoolInfo: JackpotPoolInfoBase = null;
 
     @property({ type: cc.Prefab, visible: false, override: true })
     effectJackpot: cc.Prefab = null;
@@ -152,12 +159,10 @@ export default class StandardSlotGame extends SlotGameBase {
         });
     }
 
-    async loadPrefabsByCode() {
-        const dict = {
+    getPrefabsList() {
+        return {
             // prefab name : prefab property
             "effect-transition": "effectTransitionPrefab",
-            "top-winner": "topWinnerPrefab",
-            "effect-jackpot": "effectJackpot",
 
             "effect-bonus": "effectBonus",
             "effect-big-win": "effectBigWin",
@@ -171,6 +176,10 @@ export default class StandardSlotGame extends SlotGameBase {
             "preview-symbol-left": "previewSymbolLeft",
             "preview-symbol-right": "previewSymbolRight"
         };
+    }
+
+    async loadPrefabsByCode() {
+        const dict = this.getPrefabsList();
 
         for (const key of Object.keys(dict)) {
             const path = `preload/prefabs/${key}`;
