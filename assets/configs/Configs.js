@@ -4,7 +4,7 @@ const defaultConfig = {
     serverDomainMapper: {
         localhost: "lumigame.com"
     },
-    subDomain: "l1-proxy2",
+    subDomain: "l1-proxy1",
     env: "",
     sentry: {
         url: "",

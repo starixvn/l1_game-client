@@ -5,7 +5,7 @@ import { removeInRoomGameId } from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import { userManager } from "../../../common/user/UserManager";
 import { appManager } from "../../../managers/AppManager";
-import GameUIManager from "../../../managers/GameUIManager";
+import { uiManager } from "../../../managers/GameUIManager";
 import { UrlInfo } from "../../../managers/UrlInfo";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import GameIconMenu from "./GameIconMenu";
@@ -64,7 +64,6 @@ export default class CircleMenu extends GameIconMenu {
             return;
         }
         try {
-            const uiManager = GameUIManager.getInstance();
             let prefab: cc.Prefab;
             if (uiManager.prefabCache.miniPanelIcons[gameId]) {
                 prefab = uiManager.prefabCache.miniPanelIcons[gameId];
@@ -112,8 +111,8 @@ export default class CircleMenu extends GameIconMenu {
             this.closeGame();
         } else {
             GameUtils.clearGameSetting(id);
-            GameUtils.unCacheAndHideGameLoading(GameUIManager.getInstance().getCurrentGameId());
-            GameUIManager.getInstance().setCurrentGameId(id);
+            GameUtils.unCacheAndHideGameLoading(uiManager.getCurrentGameId());
+            uiManager.setCurrentGameId(id);
             GameUtils.openGame(id, this.miniPanel);
             AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
                 location: cc.director.getScene().name,

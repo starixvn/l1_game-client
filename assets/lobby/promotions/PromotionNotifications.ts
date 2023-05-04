@@ -1,4 +1,5 @@
-import GameUIManager from "../main/view-models/GameUIManager";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 import PromotionNotificationsHandler, { PromotionNotificationsEvent } from "./PromotionNotificationsHandler";
 
 const { ccclass, property } = cc._decorator;
@@ -16,13 +17,22 @@ export default class PromotionNotifications extends cc.Component {
 
     onLoad(): void {
         PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, this.showNotification.bind(this));
-        GameUIManager.getInstance().removeEmitterListener(GameUIManager.Events.LOADED_PROMOTION_ANNOUNCEMENT);
-        if (GameUIManager.getInstance().prefabCache.miniPanelIcons["promotion"]) {
+
+        if (uiManager.prefabCache.miniPanelIcons["promotion"]) {
             this.onLoadedPromotionAnnouncement();
         }
-        GameUIManager.getInstance().emitterListener(GameUIManager.Events.LOADED_PROMOTION_ANNOUNCEMENT, () => {
-            this.onLoadedPromotionAnnouncement();
-        });
+
+        uiManager.emitterListener(
+            InternalEvents.LOADED_PROMOTION_ANNOUNCEMENT,
+            () => {
+                this.onLoadedPromotionAnnouncement();
+            },
+            this
+        );
+    }
+
+    onDestroy() {
+        uiManager.removeListenersWithTarget(this);
     }
 
     showNotification() {

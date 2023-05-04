@@ -1,4 +1,4 @@
-import GameUIManager from "../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../managers/GameUIManager";
 import SlotGameTicketDetail from "./SlotGameTicketDetail";
 
 const { ccclass, property } = cc._decorator;
@@ -14,7 +14,7 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
     gameId: number;
 
     async loadSymbolsAtlas() {
-        this.mainAtlas = GameUIManager.getInstance().prefabCache.gameAtlas[this.gameId];
+        this.mainAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
     }
 
     protected getSpriteLine(line: number): cc.SpriteFrame {

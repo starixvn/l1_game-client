@@ -312,7 +312,7 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     async loadGameAtlas() {
-        let spriteAtlas = GameUIManager.getInstance().prefabCache.gameAtlas[this.gameId];
+        let spriteAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
 
         if (spriteAtlas) {
             return;
@@ -330,7 +330,7 @@ export default class StandardSlotGame extends SlotGameBase {
         } catch (e) {
             console.warn(`Missing Symbols spriteAtlas for ${path} `, e);
         }
-        GameUIManager.getInstance().prefabCache.gameAtlas[this.gameId] = spriteAtlas;
+        uiManager.prefabCache.gameAtlas[this.gameId] = spriteAtlas;
     }
 
     async loadWinningSymbolAnimation() {
