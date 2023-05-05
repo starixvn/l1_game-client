@@ -1,6 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import StatusButton from "../../../common/custom-button/StatusButton";
-import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import CascadingBetControl from "./CascadingBetControl";
 import CascadingSlotBase from "./CascadingSlotBase";
 
@@ -41,7 +42,7 @@ export default class CascadingTotalBet extends cc.Component {
     }
 
     onClickOpenBetControl() {
-        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_OUTSIDE_REEL_AREA);
+        uiManager.emitter.emit(InternalEvents.CLICK_OUTSIDE_REEL_AREA);
 
         this.betControl.showView(!this.isOpenBetControl);
         this.isOpenBetControl = !this.isOpenBetControl;

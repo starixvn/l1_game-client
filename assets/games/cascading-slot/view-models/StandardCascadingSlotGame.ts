@@ -1,18 +1,17 @@
 import { BundleManager } from "bundle-management";
 
 import AudioManager from "../../../common/audio/AudioManager";
-import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../../managers/GameUIManager";
+import CascadingUIModel from "../models/CascadingUIModel";
 import CascadingSlotBase from "./CascadingSlotBase";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 import CascadingSymbolPreview from "./CascadingSymbolPreview";
-import FreeSpinView from "./FreeSpinView";
 import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
 import StandardCascadingSlotBoard from "./StandardCascadingSlotBoard";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
-import CascadingUIModel from "../models/CascadingUIModel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -143,7 +142,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     async loadSlotSymbols() {
-        const prefabCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
+        const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
         for (let index = 0; index < CascadingSlotConfig.itemTypeCount; index++) {
             if (prefabCache[index]) {
                 continue;
@@ -160,7 +159,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             prefabCache[index] = data;
         }
 
-        GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] = prefabCache;
+        uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
     }
 
     loadAudios() {
@@ -214,7 +213,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             return;
         }
         this.playSound(CascadingSlotGameSound.CLICK);
-        const symbolCache = GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId];
+        const symbolCache = uiManager.prefabCache.slotSymbols[this.gameId];
         const spine = symbolCache[symbol];
 
         const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
@@ -287,8 +286,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     clickOutsideReelArea() {
+        super.clickOutsideReelArea();
         this.inGameMenu.expandableMenu.collapseMenu();
-        GameUIManager.getInstance().emitter.emit(GameUIManager.Events.CLICK_OUTSIDE_REEL_AREA);
     }
 
     initGameDataEvents() {

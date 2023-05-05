@@ -1,17 +1,15 @@
 import GameUtils from "../../../common/GameUtils";
-import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../../managers/GameUIManager";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
 import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "./CascadingSlotUtils";
-import MultiplierItem from "./MultiplierItem";
 import StandardCascadingSlotReelSymbol from "./StandardCascadingSlotReelSymbol";
-import StandardMultiplierItem from "./StandardMultiplierItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
     get cache() {
-        return GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
+        return uiManager.prefabCache.slotSymbols[this.gameId] || {};
     }
 
     protected replaceItem(index: number) {

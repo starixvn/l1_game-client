@@ -1,5 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
-import GameUIManager from "../../../lobby/main/view-models/GameUIManager";
+import { uiManager } from "../../../managers/GameUIManager";
 import MultiplierItem from "./MultiplierItem";
 
 const { ccclass, property } = cc._decorator;
@@ -10,7 +10,7 @@ export default class StandardMultiplierItem extends MultiplierItem {
     private spine: sp.Skeleton;
 
     get cache() {
-        return GameUIManager.getInstance().prefabCache.slotSymbols[this.gameId] || {};
+        return uiManager.prefabCache.slotSymbols[this.gameId] || {};
     }
 
     async playAnimationGlow() {

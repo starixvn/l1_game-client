@@ -5,7 +5,6 @@ import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import { uiManager } from "../../managers/GameUIManager";
-import { InternalEvents } from "../../managers/InternalEvents";
 import BonusDialog from "./BonusDialog";
 import { ClassicSlotSound } from "./ClassicSlotSound";
 import SlotBottomArea from "./SlotBottomArea";
@@ -510,8 +509,8 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     clickOutsideReelArea() {
+        super.clickOutsideReelArea();
         this.expandableMenu.collapseMenu();
-        uiManager.emitter.emit(InternalEvents.CLICK_OUTSIDE_REEL_AREA);
     }
 
     addSoundStopReel(turbo: boolean, spinDuration: number) {}
