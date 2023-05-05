@@ -138,11 +138,11 @@ export default class MiniPanel extends BaseComponent {
     }
 
     async loadPromotionPrefab() {
-        if (!uiManager.prefabCache.miniPanelIcons["promotion"]) {
+        if (!uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"]) {
             this.announcementPrefab = await GameUtils.loadResource("boosted-odds/PromotionAnnouncements");
-            uiManager.prefabCache.miniPanelIcons["promotion"] = this.announcementPrefab;
+            uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"] = this.announcementPrefab;
         } else {
-            this.announcementPrefab = uiManager.prefabCache.miniPanelIcons["promotion"];
+            this.announcementPrefab = uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"];
         }
 
         uiManager.emitter.emit(InternalEvents.LOADED_PROMOTION_ANNOUNCEMENT);

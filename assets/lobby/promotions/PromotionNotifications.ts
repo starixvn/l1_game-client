@@ -15,20 +15,18 @@ export default class PromotionNotifications extends cc.Component {
     isLoadedPromotionAnnouncement = false;
     isReceivedPromotionData = false;
 
-    onLoad(): void {
+    onLoad() {
         PromotionNotificationsHandler.getInstance().on(PromotionNotificationsEvent.NEW_PROMOTION, this.showNotification.bind(this));
 
-        if (uiManager.prefabCache.miniPanelIcons["promotion"]) {
+        if (PromotionNotificationsHandler.getInstance().promotionNotifications) {
+            this.showNotification();
+        }
+
+        if (uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"]) {
             this.onLoadedPromotionAnnouncement();
         }
 
-        uiManager.emitterListener(
-            InternalEvents.LOADED_PROMOTION_ANNOUNCEMENT,
-            () => {
-                this.onLoadedPromotionAnnouncement();
-            },
-            this
-        );
+        uiManager.emitterListener(InternalEvents.LOADED_PROMOTION_ANNOUNCEMENT, this.onLoadedPromotionAnnouncement.bind(this), this);
     }
 
     onDestroy() {
