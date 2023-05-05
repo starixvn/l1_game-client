@@ -23,7 +23,7 @@ class AppManager {
         increaseMoney: null,
         decreaseMoney: null
     };
-    popupMiniGamesLastPosition = cc.v3();
+    popupMiniGamesLastPosition: cc.Vec3;
     miniPanel: any;
     currentScene: any;
     resultPage: any;

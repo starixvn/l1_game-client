@@ -24,7 +24,10 @@ export default class PopupMinigames extends cc.Component {
     public background: cc.Node = null;
 
     onLoad() {
-        this.node.position = appManager.popupMiniGamesLastPosition;
+        if (appManager.popupMiniGamesLastPosition) {
+            this.node.position = appManager.popupMiniGamesLastPosition;
+        }
+
         this.list.active = false;
         this.list.scale = 0;
 
