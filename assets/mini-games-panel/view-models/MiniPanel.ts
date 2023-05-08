@@ -176,7 +176,7 @@ export default class MiniPanel extends BaseComponent {
             boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
             Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
 
-            this.promotionContainer.addChild(boostedOddsNode);
+            boostedOddsNode && this.promotionContainer.addChild(boostedOddsNode);
         });
     }
 
