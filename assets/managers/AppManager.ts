@@ -32,6 +32,7 @@ class AppManager {
     authorized = false;
 
     _directMode = false;
+    _appMode = false;
 
     private init() {
         sentryLogger.start();
@@ -56,6 +57,10 @@ class AppManager {
         return this._directMode;
     }
 
+    get isAppMode() {
+        return this._appMode;
+    }
+
     get directGameId() {
         return this.urlInfo[UrlInfo.DirectGameId] || 0;
     }
@@ -67,7 +72,7 @@ class AppManager {
         }
     }
 
-    checkRefData(refData) {
+    checkDirectModeRefData(refData) {
         const directRef = [
             //
             "d_direct",
@@ -76,6 +81,13 @@ class AppManager {
             "m_operator_opendirectly"
         ];
         return directRef.some((data) => data === refData);
+    }
+
+    checkAppModeRefData(refData){
+        const appModeRef = [
+            "m_connect"
+        ];
+        return appModeRef.some((data) => data === refData);
     }
 
     forceKickedOut() {
@@ -90,7 +102,8 @@ class AppManager {
         if (urlParams.has(UrlInfo.Ref) && urlParams.has("gameId") && urlParams.get("gameId") !== "0") {
             const gameId = urlParams.get("gameId");
             const refData = urlParams.get(UrlInfo.Ref);
-            if (this.checkRefData(refData) && !GameUtils.isMiniGame(gameId)) {
+            
+            if (this.checkDirectModeRefData(refData) && !GameUtils.isMiniGame(gameId)) {
                 this.urlInfo[UrlInfo.Ref] = refData;
                 this.urlInfo[UrlInfo.DirectGameId] = gameId;
                 if (urlParams.has("rurl") && urlParams.get("rurl") !== "") {
@@ -98,6 +111,11 @@ class AppManager {
                 }
                 this._directMode = true;
             }
+            
+        }
+
+        if(urlParams.has(UrlInfo.Ref) && this.checkAppModeRefData(urlParams.get(UrlInfo.Ref))){
+            this._appMode = true;            
         }
 
         await this.requestSSO();
@@ -142,7 +160,7 @@ class AppManager {
     }
 
     private async handleAuthorizedResponse(response) {
-        if (!response.authorized && this.isDirectMode) {
+        if (!response.authorized && (this.isDirectMode || this.isAppMode)) {
             return this.autoGenerateName();
         }
 
