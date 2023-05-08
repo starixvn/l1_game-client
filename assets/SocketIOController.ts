@@ -161,7 +161,10 @@ export default class SocketIOController {
                 if (this.socketsState[gameId] === SocketState.CONNECT_ERROR) {
                     throw new Error("Socket connect error game id " + gameId);
                 }
-                socket.emit("signin", getSession());
+
+                const session = getSession();
+                session.ss && socket.emit("signin", session);
+
                 await this.waitGameSignedIn(gameId);
             } catch (err) {
                 onGameConnectionError();
@@ -273,7 +276,8 @@ export default class SocketIOController {
             if (onConnectCallback) {
                 onConnectCallback(socket);
             } else {
-                socket.emit("signin", getSession());
+                const session = getSession();
+                session.ss && socket.emit("signin", session);
             }
         });
 
