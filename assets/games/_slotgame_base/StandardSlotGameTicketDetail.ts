@@ -1,3 +1,4 @@
+import { getLocale } from "../../common/auth/SessionManager";
 import { uiManager } from "../../managers/GameUIManager";
 import SlotGameTicketDetail from "./SlotGameTicketDetail";
 
@@ -12,6 +13,7 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
     paylinesAtlas: cc.SpriteAtlas = null;
 
     gameId: number;
+    enableJackpot = false;
 
     async loadSymbolsAtlas() {
         this.mainAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
@@ -22,6 +24,14 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
     }
 
     protected setSymbolFrame(symbolNumber: number) {
-        return this.mainAtlas.getSpriteFrame(`symbol-${symbolNumber}`);
+        let spriteFrame;
+        if (this.enableJackpot && symbolNumber === this.jackpotSymbolNumber) {
+            const language = getLocale();
+            spriteFrame = this.mainAtlas.getSpriteFrame(`symbol-${symbolNumber}.jackpot${language === "vi-VN" ? `.${language}` : ""}`);
+        } else {
+            spriteFrame = this.mainAtlas.getSpriteFrame(`symbol-${symbolNumber}`);
+        }
+
+        return spriteFrame;
     }
 }

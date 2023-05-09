@@ -2,7 +2,7 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        99: "Happy Fish Jackpot"
+        29: "Happy Fish Jackpot"
     }
 };
 

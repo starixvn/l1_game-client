@@ -57,12 +57,10 @@ export default class SlotGameHistoryItem extends cc.Component {
         this.showTicketDetail(this.data);
     }
 
-    setData(betLog, index) {
+    setData(betLog, index, gameId) {
         let win = betLog.betWin;
-
         if (betLog.settlementResult.jackpot !== null) {
             win += betLog.settlementResult.jackpot.winningAmount;
-            this.jackpotIcon.active = true;
         }
 
         this.node.active = true;
@@ -83,6 +81,14 @@ export default class SlotGameHistoryItem extends cc.Component {
         if (this.enableHighlightBg && highlight) {
             this.bg.active = true;
             this.bg.color = this.bgHighlightColor;
+        }
+
+        this.showJackpotIcon(betLog.settlementResult.jackpot, gameId);
+    }
+
+    showJackpotIcon(jackpot, gameId) {
+        if (jackpot !== null && this.jackpotIcon) {
+            this.jackpotIcon.active = true;
         }
     }
 }

@@ -149,9 +149,18 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     public autoOpenAutoSpinDialog = false;
     protected userSettings: SlotGameUserSettings;
     private showingWinningLine = false;
+    private _jackpotEnabled = false;
     normalPaylineDuration = 1;
     turboPaylineDuration = 0.75;
     isFinishedRound = true;
+
+    public get jackpotEnabled() {
+        return this._jackpotEnabled;
+    }
+
+    public set jackpotEnabled(value) {
+        this._jackpotEnabled = value;
+    }
 
     setAllowChangeBet(allow: boolean) {
         this.stakeButton.interactable = allow;
@@ -173,7 +182,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             if (this.autoGenerateLines) {
                 this.createAllLines();
             }
-            this.jackpotEnabled && this.initJackpot();
+            this.jackpotEnabled && this.initJackpotPool();
         });
         this.initBottomMessage();
         this.initBottomArea();
@@ -195,7 +204,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         // override
     }
 
-    initJackpot() {
+    initJackpotPool() {
         //empty
     }
 
@@ -572,7 +581,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
     protected onStakeChanged() {
         this.updateTotalBetLabel();
-        this.updateJackpotPoolBelongToStake();
+        this.updateJackpotPool();
         this.updateStakeContainer();
         this.hideStakeContrainer();
         if (this.jackpotPoolInfo) {
@@ -879,10 +888,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.currentMiniPanel.addDialog(dialog);
     }
 
-    public get jackpotEnabled() {
-        return false;
-    }
-
     onClickShowHallOfFame() {
         AudioManager.getInstance().playClick();
         this.expandableMenu.collapseMenu();
@@ -1001,11 +1006,11 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             return;
         }
         this.jackpotPool[data.pool] = data.amount;
-        this.updateJackpotPoolBelongToStake();
+        this.updateJackpotPool();
         this.updateJackpotPoolList();
     }
 
-    updateJackpotPoolBelongToStake() {
+    updateJackpotPool() {
         const poolValue = this.jackpotPool[`${this.stake}`];
         if (poolValue && poolValue !== this.jackpotPoolValue) {
             this.jackpotPoolValue = poolValue;

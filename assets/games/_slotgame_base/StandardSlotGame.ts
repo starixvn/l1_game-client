@@ -319,7 +319,8 @@ export default class StandardSlotGame extends SlotGameBase {
             if (prefabCache[index]) {
                 continue;
             }
-            const path = `preload/symbol-spines/symbol-${index}`;
+
+            const path = this.getSymbolName(index);
             const devPath = `../games/*/${path}`;
             const data = await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
                 bundleId: this.gameId.toString(),
@@ -332,6 +333,10 @@ export default class StandardSlotGame extends SlotGameBase {
         }
 
         uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
+    }
+
+    getSymbolName(index): string {
+        return `preload/symbol-spines/symbol-${index}`;
     }
 
     async loadGameAtlas() {

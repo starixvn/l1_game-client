@@ -35,7 +35,7 @@ export default class SlotGameHistory extends SocketIOGameHistoryBase {
     bindItemRowData(betLog, index) {
         const itemNode = cc.instantiate(this.itemPrefab);
         const item = itemNode.getComponent(SlotGameHistoryItem);
-        item.setData(betLog, index);
+        item.setData(betLog, index, this.gameId);
         item.showTicketDetail = (log) => {
             this.showTicketDetail(log);
         };
