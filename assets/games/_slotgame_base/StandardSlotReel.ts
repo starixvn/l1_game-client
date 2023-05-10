@@ -1,3 +1,7 @@
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
+import { ClassicSlotSound } from "./ClassicSlotSound";
+import SlotGameBase from "./SlotGameBase";
 import SlotReel from "./SlotReel";
 
 const { ccclass, property } = cc._decorator;
@@ -12,28 +16,11 @@ export default class StandardSlotReel extends SlotReel {
                 return;
             }
 
-            // const delaySwap = 0.1;
-            // const delayStart = 0.1;
-            // const swapDuration = 0.1;
-            // const delayBetween =
-            //     (this.slotGameConfig.normalMode.spinDuration * this.itemCount) / this.itemCountPerReel - 2 * (delayStart + swapDuration);
-
-            // cc.tween(this.node)
-            //     .delay(delayStart)
-            //     .call(() => {
-            //         item.handleBlurAnim(swapDuration, delaySwap, true);
-            //     })
-            //     .delay(delayBetween)
-            //     .call(() => {
-            //         item.handleBlurAnim(swapDuration, delaySwap, false);
-            //     })
-            //     .start();
             if (index < 4 || index >= this.itemCount - 4) {
                 item.handleBlurAnim(false);
             } else {
                 item.handleBlurAnim(true);
             }
-            //item.handleBlurAnim(true);
         });
     }
 
@@ -59,6 +46,12 @@ export default class StandardSlotReel extends SlotReel {
             .call(() => {
                 this.onSpinFinish();
                 resolve();
+            })
+            .start();
+        cc.tween(this.node)
+            .delay(spinDuration - 0.15)
+            .call(() => {
+                uiManager.emitter.emit(InternalEvents.SLOT_PLAY_SOUND, ClassicSlotSound.REEL_STOP);
             })
             .start();
     }

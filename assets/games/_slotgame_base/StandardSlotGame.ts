@@ -505,4 +505,6 @@ export default class StandardSlotGame extends SlotGameBase {
         this.expandableMenu.collapseMenu();
         uiManager.emitter.emit(InternalEvents.CLICK_OUTSIDE_REEL_AREA);
     }
+
+    addSoundStopReel(turbo: boolean, spinDuration: number) {}
 }

@@ -176,6 +176,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.initBottomMessage();
         this.initBottomArea();
         this.initDefaultBetChoices();
+        uiManager.emitterListener(InternalEvents.SLOT_PLAY_SOUND, (type: ClassicSlotSound) => this.playSound(type), this);
     }
 
     initSlotBoard() {
@@ -620,6 +621,12 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.playSound(turbo ? ClassicSlotSound.SPINNING_TURBO : ClassicSlotSound.SPINNING_NORMAL);
 
         const spinDuration = this.getCustomDuration("spin");
+        this.addSoundStopReel(turbo, spinDuration);
+        await this.slotBoard.spin(spinDuration, turbo);
+        this.spinButton.playAnimationIdle();
+    }
+
+    addSoundStopReel(turbo: boolean, spinDuration: number) {
         if (!turbo) {
             cc.tween(this.node)
                 .delay(spinDuration * 0.5)
@@ -628,8 +635,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
                 })
                 .start();
         }
-        await this.slotBoard.spin(spinDuration, turbo);
-        this.spinButton.playAnimationIdle();
     }
 
     spin(): boolean {
