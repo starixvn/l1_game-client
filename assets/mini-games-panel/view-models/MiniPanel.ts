@@ -166,18 +166,21 @@ export default class MiniPanel extends BaseComponent {
                 }
                 this.miniMenu.addChild(popUpMiniGameNode);
             })
-            .catch((err) => console.warn("Failed to init mini game icons - " + err));
+            .catch((err) => cc.warn("Failed to init mini game icons - " + err));
     }
 
     initBoostedOdds() {
-        GameUtils.loadResource(`boosted-odds/BoostedOdds`).then((prefab) => {
-            const boostedOddsNode = cc.instantiate(prefab);
-            this.boostedOdds = boostedOddsNode.getComponent(BoostedOdds);
-            boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
-            Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
-
-            boostedOddsNode && this.promotionContainer.addChild(boostedOddsNode);
-        });
+        GameUtils.loadResource(`boosted-odds/BoostedOdds`)
+            .then((prefab) => {
+                const boostedOddsNode = cc.instantiate(prefab);
+                this.boostedOdds = boostedOddsNode.getComponent(BoostedOdds);
+                boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
+                Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
+                this.promotionContainer.addChild(boostedOddsNode);
+            })
+            .catch((error) => {
+                cc.warn("Failed to init boosted odds - " + error);
+            });
     }
 
     onGeneralData(data: any) {
