@@ -5,6 +5,7 @@ import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 import BonusDialog from "./BonusDialog";
 import { ClassicSlotSound } from "./ClassicSlotSound";
 import SlotBottomArea from "./SlotBottomArea";
