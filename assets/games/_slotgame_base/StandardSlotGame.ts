@@ -124,6 +124,11 @@ export default class StandardSlotGame extends SlotGameBase {
         this.loadAudios();
         super.onLoad();
         this.loadSpritesWithGameId();
+        this.updateBalanceColor();
+    }
+
+    updateBalanceColor() {
+        this.userProfile.updateColor(this.colorConfig.bottomAreaWinColor);
     }
 
     protected initColorConfig() {
@@ -361,7 +366,8 @@ export default class StandardSlotGame extends SlotGameBase {
         slotBottomArea.updateColor({
             textColor: this.colorConfig.bottomAreaTextColor,
             numberColor: this.colorConfig.bottomAreaNumberColor,
-            buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
+            buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor,
+            winColor: this.colorConfig.bottomAreaWinColor
         });
 
         if (slotBottomArea) {

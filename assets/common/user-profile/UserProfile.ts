@@ -22,4 +22,8 @@ export default class UserProfile extends cc.Component {
     setUserBalance(text: string) {
         this.userBalance.string = text;
     }
+
+    updateColor(color: string) {
+        this.userBalance.node.color = cc.Color.WHITE.fromHEX(color);
+    }
 }
