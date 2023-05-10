@@ -8,7 +8,7 @@ interface BottomAreaDefinedColor {
     textColor: string;
     numberColor: string;
     buttonBorderColor: string;
-    winColor: string;
+    winAmountColor: string;
 }
 
 @ccclass
@@ -82,7 +82,7 @@ export default class SlotBottomArea extends cc.Component {
     }
 
     updateColor(colorList: BottomAreaDefinedColor) {
-        const { textColor, numberColor, buttonBorderColor, winColor } = colorList;
+        const { textColor, numberColor, buttonBorderColor, winAmountColor } = colorList;
 
         this.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
             const labelComp = comp.node.getComponent(cc.Label);
@@ -93,6 +93,6 @@ export default class SlotBottomArea extends cc.Component {
             }
         });
 
-        this.winningBet.node.color = cc.Color.WHITE.fromHEX(winColor);
+        this.winningBet.node.color = cc.Color.WHITE.fromHEX(winAmountColor);
     }
 }
