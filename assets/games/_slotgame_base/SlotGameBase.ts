@@ -176,7 +176,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.initBottomMessage();
         this.initBottomArea();
         this.initDefaultBetChoices();
-        uiManager.emitterListener(InternalEvents.SLOT_PLAY_SOUND, (type: ClassicSlotSound) => this.playSound(type), this);
     }
 
     initSlotBoard() {

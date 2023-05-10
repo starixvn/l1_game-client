@@ -125,6 +125,12 @@ export default class StandardSlotGame extends SlotGameBase {
         super.onLoad();
         this.loadSpritesWithGameId();
         this.updateBalanceColor();
+        uiManager.emitterListener(InternalEvents.SLOT_PLAY_SOUND, (type: ClassicSlotSound) => this.playSound(type), this);
+    }
+
+    onDestroy() {
+        super.onDestroy();
+        uiManager.removeListenersWithTarget(this);
     }
 
     updateBalanceColor() {
