@@ -29,7 +29,9 @@ export default class StandardSlotReel extends SlotReel {
     }
 
     spinWithData(spinDuration = 1.25, data: number[], turbo: boolean) {
-        spinDuration = (spinDuration * this.itemCount) / this.itemCountPerReel;
+        if (!turbo) {
+            spinDuration = (spinDuration * this.itemCount) / this.itemCountPerReel;
+        }
         return super.spinWithData(spinDuration, data, turbo);
     }
 

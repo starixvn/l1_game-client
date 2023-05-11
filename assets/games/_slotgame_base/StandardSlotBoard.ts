@@ -1,5 +1,6 @@
 import PreviewOddsPopup from "./PreviewOddsPopup";
 import SlotBoard from "./SlotBoard";
+import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
 import StandardSlotReelItem from "./StandardSlotReelItem";
 
 const { ccclass, property } = cc._decorator;
@@ -8,6 +9,10 @@ const { ccclass, property } = cc._decorator;
 export default class StandardSlotBoard extends SlotBoard {
     @property(PreviewOddsPopup)
     previewPopup: PreviewOddsPopup = null;
+
+    turbo: boolean;
+    symbolCountPerReel = 24;
+    stepSymbolPerReel = 6;
 
     initReels() {
         super.initReels();
@@ -37,5 +42,13 @@ export default class StandardSlotBoard extends SlotBoard {
     spin(duration: number, turbo: boolean): Promise<void> {
         this.previewPopup.hideSymbolPreview();
         return super.spin(duration, turbo);
+    }
+
+    getSymbolCountPerReel(index: number) {
+        if (this.turbo) {
+            return this.symbolCountPerReel;
+        } else {
+            return this.symbolCountPerReel + index * this.stepSymbolPerReel;
+        }
     }
 }

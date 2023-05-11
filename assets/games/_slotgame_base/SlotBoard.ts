@@ -30,9 +30,10 @@ export default class SlotBoard extends cc.Component {
     }
 
     protected data: number[] = [];
-    public slotGameConfig: SlotGameBaseConfigs;
+    protected slotGameConfig: SlotGameBaseConfigs;
     public gameId: number;
     public startReelDelayTime = 0.075;
+    protected symbolCountPerReel = 18;
 
     onLoad() {
         this.winningOverlayNode.active = false;
@@ -45,11 +46,15 @@ export default class SlotBoard extends cc.Component {
                 this.reels.push(reel);
                 reel.slotGameConfig = this.slotGameConfig;
                 reel.gameId = this.gameId;
-                reel.itemCount = 24 + index * 6;
+                reel.itemCount = this.getSymbolCountPerReel(index);
                 reel.createReel();
             }
             reel.winningContainer = this.winningSymbolsNode;
         });
+    }
+
+    getSymbolCountPerReel(index: number) {
+        return this.symbolCountPerReel;
     }
 
     getItemPositions(index: number): cc.Vec2[] {
