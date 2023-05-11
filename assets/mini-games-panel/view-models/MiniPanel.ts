@@ -118,7 +118,7 @@ export default class MiniPanel extends BaseComponent {
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
 
         this.initPopUpMiniGames();
-        this.initBoostedOdds();
+        this.loadBoostedOddsAndPromotion();
 
         this.miniGames.on(cc.Node.EventType.CHILD_ADDED, this.onGamesLayerChanged.bind(this));
         this.miniGames.on(cc.Node.EventType.CHILD_REMOVED, this.onGamesLayerChanged.bind(this));
@@ -178,19 +178,23 @@ export default class MiniPanel extends BaseComponent {
             .catch((err) => cc.warn("Failed to init mini game icons - " + err));
     }
 
-    async initBoostedOdds() {
-        GameUtils.loadResource(`boosted-odds/BoostedOdds`)
-            .then((prefab) => {
-                const boostedOddsNode = cc.instantiate(prefab);
-                this.boostedOdds = boostedOddsNode.getComponent(BoostedOdds);
-                boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
-                Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
-                this.promotionContainer.addChild(boostedOddsNode);
-            })
-            .catch((error) => {
-                cc.warn("Failed to init boosted odds - " + error);
-            });
+    async loadBoostedOddsAndPromotion() {
+        await this.initBoostedOdds();
         await this.loadPromotionPrefab();
+    }
+
+    async initBoostedOdds() {
+        const boostedOddsPrefab = await GameUtils.loadResource(`boosted-odds/BoostedOdds`);
+
+        try {
+            const boostedOddsNode = cc.instantiate(boostedOddsPrefab);
+            this.boostedOdds = boostedOddsNode.getComponent(BoostedOdds);
+            boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
+            Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
+            this.promotionContainer.addChild(boostedOddsNode);
+        } catch (error) {
+            cc.warn("Failed to init boosted odds - " + error);
+        }
     }
 
     onGeneralData(data: any) {
