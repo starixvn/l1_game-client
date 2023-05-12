@@ -40,7 +40,7 @@ export default class JackpotWinner extends cc.Component {
     }
 
     onData(data: any) {
-        if (userManager.userName !== data.winnerName) {
+        if (userManager.userName !== data.winnerName && !userManager.disableJackpotGames) {
             const jackPotContainer = this.popupMiniGame.jackPotContainer;
             jackPotContainer.width = this.node.width;
             jackPotContainer.height = this.node.height;
