@@ -2,7 +2,7 @@ window.envConfig = {
     systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
-        "demo.saba.games": "sgamesuat.com"
+        "demo.sabagames.io": "sgamesuat.com"
     },
     subDomain: "l1uatproxy",
     env: "sit",

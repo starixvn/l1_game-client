@@ -34,6 +34,8 @@ class AppManager {
     _directMode = false;
     _appMode = false;
 
+    _PFF = false;
+
     private init() {
         sentryLogger.start();
         this.initLanguage();
@@ -60,6 +62,9 @@ class AppManager {
     get isAppMode() {
         return this._appMode;
     }
+    get isPFF() {
+        return this._PFF;
+    }
 
     get directGameId() {
         return this.urlInfo[UrlInfo.DirectGameId] || 0;
@@ -76,18 +81,19 @@ class AppManager {
         const directRef = [
             //
             "d_direct",
-            "m_direct",
-            "d_operator_opendirectly",
-            "m_operator_opendirectly"
+            "m_direct"
         ];
         return directRef.some((data) => data === refData);
     }
 
-    checkAppModeRefData(refData){
-        const appModeRef = [
-            "m_connect"
-        ];
+    checkAppModeRefData(refData) {
+        const appModeRef = ["m_connect"];
         return appModeRef.some((data) => data === refData);
+    }
+
+    checkPFFData(refData) {
+        const playFFRef = ["d_operator_opendirectly", "m_operator_opendirectly"];
+        return playFFRef.some((data) => data === refData);
     }
 
     forceKickedOut() {
@@ -102,7 +108,7 @@ class AppManager {
         if (urlParams.has(UrlInfo.Ref) && urlParams.has("gameId") && urlParams.get("gameId") !== "0") {
             const gameId = urlParams.get("gameId");
             const refData = urlParams.get(UrlInfo.Ref);
-            
+
             if (this.checkDirectModeRefData(refData) && !GameUtils.isMiniGame(gameId)) {
                 this.urlInfo[UrlInfo.Ref] = refData;
                 this.urlInfo[UrlInfo.DirectGameId] = gameId;
@@ -111,11 +117,14 @@ class AppManager {
                 }
                 this._directMode = true;
             }
-            
+
+            if (this.checkPFFData(refData)) {
+                this._PFF = true;
+            }
         }
 
-        if(urlParams.has(UrlInfo.Ref) && this.checkAppModeRefData(urlParams.get(UrlInfo.Ref))){
-            this._appMode = true;            
+        if (urlParams.has(UrlInfo.Ref) && this.checkAppModeRefData(urlParams.get(UrlInfo.Ref))) {
+            this._appMode = true;
         }
 
         await this.requestSSO();
@@ -160,7 +169,7 @@ class AppManager {
     }
 
     private async handleAuthorizedResponse(response) {
-        if (!response.authorized && (this.isDirectMode || this.isAppMode)) {
+        if (!response.authorized && (this.isDirectMode || this.isAppMode || this.isPFF)) {
             return this.autoGenerateName();
         }
 
@@ -232,5 +241,4 @@ class AppManager {
         });
     }
 }
-
 export const appManager = new AppManager();

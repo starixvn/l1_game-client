@@ -1,6 +1,9 @@
 window.envConfig = {
     systemType: "SC2",
     ssl: true,
+    serverDomainMapper: {
+        "demo.vgaming.io": "sgamesuat.com"
+    },
     disabledDirectLogin: true,
     subDomain: "l2uatproxy",
     env: "sit",
