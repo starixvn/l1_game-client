@@ -34,7 +34,7 @@ export default class Banner extends cc.Component {
         this.node.addChild(bannerPrefabNode);
         const adsBannerContainerNode = bannerPrefabNode.getChildByName("adsBannerController");
         this.adsBannerController = adsBannerContainerNode.getComponent(DynamicAdsBannerController);
-        this.showJackpotBanner = userManager.offerGames.includes(FourGuardiansId) && fourGuardiansConfig.jackpotEnabled;
+        this.showJackpotBanner = this.checkShowJackpotBanner();
         this.adsBannerController.menuLoop = !this.showJackpotBanner;
         this.adsBannerController.onEndingRound = () => {
             if (this.showJackpotBanner && this.adsToggle && this.jackpotToggle) {
@@ -44,6 +44,12 @@ export default class Banner extends cc.Component {
             }
         };
         this.showJackpotBanner && (await this.handleJackpotBanner());
+    }
+
+    checkShowJackpotBanner(): boolean {
+        const isShowJackpot =
+            userManager.offerGames.includes(FourGuardiansId) && (fourGuardiansConfig.jackpotEnabled || !userManager.disableJackpotGames);
+        return isShowJackpot;
     }
 
     async reloadBanner(needLoadAllBanners: boolean) {

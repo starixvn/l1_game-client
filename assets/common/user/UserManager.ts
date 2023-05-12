@@ -69,6 +69,10 @@ export default class UserManager {
         return this._data.isDisplayPlayerCurrency;
     }
 
+    get disableJackpotGames() {
+        return this._data.disableJackpotGames;
+    }
+
     public static getInstance(): UserManager {
         if (!UserManager.instance) {
             UserManager.instance = new UserManager();

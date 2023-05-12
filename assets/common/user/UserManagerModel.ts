@@ -26,6 +26,7 @@ export class UserData {
         public offerGamesIncludeSubGames: number[] = [],
         public settings: ISettings = { quickBet: false, theme: "" },
         public isSignedInSM = false,
-        public type = false
+        public type = false,
+        public disableJackpotGames = false
     ) {}
 }

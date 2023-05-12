@@ -6,7 +6,7 @@ import { userManager } from "../../../common/user/UserManager";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class PlayerInfo extends cc.Component {
+export default class JackpotWinnerItem extends cc.Component {
     @property(cc.Sprite)
     image: cc.Sprite = null;
 
@@ -15,6 +15,9 @@ export default class PlayerInfo extends cc.Component {
 
     @property(cc.Label)
     amount: cc.Label = null;
+
+    @property(cc.Label)
+    gameName: cc.Label = null;
 
     async setAvatar(id: number) {
         this.image.spriteFrame = await GameUtils.getAvatarSprite(id);
