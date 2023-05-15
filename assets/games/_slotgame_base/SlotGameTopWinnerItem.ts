@@ -22,6 +22,9 @@ export default class SlotGameTopWinnerItem extends cc.Component {
     @property(cc.Label)
     win: cc.Label = null;
 
+    @property(cc.Color)
+    highlightColor: cc.Color = null;
+
     setData(player: any, index: number, showBigWin: boolean) {
         const isLoginUser = userManager.isLoginUser(player.name);
         this.bg.active = index % 2 > 0;
@@ -37,10 +40,14 @@ export default class SlotGameTopWinnerItem extends cc.Component {
         this.win.string = numberWithCommas(player.winningAmount, 2);
 
         if (isLoginUser) {
-            this.time.node.color = cc.Color.YELLOW;
-            this.player.node.color = cc.Color.YELLOW;
-            this.amount.node.color = cc.Color.YELLOW;
-            this.win.node.color = cc.Color.YELLOW;
+            this.setTextColor(this.highlightColor ? this.highlightColor : cc.Color.YELLOW);
         }
+    }
+
+    setTextColor(color: cc.Color) {
+        this.time.node.color = color;
+        this.player.node.color = color;
+        this.amount.node.color = color;
+        this.win.node.color = color;
     }
 }

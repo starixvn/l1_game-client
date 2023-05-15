@@ -20,7 +20,6 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         const normalPrefabs = super.getPrefabsList();
         const jackpotPrefabs = {
             // prefab name : prefab property
-            "top-winner": "topWinnerPrefab",
             "effect-jackpot": "effectJackpot",
             "jackpot-pool": "jackpotPoolPrefab"
         };

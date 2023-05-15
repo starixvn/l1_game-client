@@ -22,9 +22,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StandardSlotGame extends SlotGameBase {
-    @property({ type: cc.Prefab, visible: false, override: true })
-    topWinnerPrefab: cc.Node = null;
-
     @property({ type: cc.Label, visible: false, override: true })
     jackpotPoolLabel: cc.Label = null;
 

@@ -76,7 +76,9 @@ export default class SlotGameTopWinner extends BaseComponent {
         }
         this.mainLayout.updateLayout();
         this.mainLayout.enabled = false;
-        this.backgroundNode.height = this.mainLayout.node.height;
+        if (this.backgroundNode) {
+            this.backgroundNode.height = this.mainLayout.node.height;
+        }
     }
 
     onDestroy() {
