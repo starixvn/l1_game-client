@@ -1,6 +1,7 @@
 import { lodash } from "../../../ClientModules";
 import GameUtils from "../../../common/GameUtils";
 import BannerJackpotPoolItem from "./BannerJackpotPoolItem";
+import JackpotPoolInfo from "./JackpotPoolInfo";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,99 +12,34 @@ export enum JackpotPoolType {
 }
 
 @ccclass
-export default class BannerJackpotPool extends cc.Component {
+export default class BannerJackpotPool extends JackpotPoolInfo {
     @property(cc.Node)
     content: cc.Node = null;
 
     @property(cc.Prefab)
     gamePool: cc.Prefab = null;
 
-    receivedData = [
-        {
-            amount: 5103.125,
-            gameId: 29,
-            pool: 1
-        },
-        {
-            amount: 50208.75,
-            gameId: 29,
-            pool: 10
-        },
-        {
-            amount: 252031.25,
-            gameId: 29,
-            pool: 50
-        },
-        {
-            amount: 6008.75,
-            gameId: 46,
-            pool: 1
-        },
-        {
-            amount: 56008.75,
-            gameId: 46,
-            pool: 10
-        },
-        {
-            amount: 252008.75,
-            gameId: 46,
-            pool: 50
-        },
-        {
-            amount: 1000008.75,
-            gameId: 63,
-            pool: 1
-        },
-        {
-            amount: 50408.75,
-            gameId: 63,
-            pool: 10
-        },
-        {
-            amount: 350008.75,
-            gameId: 63,
-            pool: 50
-        },
-        {
-            amount: 3008.75,
-            gameId: 64,
-            pool: 1
-        },
-
-        {
-            amount: 250008.75,
-            gameId: 64,
-            pool: 50
-        },
-        {
-            amount: 58008.75,
-            gameId: 64,
-            pool: 10
-        }
-    ];
-
     jackpotData;
+    selectedTab;
 
-    onLoad() {
-        this.convertData();
-        this.loadData(JackpotPoolType.MINOR);
+    onReceivedData(data: any) {
+        data.sort((a, b) => {
+            return b.amount - a.amount;
+        });
+        this.jackpotData = lodash.groupBy(data, "pool");
+        this.loadData(this.selectedTab ?? JackpotPoolType.GRAND);
     }
 
     selectPool(event, type) {
         this.loadData(+type);
     }
 
-    convertData() {
-        this.receivedData.sort((a, b) => {
-            return b.amount - a.amount;
-        });
-        this.jackpotData = lodash.groupBy(this.receivedData, "pool");
-        console.log(this.jackpotData);
-    }
-
     loadData(type: number) {
+        if (this.selectedTab === type) {
+            return;
+        }
+        this.selectedTab = type;
         this.content.destroyAllChildren();
-
         Object.keys(this.jackpotData).forEach((pool, index) => {
             if (type === index) {
                 this.jackpotData[pool].forEach((gamePool) => {

@@ -39,7 +39,7 @@ export default class JackpotWinners extends cc.Component {
     }
 
     requestData() {
-        NotificationService.getInstance().emitEvent("getWinners", { limit: 3 });
+        NotificationService.getInstance().emitEvent("getWinners", { limit: 10 });
     }
 
     handleNoUserAd(status = true) {

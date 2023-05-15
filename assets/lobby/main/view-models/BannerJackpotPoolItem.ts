@@ -16,6 +16,6 @@ export default class BannerJackpotPoolItem extends cc.Component {
     setData(gameName: string, poolAmount: number) {
         // this.gameIcon.spriteFrame = icon;
         this.gameName.string = gameName;
-        this.poolAmount.string = numberWithCommas(poolAmount);
+        this.poolAmount.string = numberWithCommas(poolAmount, 2);
     }
 }

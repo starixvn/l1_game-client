@@ -1,10 +1,15 @@
-import JackpotPoolInfoBase from "./JackpotPoolInfoBase";
+import { lodash } from "../../../ClientModules";
 import NotificationService from "../../../common/auth/NotificationService";
+import GameNotification from "./GameNotification";
+import JackpotPoolInfoBase from "./JackpotPoolInfoBase";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class JackpotPoolInfo extends JackpotPoolInfoBase {
+    @property(GameNotification)
+    gameNotification: GameNotification = null;
+
     @property
     loopRequest = true;
 
@@ -37,6 +42,7 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
     }
 
     onReceivedData(data: any) {
-        this.setData(data);
+        const formattingData = lodash.groupBy(data, "gameId");
+        this.setData(formattingData[this.gameNotification.gameId]);
     }
 }
