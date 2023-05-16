@@ -45,7 +45,6 @@ export default class StandardSlotReel extends SlotReel {
     }
 
     checkSpinAnimReel(turbo: boolean, spinDuration: number, offset: number, resolve: () => void) {
-        console.log("checkSpinAnimReel", spinDuration);
         if (!turbo) {
             this.playSpinAnim(spinDuration, offset, resolve);
             this.blurSymbols();
