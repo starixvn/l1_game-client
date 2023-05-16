@@ -30,7 +30,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 49
+        "__id__": 78
       }
     ],
     "_prefab": {
@@ -1099,7 +1099,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 78
+      "__id__": 49
     },
     "_opacity": 255,
     "_color": {
@@ -1776,26 +1776,19 @@
         "__id__": 46
       }
     ],
-    "gameNotification": {
-      "__id__": 49
-    },
-    "loopRequest": true,
+    "gameId": 29,
     "_id": ""
   },
   {
-    "__type__": "e1879elcY5DcovcwsB9ZFIS",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
+    "__type__": "cc.PrefabInfo",
+    "root": {
       "__id__": 1
     },
-    "_enabled": true,
-    "gameId": 29,
-    "key": "lobby",
-    "noticeNode": {
-      "__id__": 50
+    "asset": {
+      "__uuid__": "629521af-882b-4ba3-8174-1921d9b01c00"
     },
-    "_id": ""
+    "fileId": "ebp4I6IzRFJJLFcte+gt0H",
+    "sync": false
   },
   {
     "__type__": "cc.Node",
@@ -2454,15 +2447,19 @@
     "sync": false
   },
   {
-    "__type__": "cc.PrefabInfo",
-    "root": {
+    "__type__": "e1879elcY5DcovcwsB9ZFIS",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
       "__id__": 1
     },
-    "asset": {
-      "__uuid__": "629521af-882b-4ba3-8174-1921d9b01c00"
+    "_enabled": true,
+    "gameId": 29,
+    "key": "lobby",
+    "noticeNode": {
+      "__id__": 50
     },
-    "fileId": "ebp4I6IzRFJJLFcte+gt0H",
-    "sync": false
+    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",

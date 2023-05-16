@@ -3,7 +3,7 @@ import _ = require("lodash");
 import EventEmitterBase from "../common/emitter/EventEmitterBase";
 import Loading from "../common/loading/view-models/Loading";
 
-interface EmitterStorageType {
+export interface EmitterStorageType {
     eventName: string;
     callback: (param?) => void;
     target: any;

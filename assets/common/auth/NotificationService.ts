@@ -4,6 +4,7 @@ import * as MsgpackParser from "socket.io-msgpack-parser";
 import { enableMsgpackParserOnNotification } from "../../configs/Configs";
 import { buildUrl, getEnvironment } from "../helpers/UrlHelper";
 import { sentryLogger } from "../logger";
+import { JackpotDataKey, JackpotEvents } from "../../managers/JackpotManager";
 
 export default class NotificationService {
     public static getInstance(): NotificationService {
@@ -75,10 +76,10 @@ export default class NotificationService {
         const messageList = [
             "gameNotification",
             "marquee",
-            "jackpotPools",
-            "getWinners",
-            "jackpotWinner",
-            "jackpotWinners",
+            JackpotDataKey.JACKPOT_POOLS,
+            JackpotEvents.GET_WINNERS,
+            JackpotDataKey.JACKPOT_WINNER,
+            JackpotDataKey.JACKPOT_WINNERS,
             "kickedOut",
             "reload",
             "auth",

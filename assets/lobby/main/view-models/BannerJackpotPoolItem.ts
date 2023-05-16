@@ -1,6 +1,13 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
+
+export interface JackpotPoolInfo {
+    gameId: number;
+    amount: number;
+    pool: number;
+}
 
 @ccclass
 export default class BannerJackpotPoolItem extends cc.Component {
@@ -13,9 +20,10 @@ export default class BannerJackpotPoolItem extends cc.Component {
     @property(cc.Label)
     poolAmount: cc.Label = null;
 
-    setData(gameName: string, poolAmount: number) {
+    setData(data: JackpotPoolInfo) {
+        const { gameId, amount } = data;
         // this.gameIcon.spriteFrame = icon;
-        this.gameName.string = gameName;
-        this.poolAmount.string = numberWithCommas(poolAmount, 2);
+        this.gameName.string = GameUtils.getGameNameString(gameId);
+        this.poolAmount.string = numberWithCommas(amount, 2);
     }
 }

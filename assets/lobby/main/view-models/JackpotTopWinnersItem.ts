@@ -6,7 +6,7 @@ import { userManager } from "../../../common/user/UserManager";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class JackpotWinnerItem extends cc.Component {
+export default class JackpotTopWinnersItem extends cc.Component {
     @property(cc.Sprite)
     image: cc.Sprite = null;
 
@@ -29,5 +29,9 @@ export default class JackpotWinnerItem extends cc.Component {
 
     setAmount(amount: number) {
         this.amount.string = numberWithCommas(amount, 2);
+    }
+
+    setGameName(gameName: string) {
+        this.gameName.string = gameName;
     }
 }

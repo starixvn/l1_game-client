@@ -1,10 +1,12 @@
 import NotificationService from "../../../common/auth/NotificationService";
-import JackpotWinnerItem from "./JackpotWinnerItem";
+import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
+import JackpotTopWinnersItem from "./JackpotTopWinnersItem";
+import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class JackpotWinners extends cc.Component {
+export default class JackpotTopWinners extends cc.Component {
     @property(cc.Node)
     listUserNode: cc.Node = null;
 
@@ -17,29 +19,23 @@ export default class JackpotWinners extends cc.Component {
     @property(cc.Prefab)
     winnerItem: cc.Prefab = null;
 
-    private readonly dataKey = "jackpotWinners";
+    private readonly dataKey = JackpotDataKey.JACKPOT_WINNERS;
 
     onLoad() {
-        NotificationService.getInstance().addDataObserver(this.dataKey, this.dataKey, this.onReceivedData.bind(this));
-        cc.tween(this)
-            .repeatForever(
-                cc
-                    .tween()
-                    .call(() => this.requestData())
-                    .delay(60)
-            )
-            .start();
-
+        jackpotManager.addDataObserver(this.dataKey, this.dataKey, this.onReceivedData.bind(this));
+        this.requestData();
+        this.schedule(this.requestData, 60);
         this.listUser.active = false;
         this.handleNoUserAd(!this.listUser.active);
     }
 
     onDestroy() {
-        NotificationService.getInstance().removeDataObserver(this.dataKey, this.dataKey);
+        this.unschedule(this.requestData);
+        jackpotManager.removeDataObserver(this.dataKey, this.dataKey);
     }
 
     requestData() {
-        NotificationService.getInstance().emitEvent("getWinners", { limit: 10 });
+        jackpotManager.emitEvent(JackpotEvents.GET_WINNERS, { limit: 10 });
     }
 
     handleNoUserAd(status = true) {
@@ -58,10 +54,11 @@ export default class JackpotWinners extends cc.Component {
         data.forEach((playerData) => {
             const winnerNode = cc.instantiate(this.winnerItem);
             this.listUser.addChild(winnerNode);
-            const player = winnerNode.getComponent(JackpotWinnerItem);
+            const player = winnerNode.getComponent(JackpotTopWinnersItem);
             player.setAvatar(playerData.avatarId);
             player.setName(playerData.winnerName);
             player.setAmount(playerData.amount);
+            player.setGameName(GameUtils.getGameNameString(playerData.gameId));
         });
     }
 }
