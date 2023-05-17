@@ -7,7 +7,6 @@ import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import BannerController from "./BannerController";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import JackpotNavigation from "./JackpotNavigation";
-import { Action } from "../../../../packages/i18n/runtime-scripts/creator";
 
 const { ccclass, property } = cc._decorator;
 

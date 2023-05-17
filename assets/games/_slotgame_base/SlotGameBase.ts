@@ -1090,4 +1090,8 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     initBottomMessage() {
         //empty
     }
+
+    hideTopWinnersButton() {
+        //empty
+    }
 }
