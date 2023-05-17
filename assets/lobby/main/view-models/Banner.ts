@@ -7,6 +7,7 @@ import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import BannerController from "./BannerController";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import JackpotNavigation from "./JackpotNavigation";
+import { Action } from "../../../../packages/i18n/runtime-scripts/creator";
 
 const { ccclass, property } = cc._decorator;
 
@@ -79,12 +80,13 @@ export default class Banner extends cc.Component {
     private async setJackpotContainer(container: cc.Node) {
         const pathPrefab = `lobby/banner/jackpotController`;
         const prefab = await GameUtils.loadResource(pathPrefab);
-        const gameNode = cc.instantiate(prefab);
-        container.addChild(gameNode);
-        const bannerNode = container?.children[0];
-        this.jackpotBannerContainer = bannerNode;
+        const jackpotBannerNode = cc.instantiate(prefab);
+        container.addChild(jackpotBannerNode);
+        const jackpotNode = container?.children[0];
+        this.jackpotBannerContainer = jackpotNode;
+        jackpotBannerNode.active = false;
 
-        bannerNode.getComponent(BannerController).onEndingRound = () => {
+        jackpotNode.getComponent(BannerController).onEndingRound = () => {
             this.jackpotToggle.isChecked = false;
             this.adsToggle.isChecked = true;
 

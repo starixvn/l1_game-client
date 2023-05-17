@@ -29,6 +29,11 @@ export default class JackpotTopWinners extends cc.Component {
         this.handleNoUserAd(!this.listUser.active);
     }
 
+    onEnable() {
+        // node is disabled, the schedule does not work
+        this.requestData();
+    }
+
     onDestroy() {
         this.unschedule(this.requestData);
         jackpotManager.removeDataObserver(this.dataKey, this.dataKey);
