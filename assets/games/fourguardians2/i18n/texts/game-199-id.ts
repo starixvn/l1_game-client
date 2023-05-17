@@ -2,8 +2,8 @@ import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
 
 export const phrases = {
     gameNames: {
-        29: "Happy Fish Jackpot"
+        199: "Four Guardians 2"
     }
 };
 
-reloadLanguageData("th", phrases);
+reloadLanguageData("id", phrases);
