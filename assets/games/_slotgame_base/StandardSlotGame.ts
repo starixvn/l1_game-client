@@ -339,7 +339,7 @@ export default class StandardSlotGame extends SlotGameBase {
                 type: cc.SpriteAtlas
             });
         } catch (e) {
-            console.warn(`Missing Symbols spriteAtlas for ${path} `, e);
+            cc.warn(`Missing Symbols spriteAtlas for ${path} `, e);
         }
         uiManager.prefabCache.gameAtlas[this.gameId] = spriteAtlas;
     }
