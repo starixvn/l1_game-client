@@ -45,26 +45,25 @@ export default class JackpotTopWinners extends cc.Component {
         jackpotManager.emitEvent(JackpotEvents.GET_WINNERS, { limit: 10 });
     }
 
+    initEvents() {
+        jackpotManager.addDataObserver(this.dataKey, this.dataKey);
+        uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_WINNERS, (data) => this.onData(data), this);
+    }
+
+    onData(data: any) {
+        this.handleNoUserAd(false);
+        this.setData(data);
+    }
+
     handleNoUserAd(status = true) {
         this.noUserNode.active = status;
         this.listUserNode.active = !status;
     }
 
-    initEvents() {
-        jackpotManager.addDataObserver(this.dataKey, this.dataKey);
-        uiManager.emitterListener(
-            InternalEvents.RECEIVED_JACKPOT_WINNERS,
-            (data) => {
-                this.handleNoUserAd(false);
-                this.setData(data);
-            },
-            this
-        );
-    }
-
     setData(data: any) {
         this.listUser.destroyAllChildren();
         this.listUser.active = true;
+
         data.forEach((playerData) => {
             const winnerNode = cc.instantiate(this.winnerItem);
             this.listUser.addChild(winnerNode);

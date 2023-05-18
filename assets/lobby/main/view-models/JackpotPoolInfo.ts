@@ -27,18 +27,16 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
 
     initEvents() {
         jackpotManager.addDataObserver(this.dataType, this.dataKey);
-        uiManager.emitterListener(
-            InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME,
-            (data) => {
-                const gamePools = data[this.gameId];
-                if (!this.gameId || !gamePools) {
-                    return;
-                }
+        uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, (data) => this.onData(data), this);
+    }
 
-                this.setData(gamePools);
-            },
-            this
-        );
+    onData(data) {
+        const gamePools = data[this.gameId];
+        if (!this.gameId || !gamePools) {
+            return;
+        }
+
+        this.setData(gamePools);
     }
 
     requestData() {

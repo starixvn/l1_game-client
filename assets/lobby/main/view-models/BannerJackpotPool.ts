@@ -34,14 +34,12 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
 
     initEvents() {
         jackpotManager.addDataObserver(this.dataType, this.dataKey);
-        uiManager.emitterListener(
-            InternalEvents.RECEIVED_JACKPOT_POOLS,
-            (data) => {
-                this.poolData = data;
-                this.loadData(this.selectedTab ?? JackpotPoolType.GRAND);
-            },
-            this
-        );
+        uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_POOLS, (data) => this.onData(data), this);
+    }
+
+    onData(data: any) {
+        this.poolData = data;
+        this.loadData(this.selectedTab ?? JackpotPoolType.GRAND);
     }
 
     requestData() {
