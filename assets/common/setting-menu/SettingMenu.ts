@@ -23,7 +23,6 @@ export default class SettingMenu extends cc.Component {
     bgNode: cc.Node = null;
 
     onLoad() {
-        //    super.onLoad();
         if (this.commonDialog) {
             this.commonDialog.addOnDidHide(() => {
                 this.node.destroy();
@@ -41,7 +40,6 @@ export default class SettingMenu extends cc.Component {
     }
 
     collapseMenu(animated: boolean) {}
-   
 
     onClickLogout() {
         this.doCommons();

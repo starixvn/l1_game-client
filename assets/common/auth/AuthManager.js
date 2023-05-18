@@ -84,7 +84,7 @@ function checkTimeOut(urlParams) {
     return false;
 }
 function getAppType(urlParams) {
-    return urlParams.get("appType") == AppTypes.SabaApp ? AppTypes.SabaApp : AppTypes.SabaClub;
+    return urlParams.get("appType") === AppTypes.SabaApp ? AppTypes.SabaApp : AppTypes.SabaClub;
 }
 
 function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
@@ -138,7 +138,7 @@ export function signOut() {
 }
 
 function redirectToTimeOutPage() {
-    if (window.authData?.system == AppTypes.SabaApp) {
+    if (window.authData?.system === AppTypes.SabaApp) {
         SGConnectAPI.redirectToAppTimeoutPage(sessionManager.getLocale());
     } else {
         cc.director.loadScene("sessiontimeout");
@@ -156,7 +156,7 @@ export function checkUM(response) {
 }
 
 export function redirectToUMPage(response) {
-    if (window.authData?.system == AppTypes.SabaApp || response?.system === AppTypes.SabaApp || window.appType === AppTypes.SabaApp) {
+    if (window.authData?.system === AppTypes.SabaApp || response?.system === AppTypes.SabaApp || window.appType === AppTypes.SabaApp) {
         const operatorId = window.umInfo?.operatorId;
         SGConnectAPI.redirectToAppUMPage(operatorId, sessionManager.getLocale());
     } else {
@@ -250,7 +250,7 @@ export function showMessageForAccountClosed(errorCode) {
 export function showMessageForExpiredToken(errorCode) {
     let text = `${i18n.t("messages.sessionTimeout")} (${errorCode})`;
 
-    if (window.authData?.system == AppTypes.SabaApp) {
+    if (window.authData?.system === AppTypes.SabaApp) {
         text = `${i18n.t("messages.sessionExpired")} (${errorCode})`;
     }
     const noticeData = {

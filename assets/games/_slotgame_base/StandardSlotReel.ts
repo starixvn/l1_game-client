@@ -1,7 +1,6 @@
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import { ClassicSlotSound } from "./ClassicSlotSound";
-import SlotGameBase from "./SlotGameBase";
 import SlotReel from "./SlotReel";
 
 const { ccclass, property } = cc._decorator;

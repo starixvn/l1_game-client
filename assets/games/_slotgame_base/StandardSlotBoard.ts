@@ -1,6 +1,5 @@
 import PreviewOddsPopup from "./PreviewOddsPopup";
 import SlotBoard from "./SlotBoard";
-import { StandardSlotGameConfigs } from "./StandardSlotGameConfigs";
 import StandardSlotReelItem from "./StandardSlotReelItem";
 
 const { ccclass, property } = cc._decorator;

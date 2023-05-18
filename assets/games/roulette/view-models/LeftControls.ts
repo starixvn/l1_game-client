@@ -1,4 +1,3 @@
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import InGameMenu from "../../../common/in-game-menu/InGameMenu";
 
 const { ccclass, property } = cc._decorator;
