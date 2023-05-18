@@ -80,10 +80,10 @@ export default class SlotReel extends cc.Component {
         });
     }
     checkBlurSymbol(turbo: boolean) {
-        !turbo && this.blurSymbols();
+        !turbo ? this.blurSymbols() : this.normalSymbols();
     }
 
-    playSpinAnim(turbo: boolean, spinDuration: number, offset: number, onReelStopped: () => void) {
+    protected playSpinAnim(turbo: boolean, spinDuration: number, offset: number, onReelStopped: () => void) {
         cc.tween(this.node)
             .to(spinDuration, { position: cc.v2(this.node.x, offset) }, { easing: (dt) => cc.easeInOut(3).easing(dt) })
             .call(() => {
@@ -97,9 +97,11 @@ export default class SlotReel extends cc.Component {
         return 0.2 * spinDuration;
     }
 
-    blurSymbols() {
+    protected blurSymbols() {
         // empty
     }
+
+    protected normalSymbols() {}
 
     stop() {
         this.node.stopAllActions();

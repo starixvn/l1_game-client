@@ -37,10 +37,6 @@ export default class StandardSlotReel extends SlotReel {
         return super.spinWithData(spinDuration, data, turbo);
     }
 
-    checkBlurSymbol(turbo: boolean) {
-        !turbo ? this.blurSymbols() : this.normalSymbols();
-    }
-
     playSpinAnimTurbo(spinDuration: number, offset: number, onReelStopped: () => void) {
         cc.tween(this.node)
             .to(spinDuration, { position: cc.v2(this.node.x, offset) }, { easing: (dt) => cc.easeInOut(3).easing(dt) })
