@@ -29,4 +29,19 @@ export default class StandardCascadingSlotReel extends CascadeSlotReel {
             await GameUtils.delayTime(duration);
         }
     }
+
+    fallInWithOffset(item: CascadeSlotReelItem, duration: number, posY: number, isBottomItem: boolean, onBottomItemEnded?: () => void) {
+        const backOffsetY = this.itemSize * 1.8;
+        const backDuration = 0.2;
+
+        cc.tween(item.node)
+            .to(duration - backDuration, { y: posY + backOffsetY })
+            .call(() => {
+                if (isBottomItem) {
+                    onBottomItemEnded && onBottomItemEnded();
+                }
+            })
+            .to(backDuration, { y: posY }, { easing: "backOut" })
+            .start();
+    }
 }

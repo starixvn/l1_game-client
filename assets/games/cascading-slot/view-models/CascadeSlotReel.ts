@@ -91,7 +91,7 @@ export default class CascadeSlotReel extends cc.Component {
         const isFallOut = offset < 0;
         const speed = this.getSpeed(isTurbo, isFallOut);
         let duration;
-        const backOffsetY = this.itemSize * 0.2;
+
         const backDuration = 0.2;
         for (let i = 0; i < this.items.length; i++) {
             const item = this.items[i];
@@ -105,24 +105,30 @@ export default class CascadeSlotReel extends cc.Component {
             if (!isTurbo) {
                 await GameUtils.delayTime(delay);
             }
-
             const isBottomItem = i === 0;
             if (isFallOut) {
                 cc.tween(item.node).to(duration, { y: posY }, { easing: "sineIn" }).start();
             } else {
-                cc.tween(item.node)
-                    .to(duration, { y: posY - backOffsetY })
-                    .call(() => {
-                        if (isBottomItem) {
-                            onBottomItemEnded && onBottomItemEnded();
-                        }
-                    })
-                    .by(backDuration, { y: +backOffsetY }, { easing: "sineOut" })
-                    .start();
+                this.fallInWithOffset(item, duration, posY, isBottomItem, onBottomItemEnded);
             }
         }
 
         await GameUtils.delayTime(this.getDelayTimeAfterFall(isFallOut, duration, backDuration));
+    }
+
+    fallInWithOffset(item: CascadeSlotReelItem, duration: number, posY: number, isBottomItem: boolean, onBottomItemEnded?: () => void) {
+        const backOffsetY = this.itemSize * 0.2;
+        const backDuration = 0.2;
+
+        cc.tween(item.node)
+            .to(duration, { y: posY - backOffsetY })
+            .call(() => {
+                if (isBottomItem) {
+                    onBottomItemEnded && onBottomItemEnded();
+                }
+            })
+            .by(backDuration, { y: +backOffsetY }, { easing: "sineOut" })
+            .start();
     }
 
     async fallOut(isTurbo: boolean) {
