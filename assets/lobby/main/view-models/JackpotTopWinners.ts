@@ -1,7 +1,8 @@
-import NotificationService from "../../../common/auth/NotificationService";
+import GameUtils from "../../../common/GameUtils";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import JackpotTopWinnersItem from "./JackpotTopWinnersItem";
-import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -22,7 +23,7 @@ export default class JackpotTopWinners extends cc.Component {
     private readonly dataKey = JackpotDataKey.JACKPOT_WINNERS;
 
     onLoad() {
-        jackpotManager.addDataObserver(this.dataKey, this.dataKey, this.onReceivedData.bind(this));
+        this.initEvents();
         this.requestData();
         this.schedule(this.requestData, 60);
         this.listUser.active = false;
@@ -37,6 +38,7 @@ export default class JackpotTopWinners extends cc.Component {
     onDestroy() {
         this.unschedule(this.requestData);
         jackpotManager.removeDataObserver(this.dataKey, this.dataKey);
+        uiManager.removeListeners(this.dataKey, this.dataKey);
     }
 
     requestData() {
@@ -48,9 +50,16 @@ export default class JackpotTopWinners extends cc.Component {
         this.listUserNode.active = !status;
     }
 
-    onReceivedData(data: any) {
-        this.handleNoUserAd(false);
-        this.setData(data);
+    initEvents() {
+        jackpotManager.addDataObserver(this.dataKey, this.dataKey);
+        uiManager.emitterListener(
+            InternalEvents.RECEIVED_JACKPOT_WINNERS,
+            (data) => {
+                this.handleNoUserAd(false);
+                this.setData(data);
+            },
+            this
+        );
     }
 
     setData(data: any) {

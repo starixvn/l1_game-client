@@ -8,9 +8,10 @@ export default class JackpotPoolInfoBase extends cc.Component {
     items: JackpotPoolItem[] = [];
 
     setData(data: any[]) {
-        if (data.length < this.items.length) {
+        if (!this.items || data.length < this.items.length) {
             return;
         }
+
         const sort = [...data].sort((a, b) => +b.pool - +a.pool);
         sort.forEach((itemData, index) => {
             const item = this.items[index];

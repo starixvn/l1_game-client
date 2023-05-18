@@ -1,8 +1,10 @@
 import GameUtils from "../../../common/GameUtils";
 import { userManager } from "../../../common/user/UserManager";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
+import { JackpotDataKey, jackpotManager } from "../../../managers/JackpotManager";
 import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
 import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
-import { JackpotDataKey, jackpotManager } from "../../../managers/JackpotManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,7 +23,7 @@ export default class JackpotWinner extends cc.Component {
     popupMiniGame: PopupMinigames = null;
 
     onLoad() {
-        this.addDataObserver();
+        this.initEvents();
         this.resetJackPotWinner();
     }
 
@@ -31,12 +33,14 @@ export default class JackpotWinner extends cc.Component {
         this.gameName.string = "";
     }
 
-    addDataObserver() {
-        jackpotManager.addDataObserver(this.dataKey, this.dataKey, this.onData.bind(this));
-    }
-
     onDestroy() {
         jackpotManager.removeDataObserver(this.dataKey, this.dataKey);
+        uiManager.removeListeners(this.dataKey, this.dataKey);
+    }
+
+    initEvents() {
+        jackpotManager.addDataObserver(this.dataKey, this.dataKey);
+        uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_WINNER, (data) => this.onData(data), this);
     }
 
     onData(data: any) {

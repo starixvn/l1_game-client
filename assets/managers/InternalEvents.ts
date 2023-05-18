@@ -20,5 +20,10 @@ export enum InternalEvents {
     GAME_IS_UM = "GAME_IS_UM",
     SIGN_OUT = "sign-out",
     LOADING_GAME = "loading-game",
-    NOTICE = "notice-popup"
+    NOTICE = "notice-popup",
+
+    RECEIVED_JACKPOT_WINNER = "slot jackpot = Received jackpot winner data",
+    RECEIVED_JACKPOT_WINNERS = "slot jackpot = Received jackpot top winners data",
+    RECEIVED_JACKPOT_POOLS = "slot jackpot = Received jackpot pools data",
+    RECEIVED_JACKPOT_POOLS_ON_GAME = "slot jackpot = Received jackpot pools data on game"
 }

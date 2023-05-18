@@ -1,6 +1,8 @@
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
+import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import BannerJackpotPoolItem from "./BannerJackpotPoolItem";
 import JackpotPoolInfo from "./JackpotPoolInfo";
-import { JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import JackpotPoolItem from "./JackpotPoolItem";
 
 const { ccclass, property } = cc._decorator;
@@ -27,10 +29,19 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
 
     private poolData: any;
     private selectedTab: number;
+    protected dataType = JackpotDataKey.JACKPOT_POOLS;
+    protected dataKey = `${JackpotDataKey.JACKPOT_POOLS}${this.uuid}`;
 
-    onReceivedData(data: any) {
-        this.poolData = jackpotManager.getJackpotDataWithPools(data);
-        this.loadData(this.selectedTab ?? JackpotPoolType.GRAND);
+    initEvents() {
+        jackpotManager.addDataObserver(this.dataType, this.dataKey);
+        uiManager.emitterListener(
+            InternalEvents.RECEIVED_JACKPOT_POOLS,
+            (data) => {
+                this.poolData = data;
+                this.loadData(this.selectedTab ?? JackpotPoolType.GRAND);
+            },
+            this
+        );
     }
 
     requestData() {
