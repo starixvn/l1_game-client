@@ -129,8 +129,8 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     onDestroy() {
-        super.onDestroy();
         uiManager.removeListenersWithTarget(this);
+        super.onDestroy();
     }
 
     updateBalanceColor() {

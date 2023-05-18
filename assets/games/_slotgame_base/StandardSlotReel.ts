@@ -12,10 +12,6 @@ export default class StandardSlotReel extends SlotReel {
 
     blurSymbols() {
         this.items.forEach((item, index) => {
-            if (!item.effectSpine || !item.blurSymbol) {
-                return;
-            }
-
             if (index < 4 || index >= this.itemCount - 4) {
                 item.handleBlurAnim(false);
             } else {
@@ -26,9 +22,6 @@ export default class StandardSlotReel extends SlotReel {
 
     normalSymbols() {
         this.items.forEach((item) => {
-            if (!item.effectSpine || !item.blurSymbol) {
-                return;
-            }
             item.handleBlurAnim(false);
         });
     }
@@ -44,45 +37,43 @@ export default class StandardSlotReel extends SlotReel {
         return super.spinWithData(spinDuration, data, turbo);
     }
 
-    checkSpinAnimReel(turbo: boolean, spinDuration: number, offset: number, resolve: () => void) {
-        if (!turbo) {
-            this.playSpinAnim(spinDuration, offset, resolve);
-            this.blurSymbols();
-        } else {
-            this.playSpinAnimTurbo(spinDuration, offset, resolve);
-            this.normalSymbols();
-        }
+    checkBlurSymbol(turbo: boolean) {
+        !turbo ? this.blurSymbols() : this.normalSymbols();
     }
 
-    playSpinAnimTurbo(spinDuration: number, offset: number, resolve: () => void) {
+    playSpinAnimTurbo(spinDuration: number, offset: number, onReelStopped: () => void) {
         cc.tween(this.node)
             .to(spinDuration, { position: cc.v2(this.node.x, offset) }, { easing: (dt) => cc.easeInOut(3).easing(dt) })
             .call(() => {
                 this.onSpinFinish();
-                resolve();
+                onReelStopped();
             })
             .start();
     }
-    playSpinAnim(spinDuration: number, offset: number, resolve: () => void) {
-        const moveDownDuration = 0.25;
-        const moveUpDuration = 0.35;
-        const normalSpinDuration = spinDuration - moveUpDuration - moveDownDuration;
+    playSpinAnim(turbo: boolean, spinDuration: number, offset: number, onReelStopped: () => void) {
+        if (!turbo) {
+            const moveDownDuration = 0.25;
+            const moveUpDuration = 0.35;
+            const normalSpinDuration = spinDuration - moveUpDuration - moveDownDuration;
 
-        cc.tween(this.node)
-            .to(moveDownDuration, { position: cc.v2(this.node.x, -300) }, { easing: "backIn" })
-            .to(normalSpinDuration, { position: cc.v2(this.node.x, offset + 300) })
-            .to(moveUpDuration, { position: cc.v2(this.node.x, offset) }, { easing: "backOut" })
+            cc.tween(this.node)
+                .to(moveDownDuration, { position: cc.v2(this.node.x, -300) }, { easing: "backIn" })
+                .to(normalSpinDuration, { position: cc.v2(this.node.x, offset + 300) })
+                .to(moveUpDuration, { position: cc.v2(this.node.x, offset) }, { easing: "backOut" })
 
-            .call(() => {
-                this.onSpinFinish();
-                resolve();
-            })
-            .start();
-        cc.tween(this.node)
-            .delay(spinDuration - 0.15)
-            .call(() => {
-                uiManager.emitter.emit(InternalEvents.SLOT_PLAY_SOUND, ClassicSlotSound.REEL_STOP);
-            })
-            .start();
+                .call(() => {
+                    this.onSpinFinish();
+                    onReelStopped();
+                })
+                .start();
+            cc.tween(this.node)
+                .delay(spinDuration - 0.15)
+                .call(() => {
+                    uiManager.emitter.emit(InternalEvents.SLOT_PLAY_SOUND, ClassicSlotSound.REEL_STOP);
+                })
+                .start();
+        } else {
+            this.playSpinAnimTurbo(spinDuration, offset, onReelStopped);
+        }
     }
 }

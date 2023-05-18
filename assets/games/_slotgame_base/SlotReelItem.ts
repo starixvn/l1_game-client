@@ -62,6 +62,9 @@ export default class SlotReelItem extends cc.Component {
     }
 
     handleBlurAnim(isShowBlurSymbol: boolean) {
+        if (!this.effectSpine || !this.blurSymbol) {
+            return;
+        }
         if (isShowBlurSymbol) {
             this.blurSymbol.opacity = 255;
             this.blurSymbol.scale = 1.5;
