@@ -25,6 +25,7 @@ export interface GameConfiguration {
         order: number;
     };
     category?: string;
+    isMicrosite?: boolean;
 }
 
 declare global {
@@ -62,21 +63,61 @@ export async function initialize() {
         uiManager.emitter.emit(InternalEvents.SSO_FAILED);
         throw new Error(`Can not load client bundle configuration`);
     }
+
+    configurations.push(...(await loadConfigFromLobbyIcons()));
     window.gameConfigurations = configurations;
 
     initializeBundleInfos();
 }
 
+async function loadConfigFromLobbyIcons(): Promise<Array<GameConfiguration>> {
+    const isDevelopmentMode = window.location.hostname === "localhost";
+    const bundleName = "lobby-icons";
+    const options: any = {};
+    if (!isDevelopmentMode) {
+        const responseVersion = await axios.get(`${buildProxyUrl("/lobby-icons")}/versions.json`);
+        responseVersion.data[bundleName] && (options.version = responseVersion.data[bundleName]);
+    }
+    return new Promise((resolve, _) => {
+        const lobbyIconsUrl = isDevelopmentMode ? `assets/${bundleName}` : `${buildProxyUrl("/lobby-icons")}/${bundleName}`;
+        const configs = [];
+
+        const handleLoadIconsError = () => {
+            uiManager.emitter.emit(InternalEvents.SSO_FAILED);
+            cc.log("Can not load lobby icons bundle");
+            resolve([]);
+        };
+
+        cc.assetManager.loadBundle(lobbyIconsUrl, options, (err, bundle) => {
+            if (err) {
+                handleLoadIconsError();
+                return;
+            }
+            bundle.load("/games", (error, asset) => {
+                if (error) {
+                    handleLoadIconsError();
+                    return;
+                }
+                const { gameIds } = (asset as cc.JsonAsset).json;
+                gameIds?.forEach((id) => {
+                    configs.push({ id, isMicrosite: true });
+                });
+                resolve(configs);
+            });
+        });
+    });
+}
+
 function initializeBundleInfos() {
     const isDevelopmentMode = window.location.hostname === "localhost";
     const games = getAllGameConfigurations()
-        .filter((configuration) => !!configuration.remoteBundle)
-        .map((configuration) => ({ gameId: configuration.id, ...configuration.remoteBundle }));
+        .filter((configuration) => !!configuration.remoteBundle || !!configuration.isMicrosite)
+        .map((configuration) => ({ gameId: configuration.id, isMicrosite: configuration.isMicrosite, ...configuration.remoteBundle }));
 
     const developmentMode = games.reduce((result, configs) => {
         result[configs.gameId] = {
             url: "assets",
-            name: configs.gameId,
+            name: `${configs.isMicrosite ? "lobby-icons" : configs.gameId}`,
             useMd5Cache: location.href.includes("/build/"),
             dependencies: configs.dependsOn
         };
@@ -86,8 +127,8 @@ function initializeBundleInfos() {
 
     const productionMode = games.reduce((result, configs) => {
         result[configs.gameId] = {
-            url: buildProxyUrl(`/game-client-${configs.gameId}`),
-            name: configs.gameId,
+            url: buildProxyUrl(configs.isMicrosite ? "/lobby-icons" : `/game-client-${configs.gameId}`),
+            name: `${configs.isMicrosite ? "lobby-icons" : configs.gameId}`,
             useMd5Cache: true,
             dependencies: configs.dependsOn
         };

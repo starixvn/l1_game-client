@@ -2,6 +2,7 @@ import { lazyInject } from "../../Application";
 import * as sessionManager from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import NoticeUtil from "../../common/utils/NoticeUtil";
+import { getGameConfiguration } from "../../configs/GameConfigurations";
 import { appManager } from "../../managers/AppManager";
 import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../../SocketIOController";
@@ -55,8 +56,12 @@ export default class PromotionAnnouncementItem extends cc.Component {
         if (!GameUtils.isMiniGame(gameId.toString())) {
             PromotionNotificationsHandler.getInstance().setJoinGameId(gameId);
             try {
+                const gameConfiguration = getGameConfiguration(gameId);
+                if (gameConfiguration?.isMicrosite) {
+                    GameUtils.openGameMicrosite(gameId);
+                    return;
+                }
                 await GameUtils.tryOpenGameDirect(gameId, this.socketIOControler);
-
                 if (appManager.currentScene?.onCloseGame) {
                     appManager.currentScene.openOtherScene = true;
                     appManager.currentScene.onCloseGame();

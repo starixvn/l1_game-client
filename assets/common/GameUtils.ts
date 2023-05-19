@@ -2,6 +2,7 @@ import { Base64 } from "base64-string";
 import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import SocketIOController from "../SocketIOController";
 import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
 import LobbyManager from "../lobby/main/view-models/LobbyManager";
 import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
@@ -10,13 +11,13 @@ import { uiManager } from "../managers/GameUIManager";
 import { InternalEvents } from "../managers/InternalEvents";
 import { StorageManager } from "../managers/StorageManager";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
-import SocketIOController from "../SocketIOController";
+import { preloadAssets } from "./PreloadRemoteAsset";
+import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 import BetChips from "./bet-chips/view-models/BetChips";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
+import { buildProxyUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
-import { preloadAssets } from "./PreloadRemoteAsset";
-import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 import { userManager } from "./user/UserManager";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
@@ -36,6 +37,13 @@ export default class GameUtils {
             GameUtils.base64 = new Base64();
         }
         return GameUtils.base64.decode(data);
+    }
+
+    public static base64Encode(data: string): string {
+        if (!GameUtils.base64) {
+            GameUtils.base64 = new Base64();
+        }
+        return GameUtils.base64.encode(data);
     }
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);
@@ -90,8 +98,7 @@ export default class GameUtils {
 
         if (!!gameConfiguration?.remoteBundle) {
             const directory = systemPath === "" ? "icons" : `icons/${systemPath}`;
-            const path = `${directory}/${gameSetting?.bigSize ? "Big" : "Small"}`;
-
+            const path = `${gameConfiguration.isMicrosite ? gameId + "/" : ""}${directory}/${gameSetting?.bigSize ? "Big" : "Small"}`;
             return BundleManager.getInstance().loadAsset<cc.Prefab>({
                 bundleId: gameId.toString(),
                 path: path,
@@ -231,6 +238,11 @@ export default class GameUtils {
     }
 
     public static async openGameDirect(gameId: number, socketIOController: SocketIOController) {
+        const gameConfiguration = getGameConfiguration(gameId);
+        if (gameConfiguration?.isMicrosite) {
+            this.openGameMicrosite(gameId);
+            return;
+        }
         await GameUtils.tryOpenGameDirect(gameId, socketIOController);
         await this.loadSceneGame(gameId, socketIOController);
     }
@@ -238,6 +250,25 @@ export default class GameUtils {
     public static async tryOpenGameDirect(gameId: number, socketIOController: SocketIOController) {
         await socketIOController.openGameSocket(gameId);
         await this.preloadGameRoom(gameId);
+    }
+
+    public static openGameMicrosite(gameId: number) {
+        const auData = window.authData;
+        const directMode = StorageManager.get("direct_mode");
+        const url = buildProxyUrl(`/game-client-${gameId}`);
+        const params = {
+            ss: auData.ss,
+            uname: auData.username,
+            lang: auData.language,
+            appType: auData.system,
+            ref: directMode?.ref,
+            rurl: directMode?.returnUrl || GameUtils.base64Encode(window.location.href)
+        };
+        const searchParams = new URLSearchParams();
+        Object.keys(params).forEach((key) => params[key] && searchParams.append(key, params[key]));
+        const encodedQueryString = GameUtils.base64Encode(searchParams.toString());
+
+        window.location.href = `${url}/?params=${encodedQueryString}`;
     }
 
     public static async loadSceneGame(gameId, socketIOController: SocketIOController) {
@@ -314,6 +345,11 @@ export default class GameUtils {
         loading.setDefaultPercent();
 
         const gameConfiguration = getGameConfiguration(gameId);
+        if (gameConfiguration?.isMicrosite) {
+            this.openGameMicrosite(gameId);
+            return;
+        }
+
         await GameUtils.preloadGameAssets(gameConfiguration, miniPanel, gameId);
 
         if (!gameConfiguration.mini && gameId > 0) {
@@ -635,7 +671,8 @@ export default class GameUtils {
         for (const element of bannersType) {
             const gameConfiguration = getGameConfiguration(id);
             if (!!gameConfiguration?.remoteBundle && !MICRO_GAMES_NOT_OFFER_BANNER.includes(id)) {
-                const path = systemPath === "" ? `banners/${element}` : `banners/${systemPath}/${element}}`;
+                const directory = gameConfiguration.isMicrosite ? `${id}/` : "";
+                const path = systemPath === "" ? `${directory}banners/${element}` : `${directory}banners/${systemPath}/${element}}`;
                 try {
                     frame = await BundleManager.getInstance().loadAsset<cc.SpriteFrame>({
                         bundleId: id.toString(),

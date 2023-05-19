@@ -5,16 +5,17 @@ import configs from "../../configs/Configs";
 import { appManager } from "../../managers/AppManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import GameUtils from "../GameUtils";
 import ChipConfig from "../bet-chips/view-models/ChipConfig";
+import { isSessionTimeoutError } from "../helpers/ErrorCodeHelper";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
 import logger from "../logger";
 import { userManager } from "../user/UserManager";
 import NoticeUtil from "../utils/NoticeUtil";
 import NotificationService from "./NotificationService";
+import * as SGConnectAPI from "./SGConnectAPI";
 import * as sessionManager from "./SessionManager";
 import UserService from "./UserService";
-import * as SGConnectAPI from "./SGConnectAPI";
-import { isSessionTimeoutError } from "../helpers/ErrorCodeHelper";
 
 const sentryLogger = logger();
 const sessionExpiredTimeoutMinutes = 19.8;
@@ -67,7 +68,7 @@ function checkUMSSO(urlParams) {
 
 function checkSignOut(urlParams, session) {
     const isSessionExpired = verifySession(session);
-    if (isSessionExpired && !urlParams.has("token")) {
+    if (isSessionExpired && !(urlParams.has("token") || urlParams.has("params"))) {
         signOut();
         return true;
     }
@@ -105,7 +106,7 @@ function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
                     window.authData.time = new Date();
                     window.openGameId = urlParams.get("gameId");
                     sessionManager.storeSessionData(response);
-                    clearTokenOnUrl();
+                    clearQueryStringOnUrl();
                     onSuccessFunc();
                 } else {
                     uiManager.emitter.emit(InternalEvents.SSO_FAILED);
@@ -115,16 +116,33 @@ function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
                 uiManager.emitter.emit(InternalEvents.SSO_ERROR);
                 sentryLogger.logError(error);
             });
-    } else if (session && session.isAuthenticated && session.ss) {
-        window.authData = session;
-        getChipSetting();
-        sessionManager.updateLanguage(session);
-        sentryLogger.setUser(session);
-        onSuccessFunc();
+    } else {
+        if (session && session.isAuthenticated && session.ss) {
+            if (urlParams.has("params")) {
+                authorizeFromMicrosite(urlParams, session);
+                clearQueryStringOnUrl();
+            }
+            window.authData = session;
+            getChipSetting();
+            sessionManager.updateLanguage(session);
+            sentryLogger.setUser(session);
+            onSuccessFunc();
+        }
     }
 }
 
-export function clearTokenOnUrl() {
+function authorizeFromMicrosite(urlParams, session) {
+    const paramsQueryString = GameUtils.base64Decode(urlParams.get("params"));
+    const urlSearchParams = new URLSearchParams(paramsQueryString);
+    if (urlSearchParams.has("ss") && urlSearchParams.has("time") && session.ss === urlSearchParams.get("ss")) {
+        session.time = new Date(+urlSearchParams.get("time"));
+        sessionManager.storeSessionData(session);
+    } else {
+        signOut();
+    }
+}
+
+export function clearQueryStringOnUrl() {
     try {
         history.pushState(null, "", location.href.split("?")[0]);
     } catch (ex) {
