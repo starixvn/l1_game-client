@@ -1,3 +1,4 @@
+import { userManager } from "../../../common/user/UserManager";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
@@ -14,15 +15,22 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
     protected dataKey = `${JackpotDataKey.JACKPOT_POOLS_ON_GAME}${this.uuid}`;
 
     onLoad() {
-        this.initEvents();
-        this.requestData();
-        this.schedule(this.requestData, 5);
+        if (userManager.disableJackpotGames) {
+            this.node.active = false;
+        } else {
+            this.node.active = true;
+            this.initEvents();
+            this.requestData();
+            this.schedule(this.requestData, 5);
+        }
     }
 
     onDestroy() {
-        jackpotManager.removeDataObserver(this.dataType, this.dataKey);
-        uiManager.removeListeners(this.dataType, this.dataKey);
-        this.unschedule(this.requestData);
+        if (!userManager.disableJackpotGames) {
+            jackpotManager.removeDataObserver(this.dataType, this.dataKey);
+            uiManager.removeListeners(this.dataType, this.dataKey);
+            this.unschedule(this.requestData);
+        }
     }
 
     initEvents() {
