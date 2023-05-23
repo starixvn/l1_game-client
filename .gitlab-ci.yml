@@ -14,6 +14,14 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
+    - project: "ci/repos-ci/pentagon_l2_four_guardians_3_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
+    - project: "ci/repos-ci/pentagon_l2_four_guardians_4_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
     - local: "ci/*.yml"
 
 variables:
