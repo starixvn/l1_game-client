@@ -1,9 +1,8 @@
 import { getLocale } from "../../common/auth/SessionManager";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
-import StandardSlotGame from "./StandardSlotGame";
-import StandardSlotGameHistory from "./StandardSlotGameHistory";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import StandardSlotGame from "./StandardSlotGame";
 
 const { ccclass, property } = cc._decorator;
 
@@ -50,12 +49,6 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
 
     updateJackpotPool() {
         // empty
-    }
-
-    onClickShowHistory() {
-        super.onClickShowHistory();
-        const history = this.historyComponent as StandardSlotGameHistory;
-        history.enableJackpot = this.jackpotEnabled;
     }
 
     hideTopWinnersButton() {

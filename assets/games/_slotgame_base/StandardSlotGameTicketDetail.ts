@@ -12,8 +12,13 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
     @property(cc.SpriteAtlas)
     paylinesAtlas: cc.SpriteAtlas = null;
 
+    private enableJackpot = false;
     gameId: number;
-    enableJackpot = false;
+
+    async setData(data: any) {
+        this.enableJackpot = data.enableJackpot;
+        super.setData(data);
+    }
 
     async loadSymbolsAtlas() {
         this.mainAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
