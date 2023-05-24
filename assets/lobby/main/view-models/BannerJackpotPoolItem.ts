@@ -1,6 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { buildProxyUrl } from "../../../common/helpers/UrlHelper";
+import BannerJackpot from "./BannerJackpot";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,7 +12,7 @@ export interface JackpotPoolInfo {
 }
 
 @ccclass
-export default class BannerJackpotPoolItem extends cc.Component {
+export default class BannerJackpotPoolItem extends BannerJackpot {
     @property(cc.Sprite)
     gameIcon: cc.Sprite = null;
 
@@ -23,6 +24,7 @@ export default class BannerJackpotPoolItem extends cc.Component {
 
     setData(data: JackpotPoolInfo) {
         const { gameId, amount } = data;
+        this.gameId = gameId;
 
         const remoteUrl = buildProxyUrl("/game/static/fourguardians2/game-icon.png");
         cc.assetManager.loadRemote(remoteUrl, (err, texture: cc.Texture2D) => {

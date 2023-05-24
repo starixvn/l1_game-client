@@ -1,4 +1,3 @@
-import GameUtils from "../../../common/GameUtils";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
@@ -56,11 +55,19 @@ export default class JackpotTopWinners extends cc.Component {
     }
 
     handleNoUserAd(status = true) {
+        if (!this.noUserNode || !this.listUserNode) {
+            return;
+        }
+
         this.noUserNode.active = status;
         this.listUserNode.active = !status;
     }
 
     setData(data: any) {
+        if (!this.listUser) {
+            return;
+        }
+
         this.listUser.destroyAllChildren();
         this.listUser.active = true;
 
@@ -68,10 +75,7 @@ export default class JackpotTopWinners extends cc.Component {
             const winnerNode = cc.instantiate(this.winnerItem);
             this.listUser.addChild(winnerNode);
             const player = winnerNode.getComponent(JackpotTopWinnersItem);
-            player.setAvatar(playerData.avatarId);
-            player.setName(playerData.winnerName);
-            player.setAmount(playerData.amount);
-            player.setGameName(GameUtils.getGameNameString(playerData.gameId));
+            player.setData(playerData);
         });
     }
 }
