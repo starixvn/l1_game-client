@@ -12,6 +12,7 @@ import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
 import StandardCascadingSlotBoard from "./StandardCascadingSlotBoard";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
+import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -208,29 +209,29 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         }
     }
 
-    onSymbolPreview(symbol: number, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
-        if (!this.gameConfigs?.odds || this.board.isShowTumbleAnim) {
+    onSymbolPreview(symbol: StandardCascadingSlotReelItem, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
+        if (!this.gameConfigs?.odds || !this.isFinishedRound) {
             return;
         }
         this.playSound(CascadingSlotGameSound.CLICK);
         const symbolCache = uiManager.prefabCache.slotSymbols[this.gameId];
-        const spine = symbolCache[symbol];
+        const spine = symbolCache[symbol.index];
 
         const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
         const previewNode = cc.instantiate(previewPrefab);
 
         const symbolPreview = previewNode.getComponent(CascadingSymbolPreview);
+        this.board.showPreview(previewNode, worldPosition);
         symbolPreview.setInfo({
             spine,
-            odds: this.gameConfigs.odds.symbols[symbol],
+            odds: this.gameConfigs.odds.symbols[symbol.index],
             colorList: [this.colorConfig.previewOddsSymbolNumberColor, this.colorConfig.previewOddsWinValueColor],
             borderColor: this.colorConfig.previewOddsBorderColor,
             coinValue: this.currCoinValue,
             betLevel: this.currBetLevel,
             freespin: this.gameConfigs.odds.freeSpins.initialOdds,
-            symbol
+            symbolItem: symbol
         });
-        this.board.showPreview(previewNode, worldPosition);
     }
 
     playSound(type: CascadingSlotGameSound) {

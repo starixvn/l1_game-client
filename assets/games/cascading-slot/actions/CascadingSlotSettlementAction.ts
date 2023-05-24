@@ -111,7 +111,6 @@ const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isT
         }
 
         mainGame.gameData.uiModel.getTumble();
-        mainGame.board.isShowTumbleAnim = true;
         mainGame.tumbleList.addIcons(icons);
 
         await mainGame.board.removeItems(explode, i);
@@ -121,7 +120,6 @@ const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isT
         if (getMoreMultiplier) {
             mainGame.gameData.uiModel.getMultiplier();
         }
-        mainGame.board.isShowTumbleAnim = false;
     }
 };
 

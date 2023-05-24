@@ -1,4 +1,5 @@
 import GameUtils from "../../common/GameUtils";
+import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "../cascading-slot/view-models/CascadingSlotUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,7 +9,7 @@ export default class PreviewOddsPopup extends cc.Component {
     previewOverlay: cc.Node = null;
 
     private currentPreviewItem: cc.Node = null;
-    onSymbolPreview = (symbol: number, worldPosition: cc.Vec3, isInfoOnLeft: boolean) => {};
+    onSymbolPreview = (symbol, worldPosition: cc.Vec3, isInfoOnLeft: boolean) => {};
 
     addPreviewPopup(reels) {
         reels.forEach((reel, index) => {
@@ -28,7 +29,7 @@ export default class PreviewOddsPopup extends cc.Component {
             }
             this.currentPreviewItem = item.node;
             const worldPosition = item.node.convertToWorldSpaceAR(cc.v3());
-            this.onSymbolTouched(item.index, worldPosition, isInfoOnLeft);
+            this.onSymbolTouched(item, worldPosition, isInfoOnLeft);
         });
     }
 
@@ -51,7 +52,7 @@ export default class PreviewOddsPopup extends cc.Component {
         );
     }
 
-    private onSymbolTouched(symbol: number, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
+    protected onSymbolTouched(symbol, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
         this.onSymbolPreview(symbol, worldPosition, isInfoOnLeft);
     }
 

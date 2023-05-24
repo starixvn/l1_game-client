@@ -66,6 +66,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     private historyBtn: cc.Button;
     private countRoundTrialMode = 0;
 
+    public isFinishedRound = true;
+
     initTrialConnection() {
         if (!this.trialConnection) {
             this.trialConnection = new SocketIOConnection();
@@ -336,6 +338,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                 case CascadingSlotState.Spinning:
                     this.consumeAutoSpinCount();
                     this.consumeFreeSpinCount();
+                    this.isFinishedRound = false;
                     break;
                 case CascadingSlotState.Settled:
                     this.spinButton.playAnimationIdle();
@@ -343,6 +346,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                         this.countRoundTrialMode++;
                         this.playTrialWarning(this.countRoundTrialMode);
                     }
+                    this.isFinishedRound = true;
 
                     break;
             }

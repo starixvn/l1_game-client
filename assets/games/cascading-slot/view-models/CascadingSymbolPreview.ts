@@ -1,16 +1,23 @@
-import { Label } from "../../../../creator";
 import SymbolPreview, { SymbolPreviewType } from "../../_slotgame_base/SymbolPreview";
+import CascadeSlotReelItem from "./CascadeSlotReelItem";
 
 const { ccclass, property } = cc._decorator;
+
+export interface CascadingSymbolPreviewType extends SymbolPreviewType {
+    symbolItem: CascadeSlotReelItem;
+}
 
 @ccclass
 export default class CascadingSymbolPreview extends SymbolPreview {
     @property(cc.Label)
     multiplierLabel: cc.Label = null;
 
-    renderInfo(info: SymbolPreviewType) {
-        const { symbol } = info;
-        switch (symbol) {
+    @property(cc.Node)
+    content: cc.Node = null;
+
+    renderInfo(info: CascadingSymbolPreviewType) {
+        const { symbolItem } = info;
+        switch (symbolItem.index) {
             case 10:
                 this.showInfoNode(false);
                 this.renderMultiplier();
@@ -26,15 +33,25 @@ export default class CascadingSymbolPreview extends SymbolPreview {
         this.multiplierLabel.node.active = !status;
     }
 
-    renderNormalSymbol(info: SymbolPreviewType) {
-        const { odds, colorList, coinValue, betLevel, symbol, freespin } = info;
+    setInfo(info: CascadingSymbolPreviewType) {
+        let nodeTmp = cc.instantiate(info.symbolItem.content);
+        this.content.addChild(nodeTmp);
+        const skeleton = nodeTmp.getComponentInChildren(sp.Skeleton);
+        skeleton.skeletonData = info.spine;
+        skeleton.setAnimation(0, "highlight", false);
+        this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);
+        this.renderInfo(info);
+    }
+
+    renderNormalSymbol(info: CascadingSymbolPreviewType) {
+        const { odds, colorList, coinValue, betLevel, symbolItem, freespin } = info;
         let firstLabelWidth = 0;
 
         this.infoNode.children.forEach((node, index) => {
             let values;
             let show;
 
-            if (symbol === 9) {
+            if (symbolItem.index === 9) {
                 show = index < freespin.length && freespin[index].odds > 0;
                 values = [`${freespin[index].count}`, `${freespin[index].odds} FREE SPINS`];
             } else {

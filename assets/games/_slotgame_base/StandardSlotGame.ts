@@ -280,13 +280,13 @@ export default class StandardSlotGame extends SlotGameBase {
         });
     }
 
-    onSymbolPreview(symbol: number, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
+    onSymbolPreview(symbol, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
         if (!this.gameConfigs?.odds) {
             return;
         }
         this.playSound(ClassicSlotSound.CLICK);
         const symbolCache = uiManager.prefabCache.slotSymbols[this.gameId];
-        const spine = symbolCache[symbol];
+        const spine = symbolCache[symbol.index];
 
         const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
         const previewNode = cc.instantiate(previewPrefab);
@@ -295,7 +295,7 @@ export default class StandardSlotGame extends SlotGameBase {
         symbolPreview.setInfo({
             symbol,
             spine,
-            odds: this.gameConfigs.odds[symbol],
+            odds: this.gameConfigs.odds[symbol.index],
             colorList: [this.colorConfig.previewOddsSymbolNumberColor, this.colorConfig.previewOddsWinValueColor],
             borderColor: this.colorConfig.previewOddsBorderColor,
             isInfoOnLeft
