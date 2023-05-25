@@ -182,7 +182,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             if (this.autoGenerateLines) {
                 this.createAllLines();
             }
-            this.jackpotEnabled && this.initJackpotPool();
+            this.loadJackpotPoolInfo();
         });
         this.initBottomMessage();
         this.initBottomArea();
@@ -204,12 +204,12 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         // override
     }
 
-    initJackpotPool() {
+    loadJackpotPoolInfo() {
         //empty
     }
 
     showJackpotInfo(show: boolean) {
-        if (!this.jackpotPoolLabel) {
+        if (!this.jackpotPoolInfo || !this.jackpotPoolLabel) {
             return;
         }
         this.jackpotPoolInfo.node.active = show;

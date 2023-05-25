@@ -10,10 +10,6 @@ export default class SlotGameJackpotHandler implements DataHandler {
         }
 
         if (data.jackpotPools) {
-            if (data.jackpotPools.length > 0) {
-                this.main.jackpotEnabled = true;
-            }
-
             data.jackpotPools.forEach((pool: any) => this.main.updatePoolData(pool));
         }
     }

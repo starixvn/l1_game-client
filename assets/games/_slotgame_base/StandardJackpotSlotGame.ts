@@ -1,4 +1,5 @@
 import { getLocale } from "../../common/auth/SessionManager";
+import { userManager } from "../../common/user/UserManager";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
@@ -10,7 +11,6 @@ const { ccclass, property } = cc._decorator;
 export default class StandardJackpotSlotGame extends StandardSlotGame {
     @property(cc.Node)
     jackpotPoolNode: cc.Node = null;
-
     @property(cc.Node)
     topWinnersButton: cc.Node = null;
 
@@ -40,7 +40,10 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         return symbolName;
     }
 
-    initJackpotPool() {
+    loadJackpotPoolInfo() {
+        if (!this.jackpotEnabled || !this.jackpotPoolNode) {
+            return;
+        }
         const node = cc.instantiate(this.jackpotPoolPrefab);
         this.jackpotPoolInfo = node.getComponent(JackpotPoolInfoBase);
         this.jackpotPoolNode.addChild(node);
@@ -52,6 +55,13 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
     }
 
     hideTopWinnersButton() {
-        this.topWinnersButton && (this.topWinnersButton.active = this.jackpotEnabled);
+        if (!this.topWinnersButton) {
+            return;
+        }
+        this.topWinnersButton.active = this.jackpotEnabled;
+    }
+
+    public get jackpotEnabled() {
+        return !userManager.disableJackpotGames;
     }
 }
