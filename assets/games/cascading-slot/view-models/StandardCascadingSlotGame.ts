@@ -273,11 +273,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     initBottomArea(node: cc.Node) {
         const bottomArea = node.getComponent(StandardCascadingBottomArea);
-        // bottomArea.updateColor({
-        //     textColor: this.colorConfig.bottomAreaTextColor,
-        //     numberColor: this.colorConfig.bottomAreaNumberColor,
-        //     buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
-        // });
         this.updateColor(
             {
                 textColor: this.colorConfig.bottomAreaTextColor,
