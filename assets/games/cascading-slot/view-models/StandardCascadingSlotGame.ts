@@ -13,8 +13,11 @@ import StandardCascadingSlotBoard from "./StandardCascadingSlotBoard";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
+import StandardCascadingBetControl from "./StandardCascadingBetControl";
+import ChangeNodeColor from "../../../common/ChangeNodeColor";
 
 const { ccclass, property } = cc._decorator;
+const LocalizedLabel = require("LocalizedLabel");
 
 @ccclass
 export default class StandardCascadingSlotGame extends CascadingSlotBase {
@@ -270,7 +273,28 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     initBottomArea(node: cc.Node) {
         const bottomArea = node.getComponent(StandardCascadingBottomArea);
+        // bottomArea.updateColor({
+        //     textColor: this.colorConfig.bottomAreaTextColor,
+        //     numberColor: this.colorConfig.bottomAreaNumberColor,
+        //     buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
+        // });
+        this.updateColor(
+            {
+                textColor: this.colorConfig.bottomAreaTextColor,
+                numberColor: this.colorConfig.bottomAreaNumberColor,
+                buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
+            },
+            bottomArea.node
+        );
         this.betControl = bottomArea.betControl;
+        this.updateColor(
+            {
+                textColor: this.colorConfig.bottomAreaTextColor,
+                numberColor: this.colorConfig.bottomAreaNumberColor,
+                buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
+            },
+            this.betControl.node
+        );
         this.miniBetControl = bottomArea.miniBetControl;
         this.checkExistNodeBet();
         this.autoSpinToggle = bottomArea.autoSpinToggle;
@@ -284,6 +308,19 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
                 this.onTurboModeChanged(toggle);
             }
         };
+    }
+
+    updateColor(colorList, node: cc.Node) {
+        const { textColor, numberColor, buttonBorderColor } = colorList;
+
+        node.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
+            const labelComp = comp.node.getComponent(cc.Label);
+            if (labelComp) {
+                comp.updateColor(comp.node.getComponent(LocalizedLabel) ? textColor : numberColor);
+            } else {
+                comp.updateColor(buttonBorderColor);
+            }
+        });
     }
 
     clickOutsideReelArea() {
