@@ -13,6 +13,7 @@ import { StorageManager } from "../managers/StorageManager";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { preloadAssets } from "./PreloadRemoteAsset";
 import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
+import AudioManager from "./audio/AudioManager";
 import BetChips from "./bet-chips/view-models/BetChips";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
@@ -256,16 +257,19 @@ export default class GameUtils {
         const auData = window.authData;
         const directMode = StorageManager.get("direct_mode");
         const url = buildProxyUrl(`/game-client-${gameId}`);
+        const audio = AudioManager.getInstance();
         const params = {
             ss: auData.ss,
             uname: auData.username,
             lang: auData.language,
             appType: auData.system,
             ref: directMode?.ref,
-            rurl: directMode?.returnUrl || GameUtils.base64Encode(window.location.href)
+            rurl: directMode?.returnUrl || GameUtils.base64Encode(window.location.href),
+            musicEnable: audio.musicEnabled,
+            sfxEnable: audio.sfxEnabled
         };
         const searchParams = new URLSearchParams();
-        Object.keys(params).forEach((key) => params[key] && searchParams.append(key, params[key]));
+        Object.keys(params).forEach((key) => params[key] !== undefined && searchParams.append(key, params[key]));
         const encodedQueryString = GameUtils.base64Encode(searchParams.toString());
 
         window.location.href = `${url}/?params=${encodedQueryString}`;

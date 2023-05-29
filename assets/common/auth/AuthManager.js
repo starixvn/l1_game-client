@@ -6,6 +6,7 @@ import { appManager } from "../../managers/AppManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import GameUtils from "../GameUtils";
+import AudioManager from "../audio/AudioManager";
 import ChipConfig from "../bet-chips/view-models/ChipConfig";
 import { isSessionTimeoutError } from "../helpers/ErrorCodeHelper";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
@@ -137,6 +138,9 @@ function authorizeFromMicrosite(urlParams, session) {
     if (urlSearchParams.has("ss") && urlSearchParams.has("time") && session.ss === urlSearchParams.get("ss")) {
         session.time = new Date(+urlSearchParams.get("time"));
         sessionManager.storeSessionData(session);
+        const audio = AudioManager.getInstance();
+        urlSearchParams.has("musicEnable") && (audio.musicEnabled = urlSearchParams.get("musicEnable") === "true");
+        urlSearchParams.has("sfxEnable") && (audio.sfxEnabled = urlSearchParams.get("sfxEnable") === "true");
     } else {
         signOut();
     }
