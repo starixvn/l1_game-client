@@ -513,7 +513,7 @@ export default class GameUtils {
     }
 
     public static isAndroidWebView(): boolean {
-        return this.isAndroid() && window.ReactNativeWebView;
+        return (cc.sys.os === cc.sys.OS_LINUX || cc.sys.os === cc.sys.OS_ANDROID) && window.ReactNativeWebView;
     }
 
     public static isAndroid(): boolean {
