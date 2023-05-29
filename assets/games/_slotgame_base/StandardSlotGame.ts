@@ -293,10 +293,12 @@ export default class StandardSlotGame extends SlotGameBase {
 
         const symbolPreview = previewNode.getComponent(SymbolPreview);
         symbolPreview.setInfo({
+            symbol,
             spine,
             odds: this.gameConfigs.odds[symbol],
             colorList: [this.colorConfig.previewOddsSymbolNumberColor, this.colorConfig.previewOddsWinValueColor],
-            borderColor: this.colorConfig.previewOddsBorderColor
+            borderColor: this.colorConfig.previewOddsBorderColor,
+            isInfoOnLeft
         });
         this.slotBoard.showPreview(previewNode, worldPosition);
     }

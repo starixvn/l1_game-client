@@ -109,6 +109,10 @@ include:
       ref: master
       file: "gitlab-ci-mixing.yml"
 
+    - project: "ci/repos-ci/pentagon_l1_dj_club_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
     - local: "ci/*.yml"
 
 variables:
@@ -308,3 +312,8 @@ bundle-verification:
     <<: *build_cocos_creator_script
     extends:
         - .build:image:l2_magic_forest_client:rules
+
+.base_build_cocos_web_l1_dj_club_client:
+    <<: *build_cocos_creator_script
+    extends:
+        - .build:image:l1_dj_club_client:rules

@@ -14,6 +14,12 @@ export default class SymbolPreview extends cc.Component {
     @property(cc.Node)
     border: cc.Node = null;
 
+    @property(cc.Node)
+    bg: cc.Node = null;
+
+    @property(cc.SpriteAtlas)
+    atlas: cc.SpriteAtlas = null;
+
     onLoad() {
         const events = [
             InternalEvents.CLICK_AUTO_SPIN_BUTTON,
@@ -36,14 +42,48 @@ export default class SymbolPreview extends cc.Component {
         this.node.destroy();
     }
 
-    setInfo(info: { spine: sp.SkeletonData; odds: any; colorList: [string, string]; borderColor: string }) {
+    showSymbolText(parentNode: cc.Node, symbolNumber: number, isInfoOnLeft: boolean) {
+        const nodeText = new cc.Node().addComponent(cc.Sprite);
+        parentNode.addChild(nodeText.node);
+        nodeText.spriteFrame = this.atlas.getSpriteFrame(`text-symbol-${symbolNumber}`);
+        nodeText.node.color = cc.Color.WHITE.fromHEX("FFDC00");
+        nodeText.node.anchorX = 0;
+
+        this.infoNode.children.forEach((node) => {
+            node.getComponent(cc.Layout).spacingX = 12;
+        });
+
+        if (symbolNumber == 7) {
+            this.border.width = 392;
+            this.bg.width = 404;
+        }
+
+        if (isInfoOnLeft && symbolNumber == 7) {
+            this.infoNode.position = cc.v3(-280, 0, 0);
+        }
+
+        if (isInfoOnLeft && symbolNumber == 8) {
+            this.infoNode.position = cc.v3(-215, 0, 0);
+        }
+    }
+
+    setInfo(info: {
+        symbol: number;
+        spine: sp.SkeletonData;
+        odds: any;
+        colorList: [string, string];
+        borderColor: string;
+        isInfoOnLeft: boolean;
+    }) {
         this.icon.skeletonData = info.spine;
         this.icon.setAnimation(0, "highlight", false);
         this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);
         const keys = Object.keys(info.odds);
+
         this.infoNode.children.forEach((node, index) => {
             const key = keys[index];
             const show = index < keys.length && info.odds[key] > 0;
+
             node.active = show;
 
             if (!show) {
@@ -54,6 +94,10 @@ export default class SymbolPreview extends cc.Component {
                 child.getComponent(cc.Label).string = values[childIndex];
                 child.color = cc.Color.WHITE.fromHEX(info.colorList[childIndex]);
             });
+
+            if (info.symbol == 7 || info.symbol == 8) {
+                this.showSymbolText(node, info.symbol, info.isInfoOnLeft);
+            }
         });
     }
 }
