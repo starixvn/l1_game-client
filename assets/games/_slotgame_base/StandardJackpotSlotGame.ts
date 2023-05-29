@@ -1,4 +1,5 @@
 import { getLocale } from "../../common/auth/SessionManager";
+import GameUtils from "../../common/GameUtils";
 import { userManager } from "../../common/user/UserManager";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { uiManager } from "../../managers/GameUIManager";
@@ -63,5 +64,9 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
 
     public get jackpotEnabled() {
         return !userManager.disableJackpotGames;
+    }
+
+    protected getJackpotAmountByCurrency(amount) {
+        return GameUtils.getValueByCurrency(amount);
     }
 }

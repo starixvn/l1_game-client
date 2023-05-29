@@ -58,18 +58,19 @@ export default class SlotGameHistoryItem extends cc.Component {
     }
 
     setData(betLog, index, gameId) {
-        let win = betLog.betWin;
-        if (betLog.settlementResult.jackpot !== null) {
-            win += betLog.settlementResult.jackpot.winningAmount;
+        const { betWin, settlementResult, time, id, paylines, bet, totalAmount } = betLog;
+        let win = betWin;
+        if (settlementResult.jackpot !== null) {
+            win += this.getJackpotWinningByCurrency(settlementResult.jackpot.winningAmount);
         }
 
         this.node.active = true;
         this.bg.active = index % 2 > 0;
-        this.time.string = getStringDateByTime(betLog.time);
-        this.roundID.string = betLog.id;
-        this.payLines.string = betLog.paylines.length;
-        this.bet.string = numberWithCommas(betLog.bet, 1);
-        this.totalAmount.string = betLog.freeSpin ? "0" : numberWithCommas(betLog.totalAmount, 1);
+        this.time.string = getStringDateByTime(time);
+        this.roundID.string = id;
+        this.payLines.string = paylines.length;
+        this.bet.string = numberWithCommas(bet, 1);
+        this.totalAmount.string = betLog.freeSpin ? "0" : numberWithCommas(totalAmount, 1);
         this.win.string = numberWithCommas(win, 2);
         this.data = betLog;
 
@@ -83,7 +84,11 @@ export default class SlotGameHistoryItem extends cc.Component {
             this.bg.color = this.bgHighlightColor;
         }
 
-        this.showJackpotIcon(betLog.settlementResult.jackpot, gameId);
+        this.showJackpotIcon(settlementResult.jackpot, gameId);
+    }
+
+    getJackpotWinningByCurrency(winningAmount: number) {
+        return winningAmount;
     }
 
     showJackpotIcon(jackpot, gameId) {

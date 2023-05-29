@@ -25,19 +25,15 @@ export default class SlotGameTopWinnerItem extends cc.Component {
     @property(cc.Color)
     highlightColor: cc.Color = null;
 
+    stakeLevels;
+
     setData(player: any, index: number, showBigWin: boolean) {
         const isLoginUser = userManager.isLoginUser(player.name);
         this.bg.active = index % 2 > 0;
         this.time.string = getStringDateByTime(player.time);
         this.player.string = isLoginUser ? player.name : shortenName(player.name);
 
-        if (showBigWin) {
-            this.amount.string = player.freeSpin ? "Free Spin" : numberWithCommas(player.totalAmount, 1);
-        } else {
-            this.amount.string = numberWithCommas(player.bet, 1);
-        }
-
-        this.win.string = numberWithCommas(player.winningAmount, 2);
+        this.setOtherValues(player, showBigWin);
 
         if (isLoginUser) {
             this.setTextColor(this.highlightColor ? this.highlightColor : cc.Color.YELLOW);
@@ -49,5 +45,17 @@ export default class SlotGameTopWinnerItem extends cc.Component {
         this.player.node.color = color;
         this.amount.node.color = color;
         this.win.node.color = color;
+    }
+
+    setOtherValues(player, showBigWin) {
+        const { freeSpin, totalAmount, winningAmount } = player;
+
+        if (showBigWin) {
+            this.amount.string = freeSpin ? "Free Spin" : numberWithCommas(totalAmount, 1);
+        } else {
+            this.amount.string = player.bet;
+        }
+
+        this.win.string = numberWithCommas(winningAmount, 2);
     }
 }

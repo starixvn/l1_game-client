@@ -884,6 +884,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
         const dialog = cc.instantiate(this.topWinnerPrefab);
         const topWinnerComponent = dialog.getComponent(SlotGameTopWinner);
+        topWinnerComponent.stakeLevels = this.gameConfigs?.stakeLevels || [];
         topWinnerComponent.init(this.socket, this.gameName, this.jackpotEnabled);
         this.currentMiniPanel.addDialog(dialog);
     }
@@ -997,8 +998,12 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         const jackpotDuration = this.getCustomDuration("jackpot");
         callbackAnim.setDuration(jackpotDuration);
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setAmount({ amount, duration: jackpotDuration - 1 });
+        bigWinAnimation.setAmount({ amount: this.getJackpotAmountByCurrency(amount), duration: jackpotDuration - 1 });
         await this.showEffect(effect);
+    }
+
+    protected getJackpotAmountByCurrency(amount) {
+        return amount;
     }
 
     updatePoolData(data: any) {

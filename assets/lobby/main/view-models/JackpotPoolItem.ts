@@ -11,8 +11,12 @@ export default class JackpotPoolItem extends cc.Component {
     highlight: cc.Node = null;
 
     setData(amount: number) {
-        GameUtils.floatToNumber({ label: this.amount, amount, duration: 1, noZeroSuffix: false });
+        GameUtils.floatToNumber({ label: this.amount, amount: this.convertCurrencyValue(amount), duration: 1, noZeroSuffix: false });
         this.node.active = true;
+    }
+
+    convertCurrencyValue(amount) {
+        return amount;
     }
 
     setHighlight(highlight: boolean) {

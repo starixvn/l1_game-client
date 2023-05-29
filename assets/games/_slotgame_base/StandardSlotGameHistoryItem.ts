@@ -1,4 +1,5 @@
 import { getLocale } from "../../common/auth/SessionManager";
+import GameUtils from "../../common/GameUtils";
 import { uiManager } from "../../managers/GameUIManager";
 import SlotGameHistoryItem from "./SlotGameHistoryItem";
 
@@ -15,9 +16,13 @@ export default class StandardSlotGameHistoryItem extends SlotGameHistoryItem {
         if (jackpot !== null) {
             const gameAtlas = uiManager.prefabCache.gameAtlas[gameId];
             const sprite = this.jackpotIcon.getComponent(cc.Sprite);
-            const language = getLocale();
-            sprite.spriteFrame = gameAtlas.getSpriteFrame(`history-jackpot${language === "vi-VN" ? `.${language}` : ""}`);
+            const suffix = getLocale() === "vi-VN" ? `.${getLocale()}` : "";
+            sprite.spriteFrame = gameAtlas.getSpriteFrame(`history-jackpot${suffix}`);
             this.jackpotIcon.active = true;
         }
+    }
+
+    getJackpotWinningByCurrency(winningAmount: number) {
+        return GameUtils.getValueByCurrency(winningAmount);
     }
 }

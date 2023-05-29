@@ -51,6 +51,7 @@ export default class SlotGameTopWinner extends BaseComponent {
     private gameName: string;
     private jackpotEnabled = false;
 
+    stakeLevels;
     topWinnerView = "getBigWinningWinners";
 
     init(socket: Socket, gameName: string, jackpotEnabled = true) {
@@ -124,7 +125,9 @@ export default class SlotGameTopWinner extends BaseComponent {
             winners.map((player, index) => {
                 const itemNode = cc.instantiate(this.itemPrefab);
                 const item = itemNode.getComponent(SlotGameTopWinnerItem);
+                item.stakeLevels = this.stakeLevels;
                 item.setData(player, index, this.topWinnerView === "getBigWinningWinners");
+
                 this.content.addChild(itemNode);
             });
         }

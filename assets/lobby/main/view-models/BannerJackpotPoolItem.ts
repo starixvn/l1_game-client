@@ -38,6 +38,6 @@ export default class BannerJackpotPoolItem extends BannerJackpot {
 
         // this.gameIcon.spriteFrame = icon;
         this.gameName.string = GameUtils.getGameNameString(gameId);
-        this.poolAmount.string = numberWithCommas(amount, 2);
+        this.poolAmount.string = numberWithCommas(GameUtils.getValueByCurrency(amount), 2);
     }
 }
