@@ -74,32 +74,33 @@ export async function initialize() {
     initializeBundleInfos();
 }
 
-async function loadConfigFromLobbyIcons(): Promise<Array<GameConfiguration>> {
-    const isDevelopmentMode = window.location.hostname === "localhost";
-    const bundleName = "lobby-icons";
-    const options: any = {};
-    if (!isDevelopmentMode) {
-        const responseVersion = await axios.get(`${buildProxyUrl("/lobby-icons")}/versions.json`);
-        responseVersion.data[bundleName] && (options.version = responseVersion.data[bundleName]);
-    }
+function loadConfigFromLobbyIcons(): Promise<Array<GameConfiguration>> {
     return new Promise((resolve, _) => {
+        const isDevelopmentMode = window.location.hostname === "localhost";
+        const bundleName = "lobby-icons";
         const lobbyIconsUrl = isDevelopmentMode ? `assets/${bundleName}` : `${buildProxyUrl("/lobby-icons")}/${bundleName}`;
         const configs = [];
-
-        const handleLoadIconsError = () => {
-            uiManager.emitter.emit(InternalEvents.SSO_FAILED);
-            cc.log("Can not load lobby icons bundle");
+        const options: any = {};
+        const handleLoadIconsError = (err) => {
+            cc.log("Can not load lobby icons bundle", err);
             resolve([]);
         };
-
+        if (!isDevelopmentMode) {
+            axios
+                .get(`${buildProxyUrl("/lobby-icons")}/versions.json`)
+                .then((response) => {
+                    response.data[bundleName] && (options.version = response.data[bundleName]);
+                })
+                .catch(handleLoadIconsError);
+        }
         cc.assetManager.loadBundle(lobbyIconsUrl, options, (err, bundle) => {
             if (err) {
-                handleLoadIconsError();
+                handleLoadIconsError(err);
                 return;
             }
             bundle.load("/games", (error, asset) => {
                 if (error) {
-                    handleLoadIconsError();
+                    handleLoadIconsError(error);
                     return;
                 }
                 const { gameIds } = (asset as cc.JsonAsset).json;
