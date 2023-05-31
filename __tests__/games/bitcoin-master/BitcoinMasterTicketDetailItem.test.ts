@@ -13,7 +13,7 @@ import BitcoinMasterUtils from "../../../assets/games/bitcoin-master/view-models
  * Date: 2021-11-23 06:50:03
  */
 
-jest.mock("../../../assets/common/GameUtils", () => jest.requireActual("../../mocks/MockedGameUtils"));
+
 
 describe("Test class BitcoinMasterTicketDetailItem", () => {
     let node: cc.Node;

@@ -6,8 +6,6 @@ import SicBoRoundHistoryTip from "../../../assets/games/sicbo/view-models/SicBoR
  * Date: 2021-10-11 04:54:49
  */
 
-jest.mock("../../../assets/common/GameUtils", () => jest.requireActual("../../mocks/MockedGameUtils"));
-
 describe("Test class SicBoRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: SicBoRoundHistoryTip;

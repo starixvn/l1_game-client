@@ -6,8 +6,6 @@ import VipSedieWarMiniRoundHistoryTip from "../../../assets/games/vip-sedie-war/
  * Date: 2021-10-14 03:42:33
  */
 
-jest.mock("../../../assets/common/GameUtils", () => jest.requireActual("../../mocks/MockedGameUtils"));
-
 describe("Test class VipSedieWarMiniRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: VipSedieWarMiniRoundHistoryTip;

@@ -5,8 +5,6 @@
 import GameUtils from "../../../assets/common/GameUtils";
 import FreeBetDetailItem from "../../../assets/games/sedie/view-models/FreeBetDetailItem";
 
-jest.mock("../../../assets/common/GameUtils", () => jest.requireActual("../../mocks/MockedGameUtils"));
-
 describe("Test class FreeBetDetailItem", () => {
     let node: cc.Node;
     let comp: FreeBetDetailItem;

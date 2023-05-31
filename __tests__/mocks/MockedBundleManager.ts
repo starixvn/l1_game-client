@@ -1,3 +1,5 @@
 export class BundleManager {
-    public static initialize(data: { adapters: any; listeners: [] }) {}
+    static initialize(params) {
+        return params;
+    }
 }

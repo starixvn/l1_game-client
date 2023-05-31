@@ -7,8 +7,6 @@ import LuckyWheelHistoryItem from "../../../assets/games/lucky-wheel/view-models
  * Date: 2021-09-30 08:38:26
  */
 
-jest.mock("../../../assets/common/GameUtils", () => jest.requireActual("../../mocks/MockedGameUtils"));
-
 describe("Test class LuckyWheelHistoryItem", () => {
     let node: cc.Node;
     let comp: LuckyWheelHistoryItem;

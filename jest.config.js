@@ -18,7 +18,5 @@ module.exports = {
     testMatch,
     transformIgnorePatterns: ["cocos2d-js-for-preview.js"],
     clearMocks: true,
-    moduleNameMapper: {
-        "bundle-management": "<rootDir>/__tests__/mocks/MockedBundleManager.ts"
-    }
+    setupFilesAfterEnv: ["./__tests__/mocks/setup-jest.js"]
 };

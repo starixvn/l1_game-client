@@ -12,7 +12,6 @@ jest.mock("../../../assets/games/bitcoin-master/view-models/BitcoinMasterUtils",
     }
 }));
 
-jest.mock("../../../assets/common/GameUtils", () => jest.requireActual("../../mocks/MockedGameUtils"));
 
 describe("Test class BitcoinMasterEvenOddResultDetail", () => {
     let node: cc.Node;

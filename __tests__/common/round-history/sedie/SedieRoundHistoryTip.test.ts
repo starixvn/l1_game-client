@@ -1,8 +1,6 @@
 import GameUtils from "../../../../assets/common/GameUtils";
 import SedieRoundHistoryTip from "../../../../assets/common/round-history/sedie/SedieRoundHistoryTip";
 
-jest.mock("../../../../assets/common/GameUtils", () => jest.requireActual("../../../mocks/MockedGameUtils"));
-
 describe("Test class SedieRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: SedieRoundHistoryTip;
