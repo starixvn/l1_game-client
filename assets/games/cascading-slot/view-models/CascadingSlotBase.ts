@@ -429,6 +429,10 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
         const label = node.getComponent(cc.Label);
         label.string = numberWithCommas(value, 2, false);
+        this.flyWinLabelAnimation(node);
+    }
+
+    flyWinLabelAnimation(node: cc.Node) {
         node.scale = 0;
         node.opacity = 0;
         cc.tween(node)
@@ -438,12 +442,14 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
                     .tween()
                     .to(0.05, { opacity: 255 })
                     .delay(1)
+                    .to(0.1, { opacity: 255 })
                     .to(0.1, { opacity: 190 })
                     .to(0.1, { opacity: 120 })
                     .to(0.2, { opacity: 0 }, { easing: "sineOut" }),
                 cc.tween().to(0.05, { scale: 1 }).to(0.1, { scale: 1.3 }).to(1.3, { scale: 0.9 }, { easing: "sineOut" }),
                 cc.tween().by(0.15, { y: -10 }).by(1.3, { y: 60 }, { easing: "sineOut" })
             )
+
             .call(() => {
                 node.destroy();
             })

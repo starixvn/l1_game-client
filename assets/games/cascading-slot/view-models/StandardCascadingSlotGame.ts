@@ -13,7 +13,6 @@ import StandardCascadingSlotBoard from "./StandardCascadingSlotBoard";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
-import StandardCascadingBetControl from "./StandardCascadingBetControl";
 import ChangeNodeColor from "../../../common/ChangeNodeColor";
 
 const { ccclass, property } = cc._decorator;
@@ -329,5 +328,20 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             this.totalFreeSpins = value;
             this.bottomMessage.freeSpinCount = this.totalFreeSpins;
         });
+    }
+
+    flyWinLabelAnimation(node: cc.Node) {
+        node.scale = 0.9;
+        node.opacity = 255;
+        cc.tween(node)
+            .repeat(3, cc.tween().by(0.05, { scale: 0.1 }, { easing: "sineOut" }))
+            .parallel(
+                cc.tween().to(0.7, { scale: 1 }).to(0.8, { opacity: 0, scale: 0.9 }, { easing: "sineOut" }),
+                cc.tween().delay(0.1).by(1.5, { y: 50 }, { easing: "sineOut" })
+            )
+            .call(() => {
+                node.destroy();
+            })
+            .start();
     }
 }
