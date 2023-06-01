@@ -1,5 +1,6 @@
 import GameUtils from "../../common/GameUtils";
 import { buildGameGuideUrl } from "../../common/helpers/UrlHelper";
+import { userManager } from "../../common/user/UserManager";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 
 const { ccclass, property } = cc._decorator;
@@ -16,7 +17,7 @@ export default class StandarSlotGuide extends WebViewGuide {
     ) {
         const domain = buildGameGuideUrl();
         const displayName = GameUtils.getGameNameString(gameId);
-        const url = `${domain}/${language}?gId=${gameId}&displayName=${displayName}&t=${
+        const url = `${domain}/${language}?gId=${gameId}&displayName=${displayName}&jackpot=${!userManager.disableJackpotGames}&t=${
             this.themeName
         }&p=${isInPromotionTime}&f=c&v=${Date.now()}&fof=${fractionalOddsFormat}`;
         this.url = url;
