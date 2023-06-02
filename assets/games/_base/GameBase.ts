@@ -594,6 +594,10 @@ export default class GameBase extends GameViewBase {
         const locale = getLocale();
         const isInPromotionTime = this.boostedChoices?.length > 0;
         const language = getLanguage(locale);
+        this.handleGameGuide(guide, language, minBet, maxBet, isInPromotionTime);
+    }
+
+    handleGameGuide(guide: WebViewGuide, language, minBet, maxBet, isInPromotionTime) {
         guide.initURL(
             this.gameId,
             language,
@@ -602,7 +606,7 @@ export default class GameBase extends GameViewBase {
             userManager.fractionalOddsFormat
         );
         guide.sendDataToIframe(this.gameConfigs);
-        this.currentMiniPanel.showGuide(dialog);
+        this.currentMiniPanel.showGuide(guide.node);
         guide.loadWebView();
     }
 

@@ -1,10 +1,12 @@
 import { getLocale } from "../../common/auth/SessionManager";
 import GameUtils from "../../common/GameUtils";
 import { userManager } from "../../common/user/UserManager";
+import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import StandardSlotGame from "./StandardSlotGame";
+import StandarSlotGuide from "./StandarSlotGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -68,5 +70,11 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
 
     protected getJackpotAmountByCurrency(amount) {
         return GameUtils.getValueByCurrency(amount);
+    }
+
+    handleGameGuide(guide: WebViewGuide, language, minBet, maxBet, isInPromotionTime) {
+        const jackpotGuide = guide as StandarSlotGuide;
+        jackpotGuide.enableJackpot = this.receivedJackpotPoolsData.length > 0;
+        super.handleGameGuide(guide, language, minBet, maxBet, isInPromotionTime);
     }
 }
