@@ -17,8 +17,10 @@ export default class StandardSlotGameHistoryItem extends SlotGameHistoryItem {
             const gameAtlas = uiManager.prefabCache.gameAtlas[gameId];
             const sprite = this.jackpotIcon.getComponent(cc.Sprite);
             const suffix = getLocale() === "vi-VN" ? `.${getLocale()}` : "";
-            sprite.spriteFrame = gameAtlas.getSpriteFrame(`history-jackpot${suffix}`);
+            gameAtlas && (sprite.spriteFrame = gameAtlas.getSpriteFrame(`history-jackpot${suffix}`));
             this.jackpotIcon.active = true;
+        } else {
+            this.jackpotIcon.active = false;
         }
     }
 

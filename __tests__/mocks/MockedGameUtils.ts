@@ -49,4 +49,16 @@ export default class MockedGameUtils {
     }
 
     public static setFontSizeLabelsInNode(node: cc.Node, isCustom = false, fontSize = 36) {}
+
+    public static getValueByExchangeRateCode(value: number, exchangeRateCode) {
+        return value;
+    }
+
+    public static getGameNameString(gameId): string {
+        return `gameNames.${gameId}`;
+    }
+
+    public static getAvatarSprite(avatarId: number) {
+        return null;
+    }
 }
