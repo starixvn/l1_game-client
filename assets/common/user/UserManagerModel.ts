@@ -27,6 +27,8 @@ export class UserData {
         public settings: ISettings = { quickBet: false, theme: "" },
         public isSignedInSM = false,
         public type = false,
-        public disableJackpotGames = true
+        public disableJackpotGames = true,
+        public multiplier = 0,
+        public currencyCode = ""
     ) {}
 }

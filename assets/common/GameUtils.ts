@@ -475,6 +475,14 @@ export default class GameUtils {
         return (value * otherRate) / userRate;
     }
 
+    public static getValueByExchangeRateCode(value: number, exchangeRateCode) {
+        let currencyRate = exchangeRateCode[userManager.currencyCode];
+        if (!currencyRate) {
+            currencyRate = 1;
+        }
+        return value / (userManager.multiplier * currencyRate);
+    }
+
     public static getFilterValuesByStakeLevel(values: number[], gameConfigs: any): number[] {
         let minBet = gameConfigs.minBet;
         let maxBet = gameConfigs.maxBet;

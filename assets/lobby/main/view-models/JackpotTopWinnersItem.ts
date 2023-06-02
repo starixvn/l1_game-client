@@ -21,11 +21,11 @@ export default class JackpotTopWinnersItem extends BannerJackpot {
     gameName: cc.Label = null;
 
     setData(data) {
-        const { avatarId, winnerName, amount, gameId } = data;
+        const { avatarId, winnerName, amount, gameId, exchangeRateCode } = data;
         this.gameId = gameId;
         this.setAvatar(avatarId);
         this.setName(winnerName);
-        this.setAmount(GameUtils.getValueByCurrency(amount));
+        this.setAmount(GameUtils.getValueByExchangeRateCode(amount, exchangeRateCode));
         this.setGameName(GameUtils.getGameNameString(gameId));
     }
 

@@ -13,10 +13,12 @@ export default class JackpotPoolInfoBase extends cc.Component {
         }
 
         const sort = [...data].sort((a, b) => +b.pool - +a.pool);
-        sort.forEach((itemData, index) => {
-            const item = this.items[index];
-            item.setData(itemData.amount);
-            item.node.name = `${itemData.pool}`;
+        this.items.forEach((item, index) => {
+            const itemData = sort[index];
+            if (itemData) {
+                item.setData(itemData.amount);
+                item.node.name = `${itemData.pool}`;
+            }
         });
     }
 

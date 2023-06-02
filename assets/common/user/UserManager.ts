@@ -73,6 +73,14 @@ export default class UserManager {
         return this._data.disableJackpotGames;
     }
 
+    get multiplier() {
+        return this._data.multiplier;
+    }
+
+    get currencyCode() {
+        return this._data.currencyCode;
+    }
+
     public static getInstance(): UserManager {
         if (!UserManager.instance) {
             UserManager.instance = new UserManager();
