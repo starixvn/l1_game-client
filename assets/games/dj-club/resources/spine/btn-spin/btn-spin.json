@@ -1,14 +1,5 @@
 {
-"skeleton": {
-	"hash": "MzpFoSW3NPPYLgzbM5/jdFaIInI",
-	"spine": "3.8.99",
-	"x": -158.4,
-	"y": -158.4,
-	"width": 316.8,
-	"height": 316.8,
-	"images": "./images/",
-	"audio": "D:/L5/DJClub/Graphic/replace-assets/resources/spine/btn-spin"
-},
+"skeleton": { "hash": "8GDOTKUMDFEupRzuxFu6qAN/fLs", "spine": "3.8.99", "images": "./images/", "audio": "D:/L5/DJClub/Graphic/replace-assets/resources/spine/btn-spin" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "button", "parent": "root" },
@@ -223,11 +214,6 @@
 	},
 	"idle": {
 		"slots": {
-			"arrow": {
-				"attachment": [
-					{ "name": "arrow" }
-				]
-			},
 			"blink": {
 				"color": [
 					{ "color": "fcff6f00", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
@@ -394,9 +380,6 @@
 					{ "time": 2, "color": "ffffff97", "curve": 0.25, "c3": 0.75 },
 					{ "time": 3, "color": "ffffffb4", "curve": 0.25, "c3": 0.75 },
 					{ "time": 4, "color": "ffffffff" }
-				],
-				"attachment": [
-					{ "name": "spin_magic" }
 				]
 			}
 		},
@@ -664,13 +647,6 @@
 	},
 	"spin": {
 		"slots": {
-			"arrow": {
-				"attachment": [
-					{ "name": "arrow" },
-					{ "time": 0.1333, "name": "arrow-blur" },
-					{ "time": 0.8667, "name": "arrow" }
-				]
-			},
 			"circle": {
 				"color": [
 					{ "color": "ff00efff" }
@@ -730,11 +706,6 @@
 				"attachment": [
 					{ "time": 0.2333, "name": "spin-button-base-bg" }
 				]
-			},
-			"spin_magic": {
-				"attachment": [
-					{ "name": "spin_magic" }
-				]
 			}
 		},
 		"bones": {
@@ -792,7 +763,7 @@
 			"hover": {
 				"color": [
 					{ "color": "ffffff00" },
-					{ "time": 0.5, "color": "ffffffc7" },
+					{ "time": 0.5, "color": "00c5ffc7" },
 					{ "time": 1, "color": "ffffff00" }
 				],
 				"attachment": [

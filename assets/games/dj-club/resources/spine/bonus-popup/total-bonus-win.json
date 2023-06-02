@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "678Umiz8ci3/nyQoSgfdvcIRgts",
+	"hash": "liUCiHfOQ32DL/hzpyEp1KGoCPQ",
 	"spine": "3.8.99",
 	"x": -424.5,
 	"y": -99.67,
@@ -11,11 +11,11 @@
 },
 "bones": [
 	{ "name": "root" },
-	{ "name": "effect-big-win", "parent": "root" },
-	{ "name": "frame", "parent": "effect-big-win" },
-	{ "name": "title", "parent": "effect-big-win", "y": 136.05 },
-	{ "name": "number-label", "parent": "effect-big-win", "y": -16.35 },
-	{ "name": "coin_fall", "parent": "effect-big-win", "x": 159.21, "y": 109.8 },
+	{ "name": "character", "parent": "root" },
+	{ "name": "frame", "parent": "character" },
+	{ "name": "text", "parent": "character", "y": 136.05 },
+	{ "name": "value", "parent": "character", "y": -16.35 },
+	{ "name": "coin_fall", "parent": "character", "x": 159.21, "y": 109.8 },
 	{ "name": "coin", "parent": "coin_fall", "length": 23.57, "x": -92.1, "y": -87.75 },
 	{ "name": "vfx", "parent": "root", "y": -94.83 },
 	{ "name": "fx_sparkle1", "parent": "vfx", "x": 272.55, "y": 200.24, "scaleX": 0.8, "scaleY": 0.8 },
@@ -112,7 +112,7 @@
 		"scaleX": 1.4,
 		"scaleY": 1.4
 	},
-	{ "name": "frame-flare", "parent": "effect-big-win" },
+	{ "name": "frame-flare", "parent": "character" },
 	{ "name": "fx_sparkle2", "parent": "vfx", "x": 272.55, "y": 200.24, "scaleX": 0.8, "scaleY": 0.8 },
 	{ "name": "fx_sparkle3", "parent": "vfx", "x": 272.55, "y": 200.24, "scaleX": 0.8, "scaleY": 0.8 },
 	{ "name": "fx_sparkle4", "parent": "vfx", "x": 272.55, "y": 200.24, "scaleX": 0.8, "scaleY": 0.8 }
@@ -133,8 +133,8 @@
 	{ "name": "eff_spot_5", "bone": "eff-spot5", "color": "e900ffff", "blend": "additive" },
 	{ "name": "frame", "bone": "frame", "attachment": "frame" },
 	{ "name": "frame-flare", "bone": "frame-flare", "attachment": "frame", "blend": "additive" },
-	{ "name": "title", "bone": "title" },
-	{ "name": "number-label", "bone": "number-label" },
+	{ "name": "text", "bone": "text" },
+	{ "name": "text2", "bone": "text", "blend": "additive" },
 	{ "name": "coin_A_00", "bone": "coin" },
 	{ "name": "coin_A_10", "bone": "coin11" },
 	{ "name": "coin_A_11", "bone": "coin12" },
@@ -150,7 +150,8 @@
 	{ "name": "coin_A_21", "bone": "coin22" },
 	{ "name": "coin_A_22", "bone": "coin23" },
 	{ "name": "coin_A_23", "bone": "coin24" },
-	{ "name": "coin_A_24", "bone": "coin25" }
+	{ "name": "coin_A_24", "bone": "coin25" },
+	{ "name": "value", "bone": "value" }
 ],
 "skins": [
 	{
@@ -1021,7 +1022,9 @@
 					{ "time": 0.2, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.6, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.7, "color": "ffffff6e", "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.7667, "color": "ffffff00" }
+					{ "time": 0.7667, "color": "ffffff00" },
+					{ "time": 0.8667, "color": "ffffffff" },
+					{ "time": 1.5333, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "name": null },
@@ -1111,17 +1114,26 @@
 					{ "name": "fx_sparkle" }
 				]
 			},
-			"number-label": {
-				"color": [
-					{ "color": "ffffff00", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
-					{ "time": 0.9333, "color": "ffffffff" }
-				]
-			},
-			"title": {
+			"text": {
 				"color": [
 					{ "color": "ffffff00", "curve": "stepped" },
-					{ "time": 1.1667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.5, "color": "ffffffff" }
+					{ "time": 0.4333, "color": "ffffff00" },
+					{ "time": 0.5333, "color": "ffffffff" }
+				]
+			},
+			"text2": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.3333, "color": "ffffff00" },
+					{ "time": 0.5333, "color": "ec00ffff" },
+					{ "time": 1, "color": "ffffff00" }
+				]
+			},
+			"value": {
+				"color": [
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.8, "color": "ffffff00" },
+					{ "time": 0.9333, "color": "ffffffff" }
 				]
 			}
 		},
@@ -1280,34 +1292,6 @@
 					{ "x": 0.5, "y": 0.5, "curve": 0.25, "c3": 0.75 },
 					{ "time": 1, "curve": 0.25, "c3": 0.75 },
 					{ "time": 1.8333, "x": 0.8, "y": 0.8 }
-				]
-			},
-			"number-label": {
-				"translate": [
-					{ "y": 4.06, "curve": "stepped" },
-					{ "time": 0.9333, "y": 4.06, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1, "y": -6.8, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.0667 }
-				]
-			},
-			"title": {
-				"translate": [
-					{ "time": 1.1667, "y": -48.77, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.5, "y": 49.43, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.6667, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.7, "y": -6.59, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.7333 }
-				],
-				"scale": [
-					{ "time": 0.6667, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.9, "y": 1.2, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1, "y": 0.9, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.0667, "curve": "stepped" },
-					{ "time": 1.1667, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.3, "y": 1.04, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.5, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.6667, "y": 0.9, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.7333 }
 				]
 			},
 			"coin11": {
@@ -1547,6 +1531,25 @@
 					{ "time": 0.1667, "x": 0.5, "y": 0.5, "curve": 0.25, "c3": 0.75 },
 					{ "time": 1.1667, "curve": 0.25, "c3": 0.75 },
 					{ "time": 2, "x": 0.8, "y": 0.8 }
+				]
+			},
+			"text": {
+				"translate": [
+					{ "y": -111.17 },
+					{ "time": 0.5333, "y": 53.79 }
+				],
+				"scale": [
+					{ "time": 0.3333, "x": 0.4, "curve": "stepped" },
+					{ "time": 0.4333, "x": 0.4 },
+					{ "time": 0.5333, "x": 1.6, "y": 1.2 },
+					{ "time": 0.6 }
+				]
+			},
+			"value": {
+				"scale": [
+					{ "time": 0.8 },
+					{ "time": 0.9333, "x": 1.2, "y": 1.2 },
+					{ "time": 1 }
 				]
 			}
 		}
