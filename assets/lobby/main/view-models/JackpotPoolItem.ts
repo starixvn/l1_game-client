@@ -15,7 +15,7 @@ export default class JackpotPoolItem extends cc.Component {
         this.node.active = true;
     }
 
-    convertCurrencyValue(amount) {
+    convertCurrencyValue(amount: number) {
         return amount;
     }
 

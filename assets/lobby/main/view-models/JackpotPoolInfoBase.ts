@@ -15,10 +15,8 @@ export default class JackpotPoolInfoBase extends cc.Component {
         const sort = [...data].sort((a, b) => +b.pool - +a.pool);
         this.items.forEach((item, index) => {
             const itemData = sort[index];
-            if (itemData) {
-                item.setData(itemData.amount);
-                item.node.name = `${itemData.pool}`;
-            }
+            item.setData(itemData.amount);
+            item.node.name = `${itemData.pool}`;
         });
     }
 

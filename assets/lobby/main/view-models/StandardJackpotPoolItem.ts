@@ -5,7 +5,7 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class StandardJackpotPoolItem extends JackpotPoolItem {
-    convertCurrencyValue(amount) {
+    convertCurrencyValue(amount: number) {
         return GameUtils.getValueByCurrency(amount);
     }
 }

@@ -61,4 +61,13 @@ export default class MockedGameUtils {
     public static getAvatarSprite(avatarId: number) {
         return null;
     }
+
+    public static floatToNumber(opt: {
+        label: cc.Label;
+        amount: number;
+        duration: number;
+        start?: number;
+        noZeroSuffix?: boolean;
+        prefixStr?: string;
+    }) {}
 }
