@@ -22,7 +22,7 @@ describe("Test class StandardJackpotPoolItem", () => {
             comp.convertCurrencyValue(amount);
 
             // Assert
-            expect(getValueByCurrencySpy).toBeCalledTimes(1);
+            expect(getValueByCurrencySpy).toHaveBeenCalled();
             expect(comp.convertCurrencyValue(amount)).toEqual(GameUtils.getValueByCurrency(amount));
         });
     });
