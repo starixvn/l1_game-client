@@ -33,7 +33,7 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
         }
     }
 
-    initEvents() {
+    protected initEvents() {
         jackpotManager.addDataObserver(this.dataType, this.dataKey);
         uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, (data) => this.onData(data), this);
     }
@@ -47,7 +47,7 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
         this.setData(gamePools);
     }
 
-    requestData() {
+    protected requestData() {
         if (!this.gameId) {
             return;
         }

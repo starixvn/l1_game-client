@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
@@ -32,7 +33,7 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
     protected dataType = JackpotDataKey.JACKPOT_POOLS;
     protected dataKey = `${JackpotDataKey.JACKPOT_POOLS}${this.uuid}`;
 
-    initEvents() {
+    protected initEvents() {
         jackpotManager.addDataObserver(this.dataType, this.dataKey);
         uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_POOLS, (data) => this.onData(data), this);
     }
@@ -42,7 +43,7 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
         this.loadData(this.selectedTab ?? JackpotPoolType.GRAND);
     }
 
-    requestData() {
+    protected requestData() {
         jackpotManager.emitEvent(JackpotEvents.GET_POOLS, {});
     }
 
@@ -50,7 +51,7 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
         this.loadData(+type);
     }
 
-    loadData(type: number) {
+    private loadData(type: number) {
         if (this.selectedTab === type || !this.poolData) {
             return;
         }
@@ -60,10 +61,12 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
         Object.keys(this.poolData).forEach((pool, index) => {
             if (type === index) {
                 this.poolData[pool].forEach((gamePool) => {
-                    const item = cc.instantiate(this.gamePool);
-                    this.content.addChild(item);
-                    const poolItemComp = item.getComponent(BannerJackpotPoolItem);
-                    poolItemComp.setData(gamePool);
+                    const item = GameUtils.createNodeFromPrefab(this.gamePool);
+                    if (item) {
+                        this.content.addChild(item);
+                        const poolItemComp = item.getComponent(BannerJackpotPoolItem);
+                        poolItemComp.setData(gamePool);
+                    }
                 });
             }
         });

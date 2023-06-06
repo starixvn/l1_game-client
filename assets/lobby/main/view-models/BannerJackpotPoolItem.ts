@@ -1,6 +1,9 @@
+import { BundleManager } from "bundle-management";
+
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { buildProxyUrl } from "../../../common/helpers/UrlHelper";
+import { getGameConfiguration } from "../../../configs/GameConfigurations";
+import { SystemType } from "../../../ISystem";
 import BannerJackpot from "./BannerJackpot";
 
 const { ccclass, property } = cc._decorator;
@@ -22,22 +25,37 @@ export default class BannerJackpotPoolItem extends BannerJackpot {
     @property(cc.Label)
     poolAmount: cc.Label = null;
 
-    setData(data: JackpotPoolInfo) {
+    async setData(data: JackpotPoolInfo) {
         const { gameId, amount } = data;
         this.gameId = gameId;
-
-        const remoteUrl = buildProxyUrl("/game/static/fourguardians2/game-icon.png");
-        cc.assetManager.loadRemote(remoteUrl, (err, texture: cc.Texture2D) => {
-            // Use texture to create sprite frame
-            // const spriteFrame = new cc.SpriteFrame();
-            // // const newTexture = new cc.Texture2D();
-            // // newTexture._native = texture;
-            // spriteFrame.setTexture(texture);
-            console.log(texture);
-        });
-
-        // this.gameIcon.spriteFrame = icon;
         this.gameName.string = GameUtils.getGameNameString(gameId);
         this.poolAmount.string = numberWithCommas(GameUtils.getValueByCurrency(amount), 2);
+
+        const frame = await this.getGameIcon();
+        frame && (this.gameIcon.spriteFrame = frame);
+    }
+
+    async getGameIcon(): Promise<cc.SpriteFrame> {
+        const gameConfiguration = getGameConfiguration(this.gameId);
+
+        if (!!gameConfiguration?.remoteBundle) {
+            return await BundleManager.getInstance().loadAsset<cc.SpriteFrame>({
+                bundleId: this.gameId.toString(),
+                path: "resources/textures/icon-game-small",
+                type: cc.SpriteFrame
+            });
+        } else {
+            return new Promise((resolve) => {
+                cc.resources.load<cc.SpriteFrame>(
+                    `lobby/games/${SystemType.SC2}/icon-game-small-${this.gameId}`,
+                    cc.SpriteFrame,
+                    (err, frame) => {
+                        if (frame) {
+                            resolve(frame);
+                        }
+                    }
+                );
+            });
+        }
     }
 }
