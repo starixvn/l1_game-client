@@ -32,9 +32,7 @@ export default class SlotGameTopWinnerItem extends cc.Component {
         this.bg.active = index % 2 > 0;
         this.time.string = getStringDateByTime(player.time);
         this.player.string = isLoginUser ? player.name : shortenName(player.name);
-
         this.setOtherValues(player, showBigWin);
-
         if (isLoginUser) {
             this.setTextColor(this.highlightColor ? this.highlightColor : cc.Color.YELLOW);
         }
@@ -47,13 +45,13 @@ export default class SlotGameTopWinnerItem extends cc.Component {
         this.win.node.color = color;
     }
 
-    setOtherValues(player, showBigWin) {
-        const { freeSpin, totalAmount, winningAmount } = player;
+    setOtherValues(player: any, showBigWin: boolean) {
+        const { freeSpin, totalAmount, winningAmount, bet } = player;
 
         if (showBigWin) {
             this.amount.string = freeSpin ? "Free Spin" : numberWithCommas(totalAmount, 1);
         } else {
-            this.amount.string = player.bet;
+            this.amount.string = bet;
         }
 
         this.win.string = numberWithCommas(winningAmount, 2);

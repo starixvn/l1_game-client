@@ -114,7 +114,7 @@ export default class PaginationCommon extends cc.Component {
         this.listComponentPage.forEach((component, index) => {
             if (index <= this.totalPage && startIndex <= this.totalPage) {
                 isButtonActive = false;
-                component.node.page = startIndex;
+                component.page = startIndex;
                 component.number.string = startIndex.toString();
                 startIndex++;
                 component.node.active = true;
@@ -181,7 +181,8 @@ export default class PaginationCommon extends cc.Component {
 
     onClickPage(event: any) {
         this.control.get_data(event.target.page);
-        this.pageNumberCurrent = event.target.page;
+        const comp = event.target.getComponent(PaginationCommonItem);
+        this.pageNumberCurrent = comp.page;
 
         AudioManager.getInstance().playClick();
     }

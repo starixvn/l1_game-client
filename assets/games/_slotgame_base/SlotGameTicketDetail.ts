@@ -142,7 +142,7 @@ export default class SlotGameTicketDetail extends cc.Component {
         });
     }
 
-    private addJackpotLog(jackpot: any, bet, order: number) {
+    protected addJackpotLog(jackpot: any, bet, order: number) {
         this.creatLogItem({
             order,
             paylineSprite: this.getSpriteLine(jackpot.winningLine),
@@ -150,8 +150,12 @@ export default class SlotGameTicketDetail extends cc.Component {
             amount: "5",
             payout: i18n.t("ui.jackpot"),
             bet,
-            win: jackpot.winningAmount
+            win: `${this.getJackpotWinningByCurrency(jackpot.winningAmount)}`
         });
+    }
+
+    protected getJackpotWinningByCurrency(amount: number): number {
+        return amount;
     }
 
     private addBonusLog(bonus: any, order: number) {

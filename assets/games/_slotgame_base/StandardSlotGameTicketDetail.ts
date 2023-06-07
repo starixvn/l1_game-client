@@ -1,4 +1,5 @@
 import { getLocale } from "../../common/auth/SessionManager";
+import GameUtils from "../../common/GameUtils";
 import { uiManager } from "../../managers/GameUIManager";
 import SlotGameTicketDetail from "./SlotGameTicketDetail";
 
@@ -38,5 +39,9 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
         }
 
         return spriteFrame;
+    }
+
+    protected getJackpotWinningByCurrency(amount: number): number {
+        return GameUtils.getValueByCurrency(amount);
     }
 }

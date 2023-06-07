@@ -1,5 +1,6 @@
 import { Socket } from "socket.io-client";
 
+import CommonDialog from "../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../common/BaseComponent";
 import PaginationCommon from "./../../common/helpers/Pagination/PaginationCommon";
 import SlotGameTopWinnerItem from "./SlotGameTopWinnerItem";
@@ -63,14 +64,14 @@ export default class SlotGameTopWinner extends BaseComponent {
     onLoad() {
         this.pagination.init(this);
 
-        const commonDialog = this.mainFrame.getComponent("CommonDialog");
+        const commonDialog = this.mainFrame.getComponent(CommonDialog);
         commonDialog.addOnDidHide(() => {
             this.node.destroy();
         });
 
         this.showBigWinningView(true);
 
-        this.socket.on(this.gameName, this.receivedData.bind(this));
+        this.socket && this.socket.on(this.gameName, this.receivedData.bind(this));
 
         if (!this.jackpotEnabled) {
             this.tabContainer.active = false;

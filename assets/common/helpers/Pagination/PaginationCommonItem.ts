@@ -17,6 +17,8 @@ export default class PaginationCommonItem extends cc.Component {
     @property
     textNormalColor = cc.Color.WHITE;
 
+    page = 1;
+
     updateHighlight(highlight: boolean) {
         this.number.node.color = highlight ? this.textHighlightColor : this.textNormalColor;
         this.bg.active = !highlight;

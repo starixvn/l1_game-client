@@ -8,7 +8,7 @@ import StandardSlotGameHistoryItem from "../../../assets/games/_slotgame_base/St
 describe("Test class StandardSlotGameHistoryItem", () => {
     let node: cc.Node;
     let comp: StandardSlotGameHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(StandardSlotGameHistoryItem);
         comp.jackpotIcon = new cc.Node();
@@ -24,7 +24,12 @@ describe("Test class StandardSlotGameHistoryItem", () => {
     });
 
     describe("Test method setData", () => {
-        it("When betWin > 0 ", () => {
+        beforeEach(() => {
+            comp["getJackpotWinningByCurrency"] = jest.fn();
+            comp["showJackpotIcon"] = jest.fn();
+        });
+
+        it("Case: betWin > 0 ", () => {
             // Arrange
             const betLog = {
                 bet: 10,
@@ -82,7 +87,7 @@ describe("Test class StandardSlotGameHistoryItem", () => {
             };
 
             const index = 1;
-            const gameId = 1999;
+            const gameId = 199;
 
             // Act
             comp.setData(betLog, index, gameId);
@@ -91,7 +96,7 @@ describe("Test class StandardSlotGameHistoryItem", () => {
             expect(comp.win.node.color).toEqual(comp.textHighlightColor);
         });
 
-        it("When betWin = 0 ", () => {
+        it("Case: betWin = 0 ", () => {
             // Arrange
             const betLog = {
                 bet: 1,
@@ -130,27 +135,27 @@ describe("Test class StandardSlotGameHistoryItem", () => {
     });
 
     describe("Test method showJackpotIcon", () => {
-        it("When betlog have jackpot", () => {
+        it("Case: betlog has jackpot", () => {
             // Arrange
             const jackpot = { winningAmount: 5512.5, winningLine: 1 };
             const gameId = 199;
             comp.jackpotIcon.active = false;
 
             // Act
-            comp.showJackpotIcon(jackpot, gameId);
+            comp["showJackpotIcon"](jackpot, gameId);
 
             // Assert
             expect(comp.jackpotIcon.active).toEqual(true);
         });
 
-        it("When betlog do not have jackpot", () => {
+        it("Case: betlog do not have jackpot", () => {
             // Arrange
             const jackpot = null;
             const gameId = 199;
             comp.jackpotIcon.active = true;
 
             // Act
-            comp.showJackpotIcon(jackpot, gameId);
+            comp["showJackpotIcon"](jackpot, gameId);
 
             // Assert
             expect(comp.jackpotIcon.active).toEqual(false);
@@ -162,9 +167,9 @@ describe("Test class StandardSlotGameHistoryItem", () => {
         const winningAmount = 6737.5;
 
         // Act
-        comp.getJackpotWinningByCurrency(winningAmount);
+        comp["getJackpotWinningByCurrency"](winningAmount);
 
         // Assert
-        expect(comp.getJackpotWinningByCurrency(winningAmount)).toEqual(GameUtils.getValueByCurrency(winningAmount));
+        expect(comp["getJackpotWinningByCurrency"](winningAmount)).toEqual(GameUtils.getValueByCurrency(winningAmount));
     });
 });

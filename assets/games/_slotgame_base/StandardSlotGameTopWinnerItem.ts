@@ -7,9 +7,7 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class StandardSlotGameTopWinnerItem extends SlotGameTopWinnerItem {
-    private basePool = [1, 10, 50];
-
-    setOtherValues(player, showBigWin) {
+    setOtherValues(player: any, showBigWin: boolean) {
         const { freeSpin, totalAmount, winningAmount, bet, exchangeRateCode, rate, baseTotalAmount, baseWinAmount } = player;
         const { baseStakeLevels, stakeLevels } = this.gameConfigs;
         let amountValue;

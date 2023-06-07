@@ -87,11 +87,11 @@ export default class SlotGameHistoryItem extends cc.Component {
         this.showJackpotIcon(settlementResult.jackpot, gameId);
     }
 
-    getJackpotWinningByCurrency(winningAmount: number) {
+    protected getJackpotWinningByCurrency(winningAmount: number) {
         return winningAmount;
     }
 
-    showJackpotIcon(jackpot, gameId) {
+    protected showJackpotIcon(jackpot, gameId) {
         if (jackpot !== null && this.jackpotIcon) {
             this.jackpotIcon.active = true;
         }

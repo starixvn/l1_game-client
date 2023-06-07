@@ -12,7 +12,11 @@ export default class StandardSlotGameHistoryItem extends SlotGameHistoryItem {
         this.win.node.color = betLog.betWin > 0 ? this.textHighlightColor : this.textNormalColor;
     }
 
-    showJackpotIcon(jackpot, gameId) {
+    protected getJackpotWinningByCurrency(winningAmount: number) {
+        return GameUtils.getValueByCurrency(winningAmount);
+    }
+
+    protected showJackpotIcon(jackpot, gameId) {
         if (jackpot !== null) {
             const gameAtlas = uiManager.prefabCache.gameAtlas[gameId];
             const sprite = this.jackpotIcon.getComponent(cc.Sprite);
@@ -22,9 +26,5 @@ export default class StandardSlotGameHistoryItem extends SlotGameHistoryItem {
         } else {
             this.jackpotIcon.active = false;
         }
-    }
-
-    getJackpotWinningByCurrency(winningAmount: number) {
-        return GameUtils.getValueByCurrency(winningAmount);
     }
 }
