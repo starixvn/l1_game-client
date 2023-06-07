@@ -25,7 +25,7 @@ export default class SlotGameTopWinnerItem extends cc.Component {
     @property(cc.Color)
     highlightColor: cc.Color = null;
 
-    stakeLevels;
+    public gameConfigs;
 
     setData(player: any, index: number, showBigWin: boolean) {
         const isLoginUser = userManager.isLoginUser(player.name);

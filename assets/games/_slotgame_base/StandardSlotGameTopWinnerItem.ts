@@ -10,19 +10,22 @@ export default class StandardSlotGameTopWinnerItem extends SlotGameTopWinnerItem
     private basePool = [1, 10, 50];
 
     setOtherValues(player, showBigWin) {
-        const { freeSpin, baseTotalAmount, baseWinningAmount, winningAmount, bet } = player;
+        const { freeSpin, totalAmount, winningAmount, bet, exchangeRateCode, rate, baseTotalAmount, baseWinAmount } = player;
+        const { baseStakeLevels, stakeLevels } = this.gameConfigs;
         let amountValue;
 
         if (showBigWin) {
-            amountValue = freeSpin ? "Free Spin" : numberWithCommas(GameUtils.getValueByCurrency(baseTotalAmount), 1);
+            amountValue = freeSpin
+                ? "Free Spin"
+                : numberWithCommas(GameUtils.getValueByExchangeRateCode(baseTotalAmount ?? totalAmount * rate, exchangeRateCode), 1);
         } else {
-            const index = lodash.indexOf(this.basePool, bet);
-            amountValue = numberWithCommas(this.stakeLevels[index], 1);
+            const index = lodash.indexOf(baseStakeLevels, bet);
+            amountValue = numberWithCommas(stakeLevels[index], 1);
         }
 
         this.amount.string = amountValue;
         this.win.string = showBigWin
-            ? numberWithCommas(GameUtils.getValueByCurrency(baseWinningAmount), 2)
-            : numberWithCommas(GameUtils.getValueByCurrency(winningAmount), 2);
+            ? numberWithCommas(GameUtils.getValueByExchangeRateCode(baseWinAmount ?? winningAmount * rate, exchangeRateCode), 2)
+            : numberWithCommas(GameUtils.getValueByExchangeRateCode(winningAmount, exchangeRateCode), 2);
     }
 }

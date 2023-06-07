@@ -885,7 +885,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
         const dialog = cc.instantiate(this.topWinnerPrefab);
         const topWinnerComponent = dialog.getComponent(SlotGameTopWinner);
-        topWinnerComponent.stakeLevels = this.gameConfigs?.stakeLevels || [];
+        topWinnerComponent.gameConfigs = this.gameConfigs;
         topWinnerComponent.init(this.socket, this.gameName, this.jackpotEnabled);
         this.currentMiniPanel.addDialog(dialog);
     }
