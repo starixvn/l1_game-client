@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "8GDOTKUMDFEupRzuxFu6qAN/fLs", "spine": "3.8.99", "images": "./images/", "audio": "D:/L5/DJClub/Graphic/replace-assets/resources/spine/btn-spin" },
+"skeleton": { "hash": "pyPijm3lNyurVLRhECYIUNMMy8I", "spine": "3.8.99", "images": "./images/", "audio": "D:/L5/DJClub/Graphic/replace-assets/resources/spine/btn-spin" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "button", "parent": "root" },
@@ -31,7 +31,7 @@
 	{ "name": "hover", "bone": "hover" },
 	{ "name": "circle", "bone": "spin-extra", "blend": "additive" },
 	{ "name": "spin-button-base-bg", "bone": "spin-button-base" },
-	{ "name": "spin-button-base-bg2", "bone": "spin-button-base-outer", "color": "ffffff7d", "blend": "additive" },
+	{ "name": "spin-button-base-bg2", "bone": "spin-button-base-outer", "color": "ffffff7d" },
 	{ "name": "light", "bone": "light", "color": "ffffff8b", "blend": "additive" },
 	{ "name": "blink", "bone": "blink" },
 	{ "name": "blink2", "bone": "blink2" },
@@ -69,10 +69,6 @@
 	{
 		"name": "default",
 		"attachments": {
-			"arrow": {
-				"arrow": { "width": 144, "height": 144 },
-				"arrow-blur": { "x": 0.5, "width": 144, "height": 144 }
-			},
 			"black-72-disable": {
 				"black-72-disable": { "width": 188, "height": 188 }
 			},
@@ -159,9 +155,6 @@
 			},
 			"spin-button-base-bg2": {
 				"spin-button-base-bg": { "width": 208, "height": 208 }
-			},
-			"spin_magic": {
-				"spin_magic": { "width": 166, "height": 166 }
 			}
 		}
 	}
@@ -338,8 +331,9 @@
 			"circle": {
 				"color": [
 					{ "color": "ffffffff" },
-					{ "time": 1.3333, "color": "42efffff" },
-					{ "time": 2.6667, "color": "f300ffff" },
+					{ "time": 1, "color": "d1ff00ff" },
+					{ "time": 2, "color": "f300ffff" },
+					{ "time": 3, "color": "fa00ffff" },
 					{ "time": 4, "color": "ffffffff" }
 				],
 				"attachment": [
@@ -365,9 +359,7 @@
 			},
 			"spin-button-base-bg2": {
 				"color": [
-					{ "color": "ffffff00", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
-					{ "time": 2, "color": "ffffff7c", "curve": 0.25, "c3": 0.75 },
-					{ "time": 4, "color": "ffffff00" }
+					{ "color": "ffffffff" }
 				],
 				"attachment": [
 					{ "name": "spin-button-base-bg" }
@@ -783,14 +775,7 @@
 					{ "time": 1, "angle": -1 }
 				],
 				"scale": [
-					{ "x": 0, "y": 0 },
-					{ "time": 0.6667 }
-				]
-			},
-			"hover": {
-				"scale": [
-					{ "x": 0.8, "y": 0.8 },
-					{ "time": 1, "x": 1.6, "y": 1.6 }
+					{ "x": 0, "y": 0 }
 				]
 			}
 		}

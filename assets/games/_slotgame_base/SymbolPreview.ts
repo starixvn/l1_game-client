@@ -42,11 +42,11 @@ export default class SymbolPreview extends cc.Component {
         this.node.destroy();
     }
 
-    showSymbolText(parentNode: cc.Node, symbolNumber: number, isInfoOnLeft: boolean) {
+    showSymbolText(parentNode: cc.Node, symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
         const nodeText = new cc.Node().addComponent(cc.Sprite);
         parentNode.addChild(nodeText.node);
         nodeText.spriteFrame = this.atlas.getSpriteFrame(`text-symbol-${symbolNumber}`);
-        nodeText.node.color = cc.Color.WHITE.fromHEX("FFDC00");
+        nodeText.node.color = cc.Color.WHITE.fromHEX(textColor);
         nodeText.node.anchorX = 0;
 
         this.infoNode.children.forEach((node) => {
@@ -96,7 +96,7 @@ export default class SymbolPreview extends cc.Component {
             });
 
             if (info.symbol == 7 || info.symbol == 8) {
-                this.showSymbolText(node, info.symbol, info.isInfoOnLeft);
+                this.showSymbolText(node, info.symbol, info.colorList[1], info.isInfoOnLeft);
             }
         });
     }
