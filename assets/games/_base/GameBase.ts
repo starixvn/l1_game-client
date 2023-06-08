@@ -218,7 +218,6 @@ export default class GameBase extends GameViewBase {
     }
 
     onLoad() {
-        cc.game.setFrameRate(60);
         super.onLoad();
         this.setUpHandlers();
         this.initBetChips();
