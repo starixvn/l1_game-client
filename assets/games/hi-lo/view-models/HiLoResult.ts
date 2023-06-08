@@ -1,8 +1,8 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import GameUtils from "../../../common/GameUtils";
 import { getRandomCard } from "../../../common/helpers/CardHelper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import HiLoCard from "../components/view-models/HiLoCard";
-import GameUtils from "../../../common/GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,10 +14,10 @@ export default class HiLoResult extends cc.Component {
     @property(cc.Node)
     cardReel: cc.Node = null;
 
-    @property(cc.AudioClip)
+    @property({ type: cc.AudioClip })
     spinAudioClip: cc.AudioClip = null;
 
-    @property(cc.AudioClip)
+    @property({ type: cc.AudioClip })
     spinStopAudioClip: cc.AudioClip = null;
 
     private readonly cardCount = 16;
