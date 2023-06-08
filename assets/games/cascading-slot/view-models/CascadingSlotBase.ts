@@ -548,7 +548,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         await this.showEffect(effect);
     }
 
-    private soundEndForBigWin() {
+    protected soundEndForBigWin() {
         this.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
         this.playSound(CascadingSlotGameSound.INCREMENT_STOP);
         this.stopSound(CascadingSlotGameSound.BIG_WIN);

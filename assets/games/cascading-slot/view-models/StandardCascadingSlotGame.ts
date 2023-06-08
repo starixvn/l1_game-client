@@ -14,6 +14,8 @@ import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
 import ChangeNodeColor from "../../../common/ChangeNodeColor";
+import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
+import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 
 const { ccclass, property } = cc._decorator;
 const LocalizedLabel = require("LocalizedLabel");
@@ -187,7 +189,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             [CascadingSlotGameSound.SYMBOL_EXPLODE]: "symbol-match",
             [CascadingSlotGameSound.INCREMENT]: "increment",
             [CascadingSlotGameSound.INCREMENT_STOP]: "increment-stop",
-            [CascadingSlotGameSound.COIN]: "coin"
+            [CascadingSlotGameSound.COIN]: "coin",
+            [CascadingSlotGameSound.CLICK]: "click"
         };
 
         for (const key of Object.keys(dict)) {
@@ -236,21 +239,20 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         });
     }
 
-    playSound(type: CascadingSlotGameSound) {
-        this.audioClips[type] && AudioManager.getInstance().playSFX(this.audioClips[type]);
+    playSound(type: CascadingSlotGameSound, loop = false): number {
+        if (this.audioClips[type]) {
+            return AudioManager.getInstance().playSFX(this.audioClips[type], loop);
+        }
+    }
+
+    stopSoundSFX(audioId: number) {
+        AudioManager.getInstance().stopSFX(audioId);
     }
 
     initPrefabGame(prefab: cc.Prefab, node: cc.Node) {
         const nodeTmp = cc.instantiate(prefab);
         node.addChild(nodeTmp);
     }
-
-    // initFreespinView() {
-    //     const node = cc.instantiate(this.freespinViewPrefab);
-    //     this.freespinViewNode.addChild(node);
-    //     this.freeSpinView = node.getComponent(FreeSpinView);
-    //     this.freeSpinView.showViewQuickly(false);
-    // }
 
     initTumbleWinList() {
         const node = cc.instantiate(this.tumbleListPrefab);
@@ -334,14 +336,51 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         node.scale = 0.9;
         node.opacity = 255;
         cc.tween(node)
-            .repeat(3, cc.tween().by(0.05, { scale: 0.1 }, { easing: "sineOut" }))
+            .parallel(cc.tween().to(0.1, { scale: 1.3 }), cc.tween().by(0.1, { y: 15 }, { easing: "sineOut" }))
             .parallel(
-                cc.tween().to(0.7, { scale: 1 }).to(0.8, { opacity: 0, scale: 0.9 }, { easing: "sineOut" }),
-                cc.tween().delay(0.1).by(1.5, { y: 50 }, { easing: "sineOut" })
+                cc.tween().to(0.5, { scale: 1 }, { easing: "sineOut" }).to(0.5, { opacity: 0, scale: 0.9 }, { easing: "sineOut" }),
+                cc.tween().by(0.5, { y: 25 }, { easing: "sineOut" }).by(0.5, { y: 10 }, { easing: "sineOut" })
             )
             .call(() => {
                 node.destroy();
             })
             .start();
+    }
+
+    protected soundEndForBigWinStandard(bigWinAudioId: number, incrementAudioId: number) {
+        this.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
+        this.playSound(CascadingSlotGameSound.INCREMENT_STOP);
+        this.stopSoundSFX(bigWinAudioId);
+        this.stopSoundSFX(incrementAudioId);
+    }
+
+    override async showEffectBigWin(betWin: number) {
+        const bigWinAudioId = this.playSound(CascadingSlotGameSound.BIG_WIN, true);
+        const incrementAudioId = this.playSound(CascadingSlotGameSound.INCREMENT, true);
+
+        const effect = cc.instantiate(this.effectBigWin);
+        const callbackAnim = effect.getComponent(CallbackLoopAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("bigWin"));
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+
+        if (this.isTurboMode()) {
+            this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
+            bigWinAnimation.setAmount({ amount: betWin });
+            callbackAnim.skipTouchToContinue();
+        } else {
+            bigWinAnimation
+                .setAmountSlowHavingSpeed(betWin, () => {
+                    this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
+                    callbackAnim.closeLater();
+                })
+                .catch((reason) => console.log(reason));
+        }
+
+        callbackAnim.skipCallback = () => {
+            this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
+            bigWinAnimation.setAmount({ amount: betWin });
+        };
+
+        await this.showEffect(effect);
     }
 }

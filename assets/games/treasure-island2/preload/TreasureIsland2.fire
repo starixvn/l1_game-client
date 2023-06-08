@@ -2721,7 +2721,7 @@
         "__id__": 65
       },
       {
-        "__id__": 68
+        "__id__": 72
       }
     ],
     "_active": true,
@@ -2870,96 +2870,6 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "bottom-area",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 62
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 66
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "53ZVEMeedCvbqY8CGQsc4I"
-  },
-  {
-    "__type__": "2aa89SjKxZNhZGiq4fg66rF",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 65
-    },
-    "_enabled": true,
-    "prefab": {
-      "__uuid__": "bfec4b6d-200a-4ee9-9e5d-25e2a5465baa"
-    },
-    "initializationEventHandlers": [
-      {
-        "__id__": 67
-      }
-    ],
-    "_id": "44uN8ZvPlLL77F9GQVbp5m"
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 2
-    },
-    "component": "",
-    "_componentId": "617f4sx+J5I440gehWxG5E5",
-    "handler": "initBottomArea",
-    "customEventData": ""
-  },
-  {
-    "__type__": "cc.Node",
     "_name": "spinbutton",
     "_objFlags": 0,
     "_parent": {
@@ -2967,19 +2877,19 @@
     },
     "_children": [
       {
-        "__id__": 69
+        "__id__": 66
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 71
+        "__id__": 68
       },
       {
-        "__id__": 72
+        "__id__": 69
       },
       {
-        "__id__": 73
+        "__id__": 70
       }
     ],
     "_prefab": null,
@@ -3035,13 +2945,13 @@
     "_name": "spin-anim",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 68
+      "__id__": 65
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 70
+        "__id__": 67
       }
     ],
     "_prefab": null,
@@ -3097,7 +3007,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 69
+      "__id__": 66
     },
     "_enabled": true,
     "_materials": [
@@ -3139,11 +3049,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 68
+      "__id__": 65
     },
     "_enabled": true,
     "spinButton": {
-      "__id__": 72
+      "__id__": 69
     },
     "autoSpinCountLabel": null,
     "normalSpinNode": null,
@@ -3152,7 +3062,7 @@
     "spinAnimation": null,
     "spinParticle": null,
     "iconSpinSkeleton": {
-      "__id__": 70
+      "__id__": 67
     },
     "_id": "10Pl57N0VA26xi8H6qdK7d"
   },
@@ -3161,7 +3071,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 68
+      "__id__": 65
     },
     "_enabled": true,
     "_normalMaterial": null,
@@ -3225,7 +3135,7 @@
     "disableNode": null,
     "activeNode": null,
     "animation": {
-      "__id__": 70
+      "__id__": 67
     },
     "_id": "4cUHUVGHxL5q9cx5aM+9nX"
   },
@@ -3234,12 +3144,12 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 68
+      "__id__": 65
     },
     "_enabled": true,
     "clickEvents": [
       {
-        "__id__": 74
+        "__id__": 71
       }
     ],
     "_id": "09PQj87A9G+7EN5tdR7mML"
@@ -3252,6 +3162,96 @@
     "component": "",
     "_componentId": "617f4sx+J5I440gehWxG5E5",
     "handler": "onSpinClick",
+    "customEventData": ""
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "bottom-area",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 62
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 73
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 0,
+      "height": 0
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "53ZVEMeedCvbqY8CGQsc4I"
+  },
+  {
+    "__type__": "2aa89SjKxZNhZGiq4fg66rF",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 72
+    },
+    "_enabled": true,
+    "prefab": {
+      "__uuid__": "bfec4b6d-200a-4ee9-9e5d-25e2a5465baa"
+    },
+    "initializationEventHandlers": [
+      {
+        "__id__": 74
+      }
+    ],
+    "_id": "44uN8ZvPlLL77F9GQVbp5m"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "617f4sx+J5I440gehWxG5E5",
+    "handler": "initBottomArea",
     "customEventData": ""
   },
   {
@@ -4003,9 +4003,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "52f47bfb-6a33-418e-b83e-016e531840ad"
-    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -4549,9 +4546,6 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "d8dd6eac-1949-45cc-9ac5-e4cfd69a588e"
-    },
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -5719,7 +5713,7 @@
       "__uuid__": "7d76695b-4497-466c-9bcc-e4cabe0cd7da"
     },
     "spinButton": {
-      "__id__": 71
+      "__id__": 68
     },
     "effectContainer": {
       "__id__": 110
@@ -5727,7 +5721,7 @@
     "effectBigWin": null,
     "effectFreeSpin": null,
     "holdActionButton": {
-      "__id__": 73
+      "__id__": 70
     },
     "defaultMiniMenu": {
       "__id__": 108
@@ -5750,7 +5744,7 @@
       "__id__": 57
     },
     "bottomArea": {
-      "__id__": 65
+      "__id__": 72
     },
     "tumbleWinFrameNode": {
       "__id__": 54

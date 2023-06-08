@@ -57,9 +57,9 @@ export default class AudioManager {
         }
     }
 
-    playSFX(clip: cc.AudioClip): number {
+    playSFX(clip: cc.AudioClip, loop = false): number {
         if (this.sfxEnabled && clip) {
-            return cc.audioEngine.playEffect(clip, false);
+            return cc.audioEngine.playEffect(clip, loop);
         }
         return -1;
     }
