@@ -44,17 +44,17 @@ export default class HiLoTicketDetail extends GameTicketDetailBase {
         this.roundId.string = data.id.toString();
         const betLogDetails = data.betLogDetails;
         const startRound = this.renderDetailBase(data, true, index);
-        this.content.addChild(startRound);
+        startRound && this.content.addChild(startRound);
         index++;
         betLogDetails.forEach((logDetail) => {
             const ticketDetailItem = GameUtils.createNodeFromPrefab(this.ticketDetailItemPrefab);
             const detailControl = ticketDetailItem.getComponent(HiLoTicketDetailItem);
             detailControl.renderTicketDetailItem(logDetail, index);
-            this.content.addChild(ticketDetailItem);
+            ticketDetailItem && this.content.addChild(ticketDetailItem);
             index++;
         });
         const endRound = this.renderDetailBase(data, false, index);
-        this.content.addChild(endRound);
+        endRound && this.content.addChild(endRound);
     }
 
     renderTicketDetail(data: BetLog) {

@@ -1,8 +1,9 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-window.modules = { i18n };
+
 import BlockchainCardVerificationItem from "../../../../../assets/games/blockchain-baccarat/components/card-list/view-models/BlockchainCardVerificationItem";
 import { mockFuntions } from "../../../../mocks/TestUtils";
 
+window.modules = { i18n };
 jest.mock("../../../../../assets/common/GameUtils", () => ({
     default: class {
         public static createNodeFromPrefab() {
@@ -12,7 +13,7 @@ jest.mock("../../../../../assets/common/GameUtils", () => ({
 }));
 
 jest.mock("i18n/runtime-scripts/LanguageData");
-describe("Test class BlockchainCardVerificationItem", () => {
+describe("BlockchainCardVerificationItem", () => {
     let node: cc.Node;
     let cardVerificationItemComp: BlockchainCardVerificationItem;
     let comp: any;
@@ -58,21 +59,18 @@ describe("Test class BlockchainCardVerificationItem", () => {
         cc.tween().start = () => tooltip;
     });
 
-    it("resetHighLight should run expected", () => {
-        // arrange
-        i18n.t.mockReturnValueOnce("player");
-        i18n.t.mockReturnValueOnce("banker");
-        i18n.t.mockReturnValueOnce("last round");
+    describe("resetHighLight", () => {
+        it("should run expected", () => {
+            // act
+            cardVerificationItemComp.resetHighLight();
 
-        // act
-        cardVerificationItemComp.resetHighLight();
-
-        // assert
-        expect(cardVerificationItemComp.highlightFailed.active).toBeFalsy();
-        expect(cardVerificationItemComp.highlightSuccess.active).toBeFalsy();
+            // assert
+            expect(cardVerificationItemComp.highlightFailed.active).toBeFalsy();
+            expect(cardVerificationItemComp.highlightSuccess.active).toBeFalsy();
+        });
     });
 
-    describe("Test method setHashValue", () => {
+    describe("setHashValue", () => {
         it("Case: ", () => {
             //Arrange
             const color = cc.Color.WHITE;
@@ -90,7 +88,7 @@ describe("Test class BlockchainCardVerificationItem", () => {
         });
     });
 
-    describe("Test method setHighLightSuccess", () => {
+    describe("setHighLightSuccess", () => {
         it("Case: ", () => {
             //Arrange
             const color = cc.Color.WHITE;
@@ -103,7 +101,7 @@ describe("Test class BlockchainCardVerificationItem", () => {
         });
     });
 
-    describe("Test method setHighLightFailed", () => {
+    describe("setHighLightFailed", () => {
         it("Case: ", () => {
             //Arrange
             const color = cc.Color.WHITE;
@@ -116,7 +114,7 @@ describe("Test class BlockchainCardVerificationItem", () => {
         });
     });
 
-    describe("Test method setTextCopy", () => {
+    describe("setTextCopy", () => {
         it("Case 1: ", () => {
             // Arrange
             const text = "kd34kj54kjy3kj43iss5458s457s";
@@ -128,7 +126,7 @@ describe("Test class BlockchainCardVerificationItem", () => {
         });
     });
 
-    describe("Test method showTooltip", () => {
+    describe("showTooltip", () => {
         it("Case 1: should call hideTooltip", () => {
             //arrange
             const text = "";
@@ -155,7 +153,7 @@ describe("Test class BlockchainCardVerificationItem", () => {
         });
     });
 
-    describe("Test method enableCopyButton", () => {
+    describe("enableCopyButton", () => {
         it("Case 1: enabled", () => {
             //arrange
             const btnActive = new cc.Node();
@@ -189,7 +187,7 @@ describe("Test class BlockchainCardVerificationItem", () => {
         });
     });
 
-    describe("Test method setNumberKey", () => {
+    describe("setNumberKey", () => {
         it("Case 1: ", () => {
             // Act
             cardVerificationItemComp.setNumberKey(1);

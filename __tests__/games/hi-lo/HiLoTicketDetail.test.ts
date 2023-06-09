@@ -174,7 +174,7 @@ describe("HiLoTicketdetail", () => {
             comp.renderDetailBase(betLog, false, 0);
 
             //Assert
-            // expect(spyFunction).toHaveBeenCalledWith(betLog, false);
+            expect(HiLoTicketDetailBaseItem.prototype.setData).toHaveBeenCalled();
         });
     });
 
