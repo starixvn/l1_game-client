@@ -256,7 +256,7 @@ export default class GameUtils {
     public static openGameMicrosite(gameId: number) {
         const auData = window.authData;
         const directMode = StorageManager.get("direct_mode");
-        const url = buildProxyUrl(`/game-client-${gameId}`);
+        const url = buildProxyUrl(`/site-${gameId}`);
         const audio = AudioManager.getInstance();
         const params = {
             ss: auData.ss,
