@@ -5,15 +5,15 @@
 import GameUtils from "../../assets/common/GameUtils";
 import StandardJackpotPoolItem from "../../assets/lobby/main/view-models/StandardJackpotPoolItem";
 
-describe("Test class StandardJackpotPoolItem", () => {
+describe("StandardJackpotPoolItem", () => {
     let node: cc.Node;
     let comp: StandardJackpotPoolItem;
     beforeAll(() => {
         node = new cc.Node();
         comp = node.addComponent(StandardJackpotPoolItem);
     });
-    describe("Test method convertCurrencyValue", () => {
-        it("Call GameUtils.getValueByCurrency", () => {
+    describe("convertCurrencyValue", () => {
+        it("should call GameUtils.getValueByCurrency", () => {
             // Arrange
             const amount = 100;
             const getValueByCurrencySpy = jest.spyOn(GameUtils, "getValueByCurrency");

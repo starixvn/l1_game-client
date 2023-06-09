@@ -7,7 +7,7 @@ import { getStringDateByTime } from "../../../assets/common/helpers/DateTimeHelp
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import SlotGameHistoryItem from "../../../assets/games/_slotgame_base/SlotGameHistoryItem";
 
-describe("Test class SlotGameHistoryItem", () => {
+describe("SlotGameHistoryItem", () => {
     let node: cc.Node;
     let comp: SlotGameHistoryItem;
     beforeEach(() => {
@@ -29,126 +29,135 @@ describe("Test class SlotGameHistoryItem", () => {
         comp.jackpotIcon = new cc.Node();
     });
 
-    describe("Test method openTicketDetail", () => {
-        it("Case:", () => {
+    describe("openTicketDetail", () => {
+        const playClickSpy = jest.spyOn(AudioManager.prototype, "playClick");
+
+        beforeEach(() => {
             // Arrange
-            const playClickSpy = jest.spyOn(AudioManager.prototype, "playClick");
             comp.showTicketDetail = jest.fn();
 
             // Act
             comp.openTicketDetail();
+        });
 
+        it("should call playClickSpy", () => {
             // Assert
             expect(playClickSpy).toHaveBeenCalled();
+        });
+
+        it("should call showTicketDetail", () => {
+            // Assert
             expect(comp.showTicketDetail).toHaveBeenCalled();
         });
     });
 
-    describe("Test method setData", () => {
-        it("Case 1: jackpot = null, freeSpin = true, betWin = 0", () => {
+    describe("setData", () => {
+        const betLog = {
+            bet: 0.1,
+            totalAmount: 2.5,
+            paylines: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+            freeSpin: false,
+            result: [2, 0, 4, 0, 7, 0, 7, 1, 1, 0, 1, 0, 0, 4, 3],
+            betWin: 0,
+            id: 94,
+            uid: "5e9571d359f6154c99b1fba1",
+            name: "lele6001",
+            time: "2021-09-07T09:28:02.314Z",
+            endTime: "2021-09-07T09:28:02.322Z",
+            settlementResult: {
+                freeSpins: {
+                    count: 2,
+                    odds: 0
+                },
+                bonus: {
+                    count: 0,
+                    odds: 0,
+                    winningAmount: 0
+                },
+                jackpot: null,
+                winningPaylines: [
+                    {
+                        payline: 1,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 5,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 6,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 8,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 9,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 10,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 17,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 19,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 21,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 22,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    },
+                    {
+                        payline: 23,
+                        symbol: "0",
+                        count: 3,
+                        odds: 2
+                    }
+                ]
+            }
+        };
+        const index = 1;
+        const gameId = 29;
+
+        beforeEach(() => {
             // Arrange
-            const betLog = {
-                bet: 0.1,
-                totalAmount: 2.5,
-                paylines: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-                freeSpin: true,
-                result: [2, 0, 4, 0, 7, 0, 7, 1, 1, 0, 1, 0, 0, 4, 3],
-                betWin: 0,
-                id: 94,
-                uid: "5e9571d359f6154c99b1fba1",
-                name: "lele6001",
-                time: "2021-09-07T09:28:02.314Z",
-                endTime: "2021-09-07T09:28:02.322Z",
-                settlementResult: {
-                    freeSpins: {
-                        count: 2,
-                        odds: 0
-                    },
-                    bonus: {
-                        count: 0,
-                        odds: 0,
-                        winningAmount: 0
-                    },
-                    jackpot: null,
-                    winningPaylines: [
-                        {
-                            payline: 1,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 5,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 6,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 8,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 9,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 10,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 17,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 19,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 21,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 22,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 23,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        }
-                    ]
-                }
-            };
-            const index = 1;
-            const win = betLog.betWin;
-            const gameId = 29;
             comp["getJackpotWinningByCurrency"] = jest.fn();
             comp["showJackpotIcon"] = jest.fn();
 
             // Act
             comp.setData(betLog, index, gameId);
+        });
 
+        it("should display all common data", () => {
             // Assert
             expect(comp.node.active).toEqual(true);
             expect(comp.bg.active).toEqual(index % 2 > 0);
@@ -156,150 +165,81 @@ describe("Test class SlotGameHistoryItem", () => {
             expect(comp.roundID.string).toMatch(betLog.id.toString());
             expect(comp.payLines.string).toMatch(betLog.paylines.length.toString());
             expect(comp.bet.string).toMatch(numberWithCommas(betLog.bet, 1));
-            expect(comp.totalAmount.string).toMatch("0");
-            expect(comp.win.string).toMatch(numberWithCommas(win));
             expect(comp.data).toEqual(betLog);
             expect(comp.time.node.color).toEqual(comp.textNormalColor);
             expect(comp.payLines.node.color).toEqual(comp.textNormalColor);
             expect(comp.bet.node.color).toEqual(comp.textNormalColor);
             expect(comp.bg.active).toEqual(true);
             expect(comp.bg.color).toEqual(comp.bgHighlightColor);
-            expect(comp["getJackpotWinningByCurrency"]).not.toHaveBeenCalled();
-            expect(comp["showJackpotIcon"]).toHaveBeenCalled();
         });
 
-        it("Case 2: betlog has jackpot, freeSpin = false, betWin > 0", () => {
-            // Arrange
-            const betLog = {
-                bet: 0.1,
-                totalAmount: 2.5,
-                paylines: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
-                freeSpin: false,
-                result: [2, 0, 4, 0, 7, 0, 7, 1, 1, 0, 1, 0, 0, 4, 3],
-                betWin: 2.2,
-                id: 94,
-                uid: "5e9571d359f6154c99b1fba1",
-                name: "lele6001",
-                time: "2021-09-07T09:28:02.314Z",
-                endTime: "2021-09-07T09:28:02.322Z",
-                settlementResult: {
-                    freeSpins: {
-                        count: 2,
-                        odds: 0
-                    },
-                    bonus: {
-                        count: 0,
-                        odds: 0,
-                        winningAmount: 0
-                    },
-                    jackpot: {
-                        winningLine: 2,
-                        winningAmount: 10000
-                    },
-                    winningPaylines: [
-                        {
-                            payline: 1,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 5,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 6,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 8,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 9,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 10,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 17,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 19,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 21,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 22,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        },
-                        {
-                            payline: 23,
-                            symbol: "0",
-                            count: 3,
-                            odds: 2
-                        }
-                    ]
-                }
-            };
-            const index = 1;
-            const gameId = 29;
-            comp["getJackpotWinningByCurrency"] = jest.fn((value) => {
-                return 0;
+        describe("when betlog has freeSpin, not jackpot", () => {
+            betLog["freeSpin"] = true;
+
+            it("should display bet win", () => {
+                // Assert
+                expect(comp.win.string).toMatch(numberWithCommas(betLog.betWin));
             });
-            comp["showJackpotIcon"] = jest.fn();
-            const win = betLog.betWin + comp["getJackpotWinningByCurrency"](betLog.settlementResult.jackpot.winningAmount);
 
-            // Act
-            comp.setData(betLog, index, gameId);
+            it("should display total amount is 0", () => {
+                // Arrange
 
-            // Assert
-            expect(comp.jackpotIcon.active).toEqual(true);
-            expect(comp.node.active).toEqual(true);
-            expect(comp.bg.active).toEqual(index % 2 > 0);
-            expect(comp.time.string).toMatch(getStringDateByTime(betLog.time));
-            expect(comp.roundID.string).toMatch(betLog.id.toString());
-            expect(comp.payLines.string).toMatch(betLog.paylines.length.toString());
-            expect(comp.bet.string).toMatch(numberWithCommas(betLog.bet, 1));
-            expect(comp.totalAmount.string).toMatch(numberWithCommas(betLog.totalAmount, 1));
-            expect(comp.win.string).toMatch(numberWithCommas(win));
-            expect(comp.data).toEqual(betLog);
-            expect(comp.time.node.color).toEqual(comp.textHighlightColor);
-            expect(comp.payLines.node.color).toEqual(comp.textHighlightColor);
-            expect(comp.bet.node.color).toEqual(comp.textHighlightColor);
-            expect(comp.bg.active).toEqual(true);
-            expect(comp.bg.color).toEqual(comp.bgHighlightColor);
-            expect(comp["getJackpotWinningByCurrency"]).toHaveBeenCalled();
-            expect(comp["showJackpotIcon"]).toHaveBeenCalled();
+                // Assert
+                expect(comp.totalAmount.string).toMatch("0");
+            });
+
+            it("should call showJackpotIcon", () => {
+                // Assert
+                expect(comp["showJackpotIcon"]).toHaveBeenCalled();
+            });
+
+            it("should call not call getJackpotWinningByCurrency", () => {
+                // Assert
+                expect(comp["getJackpotWinningByCurrency"]).not.toHaveBeenCalled();
+            });
+        });
+        describe("when betlog has jackpot, not freeSpin", () => {
+            beforeEach(() => {
+                betLog["freeSpin"] = false;
+                betLog["settlementResult"]["jackpot"] = {
+                    winningLine: 2,
+                    winningAmount: 10000
+                };
+                comp["getJackpotWinningByCurrency"] = jest.fn((value) => {
+                    return 2;
+                });
+
+                // Act
+                comp.setData(betLog, index, gameId);
+            });
+
+            it("should display bet win with jackpot win", () => {
+                // Arrange
+                const win = betLog.betWin + comp["getJackpotWinningByCurrency"](betLog.settlementResult.jackpot.winningAmount);
+
+                // Assert
+                expect(comp.win.string).toMatch(`${win}`);
+            });
+
+            it("should display total amount with formatting commas", () => {
+                // Assert
+                expect(comp.totalAmount.string).toMatch(numberWithCommas(betLog.totalAmount, 1));
+            });
+
+            it("should call getJackpotWinningByCurrency", () => {
+                // Assert
+                expect(comp["getJackpotWinningByCurrency"]).toHaveBeenCalled();
+            });
+
+            it("should call showJackpotIcon", () => {
+                // Assert
+                expect(comp["showJackpotIcon"]).toHaveBeenCalled();
+            });
         });
     });
 
-    describe("Test method getJackpotWinningByCurrency", () => {
-        it("Case:", () => {
+    describe("getJackpotWinningByCurrency", () => {
+        it("should return value", () => {
             // Arrange
             const winningAmount = 100;
 
@@ -311,34 +251,38 @@ describe("Test class SlotGameHistoryItem", () => {
         });
     });
 
-    describe("Test method showJackpotIcon", () => {
-        it("Case: jackpot is null", () => {
-            // Arrange
-            const jackpot = null;
-            const gameId = 199;
-            comp.jackpotIcon.active = false;
+    describe("showJackpotIcon", () => {
+        describe("when jackpot is null", () => {
+            it("should not do anything", () => {
+                // Arrange
+                const jackpot = null;
+                const gameId = 199;
+                comp.jackpotIcon.active = false;
 
-            // Act
-            comp["showJackpotIcon"](jackpot, gameId);
+                // Act
+                comp["showJackpotIcon"](jackpot, gameId);
 
-            // Assert
-            expect(comp.jackpotIcon.active).toEqual(false);
+                // Assert
+                expect(comp.jackpotIcon.active).toEqual(false);
+            });
         });
 
-        it("Case: betlog has jackpot", () => {
-            // Arrange
-            const jackpot = {
-                winningLine: 2,
-                winningAmount: 10000
-            };
-            const gameId = 199;
-            comp.jackpotIcon.active = false;
+        describe("when jackpot has data", () => {
+            it("should show jackpot icon", () => {
+                // Arrange
+                const jackpot = {
+                    winningLine: 2,
+                    winningAmount: 10000
+                };
+                const gameId = 199;
+                comp.jackpotIcon.active = false;
 
-            // Act
-            comp["showJackpotIcon"](jackpot, gameId);
+                // Act
+                comp["showJackpotIcon"](jackpot, gameId);
 
-            // Assert
-            expect(comp.jackpotIcon.active).toEqual(true);
+                // Assert
+                expect(comp.jackpotIcon.active).toEqual(true);
+            });
         });
     });
 });

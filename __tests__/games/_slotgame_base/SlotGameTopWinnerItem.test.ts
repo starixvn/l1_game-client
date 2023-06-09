@@ -8,7 +8,7 @@ import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import { userManager } from "../../../assets/common/user/UserManager";
 import SlotGameTopWinnerItem from "../../../assets/games/_slotgame_base/SlotGameTopWinnerItem";
 
-describe("Test class SlotGameTopWinnerItem", () => {
+describe("SlotGameTopWinnerItem", () => {
     let node: cc.Node;
     let comp: SlotGameTopWinnerItem;
     beforeEach(() => {
@@ -20,58 +20,88 @@ describe("Test class SlotGameTopWinnerItem", () => {
         comp.amount = new cc.Node().addComponent(cc.Label);
         comp.win = new cc.Node().addComponent(cc.Label);
     });
-    describe("Test method setData", () => {
+    describe("setData", () => {
         const playerData = {
             time: "2020/12/12 ...",
-            name: "abc",
+            name: "player293006",
             totalAmount: 250,
             winningAmount: 1000,
             freeSpin: true
         };
         const index = 1;
         const showBigWin = true;
+
         beforeEach(() => {
+            // Arrange
             comp.setOtherValues = jest.fn();
             comp.setTextColor = jest.fn();
+
+            // Act
+            comp.setData(playerData, index, showBigWin);
         });
 
-        it("Case 1: user login ", () => {
+        it("should display time", () => {
             // Arrange
             jest.spyOn(userManager, "isLoginUser").mockImplementation(() => {
                 return true;
             });
 
-            // Act
-            comp.setData(playerData, index, showBigWin);
-
             // Assert
             expect(comp.bg.active).toEqual(true);
             expect(comp.time.string).toMatch(getStringDateByTime(playerData.time));
-            expect(shortenName(comp.player.string)).toMatch(playerData.name);
-            expect(comp.setOtherValues).toHaveBeenCalled();
-            expect(comp.setTextColor).toHaveBeenCalled();
         });
 
-        it("Case 2: player not user login", () => {
+        it("should call setOtherValues", () => {
             // Arrange
             jest.spyOn(userManager, "isLoginUser").mockImplementation(() => {
-                return false;
+                return true;
             });
 
-            // Act
-            comp.setData(playerData, index, showBigWin);
-
             // Assert
-            expect(comp.bg.active).toEqual(true);
-            expect(comp.time.string).toMatch(getStringDateByTime(playerData.time));
-            expect(shortenName(comp.player.string)).toMatch(shortenName(playerData.name));
             expect(comp.setOtherValues).toHaveBeenCalled();
-            expect(comp.setTextColor).not.toHaveBeenCalled();
+        });
+
+        describe("when winner is user login", () => {
+            beforeEach(() => {
+                // Arrange
+                jest.spyOn(userManager, "isLoginUser").mockImplementation(() => {
+                    return true;
+                });
+            });
+            it("should display fullname", () => {
+                // Assert
+                expect(comp.player.string).toMatch(playerData.name);
+            });
+
+            it("should call setTextColor", () => {
+                // Assert
+                expect(comp.setTextColor).toHaveBeenCalled();
+            });
+        });
+        describe("when winner is not user login", () => {
+            beforeEach(() => {
+                // Arrange
+                jest.spyOn(userManager, "isLoginUser").mockImplementation(() => {
+                    return false;
+                });
+
+                // Act
+                comp.setData(playerData, index, showBigWin);
+            });
+            it("should display shortened name", () => {
+                // Assert
+                expect(comp.player.string).toMatch(shortenName(playerData.name));
+            });
+
+            it("should not call setTextColor", () => {
+                // Assert
+                expect(comp.setTextColor).not.toHaveBeenCalled();
+            });
         });
     });
 
-    describe("Test method setTextColor", () => {
-        it("Case:", () => {
+    describe("setTextColor", () => {
+        it("should set color for all texts", () => {
             // Arrange
             const color = cc.Color.YELLOW;
 
@@ -86,51 +116,53 @@ describe("Test class SlotGameTopWinnerItem", () => {
         });
     });
 
-    describe("Test method setOtherValues", () => {
-        it("Case: showBigWin=true and freeSpin=true", () => {
-            // Arrange
-            const showBigWin = true;
-            const playerData = { bet: 1, time: "2020/12/12 ...", name: "abc", totalAmount: 250, winningAmount: 1000, freeSpin: true };
+    describe("setOtherValues", () => {
+        let showBigWin = true;
+        const playerData = { bet: 1, time: "2020/12/12 ...", name: "abc", totalAmount: 250, winningAmount: 1000, freeSpin: true };
 
+        it("should display winning amount", () => {
             // Act
             comp.setOtherValues(playerData, showBigWin);
 
             // Assert
-            expect(comp.amount.string).toEqual("Free Spin");
             expect(comp.win.string).toEqual(numberWithCommas(playerData.winningAmount, 2));
         });
 
-        it("Case: showBigWin=true and freeSpin=false", () => {
-            // Arrange
-            const showBigWin = true;
-            const playerData = {
-                bet: 1,
-                time: "2020/12/12 ...",
-                name: "abc",
-                totalAmount: 250,
-                winningAmount: 1000,
-                freeSpin: false
-            };
+        describe("when showBigWin=true and freeSpin=true", () => {
+            it("should display amount is Free Spin", () => {
+                // Arrange
+                playerData["freeSpin"] = true;
 
-            // Act
-            comp.setOtherValues(playerData, showBigWin);
+                // Act
+                comp.setOtherValues(playerData, showBigWin);
 
-            // Assert
-            expect(comp.amount.string).toEqual(numberWithCommas(playerData.totalAmount, 1));
-            expect(comp.win.string).toEqual(numberWithCommas(playerData.winningAmount, 2));
+                // Assert
+                expect(comp.amount.string).toEqual("Free Spin");
+            });
         });
+        describe("when showBigWin=true and freeSpin=false", () => {
+            it("should set amount is totalAmount", () => {
+                // Arrange
+                playerData["freeSpin"] = false;
 
-        it("Case: showBigWin=false", () => {
-            // Arrange
-            const showBigWin = false;
-            const playerData = { bet: 1, time: "2020/12/12 ...", name: "abc", totalAmount: 250, winningAmount: 1000, freeSpin: false };
+                // Act
+                comp.setOtherValues(playerData, showBigWin);
 
-            // Act
-            comp.setOtherValues(playerData, showBigWin);
+                // Assert
+                expect(comp.amount.string).toEqual(numberWithCommas(playerData.totalAmount, 1));
+            });
+        });
+        describe("when showBigWin=false", () => {
+            it("should amount is bet", () => {
+                // Arrange
+                showBigWin = false;
 
-            // Assert
-            expect(comp.amount.string).toEqual(`${playerData.bet}`);
-            expect(comp.win.string).toEqual(numberWithCommas(playerData.winningAmount, 2));
+                // Act
+                comp.setOtherValues(playerData, showBigWin);
+
+                // Assert
+                expect(comp.amount.string).toEqual(`${playerData.bet}`);
+            });
         });
     });
 });

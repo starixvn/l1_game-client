@@ -6,7 +6,7 @@ import GameUtils from "../../assets/common/GameUtils";
 import { numberWithCommas } from "../../assets/common/helpers/NumberHelper";
 import BannerJackpotPoolItem from "../../assets/lobby/main/view-models/BannerJackpotPoolItem";
 
-describe("Test class BannerJackpotPoolItem", () => {
+describe("BannerJackpotPoolItem", () => {
     let node: cc.Node;
     let comp: BannerJackpotPoolItem;
     beforeAll(() => {
@@ -16,26 +16,36 @@ describe("Test class BannerJackpotPoolItem", () => {
         comp.poolAmount = new cc.Node().addComponent(cc.Label);
         comp.gameIcon = new cc.Node().addComponent(cc.Sprite);
     });
-    describe("Test method setData", () => {
-        it("Case: ", () => {
-            // Arrange
-            const data = {
-                gameId: 199,
-                amount: 2001,
-                pool: 50
-            };
-            const getGameIconSpy = jest.spyOn(BannerJackpotPoolItem.prototype, "getGameIcon").mockImplementation(() => {
-                return null;
-            });
-            const expectAmount = numberWithCommas(GameUtils.getValueByCurrency(data.amount), 2);
+    describe("setData", () => {
+        const getGameIconSpy = jest.spyOn(BannerJackpotPoolItem.prototype, "getGameIcon").mockImplementation(() => {
+            return null;
+        });
+        const data = {
+            gameId: 199,
+            amount: 2001,
+            pool: 50
+        };
+        const expectAmount = numberWithCommas(GameUtils.getValueByCurrency(data.amount), 2);
 
+        beforeEach(() => {
             // Act
             comp.setData(data);
+        });
 
+        it("should save gameId", () => {
             // Assert
             expect(comp.gameId).toEqual(data.gameId);
+        });
+        it("should display game name", () => {
+            // Assert
             expect(comp.gameName.string).toEqual(GameUtils.getGameNameString(data.gameId));
+        });
+        it("should display pool amount", () => {
+            // Assert
             expect(comp.poolAmount.string).toEqual(expectAmount);
+        });
+        it("should call getGameIcon", () => {
+            // Assert
             expect(getGameIconSpy).toHaveBeenCalled();
         });
     });

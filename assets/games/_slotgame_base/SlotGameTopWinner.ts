@@ -139,14 +139,13 @@ export default class SlotGameTopWinner extends BaseComponent {
             case 1:
                 this.topWinnerView = "getBigWinningWinners";
                 this.showBigWinningView(true);
-                this.get_data();
                 break;
             case 2:
                 this.topWinnerView = "getJackpotWinners";
                 this.showBigWinningView(false);
-                this.get_data();
                 break;
         }
+        this.get_data();
         this.pagination.resetPageCurrent();
     }
 

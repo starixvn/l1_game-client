@@ -7,7 +7,7 @@ import GameUtils from "../../../assets/common/GameUtils";
 import { numberWithCommas } from "../../../assets/common/helpers/NumberHelper";
 import StandardSlotGameTopWinnerItem from "../../../assets/games/_slotgame_base/StandardSlotGameTopWinnerItem";
 
-describe("Test class StandardSlotGameTopWinnerItem", () => {
+describe("StandardSlotGameTopWinnerItem", () => {
     let node: cc.Node;
     let comp: StandardSlotGameTopWinnerItem;
     beforeEach(() => {
@@ -15,106 +15,105 @@ describe("Test class StandardSlotGameTopWinnerItem", () => {
         comp = node.addComponent(StandardSlotGameTopWinnerItem);
         comp.amount = new cc.Node().addComponent(cc.Label);
         comp.win = new cc.Node().addComponent(cc.Label);
+        comp.gameConfigs = {
+            baseStakeLevels: [1, 10, 50],
+            stakeLevels: [1, 10, 50]
+        };
     });
-    describe("Test method setOtherValues", () => {
-        it("Case: showBigWin=true and freeSpin=true", () => {
-            // Arrange
-            const showBigWin = true;
-            const playerData = {
-                freeSpin: true,
-                name: "lele60008",
-                totalAmount: 25,
-                winningAmount: 324,
-                time: "2023-06-01T08:54:51.174Z",
-                exchangeRateId: 4308,
-                rate: 1000,
-                exchangeRateCode: {
-                    VND: 1
-                }
-            };
-            comp.gameConfigs = {
-                baseStakeLevels: [1, 10, 50],
-                stakeLevels: [1, 10, 50]
-            };
+    describe("setOtherValues", () => {
+        let showBigWin = true;
+        const playerData = {
+            freeSpin: true,
+            name: "lele60008",
+            totalAmount: 25,
+            winningAmount: 324,
+            time: "2023-06-01T08:54:51.174Z",
+            exchangeRateId: 4308,
+            rate: 1000,
+            exchangeRateCode: {
+                VND: 1
+            }
+        };
 
-            // Act
-            comp.setOtherValues(playerData, showBigWin);
+        describe("when showBigWin=true and freeSpin=true", () => {
+            beforeEach(() => {
+                // Act
+                comp.setOtherValues(playerData, showBigWin);
+            });
 
-            // Assert
-            expect(comp.amount.string).toMatch("Free Spin");
-            expect(comp.win.string).toMatch(
-                numberWithCommas(
-                    GameUtils.getValueByExchangeRateCode(playerData.winningAmount * playerData.rate, playerData.exchangeRateCode),
-                    2
-                )
-            );
+            it("should set amount to Free Spin", () => {
+                // Assert
+                expect(comp.amount.string).toMatch("Free Spin");
+                expect(comp.win.string).toMatch(
+                    numberWithCommas(
+                        GameUtils.getValueByExchangeRateCode(playerData.winningAmount * playerData.rate, playerData.exchangeRateCode),
+                        2
+                    )
+                );
+            });
+
+            it("should set winning amount", () => {
+                // Assert
+                expect(comp.win.string).toMatch(
+                    numberWithCommas(
+                        GameUtils.getValueByExchangeRateCode(playerData.winningAmount * playerData.rate, playerData.exchangeRateCode),
+                        2
+                    )
+                );
+            });
         });
-        it("Case: showBigWin=true and freeSpin=false", () => {
-            // Arrange
-            const showBigWin = true;
-            const playerData = {
-                freeSpin: false,
-                name: "lele60008",
-                totalAmount: 25,
-                winningAmount: 324,
-                time: "2023-06-01T08:54:51.174Z",
-                exchangeRateId: 4308,
-                rate: 1000,
-                exchangeRateCode: {
-                    VND: 1
-                }
-            };
-            comp.gameConfigs = {
-                baseStakeLevels: [1, 10, 50],
-                stakeLevels: [1, 10, 50]
-            };
+        describe("when showBigWin=true and freeSpin=false", () => {
+            beforeEach(() => {
+                // Arrange
+                showBigWin = true;
+                playerData["freeSpin"] = false;
 
-            // Act
-            comp.setOtherValues(playerData, showBigWin);
+                // Act
+                comp.setOtherValues(playerData, showBigWin);
+            });
+            it("should set amount", () => {
+                // Assert
+                expect(comp.amount.string).toMatch(
+                    `${numberWithCommas(
+                        GameUtils.getValueByExchangeRateCode(playerData.totalAmount * playerData.rate, playerData.exchangeRateCode),
+                        1
+                    )}`
+                );
+            });
 
-            // Assert
-            expect(comp.amount.string).toMatch(
-                `${numberWithCommas(
-                    GameUtils.getValueByExchangeRateCode(playerData.totalAmount * playerData.rate, playerData.exchangeRateCode),
-                    1
-                )}`
-            );
-            expect(comp.win.string).toMatch(
-                numberWithCommas(
-                    GameUtils.getValueByExchangeRateCode(playerData.winningAmount * playerData.rate, playerData.exchangeRateCode),
-                    2
-                )
-            );
+            it("should set win", () => {
+                // Assert
+                expect(comp.win.string).toMatch(
+                    numberWithCommas(
+                        GameUtils.getValueByExchangeRateCode(playerData.winningAmount * playerData.rate, playerData.exchangeRateCode),
+                        2
+                    )
+                );
+            });
         });
 
-        it("Case: showBigWin=false", () => {
-            // Arrange
-            const showBigWin = false;
-            const playerData = {
-                time: "2023-06-01T08:54:41.669Z",
-                name: "lele60008",
-                bet: 1,
-                winningAmount: 5512.5,
-                exchangeRateId: 4308,
-                exchangeRateCode: {
-                    VND: 1
-                }
-            };
-            comp.gameConfigs = {
-                baseStakeLevels: [1, 10, 50],
-                stakeLevels: [1, 10, 50]
-            };
-            const index = lodash.indexOf(comp.gameConfigs.baseStakeLevels, playerData.bet);
-            const amountValue = numberWithCommas(comp.gameConfigs.stakeLevels[index], 1);
+        describe("when showBigWin=false", () => {
+            let amountValue;
+            beforeEach(() => {
+                // Arrange
+                playerData["bet"] = 10;
+                showBigWin = false;
+                const index = lodash.indexOf(comp.gameConfigs.baseStakeLevels, playerData["bet"]);
+                amountValue = numberWithCommas(comp.gameConfigs.stakeLevels[index], 1);
 
-            // Act
-            comp.setOtherValues(playerData, showBigWin);
-
-            // Assert
-            expect(comp.amount.string).toMatch(amountValue);
-            expect(comp.win.string).toMatch(
-                numberWithCommas(GameUtils.getValueByExchangeRateCode(playerData.winningAmount, playerData.exchangeRateCode), 2)
-            );
+                // Act
+                comp.setOtherValues(playerData, showBigWin);
+            });
+            it("should set amount", () => {
+                // Assert
+                expect(comp.amount.string).toMatch(amountValue);
+            });
+            it("should set win", () => {
+                // Assert
+                expect(comp.win.string).toMatch(
+                    numberWithCommas(GameUtils.getValueByExchangeRateCode(playerData.winningAmount, playerData.exchangeRateCode), 2)
+                );
+            });
         });
     });
 });

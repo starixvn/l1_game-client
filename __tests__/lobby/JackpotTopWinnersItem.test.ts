@@ -7,7 +7,7 @@ import { numberWithCommas } from "../../assets/common/helpers/NumberHelper";
 import UserManager from "../../assets/common/user/UserManager";
 import JackpotTopWinnersItem from "../../assets/lobby/main/view-models/JackpotTopWinnersItem";
 
-describe("Test class JackpotTopWinnersItem", () => {
+describe("JackpotTopWinnersItem", () => {
     let node: cc.Node;
     let comp: JackpotTopWinnersItem;
     beforeEach(() => {
@@ -17,71 +17,93 @@ describe("Test class JackpotTopWinnersItem", () => {
         comp.amount = new cc.Node().addComponent(cc.Label);
         comp.gameName = new cc.Node().addComponent(cc.Label);
     });
-    describe("Test method setData", () => {
-        it("Case: set GameId and call method setName, setAmount, setGameName and setAvatar", () => {
+    describe("setData", () => {
+        const data = {
+            gameId: 199,
+            pool: 1,
+            amount: 5512.5,
+            winnerName: "lele60008",
+            avatarId: 67,
+            exchangeRateId: 4308,
+            exchangeRateCode: {
+                VND: 1
+            }
+        };
+
+        beforeEach(() => {
             // Arrange
             comp["setName"] = jest.fn();
             comp["setAmount"] = jest.fn();
             comp["setGameName"] = jest.fn();
             comp["setAvatar"] = jest.fn();
 
-            const data = {
-                gameId: 199,
-                pool: 1,
-                amount: 5512.5,
-                winnerName: "lele60008",
-                avatarId: 67,
-                exchangeRateId: 4308,
-                exchangeRateCode: {
-                    VND: 1
-                }
-            };
             comp.gameId = 0;
 
             // Act
             comp.setData(data);
+        });
 
+        it("should assign game id", () => {
             // Assert
             expect(comp.gameId).toEqual(data.gameId);
+        });
+
+        it("should call setName", () => {
+            // Assert
             expect(comp["setName"]).toHaveBeenCalled();
+        });
+
+        it("should call setAmount", () => {
+            // Assert
             expect(comp["setAmount"]).toHaveBeenCalled();
+        });
+
+        it("should call setGameName", () => {
+            // Assert
             expect(comp["setGameName"]).toHaveBeenCalled();
+        });
+
+        it("should call setAvatar", () => {
+            // Assert
             expect(comp["setAvatar"]).toHaveBeenCalled();
         });
     });
 
-    describe("Test method setName", () => {
-        it("When winner is login user", () => {
-            // Arrange
-            const name = "Test111";
-            jest.spyOn(UserManager.prototype, "isLoginUser").mockImplementation(() => {
-                return true;
+    describe("setName", () => {
+        describe("when winner is login user", () => {
+            it("should display full name", () => {
+                // Arrange
+                const name = "Test111";
+                jest.spyOn(UserManager.prototype, "isLoginUser").mockImplementation(() => {
+                    return true;
+                });
+
+                // Act
+                comp["setName"](name);
+
+                // Assert
+                expect(comp.playerName.string).toEqual(name);
             });
-
-            // Act
-            comp["setName"](name);
-
-            // Assert
-            expect(comp.playerName.string).toEqual(name);
         });
+        describe("when winner is not login user", () => {
+            it("should disaply shorten name", () => {
+                // Arrange
+                const name = "Test111";
+                jest.spyOn(UserManager.prototype, "isLoginUser").mockImplementation(() => {
+                    return false;
+                });
 
-        it("When winner is not login user", () => {
-            // Arrange
-            const name = "Test111";
-            jest.spyOn(UserManager.prototype, "isLoginUser").mockImplementation(() => {
-                return false;
+                // Act
+                comp["setName"](name);
+
+                // Assert
+                expect(comp.playerName.string).toEqual(shortenName(name));
             });
-
-            // Act
-            comp["setName"](name);
-
-            // Assert
-            expect(comp.playerName.string).toEqual(shortenName(name));
         });
     });
 
-    describe("Test method setAmount", () => {
-        it("Case:", () => {
+    describe("setAmount", () => {
+        it("should display amount", () => {
             // Arrange
             const amount = 5000;
 
@@ -93,8 +115,8 @@ describe("Test class JackpotTopWinnersItem", () => {
         });
     });
 
-    describe("Test method setGameName", () => {
-        it("Case:", () => {
+    describe("setGameName", () => {
+        it("should display game name", () => {
             // Arrange
             const gameName = "Fourguardians1";
 

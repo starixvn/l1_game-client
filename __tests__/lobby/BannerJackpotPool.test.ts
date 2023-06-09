@@ -6,7 +6,7 @@ import BannerJackpotPool from "../../assets/lobby/main/view-models/BannerJackpot
 import { uiManager } from "../../assets/managers/GameUIManager";
 import { jackpotManager } from "../../assets/managers/JackpotManager";
 
-describe("Test class BannerJackpotPool", () => {
+describe("BannerJackpotPool", () => {
     let node: cc.Node;
     let comp: BannerJackpotPool;
     const poolsData = {
@@ -81,8 +81,8 @@ describe("Test class BannerJackpotPool", () => {
         node = new cc.Node();
         comp = node.addComponent(BannerJackpotPool);
     });
-    describe("Test method initEvents", () => {
-        it("Case: call addDataObserver of jackpot manager and emitterListener of UI manager", () => {
+    describe("initEvents", () => {
+        it("should call addDataObserver and emitterListener", () => {
             // Arrange
             const addDataObserverSpy = jest.spyOn(jackpotManager, "addDataObserver");
             const emitterListenerSpy = jest.spyOn(uiManager, "emitterListener");
@@ -96,22 +96,31 @@ describe("Test class BannerJackpotPool", () => {
         });
     });
 
-    describe("Test method onData", () => {
-        it("Case: ", () => {
+    describe("onData", () => {
+        beforeEach(() => {
             // Arrange
             comp["loadData"] = jest.fn();
+        });
 
+        it("should save pool data ", () => {
             // Act
             comp.onData(poolsData);
 
             // Assert
             expect(comp["poolData"]).toEqual(poolsData);
+        });
+
+        it("should call loadData", () => {
+            // Act
+            comp.onData(poolsData);
+
+            // Assert
             expect(comp["loadData"]).toHaveBeenCalled();
         });
     });
 
-    describe("Test method requestData", () => {
-        it("Case: call emitEvent of jackpot manager", () => {
+    describe("requestData", () => {
+        it("should call emitEvent of jackpot manager", () => {
             // Arrange
             const emitEventSpy = jest.spyOn(jackpotManager, "emitEvent");
 
@@ -123,8 +132,8 @@ describe("Test class BannerJackpotPool", () => {
         });
     });
 
-    describe("Test method selectPool", () => {
-        it("Case: call emitEvent of jackpot manager", () => {
+    describe("selectPool", () => {
+        it("should call loadData", () => {
             // Arrange
             comp["loadData"] = jest.fn();
             const type = 1;
@@ -138,8 +147,8 @@ describe("Test class BannerJackpotPool", () => {
         });
     });
 
-    describe("Test method loadData", () => {
-        it("Case: ", () => {
+    describe("loadData", () => {
+        it("should save selected tab ", () => {
             // Arrange
             const type = 2;
             comp.content = new cc.Node();

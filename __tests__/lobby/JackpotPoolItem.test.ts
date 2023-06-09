@@ -6,7 +6,7 @@ import JackpotPoolItem from "../../assets/lobby/main/view-models/JackpotPoolItem
  * Date: 2023-06-05 07:29:47
  */
 
-describe("Test class JackpotPoolItem", () => {
+describe("JackpotPoolItem", () => {
     let node: cc.Node;
     let comp: JackpotPoolItem;
     beforeAll(() => {
@@ -14,24 +14,31 @@ describe("Test class JackpotPoolItem", () => {
         comp = node.addComponent(JackpotPoolItem);
         comp.amount = new cc.Node().addComponent(cc.Label);
     });
-    describe("Test method setData", () => {
-        it("Case: ", async () => {
+    describe("setData", () => {
+        const amount = 1000;
+        const floatToNumberSpy = jest.spyOn(GameUtils, "floatToNumber");
+
+        beforeEach(() => {
             // Arrange
-            const amount = 1000;
             comp.node.active = false;
-            const floatToNumberSpy = jest.spyOn(GameUtils, "floatToNumber");
 
             // Act
             comp.setData(amount);
+        });
 
+        it("should call floatToNumber of GameUtils", async () => {
             // Assert
             expect(floatToNumberSpy).toHaveBeenCalled();
+        });
+
+        it("should show pool item", async () => {
+            // Assert
             expect(comp.node.active).toEqual(true);
         });
     });
 
-    describe("Test method convertCurrencyValue", () => {
-        it("Case: ", () => {
+    describe("convertCurrencyValue", () => {
+        it("should return value", () => {
             // Arrange
             const amount = 1000;
 
@@ -43,18 +50,20 @@ describe("Test class JackpotPoolItem", () => {
         });
     });
 
-    describe("Test method setHighlight", () => {
-        it("Case: highlight node exists", () => {
-            // Arrange
-            const highlight = true;
-            comp.highlight = new cc.Node();
-            comp.highlight.active = false;
+    describe("setHighlight", () => {
+        describe("when highlight node exists", () => {
+            it("should show highlight node", () => {
+                // Arrange
+                const highlight = true;
+                comp.highlight = new cc.Node();
+                comp.highlight.active = false;
 
-            // Act
-            comp.setHighlight(highlight);
+                // Act
+                comp.setHighlight(highlight);
 
-            // Assert
-            expect(comp.highlight.active).toEqual(highlight);
+                // Assert
+                expect(comp.highlight.active).toEqual(highlight);
+            });
         });
     });
 });
