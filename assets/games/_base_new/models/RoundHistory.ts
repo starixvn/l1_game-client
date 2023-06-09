@@ -24,6 +24,7 @@ export class RoundHistory extends EventEmitterBase {
         if (this.enterGameRoundId !== undefined) {
             return this.enterGameRoundId - 1;
         }
+
         return 0;
     }
 
@@ -76,7 +77,6 @@ export class RoundHistory extends EventEmitterBase {
     }
 
     change(roundHistory: any) {
-        
         const data = _.cloneDeep(roundHistory);
         data.unshift(...this.roundHistory);
         this.roundHistory = data;
@@ -88,5 +88,9 @@ export class RoundHistory extends EventEmitterBase {
     updateUI() {
         this.emit(RoundHistory.Events.FIRST_LOAD, this.roundHistory);
         this.emit(RoundHistory.Events.CHANGE, this.roundHistory);
+    }
+
+    clearData() {
+        this.roundHistory = [];
     }
 }
