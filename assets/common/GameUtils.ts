@@ -376,19 +376,21 @@ export default class GameUtils {
     }
 
     static addSpeedLevel(isCheckSpeed: boolean, amount: number, stepValue: number) {
-        let stepValueTmp = stepValue;
-        if (isCheckSpeed) {
-            if (amount < 10) {
-                stepValueTmp = 0.01;
-            } else if (amount < 60) {
-                stepValueTmp = 0.11;
-            } else if (amount < 500) {
-                stepValueTmp = 1.11;
-            } else {
-                stepValueTmp = 11.11;
-            }
+        if (!isCheckSpeed) {
+            return stepValue;
         }
-        return stepValueTmp;
+
+        if (amount < 10) {
+            return 0.01;
+        }
+        if (amount < 60) {
+            return 0.11;
+        }
+        if (amount < 500) {
+            return 1.11;
+        }
+
+        return 11.11;
     }
 
     public static floatToNumber(opt: {
