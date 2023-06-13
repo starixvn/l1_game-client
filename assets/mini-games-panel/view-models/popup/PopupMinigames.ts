@@ -1,6 +1,6 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import JackpotWinner from "../../../games/four-guardians/scripts/JackpotWinner";
 import { appManager } from "../../../managers/AppManager";
+import JackpotWinner from "../JackpotWinner";
 
 const { ccclass, property } = cc._decorator;
 @ccclass

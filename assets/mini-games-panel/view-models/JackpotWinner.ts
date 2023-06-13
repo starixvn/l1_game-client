@@ -1,10 +1,9 @@
-import GameUtils from "../../../common/GameUtils";
-import { userManager } from "../../../common/user/UserManager";
-import { uiManager } from "../../../managers/GameUIManager";
-import { InternalEvents } from "../../../managers/InternalEvents";
-import { JackpotDataKey, jackpotManager } from "../../../managers/JackpotManager";
-import PopupMinigames from "../../../mini-games-panel/view-models/popup/PopupMinigames";
-import { numberWithCommas } from "./../../../common/helpers/NumberHelper";
+import GameUtils from "../../common/GameUtils";
+import { userManager } from "../../common/user/UserManager";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
+import { JackpotDataKey, jackpotManager } from "../../managers/JackpotManager";
+import PopupMinigames from "./popup/PopupMinigames";
 
 const { ccclass, property } = cc._decorator;
 
@@ -53,8 +52,7 @@ export default class JackpotWinner extends cc.Component {
             menuIcon.active = false;
 
             this.username.string = data.winnerName;
-            this.amount.string = numberWithCommas(data.amount);
-
+            this.amount.string = `${GameUtils.getValueByCurrency(data.amount)}`;
             this.gameName.string = GameUtils.getGameNameString(data.gameId);
 
             jackPotContainer.active = true;
