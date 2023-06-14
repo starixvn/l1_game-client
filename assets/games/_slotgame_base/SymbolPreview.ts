@@ -20,6 +20,9 @@ export default class SymbolPreview extends cc.Component {
     @property(cc.SpriteAtlas)
     atlas: cc.SpriteAtlas = null;
 
+    @property(cc.Node)
+    textImages: cc.Node = null;
+
     onLoad() {
         const events = [
             InternalEvents.CLICK_AUTO_SPIN_BUTTON,
@@ -42,15 +45,11 @@ export default class SymbolPreview extends cc.Component {
         this.node.destroy();
     }
 
-    showSymbolText(parentNode: cc.Node, symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
-        const nodeText = new cc.Node().addComponent(cc.Sprite);
-        parentNode.addChild(nodeText.node);
-        nodeText.spriteFrame = this.atlas.getSpriteFrame(`text-symbol-${symbolNumber}`);
-        nodeText.node.color = cc.Color.WHITE.fromHEX(textColor);
-        nodeText.node.anchorX = 0;
-
-        this.infoNode.children.forEach((node) => {
-            node.getComponent(cc.Layout).spacingX = 12;
+    showSymbolText(symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
+        this.textImages.children.forEach((node) => {
+            const nodeImage = node.getComponent(cc.Sprite);
+            nodeImage.spriteFrame = this.atlas.getSpriteFrame(`text-symbol-${symbolNumber}`);
+            nodeImage.node.color = cc.Color.WHITE.fromHEX(textColor);
         });
 
         if (symbolNumber == 7) {
@@ -65,6 +64,12 @@ export default class SymbolPreview extends cc.Component {
         if (isInfoOnLeft && symbolNumber == 8) {
             this.infoNode.position = cc.v3(-215, 0, 0);
         }
+
+        const infoNodePositionX = this.infoNode.position.x;
+
+        console.log(infoNodePositionX);
+        const textImageNodePosition = infoNodePositionX + 70;
+        this.textImages.position = cc.v3(textImageNodePosition, 0, 0);
     }
 
     setInfo(info: {
@@ -94,10 +99,11 @@ export default class SymbolPreview extends cc.Component {
                 child.getComponent(cc.Label).string = values[childIndex];
                 child.color = cc.Color.WHITE.fromHEX(info.colorList[childIndex]);
             });
-
-            if (info.symbol == 7 || info.symbol == 8) {
-                this.showSymbolText(node, info.symbol, info.colorList[1], info.isInfoOnLeft);
-            }
         });
+
+        if (info.symbol == 7 || info.symbol == 8) {
+            this.textImages.active = true;
+            this.showSymbolText(info.symbol, info.colorList[1], info.isInfoOnLeft);
+        }
     }
 }

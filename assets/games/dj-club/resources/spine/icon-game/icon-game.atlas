@@ -1,6 +1,6 @@
 
 icon-game.png
-size: 1141,200
+size: 1262,200
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
@@ -18,9 +18,16 @@ bg
   orig: 196, 429
   offset: 0, 0
   index: -1
+disk
+  rotate: true
+  xy: 1022, 2
+  size: 196, 148
+  orig: 196, 429
+  offset: 0, 0
+  index: -1
 domdom
   rotate: true
-  xy: 1022, 33
+  xy: 1172, 49
   size: 35, 32
   orig: 66, 65
   offset: 16, 17
@@ -32,10 +39,17 @@ girl
   orig: 196, 429
   offset: 0, 0
   index: -1
-smoke
+headphone
   rotate: true
-  xy: 1022, 70
-  size: 128, 117
-  orig: 131, 119
-  offset: 2, 0
+  xy: 1172, 86
+  size: 112, 88
+  orig: 196, 429
+  offset: 17, 341
+  index: -1
+light
+  rotate: false
+  xy: 1172, 28
+  size: 19, 19
+  orig: 24, 24
+  offset: 3, 2
   index: -1
