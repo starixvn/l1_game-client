@@ -14,6 +14,9 @@ export default class StandardCascadingBottomArea extends cc.Component {
     @property(cc.Label)
     totalWinLabel: cc.Label = null;
 
+    @property(cc.Node)
+    totalWinNode: cc.Node = null;
+
     miniBetControl: CascadingTotalBet;
     betControl: CascadingBetControl;
 

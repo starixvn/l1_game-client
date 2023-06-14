@@ -1,104 +1,223 @@
 
-exportAtlas.png
-size: 1024,1024
+symbol-6.png
+size: 400,853
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Layer 7
+bg-reel-highlight
+  rotate: false
+  xy: 2, 444
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
+blink-star
+  rotate: false
+  xy: 183, 252
+  size: 21, 20
+  orig: 22, 20
+  offset: 0, 0
+  index: -1
+explosion-star-01
   rotate: true
-  xy: 2, 356
-  size: 15, 10
-  orig: 15, 10
-  offset: 0, 0
+  xy: 110, 7
+  size: 74, 75
+  orig: 142, 144
+  offset: 35, 31
   index: -1
-body
+explosion-star-02
+  rotate: false
+  xy: 319, 168
+  size: 78, 77
+  orig: 142, 144
+  offset: 32, 31
+  index: -1
+explosion-star-03
+  rotate: false
+  xy: 114, 83
+  size: 83, 82
+  orig: 142, 144
+  offset: 30, 31
+  index: -1
+explosion-star-04
   rotate: true
-  xy: 72, 827
-  size: 103, 102
-  orig: 103, 102
-  offset: 0, 0
+  xy: 124, 559
+  size: 110, 86
+  orig: 142, 144
+  offset: 27, 22
   index: -1
-bubble
+explosion-star-05
   rotate: false
-  xy: 458, 230
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
+  xy: 2, 2
+  size: 106, 104
+  orig: 142, 144
+  offset: 19, 20
   index: -1
-bubble_large
-  rotate: false
-  xy: 822, 361
-  size: 104, 102
-  orig: 104, 102
-  offset: 0, 0
-  index: -1
-crab_arm_l
+explosion-star-06
   rotate: true
-  xy: 2, 464
-  size: 20, 15
-  orig: 20, 15
-  offset: 0, 0
+  xy: 217, 737
+  size: 114, 121
+  orig: 142, 144
+  offset: 10, 9
   index: -1
-crab_arm_r
+explosion-star-07
   rotate: true
-  xy: 483, 435
-  size: 17, 23
-  orig: 17, 23
-  offset: 0, 0
+  xy: 212, 492
+  size: 119, 113
+  orig: 142, 144
+  offset: 6, 22
   index: -1
-crab_dkhand_r
+light
   rotate: false
-  xy: 361, 745
-  size: 14, 15
-  orig: 14, 15
-  offset: 0, 0
+  xy: 2, 671
+  size: 213, 180
+  orig: 232, 196
+  offset: 10, 8
   index: -1
-crab_leftfinger_l
+rainbow-1
   rotate: false
-  xy: 370, 555
-  size: 23, 50
-  orig: 23, 50
+  xy: 208, 261
+  size: 110, 110
+  orig: 110, 110
   offset: 0, 0
   index: -1
-crab_leftfinger_r
+rainbow-2
   rotate: false
-  xy: 495, 175
-  size: 37, 57
-  orig: 37, 57
+  xy: 2, 332
+  size: 110, 110
+  orig: 110, 110
   offset: 0, 0
   index: -1
-crab_rightfinger_l
+rainbow-3
   rotate: false
-  xy: 6, 248
-  size: 34, 58
-  orig: 34, 58
+  xy: 2, 220
+  size: 110, 110
+  orig: 110, 110
   offset: 0, 0
   index: -1
-crab_rightfinger_r
+rainbow-4
+  rotate: false
+  xy: 2, 108
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
+s6
   rotate: true
-  xy: 347, 9
-  size: 22, 50
-  orig: 22, 50
-  offset: 0, 0
+  xy: 319, 93
+  size: 73, 78
+  orig: 74, 78
+  offset: 1, 0
   index: -1
-eye_open_l
+s6-outer
   rotate: false
-  xy: 682, 8
-  size: 30, 32
-  orig: 30, 32
-  offset: 0, 0
+  xy: 124, 465
+  size: 85, 92
+  orig: 86, 94
+  offset: 0, 1
   index: -1
-eye_open_r
-  rotate: false
-  xy: 433, 241
-  size: 38, 39
-  orig: 38, 39
-  offset: 0, 0
-  index: -1
-mounth
+vfx-s0-00
   rotate: true
-  xy: 463, 378
-  size: 57, 28
-  orig: 57, 28
-  offset: 0, 0
+  xy: 332, 580
+  size: 48, 59
+  orig: 175, 197
+  offset: 61, 70
+  index: -1
+vfx-s0-01
+  rotate: true
+  xy: 114, 274
+  size: 82, 91
+  orig: 175, 197
+  offset: 52, 54
+  index: -1
+vfx-s0-02
+  rotate: false
+  xy: 114, 358
+  size: 92, 105
+  orig: 175, 197
+  offset: 48, 50
+  index: -1
+vfx-s0-03
+  rotate: true
+  xy: 199, 51
+  size: 97, 109
+  orig: 175, 197
+  offset: 43, 49
+  index: -1
+vfx-s0-04
+  rotate: true
+  xy: 206, 150
+  size: 109, 111
+  orig: 175, 197
+  offset: 38, 49
+  index: -1
+vfx-s0-05
+  rotate: true
+  xy: 211, 373
+  size: 117, 113
+  orig: 175, 197
+  offset: 36, 49
+  index: -1
+vfx-s0-06
+  rotate: true
+  xy: 217, 613
+  size: 122, 113
+  orig: 175, 197
+  offset: 35, 49
+  index: -1
+vfx-s0-07
+  rotate: false
+  xy: 2, 556
+  size: 120, 113
+  orig: 175, 197
+  offset: 36, 49
+  index: -1
+vfx-s0-08
+  rotate: false
+  xy: 327, 466
+  size: 70, 112
+  orig: 175, 197
+  offset: 49, 49
+  index: -1
+vfx-s0-09
+  rotate: false
+  xy: 326, 354
+  size: 69, 110
+  orig: 175, 197
+  offset: 50, 50
+  index: -1
+vfx-s0-10
+  rotate: false
+  xy: 320, 247
+  size: 67, 105
+  orig: 175, 197
+  offset: 52, 51
+  index: -1
+vfx-s0-11
+  rotate: false
+  xy: 114, 167
+  size: 67, 105
+  orig: 175, 197
+  offset: 52, 52
+  index: -1
+vfx-s0-12
+  rotate: false
+  xy: 332, 630
+  size: 65, 99
+  orig: 175, 197
+  offset: 53, 55
+  index: -1
+vfx-s0-13
+  rotate: true
+  xy: 340, 789
+  size: 62, 58
+  orig: 175, 197
+  offset: 54, 57
+  index: -1
+vfx-s0-14
+  rotate: false
+  xy: 340, 731
+  size: 58, 56
+  orig: 175, 197
+  offset: 55, 59
   index: -1

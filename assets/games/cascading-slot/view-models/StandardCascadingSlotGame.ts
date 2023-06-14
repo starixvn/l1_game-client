@@ -296,6 +296,9 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.autoSpinToggle = bottomArea.autoSpinToggle;
         this.turboToggle = bottomArea.turboToggle;
         this.totalWinLabel = bottomArea.totalWinLabel;
+        this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.autoSpinToggle.node);
+        this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.turboToggle.node);
+        this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.totalWinNode);
         bottomArea.onClickListener = {
             onAutoSpinChanged: () => {
                 this.onAutoSpinChanged();
@@ -307,7 +310,12 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     updateColor(colorList, node: cc.Node) {
-        const { textColor, numberColor, buttonBorderColor } = colorList;
+        const { textColor, numberColor, buttonBorderColor, buttonBackgroundColor } = colorList;
+        if (buttonBackgroundColor) {
+            const changeColor = node.getComponent(ChangeNodeColor);
+            changeColor.updateColor(buttonBackgroundColor);
+            return;
+        }
 
         node.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
             const labelComp = comp.node.getComponent(cc.Label);
