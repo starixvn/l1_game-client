@@ -53,16 +53,21 @@ export default class SymbolPreview extends cc.Component {
         });
 
         if (symbolNumber == 7) {
-            this.border.width = 392;
-            this.bg.width = 404;
+            this.border.width = 410;
+            this.bg.width = 422;
+        }
+
+        if (symbolNumber == 8) {
+            this.border.width = 350;
+            this.bg.width = 362;
         }
 
         if (isInfoOnLeft && symbolNumber == 7) {
-            this.infoNode.position = cc.v3(-280, 0, 0);
+            this.infoNode.position = cc.v3(-295, 0, 0);
         }
 
         if (isInfoOnLeft && symbolNumber == 8) {
-            this.infoNode.position = cc.v3(-215, 0, 0);
+            this.infoNode.position = cc.v3(-235, 0, 0);
         }
 
         const infoNodePositionX = this.infoNode.position.x;
