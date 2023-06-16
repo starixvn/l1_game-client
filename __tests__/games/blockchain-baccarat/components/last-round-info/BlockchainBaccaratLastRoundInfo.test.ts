@@ -159,7 +159,7 @@ describe("BlockchainBaccaratLastRoundInfo", () => {
 
         describe("when card3 of player has null", () => {
             it("should show card3 of player", () => {
-                // assign
+                // arrange
                 lastRound.result.player.card3 = null;
 
                 // act
@@ -229,7 +229,7 @@ describe("BlockchainBaccaratLastRoundInfo", () => {
 
         describe("when player win", () => {
             it("should display win notice is Player Win", () => {
-                // assign
+                // arrange
                 settlementResult.player = true;
                 settlementResult.banker = false;
 

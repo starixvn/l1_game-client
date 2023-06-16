@@ -9,7 +9,7 @@ import LotteryRoundHistoryTip from "../../../assets/games/lottery/scripts/Lotter
 describe("Test class LotteryRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: LotteryRoundHistoryTip;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(LotteryRoundHistoryTip);
         comp.roundId = new cc.Node().addComponent(cc.Label);

@@ -17,7 +17,7 @@ jest.mock("../../../assets/common/GameUtils", () => ({
 describe("HiLoTicketdetail", () => {
     let node: cc.Node;
     let comp: HiLoTicketDetail;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoTicketDetail);
         comp.content = new cc.Node();
@@ -200,8 +200,8 @@ describe("HiLoTicketdetail", () => {
             // Assert
             expect(comp.updateContentTicketDetail).toBeCalledWith(betLog);
             expect(comp.calculateHeights).toBeCalledWith(betLog.betLogDetails);
-            expect(comp.betDetailFrame.updateSizeFrame).toBeCalledWith(comp.mainFrame.width, 400);
-            expect(comp.betDetailTable.updateSize).toBeCalledWith(1122, 310);
+            expect(comp.betDetailFrame.updateSizeFrame).toBeCalledWith(comp.mainFrame.width, 250);
+            expect(comp.betDetailTable.updateSize).toBeCalledWith(1122, 160);
         });
     });
 });

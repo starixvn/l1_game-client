@@ -10,7 +10,7 @@ import LuckyWheelHistoryItem from "../../../assets/games/lucky-wheel/view-models
 describe("Test class LuckyWheelHistoryItem", () => {
     let node: cc.Node;
     let comp: LuckyWheelHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(LuckyWheelHistoryItem);
         comp.round = new cc.Node().addComponent(cc.Label);

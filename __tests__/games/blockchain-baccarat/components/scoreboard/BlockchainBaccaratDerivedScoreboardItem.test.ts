@@ -1,9 +1,10 @@
 import { DerivedScoreboardPoint } from "sc-scoreboards";
+
 import BlockchainBaccaratDerivedScoreboardItem from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratDerivedScoreboardItem";
 
 describe("BlockchainBaccaratDerivedScoreboardItem", () => {
     let comp: BlockchainBaccaratDerivedScoreboardItem;
-    beforeAll(() => {
+    beforeEach(() => {
         comp = new cc.Node().addComponent(BlockchainBaccaratDerivedScoreboardItem);
         for (let i = 0; i < 12; i++) {
             const node = new cc.Node();

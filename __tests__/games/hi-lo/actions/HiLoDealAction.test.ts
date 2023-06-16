@@ -1,12 +1,6 @@
 import AudioManager from "../../../../assets/common/audio/AudioManager";
 import { numberWithCommas } from "../../../../assets/common/helpers/NumberHelper";
-import {
-    handleStatusLost,
-    handleStatusWon,
-    updateCard,
-    updateStatistic,
-    updateStakesAndButtons
-} from "../../../../assets/games/hi-lo/actions/HiLoDealAction";
+import { handleStatusLost, handleStatusWon, updateCard, updateStakesAndButtons, updateStatistic } from "../../../../assets/games/hi-lo/actions/HiLoDealAction";
 import { HiLoOwnBetsModel } from "../../../../assets/games/hi-lo/events-models/HiLoOwnBetsModel";
 import { HiLoStateModel } from "../../../../assets/games/hi-lo/events-models/HiLoStateModel";
 import { HiLoStatusModel } from "../../../../assets/games/hi-lo/events-models/HiLoStatusModel";
@@ -88,7 +82,7 @@ describe("HiLoDealAction", () => {
     let playSFX: any;
     let bettingAreaComp: HiLoBettingArea;
 
-    beforeAll(() => {
+    beforeEach(() => {
         mainGame = new HiLo();
         ownBetsModel = new HiLoOwnBetsModel();
     });
@@ -148,7 +142,7 @@ describe("HiLoDealAction", () => {
     });
 
     describe("handleStatusLost", () => {
-        beforeAll(() => {
+        beforeEach(() => {
             // Arrange
             statusModel = new HiLoStatusModel();
         });

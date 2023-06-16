@@ -10,7 +10,7 @@ import VipSedieWarHistoryItem from "../../../assets/games/vip-sedie-war/view-mod
 describe("Test class VipSedieWarHistoryItem", () => {
     let node: cc.Node;
     let comp: VipSedieWarHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(VipSedieWarHistoryItem);
         comp.bg = new cc.Node();

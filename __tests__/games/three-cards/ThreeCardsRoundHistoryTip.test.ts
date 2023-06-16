@@ -9,7 +9,7 @@ import ThreeCardsRoundHistoryTip from "../../../assets/games/three-cards/scripts
 describe("Test class ThreeCardsRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: ThreeCardsRoundHistoryTip;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(ThreeCardsRoundHistoryTip);
         comp.roundId = new cc.Node().addComponent(cc.Label);

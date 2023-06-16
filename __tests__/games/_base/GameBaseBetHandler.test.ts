@@ -19,7 +19,7 @@ describe("Test class GameBaseBetHandler", () => {
     let node: cc.Node;
     let main: GameBase;
     let handler: GameBaseBetHandler;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         main = new GameBase();
         handler = new GameBaseBetHandler(main);

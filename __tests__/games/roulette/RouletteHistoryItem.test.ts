@@ -8,7 +8,7 @@ import RouletteHistoryItem from "../../../assets/games/roulette/view-models/Roul
 describe("Test class RouletteHistoryItem", () => {
     let node: cc.Node;
     let comp: RouletteHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(RouletteHistoryItem);
         comp.time = new cc.Node().addComponent(cc.Label);

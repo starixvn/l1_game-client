@@ -16,7 +16,7 @@ jest.mock("../../../assets/games/bitcoin-master/view-models/BitcoinMasterUtils",
 describe("Test class BitcoinMasterEvenOddResultDetail", () => {
     let node: cc.Node;
     let comp: BitcoinMasterEvenOddResultDetail;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(BitcoinMasterEvenOddResultDetail);
         comp.result = new cc.Node().addComponent(cc.Label);

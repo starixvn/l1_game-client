@@ -18,7 +18,7 @@ interface Data {
 describe("Test class LotteryHistoryItem", () => {
     let node: cc.Node;
     let comp: LotteryHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(LotteryHistoryItem);
         comp.bg = new cc.Node();

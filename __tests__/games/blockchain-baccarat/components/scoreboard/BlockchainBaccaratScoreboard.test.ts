@@ -1,6 +1,6 @@
 import * as lodash from "lodash";
-window.modules = { lodash };
 import { DerivedScoreboards } from "sc-scoreboards";
+
 import BlockchainBaccaratBeadRoad from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratBeadRoad";
 import BlockChainBaccaratBigRoad from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratBigRoad";
 import BlockchainBaccaratDerivedScoreboard from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratDerivedScoreboard";
@@ -8,6 +8,7 @@ import { BlockchainBaccaratPrediction } from "../../../../../assets/games/blockc
 import BlockchainBaccaratScoreboard from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratScoreBoard";
 import { BlockchainBaccaratRoundHistory } from "../../../../../assets/games/blockchain-baccarat/event-models/BlockchainBaccaratModel";
 
+window.modules = { lodash };
 describe("BlockchainBaccaratScoreboard", () => {
     let comp: BlockchainBaccaratScoreboard;
     let bigRoads: BlockChainBaccaratBigRoad[];
@@ -63,7 +64,7 @@ describe("BlockchainBaccaratScoreboard", () => {
         statistic.children.forEach((child) => child.addComponent(cc.Label));
     };
 
-    beforeAll(() => {
+    beforeEach(() => {
         const node = new cc.Node();
         comp = node.addComponent(BlockchainBaccaratScoreboard);
         normal = new cc.Node();

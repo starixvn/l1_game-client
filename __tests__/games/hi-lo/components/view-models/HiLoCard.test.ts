@@ -1,10 +1,9 @@
-import NewCard from "../../../../../assets/common/new-card/view-models/NewCard";
 import HiLoCard from "../../../../../assets/games/hi-lo/components/view-models/HiLoCard";
 
 describe("HiLoCard", () => {
     let node: cc.Node;
     let comp: HiLoCard;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoCard);
         comp.largeSuite = node.addComponent(cc.Sprite);

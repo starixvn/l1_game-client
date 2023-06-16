@@ -5,7 +5,7 @@ describe("Test class SpecialSedieBetHistory", () => {
     let node: cc.Node;
     let comp: SpecialSedieBetHistory;
 
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(SpecialSedieBetHistory);
         comp.roundIdLabel = new cc.Node().addComponent(cc.Label);

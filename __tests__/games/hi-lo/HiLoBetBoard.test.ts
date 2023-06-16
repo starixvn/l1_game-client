@@ -22,7 +22,7 @@ describe("HiLoBetBoard", () => {
     let node: cc.Node;
     let comp: HiLoBetBoard;
     let prefabNode: cc.Node;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoBetBoard);
         comp.disableLayer = new cc.Node();

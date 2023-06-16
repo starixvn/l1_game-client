@@ -3,7 +3,7 @@ import SedieMiniRoundHistoryItem from "../../../../assets/common/mini-round-hist
 describe("Test class SedieMiniRoundHistoryItem", () => {
     let node: cc.Node;
     let comp: SedieMiniRoundHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(SedieMiniRoundHistoryItem);
         comp.icon = new cc.Node().addComponent(cc.Sprite);

@@ -28,7 +28,7 @@ describe("BlockchainCardVerificationItem", () => {
     let card: cc.Node;
     let tooltipNode: cc.Node;
 
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         hashValue = new cc.Node().addComponent(cc.Label);
         numberKey = new cc.Node().addComponent(cc.Label);

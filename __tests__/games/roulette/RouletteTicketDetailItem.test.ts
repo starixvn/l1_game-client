@@ -10,7 +10,7 @@ import RouletteTicketDetailItem from "../../../assets/games/roulette/view-models
 describe("Test class RouletteTicketDetailItem", () => {
     let node: cc.Node;
     let comp: RouletteTicketDetailItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(RouletteTicketDetailItem);
         comp.bg = new cc.Node();

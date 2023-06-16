@@ -6,7 +6,7 @@ import BigSmallHistoryItem from "../../../assets/games/bigsmall/view-models/BigS
 describe("Test class BigSmallHistoryItem", () => {
     let node: cc.Node;
     let comp: BigSmallHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(BigSmallHistoryItem);
         comp.bg = new cc.Node();

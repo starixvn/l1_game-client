@@ -12,7 +12,7 @@ jest.mock("../../../../assets/games/hi-lo/events-models/HiLoRoundCounter", () =>
 describe("HiLoRoundCounterAction", () => {
     let node: cc.Node;
     let roundCounter: HiLoRoundCounter;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         roundCounter = new HiLoRoundCounter();
     });

@@ -24,7 +24,7 @@ describe("TexasHoldemCallEventHandler", () => {
     let callHandlerHandler: any;
     let gameData: TexasGameDataModel;
     let data: TexasHoldemCall;
-    beforeAll(() => {
+    beforeEach(() => {
         callHandlerHandler = new TexasCallHandler(gameData);
         callHandlerHandler.gameData = new TexasGameDataModel();
         callHandlerHandler.gameData.placeBetModel = new TexasPlaceBetModel();

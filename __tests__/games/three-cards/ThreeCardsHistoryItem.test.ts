@@ -11,7 +11,7 @@ import ThreeCardsHistoryItem from "../../../assets/games/three-cards/scripts/Thr
 describe("Test class ThreeCardsHistoryItem", () => {
     let node: cc.Node;
     let comp: ThreeCardsHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(ThreeCardsHistoryItem);
         comp.time = new cc.Node().addComponent(cc.Label);

@@ -9,7 +9,7 @@ import BigSmallRoundHistoryTip from "../../../assets/games/bigsmall/view-models/
 describe("Test class BigSmallRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: BigSmallRoundHistoryTip;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(BigSmallRoundHistoryTip);
         comp.result = new cc.Node().addComponent(cc.Label);

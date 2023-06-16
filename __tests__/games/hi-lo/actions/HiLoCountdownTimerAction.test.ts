@@ -1,4 +1,3 @@
-import { numberPad } from "../../../../assets/common/helpers/NumberHelper";
 import { updateClockTime } from "../../../../assets/games/hi-lo/actions/HiLoCountdownTimerAction";
 import HiLo from "../../../../assets/games/hi-lo/view-models/HiLo";
 
@@ -18,7 +17,7 @@ jest.mock("../../../../assets/games/hi-lo/view-models/HiLo", () => ({
 
 describe("HiLoCountdownTimerAction", () => {
     let mainGame: HiLo;
-    beforeAll(() => {
+    beforeEach(() => {
         mainGame = new HiLo();
     });
     describe("updateClockTime", () => {

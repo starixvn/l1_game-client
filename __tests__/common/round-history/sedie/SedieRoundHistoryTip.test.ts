@@ -4,7 +4,7 @@ import SedieRoundHistoryTip from "../../../../assets/common/round-history/sedie/
 describe("Test class SedieRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: SedieRoundHistoryTip;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(SedieRoundHistoryTip);
         comp.red = new cc.Node().addComponent(cc.Label);

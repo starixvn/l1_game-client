@@ -9,7 +9,7 @@ describe("Test class GameBaseStatusHandler", () => {
     let gameBaseStatusHandler: GameBaseStatusHandler;
     let main: any;
 
-    beforeAll(() => {
+    beforeEach(() => {
         jest.useFakeTimers();
 
         main = {

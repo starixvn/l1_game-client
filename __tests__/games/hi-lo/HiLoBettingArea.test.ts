@@ -4,7 +4,7 @@ import HiLoBettingArea, { BettingAreaEvents } from "../../../assets/games/hi-lo/
 describe("HiLoBettingArea", () => {
     let node: cc.Node;
     let comp: HiLoBettingArea;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoBettingArea);
         comp.disableLayer = new cc.Node();

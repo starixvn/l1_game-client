@@ -11,7 +11,7 @@ import SicBoTicketDetailItem from "../../../assets/games/sicbo/view-models/SicBo
 describe("Test class SicBoTicketDetailItem", () => {
     let node: cc.Node;
     let comp: SicBoTicketDetailItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(SicBoTicketDetailItem);
         comp.bg = new cc.Node();

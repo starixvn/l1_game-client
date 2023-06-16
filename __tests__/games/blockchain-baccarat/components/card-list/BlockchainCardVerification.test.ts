@@ -1,6 +1,5 @@
-import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as cryptoJs from "crypto";
-window.modules = { i18n, cryptoJs };
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { BlockchainCardModel, CardModel } from "../../../../../assets/games/blockchain-baccarat/BlockchainBaccaratType";
 import BlockchainCardVerification, {
@@ -8,6 +7,8 @@ import BlockchainCardVerification, {
 } from "../../../../../assets/games/blockchain-baccarat/components/card-list/view-models/BlockchainCardVerification";
 import BlockchainCardVerificationItem from "../../../../../assets/games/blockchain-baccarat/components/card-list/view-models/BlockchainCardVerificationItem";
 import BlockchainCardVerify from "../../../../../assets/games/blockchain-baccarat/components/card-list/view-models/BlockchainCardVerify";
+
+window.modules = { i18n, cryptoJs };
 
 jest.mock("i18n/runtime-scripts/LanguageData");
 describe("Test class BlockchainCardVerification", () => {
@@ -45,7 +46,7 @@ describe("Test class BlockchainCardVerification", () => {
         return blockchainCardModel;
     }
 
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         equalTag = new cc.Node();
         cardVerificationComp = node.addComponent(BlockchainCardVerification);
@@ -201,17 +202,21 @@ describe("Test class BlockchainCardVerification", () => {
 
         it("Case: private card is unavailable", () => {
             //arrange
+            cardVerificationComp.blockchainCardPrivate = null;
 
             // Act
             cardVerificationComp.renderButton();
 
             // Assert
-            expect(cardVerificationComp.privateKey.enableCopyButton).toBeCalledWith(true);
-            expect(cardVerificationComp.privateKey.enableCopyButton).toBeCalledWith(true);
+            expect(cardVerificationComp.privateKey.enableCopyButton).toBeCalledWith(false);
+            expect(cardVerificationComp.privateKey.enableCopyButton).toBeCalledWith(false);
         });
     });
 
     describe("Test method onClickVerifyButton", () => {
+        beforeEach(() => {
+            cardVerificationComp.onHideTooltips = jest.fn();
+        });
         it("Case: verify success", () => {
             //arrange
             cardVerificationComp.blockchainCardPrivate = createBlockchainCardModel();

@@ -9,7 +9,7 @@ import SicBoHistoryItem from "../../../assets/games/sicbo/view-models/SicBoHisto
 describe("Test class SicBoHistoryItem", () => {
     let node: cc.Node;
     let comp: SicBoHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(SicBoHistoryItem);
         comp.bg = new cc.Node();

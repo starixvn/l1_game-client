@@ -11,7 +11,7 @@ import BlackJackHistoryItem from "../../../assets/games/blackjack/view-models/Bl
 describe("Test class BlackJackHistoryItem", () => {
     let node: cc.Node;
     let comp: BlackJackHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(BlackJackHistoryItem);
         comp.bg = new cc.Node();

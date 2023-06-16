@@ -10,7 +10,7 @@ import SpecialSeDieHistoryItem from "../../../assets/games/special-sedie/view-mo
 describe("Test class SpecialSeDieHistoryItem", () => {
     let node: cc.Node;
     let comp: SpecialSeDieHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(SpecialSeDieHistoryItem);
         comp.option = new cc.Node().addComponent(cc.Label);

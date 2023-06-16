@@ -4,7 +4,7 @@ describe("Test class SedieRoundHistory", () => {
     let node: cc.Node;
     let comp: SedieRoundHistory;
     let anyComp: any;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(SedieRoundHistory);
         anyComp = comp as any;

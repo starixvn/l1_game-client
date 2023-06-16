@@ -19,7 +19,7 @@ describe("HiLoResultHandler", () => {
     let gameData: HiLoGameData;
     let mainGame: HiLo;
     let data: HiLoResultType;
-    beforeAll(() => {
+    beforeEach(() => {
         resultHandler = new HiLoResultHandler(gameData);
         resultHandler.gameData = new HiLoGameData(mainGame);
         resultHandler.gameData.resultModel = new HiLoResultModel();
@@ -71,6 +71,25 @@ describe("HiLoResultHandler", () => {
     });
 
     describe("handle", () => {
+        beforeEach(() => {
+            data.result = {
+                roundId: 39475,
+                result: [
+                    {
+                        rank: 9,
+                        suit: 0
+                    }
+                ],
+                amount: 1,
+                betwin: 1,
+                totalTurns: 0,
+                nextAmounts: {
+                    h: 5.62,
+                    l: 1.16
+                },
+                remainingTime: 121
+            };
+        });
         it("should call configs.change", () => {
             // Arrange
             const changeConfigsSpy = jest.spyOn(resultHandler.gameData.resultModel, "change");

@@ -9,7 +9,7 @@ import JackpotPoolItem from "../../assets/lobby/main/view-models/JackpotPoolItem
 describe("JackpotPoolItem", () => {
     let node: cc.Node;
     let comp: JackpotPoolItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(JackpotPoolItem);
         comp.amount = new cc.Node().addComponent(cc.Label);

@@ -9,7 +9,7 @@ import VipSedieWarMiniRoundHistoryTip from "../../../assets/games/vip-sedie-war/
 describe("Test class VipSedieWarMiniRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: VipSedieWarMiniRoundHistoryTip;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(VipSedieWarMiniRoundHistoryTip);
         comp.roundId = new cc.Node().addComponent(cc.Label);

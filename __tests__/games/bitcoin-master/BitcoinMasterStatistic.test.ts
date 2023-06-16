@@ -12,7 +12,7 @@ import BitcoinMasterStatisticPercent from "../../../assets/games/bitcoin-master/
 describe("Test class BitcoinMasterStatistic", () => {
     let node: cc.Node;
     let comp: BitcoinMasterStatistic;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(BitcoinMasterStatistic);
         comp.leftPercent = new cc.Node().addComponent(BitcoinMasterStatisticPercent);

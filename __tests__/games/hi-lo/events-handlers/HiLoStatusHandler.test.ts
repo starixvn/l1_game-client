@@ -17,7 +17,7 @@ describe("Test class HiLoStatusHandler", () => {
     let gameData: HiLoGameData;
     let mainGame: HiLo;
     let data: HiLoStatusType;
-    beforeAll(() => {
+    beforeEach(() => {
         statusHandler = new HiLoStatusHandler(gameData);
         statusHandler.gameData = new HiLoGameData(mainGame);
         statusHandler.gameData.statusModel = new HiLoStatusModel();

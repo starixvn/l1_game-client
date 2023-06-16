@@ -7,7 +7,7 @@ describe("Test class BetItem", () => {
     let betItem: BetItem;
     let item: any;
     let label: cc.Label;
-    beforeAll(() => {
+    beforeEach(() => {
         AudioManager.getInstance().playClick = jest.fn();
         userManager.user.rate = 1;
         node = new cc.Node();

@@ -18,7 +18,7 @@ import BitcoinMasterUtils from "../../../assets/games/bitcoin-master/view-models
 describe("Test class BitcoinMasterTicketDetailItem", () => {
     let node: cc.Node;
     let comp: BitcoinMasterTicketDetailItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(BitcoinMasterTicketDetailItem);
         comp.bg = new cc.Node();

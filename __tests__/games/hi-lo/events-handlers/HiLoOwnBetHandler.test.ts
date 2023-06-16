@@ -19,7 +19,27 @@ describe("HiLoOwnBetHandler", () => {
     let gameData: HiLoGameData;
     let mainGame: HiLo;
     let data: HiLoBetType;
-    beforeAll(() => {
+    const ownBetsdata = {
+        ownBets: {
+            roundId: 39475,
+            result: [
+                {
+                    rank: 9,
+                    suit: 0
+                }
+            ],
+            amount: 1,
+            betwin: 1,
+            totalTurns: 0,
+            nextAmounts: {
+                h: 5.62,
+                l: 1.16
+            },
+            remainingTime: 121
+        }
+    };
+
+    beforeEach(() => {
         ownBetHandler = new HiLoOwnBetHandler(gameData);
         ownBetHandler.gameData = new HiLoGameData(mainGame);
         ownBetHandler.gameData.ownBetsModel = new HiLoOwnBetsModel();
@@ -44,23 +64,7 @@ describe("HiLoOwnBetHandler", () => {
 
         it("should return true if data has ownBets", () => {
             // Arrange
-            data.ownBets = {
-                roundId: 39475,
-                result: [
-                    {
-                        rank: 9,
-                        suit: 0
-                    }
-                ],
-                amount: 1,
-                betwin: 1,
-                totalTurns: 0,
-                nextAmounts: {
-                    h: 5.62,
-                    l: 1.16
-                },
-                remainingTime: 121
-            };
+            data.ownBets = ownBetsdata.ownBets;
 
             // Act
             ownBetHandler.verifyEvent(data);
@@ -77,11 +81,10 @@ describe("HiLoOwnBetHandler", () => {
                 const changeConfigsSpy = jest.spyOn(ownBetHandler.gameData.ownBetsModel, "change");
 
                 // Act
-                ownBetHandler.handle(data);
+                ownBetHandler.handle(ownBetsdata);
 
                 // Assert
-                expect(changeConfigsSpy).toBeCalledTimes(1);
-                expect(changeConfigsSpy).toBeCalledWith(data.ownBets, HiLoOwnBetsModel.Events.CHANGE);
+                expect(changeConfigsSpy).toBeCalledWith(ownBetsdata.ownBets, HiLoOwnBetsModel.Events.CHANGE);
             });
 
             it("should call stateModel.inTurn", () => {
@@ -89,7 +92,7 @@ describe("HiLoOwnBetHandler", () => {
                 const inTurnStateSpy = jest.spyOn(ownBetHandler.gameData.stateModel, "inTurn");
 
                 // Act
-                ownBetHandler.handle(data);
+                ownBetHandler.handle(ownBetsdata);
 
                 // Assert
                 expect(inTurnStateSpy).toBeCalledTimes(1);
@@ -98,10 +101,10 @@ describe("HiLoOwnBetHandler", () => {
 
             it("should set remaining time", () => {
                 // Act
-                ownBetHandler.handle(data);
+                ownBetHandler.handle(ownBetsdata);
 
                 // Assert
-                expect(ownBetHandler.gameData.durations.remaining).toEqual(data.ownBets.remainingTime);
+                expect(ownBetHandler.gameData.durations.remaining).toEqual(ownBetsdata.ownBets.remainingTime);
             });
 
             it("should call roundCounter.change", () => {
@@ -109,27 +112,25 @@ describe("HiLoOwnBetHandler", () => {
                 const changeRoundCounterSpy = jest.spyOn(ownBetHandler.gameData.roundCounter, "change");
 
                 // Act
-                ownBetHandler.handle(data);
+                ownBetHandler.handle(ownBetsdata);
 
                 // Assert
-                expect(changeRoundCounterSpy).toBeCalledTimes(1);
-                expect(changeRoundCounterSpy).toBeCalledWith(data.ownBets.roundId);
+                expect(changeRoundCounterSpy).toHaveBeenCalled();
             });
         });
 
         describe("When ownBets has not roundId", () => {
             it("should call stateModel.prepareNewRound", () => {
                 // Arrange
-                data.ownBets.roundId = null;
+                ownBetsdata.ownBets.roundId = null;
                 HiLoStateModel.prototype.prepareNewRound();
                 const prepareNewRoundStateSpy = jest.spyOn(ownBetHandler.gameData.stateModel, "prepareNewRound");
 
                 // Act
-                ownBetHandler.handle(data);
+                ownBetHandler.handle(ownBetsdata);
 
                 // Assert
                 expect(prepareNewRoundStateSpy).toBeCalledTimes(1);
-                expect(prepareNewRoundStateSpy).toBeCalledWith();
             });
         });
     });

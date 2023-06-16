@@ -10,7 +10,7 @@ import ThreeCardsWinChoiceView from "../../../assets/games/three-cards/scripts/T
 describe("Test class ThreeCardsWinChoiceView", () => {
     let node: cc.Node;
     let comp: ThreeCardsWinChoiceView;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(ThreeCardsWinChoiceView);
         comp.main = new cc.Node().addComponent(cc.Label);

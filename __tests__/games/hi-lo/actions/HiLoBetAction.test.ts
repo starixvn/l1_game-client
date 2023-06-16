@@ -36,7 +36,7 @@ jest.mock("../../../../assets/games/hi-lo/events-models/HiLoStateModel", () => {
 describe("HiLoBetAction", () => {
     let mainGame: HiLo;
     let stateModel: HiLoStateModel;
-    beforeAll(() => {
+    beforeEach(() => {
         mainGame = new HiLo();
         stateModel = new HiLoStateModel();
     });

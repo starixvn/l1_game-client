@@ -3,7 +3,7 @@ import HiLoBetChipItem from "../../../assets/games/hi-lo/view-models/HiLoBetChip
 describe("HiLoBetChipItem", () => {
     let node: cc.Node;
     let comp: HiLoBetChipItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoBetChipItem);
         comp.number = node.addComponent(cc.Label);

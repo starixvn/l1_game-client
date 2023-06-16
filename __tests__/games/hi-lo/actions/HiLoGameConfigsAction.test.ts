@@ -24,7 +24,7 @@ jest.mock("../../../../assets/games/hi-lo/events-models/HiLoGameConfigs", () => 
 describe("HiLoGameConfigsAction", () => {
     let mainGame: HiLo;
     let gameConfig: HiLoGameConfigs;
-    beforeAll(() => {
+    beforeEach(() => {
         mainGame = new HiLo();
         gameConfig = new HiLoGameConfigs();
     });

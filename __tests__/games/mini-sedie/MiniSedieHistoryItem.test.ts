@@ -4,7 +4,7 @@ import MiniSedieHistoryItem from "../../../assets/games/muliplay-mini-sedie/scri
 describe("Test class MiniSedieHistoryItem", () => {
     let node: cc.Node;
     let comp: MiniSedieHistoryItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(MiniSedieHistoryItem);
         comp.bg = new cc.Node();

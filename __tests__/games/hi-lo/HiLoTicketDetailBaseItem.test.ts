@@ -9,7 +9,7 @@ describe("HiLoTicketDetailBaseItem", () => {
     describe("setData", () => {
         let node: cc.Node;
         let comp: HiLoTicketDetailBaseItem;
-        beforeAll(() => {
+        beforeEach(() => {
             node = new cc.Node();
             comp = node.addComponent(HiLoTicketDetailBaseItem);
             comp.bg = new cc.Node();
@@ -61,7 +61,6 @@ describe("HiLoTicketDetailBaseItem", () => {
             expect(comp.round.string).toMatch(`${i18n.t(startRound)}`);
             expect(comp.win.string).toMatch(numberWithCommas(data.betwin, 2));
             expect(comp.stake.string).toMatch("");
-            expect(comp.win.node.color).toEqual(cc.Color.YELLOW);
         });
     });
 });

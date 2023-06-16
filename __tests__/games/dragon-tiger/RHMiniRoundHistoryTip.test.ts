@@ -25,7 +25,7 @@ jest.mock("../../../assets/games/dragon-tiger/view-models/DragonTigerUtil", () =
 describe("Test class RHMiniRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: RHMiniRoundHistoryTip;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(RHMiniRoundHistoryTip);
         comp.result = new cc.Node().addComponent(cc.Label);

@@ -9,7 +9,7 @@ import SicBoRoundHistoryTip from "../../../assets/games/sicbo/view-models/SicBoR
 describe("Test class SicBoRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: SicBoRoundHistoryTip;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(SicBoRoundHistoryTip);
         comp.roundId = new cc.Node().addComponent(cc.Label);

@@ -10,7 +10,7 @@ describe("HiLoTicketDetailItem", () => {
     describe("renderTicketDetailItem", () => {
         let node: cc.Node;
         let comp: HiLoTicketDetailItem;
-        beforeAll(() => {
+        beforeEach(() => {
             node = new cc.Node();
             comp = node.addComponent(HiLoTicketDetailItem);
             comp.bg = new cc.Node();

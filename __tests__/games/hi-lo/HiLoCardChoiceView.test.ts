@@ -4,7 +4,7 @@ import HiLoCardChoiceView from "../../../assets/games/hi-lo/view-models/HiLoCard
 describe("HiLoCardChoiceView", () => {
     let node: cc.Node;
     let comp: HiLoCardChoiceView;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoCardChoiceView);
         comp.rank = node.addComponent(cc.Label);

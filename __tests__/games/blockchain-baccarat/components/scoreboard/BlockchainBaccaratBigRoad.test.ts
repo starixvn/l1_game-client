@@ -1,10 +1,10 @@
-import BlockChainBaccaratBigRoad from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratBigRoad";
 import BaccaratBigRoad from "../../../../../assets/games/_baccarat/view-models/BaccaratBigRoad";
+import BlockChainBaccaratBigRoad from "../../../../../assets/games/blockchain-baccarat/components/score-board/view-models/BlockchainBaccaratBigRoad";
 
 describe("BlockChainBaccaratBigRoad", () => {
     let node: cc.Node;
     let comp: BlockChainBaccaratBigRoad;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(BlockChainBaccaratBigRoad);
     });

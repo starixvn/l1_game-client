@@ -16,7 +16,7 @@ describe("HiLoGameConfigsHandler", () => {
     let gameData: HiLoGameData;
     let mainGame: HiLo;
     let data: ConfigsType;
-    beforeAll(() => {
+    beforeEach(() => {
         configsHandler = new HiLoGameConfigsHandler(gameData);
         configsHandler.gameData = new HiLoGameData(mainGame);
         configsHandler.gameData.configs = new HiLoGameConfigs();

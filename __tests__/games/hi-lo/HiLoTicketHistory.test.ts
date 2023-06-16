@@ -54,7 +54,7 @@ describe("HiLoTicketHistory", () => {
     let node: cc.Node;
     let comp: HiLoTicketHistory;
     let ticketHistoryData: TicketHistoryData;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(HiLoTicketHistory);
         comp.content = new cc.Node();

@@ -9,7 +9,7 @@ import VipBaccaratRoundHistoryTip from "../../../assets/games/vip-baccarat/view-
 describe("Test class VipBaccaratRoundHistoryTip", () => {
     let node: cc.Node;
     let comp: VipBaccaratRoundHistoryTip;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(VipBaccaratRoundHistoryTip);
         comp.roundId = new cc.Node().addComponent(cc.Label);

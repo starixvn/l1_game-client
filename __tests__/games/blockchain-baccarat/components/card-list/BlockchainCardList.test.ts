@@ -74,7 +74,7 @@ describe("Test class BlockchainCardVerification", () => {
         return blockchain;
     }
 
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         content = new cc.Node();
         statsScrollView = new cc.ScrollView();

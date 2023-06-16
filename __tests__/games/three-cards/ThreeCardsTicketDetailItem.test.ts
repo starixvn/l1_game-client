@@ -10,7 +10,7 @@ import ThreeCardsTicketDetailItem from "../../../assets/games/three-cards/script
 describe("Test class ThreeCardsTicketDetailItem", () => {
     let node: cc.Node;
     let comp: ThreeCardsTicketDetailItem;
-    beforeAll(() => {
+    beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(ThreeCardsTicketDetailItem);
         comp.choice = new cc.Node().addComponent(cc.Label);

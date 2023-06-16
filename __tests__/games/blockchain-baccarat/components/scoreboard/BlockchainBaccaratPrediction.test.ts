@@ -14,7 +14,7 @@ describe("BlockchainBaccaratPrediction", () => {
         node.children.push(bigEyeBoyItem, smallRoadItem, cockroachPigItem);
     };
 
-    beforeAll(() => {
+    beforeEach(() => {
         const node = new cc.Node();
         comp = node.addComponent(BlockchainBaccaratPrediction);
         bankerNode = new cc.Node();

@@ -18,7 +18,7 @@ describe("Test class MD5Component", () => {
     let md5Component: MD5Component;
     let md5Comp: any;
 
-    beforeAll(() => {
+    beforeEach(() => {
         jest.useFakeTimers();
         node = new cc.Node();
         md5Component = node.addComponent(MD5Component);
