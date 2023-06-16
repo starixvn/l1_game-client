@@ -28,11 +28,15 @@ export default class BannerJackpotPoolItem extends BannerJackpot {
     async setData(data: JackpotPoolInfo) {
         const { gameId, amount } = data;
         this.gameId = gameId;
-        this.gameName.string = GameUtils.getGameNameString(gameId);
+        this.gameName.string = this.displayGameName(GameUtils.getGameNameString(gameId));
         this.poolAmount.string = numberWithCommas(GameUtils.getValueByCurrency(amount), 2);
 
         const frame = await this.getGameIcon();
         frame && (this.gameIcon.spriteFrame = frame);
+    }
+
+    displayGameName(name: string): string {
+        return name.length >= 16 ? `${name.slice(0, 13)}***` : name;
     }
 
     async getGameIcon(): Promise<cc.SpriteFrame> {
