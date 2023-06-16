@@ -1,6 +1,5 @@
 import { lodash } from "../ClientModules";
 import NotificationService from "../common/auth/NotificationService";
-import EventEmitterBase from "../common/emitter/EventEmitterBase";
 import { uiManager } from "./GameUIManager";
 import { InternalEvents } from "./InternalEvents";
 
@@ -18,29 +17,15 @@ export const JackpotEvents = {
 
 export default class JackpotManager {
     private static instance: JackpotManager;
-    public emitter: EventEmitterBase;
-
     public events = {};
 
     public static getInstance(): JackpotManager {
         if (!this.instance) {
             this.instance = new JackpotManager();
-            this.instance.initEmitter();
         }
 
         return this.instance;
     }
-
-    initEmitter() {
-        this.emitter = new EventEmitterBase();
-    }
-
-    // getJackpotDataWithGameId(data, gameId) {
-    //     const formattingData = lodash.groupBy(data, "gameId");
-    //     return formattingData[gameId];
-    // }
-
-    getJackpotDataWithPools(data) {}
 
     emitEvent(eventName: string, data: any) {
         NotificationService.getInstance().emitEvent(eventName, data);
