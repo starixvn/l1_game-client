@@ -12,7 +12,7 @@ export default class StandardSlotGameHistoryItem extends SlotGameHistoryItem {
         this.win.node.color = betLog.betWin > 0 ? this.textHighlightColor : this.textNormalColor;
     }
 
-    protected getJackpotWinningByCurrency(winningAmount: number) {
+    protected calculateWinningAmount(winningAmount: number) {
         return GameUtils.getValueByCurrency(winningAmount);
     }
 

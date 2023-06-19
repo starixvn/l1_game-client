@@ -150,11 +150,11 @@ export default class SlotGameTicketDetail extends cc.Component {
             amount: "5",
             payout: i18n.t("ui.jackpot"),
             bet,
-            win: `${this.getJackpotWinningByCurrency(jackpot.winningAmount)}`
+            win: `${this.calculateWinningAmount(jackpot.winningAmount)}`
         });
     }
 
-    protected getJackpotWinningByCurrency(amount: number): number {
+    protected calculateWinningAmount(amount: number): number {
         return amount;
     }
 

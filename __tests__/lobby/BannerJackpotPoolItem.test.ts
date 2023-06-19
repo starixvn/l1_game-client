@@ -25,28 +25,54 @@ describe("BannerJackpotPoolItem", () => {
             amount: 2001,
             pool: 50
         };
-        const expectAmount = numberWithCommas(GameUtils.getValueByCurrency(data.amount), 2);
-
-        beforeEach(() => {
-            // Act
-            comp.setData(data);
-        });
 
         it("should save gameId", () => {
+            // Act
+            comp.setData(data);
+
             // Assert
             expect(comp.gameId).toEqual(data.gameId);
         });
-        it("should display game name", () => {
-            // Assert
-            expect(comp.gameName.string).toEqual(GameUtils.getGameNameString(data.gameId));
-        });
+
         it("should display pool amount", () => {
+            // Arrange
+            const expectAmount = numberWithCommas(GameUtils.getValueByCurrency(data.amount), 2);
+
+            // Act
+            comp.setData(data);
+
             // Assert
             expect(comp.poolAmount.string).toEqual(expectAmount);
         });
         it("should call getGameIcon", () => {
+            // Act
+            comp.setData(data);
+
             // Assert
             expect(getGameIconSpy).toHaveBeenCalled();
+        });
+
+        describe("when length of game name string <= 16", () => {
+            it("should display game name", () => {
+                // Act
+                comp.setData(data);
+
+                // Assert
+                expect(comp.gameName.string).toEqual(GameUtils.getGameNameString(data.gameId));
+            });
+        });
+
+        describe("when length of game name string > 16", () => {
+            it("should display shorten game name", () => {
+                // Arrange
+                jest.spyOn(GameUtils, "getGameNameString").mockReturnValueOnce("Four Guardians 12");
+
+                // Act
+                comp.setData(data);
+
+                // Assert
+                expect(comp.gameName.string).toEqual("Four Guardian***");
+            });
         });
     });
 });

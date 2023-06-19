@@ -41,7 +41,7 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
         return spriteFrame;
     }
 
-    protected getJackpotWinningByCurrency(amount: number): number {
+    protected calculateWinningAmount(amount: number): number {
         return GameUtils.getValueByCurrency(amount);
     }
 }

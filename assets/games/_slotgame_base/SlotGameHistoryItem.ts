@@ -61,7 +61,7 @@ export default class SlotGameHistoryItem extends cc.Component {
         const { betWin, settlementResult, time, id, paylines, bet, totalAmount } = betLog;
         let win = betWin;
         if (settlementResult.jackpot !== null) {
-            win += this.getJackpotWinningByCurrency(settlementResult.jackpot.winningAmount);
+            win += this.calculateWinningAmount(settlementResult.jackpot.winningAmount);
         }
 
         this.node.active = true;
@@ -87,7 +87,7 @@ export default class SlotGameHistoryItem extends cc.Component {
         this.showJackpotIcon(settlementResult.jackpot, gameId);
     }
 
-    protected getJackpotWinningByCurrency(winningAmount: number) {
+    protected calculateWinningAmount(winningAmount: number) {
         return winningAmount;
     }
 
