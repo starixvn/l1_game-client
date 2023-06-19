@@ -72,7 +72,6 @@ export default class SymbolPreview extends cc.Component {
 
         const infoNodePositionX = this.infoNode.position.x;
 
-        console.log(infoNodePositionX);
         const textImageNodePosition = infoNodePositionX + 70;
         this.textImages.position = cc.v3(textImageNodePosition, 0, 0);
     }

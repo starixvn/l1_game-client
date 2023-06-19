@@ -12,7 +12,8 @@ export default class PreviewOddsPopup extends cc.Component {
 
     addPreviewPopup(reels) {
         reels.forEach((reel, index) => {
-            const isInfoOnLeft = index === reels.length - 1;
+            const isInfoOnLeft = index === reels.length - 1 || index === reels.length - 2;
+
             reel.items.forEach((item) => {
                 item.node.on(cc.Node.EventType.TOUCH_END, () => {
                     if (this.currentPreviewItem === item.node) {
