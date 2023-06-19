@@ -15,10 +15,21 @@ export default class StandardCascadingSlotReel extends CascadeSlotReel {
         await this.effectSpineSymbol(item, "highlight");
     }
 
+    async shakeItems() {
+        await Promise.all(this.items.map((item) => this.shakeItem(item)));
+    }
+
+    async shakeItem(item) {
+        GameUtils.moveToOtherNode(item.node, this.effectContainer);
+        await this.effectSpineSymbol(item, "shake");
+        GameUtils.moveToOtherNode(item.node, this.node);
+    }
+
     async removeItem(index: number) {
         const item = this.items[index];
         await this.effectSpineSymbol(item, "explode");
         item.node.destroy();
+        console.log(`end remove --------- `, index);
     }
 
     async effectSpineSymbol(item: CascadeSlotReelItem, animation: string) {

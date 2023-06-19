@@ -175,8 +175,12 @@ export default class CascadeSlotReel extends cc.Component {
 
     async removeItemsByIndex(list: number[]) {
         await Promise.all(list.map((index) => this.removeItem(index)));
+        console.log("================================================removeItemsByIndex");
         this.items = this.items.filter((item, index) => !list.includes(index));
+        await this.shakeItems();
     }
+
+    shakeItems() {}
 
     addItems(data: number[]): CascadeSlotReelItem[] {
         let i = 0;
