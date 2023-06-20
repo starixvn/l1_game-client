@@ -18,7 +18,7 @@ export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
             console.error("replaceItem wrong index: " + index);
             return;
         }
-        const symbolPrefabIndex = index === MULTIPLIER_SYMBOL ? 1 : 0;
+        const symbolPrefabIndex = index >= MULTIPLIER_SYMBOL ? 1 : 0;
         const node = cc.instantiate(this.itemPrefabs[symbolPrefabIndex]);
         this.content.addChild(node);
         const reelSymbol = node.getComponent(StandardCascadingSlotReelSymbol);

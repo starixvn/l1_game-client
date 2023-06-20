@@ -6,18 +6,31 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StandardMultiplierItem extends MultiplierItem {
+    @property({ type: cc.Sprite, visible: false, override: true })
+    center: cc.Sprite = null;
+
+    @property({ type: cc.Sprite, visible: false, override: true })
+    centerGlow: cc.Sprite = null;
+
+    @property({ type: cc.SpriteAtlas, visible: false, override: true })
+    atlas: cc.SpriteAtlas = null;
+
     gameId: number;
     private spine: sp.Skeleton;
+    private levelMultiplier;
 
     get cache() {
         return uiManager.prefabCache.slotSymbols[this.gameId] || {};
     }
 
+    onLoad() {
+        this.spine = this.node.getComponent(sp.Skeleton);
+        this.spine.skeletonData = this.cache[this.levelMultiplier];
+    }
+
     async playAnimationGlow() {
         try {
             const anim = "highlight";
-            this.spine = this.node.getComponent(sp.Skeleton);
-            this.spine.skeletonData = this.cache[10];
             this.spine.setAnimation(0, anim, true);
             const duration = this.spine.findAnimation(anim)?.duration || 0;
             GameUtils.updateSpineDuration(this.spine, anim, duration);
@@ -36,7 +49,7 @@ export default class StandardMultiplierItem extends MultiplierItem {
     }
 
     updateColor(value: number) {
-        const color = ["green", "blue", "purple", "yellow"];
+        const level = [10, 11, 12, 13];
         let i = 0;
         const range = [10, 20, 30];
         for (; i < range.length; i++) {
@@ -44,8 +57,10 @@ export default class StandardMultiplierItem extends MultiplierItem {
                 break;
             }
         }
-        const spriteName = `multiplier-${color[i]}`;
-        this.center.spriteFrame = this.atlas.getSpriteFrame(spriteName);
-        this.centerGlow.spriteFrame = this.atlas.getSpriteFrame(`${spriteName}-glow`);
+
+        const anim = "idle";
+        const levelMultiplier = level[i];
+        this.spine.skeletonData = this.cache[levelMultiplier];
+        this.spine.setAnimation(0, anim, true);
     }
 }
