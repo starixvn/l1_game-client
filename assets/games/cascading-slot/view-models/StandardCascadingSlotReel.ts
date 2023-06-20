@@ -29,7 +29,6 @@ export default class StandardCascadingSlotReel extends CascadeSlotReel {
         const item = this.items[index];
         await this.effectSpineSymbol(item, "explode");
         item.node.destroy();
-        console.log(`end remove --------- `, index);
     }
 
     async effectSpineSymbol(item: CascadeSlotReelItem, animation: string) {

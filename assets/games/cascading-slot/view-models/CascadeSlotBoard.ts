@@ -163,6 +163,14 @@ export default class CascadeSlotBoard extends cc.Component {
         );
     }
 
+    public async shakeItems() {
+        await Promise.all(
+            this.reels.map((reel) => {
+                return reel.shakeItems();
+            })
+        );
+    }
+
     public addItems(data: number[][]) {
         this.reels.forEach((reel, index) => {
             const items = data[index];

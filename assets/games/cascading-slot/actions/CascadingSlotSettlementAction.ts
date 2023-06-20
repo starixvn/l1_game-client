@@ -114,6 +114,7 @@ const handleTumbles = async (mainGame: CascadingSlotBase, tumbles: Tumble[], isT
         mainGame.tumbleList.addIcons(icons);
 
         await mainGame.board.removeItems(explode, i);
+        await mainGame.board.shakeItems();
         mainGame.board.addItems(newItems);
         mainGame.board.updateMultiplierItems(tumbleMultipliers);
         await mainGame.board.fallIn(isTurbo);

@@ -49,7 +49,7 @@ export default class MultiplierItem extends cc.Component {
         this.animation.stop();
     }
 
-    private updateColor(value: number) {
+    protected updateColor(value: number) {
         const color = ["green", "blue", "purple", "yellow"];
         let i = 0;
         const range = [10, 20, 30];
