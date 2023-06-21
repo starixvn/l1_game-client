@@ -43,10 +43,10 @@ describe("JackpotPoolItem", () => {
             const amount = 1000;
 
             // Act
-            comp.convertCurrencyValue(amount);
+            comp.calculateJackpotPool(amount);
 
             // Assert
-            expect(comp.convertCurrencyValue(amount)).toEqual(amount);
+            expect(comp.calculateJackpotPool(amount)).toEqual(amount);
         });
     });
 

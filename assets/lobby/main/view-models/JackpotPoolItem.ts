@@ -11,11 +11,11 @@ export default class JackpotPoolItem extends cc.Component {
     highlight: cc.Node = null;
 
     setData(amount: number) {
-        GameUtils.floatToNumber({ label: this.amount, amount: this.convertCurrencyValue(amount), duration: 1, noZeroSuffix: false });
+        GameUtils.floatToNumber({ label: this.amount, amount: this.calculateJackpotPool(amount), duration: 1, noZeroSuffix: false });
         this.node.active = true;
     }
 
-    convertCurrencyValue(amount: number) {
+    calculateJackpotPool(amount: number) {
         return amount;
     }
 

@@ -19,11 +19,11 @@ describe("StandardJackpotPoolItem", () => {
             const getValueByCurrencySpy = jest.spyOn(GameUtils, "getValueByCurrency");
 
             // Act
-            comp.convertCurrencyValue(amount);
+            comp.calculateJackpotPool(amount);
 
             // Assert
             expect(getValueByCurrencySpy).toHaveBeenCalled();
-            expect(comp.convertCurrencyValue(amount)).toEqual(GameUtils.getValueByCurrency(amount));
+            expect(comp.calculateJackpotPool(amount)).toEqual(GameUtils.getValueByCurrency(amount));
         });
     });
 });
