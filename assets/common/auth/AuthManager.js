@@ -46,12 +46,34 @@ export function checkSSO(onSuccessFunc) {
     if (checkUMSSO(urlParams) || checkTimeOut(urlParams)) {
         return;
     }
-    const session = sessionManager.getSession();
-    if (checkSignOut(urlParams, session)) {
+
+    let session = sessionManager.getSession();
+    const isSignOut = checkSignOut(urlParams, session);
+    if (urlParams.has("params")) {
+        session = authorizeFromMicroSite(urlParams, session);
+    }
+
+    if (!session && isSignOut) {
+        signOut();
         return;
     }
 
-    checkHasToken(urlParams, session, onSuccessFunc);
+    if (urlParams.has("token")) {
+        checkHasToken(urlParams, onSuccessFunc);
+    } else {
+        if (!session) {
+            signOut();
+            return;
+        }
+
+        if (session?.isAuthenticated && session?.ss) {
+            window.authData = session;
+            getChipSetting();
+            sessionManager.updateLanguage(session);
+            sentryLogger.setUser(session);
+            onSuccessFunc();
+        }
+    }
 }
 
 function checkUMSSO(urlParams) {
@@ -67,16 +89,6 @@ function checkUMSSO(urlParams) {
     return false;
 }
 
-function checkSignOut(urlParams, session) {
-    const isSessionExpired = verifySession(session);
-    if (isSessionExpired && !(urlParams.has("token") || urlParams.has("params"))) {
-        signOut();
-        return true;
-    }
-
-    return false;
-}
-
 function checkTimeOut(urlParams) {
     if (urlParams.has("isTimeout") && urlParams.get("isTimeout") === "true") {
         redirectToTimeOutPage();
@@ -89,60 +101,83 @@ function getAppType(urlParams) {
     return urlParams.get("appType") == AppTypes.SabaApp ? AppTypes.SabaApp : AppTypes.SabaClub;
 }
 
-function checkHasToken(urlParams, session, onSuccessFunc, messageComp) {
-    if (urlParams.has("token")) {
-        window.isSSO = true;
-        window.appType = getAppType(urlParams);
-        UserService.getInstance()
-            .auth.sso(urlParams.get("token"), getAppType(urlParams))
-            .then((response) => {
-                if (checkUM(response)) {
-                    return;
-                }
-
-                if (response.isAuthenticated) {
-                    window.authData = response;
-                    getChipSetting();
-                    sentryLogger.setUser(response);
-                    window.authData.time = new Date();
-                    window.openGameId = urlParams.get("gameId");
-                    sessionManager.storeSessionData(response);
-                    clearQueryStringOnUrl();
-                    onSuccessFunc();
-                } else {
-                    uiManager.emitter.emit(InternalEvents.SSO_FAILED);
-                }
-            })
-            .catch((error) => {
-                uiManager.emitter.emit(InternalEvents.SSO_ERROR);
-                sentryLogger.logError(error);
-            });
-    } else {
-        if (session && session.isAuthenticated && session.ss) {
-            if (urlParams.has("params")) {
-                authorizeFromMicrosite(urlParams, session);
-                clearQueryStringOnUrl();
-            }
-            window.authData = session;
-            getChipSetting();
-            sessionManager.updateLanguage(session);
-            sentryLogger.setUser(session);
-            onSuccessFunc();
-        }
-    }
+function checkSignOut(urlParams, session) {
+    const isSessionExpired = verifySession(session);
+    return isSessionExpired && !(urlParams.has("token") || urlParams.has("params"));
 }
 
-function authorizeFromMicrosite(urlParams, session) {
+function checkHasToken(urlParams, onSuccessFunc) {
+    window.isSSO = true;
+    window.appType = getAppType(urlParams);
+    UserService.getInstance()
+        .auth.sso(urlParams.get("token"), getAppType(urlParams))
+        .then((response) => {
+            if (checkUM(response)) {
+                return;
+            }
+
+            if (response.isAuthenticated) {
+                window.authData = response;
+                getChipSetting();
+                sentryLogger.setUser(response);
+                window.authData.time = new Date();
+                window.openGameId = urlParams.get("gameId");
+                sessionManager.storeSessionData(response);
+                clearQueryStringOnUrl();
+                onSuccessFunc();
+            } else {
+                uiManager.emitter.emit(InternalEvents.SSO_FAILED);
+            }
+        })
+        .catch((error) => {
+            uiManager.emitter.emit(InternalEvents.SSO_ERROR);
+            sentryLogger.logError(error);
+        });
+}
+
+function authorizeFromMicroSite(urlParams, session) {
+    if (!urlParams.has("params")) {
+        return null;
+    }
+
     const paramsQueryString = GameUtils.base64Decode(urlParams.get("params"));
     const urlSearchParams = new URLSearchParams(paramsQueryString);
-    if (urlSearchParams.has("ss") && urlSearchParams.has("time") && session.ss === urlSearchParams.get("ss")) {
-        session.time = new Date(+urlSearchParams.get("time"));
-        sessionManager.storeSessionData(session);
-        const audio = AudioManager.getInstance();
-        urlSearchParams.has("musicEnable") && (audio.musicEnabled = urlSearchParams.get("musicEnable") === "true");
-        urlSearchParams.has("sfxEnable") && (audio.sfxEnabled = urlSearchParams.get("sfxEnable") === "true");
-    } else {
-        signOut();
+    if (urlSearchParams.has("ss") && urlSearchParams.has("time") && identifyUser(urlSearchParams, session)) {
+        session = updateSessionFromParams(session, urlSearchParams);
+        handleAudioParams(urlSearchParams);
+        clearQueryStringOnUrl();
+
+        return session;
+    }
+
+    return null;
+}
+
+function identifyUser(urlSearchParams, session) {
+    return session.username === urlSearchParams.get("username");
+}
+
+function updateSessionFromParams(session, urlSearchParams) {
+    session.time = new Date(+urlSearchParams.get("time"));
+    session.ss = urlSearchParams.get("ss");
+    session.memberName = urlSearchParams.get("memberName");
+    session.username = urlSearchParams.get("username");
+    session.isAuthenticated = urlSearchParams.get("isAuthenticated");
+    session.language = urlSearchParams.get("language");
+
+    sessionManager.storeSessionData(session);
+
+    return session;
+}
+
+function handleAudioParams(urlSearchParams) {
+    const audio = AudioManager.getInstance();
+    if (urlSearchParams.has("musicEnable")) {
+        audio.musicEnabled = urlSearchParams.get("musicEnable") === "true";
+    }
+
+    if (urlSearchParams.has("sfxEnable")) {
+        audio.sfxEnabled = urlSearchParams.get("sfxEnable") === "true";
     }
 }
 
