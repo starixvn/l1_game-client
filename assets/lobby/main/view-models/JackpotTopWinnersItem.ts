@@ -30,7 +30,7 @@ export default class JackpotTopWinnersItem extends BannerJackpot {
     }
 
     displayGameName(name: string): string {
-        return name.length >= 16 ? `${name.slice(0, 13)}***` : name;
+        return name.length > 16 ? `${name.slice(0, 13)}***` : name;
     }
 
     async setAvatar(id: number) {
