@@ -1,6 +1,9 @@
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
+import RemoteSpine from "../../../common/RemoteSpine";
+import { buildMicrositeGameUrl } from "../../../common/helpers/UrlHelper";
 import Loading from "../../../common/loading/view-models/Loading";
+import { getGameConfiguration } from "../../../configs/GameConfigurations";
 import { uiManager } from "../../../managers/GameUIManager";
 import SplashConfig from "../../../splash/view-models/SplashConfig";
 import LobbyMenuConfig from "./LobbyMenuConfig";
@@ -51,7 +54,7 @@ export default class SkeletonIcon extends cc.Component {
         }
     }
 
-    async loadAnimation(id: number, categoryIndex: number) {
+    private async createIconNode(id: number) {
         let prefab: cc.Prefab;
         if (uiManager.prefabCache.lobbyIcons[id]) {
             prefab = uiManager.prefabCache.lobbyIcons[id];
@@ -61,13 +64,28 @@ export default class SkeletonIcon extends cc.Component {
                 prefab = await GameUtils.loadGameIcon(id, this.splashConfig.customPath);
             }
         }
-        this.hideSkeleton();
-
-        const gameNode = cc.instantiate(prefab);
-        this.gameContent?.addChild(gameNode);
-        this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id, categoryIndex));
 
         uiManager.prefabCache.lobbyIcons[id] = prefab;
+        return cc.instantiate(prefab);
+    }
+
+    private async createRemoteIconNode(id: number) {
+        const node = new cc.Node();
+        node.addComponent(sp.Skeleton);
+        const remoteSpine = node.addComponent(RemoteSpine);
+        const url = buildMicrositeGameUrl(id);
+        remoteSpine.host = url;
+        remoteSpine.spineName = "icon-game";
+        return node;
+    }
+
+    async loadAnimation(id: number, categoryIndex: number) {
+        const gameConfiguration = getGameConfiguration(id);
+        const gameNode = gameConfiguration.isMicrosite ? await this.createRemoteIconNode(id) : await this.createIconNode(id);
+
+        this.hideSkeleton();
+        this.gameContent?.addChild(gameNode);
+        this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id, categoryIndex));
     }
 
     private hideSkeleton() {

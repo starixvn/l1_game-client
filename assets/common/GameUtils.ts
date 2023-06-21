@@ -17,7 +17,7 @@ import AudioManager from "./audio/AudioManager";
 import BetChips from "./bet-chips/view-models/BetChips";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
-import { buildProxyUrl } from "./helpers/UrlHelper";
+import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import { userManager } from "./user/UserManager";
 
@@ -82,6 +82,18 @@ export default class GameUtils {
     public static capitalizeWordIntoString(str: string) {
         const words = str.split(" ");
         return words.map((word) => word[0] + word.substring(1).toLowerCase()).join(" ");
+    }
+
+    public static loadRemote(url: string) {
+        return new Promise((resolve, reject) => {
+            cc.assetManager.loadRemote(url, (err, asset) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(asset);
+            });
+        });
     }
 
     public static loadResource(path: string): Promise<cc.Prefab> {
@@ -256,7 +268,7 @@ export default class GameUtils {
     public static openGameMicrosite(gameId: number) {
         const auData = window.authData;
         const directMode = StorageManager.get("direct_mode");
-        const url = buildProxyUrl(`/site-${gameId}`);
+        const url = buildMicrositeGameUrl(gameId);
         const audio = AudioManager.getInstance();
         const params = {
             ss: auData.ss,

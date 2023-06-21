@@ -48,6 +48,10 @@ export function buildProxyUrl(path) {
     return buildUrl("http", fullPath, configs.clientSubDomain);
 }
 
+export function buildMicrositeGameUrl(gameId) {
+    return buildProxyUrl(`/site-${gameId}`);
+}
+
 export function getTrialSocket(gameId) {
     const gameConfiguration = getGameConfiguration(gameId);
     const path = gameConfiguration?.key.toLowerCase();
