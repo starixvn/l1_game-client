@@ -84,9 +84,9 @@ export default class GameUtils {
         return words.map((word) => word[0] + word.substring(1).toLowerCase()).join(" ");
     }
 
-    public static loadRemote(url: string) {
+    public static loadRemote<T>(url: string): Promise<T> {
         return new Promise((resolve, reject) => {
-            cc.assetManager.loadRemote(url, (err, asset) => {
+            cc.assetManager.loadRemote(url, (err, asset: any) => {
                 if (err) {
                     reject(err);
                     return;
