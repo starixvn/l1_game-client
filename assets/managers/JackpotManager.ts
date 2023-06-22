@@ -15,6 +15,12 @@ export const JackpotEvents = {
     GET_WINNERS: "getWinners"
 };
 
+export enum JackpotPoolType {
+    MINOR = 0,
+    MAJOR,
+    GRAND
+}
+
 export default class JackpotManager {
     private static instance: JackpotManager;
     public events = {};
@@ -51,8 +57,24 @@ export default class JackpotManager {
     }
 
     onReceivedJackpotPoolsData(data: any) {
-        const sortedData = data.sort((a, b) => b.amount - a.amount);
-        uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS, lodash.groupBy(sortedData, "pool"));
+        const pools = lodash.groupBy(data, "gameId");
+        const poolsGroup = {
+            [JackpotPoolType.MINOR]: [],
+            [JackpotPoolType.MAJOR]: [],
+            [JackpotPoolType.GRAND]: []
+        };
+
+        Object.values(pools).forEach((gamePool) => {
+            gamePool.forEach((poolItem, index) => {
+                poolsGroup[index].push(poolItem);
+            });
+        });
+
+        Object.values(poolsGroup).forEach((pool) => {
+            pool.sort((a, b) => b.amount - a.amount);
+        });
+
+        uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS, poolsGroup);
     }
 
     onReceivedJackpotPoolsOnGameData(data: any) {

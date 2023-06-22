@@ -1,18 +1,12 @@
 import GameUtils from "../../../common/GameUtils";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
-import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
+import { JackpotDataKey, JackpotEvents, jackpotManager, JackpotPoolType } from "../../../managers/JackpotManager";
 import BannerJackpotPoolItem from "./BannerJackpotPoolItem";
 import JackpotPoolInfo from "./JackpotPoolInfo";
 import JackpotPoolItem from "./JackpotPoolItem";
 
 const { ccclass, property } = cc._decorator;
-
-export enum JackpotPoolType {
-    MINOR = 0,
-    MAJOR,
-    GRAND
-}
 
 @ccclass
 export default class BannerJackpotPool extends JackpotPoolInfo {
@@ -58,16 +52,12 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
 
         this.selectedTab = type;
         this.content.destroyAllChildren();
-        Object.keys(this.poolData).forEach((pool, index) => {
-            if (type === index) {
-                this.poolData[pool].forEach((gamePool) => {
-                    const item = GameUtils.createNodeFromPrefab(this.gamePool);
-                    if (item) {
-                        this.content.addChild(item);
-                        const poolItemComp = item.getComponent(BannerJackpotPoolItem);
-                        poolItemComp.setData(gamePool);
-                    }
-                });
+        this.poolData[type].forEach((pool) => {
+            const item = GameUtils.createNodeFromPrefab(this.gamePool);
+            if (item) {
+                this.content.addChild(item);
+                const poolItemComp = item.getComponent(BannerJackpotPoolItem);
+                poolItemComp.setData(pool);
             }
         });
     }

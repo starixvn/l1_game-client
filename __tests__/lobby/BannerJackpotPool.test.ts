@@ -4,13 +4,13 @@
  */
 import BannerJackpotPool from "../../assets/lobby/main/view-models/BannerJackpotPool";
 import { uiManager } from "../../assets/managers/GameUIManager";
-import { jackpotManager } from "../../assets/managers/JackpotManager";
+import { jackpotManager, JackpotPoolType } from "../../assets/managers/JackpotManager";
 
 describe("BannerJackpotPool", () => {
     let node: cc.Node;
     let comp: BannerJackpotPool;
     const poolsData = {
-        "1": [
+        [JackpotPoolType.MINOR]: [
             {
                 amount: 6008.75,
                 gameId: 46,
@@ -32,7 +32,7 @@ describe("BannerJackpotPool", () => {
                 pool: 1
             }
         ],
-        "10": [
+        [JackpotPoolType.MAJOR]: [
             {
                 amount: 58008.75,
                 gameId: 64,
@@ -54,7 +54,7 @@ describe("BannerJackpotPool", () => {
                 pool: 10
             }
         ],
-        "50": [
+        [JackpotPoolType.GRAND]: [
             {
                 amount: 350008.75,
                 gameId: 63,
@@ -136,7 +136,7 @@ describe("BannerJackpotPool", () => {
         it("should call loadData", () => {
             // Arrange
             comp["loadData"] = jest.fn();
-            const type = 1;
+            const type = JackpotPoolType.MAJOR;
             const event = null;
 
             // Act
@@ -150,7 +150,7 @@ describe("BannerJackpotPool", () => {
     describe("loadData", () => {
         it("should save selected tab ", () => {
             // Arrange
-            const type = 2;
+            const type = JackpotPoolType.GRAND;
             comp.content = new cc.Node();
             comp["selectedTab"] = 0;
             comp["poolData"] = poolsData;
