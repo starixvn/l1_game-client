@@ -18,8 +18,9 @@ export default class RemoteSpine extends cc.Component {
 
     @property
     public host = "";
+    public premultipliedAlpha = false;
 
-    public spine: sp.Skeleton;
+    private spine: sp.Skeleton;
 
     readonly resourceExts = ["atlas", "json", "png"];
 
@@ -46,6 +47,7 @@ export default class RemoteSpine extends cc.Component {
         skeletonData.textures = [spineRes[SpineFile.Texture]];
         skeletonData["textureNames"] = [`${this.spineName}.${this.resourceExts[SpineFile.Texture]}`];
         this.spine.skeletonData = skeletonData;
+        this.spine.premultipliedAlpha = this.premultipliedAlpha;
         this.spine.enableBatch = true;
         this.spine.setAnimation(0, this.animationName, true);
     }
