@@ -1,5 +1,6 @@
 import axios from "axios";
 import i18n from "i18n/runtime-scripts/LanguageData";
+import * as _ from "lodash";
 
 import configs from "../../configs/Configs";
 import { appManager } from "../../managers/AppManager";
@@ -53,7 +54,7 @@ export function checkSSO(onSuccessFunc) {
         session = authorizeFromMicroSite(urlParams, session);
     }
 
-    if (!session && isSignOut) {
+    if (_.isEmpty(session) && isSignOut) {
         signOut();
         return;
     }
@@ -61,7 +62,7 @@ export function checkSSO(onSuccessFunc) {
     if (urlParams.has("token")) {
         checkHasToken(urlParams, onSuccessFunc);
     } else {
-        if (!session) {
+        if (_.isEmpty(session)) {
             signOut();
             return;
         }
@@ -137,7 +138,7 @@ function checkHasToken(urlParams, onSuccessFunc) {
 
 function authorizeFromMicroSite(urlParams, session) {
     if (!urlParams.has("params")) {
-        return null;
+        return {};
     }
 
     const paramsQueryString = GameUtils.base64Decode(urlParams.get("params"));
@@ -150,7 +151,7 @@ function authorizeFromMicroSite(urlParams, session) {
         return session;
     }
 
-    return null;
+    return {};
 }
 
 function updateSessionFromParams(session, urlSearchParams) {
