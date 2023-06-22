@@ -74,7 +74,7 @@ export default class SkeletonIcon extends cc.Component {
         node.addComponent(sp.Skeleton);
         const remoteSpine = node.addComponent(RemoteSpine);
         const url = buildMicrositeGameUrl(id);
-        remoteSpine.host = url;
+        remoteSpine.host = `${url}/remote/icon`;
         remoteSpine.spineName = "icon-game";
         return node;
     }
