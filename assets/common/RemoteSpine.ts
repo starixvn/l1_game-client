@@ -32,7 +32,7 @@ export default class RemoteSpine extends cc.Component {
         for (const ext of this.resourceExts) {
             try {
                 const resName = `${this.spineName}.${ext}`;
-                const url = `http://${this.host}/${resName}`;
+                const url = `${this.host}/${resName}`;
                 const data = await GameUtils.loadRemote(url);
                 if (data) {
                     spineRes.push(data);
