@@ -142,7 +142,7 @@ function authorizeFromMicroSite(urlParams, session) {
 
     const paramsQueryString = GameUtils.base64Decode(urlParams.get("params"));
     const urlSearchParams = new URLSearchParams(paramsQueryString);
-    if (urlSearchParams.has("ss") && urlSearchParams.has("time") && identifyUser(urlSearchParams, session)) {
+    if (urlSearchParams.has("ss") && urlSearchParams.has("time")) {
         session = updateSessionFromParams(session, urlSearchParams);
         handleAudioParams(urlSearchParams);
         clearQueryStringOnUrl();
@@ -151,10 +151,6 @@ function authorizeFromMicroSite(urlParams, session) {
     }
 
     return null;
-}
-
-function identifyUser(urlSearchParams, session) {
-    return session.username === urlSearchParams.get("username");
 }
 
 function updateSessionFromParams(session, urlSearchParams) {
