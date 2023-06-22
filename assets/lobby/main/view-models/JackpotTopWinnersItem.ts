@@ -25,12 +25,8 @@ export default class JackpotTopWinnersItem extends BannerJackpot {
         this.gameId = gameId;
         this.setName(winnerName);
         this.setAmount(GameUtils.getValueByExchangeRateCode(amount, exchangeRateCode));
-        this.setGameName(this.displayGameName(GameUtils.getGameNameString(gameId)));
+        this.setGameName(GameUtils.getGameNameString(gameId));
         await this.setAvatar(avatarId);
-    }
-
-    displayGameName(name: string): string {
-        return name.length > 16 ? `${name.slice(0, 13)}***` : name;
     }
 
     async setAvatar(id: number) {
@@ -46,6 +42,7 @@ export default class JackpotTopWinnersItem extends BannerJackpot {
     }
 
     private setGameName(gameName: string) {
+        gameName = gameName.length > 16 ? `${gameName.slice(0, 13)}***` : gameName;
         this.gameName.string = gameName;
     }
 }

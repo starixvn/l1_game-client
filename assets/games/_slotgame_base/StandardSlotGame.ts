@@ -156,7 +156,7 @@ export default class StandardSlotGame extends SlotGameBase {
         });
     }
 
-    getPrefabsList() {
+    protected getPrefabsList() {
         return {
             // prefab name : prefab property
             "effect-transition": "effectTransitionPrefab",
@@ -332,7 +332,7 @@ export default class StandardSlotGame extends SlotGameBase {
         uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
     }
 
-    getSymbolName(index): string {
+    protected getSymbolName(index): string {
         return `preload/symbol-spines/symbol-${index}`;
     }
 

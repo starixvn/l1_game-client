@@ -205,7 +205,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         // override
     }
 
-    loadJackpotPoolInfo() {
+    protected loadJackpotPoolInfo() {
         //empty
     }
 

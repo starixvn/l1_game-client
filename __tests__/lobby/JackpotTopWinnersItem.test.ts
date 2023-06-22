@@ -116,15 +116,30 @@ describe("JackpotTopWinnersItem", () => {
     });
 
     describe("setGameName", () => {
-        it("should display game name", () => {
-            // Arrange
-            const gameName = "Fourguardians1";
+        describe("when length of game name string <= 16", () => {
+            it("should display game name", () => {
+                // Arrange
+                const gameName = "Fourguardians";
 
-            // Act
-            comp["setGameName"](gameName);
+                // Act
+                comp["setGameName"](gameName);
 
-            // Assert
-            expect(comp.gameName.string).toEqual(gameName);
+                // Assert
+                expect(comp.gameName.string).toEqual(gameName);
+            });
+        });
+
+        describe("when length of game name string > 16", () => {
+            it("should display game name", () => {
+                // Arrange
+                const gameName = "Four Guardians 12";
+
+                // Act
+                comp["setGameName"](gameName);
+
+                // Assert
+                expect(comp.gameName.string).toEqual("Four Guardian***");
+            });
         });
     });
 });

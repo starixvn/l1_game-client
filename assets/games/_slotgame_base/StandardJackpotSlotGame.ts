@@ -17,14 +17,14 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
     @property(cc.Node)
     topWinnersButton: cc.Node = null;
 
-    private readonly jackpotPoolPrefab: cc.Prefab;
+    private jackpotPoolPrefab: cc.Prefab;
 
     onLoad() {
         super.onLoad();
         uiManager.emitterListener(InternalEvents.CLICK_HAMBURGER_MENU, this.hideTopWinnersButton.bind(this), this);
     }
 
-    getPrefabsList() {
+    protected getPrefabsList() {
         const normalPrefabs = super.getPrefabsList();
         const jackpotPrefabs = {
             // prefab name : prefab property
@@ -34,7 +34,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         return Object.assign({}, normalPrefabs, jackpotPrefabs);
     }
 
-    getSymbolName(index): string {
+    protected getSymbolName(index): string {
         let symbolName = `preload/symbol-spines/symbol-${index}`;
         if (index === 10 && this.jackpotEnabled) {
             const language = getLocale();
@@ -43,9 +43,16 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         return symbolName;
     }
 
-    loadJackpotPoolInfo() {
+    async loadJackpotPoolInfo() {
         if (!this.jackpotEnabled || !this.jackpotPoolNode) {
             return;
+        }
+        if (!this.jackpotPoolPrefab) {
+            try {
+                this.jackpotPoolPrefab = await GameUtils.loadResource(`shared/slot-game/jackpot-pool`);
+            } catch (e) {
+                cc.warn(`Missing jackpot pool`, e);
+            }
         }
         const node = cc.instantiate(this.jackpotPoolPrefab);
         this.jackpotPoolInfo = node.getComponent(JackpotPoolInfoBase);
@@ -53,8 +60,8 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         this.updateJackpotPoolList();
     }
 
-    updateJackpotPool() {
-        // empty
+    override updateJackpotPool() {
+        // override
     }
 
     hideTopWinnersButton() {
