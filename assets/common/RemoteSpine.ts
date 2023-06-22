@@ -45,6 +45,8 @@ export default class RemoteSpine extends cc.Component {
         skeletonData.textures = [spineRes[SpineFile.Texture]];
         skeletonData["textureNames"] = [`${this.spineName}.${this.resourceExts[SpineFile.Texture]}`];
         this.spine.skeletonData = skeletonData;
+        this.spine.enableBatch = true;
+        this.spine.premultipliedAlpha = false;
         this.spine.setAnimation(0, this.animationName, true);
     }
 }
