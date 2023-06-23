@@ -1,6 +1,5 @@
 import axios from "axios";
 
-import UserService from "../common/auth/UserService";
 import { buildProxyUrl } from "../common/helpers/UrlHelper";
 import { uiManager } from "../managers/GameUIManager";
 import { InternalEvents } from "../managers/InternalEvents";
@@ -69,22 +68,9 @@ export async function initialize() {
     const index = configurations.findIndex((configuration) => configuration.id === 2);
     index >= 0 && (configurations[index].isMicrosite = true);
 
-    configurations.push(...(await loadMicrositeGameConfigs()));
     window.gameConfigurations = configurations;
 
     initializeBundleInfos();
-}
-
-async function loadMicrositeGameConfigs() {
-    try {
-        return (await UserService.getInstance().gameConfigs.getMicrositeGames()).map((config) => ({
-            id: config.gameId,
-            isMicrosite: config.isMicrosite
-        }));
-    } catch (error) {
-        cc.log("Can not load config microsite games");
-        return [];
-    }
 }
 
 function initializeBundleInfos() {
