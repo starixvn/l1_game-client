@@ -12,5 +12,5 @@ RUN touch /var/run/nginx.pid && \
 USER nginx
 
 COPY ./.nginx/game.conf /etc/nginx/conf.d/default.conf
-COPY ./build/web-mobile/assets/199 /usr/share/nginx/html/199
+COPY ./build/web-mobile/assets/66 /usr/share/nginx/html/66
 COPY ./build/web-mobile/assets/versions.json /usr/share/nginx/html
