@@ -148,7 +148,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     async loadSlotSymbols() {
         const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
-        for (let index = 0; index < CascadingSlotConfig.itemTypeCount; index++) {
+        for (let index = 0; index < CascadingSlotConfig.symbolCount; index++) {
             if (prefabCache[index]) {
                 continue;
             }
