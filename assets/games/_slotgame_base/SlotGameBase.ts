@@ -153,7 +153,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     normalPaylineDuration = 1;
     turboPaylineDuration = 0.75;
     isFinishedRound = true;
-    receivedJackpotPoolsData = [];
+    receiviedJackpotPools;
 
     public get jackpotEnabled() {
         return this._jackpotEnabled;
@@ -205,8 +205,8 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         // override
     }
 
-    protected loadJackpotPoolInfo() {
-        //empty
+    protected async loadJackpotPoolInfo() {
+        return Promise.resolve(null);
     }
 
     showJackpotInfo(show: boolean) {

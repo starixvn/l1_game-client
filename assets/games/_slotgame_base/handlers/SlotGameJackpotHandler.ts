@@ -1,3 +1,5 @@
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import DataHandler from "../../_base/handlers/DataHandler";
 import SlotGameBase from "../SlotGameBase";
 
@@ -10,7 +12,7 @@ export default class SlotGameJackpotHandler implements DataHandler {
         }
 
         if (data.jackpotPools) {
-            this.main.receivedJackpotPoolsData = data.jackpotPools;
+            uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS_IN_GAME, data.jackpotPools);
             data.jackpotPools.forEach((pool: any) => this.main.updatePoolData(pool));
         }
     }

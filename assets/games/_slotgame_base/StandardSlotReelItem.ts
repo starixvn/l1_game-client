@@ -24,7 +24,7 @@ export default class StandardSlotReelItem extends SlotReelItem {
         spine.setAnimation(0, "highlight", true);
     }
 
-    protected replaceItem(index: number, duration = 0) {
+    public replaceItem(index: number, duration = 0) {
         const cache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
         const gameAtlasCache = uiManager.prefabCache.gameAtlas[this.gameId];
 

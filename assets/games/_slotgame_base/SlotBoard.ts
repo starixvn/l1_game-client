@@ -23,7 +23,7 @@ export default class SlotBoard extends cc.Component {
     @property({ type: cc.AudioSource })
     soundSources: cc.AudioSource[] = [];
 
-    protected readonly reels: SlotReel[] = [];
+    public reels: SlotReel[] = [];
 
     public get reelCount() {
         return this.reels.length;

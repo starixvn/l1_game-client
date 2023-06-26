@@ -240,7 +240,7 @@ export default class StandardSlotGame extends SlotGameBase {
 
     setTotalFreeSpins(value: number) {
         super.setTotalFreeSpins(value);
-        this.bottomMessage && this.bottomMessage.showMessages(SlotNotification.FREESPINS);
+        this.bottomMessage?.showMessages(SlotNotification.FREESPINS);
     }
 
     updateBottomMessageStatus() {
@@ -316,20 +316,21 @@ export default class StandardSlotGame extends SlotGameBase {
             if (prefabCache[index]) {
                 continue;
             }
-
-            const path = this.getSymbolName(index);
-            const devPath = `../games/*/${path}`;
-            const data = await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
-                bundleId: this.gameId.toString(),
-                path: path,
-                pathForDevMode: devPath,
-                type: sp.SkeletonData
-            });
-
-            prefabCache[index] = data;
+            prefabCache[index] = await this.addSymbolCache(index);
         }
 
         uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
+    }
+
+    protected async addSymbolCache(index: number) {
+        const path = this.getSymbolName(index);
+        const devPath = `../games/*/${path}`;
+        return await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
+            bundleId: this.gameId.toString(),
+            path: path,
+            pathForDevMode: devPath,
+            type: sp.SkeletonData
+        });
     }
 
     protected getSymbolName(index): string {
