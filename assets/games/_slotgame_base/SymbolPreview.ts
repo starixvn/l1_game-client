@@ -8,6 +8,7 @@ export interface SymbolPreviewType {
     odds: any;
     colorList: [string, string];
     borderColor: string;
+    isInfoOnLeft: boolean;
     coinValue?: number;
     betLevel?: number;
     symbol?: number;
@@ -99,7 +100,14 @@ export default class SymbolPreview extends cc.Component {
                 child.color = cc.Color.WHITE.fromHEX(info.colorList[childIndex]);
             });
         });
+        this.checkShowSpecialSymbol(info);
+    }
 
-        this.showSymbolText(info.symbol, info.colorList[1]);
+    checkShowSpecialSymbol(info) {
+        if (info.symbol == 7 || info.symbol == 8) {
+            this.textImages.active = true;
+            //this.showSymbolText(info.symbol, info.colorList[1], info.isInfoOnLeft);
+            this.showSymbolText(info.symbol, info.colorList[1]);
+        }
     }
 }

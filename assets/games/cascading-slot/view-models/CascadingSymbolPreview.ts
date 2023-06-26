@@ -1,3 +1,4 @@
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import SymbolPreview, { SymbolPreviewType } from "../../_slotgame_base/SymbolPreview";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
 
@@ -41,6 +42,7 @@ export default class CascadingSymbolPreview extends SymbolPreview {
         skeleton.setAnimation(0, "highlight", false);
         this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);
         this.renderInfo(info);
+        this.checkShowSpecialSymbol(info);
     }
 
     renderNormalSymbol(info: CascadingSymbolPreviewType) {
@@ -56,7 +58,7 @@ export default class CascadingSymbolPreview extends SymbolPreview {
                 values = [`${freespin[index].count}`, `${freespin[index].odds} FREE SPINS`];
             } else {
                 show = index < odds.length && odds[index].odds > 0;
-                values = [`${odds[index].from}-${odds[index].to}`, `${odds[index].odds * coinValue * betLevel}`];
+                values = [`${odds[index].from}-${odds[index].to}`, `${numberWithCommas(odds[index].odds * coinValue * betLevel)}`];
             }
 
             if (!show) {
@@ -93,5 +95,20 @@ export default class CascadingSymbolPreview extends SymbolPreview {
             firstLabel.node.width = newWidth;
             firstLabel.enableWrapText = false;
         });
+    }
+
+    showSymbolText(symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
+        this.border.width = 320;
+        this.bg.width = 320;
+        if (isInfoOnLeft) {
+            this.infoNode.position = cc.v3(-238, 0, 0);
+        }
+    }
+
+    checkShowSpecialSymbol(info) {
+        const index = info.symbolItem.index;
+        if (index === 9) {
+            this.showSymbolText(index, info.colorList[1], info.isInfoOnLeft);
+        }
     }
 }

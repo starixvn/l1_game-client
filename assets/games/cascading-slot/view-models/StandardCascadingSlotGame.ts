@@ -232,6 +232,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             odds: this.gameConfigs.odds.symbols[symbol.index],
             colorList: [this.colorConfig.previewOddsSymbolNumberColor, this.colorConfig.previewOddsWinValueColor],
             borderColor: this.colorConfig.previewOddsBorderColor,
+            isInfoOnLeft: isInfoOnLeft,
             coinValue: this.currCoinValue,
             betLevel: this.currBetLevel,
             freespin: this.gameConfigs.odds.freeSpins.initialOdds,
