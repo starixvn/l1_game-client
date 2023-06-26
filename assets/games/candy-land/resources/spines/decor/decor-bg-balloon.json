@@ -1,24 +1,24 @@
 {
-"skeleton": { "hash": "jT+8F7CciGYIRAqfO+vw2I6Tf0c", "spine": "3.8.99" },
+"skeleton": { "hash": "efUibYRWAH/nGT/lxh8nKKCpTww", "spine": "3.8.99", "x": -32, "y": -48, "width": 64, "height": 96 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "decor-bg-balloon", "parent": "root" },
-	{ "name": "ballon-lleft", "parent": "decor-bg-balloon" },
+	{ "name": "ballon-left", "parent": "decor-bg-balloon" },
 	{ "name": "ballon-right", "parent": "decor-bg-balloon" }
 ],
 "slots": [
-	{ "name": "ballon", "bone": "ballon-lleft" },
-	{ "name": "ballon2", "bone": "ballon-right" }
+	{ "name": "balloon", "bone": "ballon-left", "attachment": "balloon" },
+	{ "name": "balloon-2", "bone": "ballon-right", "attachment": "balloon" }
 ],
 "skins": [
 	{
 		"name": "default",
 		"attachments": {
-			"ballon": {
-				"ballon": { "width": 58, "height": 87 }
+			"balloon": {
+				"balloon": { "width": 64, "height": 96 }
 			},
-			"ballon2": {
-				"ballon": { "width": 58, "height": 87 }
+			"balloon-2": {
+				"balloon": { "width": 64, "height": 96 }
 			}
 		}
 	}
@@ -26,31 +26,25 @@
 "animations": {
 	"show": {
 		"slots": {
-			"ballon": {
+			"balloon": {
 				"color": [
 					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
 					{ "time": 6.6667, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 34.9333, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 43.3, "color": "ffffff00" }
-				],
-				"attachment": [
-					{ "name": "ballon" }
 				]
 			},
-			"ballon2": {
+			"balloon-2": {
 				"color": [
 					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
 					{ "time": 6.6667, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 34.9333, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 43.3667, "color": "ffffff00" }
-				],
-				"attachment": [
-					{ "name": "ballon" }
 				]
 			}
 		},
 		"bones": {
-			"ballon-lleft": {
+			"ballon-left": {
 				"translate": [
 					{ "x": 272.59, "y": 236.29, "curve": 0.25, "c3": 0.75 },
 					{ "time": 43.3, "x": 798.98, "y": 304.5 }
@@ -62,7 +56,8 @@
 			},
 			"ballon-right": {
 				"rotate": [
-					{ "angle": 20 }
+					{ "angle": 10, "curve": 0.25, "c3": 0.75 },
+					{ "time": 43.3333, "angle": 15 }
 				],
 				"translate": [
 					{ "x": -266.54, "y": 67.81, "curve": 0.25, "c3": 0.75 },
