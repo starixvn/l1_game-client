@@ -1,0 +1,33 @@
+{
+"skeleton": { "hash": "n69UYSdniq4oo8jdjJ45DUTd1m4", "spine": "3.8.99", "x": -474, "y": -86.92, "width": 948, "height": 199 },
+"bones": [
+	{ "name": "root" },
+	{ "name": "table-number", "parent": "root" }
+],
+"slots": [
+	{ "name": "table-number", "bone": "table-number", "attachment": "table-number" }
+],
+"skins": [
+	{
+		"name": "default",
+		"attachments": {
+			"table-number": {
+				"table-number": { "y": 12.58, "width": 948, "height": 199 }
+			}
+		}
+	}
+],
+"animations": {
+	"show": {
+		"bones": {
+			"table-number": {
+				"scale": [
+					{ "x": 0.1, "y": 0.1, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667, "curve": "stepped" },
+					{ "time": 1.2 }
+				]
+			}
+		}
+	}
+}
+}

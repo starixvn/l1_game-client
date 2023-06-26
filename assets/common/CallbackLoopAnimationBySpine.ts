@@ -8,8 +8,8 @@ export default class CallbackLoopAnimationBySpine extends CallbackLoopAnimation 
     @property({ visible: false, override: true })
     loopClip: cc.AnimationClip = null;
 
-    @property(sp.SkeletonData)
-    loopSpine: sp.SkeletonData = null;
+    @property(sp.Skeleton)
+    loopSpine: sp.Skeleton = null;
 
     @property(sp.Skeleton)
     effect: sp.Skeleton = null;
@@ -32,8 +32,7 @@ export default class CallbackLoopAnimationBySpine extends CallbackLoopAnimation 
 
     changeToLoopAnimation() {
         this.isLoopClip = true;
-        this.effect.skeletonData = this.loopSpine;
-        this.effect.setAnimation(0, "show", false);
+        this.loopSpine.setAnimation(0, "show", true);
     }
 
     updateDuration(duration: number) {
