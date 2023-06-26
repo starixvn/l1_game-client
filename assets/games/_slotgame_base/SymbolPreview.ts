@@ -46,29 +46,33 @@ export default class SymbolPreview extends cc.Component {
     }
 
     showSymbolText(symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
-        this.textImages.children.forEach((node) => {
-            const nodeImage = node.getComponent(cc.Sprite);
-            nodeImage.spriteFrame = this.atlas.getSpriteFrame(`text-symbol-${symbolNumber}`);
-            nodeImage.node.color = cc.Color.WHITE.fromHEX(textColor);
-        });
+        let symbolName = "";
 
         if (symbolNumber == 7) {
             this.border.width = 410;
             this.bg.width = 422;
+            symbolName = "freespins";
         }
 
         if (symbolNumber == 8) {
             this.border.width = 350;
             this.bg.width = 362;
+            symbolName = "bonus";
         }
 
         if (isInfoOnLeft && symbolNumber == 7) {
-            this.infoNode.position = cc.v3(-295, 0, 0);
+            this.infoNode.position = cc.v3(-295, this.infoNode.position.y, 0);
         }
 
         if (isInfoOnLeft && symbolNumber == 8) {
-            this.infoNode.position = cc.v3(-235, 0, 0);
+            this.infoNode.position = cc.v3(-235, this.infoNode.position.y, 0);
         }
+
+        this.textImages.children.forEach((node) => {
+            const nodeImage = node.getComponent(cc.Sprite);
+            nodeImage.spriteFrame = this.atlas.getSpriteFrame(`text-symbol-${symbolName}`);
+            nodeImage.node.color = cc.Color.WHITE.fromHEX(textColor);
+        });
 
         const infoNodePositionX = this.infoNode.position.x;
 
