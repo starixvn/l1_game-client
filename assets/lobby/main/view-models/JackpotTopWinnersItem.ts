@@ -42,7 +42,7 @@ export default class JackpotTopWinnersItem extends BannerJackpot {
     }
 
     private setGameName(gameName: string) {
-        gameName = gameName.length > 16 ? `${gameName.slice(0, 13)}***` : gameName;
+        gameName = gameName.length > 16 ? `${gameName.slice(0, 13)}...` : gameName;
         this.gameName.string = gameName;
     }
 }

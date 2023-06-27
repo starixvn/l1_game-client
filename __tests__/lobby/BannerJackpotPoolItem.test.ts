@@ -71,7 +71,7 @@ describe("BannerJackpotPoolItem", () => {
                 comp.setData(data);
 
                 // Assert
-                expect(comp.gameName.string).toEqual("Four Guardian***");
+                expect(comp.gameName.string).toEqual("Four Guardian...");
             });
         });
     });

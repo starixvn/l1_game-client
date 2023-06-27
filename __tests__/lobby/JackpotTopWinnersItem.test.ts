@@ -138,7 +138,7 @@ describe("JackpotTopWinnersItem", () => {
                 comp["setGameName"](gameName);
 
                 // Assert
-                expect(comp.gameName.string).toEqual("Four Guardian***");
+                expect(comp.gameName.string).toEqual("Four Guardian...");
             });
         });
     });
