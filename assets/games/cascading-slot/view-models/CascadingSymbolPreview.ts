@@ -55,7 +55,7 @@ export default class CascadingSymbolPreview extends SymbolPreview {
 
             if (symbolItem.index === 9) {
                 show = index < freespin.length && freespin[index].odds > 0;
-                values = [`${freespin[index].count}`, `${freespin[index].odds} FREE SPINS`];
+                values = [`${freespin[index].count}`, `${freespin[index].odds}`];
             } else {
                 show = index < odds.length && odds[index].odds > 0;
                 values = [`${odds[index].from}-${odds[index].to}`, `${numberWithCommas(odds[index].odds * coinValue * betLevel)}`];
@@ -108,6 +108,11 @@ export default class CascadingSymbolPreview extends SymbolPreview {
     checkShowSpecialSymbol(info) {
         const index = info.symbolItem.index;
         if (index === 9) {
+            this.textImages.active = true;
+            this.textImages.children.forEach((node) => {
+                const lbl = node.getComponent(cc.Label);
+                lbl.node.color = cc.Color.WHITE.fromHEX(info.colorList[1]);
+            });
             this.showSymbolText(index, info.colorList[1], info.isInfoOnLeft);
         }
     }
