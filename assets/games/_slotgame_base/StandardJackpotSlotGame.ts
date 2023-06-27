@@ -28,7 +28,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
                 this.jackpotEnabled = data.length > 0;
                 this.receiviedJackpotPools = data;
                 this.handleJackotSymbol();
-                this.loadJackpotPoolInfo();
+                this.jackpotPoolNode && (this.jackpotPoolNode.active = this.jackpotEnabled);
                 this.showHideTopWinnersButton();
             },
             this
@@ -84,7 +84,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         });
     }
 
-    protected async loadJackpotPoolInfo() {
+    protected async showJackpotInfo() {
         if (!this.jackpotEnabled || !this.jackpotPoolNode) {
             return;
         }

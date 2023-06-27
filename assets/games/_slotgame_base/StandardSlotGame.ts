@@ -278,7 +278,7 @@ export default class StandardSlotGame extends SlotGameBase {
 
     async initSlotBoard() {
         await this.loadGameAtlas();
-        this.loadSlotSymbols().then(() => {
+        await this.loadSlotSymbols().then(() => {
             super.initSlotBoard();
             this.slotBoard.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
             this.loadWinningSymbolAnimation().then(() => {

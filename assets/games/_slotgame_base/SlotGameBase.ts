@@ -176,14 +176,13 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
         this.initEventForNumberContainer();
         this.initSlotGameConfig();
-        this.showJackpotInfo(this.jackpotEnabled);
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
         this.loadPrefabsByCode().then(() => {
             this.initSlotBoard();
             if (this.autoGenerateLines) {
                 this.createAllLines();
             }
-            this.loadJackpotPoolInfo();
+            this.showJackpotInfo();
         });
         this.initBottomMessage();
         this.initBottomArea();
@@ -205,16 +204,12 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         // override
     }
 
-    protected async loadJackpotPoolInfo() {
-        return Promise.resolve(null);
-    }
-
-    showJackpotInfo(show: boolean) {
+    protected showJackpotInfo() {
         if (!this.jackpotPoolInfo || !this.jackpotPoolLabel) {
             return;
         }
-        this.jackpotPoolInfo.node.active = show;
-        this.jackpotPoolLabel.node.parent.active = show;
+        this.jackpotPoolInfo.node.active = this.jackpotEnabled;
+        this.jackpotPoolLabel.node.parent.active = this.jackpotEnabled;
     }
 
     showMessageDisplay(roundType: SlotNotification) {
