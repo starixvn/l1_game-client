@@ -333,15 +333,13 @@ export default class GameUtils {
         formatNumber?: (value) => string;
         stepValue?: number;
         stepTime?: number;
-        isCheckSpeed?: boolean;
     }) {
         return new Promise<void>((resolve) => {
             const { label, amount: end, start } = opt;
             const prefixStr = opt.prefixStr ?? "";
             const defaultFormater = (v) => numberWithCommas(v, 2, false);
             const formatNumber = opt.formatNumber ?? defaultFormater;
-            const stepValueTmp = opt.stepValue ?? 0.01;
-            const stepValue = GameUtils.addSpeedLevel(opt.isCheckSpeed, opt.amount, stepValueTmp);
+            const stepValue = opt.stepValue ?? 0.01;
             const stepTime = opt.stepTime ?? 0.02;
             const startStr = label.string.replace(prefixStr, "");
             const startValue = start || parseFloat(startStr.replace(/,/g, "")) || 0;
@@ -373,24 +371,6 @@ export default class GameUtils {
                 })
                 .start();
         });
-    }
-
-    static addSpeedLevel(isCheckSpeed: boolean, amount: number, stepValue: number) {
-        if (!isCheckSpeed) {
-            return stepValue;
-        }
-
-        if (amount < 10) {
-            return 0.01;
-        }
-        if (amount < 60) {
-            return 0.11;
-        }
-        if (amount < 500) {
-            return 1.11;
-        }
-
-        return 11.11;
     }
 
     public static floatToNumber(opt: {

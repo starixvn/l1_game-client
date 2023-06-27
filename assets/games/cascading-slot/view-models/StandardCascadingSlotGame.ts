@@ -16,6 +16,7 @@ import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
 import ChangeNodeColor from "../../../common/ChangeNodeColor";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
+import CascadingBigWinAnimation from "./CascadingBigWinAnimation";
 
 const { ccclass, property } = cc._decorator;
 const LocalizedLabel = require("LocalizedLabel");
@@ -98,7 +99,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     onLoadedPrefabs() {
         this.initTumbleWinFrame();
-        //this.initFreespinView();
         this.initTumbleWinList();
         this.initTotalMultiplierFrame();
 
@@ -364,21 +364,25 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     override async showEffectBigWin(betWin: number) {
+        const totalBet = this.betControl.totalBet.string;
+        console.log(totalBet);
+        const winRatio = betWin / +totalBet;
         const bigWinAudioId = this.playSound(CascadingSlotGameSound.BIG_WIN, true);
         const incrementAudioId = this.playSound(CascadingSlotGameSound.INCREMENT, true);
 
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackLoopAnimation);
         callbackAnim.setDuration(this.getCustomDuration("bigWin"));
-        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        const bigWinAnimation = effect.getComponent(CascadingBigWinAnimation);
 
         if (this.isTurboMode()) {
             this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
             bigWinAnimation.setAmount({ amount: betWin });
+            bigWinAnimation.changeFrameForBigWinLevel(betWin, +totalBet);
             callbackAnim.skipTouchToContinue();
         } else {
             bigWinAnimation
-                .setAmountSlowHavingSpeed(betWin, () => {
+                .setAmountSlowHavingSpeed(betWin, +totalBet, () => {
                     this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
                     callbackAnim.closeLater();
                 })

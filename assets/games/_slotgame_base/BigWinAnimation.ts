@@ -27,12 +27,7 @@ export default class BigWinAnimation extends cc.Component {
     }
 
     async setAmountSlow(amount: number, onComplete: () => void) {
-        await GameUtils.floatToNumber2({ label: this.amountLabel, amount, isCheckSpeed: false });
-        onComplete();
-    }
-
-    async setAmountSlowHavingSpeed(amount: number, onComplete: () => void) {
-        await GameUtils.floatToNumber2({ label: this.amountLabel, amount, isCheckSpeed: true });
+        await GameUtils.floatToNumber2({ label: this.amountLabel, amount });
         onComplete();
     }
 }
