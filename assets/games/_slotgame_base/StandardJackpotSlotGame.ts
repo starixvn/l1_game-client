@@ -29,10 +29,10 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
                 this.receiviedJackpotPools = data;
                 this.handleJackotSymbol();
                 this.loadJackpotPoolInfo();
+                this.showHideTopWinnersButton();
             },
             this
         );
-        uiManager.emitterListener(InternalEvents.CLICK_HAMBURGER_MENU, this.hideTopWinnersButton.bind(this), this);
     }
 
     protected getPrefabsList() {
@@ -50,11 +50,13 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         let symbolName = `${path}symbol-${index}`;
 
         if (index === this.jackpotSymbolIndex) {
-            if (this.receiviedJackpotPools && this.jackpotEnabled) {
-                const language = getLocale() === "vi-VN" ? `.${getLocale()}` : "";
-                symbolName = `${path}symbol-${index}.jackpot${language}`;
-            } else {
+            if (!this.receiviedJackpotPools) {
                 symbolName = `${path}symbol-loading`;
+            } else {
+                if (this.jackpotEnabled) {
+                    const language = getLocale() === "vi-VN" ? `.${getLocale()}` : "";
+                    symbolName = `${path}symbol-${index}.jackpot${language}`;
+                }
             }
         }
 
@@ -104,7 +106,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         // override
     }
 
-    hideTopWinnersButton() {
+    showHideTopWinnersButton() {
         if (!this.topWinnersButton) {
             return;
         }

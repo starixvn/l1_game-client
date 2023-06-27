@@ -1097,7 +1097,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         //empty
     }
 
-    hideTopWinnersButton() {
+    showHideTopWinnersButton() {
         //empty
     }
 }
