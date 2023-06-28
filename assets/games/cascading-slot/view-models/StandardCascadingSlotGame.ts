@@ -283,15 +283,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             },
             bottomArea.node
         );
-        this.betControl = bottomArea.betControl;
-        this.updateColor(
-            {
-                textColor: this.colorConfig.bottomAreaTextColor,
-                numberColor: this.colorConfig.bottomAreaNumberColor,
-                buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
-            },
-            this.betControl.node
-        );
+
         this.miniBetControl = bottomArea.miniBetControl;
         this.checkExistNodeBet();
         this.autoSpinToggle = bottomArea.autoSpinToggle;
@@ -365,8 +357,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     override async showEffectBigWin(betWin: number) {
         const totalBet = this.betControl.totalBet.string;
-        console.log(totalBet);
-        const winRatio = betWin / +totalBet;
+        const coinValue = this.betControl.coinValue.string;
         const bigWinAudioId = this.playSound(CascadingSlotGameSound.BIG_WIN, true);
         const incrementAudioId = this.playSound(CascadingSlotGameSound.INCREMENT, true);
 
@@ -382,7 +373,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             callbackAnim.skipTouchToContinue();
         } else {
             bigWinAnimation
-                .setAmountSlowHavingSpeed(betWin, +totalBet, () => {
+                .setAmountSlowHavingSpeed(betWin, +totalBet, +coinValue, () => {
                     this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
                     callbackAnim.closeLater();
                 })
@@ -395,5 +386,17 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         };
 
         await this.showEffect(effect);
+    }
+
+    initBetControl(node: cc.Node) {
+        super.initBetControl(node);
+        this.updateColor(
+            {
+                textColor: this.colorConfig.bottomAreaTextColor,
+                numberColor: this.colorConfig.bottomAreaNumberColor,
+                buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
+            },
+            node
+        );
     }
 }

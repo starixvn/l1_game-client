@@ -21,7 +21,7 @@ export default class StandardCascadingSlotBoard extends CascadeSlotBoard {
         this.reels.forEach((reel, index) => {
             const items = data[index];
             const reelItems = reel.addItems(items);
-            const isInfoOnLeft = index === this.reels.length - 1;
+            const isInfoOnLeft = index === this.reels.length - 1 || index === this.reels.length - 2;
             reelItems.forEach((item) => {
                 this.previewPopup.addReelItemEvent(item, isInfoOnLeft);
             });

@@ -17,7 +17,7 @@ export default class StandardMultiplierItem extends MultiplierItem {
 
     gameId: number;
     private spine: sp.Skeleton;
-    private levelMultiplier;
+    public levelMultiplier;
 
     get cache() {
         return uiManager.prefabCache.slotSymbols[this.gameId] || {};
@@ -51,7 +51,7 @@ export default class StandardMultiplierItem extends MultiplierItem {
     updateColor(value: number) {
         const level = [10, 11, 12, 13];
         let i = 0;
-        const range = [10, 20, 30];
+        const range = [5, 10, 15];
         for (; i < range.length; i++) {
             if (value <= range[i]) {
                 break;
@@ -59,8 +59,8 @@ export default class StandardMultiplierItem extends MultiplierItem {
         }
 
         const anim = "idle";
-        const levelMultiplier = level[i];
-        this.spine.skeletonData = this.cache[levelMultiplier];
+        this.levelMultiplier = level[i];
+        this.spine.skeletonData = this.cache[this.levelMultiplier];
         this.spine.setAnimation(0, anim, true);
     }
 }

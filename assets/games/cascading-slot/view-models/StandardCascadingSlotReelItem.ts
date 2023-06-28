@@ -3,6 +3,7 @@ import { uiManager } from "../../../managers/GameUIManager";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
 import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "./CascadingSlotUtils";
 import StandardCascadingSlotReelSymbol from "./StandardCascadingSlotReelSymbol";
+import StandardMultiplierItem from "./StandardMultiplierItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -32,5 +33,15 @@ export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
         effectSpine.setAnimation(0, anim, true);
         const original = effectSpine.findAnimation(anim).duration;
         await GameUtils.delayTime(original);
+    }
+
+    updateMultiplierItem(multiplier: number[]) {
+        if (this.index >= MULTIPLIER_SYMBOL && multiplier.length > 0) {
+            const m = multiplier.shift();
+            const multiplierItem = this.content.children[0].getComponent(StandardMultiplierItem);
+            multiplierItem.gameId = this.gameId;
+            multiplierItem?.setValue(m);
+            this.index = multiplierItem.levelMultiplier;
+        }
     }
 }

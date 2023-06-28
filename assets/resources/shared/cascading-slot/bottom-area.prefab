@@ -37,19 +37,16 @@
       },
       {
         "__id__": 80
-      },
-      {
-        "__id__": 87
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 91
+        "__id__": 87
       }
     ],
     "_prefab": {
-      "__id__": 92
+      "__id__": 88
     },
     "_opacity": 255,
     "_color": {
@@ -2720,109 +2717,6 @@
       "__uuid__": "bfec4b6d-200a-4ee9-9e5d-25e2a5465baa"
     },
     "fileId": "0d9uEs2FZDqb26y/3I8L6O",
-    "sync": false
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "betController",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 88
-      }
-    ],
-    "_prefab": {
-      "__id__": 90
-    },
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 420,
-      "height": 374
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        -265.06,
-        264.629,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": ""
-  },
-  {
-    "__type__": "2aa89SjKxZNhZGiq4fg66rF",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 87
-    },
-    "_enabled": true,
-    "prefab": {
-      "__uuid__": "dc06270e-6080-4a2f-89d6-fa8f9fa87466"
-    },
-    "initializationEventHandlers": [
-      {
-        "__id__": 89
-      }
-    ],
-    "_id": ""
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 1
-    },
-    "component": "",
-    "_componentId": "e8e65GcEaNPVp35398H6eJh",
-    "handler": "initBetControl",
-    "customEventData": ""
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__uuid__": "bfec4b6d-200a-4ee9-9e5d-25e2a5465baa"
-    },
-    "fileId": "a24KZmWfNDdpP2SCrPOWH3",
     "sync": false
   },
   {

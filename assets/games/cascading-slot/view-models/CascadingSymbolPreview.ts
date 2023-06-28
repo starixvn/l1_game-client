@@ -18,14 +18,12 @@ export default class CascadingSymbolPreview extends SymbolPreview {
 
     renderInfo(info: CascadingSymbolPreviewType) {
         const { symbolItem } = info;
-        switch (symbolItem.index) {
-            case 10:
-                this.showInfoNode(false);
-                this.renderMultiplier();
-                break;
-            default:
-                this.showInfoNode(true);
-                this.renderNormalSymbol(info);
+        if (symbolItem.index >= 10) {
+            this.showInfoNode(false);
+            this.renderMultiplier();
+        } else {
+            this.showInfoNode(true);
+            this.renderNormalSymbol(info);
         }
     }
 

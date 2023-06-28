@@ -18,15 +18,15 @@ export default class StandardCascadingBottomArea extends cc.Component {
     totalWinNode: cc.Node = null;
 
     miniBetControl: CascadingTotalBet;
-    betControl: CascadingBetControl;
+    //betControl: CascadingBetControl;
 
     initTotalBet(node: cc.Node) {
         this.miniBetControl = node.getComponent(CascadingTotalBet);
     }
 
-    initBetControl(node: cc.Node) {
-        this.betControl = node.getComponent(CascadingBetControl);
-    }
+    // initBetControl(node: cc.Node) {
+    //     this.betControl = node.getComponent(CascadingBetControl);
+    // }
 
     onClickListener = {
         onAutoSpinChanged: () => {},
