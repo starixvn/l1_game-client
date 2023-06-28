@@ -97,7 +97,7 @@ export default class CasinoGame extends NewGameRoomBase {
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
-        super.addHandlers(this.umHandler, this.noticeHandler, this.errorHandler, this.betHandler);
+        super.addHandlers(this.umHandler, this.noticeHandler, this.errorHandler, this.betHandler, this.voidTicketHandler);
     }
 
     public disabledButtons(status: boolean) {

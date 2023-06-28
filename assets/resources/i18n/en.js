@@ -171,7 +171,8 @@ const data = {
         topMessage3: "WIN UP TO %{maxWin}X BET",
         winTumbleMsg: "CONGRATULATION!",
         winningNotificationOn: "Winning streak notification “ON”",
-        winningNotificationOff: "Winning streak notification “OFF”"
+        winningNotificationOff: "Winning streak notification “OFF”",
+        voidTicketMessage: "EN - Ticket bị void rồi bro"
     },
     ui: {
         choice_red2: "2 Red",

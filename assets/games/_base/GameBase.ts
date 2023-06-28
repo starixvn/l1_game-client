@@ -51,6 +51,7 @@ import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
 import RebetButton from "./view-models/RebetButton";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
+import GameBaseVoidTicketDataHandler from "./handlers/GameBaseVoidTicketHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -173,6 +174,8 @@ export default class GameBase extends GameViewBase {
     public md5Handler: DataHandler;
     public oddsHandler: DataHandler;
 
+    public voidTicketHandler: DataHandler;
+
     inGameMenu: InGameMenu;
     public betChips: BetChips;
     public currentBet: number;
@@ -241,7 +244,8 @@ export default class GameBase extends GameViewBase {
             this.errorHandler,
             this.finishHandler,
             this.md5Handler,
-            this.oddsHandler
+            this.oddsHandler,
+            this.voidTicketHandler
         );
     }
 
@@ -402,6 +406,19 @@ export default class GameBase extends GameViewBase {
         this.currentMiniPanel.showNotice(noticeData, onClickOk, onClose);
     }
 
+    voidTicket(toLobby: false) {
+        const backToLobby = () => {
+            this.onCloseGame();
+        };
+        if (toLobby) {
+            setTimeout(() => {
+                this.onCloseGame();
+            }, 10000);
+            const noticeData = { text: i18n.t("messages.voidTicketMessage"), button: { text: "OK" } } as NoticeData;
+            this.showNotice(noticeData, backToLobby, backToLobby);
+        }
+    }
+
     hideUmMessage() {
         this.umNotice && this.umNotice.hide();
         this.isReceivedUMData = false;
@@ -517,6 +534,7 @@ export default class GameBase extends GameViewBase {
         this.configsHandler = new GameBaseConfigsHandler(this);
         this.md5Handler = new GameBaseMd5Handler(this);
         this.oddsHandler = new GameBaseOddsHandler(this);
+        this.voidTicketHandler = new GameBaseVoidTicketDataHandler(this);
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {

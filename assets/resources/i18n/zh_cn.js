@@ -158,7 +158,8 @@ const data = {
         topMessage3: "赢取 2000X 乘数",
         winTumbleMsg: "恭喜！",
         winningNotificationOn: "连胜通知“开”",
-        winningNotificationOff: "连胜通知“关”"
+        winningNotificationOff: "连胜通知“关”",
+        voidTicketMessage: "CN - Ticket bị void rồi bro"
     },
     ui: {
         choice_red2: "2 红",

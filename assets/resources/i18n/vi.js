@@ -174,7 +174,8 @@ const data = {
         topMessage3: "THẮNG LÊN ĐẾN %{maxWin}X TIỀN CƯỢC",
         winTumbleMsg: "CHÚC MỪNG!",
         winningNotificationOn: "Bật thông báo cầu thuận lợi",
-        winningNotificationOff: "Tắt thông báo cầu thuận lợi"
+        winningNotificationOff: "Tắt thông báo cầu thuận lợi",
+        voidTicketMessage: "VI - Ticket bị void rồi bro"
     },
     ui: {
         choice_red2: "2 Đỏ",

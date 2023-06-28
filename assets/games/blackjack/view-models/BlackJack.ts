@@ -27,6 +27,7 @@ import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
+import GameBaseVoidTicketDataHandler from "../../_base/handlers/GameBaseVoidTicketHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -190,6 +191,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.errorHandler = new GameBaseErrorHandler(this);
         this.configsHandler = new GameBaseConfigsHandler(this);
         this.betHandler = new GameBaseBetHandler(this);
+        this.voidTicketHandler = new GameBaseVoidTicketDataHandler(this);
 
         this.dealHander = new DealHandler(this);
         this.ingameActionHander = new IngameActionHandler(this);
@@ -205,7 +207,8 @@ export default class BlackJack extends SocketIOTableGameBase {
             this.finishHandler,
             this.dealHander,
             this.ingameActionHander,
-            this.ingameHander
+            this.ingameHander,
+            this.voidTicketHandler
         );
     }
 

@@ -180,7 +180,8 @@ const data = {
         topMessage3: "ชนะถึง 2000X เดิมพัน",
         winTumbleMsg: "ขอแสดงความยินดี!",
         winningNotificationOn: "การแจ้งเตือนแถวที่ชนะ “เปิด”",
-        winningNotificationOff: "การแจ้งเตือนแถวที่ชนะ “ปิด”"
+        winningNotificationOff: "การแจ้งเตือนแถวที่ชนะ “ปิด”",
+        voidTicketMessage: "TH - Ticket bị void rồi bro"
     },
     ui: {
         choice_red2: "2 แดง",

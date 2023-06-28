@@ -175,7 +175,8 @@ const data = {
         topMessage3: "MENANGKAN HINGGA 2000X TARUHAN",
         winTumbleMsg: "SELAMAT!",
         winningNotificationOn: 'Notifikasi kemenangan beruntun "AKTIF"',
-        winningNotificationOff: 'Notifikasi kemenangan beruntun "MATI"'
+        winningNotificationOff: 'Notifikasi kemenangan beruntun "MATI"',
+        voidTicketMessage: "ID - Ticket bị void rồi bro"
     },
     ui: {
         choice_red2: "2 Merah",
