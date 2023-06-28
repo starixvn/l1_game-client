@@ -115,8 +115,8 @@ export default class Texas extends CasinoGame {
         this.gameData = new TexasGameDataModel<TexasChoicesType>();
         this.texasChips = new TexasChips();
         this.microUIAction.forEach((e) => e.connectGameData(this.gameData));
-        this.initGeneralEvents();
         super.onLoad();
+        this.initGeneralEvents();
     }
 
     initGeneralEvents() {
