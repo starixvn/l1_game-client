@@ -16,7 +16,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame,
+    outRoomGame
 } from "./action/GameRoomActions";
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
@@ -168,7 +168,7 @@ export default class WebSocketTableGameBase extends GameBase {
     }
 
     playMusicBackground(play: boolean) {
-        if (play) {
+        if (play && appManager.GAME_IS_SHOWED) {
             this.playInvidiualMusic();
         } else {
             this.stopInvidiualMusic();

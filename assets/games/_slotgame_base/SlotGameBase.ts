@@ -189,6 +189,11 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.saveUserSetting();
     }
 
+    onDestroy() {
+        super.onDestroy();
+        AudioManager.getInstance().stopAllSFX();
+    }
+
     override stopGame() {
         // override
     }
