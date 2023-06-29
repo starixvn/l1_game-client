@@ -12,13 +12,16 @@ export default class CallbackLoopAnimationBySpine extends CallbackLoopAnimation 
     loopSpine: sp.Skeleton = null;
 
     @property(sp.Skeleton)
+    coinLoopSpine: sp.Skeleton = null;
+
+    @property(sp.Skeleton)
     effect: sp.Skeleton = null;
 
     protected duration: number;
 
     onLoad() {
         this.initHandleTouch();
-        this.effect.setCompleteListener(() => this.changeToLoopAnimation());
+        //this.effect.setCompleteListener(() => this.changeToLoopAnimation());
     }
 
     setDuration(duration: number) {
@@ -28,11 +31,6 @@ export default class CallbackLoopAnimationBySpine extends CallbackLoopAnimation 
     skipTouchToContinue() {
         this.node.off(cc.Node.EventType.TOUCH_START, this.handleTouch, this);
         this.effect.setCompleteListener(() => this.scheduleOnce(this.finish, this.delayFinishDuration));
-    }
-
-    changeToLoopAnimation() {
-        this.isLoopClip = true;
-        this.loopSpine.setAnimation(0, "show", true);
     }
 
     updateDuration(duration: number) {
