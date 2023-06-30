@@ -26,6 +26,7 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
     private selectedTab: number;
     protected dataType = JackpotDataKey.JACKPOT_POOLS;
     protected dataKey = `${JackpotDataKey.JACKPOT_POOLS}${this.uuid}`;
+    protected dragThreshold = 0.25;
 
     protected initEvents() {
         jackpotManager.addDataObserver(this.dataType, this.dataKey);

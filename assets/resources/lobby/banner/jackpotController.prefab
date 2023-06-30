@@ -98,7 +98,7 @@
         "__id__": 21
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 56
@@ -501,7 +501,7 @@
     "_id": ""
   },
   {
-    "__type__": "cc.ScrollView",
+    "__type__": "b475cjZqttG3ZVWF98LzbCO",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -633,7 +633,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 183,
+      "width": 87,
       "height": 46
     },
     "_anchorPoint": {
@@ -686,7 +686,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "8e887146-839b-4630-8adc-92d26b20df67"
+      "__uuid__": "0e74ce62-945f-4f4c-b3fd-5aab2fb5667a"
     },
     "_type": 0,
     "_sizeMode": 2,
@@ -2178,7 +2178,7 @@
         "__id__": 84
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 91
@@ -3012,7 +3012,7 @@
     "sync": false
   },
   {
-    "__type__": "cc.ScrollView",
+    "__type__": "b475cjZqttG3ZVWF98LzbCO",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -3022,9 +3022,9 @@
     "horizontal": false,
     "vertical": true,
     "inertia": true,
-    "brake": 0.75,
+    "brake": 0.5,
     "elastic": true,
-    "bounceDuration": 0.23,
+    "bounceDuration": 1,
     "scrollEvents": [],
     "cancelInnerEvents": true,
     "_N$content": {
@@ -3033,8 +3033,6 @@
     "content": {
       "__id__": 62
     },
-    "_N$horizontalScrollBar": null,
-    "_N$verticalScrollBar": null,
     "_id": ""
   },
   {
@@ -3180,8 +3178,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 193,
-      "height": 49
+      "width": 72,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -3233,7 +3231,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "bf85d4cc-3f1f-46b9-a976-b5995988c2d7"
+      "__uuid__": "e8abe280-3e37-40fc-a1a9-e541a7f1e7d7"
     },
     "_type": 0,
     "_sizeMode": 2,
