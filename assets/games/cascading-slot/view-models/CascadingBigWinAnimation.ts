@@ -78,7 +78,6 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
             const prefixStr = opt.prefixStr ?? "";
             const defaultFormater = (v) => numberWithCommas(v, 2, false);
             const formatNumber = opt.formatNumber ?? defaultFormater;
-            const stepValueTmp = opt.stepValue ?? 0.01;
             let stepValue = coinValue;
             if (coinValue <= 0.05) {
                 stepValue = 0.01;
@@ -119,20 +118,5 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
                 })
                 .start();
         });
-    }
-
-    private addSpeedLevel(isCheckSpeed: boolean, amount: number, stepValue: number) {
-        if (!isCheckSpeed) {
-            return stepValue;
-        }
-
-        if (amount < 10) {
-            return 0.01;
-        }
-        if (amount < 500) {
-            return 0.11;
-        }
-
-        return 1.11;
     }
 }
