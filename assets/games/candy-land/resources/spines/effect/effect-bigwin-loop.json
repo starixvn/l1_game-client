@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "i7UMzUAR1XXsH5socHDdisQUWKY", "spine": "3.8.99" },
+"skeleton": { "hash": "8a4si/SJf3mlL5kdud1/hqdNwoc", "spine": "3.8.99" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "effect-bigwin-loop", "parent": "root" },
@@ -225,8 +225,8 @@
 	{ "name": "vfx-candy6", "parent": "vfx-coin89", "rotation": 34.4, "x": 25.64, "y": -122.7 },
 	{ "name": "vfx-coin110", "parent": "vfx-coin89", "rotation": 34.4, "x": -53.04, "y": -16.54 },
 	{ "name": "vfx-candy7", "parent": "vfx-coin89", "rotation": 34.4, "x": 24.2, "y": 35.14 },
-	{ "name": "circle-light", "parent": "effect-bigwin-loop", "x": 56.54, "y": 114.14, "scaleX": 2.3, "scaleY": 2.3 },
-	{ "name": "candy-super", "parent": "effect-bigwin-loop", "length": 137.08, "rotation": 107.93, "x": 58.36, "y": 40.75 },
+	{ "name": "super-circle-light", "parent": "effect-bigwin-loop", "x": 56.54, "y": 114.14, "scaleX": 2.3, "scaleY": 2.3 },
+	{ "name": "super-candy", "parent": "effect-bigwin-loop", "length": 137.08, "rotation": 107.93, "x": 58.36, "y": 40.75 },
 	{ "name": "candy-6", "parent": "effect-bigwin-loop", "rotation": 90, "x": -204.36, "y": 184.54 },
 	{ "name": "candy-8", "parent": "effect-bigwin-loop", "rotation": 90, "x": -111.63, "y": 251.98 },
 	{
@@ -247,7 +247,7 @@
 		"scaleX": 1.5,
 		"scaleY": 1.5
 	},
-	{ "name": "candy-mega", "parent": "effect-bigwin-loop", "x": 7.12, "y": 260.86 },
+	{ "name": "mega-candy", "parent": "effect-bigwin-loop", "x": 7.12, "y": 260.86 },
 	{
 		"name": "vfx-candy8",
 		"parent": "vfx-coin89",
@@ -275,7 +275,7 @@
 		"scaleX": 0.4,
 		"scaleY": 0.4
 	},
-	{ "name": "candy-big", "parent": "effect-bigwin-loop", "x": 7.12, "y": 260.86 }
+	{ "name": "big-candy", "parent": "effect-bigwin-loop", "x": 7.12, "y": 260.86 }
 ],
 "slots": [
 	{ "name": "rainbow", "bone": "rainbow" },
@@ -349,7 +349,7 @@
 	{ "name": "eff_spot4", "bone": "eff_spot4", "blend": "additive" },
 	{ "name": "eff_spot3", "bone": "eff_spot3", "blend": "additive" },
 	{ "name": "cloud", "bone": "cloud" },
-	{ "name": "circle-light", "bone": "circle-light" },
+	{ "name": "circle-light", "bone": "super-circle-light" },
 	{ "name": "candy-1", "bone": "candy-1" },
 	{ "name": "candy-5", "bone": "candy-5" },
 	{ "name": "candy-8", "bone": "candy-6" },
@@ -371,11 +371,11 @@
 	{ "name": "flare3", "bone": "flare3", "color": "ffffff30", "blend": "additive" },
 	{ "name": "flare4", "bone": "flare4", "color": "ffffff30", "blend": "additive" },
 	{ "name": "flare5", "bone": "flare5", "color": "ffffff30", "blend": "additive" },
-	{ "name": "candy-super", "bone": "candy-super" },
-	{ "name": "candy-mega", "bone": "candy-mega" },
-	{ "name": "candy-mega3", "bone": "candy-big" },
-	{ "name": "candy-mega2", "bone": "candy-mega", "blend": "screen" },
-	{ "name": "candy-mega4", "bone": "candy-big", "blend": "screen" }
+	{ "name": "candy-super", "bone": "super-candy" },
+	{ "name": "candy-mega", "bone": "mega-candy" },
+	{ "name": "candy-big", "bone": "big-candy" },
+	{ "name": "candy-mega2", "bone": "mega-candy", "blend": "additive" },
+	{ "name": "candy-big-outer", "bone": "big-candy", "blend": "additive" }
 ],
 "skins": [
 	{
@@ -422,17 +422,17 @@
 			"candy-11": {
 				"candy-6": { "x": 22.28, "y": 1.46, "rotation": -157.35, "width": 30, "height": 30 }
 			},
+			"candy-big": {
+				"candy-big": { "x": 3.03, "y": 27.53, "rotation": -47.09, "width": 166, "height": 172 }
+			},
+			"candy-big-outer": {
+				"candy-big": { "x": 3.03, "y": 27.53, "rotation": -47.09, "width": 166, "height": 172 }
+			},
 			"candy-mega": {
 				"candy-mega": { "x": 3.03, "y": 27.53, "rotation": -47.09, "width": 185, "height": 178 }
 			},
 			"candy-mega2": {
 				"candy-mega": { "x": 3.03, "y": 27.53, "rotation": -47.09, "width": 185, "height": 178 }
-			},
-			"candy-mega3": {
-				"candy-big": { "x": 3.03, "y": 27.53, "rotation": -47.09, "width": 166, "height": 172 }
-			},
-			"candy-mega4": {
-				"candy-big": { "x": 3.03, "y": 27.53, "rotation": -47.09, "width": 166, "height": 172 }
 			},
 			"candy-super": {
 				"candy-super": { "x": 143.03, "y": 18.45, "rotation": -107.93, "width": 163, "height": 311 }
@@ -1192,16 +1192,19 @@
 					{ "name": "candy-7" }
 				]
 			},
-			"candy-mega3": {
+			"candy-big": {
 				"attachment": [
 					{ "name": "candy-big" }
 				]
 			},
-			"candy-mega4": {
+			"candy-big-outer": {
 				"color": [
-					{ "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.6667, "color": "ffffffc2", "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.2, "color": "ffffffff" }
+					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.6667, "color": "ffffff83", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.2, "color": "ffffff00" }
+				],
+				"attachment": [
+					{ "name": "candy-big" }
 				]
 			},
 			"cloud": {
@@ -1709,7 +1712,7 @@
 					{ "time": 1.2, "x": 1.05, "y": 1.05 }
 				]
 			},
-			"candy-big": {
+			"big-candy": {
 				"rotate": [
 					{ "angle": 18.23, "curve": 0.379, "c2": 0.6, "c3": 0.724 },
 					{ "time": 0.1333, "angle": 10.53, "curve": 0.25, "c3": 0.75 },
@@ -1729,7 +1732,7 @@
 			}
 		}
 	},
-	"mega-loop": {
+	"megawin-loop": {
 		"slots": {
 			"candy-1": {
 				"attachment": [
@@ -1793,9 +1796,9 @@
 			},
 			"candy-mega2": {
 				"color": [
-					{ "color": "ffffff45", "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.6667, "color": "ffffffa7", "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.2, "color": "ffffff45" }
+					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.6667, "color": "ffffff5d", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.2, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "name": "candy-mega" }
@@ -2241,7 +2244,7 @@
 					{ "time": 1.2, "x": 270.08, "y": 37.12 }
 				]
 			},
-			"circle-light": {
+			"super-circle-light": {
 				"rotate": [
 					{ "angle": 1 },
 					{ "time": 1.2, "angle": -179 }
@@ -2320,7 +2323,7 @@
 					{ "time": 1.2, "x": 1.05, "y": 1.05 }
 				]
 			},
-			"candy-mega": {
+			"mega-candy": {
 				"rotate": [
 					{ "angle": 18.23, "curve": 0.379, "c2": 0.6, "c3": 0.724 },
 					{ "time": 0.1333, "angle": 10.53, "curve": 0.25, "c3": 0.75 },
@@ -6688,7 +6691,7 @@
 					{ "time": 1.2, "x": 270.08, "y": 37.12 }
 				]
 			},
-			"circle-light": {
+			"super-circle-light": {
 				"rotate": [
 					{ "angle": 1 },
 					{ "time": 1.2, "angle": -179 }
@@ -6699,7 +6702,7 @@
 					{ "time": 1.2, "x": 0.9, "y": 0.9 }
 				]
 			},
-			"candy-super": {
+			"super-candy": {
 				"rotate": [
 					{ "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
 					{ "time": 0.4, "angle": -10.84, "curve": 0.25, "c3": 0.75 },

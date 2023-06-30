@@ -23,6 +23,9 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
     @property(sp.Skeleton)
     levelLoopSpine: sp.Skeleton = null;
 
+    @property(sp.Skeleton)
+    mainSpine: sp.Skeleton = null;
+
     private isChangeLevelSuper = true;
     private isChangeLevelMega = true;
 
@@ -42,9 +45,13 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
     }
 
     animChangeTextLevel(node: cc.Node) {
+        //node.position.y = 172;
+        node.scale = 0;
         cc.tween(node)
-            .to(0.1, { opacity: 0, scale: 0 }, { easing: "sineInOut" })
-            .to(0.1, { opacity: 255, scale: 1 }, { easing: "sineInOut" })
+
+            .to(0.1, { scale: 1, position: cc.v2(0, 172) }, { easing: "sineInOut" })
+            .delay(1)
+            .to(0.1, { position: cc.v2(0, 224) }, { easing: "sineInOut" })
             .start();
     }
 
@@ -58,7 +65,7 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
     setAniamtionChangeMega(node: cc.Node) {
         this.animChangeTextLevel(node);
         this.isChangeLevelMega = false;
-        this.levelLoopSpine.setAnimation(0, "mega-loop", true);
+        this.levelLoopSpine.setAnimation(0, "megawin-loop", true);
         this.coinLoopSpine.timeScale = 1.4;
     }
 
