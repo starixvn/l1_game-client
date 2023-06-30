@@ -19,6 +19,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
 
     private jackpotPoolPrefab: cc.Prefab;
     private jackpotSymbolIndex = 10;
+    private isLoadedSlotBoard = false;
 
     onLoad() {
         super.onLoad();
@@ -27,7 +28,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
             (data) => {
                 this.jackpotEnabled = data.length > 0;
                 this.receiviedJackpotPools = data;
-                this.handleJackotSymbol();
+                this.initSlotBoard();
                 this.jackpotPoolNode && (this.jackpotPoolNode.active = this.jackpotEnabled);
                 this.showHideTopWinnersButton();
             },
@@ -49,39 +50,21 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         const path = `preload/symbol-spines/`;
         let symbolName = `${path}symbol-${index}`;
 
-        if (index === this.jackpotSymbolIndex) {
-            if (!this.receiviedJackpotPools) {
-                symbolName = `${path}symbol-loading`;
-            } else {
-                if (this.jackpotEnabled) {
-                    const language = getLocale() === "vi-VN" ? `.${getLocale()}` : "";
-                    symbolName = `${path}symbol-${index}.jackpot${language}`;
-                }
-            }
+        if (index === this.jackpotSymbolIndex && this.jackpotEnabled) {
+            const language = getLocale() === "vi-VN" ? `.${getLocale()}` : "";
+            symbolName = `${path}symbol-${index}.jackpot${language}`;
         }
 
         return symbolName;
     }
 
-    private async handleJackotSymbol() {
-        await this.updateJackpotSymbolCache();
-        this.updateCorrectJackpotSymbol();
-    }
+    async initSlotBoard() {
+        if (!this.receiviedJackpotPools || this.isLoadedSlotBoard) {
+            return;
+        }
 
-    private async updateJackpotSymbolCache() {
-        const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
-        prefabCache[this.jackpotSymbolIndex] = await this.addSymbolCache(this.jackpotSymbolIndex);
-        uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
-    }
-
-    private updateCorrectJackpotSymbol() {
-        this.slotBoard.reels.forEach((reel) => {
-            reel.items.forEach((item) => {
-                if (item.index === this.jackpotSymbolIndex) {
-                    item.replaceItem(this.jackpotSymbolIndex);
-                }
-            });
-        });
+        super.initSlotBoard();
+        this.isLoadedSlotBoard = true;
     }
 
     protected async showJackpotInfo() {
