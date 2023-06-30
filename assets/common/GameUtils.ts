@@ -34,17 +34,17 @@ export default class GameUtils {
     static base64: Base64;
 
     public static base64Decode(data: string): string {
-        if (!GameUtils.base64) {
-            GameUtils.base64 = new Base64();
+        if (!this.base64) {
+            this.base64 = new Base64();
         }
-        return GameUtils.base64.decode(data);
+        return this.base64.decode(data);
     }
 
     public static base64Encode(data: string): string {
-        if (!GameUtils.base64) {
-            GameUtils.base64 = new Base64();
+        if (!this.base64) {
+            this.base64 = new Base64();
         }
-        return GameUtils.base64.encode(data);
+        return this.base64.encode(data);
     }
     public static addFlyingText(parent: cc.Node, win: boolean, value: number, duration = 1, startY = 0, destY = 100) {
         const temp = new cc.Node().addComponent(cc.Label);
@@ -84,6 +84,15 @@ export default class GameUtils {
         return words.map((word) => word[0] + word.substring(1).toLowerCase()).join(" ");
     }
 
+    public static remoteGameResourceUrl(gameId: number, pathResource: string) {
+        const url = buildMicrositeGameUrl(gameId);
+        return `${url}/remote/${pathResource}`;
+    }
+
+    public static loadRemoteGameResource<T>(gameId: number, pathResource: string) {
+        return this.loadRemote<T>(this.remoteGameResourceUrl(gameId, pathResource));
+    }
+
     public static loadRemote<T>(url: string): Promise<T> {
         return new Promise((resolve, reject) => {
             cc.assetManager.loadRemote(url, (err, asset: any) => {
@@ -121,7 +130,7 @@ export default class GameUtils {
             const directory = systemPath === "" ? "lobby/games" : `lobby/games/${systemPath}`;
             const path = `${directory}/${gameId}`;
 
-            return GameUtils.loadResource(path);
+            return this.loadResource(path);
         }
     }
 
@@ -219,22 +228,22 @@ export default class GameUtils {
      * @param data
      */
     static setGameSetting(gameId, data) {
-        GameUtils.setStorageGame(`UserSetting_game`, gameId, data);
+        this.setStorageGame(`UserSetting_game`, gameId, data);
     }
 
     static setSubGameSetting(gameId, key, subData) {
-        const data = GameUtils.getSpecificGameSetting(gameId);
+        const data = this.getSpecificGameSetting(gameId);
         data[key] = subData;
-        GameUtils.setSpecificGameSetting(gameId, data);
+        this.setSpecificGameSetting(gameId, data);
     }
 
     static getSubGameSetting(gameId, key) {
-        const data = GameUtils.getSpecificGameSetting(gameId);
+        const data = this.getSpecificGameSetting(gameId);
         return data[key];
     }
 
     static getGameSetting(gameId) {
-        return GameUtils.getStorageGame("UserSetting_game", gameId);
+        return this.getStorageGame("UserSetting_game", gameId);
     }
 
     /**
@@ -243,11 +252,11 @@ export default class GameUtils {
      * @param data
      */
     static setSpecificGameSetting(gameId, data) {
-        GameUtils.setStorageGame("SpecificGame", gameId, data);
+        this.setStorageGame("SpecificGame", gameId, data);
     }
 
     static getSpecificGameSetting(gameId) {
-        return GameUtils.getStorageGame("SpecificGame", gameId);
+        return this.getStorageGame("SpecificGame", gameId);
     }
 
     public static async openGameDirect(gameId: number, socketIOController: SocketIOController) {
@@ -256,7 +265,7 @@ export default class GameUtils {
             this.openGameMicrosite(gameId);
             return;
         }
-        await GameUtils.tryOpenGameDirect(gameId, socketIOController);
+        await this.tryOpenGameDirect(gameId, socketIOController);
         await this.loadSceneGame(gameId, socketIOController);
     }
 
@@ -276,13 +285,13 @@ export default class GameUtils {
             lang: auData.language,
             appType: auData.system,
             ref: directMode?.ref,
-            rurl: directMode?.returnUrl || GameUtils.base64Encode(window.location.href),
+            rurl: directMode?.returnUrl || this.base64Encode(window.location.href),
             musicEnable: audio.musicEnabled,
             sfxEnable: audio.sfxEnabled
         };
         const searchParams = new URLSearchParams();
         Object.keys(params).forEach((key) => params[key] !== undefined && searchParams.append(key, params[key]));
-        const encodedQueryString = GameUtils.base64Encode(searchParams.toString());
+        const encodedQueryString = this.base64Encode(searchParams.toString());
 
         window.location.href = `${url}/?params=${encodedQueryString}`;
     }
@@ -366,7 +375,7 @@ export default class GameUtils {
             return;
         }
 
-        await GameUtils.preloadGameAssets(gameConfiguration, miniPanel, gameId);
+        await this.preloadGameAssets(gameConfiguration, miniPanel, gameId);
 
         if (!gameConfiguration.mini && gameId > 0) {
             StorageManager.remove(`orientation`);
@@ -510,7 +519,32 @@ export default class GameUtils {
         return i18n.t(`gameNames.${gameId}`);
     }
 
+    static remoteLocalization = {};
+
+    public static async loadRemoteLocalization(gameId: number) {
+        if (!this.remoteLocalization[gameId]) {
+            const localization = await this.loadRemoteGameResource<cc.JsonAsset>(gameId, "localization.json");
+            this.remoteLocalization[gameId] = localization.json;
+        }
+    }
+
+    public static async getRemoteDisplayGameName(gameId, breakline = false) {
+        await this.loadRemoteLocalization(gameId);
+        const list = ["generalGameNames", "gameNames"];
+        if (breakline) {
+            list.unshift("lobbyNames");
+        }
+
+        const currentLanguage = this.getCurrentLanguage();
+        const key = list.find((key) => this.remoteLocalization[gameId][key] && this.remoteLocalization[gameId][key][currentLanguage]);
+        return this.remoteLocalization[gameId][key][currentLanguage];
+    }
+
     public static async getDisplayGameName(gameId, breakline = false): Promise<string> {
+        const gameConfiguration = getGameConfiguration(gameId);
+        if (gameConfiguration.isMicrosite) {
+            return this.getRemoteDisplayGameName(gameId, breakline);
+        }
         const lobbyGameNameKey = `lobbyNames.${gameId}`;
         const generalGameNameKey = `generalGameNames.${gameId}`;
         const gameNameKey = `gameNames.${gameId}`;
@@ -650,7 +684,7 @@ export default class GameUtils {
     public static hideNode2(node: cc.Node, options: any) {
         const duration = options.duration ?? 0.3;
         const onHidden = options.onHidden;
-        GameUtils.hideNode(node, duration, onHidden);
+        this.hideNode(node, duration, onHidden);
     }
 
     public static hideNode(node: cc.Node, transitionTime = 0.3, onHidden?: () => void) {
@@ -674,21 +708,31 @@ export default class GameUtils {
         return window.i18n.curLang;
     }
 
-    public static async getBanner(lobbyMenuConfig: LobbyMenuConfig, id: number, systemPath = "") {
-        const newSuffix = lobbyMenuConfig.isNewGame(id) ? "_new" : "";
-        const currentLang = this.getCurrentLanguage() !== "vi" ? `_${this.getCurrentLanguage()}` : "";
-        const name1 = `${id}${currentLang}${newSuffix}`;
-        const name2 = `${id}${newSuffix}`;
-        const name3 = `${id}${currentLang}`;
-        const name4 = `${id}`;
+    private static async getRemoteBanner(gameId: number, isNew: boolean) {
+        const bannerNames = this.createBannerNameOptions(gameId, true, isNew);
+        let remoteTexture: cc.Texture2D;
+        for (const bannerName of bannerNames) {
+            try {
+                remoteTexture = await this.loadRemoteGameResource<cc.Texture2D>(gameId, `banner/${bannerName}.png`);
+                if (remoteTexture) {
+                    break;
+                }
+            } catch (error) {}
+        }
+        if (remoteTexture) {
+            return new cc.SpriteFrame(remoteTexture);
+        }
+        cc.log("No banner for game " + gameId);
+        return null;
+    }
 
-        const bannersType = [name1, name2, name3, name4];
+    private static async getResourceBanner(data: { id: number; remoteBundle; isNew: boolean; systemPath: string }) {
+        const { id, remoteBundle, isNew, systemPath } = data;
         let frame: cc.SpriteFrame;
-        for (const element of bannersType) {
-            const gameConfiguration = getGameConfiguration(id);
-            if (!!gameConfiguration?.remoteBundle && !MICRO_GAMES_NOT_OFFER_BANNER.includes(id)) {
-                const directory = gameConfiguration.isMicrosite ? `${id}/` : "";
-                const path = systemPath === "" ? `${directory}banners/${element}` : `${directory}banners/${systemPath}/${element}}`;
+        const bannerNames = this.createBannerNameOptions(id, false, isNew);
+        for (const element of bannerNames) {
+            if (!!remoteBundle && !MICRO_GAMES_NOT_OFFER_BANNER.includes(id)) {
+                const path = systemPath === "" ? `banners/${element}` : `banners/${systemPath}/${element}}`;
                 try {
                     frame = await BundleManager.getInstance().loadAsset<cc.SpriteFrame>({
                         bundleId: id.toString(),
@@ -708,6 +752,49 @@ export default class GameUtils {
         }
 
         return frame;
+    }
+
+    private static createBannerNameOptions(id: number, isMicrosite: boolean, isNew: boolean): string[] {
+        const newSuffix = isNew ? "_new" : "";
+        if (isMicrosite) {
+            const currentLang = this.getCurrentLanguage();
+            const name1 = `${currentLang}${newSuffix}`;
+            const name2 = `${currentLang}`;
+            const defaultName = `en`;
+
+            const names = [name2, defaultName];
+            if (isNew) {
+                names.unshift(name1);
+            }
+            return names;
+        } else {
+            const currentLang = this.getCurrentLanguage() !== "vi" ? `_${this.getCurrentLanguage()}` : "";
+            const name1 = `${id}${currentLang}${newSuffix}`;
+            const name2 = `${id}${newSuffix}`;
+            const name3 = `${id}${currentLang}`;
+            const name4 = `${id}`;
+
+            const names = [name3, name4];
+            if (isNew) {
+                names.unshift(...[name1, name2]);
+            }
+            return names;
+        }
+    }
+
+    public static async getBanner(lobbyMenuConfig: LobbyMenuConfig, id: number, systemPath = "") {
+        const isNew = lobbyMenuConfig.isNewGame(id);
+        const gameConfiguration = getGameConfiguration(id);
+        if (gameConfiguration.isMicrosite) {
+            return this.getRemoteBanner(id, isNew);
+        }
+
+        return this.getResourceBanner({
+            id,
+            isNew,
+            remoteBundle: gameConfiguration.remoteBundle,
+            systemPath
+        });
     }
 
     public static getBannerSpriteFrame(gameId: number, imageName: string): Promise<cc.SpriteFrame> {
@@ -764,7 +851,7 @@ export default class GameUtils {
     }
 
     public static createChipStack(bet: number, betChips: BetChips, shadowFrame: cc.SpriteFrame, skewX: number) {
-        const values = GameUtils.getChipQuantity(bet, betChips.chipValues);
+        const values = this.getChipQuantity(bet, betChips.chipValues);
         const node = new cc.Node();
         const chipStack = node.addComponent(ChipStack);
         chipStack.chipSize = 26;

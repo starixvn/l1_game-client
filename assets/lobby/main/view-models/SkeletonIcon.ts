@@ -1,7 +1,6 @@
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import RemoteSpine from "../../../common/RemoteSpine";
-import { buildMicrositeGameUrl } from "../../../common/helpers/UrlHelper";
 import Loading from "../../../common/loading/view-models/Loading";
 import { getGameConfiguration } from "../../../configs/GameConfigurations";
 import { uiManager } from "../../../managers/GameUIManager";
@@ -84,13 +83,13 @@ export default class SkeletonIcon extends cc.Component {
         const node = new cc.Node();
 
         try {
-            const url = buildMicrositeGameUrl(id);
-            const configFile = await GameUtils.loadRemote<cc.JsonAsset>(`${url}/remote/icon/config.json`);
+            const configFile = await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `icon/config.json`);
             const iconConfig: RemoteIconConfig = configFile.json;
 
             node.addComponent(sp.Skeleton);
             const remoteSpine = node.addComponent(RemoteSpine);
-            remoteSpine.host = `${url}/remote/icon`;
+            const url = GameUtils.remoteGameResourceUrl(id, "icon");
+            remoteSpine.host = url;
             remoteSpine.spineName = "icon-game";
             remoteSpine.premultipliedAlpha = iconConfig.premultipliedAlpha;
             if (iconConfig.gameNotification) {
