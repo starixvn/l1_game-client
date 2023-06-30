@@ -65,23 +65,26 @@ export default class SkeletonIcon extends cc.Component {
     }
 
     private async createIconNode(id: number) {
-        let prefab: cc.Prefab;
-        if (uiManager.prefabCache.lobbyIcons[id]) {
-            prefab = uiManager.prefabCache.lobbyIcons[id];
-        } else {
-            prefab = await GameUtils.loadGameIcon(id);
-            if (!prefab) {
-                prefab = await GameUtils.loadGameIcon(id, this.splashConfig.customPath);
+        try {
+            let prefab: cc.Prefab;
+            if (uiManager.prefabCache.lobbyIcons[id]) {
+                prefab = uiManager.prefabCache.lobbyIcons[id];
+            } else {
+                prefab = await GameUtils.loadGameIcon(id);
+                if (!prefab) {
+                    prefab = await GameUtils.loadGameIcon(id, this.splashConfig.customPath);
+                }
             }
+            uiManager.prefabCache.lobbyIcons[id] = prefab;
+            return cc.instantiate(prefab);
+        } catch (error) {
+            cc.log(error);
+            return null;
         }
-
-        uiManager.prefabCache.lobbyIcons[id] = prefab;
-        return cc.instantiate(prefab);
     }
 
     private async createRemoteIconNode(id: number) {
         const node = new cc.Node();
-
         try {
             const configFile = await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `icon/config.json`);
             const iconConfig: RemoteIconConfig = configFile.json;
@@ -92,11 +95,13 @@ export default class SkeletonIcon extends cc.Component {
             remoteSpine.host = url;
             remoteSpine.spineName = "icon-game";
             remoteSpine.premultipliedAlpha = iconConfig.premultipliedAlpha;
+            await remoteSpine.init();
             if (iconConfig.gameNotification) {
                 this.addGameNotificationComponent(node, id, iconConfig.gameNotification);
             }
         } catch (error) {
             cc.log(error);
+            return null;
         }
         return node;
     }
@@ -118,10 +123,11 @@ export default class SkeletonIcon extends cc.Component {
     async loadAnimation(id: number, categoryIndex: number) {
         const gameConfiguration = getGameConfiguration(id);
         const gameNode = gameConfiguration.isMicrosite ? await this.createRemoteIconNode(id) : await this.createIconNode(id);
-
-        this.hideSkeleton();
-        this.gameContent?.addChild(gameNode);
-        this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id, categoryIndex));
+        if (gameNode) {
+            this.hideSkeleton();
+            this.gameContent?.addChild(gameNode);
+            this.newTag && (this.newTag.active = this.lobbyMenuConfig.isNewGame(id, categoryIndex));
+        }
     }
 
     private hideSkeleton() {

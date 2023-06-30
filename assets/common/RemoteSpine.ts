@@ -24,9 +24,9 @@ export default class RemoteSpine extends cc.Component {
 
     readonly resourceExts = ["atlas", "json", "png"];
 
-    onLoad() {
+    async init() {
         this.spine = this.node.getComponent(sp.Skeleton);
-        this.loadResources();
+        await this.loadResources();
     }
 
     async loadResources() {
