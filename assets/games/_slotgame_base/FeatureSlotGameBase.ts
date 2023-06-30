@@ -148,6 +148,13 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         super.onDestroy();
         const audioManager = AudioManager.getInstance();
         audioManager.removeMusicChanged(`${this.gameId}`);
+        audioManager.stopAllSFX();
+    }
+
+    outRoomGame(): Promise<void> {
+        const audioManager = AudioManager.getInstance();
+        audioManager.stopAllSFX();
+        return super.outRoomGame();
     }
 
     onTurboModeChanged(toggle: cc.Toggle) {
