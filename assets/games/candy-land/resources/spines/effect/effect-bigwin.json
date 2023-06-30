@@ -1,47 +1,67 @@
 {
-"skeleton": { "hash": "VKYavuNWg+AvE6vZzgEV6Wy9q5s", "spine": "3.8.99" },
+"skeleton": { "hash": "OQG5uGHWHdhrba7pTVgirlRQWII", "spine": "3.8.99", "x": -0.5, "y": -0.5, "width": 1, "height": 1 },
 "bones": [
 	{ "name": "root" },
-	{ "name": "effect-bigwin", "parent": "root" },
-	{ "name": "number-value", "parent": "effect-bigwin", "y": -98.28 },
-	{ "name": "text-bigwin", "parent": "effect-bigwin", "x": -0.76, "y": 113.68 },
-	{ "name": "table-number", "parent": "effect-bigwin", "y": -173.37 }
+	{ "name": "table-number", "parent": "root" },
+	{ "name": "number-value", "parent": "root", "y": -98.28 },
+	{ "name": "text-level-win", "parent": "root", "x": -0.76, "y": 113.68 }
 ],
 "slots": [
-	{ "name": "table-number", "bone": "table-number" },
+	{ "name": "table-number", "bone": "table-number", "attachment": "dot" },
 	{ "name": "number", "bone": "number-value" },
-	{ "name": "text-bigwin", "bone": "text-bigwin" }
+	{ "name": "text-bigwin", "bone": "text-level-win" }
 ],
 "skins": [
 	{
 		"name": "default",
 		"attachments": {
 			"table-number": {
-				"dot": { "y": 173.37, "width": 1, "height": 1 }
+				"dot": { "width": 1, "height": 1 }
 			}
 		}
 	}
 ],
 "animations": {
-	"show": {
+	"changetext": {
 		"bones": {
-			"text-bigwin": {
-				"translate": [
-					{ "y": -346.68, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.1667, "y": 44.22, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.3 }
-				],
-				"scale": [
-					{ "time": 0.0667, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.2333, "x": 1.1, "y": 1.1, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.3667 }
-				]
-			},
 			"table-number": {
 				"scale": [
 					{ "x": 0.1, "y": 0.1, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.1333, "curve": "stepped" },
-					{ "time": 1.2 }
+					{ "time": 0.1667 }
+				]
+			},
+			"root": {
+				"translate": [
+					{ "time": 1.2, "y": 1.98 }
+				]
+			},
+			"text-level-win": {
+				"translate": [
+					{ "y": 58.57, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1, "curve": "stepped" },
+					{ "time": 1.1, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.2, "y": 58.57 }
+				],
+				"scale": [
+					{ "x": 0.1, "y": 0.1, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1, "curve": "stepped" },
+					{ "time": 1.1, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.2, "x": 0.1, "y": 0.1 }
+				]
+			}
+		}
+	},
+	"show": {
+		"bones": {
+			"table-number": {
+				"scale": [
+					{ "x": 0.1, "y": 0.1, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.1667 }
+				]
+			},
+			"root": {
+				"translate": [
+					{ "time": 1.2, "y": 1.98 }
 				]
 			}
 		}
