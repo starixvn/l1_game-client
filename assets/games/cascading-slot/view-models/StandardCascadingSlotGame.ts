@@ -17,6 +17,7 @@ import ChangeNodeColor from "../../../common/ChangeNodeColor";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import CascadingBigWinAnimation from "./CascadingBigWinAnimation";
+import CallbackAnimation from "../../../common/CallbackAnimation";
 
 const { ccclass, property } = cc._decorator;
 const LocalizedLabel = require("LocalizedLabel");
@@ -83,6 +84,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     board: StandardCascadingSlotBoard;
     private readonly previewSymbolLeft: cc.Prefab;
     private readonly previewSymbolRight: cc.Prefab;
+    private readonly effectTransitionPrefab: cc.Prefab;
     private colorConfig: any;
 
     audioClips = {};
@@ -125,7 +127,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             "tumble-list": "tumbleListPrefab",
 
             "preview-symbol-left": "previewSymbolLeft",
-            "preview-symbol-right": "previewSymbolRight"
+            "preview-symbol-right": "previewSymbolRight",
+            "effect-transition": "effectTransitionPrefab"
         };
 
         for (const key of Object.keys(dict)) {
@@ -356,6 +359,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     override async showEffectBigWin(betWin: number) {
+        const transtition = await this.playEffectTransition();
         const totalBet = this.betControl.totalBet.string;
         const coinValue = this.betControl.coinValue.string;
         const bigWinAudioId = this.playSound(CascadingSlotGameSound.BIG_WIN, true);
@@ -386,6 +390,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         };
 
         await this.showEffect(effect);
+        transtition?.destroy();
     }
 
     initBetControl(node: cc.Node) {
@@ -398,5 +403,23 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             },
             node
         );
+    }
+
+    protected async playEffectTransition() {
+        if (!this.effectTransitionPrefab) {
+            return null;
+        }
+        const effect = cc.instantiate(this.effectTransitionPrefab);
+        const animation = effect.getComponent(CallbackAnimation);
+        animation.autoDestroyNode = false;
+        //this.playSound(ClassicSlotSound.TRANSITION);
+        await this.showEffect(effect);
+        return effect;
+    }
+
+    async showEffectFreeSpins(count: number) {
+        const transtition = await this.playEffectTransition();
+        await super.showEffectFreeSpins(count);
+        transtition?.destroy();
     }
 }
