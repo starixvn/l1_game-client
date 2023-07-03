@@ -268,12 +268,14 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         const node = cc.instantiate(this.tumbleWinFramePrefab);
         this.tumbleWinFrameNode.addChild(node);
         this.tumbleWinView = node.getComponent(TumbleWinView);
+        this.tumbleWinView.showViewQuickly(false);
     }
 
     initTotalMultiplierFrame() {
         const node = cc.instantiate(this.totalMultiplierPrefab);
         this.totalMultiplierViewNode.addChild(node);
         this.totalMultiplierView = node.getComponent(TotalMultiplierView);
+        this.totalMultiplierView.showViewQuickly(false);
     }
 
     initBottomArea(node: cc.Node) {

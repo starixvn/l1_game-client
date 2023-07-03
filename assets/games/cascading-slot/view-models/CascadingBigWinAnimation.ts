@@ -90,12 +90,7 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
             const prefixStr = opt.prefixStr ?? "";
             const defaultFormater = (v) => numberWithCommas(v, 2, false);
             const formatNumber = opt.formatNumber ?? defaultFormater;
-            let stepValue = coinValue;
-            if (coinValue <= 0.05) {
-                stepValue = 0.01;
-            } else if (coinValue <= 0.5) {
-                stepValue = 0.1;
-            }
+            let stepValue = parseFloat(this.calculateStepValue(coinValue));
             const stepTime = opt.stepTime ?? 0.05;
             const startStr = label.string.replace(prefixStr, "");
             const startValue = start || parseFloat(startStr.replace(/,/g, "")) || 0;
@@ -130,5 +125,28 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
                 })
                 .start();
         });
+    }
+
+    private calculateStepValue(coinValue: number) {
+        const stringArr = coinValue.toString().split(".");
+        const integr = stringArr[0];
+        const decimal = stringArr[1];
+
+        if (stringArr.length > 1) {
+            if (decimal.length > 2) {
+                return coinValue.toString();
+            }
+            let coin = "0.";
+            for (let i = 0; i < decimal.length - 1; i++) {
+                coin += "0";
+            }
+            return (coin += "1");
+        } else {
+            let coin = "1";
+            for (let i = 0; i < integr.length - 1; i++) {
+                coin += "0";
+            }
+            return coin;
+        }
     }
 }
