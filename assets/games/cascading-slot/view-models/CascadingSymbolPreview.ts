@@ -53,7 +53,8 @@ export default class CascadingSymbolPreview extends SymbolPreview {
 
             if (symbolItem.index === 9) {
                 show = index < freespin.length && freespin[index].odds > 0;
-                values = [`${freespin[index].count}`, `${freespin[index].odds}`];
+                const count = freespin[index].count >= 6 ? `≥${freespin[index].count}` : `${freespin[index].count}`;
+                values = [count, `${freespin[index].odds}`];
             } else {
                 show = index < odds.length && odds[index].odds > 0;
                 values = [`${odds[index].from}-${odds[index].to}`, `${numberWithCommas(odds[index].odds * coinValue * betLevel)}`];
@@ -96,10 +97,10 @@ export default class CascadingSymbolPreview extends SymbolPreview {
     }
 
     showSymbolText(symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
-        this.border.width = 320;
-        this.bg.width = 320;
+        this.border.width = 330;
+        this.bg.width = 330;
         if (isInfoOnLeft) {
-            this.infoNode.position = cc.v3(-238, 0, 0);
+            this.infoNode.position = cc.v3(-250, 0, 0);
         }
     }
 
