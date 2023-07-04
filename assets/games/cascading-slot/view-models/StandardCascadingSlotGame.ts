@@ -19,6 +19,7 @@ import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import CascadingBigWinAnimation from "./CascadingBigWinAnimation";
 import CallbackAnimation from "../../../common/CallbackAnimation";
 import { InternalEvents } from "../../../managers/InternalEvents";
+import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
 
 const { ccclass, property } = cc._decorator;
 const LocalizedLabel = require("LocalizedLabel");
@@ -334,8 +335,11 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     initGameDataEvents() {
         super.initGameDataEvents();
         this.gameData.uiModel.on(CascadingUIModel.Events.SET_FREESPINS, (value: number) => {
-            this.totalFreeSpins = value;
-            this.bottomMessage.freeSpinCount = this.totalFreeSpins;
+            this.bottomMessage.freeSpinCount = value;
+            this.bottomMessage && this.bottomMessage.showMessages(SlotNotification.FREESPINS);
+        });
+        this.gameData.uiModel.on(CascadingUIModel.Events.INCREASE_FREESPINS, (value: number) => {
+            this.bottomMessage.freeSpinCount = value;
         });
     }
 
@@ -429,5 +433,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     onTrialModeChanged(toggle: cc.Toggle) {
         super.onTrialModeChanged(toggle);
         uiManager.emitter.emit(InternalEvents.CLICK_CHANGE_MODE);
+    }
+
+    showBottomMessageOnGameState() {
+        super.showBottomMessageOnGameState();
+        this.updateBottomMessageStatus();
     }
 }

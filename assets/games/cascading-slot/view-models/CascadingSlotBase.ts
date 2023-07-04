@@ -392,7 +392,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         }
     }
 
-    private showBottomMessageOnGameState() {
+    protected showBottomMessageOnGameState() {
         if (!this.gameData.stateModel.state) {
             this.bottomMessage.showMessages(SlotNotification.BEFORESPIN);
             return;
@@ -404,11 +404,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
             case CascadingSlotState.Spinning:
                 break;
             case CascadingSlotState.Settled:
-                if (this.totalFreeSpins === 0) {
-                    this.bottomMessage.showMessages(SlotNotification.SETTLED);
-                } else {
-                    this.bottomMessage.showMessages(SlotNotification.FREESPINS);
-                }
+                this.bottomMessage.showMessages(SlotNotification.SETTLED);
                 break;
         }
     }
