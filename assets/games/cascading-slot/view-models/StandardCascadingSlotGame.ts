@@ -341,6 +341,9 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.gameData.uiModel.on(CascadingUIModel.Events.INCREASE_FREESPINS, (value: number) => {
             this.bottomMessage.freeSpinCount = value;
         });
+        this.gameData.uiModel.on(CascadingUIModel.Events.SHOW_FREESPINS, (show: boolean) => {
+            this.bottomMessage && this.bottomMessage.showMessages(SlotNotification.FREESPINS);
+        });
     }
 
     flyWinLabelAnimation(node: cc.Node) {
