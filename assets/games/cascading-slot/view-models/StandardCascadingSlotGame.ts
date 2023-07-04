@@ -18,6 +18,7 @@ import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import CascadingBigWinAnimation from "./CascadingBigWinAnimation";
 import CallbackAnimation from "../../../common/CallbackAnimation";
+import { InternalEvents } from "../../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 const LocalizedLabel = require("LocalizedLabel");
@@ -423,5 +424,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         const transtition = await this.playEffectTransition();
         await super.showEffectFreeSpins(count);
         transtition?.destroy();
+    }
+
+    onTrialModeChanged(toggle: cc.Toggle) {
+        super.onTrialModeChanged(toggle);
+        uiManager.emitter.emit(InternalEvents.CLICK_CHANGE_MODE);
     }
 }
