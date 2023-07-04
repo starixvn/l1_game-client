@@ -1,4 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
+import CustomDisplayToggle from "../../../common/custom-button/CustomDisplayToggle";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -43,5 +46,10 @@ export default class Category extends cc.Component {
 
     enabledCategorySeparator(categoryLength: number) {
         this.separator.active = categoryLength !== this._index;
+    }
+
+    selectCategory(isSelected: boolean) {
+        const toggle = this.getComponent(CustomDisplayToggle);
+        toggle.isChecked = isSelected;
     }
 }

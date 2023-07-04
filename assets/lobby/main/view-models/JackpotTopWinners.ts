@@ -2,6 +2,7 @@ import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import JackpotTopWinnersItem from "./JackpotTopWinnersItem";
+import { GameCategory } from "./LobbyMenu";
 
 const { ccclass, property } = cc._decorator;
 
@@ -77,5 +78,9 @@ export default class JackpotTopWinners extends cc.Component {
             const player = winnerNode.getComponent(JackpotTopWinnersItem);
             player.setData(playerData);
         });
+    }
+
+    onClickNoUsers(e) {
+        uiManager.emitter.emit(InternalEvents.CHANGE_CATEGORY, GameCategory.Slot);
     }
 }

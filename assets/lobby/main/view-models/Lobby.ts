@@ -159,6 +159,17 @@ export default class Lobby extends cc.Component {
     initGameUIEvents() {
         uiManager.emitterListener(InternalEvents.LOAD_OTHER_ICONS_AND_BANNERS, this.loadOtherIconsAndBanners.bind(this), this);
         uiManager.emitterListener(InternalEvents.OPEN_GAME_MINI, this.loadOtherIconsAndBanners.bind(this), this);
+        uiManager.emitterListener(
+            InternalEvents.CHANGE_CATEGORY,
+            (category) => {
+                const categoryList = this.categoryContainer.getComponentsInChildren(Category);
+                categoryList.forEach((categoryComp, index) => {
+                    index === category && categoryComp.selectCategory(true);
+                });
+                this.onCategoryChanged(category);
+            },
+            this
+        );
     }
 
     removeGameUIEvent() {
