@@ -1,4 +1,5 @@
 import GameUtils from "../../common/GameUtils";
+import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { userManager } from "../../common/user/UserManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
@@ -52,7 +53,7 @@ export default class JackpotWinner extends cc.Component {
             menuIcon.active = false;
 
             this.username.string = data.winnerName;
-            this.amount.string = `${GameUtils.getValueByCurrency(data.amount)}`;
+            this.amount.string = numberWithCommas(GameUtils.getValueByCurrency(data.amount), 2);
             this.gameName.string = GameUtils.getGameNameString(data.gameId);
 
             jackPotContainer.active = true;
