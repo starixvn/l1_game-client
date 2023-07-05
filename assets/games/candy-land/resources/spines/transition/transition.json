@@ -1,8 +1,8 @@
 {
-"skeleton": { "hash": "+kGAPLMWqMc+F2Ci7rojJjKyD/A", "spine": "3.8.99" },
+"skeleton": { "hash": "xLJlbPWwZ2LprxPDW60P2eFXUzo", "spine": "3.8.99" },
 "bones": [
 	{ "name": "root" },
-	{ "name": "transition", "parent": "root", "scaleX": 2, "scaleY": 2 }
+	{ "name": "transition", "parent": "root", "scaleX": 2.3, "scaleY": 2.3 }
 ],
 "slots": [
 	{ "name": "c_poseidon_water_transition_frames_assets_1_w1280", "bone": "transition" }
@@ -12,20 +12,20 @@
 		"name": "default",
 		"attachments": {
 			"c_poseidon_water_transition_frames_assets_1_w1280": {
-				"c_poseidon_water_transition_frames_assets_1_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_2_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_2_w1280 (1)": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_3_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_4_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_5_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_6_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_7_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_8_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_9_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_10_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_11_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_12_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 },
-				"c_poseidon_water_transition_frames_assets_13_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 646, "height": 370 }
+				"c_poseidon_water_transition_frames_assets_1_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_2_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_2_w1280 (1)": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_3_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_4_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_5_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_6_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_7_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_8_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_9_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_10_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_11_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_12_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 },
+				"c_poseidon_water_transition_frames_assets_13_w1280": { "scaleX": 2.3, "scaleY": 2.3, "width": 323, "height": 185 }
 			}
 		}
 	}
@@ -35,25 +35,25 @@
 		"slots": {
 			"c_poseidon_water_transition_frames_assets_1_w1280": {
 				"color": [
-					{ "time": 0.6667, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 1.2, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "name": "c_poseidon_water_transition_frames_assets_1_w1280" },
-					{ "time": 0.0667, "name": "c_poseidon_water_transition_frames_assets_6_w1280" },
-					{ "time": 0.1333, "name": "c_poseidon_water_transition_frames_assets_7_w1280" },
-					{ "time": 0.2, "name": "c_poseidon_water_transition_frames_assets_8_w1280" },
-					{ "time": 0.2667, "name": "c_poseidon_water_transition_frames_assets_9_w1280" },
-					{ "time": 0.3333, "name": "c_poseidon_water_transition_frames_assets_10_w1280" },
-					{ "time": 0.4, "name": "c_poseidon_water_transition_frames_assets_11_w1280" },
-					{ "time": 0.4667, "name": "c_poseidon_water_transition_frames_assets_12_w1280" },
-					{ "time": 0.5333, "name": "c_poseidon_water_transition_frames_assets_13_w1280" },
-					{ "time": 0.6, "name": "c_poseidon_water_transition_frames_assets_2_w1280" },
-					{ "time": 0.6667, "name": "c_poseidon_water_transition_frames_assets_2_w1280 (1)" },
-					{ "time": 0.7333, "name": "c_poseidon_water_transition_frames_assets_3_w1280" },
-					{ "time": 0.8, "name": "c_poseidon_water_transition_frames_assets_4_w1280" },
-					{ "time": 0.8667, "name": "c_poseidon_water_transition_frames_assets_5_w1280" },
-					{ "time": 0.9333, "name": null }
+					{ "time": 0.1, "name": "c_poseidon_water_transition_frames_assets_6_w1280" },
+					{ "time": 0.1667, "name": "c_poseidon_water_transition_frames_assets_7_w1280" },
+					{ "time": 0.2667, "name": "c_poseidon_water_transition_frames_assets_8_w1280" },
+					{ "time": 0.3333, "name": "c_poseidon_water_transition_frames_assets_9_w1280" },
+					{ "time": 0.4333, "name": "c_poseidon_water_transition_frames_assets_10_w1280" },
+					{ "time": 0.5, "name": "c_poseidon_water_transition_frames_assets_11_w1280" },
+					{ "time": 0.6, "name": "c_poseidon_water_transition_frames_assets_12_w1280" },
+					{ "time": 0.6667, "name": "c_poseidon_water_transition_frames_assets_13_w1280" },
+					{ "time": 0.7667, "name": "c_poseidon_water_transition_frames_assets_2_w1280" },
+					{ "time": 0.8667, "name": "c_poseidon_water_transition_frames_assets_2_w1280 (1)" },
+					{ "time": 0.9333, "name": "c_poseidon_water_transition_frames_assets_3_w1280" },
+					{ "time": 1.0333, "name": "c_poseidon_water_transition_frames_assets_4_w1280" },
+					{ "time": 1.1, "name": "c_poseidon_water_transition_frames_assets_5_w1280" },
+					{ "time": 1.2, "name": null }
 				]
 			}
 		}

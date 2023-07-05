@@ -383,7 +383,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         if (this.isTurboMode()) {
             this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
             bigWinAnimation.setAmount({ amount: betWin });
-            bigWinAnimation.changeFrameForBigWinLevel(betWin, +totalBet);
+            await bigWinAnimation.changeFrameForBigWinLevel(betWin, +totalBet);
             callbackAnim.skipTouchToContinue();
         } else {
             bigWinAnimation
@@ -396,6 +396,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
         callbackAnim.skipCallback = () => {
             this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
+            bigWinAnimation.changeFrameForBigWinLevel(betWin, +totalBet);
             bigWinAnimation.setAmount({ amount: betWin });
         };
 

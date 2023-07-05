@@ -601,7 +601,8 @@ const data = {
         autoSpinLeft: "Sisa Putaran Otomatis",
         bigWinTextNotify: "Tekan dimana saja untuk melanjutkan",
         reachMaxWin: "Anda mencapai Maksimal Menang",
-        warningTrialMode: "Main Nyata,\nMenang Nyata"
+        warningTrialMode: "Main Nyata,\nMenang Nyata",
+        multiplier_preview_odds: "Bonus Pengganda akan berlaku untuk Kemenangan Tumble."
     }
 };
 

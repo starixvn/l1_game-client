@@ -583,7 +583,8 @@ const data = {
         autoSpinLeft: "Auto Spins Left",
         bigWinTextNotify: "Press anywhere to continue",
         reachMaxWin: "You reached the Max Win",
-        warningTrialMode: "Play Real,\nWin Real"
+        warningTrialMode: "Play Real,\nWin Real",
+        multiplier_preview_odds: "Multiplier Bonus will apply for Tumble Win."
     }
 };
 

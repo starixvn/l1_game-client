@@ -20,7 +20,6 @@ export default class CascadingSymbolPreview extends SymbolPreview {
         const { symbolItem } = info;
         if (symbolItem.index >= 10) {
             this.showInfoNode(false);
-            this.renderMultiplier();
         } else {
             this.showInfoNode(true);
             this.renderNormalSymbol(info);
@@ -74,10 +73,6 @@ export default class CascadingSymbolPreview extends SymbolPreview {
             firstLabelWidth = this.findGreaterWidth(node, firstLabelWidth);
         });
         this.updateLabelWidth(firstLabelWidth);
-    }
-
-    renderMultiplier() {
-        this.multiplierLabel.string = "Multiplier Bonus will apply for Tumble Win";
     }
 
     findGreaterWidth(node, firstLabelWidth) {

@@ -8,65 +8,52 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CascadingBigWinAnimation extends BigWinAnimation {
-    @property(cc.Sprite)
-    frameValueBigWin: cc.Sprite = null;
+    @property(cc.Prefab)
+    megaWinPrefab: cc.Prefab = null;
 
-    @property(cc.Sprite)
-    bigWinLevel: cc.Sprite = null;
+    @property(cc.Prefab)
+    superWinPrefab: cc.Prefab = null;
 
     @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
     @property(sp.Skeleton)
-    coinLoopSpine: sp.Skeleton = null;
-
-    @property(sp.Skeleton)
-    levelLoopSpine: sp.Skeleton = null;
-
-    @property(sp.Skeleton)
     mainSpine: sp.Skeleton = null;
+
+    @property(cc.Node)
+    changeLevel: cc.Node = null;
 
     private isChangeLevelSuper = true;
     private isChangeLevelMega = true;
 
-    changeFrameForBigWinLevel(betWin: number, totalBet: number) {
-        const locale = getLocale();
-        let level = "big";
+    async changeFrameForBigWinLevel(betWin: number, totalBet: number) {
         const valueRatio = betWin / totalBet;
         if (valueRatio >= 6) {
-            level = "super";
-            this.isChangeLevelSuper && this.setAniamtionChangeSuper(this.bigWinLevel.node);
-        } else if (valueRatio >= 4) {
-            level = "mega";
-            this.isChangeLevelMega && this.setAniamtionChangeMega(this.bigWinLevel.node);
+            this.isChangeLevelSuper && this.setAniamtionChangeSuper();
+        } else if (valueRatio >= 3) {
+            this.isChangeLevelMega && this.setAniamtionChangeMega();
         }
-        this.frameValueBigWin.spriteFrame = this.mainAtlas.getSpriteFrame(`table-number-${level}`);
-        this.bigWinLevel.spriteFrame = this.mainAtlas.getSpriteFrame(`text-${level}win-${getLanguage(locale)}`);
     }
 
-    animChangeTextLevel(node: cc.Node) {
-        //node.position.y = 172;
-        node.scale = 0;
-        cc.tween(node)
-
-            .to(0.1, { scale: 1, position: cc.v2(0, 172) }, { easing: "sineInOut" })
-            .delay(1)
-            .to(0.1, { position: cc.v2(0, 224) }, { easing: "sineInOut" })
-            .start();
-    }
-
-    setAniamtionChangeSuper(node: cc.Node) {
-        this.animChangeTextLevel(node);
+    async setAniamtionChangeSuper() {
         this.isChangeLevelSuper = false;
-        this.levelLoopSpine.setAnimation(0, "superwin-loop", true);
-        this.coinLoopSpine.timeScale = 1.8;
+        await this.changeLevelAnimation(this.mainSpine, "hide", this.superWinPrefab);
     }
 
-    setAniamtionChangeMega(node: cc.Node) {
-        this.animChangeTextLevel(node);
+    async setAniamtionChangeMega() {
         this.isChangeLevelMega = false;
-        this.levelLoopSpine.setAnimation(0, "megawin-loop", true);
-        this.coinLoopSpine.timeScale = 1.4;
+        await this.changeLevelAnimation(this.mainSpine, "hide", this.megaWinPrefab);
+    }
+
+    async changeLevelAnimation(skeleton: sp.Skeleton, animation: string, levelPrefab: cc.Prefab) {
+        skeleton.setAnimation(0, animation, false);
+        const duration = skeleton.findAnimation(animation)?.duration || 0;
+        if (duration > 0) {
+            await GameUtils.delayTime(0.1);
+        }
+        const node = cc.instantiate(levelPrefab);
+        this.changeLevel.removeAllChildren();
+        this.changeLevel.addChild(node);
     }
 
     async setAmountSlowHavingSpeed(amount: number, totalBet: number, coinValue: number, onComplete: () => void) {

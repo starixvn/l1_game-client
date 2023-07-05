@@ -564,7 +564,8 @@ const data = {
         autoSpinLeft: "自動旋轉剩餘",
         bigWinTextNotify: "按任意位置繼續",
         reachMaxWin: "您達到了最大勝利",
-        warningTrialMode: "真玩，\n贏真錢"
+        warningTrialMode: "真玩，\n贏真錢",
+        multiplier_preview_odds: "乘數獎金將適用於翻滾獲勝。"
     }
 };
 

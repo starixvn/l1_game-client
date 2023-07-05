@@ -324,7 +324,7 @@
     "_preCacheMode": 1,
     "_cacheMode": 1,
     "loop": false,
-    "premultipliedAlpha": true,
+    "premultipliedAlpha": false,
     "timeScale": 1,
     "_accTime": 0,
     "_playCount": 0,
@@ -337,7 +337,7 @@
     "_playTimes": 1,
     "_isAniComplete": true,
     "_N$skeletonData": {
-      "__uuid__": "90d7eb28-6ae1-4a3f-9c32-d530a06f10d9"
+      "__uuid__": "6910dc1d-5ed1-473b-a7ec-0569a6f4c91e"
     },
     "_N$_defaultCacheMode": 1,
     "_N$debugSlots": false,
@@ -405,19 +405,6 @@
     "_id": ""
   },
   {
-    "__type__": "236c4u8yT9NL6EdSLBxon72",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "animation": {
-      "__id__": 13
-    },
-    "_id": ""
-  },
-  {
     "__type__": "cc.Animation",
     "_name": "",
     "_objFlags": 0,
@@ -434,6 +421,20 @@
       }
     ],
     "playOnLoad": true,
+    "_id": ""
+  },
+  {
+    "__type__": "b2bb0coQNpIpZ2VffXskw5D",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "animation": null,
+    "effect": {
+      "__id__": 8
+    },
     "_id": ""
   },
   {

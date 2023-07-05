@@ -590,7 +590,8 @@ const data = {
         autoSpinLeft: "หมุนซ้ายอัตโนมัติ",
         bigWinTextNotify: "กดที่ใดก็ได้เพื่อเดิมพันต่อ",
         reachMaxWin: "คุณถึงยอดชนะสูงสุด",
-        warningTrialMode: "เล่นจริง\nชนะจริง"
+        warningTrialMode: "เล่นจริง\nชนะจริง",
+        multiplier_preview_odds: "โบนัสตัวคูณจะใช้สำหรับ Tumble Win"
     }
 };
 
