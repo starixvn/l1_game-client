@@ -20,10 +20,16 @@ export default class CascadingSymbolPreview extends SymbolPreview {
         const { symbolItem } = info;
         if (symbolItem.index >= 10) {
             this.showInfoNode(false);
+            this.renderMultiplierSymbol(info);
         } else {
             this.showInfoNode(true);
             this.renderNormalSymbol(info);
         }
+    }
+
+    renderMultiplierSymbol(info: CascadingSymbolPreviewType) {
+        const { colorList } = info;
+        this.multiplierLabel.node.color = cc.Color.WHITE.fromHEX(colorList[1]);
     }
 
     showInfoNode(status: boolean) {
