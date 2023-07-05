@@ -45,27 +45,20 @@ export default class SymbolPreview extends cc.Component {
         this.node.destroy();
     }
 
-    showSymbolText(symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
-        let symbolName = "";
+    showSymbolText(symbolNumber: number, textColor: string) {
+        const showText = symbolNumber === 7 || symbolNumber === 8;
+        this.textImages.active = showText;
 
-        if (symbolNumber == 7) {
-            this.border.width = 410;
-            this.bg.width = 422;
+        if (!showText) {
+            return;
+        }
+        let symbolName = "";
+        if (symbolNumber === 7) {
             symbolName = "freespins";
         }
 
-        if (symbolNumber == 8) {
-            this.border.width = 350;
-            this.bg.width = 362;
+        if (symbolNumber === 8) {
             symbolName = "bonus";
-        }
-
-        if (isInfoOnLeft && symbolNumber == 7) {
-            this.infoNode.position = cc.v3(-295, this.infoNode.position.y, 0);
-        }
-
-        if (isInfoOnLeft && symbolNumber == 8) {
-            this.infoNode.position = cc.v3(-235, this.infoNode.position.y, 0);
         }
 
         this.textImages.children.forEach((node) => {
@@ -73,11 +66,6 @@ export default class SymbolPreview extends cc.Component {
             nodeImage.spriteFrame = this.atlas.getSpriteFrame(`text-symbol-${symbolName}`);
             nodeImage.node.color = cc.Color.WHITE.fromHEX(textColor);
         });
-
-        const infoNodePositionX = this.infoNode.position.x;
-
-        const textImageNodePosition = infoNodePositionX + 70;
-        this.textImages.position = cc.v3(textImageNodePosition, 0, 0);
     }
 
     setInfo(info: {
@@ -109,9 +97,6 @@ export default class SymbolPreview extends cc.Component {
             });
         });
 
-        if (info.symbol == 7 || info.symbol == 8) {
-            this.textImages.active = true;
-            this.showSymbolText(info.symbol, info.colorList[1], info.isInfoOnLeft);
-        }
+        this.showSymbolText(info.symbol, info.colorList[1]);
     }
 }
