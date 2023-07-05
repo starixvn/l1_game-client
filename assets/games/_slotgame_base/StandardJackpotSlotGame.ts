@@ -82,7 +82,6 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         const node = cc.instantiate(this.jackpotPoolPrefab);
         this.jackpotPoolInfo = node.getComponent(JackpotPoolInfoBase);
         this.jackpotPoolNode.addChild(node);
-        console.log("show jackpot");
         this.updateJackpotPoolList();
     }
 

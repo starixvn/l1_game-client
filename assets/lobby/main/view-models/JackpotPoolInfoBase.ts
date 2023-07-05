@@ -12,15 +12,23 @@ export default class JackpotPoolInfoBase extends cc.Component {
             return;
         }
 
-        const sort = [...data].sort((a, b) => +b.pool - +a.pool);
+        // sort jackpot pools descending
+        const sortedData = [...data].sort((a, b) => +b.pool - +a.pool);
+
         this.items.forEach((item, index) => {
-            const itemData = sort[index];
+            if (index > sortedData.length - 1) {
+                return;
+            }
+
+            const itemData = sortedData[index];
             item.setData(itemData.amount);
-            item.node.name = `${itemData.pool}`;
+
+            // using index to identify jackpot-pool belong to stake-level
+            item.node.name = `${sortedData.length - index - 1}`;
         });
     }
 
-    setHighlight(pool: number) {
-        this.items.forEach((item) => item.setHighlight(pool === +item.node.name));
+    setHighlight(poolIndex: number) {
+        this.items.forEach((item) => item.setHighlight(poolIndex === +item.node.name));
     }
 }

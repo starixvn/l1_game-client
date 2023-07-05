@@ -566,7 +566,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     onStakeQuickChange(event: cc.Event) {
         AudioManager.getInstance().playClick();
         const increase = event.target.name === "increase";
-        let index = this.gameConfigs.stakeLevels.findIndex((stake) => stake === this.stake);
+        let index = this.findIndeStakeLevel();
         index += increase ? 1 : -1;
         if (index < 0 || index > this.gameConfigs.stakeLevels.length - 1) {
             return;
@@ -575,13 +575,17 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.setStake(this.gameConfigs.stakeLevels[index]);
     }
 
+    findIndeStakeLevel(): number {
+        return this.gameConfigs.stakeLevels.findIndex((stake) => stake === this.stake);
+    }
+
     protected onStakeChanged() {
         this.updateTotalBetLabel();
         this.updateJackpotPool();
         this.updateStakeContainer();
         this.hideStakeContrainer();
         if (this.jackpotPoolInfo) {
-            this.jackpotPoolInfo.setHighlight(this.stake);
+            this.jackpotPoolInfo.setHighlight(this.findIndeStakeLevel());
         }
     }
 
@@ -1029,7 +1033,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
 
         if (this.jackpotPoolInfo) {
             this.jackpotPoolInfo.setData(dataList);
-            this.jackpotPoolInfo.setHighlight(this.stake);
+            this.jackpotPoolInfo.setHighlight(this.findIndeStakeLevel());
         }
     }
 
