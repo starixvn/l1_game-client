@@ -29,7 +29,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
                 this.jackpotEnabled = data.length > 0;
                 this.receiviedJackpotPools = data;
                 this.initSlotBoard();
-                this.jackpotPoolNode && (this.jackpotPoolNode.active = this.jackpotEnabled);
+                this.showJackpotInfo();
                 this.showHideTopWinnersButton();
             },
             this
@@ -40,8 +40,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         const normalPrefabs = super.getPrefabsList();
         const jackpotPrefabs = {
             // prefab name : prefab property
-            "effect-jackpot": "effectJackpot",
-            "jackpot-pool": "jackpotPoolPrefab"
+            "effect-jackpot": "effectJackpot"
         };
         return Object.assign({}, normalPrefabs, jackpotPrefabs);
     }
@@ -68,10 +67,11 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
     }
 
     protected async showJackpotInfo() {
-        if (!this.jackpotEnabled || !this.jackpotPoolNode) {
+        if (!this.jackpotEnabled || !this.jackpotPoolNode || this.jackpotPoolNode.children.length > 0) {
             return;
         }
 
+        await this.loadPrefabWithBundle("jackpot-pool", "jackpotPoolPrefab");
         if (!this.jackpotPoolPrefab) {
             try {
                 this.jackpotPoolPrefab = await GameUtils.loadResource(`shared/slot-game/jackpot-pool`);
@@ -82,6 +82,7 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         const node = cc.instantiate(this.jackpotPoolPrefab);
         this.jackpotPoolInfo = node.getComponent(JackpotPoolInfoBase);
         this.jackpotPoolNode.addChild(node);
+        console.log("show jackpot");
         this.updateJackpotPoolList();
     }
 

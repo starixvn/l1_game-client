@@ -179,20 +179,24 @@ export default class StandardSlotGame extends SlotGameBase {
         const dict = this.getPrefabsList();
 
         for (const key of Object.keys(dict)) {
-            const path = `preload/prefabs/${key}`;
-            const devPath = `../games/*/${path}`;
-            try {
-                const prefab = await BundleManager.getInstance().loadAsset<cc.Prefab>({
-                    bundleId: this.gameId.toString(),
-                    path: path,
-                    pathForDevMode: devPath,
-                    type: cc.Prefab
-                });
+            await this.loadPrefabWithBundle(key, dict[key]);
+        }
+    }
 
-                this[dict[key]] = prefab;
-            } catch (e) {
-                cc.warn(`Missing prefab for ${path} `, e);
-            }
+    async loadPrefabWithBundle(prefabName: string, prefabProperty: string) {
+        const path = `preload/prefabs/${prefabName}`;
+        const devPath = `../games/*/${path}`;
+        try {
+            const prefab = await BundleManager.getInstance().loadAsset<cc.Prefab>({
+                bundleId: this.gameId.toString(),
+                path: path,
+                pathForDevMode: devPath,
+                type: cc.Prefab
+            });
+
+            this[prefabProperty] = prefab;
+        } catch (e) {
+            cc.warn(`Missing prefab for ${path} `, e);
         }
     }
 

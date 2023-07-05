@@ -177,12 +177,12 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         this.initEventForNumberContainer();
         this.initSlotGameConfig();
         this.node.on(cc.Node.EventType.SIZE_CHANGED, () => this.hideAllLines());
+        this.showJackpotInfo();
         this.loadPrefabsByCode().then(() => {
             this.initSlotBoard();
             if (this.autoGenerateLines) {
                 this.createAllLines();
             }
-            this.showJackpotInfo();
         });
         this.initBottomMessage();
         this.initBottomArea();
