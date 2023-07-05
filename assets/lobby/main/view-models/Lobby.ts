@@ -31,7 +31,6 @@ import LobbyMenu, { GameCategory } from "./LobbyMenu";
 import { SettingMenuEvents } from "../../../common/setting-menu/SettingMenu";
 import * as Configs from "../../../configs/Configs";
 import { AppTypes } from "./../../../common/auth/AuthManager";
-import { buildUrlFromSubDomain } from "../../../common/helpers/UrlHelper";
 
 const socketIOController = appContainer.get(SocketIOController);
 const sentryLogger = logger();
