@@ -159,7 +159,7 @@ const data = {
         winTumbleMsg: "恭喜！",
         winningNotificationOn: "連勝通知“開”",
         winningNotificationOff: "連勝通知“關”",
-        voidTicketMessage: "TW - Ticket bị void rồi bro"
+        voidTicketMessage: "由於技術問題，該投注無效。請再次嘗試遊戲。"
     },
     ui: {
         choice_red2: "2 紅",

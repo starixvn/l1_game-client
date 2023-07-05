@@ -176,7 +176,7 @@ const data = {
         winTumbleMsg: "SELAMAT!",
         winningNotificationOn: 'Notifikasi kemenangan beruntun "AKTIF"',
         winningNotificationOff: 'Notifikasi kemenangan beruntun "MATI"',
-        voidTicketMessage: "ID - Ticket bị void rồi bro"
+        voidTicketMessage: "Taruhan dibatalkan karena masalah teknis. Silakan coba permainan lagi."
     },
     ui: {
         choice_red2: "2 Merah",

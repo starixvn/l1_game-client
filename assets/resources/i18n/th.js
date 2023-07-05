@@ -181,7 +181,7 @@ const data = {
         winTumbleMsg: "ขอแสดงความยินดี!",
         winningNotificationOn: "การแจ้งเตือนแถวที่ชนะ “เปิด”",
         winningNotificationOff: "การแจ้งเตือนแถวที่ชนะ “ปิด”",
-        voidTicketMessage: "TH - Ticket bị void rồi bro"
+        voidTicketMessage: "การเดิมพันถือเป็นโมฆะเนื่องจากปัญหาทางเทคนิค โปรดลองอีกครั้ง"
     },
     ui: {
         choice_red2: "2 แดง",
