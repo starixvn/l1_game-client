@@ -131,9 +131,9 @@ describe("JackpotPoolInfoBase", () => {
 
             it("should rename pool node", () => {
                 // Assert
-                expect(pool1Node.name).toEqual("50");
-                expect(pool2Node.name).toEqual("10");
-                expect(pool3Node.name).toEqual("1");
+                expect(pool1Node.name).toEqual("2");
+                expect(pool2Node.name).toEqual("1");
+                expect(pool3Node.name).toEqual("0");
             });
         });
     });

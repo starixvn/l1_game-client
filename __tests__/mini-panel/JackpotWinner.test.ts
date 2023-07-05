@@ -1,4 +1,5 @@
 import GameUtils from "../../assets/common/GameUtils";
+import { numberWithCommas } from "../../assets/common/helpers/NumberHelper";
 import { userManager } from "../../assets/common/user/UserManager";
 import JackpotWinner from "../../assets/mini-games-panel/view-models/JackpotWinner";
 import PopupMinigames from "../../assets/mini-games-panel/view-models/popup/PopupMinigames";
@@ -127,7 +128,7 @@ describe("JackpotWinner", () => {
             });
             it("should display amount", () => {
                 // Assert
-                expect(comp.amount.string).toMatch(`${GameUtils.getValueByCurrency(data.amount)}`);
+                expect(comp.amount.string).toMatch(`${numberWithCommas(GameUtils.getValueByCurrency(data.amount), 2)}`);
             });
             it("should display game name", () => {
                 // Assert
