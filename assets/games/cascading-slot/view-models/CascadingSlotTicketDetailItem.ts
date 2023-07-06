@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import CascadeSlotBoard from "./CascadeSlotBoard";
 import CascadingSlotTumbleItem from "./CascadingSlotTumbleItem";
@@ -31,6 +32,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     gameId: number;
 
     private readonly MIN_HEIGHT_TOTALROW = 178;
+    private readonly MIN_HEIGHT_TOTALROW_MOBILE = 250;
     private readonly HEIGHT_ROW = 89;
 
     onLoad() {
@@ -84,18 +86,23 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     }
 
     calculateHeightRow(numberOfIcon: number) {
+        const minHeightRow = this.getMinHeightRow();
         const heightTotalRow = numberOfIcon * this.HEIGHT_ROW;
-        if (heightTotalRow > this.MIN_HEIGHT_TOTALROW) {
+        if (heightTotalRow > minHeightRow) {
             this.node.height = heightTotalRow;
             this.lines.forEach((line) => {
                 line.height = heightTotalRow;
             });
-        } else if (heightTotalRow === this.MIN_HEIGHT_TOTALROW) {
-            this.node.height = this.MIN_HEIGHT_TOTALROW;
+        } else if (heightTotalRow === minHeightRow) {
+            this.node.height = minHeightRow;
         } else {
             const symbolChilds = this.content.children;
             const detail = symbolChilds[0].children;
-            symbolChilds[0].height = detail[0].getChildByName("line").height = this.MIN_HEIGHT_TOTALROW;
+            symbolChilds[0].height = detail[0].getChildByName("line").height = minHeightRow;
         }
+    }
+
+    getMinHeightRow() {
+        return GameUtils.isPhone() ? this.MIN_HEIGHT_TOTALROW_MOBILE : this.MIN_HEIGHT_TOTALROW;
     }
 }
