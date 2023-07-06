@@ -31,9 +31,8 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
 
     gameId: number;
 
-    private readonly MIN_HEIGHT_TOTALROW = 178;
-    private readonly MIN_HEIGHT_TOTALROW_MOBILE = 250;
-    private readonly HEIGHT_ROW = 89;
+    protected readonly MIN_HEIGHT_TOTALROW = 178;
+    protected readonly HEIGHT_ROW = 89;
 
     onLoad() {
         this.resultBoard && this.resultBoard.createReels();
@@ -87,7 +86,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
 
     calculateHeightRow(numberOfIcon: number) {
         const minHeightRow = this.getMinHeightRow();
-        const heightTotalRow = numberOfIcon * this.HEIGHT_ROW;
+        const heightTotalRow = numberOfIcon * this.getHeightRow();
         if (heightTotalRow > minHeightRow) {
             this.node.height = heightTotalRow;
             this.lines.forEach((line) => {
@@ -103,6 +102,10 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     }
 
     getMinHeightRow() {
-        return GameUtils.isPhone() ? this.MIN_HEIGHT_TOTALROW_MOBILE : this.MIN_HEIGHT_TOTALROW;
+        return this.MIN_HEIGHT_TOTALROW;
+    }
+
+    getHeightRow() {
+        return this.HEIGHT_ROW;
     }
 }
