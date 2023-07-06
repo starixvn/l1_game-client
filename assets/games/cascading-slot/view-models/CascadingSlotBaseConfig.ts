@@ -15,7 +15,7 @@ export const CascadingSlotConfig: CascadingSlotBaseConfig = {
         delayForNextSpin: 0.5
     },
 
-    itemTypeCount: 10,
+    itemTypeCount: 11,
     reelItemCount: 5,
     symbolCount: 14
 };
