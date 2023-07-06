@@ -36,7 +36,7 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
     }
 
     showHideBigWinNode(show: boolean) {
-        this.bigWinNode.active = true;
+        this.bigWinNode.active = show;
     }
 
     async setAniamtionChangeSuper() {
