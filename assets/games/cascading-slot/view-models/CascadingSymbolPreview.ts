@@ -62,7 +62,7 @@ export default class CascadingSymbolPreview extends SymbolPreview {
                 values = [count, `${freespin[index].odds}`];
             } else {
                 show = index < odds.length && odds[index].odds > 0;
-                values = [`${odds[index].from}-${odds[index].to}`, `${numberWithCommas(odds[index].odds * coinValue * betLevel)}`];
+                values = [`${odds[index].from}-${odds[index].to}`, `${numberWithCommas(odds[index].odds * coinValue * betLevel, 3)}`];
             }
 
             if (!show) {
