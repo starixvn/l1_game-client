@@ -59,7 +59,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         let currWinTumble = 0;
 
         tumbles.forEach((tumble, index) => {
-            const detailItem = cc.instantiate(this.ticketDetailItemPrefab);
+            const detailItem = this.loadDetailItem();
             const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
             control.gameId = this.gameId;
             if ((index === tumbles.length - 1 && !isReachMaxWin) || index < tumbles.length - 1) {
@@ -75,6 +75,10 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         this.reachMaxText.node.active = isReachMaxWin;
         const reachMaxLocalize = `treasureIsland.reachMaxWin`;
         this.reachMaxText.string = `(${GameUtils.getText(reachMaxLocalize)}) `;
+    }
+
+    loadDetailItem() {
+        return cc.instantiate(this.ticketDetailItemPrefab);
     }
 
     handleMultiplierData(data: any) {

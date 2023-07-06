@@ -14,14 +14,14 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
     @property(cc.Prefab)
     superWinPrefab: cc.Prefab = null;
 
-    @property(cc.SpriteAtlas)
-    mainAtlas: cc.SpriteAtlas = null;
-
     @property(sp.Skeleton)
     mainSpine: sp.Skeleton = null;
 
     @property(cc.Node)
     changeLevel: cc.Node = null;
+
+    @property(cc.Node)
+    bigWinNode: cc.Node = null;
 
     private isChangeLevelSuper = true;
     private isChangeLevelMega = true;
@@ -33,6 +33,10 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
         } else if (valueRatio >= 3) {
             this.isChangeLevelMega && this.setAniamtionChangeMega();
         }
+    }
+
+    showHideBigWinNode(show: boolean) {
+        this.bigWinNode.active = true;
     }
 
     async setAniamtionChangeSuper() {

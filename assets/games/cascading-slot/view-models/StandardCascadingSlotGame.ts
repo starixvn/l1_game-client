@@ -383,7 +383,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         if (this.isTurboMode()) {
             this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
             bigWinAnimation.setAmount({ amount: betWin });
+            const ratio = betWin / +totalBet;
+            bigWinAnimation.showHideBigWinNode(ratio < 3);
             await bigWinAnimation.changeFrameForBigWinLevel(betWin, +totalBet);
+
             callbackAnim.skipTouchToContinue();
         } else {
             bigWinAnimation
