@@ -46,7 +46,12 @@ export default class SkeletonIcon extends cc.Component {
     @lazyInject(SplashConfig)
     protected readonly splashConfig: SplashConfig;
 
+    protected onLoad(): void {
+        this.gameName.node.active = false;
+    }
+
     setGameName(text: string) {
+        this.gameName.node.active = true;
         this.gameName.string = text;
     }
     static listGameWithoutHide = [];

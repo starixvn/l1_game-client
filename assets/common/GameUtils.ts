@@ -531,13 +531,18 @@ export default class GameUtils {
     public static async getRemoteDisplayGameName(gameId, breakline = false) {
         await this.loadRemoteLocalization(gameId);
         const list = ["generalGameNames", "gameNames"];
-        if (breakline) {
-            list.unshift("lobbyNames");
-        }
+        breakline && list.unshift("lobbyNames");
 
         const currentLanguage = this.getCurrentLanguage();
-        const key = list.find((key) => this.remoteLocalization[gameId][key] && this.remoteLocalization[gameId][key][currentLanguage]);
-        return this.remoteLocalization[gameId][key][currentLanguage];
+        const key = list.find((key) => this.getRemoteTranslation(gameId, key, currentLanguage));
+        if (!key) {
+            this.getRemoteTranslation(gameId, "gameNames", "en");
+        }
+        return this.getRemoteTranslation(gameId, key, currentLanguage);
+    }
+
+    private static getRemoteTranslation(gameId: number, key: string, language: string) {
+        return this.remoteLocalization[gameId]?.[key]?.[language];
     }
 
     public static async getDisplayGameName(gameId, breakline = false): Promise<string> {
