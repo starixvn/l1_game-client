@@ -105,6 +105,10 @@ export function removeInRoomGameId() {
     StorageManager.remove(getInRoomGameIdKey());
 }
 
+export function removeDirectMode() {
+    StorageManager.remove("direct_mode");
+}
+
 declare global {
     export interface Window {
         authData: Session;

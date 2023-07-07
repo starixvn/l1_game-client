@@ -124,6 +124,7 @@ function checkHasToken(urlParams, onSuccessFunc) {
                 window.authData.time = new Date();
                 window.openGameId = urlParams.get("gameId");
                 sessionManager.storeSessionData(response);
+                sessionManager.removeDirectMode();
                 clearQueryStringOnUrl();
                 onSuccessFunc();
             } else {
@@ -146,6 +147,7 @@ function authorizeFromMicroSite(urlParams, session) {
     if (urlSearchParams.has("ss") && urlSearchParams.has("time")) {
         session = updateSessionFromParams(session, urlSearchParams);
         handleAudioParams(urlSearchParams);
+        sessionManager.removeDirectMode();
         clearQueryStringOnUrl();
 
         return session;
