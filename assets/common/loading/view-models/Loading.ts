@@ -5,6 +5,8 @@ export default class Loading extends cc.Component {
     @property(cc.Label)
     percent: cc.Label = null;
 
+    private prevPercent = 0;
+
     onEnable() {
         this.percent.node.active = true;
     }
@@ -32,7 +34,10 @@ export default class Loading extends cc.Component {
 
         if (this.percent && percent) {
             this.percent.node.active = true;
-            this.percent.string = `${percent.toFixed(0)}%`;
+            if (percent > this.prevPercent) {
+                this.percent.string = `${percent.toFixed(0)}%`;
+                this.prevPercent = percent;
+            }
         }
     }
 
