@@ -42,7 +42,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                         return;
                     }
 
-                    gameLoading && gameLoading.onProgress(completedCount, total, item);
+                    gameLoading && gameLoading.onProgress(completedCount, total);
                 });
 
                 if (!this.main.isAlive()) {

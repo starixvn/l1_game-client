@@ -332,13 +332,33 @@ export default class MiniPanel extends BaseComponent {
             BundleManager.getInstance()
                 .loadBundle(`${gameId}`)
                 .then((bundle: cc.AssetManager.Bundle) => {
-                    bundle.loadDir(preloadPath, (errors, assets) => {
-                        bundle.loadDir(path, cc.SpriteFrame, null, onComplete);
-                    });
+                    bundle.loadDir(
+                        preloadPath,
+                        (finish: number, total: number, item) => {
+                            loading.onProgressWithStartPercent(0, 25, finish, total);
+                        },
+                        (errors, assets) => {
+                            bundle.loadDir(
+                                path,
+                                cc.SpriteFrame,
+                                (finish: number, total: number, item) => {
+                                    loading.onProgressWithStartPercent(25, 30, finish, total);
+                                },
+                                onComplete
+                            );
+                        }
+                    );
                 })
                 .catch(onComplete);
         } else {
-            cc.resources.loadDir(`image/${language}/${gameId}`, cc.SpriteFrame, null, onComplete);
+            cc.resources.loadDir(
+                `image/${language}/${gameId}`,
+                cc.SpriteFrame,
+                (finish: number, total: number, item) => {
+                    loading.onProgressWithStartPercent(0, 30, finish, total);
+                },
+                onComplete
+            );
         }
     }
 
@@ -357,7 +377,6 @@ export default class MiniPanel extends BaseComponent {
         }
 
         const gameLoading = this.getGameLoadingComp(+gameId);
-        gameLoading && gameLoading.setDefaultPercent();
 
         cc.director.preloadScene(
             name,
@@ -366,7 +385,7 @@ export default class MiniPanel extends BaseComponent {
                     this.unCacheAndHideGameLoading(gameLoading, +gameId);
                     return;
                 }
-                gameLoading && gameLoading.onProgress(completedCount, total, item);
+                gameLoading && gameLoading.onProgressWithStartPercent(30, 100, completedCount, total);
             },
             (error) => {
                 const loadingFromManager = uiManager.getLoadingWithGameID(+gameId);

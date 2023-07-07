@@ -17,6 +17,7 @@ export default class Loading extends cc.Component {
 
     setDefaultPercent() {
         this.percent.string = "0%";
+        console.log("setDefaultPercent");
     }
 
     onData(data: any) {
@@ -28,16 +29,28 @@ export default class Loading extends cc.Component {
         }
     }
 
-    onProgress(completedCount, totalCount, item) {
+    onProgress(completedCount: number, totalCount: number) {
         const percent = (100 * completedCount) / totalCount;
+        this.showPercent(percent);
+    }
+
+    onProgressWithStartPercent(startPercent: number, endPercent: number, completedCount: number, totalCount: number) {
+        const percent = startPercent + ((endPercent - startPercent) * completedCount) / totalCount;
+        this.showPercent(percent);
+    }
+
+    showPercent(percent: number) {
         this.setLoadingVisibility(true);
 
-        if (this.percent && percent) {
-            this.percent.node.active = true;
-            if (percent > this.prevPercent) {
-                this.percent.string = `${percent.toFixed(0)}%`;
-                this.prevPercent = percent;
-            }
+        if (!this.percent) {
+            return;
+        }
+
+        this.percent.node.active = true;
+        if (percent > this.prevPercent) {
+            console.log("onProgressWithStartPercent: ", percent.toFixed(0));
+            this.percent.string = `${percent.toFixed(0)}%`;
+            this.prevPercent = percent;
         }
     }
 
