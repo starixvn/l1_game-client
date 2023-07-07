@@ -3,6 +3,7 @@ import { InternalEvents } from "../../../managers/InternalEvents";
 import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import JackpotTopWinnersItem from "./JackpotTopWinnersItem";
 import { GameCategory } from "./LobbyMenu";
+import { length } from "../../../../packages/i18n/runtime-scripts/creator";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,20 +15,17 @@ export default class JackpotTopWinners extends cc.Component {
     @property(cc.Node)
     noUserNode: cc.Node = null;
 
-    @property(cc.Node)
-    listUser: cc.Node = null;
-
     @property(cc.Prefab)
     winnerItem: cc.Prefab = null;
 
     private readonly dataKey = JackpotDataKey.JACKPOT_WINNERS;
 
     onLoad() {
+        this.listUserNode.active = false;
+        this.handleNoUserAd(!this.listUserNode.active);
         this.initEvents();
         this.requestData();
         this.schedule(this.requestData, 60);
-        this.listUser.active = false;
-        this.handleNoUserAd(!this.listUser.active);
     }
 
     onEnable() {
@@ -51,8 +49,8 @@ export default class JackpotTopWinners extends cc.Component {
     }
 
     onData(data: any) {
-        this.handleNoUserAd(false);
         this.setData(data);
+        this.handleNoUserAd(data.length === 0);
     }
 
     handleNoUserAd(status = true) {
@@ -61,20 +59,19 @@ export default class JackpotTopWinners extends cc.Component {
         }
 
         this.noUserNode.active = status;
-        this.listUserNode.active = !status;
     }
 
     setData(data: any) {
-        if (!this.listUser) {
+        if (!this.listUserNode || data.length === 0) {
             return;
         }
 
-        this.listUser.destroyAllChildren();
-        this.listUser.active = true;
+        this.listUserNode.destroyAllChildren();
+        this.listUserNode.active = true;
 
         data.forEach((playerData) => {
             const winnerNode = cc.instantiate(this.winnerItem);
-            this.listUser.addChild(winnerNode);
+            this.listUserNode.addChild(winnerNode);
             const player = winnerNode.getComponent(JackpotTopWinnersItem);
             player.setData(playerData);
         });
