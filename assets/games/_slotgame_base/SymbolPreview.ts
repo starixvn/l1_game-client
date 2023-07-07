@@ -57,7 +57,7 @@ export default class SymbolPreview extends cc.Component {
         this.node.destroy();
     }
 
-    showSymbolText(symbolNumber: number, textColor: string) {
+    showSymbolText(symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
         const showText = symbolNumber === 7 || symbolNumber === 8;
         this.textImages.active = showText;
 
@@ -107,8 +107,7 @@ export default class SymbolPreview extends cc.Component {
     checkShowSpecialSymbol(info) {
         if (info.symbol == 7 || info.symbol == 8) {
             this.textImages.active = true;
-            //this.showSymbolText(info.symbol, info.colorList[1], info.isInfoOnLeft);
-            this.showSymbolText(info.symbol, info.colorList[1]);
+            this.showSymbolText(info.symbol, info.colorList[1], info.isInfoOnLeft);
         }
     }
 }
