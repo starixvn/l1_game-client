@@ -4,11 +4,11 @@ const defaultConfig = {
     serverDomainMapper: {
         localhost: "lumigame.com"
     },
-    subDomain: "l1-proxy",
+    subDomain: "l1-proxy1",
     env: "",
     sentry: {
         url: "",
-        env: "LOCAL"
+        env: "LOCAL1"
     },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",

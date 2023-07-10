@@ -97,14 +97,6 @@ export default class CascadingSymbolPreview extends SymbolPreview {
         });
     }
 
-    showSymbolText(symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
-        this.border.width = 330;
-        this.bg.width = 330;
-        if (isInfoOnLeft) {
-            this.infoNode.position = cc.v3(-250, 0, 0);
-        }
-    }
-
     checkShowSpecialSymbol(info) {
         const index = info.symbolItem.index;
         if (index === 9) {
@@ -113,7 +105,6 @@ export default class CascadingSymbolPreview extends SymbolPreview {
                 const lbl = node.getComponent(cc.Label);
                 lbl.node.color = cc.Color.WHITE.fromHEX(info.colorList[1]);
             });
-            this.showSymbolText(index, info.colorList[1], info.isInfoOnLeft);
         }
     }
 }
