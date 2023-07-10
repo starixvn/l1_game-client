@@ -360,7 +360,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         });
 
         this.gameData.on(CommonEvents.API_ERROR, (error) => {
-            this.currentMiniPanel.showErrorNotice(error);
+            this.currentMiniPanel.handleAPIError(error);
             if (this.isFreeSpin()) {
                 this.gameData.spinButtonStateModel.change(SpinButtonState.ResumeWithFreeSpin);
             } else {

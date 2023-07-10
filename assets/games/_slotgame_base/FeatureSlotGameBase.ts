@@ -345,7 +345,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     showNoticeForCacheApiError() {
         if (this.cacheApiError) {
             const error = this.cacheApiError;
-            this.currentMiniPanel.showErrorNotice(error);
+            this.currentMiniPanel.handleAPIError(error);
             this.cacheApiError = null;
 
             return true;

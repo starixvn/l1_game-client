@@ -1031,7 +1031,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     gotApiError(): boolean {
         if (this.cacheApiError) {
             const error = this.cacheApiError;
-            this.currentMiniPanel.showErrorNotice(error);
+            this.currentMiniPanel.handleAPIError(error);
             this.cacheApiError = null;
 
             this.resetStateButtons();

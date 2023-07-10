@@ -115,12 +115,13 @@ export default class MiniPanelDataHandlers {
         const gameId = error.gameTypeId;
 
         const errorCode = error.errorCode.toString();
-        if (isSessionTimeoutError(errorCode)) {
-            showMessageForExpiredToken(errorCode);
+
+        if (this.main.skipShowApiErrorGameIds.includes(gameId)) {
             return;
         }
 
-        if (this.main.skipShowApiErrorGameIds.includes(gameId)) {
+        if (isSessionTimeoutError(errorCode)) {
+            showMessageForExpiredToken(errorCode);
             return;
         }
 

@@ -29,7 +29,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
         if (gameId === this.main.gameId && this.main.waitingSpinResult && !data.endBet) {
             this.main.cacheApiError = error;
         } else {
-            this.main.currentMiniPanel.showErrorNotice(error);
+            this.main.currentMiniPanel.handleAPIError(error);
             this.main.resetStateButtons();
         }
     }

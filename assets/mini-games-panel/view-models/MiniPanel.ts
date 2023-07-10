@@ -27,6 +27,8 @@ import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
+import { isSessionTimeoutError } from "../../common/helpers/ErrorCodeHelper";
+import { showMessageForExpiredToken } from "./../../common/auth/AuthManager";
 
 type NewLayerCallback = () => void;
 
@@ -413,6 +415,16 @@ export default class MiniPanel extends BaseComponent {
         }
 
         this.addDialog(node);
+    }
+
+    handleAPIError(error) {
+        const errorCode = error.errorCode.toString();
+
+        if (isSessionTimeoutError(errorCode)) {
+            showMessageForExpiredToken(errorCode);
+            return;
+        }
+        this.showErrorNotice(error);
     }
 
     showErrorNotice(error): Notice {
