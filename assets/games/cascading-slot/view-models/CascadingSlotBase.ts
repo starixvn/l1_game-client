@@ -3,6 +3,8 @@ import GameUtils from "../../../common/GameUtils";
 import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import { numberWithCommas, truncateFixedDecimals } from "../../../common/helpers/NumberHelper";
 import { getTrialSocket } from "../../../common/helpers/UrlHelper";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
 import SocketIOConnection, { events } from "../../_new/connection/SocketIOConnection";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
@@ -87,6 +89,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.loadPrefabsByCode().then(() => {
             this.onLoadedPrefabs();
         });
+        uiManager.emitterListener(InternalEvents.CASCADING_CLOSE_EXPAND_MENU, this.closeExpandMenu.bind(this), this);
+    }
+
+    closeExpandMenu() {
+        if (this.inGameMenu) {
+            this.inGameMenu.expandableMenu.collapseMenu();
+        }
     }
 
     onLoadedPrefabs() {
@@ -168,7 +177,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
-        this.inGameMenu.expandableMenu.collapseMenu();
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
         const checked = toggle.isChecked;
         this.isTrialMode = checked;
         if (checked) {
@@ -200,8 +209,8 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     spin(): boolean {
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
         let success = false;
-        this.inGameMenu.expandableMenu.collapseMenu();
         const balanceAvailable = this.isFreeSpin() || this.checkAvailableBalance();
         if (!this.isReadyBet() || !balanceAvailable) {
             this.onAutoSpinOff();
@@ -472,9 +481,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     initTotalBet(node: cc.Node) {
         this.miniBetControl = node.getComponent(CascadingTotalBet);
         this.checkExistNodeBet();
-        if (this.inGameMenu.expandableMenu) {
-            this.miniBetControl.expandMenu = this.inGameMenu.expandableMenu;
-        }
     }
 
     initBetControl(node: cc.Node) {
@@ -613,5 +619,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     setTotalFreeSpins(count: number) {
         super.setTotalFreeSpins(count);
         this.gameData.uiModel.setFreeSpins(count);
+    }
+    onAutoSpinChanged() {
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
+        super.onAutoSpinChanged();
     }
 }

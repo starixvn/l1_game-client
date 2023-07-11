@@ -301,7 +301,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.totalWinNode);
         bottomArea.onClickListener = {
             onAutoSpinChanged: () => {
-                this.inGameMenu.expandableMenu.collapseMenu();
+                uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
                 this.onAutoSpinChanged();
             },
             onTurboModeChanged: (toggle) => {
@@ -330,7 +330,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     clickOutsideReelArea() {
         super.clickOutsideReelArea();
-        this.inGameMenu.expandableMenu.collapseMenu();
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
     }
 
     initGameDataEvents() {
@@ -440,7 +440,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     onTrialModeChanged(toggle: cc.Toggle) {
         super.onTrialModeChanged(toggle);
-        uiManager.emitter.emit(InternalEvents.CLICK_CHANGE_MODE);
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLICK_CHANGE_MODE);
     }
 
     showBottomMessageOnGameState() {

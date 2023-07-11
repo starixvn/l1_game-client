@@ -41,7 +41,7 @@ export default class SymbolPreview extends cc.Component {
             InternalEvents.CLICK_SPIN_BUTTON,
             InternalEvents.CLICK_HAMBURGER_MENU,
             InternalEvents.CLICK_OUTSIDE_REEL_AREA,
-            InternalEvents.CLICK_CHANGE_MODE
+            InternalEvents.CASCADING_CLICK_CHANGE_MODE
         ];
         events.forEach((event) => {
             uiManager.emitterListener(event, this.hidePreview.bind(this), this);

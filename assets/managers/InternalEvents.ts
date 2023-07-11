@@ -8,7 +8,8 @@ export enum InternalEvents {
     CLICK_OUTSIDE_REEL_AREA = "slot= click outside reeel area",
     LOADED_PROMOTION_ANNOUNCEMENT = "load promotion announcement",
     SLOT_PLAY_SOUND = "play sound slot",
-    CLICK_CHANGE_MODE = "cascading change mode play",
+    CASCADING_CLICK_CHANGE_MODE = "cascading change mode play",
+    CASCADING_CLOSE_EXPAND_MENU = "cascading click total bet",
 
     NOT_PERMITTED_TO_PLAY = "NOT_PERMITTED_TO_PLAY",
     USER_STAKE_LEVEL_UPDATED = "USER_STAKE_LEVEL_UPDATED",
