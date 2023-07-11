@@ -29,6 +29,6 @@ export default class CascadingSlotTotalMultiplierItem extends cc.Component {
         this.roundId.string = roundId;
         this.multiplier.string = multiplier;
         this.totalMultiplier.string = totalMultiplier;
-        this.bg.active = index % 2 > 0;
+        this.bg.active = index % 2 === 0;
     }
 }
