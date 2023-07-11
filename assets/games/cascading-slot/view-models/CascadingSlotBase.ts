@@ -1,5 +1,6 @@
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
+import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import { numberWithCommas, truncateFixedDecimals } from "../../../common/helpers/NumberHelper";
 import { getTrialSocket } from "../../../common/helpers/UrlHelper";
 import { CommonEvents } from "../../_new/_base/game-data-management/models/common-events";
@@ -167,6 +168,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
+        this.inGameMenu.expandableMenu.collapseMenu();
         const checked = toggle.isChecked;
         this.isTrialMode = checked;
         if (checked) {
@@ -199,6 +201,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
 
     spin(): boolean {
         let success = false;
+        this.inGameMenu.expandableMenu.collapseMenu();
         const balanceAvailable = this.isFreeSpin() || this.checkAvailableBalance();
         if (!this.isReadyBet() || !balanceAvailable) {
             this.onAutoSpinOff();
@@ -469,6 +472,9 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     initTotalBet(node: cc.Node) {
         this.miniBetControl = node.getComponent(CascadingTotalBet);
         this.checkExistNodeBet();
+        if (this.inGameMenu.expandableMenu) {
+            this.miniBetControl.expandMenu = this.inGameMenu.expandableMenu;
+        }
     }
 
     initBetControl(node: cc.Node) {

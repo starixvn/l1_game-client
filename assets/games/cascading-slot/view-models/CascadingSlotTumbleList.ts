@@ -18,6 +18,8 @@ export default class CascadingSlotTumbleList extends cc.Component {
 
     private readonly HEIGHT_PER_ROW = 35;
     private readonly NUMBER_MAX_ITEM = 7;
+    protected HEIGHT_CONTENT_REAL_MODE = 250;
+    protected HEIGHT_CONTENT_TRIAL_MODE = 180;
 
     onLoad() {
         this.scrollView = this.scrollView.getComponent(cc.ScrollView);
@@ -81,14 +83,16 @@ export default class CascadingSlotTumbleList extends cc.Component {
 
     offerTrialMode(isTrialMode: boolean) {
         this.trialModeNode.active = isTrialMode;
-        const scrollViewNode = this.scrollView.node;
-
-        if (isTrialMode) {
-            scrollViewNode.height = 180;
-        } else {
-            scrollViewNode.height = 250;
-        }
-
+        this.setHeightContent(isTrialMode);
         this.updateContentHeight();
+    }
+
+    setHeightContent(isTrialMode: boolean) {
+        const scrollViewNode = this.scrollView.node;
+        if (isTrialMode) {
+            scrollViewNode.height = this.HEIGHT_CONTENT_TRIAL_MODE;
+        } else {
+            scrollViewNode.height = this.HEIGHT_CONTENT_REAL_MODE;
+        }
     }
 }

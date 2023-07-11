@@ -105,7 +105,7 @@
                 <key>spriteSourceSize</key>
                 <string>{182,182}</string>
                 <key>textureRect</key>
-                <string>{{429,1623},{182,182}}</string>
+                <string>{{451,1696},{182,182}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -405,7 +405,7 @@
                 <key>spriteSourceSize</key>
                 <string>{100,100}</string>
                 <key>textureRect</key>
-                <string>{{347,1884},{92,98}}</string>
+                <string>{{787,1502},{92,98}}</string>
                 <key>textureRotated</key>
                 <true/>
             </dict>
@@ -810,7 +810,7 @@
                 <key>spriteSourceSize</key>
                 <string>{214,247}</string>
                 <key>textureRect</key>
-                <string>{{347,1374},{214,247}}</string>
+                <string>{{235,1668},{214,247}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -829,7 +829,22 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>tumble-win-mask.png</key>
+            <key>tumble-win-mask-real.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{214,220}</string>
+                <key>spriteSourceSize</key>
+                <string>{214,220}</string>
+                <key>textureRect</key>
+                <string>{{347,1374},{214,220}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>tumble-win-mask-trial.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -840,9 +855,9 @@
                 <key>spriteSourceSize</key>
                 <string>{214,192}</string>
                 <key>textureRect</key>
-                <string>{{235,1668},{214,192}}</string>
+                <string>{{571,1502},{214,192}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
         </dict>
         <key>metadata</key>
@@ -858,7 +873,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:39eabbb5ca1e7d21c13cba80adb04725:ecfcf180abe986f53e33ef4e82d7e4f7:edafad5cc976bed0207ed36867df158d$</string>
+            <string>$TexturePacker:SmartUpdate:fd5c6cc725313f48054a0d53b5a7e0c0:c47287487524c8152543e5a5534ca76b:edafad5cc976bed0207ed36867df158d$</string>
             <key>textureFileName</key>
             <string>standard-cascading-slot.png</string>
         </dict>

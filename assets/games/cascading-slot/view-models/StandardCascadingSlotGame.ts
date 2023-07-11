@@ -301,6 +301,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.totalWinNode);
         bottomArea.onClickListener = {
             onAutoSpinChanged: () => {
+                this.inGameMenu.expandableMenu.collapseMenu();
                 this.onAutoSpinChanged();
             },
             onTurboModeChanged: (toggle) => {
