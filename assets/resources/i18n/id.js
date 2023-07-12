@@ -580,7 +580,7 @@ const data = {
     },
 
     cascadingSlot: {
-        tumpleWin: "Jatuh Menang",
+        tumpleWin: "Kemenangan Tumble",
         totalWin: "Menang",
         turboMode: "Mode Turbo",
         trialMode: "Masa Percobaan",
