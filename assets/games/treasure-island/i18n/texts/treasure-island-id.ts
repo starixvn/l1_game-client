@@ -5,7 +5,7 @@ export const phrases = {
         47: "Pulau Harta Karun"
     },
     treasureIsland: {
-        tumpleWin: "Jatuh Menang",
+        tumpleWin: "Kemenangan Tumble",
         totalWin: "Menang",
         turboMode: "Mode Turbo",
         trialMode: "Masa Percobaan",
