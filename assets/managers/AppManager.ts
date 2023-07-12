@@ -16,6 +16,7 @@ import { uiManager } from "./GameUIManager";
 import { InternalEvents } from "./InternalEvents";
 import { StorageManager } from "./StorageManager";
 import { UrlInfo } from "./UrlInfo";
+import { jackpotManager } from "./JackpotManager";
 const sentryLogger = logger();
 class AppManager {
     GAME_IS_SHOWED = true;
@@ -44,6 +45,7 @@ class AppManager {
     private async authorizedInit() {
         AudioManager.getInstance().init();
         this.initShowHideAppEvent();
+        jackpotManager.initEvents();
 
         await NotificationService.getInstance().connect();
         this.initPromotions();

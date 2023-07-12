@@ -3,7 +3,7 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { userManager } from "../../common/user/UserManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
-import { JackpotDataKey, jackpotManager } from "../../managers/JackpotManager";
+import { JackpotDataKey } from "../../managers/JackpotManager";
 import PopupMinigames from "./popup/PopupMinigames";
 
 const { ccclass, property } = cc._decorator;
@@ -34,12 +34,10 @@ export default class JackpotWinner extends cc.Component {
     }
 
     onDestroy() {
-        jackpotManager.removeDataObserver(this.dataKey, this.dataKey);
-        uiManager.removeListeners(this.dataKey, this.dataKey);
+        uiManager.removeListeners(InternalEvents.RECEIVED_JACKPOT_WINNER, this);
     }
 
     initEvents() {
-        jackpotManager.addDataObserver(this.dataKey, this.dataKey);
         uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_WINNER, (data) => this.onData(data), this);
     }
 

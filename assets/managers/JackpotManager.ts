@@ -24,6 +24,12 @@ export enum JackpotPoolType {
 export default class JackpotManager {
     private static instance: JackpotManager;
     public events = {};
+    private readonly jackpotDataKey = [
+        JackpotDataKey.JACKPOT_POOLS,
+        JackpotDataKey.JACKPOT_POOLS_ON_GAME,
+        JackpotDataKey.JACKPOT_WINNER,
+        JackpotDataKey.JACKPOT_WINNERS
+    ];
 
     public static getInstance(): JackpotManager {
         if (!this.instance) {
@@ -35,6 +41,12 @@ export default class JackpotManager {
 
     emitEvent(eventName: string, data: any) {
         NotificationService.getInstance().emitEvent(eventName, data);
+    }
+
+    initEvents() {
+        this.jackpotDataKey.forEach((key) => {
+            this.addDataObserver(key, key);
+        });
     }
 
     addDataObserver(dataType: string, dataKey: string) {

@@ -29,7 +29,6 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
     protected dragThreshold = 0.25;
 
     protected initEvents() {
-        jackpotManager.addDataObserver(this.dataType, this.dataKey);
         uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_POOLS, (data) => this.onData(data), this);
     }
 

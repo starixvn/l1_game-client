@@ -3,7 +3,6 @@ import { InternalEvents } from "../../../managers/InternalEvents";
 import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import JackpotTopWinnersItem from "./JackpotTopWinnersItem";
 import { GameCategory } from "./LobbyMenu";
-import { length } from "../../../../packages/i18n/runtime-scripts/creator";
 
 const { ccclass, property } = cc._decorator;
 
@@ -35,8 +34,7 @@ export default class JackpotTopWinners extends cc.Component {
 
     onDestroy() {
         this.unschedule(this.requestData);
-        jackpotManager.removeDataObserver(this.dataKey, this.dataKey);
-        uiManager.removeListeners(this.dataKey, this.dataKey);
+        uiManager.removeListeners(InternalEvents.RECEIVED_JACKPOT_WINNERS, this);
     }
 
     requestData() {
@@ -44,7 +42,6 @@ export default class JackpotTopWinners extends cc.Component {
     }
 
     initEvents() {
-        jackpotManager.addDataObserver(this.dataKey, this.dataKey);
         uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_WINNERS, (data) => this.onData(data), this);
     }
 

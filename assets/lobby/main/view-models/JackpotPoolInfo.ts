@@ -27,14 +27,16 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
 
     onDestroy() {
         if (!userManager.disableJackpotGames) {
-            jackpotManager.removeDataObserver(this.dataType, this.dataKey);
-            uiManager.removeListeners(this.dataType, this.dataKey);
+            uiManager.removeListeners(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, this);
             this.unschedule(this.requestData);
         }
     }
 
+    removeListeners() {
+        uiManager.removeListeners(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, this);
+    }
+
     protected initEvents() {
-        jackpotManager.addDataObserver(this.dataType, this.dataKey);
         uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, (data) => this.onData(data), this);
     }
 
