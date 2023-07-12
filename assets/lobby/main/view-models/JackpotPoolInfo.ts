@@ -1,7 +1,7 @@
 import { userManager } from "../../../common/user/UserManager";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
-import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
+import { JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import JackpotPoolInfoBase from "./JackpotPoolInfoBase";
 
 const { ccclass, property } = cc._decorator;
@@ -10,9 +10,6 @@ const { ccclass, property } = cc._decorator;
 export default class JackpotPoolInfo extends JackpotPoolInfoBase {
     @property
     gameId = 0;
-
-    protected dataType = JackpotDataKey.JACKPOT_POOLS_ON_GAME;
-    protected dataKey = `${JackpotDataKey.JACKPOT_POOLS_ON_GAME}${this.uuid}`;
 
     onLoad() {
         if (userManager.disableJackpotGames) {

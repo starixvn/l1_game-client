@@ -70,6 +70,12 @@ export default class JackpotManager {
 
     onReceivedJackpotPoolsData(data: any) {
         const pools = lodash.groupBy(data, "gameId");
+
+        // order pools by gameId in ascending
+        Object.values(pools).forEach((pool) => {
+            pool.sort((a, b) => a.amount - b.amount);
+        });
+
         const poolsGroup = {
             [JackpotPoolType.MINOR]: [],
             [JackpotPoolType.MAJOR]: [],
@@ -82,6 +88,7 @@ export default class JackpotManager {
             });
         });
 
+        // order pools by poolGroup in descending
         Object.values(poolsGroup).forEach((pool) => {
             pool.sort((a, b) => b.amount - a.amount);
         });

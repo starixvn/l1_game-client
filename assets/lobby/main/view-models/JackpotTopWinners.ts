@@ -1,6 +1,6 @@
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
-import { JackpotDataKey, JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
+import { JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import JackpotTopWinnersItem from "./JackpotTopWinnersItem";
 import { GameCategory } from "./LobbyMenu";
 
@@ -16,8 +16,6 @@ export default class JackpotTopWinners extends cc.Component {
 
     @property(cc.Prefab)
     winnerItem: cc.Prefab = null;
-
-    private readonly dataKey = JackpotDataKey.JACKPOT_WINNERS;
 
     onLoad() {
         this.listUserNode.active = false;

@@ -1,7 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
-import { JackpotDataKey, JackpotEvents, jackpotManager, JackpotPoolType } from "../../../managers/JackpotManager";
+import { JackpotEvents, jackpotManager, JackpotPoolType } from "../../../managers/JackpotManager";
 import BannerJackpotPoolItem from "./BannerJackpotPoolItem";
 import JackpotPoolInfo from "./JackpotPoolInfo";
 import JackpotPoolItem from "./JackpotPoolItem";
@@ -24,8 +24,6 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
 
     private poolData: any;
     private selectedTab: number;
-    protected dataType = JackpotDataKey.JACKPOT_POOLS;
-    protected dataKey = `${JackpotDataKey.JACKPOT_POOLS}${this.uuid}`;
     protected dragThreshold = 0.25;
 
     protected initEvents() {
