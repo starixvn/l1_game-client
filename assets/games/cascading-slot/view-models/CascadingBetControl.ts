@@ -100,6 +100,7 @@ export default class CascadingBetControl extends cc.Component {
             this.handleData(data);
             this.loadDataFromStorage();
             this.updatePlaceBetAndUIModel();
+            this.saveData();
         }
     }
 
@@ -108,6 +109,7 @@ export default class CascadingBetControl extends cc.Component {
         this.prepareBetLevelData(data);
         this.prepareCoinData(data);
         this.prepareTotalBetData();
+        this.updateChangeByLevelOrCoin(false);
     }
 
     private prepareBetLevelData(data) {
@@ -148,11 +150,12 @@ export default class CascadingBetControl extends cc.Component {
         });
     }
 
-    private updateChangeByLevelOrCoin() {
+    private updateChangeByLevelOrCoin(saveData = true) {
         this.updateTotalBet(this.betLevels[this.currentBetLevelIndex], this.coinValues[this.currentCoinIndex]);
         this.updateDisplayLabels();
         this.updateAllButtonStatus();
         this.updatePlaceBetAndUIModel();
+        saveData && this.saveData();
     }
 
     protected onClickDecreaseBetLevel() {
@@ -224,6 +227,7 @@ export default class CascadingBetControl extends cc.Component {
         this.updateDisplayLabels();
         this.updateAllButtonStatus();
         this.updatePlaceBetAndUIModel();
+        this.saveData();
     }
 
     private saveData() {
@@ -281,7 +285,6 @@ export default class CascadingBetControl extends cc.Component {
     }
 
     updatePlaceBetAndUIModel() {
-        this.saveData();
         this.placeBetModel.change({
             betLevel: this.betLevels[this.currentBetLevelIndex],
             coinValue: this.coinValues[this.currentCoinIndex],
