@@ -108,7 +108,6 @@ export default class CascadingBetControl extends cc.Component {
         this.prepareBetLevelData(data);
         this.prepareCoinData(data);
         this.prepareTotalBetData();
-        this.updateChangeByLevelOrCoin();
     }
 
     private prepareBetLevelData(data) {
