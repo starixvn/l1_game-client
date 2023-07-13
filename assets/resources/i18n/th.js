@@ -571,8 +571,8 @@ const data = {
     cascadingSlot: {
         tumpleWin: "ชนะ Tumble",
         totalWin: "ชนะ",
-        turboMode: "โหมด Turbo",
-        trialMode: "โหมดทดลอง",
+        turboMode: " โหมด Turbo",
+        trialMode: " โหมดทดลอง",
         betMultiplierX: "เดิมพัน 20x",
         betLevel: "ระดับการเดิมพัน",
         coinValue: "มูลค่าเหรียญ",
@@ -591,7 +591,7 @@ const data = {
         bigWinTextNotify: "กดที่ใดก็ได้เพื่อเดิมพันต่อ",
         reachMaxWin: "คุณถึงยอดชนะสูงสุด",
         warningTrialMode: "เล่นจริง\nชนะจริง",
-        multiplier_preview_odds: "โบนัสตัวคูณจะใช้สำหรับ Tumble Win"
+        multiplier_preview_odds: " โบนัสตัวคูณจะใช้\nสำหรับ Tumble Win"
     }
 };
 

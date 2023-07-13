@@ -4,6 +4,7 @@ import { InternalEvents } from "../../managers/InternalEvents";
 const { ccclass, property } = cc._decorator;
 
 export interface SymbolPreviewType {
+    symbol?: number;
     spine: sp.SkeletonData;
     odds: any;
     colorList: [string, string];
@@ -11,7 +12,6 @@ export interface SymbolPreviewType {
     isInfoOnLeft: boolean;
     coinValue?: number;
     betLevel?: number;
-    symbol?: number;
     freespin?: any;
 }
 @ccclass
@@ -57,9 +57,8 @@ export default class SymbolPreview extends cc.Component {
         this.node.destroy();
     }
 
-    showSymbolText(symbolNumber: number, textColor: string, isInfoOnLeft: boolean) {
+    showSymbolText(symbolNumber: number, textColor: string) {
         const showText = symbolNumber === 7 || symbolNumber === 8;
-        this.textImages.active = showText;
 
         if (!showText) {
             return;
@@ -80,11 +79,12 @@ export default class SymbolPreview extends cc.Component {
         });
     }
 
-    setInfo(info) {
+    setInfo(info: SymbolPreviewType) {
         this.icon.skeletonData = info.spine;
         this.icon.setAnimation(0, "highlight", false);
         this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);
         const keys = Object.keys(info.odds);
+        this.textImages.active = false;
 
         this.infoNode.children.forEach((node, index) => {
             const key = keys[index];
@@ -105,9 +105,9 @@ export default class SymbolPreview extends cc.Component {
     }
 
     checkShowSpecialSymbol(info) {
-        if (info.symbol == 7 || info.symbol == 8) {
+        if (info.symbol.index === 7 || info.symbol.index === 8) {
             this.textImages.active = true;
-            this.showSymbolText(info.symbol, info.colorList[1], info.isInfoOnLeft);
+            this.showSymbolText(info.symbol.index, info.colorList[1]);
         }
     }
 }
