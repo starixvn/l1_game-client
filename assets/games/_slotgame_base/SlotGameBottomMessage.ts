@@ -3,6 +3,7 @@ import _ = require("lodash");
 import GameUtils from "../../common/GameUtils";
 
 export enum SlotNotification {
+    CHANGE_MODE = -1,
     BEFORESPIN = 0,
     SPINNING = 1,
     SETTLED = 2,
@@ -28,6 +29,7 @@ export default class SlotGameBottomMessage extends cc.Component {
     private turboSettledMsg = ["FromSettleToSpin1", "FromSettleToSpin2"];
 
     private currentRoundType: number;
+    private currentPlayMode: boolean;
     onLoad() {
         this.showMessages(SlotNotification.BEFORESPIN);
         this.shuffleSettleMessage();
@@ -51,9 +53,12 @@ export default class SlotGameBottomMessage extends cc.Component {
         }
 
         if (roundType === this.currentRoundType) {
-            return;
+            if (this.currentPlayMode === this.isTrialMode) {
+                return;
+            }
         }
         this.currentRoundType = roundType;
+        this.currentPlayMode = this.isTrialMode;
         let msg: string;
         switch (roundType) {
             case SlotNotification.SPINNING:
