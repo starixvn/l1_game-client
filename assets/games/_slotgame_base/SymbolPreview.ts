@@ -13,6 +13,7 @@ export interface SymbolPreviewType {
     betLevel?: number;
     freespin?: any;
     gameId: number;
+    jackpotEnabled?: boolean;
 }
 @ccclass
 export default class SymbolPreview extends cc.Component {
@@ -32,6 +33,9 @@ export default class SymbolPreview extends cc.Component {
     textImages: cc.Node = null;
 
     gameId: number;
+    private readonly jackpotSymbol = 10;
+    private readonly bonusSymbol = 8;
+    private readonly freeSpinsSymbol = 7;
 
     onLoad() {
         const events = [
@@ -62,15 +66,8 @@ export default class SymbolPreview extends cc.Component {
         if (!showText) {
             return;
         }
-        let symbolName = "";
-        if (symbolNumber === 7) {
-            symbolName = "freespins";
-        }
 
-        if (symbolNumber === 8) {
-            symbolName = "bonus";
-        }
-
+        const symbolName = this.getSymbolName(symbolNumber);
         this.textImages.children.forEach((node) => {
             const nodeImage = node.getComponent(cc.Sprite);
 
@@ -80,35 +77,61 @@ export default class SymbolPreview extends cc.Component {
     }
 
     setInfo(info: SymbolPreviewType) {
-        this.icon.skeletonData = info.spine;
+        const { symbol, spine, odds, borderColor, colorList } = info;
+        this.icon.skeletonData = spine;
         this.icon.setAnimation(0, "highlight", false);
-        this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);
-        const keys = Object.keys(info.odds);
-        this.textImages.active = false;
-        this.gameId = info.gameId;
+        this.border.color = cc.Color.WHITE.fromHEX(borderColor);
+        this.showValues(info, Object.keys(odds));
+        this.showSymbolText(symbol, colorList[1]);
+    }
+
+    getSymbolName(symbolNumber: number): string {
+        let symbolName = "";
+        switch (symbolNumber) {
+            case this.freeSpinsSymbol:
+                symbolName = "freespins";
+                break;
+            case this.bonusSymbol:
+                symbolName = "bonus";
+                break;
+        }
+
+        return symbolName;
+    }
+
+    showValues(info, keys) {
+        const { symbol, colorList, jackpotEnabled, odds } = info;
 
         this.infoNode.children.forEach((node, index) => {
             const key = keys[index];
-            const show = index < keys.length && info.odds[key] > 0;
+            const show = index < keys.length && odds[key] > 0;
 
             node.active = show;
 
             if (!show) {
                 return;
             }
-            const values = [key, info.odds[key]];
+
+            const values = [key, odds[key]];
             node.children.forEach((child, childIndex) => {
-                child.getComponent(cc.Label).string = values[childIndex];
-                child.color = cc.Color.WHITE.fromHEX(info.colorList[childIndex]);
+                const isShowJackpotText =
+                    symbol === this.jackpotSymbol && jackpotEnabled && index === keys.length - 1 && childIndex === node.children.length - 1;
+
+                const label = child.getComponent(cc.Label);
+                const jackpotNode = child.children[0];
+                if (isShowJackpotText) {
+                    jackpotNode.active = true;
+                    jackpotNode.color = cc.Color.WHITE.fromHEX(colorList[childIndex]);
+
+                    label.string = "";
+                    label.overflow = cc.Label.Overflow.SHRINK;
+                    child.width = jackpotNode.width;
+                } else {
+                    label.string = values[childIndex];
+                    jackpotNode && (jackpotNode.active = false);
+                }
+                child.color = cc.Color.WHITE.fromHEX(colorList[childIndex]);
             });
         });
-        this.checkShowSpecialSymbol(info);
-    }
-
-    checkShowSpecialSymbol(info) {
-        if (info.symbol.index === 7 || info.symbol.index === 8) {
-            this.textImages.active = true;
-            this.showSymbolText(info.symbol.index, info.colorList[1]);
-        }
     }
 }

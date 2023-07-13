@@ -180,9 +180,9 @@ export default class PaginationCommon extends cc.Component {
     }
 
     onClickPage(event: any) {
-        this.control.get_data(event.target.page);
         const comp = event.target.getComponent(PaginationCommonItem);
         this.pageNumberCurrent = comp.page;
+        this.control.get_data(comp.page);
 
         AudioManager.getInstance().playClick();
     }
