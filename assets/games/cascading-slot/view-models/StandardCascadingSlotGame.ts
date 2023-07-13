@@ -371,8 +371,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     override async showEffectBigWin(betWin: number) {
         const transtition = await this.playEffectTransition();
-        const totalBet = this.betControl.totalBet.string;
-        const coinValue = this.betControl.coinValue.string;
+        const totalBet = parseFloat(this.betControl.totalBet.string.replace(/,/g, ""));
+        const coinValue = parseFloat(this.betControl.coinValue.string);
         const bigWinAudioId = this.playSound(CascadingSlotGameSound.BIG_WIN, true);
         const incrementAudioId = this.playSound(CascadingSlotGameSound.INCREMENT, true);
 
@@ -384,14 +384,14 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         if (this.isTurboMode()) {
             this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
             bigWinAnimation.setAmount({ amount: betWin });
-            const ratio = betWin / +totalBet;
+            const ratio = betWin / totalBet;
             bigWinAnimation.showHideBigWinNode(ratio < 3);
-            await bigWinAnimation.changeFrameForBigWinLevel(betWin, +totalBet);
+            await bigWinAnimation.changeFrameForBigWinLevel(betWin, totalBet);
 
             callbackAnim.skipTouchToContinue();
         } else {
             bigWinAnimation
-                .setAmountSlowHavingSpeed(betWin, +totalBet, +coinValue, () => {
+                .setAmountSlowHavingSpeed(betWin, totalBet, coinValue, () => {
                     this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
                     callbackAnim.closeLater();
                 })
@@ -400,7 +400,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
         callbackAnim.skipCallback = () => {
             this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
-            bigWinAnimation.changeFrameForBigWinLevel(betWin, +totalBet);
+            bigWinAnimation.changeFrameForBigWinLevel(betWin, totalBet);
             bigWinAnimation.setAmount({ amount: betWin });
         };
 
