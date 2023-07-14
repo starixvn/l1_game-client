@@ -17,7 +17,6 @@ export default class Loading extends cc.Component {
 
     setDefaultPercent() {
         this.percent.string = "0%";
-        console.log("setDefaultPercent");
     }
 
     onData(data: any) {
@@ -48,7 +47,6 @@ export default class Loading extends cc.Component {
 
         this.percent.node.active = true;
         if (percent > this.prevPercent) {
-            console.log("onProgressWithStartPercent: ", percent.toFixed(0));
             this.percent.string = `${percent.toFixed(0)}%`;
             this.prevPercent = percent;
         }
