@@ -17,7 +17,7 @@ export default class CascadingSlotTumbleList extends cc.Component {
     scrollView: cc.ScrollView = null;
 
     private readonly HEIGHT_PER_ROW = 35;
-    private readonly NUMBER_MAX_ITEM = 7;
+    protected NUMBER_MAX_ITEM = 7;
     protected HEIGHT_CONTENT_REAL_MODE = 250;
     protected HEIGHT_CONTENT_TRIAL_MODE = 180;
 
