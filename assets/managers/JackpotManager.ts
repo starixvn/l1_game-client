@@ -1,5 +1,6 @@
 import { lodash } from "../ClientModules";
 import NotificationService from "../common/auth/NotificationService";
+import { userManager } from "../common/user/UserManager";
 import { uiManager } from "./GameUIManager";
 import { InternalEvents } from "./InternalEvents";
 
@@ -69,31 +70,49 @@ export default class JackpotManager {
     }
 
     onReceivedJackpotPoolsData(data: any) {
-        const pools = lodash.groupBy(data, "gameId");
+        let pools = lodash.groupBy(data, "gameId");
+        pools = this.filterOfferGames(pools);
+        pools = this.sortPoolsASC(pools);
+        const poolsGroup = this.groupJackpotPoolsWithType(pools);
+        uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS, poolsGroup);
+    }
 
-        // order pools by gameId in ascending
-        Object.values(pools).forEach((pool) => {
+    filterOfferGames(pools) {
+        Object.keys(pools).forEach((gameId) => {
+            if (!userManager.offerGames.includes(+gameId)) {
+                delete pools[gameId];
+            }
+        });
+
+        return pools;
+    }
+
+    sortPoolsASC(pools) {
+        Object.values(pools).forEach((pool: any) => {
             pool.sort((a, b) => a.amount - b.amount);
         });
 
+        return pools;
+    }
+
+    groupJackpotPoolsWithType(pools) {
         const poolsGroup = {
             [JackpotPoolType.MINOR]: [],
             [JackpotPoolType.MAJOR]: [],
             [JackpotPoolType.GRAND]: []
         };
 
-        Object.values(pools).forEach((gamePool) => {
+        Object.values(pools).forEach((gamePool: any) => {
             gamePool.forEach((poolItem, index) => {
                 poolsGroup[index].push(poolItem);
             });
         });
 
-        // order pools by poolGroup in descending
         Object.values(poolsGroup).forEach((pool) => {
             pool.sort((a, b) => b.amount - a.amount);
         });
 
-        uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS, poolsGroup);
+        return poolsGroup;
     }
 
     onReceivedJackpotPoolsOnGameData(data: any) {
@@ -105,7 +124,8 @@ export default class JackpotManager {
     }
 
     onReceivedJackpotWinnersData(data: any) {
-        uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_WINNERS, data);
+        const filteredData = data.filter((value) => userManager.offerGames.includes(+value.gameId));
+        uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_WINNERS, filteredData);
     }
 
     removeDataObserver(dataType: string, dataKey: string) {
