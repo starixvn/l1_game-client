@@ -42,7 +42,7 @@ export const handleSettle = (mainGame: CascadingSlotBase) => async (data: Cascad
     });
 
     if (reachMaxWin) {
-        mainGame.showMiniWarning(i18n.t("treasureIsland.reachMaxWin"));
+        mainGame.showMiniWarning(i18n.t("cascadingSlot.reachMaxWin"));
         await GameUtils.delayTime(3);
     }
 
