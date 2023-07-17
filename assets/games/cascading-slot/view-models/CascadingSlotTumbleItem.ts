@@ -21,6 +21,7 @@ export default class CascadingSlotTumbleItem extends cc.Component {
 
     protected prefixSymbol = "symbol_";
     protected index = 1;
+    protected namespace = "treasureIsland";
 
     setData(icon: number, count: number, win: number) {
         this.numberIcon.string = count.toString();
@@ -29,7 +30,7 @@ export default class CascadingSlotTumbleItem extends cc.Component {
     }
 
     setDataForFreeSpinTumble(count: number, win: number, freeSpin: boolean) {
-        const freeSpinTxt = freeSpin ? `treasureIsland.extraFreeSpin` : `treasureIsland.freeSpin`;
+        const freeSpinTxt = freeSpin ? `${this.namespace}.extraFreeSpin` : `${this.namespace}.freeSpin`;
         this.numberIcon.string = count.toString();
         this.winningValue.string = win.toString() + ` ${i18n.t(freeSpinTxt)}`;
         this.symbol.spriteFrame = this.mainAtlas.getSpriteFrame(`${this.prefixSymbol}${SCATTER_SYMBOL + this.index}`);
