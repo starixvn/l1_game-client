@@ -1,7 +1,6 @@
 import { appContainer, lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import { userManager } from "../../../common/user/UserManager";
-import { FourGuardiansId } from "../../../games/four-guardians/scripts/FourGuardians";
 import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import BannerController from "./BannerController";
@@ -47,9 +46,7 @@ export default class Banner extends cc.Component {
     }
 
     checkShowJackpotBanner(): boolean {
-        const isShowJackpot =
-            userManager.offerGames.includes(FourGuardiansId) && (fourGuardiansConfig.jackpotEnabled || !userManager.disableJackpotGames);
-        return isShowJackpot;
+        return !userManager.disableJackpotGames;
     }
 
     async reloadBanner(needLoadAllBanners: boolean) {
