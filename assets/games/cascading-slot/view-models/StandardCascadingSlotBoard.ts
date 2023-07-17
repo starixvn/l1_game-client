@@ -1,6 +1,7 @@
 import _ = require("lodash");
 import PreviewOddsPopup from "../../_slotgame_base/PreviewOddsPopup";
 import CascadeSlotBoard from "./CascadeSlotBoard";
+import MultiplierItem from "./MultiplierItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -53,5 +54,10 @@ export default class StandardCascadingSlotBoard extends CascadeSlotBoard {
             const itemData = symbols.slice(start, end);
             reel.setItemData(itemData, multipliers);
         });
+    }
+
+    protected setValueMultiplier(index: number, multipliers: number[], multiplierItem: MultiplierItem) {
+        multiplierItem.gameId = this.gameId;
+        super.setValueMultiplier(index, multipliers, multiplierItem);
     }
 }

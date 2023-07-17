@@ -179,7 +179,13 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public updateMultiplierItems(multipliers: number[]) {
         const multiplierItems = this.getMultiplierItems();
-        multiplierItems.forEach((multiplierItem, index) => multiplierItem.setValue(multipliers[index]));
+        multiplierItems.forEach((multiplierItem, index) => {
+            this.setValueMultiplier(index, multipliers, multiplierItem);
+        });
+    }
+
+    protected setValueMultiplier(index: number, multipliers: number[], multiplierItem: MultiplierItem) {
+        multiplierItem.setValue(multipliers[index]);
     }
 
     public getMultiplierItems() {
