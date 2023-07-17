@@ -9,7 +9,13 @@ const { ccclass, property } = cc._decorator;
 export default class StandardSlotGameHistoryItem extends SlotGameHistoryItem {
     setData(betLog, index, gameId) {
         super.setData(betLog, index, gameId);
-        this.win.node.color = betLog.betWin > 0 ? this.textHighlightColor : this.textNormalColor;
+
+        const { betWin, settlementResult } = betLog;
+        let win = betWin;
+        if (settlementResult.jackpot !== null) {
+            win += this.calculateWinningAmount(settlementResult.jackpot.winningAmount);
+        }
+        this.win.node.color = win > 0 ? this.textHighlightColor : this.textNormalColor;
     }
 
     protected calculateWinningAmount(winningAmount: number) {
