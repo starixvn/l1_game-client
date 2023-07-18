@@ -169,7 +169,7 @@ const data = {
         copy_success: "คัดลอกสำเร็จ!",
         showMsgWhenSpinDesktop: "กดที่สเปคบาร์หรือคลิกสปิน",
         showMsgWhenSpinPhone: "แตะหรือกดค้างเพื่อเริ่มใหม่",
-        roundSettleMsg: "โชคดี!",
+        roundSettleMsg: "\tโชคดี!\t",
         FromSettleToSpin1: "หมุนเพื่อชนะ!",
         FromSettleToSpin2: "หมุนมากขึ้น ชนะมากขึ้น!",
         FromSettleToSpin3: "ลองใช้โหมดเทอร์โบ!",
