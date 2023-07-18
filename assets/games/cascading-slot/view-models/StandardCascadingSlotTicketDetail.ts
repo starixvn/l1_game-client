@@ -7,7 +7,6 @@ const { ccclass, property } = cc._decorator;
 export default class StandardCascadingSlotTicketDetail extends CascadingSlotTicketDetail {
     @property(cc.Prefab)
     mobileTicketDetailItemPrefab: cc.Prefab = null;
-    protected namespace = "cascadingSlot";
 
     loadDetailItem() {
         return GameUtils.isPhone() ? cc.instantiate(this.mobileTicketDetailItemPrefab) : cc.instantiate(this.ticketDetailItemPrefab);

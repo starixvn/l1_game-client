@@ -44,8 +44,6 @@ export default class CascadingSlotTicketDetail extends cc.Component {
 
     gameId: number;
 
-    protected namespace = "treasureIsland";
-
     onLoad() {
         this.commonDialog.addOnDidHide(() => {
             this.node.destroy();
@@ -75,7 +73,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         this.handleMultiplierData(data);
         this.winTotal.string = numberWithCommas(data.betwin, 2, false);
         this.reachMaxText.node.active = isReachMaxWin;
-        const reachMaxLocalize = `${this.namespace}.reachMaxWin`;
+        const reachMaxLocalize = `cascadingSlot.reachMaxWin`;
         this.reachMaxText.string = `(${GameUtils.getText(reachMaxLocalize)}) `;
     }
 
@@ -89,13 +87,13 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         const tumbles = data.settlementResult.tumbles;
         if (freeSpin) {
             if (data.totalMultipliers) {
-                lbMulti = `${this.namespace}.totalMultiplier`;
+                lbMulti = `cascadingSlot.totalMultiplier`;
                 this.multiplierTotal.string = data.totalMultiplier;
                 this.multiplierTotal.node.color = this.textMultiplier.node.color = cc.color(66, 190, 254);
                 this.multiplierNode.active = true;
             }
         } else {
-            lbMulti = `${this.namespace}.multiplier`;
+            lbMulti = `cascadingSlot.multiplier`;
             this.multiplierTotal.string = data.multiplier;
             this.multiplierNode.active = tumbles.length > 1 && +data.multiplier > 0;
         }

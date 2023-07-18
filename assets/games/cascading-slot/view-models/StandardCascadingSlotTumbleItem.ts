@@ -6,5 +6,4 @@ const { ccclass, property } = cc._decorator;
 export default class StandardCascadingSlotTumbleItem extends CascadingSlotTumbleItem {
     prefixSymbol = "symbol-";
     index = 0;
-    namespace = "cascadingSlot";
 }
