@@ -3,6 +3,7 @@ import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
 import { appManager } from "../../../managers/AppManager";
 import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import BannerItem from "./BannerItem";
 
 const { ccclass, property } = cc._decorator;
@@ -24,12 +25,21 @@ export default class BannerController extends cc.Component {
     public currentIndex = 0;
     private touchOffset = cc.v2(0, 0);
     private started = false;
-
+    private isScrollNestedScrollView = false;
     public menuLoop = false;
     public onEndingRound = () => {};
 
     onLoad() {
         this.enableTouch();
+        uiManager.emitterListener(
+            InternalEvents.SCROLL_NESTED_SCROLLVIEW,
+            (isScroll) => {
+                this.isScrollNestedScrollView = isScroll;
+                this.triggerAutoChange();
+                this.started = !isScroll;
+            },
+            this
+        );
     }
 
     enableTouch() {
@@ -136,6 +146,9 @@ export default class BannerController extends cc.Component {
     }
 
     autoChange() {
+        if (this.isScrollNestedScrollView) {
+            return;
+        }
         this.showNextPage();
     }
 
@@ -235,5 +248,12 @@ export default class BannerController extends cc.Component {
             action: TrackingAction.Click,
             object_name: "Banner"
         });
+    }
+
+    triggerAutoChange() {
+        if (!this.isScrollNestedScrollView) {
+            this.unschedule(this.autoChange);
+            this.scheduleOnce(this.autoChange, this.intervalChangeImage);
+        }
     }
 }

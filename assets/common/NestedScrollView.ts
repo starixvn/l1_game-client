@@ -1,3 +1,6 @@
+import { uiManager } from "../managers/GameUIManager";
+import { InternalEvents } from "../managers/InternalEvents";
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -7,11 +10,13 @@ export default class NestedScrollView extends cc.ScrollView {
     onLoad() {
         this.content.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this, true);
         this.content.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this, true);
+        this.content.on(cc.Node.EventType.TOUCH_CANCEL, this.handleReleaseTouch, this, true);
     }
 
     onDestroy() {
         this.content.off(cc.Node.EventType.TOUCH_START, this.onTouchStart, this, true);
         this.content.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this, true);
+        this.content.off(cc.Node.EventType.TOUCH_CANCEL, this.handleReleaseTouch, this, true);
     }
 
     onEnable() {
@@ -23,7 +28,12 @@ export default class NestedScrollView extends cc.ScrollView {
         this.moveStartPos = e.getLocation();
     }
 
+    handleReleaseTouch(e) {
+        uiManager.emitter.emit(InternalEvents.SCROLL_NESTED_SCROLLVIEW, false);
+    }
+
     onTouchMove(e) {
+        e.stopPropagation();
         const location = e.getLocation();
         const xDelta = location.x - this.moveStartPos.x;
         const yDelta = location.y - this.moveStartPos.y;
@@ -44,6 +54,6 @@ export default class NestedScrollView extends cc.ScrollView {
 
     enableScrollView(e) {
         this.enabled = true;
-        e.stopPropagation();
+        uiManager.emitter.emit(InternalEvents.SCROLL_NESTED_SCROLLVIEW, true);
     }
 }
