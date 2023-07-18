@@ -36,6 +36,8 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         if (!isAlreadyOpened) {
             this.main.loading.setDefaultPercent();
             try {
+                const gameName = GameUtils.getGameNameString(gameId);
+                console.time("LoadScene " + gameName);
                 const prefab = await GameUtils.loadMiniGamePrefab(gameId, (completedCount, total, item) => {
                     if (uiManager.getCurrentGameId() !== gameId) {
                         this.main.unCacheAndHideGameLoading(gameLoading, gameId);
@@ -44,6 +46,8 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
 
                     gameLoading && gameLoading.onProgress(completedCount, total);
                 });
+
+                console.timeEnd("LoadScene " + gameName);
 
                 if (!this.main.isAlive()) {
                     return;
