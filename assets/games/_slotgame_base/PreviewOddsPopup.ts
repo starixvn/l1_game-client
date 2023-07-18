@@ -1,5 +1,4 @@
 import GameUtils from "../../common/GameUtils";
-import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "../cascading-slot/view-models/CascadingSlotUtils";
 
 const { ccclass, property } = cc._decorator;
 

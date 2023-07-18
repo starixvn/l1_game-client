@@ -1,7 +1,5 @@
 import GameUtils from "../../../common/GameUtils";
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import { TotalBets } from "../../_new/_base/game-data-management/models/total-bets";
 import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 
 const { ccclass, property } = cc._decorator;
@@ -81,7 +79,7 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
             const prefixStr = opt.prefixStr ?? "";
             const defaultFormater = (v) => numberWithCommas(v, 2, false);
             const formatNumber = opt.formatNumber ?? defaultFormater;
-            let stepValue = parseFloat(this.calculateStepValue(coinValue));
+            const stepValue = parseFloat(this.calculateStepValue(coinValue));
             const stepTime = opt.stepTime ?? 0.05;
             const startStr = label.string.replace(prefixStr, "");
             const startValue = start || parseFloat(startStr.replace(/,/g, "")) || 0;
