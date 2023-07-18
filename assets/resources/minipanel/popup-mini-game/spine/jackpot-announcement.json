@@ -1,12 +1,12 @@
 {
     "skeleton": {
-        "hash": "NvKKGUxFCwAMCyvBDYe4isaEQ5g=",
+        "hash": "LqF5oIRqlEDYtPzdt4irerHO8lY=",
         "spine": "3.8.75",
-        "x": -107.59,
-        "y": -108.2,
+        "x": -107.6,
+        "y": -108.21,
         "width": 214.55,
         "height": 216.33,
-        "images": "",
+        "images": "C:/Users/heidi.le/Desktop/jackpot-announcement/images",
         "audio": ""
     },
     "bones": [
@@ -22,7 +22,7 @@
         { "name": "tiasang1", "parent": "bone", "x": -34.7, "y": 61.27 },
         { "name": "tiasang2", "parent": "bone", "x": 1.9, "y": 68.55 },
         { "name": "tiasang4", "parent": "bone", "x": 41, "y": 53.98 },
-        { "name": "txt-jackpot", "parent": "bone", "x": 1.5, "y": 34.66 }
+        { "name": "txt-jackpot", "parent": "bone", "rotation": -0.05, "x": 1.5, "y": 34.66 }
     ],
     "slots": [
         { "name": "Untitled-1", "bone": "jackpot-announcement" },
@@ -41,7 +41,7 @@
         { "name": "tiasang2", "bone": "tiasang2", "attachment": "tiasang2" },
         { "name": "tiasang3", "bone": "jackpot-announcement" },
         { "name": "Group 54", "bone": "jackpot-announcement" },
-        { "name": "jack-pot-e2", "bone": "txt-jackpot" }
+        { "name": "txt-jackpot", "bone": "txt-jackpot", "attachment": "txt-jackpot" }
     ],
     "skins": [
         {
@@ -74,6 +74,9 @@
                 "anhsang": {
                     "anhsang": { "x": -3.04, "y": -0.18, "rotation": -96.01, "width": 195, "height": 197 }
                 },
+                "txt-jackpot": {
+                    "txt-jackpot": { "x": 0.5, "width": 95, "height": 40 }
+                },
                 "tiasang1": {
                     "tiasang1": { "x": 1.64, "y": -0.56, "width": 23, "height": 22 }
                 },
@@ -86,28 +89,6 @@
     "animations": {
         "show": {
             "slots": {
-                "tiasang2": {
-                    "color": [{ "color": "ffffff00" }, { "time": 0.4667, "color": "ffffffff" }, { "time": 1, "color": "ffffff00" }]
-                },
-                "tiasang1": {
-                    "color": [
-                        { "time": 0.1667, "color": "ffffffff" },
-                        { "time": 0.5, "color": "ffffff00" },
-                        { "time": 1, "color": "ffffffff" }
-                    ]
-                },
-                "vang6": {
-                    "color": [
-                        { "time": 0.5, "color": "ffffffff" },
-                        { "time": 0.5667, "color": "ffffff00" }
-                    ]
-                },
-                "vang4": {
-                    "color": [
-                        { "time": 0.5, "color": "ffffffff" },
-                        { "time": 0.5667, "color": "ffffff00" }
-                    ]
-                },
                 "tiasang4": {
                     "color": [
                         { "color": "ffffff00", "curve": "stepped" },
@@ -116,10 +97,11 @@
                         { "time": 1, "color": "ffffff00" }
                     ]
                 },
-                "vang2": {
+                "tiasang1": {
                     "color": [
-                        { "time": 0.5, "color": "ffffffff" },
-                        { "time": 0.6, "color": "ffffff00" }
+                        { "time": 0.1667, "color": "ffffffff" },
+                        { "time": 0.5, "color": "ffffff00" },
+                        { "time": 1, "color": "ffffffff" }
                     ]
                 },
                 "vang1": {
@@ -134,19 +116,53 @@
                         { "time": 0.4667, "color": "ffffff00" }
                     ]
                 },
+                "vang4": {
+                    "color": [
+                        { "time": 0.5, "color": "ffffffff" },
+                        { "time": 0.5667, "color": "ffffff00" }
+                    ]
+                },
+                "vang2": {
+                    "color": [
+                        { "time": 0.5, "color": "ffffffff" },
+                        { "time": 0.6, "color": "ffffff00" }
+                    ]
+                },
                 "vang5": {
                     "color": [
                         { "time": 0.3, "color": "ffffffff" },
                         { "time": 0.3667, "color": "ffffff00" }
                     ]
+                },
+                "tiasang2": {
+                    "color": [{ "color": "ffffff00" }, { "time": 0.4667, "color": "ffffffff" }, { "time": 1, "color": "ffffff00" }]
+                },
+                "vang6": {
+                    "color": [
+                        { "time": 0.5, "color": "ffffffff" },
+                        { "time": 0.5667, "color": "ffffff00" }
+                    ]
                 }
             },
             "bones": {
+                "vang6": {
+                    "translate": [
+                        { "x": -28.15, "y": -10.95, "curve": "stepped" },
+                        { "time": 0.2333, "x": -28.15, "y": -10.95 },
+                        { "time": 0.5, "x": -8.6, "y": -3.91 }
+                    ]
+                },
                 "vang4": {
                     "translate": [
                         { "x": -10.95, "y": -23.46, "curve": "stepped" },
                         { "time": 0.1333, "x": -10.95, "y": -23.46 },
                         { "time": 0.5, "x": -0.78, "y": -10.17 }
+                    ]
+                },
+                "vang2": {
+                    "translate": [
+                        { "x": 21.9, "y": -24.24 },
+                        { "time": 0.5, "x": 4.69, "y": -7.82 }
                     ]
                 },
                 "vang1": {
@@ -163,23 +179,10 @@
                         { "time": 0.4667, "x": -4.69, "y": 7.82 }
                     ]
                 },
-                "vang2": {
-                    "translate": [
-                        { "x": 21.9, "y": -24.24 },
-                        { "time": 0.5, "x": 4.69, "y": -7.82 }
-                    ]
-                },
                 "vang5": {
                     "translate": [
                         { "x": 19.55, "y": -8.6 },
                         { "time": 0.3, "x": 2.35, "y": -0.78 }
-                    ]
-                },
-                "vang6": {
-                    "translate": [
-                        { "x": -28.15, "y": -10.95, "curve": "stepped" },
-                        { "time": 0.2333, "x": -28.15, "y": -10.95 },
-                        { "time": 0.5, "x": -8.6, "y": -3.91 }
                     ]
                 },
                 "anhsang": {
