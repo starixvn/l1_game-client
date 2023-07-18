@@ -447,4 +447,9 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         super.showBottomMessageOnGameState();
         this.updateBottomMessageStatus();
     }
+
+    updateBottomMessageStatus() {
+        super.updateBottomMessageStatus();
+        this.bottomMessage && (this.bottomMessage.isFreeSpin = this.isFreeSpin());
+    }
 }

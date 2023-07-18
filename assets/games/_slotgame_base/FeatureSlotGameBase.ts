@@ -306,7 +306,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
         }
         this.bottomMessage.isAutoSpin = this.isAutoSpinMode() && !this.isFreeSpin();
         this.bottomMessage.isTurboMode = this.isTurboMode();
-        this.bottomMessage && (this.bottomMessage.isFreeSpin = this.isFreeSpin());
     }
 
     showEffect(effect: cc.Node): Promise<void> {
