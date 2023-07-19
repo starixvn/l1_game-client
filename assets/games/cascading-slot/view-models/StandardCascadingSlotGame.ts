@@ -95,6 +95,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.initColorConfig();
         super.onLoad();
         this.loadAudios();
+        this.updateBalanceColor();
     }
 
     protected initColorConfig() {
@@ -219,6 +220,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         }
     }
 
+    updateBalanceColor() {
+        this.userProfile.updateColor(this.colorConfig.bottomAreaWinAmountColor);
+    }
+
     onSymbolPreview(symbol: StandardCascadingSlotReelItem, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
         if (!this.gameConfigs?.odds || !this.isFinishedRound) {
             return;
@@ -299,6 +304,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.autoSpinToggle.node);
         this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.turboToggle.node);
         this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.totalWinNode);
+        bottomArea.totalWinLabel.node.color = cc.Color.WHITE.fromHEX(this.colorConfig.bottomAreaWinAmountColor);
         bottomArea.onClickListener = {
             onAutoSpinChanged: () => {
                 uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
@@ -311,7 +317,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     updateColor(colorList, node: cc.Node) {
-        const { textColor, numberColor, buttonBorderColor, buttonBackgroundColor } = colorList;
+        const { textColor, numberColor, buttonBorderColor, buttonBackgroundColor, bottomAreaWinAmountColor } = colorList;
         if (buttonBackgroundColor) {
             const changeColor = node.getComponent(ChangeNodeColor);
             changeColor.updateColor(buttonBackgroundColor);
@@ -451,5 +457,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     updateBottomMessageStatus() {
         super.updateBottomMessageStatus();
         this.bottomMessage && (this.bottomMessage.isFreeSpin = this.isFreeSpin());
+    }
+
+    initShowTopMessage(node: cc.Node) {
+        super.initShowTopMessage(node);
+        this.topMessage.updateColor(this.colorConfig.topMessageTextColor);
     }
 }

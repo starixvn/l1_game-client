@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import _ = require("lodash");
+import ChangeNodeColor from "../../common/ChangeNodeColor";
 
 export enum RoundType {
     BEFORESPIN = 0,
@@ -37,5 +38,11 @@ export default class SlotGameTopMessage extends cc.Component {
 
     hideTopMessage() {
         this.node.active = false;
+    }
+
+    updateColor(textColor: string) {
+        this.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
+            comp.updateColor(textColor);
+        });
     }
 }
