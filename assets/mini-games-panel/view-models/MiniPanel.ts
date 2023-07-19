@@ -85,6 +85,8 @@ export default class MiniPanel extends BaseComponent {
     private announcementPrefab: cc.Prefab;
     public boostedOdds: BoostedOdds;
     public promotionAnnouncement: PromotionAnnouncements;
+    private readonly preloadFolderPercent = 25;
+    private readonly preloadOthersPercent = 30;
 
     @lazyInject(SocketIOController)
     protected readonly socketIOController: SocketIOController;
@@ -333,14 +335,14 @@ export default class MiniPanel extends BaseComponent {
                     bundle.loadDir(
                         preloadPath,
                         (finish: number, total: number, item) => {
-                            loading.onProgressWithStartPercent(0, 25, finish, total);
+                            loading.onProgressWithStartPercent(0, this.preloadFolderPercent, finish, total);
                         },
                         (errors, assets) => {
                             bundle.loadDir(
                                 path,
                                 cc.SpriteFrame,
                                 (finish: number, total: number, item) => {
-                                    loading.onProgressWithStartPercent(25, 30, finish, total);
+                                    loading.onProgressWithStartPercent(this.preloadFolderPercent, this.preloadOthersPercent, finish, total);
                                 },
                                 onComplete
                             );
@@ -354,7 +356,7 @@ export default class MiniPanel extends BaseComponent {
                 `image/${language}/${gameId}`,
                 cc.SpriteFrame,
                 (finish: number, total: number, item) => {
-                    loading.onProgressWithStartPercent(0, 30, finish, total);
+                    loading.onProgressWithStartPercent(0, this.preloadOthersPercent, finish, total);
                 },
                 onComplete
             );
@@ -384,7 +386,7 @@ export default class MiniPanel extends BaseComponent {
                     this.unCacheAndHideGameLoading(gameLoading, +gameId);
                     return;
                 }
-                gameLoading && gameLoading.onProgressWithStartPercent(30, 100, completedCount, total);
+                gameLoading && gameLoading.onProgressWithStartPercent(this.preloadOthersPercent, 100, completedCount, total);
             },
             (error) => {
                 const loadingFromManager = uiManager.getLoadingWithGameID(+gameId);
