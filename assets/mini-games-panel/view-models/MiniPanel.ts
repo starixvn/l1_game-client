@@ -321,9 +321,11 @@ export default class MiniPanel extends BaseComponent {
 
     loadGame(gameId, onComplete: () => void) {
         const loading = this.getGameLoadingComp(gameId);
+        console.time("show 0%");
         loading.setLoadingVisibility(true);
-        loading.setDefaultPercent();
 
+        loading.setDefaultPercent();
+        console.timeEnd("show 0%");
         const language = window.i18n.curLang;
 
         if (isUsingRemoteBundle(gameId)) {
