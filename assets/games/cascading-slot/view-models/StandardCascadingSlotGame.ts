@@ -287,24 +287,21 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     initBottomArea(node: cc.Node) {
         const bottomArea = node.getComponent(StandardCascadingBottomArea);
-        this.updateColor(
-            {
-                textColor: this.colorConfig.bottomAreaTextColor,
-                numberColor: this.colorConfig.bottomAreaNumberColor,
-                buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
-            },
-            bottomArea.node
-        );
+
+        bottomArea.updateColor({
+            textColor: this.colorConfig.bottomAreaTextColor,
+            numberColor: this.colorConfig.bottomAreaNumberColor,
+            buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor,
+            winAmountColor: this.colorConfig.bottomAreaWinAmountColor,
+            bgFrameColor: this.colorConfig.bottomAreaButtonBackgroundColor
+        });
 
         this.miniBetControl = bottomArea.miniBetControl;
         this.checkExistNodeBet();
         this.autoSpinToggle = bottomArea.autoSpinToggle;
         this.turboToggle = bottomArea.turboToggle;
         this.totalWinLabel = bottomArea.totalWinLabel;
-        this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.autoSpinToggle.node);
-        this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.turboToggle.node);
-        this.updateColor({ buttonBackgroundColor: this.colorConfig.bottomAreaButtonBackgroundColor }, bottomArea.totalWinNode);
-        bottomArea.totalWinLabel.node.color = cc.Color.WHITE.fromHEX(this.colorConfig.bottomAreaWinAmountColor);
+
         bottomArea.onClickListener = {
             onAutoSpinChanged: () => {
                 uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
@@ -314,24 +311,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
                 this.onTurboModeChanged(toggle);
             }
         };
-    }
-
-    updateColor(colorList, node: cc.Node) {
-        const { textColor, numberColor, buttonBorderColor, buttonBackgroundColor, bottomAreaWinAmountColor } = colorList;
-        if (buttonBackgroundColor) {
-            const changeColor = node.getComponent(ChangeNodeColor);
-            changeColor.updateColor(buttonBackgroundColor);
-            return;
-        }
-
-        node.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
-            const labelComp = comp.node.getComponent(cc.Label);
-            if (labelComp) {
-                comp.updateColor(comp.node.getComponent(LocalizedLabel) ? textColor : numberColor);
-            } else {
-                comp.updateColor(buttonBorderColor);
-            }
-        });
     }
 
     clickOutsideReelArea() {
@@ -416,14 +395,11 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     initBetControl(node: cc.Node) {
         super.initBetControl(node);
-        this.updateColor(
-            {
-                textColor: this.colorConfig.bottomAreaTextColor,
-                numberColor: this.colorConfig.bottomAreaNumberColor,
-                buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
-            },
-            node
-        );
+        this.betControl.updateColor({
+            textColor: this.colorConfig.bottomAreaTextColor,
+            numberColor: this.colorConfig.bottomAreaNumberColor,
+            buttonBorderColor: this.colorConfig.bottomAreaButtonBorderColor
+        });
     }
 
     protected async playEffectTransition() {
