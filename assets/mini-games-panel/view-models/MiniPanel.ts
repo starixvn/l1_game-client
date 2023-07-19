@@ -321,11 +321,7 @@ export default class MiniPanel extends BaseComponent {
 
     loadGame(gameId, onComplete: () => void) {
         const loading = this.getGameLoadingComp(gameId);
-        console.time("show 0%");
         loading.setLoadingVisibility(true);
-
-        loading.setDefaultPercent();
-        console.timeEnd("show 0%");
         const language = window.i18n.curLang;
 
         if (isUsingRemoteBundle(gameId)) {
@@ -353,6 +349,7 @@ export default class MiniPanel extends BaseComponent {
                 })
                 .catch(onComplete);
         } else {
+            loading.setDefaultPercent();
             cc.resources.loadDir(
                 `image/${language}/${gameId}`,
                 cc.SpriteFrame,

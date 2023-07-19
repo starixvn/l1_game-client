@@ -290,9 +290,7 @@ export default class GameUtils {
     ) {
         const gameConfiguration = getGameConfiguration(gameId);
 
-        console.time("preloadGameAssets");
         await GameUtils.preloadGameAssets(gameConfiguration, miniPanel, gameId);
-        console.timeEnd("preloadGameAssets");
 
         if (!gameConfiguration.mini && gameId > 0) {
             StorageManager.remove(`orientation`);
@@ -309,6 +307,7 @@ export default class GameUtils {
             const bundleManager = BundleManager.getInstance();
             const loading = miniPanel.getGameLoadingComp(gameId);
             loading.setLoadingVisibility(true);
+            loading.setDefaultPercent();
 
             await bundleManager.loadBundle(gameId.toString());
             await preloadAssets(gameId.toString());

@@ -16,7 +16,6 @@ export default class Loading extends cc.Component {
     }
 
     setDefaultPercent() {
-        console.log("--------------0%-----------");
         this.percent.string = "0%";
     }
 
@@ -48,7 +47,6 @@ export default class Loading extends cc.Component {
 
         this.percent.node.active = true;
         if (percent > this.prevPercent) {
-            console.log(`Loading: ${percent.toFixed(0)}%`);
             this.percent.string = `${percent.toFixed(0)}%`;
             this.prevPercent = percent;
         }
