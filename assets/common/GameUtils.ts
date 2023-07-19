@@ -23,7 +23,9 @@ export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
 
 declare global {
-    interface Window { ReactNativeWebView: any; }
+    interface Window {
+        ReactNativeWebView: any;
+    }
 }
 
 export default class GameUtils {
@@ -288,7 +290,9 @@ export default class GameUtils {
     ) {
         const gameConfiguration = getGameConfiguration(gameId);
 
+        console.time("preloadGameAssets");
         await GameUtils.preloadGameAssets(gameConfiguration, miniPanel, gameId);
+        console.timeEnd("preloadGameAssets");
 
         if (!gameConfiguration.mini && gameId > 0) {
             StorageManager.remove(`orientation`);
@@ -490,18 +494,17 @@ export default class GameUtils {
             if (callback) {
                 callback();
             }
-        }
+        };
 
         try {
-            if(this.isAndroidWebView()){
-                window.ReactNativeWebView.postMessage(JSON.stringify({eventType: 'copy_to_clipboard', data: data}));
+            if (this.isAndroidWebView()) {
+                window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: "copy_to_clipboard", data: data }));
                 showResult(i18n.t("messages.copy_success"));
-            }
-            else{
+            } else {
                 await navigator.clipboard.writeText(data).then(() => {
                     showResult(i18n.t("messages.copy_success"));
                 });
-            }           
+            }
         } catch (e) {
             showResult(i18n.t("messages.copyMD5Failed")); //e.message
         }
