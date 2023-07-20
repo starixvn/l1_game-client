@@ -751,6 +751,5 @@ export default class GameUtils {
     public static setColorAndOpacity(color: string, node: cc.Node) {
         node.color = cc.Color.WHITE.fromHEX(color);
         node.opacity = cc.Color.WHITE.fromHEX(color).getA();
-        console.log(cc.Color.WHITE.fromHEX(color).getA());
     }
 }
