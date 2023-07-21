@@ -294,7 +294,7 @@ export default class StandardSlotGame extends SlotGameBase {
             odds: this.gameConfigs.odds[symbol.index],
             colorList: [this.colorConfig.previewOddsSymbolNumberColor, this.colorConfig.previewOddsWinValueColor],
             borderColor: this.colorConfig.previewOddsBorderColor,
-            isInfoOnLeft
+            gameId: this.gameId
         });
         this.slotBoard.showPreview(previewNode, worldPosition);
     }

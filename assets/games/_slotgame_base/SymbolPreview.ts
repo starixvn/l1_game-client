@@ -9,10 +9,10 @@ export interface SymbolPreviewType {
     odds: any;
     colorList: [string, string];
     borderColor: string;
-    isInfoOnLeft: boolean;
     coinValue?: number;
     betLevel?: number;
     freespin?: any;
+    gameId: number;
 }
 @ccclass
 export default class SymbolPreview extends cc.Component {
@@ -28,11 +28,10 @@ export default class SymbolPreview extends cc.Component {
     @property(cc.Node)
     bg: cc.Node = null;
 
-    @property(cc.SpriteAtlas)
-    atlas: cc.SpriteAtlas = null;
-
     @property(cc.Node)
     textImages: cc.Node = null;
+
+    gameId: number;
 
     onLoad() {
         const events = [
@@ -59,6 +58,7 @@ export default class SymbolPreview extends cc.Component {
 
     showSymbolText(symbolNumber: number, textColor: string) {
         const showText = symbolNumber === 7 || symbolNumber === 8;
+        const atlas = uiManager.prefabCache.gameAtlas[this.gameId];
 
         if (!showText) {
             return;
@@ -74,7 +74,8 @@ export default class SymbolPreview extends cc.Component {
 
         this.textImages.children.forEach((node) => {
             const nodeImage = node.getComponent(cc.Sprite);
-            nodeImage.spriteFrame = this.atlas.getSpriteFrame(`text-symbol-${symbolName}`);
+
+            nodeImage.spriteFrame = atlas.getSpriteFrame(`text-symbol-${symbolName}`);
             nodeImage.node.color = cc.Color.WHITE.fromHEX(textColor);
         });
     }
@@ -85,6 +86,7 @@ export default class SymbolPreview extends cc.Component {
         this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);
         const keys = Object.keys(info.odds);
         this.textImages.active = false;
+        this.gameId = info.gameId;
 
         this.infoNode.children.forEach((node, index) => {
             const key = keys[index];
