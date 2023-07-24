@@ -439,4 +439,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         super.initShowTopMessage(node);
         this.topMessage.updateColor(this.colorConfig.topMessageTextColor);
     }
+
+    playSoundSpin() {
+        this.playSound(CascadingSlotGameSound.SPIN_BUTTON);
+    }
 }

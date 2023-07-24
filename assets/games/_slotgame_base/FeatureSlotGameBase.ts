@@ -380,7 +380,6 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     onSpinClick(hold: boolean) {
         uiManager.emitter.emit(InternalEvents.CLICK_SPIN_BUTTON);
-        this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         this.isHoldAction = hold;
         this.spin();
     }

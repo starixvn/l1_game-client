@@ -624,4 +624,13 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
         super.onAutoSpinChanged();
     }
+
+    onSpinClick(hold: boolean) {
+        this.playSoundSpin();
+        super.onSpinClick(hold);
+    }
+
+    playSoundSpin() {
+        this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
+    }
 }
