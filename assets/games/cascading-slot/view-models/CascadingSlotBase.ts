@@ -59,8 +59,6 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     tumbleWinView: TumbleWinView = null;
     public isTrialMode = false;
     public trialUserBalance: number;
-
-    audioClips = {};
     topMessage: SlotGameTopMessage = null;
     protected trialConnection: SocketIOConnection;
     protected miniBetControl: CascadingTotalBet;
