@@ -1,9 +1,9 @@
 {
 "skeleton": {
-	"hash": "Y7dejbY1aVdu+ytGcHhu2UqQAng",
+	"hash": "w0H9cqIOxCPuV40Ez6lK+1adSUs",
 	"spine": "3.8.99",
 	"x": -196,
-	"y": -189.75,
+	"y": -105.81,
 	"width": 415.42,
 	"height": 367.77,
 	"images": "./images/",
@@ -11,8 +11,8 @@
 },
 "bones": [
 	{ "name": "root" },
-	{ "name": "effect-bonus", "parent": "root" },
-	{ "name": "bg-magic", "parent": "root" },
+	{ "name": "effect-bonus", "parent": "root", "y": 83.94 },
+	{ "name": "bg-magic", "parent": "root", "y": 83.94 },
 	{ "name": "light", "parent": "bg-magic", "x": -2.08, "y": -0.26, "scaleX": 1.2, "scaleY": 1.2 },
 	{ "name": "text-bonus", "parent": "effect-bonus", "y": -41.75 },
 	{ "name": "flare-total", "parent": "effect-bonus" },
@@ -42,7 +42,7 @@
 	{ "name": "flare-fly9", "parent": "flare-total", "x": -51.04, "y": 96.57 },
 	{ "name": "flare-fly10", "parent": "flare-total", "x": -51.04, "y": 96.57 },
 	{ "name": "flare-fly11", "parent": "flare-total", "x": -51.04, "y": 96.57 },
-	{ "name": "symbol", "parent": "root" },
+	{ "name": "symbol", "parent": "root", "y": 83.94 },
 	{ "name": "text-bonus-glitch", "parent": "effect-bonus", "y": -41.75 }
 ],
 "slots": [
