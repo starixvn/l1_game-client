@@ -2,6 +2,10 @@ import _ = require("lodash");
 import PreviewOddsPopup from "../../_slotgame_base/PreviewOddsPopup";
 import CascadeSlotBoard from "./CascadeSlotBoard";
 import MultiplierItem from "./MultiplierItem";
+import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
+import AudioManager from "../../../common/audio/AudioManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
+import { uiManager } from "../../../managers/GameUIManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -59,5 +63,9 @@ export default class StandardCascadingSlotBoard extends CascadeSlotBoard {
     protected setValueMultiplier(index: number, multipliers: number[], multiplierItem: MultiplierItem) {
         multiplierItem.gameId = this.gameId;
         super.setValueMultiplier(index, multipliers, multiplierItem);
+    }
+
+    addSoundBoard(clipSound: CascadingSlotGameSound) {
+        uiManager.emitter.emit(InternalEvents.CASCADING_SLOT_PLAY_SOUND, clipSound);
     }
 }

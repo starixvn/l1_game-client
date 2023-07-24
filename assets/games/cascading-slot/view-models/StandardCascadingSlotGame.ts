@@ -96,6 +96,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         super.onLoad();
         this.loadAudios();
         this.updateBalanceColor();
+        uiManager.emitterListener(InternalEvents.CASCADING_SLOT_PLAY_SOUND, (type: CascadingSlotGameSound) => this.playSound(type), this);
     }
 
     protected initColorConfig() {
