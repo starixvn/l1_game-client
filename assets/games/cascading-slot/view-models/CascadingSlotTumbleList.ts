@@ -30,6 +30,7 @@ export default class CascadingSlotTumbleList extends cc.Component {
     }
 
     addIcons(icons: any) {
+        this.loadSymbolsAtlas();
         this.content.active = true;
         Object.entries(icons).forEach(([key, value]) => {
             const tumbleNode = cc.instantiate(this.tumbleItem);
@@ -41,6 +42,8 @@ export default class CascadingSlotTumbleList extends cc.Component {
         });
         this.updateContentHeight();
     }
+
+    async loadSymbolsAtlas() {}
 
     updateContentHeight() {
         const contentHeight = this.content.childrenCount * this.itemHeight;

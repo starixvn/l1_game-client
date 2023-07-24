@@ -1,3 +1,4 @@
+import { uiManager } from "../../../managers/GameUIManager";
 import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 
 const { ccclass, property } = cc._decorator;
@@ -7,12 +8,13 @@ export default class StandardCascadingSlotTumbleList extends CascadingSlotTumble
     @property(cc.Node)
     maskNode: cc.Node = null;
 
-    @property(cc.SpriteAtlas)
     mainAtlas: cc.SpriteAtlas = null;
 
     NUMBER_MAX_ITEM = 6;
     HEIGHT_CONTENT_REAL_MODE = 220;
     HEIGHT_CONTENT_TRIAL_MODE = 180;
+
+    gameId: number;
 
     setHeightContent(isTrialMode: boolean) {
         const scrollViewNode = this.scrollView.node;
@@ -24,5 +26,9 @@ export default class StandardCascadingSlotTumbleList extends CascadingSlotTumble
             scrollViewNode.height = this.HEIGHT_CONTENT_REAL_MODE;
             mask.spriteFrame = this.mainAtlas.getSpriteFrame("tumble-win-mask-real");
         }
+    }
+
+    async loadSymbolsAtlas() {
+        this.mainAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
     }
 }

@@ -158,6 +158,28 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         }
     }
 
+    async loadGameAtlas() {
+        let spriteAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
+
+        if (spriteAtlas) {
+            return;
+        }
+
+        const path = `resources/textures/standard-slot-game`;
+        const devPath = `../games/*/${path}`;
+        try {
+            spriteAtlas = await BundleManager.getInstance().loadAsset<cc.SpriteAtlas>({
+                bundleId: this.gameId.toString(),
+                path: path,
+                pathForDevMode: devPath,
+                type: cc.SpriteAtlas
+            });
+        } catch (e) {
+            cc.warn(`Missing Symbols spriteAtlas for ${path} `, e);
+        }
+        uiManager.prefabCache.gameAtlas[this.gameId] = spriteAtlas;
+    }
+
     async loadSlotSymbols() {
         const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
         for (let index = 0; index < CascadingSlotConfig.symbolCount; index++) {
