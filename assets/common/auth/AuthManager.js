@@ -1,13 +1,9 @@
 import axios from "axios";
 import i18n from "i18n/runtime-scripts/LanguageData";
-import * as _ from "lodash";
-
 import configs from "../../configs/Configs";
 import { appManager } from "../../managers/AppManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
-import GameUtils from "../GameUtils";
-import AudioManager from "../audio/AudioManager";
 import ChipConfig from "../bet-chips/view-models/ChipConfig";
 import { isSessionTimeoutError } from "../helpers/ErrorCodeHelper";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
@@ -48,13 +44,8 @@ export function checkSSO(onSuccessFunc) {
         return;
     }
 
-    let session = sessionManager.getSession();
-    const isSignOut = checkSignOut(urlParams, session);
-    if (urlParams.has("params")) {
-        session = authorizeFromMicroSite(urlParams, session);
-    }
-
-    if (_.isEmpty(session) && isSignOut) {
+    const session = sessionManager.getSession();
+    if (checkSignOut(urlParams, session)) {
         signOut();
         return;
     }
@@ -62,16 +53,9 @@ export function checkSSO(onSuccessFunc) {
     if (urlParams.has("token")) {
         checkHasToken(urlParams, onSuccessFunc);
     } else {
-        if (_.isEmpty(session)) {
-            signOut();
-            return;
-        }
-
         if (session?.isAuthenticated && session?.ss) {
-            window.authData = session;
-            getChipSetting();
+            setAuthorizeInfo(session);
             sessionManager.updateLanguage(session);
-            sentryLogger.setUser(session);
             onSuccessFunc();
         }
     }
@@ -104,7 +88,7 @@ function getAppType(urlParams) {
 
 function checkSignOut(urlParams, session) {
     const isSessionExpired = verifySession(session);
-    return isSessionExpired && !(urlParams.has("token") || urlParams.has("params"));
+    return isSessionExpired && !urlParams.has("token");
 }
 
 function checkHasToken(urlParams, onSuccessFunc) {
@@ -118,13 +102,12 @@ function checkHasToken(urlParams, onSuccessFunc) {
             }
 
             if (response.isAuthenticated) {
-                window.authData = response;
-                getChipSetting();
-                sentryLogger.setUser(response);
+                setAuthorizeInfo(response);
                 window.authData.time = new Date();
                 window.openGameId = urlParams.get("gameId");
                 sessionManager.storeSessionData(response);
                 sessionManager.removeDirectMode();
+                sessionManager.removeMicrositeGameId();
                 clearQueryStringOnUrl();
                 onSuccessFunc();
             } else {
@@ -137,47 +120,23 @@ function checkHasToken(urlParams, onSuccessFunc) {
         });
 }
 
-function authorizeFromMicroSite(urlParams, session) {
-    if (!urlParams.has("params")) {
-        return {};
-    }
-
-    const paramsQueryString = GameUtils.base64Decode(urlParams.get("params"));
-    const urlSearchParams = new URLSearchParams(paramsQueryString);
-    if (urlSearchParams.has("ss") && urlSearchParams.has("time")) {
-        session = updateSessionFromParams(session, urlSearchParams);
-        handleAudioParams(urlSearchParams);
-        sessionManager.removeDirectMode();
-        clearQueryStringOnUrl();
-
-        return session;
-    }
-
-    return {};
-}
-
-function updateSessionFromParams(session, urlSearchParams) {
-    session.time = new Date(+urlSearchParams.get("time"));
-    session.ss = urlSearchParams.get("ss");
-    session.memberName = urlSearchParams.get("memberName");
-    session.username = urlSearchParams.get("username");
-    session.isAuthenticated = urlSearchParams.get("isAuthenticated");
-    session.language = urlSearchParams.get("language");
+export function updateSession(session, params) {
+    session.time = new Date(+params.time);
+    session.ss = params.ss;
+    session.memberName = params.memberName;
+    session.username = params.username;
+    session.isAuthenticated = params.isAuthenticated;
+    session.language = params.language;
 
     sessionManager.storeSessionData(session);
 
     return session;
 }
 
-function handleAudioParams(urlSearchParams) {
-    const audio = AudioManager.getInstance();
-    if (urlSearchParams.has("musicEnable")) {
-        audio.musicEnabled = urlSearchParams.get("musicEnable") === "true";
-    }
-
-    if (urlSearchParams.has("sfxEnable")) {
-        audio.sfxEnabled = urlSearchParams.get("sfxEnable") === "true";
-    }
+export function setAuthorizeInfo(session) {
+    window.authData = session;
+    getChipSetting();
+    sentryLogger.setUser(session);
 }
 
 export function clearQueryStringOnUrl() {
@@ -238,6 +197,19 @@ export function verifySession(session) {
     }
 
     return isSessionExpired;
+}
+
+export function setRecheckInInterval() {
+    removeRecheckInInterval();
+    window.reCheckInId = setInterval(() => {
+        reCheckIn();
+    }, 60 * 1000);
+}
+
+export function removeRecheckInInterval() {
+    if (window.reCheckInId) {
+        clearInterval(window.reCheckInId);
+    }
 }
 
 export function reCheckIn() {

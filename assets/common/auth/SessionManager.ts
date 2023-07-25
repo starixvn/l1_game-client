@@ -20,6 +20,7 @@ export interface Session {
 }
 
 const sessionIdStorageName = "scss";
+const micrositeGameIdKey = "microsite_game_id";
 
 export function getSessionKey() {
     if (window.location && window.location.hostname) {
@@ -107,6 +108,18 @@ export function removeInRoomGameId() {
 
 export function removeDirectMode() {
     StorageManager.remove("direct_mode");
+}
+
+export function getMicrositeGameId() {
+    return StorageManager.get(micrositeGameIdKey) ?? 0;
+}
+
+export function storeMicrositeGameId(gameId) {
+    StorageManager.set(micrositeGameIdKey, gameId);
+}
+
+export function removeMicrositeGameId() {
+    StorageManager.remove(micrositeGameIdKey);
 }
 
 declare global {

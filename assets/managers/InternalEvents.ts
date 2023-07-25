@@ -21,7 +21,7 @@ export enum InternalEvents {
     SIGN_OUT = "sign-out",
     LOADING_GAME = "loading-game",
     NOTICE = "notice-popup",
-
+    MICROSITE_BACK_TO_LOBBY = "MICROSITE_BACK_TO_LOBBY",
     RECEIVED_JACKPOT_WINNER = "slot jackpot = Received jackpot winner data",
     RECEIVED_JACKPOT_WINNERS = "slot jackpot = Received jackpot top winners data",
     RECEIVED_RAW_JACKPOT_POOLS = "slot jackpot = Received raw jackpot pools data",

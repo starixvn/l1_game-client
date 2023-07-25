@@ -1,7 +1,6 @@
 import { Base64 } from "base64-string";
 import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-
 import SocketIOController from "../SocketIOController";
 import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
 import LobbyManager from "../lobby/main/view-models/LobbyManager";
@@ -13,13 +12,13 @@ import { StorageManager } from "../managers/StorageManager";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { preloadAssets } from "./PreloadRemoteAsset";
 import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
-import AudioManager from "./audio/AudioManager";
 import BetChips from "./bet-chips/view-models/BetChips";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
 import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import { userManager } from "./user/UserManager";
+import * as SessionManager from "../common/auth/SessionManager";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
@@ -262,7 +261,7 @@ export default class GameUtils {
     public static async openGameDirect(gameId: number, socketIOController: SocketIOController) {
         const gameConfiguration = getGameConfiguration(gameId);
         if (gameConfiguration?.isMicrosite) {
-            this.openGameMicrosite(gameId);
+            await this.openGameMicrosite(gameId);
             return;
         }
         await this.tryOpenGameDirect(gameId, socketIOController);
@@ -274,39 +273,25 @@ export default class GameUtils {
         await this.preloadGameRoom(gameId);
     }
 
-    public static openGameMicrosite(gameId: number) {
-        const auData = window.authData;
-        const directMode = StorageManager.get("direct_mode");
-        const url = buildMicrositeGameUrl(gameId);
-        const audio = AudioManager.getInstance();
-        const params = {
-            ss: auData.ss,
-            uname: auData.username,
-            lang: auData.language,
-            appType: auData.system,
-            ref: directMode?.ref,
-            rurl: directMode?.returnUrl || this.base64Encode(window.location.href),
-            musicEnable: audio.musicEnabled,
-            sfxEnable: audio.sfxEnabled
-        };
-        const searchParams = new URLSearchParams();
-        Object.keys(params).forEach((key) => params[key] !== undefined && searchParams.append(key, params[key]));
-        const encodedQueryString = this.base64Encode(searchParams.toString());
-
-        window.location.href = `${url}/?params=${encodedQueryString}`;
+    public static async openGameMicrosite(gameId: number) {
+        SessionManager.storeMicrositeGameId(gameId);
+        const sceneName = "microsite-game";
+        await this.loadScene(gameId, sceneName);
     }
 
     public static async loadSceneGame(gameId, socketIOController: SocketIOController) {
         const sceneName = socketIOController.gameScene[gameId];
+        await this.loadScene(gameId, sceneName);
+    }
+
+    public static async loadScene(gameId, sceneName: string) {
         await new Promise<void>((resolve) => {
-            //start loading game
             cc.director.preloadScene(
                 sceneName,
                 (progress, total) => {
                     uiManager.emitter.emit(`${InternalEvents.LOADING_GAME}-${gameId}`, { progress, total });
                 },
                 (error) => {
-                    //hide loading for game
                     if (error) {
                         this.onForceReload();
                     } else {
@@ -613,17 +598,21 @@ export default class GameUtils {
             }
         };
 
+        const copySuccessfully = await this.copyText(data);
+        const keyResult = copySuccessfully ? "messages.copy_success" : "messages.copyMD5Failed";
+        showResult(keyResult);
+    }
+
+    public static async copyText(text: string) {
         try {
             if (this.isAndroidWebView()) {
                 window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: "copy_to_clipboard", data: data }));
-                showResult(i18n.t("messages.copy_success"));
             } else {
-                await navigator.clipboard.writeText(data).then(() => {
-                    showResult(i18n.t("messages.copy_success"));
-                });
+                await navigator.clipboard.writeText(text);
             }
+            return true;
         } catch (e) {
-            showResult(i18n.t("messages.copyMD5Failed")); //e.message
+            return false;
         }
     }
 

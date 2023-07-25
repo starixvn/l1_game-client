@@ -163,7 +163,7 @@ window.boot = function () {
         splash.style.display = "block";
         progressBar.style.width = "0%";
 
-        cc.director.once(cc.Director.EVENT_AFTER_SCENE_LAUNCH, function () {
+        cc.director.once("event_after_enable_scene", function () {
             splash.style.display = "none";
             document.body.style.background = "#000";
         });

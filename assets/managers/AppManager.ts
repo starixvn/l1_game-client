@@ -17,6 +17,7 @@ import { InternalEvents } from "./InternalEvents";
 import { StorageManager } from "./StorageManager";
 import { UrlInfo } from "./UrlInfo";
 import { jackpotManager } from "./JackpotManager";
+
 const sentryLogger = logger();
 class AppManager {
     GAME_IS_SHOWED = true;
@@ -79,12 +80,8 @@ class AppManager {
         }
     }
 
-    checkDirectModeRefData(refData) {
-        const directRef = [
-            //
-            "d_direct",
-            "m_direct"
-        ];
+    checkDirectModeRefData(refData: string) {
+        const directRef = ["d_direct", "m_direct"];
         return directRef.some((data) => data === refData);
     }
 
@@ -179,7 +176,7 @@ class AppManager {
         return response.authorized;
     }
 
-    private async authorizeByUserService() {
+    async authorizeByUserService() {
         try {
             const { ss, username } = window.authData;
             const response: any = await UserService.getInstance().auth.authorize(ss, username);
@@ -206,13 +203,7 @@ class AppManager {
         return new Promise<void>((resolve) => {
             if (cc.sys.isBrowser && authManager) {
                 authManager.checkSSO(() => {
-                    if (window.reCheckInId) {
-                        clearInterval(window.reCheckInId);
-                    }
-                    window.reCheckInId = setInterval(() => {
-                        authManager.reCheckIn();
-                    }, 60 * 1000);
-
+                    authManager.setRecheckInInterval();
                     resolve();
                 });
             } else {
@@ -221,7 +212,7 @@ class AppManager {
         });
     }
 
-    private initLanguage() {
+    initLanguage() {
         let language = getCacheLanguage();
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("lang")) {

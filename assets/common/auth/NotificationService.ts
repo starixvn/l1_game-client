@@ -37,6 +37,11 @@ export default class NotificationService {
         }
     }
 
+    async forceConnect() {
+        this.isForceKickedOut = false;
+        await this.connect();
+    }
+
     private async createSocket() {
         return new Promise<void>((resolve, reject) => {
             const socketOptions: Partial<ManagerOptions & SocketOptions> = {
