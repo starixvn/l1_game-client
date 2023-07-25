@@ -20,6 +20,7 @@ import CascadingBigWinAnimation from "./CascadingBigWinAnimation";
 import CallbackAnimation from "../../../common/CallbackAnimation";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
+import StandardCascadingSlotTumbleList from "./StandardCascadingSlotTumbleList";
 
 const { ccclass, property } = cc._decorator;
 const LocalizedLabel = require("LocalizedLabel");
@@ -84,6 +85,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     totalMultiplierPrefab: cc.Prefab;
     tumbleWinFramePrefab: cc.Prefab;
     board: StandardCascadingSlotBoard;
+    tumbleList: StandardCascadingSlotTumbleList;
     private readonly previewSymbolLeft: cc.Prefab;
     private readonly previewSymbolRight: cc.Prefab;
     private readonly effectTransitionPrefab: cc.Prefab;
@@ -108,11 +110,11 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.colorConfig = this.colorInfo.json;
     }
 
-    onLoadedPrefabs() {
+    async onLoadedPrefabs() {
+        await this.loadGameAtlas();
         this.initTumbleWinFrame();
         this.initTumbleWinList();
         this.initTotalMultiplierFrame();
-
         this.loadSlotSymbols().then(() => {
             super.onLoadedPrefabs();
             this.board.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
@@ -165,7 +167,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             return;
         }
 
-        const path = `resources/textures/standard-slot-game`;
+        const path = `resources/textures/standard-cascading-slot`;
         const devPath = `../games/*/${path}`;
         try {
             spriteAtlas = await BundleManager.getInstance().loadAsset<cc.SpriteAtlas>({
@@ -296,7 +298,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     initTumbleWinList() {
         const node = cc.instantiate(this.tumbleListPrefab);
         this.tumbleListNode.addChild(node);
-        this.tumbleList = node.getComponent(CascadingSlotTumbleList);
+        this.tumbleList = node.getComponent(StandardCascadingSlotTumbleList);
+        this.tumbleList.mainAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
     }
 
     initTumbleWinFrame() {

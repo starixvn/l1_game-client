@@ -13,7 +13,6 @@ export default class StandardCascadingSlotTumbleList extends CascadingSlotTumble
     NUMBER_MAX_ITEM = 6;
     HEIGHT_CONTENT_REAL_MODE = 220;
     HEIGHT_CONTENT_TRIAL_MODE = 180;
-
     gameId: number;
 
     setHeightContent(isTrialMode: boolean) {
@@ -28,7 +27,9 @@ export default class StandardCascadingSlotTumbleList extends CascadingSlotTumble
         }
     }
 
-    async loadSymbolsAtlas() {
-        this.mainAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
+    getTumbleItemComp(tumbleNode: cc.Node) {
+        const control = super.getTumbleItemComp(tumbleNode);
+        control.mainAtlas = this.mainAtlas;
+        return control;
     }
 }
