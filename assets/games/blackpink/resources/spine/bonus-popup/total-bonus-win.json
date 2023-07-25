@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "3LBjWLI77/ffkUZWcEyHxhJb3W4",
+	"hash": "ThRyxkMAl+E3jQrhDwBBB/1zcFU",
 	"spine": "3.8.99",
 	"x": -424.5,
 	"y": -99.67,
@@ -180,7 +180,7 @@
 "slots": [
 	{ "name": "bg", "bone": "root" },
 	{ "name": "fx_bloom", "bone": "fx_bloom", "blend": "additive" },
-	{ "name": "fx_bloom2", "bone": "fx_bloom2", "attachment": "fx_bloom", "blend": "additive" },
+	{ "name": "fx_bloom2", "bone": "fx_bloom2", "color": "d73dffff", "attachment": "fx_bloom", "blend": "additive" },
 	{ "name": "fx_sparkle5", "bone": "fx_sparkle1", "color": "ffe806ff", "blend": "additive" },
 	{ "name": "fx_sparkle6", "bone": "fx_sparkle2", "color": "ffe806ff", "blend": "additive" },
 	{ "name": "fx_sparkle7", "bone": "fx_sparkle3", "color": "ffe806ff", "blend": "additive" },
@@ -1785,7 +1785,7 @@
 					{ "time": 0.2, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.3333, "color": "ffffff00", "curve": "stepped" },
 					{ "time": 0.8, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.3333, "color": "1a1a9bff" },
+					{ "time": 1.3333, "color": "ffffffff" },
 					{ "time": 2, "color": "19199b00" }
 				],
 				"attachment": [
@@ -1812,7 +1812,7 @@
 				"color": [
 					{ "color": "ffffff00", "curve": "stepped" },
 					{ "time": 0.2333, "color": "ffffff00", "curve": 0.363, "c2": 0.33, "c3": 0.694, "c4": 0.66 },
-					{ "time": 0.3667, "color": "ffffffff", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
+					{ "time": 0.3667, "color": "de36ffff", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
 					{ "time": 0.8, "color": "ffffff00" }
 				],
 				"attachment": [
@@ -1823,7 +1823,7 @@
 				"color": [
 					{ "color": "ffffff00", "curve": "stepped" },
 					{ "time": 0.2333, "color": "ffffff00", "curve": 0.363, "c2": 0.33, "c3": 0.694, "c4": 0.66 },
-					{ "time": 0.4, "color": "ffffffff", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
+					{ "time": 0.4, "color": "df3effff", "curve": 0.635, "c2": 0.23, "c3": 0.709, "c4": 0.47 },
 					{ "time": 0.8667, "color": "ffffff00" }
 				],
 				"attachment": [
@@ -1990,7 +1990,8 @@
 					{ "time": 0.2, "x": 6, "y": 3, "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.2667, "x": 1.2, "y": 1.2, "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.3, "x": 2.4, "y": 2, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.3333, "x": 3.2, "y": 2.4 }
+					{ "time": 0.3333, "x": 3.2, "y": 2.4, "curve": 0.243, "c3": 0.677, "c4": 0.7 },
+					{ "time": 1.6, "x": 2.4, "y": 2.4 }
 				]
 			},
 			"fx_bloom": {

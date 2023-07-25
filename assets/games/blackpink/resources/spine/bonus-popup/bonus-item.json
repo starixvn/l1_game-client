@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "dfRSf73815PR7RLHRfWIAPI26XI",
+	"hash": "xIa+i1D9rXoixyyHGSqnvppBQ2I",
 	"spine": "3.8.99",
 	"x": -101,
 	"y": -80.77,
@@ -124,7 +124,8 @@
 			},
 			"ball2": {
 				"color": [
-					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
+					{ "color": "ffffff00", "curve": "stepped" },
+					{ "time": 0.2667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.4, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.5, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.6667, "color": "ffffffff" }
