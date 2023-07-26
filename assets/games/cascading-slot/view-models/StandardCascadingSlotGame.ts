@@ -21,6 +21,7 @@ import CallbackAnimation from "../../../common/CallbackAnimation";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
 import StandardCascadingSlotTumbleList from "./StandardCascadingSlotTumbleList";
+import StandardSlotGameTopMessage from "../../_slotgame_base/StandardSlotGameTopMessage";
 
 const { ccclass, property } = cc._decorator;
 const LocalizedLabel = require("LocalizedLabel");
@@ -43,7 +44,13 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     totalWinLabel: cc.Label = null;
 
     @property({ type: cc.Prefab, visible: false, override: true })
-    betControlPrefab: cc.Prefab = null;
+    flyWinLabelPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    topMessagePrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    topMsgNode: cc.Node = null;
 
     @property(cc.Node)
     bottomMessageArea: cc.Node = null;
@@ -59,9 +66,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     @property(cc.Node)
     tumbleListNode: cc.Node = null;
-
-    @property(cc.Node)
-    freespinViewNode: cc.Node = null;
 
     @property(cc.JsonAsset)
     musicInfo: cc.JsonAsset = null;
@@ -86,6 +90,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     tumbleWinFramePrefab: cc.Prefab;
     board: StandardCascadingSlotBoard;
     tumbleList: StandardCascadingSlotTumbleList;
+    topMessage: StandardSlotGameTopMessage = null;
     private readonly previewSymbolLeft: cc.Prefab;
     private readonly previewSymbolRight: cc.Prefab;
     private readonly effectTransitionPrefab: cc.Prefab;
@@ -115,7 +120,9 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.initTumbleWinFrame();
         this.initTumbleWinList();
         this.initTotalMultiplierFrame();
-        this.loadSlotSymbols().then(() => {
+        this.initTopMessage();
+        this.loadSlotSymbols().then(async () => {
+            await this.loadMultiplierPrefab();
             super.onLoadedPrefabs();
             this.board.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
         });
@@ -139,7 +146,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
             "preview-symbol-left": "previewSymbolLeft",
             "preview-symbol-right": "previewSymbolRight",
-            "effect-transition": "effectTransitionPrefab"
+            "effect-transition": "effectTransitionPrefab",
+            "fly-win-label": "flyWinLabelPrefab"
         };
 
         for (const key of Object.keys(dict)) {
@@ -154,6 +162,26 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
                 });
 
                 this[dict[key]] = prefab;
+            } catch (e) {
+                console.warn(`Missing prefab for ${path} `, e);
+            }
+        }
+    }
+
+    async loadMultiplierPrefab() {
+        const prefabCache = uiManager.prefabCache.multiplierPrefab[this.gameId] || {};
+        if (prefabCache !== null) {
+            const path = `preload/prefabs/multiplier`;
+            const devPath = `../games/*/${path}`;
+            try {
+                const prefab = await BundleManager.getInstance().loadAsset<cc.Prefab>({
+                    bundleId: this.gameId.toString(),
+                    path: path,
+                    pathForDevMode: devPath,
+                    type: cc.Prefab
+                });
+
+                uiManager.prefabCache.multiplierPrefab[this.gameId] = prefab;
             } catch (e) {
                 console.warn(`Missing prefab for ${path} `, e);
             }
@@ -466,8 +494,14 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.bottomMessage && (this.bottomMessage.isFreeSpin = this.isFreeSpin());
     }
 
-    initShowTopMessage(node: cc.Node) {
-        super.initShowTopMessage(node);
+    initTopMessage() {
+        if (!this.topMessagePrefab) {
+            return;
+        }
+        const topMsg = cc.instantiate(this.topMessagePrefab);
+        this.topMsgNode.addChild(topMsg);
+        this.topMessage = topMsg.getComponent(StandardSlotGameTopMessage);
+        this.topMessage.mainAtlas = uiManager.prefabCache.gameAtlas[this.gameId];
         this.topMessage.updateColor(this.colorConfig.topMessageTextColor);
     }
 

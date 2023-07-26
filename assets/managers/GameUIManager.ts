@@ -29,7 +29,8 @@ export default class GameUIManager {
         miniPanelIcons: {},
         slotSymbols: {},
         slotWinningAnimation: {},
-        gameAtlas: {}
+        gameAtlas: {},
+        multiplierPrefab: {}
     };
 
     initEmitter() {

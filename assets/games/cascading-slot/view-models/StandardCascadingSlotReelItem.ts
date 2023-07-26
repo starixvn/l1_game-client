@@ -14,6 +14,7 @@ export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
     }
 
     protected replaceItem(index: number) {
+        this.itemPrefabs[1] = uiManager.prefabCache.multiplierPrefab[this.gameId];
         this.content.removeAllChildren();
         if (index < 0) {
             console.error("replaceItem wrong index: " + index);

@@ -52,6 +52,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
                 Object.entries<{ count; win }>(tumble.icons).forEach(([key, value]) => {
                     tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
                     const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
+                    this.getMainAtlas(control);
                     const { count, win } = value;
                     control.setData(+key, count, win);
                     numberOfIcon++;
@@ -67,6 +68,8 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
         this.win.string = numberWithCommas(currWinTumble, 2, false);
         this.index.string = (index + 1).toString();
     }
+
+    getMainAtlas(control: CascadingSlotTumbleItem) {}
 
     setDataHaveFreeSpin(count: number, odd: number, index: number, win: number, extraFreeSpin: boolean) {
         const tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);

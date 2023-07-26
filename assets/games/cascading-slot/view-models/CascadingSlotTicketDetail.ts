@@ -62,6 +62,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
             const detailItem = this.loadDetailItem();
             const control = detailItem.getComponent(CascadingSlotTicketDetailItem);
             control.gameId = this.gameId;
+            this.loadGameAtlas(control, this.gameId);
             if ((index === tumbles.length - 1 && !isReachMaxWin) || index < tumbles.length - 1) {
                 currWinTumble += tumble.win;
                 control.setData(tumble, index, data, currWinTumble);
@@ -77,6 +78,7 @@ export default class CascadingSlotTicketDetail extends cc.Component {
         this.reachMaxText.string = `(${GameUtils.getText(reachMaxLocalize)}) `;
     }
 
+    async loadGameAtlas(control: CascadingSlotTicketDetailItem, gameId: number) {}
     loadDetailItem() {
         return cc.instantiate(this.ticketDetailItemPrefab);
     }
