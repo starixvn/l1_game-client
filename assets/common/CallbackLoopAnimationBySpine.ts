@@ -8,6 +8,9 @@ export default class CallbackLoopAnimationBySpine extends CallbackLoopAnimation 
     @property({ visible: false, override: true })
     loopClip: cc.AnimationClip = null;
 
+    @property({ visible: false, override: true })
+    animation: cc.Animation = null;
+
     @property(sp.Skeleton)
     loopSpine: sp.Skeleton = null;
 

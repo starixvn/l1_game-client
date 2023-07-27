@@ -237,6 +237,11 @@ export default class StandardSlotGame extends SlotGameBase {
         this.bottomMessage && this.bottomMessage.showMessages(SlotNotification.FREESPINS);
     }
 
+    updateBottomMessageStatus() {
+        super.updateBottomMessageStatus();
+        this.bottomMessage && (this.bottomMessage.isFreeSpin = this.isFreeSpin());
+    }
+
     override playSound(type: ClassicSlotSound) {
         const key = type.toString();
         if (this.audioClips[key]) {

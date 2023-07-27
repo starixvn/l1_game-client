@@ -3,7 +3,6 @@ import _ = require("lodash");
 import GameUtils from "../../common/GameUtils";
 
 export enum SlotNotification {
-    CHANGE_MODE = -1,
     BEFORESPIN = 0,
     SPINNING = 1,
     SETTLED = 2,
