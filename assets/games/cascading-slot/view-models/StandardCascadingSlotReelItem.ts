@@ -9,6 +9,7 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
+    //public multiplierValue = -1;
     get cache() {
         return uiManager.prefabCache.slotSymbols[this.gameId] || {};
     }
@@ -36,13 +37,13 @@ export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
         await GameUtils.delayTime(original);
     }
 
-    updateMultiplierItem(multiplier: number[]) {
-        if (this.index >= MULTIPLIER_SYMBOL && multiplier.length > 0) {
-            const m = multiplier.shift();
-            const multiplierItem = this.content.children[0].getComponent(StandardMultiplierItem);
-            multiplierItem.gameId = this.gameId;
-            multiplierItem?.setValue(m);
-            this.index = multiplierItem.levelMultiplier;
-        }
-    }
+    // updateMultiplierItem(multiplier: number[]) {
+    //     if (this.index >= MULTIPLIER_SYMBOL && multiplier.length > 0) {
+    //         const m = multiplier.shift();
+    //         const multiplierItem = this.content.children[0].getComponent(StandardMultiplierItem);
+    //         multiplierItem.gameId = this.gameId;
+    //         multiplierItem?.setValue(m);
+    //         //this.multiplierValue = multiplierItem.multiplier;
+    //     }
+    // }
 }

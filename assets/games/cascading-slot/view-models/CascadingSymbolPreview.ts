@@ -38,10 +38,9 @@ export default class CascadingSymbolPreview extends SymbolPreview {
     }
 
     setInfo(info: CascadingSymbolPreviewType) {
-        let nodeTmp = cc.instantiate(info.symbolItem.content);
+        let nodeTmp = cc.instantiate(info.symbolItem.content.children[0]);
         this.content.addChild(nodeTmp);
-        const skeleton = nodeTmp.getComponentInChildren(sp.Skeleton);
-        skeleton.skeletonData = info.spine;
+        const skeleton = nodeTmp.getComponent(sp.Skeleton);
         skeleton.setAnimation(0, "highlight", false);
         this.border.color = cc.Color.WHITE.fromHEX(info.borderColor);
         this.renderInfo(info);

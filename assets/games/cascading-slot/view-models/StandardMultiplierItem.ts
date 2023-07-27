@@ -17,7 +17,6 @@ export default class StandardMultiplierItem extends MultiplierItem {
 
     gameId: number;
     private spine: sp.Skeleton;
-    public levelMultiplier;
 
     get cache() {
         return uiManager.prefabCache.slotSymbols[this.gameId] || {};
@@ -25,7 +24,6 @@ export default class StandardMultiplierItem extends MultiplierItem {
 
     onLoad() {
         this.spine = this.node.getComponent(sp.Skeleton);
-        this.spine.skeletonData = this.cache[this.levelMultiplier];
     }
 
     async playAnimationGlow() {
@@ -57,10 +55,8 @@ export default class StandardMultiplierItem extends MultiplierItem {
                 break;
             }
         }
-
         const anim = "idle";
-        this.levelMultiplier = level[i];
-        this.spine.skeletonData = this.cache[this.levelMultiplier];
+        this.spine.skeletonData = this.cache[level[i]];
         this.spine.setAnimation(0, anim, true);
     }
 }

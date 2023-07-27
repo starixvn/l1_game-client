@@ -22,6 +22,8 @@ import { InternalEvents } from "../../../managers/InternalEvents";
 import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
 import StandardCascadingSlotTumbleList from "./StandardCascadingSlotTumbleList";
 import StandardSlotGameTopMessage from "../../_slotgame_base/StandardSlotGameTopMessage";
+import { MULTIPLIER_SYMBOL } from "./CascadingSlotUtils";
+import StandardMultiplierItem from "./StandardMultiplierItem";
 
 const { ccclass, property } = cc._decorator;
 const LocalizedLabel = require("LocalizedLabel");
@@ -288,7 +290,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         }
         this.playSound(CascadingSlotGameSound.CLICK);
         const symbolCache = uiManager.prefabCache.slotSymbols[this.gameId];
-        const spine = symbolCache[symbol.index];
 
         const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
         const previewNode = cc.instantiate(previewPrefab);
@@ -296,7 +297,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         const symbolPreview = previewNode.getComponent(CascadingSymbolPreview);
         this.board.showPreview(previewNode, worldPosition);
         symbolPreview.setInfo({
-            spine,
+            spine: null,
             odds: this.gameConfigs.odds.symbols[symbol.index],
             colorList: [this.colorConfig.previewOddsSymbolNumberColor, this.colorConfig.previewOddsWinValueColor],
             borderColor: this.colorConfig.previewOddsBorderColor,
