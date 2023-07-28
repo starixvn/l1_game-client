@@ -1,6 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { appManager } from "../../../managers/AppManager";
 import JackpotWinner from "../JackpotWinner";
+import RoundTimerManager from "../RoundTimerManager";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -134,6 +135,7 @@ export default class PopupMinigames extends cc.Component {
                 menuAnimation.play();
             } else {
                 this.showListGame();
+                RoundTimerManager.getInstance().getAllMiniCounter();
                 menuAnimation.stop();
                 this.menuIcon.getChildByName("icon").angle = 0;
             }

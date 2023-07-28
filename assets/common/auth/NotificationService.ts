@@ -86,7 +86,8 @@ export default class NotificationService {
             "auth",
             "promotions",
             "promotionNotifications",
-            "mini-counter"
+            "miniCounter",
+            "latestMiniCounter"
         ];
 
         messageList.forEach((message) => {
@@ -132,14 +133,14 @@ export default class NotificationService {
         });
     }
 
-    addDataObserver(dataType: string, dataKey: string, observer) {
+    addDataObserver(dataType: string, observerKey: string, observer) {
         if (!this.dataObservers[dataType]) {
             this.dataObservers[dataType] = {};
         }
-        this.dataObservers[dataType][dataKey] = observer;
+        this.dataObservers[dataType][observerKey] = observer;
     }
 
-    removeDataObserver(dataType: string, dataKey: string) {
-        delete this.dataObservers[dataType][dataKey];
+    removeDataObserver(dataType: string, observerKey: string) {
+        delete this.dataObservers[dataType][observerKey];
     }
 }
