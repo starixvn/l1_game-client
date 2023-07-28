@@ -10,6 +10,10 @@ include:
       ref: main
       file: "luminet.gitlab-ci.yml"
 
+    - project: "ci/repos-ci/pentagon_l2_candy_land_client"
+      ref: master
+      file: "gitlab-ci-mixing.yml"
+
     - local: "ci/*.yml"
 
 variables:
