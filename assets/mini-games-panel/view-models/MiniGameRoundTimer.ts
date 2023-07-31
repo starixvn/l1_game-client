@@ -1,31 +1,37 @@
+import GameUtils from "../../common/GameUtils";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import RoundTimerResult from "./RoundTimerResult";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MiniGameRoundTimer extends cc.Component {
-    @property(cc.Sprite)
-    result: cc.Sprite = null;
+    @property(cc.Node)
+    result: cc.Node = null;
 
     @property(cc.Label)
     time: cc.Label = null;
 
-    @property(cc.SpriteFrame)
-    resultSprites = [];
-
     @property
     gameId = 0;
+
+    @property
+    resultDelayTime = 0;
 
     protected betOptions;
     protected gameConfig;
     protected counDownTimer;
-    private readonly;
+    roundResult: RoundTimerResult;
 
     onLoad() {
         this.initGameConfig();
-        this.result.node.active = false;
+        if (this.result) {
+            this.roundResult = this.result.getComponent(RoundTimerResult);
+            this.roundResult.betOptions = this.betOptions;
+        }
+        this.result.active = false;
         this.time.node.active = false;
 
         uiManager.emitterListener(
@@ -37,14 +43,15 @@ export default class MiniGameRoundTimer extends cc.Component {
         );
     }
 
-    private onReceivedData(data) {
+    private async onReceivedData(data) {
         const gameConfiguration = getGameConfiguration(this.gameId);
         const gameData = data[gameConfiguration.key.toLowerCase()];
         if (!gameData) {
             return;
         }
         this.time.node.active = false;
-        this.result.node.active = true;
+        await GameUtils.delayTime(this.resultDelayTime);
+        this.result.active = true;
         const settlement = gameData["settlementResult"];
         this.setResult(settlement);
         this.counDownTimer = this.gameConfig.fullTime;
@@ -61,7 +68,7 @@ export default class MiniGameRoundTimer extends cc.Component {
 
         if (this.isStartRound()) {
             this.time.node.active = true;
-            this.result.node.active = false;
+            this.result.active = false;
         }
 
         if (this.isInRound()) {
@@ -84,6 +91,6 @@ export default class MiniGameRoundTimer extends cc.Component {
     }
 
     setResult(settlement) {
-        // override
+        this.roundResult.setResult(settlement);
     }
 }
