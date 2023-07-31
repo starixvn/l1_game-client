@@ -30,5 +30,6 @@ export enum InternalEvents {
     RECEIVED_JACKPOT_POOLS_IN_GAME = "slot jackpot = Received jackpot pools data in game",
 
     CHANGE_CATEGORY = "change category",
-    SCROLL_NESTED_SCROLLVIEW = "scroll in nested scrollview"
+    SCROLL_NESTED_SCROLLVIEW = "scroll in nested scrollview",
+    MINI_ROUND_TIMER = "mini game round timer"
 }

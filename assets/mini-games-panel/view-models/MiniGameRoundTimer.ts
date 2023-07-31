@@ -1,5 +1,6 @@
-import NotificationService from "../../common/auth/NotificationService";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,13 +27,14 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.initGameConfig();
         this.result.node.active = false;
         this.time.node.active = false;
-        NotificationService.getInstance().addDataObserver("miniCounter", "miniCounter", this.onReceivedData.bind(this));
-        NotificationService.getInstance().addDataObserver("latestMiniCounter", "latestMiniCounter", this.onReceivedData.bind(this));
-    }
 
-    onDestroy() {
-        NotificationService.getInstance().removeDataObserver("miniCounter", "miniCounter");
-        NotificationService.getInstance().removeDataObserver("latestMiniCounter", "latestMiniCounter");
+        uiManager.emitterListener(
+            InternalEvents.MINI_ROUND_TIMER,
+            (data) => {
+                this.onReceivedData(data);
+            },
+            this
+        );
     }
 
     private onReceivedData(data) {

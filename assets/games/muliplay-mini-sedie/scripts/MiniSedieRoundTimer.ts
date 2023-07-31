@@ -1,5 +1,5 @@
-import { miniSedieConfigs } from "../../games/muliplay-mini-sedie/scripts/MiniSedieConfigs";
-import MiniGameRoundTimer from "./MiniGameRoundTimer";
+import MiniGameRoundTimer from "../../../mini-games-panel/view-models/MiniGameRoundTimer";
+import { miniSedieConfigs } from "./MiniSedieConfigs";
 
 const { ccclass } = cc._decorator;
 

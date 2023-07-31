@@ -1,4 +1,6 @@
 import NotificationService from "../../common/auth/NotificationService";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 
 export default class RoundTimerManager {
     private static instance: RoundTimerManager;
@@ -11,7 +13,16 @@ export default class RoundTimerManager {
         return this.instance;
     }
 
-    getAllMiniCounter() {
+    requestAllGamesRoundTimer() {
         NotificationService.getInstance().emitEvent("getMiniCounter", {});
+    }
+
+    initEvents() {
+        NotificationService.getInstance().addDataObserver("miniCounter", "miniCounter", this.onReceivedData.bind(this));
+        NotificationService.getInstance().addDataObserver("latestMiniCounter", "latestMiniCounter", this.onReceivedData.bind(this));
+    }
+
+    onReceivedData(data) {
+        uiManager.emitter.emit(InternalEvents.MINI_ROUND_TIMER, data);
     }
 }

@@ -135,7 +135,8 @@ export default class PopupMinigames extends cc.Component {
                 menuAnimation.play();
             } else {
                 this.showListGame();
-                RoundTimerManager.getInstance().getAllMiniCounter();
+                RoundTimerManager.getInstance().requestAllGamesRoundTimer();
+                RoundTimerManager.getInstance().initEvents();
                 menuAnimation.stop();
                 this.menuIcon.getChildByName("icon").angle = 0;
             }
