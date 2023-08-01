@@ -31,5 +31,7 @@ export enum InternalEvents {
 
     CHANGE_CATEGORY = "change category",
     SCROLL_NESTED_SCROLLVIEW = "scroll in nested scrollview",
-    MINI_ROUND_TIMER = "mini game round timer"
+
+    MINI_GAME_ROUND_TIMER = "mini game round timer",
+    HIDE_POPUP_MINI_GAMES = "hide popup mini game"
 }

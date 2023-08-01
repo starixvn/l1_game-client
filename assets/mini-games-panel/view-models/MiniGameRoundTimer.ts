@@ -1,7 +1,9 @@
+import { data } from "../../../packages/i18n/runtime-scripts/creator";
 import GameUtils from "../../common/GameUtils";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import RoundTimerManager from "./RoundTimerManager";
 import RoundTimerResult from "./RoundTimerResult";
 
 const { ccclass, property } = cc._decorator;
@@ -22,60 +24,26 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     protected betOptions;
     protected gameConfig;
-    protected counDownTimer;
-    roundResult: RoundTimerResult;
+    private counDownTimer;
+    private roundResult: RoundTimerResult;
 
     onLoad() {
+        this.hideRoundTimer();
         this.initGameConfig();
+
         if (this.result) {
             this.roundResult = this.result.getComponent(RoundTimerResult);
             this.roundResult.betOptions = this.betOptions;
         }
-        this.result.active = false;
-        this.time.node.active = false;
 
-        uiManager.emitterListener(
-            InternalEvents.MINI_ROUND_TIMER,
-            (data) => {
-                this.onReceivedData(data);
-            },
-            this
-        );
+        RoundTimerManager.getInstance().roundData && this.onReceivedData(RoundTimerManager.getInstance().roundData);
+
+        uiManager.emitterListener(InternalEvents.MINI_GAME_ROUND_TIMER, (data) => this.onReceivedData(data), this);
+        uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.hideRoundTimer(), this);
     }
 
-    private async onReceivedData(data) {
-        const gameConfiguration = getGameConfiguration(this.gameId);
-        const gameData = data[gameConfiguration.key.toLowerCase()];
-        if (!gameData) {
-            return;
-        }
-        this.time.node.active = false;
-        await GameUtils.delayTime(this.resultDelayTime);
-        this.result.active = true;
-        const settlement = gameData["settlementResult"];
-        this.setResult(settlement);
-        this.counDownTimer = this.gameConfig.fullTime;
-        this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
-    }
-
-    private countDown() {
-        if (this.counDownTimer < this.gameConfig.minBetTime) {
-            this.time.string = "";
-            this.time.node.active = false;
-            this.unschedule(this.countDown);
-            return;
-        }
-
-        if (this.isStartRound()) {
-            this.time.node.active = true;
-            this.result.active = false;
-        }
-
-        if (this.isInRound()) {
-            this.time.string = this.counDownTimer;
-        }
-
-        this.counDownTimer--;
+    onDestroy() {
+        uiManager.removeListenersWithTarget(this);
     }
 
     private isStartRound() {
@@ -86,11 +54,58 @@ export default class MiniGameRoundTimer extends cc.Component {
         return this.counDownTimer <= this.gameConfig.betTime && this.counDownTimer >= this.gameConfig.minBetTime;
     }
 
-    initGameConfig() {
-        // override
+    hideRoundTimer() {
+        this.result.active = false;
+        this.time.node.active = false;
     }
 
-    setResult(settlement) {
+    showCountDownTime() {
+        this.time.node.active = true;
+        this.result.active = false;
+    }
+
+    private async onReceivedData(data) {
+        const gameConfiguration = getGameConfiguration(this.gameId);
+        const gameData = data[gameConfiguration.key.toLowerCase()];
+
+        if (!gameData) {
+            return;
+        }
+
+        const { settlementResult, timeFromStart } = gameData;
+        this.time.node.active = false;
+        !timeFromStart && (await GameUtils.delayTime(this.resultDelayTime));
+        this.result.active = true;
+
+        const settlement = settlementResult;
         this.roundResult.setResult(settlement);
+
+        this.counDownTimer = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
+        if (timeFromStart && this.isInRound()) {
+            this.time.string = "";
+            this.showCountDownTime();
+        }
+        this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
+    }
+
+    private resumeRoundTimer(timeFromStart): number {
+        return Math.round(this.gameConfig.fullTime + timeFromStart);
+    }
+
+    private countDown() {
+        if (this.counDownTimer < this.gameConfig.minBetTime) {
+            this.time.string = "";
+            this.time.node.active = false;
+            this.unschedule(this.countDown);
+            return;
+        }
+
+        this.isStartRound() && this.showCountDownTime();
+        this.isInRound() && (this.time.string = this.counDownTimer);
+        this.counDownTimer--;
+    }
+
+    initGameConfig() {
+        // override
     }
 }

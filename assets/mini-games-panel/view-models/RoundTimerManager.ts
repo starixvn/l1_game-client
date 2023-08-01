@@ -4,6 +4,9 @@ import { InternalEvents } from "../../managers/InternalEvents";
 
 export default class RoundTimerManager {
     private static instance: RoundTimerManager;
+    private readonly miniCounter = "miniCounter";
+    private readonly latestMiniCounter = "latestMiniCounter";
+    public roundData = null;
 
     public static getInstance(): RoundTimerManager {
         if (!this.instance) {
@@ -18,11 +21,17 @@ export default class RoundTimerManager {
     }
 
     initEvents() {
-        NotificationService.getInstance().addDataObserver("miniCounter", "miniCounter", this.onReceivedData.bind(this));
-        NotificationService.getInstance().addDataObserver("latestMiniCounter", "latestMiniCounter", this.onReceivedData.bind(this));
+        NotificationService.getInstance().addDataObserver(this.miniCounter, this.miniCounter, this.onReceivedData.bind(this));
+        NotificationService.getInstance().addDataObserver(this.latestMiniCounter, this.latestMiniCounter, this.onReceivedData.bind(this));
     }
 
     onReceivedData(data) {
-        uiManager.emitter.emit(InternalEvents.MINI_ROUND_TIMER, data);
+        this.roundData = data;
+        uiManager.emitter.emit(InternalEvents.MINI_GAME_ROUND_TIMER, data);
+    }
+
+    removeEvents() {
+        NotificationService.getInstance().removeDataObserver(this.miniCounter, this.miniCounter);
+        NotificationService.getInstance().removeDataObserver(this.latestMiniCounter, this.latestMiniCounter);
     }
 }

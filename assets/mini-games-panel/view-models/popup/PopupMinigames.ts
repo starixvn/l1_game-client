@@ -1,5 +1,7 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import { appManager } from "../../../managers/AppManager";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import JackpotWinner from "../JackpotWinner";
 import RoundTimerManager from "../RoundTimerManager";
 
@@ -38,10 +40,12 @@ export default class PopupMinigames extends cc.Component {
         jackpotWinner.popupMiniGame = this;
         this.jackPotContainer.addChild(jackpot);
         this.jackPotContainer.active = false;
+        RoundTimerManager.getInstance().initEvents();
     }
 
     onDestroy() {
         this.unschedule(this.moveToEdge);
+        RoundTimerManager.getInstance().removeEvents();
     }
     onEnable() {
         this.panel.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
@@ -135,8 +139,6 @@ export default class PopupMinigames extends cc.Component {
                 menuAnimation.play();
             } else {
                 this.showListGame();
-                RoundTimerManager.getInstance().requestAllGamesRoundTimer();
-                RoundTimerManager.getInstance().initEvents();
                 menuAnimation.stop();
                 this.menuIcon.getChildByName("icon").angle = 0;
             }
@@ -156,6 +158,7 @@ export default class PopupMinigames extends cc.Component {
             .to(0.3, { scale: 1, opacity: 255 }, { easing: "sineIn" })
             .call(() => {
                 this.toggleRuning = false;
+                RoundTimerManager.getInstance().requestAllGamesRoundTimer();
             })
             .start();
     }
@@ -172,6 +175,7 @@ export default class PopupMinigames extends cc.Component {
             .to(0.2, { scale: 1, opacity: 255 }, { easing: "sineOut" })
             .call(() => {
                 cc.tween(this.menuIcon).to(0.2, { scale: 0.9 }, { easing: "sineOut" }).start();
+                uiManager.emitter.emit(InternalEvents.HIDE_POPUP_MINI_GAMES);
             })
             .start();
 
