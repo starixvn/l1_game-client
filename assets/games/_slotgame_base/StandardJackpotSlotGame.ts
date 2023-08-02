@@ -96,10 +96,6 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
         this.topWinnersButton.active = this.jackpotEnabled;
     }
 
-    protected getJackpotAmountByCurrency(amount) {
-        return GameUtils.getValueByCurrency(amount);
-    }
-
     handleGameGuide(guide: WebViewGuide, language, minBet, maxBet, isInPromotionTime) {
         const jackpotGuide = guide as StandarSlotGuide;
         jackpotGuide.enableJackpot = this.jackpotEnabled;

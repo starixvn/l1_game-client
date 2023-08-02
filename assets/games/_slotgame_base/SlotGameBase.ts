@@ -998,12 +998,8 @@ export default class SlotGameBase extends FeatureSlotGameBase {
         const jackpotDuration = this.getCustomDuration("jackpot");
         callbackAnim.setDuration(jackpotDuration);
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setAmount({ amount: this.getJackpotAmountByCurrency(amount), duration: jackpotDuration - 1 });
+        bigWinAnimation.setAmount({ amount: amount, duration: jackpotDuration - 1 });
         await this.showEffect(effect);
-    }
-
-    protected getJackpotAmountByCurrency(amount) {
-        return amount;
     }
 
     updatePoolData(data: any) {

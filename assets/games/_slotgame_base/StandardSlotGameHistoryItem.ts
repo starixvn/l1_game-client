@@ -1,5 +1,4 @@
 import { getLocale } from "../../common/auth/SessionManager";
-import GameUtils from "../../common/GameUtils";
 import { uiManager } from "../../managers/GameUIManager";
 import SlotGameHistoryItem from "./SlotGameHistoryItem";
 
@@ -13,13 +12,9 @@ export default class StandardSlotGameHistoryItem extends SlotGameHistoryItem {
         const { betWin, settlementResult } = betLog;
         let win = betWin;
         if (settlementResult.jackpot !== null) {
-            win += this.calculateWinningAmount(settlementResult.jackpot.winningAmount);
+            win += settlementResult.jackpot.winningAmount;
         }
         this.win.node.color = win > 0 ? this.textHighlightColor : this.textNormalColor;
-    }
-
-    protected calculateWinningAmount(winningAmount: number) {
-        return GameUtils.getValueByCurrency(winningAmount);
     }
 
     protected showJackpotIcon(jackpot, gameId) {
