@@ -7,7 +7,8 @@ export default class RoundTimerResultText extends cc.Component {
     @property(cc.Label)
     result: cc.Label = null;
 
-    show(settlement, betChoices) {
+    show(data, betChoices) {
+        const { settlement } = data;
         let choiceName = "";
         Object.keys(settlement).forEach((key) => {
             const index = betChoices.findIndex((value) => value === key);

@@ -25,17 +25,17 @@ export default class RoundTimerResult extends cc.Component {
         this.node.addChild(this.customResultNode);
     }
 
-    setResult(settlement) {
-        this.resultType === RoundTimerResultType.TEXT ? this.loadText(settlement) : this.loadCustomResult(settlement);
+    setResult(data) {
+        this.resultType === RoundTimerResultType.TEXT ? this.loadText(data) : this.loadCustomResult(data);
     }
 
-    loadCustomResult(settlement) {
+    loadCustomResult(data) {
         const customResult = this.customResultNode.getComponent(CustomeRoundTimerResult);
-        customResult.show(settlement);
+        customResult.show(data);
     }
 
-    loadText(settlement) {
+    loadText(data) {
         const customResult = this.customResultNode.getComponent(RoundTimerResultText);
-        customResult.show(settlement, this.betOptions);
+        customResult.show(data, this.betOptions);
     }
 }

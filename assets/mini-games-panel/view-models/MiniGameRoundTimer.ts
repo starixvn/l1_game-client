@@ -83,13 +83,13 @@ export default class MiniGameRoundTimer extends cc.Component {
             return;
         }
 
-        const { settlementResult, timeFromStart } = gameData;
+        const { timeFromStart } = gameData;
+
         this.time.active = false;
         !timeFromStart && (await GameUtils.delayTime(this.resultDelayTime));
         this.result.active = true;
 
-        const settlement = settlementResult;
-        this.roundResult.setResult(settlement);
+        this.roundResult.setResult(gameData);
 
         this.counDownTimer = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
         if (timeFromStart && this.isInRound()) {

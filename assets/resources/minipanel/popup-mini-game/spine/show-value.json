@@ -1,11 +1,11 @@
 {
 "skeleton": {
-	"hash": "CgV5ChdbbE2n9u+FYpt+MIkX0dc",
+	"hash": "PALJ4qi9vilBrAhnqjGs5XEZq20",
 	"spine": "3.8.99",
-	"x": -75,
-	"y": -37,
-	"width": 150,
-	"height": 75,
+	"x": -1326.88,
+	"y": -148.27,
+	"width": 1407.38,
+	"height": 786,
 	"images": "./image/",
 	"audio": ""
 },
@@ -17,8 +17,8 @@
 ],
 "slots": [
 	{ "name": "bg", "bone": "show-value" },
-	{ "name": "light-effect", "bone": "light-effect", "attachment": "light", "blend": "additive" },
 	{ "name": "label", "bone": "label", "attachment": "bg-result-sedie" },
+	{ "name": "light-effect", "bone": "light-effect", "attachment": "light", "blend": "additive" },
 	{ "name": "value", "bone": "value" }
 ],
 "skins": [
@@ -26,10 +26,10 @@
 		"name": "default",
 		"attachments": {
 			"label": {
-				"bg-result-sedie": { "y": 0.5, "width": 150, "height": 70 }
+				"bg-result-sedie": { "y": 0.5, "scaleX": 1.38, "scaleY": 1.38, "width": 161, "height": 70 }
 			},
 			"light-effect": {
-				"light": { "y": 0.5, "width": 106, "height": 75 }
+				"light": { "y": 0.5, "scaleX": 1.38, "scaleY": 1.38, "width": 106, "height": 75 }
 			}
 		}
 	}
