@@ -1,9 +1,8 @@
-import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import GameUtils from "../../common/GameUtils";
-import { numberPad } from "../../common/helpers/NumberHelper";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import RoundTime from "./RoundTime";
 import RoundTimerManager from "./RoundTimerManager";
 import RoundTimerResult from "./RoundTimerResult";
 
@@ -14,8 +13,11 @@ export default class MiniGameRoundTimer extends cc.Component {
     @property(cc.Node)
     result: cc.Node = null;
 
-    @property(AnimatedTime)
-    timer: AnimatedTime = null;
+    @property(cc.Node)
+    time: cc.Node = null;
+
+    @property(cc.Prefab)
+    roundTimePrefb: cc.Prefab = null;
 
     @property
     gameId = 0;
@@ -27,13 +29,12 @@ export default class MiniGameRoundTimer extends cc.Component {
     protected gameConfig;
     private counDownTimer;
     private roundResult: RoundTimerResult;
-    private timerContainer: cc.Node;
+    roundTime: RoundTime = null;
 
     onLoad() {
-        this.timerContainer = this.timer.node.parent;
+        this.initRoundTime();
         this.hideRoundTimer();
         this.initGameConfig();
-        this.timer.setAnimatedY(5, 0);
 
         if (this.result) {
             this.roundResult = this.result.getComponent(RoundTimerResult);
@@ -44,6 +45,12 @@ export default class MiniGameRoundTimer extends cc.Component {
 
         uiManager.emitterListener(InternalEvents.MINI_GAME_ROUND_TIMER, (data) => this.onReceivedData(data), this);
         uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.hideRoundTimer(), this);
+    }
+
+    initRoundTime() {
+        const node = cc.instantiate(this.roundTimePrefb);
+        this.roundTime = node.getComponent(RoundTime);
+        this.time.addChild(node);
     }
 
     onDestroy() {
@@ -60,11 +67,11 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     hideRoundTimer() {
         this.result.active = false;
-        this.timerContainer.active = false;
+        this.time.active = false;
     }
 
     showCountDownTime() {
-        this.timerContainer.active = true;
+        this.time.active = true;
         this.result.active = false;
     }
 
@@ -77,7 +84,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         }
 
         const { settlementResult, timeFromStart } = gameData;
-        this.timerContainer.active = false;
+        this.time.active = false;
         !timeFromStart && (await GameUtils.delayTime(this.resultDelayTime));
         this.result.active = true;
 
@@ -86,7 +93,7 @@ export default class MiniGameRoundTimer extends cc.Component {
 
         this.counDownTimer = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
         if (timeFromStart && this.isInRound()) {
-            this.timer.setTime(``);
+            this.roundTime.resetTime();
             this.showCountDownTime();
         }
         this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
@@ -98,14 +105,14 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     private countDown() {
         if (this.counDownTimer < this.gameConfig.minBetTime) {
-            this.timer.setTime(``);
-            this.timerContainer.active = false;
+            this.roundTime.resetTime();
+            this.time.active = false;
             this.unschedule(this.countDown);
             return;
         }
 
         this.isStartRound() && this.showCountDownTime();
-        this.isInRound() && this.timer.setTime(`${numberPad(this.counDownTimer, 2)}`);
+        this.isInRound() && this.roundTime.setTime(this.counDownTimer);
         this.counDownTimer--;
     }
 

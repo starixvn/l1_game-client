@@ -5,7 +5,7 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class MiniSedieRoundTimer extends MiniGameRoundTimer {
-    betOptions = ["odd", "even", "white3", "red3"];
+    betOptions = ["odd", "even"];
 
     override initGameConfig() {
         this.gameConfig = miniSedieConfigs[this.gameId];
