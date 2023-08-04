@@ -27,9 +27,9 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     protected betOptions;
     protected gameConfig;
-    private counDownTimer;
+    private countDownTime;
     private roundResult: RoundTimerResult;
-    roundTime: RoundTime = null;
+    private roundTime: RoundTime;
 
     onLoad() {
         this.initRoundTime();
@@ -58,11 +58,11 @@ export default class MiniGameRoundTimer extends cc.Component {
     }
 
     private isStartRound() {
-        return this.counDownTimer === this.gameConfig.betTime;
+        return this.countDownTime === this.gameConfig.betTime;
     }
 
     private isInRound() {
-        return this.counDownTimer <= this.gameConfig.betTime && this.counDownTimer >= this.gameConfig.minBetTime;
+        return this.countDownTime <= this.gameConfig.betTime && this.countDownTime >= this.gameConfig.minBetTime;
     }
 
     hideRoundTimer() {
@@ -83,20 +83,22 @@ export default class MiniGameRoundTimer extends cc.Component {
             return;
         }
 
+        this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
+
         const { timeFromStart } = gameData;
+        this.countDownTime = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
 
-        this.time.active = false;
-        !timeFromStart && (await GameUtils.delayTime(this.resultDelayTime));
-        this.result.active = true;
-
-        this.roundResult.setResult(gameData);
-
-        this.counDownTimer = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
         if (timeFromStart && this.isInRound()) {
             this.roundTime.resetTime();
             this.showCountDownTime();
         }
-        this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
+
+        this.time.active = false;
+        if (!timeFromStart) {
+            await GameUtils.delayTime(this.resultDelayTime);
+        }
+        this.result.active = true;
+        this.roundResult.setResult(gameData);
     }
 
     private resumeRoundTimer(timeFromStart): number {
@@ -104,7 +106,7 @@ export default class MiniGameRoundTimer extends cc.Component {
     }
 
     private countDown() {
-        if (this.counDownTimer < this.gameConfig.minBetTime) {
+        if (this.countDownTime < this.gameConfig.minBetTime) {
             this.roundTime.resetTime();
             this.time.active = false;
             this.unschedule(this.countDown);
@@ -112,8 +114,8 @@ export default class MiniGameRoundTimer extends cc.Component {
         }
 
         this.isStartRound() && this.showCountDownTime();
-        this.isInRound() && this.roundTime.setTime(this.counDownTimer);
-        this.counDownTimer--;
+        this.isInRound() && this.roundTime.setTime(this.countDownTime);
+        this.countDownTime--;
     }
 
     initGameConfig() {

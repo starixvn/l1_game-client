@@ -9,7 +9,7 @@ export default class RoundTime extends cc.Component {
     animatedTime: AnimatedTime = null;
 
     onLoad() {
-        this.animatedTime.setAnimatedY(5, 0);
+        this.animatedTime.setAnimatedY(0, 0);
     }
 
     resetTime() {
