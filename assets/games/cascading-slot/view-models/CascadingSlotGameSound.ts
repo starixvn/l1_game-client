@@ -19,5 +19,6 @@ export enum CascadingSlotGameSound {
     INCREMENT_STOP = "increment_stop",
     REELHAVEMULTIPLIER = "special_symbol_land",
     COIN = "coin",
-    CLICK = "click"
+    CLICK = "click",
+    TRANSITION = "transition"
 }

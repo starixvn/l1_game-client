@@ -236,13 +236,11 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     loadAudios() {
         const dict = {
             [CascadingSlotGameSound.SPIN_BUTTON]: "spin-button",
-            [CascadingSlotGameSound.FALL_OUT]: "symbol-out",
             [CascadingSlotGameSound.DROP_IN]: "symbol-in",
             [CascadingSlotGameSound.MULTIPLIER_APPEAR]: "multiplier-appear",
             [CascadingSlotGameSound.BIG_WIN]: "big-win",
             [CascadingSlotGameSound.BIG_WIN_STOP]: "big-win-increment-ended",
             [CascadingSlotGameSound.FREE_SPIN]: "freespin",
-            [CascadingSlotGameSound.TURBO_FALL_OUT]: "symbol-in-out-turbo",
 
             [CascadingSlotGameSound.TURBO_DROP_IN]: "symbol-in-out-turbo",
             [CascadingSlotGameSound.REEL_STOP]: "reelstop1",
@@ -255,6 +253,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             [CascadingSlotGameSound.SYMBOL_EXPLODE]: "symbol-match",
             [CascadingSlotGameSound.INCREMENT]: "increment",
             [CascadingSlotGameSound.INCREMENT_STOP]: "increment-stop",
+            [CascadingSlotGameSound.TRANSITION]: "transition",
             [CascadingSlotGameSound.COIN]: "coin",
             [CascadingSlotGameSound.CLICK]: "click"
         };
@@ -469,7 +468,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         const effect = cc.instantiate(this.effectTransitionPrefab);
         const animation = effect.getComponent(CallbackAnimation);
         animation.autoDestroyNode = false;
-        //this.playSound(ClassicSlotSound.TRANSITION);
+        this.playSound(CascadingSlotGameSound.TRANSITION);
         await this.showEffect(effect);
         return effect;
     }
@@ -508,5 +507,10 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     playSoundSpin() {
         this.playSound(CascadingSlotGameSound.SPIN_BUTTON);
+    }
+
+    protected initGameSongList() {
+        this.songListConfig = this.musicInfo.json;
+        super.initGameSongList();
     }
 }
