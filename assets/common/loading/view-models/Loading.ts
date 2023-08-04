@@ -16,6 +16,7 @@ export default class Loading extends cc.Component {
     }
 
     setDefaultPercent() {
+        this.setLoadingVisibility(true);
         this.percent.string = "0%";
     }
 
@@ -39,8 +40,6 @@ export default class Loading extends cc.Component {
     }
 
     showPercent(percent: number) {
-        this.setLoadingVisibility(true);
-
         if (!this.percent) {
             return;
         }

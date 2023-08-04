@@ -34,7 +34,6 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
         const gameLoading = this.main.getGameLoadingComp(+gameId);
 
         if (!isAlreadyOpened) {
-            this.main.loading.setDefaultPercent();
             try {
                 const gameName = GameUtils.getGameNameString(gameId);
                 console.time("LoadScene " + gameName);
