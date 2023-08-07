@@ -31,6 +31,7 @@ export default class MiniGameRoundTimer extends cc.Component {
     private roundTime: RoundTime;
 
     onLoad() {
+        this.node.active = false;
         this.initRoundTime();
         this.hideRoundTimer();
         this.initGameConfig();
@@ -80,27 +81,28 @@ export default class MiniGameRoundTimer extends cc.Component {
         if (!gameData) {
             return;
         }
-
-        this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
-
+        this.node.active = true;
+        console.log("onReceivedData", data);
         const { timeFromStart } = gameData;
         this.countDownTime = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
-
-        if (timeFromStart && this.isInRound()) {
-            this.roundTime.resetTime();
-            this.showCountDownTime();
-        }
+        this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
 
         this.time.active = false;
         if (!timeFromStart) {
             await GameUtils.delayTime(this.resultDelayTime);
         }
         this.result.active = true;
+
+        if (timeFromStart && this.isInRound()) {
+            this.roundTime.resetTime();
+            this.showCountDownTime();
+        }
+
         this.roundResult.setResult(gameData);
     }
 
     private resumeRoundTimer(timeFromStart): number {
-        return Math.round(this.gameConfig.fullTime + timeFromStart);
+        return Math.round(this.gameConfig.fullTime - timeFromStart);
     }
 
     private countDown() {
