@@ -21,6 +21,10 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         return LobbyManager.getInstance().getAllGameIds();
     }
 
+    get roundTimerGame() {
+        return LobbyManager.getInstance().getRoundTimerGame();
+    }
+
     get firstCategoryList() {
         return LobbyManager.getInstance().getGameIdsByCategoryIndex() ?? [];
     }
@@ -56,5 +60,9 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
         const gameConfiguration = LobbyManager.getInstance().getGame(gameId, category);
 
         return gameConfiguration?.bigSize;
+    }
+
+    isRoundTimerGame(gameId: number): boolean {
+        return this.roundTimerGame.games.filter((game) => game.id === gameId).length > 0;
     }
 }

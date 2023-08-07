@@ -23,12 +23,23 @@ export interface Banner {
     displayTime: number;
 }
 
+interface IGame {
+    id: number;
+    name: string;
+}
+
+interface IRoundTimerGame {
+    games: IGame[];
+    main: number;
+}
+
 export interface LobbyConfigs {
     name: string;
     currencyGroupIds: string[];
     miniPanelGameIds: number[];
     categories: GameCategory[];
     banners: Banner[];
+    roundTimerGame: IRoundTimerGame;
 }
 
 export interface CategoryConfig {
@@ -72,6 +83,10 @@ export default class LobbyManager {
             LobbyManager.lobbyConfigs.miniPanelGameIds?.unshift(this.HOME_ICON_ID);
         }
         return LobbyManager.lobbyConfigs.miniPanelGameIds;
+    }
+
+    getRoundTimerGame() {
+        return LobbyManager.lobbyConfigs.roundTimerGame;
     }
 
     getAllCategories() {
