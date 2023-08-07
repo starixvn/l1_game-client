@@ -1,5 +1,4 @@
 import GameUtils from "../../common/GameUtils";
-import { getGameConfiguration } from "../../configs/GameConfigurations";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import RoundTime from "./RoundTime";
@@ -76,8 +75,7 @@ export default class MiniGameRoundTimer extends cc.Component {
     }
 
     private async onReceivedData(data) {
-        const gameConfiguration = getGameConfiguration(this.gameId);
-        const gameData = data[gameConfiguration.key.toLowerCase()];
+        const gameData = data[this.gameId];
 
         if (!gameData) {
             return;
