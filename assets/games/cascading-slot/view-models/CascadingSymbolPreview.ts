@@ -1,6 +1,7 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import SymbolPreview, { SymbolPreviewType } from "../../_slotgame_base/SymbolPreview";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
+import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "./CascadingSlotUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,7 +19,7 @@ export default class CascadingSymbolPreview extends SymbolPreview {
 
     renderInfo(info: CascadingSymbolPreviewType) {
         const { symbolItem } = info;
-        if (symbolItem.index >= 10) {
+        if (symbolItem.index >= MULTIPLIER_SYMBOL) {
             this.showInfoNode(false);
             this.renderMultiplierSymbol(info);
         } else {
@@ -55,7 +56,7 @@ export default class CascadingSymbolPreview extends SymbolPreview {
             let values;
             let show;
 
-            if (symbolItem.index === 9) {
+            if (symbolItem.index === SCATTER_SYMBOL) {
                 show = index < freespin.length && freespin[index].odds > 0;
                 const count = freespin[index].count >= 6 ? `≥${freespin[index].count}` : `${freespin[index].count}`;
                 values = [count, `${freespin[index].odds}`];

@@ -27,9 +27,9 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
     async changeFrameForBigWinLevel(betWin: number, totalBet: number) {
         const valueRatio = betWin / totalBet;
         if (valueRatio >= 6) {
-            this.isChangeLevelSuper && this.setAniamtionChangeSuper();
+            this.isChangeLevelSuper && this.setAnimationChangeSuper();
         } else if (valueRatio >= 3) {
-            this.isChangeLevelMega && this.setAniamtionChangeMega();
+            this.isChangeLevelMega && this.setAnimationChangeMega();
         }
     }
 
@@ -37,12 +37,12 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
         this.bigWinNode.active = show;
     }
 
-    async setAniamtionChangeSuper() {
+    async setAnimationChangeSuper() {
         this.isChangeLevelSuper = false;
         await this.changeLevelAnimation(this.mainSpine, "hide", this.superWinPrefab);
     }
 
-    async setAniamtionChangeMega() {
+    async setAnimationChangeMega() {
         this.isChangeLevelMega = false;
         await this.changeLevelAnimation(this.mainSpine, "hide", this.megaWinPrefab);
     }
@@ -58,29 +58,19 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
         this.changeLevel.addChild(node);
     }
 
-    async setAmountSlowHavingSpeed(amount: number, totalBet: number, coinValue: number, onComplete: () => void) {
+    async showWinAmountForBigWinAnim(amount: number, totalBet: number, coinValue: number, onComplete: () => void) {
         await this.floatNumberBigWin({ label: this.amountLabel, amount, totalBet, coinValue });
         onComplete();
     }
 
-    floatNumberBigWin(opt: {
-        label: cc.Label;
-        amount: number;
-        start?: number;
-        prefixStr?: string;
-        formatNumber?: (value) => string;
-        stepValue?: number;
-        stepTime?: number;
-        totalBet?: number;
-        coinValue?: number;
-    }) {
+    floatNumberBigWin(opt: { label: cc.Label; amount: number; start?: number; totalBet?: number; coinValue?: number }) {
         return new Promise<void>((resolve) => {
             const { label, amount: end, start, totalBet, coinValue } = opt;
-            const prefixStr = opt.prefixStr ?? "";
+            const prefixStr = "";
             const defaultFormater = (v) => numberWithCommas(v, 2, false);
-            const formatNumber = opt.formatNumber ?? defaultFormater;
+            const formatNumber = defaultFormater;
             const stepValue = parseFloat(this.calculateStepValue(coinValue));
-            const stepTime = opt.stepTime ?? 0.05;
+            const stepTime = 0.05;
             const startStr = label.string.replace(prefixStr, "");
             const startValue = start || parseFloat(startStr.replace(/,/g, "")) || 0;
             const range = Math.abs(end - startValue);

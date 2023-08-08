@@ -15,7 +15,6 @@ export default class CascadeSlotBoard extends cc.Component {
 
     public gameId: number;
     protected readonly reels: CascadeSlotReel[] = [];
-    isShowTumbleAnim = false;
 
     public createReels() {
         if (this.reels.length > 0) {

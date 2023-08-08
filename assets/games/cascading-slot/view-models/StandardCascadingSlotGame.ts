@@ -97,6 +97,8 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     private readonly previewSymbolRight: cc.Prefab;
     private readonly effectTransitionPrefab: cc.Prefab;
     private colorConfig: any;
+    private bigWinAudioId: any;
+    private incrementAudioId: any;
 
     audioClips = {};
 
@@ -415,41 +417,42 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     override async showEffectBigWin(betWin: number) {
         const transtition = await this.playEffectTransition();
+        super.showEffectBigWin(betWin);
+        transtition?.destroy();
+    }
+
+    bigWinForTurBoMode(betWin: number, bigWinAnimation: CascadingBigWinAnimation) {
+        const totalBet = this.winAmountForNoAnim(betWin, bigWinAnimation);
+        const ratio = betWin / totalBet;
+        bigWinAnimation.showHideBigWinNode(ratio < 3);
+    }
+
+    bigWinForNormalMode(betWin: number, bigWinAnimation: CascadingBigWinAnimation, callbackAnim: CallbackLoopAnimation) {
         const totalBet = parseFloat(this.betControl.totalBet.string.replace(/,/g, ""));
         const coinValue = parseFloat(this.betControl.coinValue.string);
-        const bigWinAudioId = this.playSound(CascadingSlotGameSound.BIG_WIN, true);
-        const incrementAudioId = this.playSound(CascadingSlotGameSound.INCREMENT, true);
+        bigWinAnimation
+            .showWinAmountForBigWinAnim(betWin, totalBet, coinValue, () => {
+                this.soundEndForBigWinStandard(this.bigWinAudioId, this.incrementAudioId);
+                callbackAnim.closeLater();
+            })
+            .catch((reason) => console.log(reason));
+    }
 
-        const effect = cc.instantiate(this.effectBigWin);
-        const callbackAnim = effect.getComponent(CallbackLoopAnimation);
-        callbackAnim.setDuration(this.getCustomDuration("bigWin"));
-        const bigWinAnimation = effect.getComponent(CascadingBigWinAnimation);
+    protected skipCallbackBigWin(betWin: number, bigWinAnimation: CascadingBigWinAnimation) {
+        this.winAmountForNoAnim(betWin, bigWinAnimation);
+    }
 
-        if (this.isTurboMode()) {
-            this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
-            bigWinAnimation.setAmount({ amount: betWin });
-            const ratio = betWin / totalBet;
-            bigWinAnimation.showHideBigWinNode(ratio < 3);
-            await bigWinAnimation.changeFrameForBigWinLevel(betWin, totalBet);
+    protected soundForBigWin() {
+        this.bigWinAudioId = this.playSound(CascadingSlotGameSound.BIG_WIN, true);
+        this.incrementAudioId = this.playSound(CascadingSlotGameSound.INCREMENT, true);
+    }
 
-            callbackAnim.skipTouchToContinue();
-        } else {
-            bigWinAnimation
-                .setAmountSlowHavingSpeed(betWin, totalBet, coinValue, () => {
-                    this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
-                    callbackAnim.closeLater();
-                })
-                .catch((reason) => console.log(reason));
-        }
-
-        callbackAnim.skipCallback = () => {
-            this.soundEndForBigWinStandard(bigWinAudioId, incrementAudioId);
-            bigWinAnimation.changeFrameForBigWinLevel(betWin, totalBet);
-            bigWinAnimation.setAmount({ amount: betWin });
-        };
-
-        await this.showEffect(effect);
-        transtition?.destroy();
+    private winAmountForNoAnim(betWin: number, bigWinAnimation: CascadingBigWinAnimation) {
+        const totalBet = parseFloat(this.betControl.totalBet.string.replace(/,/g, ""));
+        this.soundEndForBigWinStandard(this.bigWinAudioId, this.incrementAudioId);
+        bigWinAnimation.changeFrameForBigWinLevel(betWin, totalBet);
+        bigWinAnimation.setAmount({ amount: betWin });
+        return totalBet;
     }
 
     initBetControl(node: cc.Node) {

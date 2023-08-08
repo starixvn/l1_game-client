@@ -525,35 +525,47 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     override async showEffectBigWin(betWin: number) {
-        this.playSound(CascadingSlotGameSound.BIG_WIN);
-        this.playSound(CascadingSlotGameSound.INCREMENT);
-
+        this.soundForBigWin();
         const effect = cc.instantiate(this.effectBigWin);
         const callbackAnim = effect.getComponent(CallbackLoopAnimation);
         callbackAnim.setDuration(this.getCustomDuration("bigWin"));
         const bigWinAnimation = effect.getComponent(BigWinAnimation);
 
         if (this.isTurboMode()) {
-            this.soundEndForBigWin();
-            bigWinAnimation.setAmount({ amount: betWin });
+            this.bigWinForTurBoMode(betWin, bigWinAnimation);
             callbackAnim.skipTouchToContinue();
         } else {
-            bigWinAnimation
-                .setAmountSlow(betWin, () => {
-                    this.soundEndForBigWin();
-                    callbackAnim.closeLater();
-                })
-                .catch((reason) => console.log(reason));
+            this.bigWinForNormalMode(betWin, bigWinAnimation, callbackAnim);
         }
 
-        callbackAnim.skipCallback = () => {
-            this.soundEndForBigWin();
-            bigWinAnimation.setAmount({ amount: betWin });
-        };
+        callbackAnim.skipCallback = () => this.skipCallbackBigWin(betWin, bigWinAnimation);
 
         await this.showEffect(effect);
     }
 
+    bigWinForTurBoMode(betWin: number, bigWinAnimation: BigWinAnimation) {
+        this.soundEndForBigWin();
+        bigWinAnimation.setAmount({ amount: betWin });
+    }
+
+    bigWinForNormalMode(betWin: number, bigWinAnimation: BigWinAnimation, callbackAnim: CallbackLoopAnimation) {
+        bigWinAnimation
+            .setAmountSlow(betWin, () => {
+                this.soundEndForBigWin();
+                callbackAnim.closeLater();
+            })
+            .catch((reason) => console.log(reason));
+    }
+
+    protected skipCallbackBigWin(betWin: number, bigWinAnimation: BigWinAnimation) {
+        this.soundEndForBigWin();
+        bigWinAnimation.setAmount({ amount: betWin });
+    }
+
+    protected soundForBigWin() {
+        this.playSound(CascadingSlotGameSound.BIG_WIN);
+        this.playSound(CascadingSlotGameSound.INCREMENT);
+    }
     protected soundEndForBigWin() {
         this.playSound(CascadingSlotGameSound.BIG_WIN_STOP);
         this.playSound(CascadingSlotGameSound.INCREMENT_STOP);
