@@ -1,4 +1,7 @@
+import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
+import GameUtils from "../../../common/GameUtils";
+import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import { appManager } from "../../../managers/AppManager";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
@@ -21,6 +24,12 @@ export default class PopupMinigames extends cc.Component {
     @property(cc.Prefab)
     jackpotWinnerPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    roundTimer: cc.Node = null;
+
+    @lazyInject(LobbyMenuConfig)
+    private readonly lobbyMenuConfig: LobbyMenuConfig;
+
     private ttOffset = cc.v2(0, 0);
     private ttOffset2 = cc.v2(0, 0);
     private toggleRuning = false;
@@ -41,6 +50,15 @@ export default class PopupMinigames extends cc.Component {
         this.jackPotContainer.addChild(jackpot);
         this.jackPotContainer.active = false;
         RoundTimerManager.getInstance().initEvents();
+        this.initDefaultGameRoundTimer();
+    }
+
+    async initDefaultGameRoundTimer() {
+        const prefab = await GameUtils.loadMiniGameIcon(this.lobbyMenuConfig.roundTimerGame.main);
+        const node = cc.instantiate(prefab);
+        this.roundTimer.addChild(node);
+        node.getChildByName("icon-game").active = false;
+        RoundTimerManager.getInstance().requestAllGamesRoundTimer();
     }
 
     onDestroy() {
@@ -158,6 +176,7 @@ export default class PopupMinigames extends cc.Component {
             .to(0.3, { scale: 1, opacity: 255 }, { easing: "sineIn" })
             .call(() => {
                 this.toggleRuning = false;
+                this.roundTimer.active = false;
                 RoundTimerManager.getInstance().requestAllGamesRoundTimer();
             })
             .start();
@@ -176,6 +195,8 @@ export default class PopupMinigames extends cc.Component {
             .call(() => {
                 cc.tween(this.menuIcon).to(0.2, { scale: 0.9 }, { easing: "sineOut" }).start();
                 uiManager.emitter.emit(InternalEvents.HIDE_POPUP_MINI_GAMES);
+                this.roundTimer.active = true;
+                RoundTimerManager.getInstance().requestAllGamesRoundTimer();
             })
             .start();
 

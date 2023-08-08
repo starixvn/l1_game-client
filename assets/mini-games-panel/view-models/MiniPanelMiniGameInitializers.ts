@@ -27,7 +27,9 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
             return;
         }
 
-        this.main.popupMiniGame?.hideListGame();
+        if (this.main.popupMiniGame && this.main.popupMiniGame.list.active) {
+            this.main.popupMiniGame?.hideListGame();
+        }
 
         const gameBase = this.main.getGameMini(gameId);
         const isAlreadyOpened = gameBase !== undefined;

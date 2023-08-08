@@ -86,8 +86,9 @@ export default class MiniGameRoundTimer extends cc.Component {
         if (!gameData || !this.lobbyMenuConfig.isRoundTimerGame(this.gameId)) {
             return;
         }
+
         this.node.active = true;
-        console.log("onReceivedData", data);
+
         const { timeFromStart } = gameData;
         this.countDownTime = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
         this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);

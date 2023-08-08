@@ -1,12 +1,9 @@
-import { BundleManager } from "bundle-management";
-
 import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
 import { removeInRoomGameId } from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import { userManager } from "../../../common/user/UserManager";
-import { getGameConfiguration } from "../../../configs/GameConfigurations";
 import { appManager } from "../../../managers/AppManager";
 import { uiManager } from "../../../managers/GameUIManager";
 import { UrlInfo } from "../../../managers/UrlInfo";
@@ -71,25 +68,7 @@ export default class CircleMenu extends GameIconMenu {
             if (uiManager.prefabCache.miniPanelIcons[gameId]) {
                 prefab = uiManager.prefabCache.miniPanelIcons[gameId];
             } else {
-                const gameConfiguration = getGameConfiguration(gameId);
-
-                if (!!gameConfiguration?.remoteBundle) {
-                    const path = `icons/SmallMiniPanel`;
-                    const devPath = `../games/*/${path}`;
-                    try {
-                        prefab = await BundleManager.getInstance().loadAsset<cc.Prefab>({
-                            bundleId: gameId.toString(),
-                            path: path,
-                            pathForDevMode: devPath,
-                            type: cc.Prefab
-                        });
-                    } catch (e) {
-                        cc.warn(`Missing prefab for ${path} `, e);
-                    }
-                } else {
-                    prefab = await GameUtils.loadResource(`minipanel/games/${gameId}`);
-                }
-
+                prefab = await GameUtils.loadMiniGameIcon(gameId);
                 uiManager.prefabCache.miniPanelIcons[gameId] = prefab;
             }
             node.addChild(cc.instantiate(prefab));
