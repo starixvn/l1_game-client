@@ -2,7 +2,8 @@ const defaultConfig = {
     systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
-        localhost: "lumigame.com"
+        localhost: "lumigame.com",
+        "10.5.10.31": "lumigame.com"
     },
     subDomain: "l1-proxy1",
     env: "",
@@ -17,6 +18,7 @@ const defaultConfig = {
     subGuideDomain: "l1-guide-1",
     enableMsgpackParserAllGames: false,
     enableMsgpackParserOnNotification: false
+    //clientSubDomain: "l1-client"
 };
 
 const domainMapper = window.envConfig ? undefined : defaultConfig.serverDomainMapper;

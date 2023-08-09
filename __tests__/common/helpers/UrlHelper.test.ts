@@ -22,6 +22,10 @@ describe("Test UrlHelper", () => {
         value: "proxy",
         writable: true
     });
+    Object.defineProperty(configs, "clientSubDomain", {
+        value: "client",
+        writable: true
+    });
     Object.defineProperty(configs, "serverDomainMapper", {
         value: { "www.unittest.com": "unittest.com" },
         writable: true
@@ -85,8 +89,8 @@ describe("Test UrlHelper", () => {
     describe("Test function buildProxyUrl", () => {
         test.each`
             path                       | env      | expectedProxyUrl
-            ${"/game/configurations/"} | ${""}    | ${"https://proxy.unittest.com/game/configurations/"}
-            ${"/game-client-13"}       | ${"dev"} | ${"https://proxy.unittest.com/dev/game-client-13"}
+            ${"/game/configurations/"} | ${""}    | ${"https://client.unittest.com/game/configurations/"}
+            ${"/game-client-13"}       | ${"dev"} | ${"https://client.unittest.com/dev/game-client-13"}
         `("should return ProxyUrl", ({ path, env, expectedProxyUrl }) => {
             Object.defineProperty(configs, "env", {
                 value: env,

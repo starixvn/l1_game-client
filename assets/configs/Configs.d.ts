@@ -10,3 +10,4 @@ export const enableMsgpackParserAllGames: boolean;
 export const enableMsgpackParserOnNotification: boolean;
 export const SGConnectSubDomain: string;
 export const AppDownloadSubDomain: string;
+export const clientSubDomain: string;

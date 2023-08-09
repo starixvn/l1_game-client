@@ -1,10 +1,10 @@
 import * as configs from "../../configs/Configs";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 
-export function buildUrl(protocol = "http", path = "/") {
+export function buildUrl(protocol = "http", path = "/", overrideSubDomain = "") {
     const ssl = configs.ssl;
     const domain = getRootDomain();
-    const subDomain = configs.subDomain;
+    const subDomain = overrideSubDomain != "" ? overrideSubDomain : configs.subDomain;
     const subDomainText = `${subDomain}.`;
 
     return `${protocol}${ssl ? "s" : ""}://${subDomain === "" ? "" : subDomainText}${domain}${path}`;
@@ -28,7 +28,7 @@ export function buildGameGuideUrl() {
     return `${"http"}${ssl ? "s" : ""}://${subGuideDomainText}${rootDomain}`;
 }
 
-export function buildUrlFromSubDomain(subDomain) {   
+export function buildUrlFromSubDomain(subDomain) {
     return `${"http"}${configs.ssl ? "s" : ""}://${subDomain}.${getRootDomain()}`;
 }
 
@@ -45,7 +45,7 @@ export function buildProxyUrl(path) {
     const envPath = configs.env === "" ? "" : `/${configs.env}`;
     const fullPath = `${envPath}${path}`;
 
-    return buildUrl("http", fullPath);
+    return buildUrl("http", fullPath, configs.clientSubDomain);
 }
 
 export function getTrialSocket(gameId) {
