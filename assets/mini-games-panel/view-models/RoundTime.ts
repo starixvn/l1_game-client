@@ -1,22 +1,17 @@
-import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import { numberPad } from "../../common/helpers/NumberHelper";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class RoundTime extends cc.Component {
-    @property(AnimatedTime)
-    animatedTime: AnimatedTime = null;
-
-    onLoad() {
-        this.animatedTime.setAnimatedY(0, 0);
-    }
+    @property(cc.Label)
+    time: cc.Label = null;
 
     resetTime() {
-        this.animatedTime.setTime(``);
+        this.time.string = "";
     }
 
     setTime(time: number) {
-        this.animatedTime.setTime(`${numberPad(time, 2)}`);
+        this.time.string = `${numberPad(time, 2)}`;
     }
 }
