@@ -1,12 +1,7 @@
 import NotificationService from "../../common/auth/NotificationService";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
-
-export const RoundTimerEvents = {
-    ROUND_TIMER: "roundTimer",
-    LATEST_ROUND_TIMER: "latestRoundTimer",
-    GET_ROUND_TIMER: "getRoundTimer"
-};
+import { RoundTimerEvents } from "./RoundTimerEvents";
 
 export default class RoundTimerManager {
     private static instance: RoundTimerManager;

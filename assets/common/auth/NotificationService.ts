@@ -3,7 +3,7 @@ import * as MsgpackParser from "socket.io-msgpack-parser";
 
 import { enableMsgpackParserOnNotification } from "../../configs/Configs";
 import { JackpotDataKey, JackpotEvents } from "../../managers/JackpotManager";
-import { RoundTimerEvents } from "../../mini-games-panel/view-models/RoundTimerManager";
+import { RoundTimerEvents } from "../../mini-games-panel/view-models/RoundTimerEvents";
 import { buildUrl, getEnvironment } from "../helpers/UrlHelper";
 import { sentryLogger } from "../logger";
 
