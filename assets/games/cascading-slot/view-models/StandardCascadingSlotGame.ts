@@ -516,4 +516,9 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.songListConfig = this.musicInfo.json;
         super.initGameSongList();
     }
+
+    updateMiniWarningContent(miniWarningComp, data: string) {
+        data = data.toUpperCase();
+        super.updateMiniWarningContent(miniWarningComp, data);
+    }
 }
