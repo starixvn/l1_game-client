@@ -41,9 +41,6 @@ export default class MiniGameRoundTimer extends cc.Component {
             this.roundResult = this.result.getComponent(RoundTimerResult);
             this.roundResult.betOptions = this.betOptions;
         }
-
-        RoundTimerManager.getInstance().roundData && this.onReceivedData(RoundTimerManager.getInstance().roundData);
-        uiManager.emitterListener(InternalEvents.RECEIVED_ROUND_TIMER, (data) => this.onReceivedData(data), this);
     }
 
     async initRoundTime() {
@@ -52,6 +49,9 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.roundTime = node.getComponent(RoundTime);
         this.time.addChild(node);
         this.hideRoundTimer();
+
+        RoundTimerManager.getInstance().roundData && this.onReceivedData(RoundTimerManager.getInstance().roundData);
+        uiManager.emitterListener(InternalEvents.RECEIVED_ROUND_TIMER, (data) => this.onReceivedData(data), this);
         uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.hideRoundTimer(), this);
     }
 
