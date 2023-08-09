@@ -34,12 +34,15 @@ export default class PopupMinigames extends cc.Component {
     private ttOffset2 = cc.v2(0, 0);
     private toggleRuning = false;
     public background: cc.Node = null;
+    private widgetComp: cc.Widget;
+    private prevPosition;
 
     onLoad() {
         if (appManager.popupMiniGamesLastPosition) {
             this.node.position = appManager.popupMiniGamesLastPosition;
         }
 
+        this.widgetComp = this.node.getComponent(cc.Widget);
         this.list.active = false;
         this.list.scale = 0;
 
@@ -89,7 +92,6 @@ export default class PopupMinigames extends cc.Component {
     }
     eventMove(e) {
         this.node.position = cc.v3(e.touch.getLocationX() - this.ttOffset.x, e.touch.getLocationY() - this.ttOffset.y, 0);
-
         this.callMoveToEdge();
     }
 
@@ -107,6 +109,7 @@ export default class PopupMinigames extends cc.Component {
 
         return cc.v2(Math.max(this.node.width, listBox.width), Math.max(this.node.height, listBox.height));
     }
+
     moveToEdge() {
         const width = this.node.parent.width;
         const height = this.node.parent.height;
@@ -142,12 +145,15 @@ export default class PopupMinigames extends cc.Component {
         const yChanger = this.ttOffset2.y - (e.touch.getLocationY() - this.ttOffset.y);
         if (xChanger < 5 && xChanger > -5 && yChanger < 5 && yChanger > -5) {
             this.toggle();
+        } else {
             this.callMoveToEdge();
         }
     }
 
     toggle() {
         AudioManager.getInstance().playClick();
+        this.widgetComp.isAlignRight = false;
+
         if (!this.toggleRuning) {
             this.toggleRuning = true;
             const menuAnimation = this.menuIcon.getComponent(cc.Animation);
@@ -162,7 +168,9 @@ export default class PopupMinigames extends cc.Component {
             }
         }
     }
+
     showListGame() {
+        this.prevPosition = this.node.position;
         this.background.active = true;
         cc.tween(this.background).to(0.1, { opacity: 224 }).start();
         this.list.scale = 1;
@@ -173,7 +181,7 @@ export default class PopupMinigames extends cc.Component {
                 this.list.active = true;
                 cc.tween(this.menuIcon).to(0.2, { scale: 0.8 }, { easing: "sineOut" }).start();
             })
-            .to(0.3, { scale: 1, opacity: 255 }, { easing: "sineIn" })
+            .to(0.3, { scale: 1, opacity: 255, position: cc.v3(0, 0, 0) }, { easing: "sineIn" })
             .call(() => {
                 this.toggleRuning = false;
                 this.roundTimer.active = false;
@@ -184,7 +192,7 @@ export default class PopupMinigames extends cc.Component {
 
     hideListGame() {
         cc.tween(this.node)
-            .to(0.2, { scale: 0, opacity: 0 }, { easing: "sineIn" })
+            .to(0.2, { scale: 0, opacity: 0, position: this.prevPosition }, { easing: "sineIn" })
             .call(() => {
                 this.background.active = false;
                 this.toggleRuning = false;
@@ -199,8 +207,6 @@ export default class PopupMinigames extends cc.Component {
                 RoundTimerManager.getInstance().requestAllGamesRoundTimer();
             })
             .start();
-
-        this.callMoveToEdge();
     }
 
     setTop() {
