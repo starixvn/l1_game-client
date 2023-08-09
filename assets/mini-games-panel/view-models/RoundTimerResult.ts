@@ -1,3 +1,4 @@
+import GameUtils from "../../common/GameUtils";
 import CustomeRoundTimerResult from "./CustomeRoundTimerResult";
 import RoundTimerResultText from "./RoundTimerResultText";
 
@@ -13,7 +14,12 @@ export default class RoundTimerResult extends cc.Component {
     @property({ type: cc.Enum(RoundTimerResultType) })
     resultType = RoundTimerResultType.TEXT;
 
-    @property(cc.Prefab)
+    @property({
+        type: cc.Prefab,
+        visible: function (this: RoundTimerResult) {
+            return this.resultType === RoundTimerResultType.SPRITE;
+        }
+    })
     customResultPrefab: cc.Prefab = null;
 
     public betOptions;
@@ -21,6 +27,14 @@ export default class RoundTimerResult extends cc.Component {
 
     onLoad() {
         this.node.destroyAllChildren();
+        this.initCustomResult();
+    }
+
+    async initCustomResult() {
+        if (this.resultType === RoundTimerResultType.TEXT) {
+            this.customResultPrefab = await GameUtils.loadResource(`minipanel/popup-mini-game/RoundTimerResultText`);
+        }
+
         this.customResultNode = cc.instantiate(this.customResultPrefab);
         this.node.addChild(this.customResultNode);
     }

@@ -17,9 +17,6 @@ export default class MiniGameRoundTimer extends cc.Component {
     @property(cc.Node)
     time: cc.Node = null;
 
-    @property(cc.Prefab)
-    roundTimePrefb: cc.Prefab = null;
-
     @property
     gameId = 0;
 
@@ -38,7 +35,6 @@ export default class MiniGameRoundTimer extends cc.Component {
     onLoad() {
         this.node.active = false;
         this.initRoundTime();
-        this.hideRoundTimer();
         this.initGameConfig();
 
         if (this.result) {
@@ -47,15 +43,16 @@ export default class MiniGameRoundTimer extends cc.Component {
         }
 
         RoundTimerManager.getInstance().roundData && this.onReceivedData(RoundTimerManager.getInstance().roundData);
-
-        uiManager.emitterListener(InternalEvents.MINI_GAME_ROUND_TIMER, (data) => this.onReceivedData(data), this);
-        uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.hideRoundTimer(), this);
+        uiManager.emitterListener(InternalEvents.RECEIVED_ROUND_TIMER, (data) => this.onReceivedData(data), this);
     }
 
-    initRoundTime() {
-        const node = cc.instantiate(this.roundTimePrefb);
+    async initRoundTime() {
+        const prefab = await GameUtils.loadResource(`minipanel/popup-mini-game/RoundTime`);
+        const node = cc.instantiate(prefab);
         this.roundTime = node.getComponent(RoundTime);
         this.time.addChild(node);
+        this.hideRoundTimer();
+        uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.hideRoundTimer(), this);
     }
 
     onDestroy() {
@@ -100,7 +97,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.result.active = true;
 
         if (timeFromStart && this.isInRound()) {
-            this.roundTime.resetTime();
+            this.roundTime && this.roundTime.resetTime();
             this.showCountDownTime();
         }
 
