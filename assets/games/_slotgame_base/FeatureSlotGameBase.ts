@@ -208,6 +208,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     onAutoSpinOff() {
         this.autoSpinToggle.isChecked = false;
+        this.saveSettingKey("autoSpin", this.autoSpinToggle.isChecked);
         this.setAutoSpinCount(0);
         this.updateBottomMessageStatus();
         this.gameData.spinButtonStateModel.change(SpinButtonState.Normal);
@@ -235,6 +236,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
         if (this.lastAutoSpinCount) {
             dialog.setLastSelected(this.lastAutoSpinCount);
+            this.saveSettingKey("autoSpin", this.autoSpinToggle.isChecked);
         }
 
         const turboDialog = dialog.node.getComponent(TurboAutoSpinSettingDialog);

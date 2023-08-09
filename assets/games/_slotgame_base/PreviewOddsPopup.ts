@@ -7,6 +7,8 @@ export default class PreviewOddsPopup extends cc.Component {
     @property(cc.Node)
     previewOverlay: cc.Node = null;
 
+    gameId: number;
+
     private currentPreviewItem: cc.Node = null;
     onSymbolPreview = (symbol, worldPosition: cc.Vec3, isInfoOnLeft: boolean) => {};
 
@@ -52,6 +54,13 @@ export default class PreviewOddsPopup extends cc.Component {
     }
 
     protected onSymbolTouched(symbol, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
+        if (this.gameId) {
+            const storage = GameUtils.getGameSetting(this.gameId);
+            if (!storage.autoSpin) {
+                this.onSymbolPreview(symbol, worldPosition, isInfoOnLeft);
+            }
+            return;
+        }
         this.onSymbolPreview(symbol, worldPosition, isInfoOnLeft);
     }
 

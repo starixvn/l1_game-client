@@ -521,4 +521,9 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         data = data.toUpperCase();
         super.updateMiniWarningContent(miniWarningComp, data);
     }
+
+    onAutoSpinChanged() {
+        this.saveSettingKey("autoSpin", this.autoSpinToggle.isChecked);
+        super.onAutoSpinChanged();
+    }
 }

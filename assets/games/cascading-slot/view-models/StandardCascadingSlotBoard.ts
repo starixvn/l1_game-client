@@ -14,8 +14,11 @@ export default class StandardCascadingSlotBoard extends CascadeSlotBoard {
     @property(PreviewOddsPopup)
     previewPopup: PreviewOddsPopup = null;
 
+    gameId: number;
+
     public createReels() {
         super.createReels();
+        this.previewPopup.gameId = this.gameId;
         this.previewPopup.addPreviewPopup(this.reels);
     }
 

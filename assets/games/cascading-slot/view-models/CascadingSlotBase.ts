@@ -161,6 +161,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         } else {
             this.registerViewGame();
         }
+        this.saveSettingKey("autoSpin", this.autoSpinToggle.isChecked);
     }
     updateForTrialMode() {
         this.tumbleList.offerTrialMode(this.isTrialMode);
