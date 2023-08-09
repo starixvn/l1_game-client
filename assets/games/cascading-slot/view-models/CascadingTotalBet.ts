@@ -4,7 +4,6 @@ import ExpandableMenu from "../../../common/expandable-menu/view-models/Expandab
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import CascadingBetControl from "./CascadingBetControl";
-import CascadingSlotBase from "./CascadingSlotBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -27,7 +26,6 @@ export default class CascadingTotalBet extends cc.Component {
 
     protected betControl: CascadingBetControl;
     protected isOpenBetControl = false;
-    protected mainGame: CascadingSlotBase;
     protected increaseButtonStatus = true;
     protected decreaseButtonStatus = true;
 
@@ -44,6 +42,7 @@ export default class CascadingTotalBet extends cc.Component {
 
     onClickOpenBetControl() {
         uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLICK_TOTAL_BET);
         this.betControl.showView(!this.isOpenBetControl);
         this.isOpenBetControl = !this.isOpenBetControl;
     }

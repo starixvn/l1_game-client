@@ -1,4 +1,6 @@
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import SymbolPreview, { SymbolPreviewType } from "../../_slotgame_base/SymbolPreview";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
 import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "./CascadingSlotUtils";
@@ -16,6 +18,14 @@ export default class CascadingSymbolPreview extends SymbolPreview {
 
     @property(cc.Node)
     content: cc.Node = null;
+
+    onLoad() {
+        super.onLoad();
+        const cascadingEvents = [InternalEvents.CASCADING_CLICK_CHANGE_MODE, InternalEvents.CASCADING_CLICK_TOTAL_BET];
+        cascadingEvents.forEach((event) => {
+            uiManager.emitterListener(event, this.hidePreview.bind(this), this);
+        });
+    }
 
     renderInfo(info: CascadingSymbolPreviewType) {
         const { symbolItem } = info;
