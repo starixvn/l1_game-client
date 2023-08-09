@@ -30,12 +30,6 @@ enum StatusAction {
     increase = "increase"
 }
 
-type BetControlType = {
-    coin: number;
-    level: number;
-    multiplier: number;
-};
-
 export const CalculateTotalBet = (level: number, coin: number, betMultiplier: number) => {
     return +(level * coin * betMultiplier).toFixed(1);
 };
