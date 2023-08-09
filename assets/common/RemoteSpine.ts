@@ -49,6 +49,7 @@ export default class RemoteSpine extends cc.Component {
         this.spine.skeletonData = skeletonData;
         this.spine.premultipliedAlpha = this.premultipliedAlpha;
         this.spine.enableBatch = true;
+        this.spine.defaultAnimation = this.animationName;
         this.spine.setAnimation(0, this.animationName, true);
     }
 }
