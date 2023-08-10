@@ -59,6 +59,7 @@ export default class PopupMinigames extends cc.Component {
     async initDefaultGameRoundTimer() {
         const prefab = await GameUtils.loadMiniGameIcon(this.lobbyMenuConfig.roundTimerGame.main);
         const node = cc.instantiate(prefab);
+        node.scale = 0.75;
         this.roundTimer.addChild(node);
         node.getChildByName("icon-game").active = false;
         RoundTimerManager.getInstance().requestAllGamesRoundTimer();
