@@ -5,7 +5,7 @@ import { SlotNotification } from "../SlotGameBottomMessage";
 export default class SlotGameSettlementHandler implements DataHandler {
     constructor(protected readonly main: SlotGameBase) {}
 
-    handle(data: any) {
+    async handle(data: any) {
         if (data.apiError) {
             this.handleApiError(data);
         }
@@ -19,7 +19,8 @@ export default class SlotGameSettlementHandler implements DataHandler {
         }
 
         if (data.finish) {
-            this.handleFinish(data.finish);
+            await this.handleFinish(data.finish);
+            this.main.isFinishedRound = true;
         }
     }
 

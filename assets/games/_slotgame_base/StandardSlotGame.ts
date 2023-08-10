@@ -282,7 +282,7 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     onSymbolPreview(symbol, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
-        if (!this.gameConfigs?.odds) {
+        if (!this.gameConfigs?.odds || !this.isFinishedRound) {
             return;
         }
         this.playSound(ClassicSlotSound.CLICK);

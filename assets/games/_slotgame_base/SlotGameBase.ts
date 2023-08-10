@@ -151,6 +151,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     private showingWinningLine = false;
     normalPaylineDuration = 1;
     turboPaylineDuration = 0.75;
+    isFinishedRound = false;
 
     setAllowChangeBet(allow: boolean) {
         this.stakeButton.interactable = allow;
@@ -595,6 +596,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     onSpinClick(hold: boolean) {
+        this.isFinishedRound = false;
         uiManager.emitter.emit(InternalEvents.CLICK_SPIN_BUTTON);
         AudioManager.getInstance().playClick();
         this.isHoldAction = hold;

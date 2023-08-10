@@ -290,7 +290,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
             return;
         }
         this.playSound(CascadingSlotGameSound.CLICK);
-        const symbolCache = uiManager.prefabCache.slotSymbols[this.gameId];
 
         const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
         const previewNode = cc.instantiate(previewPrefab);
