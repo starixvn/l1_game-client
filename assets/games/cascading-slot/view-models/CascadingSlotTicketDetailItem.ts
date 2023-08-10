@@ -74,6 +74,7 @@ export default class CascadingSlotTicketDetailItem extends cc.Component {
     setDataHaveFreeSpin(count: number, odd: number, index: number, win: number, extraFreeSpin: boolean) {
         const tumbleNode = cc.instantiate(this.tumbleWinDetailItemPrefab);
         const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
+        this.getMainAtlas(control);
         control.setDataForFreeSpinTumble(count, odd, extraFreeSpin);
         this.content.addChild(tumbleNode);
         this.win.string = numberWithCommas(win, 2, false);
