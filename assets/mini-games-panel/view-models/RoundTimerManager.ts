@@ -17,7 +17,7 @@ export default class RoundTimerManager {
         return this.instance;
     }
 
-    requestAllGamesRoundTimer() {
+    requestRoundTimer() {
         NotificationService.getInstance().emitEvent(RoundTimerEvents.GET_ROUND_TIMER, {});
     }
 

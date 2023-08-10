@@ -54,6 +54,7 @@ export default class PopupMinigames extends cc.Component {
         this.jackPotContainer.active = false;
         RoundTimerManager.getInstance().initEvents();
         this.initDefaultGameRoundTimer();
+        cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
     async initDefaultGameRoundTimer() {
@@ -61,13 +62,19 @@ export default class PopupMinigames extends cc.Component {
         const node = cc.instantiate(prefab);
         this.roundTimer.addChild(node);
         node.getChildByName("icon-game").active = false;
-        RoundTimerManager.getInstance().requestAllGamesRoundTimer();
+        RoundTimerManager.getInstance().requestRoundTimer();
     }
 
     onDestroy() {
         this.unschedule(this.moveToEdge);
         RoundTimerManager.getInstance().removeEvents();
+        cc.game.off(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
+
+    onGameShow() {
+        RoundTimerManager.getInstance().requestRoundTimer();
+    }
+
     onEnable() {
         this.panel.on(cc.Node.EventType.TOUCH_START, this.eventStart, this);
         this.panel.on(cc.Node.EventType.TOUCH_MOVE, this.eventMove, this);
@@ -185,7 +192,7 @@ export default class PopupMinigames extends cc.Component {
             .call(() => {
                 this.toggleRuning = false;
                 this.roundTimer.active = false;
-                RoundTimerManager.getInstance().requestAllGamesRoundTimer();
+                RoundTimerManager.getInstance().requestRoundTimer();
             })
             .start();
     }
@@ -204,7 +211,7 @@ export default class PopupMinigames extends cc.Component {
                 cc.tween(this.menuIcon).to(0.2, { scale: 0.9 }, { easing: "sineOut" }).start();
                 uiManager.emitter.emit(InternalEvents.HIDE_POPUP_MINI_GAMES);
                 this.roundTimer.active = true;
-                RoundTimerManager.getInstance().requestAllGamesRoundTimer();
+                RoundTimerManager.getInstance().requestRoundTimer();
             })
             .start();
     }
