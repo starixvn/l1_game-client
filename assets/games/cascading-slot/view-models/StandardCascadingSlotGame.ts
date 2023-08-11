@@ -416,7 +416,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     override async showEffectBigWin(betWin: number) {
         const transtition = await this.playEffectTransition();
-        super.showEffectBigWin(betWin);
+        await super.showEffectBigWin(betWin);
         transtition?.destroy();
     }
 
