@@ -106,18 +106,13 @@ export default class GameUtils {
     }
 
     public static async loadMiniGameIcon(gameId: number): Promise<cc.Prefab> {
-        if (gameId === 0) {
-            return;
-        }
-
-        let prefab: cc.Prefab;
         const gameConfiguration = getGameConfiguration(gameId);
 
         if (!!gameConfiguration?.remoteBundle) {
             const path = `icons/SmallMiniPanel`;
             const devPath = `../games/*/${path}`;
             try {
-                prefab = await BundleManager.getInstance().loadAsset<cc.Prefab>({
+                return await BundleManager.getInstance().loadAsset<cc.Prefab>({
                     bundleId: gameId.toString(),
                     path: path,
                     pathForDevMode: devPath,
@@ -127,10 +122,8 @@ export default class GameUtils {
                 cc.warn(`Missing prefab for ${path} `, e);
             }
         } else {
-            prefab = await GameUtils.loadResource(`minipanel/games/${gameId}`);
+            return await GameUtils.loadResource(`minipanel/games/${gameId}`);
         }
-
-        return prefab;
     }
 
     public static async loadMiniGamePrefab(gameId: number, onProgress: (completed: number, total: number, item?: unknown) => void) {

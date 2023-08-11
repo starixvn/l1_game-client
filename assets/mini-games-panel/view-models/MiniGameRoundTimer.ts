@@ -64,6 +64,10 @@ export default class MiniGameRoundTimer extends cc.Component {
         return this.countDownTime <= this.gameConfig.betTime && this.countDownTime >= this.gameConfig.minBetTime;
     }
 
+    private isShowResult() {
+        return this.countDownTime <= this.gameConfig.fullTime - this.resultDelayTime && this.countDownTime > this.gameConfig.betTime;
+    }
+
     hideRoundTimer() {
         this.result.active = false;
         this.time.active = false;
@@ -92,7 +96,7 @@ export default class MiniGameRoundTimer extends cc.Component {
             await GameUtils.delayTime(this.resultDelayTime);
         }
 
-        if (!this.isInRound()) {
+        if (this.isShowResult()) {
             this.result.active = true;
         }
 
