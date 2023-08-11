@@ -30,13 +30,13 @@ export default class RoundTimerManager {
         );
     }
 
-    onReceivedData(data) {
-        this.roundData = data;
-        uiManager.emitter.emit(InternalEvents.RECEIVED_ROUND_TIMER, data);
-    }
-
     removeEvents() {
         NotificationService.getInstance().removeDataObserver(this.roundTimer, this.roundTimer);
         NotificationService.getInstance().removeDataObserver(this.latestRoundTimer, this.latestRoundTimer);
+    }
+
+    private onReceivedData(data) {
+        this.roundData = data;
+        uiManager.emitter.emit(InternalEvents.RECEIVED_ROUND_TIMER, data);
     }
 }

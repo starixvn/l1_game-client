@@ -10,13 +10,13 @@ export default class BauCuaRoundTimerResult extends CustomeRoundTimerResult {
         this.resultContainer = this.node.children[0];
     }
 
-    show(data) {
+    override show(data) {
         this.showMultiWinningChoice(data.result);
         this.playAnimation(this.node);
     }
 
     showMultiWinningChoice(result) {
-        this.node.children[0].destroyAllChildren();
+        this.resultContainer.destroyAllChildren();
         Object.values(result).forEach((choice) => {
             const sprite = new cc.Node().addComponent(cc.Sprite);
             this.resultContainer.addChild(sprite.node);

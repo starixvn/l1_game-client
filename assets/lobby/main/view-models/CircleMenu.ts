@@ -68,7 +68,7 @@ export default class CircleMenu extends GameIconMenu {
             if (uiManager.prefabCache.miniPanelIcons[gameId]) {
                 prefab = uiManager.prefabCache.miniPanelIcons[gameId];
             } else {
-                prefab = await GameUtils.loadMiniGameIcon(gameId);
+                prefab = await GameUtils.loadMiniPanelGameIcon(gameId);
                 uiManager.prefabCache.miniPanelIcons[gameId] = prefab;
             }
             node.addChild(cc.instantiate(prefab));

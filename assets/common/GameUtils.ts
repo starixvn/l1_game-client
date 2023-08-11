@@ -105,7 +105,7 @@ export default class GameUtils {
         }
     }
 
-    public static async loadMiniGameIcon(gameId: number): Promise<cc.Prefab> {
+    public static async loadMiniPanelGameIcon(gameId: number): Promise<cc.Prefab> {
         const gameConfiguration = getGameConfiguration(gameId);
 
         if (!!gameConfiguration?.remoteBundle) {

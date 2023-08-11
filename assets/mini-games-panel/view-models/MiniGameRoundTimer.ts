@@ -68,12 +68,12 @@ export default class MiniGameRoundTimer extends cc.Component {
         return this.countDownTime <= this.gameConfig.fullTime - this.resultDelayTime && this.countDownTime > this.gameConfig.betTime;
     }
 
-    hideRoundTimer() {
+    private hideRoundTimer() {
         this.result.active = false;
         this.time.active = false;
     }
 
-    showCountDownTime() {
+    private showCountDownTime() {
         this.time.active = true;
         this.result.active = false;
     }
@@ -81,7 +81,7 @@ export default class MiniGameRoundTimer extends cc.Component {
     private async onReceivedData(data) {
         this.gameData = data[this.gameId];
 
-        if (!this.gameData || !this.lobbyMenuConfig.isRoundTimerGame(this.gameId)) {
+        if (!this.gameData) {
             return;
         }
 
@@ -90,6 +90,7 @@ export default class MiniGameRoundTimer extends cc.Component {
 
         const { timeFromStart } = this.gameData;
         this.countDownTime = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
+        this.unschedule(this.countDown);
         this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
 
         if (!timeFromStart) {
@@ -123,14 +124,14 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.countDownTime--;
     }
 
-    checkDisableRoundTimer() {
+    private checkDisableRoundTimer() {
         if (this.gameData) {
             return;
         }
         this.node.active = false;
     }
 
-    initGameConfig() {
+    protected initGameConfig() {
         // override
     }
 }

@@ -30,7 +30,7 @@ export default class RoundTimerResult extends cc.Component {
         this.initCustomResult();
     }
 
-    async initCustomResult() {
+    private async initCustomResult() {
         if (this.resultType === RoundTimerResultType.TEXT) {
             this.customResultPrefab = await GameUtils.loadResource(`minipanel/popup-mini-game/RoundTimerResultText`);
         }
@@ -40,15 +40,18 @@ export default class RoundTimerResult extends cc.Component {
     }
 
     setResult(data) {
+        if (!this.customResultNode) {
+            return;
+        }
         this.resultType === RoundTimerResultType.TEXT ? this.loadText(data) : this.loadCustomResult(data);
     }
 
-    loadCustomResult(data) {
+    private loadCustomResult(data) {
         const customResult = this.customResultNode.getComponent(CustomeRoundTimerResult);
         customResult.show(data);
     }
 
-    loadText(data) {
+    private loadText(data) {
         const customResult = this.customResultNode.getComponent(RoundTimerResultText);
         customResult.show(data, this.betOptions);
     }

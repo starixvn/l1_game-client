@@ -34,7 +34,6 @@ export default class PopupMinigames extends cc.Component {
     private ttOffset2 = cc.v2(0, 0);
     private toggleRuning = false;
     public background: cc.Node = null;
-    private widgetComp: cc.Widget;
     private prevPosition;
 
     onLoad() {
@@ -42,7 +41,6 @@ export default class PopupMinigames extends cc.Component {
             this.node.position = appManager.popupMiniGamesLastPosition;
         }
 
-        this.widgetComp = this.node.getComponent(cc.Widget);
         this.list.active = false;
         this.list.scale = 0;
 
@@ -52,13 +50,15 @@ export default class PopupMinigames extends cc.Component {
         jackpotWinner.popupMiniGame = this;
         this.jackPotContainer.addChild(jackpot);
         this.jackPotContainer.active = false;
+
         RoundTimerManager.getInstance().initEvents();
         this.initDefaultGameRoundTimer();
+
         cc.game.on(cc.game.EVENT_SHOW, this.onGameShow, this);
     }
 
     async initDefaultGameRoundTimer() {
-        const prefab = await GameUtils.loadMiniGameIcon(this.lobbyMenuConfig.roundTimerGame.main);
+        const prefab = await GameUtils.loadMiniPanelGameIcon(this.lobbyMenuConfig.roundTimerGame.main);
         const node = cc.instantiate(prefab);
         this.roundTimer.addChild(node);
         node.getChildByName("icon-game").active = false;
@@ -159,7 +159,8 @@ export default class PopupMinigames extends cc.Component {
 
     toggle() {
         AudioManager.getInstance().playClick();
-        this.widgetComp.isAlignRight = false;
+        const widgetComp = this.node.getComponent(cc.Widget);
+        widgetComp.isAlignRight = false;
 
         if (!this.toggleRuning) {
             this.toggleRuning = true;

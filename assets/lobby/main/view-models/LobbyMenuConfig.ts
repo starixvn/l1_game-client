@@ -61,8 +61,4 @@ export default class LobbyMenuConfig extends System implements ICreditSystem, IC
 
         return gameConfiguration?.bigSize;
     }
-
-    isRoundTimerGame(gameId: number): boolean {
-        return this.roundTimerGame.games.filter((game) => game.id === gameId).length > 0;
-    }
 }
