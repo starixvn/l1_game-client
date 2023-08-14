@@ -19,6 +19,8 @@ import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import { userManager } from "./user/UserManager";
 import * as SessionManager from "../common/auth/SessionManager";
+import Loading from "./loading/view-models/Loading";
+import axios from "axios";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
@@ -273,10 +275,30 @@ export default class GameUtils {
         await this.preloadGameRoom(gameId);
     }
 
-    public static async openGameMicrosite(gameId: number) {
-        SessionManager.storeMicrositeGameId(gameId);
-        const sceneName = "microsite-game";
-        await this.loadScene(gameId, sceneName);
+    public static async openGameMicrosite(gameId: number, loading: Loading = null) {
+        const available = await this.healthCheckMicrositeGame(gameId);
+        if (available) {
+            SessionManager.storeMicrositeGameId(gameId);
+            const sceneName = "microsite-game";
+            await this.loadScene(gameId, sceneName);
+        } else {
+            loading?.setLoadingVisibility(false);
+            const data = {
+                text: i18n.t("messages.lostGameConnection", { gameName: await this.getDisplayGameName(gameId) }),
+                isInfo: false
+            };
+            uiManager.emitter.emit(InternalEvents.LOST_CONNECTION, data);
+        }
+    }
+
+    public static async healthCheckMicrositeGame(gameId: number) {
+        const url = `${buildMicrositeGameUrl(gameId)}/health`;
+        try {
+            const response = await axios.get(url);
+            return response.status === 200;
+        } catch (error) {
+            return false;
+        }
     }
 
     public static async loadSceneGame(gameId, socketIOController: SocketIOController) {
@@ -356,7 +378,7 @@ export default class GameUtils {
 
         const gameConfiguration = getGameConfiguration(gameId);
         if (gameConfiguration?.isMicrosite) {
-            this.openGameMicrosite(gameId);
+            this.openGameMicrosite(gameId, loading);
             return;
         }
 

@@ -4,6 +4,7 @@ import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import * as SessionManager from "../../common/auth/SessionManager";
 import { buildProxyUrl } from "../../common/helpers/UrlHelper";
+import GameUtils from "../../common/GameUtils";
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -62,7 +63,11 @@ export default class NewClass extends cc.Component {
     private async isOpenMicrositeGame() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("token") && urlParams.has("gameId") && urlParams.get("gameId") !== "0") {
-            return this.isMicrositeGame(urlParams.get("gameId"));
+            const gameId = +urlParams.get("gameId");
+            if (await this.isMicrositeGame(gameId)) {
+                return GameUtils.healthCheckMicrositeGame(gameId);
+            }
+            return false;
         }
         return !urlParams.has("token") && +SessionManager.getMicrositeGameId() > 0;
     }
