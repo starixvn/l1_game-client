@@ -48,6 +48,7 @@ export default class CascadingTotalBet extends cc.Component {
     }
 
     onHandleStatusBetControl(event: Event, customEventData: string) {
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLICK_TOTAL_BET);
         AudioManager.getInstance().playClick();
 
         this.betControl.showView(!this.isOpenBetControl, customEventData);
