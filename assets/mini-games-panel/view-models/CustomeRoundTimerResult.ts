@@ -4,6 +4,12 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CustomeRoundTimerResult extends cc.Component {
+    onLoad() {
+        this.node.children.forEach((choice) => {
+            choice.active = false;
+        });
+    }
+
     show(data) {
         if (!data && !data.settlementResult) {
             return;
