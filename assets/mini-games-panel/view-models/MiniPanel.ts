@@ -307,7 +307,6 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openNewSocketMiniGame(e, id) {
-        uiManager.setCurrentGameId(id);
         this.loadGame(id, () => {
             this.gameMiniInitializers.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
@@ -317,7 +316,6 @@ export default class MiniPanel extends BaseComponent {
     }
 
     openNewSocketTableGame(event, gameId) {
-        uiManager.setCurrentGameId(gameId);
         this.loadGame(gameId, () => {
             this.socketIOGameInitializers.openGame(gameId);
         });
@@ -353,7 +351,6 @@ export default class MiniPanel extends BaseComponent {
                 })
                 .catch(onComplete);
         } else {
-            loading.setDefaultPercent();
             cc.resources.loadDir(
                 `image/${language}/${gameId}`,
                 cc.SpriteFrame,

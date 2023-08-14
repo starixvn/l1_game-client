@@ -288,8 +288,11 @@ export default class GameUtils {
             // handle
         }
     ) {
-        const gameConfiguration = getGameConfiguration(gameId);
+        uiManager.setCurrentGameId(gameId);
+        const loading = miniPanel.getGameLoadingComp(gameId);
+        loading.setDefaultPercent();
 
+        const gameConfiguration = getGameConfiguration(gameId);
         await GameUtils.preloadGameAssets(gameConfiguration, miniPanel, gameId);
 
         if (!gameConfiguration.mini && gameId > 0) {
@@ -304,11 +307,7 @@ export default class GameUtils {
 
     private static async preloadGameAssets(gameConfiguration: GameConfiguration, miniPanel: MiniPanel, gameId: number) {
         if (!!gameConfiguration.remoteBundle) {
-            const bundleManager = BundleManager.getInstance();
-            const loading = miniPanel.getGameLoadingComp(gameId);
-            loading.setDefaultPercent();
-
-            await bundleManager.loadBundle(gameId.toString());
+            await BundleManager.getInstance().loadBundle(gameId.toString());
             await preloadAssets(gameId.toString());
         }
     }

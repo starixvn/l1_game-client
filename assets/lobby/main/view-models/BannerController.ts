@@ -228,7 +228,6 @@ export default class BannerController extends cc.Component {
         AudioManager.getInstance().playClick();
         GameUtils.clearGameSetting(gameId);
         GameUtils.unCacheAndHideGameLoading(uiManager.getCurrentGameId());
-        uiManager.setCurrentGameId(gameId);
         GameUtils.openGame(+gameId, appManager.miniPanel);
 
         AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {

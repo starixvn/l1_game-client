@@ -112,7 +112,6 @@ export default class CircleMenu extends GameIconMenu {
         } else {
             GameUtils.clearGameSetting(id);
             GameUtils.unCacheAndHideGameLoading(uiManager.getCurrentGameId());
-            uiManager.setCurrentGameId(id);
             GameUtils.openGame(id, this.miniPanel);
             AnalyticsManager.Instance.trackEvent(TrackingEvent.Button, {
                 location: cc.director.getScene().name,
