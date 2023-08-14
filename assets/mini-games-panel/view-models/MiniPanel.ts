@@ -296,28 +296,28 @@ export default class MiniPanel extends BaseComponent {
 
     openGame(e, id) {
         this.loadGame(id, () => {
-            this.gameMiniInitializers.openGame(id);
+            this.gameMiniInitializers?.openGame(id);
         });
     }
 
     openMiniContainerGame(id) {
         this.loadGame(id, () => {
-            this.gameMiniInitializers.openMiniContainerGame(id);
+            this.gameMiniInitializers?.openMiniContainerGame(id);
         });
     }
 
     openNewSocketMiniGame(e, id) {
         this.loadGame(id, () => {
-            this.gameMiniInitializers.openNewSocket(id);
+            this.gameMiniInitializers?.openNewSocket(id);
             Object.values(this.chartsWebView).forEach((chartWebView: LoadWebView) => {
-                chartWebView && chartWebView.hideWebView();
+                chartWebView?.hideWebView();
             });
         });
     }
 
     openNewSocketTableGame(event, gameId) {
         this.loadGame(gameId, () => {
-            this.socketIOGameInitializers.openGame(gameId);
+            this.socketIOGameInitializers?.openGame(gameId);
         });
     }
 

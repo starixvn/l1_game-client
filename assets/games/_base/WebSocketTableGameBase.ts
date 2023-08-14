@@ -21,6 +21,7 @@ import {
 import GameBase from "./GameBase";
 import { GameBasePlayerHandler } from "./handlers/GameBasePlayerHandler";
 import RoomPlayer from "./view-models/RoomPlayer";
+import { uiManager } from "../../managers/GameUIManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -81,6 +82,7 @@ export default class WebSocketTableGameBase extends GameBase {
         this.loadUserData(userManager.user);
         this.players.forEach((player) => (player.node.active = false));
         this.initBackgroundMusic();
+        GameUtils.unCacheAndHideGameLoading(uiManager.getCurrentGameId());
         this.loading.active = true;
     }
 
