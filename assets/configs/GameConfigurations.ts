@@ -64,10 +64,6 @@ export async function initialize() {
         throw new Error(`Can not load client bundle configuration`);
     }
 
-    // hardcode for testing sedie microsite
-    const index = configurations.findIndex((configuration) => configuration.id === 2);
-    index >= 0 && (configurations[index].isMicrosite = true);
-
     window.gameConfigurations = configurations;
 
     initializeBundleInfos();

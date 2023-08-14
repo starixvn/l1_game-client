@@ -73,10 +73,6 @@ export default class NewClass extends cc.Component {
     }
 
     async isMicrositeGame(gameId) {
-        // hardcode for testing sedie microsite
-        if (+gameId === 2) {
-            return true;
-        }
         const url = buildProxyUrl(`/game/configurations/${gameId}`);
         const configuration = await axios
             .get(url)
