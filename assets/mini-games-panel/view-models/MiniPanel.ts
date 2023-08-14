@@ -385,11 +385,10 @@ export default class MiniPanel extends BaseComponent {
                     this.unCacheAndHideGameLoading(gameLoading, +gameId);
                     return;
                 }
-                gameLoading && gameLoading.onProgressWithStartPercent(this.preloadOthersPercent, 100, completedCount, total);
+                gameLoading?.onProgressWithStartPercent(this.preloadOthersPercent, 100, completedCount, total);
             },
             (error) => {
-                const loadingFromManager = uiManager.getLoadingWithGameID(+gameId);
-                loadingFromManager && this.unCacheAndHideGameLoading(gameLoading, +gameId);
+                this.unCacheAndHideGameLoading(gameLoading, +gameId);
 
                 if (error) {
                     this.onForceReload();
@@ -512,16 +511,16 @@ export default class MiniPanel extends BaseComponent {
     }
 
     setLoadingVisibility(status: boolean) {
-        this.loading && this.loading.setLoadingVisibility(status);
+        this.loading?.setLoadingVisibility(status);
     }
 
     unCacheAndHideGameLoading(loadingComp: Loading, gameId: number) {
-        loadingComp && loadingComp.setLoadingVisibility(false);
+        loadingComp?.setLoadingVisibility(false);
         uiManager.unCacheIconLoading(gameId);
     }
 
     getGameLoadingComp(gameId: number): Loading {
         const loadingFromManager = uiManager.getLoadingWithGameID(gameId);
-        return loadingFromManager ? loadingFromManager : this.loading;
+        return loadingFromManager || this.loading;
     }
 }

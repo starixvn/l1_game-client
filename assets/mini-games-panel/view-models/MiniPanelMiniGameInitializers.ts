@@ -43,7 +43,7 @@ export default class MiniPanelMiniGameInitializers extends MiniPanelSocketIOInit
                         return;
                     }
 
-                    gameLoading && gameLoading.onProgress(completedCount, total);
+                    gameLoading?.onProgress(completedCount, total);
                 });
 
                 console.timeEnd("LoadScene " + gameName);
