@@ -622,7 +622,7 @@ export default class GameUtils {
 
         const copySuccessfully = await this.copyText(data);
         const keyResult = copySuccessfully ? "messages.copy_success" : "messages.copyMD5Failed";
-        showResult(keyResult);
+        showResult(i18n.t(keyResult));
     }
 
     public static async copyText(text: string) {
