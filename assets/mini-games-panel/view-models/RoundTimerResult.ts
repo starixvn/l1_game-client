@@ -23,20 +23,19 @@ export default class RoundTimerResult extends cc.Component {
     customResultPrefab: cc.Prefab = null;
 
     public betOptions;
-    private customResultNode: cc.Node;
+    private customResultNode: cc.Node = null;
 
-    onLoad() {
-        this.node.destroyAllChildren();
-        this.initCustomResult();
-    }
+    async initCustomResult() {
+        try {
+            if (this.resultType === RoundTimerResultType.TEXT) {
+                this.customResultPrefab = await GameUtils.loadResource(`minipanel/popup-mini-game/RoundTimerResultText`);
+            }
 
-    private async initCustomResult() {
-        if (this.resultType === RoundTimerResultType.TEXT) {
-            this.customResultPrefab = await GameUtils.loadResource(`minipanel/popup-mini-game/RoundTimerResultText`);
+            this.customResultNode = cc.instantiate(this.customResultPrefab);
+            this.node.addChild(this.customResultNode);
+        } catch (e) {
+            cc.log(e);
         }
-
-        this.customResultNode = cc.instantiate(this.customResultPrefab);
-        this.node.addChild(this.customResultNode);
     }
 
     setResult(data) {

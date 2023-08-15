@@ -4,14 +4,8 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CustomeRoundTimerResult extends cc.Component {
-    onLoad() {
-        this.node.children.forEach((choice) => {
-            choice.active = false;
-        });
-    }
-
     show(data) {
-        if (!data && !data.settlementResult) {
+        if (!data.settlementResult) {
             return;
         }
 
@@ -34,12 +28,17 @@ export default class CustomeRoundTimerResult extends cc.Component {
     }
 
     protected async playAnimation(node: cc.Node) {
+        if (!this.node.isValid) {
+            return;
+        }
+
         const skeleton = node.getComponent(sp.Skeleton);
         if (!skeleton) {
             return;
         }
         skeleton.setAnimation(0, "show", false);
-        await GameUtils.delayTime(skeleton.findAnimation("show").duration);
+        const showDelayTime = skeleton.findAnimation("show")?.duration || 0;
+        await GameUtils.delayTime(showDelayTime);
         skeleton.setAnimation(0, "idle", true);
     }
 }

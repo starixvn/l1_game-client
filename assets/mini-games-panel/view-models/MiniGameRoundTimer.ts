@@ -41,6 +41,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         if (this.result) {
             this.roundResult = this.result.getComponent(RoundTimerResult);
             this.roundResult.betOptions = this.betOptions;
+            this.roundResult.initCustomResult();
         }
     }
 
@@ -70,7 +71,7 @@ export default class MiniGameRoundTimer extends cc.Component {
     }
 
     private isShowResult() {
-        return this.countDownTime <= this.gameConfig.fullTime - this.resultDelayTime && this.countDownTime > this.gameConfig.betTime;
+        return this.countDownTime <= this.gameConfig.fullTime && this.countDownTime > this.gameConfig.betTime;
     }
 
     private hideRoundTimer() {
@@ -105,9 +106,8 @@ export default class MiniGameRoundTimer extends cc.Component {
 
             if (this.isShowResult()) {
                 this.result.active = true;
+                this.roundResult.setResult(data[this.gameId]);
             }
-
-            this.roundResult.setResult(data[this.gameId]);
         } catch (e) {
             cc.log(e);
         }
