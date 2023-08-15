@@ -1,4 +1,6 @@
 import GameUtils from "./GameUtils";
+import { uiManager } from "../managers/GameUIManager";
+
 
 const { ccclass, property } = cc._decorator;
 
@@ -19,6 +21,7 @@ export default class RemoteSpine extends cc.Component {
     @property
     public host = "";
     public premultipliedAlpha = false;
+    public id = -1;
 
     private spine: sp.Skeleton;
 
@@ -30,26 +33,15 @@ export default class RemoteSpine extends cc.Component {
     }
 
     async loadResources() {
-        const spineRes = [];
-        for (const ext of this.resourceExts) {
-            try {
-                const resName = `${this.spineName}.${ext}`;
-                const url = `${this.host}/${resName}`;
-                const data = await GameUtils.loadRemote(url);
-                if (data) {
-                    spineRes.push(data);
-                }
-            } catch (error) {}
+        if(uiManager.remoteIconCache[this.id]){
+            const t1 = new Date();
+            this.spine.skeletonData = uiManager.remoteIconCache[this.id].skeletonData;
+            this.spine.premultipliedAlpha = this.premultipliedAlpha;
+            this.spine.enableBatch = true;
+            this.spine.defaultAnimation = this.animationName;
+            this.spine.setAnimation(0, this.animationName, true);
+            const t2 = new Date();        
+            console.log("time ", t2.getTime() - t1.getTime());
         }
-        const skeletonData = new sp.SkeletonData();
-        skeletonData.skeletonJson = spineRes[SpineFile.Json].json;
-        skeletonData.atlasText = spineRes[SpineFile.Atlas].text;
-        skeletonData.textures = [spineRes[SpineFile.Texture]];
-        skeletonData["textureNames"] = [`${this.spineName}.${this.resourceExts[SpineFile.Texture]}`];
-        this.spine.skeletonData = skeletonData;
-        this.spine.premultipliedAlpha = this.premultipliedAlpha;
-        this.spine.enableBatch = true;
-        this.spine.defaultAnimation = this.animationName;
-        this.spine.setAnimation(0, this.animationName, true);
     }
 }

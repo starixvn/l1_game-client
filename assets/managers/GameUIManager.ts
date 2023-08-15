@@ -8,6 +8,14 @@ export interface EmitterStorageType {
     callback: (param?) => void;
     target: any;
 }
+
+interface IconCache {
+    [key: number]: {
+        skeletonData: sp.SkeletonData,
+        configFile: cc.JsonAsset
+    }
+}
+
 export default class GameUIManager {
     private static instance: GameUIManager;
     private iconGameLoading = {};
@@ -32,6 +40,8 @@ export default class GameUIManager {
         gameAtlas: {},
         multiplierPrefab: {}
     };
+
+    public remoteIconCache: IconCache = {};
 
     initEmitter() {
         this.emitter = new EventEmitterBase();

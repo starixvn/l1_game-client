@@ -114,6 +114,26 @@ export default class GameUtils {
         });
     }
 
+    public static async preloadRemoteIcon(gameId: number){
+        try {            
+            const loadRemoteIconData = async (resource) => {
+                const url = `${GameUtils.remoteGameResourceUrl(gameId, "icon")}/${resource}`;
+                const data: any = await GameUtils.loadRemote(url);
+                return data;
+            }          
+            
+            const skeletonData = new sp.SkeletonData();
+            skeletonData.skeletonJson = (await loadRemoteIconData("icon-game.json")).json; 
+            skeletonData.atlasText = (await loadRemoteIconData("icon-game.atlas")).text;
+            skeletonData.textures = [await loadRemoteIconData("icon-game.png")];
+            skeletonData["textureNames"] = [`icon-game.png`];        
+            
+            uiManager.remoteIconCache[gameId] = {skeletonData: skeletonData, configFile: await loadRemoteIconData("config.json")};
+        } catch (error) {
+            console.log("preloadRemoteIcon error", error.message);
+        }
+    }
+
     public static async loadGameIcon(gameId: number, systemPath = ""): Promise<cc.Prefab> {
         const category = StorageManager.get("current_game_category") ?? 0;
         const gameConfiguration = getGameConfiguration(gameId);

@@ -11,6 +11,8 @@ import { InternalEvents } from "../../managers/InternalEvents";
 import SocketIOController from "../../SocketIOController";
 import RandomWaitingMessage from "./RandonWaitingMessage";
 import SplashConfig from "./SplashConfig";
+import { getGameConfiguration } from "../../configs/GameConfigurations";
+
 
 const splashConfig = appContainer.get(SplashConfig);
 
@@ -183,6 +185,11 @@ export default class Splash extends cc.Component {
             const preLoadGameBySystemAwaiters = preLoadGameIds
                 .filter((gameId) => this.lobbyMenuConfig.customGameIconBySystem.includes(gameId))
                 .map((gameId) => GameUtils.loadGameIcon(gameId, splashConfig.customPath));
+
+            const preloadRemoteGameIds = preLoadGameIds.filter(id => getGameConfiguration(id).isMicrosite);
+            for (const gameId of preloadRemoteGameIds) {
+                await GameUtils.preloadRemoteIcon(gameId);
+            }
 
             await Promise.all(preLoadGameAwaiters.concat(preLoadGameBySystemAwaiters));
         } catch (ex) {
