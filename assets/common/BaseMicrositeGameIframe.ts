@@ -7,6 +7,12 @@ import CustomWebView from "./CustomWebView";
 
 const { ccclass, property } = cc._decorator;
 
+declare global {
+    interface Window {
+        microsite: any;
+    }
+}
+
 export type MicrositeGameParams = {
     backLobby?: boolean;
     ss?: string;
@@ -19,6 +25,7 @@ export type MicrositeGameParams = {
     sfxEnable?: boolean;
     sessionTimeout?: boolean;
     copyToClipboard?: string;
+    hasSSO?: boolean;
 };
 
 const WebviewEventType = {
@@ -51,6 +58,7 @@ export default class BaseMicrositeGameIframe extends cc.Component {
     }
 
     protected onDestroy(): void {
+        window.microsite = {};
         window.removeEventListener("message", this.handleEvent.bind(this));
     }
 
@@ -71,6 +79,9 @@ export default class BaseMicrositeGameIframe extends cc.Component {
     }
 
     protected async handleEvent({ data }: { data: MicrositeGameParams }) {
+        if (data.hasSSO) {
+            window.microsite = { hasSSO: true };
+        }
         if (data.sessionTimeout) {
             this.handleSignOut();
             return;

@@ -39,6 +39,11 @@ function toggleFullScreen() {
     ) {
         requestFullScreen.call(docEl);
     }
+    const micrositeIframe = document.getElementById("microsite");
+    const tokenKey = "?token";
+    if (micrositeIframe?.src?.includes(tokenKey)) {
+        micrositeIframe.src = window.microsite?.hasSSO ? micrositeIframe.src.split(tokenKey)[0] : micrositeIframe.src;
+    }
 }
 
 function showAddressBar() {
