@@ -637,11 +637,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     onSpinClick(hold: boolean) {
-        this.playSoundSpin();
+        this.playSound(CascadingSlotGameSound.SPIN_BUTTON);
         super.onSpinClick(hold);
-    }
-
-    playSoundSpin() {
-        this.gameSound.playSound(CascadingSlotGameSound.SPIN_BUTTON);
     }
 }

@@ -507,10 +507,6 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         this.topMessage.updateColor(this.colorConfig.topMessageTextColor);
     }
 
-    playSoundSpin() {
-        this.playSound(CascadingSlotGameSound.SPIN_BUTTON);
-    }
-
     protected initGameSongList() {
         this.songListConfig = this.musicInfo.json;
         super.initGameSongList();

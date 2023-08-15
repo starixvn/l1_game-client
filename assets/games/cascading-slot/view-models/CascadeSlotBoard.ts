@@ -184,6 +184,7 @@ export default class CascadeSlotBoard extends cc.Component {
     }
 
     protected setValueMultiplier(index: number, multipliers: number[], multiplierItem: MultiplierItem) {
+        multiplierItem.gameId = this.gameId;
         multiplierItem.setValue(multipliers[index]);
     }
 

@@ -158,7 +158,6 @@ const handleMultiplier = async (mainGame: CascadingSlotBase, isFreeSpin: boolean
         const multiplierItems = mainGame.board.getMultiplierItems();
         for (const mItem of multiplierItems) {
             mainGame.playSound(CascadingSlotGameSound.MULTIPLIER_APPEAR);
-            mItem.gameId = mainGame.gameId;
             await mItem.playAnimationGlow();
             await mainGame.tumbleWinView.shiftRightTumbleWin(mItem.multiplier);
             await movingMultiplier(mItem.value.node, mainGame.effectContainer, mainGame.tumbleWinView.multiplier.node);
