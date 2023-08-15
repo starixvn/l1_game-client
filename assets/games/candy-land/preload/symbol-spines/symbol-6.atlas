@@ -1,223 +1,224 @@
 
-exportAtlas.png
-size: 2048,2048
+optimize-symbols.png
+size: 1024, 2048
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-bg-reel-highlight
+s6-bg-reel-highlight
   rotate: false
-  xy: 1274, 13
+  xy: 3, 533
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: -1
-blink-star
+s6-blink-star
   rotate: false
-  xy: 1820, 1036
-  size: 21, 20
-  orig: 21, 20
+  xy: 979, 3
+  size: 22, 20
+  orig: 22, 20
   offset: 0, 0
   index: -1
-explosion-star-01
-  rotate: true
-  xy: 1733, 1390
-  size: 78, 79
-  orig: 78, 79
-  offset: 0, 0
-  index: -1
-explosion-star-02
+s6-explosion-star-01
   rotate: false
-  xy: 1741, 283
-  size: 81, 81
-  orig: 81, 81
-  offset: 0, 0
+  xy: 497, 723
+  size: 76, 78
+  orig: 142, 144
+  offset: 35, 31
   index: -1
-explosion-star-03
+s6-explosion-star-02
   rotate: false
-  xy: 1524, 1682
-  size: 85, 87
-  orig: 85, 87
-  offset: 0, 0
+  xy: 840, 830
+  size: 80, 80
+  orig: 142, 144
+  offset: 32, 31
   index: -1
-explosion-star-04
-  rotate: true
-  xy: 552, 55
-  size: 512, 1182
-  orig: 512, 1182
-  offset: 0, 0
-  index: -1
-explosion-star-05
+s6-explosion-star-03
   rotate: false
-  xy: 224, 404
-  size: 1461, 1288
-  orig: 1461, 1288
-  offset: 0, 0
+  xy: 527, 637
+  size: 86, 84
+  orig: 142, 144
+  offset: 30, 31
   index: -1
-explosion-star-06
-  rotate: true
-  xy: 142, 2
-  size: 577, 1572
-  orig: 577, 1572
-  offset: 0, 0
-  index: -1
-explosion-star-07
-  rotate: true
-  xy: 2, 2
-  size: 1871, 1837
-  orig: 1871, 1837
-  offset: 0, 0
-  index: -1
-light
+s6-explosion-star-04
   rotate: false
-  xy: 559, 874
-  size: 217, 184
-  orig: 217, 184
-  offset: 0, 0
+  xy: 336, 237
+  size: 112, 88
+  orig: 142, 144
+  offset: 27, 22
   index: -1
-rainbow-1
+s6-explosion-star-05
   rotate: false
-  xy: 988, 171
+  xy: 553, 529
+  size: 108, 106
+  orig: 142, 144
+  offset: 19, 20
+  index: -1
+s6-explosion-star-06
+  rotate: false
+  xy: 218, 237
+  size: 116, 124
+  orig: 142, 144
+  offset: 10, 9
+  index: -1
+s6-explosion-star-07
+  rotate: false
+  xy: 471, 120
+  size: 122, 116
+  orig: 142, 144
+  offset: 6, 22
+  index: -1
+s6-light
+  rotate: false
+  xy: 3, 3
+  size: 216, 182
+  orig: 232, 196
+  offset: 10, 8
+  index: -1
+s6-rainbow-1
+  rotate: false
+  xy: 563, 241
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: -1
-rainbow-2
+s6-rainbow-2
   rotate: false
-  xy: 885, 1298
+  xy: 449, 353
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: -1
-rainbow-3
+s6-rainbow-3
   rotate: false
-  xy: 533, 1176
+  xy: 329, 442
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: -1
-rainbow-4
+s6-rainbow-4
   rotate: false
-  xy: 1386, 883
+  xy: 215, 478
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: -1
-s6
-  rotate: true
-  xy: 503, 652
-  size: 76, 82
-  orig: 76, 82
-  offset: 0, 0
-  index: -1
-s6-outer
+s6-s6
   rotate: false
-  xy: 1387, 1774
-  size: 88, 95
-  orig: 88, 95
-  offset: 0, 0
+  xy: 393, 798
+  size: 74, 78
+  orig: 74, 78
+  offset: 1, 0
   index: -1
-vfx-s0-00
-  rotate: true
-  xy: 544, 1402
-  size: 50, 61
-  orig: 50, 61
-  offset: 0, 0
-  index: -1
-vfx-s0-01
-  rotate: true
-  xy: 616, 1681
-  size: 84, 93
-  orig: 84, 93
-  offset: 0, 0
-  index: -1
-vfx-s0-02
+s6-s6-outer
   rotate: false
-  xy: 1460, 1462
-  size: 94, 107
-  orig: 94, 107
-  offset: 0, 0
+  xy: 128, 280
+  size: 86, 94
+  orig: 86, 94
+  offset: 0, 1
   index: -1
-vfx-s0-03
-  rotate: true
-  xy: 730, 1507
-  size: 100, 112
-  orig: 100, 112
-  offset: 0, 0
-  index: -1
-vfx-s0-04
-  rotate: true
-  xy: 522, 2
-  size: 1757, 1131
-  orig: 1757, 1131
-  offset: 0, 0
-  index: -1
-vfx-s0-05
-  rotate: true
-  xy: 125, 2
-  size: 1228, 1660
-  orig: 1228, 1660
-  offset: 0, 0
-  index: -1
-vfx-s0-06
-  rotate: true
-  xy: 370, 2
-  size: 1880, 1525
-  orig: 1880, 1525
-  offset: 0, 0
-  index: -1
-vfx-s0-07
+s6-vfx-s0-00
   rotate: false
-  xy: 2, 170
-  size: 1889, 1566
-  orig: 1889, 1566
-  offset: 0, 0
+  xy: 958, 542
+  size: 51, 61
+  orig: 175, 197
+  offset: 61, 70
   index: -1
-vfx-s0-08
+s6-vfx-s0-01
   rotate: false
-  xy: 582, 76
-  size: 1169, 870
-  orig: 1169, 870
-  offset: 0, 0
+  xy: 410, 703
+  size: 85, 93
+  orig: 175, 197
+  offset: 52, 54
   index: -1
-vfx-s0-09
+s6-vfx-s0-02
   rotate: false
-  xy: 758, 383
-  size: 1127, 1288
-  orig: 1127, 1288
-  offset: 0, 0
+  xy: 764, 628
+  size: 95, 107
+  orig: 175, 197
+  offset: 48, 50
   index: -1
-vfx-s0-10
+s6-vfx-s0-03
   rotate: false
-  xy: 14, 557
-  size: 1266, 1049
-  orig: 1266, 1049
-  offset: 0, 0
+  xy: 3, 689
+  size: 99, 111
+  orig: 175, 197
+  offset: 43, 49
   index: -1
-vfx-s0-11
+s6-vfx-s0-04
   rotate: false
-  xy: 622, 157
-  size: 1093, 1537
-  orig: 1093, 1537
-  offset: 0, 0
+  xy: 450, 238
+  size: 111, 113
+  orig: 175, 197
+  offset: 38, 49
   index: -1
-vfx-s0-12
+s6-vfx-s0-05
   rotate: false
-  xy: 93, 517
-  size: 1689, 1092
-  orig: 1689, 1092
-  offset: 0, 0
+  xy: 716, 122
+  size: 119, 115
+  orig: 175, 197
+  offset: 36, 49
   index: -1
-vfx-s0-13
-  rotate: true
-  xy: 419, 259
-  size: 1623, 103
-  orig: 1623, 103
-  offset: 0, 0
-  index: -1
-vfx-s0-14
+s6-vfx-s0-06
   rotate: false
-  xy: 52, 35
-  size: 1839, 1352
-  orig: 1839, 1352
-  offset: 0, 0
+  xy: 221, 3
+  size: 125, 115
+  orig: 175, 197
+  offset: 35, 49
   index: -1
+s6-vfx-s0-07
+  rotate: false
+  xy: 854, 3
+  size: 123, 115
+  orig: 175, 197
+  offset: 36, 49
+  index: -1
+s6-vfx-s0-08
+  rotate: false
+  xy: 178, 898
+  size: 73, 115
+  orig: 175, 197
+  offset: 49, 49
+  index: -1
+s6-vfx-s0-09
+  rotate: false
+  xy: 544, 803
+  size: 71, 113
+  orig: 175, 197
+  offset: 50, 50
+  index: -1
+s6-vfx-s0-10
+  rotate: false
+  xy: 78, 1100
+  size: 69, 107
+  orig: 175, 197
+  offset: 52, 51
+  index: -1
+s6-vfx-s0-11
+  rotate: false
+  xy: 3, 1105
+  size: 69, 107
+  orig: 175, 197
+  offset: 52, 52
+  index: -1
+s6-vfx-s0-12
+  rotate: false
+  xy: 324, 1113
+  size: 67, 101
+  orig: 175, 197
+  offset: 53, 55
+  index: -1
+s6-vfx-s0-13
+  rotate: false
+  xy: 236, 1124
+  size: 65, 61
+  orig: 175, 197
+  offset: 54, 57
+  index: -1
+s6-vfx-s0-14
+  rotate: false
+  xy: 958, 359
+  size: 61, 59
+  orig: 175, 197
+  offset: 55, 59
+  index: -1
+
