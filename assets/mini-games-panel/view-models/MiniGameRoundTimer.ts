@@ -46,6 +46,11 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     async initRoundTime() {
         const prefab = await GameUtils.loadResource(`minipanel/popup-mini-game/RoundTime`);
+
+        if (!this.node?.isValid) {
+            return;
+        }
+
         const node = cc.instantiate(prefab);
         this.roundTime = node.getComponent(RoundTime);
         this.time.addChild(node);
@@ -81,27 +86,31 @@ export default class MiniGameRoundTimer extends cc.Component {
     private async onReceivedData(data) {
         this.gameData = data[this.gameId];
 
-        if (!this.gameData) {
+        if (!data[this.gameId]) {
             return;
         }
 
         this.node.active = true;
         this.hideRoundTimer();
 
-        const { timeFromStart } = this.gameData;
+        const { timeFromStart } = data[this.gameId];
         this.countDownTime = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
         this.unschedule(this.countDown);
         this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
 
-        if (!timeFromStart) {
-            await GameUtils.delayTime(this.resultDelayTime);
-        }
+        try {
+            if (!timeFromStart) {
+                await GameUtils.delayTime(this.resultDelayTime);
+            }
 
-        if (this.isShowResult()) {
-            this.result.active = true;
-        }
+            if (this.isShowResult()) {
+                this.result.active = true;
+            }
 
-        this.roundResult.setResult(this.gameData);
+            this.roundResult.setResult(data[this.gameId]);
+        } catch (e) {
+            cc.log(e);
+        }
     }
 
     private resumeRoundTimer(timeFromStart): number {
