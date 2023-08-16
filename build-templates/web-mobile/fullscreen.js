@@ -143,9 +143,14 @@ function handleFullScreen() {
         };
 
         window.addEventListener("orientationchange", function () {
-            setTimeout(function () {
-                updateFullScreen();
-            }, 100);
+            const micrositeIframe = document.getElementById("microsite");
+            if (micrositeIframe) {
+                window.dispatchEvent(new Event("resize"));
+            } else {
+                setTimeout(function () {
+                    updateFullScreen();
+                }, 100);
+            }
         });
         window.addEventListener("resize", function () {
             clearTimeout(timeoutResize);

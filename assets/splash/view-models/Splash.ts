@@ -9,6 +9,9 @@ import GameUtils from "../../common/GameUtils";
 @ccclass
 export default class NewClass extends cc.Component {
     @property(cc.Node)
+    background: cc.Node = null;
+
+    @property(cc.Node)
     mainSplashNode: cc.Node = null;
 
     @property(cc.Node)
@@ -52,9 +55,13 @@ export default class NewClass extends cc.Component {
         this.micrositeGameNode.addChild(iframe);
         this.micrositeGameNode.active = true;
         this.mainSplashNode.active = false;
+        setTimeout(() => {
+            this.background.active = false;
+        }, 100);
     }
 
     private enableMainSplashScreen() {
+        this.background.active = true;
         this.mainSplashNode.active = true;
         this.micrositeGameNode.destroyAllChildren();
         this.micrositeGameNode.active = false;

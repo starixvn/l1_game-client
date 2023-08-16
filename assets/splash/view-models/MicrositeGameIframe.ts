@@ -11,10 +11,6 @@ const { ccclass } = cc._decorator;
 
 @ccclass
 export default class MicrositeGameIframe extends BaseMicrositeGameIframe {
-    protected onLoadedWebView() {
-        cc.director.emit("event_after_enable_scene");
-    }
-
     protected getMicrositeGameQueryString() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("token")) {

@@ -29,8 +29,7 @@ export type MicrositeGameParams = {
 };
 
 const WebviewEventType = {
-    LOADING: "loading",
-    LOADED: "loaded"
+    LOADING: "loading"
 };
 
 @ccclass
@@ -54,7 +53,6 @@ export default class BaseMicrositeGameIframe extends cc.Component {
             },
             this
         );
-        this.webview?.node.on(WebviewEventType.LOADED, this.onLoadedWebView.bind(this), this);
     }
 
     protected onDestroy(): void {
@@ -72,10 +70,6 @@ export default class BaseMicrositeGameIframe extends cc.Component {
         this.micrositeUrl = buildMicrositeGameUrl(SessionManager.getMicrositeGameId());
         const queryString = this.getMicrositeGameQueryString();
         this.webview && (this.webview.url = `${this.micrositeUrl}/${queryString}`);
-    }
-
-    protected onLoadedWebView() {
-        //
     }
 
     protected async handleEvent({ data }: { data: MicrositeGameParams }) {

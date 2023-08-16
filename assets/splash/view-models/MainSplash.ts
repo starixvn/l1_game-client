@@ -13,7 +13,6 @@ import RandomWaitingMessage from "./RandonWaitingMessage";
 import SplashConfig from "./SplashConfig";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 
-
 const splashConfig = appContainer.get(SplashConfig);
 
 const { ccclass, property } = cc._decorator;
@@ -54,10 +53,6 @@ export default class Splash extends cc.Component {
         this.requestSSO();
         this.sloganSC1.active = splashConfig.enabledSC1;
         this.sloganSC2.active = !splashConfig.enabledSC1;
-    }
-
-    protected onEnable(): void {
-        cc.director.emit("event_after_enable_scene");
     }
 
     private initUIListeners() {
@@ -186,7 +181,7 @@ export default class Splash extends cc.Component {
                 .filter((gameId) => this.lobbyMenuConfig.customGameIconBySystem.includes(gameId))
                 .map((gameId) => GameUtils.loadGameIcon(gameId, splashConfig.customPath));
 
-            const preloadRemoteGameIds = preLoadGameIds.filter(id => getGameConfiguration(id).isMicrosite);
+            const preloadRemoteGameIds = preLoadGameIds.filter((id) => getGameConfiguration(id).isMicrosite);
             for (const gameId of preloadRemoteGameIds) {
                 await GameUtils.preloadRemoteIcon(gameId);
             }
