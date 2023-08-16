@@ -6,15 +6,12 @@ import CascadingUIModel from "../models/CascadingUIModel";
 import CascadingSlotBase from "./CascadingSlotBase";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
-import CascadingSlotTumbleList from "./CascadingSlotTumbleList";
 import CascadingSymbolPreview from "./CascadingSymbolPreview";
 import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
 import StandardCascadingSlotBoard from "./StandardCascadingSlotBoard";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
 import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
-import ChangeNodeColor from "../../../common/ChangeNodeColor";
-import BigWinAnimation from "../../_slotgame_base/BigWinAnimation";
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import CascadingBigWinAnimation from "./CascadingBigWinAnimation";
 import CallbackAnimation from "../../../common/CallbackAnimation";
@@ -22,11 +19,8 @@ import { InternalEvents } from "../../../managers/InternalEvents";
 import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
 import StandardCascadingSlotTumbleList from "./StandardCascadingSlotTumbleList";
 import StandardSlotGameTopMessage from "../../_slotgame_base/StandardSlotGameTopMessage";
-import { MULTIPLIER_SYMBOL } from "./CascadingSlotUtils";
-import StandardMultiplierItem from "./StandardMultiplierItem";
 
 const { ccclass, property } = cc._decorator;
-const LocalizedLabel = require("LocalizedLabel");
 
 @ccclass
 export default class StandardCascadingSlotGame extends CascadingSlotBase {

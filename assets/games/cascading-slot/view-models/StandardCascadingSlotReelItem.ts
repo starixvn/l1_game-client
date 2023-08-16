@@ -3,13 +3,11 @@ import { uiManager } from "../../../managers/GameUIManager";
 import CascadeSlotReelItem from "./CascadeSlotReelItem";
 import { MULTIPLIER_SYMBOL, SCATTER_SYMBOL } from "./CascadingSlotUtils";
 import StandardCascadingSlotReelSymbol from "./StandardCascadingSlotReelSymbol";
-import StandardMultiplierItem from "./StandardMultiplierItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class StandardCascadingSlotReelItem extends CascadeSlotReelItem {
-    //public multiplierValue = -1;
     get cache() {
         return uiManager.prefabCache.slotSymbols[this.gameId] || {};
     }

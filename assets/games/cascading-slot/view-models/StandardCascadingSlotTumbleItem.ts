@@ -1,4 +1,3 @@
-import { uiManager } from "../../../managers/GameUIManager";
 import CascadingSlotTumbleItem from "./CascadingSlotTumbleItem";
 
 const { ccclass, property } = cc._decorator;
