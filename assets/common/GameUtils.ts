@@ -114,10 +114,16 @@ export default class GameUtils {
         });
     }
 
+    public static async getRemoteVersion(gameId: number){
+        const versions: any = await GameUtils.loadRemote(`${GameUtils.remoteGameResourceUrl(gameId, "versions.json")}?v=${Date.now()}`);
+        return versions?.json;
+    }
+
     public static async preloadRemoteIcon(gameId: number){
         try {            
+            const versions = await GameUtils.getRemoteVersion(gameId);
             const loadRemoteIconData = async (resource) => {
-                const url = `${GameUtils.remoteGameResourceUrl(gameId, "icon")}/${resource}`;
+                const url = `${GameUtils.remoteGameResourceUrl(gameId, "icon")}/${resource}?v=${versions?.icon}`;
                 const data: any = await GameUtils.loadRemote(url);
                 return data;
             }          
