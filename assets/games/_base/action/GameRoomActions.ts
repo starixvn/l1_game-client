@@ -63,11 +63,17 @@ export const onUserProfileInitialized = (game: any) => (node: cc.Node) => {
 
 export const outRoomGame = (game: any) => () => {
     return new Promise<void>((resolve) => {
-        setTimeout(() => {
-            game?.socketIOController?.closeMiniGameSockets();
-            game?.stopGame();
-            resolve();
-        }, 1000);
+        game.node.stopAllActions();
+        game.node.runAction(
+            cc.sequence(
+                cc.delayTime(1),
+                cc.callFunc(() => {
+                    game.socketIOController.closeMiniGameSockets();
+                    game.stopGame();
+                    resolve();
+                })
+            )
+        );
     });
 };
 

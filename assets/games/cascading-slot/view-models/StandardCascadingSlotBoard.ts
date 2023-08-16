@@ -3,7 +3,6 @@ import PreviewOddsPopup from "../../_slotgame_base/PreviewOddsPopup";
 import CascadeSlotBoard from "./CascadeSlotBoard";
 import MultiplierItem from "./MultiplierItem";
 import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
-import AudioManager from "../../../common/audio/AudioManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { uiManager } from "../../../managers/GameUIManager";
 

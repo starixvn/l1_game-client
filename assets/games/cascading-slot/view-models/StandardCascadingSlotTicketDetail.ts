@@ -1,7 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { uiManager } from "../../../managers/GameUIManager";
 import CascadingSlotTicketDetail from "./CascadingSlotTicketDetail";
-import CascadingSlotTicketDetailItem from "./CascadingSlotTicketDetailItem";
+import StandardCascadingSlotTicketDetailItem from "./StandardCascadingSlotTicketDetailItem";
 
 const { ccclass, property } = cc._decorator;
 
@@ -14,7 +14,7 @@ export default class StandardCascadingSlotTicketDetail extends CascadingSlotTick
         return GameUtils.isPhone() ? cc.instantiate(this.mobileTicketDetailItemPrefab) : cc.instantiate(this.ticketDetailItemPrefab);
     }
 
-    async loadGameAtlas(control: CascadingSlotTicketDetailItem, gameId: number) {
+    async loadGameAtlas(control: StandardCascadingSlotTicketDetailItem, gameId: number) {
         control.mainAtlas = uiManager.prefabCache.gameAtlas[gameId];
     }
 }
