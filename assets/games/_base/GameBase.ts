@@ -424,7 +424,6 @@ export default class GameBase extends GameViewBase {
 
     hideUmMessage() {
         this.umNotice && this.umNotice.hide();
-        this.isReceivedUMData && uiManager.emitter.emit(InternalEvents.HIDE_UM);
         this.isReceivedUMData = false;
     }
 
