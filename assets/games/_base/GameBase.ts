@@ -52,6 +52,8 @@ import MD5Component from "./view-models/MD5Component";
 import RebetButton from "./view-models/RebetButton";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 import GameBaseVoidTicketDataHandler from "./handlers/GameBaseVoidTicketHandler";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -387,6 +389,7 @@ export default class GameBase extends GameViewBase {
             return;
         }
 
+        uiManager.emitter.emit(InternalEvents.GAME_IS_UM, this.gameId);
         this.umNotice && this.umNotice.show(data);
     }
 
@@ -421,6 +424,7 @@ export default class GameBase extends GameViewBase {
 
     hideUmMessage() {
         this.umNotice && this.umNotice.hide();
+        this.isReceivedUMData && uiManager.emitter.emit(InternalEvents.HIDE_UM);
         this.isReceivedUMData = false;
     }
 

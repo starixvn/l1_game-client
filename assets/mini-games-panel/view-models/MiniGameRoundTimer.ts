@@ -60,6 +60,8 @@ export default class MiniGameRoundTimer extends cc.Component {
         RoundTimerManager.getInstance().roundData && this.onReceivedData(RoundTimerManager.getInstance().roundData);
         uiManager.emitterListener(InternalEvents.RECEIVED_ROUND_TIMER, (data) => this.onReceivedData(data), this);
         uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.hideRoundTimer(), this);
+        uiManager.emitterListener(InternalEvents.GAME_IS_UM, (gameId) => this.handleDisabledGame(gameId), this);
+        uiManager.emitterListener(InternalEvents.HIDE_UM, () => this.requestRoundTimer(), this);
     }
 
     onDestroy() {
@@ -133,11 +135,15 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.countDownTime--;
     }
 
-    private checkDisableRoundTimer() {
-        if (this.gameData) {
+    private handleDisabledGame(gameId) {
+        if (this.gameId !== gameId) {
             return;
         }
         this.node.active = false;
+    }
+
+    private requestRoundTimer() {
+        RoundTimerManager.getInstance().requestRoundTimer();
     }
 
     protected initGameConfig() {
