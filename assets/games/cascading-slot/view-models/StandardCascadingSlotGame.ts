@@ -232,13 +232,13 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     loadAudios() {
         const dict = {
             [CascadingSlotGameSound.SPIN_BUTTON]: "spin-button",
-            [CascadingSlotGameSound.DROP_IN]: "symbol-in",
+            [CascadingSlotGameSound.DROP_IN]: "spinning-normal",
             [CascadingSlotGameSound.MULTIPLIER_APPEAR]: "multiplier-appear",
             [CascadingSlotGameSound.BIG_WIN]: "big-win",
             [CascadingSlotGameSound.BIG_WIN_STOP]: "big-win-increment-ended",
             [CascadingSlotGameSound.FREE_SPIN]: "freespin",
 
-            [CascadingSlotGameSound.TURBO_DROP_IN]: "symbol-in-out-turbo",
+            [CascadingSlotGameSound.TURBO_DROP_IN]: "spinning-turbo",
             [CascadingSlotGameSound.REEL_STOP]: "reelstop1",
             [CascadingSlotGameSound.REEL_STOP_1]: "reelstop2",
             [CascadingSlotGameSound.REEL_STOP_2]: "reelstop3",
