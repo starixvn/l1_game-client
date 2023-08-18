@@ -31,7 +31,7 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     async createAdsItem(id: number) {
-        const bannerSpriteFrame = await GameUtils.getBanner(this.lobbyMenuConfig, id);
+        const bannerSpriteFrame = await GameUtils.getBanner(id);
         try {
             if (bannerSpriteFrame && this.adsItemPrefab) {
                 const item = cc.instantiate(this.adsItemPrefab);

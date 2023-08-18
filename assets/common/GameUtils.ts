@@ -1,10 +1,11 @@
+import axios from "axios";
 import { Base64 } from "base64-string";
 import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import SocketIOController from "../SocketIOController";
+import * as SessionManager from "../common/auth/SessionManager";
 import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
 import LobbyManager from "../lobby/main/view-models/LobbyManager";
-import LobbyMenuConfig from "../lobby/main/view-models/LobbyMenuConfig";
 import { appManager } from "../managers/AppManager";
 import { uiManager } from "../managers/GameUIManager";
 import { InternalEvents } from "../managers/InternalEvents";
@@ -17,10 +18,8 @@ import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
 import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
-import { userManager } from "./user/UserManager";
-import * as SessionManager from "../common/auth/SessionManager";
 import Loading from "./loading/view-models/Loading";
-import axios from "axios";
+import { userManager } from "./user/UserManager";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
@@ -114,27 +113,27 @@ export default class GameUtils {
         });
     }
 
-    public static async getRemoteVersion(gameId: number){
+    public static async getRemoteVersion(gameId: number) {
         const versions: any = await GameUtils.loadRemote(`${GameUtils.remoteGameResourceUrl(gameId, "versions.json")}?v=${Date.now()}`);
         return versions?.json;
     }
 
-    public static async preloadRemoteIcon(gameId: number){
-        try {            
+    public static async preloadRemoteIcon(gameId: number) {
+        try {
             const versions = await GameUtils.getRemoteVersion(gameId);
             const loadRemoteIconData = async (resource) => {
                 const url = `${GameUtils.remoteGameResourceUrl(gameId, "icon")}/${resource}?v=${versions?.icon}`;
                 const data: any = await GameUtils.loadRemote(url);
                 return data;
-            }          
-            
+            };
+
             const skeletonData = new sp.SkeletonData();
-            skeletonData.skeletonJson = (await loadRemoteIconData("icon-game.json")).json; 
+            skeletonData.skeletonJson = (await loadRemoteIconData("icon-game.json")).json;
             skeletonData.atlasText = (await loadRemoteIconData("icon-game.atlas")).text;
             skeletonData.textures = [await loadRemoteIconData("icon-game.png")];
-            skeletonData["textureNames"] = [`icon-game.png`];        
-            
-            uiManager.remoteIconCache[gameId] = {skeletonData: skeletonData, configFile: await loadRemoteIconData("config.json")};
+            skeletonData["textureNames"] = [`icon-game.png`];
+
+            uiManager.remoteIconCache[gameId] = { skeletonData: skeletonData, configFile: await loadRemoteIconData("config.json") };
         } catch (error) {
             console.log("preloadRemoteIcon error", error.message);
         }
@@ -750,8 +749,8 @@ export default class GameUtils {
         return window.i18n.curLang;
     }
 
-    private static async getRemoteBanner(gameId: number, isNew: boolean) {
-        const bannerNames = this.createBannerNameOptions(gameId, true, isNew);
+    private static async getRemoteBanner(gameId: number) {
+        const bannerNames = this.createBannerNameOptions(gameId, true);
         let remoteTexture: cc.Texture2D;
         for (const bannerName of bannerNames) {
             try {
@@ -768,10 +767,10 @@ export default class GameUtils {
         return null;
     }
 
-    private static async getResourceBanner(data: { id: number; remoteBundle; isNew: boolean; systemPath: string }) {
-        const { id, remoteBundle, isNew, systemPath } = data;
+    private static async getResourceBanner(data: { id: number; remoteBundle; systemPath: string }) {
+        const { id, remoteBundle, systemPath } = data;
         let frame: cc.SpriteFrame;
-        const bannerNames = this.createBannerNameOptions(id, false, isNew);
+        const bannerNames = this.createBannerNameOptions(id, false);
         for (const element of bannerNames) {
             if (!!remoteBundle && !MICRO_GAMES_NOT_OFFER_BANNER.includes(id)) {
                 const path = systemPath === "" ? `banners/${element}` : `banners/${systemPath}/${element}}`;
@@ -796,44 +795,34 @@ export default class GameUtils {
         return frame;
     }
 
-    private static createBannerNameOptions(id: number, isMicrosite: boolean, isNew: boolean): string[] {
-        const newSuffix = isNew ? "_new" : "";
+    private static createBannerNameOptions(id: number, isMicrosite: boolean): string[] {
         if (isMicrosite) {
             const currentLang = this.getCurrentLanguage();
-            const name1 = `${currentLang}${newSuffix}`;
-            const name2 = `${currentLang}`;
+            const name1 = `${currentLang}`;
             const defaultName = `en`;
 
-            const names = [name2, defaultName];
-            if (isNew) {
-                names.unshift(name1);
-            }
+            const names = [name1, defaultName];
+
             return names;
         } else {
             const currentLang = this.getCurrentLanguage() !== "vi" ? `_${this.getCurrentLanguage()}` : "";
-            const name1 = `${id}${currentLang}${newSuffix}`;
-            const name2 = `${id}${newSuffix}`;
-            const name3 = `${id}${currentLang}`;
-            const name4 = `${id}`;
+            const name1 = `${id}${currentLang}`;
+            const name2 = `${id}`;
 
-            const names = [name3, name4];
-            if (isNew) {
-                names.unshift(...[name1, name2]);
-            }
+            const names = [name1, name2];
+
             return names;
         }
     }
 
-    public static async getBanner(lobbyMenuConfig: LobbyMenuConfig, id: number, systemPath = "") {
-        const isNew = lobbyMenuConfig.isNewGame(id);
+    public static async getBanner(id: number, systemPath = "") {
         const gameConfiguration = getGameConfiguration(id);
         if (gameConfiguration.isMicrosite) {
-            return this.getRemoteBanner(id, isNew);
+            return this.getRemoteBanner(id);
         }
 
         return this.getResourceBanner({
             id,
-            isNew,
             remoteBundle: gameConfiguration.remoteBundle,
             systemPath
         });

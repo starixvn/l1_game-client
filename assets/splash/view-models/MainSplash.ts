@@ -1,17 +1,17 @@
 import { appContainer, lazyInject } from "../../Application";
 import { i18n } from "../../ClientModules";
-import * as sessionManager from "../../common/auth/SessionManager";
+import SocketIOController from "../../SocketIOController";
 import GameUtils from "../../common/GameUtils";
+import * as sessionManager from "../../common/auth/SessionManager";
 import Notice from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
+import { getGameConfiguration } from "../../configs/GameConfigurations";
 import LobbyMenuConfig from "../../lobby/main/view-models/LobbyMenuConfig";
 import { appManager } from "../../managers/AppManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
-import SocketIOController from "../../SocketIOController";
 import RandomWaitingMessage from "./RandonWaitingMessage";
 import SplashConfig from "./SplashConfig";
-import { getGameConfiguration } from "../../configs/GameConfigurations";
 
 const splashConfig = appContainer.get(SplashConfig);
 
@@ -198,7 +198,7 @@ export default class Splash extends cc.Component {
                 return;
             }
             const bannerId = this.lobbyMenuConfig.bannerAds[0];
-            const spriteAwaiters = GameUtils.getBanner(this.lobbyMenuConfig, bannerId);
+            const spriteAwaiters = GameUtils.getBanner(bannerId);
             const bannerContainerAwaiters = new Promise((resolve) => {
                 cc.resources.load("lobby/banner/bannerContainer", resolve);
             });
