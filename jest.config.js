@@ -17,5 +17,8 @@ module.exports = {
     moduleFileExtensions: ["ts", "js"],
     testMatch,
     transformIgnorePatterns: ["cocos2d-js-for-preview.js"],
-    clearMocks: true
+    clearMocks: true,
+    moduleNameMapper: {
+        "bundle-management": "<rootDir>/__tests__/mocks/MockedBundleManager.ts"
+    }
 };
