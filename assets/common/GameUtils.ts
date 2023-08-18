@@ -752,9 +752,10 @@ export default class GameUtils {
     private static async getRemoteBanner(gameId: number) {
         const bannerNames = this.createBannerNameOptions(gameId, true);
         let remoteTexture: cc.Texture2D;
+        const versions = await GameUtils.getRemoteVersion(gameId);
         for (const bannerName of bannerNames) {
             try {
-                remoteTexture = await this.loadRemoteGameResource<cc.Texture2D>(gameId, `banner/${bannerName}.png`);
+                remoteTexture = await this.loadRemoteGameResource<cc.Texture2D>(gameId, `banner/${bannerName}.png?v=${versions?.banner}`);
                 if (remoteTexture) {
                     break;
                 }
