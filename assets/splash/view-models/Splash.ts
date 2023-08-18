@@ -75,7 +75,7 @@ export default class Splash extends cc.Component {
         uiManager.emitterListener(
             InternalEvents.GAME_IS_UM,
             (eventMessage: { umMessage; gameId }) => {
-                const { umMessage, gameId } = eventMessage;
+                const { umMessage } = eventMessage;
                 const text = NoticeUtil.getMessageByLocale(umMessage);
                 if (text) {
                     const data = {

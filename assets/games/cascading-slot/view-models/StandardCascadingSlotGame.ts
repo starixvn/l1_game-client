@@ -1,24 +1,24 @@
 import { BundleManager } from "bundle-management";
 
+import CallbackAnimation from "../../../common/CallbackAnimation";
+import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import AudioManager from "../../../common/audio/AudioManager";
 import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
+import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
+import StandardSlotGameTopMessage from "../../_slotgame_base/StandardSlotGameTopMessage";
 import CascadingUIModel from "../models/CascadingUIModel";
+import CascadingBigWinAnimation from "./CascadingBigWinAnimation";
 import CascadingSlotBase from "./CascadingSlotBase";
 import { CascadingSlotConfig } from "./CascadingSlotBaseConfig";
 import { CascadingSlotGameSound } from "./CascadingSlotGameSound";
 import CascadingSymbolPreview from "./CascadingSymbolPreview";
 import StandardCascadingBottomArea from "./StandardCascadingBottomArea";
 import StandardCascadingSlotBoard from "./StandardCascadingSlotBoard";
+import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
+import StandardCascadingSlotTumbleList from "./StandardCascadingSlotTumbleList";
 import TotalMultiplierView from "./TotalMultiplierView";
 import TumbleWinView from "./TumbleWinView";
-import StandardCascadingSlotReelItem from "./StandardCascadingSlotReelItem";
-import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
-import CascadingBigWinAnimation from "./CascadingBigWinAnimation";
-import CallbackAnimation from "../../../common/CallbackAnimation";
-import { InternalEvents } from "../../../managers/InternalEvents";
-import { SlotNotification } from "../../_slotgame_base/SlotGameBottomMessage";
-import StandardCascadingSlotTumbleList from "./StandardCascadingSlotTumbleList";
-import StandardSlotGameTopMessage from "../../_slotgame_base/StandardSlotGameTopMessage";
 
 const { ccclass, property } = cc._decorator;
 
@@ -307,6 +307,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
         if (this.audioClips[type]) {
             return AudioManager.getInstance().playSFX(this.audioClips[type], loop);
         }
+        return -1;
     }
 
     stopSoundSFX(audioId: number) {

@@ -2,14 +2,16 @@ import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../Application";
+import SocketIOController from "../../SocketIOController";
+import BaseComponent from "../../common/BaseComponent";
+import GameUtils from "../../common/GameUtils";
+import LoadWebView from "../../common/LoadWebView";
 import AudioManager from "../../common/audio/AudioManager";
 import NotificationService from "../../common/auth/NotificationService";
 import UserService from "../../common/auth/UserService";
-import BaseComponent from "../../common/BaseComponent";
-import GameUtils from "../../common/GameUtils";
+import { isSessionTimeoutError } from "../../common/helpers/ErrorCodeHelper";
 import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import Loading from "../../common/loading/view-models/Loading";
-import LoadWebView from "../../common/LoadWebView";
 import Notice, { NoticeData } from "../../common/notice/view-models/Notice";
 import ScaleActiveController from "../../common/scale-active-item/ScaleActiveController";
 import NoticeUtil from "../../common/utils/NoticeUtil";
@@ -21,14 +23,12 @@ import { Promotions, PromotionsEvent } from "../../lobby/promotions/Promotions";
 import { appManager } from "../../managers/AppManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
-import SocketIOController from "../../SocketIOController";
 import * as authManager from "./../../common/auth/AuthManager";
+import { showMessageForExpiredToken } from "./../../common/auth/AuthManager";
 import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
-import { isSessionTimeoutError } from "../../common/helpers/ErrorCodeHelper";
-import { showMessageForExpiredToken } from "./../../common/auth/AuthManager";
 
 type NewLayerCallback = () => void;
 
@@ -323,7 +323,6 @@ export default class MiniPanel extends BaseComponent {
 
     loadGame(gameId, onComplete: () => void) {
         const loading = this.getGameLoadingComp(gameId);
-        // loading.setLoadingVisibility(true);
         const language = window.i18n.curLang;
 
         if (isUsingRemoteBundle(gameId)) {
