@@ -43,8 +43,7 @@ export default class CascadingSlotTumbleList extends cc.Component {
     }
 
     getTumbleItemComp(tumbleNode: cc.Node) {
-        const control = tumbleNode.getComponent(CascadingSlotTumbleItem);
-        return control;
+        return tumbleNode.getComponent(CascadingSlotTumbleItem);
     }
 
     updateContentHeight() {

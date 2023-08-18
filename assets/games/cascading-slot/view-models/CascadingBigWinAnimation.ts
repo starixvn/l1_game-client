@@ -119,7 +119,7 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
             for (let i = 0; i < decimal.length - 1; i++) {
                 coin += "0";
             }
-            return (coin += "1");
+            return coin + "1";
         } else {
             let coin = "1";
             for (let i = 0; i < integr.length - 1; i++) {
