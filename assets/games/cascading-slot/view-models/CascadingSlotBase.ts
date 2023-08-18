@@ -1,6 +1,5 @@
 import CallbackLoopAnimation from "../../../common/CallbackLoopAnimation";
 import GameUtils from "../../../common/GameUtils";
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import { numberWithCommas, truncateFixedDecimals } from "../../../common/helpers/NumberHelper";
 import { getTrialSocket } from "../../../common/helpers/UrlHelper";
 import { uiManager } from "../../../managers/GameUIManager";

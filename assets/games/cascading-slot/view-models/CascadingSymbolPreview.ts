@@ -49,7 +49,7 @@ export default class CascadingSymbolPreview extends SymbolPreview {
     }
 
     setInfo(info: CascadingSymbolPreviewType) {
-        let nodeTmp = cc.instantiate(info.symbolItem.content.children[0]);
+        const nodeTmp = cc.instantiate(info.symbolItem.content.children[0]);
         this.content.addChild(nodeTmp);
         const skeleton = nodeTmp.getComponent(sp.Skeleton);
         skeleton.setAnimation(0, "highlight", false);

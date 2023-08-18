@@ -1,6 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import StatusButton from "../../../common/custom-button/StatusButton";
-import ExpandableMenu from "../../../common/expandable-menu/view-models/ExpandableMenu";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import CascadingBetControl from "./CascadingBetControl";

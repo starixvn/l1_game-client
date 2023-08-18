@@ -50,8 +50,9 @@ export default class CascadingSlotTumbleList extends cc.Component {
     updateContentHeight() {
         const contentHeight = this.content.childrenCount * this.itemHeight;
         this.content.height = contentHeight;
-        this.scrollView.enabled = contentHeight > this.scrollView.node.height;
-        if (this.scrollView.enabled) {
+        const enabledScrollView = contentHeight > this.scrollView.node.height;
+        this.scrollView.enabled = enabledScrollView;
+        if (enabledScrollView) {
             this.scrollView.scrollToTop(0);
         } else {
             this.content.position = cc.v3(0, 0);
