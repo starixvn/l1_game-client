@@ -542,7 +542,7 @@ export default class GameUtils {
         });
     }
 
-    public static waitUntil = async (condition, interval = 1000, max_wait = 10000) => {
+    public static waitUntil = async (condition, interval = 1000, maxWait = 10000) => {
         const startTime = new Date().getTime();
         for (;;) {
             try {
@@ -553,7 +553,7 @@ export default class GameUtils {
                 throw e;
             }
 
-            if (new Date().getTime() - startTime > max_wait) {
+            if (new Date().getTime() - startTime > maxWait) {
                 throw new Error("Max wait reached");
             } else {
                 await new Promise((resolve) => setTimeout(resolve, interval));
