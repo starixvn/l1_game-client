@@ -9,7 +9,6 @@ import { InternalEvents } from "../../managers/InternalEvents";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import FeatureSlotGameData from "../cascading-slot/models/FeatureSlotGameData";
 import { SpinButtonState } from "../cascading-slot/models/SpinButtonStateModel";
-import { CascadingSlotGameSound } from "../cascading-slot/view-models/CascadingSlotGameSound";
 import AutoSpinSettingDialog from "./AutoSpinSettingDialog";
 import BigWinAnimation from "./BigWinAnimation";
 import ClassicSpinButton from "./ClassicSpinButton";
