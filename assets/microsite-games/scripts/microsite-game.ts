@@ -31,6 +31,7 @@ export default class MicrositeGame extends BaseMicrositeGameIframe {
             appType: auData.system,
             ref: directMode?.ref,
             rurl: appManager.checkDirectModeRefData(directMode?.ref) ? directMode?.returnUrl : GameUtils.base64Encode(window.location.href),
+            purl: GameUtils.base64Encode(window.location.href),
             musicEnable: audio.musicEnabled,
             sfxEnable: audio.sfxEnabled
         };

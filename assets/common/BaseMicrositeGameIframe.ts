@@ -4,6 +4,8 @@ import AudioManager from "./audio/AudioManager";
 import GameUtils from "./GameUtils";
 import * as SessionManager from "./auth/SessionManager";
 import CustomWebView from "./CustomWebView";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
+import { initialize as initGameConfiguration } from "../configs/GameConfigurations";
 
 const { ccclass, property } = cc._decorator;
 
@@ -26,6 +28,8 @@ export type MicrositeGameParams = {
     sessionTimeout?: boolean;
     copyToClipboard?: string;
     hasSSO?: boolean;
+    getGameName?: number;
+    replaceUrl?: string;
 };
 
 const WebviewEventType = {
@@ -73,8 +77,12 @@ export default class BaseMicrositeGameIframe extends cc.Component {
     }
 
     protected async handleEvent({ data }: { data: MicrositeGameParams }) {
+        if (data.replaceUrl) {
+            window.location.replace(data.replaceUrl);
+        }
         if (data.hasSSO) {
             window.microsite = { hasSSO: true };
+            return;
         }
         if (data.sessionTimeout) {
             this.handleSignOut();
@@ -85,8 +93,15 @@ export default class BaseMicrositeGameIframe extends cc.Component {
             await this.handleBackToLobby(data);
             return;
         }
+        if (data.getGameName) {
+            this.getGameName(data.getGameName, data.language);
+            return;
+        }
+        if (data.copyToClipboard) {
+            this.handleCopyToClipboard(data.copyToClipboard);
+            return;
+        }
         this.handleChangeAudio(data);
-        data.copyToClipboard && this.handleCopyToClipboard(data.copyToClipboard);
     }
 
     protected getMicrositeGameQueryString() {
@@ -118,8 +133,19 @@ export default class BaseMicrositeGameIframe extends cc.Component {
         SessionManager.removeSession();
     }
 
+    private postMessageToMicrosite(data: any) {
+        this.webview?._impl._iframe.contentWindow.postMessage(data, this.micrositeUrl);
+    }
+
     private async handleCopyToClipboard(text: string) {
         const copySuccessfully = await GameUtils.copyText(text);
-        this.webview?._impl._iframe.contentWindow.postMessage({ copySuccessfully }, this.micrositeUrl);
+        this.postMessageToMicrosite({ copySuccessfully });
+    }
+
+    private async getGameName(gameId: number, language = "en") {
+        window.gameConfigurations === undefined && (await initGameConfiguration());
+        i18n.init(language);
+        const gameName = await GameUtils.getDisplayGameName(gameId);
+        this.postMessageToMicrosite({ gameName });
     }
 }

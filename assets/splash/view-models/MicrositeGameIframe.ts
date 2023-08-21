@@ -15,11 +15,10 @@ export default class MicrositeGameIframe extends BaseMicrositeGameIframe {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("token")) {
             AuthManager.clearQueryStringOnUrl();
+            const mainUrl = GameUtils.base64Encode(window.location.href);
             const returnMainLobbyUrl =
-                urlParams.has(UrlInfo.Ref) && appManager.checkDirectModeRefData(urlParams.get(UrlInfo.Ref))
-                    ? ""
-                    : `&rurl=${GameUtils.base64Encode(window.location.href)}`;
-            return `?${urlParams.toString()}${returnMainLobbyUrl}`;
+                urlParams.has(UrlInfo.Ref) && appManager.checkDirectModeRefData(urlParams.get(UrlInfo.Ref)) ? "" : `&rurl=${mainUrl}`;
+            return `?${urlParams.toString()}${returnMainLobbyUrl}&purl=${mainUrl}`;
         } else {
             return "";
         }
