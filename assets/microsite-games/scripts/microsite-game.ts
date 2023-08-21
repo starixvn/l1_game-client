@@ -33,8 +33,10 @@ export default class MicrositeGame extends BaseMicrositeGameIframe {
             rurl: appManager.checkDirectModeRefData(directMode?.ref) ? directMode?.returnUrl : GameUtils.base64Encode(window.location.href),
             purl: GameUtils.base64Encode(window.location.href),
             musicEnable: audio.musicEnabled,
-            sfxEnable: audio.sfxEnabled
+            sfxEnable: audio.sfxEnabled,
+            promotion: StorageManager.get("boosted-odds")
         };
+
         const searchParams = new URLSearchParams();
         Object.keys(params).forEach((key) => params[key] !== undefined && searchParams.append(key, params[key]));
         const encodedQueryString = GameUtils.base64Encode(searchParams.toString());

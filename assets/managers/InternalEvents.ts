@@ -33,6 +33,7 @@ export enum InternalEvents {
 
     MICROSITE_BACK_TO_LOBBY = "MICROSITE_BACK_TO_LOBBY",
     LOST_CONNECTION = "lost-connection",
+    MICROSITE_OPEN_GAME_BACK_FROM_LOBBY = "MICROSITE_OPEN_GAME_BACK_FROM_LOBBY",
 
     RECEIVED_ROUND_TIMER = "received round timer",
     HIDE_POPUP_MINI_GAMES = "hide popup mini game",

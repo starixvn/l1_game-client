@@ -32,4 +32,8 @@ export default class MicrositeGameIframe extends BaseMicrositeGameIframe {
     protected loadLobbyScene() {
         uiManager.emitter.emit(InternalEvents.MICROSITE_BACK_TO_LOBBY);
     }
+
+    protected async onClickJoinGame(gameId: number) {
+        uiManager.emitter.emit(InternalEvents.MICROSITE_OPEN_GAME_BACK_FROM_LOBBY, gameId);
+    }
 }

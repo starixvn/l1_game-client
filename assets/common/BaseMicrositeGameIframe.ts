@@ -1,4 +1,3 @@
-import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { StorageManager } from "../managers/StorageManager";
 import AudioManager from "./audio/AudioManager";
 import GameUtils from "./GameUtils";
@@ -6,6 +5,11 @@ import * as SessionManager from "./auth/SessionManager";
 import CustomWebView from "./CustomWebView";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { initialize as initGameConfiguration } from "../configs/GameConfigurations";
+import { lazyInject } from "../Application";
+import { appManager } from "../managers/AppManager";
+import SocketIOController from "../SocketIOController";
+import JoinGameHelper from "./JoinGameHelper";
+import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -30,6 +34,8 @@ export type MicrositeGameParams = {
     hasSSO?: boolean;
     getGameName?: number;
     replaceUrl?: string;
+    gameId?: number;
+    promotion?: string;
 };
 
 const WebviewEventType = {
@@ -45,6 +51,9 @@ export default class BaseMicrositeGameIframe extends cc.Component {
     private readonly SFXStorageKey = "SOUND_GAME";
     private micrositeUrl = "";
     private isLoadingLobby = false;
+
+    @lazyInject(SocketIOController)
+    private readonly socketIOControler: SocketIOController;
 
     protected onLoad(): void {
         this.stopMainAction();
@@ -88,6 +97,13 @@ export default class BaseMicrositeGameIframe extends cc.Component {
             this.handleSignOut();
             return;
         }
+
+        if (data.gameId > 0) {
+            StorageManager.set("boosted-odds", data.promotion);
+            this.onClickJoinGame(data.gameId);
+            return;
+        }
+
         if (data.backLobby && !this.isLoadingLobby) {
             this.isLoadingLobby = true;
             await this.handleBackToLobby(data);
@@ -147,5 +163,16 @@ export default class BaseMicrositeGameIframe extends cc.Component {
         i18n.init(language);
         const gameName = await GameUtils.getDisplayGameName(gameId);
         this.postMessageToMicrosite({ gameName });
+    }
+
+    protected async onClickJoinGame(gameId: number) {
+        const joinGameHelper = new JoinGameHelper();
+        if (!GameUtils.isMiniGame(gameId.toString())) {
+            await joinGameHelper.joinGameIsNotMiniGame(gameId, this.socketIOControler);
+        } else {
+            cc.director.loadScene("Lobby", () => {
+                GameUtils.openGame(joinGameHelper.getGameId(gameId), appManager.miniPanel);
+            });
+        }
     }
 }

@@ -5,6 +5,10 @@ import { InternalEvents } from "../../managers/InternalEvents";
 import * as SessionManager from "../../common/auth/SessionManager";
 import { buildProxyUrl } from "../../common/helpers/UrlHelper";
 import GameUtils from "../../common/GameUtils";
+import { appManager } from "../../managers/AppManager";
+import { lazyInject } from "../../Application";
+import SocketIOController from "../../SocketIOController";
+import JoinGameHelper from "../../common/JoinGameHelper";
 
 @ccclass
 export default class NewClass extends cc.Component {
@@ -20,6 +24,9 @@ export default class NewClass extends cc.Component {
     @property(cc.Prefab)
     micrositeGameIframe: cc.Prefab = null;
 
+    @lazyInject(SocketIOController)
+    private readonly socketIOControler: SocketIOController;
+
     protected onLoad(): void {
         this.initUIListeners();
         this.handleSplashScene();
@@ -27,6 +34,7 @@ export default class NewClass extends cc.Component {
 
     private initUIListeners() {
         uiManager.emitterListener(InternalEvents.MICROSITE_BACK_TO_LOBBY, this.enableMainSplashScreen.bind(this), this);
+        uiManager.emitterListener(InternalEvents.MICROSITE_OPEN_GAME_BACK_FROM_LOBBY, this.openGameFromMicroGame.bind(this), this);
     }
 
     private clearUIListeners() {
@@ -86,5 +94,21 @@ export default class NewClass extends cc.Component {
             .then((response) => response.data)
             .catch(() => ({}));
         return configuration.isMicrosite;
+    }
+
+    private openGameFromMicroGame(gameId: number) {
+        this.mainSplashNode.active = true;
+        this.micrositeGameNode.destroyAllChildren();
+        this.micrositeGameNode.active = false;
+        const joinGameHelper = new JoinGameHelper();
+
+        cc.director.loadScene("Lobby", () => {
+            appManager.initPromotions();
+            if (!GameUtils.isMiniGame(gameId.toString())) {
+                joinGameHelper.joinGameIsNotMiniGame(gameId, this.socketIOControler);
+            } else {
+                GameUtils.openGame(joinGameHelper.getGameId(gameId), appManager.miniPanel);
+            }
+        });
     }
 }
