@@ -359,7 +359,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
         bottomArea.onClickListener = {
             onAutoSpinChanged: () => {
-                uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
+                uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_MENU);
                 this.onAutoSpinChanged();
             },
             onTurboModeChanged: (toggle) => {
@@ -370,7 +370,7 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
 
     clickOutsideReelArea() {
         super.clickOutsideReelArea();
-        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_MENU);
     }
 
     initGameDataEvents() {

@@ -10,7 +10,7 @@ export enum InternalEvents {
     SLOT_PLAY_SOUND = "play sound slot",
     CASCADING_SLOT_PLAY_SOUND = "play sound cascading slot",
     CASCADING_CLICK_CHANGE_MODE = "cascading change mode play",
-    CASCADING_CLOSE_EXPAND_MENU = "cascading collapse menu",
+    CASCADING_CLOSE_MENU = "cascading collapse menu",
     CASCADING_CLICK_TOTAL_BET = "cascading click total bet",
 
     NOT_PERMITTED_TO_PLAY = "NOT_PERMITTED_TO_PLAY",

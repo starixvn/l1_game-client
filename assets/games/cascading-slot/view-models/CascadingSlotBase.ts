@@ -86,7 +86,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.loadPrefabsByCode().then(() => {
             this.onLoadedPrefabs();
         });
-        uiManager.emitterListener(InternalEvents.CASCADING_CLOSE_EXPAND_MENU, this.closeExpandMenu.bind(this), this);
+        uiManager.emitterListener(InternalEvents.CASCADING_CLOSE_MENU, this.closeExpandMenu.bind(this), this);
     }
 
     closeExpandMenu() {
@@ -175,7 +175,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     onTrialModeChanged(toggle: cc.Toggle) {
-        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_MENU);
         const checked = toggle.isChecked;
         this.isTrialMode = checked;
         if (checked) {
@@ -207,7 +207,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     spin(): boolean {
-        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_MENU);
         let success = false;
         const balanceAvailable = this.isFreeSpin() || this.checkAvailableBalance();
         if (!this.isReadyBet() || !balanceAvailable) {
@@ -631,7 +631,7 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
         this.gameData.uiModel.setFreeSpins(count);
     }
     onAutoSpinChanged() {
-        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_MENU);
         super.onAutoSpinChanged();
     }
 

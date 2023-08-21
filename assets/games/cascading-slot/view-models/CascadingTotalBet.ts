@@ -40,7 +40,7 @@ export default class CascadingTotalBet extends cc.Component {
     }
 
     onClickOpenBetControl() {
-        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_EXPAND_MENU);
+        uiManager.emitter.emit(InternalEvents.CASCADING_CLOSE_MENU);
         uiManager.emitter.emit(InternalEvents.CASCADING_CLICK_TOTAL_BET);
         this.betControl.showView(!this.isOpenBetControl);
         this.isOpenBetControl = !this.isOpenBetControl;
