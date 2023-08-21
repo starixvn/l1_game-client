@@ -4,7 +4,6 @@ import StatusButton from "../../../common/custom-button/StatusButton";
 import GameUtils from "../../../common/GameUtils";
 import CascadingSlotPlaceBetModel from "../models/CascadingSlotPlaceBetModel";
 import CascadingUIModel from "../models/CascadingUIModel";
-const LocalizedLabel = require("LocalizedLabel");
 
 export type TotalBetType = { coin: number; level: number; totalBet: number; increase: boolean; decrease: boolean };
 
@@ -305,7 +304,7 @@ export default class CascadingBetControl extends cc.Component {
         this.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
             const labelComp = comp.node.getComponent(cc.Label);
             if (labelComp) {
-                comp.updateColor(comp.node.getComponent(LocalizedLabel) ? textColor : numberColor);
+                comp.updateColor(comp.node.getComponent("LocalizedLabel") ? textColor : numberColor);
             } else {
                 comp.updateColor(buttonBorderColor);
             }

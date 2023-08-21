@@ -2,8 +2,6 @@ import ChangeNodeColor from "../../common/ChangeNodeColor";
 
 const { ccclass, property } = cc._decorator;
 
-const LocalizedLabel = require("LocalizedLabel");
-
 interface BottomAreaDefinedColor {
     textColor: string;
     numberColor: string;
@@ -87,7 +85,7 @@ export default class SlotBottomArea extends cc.Component {
         this.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
             const labelComp = comp.node.getComponent(cc.Label);
             if (labelComp) {
-                comp.updateColor(comp.node.getComponent(LocalizedLabel) ? textColor : numberColor);
+                comp.updateColor(comp.node.getComponent("LocalizedLabel") ? textColor : numberColor);
             } else {
                 comp.updateColor(buttonBorderColor);
             }

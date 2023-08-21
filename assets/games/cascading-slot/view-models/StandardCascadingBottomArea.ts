@@ -1,7 +1,6 @@
 import ChangeNodeColor from "../../../common/ChangeNodeColor";
 import GameUtils from "../../../common/GameUtils";
 import CascadingTotalBet from "./CascadingTotalBet";
-const LocalizedLabel = require("LocalizedLabel");
 
 const { ccclass, property } = cc._decorator;
 
@@ -44,7 +43,7 @@ export default class StandardCascadingBottomArea extends cc.Component {
         this.getComponentsInChildren(ChangeNodeColor).forEach((comp) => {
             const labelComp = comp.node.getComponent(cc.Label);
             if (labelComp) {
-                comp.updateColor(comp.node.getComponent(LocalizedLabel) ? textColor : numberColor);
+                comp.updateColor(comp.node.getComponent("LocalizedLabel") ? textColor : numberColor);
             } else {
                 comp.updateColor(buttonBorderColor);
             }
