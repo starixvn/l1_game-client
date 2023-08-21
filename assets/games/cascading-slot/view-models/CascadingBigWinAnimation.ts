@@ -16,7 +16,7 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
     mainSpine: sp.Skeleton = null;
 
     @property(cc.Node)
-    changeLevel: cc.Node = null;
+    changeLevelWin: cc.Node = null;
 
     @property(cc.Node)
     bigWinNode: cc.Node = null;
@@ -54,8 +54,8 @@ export default class CascadingBigWinAnimation extends BigWinAnimation {
             await GameUtils.delayTime(0.1);
         }
         const node = cc.instantiate(levelPrefab);
-        this.changeLevel.removeAllChildren();
-        this.changeLevel.addChild(node);
+        this.changeLevelWin.removeAllChildren();
+        this.changeLevelWin.addChild(node);
     }
 
     async showWinAmountForBigWinAnim(amount: number, totalBet: number, coinValue: number, onComplete: () => void) {
