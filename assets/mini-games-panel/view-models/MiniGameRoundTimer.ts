@@ -87,8 +87,9 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     private async onReceivedData(data) {
         this.gameData = data[this.gameId];
+        const gameSetting = GameUtils.getGameSetting(this.gameId);
 
-        if (!data[this.gameId]) {
+        if (!data[this.gameId] || gameSetting.gameIsUM) {
             return;
         }
 

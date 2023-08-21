@@ -20,6 +20,8 @@ import { userManager } from "../../common/user/UserManager";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 import GameDataManager from "../_base_new/models/GameDataManager";
 import TableGameBaseInterface from "../_base_new/view-models/TableGameBaseInterface";
 import { GameData } from "../_new/_base/game-data-management/models/game-data";
@@ -44,6 +46,7 @@ import GameBaseOddsHandler from "./handlers/GameBaseOddsHandler";
 import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
+import GameBaseVoidTicketDataHandler from "./handlers/GameBaseVoidTicketHandler";
 import { Orientation } from "./Orientation";
 import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
@@ -51,9 +54,6 @@ import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
 import RebetButton from "./view-models/RebetButton";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
-import GameBaseVoidTicketDataHandler from "./handlers/GameBaseVoidTicketHandler";
-import { uiManager } from "../../managers/GameUIManager";
-import { InternalEvents } from "../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 
@@ -390,6 +390,7 @@ export default class GameBase extends GameViewBase {
         }
 
         uiManager.emitter.emit(InternalEvents.GAME_IS_UM, this.gameId);
+        this.saveSettingKey("gameIsUM", true);
         this.umNotice && this.umNotice.show(data);
     }
 
@@ -424,6 +425,7 @@ export default class GameBase extends GameViewBase {
 
     hideUmMessage() {
         this.umNotice && this.umNotice.hide();
+        this.saveSettingKey("gameIsUM", false);
         this.isReceivedUMData = false;
     }
 
