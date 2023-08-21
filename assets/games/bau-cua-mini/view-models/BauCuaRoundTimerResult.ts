@@ -16,6 +16,9 @@ export default class BauCuaRoundTimerResult extends CustomeRoundTimerResult {
     }
 
     showMultiWinningChoice(result) {
+        if (!this.resultContainer) {
+            return;
+        }
         this.resultContainer.destroyAllChildren();
         Object.values(result).forEach((choice) => {
             const sprite = new cc.Node().addComponent(cc.Sprite);

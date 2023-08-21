@@ -1,6 +1,4 @@
-import { lazyInject } from "../../Application";
 import GameUtils from "../../common/GameUtils";
-import LobbyMenuConfig from "../../lobby/main/view-models/LobbyMenuConfig";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import RoundTime from "./RoundTime";
@@ -22,9 +20,6 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     @property
     resultDelayTime = 0;
-
-    @lazyInject(LobbyMenuConfig)
-    private readonly lobbyMenuConfig: LobbyMenuConfig;
 
     protected betOptions;
     protected gameConfig;
