@@ -162,7 +162,7 @@ export default class BaseMicrositeGameIframe extends cc.Component {
         window.gameConfigurations === undefined && (await initGameConfiguration());
         i18n.init(language);
         const gameName = await GameUtils.getDisplayGameName(gameId);
-        this.postMessageToMicrosite({ gameName });
+        this.postMessageToMicrosite({ gameName, gameId });
     }
 
     protected async onClickJoinGame(gameId: number) {
