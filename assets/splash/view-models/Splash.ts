@@ -97,18 +97,7 @@ export default class NewClass extends cc.Component {
     }
 
     private openGameFromMicroGame(gameId: number) {
-        this.mainSplashNode.active = true;
-        this.micrositeGameNode.destroyAllChildren();
-        this.micrositeGameNode.active = false;
-        const joinGameHelper = new JoinGameHelper();
-
-        cc.director.loadScene("Lobby", () => {
-            appManager.initPromotions();
-            if (!GameUtils.isMiniGame(gameId.toString())) {
-                joinGameHelper.joinGameIsNotMiniGame(gameId, this.socketIOControler);
-            } else {
-                GameUtils.openGame(joinGameHelper.getGameId(gameId), appManager.miniPanel);
-            }
-        });
+        SessionManager.storeInRoomGameId(gameId);
+        this.enableMainSplashScreen();
     }
 }
