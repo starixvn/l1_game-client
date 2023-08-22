@@ -4,7 +4,7 @@ import { InternalEvents } from "../../managers/InternalEvents";
 const { ccclass, property } = cc._decorator;
 
 export interface SymbolPreviewType {
-    symbol?: number;
+    symbol?: any;
     spine: sp.SkeletonData;
     odds: any;
     colorList: [string, string];
@@ -60,13 +60,14 @@ export default class SymbolPreview extends cc.Component {
     }
 
     showSymbolText(symbolNumber: number, textColor: string) {
-        const showText = symbolNumber === 7 || symbolNumber === 8;
+        const showText = symbolNumber === this.freeSpinsSymbol || symbolNumber === this.bonusSymbol;
         const atlas = uiManager.prefabCache.gameAtlas[this.gameId];
 
         if (!showText) {
             return;
         }
 
+        this.textImages.active = true;
         const symbolName = this.getSymbolName(symbolNumber);
         this.textImages.children.forEach((node) => {
             const nodeImage = node.getComponent(cc.Sprite);
@@ -77,12 +78,14 @@ export default class SymbolPreview extends cc.Component {
     }
 
     setInfo(info: SymbolPreviewType) {
-        const { symbol, spine, odds, borderColor, colorList } = info;
+        const { symbol, spine, odds, borderColor, colorList, gameId } = info;
         this.icon.skeletonData = spine;
         this.icon.setAnimation(0, "highlight", false);
         this.border.color = cc.Color.WHITE.fromHEX(borderColor);
+        this.textImages.active = false;
+        this.gameId = gameId;
         this.showValues(info, Object.keys(odds));
-        this.showSymbolText(symbol, colorList[1]);
+        this.showSymbolText(symbol.index, colorList[1]);
     }
 
     getSymbolName(symbolNumber: number): string {
@@ -115,7 +118,10 @@ export default class SymbolPreview extends cc.Component {
             const values = [key, odds[key]];
             node.children.forEach((child, childIndex) => {
                 const isShowJackpotText =
-                    symbol === this.jackpotSymbol && jackpotEnabled && index === keys.length - 1 && childIndex === node.children.length - 1;
+                    symbol.index === this.jackpotSymbol &&
+                    jackpotEnabled &&
+                    index === keys.length - 1 &&
+                    childIndex === node.children.length - 1;
 
                 const label = child.getComponent(cc.Label);
                 const jackpotNode = child.children[0];
