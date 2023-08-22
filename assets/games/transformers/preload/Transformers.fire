@@ -87,34 +87,34 @@
         "__id__": 172
       },
       {
-        "__id__": 175
-      },
-      {
-        "__id__": 177
+        "__id__": 176
       },
       {
         "__id__": 178
       },
       {
-        "__id__": 180
+        "__id__": 179
       },
       {
         "__id__": 181
       },
       {
-        "__id__": 183
+        "__id__": 182
+      },
+      {
+        "__id__": 184
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 185
-      },
-      {
         "__id__": 186
       },
       {
         "__id__": 187
+      },
+      {
+        "__id__": 188
       }
     ],
     "_prefab": null,
@@ -8263,6 +8263,9 @@
       },
       {
         "__id__": 174
+      },
+      {
+        "__id__": 175
       }
     ],
     "_prefab": null,
@@ -8359,6 +8362,33 @@
     "_id": "66ZekQr4NHI6YFYrstGhk2"
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 172
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 32,
+    "_left": 0,
+    "_right": 23,
+    "_top": 123,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": "feyan+nJJI8pxkrZIjtAw/"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "effectContainer",
     "_objFlags": 0,
@@ -8369,7 +8399,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 176
+        "__id__": 177
       }
     ],
     "_prefab": null,
@@ -8425,7 +8455,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 175
+      "__id__": 176
     },
     "_enabled": true,
     "alignMode": 1,
@@ -8516,7 +8546,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 179
+        "__id__": 180
       }
     ],
     "_prefab": null,
@@ -8572,7 +8602,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 178
+      "__id__": 179
     },
     "_enabled": true,
     "alignMode": 1,
@@ -8663,7 +8693,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 182
+        "__id__": 183
       }
     ],
     "_prefab": null,
@@ -8719,7 +8749,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 181
+      "__id__": 182
     },
     "_enabled": true,
     "alignMode": 1,
@@ -8748,7 +8778,7 @@
       "__id__": 2
     },
     "_prefab": {
-      "__id__": 184
+      "__id__": 185
     },
     "_name": "Loading",
     "_active": false,
@@ -8779,7 +8809,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 183
+      "__id__": 184
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -8847,7 +8877,7 @@
       "__uuid__": "bbd28671-6825-49eb-930d-919acac5b9a0"
     },
     "noticeNode": {
-      "__id__": 180
+      "__id__": 181
     },
     "umNotice": null,
     "timeWaitNode": null,
@@ -8872,13 +8902,13 @@
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
     "miniPanelContainer": {
-      "__id__": 178
+      "__id__": 179
     },
     "noticePrefab": {
       "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
     },
     "loading": {
-      "__id__": 183
+      "__id__": 184
     },
     "winningPlayerEffectPrefab": null,
     "musicBg": null,
@@ -8897,7 +8927,7 @@
       "__id__": 122
     },
     "effectContainer": {
-      "__id__": 175
+      "__id__": 176
     },
     "effectBigWin": null,
     "effectFreeSpin": null,
@@ -8905,7 +8935,7 @@
       "__id__": 124
     },
     "defaultMiniMenu": {
-      "__id__": 181
+      "__id__": 182
     },
     "gameSongList": {
       "__id__": 6
@@ -8923,7 +8953,7 @@
       "__id__": 90
     },
     "winningNode": {
-      "__id__": 177
+      "__id__": 178
     },
     "stakeButton": null,
     "stakeContainer": null,
