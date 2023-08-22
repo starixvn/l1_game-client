@@ -23,10 +23,10 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     protected betOptions;
     protected gameConfig;
-    private countDownTime;
+    private countDownTime: number;
     private roundResult: RoundTimerResult;
     private roundTime: RoundTime;
-    private gameData;
+    private playTimeInterval: any;
 
     onLoad() {
         this.node.active = false;
@@ -80,9 +80,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.result.active = false;
     }
 
-    private async onReceivedData(data) {
-        this.gameData = data[this.gameId];
-
+    private onReceivedData(data) {
         if (!data[this.gameId]) {
             return;
         }
@@ -101,9 +99,16 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.hideRoundTimer();
 
         this.countDownTime = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
-        this.unschedule(this.countDown);
-        this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);
 
+        this.playTimeInterval && clearInterval(this.playTimeInterval);
+        this.playTimeInterval = setInterval(() => {
+            this.countDown();
+        }, 1000);
+
+        this.showResult(timeFromStart, data[this.gameId]);
+    }
+
+    private async showResult(timeFromStart, data) {
         try {
             if (!timeFromStart) {
                 await GameUtils.delayTime(this.resultDelayTime);
@@ -111,7 +116,7 @@ export default class MiniGameRoundTimer extends cc.Component {
 
             if (this.isShowResult()) {
                 this.result.active = true;
-                this.roundResult.setResult(data[this.gameId]);
+                this.roundResult.setResult(data);
             }
         } catch (e) {
             cc.log(e);
@@ -125,8 +130,7 @@ export default class MiniGameRoundTimer extends cc.Component {
     private countDown() {
         if (this.countDownTime < this.gameConfig.minBetTime) {
             this.hideRoundTimer();
-            this.unschedule(this.countDown);
-            this.gameData = null;
+            this.playTimeInterval && clearInterval(this.playTimeInterval);
             return;
         }
 
