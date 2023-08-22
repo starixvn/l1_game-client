@@ -22,6 +22,7 @@ import WebViewGuide from "../../common/webview-guide/WebViewGuide";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import { roundTimerManager } from "../../mini-games-panel/view-models/RoundTimerManager";
 import GameDataManager from "../_base_new/models/GameDataManager";
 import TableGameBaseInterface from "../_base_new/view-models/TableGameBaseInterface";
 import { GameData } from "../_new/_base/game-data-management/models/game-data";
@@ -390,7 +391,7 @@ export default class GameBase extends GameViewBase {
         }
 
         uiManager.emitter.emit(InternalEvents.GAME_IS_UM, this.gameId);
-        this.saveSettingKey("gameIsUM", true);
+        roundTimerManager.addDisabledGames(this.gameId);
         this.umNotice && this.umNotice.show(data);
     }
 
@@ -425,7 +426,7 @@ export default class GameBase extends GameViewBase {
 
     hideUmMessage() {
         this.umNotice && this.umNotice.hide();
-        this.saveSettingKey("gameIsUM", false);
+        roundTimerManager.removeDisabledGames(this.gameId);
         this.isReceivedUMData = false;
     }
 

@@ -2,7 +2,7 @@ import GameUtils from "../../common/GameUtils";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import RoundTime from "./RoundTime";
-import RoundTimerManager from "./RoundTimerManager";
+import { roundTimerManager } from "./RoundTimerManager";
 import RoundTimerResult from "./RoundTimerResult";
 
 const { ccclass, property } = cc._decorator;
@@ -52,7 +52,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.time.addChild(node);
         this.hideRoundTimer();
 
-        RoundTimerManager.getInstance().roundData && this.onReceivedData(RoundTimerManager.getInstance().roundData);
+        roundTimerManager.roundData && this.onReceivedData(roundTimerManager.roundData);
         uiManager.emitterListener(InternalEvents.RECEIVED_ROUND_TIMER, (data) => this.onReceivedData(data), this);
         uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.hideRoundTimer(), this);
         uiManager.emitterListener(InternalEvents.GAME_IS_UM, (gameId) => this.handleDisabledGame(gameId), this);
@@ -82,16 +82,24 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     private async onReceivedData(data) {
         this.gameData = data[this.gameId];
-        const gameSetting = GameUtils.getGameSetting(this.gameId);
 
-        if (!data[this.gameId] || gameSetting.gameIsUM) {
+        if (!data[this.gameId]) {
+            return;
+        }
+
+        const { timeFromStart } = data[this.gameId];
+
+        if (!timeFromStart && roundTimerManager.isDisabledGame(this.gameId)) {
+            roundTimerManager.removeDisabledGames(this.gameId);
+        }
+
+        if (timeFromStart && roundTimerManager.isDisabledGame(this.gameId)) {
             return;
         }
 
         this.node.active = true;
         this.hideRoundTimer();
 
-        const { timeFromStart } = data[this.gameId];
         this.countDownTime = timeFromStart ? this.resumeRoundTimer(timeFromStart) : this.gameConfig.fullTime;
         this.unschedule(this.countDown);
         this.schedule(this.countDown, 1, cc.macro.REPEAT_FOREVER, 0);

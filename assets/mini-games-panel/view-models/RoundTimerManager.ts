@@ -7,6 +7,7 @@ export default class RoundTimerManager {
     private static instance: RoundTimerManager;
     private readonly roundTimer = "roundTimer";
     private readonly latestRoundTimer = "latestRoundTimer";
+    private disabledGames = [];
     public roundData = null;
 
     public static getInstance(): RoundTimerManager {
@@ -39,4 +40,18 @@ export default class RoundTimerManager {
         this.roundData = data;
         uiManager.emitter.emit(InternalEvents.RECEIVED_ROUND_TIMER, data);
     }
+
+    addDisabledGames(gameId: number) {
+        this.disabledGames.push(gameId);
+    }
+
+    removeDisabledGames(gameId: number) {
+        delete this.disabledGames[gameId];
+    }
+
+    isDisabledGame(gameId: number) {
+        return this.disabledGames.find((element) => element === gameId);
+    }
 }
+
+export const roundTimerManager = RoundTimerManager.getInstance();
