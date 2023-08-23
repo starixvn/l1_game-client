@@ -2,7 +2,7 @@ import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import JackpotTopWinnersItem from "./JackpotTopWinnersItem";
-import { GameCategory } from "./LobbyMenu";
+import LobbyManager from "./LobbyManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -73,6 +73,6 @@ export default class JackpotTopWinners extends cc.Component {
     }
 
     onClickNoUsers(e) {
-        uiManager.emitter.emit(InternalEvents.CHANGE_CATEGORY, GameCategory.Slot);
+        uiManager.emitter.emit(InternalEvents.CHANGE_CATEGORY, LobbyManager.getInstance().getCategoryIndexByName("slots"));
     }
 }

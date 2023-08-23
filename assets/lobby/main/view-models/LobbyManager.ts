@@ -124,4 +124,15 @@ export default class LobbyManager {
 
         return categoryConfigs;
     }
+
+    getCategoryIndexByName(categoryName: string): number {
+        let categoryIndex = 0;
+        LobbyManager.lobbyConfigs?.categories.forEach(({ name }, index) => {
+            const customName = name["en-US"].replace(/\s/g, "").toLowerCase();
+            if (customName === categoryName) {
+                categoryIndex = index;
+            }
+        });
+        return categoryIndex;
+    }
 }

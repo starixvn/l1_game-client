@@ -9,17 +9,6 @@ import LobbyManager from "./LobbyManager";
 import LobbyMenuConfig from "./LobbyMenuConfig";
 import SkeletonIcon from "./SkeletonIcon";
 
-export enum GameCategory {
-    All = 0,
-    SeDie,
-    Casino,
-    Card,
-    Slot,
-    Lottery,
-
-    Favourite = 99,
-    Other = 100
-}
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -247,7 +236,7 @@ export default class LobbyMenu extends GameIconMenu {
     loadCategory() {
         const category = StorageManager.get("current_game_category");
         if (category) {
-            this.currentCategory = parseInt(category) || GameCategory.All;
+            this.currentCategory = parseInt(category) || 0;
         }
     }
 

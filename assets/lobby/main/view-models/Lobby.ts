@@ -27,7 +27,7 @@ import Banner from "./Banner";
 import CategoryItem from "./CategoryItem";
 import Header from "./Header";
 import LobbyManager from "./LobbyManager";
-import LobbyMenu, { GameCategory } from "./LobbyMenu";
+import LobbyMenu from "./LobbyMenu";
 import { SettingMenuEvents } from "../../../common/setting-menu/SettingMenu";
 import * as Configs from "../../../configs/Configs";
 import { AppTypes } from "./../../../common/auth/AuthManager";
@@ -207,7 +207,7 @@ export default class Lobby extends cc.Component {
         const storage = StorageManager.get("current_game_category");
         let category = 0;
         if (storage) {
-            category = parseInt(storage) || GameCategory.All;
+            category = parseInt(storage) || 0;
         }
 
         const node = this.categoryContainer.children.find((child) => child.name === `${category}`);
@@ -358,7 +358,7 @@ export default class Lobby extends cc.Component {
     }
 
     initCategory() {
-        let category = GameCategory.All;
+        let category = 0;
         if (!window.isSSO) {
             category = this.activeCategoryFromStorage();
         }
