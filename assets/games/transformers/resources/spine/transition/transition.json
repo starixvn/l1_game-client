@@ -1,14 +1,5 @@
 {
-"skeleton": {
-	"hash": "/viG9keaO7clE0k7VnqAFXi00HE",
-	"spine": "3.8.99",
-	"x": -699,
-	"y": -393,
-	"width": 1398,
-	"height": 786,
-	"images": "./images/",
-	"audio": "D:/L5/DJClub/Graphic/replace-assets/resources/spine/transition"
-},
+"skeleton": { "hash": "D1nbKjWp9+wKWACjUbEbm3iOuiw", "spine": "3.8.99", "x": -161, "y": -117.49, "width": 322, "height": 238 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "vfx-plasma", "parent": "root" },
@@ -25,10 +16,10 @@
 		"name": "default",
 		"attachments": {
 			"light": {
-				"fx_bloom": { "width": 322, "height": 162 }
+				"fx_bloom": { "width": 322, "height": 238 }
 			},
 			"plasma-fx0": {
-				"glitch/plasma-fx1": { "width": 350, "height": 26 }
+				"glitch/plasma-fx14": { "width": 350, "height": 26 }
 			}
 		}
 	}
@@ -45,28 +36,28 @@
 			"light": {
 				"color": [
 					{ "time": 0.5333, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.9, "color": "ffffff00" }
+					{ "time": 0.9, "color": "007eff00" }
 				]
 			},
 			"plasma-fx0": {
 				"color": [
 					{ "color": "ffffff00", "curve": 0.386, "c2": 0.33, "c3": 0.715, "c4": 0.66 },
-					{ "time": 0.0667, "color": "ffffff9e" },
-					{ "time": 0.2, "color": "ffffff53" },
-					{ "time": 0.9, "color": "ffffff00" }
+					{ "time": 0.1333, "color": "ffffffd0", "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.4667, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.0667, "color": "ffffff00" }
 				],
 				"attachment": [
-					{ "time": 0.0667, "name": "glitch/plasma-fx1" },
-					{ "time": 0.9, "name": null },
-					{ "time": 1.2, "name": null }
+					{ "time": 0.0667, "name": "glitch/plasma-fx14" },
+					{ "time": 1.0667, "name": null }
 				]
 			}
 		},
 		"bones": {
 			"vfx-plasma": {
 				"scale": [
-					{ "x": 6, "y": 60, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.3333, "x": 6, "y": 0.2 }
+					{ "x": 4, "y": 40, "curve": 0.25, "c3": 0.75 },
+					{ "time": 0.3333, "x": 4, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.2, "x": 4, "y": 0.1 }
 				]
 			},
 			"light": {
@@ -74,7 +65,7 @@
 					{ "x": 4, "y": 4, "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.1333, "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.5333, "x": 2, "y": 2, "curve": 0.25, "c3": 0.75 },
-					{ "time": 0.9, "x": 20, "y": 4 }
+					{ "time": 0.9, "x": 10, "y": 8 }
 				]
 			}
 		}
