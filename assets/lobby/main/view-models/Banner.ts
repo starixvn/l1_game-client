@@ -1,15 +1,15 @@
-import { appContainer, lazyInject } from "../../../Application";
+import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import { userManager } from "../../../common/user/UserManager";
-import FourGuardiansConfig from "../../../games/four-guardians/scripts/FourGuardiansConfig";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
+import { JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
 import BannerController from "./BannerController";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import JackpotNavigation from "./JackpotNavigation";
 
 const { ccclass, property } = cc._decorator;
-
-const fourGuardiansConfig = appContainer.get(FourGuardiansConfig);
 
 @ccclass
 export default class Banner extends cc.Component {
@@ -26,6 +26,10 @@ export default class Banner extends cc.Component {
     showJackpotBanner = false;
     bannerPrefabNode: cc.Node = null;
 
+    onLoad() {
+        uiManager.emitterListener(InternalEvents.RECEIVED_RAW_JACKPOT_POOLS, (data) => this.handleJackpot(data), this);
+    }
+
     private async init() {
         const prefab = await GameUtils.loadResource(`lobby/banner/bannerContainer`);
         const bannerPrefabNode = cc.instantiate(prefab);
@@ -33,7 +37,19 @@ export default class Banner extends cc.Component {
         this.node.addChild(bannerPrefabNode);
         const adsBannerContainerNode = bannerPrefabNode.getChildByName("adsBannerController");
         this.adsBannerController = adsBannerContainerNode.getComponent(DynamicAdsBannerController);
-        this.showJackpotBanner = this.checkShowJackpotBanner();
+        this.adsBannerController.menuLoop = !this.showJackpotBanner;
+        !userManager.disableJackpotGames && this.requestJackpotPoolsData();
+    }
+
+    requestJackpotPoolsData() {
+        jackpotManager.emitEvent(JackpotEvents.GET_POOLS, {});
+    }
+
+    async handleJackpot(data) {
+        if (!this.node?.isValid || userManager.disableJackpotGames) {
+            return;
+        }
+        this.showJackpotBanner = !userManager.disableJackpotGames && !!Object.keys(data).length;
         this.adsBannerController.menuLoop = !this.showJackpotBanner;
         this.adsBannerController.onEndingRound = () => {
             if (this.showJackpotBanner && this.adsToggle && this.jackpotToggle) {
@@ -43,10 +59,6 @@ export default class Banner extends cc.Component {
             }
         };
         this.showJackpotBanner && (await this.handleJackpotBanner());
-    }
-
-    checkShowJackpotBanner(): boolean {
-        return !userManager.disableJackpotGames;
     }
 
     async reloadBanner(needLoadAllBanners: boolean) {

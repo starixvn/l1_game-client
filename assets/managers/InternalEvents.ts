@@ -24,7 +24,8 @@ export enum InternalEvents {
 
     RECEIVED_JACKPOT_WINNER = "slot jackpot = Received jackpot winner data",
     RECEIVED_JACKPOT_WINNERS = "slot jackpot = Received jackpot top winners data",
-    RECEIVED_JACKPOT_POOLS = "slot jackpot = Received jackpot pools data",
+    RECEIVED_RAW_JACKPOT_POOLS = "slot jackpot = Received raw jackpot pools data",
+    RECEIVED_JACKPOT_POOLS = "slot jackpot = Received jackpot pools data and filter pool type",
     RECEIVED_JACKPOT_POOLS_ON_GAME = "slot jackpot = Received jackpot pools data on game",
     RECEIVED_JACKPOT_POOLS_IN_GAME = "slot jackpot = Received jackpot pools data in game",
 

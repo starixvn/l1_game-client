@@ -75,6 +75,7 @@ export default class JackpotManager {
         pools = this.sortPoolsASC(pools);
         const poolsGroup = this.groupJackpotPoolsWithType(pools);
         uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS, poolsGroup);
+        uiManager.emitter.emit(InternalEvents.RECEIVED_RAW_JACKPOT_POOLS, data);
     }
 
     filterOfferGames(pools) {
