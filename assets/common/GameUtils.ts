@@ -653,7 +653,7 @@ export default class GameUtils {
     public static async copyText(text: string) {
         try {
             if (this.isAndroidWebView()) {
-                window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: "copy_to_clipboard", data: data }));
+                window.ReactNativeWebView.postMessage(JSON.stringify({ eventType: "copy_to_clipboard", data: text }));
             } else {
                 await navigator.clipboard.writeText(text);
             }
