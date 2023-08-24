@@ -14,7 +14,6 @@ export default class MicrositeGameIframe extends BaseMicrositeGameIframe {
     protected getMicrositeGameQueryString() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("token")) {
-            AuthManager.clearQueryStringOnUrl();
             const mainUrl = GameUtils.base64Encode(window.location.href);
             const returnMainLobbyUrl =
                 urlParams.has(UrlInfo.Ref) && appManager.checkDirectModeRefData(urlParams.get(UrlInfo.Ref)) ? "" : `&rurl=${mainUrl}`;

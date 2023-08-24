@@ -29,9 +29,9 @@ iframe {
     overflow-x: hidden;
 }
 
-iframe#microsite {
-    height: inherit !important;
-    width: inherit !important;
+iframe.microsite-iframe {
+    width: 100% !important;
+    height: 100% !important;
     transform: none !important;
 }
 

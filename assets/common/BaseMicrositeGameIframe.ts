@@ -10,6 +10,7 @@ import { appManager } from "../managers/AppManager";
 import SocketIOController from "../SocketIOController";
 import JoinGameHelper from "./JoinGameHelper";
 import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
+import * as AuthManager from "./auth/AuthManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -36,6 +37,8 @@ export type MicrositeGameParams = {
     replaceUrl?: string;
     gameId?: number;
     promotion?: string;
+    clearQueryStringOnUrl?: boolean;
+    splashEnabled?: boolean;
 };
 
 const WebviewEventType = {
@@ -89,6 +92,11 @@ export default class BaseMicrositeGameIframe extends cc.Component {
         if (data.replaceUrl) {
             window.location.replace(data.replaceUrl);
         }
+        if (data.splashEnabled) {
+            const className = "microsite-iframe";
+            !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
+            return;
+        }
         if (data.hasSSO) {
             window.microsite = { hasSSO: true };
             return;
@@ -110,6 +118,9 @@ export default class BaseMicrositeGameIframe extends cc.Component {
         if (data.copyToClipboard) {
             this.handleCopyToClipboard(data.copyToClipboard);
             return;
+        }
+        if (data.clearQueryStringOnUrl) {
+            AuthManager.clearQueryStringOnUrl();
         }
         this.handleChangeAudio(data);
     }
