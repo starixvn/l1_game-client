@@ -98,12 +98,6 @@ export default class BaseMicrositeGameIframe extends cc.Component {
             return;
         }
 
-        if (data.gameId > 0) {
-            StorageManager.set("boosted-odds", data.promotion);
-            this.onClickJoinGame(data.gameId);
-            return;
-        }
-
         if (data.backLobby && !this.isLoadingLobby) {
             this.isLoadingLobby = true;
             await this.handleBackToLobby(data);
@@ -128,6 +122,12 @@ export default class BaseMicrositeGameIframe extends cc.Component {
         SessionManager.removeMicrositeGameId();
         await this.updateSession(data);
         AudioManager.getInstance().initDefaultStorage();
+
+        if (data.gameId > 0) {
+            StorageManager.set("boosted-odds", data.promotion);
+            this.onClickJoinGame(data.gameId);
+            return;
+        }
         this.loadLobbyScene();
     }
 
