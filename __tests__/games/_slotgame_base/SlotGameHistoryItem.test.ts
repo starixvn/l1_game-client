@@ -192,11 +192,6 @@ describe("SlotGameHistoryItem", () => {
                 // Assert
                 expect(comp["showJackpotIcon"]).toHaveBeenCalled();
             });
-
-            it("should call not call getJackpotWinningByCurrency", () => {
-                // Assert
-                expect(comp["calculateWinningAmount"]).not.toHaveBeenCalled();
-            });
         });
         describe("when betlog has jackpot, not freeSpin", () => {
             beforeEach(() => {
@@ -215,10 +210,10 @@ describe("SlotGameHistoryItem", () => {
 
             it("should display bet win with jackpot win", () => {
                 // Arrange
-                const win = betLog.betWin + comp["calculateWinningAmount"](betLog.settlementResult.jackpot.winningAmount);
+                const win = betLog.betWin + betLog.settlementResult.jackpot.winningAmount;
 
                 // Assert
-                expect(comp.win.string).toMatch(`${win}`);
+                expect(comp.win.string).toMatch(`${numberWithCommas(win)}`);
             });
 
             it("should display total amount with formatting commas", () => {
@@ -226,28 +221,10 @@ describe("SlotGameHistoryItem", () => {
                 expect(comp.totalAmount.string).toMatch(numberWithCommas(betLog.totalAmount, 1));
             });
 
-            it("should call getJackpotWinningByCurrency", () => {
-                // Assert
-                expect(comp["calculateWinningAmount"]).toHaveBeenCalled();
-            });
-
             it("should call showJackpotIcon", () => {
                 // Assert
                 expect(comp["showJackpotIcon"]).toHaveBeenCalled();
             });
-        });
-    });
-
-    describe("getJackpotWinningByCurrency", () => {
-        it("should return value", () => {
-            // Arrange
-            const winningAmount = 100;
-
-            // Act
-            comp["calculateWinningAmount"](winningAmount);
-
-            // Assert
-            expect(comp["calculateWinningAmount"](winningAmount)).toEqual(winningAmount);
         });
     });
 

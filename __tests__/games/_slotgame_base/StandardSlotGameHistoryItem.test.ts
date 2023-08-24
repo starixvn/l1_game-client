@@ -1,4 +1,3 @@
-import GameUtils from "../../../assets/common/GameUtils";
 import StandardSlotGameHistoryItem from "../../../assets/games/_slotgame_base/StandardSlotGameHistoryItem";
 
 /*
@@ -139,19 +138,6 @@ describe("StandardSlotGameHistoryItem", () => {
                 // Assert
                 expect(comp.jackpotIcon.active).toEqual(false);
             });
-        });
-    });
-
-    describe("getJackpotWinningByCurrency", () => {
-        it("should return value", () => {
-            // Arrange
-            const winningAmount = 6737.5;
-
-            // Act
-            comp["calculateWinningAmount"](winningAmount);
-
-            // Assert
-            expect(comp["calculateWinningAmount"](winningAmount)).toEqual(GameUtils.getValueByCurrency(winningAmount));
         });
     });
 });

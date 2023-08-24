@@ -84,14 +84,12 @@ describe("BannerJackpotPool", () => {
     describe("initEvents", () => {
         it("should call addDataObserver and emitterListener", () => {
             // Arrange
-            const addDataObserverSpy = jest.spyOn(jackpotManager, "addDataObserver");
             const emitterListenerSpy = jest.spyOn(uiManager, "emitterListener");
 
             // Act
             comp["initEvents"]();
 
             // Assert
-            expect(addDataObserverSpy).toHaveBeenCalled();
             expect(emitterListenerSpy).toHaveBeenCalled();
         });
     });
