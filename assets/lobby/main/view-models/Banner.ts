@@ -31,6 +31,10 @@ export default class Banner extends cc.Component {
         uiManager.emitterListener(InternalEvents.RECEIVED_RAW_JACKPOT_POOLS, (data) => this.handleJackpot(data), this);
     }
 
+    onDestroy() {
+        uiManager.removeListenersWithTarget(this);
+    }
+
     private async init() {
         const prefab = await GameUtils.loadResource(`lobby/banner/bannerContainer`);
         const bannerPrefabNode = cc.instantiate(prefab);
