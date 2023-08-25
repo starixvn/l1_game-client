@@ -1,3 +1,4 @@
+import GameUtils from "../../common/GameUtils";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import { ClassicSlotSound } from "./ClassicSlotSound";
@@ -58,7 +59,7 @@ export default class StandardSlotReel extends SlotReel {
                     cc.tween().to(moveUpDuration, { position: cc.v2(this.node.x, offset) }, { easing: "backOut" }),
                     cc
                         .tween()
-                        .delay(0.15)
+                        .delay(GameUtils.isAndroid() ? 0 : 0.15)
                         .call(() => {
                             uiManager.emitter.emit(InternalEvents.SLOT_PLAY_SOUND, ClassicSlotSound.REEL_STOP);
                         })
