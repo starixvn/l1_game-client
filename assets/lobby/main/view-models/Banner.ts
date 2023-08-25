@@ -25,6 +25,7 @@ export default class Banner extends cc.Component {
 
     showJackpotBanner = false;
     bannerPrefabNode: cc.Node = null;
+    jackpotContainer: cc.Node = null;
 
     onLoad() {
         uiManager.emitterListener(InternalEvents.RECEIVED_RAW_JACKPOT_POOLS, (data) => this.handleJackpot(data), this);
@@ -58,7 +59,13 @@ export default class Banner extends cc.Component {
                 this.switchBanner(true);
             }
         };
-        this.showJackpotBanner && (await this.handleJackpotBanner());
+
+        if (this.showJackpotBanner) {
+            await this.handleJackpotBanner();
+        } else {
+            this.jackpotNavigationContainer?.childrenCount > 0 && (this.jackpotNavigationContainer.active = this.showJackpotBanner);
+            this.jackpotBannerContainer && this.switchBanner(false, true);
+        }
     }
 
     async reloadBanner(needLoadAllBanners: boolean) {
@@ -76,21 +83,21 @@ export default class Banner extends cc.Component {
     }
 
     private async handleJackpotBanner() {
-        const jackpotContainer = this.bannerPrefabNode.getChildByName("jackpotController");
+        this.jackpotContainer = this.bannerPrefabNode.getChildByName("jackpotController");
         this.jackpotNavigationContainer = this.bannerPrefabNode.getChildByName("jackpotNavigationController");
-        if (jackpotContainer?.childrenCount > 0 || this.jackpotNavigationContainer?.childrenCount > 0) {
+        if (this.jackpotContainer?.childrenCount > 0 || this.jackpotNavigationContainer?.childrenCount > 0) {
             return;
         }
-        await this.setJackpotContainer(jackpotContainer);
+        await this.setJackpotContainer();
         await this.setJackpotNavigation();
     }
 
-    private async setJackpotContainer(container: cc.Node) {
+    private async setJackpotContainer() {
         const pathPrefab = `lobby/banner/jackpotController`;
         const prefab = await GameUtils.loadResource(pathPrefab);
         const jackpotBannerNode = cc.instantiate(prefab);
-        container.addChild(jackpotBannerNode);
-        const jackpotNode = container?.children[0];
+        this.jackpotContainer.addChild(jackpotBannerNode);
+        const jackpotNode = this.jackpotContainer?.children[0];
         this.jackpotBannerContainer = jackpotNode;
         jackpotBannerNode.active = false;
 

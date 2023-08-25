@@ -44,7 +44,7 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
     }
 
     private loadData(type: number) {
-        if (this.selectedTab === type || !this.poolData) {
+        if (!this.poolData) {
             return;
         }
 

@@ -19,7 +19,7 @@ export default class JackpotTopWinners extends cc.Component {
 
     onLoad() {
         this.listUserNode.active = false;
-        this.handleNoUserAd(!this.listUserNode.active);
+        this.handleNoUser(!this.listUserNode.active);
         this.initEvents();
         this.requestData();
         this.schedule(this.requestData, 60);
@@ -44,25 +44,23 @@ export default class JackpotTopWinners extends cc.Component {
     }
 
     onData(data: any) {
+        this.handleNoUser(data.length === 0);
         this.setData(data);
-        this.handleNoUserAd(data.length === 0);
     }
 
-    handleNoUserAd(status = true) {
+    handleNoUser(status = true) {
         if (!this.noUserNode || !this.listUserNode) {
             return;
         }
-
         this.noUserNode.active = status;
+        this.listUserNode.destroyAllChildren();
+        this.listUserNode.active = !status;
     }
 
     setData(data: any) {
         if (!this.listUserNode || data.length === 0) {
             return;
         }
-
-        this.listUserNode.destroyAllChildren();
-        this.listUserNode.active = true;
 
         data.forEach((playerData) => {
             const winnerNode = cc.instantiate(this.winnerItem);

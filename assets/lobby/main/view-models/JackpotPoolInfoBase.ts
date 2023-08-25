@@ -31,4 +31,8 @@ export default class JackpotPoolInfoBase extends cc.Component {
     setHighlight(poolIndex: number) {
         this.items.forEach((item) => item.setHighlight(poolIndex === +item.node.name));
     }
+
+    setVisibility(status: boolean) {
+        this.node.opacity = status ? 255 : 0;
+    }
 }
