@@ -54,19 +54,27 @@ export default class StandardSlotReel extends SlotReel {
             cc.tween(this.node)
                 .to(moveDownDuration, { position: cc.v2(this.node.x, -300) }, { easing: "backIn" })
                 .to(normalSpinDuration, { position: cc.v2(this.node.x, offset + 300) })
-                .to(moveUpDuration, { position: cc.v2(this.node.x, offset) }, { easing: "backOut" })
+                .parallel(
+                    cc.tween().to(moveUpDuration, { position: cc.v2(this.node.x, offset) }, { easing: "backOut" }),
+                    cc
+                        .tween()
+                        .delay(0.15)
+                        .call(() => {
+                            uiManager.emitter.emit(InternalEvents.SLOT_PLAY_SOUND, ClassicSlotSound.REEL_STOP);
+                        })
+                )
 
                 .call(() => {
                     this.onSpinFinish();
                     onReelStopped();
                 })
                 .start();
-            cc.tween(this.node)
-                .delay(spinDuration - 0.15)
-                .call(() => {
-                    uiManager.emitter.emit(InternalEvents.SLOT_PLAY_SOUND, ClassicSlotSound.REEL_STOP);
-                })
-                .start();
+            // cc.tween(this.node)
+            //     .delay(spinDuration - 0.15)
+            //     .call(() => {
+            //         uiManager.emitter.emit(InternalEvents.SLOT_PLAY_SOUND, ClassicSlotSound.REEL_STOP);
+            //     })
+            //     .start();
         } else {
             this.playSpinAnimTurbo(spinDuration, offset, onReelStopped);
         }
