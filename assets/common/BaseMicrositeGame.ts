@@ -135,7 +135,6 @@ export default class BaseMicrositeGame extends cc.Component {
         AudioManager.getInstance().initDefaultStorage();
 
         if (data.gameId > 0) {
-            StorageManager.set("boosted-odds", data.promotion);
             this.onClickJoinGame(data.gameId);
             return;
         }

@@ -1,7 +1,6 @@
 import NotificationService from "../../common/auth/NotificationService";
 import EventEmitterBase from "../../common/emitter/EventEmitterBase";
 import { userManager } from "../../common/user/UserManager";
-import { StorageManager } from "../../../assets/managers/StorageManager";
 
 export const PromotionsEvent = {
     SHOW_BOOSTED_ODDS: "SHOW_BOOSTED_ODDS"
@@ -55,7 +54,6 @@ export class Promotions extends EventEmitterBase {
     receivedData(data: Promotion[]) {
         const offerGames = userManager.offerGamesIncludeSubGames;
         const newPromotions = data.filter((promotion) => offerGames.includes(promotion.gameId));
-        this.promotions = JSON.parse(StorageManager.get("boosted-odds") as string) || [];
 
         if (newPromotions.length > 0) {
             let haveNewPromotion = newPromotions.length > this.promotions.length;
@@ -76,7 +74,7 @@ export class Promotions extends EventEmitterBase {
             }
 
             this.isShowBoostedOdds = false;
-            StorageManager.set("boosted-odds", JSON.stringify(newPromotions));
+            this.promotions = newPromotions;
         }
     }
 

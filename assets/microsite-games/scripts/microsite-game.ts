@@ -5,7 +5,6 @@ import { appManager } from "../../managers/AppManager";
 import BaseMicrositeGame from "../../common/BaseMicrositeGame";
 import AudioManager from "../../common/audio/AudioManager";
 import GameUtils from "../../common/GameUtils";
-import { StorageManager } from "../../managers/StorageManager";
 
 const { ccclass } = cc._decorator;
 
@@ -34,8 +33,7 @@ export default class MicrositeGame extends BaseMicrositeGame {
             rurl: appManager.checkDirectModeRefData(directMode?.ref) ? directMode?.returnUrl : GameUtils.base64Encode(window.location.href),
             purl: GameUtils.base64Encode(window.location.href),
             musicEnable: audio.musicEnabled,
-            sfxEnable: audio.sfxEnabled,
-            promotion: StorageManager.get("boosted-odds")
+            sfxEnable: audio.sfxEnabled
         };
 
         const searchParams = new URLSearchParams();
