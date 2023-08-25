@@ -25,13 +25,19 @@ export default class StandardSlotReelItem extends SlotReelItem {
     }
 
     public replaceItem(index: number, duration = 0) {
-        const cache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
+        const symbolsCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
         const gameAtlasCache = uiManager.prefabCache.gameAtlas[this.gameId];
 
         if (this.effectSpine) {
             const anim = "idle";
-            this.blurSymbol.getComponent(cc.Sprite).spriteFrame = gameAtlasCache.getSpriteFrame(`symbol-${index}-blur`);
-            this.effectSpine.skeletonData = cache[index];
+            let spriteFrame = gameAtlasCache.getSpriteFrame(`symbol-${index}-blur`);
+
+            if (symbolsCache[index].isJackpot) {
+                spriteFrame = gameAtlasCache.getSpriteFrame(`symbol-${index}.jackpot-blur`);
+            }
+
+            this.blurSymbol.getComponent(cc.Sprite).spriteFrame = spriteFrame;
+            this.effectSpine.skeletonData = symbolsCache[index].symbol;
             this.effectSpine.premultipliedAlpha = this.premultipliedAlpha;
             this.effectSpine.setAnimation(0, anim, true);
         }

@@ -117,6 +117,7 @@ export default class StandardSlotGame extends SlotGameBase {
     turboPaylineDuration = 1.3;
 
     protected audioClips = {};
+    protected jackpotSymbolIndex = 10;
     private readonly previewSymbolLeft: cc.Prefab;
     private readonly previewSymbolRight: cc.Prefab;
     private readonly effectTransitionPrefab: cc.Prefab;
@@ -297,7 +298,7 @@ export default class StandardSlotGame extends SlotGameBase {
         }
         this.playSound(ClassicSlotSound.CLICK);
         const symbolCache = uiManager.prefabCache.slotSymbols[this.gameId];
-        const spine = symbolCache[symbol.index];
+        const spine = symbolCache[symbol.index].symbol;
 
         const previewPrefab = isInfoOnLeft ? this.previewSymbolLeft : this.previewSymbolRight;
         const previewNode = cc.instantiate(previewPrefab);
@@ -321,9 +322,11 @@ export default class StandardSlotGame extends SlotGameBase {
             if (prefabCache[index]) {
                 continue;
             }
-            prefabCache[index] = await this.addSymbolCache(index);
+            const symbolInfo = {};
+            symbolInfo["symbol"] = await this.addSymbolCache(index);
+            symbolInfo["isJackpot"] = index === this.jackpotSymbolIndex && this.jackpotEnabled;
+            prefabCache[index] = symbolInfo;
         }
-
         uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
     }
 

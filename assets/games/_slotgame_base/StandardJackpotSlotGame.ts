@@ -18,7 +18,6 @@ export default class StandardJackpotSlotGame extends StandardSlotGame {
     topWinnersButton: cc.Node = null;
 
     private jackpotPoolPrefab: cc.Prefab;
-    private jackpotSymbolIndex = 10;
     private isLoadedSlotBoard = false;
 
     onLoad() {
