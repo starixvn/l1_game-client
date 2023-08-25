@@ -32,7 +32,7 @@ export default class JackpotTopWinners extends cc.Component {
 
     onDestroy() {
         this.unschedule(this.requestData);
-        uiManager.removeListeners(InternalEvents.RECEIVED_JACKPOT_WINNERS, this);
+        uiManager.removeListenersWithTarget(this);
     }
 
     requestData() {

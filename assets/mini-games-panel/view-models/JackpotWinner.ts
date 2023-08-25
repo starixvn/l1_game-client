@@ -3,7 +3,6 @@ import { numberWithCommas } from "../../common/helpers/NumberHelper";
 import { userManager } from "../../common/user/UserManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
-import { JackpotDataKey } from "../../managers/JackpotManager";
 import PopupMinigames from "./popup/PopupMinigames";
 
 const { ccclass, property } = cc._decorator;
@@ -19,7 +18,6 @@ export default class JackpotWinner extends cc.Component {
     @property(cc.Label)
     gameName: cc.Label = null;
 
-    private readonly dataKey = JackpotDataKey.JACKPOT_WINNER;
     popupMiniGame: PopupMinigames = null;
 
     onLoad() {
@@ -34,7 +32,7 @@ export default class JackpotWinner extends cc.Component {
     }
 
     onDestroy() {
-        uiManager.removeListeners(InternalEvents.RECEIVED_JACKPOT_WINNER, this);
+        uiManager.removeListenersWithTarget(this);
     }
 
     initEvents() {

@@ -24,7 +24,7 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
 
     onDestroy() {
         if (!userManager.disableJackpotGames) {
-            uiManager.removeListeners(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, this);
+            uiManager.removeListenersWithTarget(this);
             this.unschedule(this.requestData);
         }
     }
