@@ -1,258 +1,146 @@
 
 icon-game.png
-size: 777,1032
+size: 1435,398
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 3d
   rotate: true
-  xy: 697, 172
+  xy: 604, 2
   size: 196, 53
   orig: 196, 156
   offset: 0, 103
   index: -1
-bg-blank
-  rotate: false
-  xy: 2, 601
-  size: 196, 429
-  orig: 196, 429
-  offset: 0, 0
-  index: -1
 bg3
-  rotate: false
-  xy: 2, 170
+  rotate: true
+  xy: 604, 200
   size: 196, 429
-  orig: 196, 429
-  offset: 0, 0
-  index: -1
-disk
-  rotate: false
-  xy: 2, 49
-  size: 196, 119
-  orig: 196, 429
-  offset: 0, 0
-  index: -1
-dj-mixer
-  rotate: false
-  xy: 200, 46
-  size: 196, 287
   orig: 196, 429
   offset: 0, 0
   index: -1
 domdom
-  rotate: true
-  xy: 697, 36
+  rotate: false
+  xy: 1299, 148
   size: 134, 74
   orig: 134, 74
   offset: 0, 0
   index: -1
-effect/bg-effect00
+fire/f00
   rotate: false
-  xy: 2, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 1035, 224
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect01
+fire/f08
   rotate: false
-  xy: 24, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 659, 26
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect02
+fire/f14
   rotate: false
-  xy: 46, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 1115, 224
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect03
+fire/f22
   rotate: false
-  xy: 68, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 739, 26
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect04
+fire/f26
   rotate: false
-  xy: 90, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 1195, 224
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect05
+fire/f32
   rotate: false
-  xy: 112, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 819, 26
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect06
+fire/f40
   rotate: false
-  xy: 134, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 1275, 224
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect07
+fire/f46
   rotate: false
-  xy: 156, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 899, 26
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect08
+fire/f50
   rotate: false
-  xy: 178, 13
-  size: 20, 34
-  orig: 20, 34
+  xy: 1355, 224
+  size: 78, 172
+  orig: 78, 172
   offset: 0, 0
   index: -1
-effect/bg-effect09
+fire/f56
+  rotate: false
+  xy: 979, 26
+  size: 78, 172
+  orig: 78, 172
+  offset: 0, 0
+  index: -1
+fire/f64
+  rotate: false
+  xy: 1059, 50
+  size: 78, 172
+  orig: 78, 172
+  offset: 0, 0
+  index: -1
+fire/f70
+  rotate: false
+  xy: 1139, 50
+  size: 78, 172
+  orig: 78, 172
+  offset: 0, 0
+  index: -1
+fire/f74
+  rotate: false
+  xy: 1219, 50
+  size: 78, 172
+  orig: 78, 172
+  offset: 0, 0
+  index: -1
+prime
   rotate: true
-  xy: 200, 24
-  size: 20, 34
-  orig: 20, 34
+  xy: 2, 4
+  size: 392, 600
+  orig: 392, 600
   offset: 0, 0
   index: -1
-effect/bg-effect10
-  rotate: true
-  xy: 236, 24
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-effect/bg-effect11
-  rotate: true
-  xy: 272, 24
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-effect/bg-effect12
-  rotate: true
-  xy: 308, 24
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-effect/bg-effect13
-  rotate: true
-  xy: 344, 24
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-effect/bg-effect14
+prime-eye
   rotate: false
-  xy: 752, 334
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
+  xy: 659, 6
+  size: 77, 18
+  orig: 392, 600
+  offset: 164, 473
   index: -1
-effect/bg-effect15
+prime-mask1
   rotate: false
-  xy: 752, 298
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
+  xy: 1299, 83
+  size: 77, 63
+  orig: 392, 600
+  offset: 166, 416
   index: -1
-effect/bg-effect16
+prime-mask2
   rotate: false
-  xy: 752, 262
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-effect/bg-effect17
-  rotate: false
-  xy: 752, 226
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-effect/bg-effect18
-  rotate: false
-  xy: 752, 190
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-effect/bg-effect19
-  rotate: true
-  xy: 200, 2
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-effect/bg-effect20
-  rotate: true
-  xy: 236, 2
-  size: 20, 34
-  orig: 20, 34
-  offset: 0, 0
-  index: -1
-girl-sequense/1
-  rotate: false
-  xy: 398, 52
-  size: 156, 300
-  orig: 196, 429
-  offset: 0, 81
-  index: -1
-girl-sequense/2
-  rotate: false
-  xy: 556, 29
-  size: 139, 323
-  orig: 196, 429
-  offset: 20, 81
-  index: -1
-girl-sequense/3
-  rotate: false
-  xy: 588, 370
-  size: 176, 317
-  orig: 196, 429
-  offset: 20, 80
-  index: -1
-girl-sequense/4
-  rotate: false
-  xy: 200, 685
-  size: 196, 345
-  orig: 196, 429
-  offset: 0, 80
-  index: -1
-girl-sequense/5
-  rotate: false
-  xy: 398, 695
-  size: 195, 335
-  orig: 196, 429
-  offset: 1, 79
-  index: -1
-girl-sequense/6
-  rotate: false
-  xy: 391, 354
-  size: 195, 329
-  orig: 196, 429
-  offset: 0, 82
-  index: -1
-girl-sequense/7
-  rotate: false
-  xy: 595, 689
-  size: 180, 341
-  orig: 196, 429
-  offset: 4, 81
-  index: -1
-girl-sequense/8
-  rotate: false
-  xy: 200, 335
-  size: 189, 348
-  orig: 196, 429
-  offset: 6, 80
-  index: -1
-light
-  rotate: false
-  xy: 272, 3
-  size: 19, 19
-  orig: 24, 24
-  offset: 3, 2
+  xy: 1378, 88
+  size: 54, 58
+  orig: 392, 600
+  offset: 178, 418
   index: -1
