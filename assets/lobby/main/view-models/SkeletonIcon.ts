@@ -1,6 +1,7 @@
 import { lazyInject } from "../../../Application";
 import GameUtils from "../../../common/GameUtils";
 import RemoteSpine from "../../../common/RemoteSpine";
+import { getLocale } from "../../../common/auth/SessionManager";
 import Loading from "../../../common/loading/view-models/Loading";
 import { getGameConfiguration } from "../../../configs/GameConfigurations";
 import { uiManager } from "../../../managers/GameUIManager";
@@ -50,9 +51,15 @@ export default class SkeletonIcon extends cc.Component {
         this.gameName.node.active = false;
     }
 
-    setGameName(text: string) {
+    setGameName(text: string, gameId: number) {
         this.gameName.node.active = true;
         this.gameName.string = text;
+        const language = getLocale();
+        if (gameId === 70) {
+            if (language === "en-US" || language === "id-ID") {
+                this.gameName.fontSize -= 1;
+            }
+        }
     }
     static listGameWithoutHide = [];
 
@@ -91,9 +98,10 @@ export default class SkeletonIcon extends cc.Component {
     private async createRemoteIconNode(id: number) {
         const node = new cc.Node();
         try {
-            const configFile = uiManager.remoteIconCache[id] ? 
-                uiManager.remoteIconCache[id].configFile : await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `icon/config.json`);
-            
+            const configFile = uiManager.remoteIconCache[id]
+                ? uiManager.remoteIconCache[id].configFile
+                : await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `icon/config.json`);
+
             const iconConfig: RemoteIconConfig = configFile?.json;
 
             node.addComponent(sp.Skeleton);
@@ -102,7 +110,7 @@ export default class SkeletonIcon extends cc.Component {
             remoteSpine.id = id;
             remoteSpine.host = url;
             remoteSpine.spineName = "icon-game";
-            remoteSpine.premultipliedAlpha = iconConfig ?  iconConfig.premultipliedAlpha : false;
+            remoteSpine.premultipliedAlpha = iconConfig ? iconConfig.premultipliedAlpha : false;
             await remoteSpine.init();
             if (iconConfig?.gameNotification) {
                 this.addGameNotificationComponent(node, id, iconConfig?.gameNotification);
@@ -128,7 +136,7 @@ export default class SkeletonIcon extends cc.Component {
         notification.noticeNode = labelNode;
     }
 
-    async loadAnimation(id: number, categoryIndex: number) {        
+    async loadAnimation(id: number, categoryIndex: number) {
         const gameConfiguration = getGameConfiguration(id);
         const gameNode = gameConfiguration.isMicrosite ? await this.createRemoteIconNode(id) : await this.createIconNode(id);
         if (gameNode) {
