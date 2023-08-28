@@ -84,10 +84,10 @@ export default class SlotGameHistoryItem extends cc.Component {
             this.bg.color = this.bgHighlightColor;
         }
 
-        this.showJackpotIcon(settlementResult.jackpot, gameId);
+        this.showJackpotIcon(settlementResult.jackpot);
     }
 
-    protected showJackpotIcon(jackpot, gameId) {
+    protected showJackpotIcon(jackpot) {
         if (jackpot !== null && this.jackpotIcon) {
             this.jackpotIcon.active = true;
         }

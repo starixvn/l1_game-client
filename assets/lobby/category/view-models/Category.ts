@@ -1,7 +1,5 @@
 import AudioManager from "../../../common/audio/AudioManager";
 import CustomDisplayToggle from "../../../common/custom-button/CustomDisplayToggle";
-import { uiManager } from "../../../managers/GameUIManager";
-import { InternalEvents } from "../../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 

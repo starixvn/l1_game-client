@@ -233,11 +233,10 @@ describe("SlotGameHistoryItem", () => {
             it("should not do anything", () => {
                 // Arrange
                 const jackpot = null;
-                const gameId = 199;
                 comp.jackpotIcon.active = false;
 
                 // Act
-                comp["showJackpotIcon"](jackpot, gameId);
+                comp["showJackpotIcon"](jackpot);
 
                 // Assert
                 expect(comp.jackpotIcon.active).toEqual(false);
@@ -255,7 +254,7 @@ describe("SlotGameHistoryItem", () => {
                 comp.jackpotIcon.active = false;
 
                 // Act
-                comp["showJackpotIcon"](jackpot, gameId);
+                comp["showJackpotIcon"](jackpot);
 
                 // Assert
                 expect(comp.jackpotIcon.active).toEqual(true);

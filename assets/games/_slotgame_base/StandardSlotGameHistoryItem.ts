@@ -11,21 +11,27 @@ export default class StandardSlotGameHistoryItem extends SlotGameHistoryItem {
 
         const { betWin, settlementResult } = betLog;
         let win = betWin;
-        if (settlementResult.jackpot !== null) {
+        const { jackpot } = settlementResult;
+        if (jackpot !== null) {
             win += settlementResult.jackpot.winningAmount;
+            this.updateJackpotSprite(jackpot, gameId);
         }
         this.win.node.color = win > 0 ? this.textHighlightColor : this.textNormalColor;
     }
 
-    protected showJackpotIcon(jackpot, gameId) {
+    protected showJackpotIcon(jackpot) {
         if (jackpot !== null) {
-            const gameAtlas = uiManager.prefabCache.gameAtlas[gameId];
-            const sprite = this.jackpotIcon.getComponent(cc.Sprite);
-            const suffix = getLocale() === "vi-VN" ? `.${getLocale()}` : "";
-            gameAtlas && (sprite.spriteFrame = gameAtlas.getSpriteFrame(`history-jackpot${suffix}`));
             this.jackpotIcon.active = true;
         } else {
             this.jackpotIcon.active = false;
         }
+    }
+
+    private updateJackpotSprite(jackpot, gameId) {
+        const gameAtlas = uiManager.prefabCache.gameAtlas[gameId];
+        const sprite = this.jackpotIcon.getComponent(cc.Sprite);
+        const lang = getLocale();
+        const suffix = lang === "vi-VN" ? `.${lang}` : "";
+        gameAtlas && (sprite.spriteFrame = gameAtlas.getSpriteFrame(`history-jackpot${suffix}`));
     }
 }

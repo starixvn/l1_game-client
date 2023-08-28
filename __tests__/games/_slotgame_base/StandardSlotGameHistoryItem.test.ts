@@ -84,6 +84,7 @@ describe("StandardSlotGameHistoryItem", () => {
             // Arrange
             comp["calculateWinningAmount"] = jest.fn();
             comp["showJackpotIcon"] = jest.fn();
+            comp["updateJackpotSprite"] = jest.fn();
         });
 
         describe("when betWin > 0", () => {
@@ -115,11 +116,10 @@ describe("StandardSlotGameHistoryItem", () => {
             it("should show jackpot icon", () => {
                 // Arrange
                 const jackpot = { winningAmount: 5512.5, winningLine: 1 };
-                const gameId = 199;
                 comp.jackpotIcon.active = false;
 
                 // Act
-                comp["showJackpotIcon"](jackpot, gameId);
+                comp["showJackpotIcon"](jackpot);
 
                 // Assert
                 expect(comp.jackpotIcon.active).toEqual(true);
@@ -129,11 +129,10 @@ describe("StandardSlotGameHistoryItem", () => {
             it("should hide jackpot icon", () => {
                 // Arrange
                 const jackpot = null;
-                const gameId = 199;
                 comp.jackpotIcon.active = true;
 
                 // Act
-                comp["showJackpotIcon"](jackpot, gameId);
+                comp["showJackpotIcon"](jackpot);
 
                 // Assert
                 expect(comp.jackpotIcon.active).toEqual(false);

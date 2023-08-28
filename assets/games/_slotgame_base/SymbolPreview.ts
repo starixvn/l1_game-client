@@ -33,9 +33,9 @@ export default class SymbolPreview extends cc.Component {
     textImages: cc.Node = null;
 
     gameId: number;
-    private readonly jackpotSymbol = 10;
-    private readonly bonusSymbol = 8;
-    private readonly freeSpinsSymbol = 7;
+    private readonly JackpotSymbol = 10;
+    private readonly BonusSymbol = 8;
+    private readonly FreeSpinsSymbol = 7;
 
     onLoad() {
         const events = [
@@ -60,7 +60,7 @@ export default class SymbolPreview extends cc.Component {
     }
 
     showSymbolText(symbolNumber: number, textColor: string) {
-        const showText = symbolNumber === this.freeSpinsSymbol || symbolNumber === this.bonusSymbol;
+        const showText = symbolNumber === this.FreeSpinsSymbol || symbolNumber === this.BonusSymbol;
         const atlas = uiManager.prefabCache.gameAtlas[this.gameId];
 
         if (!showText) {
@@ -91,10 +91,10 @@ export default class SymbolPreview extends cc.Component {
     getSymbolName(symbolNumber: number): string {
         let symbolName = "";
         switch (symbolNumber) {
-            case this.freeSpinsSymbol:
+            case this.FreeSpinsSymbol:
                 symbolName = "freespins";
                 break;
-            case this.bonusSymbol:
+            case this.BonusSymbol:
                 symbolName = "bonus";
                 break;
         }
@@ -118,7 +118,7 @@ export default class SymbolPreview extends cc.Component {
             const values = [key, odds[key]];
             node.children.forEach((child, childIndex) => {
                 const isShowJackpotText =
-                    symbol.index === this.jackpotSymbol &&
+                    symbol.index === this.JackpotSymbol &&
                     jackpotEnabled &&
                     index === keys.length - 1 &&
                     childIndex === node.children.length - 1;

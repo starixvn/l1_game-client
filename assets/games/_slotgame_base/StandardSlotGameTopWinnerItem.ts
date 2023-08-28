@@ -22,8 +22,8 @@ export default class StandardSlotGameTopWinnerItem extends SlotGameTopWinnerItem
         }
 
         this.amount.string = amountValue;
-        this.win.string = showBigWin
-            ? numberWithCommas(GameUtils.getValueByExchangeRateCode(baseWinAmount ?? winningAmount * rate, exchangeRateCode), 2)
-            : numberWithCommas(GameUtils.getValueByExchangeRateCode(winningAmount, exchangeRateCode), 2);
+
+        const winValue = showBigWin ? baseWinAmount ?? winningAmount * rate : winningAmount;
+        this.win.string = numberWithCommas(GameUtils.getValueByExchangeRateCode(winValue, exchangeRateCode), 2);
     }
 }
