@@ -97,6 +97,9 @@ export default class SymbolPreview extends cc.Component {
             case this.BonusSymbol:
                 symbolName = "bonus";
                 break;
+            case this.JackpotSymbol:
+                symbolName = "jackpot";
+                break;
         }
 
         return symbolName;
@@ -127,6 +130,10 @@ export default class SymbolPreview extends cc.Component {
                 const jackpotNode = child.children[0];
                 if (isShowJackpotText) {
                     jackpotNode.active = true;
+                    const atlas = uiManager.prefabCache.gameAtlas[this.gameId];
+                    const jackpotSprite = jackpotNode.getComponent(cc.Sprite);
+                    const symbolName = this.getSymbolName(this.JackpotSymbol);
+                    jackpotSprite.spriteFrame = atlas.getSpriteFrame(`text-symbol-${symbolName}`);
                     jackpotNode.color = cc.Color.WHITE.fromHEX(colorList[childIndex]);
 
                     label.string = "";
