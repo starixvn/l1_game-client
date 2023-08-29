@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "2hX2xOOGgssTMJ7Re0hQ01cfIRk", "spine": "3.8.99", "x": -849, "y": -184.67, "width": 1698, "height": 356.67 },
+"skeleton": { "hash": "JiZ6jDYfCwfR+dYezYuwfH8Eevs", "spine": "3.8.99", "x": -849, "y": -184.67, "width": 1698, "height": 356.67 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "character", "parent": "root" },
@@ -170,7 +170,6 @@
 	{ "name": "text2", "parent": "character", "y": 136.05 }
 ],
 "slots": [
-	{ "name": "bg", "bone": "root" },
 	{ "name": "fx_bloom", "bone": "fx_bloom", "blend": "additive" },
 	{ "name": "fx_bloom2", "bone": "fx_bloom2", "attachment": "fx_bloom", "blend": "additive" },
 	{ "name": "fx_sparkle5", "bone": "fx_sparkle1", "color": "ffe806ff", "blend": "additive" },
@@ -1793,7 +1792,7 @@
 					{ "time": 0.7667, "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
 					{ "time": 0.8667, "color": "ffffffff", "curve": "stepped" },
 					{ "time": 1.2, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
-					{ "time": 2, "color": "ffffff00" }
+					{ "time": 1.4667, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "name": null },
