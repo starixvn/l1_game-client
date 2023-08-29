@@ -1,3 +1,4 @@
+import { getLocale } from "../../common/auth/SessionManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 
@@ -98,7 +99,8 @@ export default class SymbolPreview extends cc.Component {
                 symbolName = "bonus";
                 break;
             case this.JackpotSymbol:
-                symbolName = "jackpot";
+                const locale = getLocale();
+                symbolName = locale === "vi-VN" ? "jackpot.vi-VN" : "jackpot";
                 break;
         }
 
