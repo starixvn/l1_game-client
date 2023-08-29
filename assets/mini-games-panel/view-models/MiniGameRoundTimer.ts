@@ -60,6 +60,7 @@ export default class MiniGameRoundTimer extends cc.Component {
 
     onDestroy() {
         uiManager.removeListenersWithTarget(this);
+        this.playTimeInterval && clearInterval(this.playTimeInterval);
     }
 
     private isInRound() {
