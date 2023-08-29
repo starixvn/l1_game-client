@@ -1,5 +1,5 @@
 const defaultConfig = {
-    systemType: "SC2",
+    systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
         localhost: "lumigame.com",
