@@ -70,4 +70,8 @@ export default class MockedGameUtils {
         noZeroSuffix?: boolean;
         prefixStr?: string;
     }) {}
+
+    public static loadResource(path: string): Promise<cc.Prefab> {
+        return null;
+    }
 }

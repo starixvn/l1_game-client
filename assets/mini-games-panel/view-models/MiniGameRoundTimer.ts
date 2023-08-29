@@ -47,8 +47,11 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.roundTime = node.getComponent(RoundTime);
         this.time.addChild(node);
         this.hideRoundTimer();
-
         roundTimerManager.roundData && this.onReceivedData(roundTimerManager.roundData);
+        this.registerEvents();
+    }
+
+    private registerEvents() {
         uiManager.emitterListener(InternalEvents.RECEIVED_ROUND_TIMER, (data) => this.onReceivedData(data), this);
         uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.hideRoundTimer(), this);
         uiManager.emitterListener(InternalEvents.GAME_IS_UM, (gameId) => this.handleDisabledGame(gameId), this);
