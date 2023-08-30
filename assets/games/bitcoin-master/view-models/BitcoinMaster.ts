@@ -165,16 +165,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
         this.currentMiniPanel.chartsWebView[this.gameName] = this.chartWebView;
         this.currentMiniPanel.addNewLayerCallback(this.gameName, () => {
-            const zIndex = this.node.getSiblingIndex();
-            const aboverOtherNodes = this.currentMiniPanel.miniGames.children.filter(
-                (child) => child.active && zIndex < child.getSiblingIndex()
-            );
-            if (
-                aboverOtherNodes.length > 0 ||
-                this.currentMiniPanel.noticeContainer.childrenCount > 0 ||
-                this.currentMiniPanel.guideContainer.childrenCount > 0 ||
-                this.currentMiniPanel.dialog.childrenCount > 0
-            ) {
+            if (this.isOpeningMiniGameAndDialog()) {
                 this.hideChart();
             } else {
                 this.showChart();
@@ -188,7 +179,30 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.isPhone = /android|iphone/.test(userAgent);
 
         uiManager.emitterListener(InternalEvents.SHOW_POPUP_MINI_GAMES, () => this.hideChart(), this);
-        uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.showChart(), this);
+        uiManager.emitterListener(
+            InternalEvents.HIDE_POPUP_MINI_GAMES,
+            () => {
+                if (this.isOpeningMiniGameAndDialog()) {
+                    return;
+                }
+                this.showChart();
+            },
+            this
+        );
+    }
+
+    isOpeningMiniGameAndDialog(): boolean {
+        const zIndex = this.node.getSiblingIndex();
+        const aboverOtherNodes = this.currentMiniPanel.miniGames.children.filter(
+            (child) => child.active && zIndex < child.getSiblingIndex()
+        );
+
+        return (
+            aboverOtherNodes.length > 0 ||
+            this.currentMiniPanel.noticeContainer.childrenCount > 0 ||
+            this.currentMiniPanel.guideContainer.childrenCount > 0 ||
+            this.currentMiniPanel.dialog.childrenCount > 0
+        );
     }
 
     hideStatistic() {
