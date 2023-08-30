@@ -46,7 +46,7 @@ const WebviewEventType = {
 };
 
 @ccclass
-export default class BaseMicrositeGameIframe extends cc.Component {
+export default class BaseMicrositeGame extends cc.Component {
     @property(CustomWebView)
     webview: CustomWebView = null;
 

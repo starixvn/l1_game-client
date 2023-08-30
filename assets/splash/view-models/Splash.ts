@@ -5,27 +5,22 @@ import { InternalEvents } from "../../managers/InternalEvents";
 import * as SessionManager from "../../common/auth/SessionManager";
 import { buildProxyUrl } from "../../common/helpers/UrlHelper";
 import GameUtils from "../../common/GameUtils";
-import { appManager } from "../../managers/AppManager";
 import { lazyInject } from "../../Application";
 import SocketIOController from "../../SocketIOController";
-import JoinGameHelper from "../../common/JoinGameHelper";
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class Splash extends cc.Component {
     @property(cc.Node)
     background: cc.Node = null;
 
     @property(cc.Node)
-    mainSplashNode: cc.Node = null;
+    nodeMainSplash: cc.Node = null;
 
     @property(cc.Node)
-    micrositeGameNode: cc.Node = null;
+    nodeMicrositeGame: cc.Node = null;
 
     @property(cc.Prefab)
-    micrositeGameIframe: cc.Prefab = null;
-
-    @lazyInject(SocketIOController)
-    private readonly socketIOControler: SocketIOController;
+    prfMicrositeGame: cc.Prefab = null;
 
     protected onLoad(): void {
         this.initUIListeners();
@@ -59,10 +54,10 @@ export default class NewClass extends cc.Component {
             const gameId = +urlParams.get("gameId");
             SessionManager.storeMicrositeGameId(gameId);
         }
-        const iframe = cc.instantiate(this.micrositeGameIframe);
-        this.micrositeGameNode.addChild(iframe);
-        this.micrositeGameNode.active = true;
-        this.mainSplashNode.active = false;
+        const iframe = cc.instantiate(this.prfMicrositeGame);
+        this.nodeMicrositeGame.addChild(iframe);
+        this.nodeMicrositeGame.active = true;
+        this.nodeMainSplash.active = false;
         setTimeout(() => {
             this.background.active = false;
         }, 100);
@@ -70,9 +65,9 @@ export default class NewClass extends cc.Component {
 
     private enableMainSplashScreen() {
         this.background.active = true;
-        this.mainSplashNode.active = true;
-        this.micrositeGameNode.destroyAllChildren();
-        this.micrositeGameNode.active = false;
+        this.nodeMainSplash.active = true;
+        this.nodeMicrositeGame.destroyAllChildren();
+        this.nodeMicrositeGame.active = false;
     }
 
     private async isOpenMicrositeGame() {

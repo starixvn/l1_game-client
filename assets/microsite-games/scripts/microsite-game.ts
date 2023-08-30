@@ -2,7 +2,7 @@ import NotificationService from "../../common/auth/NotificationService";
 import * as AuthManager from "../../common/auth/AuthManager";
 import * as SessionManager from "../../common/auth/SessionManager";
 import { appManager } from "../../managers/AppManager";
-import BaseMicrositeGameIframe from "../../common/BaseMicrositeGameIframe";
+import BaseMicrositeGame from "../../common/BaseMicrositeGame";
 import AudioManager from "../../common/audio/AudioManager";
 import GameUtils from "../../common/GameUtils";
 import { StorageManager } from "../../managers/StorageManager";
@@ -10,7 +10,7 @@ import { StorageManager } from "../../managers/StorageManager";
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class MicrositeGame extends BaseMicrositeGameIframe {
+export default class MicrositeGame extends BaseMicrositeGame {
     protected stopMainAction() {
         super.stopMainAction();
         NotificationService.getInstance().forceKickedOut();
@@ -22,7 +22,8 @@ export default class MicrositeGame extends BaseMicrositeGameIframe {
         if (!auData.ss) {
             return "";
         }
-        const directMode = StorageManager.get("direct_mode");
+
+        const directMode = SessionManager.getDirectMode();
         const audio = AudioManager.getInstance();
         const params = {
             ss: auData.ss,

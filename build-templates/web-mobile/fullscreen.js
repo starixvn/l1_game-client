@@ -18,6 +18,14 @@ const userAgent = window.navigator.userAgent;
 const ios15 = /OS 15/.test(userAgent);
 const instruction = document.getElementById("myInstruction");
 
+function reloadMicrositeWhenSSO() {
+    const micrositeIframe = document.getElementById("microsite");
+    const tokenKey = "?token";
+    if (micrositeIframe?.src?.includes(tokenKey)) {
+        micrositeIframe.src = window.microsite?.hasSSO ? micrositeIframe.src.split(tokenKey)[0] : micrositeIframe.src;
+    }
+}
+
 function toggleFullScreen() {
     const doc = window.document;
     const docEl = document.documentElement;
@@ -39,11 +47,8 @@ function toggleFullScreen() {
     ) {
         requestFullScreen.call(docEl);
     }
-    const micrositeIframe = document.getElementById("microsite");
-    const tokenKey = "?token";
-    if (micrositeIframe?.src?.includes(tokenKey)) {
-        micrositeIframe.src = window.microsite?.hasSSO ? micrositeIframe.src.split(tokenKey)[0] : micrositeIframe.src;
-    }
+
+    reloadMicrositeWhenSSO();
 }
 
 function showAddressBar() {

@@ -106,6 +106,14 @@ export function removeInRoomGameId() {
     StorageManager.remove(getInRoomGameIdKey());
 }
 
+export function getDirectMode() {
+    return StorageManager.get("direct_mode");
+}
+
+export function storeDirectMode(data) {
+    StorageManager.set("direct_mode", data);
+}
+
 export function removeDirectMode() {
     StorageManager.remove("direct_mode");
 }

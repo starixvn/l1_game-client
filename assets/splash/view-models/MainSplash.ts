@@ -18,7 +18,7 @@ const splashConfig = appContainer.get(SplashConfig);
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Splash extends cc.Component {
+export default class MainSplash extends cc.Component {
     @property(RandomWaitingMessage)
     messageComp: RandomWaitingMessage = null;
 

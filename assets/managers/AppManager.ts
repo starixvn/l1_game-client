@@ -145,11 +145,11 @@ class AppManager {
             returnUrl: this.urlInfo[UrlInfo.ReturnUrl],
             directGameId: this.urlInfo[UrlInfo.DirectGameId]
         };
-        StorageManager.set("direct_mode", data);
+        sessionManager.storeDirectMode(data);
     }
 
     private loadDirectModeInfo() {
-        const data = StorageManager.get("direct_mode");
+        const data = sessionManager.getDirectMode();
         if (data) {
             if (window.authData.ss === data.ss) {
                 this.urlInfo[UrlInfo.Ref] = data[UrlInfo.Ref];

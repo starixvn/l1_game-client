@@ -1,6 +1,6 @@
 import * as AuthManager from "../../common/auth/AuthManager";
 import * as SessionManager from "../../common/auth/SessionManager";
-import BaseMicrositeGameIframe from "../../common/BaseMicrositeGameIframe";
+import BaseMicrositeGame from "../../common/BaseMicrositeGame";
 import GameUtils from "../../common/GameUtils";
 import { appManager } from "../../managers/AppManager";
 import { uiManager } from "../../managers/GameUIManager";
@@ -10,7 +10,7 @@ import { UrlInfo } from "../../managers/UrlInfo";
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class MicrositeGameIframe extends BaseMicrositeGameIframe {
+export default class MicrositeGameWebView extends BaseMicrositeGame {
     protected getMicrositeGameQueryString() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("token")) {
