@@ -1,10 +1,11 @@
 import GameUtils from "../../common/GameUtils";
+import { GameRoundTimerData } from "./RoundTimerData";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class CustomeRoundTimerResult extends cc.Component {
-    show(data) {
+    show(data: GameRoundTimerData) {
         if (!data.settlementResult) {
             return;
         }

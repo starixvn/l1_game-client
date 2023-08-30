@@ -1,5 +1,6 @@
 import GameUtils from "../../common/GameUtils";
 import CustomeRoundTimerResult from "./CustomeRoundTimerResult";
+import { GameRoundTimerData } from "./RoundTimerData";
 import RoundTimerResultText from "./RoundTimerResultText";
 
 const { ccclass, property } = cc._decorator;
@@ -22,7 +23,7 @@ export default class RoundTimerResult extends cc.Component {
     })
     customResultPrefab: cc.Prefab = null;
 
-    public betOptions;
+    public betOptions: string[] = [];
     private customResultNode: cc.Node = null;
 
     async initCustomResult() {
@@ -38,19 +39,19 @@ export default class RoundTimerResult extends cc.Component {
         }
     }
 
-    setResult(data) {
+    setResult(data: GameRoundTimerData) {
         if (!this.customResultNode) {
             return;
         }
         this.resultType === RoundTimerResultType.TEXT ? this.loadText(data) : this.loadCustomResult(data);
     }
 
-    private loadCustomResult(data) {
+    private loadCustomResult(data: GameRoundTimerData) {
         const customResult = this.customResultNode.getComponent(CustomeRoundTimerResult);
         customResult.show(data);
     }
 
-    private loadText(data) {
+    private loadText(data: GameRoundTimerData) {
         const customResult = this.customResultNode.getComponent(RoundTimerResultText);
         customResult.show(data, this.betOptions);
     }

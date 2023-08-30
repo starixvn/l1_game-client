@@ -13,25 +13,19 @@ describe("MiniGameRoundTimer", () => {
     let node: cc.Node;
     let comp: MiniGameRoundTimer;
     const data = {
-        7: {
-            id: 2572702,
+        1: {
+            id: 1717869,
             result: {
-                dragon: {
-                    card: 0,
-                    type: 2
-                },
-                tiger: {
-                    card: 10,
-                    type: 3
-                }
+                dice1: 1,
+                dice2: 6,
+                dice3: 4
             },
             settlementResult: {
-                dragon: false,
-                tiger: true,
-                tie: false
+                big: true,
+                small: false
             },
-            time: "2023-08-29T08:07:04.019Z",
-            timeFromStart: 9
+            time: "2023-08-30T04:51:14.000Z",
+            timeFromStart: 59
         }
     };
     beforeEach(() => {
@@ -218,7 +212,7 @@ describe("MiniGameRoundTimer", () => {
         describe("when have data", () => {
             beforeEach(() => {
                 // Arrange
-                comp.gameId = 7;
+                comp.gameId = 1;
 
                 // Act
                 comp["onReceivedData"](data);
@@ -266,6 +260,7 @@ describe("MiniGameRoundTimer", () => {
             comp.result.addComponent(RoundTimerResult);
             comp["roundResult"] = comp.result.getComponent(RoundTimerResult);
             comp["countDownTime"] = 57;
+            comp.gameId = 1;
         });
 
         it("should call isShowResult()", () => {
@@ -273,7 +268,7 @@ describe("MiniGameRoundTimer", () => {
             comp["isShowResult"] = jest.fn();
 
             // Act
-            comp["showResult"](timeFromStart, data);
+            comp["showResult"](timeFromStart, data[comp.gameId]);
 
             // Assert
             expect(comp["isShowResult"]).toHaveBeenCalled();
@@ -292,7 +287,7 @@ describe("MiniGameRoundTimer", () => {
                 comp.result.active = false;
 
                 // Act
-                comp["showResult"](timeFromStart, data);
+                comp["showResult"](timeFromStart, data[comp.gameId]);
 
                 // Assert
                 expect(comp.result.active).toEqual(true);
@@ -303,7 +298,7 @@ describe("MiniGameRoundTimer", () => {
                 const setResultSpy = jest.spyOn(RoundTimerResult.prototype, "setResult");
 
                 // Act
-                comp["showResult"](timeFromStart, data);
+                comp["showResult"](timeFromStart, data[comp.gameId]);
 
                 // Assert
                 expect(setResultSpy).toHaveBeenCalled();
@@ -323,7 +318,7 @@ describe("MiniGameRoundTimer", () => {
                 comp.result.active = false;
 
                 // Act
-                comp["showResult"](timeFromStart, data);
+                comp["showResult"](timeFromStart, data[comp.gameId]);
 
                 // Assert
                 expect(comp.result.active).toEqual(false);
@@ -334,7 +329,7 @@ describe("MiniGameRoundTimer", () => {
                 const setResultSpy = jest.spyOn(RoundTimerResult.prototype, "setResult");
 
                 // Act
-                comp["showResult"](timeFromStart, data);
+                comp["showResult"](timeFromStart, data[comp.gameId]);
 
                 // Assert
                 expect(setResultSpy).not.toHaveBeenCalled();

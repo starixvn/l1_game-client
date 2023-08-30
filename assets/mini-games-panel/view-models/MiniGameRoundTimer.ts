@@ -2,6 +2,7 @@ import GameUtils from "../../common/GameUtils";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import RoundTime from "./RoundTime";
+import { GameRoundTimerData, RoundTimerData } from "./RoundTimerData";
 import { roundTimerManager } from "./RoundTimerManager";
 import RoundTimerResult from "./RoundTimerResult";
 
@@ -21,7 +22,7 @@ export default class MiniGameRoundTimer extends cc.Component {
     @property
     resultDelayTime = 0;
 
-    protected betOptions;
+    protected betOptions: string[] = [];
     protected gameConfig;
     private countDownTime: number;
     private roundResult: RoundTimerResult;
@@ -80,7 +81,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.result.active = false;
     }
 
-    private onReceivedData(data) {
+    private onReceivedData(data: RoundTimerData) {
         if (!data[this.gameId]) {
             return;
         }
@@ -108,7 +109,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.showResult(timeFromStart, data[this.gameId]);
     }
 
-    private async showResult(timeFromStart, data) {
+    private async showResult(timeFromStart: number, data: GameRoundTimerData) {
         try {
             if (!timeFromStart) {
                 await GameUtils.delayTime(this.resultDelayTime);
@@ -123,7 +124,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         }
     }
 
-    private resumeRoundTimer(timeFromStart): number {
+    private resumeRoundTimer(timeFromStart: number): number {
         return Math.round(this.gameConfig.fullTime - timeFromStart);
     }
 
@@ -142,7 +143,7 @@ export default class MiniGameRoundTimer extends cc.Component {
         this.countDownTime--;
     }
 
-    private handleDisabledGame(gameId) {
+    private handleDisabledGame(gameId: number) {
         if (this.gameId !== gameId) {
             return;
         }

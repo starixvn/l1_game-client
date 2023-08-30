@@ -8,10 +8,18 @@ describe("CustomeRoundTimerResult", () => {
     let node: cc.Node;
     let comp: CustomeRoundTimerResult;
     const data = {
+        id: 1717869,
+        result: {
+            dice1: 1,
+            dice2: 6,
+            dice3: 4
+        },
         settlementResult: {
             big: true,
             small: false
-        }
+        },
+        time: "2023-08-30T04:51:14.000Z",
+        timeFromStart: 59
     };
 
     beforeEach(() => {

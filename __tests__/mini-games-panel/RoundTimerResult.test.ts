@@ -9,12 +9,26 @@ import RoundTimerResultText from "../../assets/mini-games-panel/view-models/Roun
 describe("RoundTimerResult", () => {
     let node: cc.Node;
     let comp: RoundTimerResult;
+    const gameData = {
+        id: 1717869,
+        result: {
+            dice1: 1,
+            dice2: 6,
+            dice3: 4
+        },
+        settlementResult: {
+            big: true,
+            small: false
+        },
+        time: "2023-08-30T04:51:14.000Z",
+        timeFromStart: 59
+    };
+
     beforeEach(() => {
         node = new cc.Node();
         comp = node.addComponent(RoundTimerResult);
     });
     describe("setResult", () => {
-        const data = {};
         beforeEach(() => {
             // Arrange
             comp["loadCustomResult"] = jest.fn();
@@ -38,7 +52,7 @@ describe("RoundTimerResult", () => {
                 comp.resultType = RoundTimerResultType.TEXT;
 
                 // Act
-                comp.setResult(data);
+                comp.setResult(gameData);
             });
             it("should call loadText()", () => {
                 // Assert
@@ -57,7 +71,7 @@ describe("RoundTimerResult", () => {
                 comp.resultType = RoundTimerResultType.SPRITE;
 
                 // Act
-                comp.setResult(data);
+                comp.setResult(gameData);
             });
             it("should call loadText()", () => {
                 // Assert
@@ -77,11 +91,10 @@ describe("RoundTimerResult", () => {
             comp["customResultNode"] = new cc.Node();
             comp["customResultNode"].addComponent(CustomeRoundTimerResult);
             comp.resultType = RoundTimerResultType.SPRITE;
-            const data = {};
-            const showSpy = jest.spyOn(CustomeRoundTimerResult.prototype, "show");
+            const showSpy = jest.spyOn(CustomeRoundTimerResult.prototype, "show").mockImplementation(jest.fn());
 
             // Act
-            comp["loadCustomResult"](data);
+            comp["loadCustomResult"](gameData);
 
             // Assert
             expect(showSpy).toHaveBeenCalled();
@@ -95,11 +108,10 @@ describe("RoundTimerResult", () => {
             comp["customResultNode"].addComponent(RoundTimerResultText);
             comp.resultType = RoundTimerResultType.TEXT;
             comp.betOptions = ["big", "small"];
-            const data = {};
             const showSpy = jest.spyOn(RoundTimerResultText.prototype, "show").mockImplementation(jest.fn());
 
             // Act
-            comp["loadText"](data);
+            comp["loadText"](gameData);
 
             // Assert
             expect(showSpy).toHaveBeenCalled();

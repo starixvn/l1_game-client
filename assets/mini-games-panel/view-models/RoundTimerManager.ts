@@ -1,6 +1,7 @@
 import NotificationService from "../../common/auth/NotificationService";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import { RoundTimerData } from "./RoundTimerData";
 import { RoundTimerEvents } from "./RoundTimerEvents";
 
 export default class RoundTimerManager {
@@ -36,7 +37,7 @@ export default class RoundTimerManager {
         NotificationService.getInstance().removeDataObserver(this.latestRoundTimer, this.latestRoundTimer);
     }
 
-    private onReceivedData(data) {
+    private onReceivedData(data: RoundTimerData) {
         this.roundData = data;
         uiManager.emitter.emit(InternalEvents.RECEIVED_ROUND_TIMER, data);
     }
