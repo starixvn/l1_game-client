@@ -195,6 +195,7 @@ export default class PopupMinigames extends cc.Component {
                 this.toggleRuning = false;
                 this.roundTimer.active = false;
                 roundTimerManager.requestRoundTimer();
+                uiManager.emitter.emit(InternalEvents.SHOW_POPUP_MINI_GAMES);
             })
             .start();
     }

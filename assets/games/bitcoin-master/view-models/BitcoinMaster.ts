@@ -2,6 +2,8 @@ import AudioManager from "../../../common/audio/AudioManager";
 import DraggableItem from "../../../common/draggable-layout/view-models/DraggableItem";
 import GameUtils from "../../../common/GameUtils";
 import { formatOdds } from "../../../common/helpers/NumberHelper";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
@@ -184,6 +186,9 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
         const userAgent = window.navigator.userAgent.toLowerCase();
         this.isPhone = /android|iphone/.test(userAgent);
+
+        uiManager.emitterListener(InternalEvents.SHOW_POPUP_MINI_GAMES, () => this.hideChart(), this);
+        uiManager.emitterListener(InternalEvents.HIDE_POPUP_MINI_GAMES, () => this.showChart(), this);
     }
 
     hideStatistic() {
@@ -226,6 +231,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         super.onDestroy();
         this.miniRoundHistoryUpDownContainer.isValid && this.miniRoundHistoryUpDownContainer.destroyAllChildren();
         this.miniRoundHistoryEvenOddContainer.isValid && this.miniRoundHistoryEvenOddContainer.destroyAllChildren();
+        uiManager.removeListenersWithTarget(this);
     }
 
     onData(data: any) {
