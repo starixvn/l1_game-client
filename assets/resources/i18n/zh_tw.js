@@ -240,7 +240,7 @@ const data = {
         autoSpin2: "自動旋轉",
         spin: "旋轉",
         jackpot_short: "頭獎",
-        jackpot: "頭獎",
+        jackpot: "Jackpot",
         symbol: "象徵",
         confirm2: "確認",
         noOfSymbol: "數量",

@@ -262,7 +262,7 @@ const data = {
         autoSpin2: "สปินอัตโนมัติ",
         spin: "สปิน",
         jackpot_short: "แจ็คพอต",
-        jackpot: "แจ็คพอต",
+        jackpot: "Jackpot",
         symbol: "เครื่องหมาย",
         confirm2: "ยืนยัน",
         noOfSymbol: "จำนวน",
