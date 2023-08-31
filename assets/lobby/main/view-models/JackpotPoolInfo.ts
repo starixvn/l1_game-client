@@ -40,7 +40,6 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
     onData(data) {
         const gamePools = data[this.gameId];
         if (!this.gameId || !gamePools) {
-            this.setVisibility(false);
             return;
         }
         this.setVisibility(true);
