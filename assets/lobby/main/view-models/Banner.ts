@@ -4,7 +4,7 @@ import { userManager } from "../../../common/user/UserManager";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
-import { JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
+import { jackpotManager } from "../../../managers/JackpotManager";
 import BannerController from "./BannerController";
 import DynamicAdsBannerController from "./DynamicAdsBannerController";
 import JackpotNavigation from "./JackpotNavigation";
@@ -43,11 +43,7 @@ export default class Banner extends cc.Component {
         const adsBannerContainerNode = bannerPrefabNode.getChildByName("adsBannerController");
         this.adsBannerController = adsBannerContainerNode.getComponent(DynamicAdsBannerController);
         this.adsBannerController.menuLoop = !this.showJackpotBanner;
-        !userManager.disableJackpotGames && this.requestJackpotPoolsData();
-    }
-
-    requestJackpotPoolsData() {
-        jackpotManager.emitEvent(JackpotEvents.GET_POOLS, {});
+        !userManager.disableJackpotGames && jackpotManager.requestAllJackpotPools();
     }
 
     async handleJackpot(data) {

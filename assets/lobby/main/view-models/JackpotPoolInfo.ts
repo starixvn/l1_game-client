@@ -1,7 +1,7 @@
 import { userManager } from "../../../common/user/UserManager";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
-import { JackpotEvents, jackpotManager } from "../../../managers/JackpotManager";
+import { jackpotManager } from "../../../managers/JackpotManager";
 import JackpotPoolInfoBase from "./JackpotPoolInfoBase";
 
 const { ccclass, property } = cc._decorator;
@@ -35,6 +35,7 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
 
     protected initEvents() {
         uiManager.emitterListener(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, (data) => this.onData(data), this);
+        uiManager.emitterListener(InternalEvents.HIDE_JACKPOT_POOLS_ON_GAME, (gameId) => this.hideJackpotPoolsInfo(gameId), this);
     }
 
     onData(data) {
@@ -42,14 +43,19 @@ export default class JackpotPoolInfo extends JackpotPoolInfoBase {
         if (!this.gameId || !gamePools) {
             return;
         }
+
         this.setVisibility(true);
         this.setData(gamePools);
     }
 
     protected requestData() {
-        if (!this.gameId) {
+        this.gameId && jackpotManager.requestJackpotOnGame(this.gameId);
+    }
+
+    private hideJackpotPoolsInfo(gameId: string) {
+        if (gameId !== this.gameId.toString()) {
             return;
         }
-        jackpotManager.emitEvent(JackpotEvents.GET_POOLS, { gameId: this.gameId });
+        this.setVisibility(false);
     }
 }

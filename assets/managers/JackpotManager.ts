@@ -31,6 +31,7 @@ export default class JackpotManager {
         JackpotDataKey.JACKPOT_WINNER,
         JackpotDataKey.JACKPOT_WINNERS
     ];
+    private requestedJackpotPoolGames: string[] = [];
 
     public static getInstance(): JackpotManager {
         if (!this.instance) {
@@ -71,6 +72,13 @@ export default class JackpotManager {
 
     onReceivedJackpotPoolsData(data: any) {
         let pools = lodash.groupBy(data, "gameId");
+        const jackpotGames = Object.keys(pools);
+        this.requestedJackpotPoolGames.forEach((requestedGameId) => {
+            if (!jackpotGames.includes(requestedGameId)) {
+                uiManager.emitter.emit(InternalEvents.HIDE_JACKPOT_POOLS_ON_GAME, requestedGameId);
+                jackpotManager.removeRequestedDataGame(requestedGameId);
+            }
+        });
         pools = this.filterOfferGames(pools);
         pools = this.sortPoolStakeASC(pools);
         const poolsGroup = this.groupJackpotPoolsWithType(pools);
@@ -117,7 +125,11 @@ export default class JackpotManager {
     }
 
     onReceivedJackpotPoolsOnGameData(data: any) {
+        if (!data.length) {
+            this.requestAllJackpotPools();
+        }
         const sortedPoolStakes = this.sortPoolStakeASC(lodash.groupBy(data, "gameId"));
+        jackpotManager.addRequestedDataGame(Object.keys(sortedPoolStakes)[0]);
         uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, sortedPoolStakes);
     }
 
@@ -132,6 +144,25 @@ export default class JackpotManager {
 
     removeDataObserver(dataType: string, dataKey: string) {
         NotificationService.getInstance().removeDataObserver(dataType, dataKey);
+    }
+
+    addRequestedDataGame(gameId: string) {
+        if (this.requestedJackpotPoolGames.includes(gameId)) {
+            return;
+        }
+        this.requestedJackpotPoolGames.push(gameId);
+    }
+
+    removeRequestedDataGame(gameId: string) {
+        this.requestedJackpotPoolGames = this.requestedJackpotPoolGames.filter((value) => value !== gameId);
+    }
+
+    requestAllJackpotPools() {
+        jackpotManager.emitEvent(JackpotEvents.GET_POOLS, {});
+    }
+
+    requestJackpotOnGame(gameId: number) {
+        jackpotManager.emitEvent(JackpotEvents.GET_POOLS, { gameId });
     }
 }
 

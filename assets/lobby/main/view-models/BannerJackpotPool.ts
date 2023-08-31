@@ -1,7 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
-import { JackpotEvents, jackpotManager, JackpotPoolType } from "../../../managers/JackpotManager";
+import { jackpotManager, JackpotPoolType } from "../../../managers/JackpotManager";
 import BannerJackpotPoolItem from "./BannerJackpotPoolItem";
 import JackpotPoolInfo from "./JackpotPoolInfo";
 import JackpotPoolItem from "./JackpotPoolItem";
@@ -36,7 +36,7 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
     }
 
     protected requestData() {
-        jackpotManager.emitEvent(JackpotEvents.GET_POOLS, {});
+        jackpotManager.requestAllJackpotPools();
     }
 
     selectPool(event, type) {
