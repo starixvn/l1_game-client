@@ -34,21 +34,6 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>bg.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{231,333}</string>
-                <key>spriteSourceSize</key>
-                <string>{231,333}</string>
-                <key>textureRect</key>
-                <string>{{3,1745},{231,333}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
             <key>bonus-count-item-bg.png</key>
             <dict>
                 <key>aliases</key>
@@ -169,36 +154,6 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>gold1.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{75,89}</string>
-                <key>spriteSourceSize</key>
-                <string>{75,89}</string>
-                <key>textureRect</key>
-                <string>{{773,741},{75,89}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>gold2.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{31,35}</string>
-                <key>spriteSourceSize</key>
-                <string>{31,35}</string>
-                <key>textureRect</key>
-                <string>{{869,109},{31,35}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
             <key>history-jackpot.png</key>
             <dict>
                 <key>aliases</key>
@@ -243,6 +198,51 @@
                 <string>{{869,142},{34,34}}</string>
                 <key>textureRotated</key>
                 <false/>
+            </dict>
+            <key>jackpot-gold1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{75,89}</string>
+                <key>spriteSourceSize</key>
+                <string>{75,89}</string>
+                <key>textureRect</key>
+                <string>{{773,741},{75,89}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>jackpot-gold2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{31,35}</string>
+                <key>spriteSourceSize</key>
+                <string>{31,35}</string>
+                <key>textureRect</key>
+                <string>{{869,109},{31,35}}</string>
+                <key>textureRotated</key>
+                <true/>
+            </dict>
+            <key>jackpot-pool-bg.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{231,333}</string>
+                <key>spriteSourceSize</key>
+                <string>{231,333}</string>
+                <key>textureRect</key>
+                <string>{{3,1745},{231,333}}</string>
+                <key>textureRotated</key>
+                <true/>
             </dict>
             <key>left-numbers-bg.png</key>
             <dict>
@@ -948,7 +948,7 @@
             <key>size</key>
             <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6ae05369096f338876ebcf10cf9d6f5d:b381cee5ba8a154bd3cdc4d18d474236:d2119907fc422292afb660fc3c3e380f$</string>
+            <string>$TexturePacker:SmartUpdate:1a250464d32db134ba668da09da743df:748419ef1686d61d9adafcb8789c880e:d2119907fc422292afb660fc3c3e380f$</string>
             <key>textureFileName</key>
             <string>standard-slot-game.png</string>
         </dict>
