@@ -47,7 +47,7 @@ export default class RoundTimerManager {
     }
 
     removeDisabledGames(gameId: number) {
-        this.disabledGames = this.disabledGames.filter((value) => value != gameId);
+        this.disabledGames = this.disabledGames.filter((value) => value !== gameId);
     }
 
     isDisabledGame(gameId: number) {

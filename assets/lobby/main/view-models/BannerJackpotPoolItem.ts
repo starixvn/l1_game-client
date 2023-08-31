@@ -36,11 +36,11 @@ export default class BannerJackpotPoolItem extends BannerJackpot {
         frame && (this.gameIcon.spriteFrame = frame);
     }
 
-    async getGameIcon(): Promise<cc.SpriteFrame> {
+    getGameIcon(): Promise<cc.SpriteFrame> {
         const gameConfiguration = getGameConfiguration(this.gameId);
 
         if (!!gameConfiguration?.remoteBundle) {
-            return await BundleManager.getInstance().loadAsset<cc.SpriteFrame>({
+            return BundleManager.getInstance().loadAsset<cc.SpriteFrame>({
                 bundleId: this.gameId.toString(),
                 path: "resources/textures/icon-game-small",
                 type: cc.SpriteFrame
