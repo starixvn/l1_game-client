@@ -4,7 +4,7 @@ import { unbalancedBigSmallConfigs } from "./UnbalancedBigSmallConfig";
 const { ccclass } = cc._decorator;
 
 @ccclass
-export default class MiniSedieRoundTimer extends MiniGameRoundTimer {
+export default class UnbalanceBigSmallRoundTimer extends MiniGameRoundTimer {
     betOptions = ["big", "small"];
 
     override initGameConfig() {

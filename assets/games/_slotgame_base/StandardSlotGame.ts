@@ -330,10 +330,10 @@ export default class StandardSlotGame extends SlotGameBase {
         uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
     }
 
-    protected async addSymbolCache(index: number) {
+    protected addSymbolCache(index: number) {
         const path = this.getSymbolName(index);
         const devPath = `../games/*/${path}`;
-        return await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
+        return BundleManager.getInstance().loadAsset<sp.SkeletonData>({
             bundleId: this.gameId.toString(),
             path: path,
             pathForDevMode: devPath,
