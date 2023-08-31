@@ -56,11 +56,11 @@ export default class Banner extends cc.Component {
         }
         this.showJackpotBanner = !userManager.disableJackpotGames && !!Object.keys(data).length;
         this.adsBannerController.menuLoop = !this.showJackpotBanner;
-        this.adsBannerController.onEndingRound = () => {
+        this.adsBannerController.onEndingRound = (rightDirection) => {
             if (this.showJackpotBanner && this.adsToggle && this.jackpotToggle) {
                 this.adsToggle.isChecked = false;
                 this.jackpotToggle.isChecked = true;
-                this.switchBanner(true);
+                this.switchBanner(true, false, rightDirection);
             }
         };
 
@@ -105,11 +105,11 @@ export default class Banner extends cc.Component {
         this.jackpotBannerContainer = jackpotNode;
         jackpotBannerNode.active = false;
 
-        jackpotNode.getComponent(BannerController).onEndingRound = () => {
+        jackpotNode.getComponent(BannerController).onEndingRound = (rightDirection) => {
             this.jackpotToggle.isChecked = false;
             this.adsToggle.isChecked = true;
 
-            this.switchBanner(false);
+            this.switchBanner(false, false, rightDirection);
         };
     }
 
@@ -143,20 +143,17 @@ export default class Banner extends cc.Component {
         return filterList;
     }
 
-    switchBanner(showJackpot: boolean, reset = false) {
+    switchBanner(showJackpot: boolean, reset = false, rightDirection = true) {
         cc.tween(this.node)
             .delay(0.1)
             .call(() => {
                 this.adsBannerController.node.active = !showJackpot;
                 this.jackpotBannerContainer.active = showJackpot;
 
-                const currentContainer = showJackpot ? this.adsBannerController : this.jackpotBannerContainer;
                 const newContainer = !showJackpot ? this.adsBannerController : this.jackpotBannerContainer;
-
-                const currentController = currentContainer.getComponent(BannerController);
                 const newController = newContainer.getComponent(BannerController);
 
-                if (currentController.currentIndex > 0 || reset) {
+                if (rightDirection || reset) {
                     newController.showFirstPage();
                 } else {
                     newController.showLastPage();

@@ -27,7 +27,7 @@ export default class BannerController extends cc.Component {
     private started = false;
     private isScrollNestedScrollView = false;
     public menuLoop = false;
-    public onEndingRound = () => {};
+    public onEndingRound = (rightDirection: boolean) => {};
 
     onLoad() {
         this.enableTouch();
@@ -176,7 +176,7 @@ export default class BannerController extends cc.Component {
         if (this.currentIndex >= this.content.childrenCount) {
             if (!this.menuLoop) {
                 this.currentIndex = this.content.childrenCount - 1;
-                this.onEndingRound();
+                this.onEndingRound(true);
                 return;
             } else {
                 this.currentIndex = 0;
@@ -190,7 +190,7 @@ export default class BannerController extends cc.Component {
         if (this.currentIndex < 0) {
             if (!this.menuLoop) {
                 this.currentIndex = 0;
-                this.onEndingRound();
+                this.onEndingRound(false);
                 return;
             } else {
                 this.currentIndex = this.content.childrenCount - 1;
