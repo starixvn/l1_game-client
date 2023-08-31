@@ -20,6 +20,7 @@ import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import Loading from "./loading/view-models/Loading";
 import { userManager } from "./user/UserManager";
+import { sentryLogger } from "./logger";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
@@ -320,7 +321,12 @@ export default class GameUtils {
         const url = `${buildMicrositeGameUrl(gameId)}/health`;
         try {
             const response = await axios.get(url);
-            return response.status === 200;
+            if (response.data?.toString().trim() === "healthy") {
+                return true;
+            } else {
+                sentryLogger.log(JSON.stringify(response));
+                return false;
+            }
         } catch (error) {
             return false;
         }

@@ -1,7 +1,6 @@
 import GameUtils from "./GameUtils";
 import { uiManager } from "../managers/GameUIManager";
 
-
 const { ccclass, property } = cc._decorator;
 
 enum SpineFile {
@@ -33,15 +32,12 @@ export default class RemoteSpine extends cc.Component {
     }
 
     async loadResources() {
-        if(uiManager.remoteIconCache[this.id]){
-            const t1 = new Date();
+        if (uiManager.remoteIconCache[this.id]) {
             this.spine.skeletonData = uiManager.remoteIconCache[this.id].skeletonData;
             this.spine.premultipliedAlpha = this.premultipliedAlpha;
             this.spine.enableBatch = true;
             this.spine.defaultAnimation = this.animationName;
             this.spine.setAnimation(0, this.animationName, true);
-            const t2 = new Date();        
-            console.log("time ", t2.getTime() - t1.getTime());
         }
     }
 }
