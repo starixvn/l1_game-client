@@ -120,13 +120,13 @@ describe("BannerJackpotPool", () => {
     describe("requestData", () => {
         it("should call emitEvent of jackpot manager", () => {
             // Arrange
-            const emitEventSpy = jest.spyOn(jackpotManager, "emitEvent");
+            const requestAllJackpotPoolsSpy = jest.spyOn(jackpotManager, "requestAllJackpotPools");
 
             // Act
             comp["requestData"]();
 
             // Assert
-            expect(emitEventSpy).toHaveBeenCalled();
+            expect(requestAllJackpotPoolsSpy).toHaveBeenCalled();
         });
     });
 
