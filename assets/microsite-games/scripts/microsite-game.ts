@@ -1,10 +1,10 @@
-import NotificationService from "../../common/auth/NotificationService";
+import BaseMicrositeGame from "../../common/BaseMicrositeGame";
+import GameUtils from "../../common/GameUtils";
+import AudioManager from "../../common/audio/AudioManager";
 import * as AuthManager from "../../common/auth/AuthManager";
+import NotificationService from "../../common/auth/NotificationService";
 import * as SessionManager from "../../common/auth/SessionManager";
 import { appManager } from "../../managers/AppManager";
-import BaseMicrositeGame from "../../common/BaseMicrositeGame";
-import AudioManager from "../../common/audio/AudioManager";
-import GameUtils from "../../common/GameUtils";
 
 const { ccclass } = cc._decorator;
 
@@ -33,7 +33,8 @@ export default class MicrositeGame extends BaseMicrositeGame {
             rurl: appManager.checkDirectModeRefData(directMode?.ref) ? directMode?.returnUrl : GameUtils.base64Encode(window.location.href),
             purl: GameUtils.base64Encode(window.location.href),
             musicEnable: audio.musicEnabled,
-            sfxEnable: audio.sfxEnabled
+            sfxEnable: audio.sfxEnabled,
+            isUserGesture: audio.isUserGesture
         };
 
         const searchParams = new URLSearchParams();

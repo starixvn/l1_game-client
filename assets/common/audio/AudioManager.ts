@@ -18,6 +18,9 @@ export default class AudioManager {
     private readonly MusicStorageKey = "SOUND_BACKGROUND";
     private readonly SFXStorageKey = "SOUND_GAME";
 
+    // The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page
+    public isUserGesture = false;
+
     init() {
         this.initDefaultStorage();
         this.initTouchBinded();
@@ -37,6 +40,7 @@ export default class AudioManager {
         const touchMove = "ontouchmove" in window ? "touchmove" : "mousemove";
         cc.game.canvas.addEventListener(touchStart, () => {
             this.touchStart = true;
+            this.isUserGesture = true;
         });
         cc.game.canvas.addEventListener(touchMove, () => {
             this.touchStart = false;
@@ -48,6 +52,7 @@ export default class AudioManager {
 
             this.touchStart = false;
             this.isReady = true;
+            this.isUserGesture = true;
         });
     }
 
