@@ -1,16 +1,17 @@
-import { StorageManager } from "../managers/StorageManager";
-import AudioManager from "./audio/AudioManager";
-import GameUtils from "./GameUtils";
-import * as SessionManager from "./auth/SessionManager";
-import CustomWebView from "./CustomWebView";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
-import { initialize as initGameConfiguration } from "../configs/GameConfigurations";
 import { lazyInject } from "../Application";
-import { appManager } from "../managers/AppManager";
 import SocketIOController from "../SocketIOController";
+import { initialize as initGameConfiguration } from "../configs/GameConfigurations";
+import { appManager } from "../managers/AppManager";
+import { StorageManager } from "../managers/StorageManager";
+import CustomWebView from "./CustomWebView";
+import GameUtils from "./GameUtils";
 import JoinGameHelper from "./JoinGameHelper";
-import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
+import AudioManager from "./audio/AudioManager";
+import MusicPlayer from "./audio/MusicPlayer";
 import * as AuthManager from "./auth/AuthManager";
+import * as SessionManager from "./auth/SessionManager";
+import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -80,6 +81,8 @@ export default class BaseMicrositeGame extends cc.Component {
         const audio = AudioManager.getInstance();
         audio.stopMusic();
         audio.stopAllSFX();
+        const musicPlayer = MusicPlayer.getInstance();
+        musicPlayer.stopBackgroundAudio();
     }
 
     protected loadMicrositeGame() {
