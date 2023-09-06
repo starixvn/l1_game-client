@@ -33,7 +33,7 @@ export default class StandardSlotGameTicketDetail extends SlotGameTicketDetail {
         if (this.enableJackpot && symbolNumber === this.jackpotSymbolNumber) {
             const language = getLocale();
             const suffix = language === "vi-VN" ? `.${language}` : "";
-            spriteFrame = this.mainAtlas.getSpriteFrame(`symbol-${symbolNumber}.jackpot${suffix}}`);
+            spriteFrame = this.mainAtlas.getSpriteFrame(`symbol-${symbolNumber}.jackpot${suffix}`);
         } else {
             spriteFrame = this.mainAtlas.getSpriteFrame(`symbol-${symbolNumber}`);
         }
