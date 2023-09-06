@@ -18,7 +18,8 @@ export default class AudioManager {
     private readonly MusicStorageKey = "SOUND_BACKGROUND";
     private readonly SFXStorageKey = "SOUND_GAME";
 
-    // The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page
+    // The AudioContext was not allowed to start.
+    // It must be resumed (or created) after a user gesture on the page
     public isUserGesture = false;
 
     init() {

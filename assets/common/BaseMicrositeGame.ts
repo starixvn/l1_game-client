@@ -18,6 +18,7 @@ const { ccclass, property } = cc._decorator;
 declare global {
     interface Window {
         microsite: any;
+        isUserGesture: boolean;
     }
 }
 
@@ -40,6 +41,7 @@ export type MicrositeGameParams = {
     promotion?: string;
     clearQueryStringOnUrl?: boolean;
     splashEnabled?: boolean;
+    isUserGesture?: boolean;
 };
 
 const WebviewEventType = {
@@ -125,7 +127,13 @@ export default class BaseMicrositeGame extends cc.Component {
         if (data.clearQueryStringOnUrl) {
             AuthManager.clearQueryStringOnUrl();
         }
+        if (data.isUserGesture) {
+            AudioManager.getInstance().isUserGesture = true;
+            window.isUserGesture = true;
+        }
+
         this.handleChangeAudio(data);
+        this.handleUserGesturePage();
     }
 
     protected getMicrositeGameQueryString() {
@@ -187,5 +195,10 @@ export default class BaseMicrositeGame extends cc.Component {
                 GameUtils.openGame(joinGameHelper.getGameId(gameId), appManager.miniPanel);
             });
         }
+    }
+
+    private async handleUserGesturePage() {
+        const isUserGesture = AudioManager.getInstance().isUserGesture;
+        this.postMessageToMicrosite({ isUserGesture });
     }
 }

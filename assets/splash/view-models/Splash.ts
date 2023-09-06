@@ -1,12 +1,10 @@
 const { ccclass, property } = cc._decorator;
 import axios from "axios";
-import { uiManager } from "../../managers/GameUIManager";
-import { InternalEvents } from "../../managers/InternalEvents";
+import GameUtils from "../../common/GameUtils";
 import * as SessionManager from "../../common/auth/SessionManager";
 import { buildProxyUrl } from "../../common/helpers/UrlHelper";
-import GameUtils from "../../common/GameUtils";
-import { lazyInject } from "../../Application";
-import SocketIOController from "../../SocketIOController";
+import { uiManager } from "../../managers/GameUIManager";
+import { InternalEvents } from "../../managers/InternalEvents";
 
 @ccclass
 export default class Splash extends cc.Component {
