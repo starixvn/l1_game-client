@@ -219,7 +219,8 @@ export default class StandardSlotGame extends SlotGameBase {
             [ClassicSlotSound.BONUS_TOTAL]: "bonus-total",
 
             [ClassicSlotSound.TRANSITION]: "transition",
-            [ClassicSlotSound.SYMBOL_WIN]: "symbol-win"
+            [ClassicSlotSound.SYMBOL_WIN]: "symbol-win",
+            [ClassicSlotSound.JACKPOT]: "jackpot-win"
         };
 
         for (const key of Object.keys(dict)) {
@@ -500,6 +501,12 @@ export default class StandardSlotGame extends SlotGameBase {
     async showEffectBonus(bonus: number): Promise<void> {
         const transtition = await this.playEffectTransition();
         await super.showEffectBonus(bonus);
+        transtition?.destroy();
+    }
+
+    async showEffectJackpot(amount: number) {
+        const transtition = await this.playEffectTransition();
+        await super.showEffectJackpot(amount);
         transtition?.destroy();
     }
 
