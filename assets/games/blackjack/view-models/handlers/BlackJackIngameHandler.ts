@@ -6,7 +6,7 @@ import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
 export default class BlackJackIngameHandler implements DataHandler {
-    constructor(private readonly main: BlackJack) {}
+    constructor(protected readonly main: BlackJack) {}
 
     handle(data: any) {
         if (data.ownBets) {
@@ -19,24 +19,7 @@ export default class BlackJackIngameHandler implements DataHandler {
             this.main.newGame();
         } else {
             this.main.setIntervalReminder();
-            const dealerCards = ownBets.dealer;
-            dealerCards.forEach((card) => {
-                const cardNode = this.main.createCard(card);
-                this.main.dealerHand.addCard(cardNode);
-
-                const cardComponent = cardNode.getComponent(NewCard);
-                cardComponent.faceUp();
-            });
-
-            if (dealerCards.length < 2) {
-                const cardNode = this.main.createCard(null);
-                const cardComponent = cardNode.getComponent(NewCard);
-                cardComponent.faceDown();
-                this.main.dealerHand.addCard(cardNode);
-                this.main.dealerHand.cardLayout.updateLayout();
-                this.main.dealerHand.showScoreWithOutData(dealerCards, 1);
-            }
-
+            this.createDealerCards(ownBets.dealer);
             const hands = ownBets.hands;
             hands.forEach((hand) => {
                 const pos = hand.pos - 1;
@@ -74,6 +57,31 @@ export default class BlackJackIngameHandler implements DataHandler {
             this.main.handPlaces.forEach((place) => place.enablePlaceChip(false));
             this.main.updateTotalBetLabel();
             this.main.switchToNextHand();
+        }
+    }
+
+    createDealerCards(dealerCards) {
+        dealerCards.forEach((card) => {
+            const cardNode = this.main.createCard(card);
+            this.main.dealerHand.addCard(cardNode);
+
+            const cardComponent = cardNode.getComponent(NewCard);
+            cardComponent.faceUp();
+        });
+
+        if (dealerCards.length < 2) {
+            this.createFaceDownCards(1);
+            this.main.dealerHand.cardLayout.updateLayout();
+            this.main.dealerHand.showScoreWithOutData(dealerCards, 1);
+        }
+    }
+
+    createFaceDownCards(noOfCards: number) {
+        for (let i = 0; i < noOfCards; i++) {
+            const cardNode = this.main.createCard(null);
+            const cardComponent = cardNode.getComponent(NewCard);
+            cardComponent.faceDown();
+            this.main.dealerHand.addCard(cardNode);
         }
     }
 }
