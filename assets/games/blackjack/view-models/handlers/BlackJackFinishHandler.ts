@@ -1,5 +1,6 @@
 import ChipStack from "../../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
+import GameUtils from "../../../../common/GameUtils";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import { playWinningEffect } from "../../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
@@ -13,6 +14,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
     finishDataCache: any = null;
     drawingCardDelay = 0.5;
+    openCardDuration = 0.7;
 
     handle(data: any): boolean {
         if (data.finish) {
@@ -36,39 +38,54 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     processFinish() {
         const finish = this.finishDataCache;
         if (!finish) {
-            console.error("BlackJack data finish did not receive");
+            this.showLogNotReceiveData();
             return;
         }
         const totals = BlackJackUtils.getTotal(finish.result, 2);
-        if (finish.result.length === 2 && totals[totals.length - 1] === 21) {
-            this.main.dealerHand.cardLayout.updateLayout();
-            this.main.dealerHand.showScoreWithOutData(finish.result, 2, true);
-            this.showWinningHands();
+        const isBlackJack = finish.result.length === 2 && totals[totals.length - 1] === 21;
 
-            this.startNewRound();
+        if (isBlackJack) {
+            this.finishBlackJackCase(finish);
         } else {
-            const openCardDuration = 0.7;
-            this.main.dealerOpenSecondCard(finish.result[1], openCardDuration);
-
-            cc.tween(this.main)
-                .delay(openCardDuration)
-                .call(() => {
-                    this.main.dealerHand.showScoreWithOutData(finish.result, 2);
-                    this.drawMoreCardForDealer(finish.result, () => {
-                        cc.tween(this.main)
-                            .delay(1)
-                            .call(() => {
-                                this.main.dealerHand.cardLayout.updateLayout();
-                                this.main.dealerHand.showScoreWithOutData(finish.result, finish.result.length, true);
-                                this.showWinningHands();
-
-                                this.startNewRound();
-                            })
-                            .start();
-                    });
-                })
-                .start();
+            this.finishNormalCase(finish);
         }
+    }
+
+    showLogNotReceiveData() {
+        console.error("BlackJack data finish did not receive");
+    }
+
+    finishBlackJackCase(finish) {
+        this.main.dealerHand.cardLayout.updateLayout();
+        this.main.dealerHand.showScoreWithOutData(finish.result, 2, true);
+        this.showWinningHands();
+        this.startNewRound();
+    }
+
+    async finishNormalCase(finish) {
+        await this.openFaceDownDealerCards(finish);
+        cc.tween(this.main)
+            .call(() => {
+                this.main.dealerHand.showScoreWithOutData(finish.result, 2);
+                this.drawMoreCardForDealer(finish.result, () => {
+                    cc.tween(this.main)
+                        .delay(1)
+                        .call(() => {
+                            this.main.dealerHand.cardLayout.updateLayout();
+                            this.main.dealerHand.showScoreWithOutData(finish.result, finish.result.length, true);
+                            this.showWinningHands();
+
+                            this.startNewRound();
+                        })
+                        .start();
+                });
+            })
+            .start();
+    }
+
+    async openFaceDownDealerCards(finish) {
+        this.main.dealerOpenSecondCard(finish.result[1], this.openCardDuration);
+        await GameUtils.delayTime(this.openCardDuration);
     }
 
     drawMoreCardForDealer(cards: CardModel[], complete = () => {}) {

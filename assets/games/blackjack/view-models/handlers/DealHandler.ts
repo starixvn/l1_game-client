@@ -9,8 +9,10 @@ import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
+export type DrawCardAction = () => void;
+
 export default class DealHandler implements DataHandler {
-    constructor(private readonly main: BlackJack) {}
+    constructor(protected readonly main: BlackJack) {}
 
     handle(data: any) {
         if (data.deal) {
@@ -34,6 +36,43 @@ export default class DealHandler implements DataHandler {
         const dealerCards = data.dealer;
 
         const actions = [];
+        this.drawFirstPlayerCard(hands, actions);
+        this.main.updateTotalBetLabel();
+        this.drawFirstDealerCard(dealerCards, actions);
+        this.drawSecondPlayerCard(hands, actions);
+        this.drawSecondDealerCard(dealerCards, actions);
+
+        let count = 0;
+        cc.tween(this.main)
+            .repeat(
+                actions.length,
+                cc
+                    .tween()
+                    .call(() => {
+                        actions[count]();
+                        count++;
+                    })
+                    .delay(this.main.configDuration.drawingCardDelay)
+            )
+            .call(() => {
+                this.playAnimationDealerCheck(dealerCards, dealerCards.length > 1);
+            })
+            .start();
+
+        this.main.hideAllButtons();
+        this.main.handPlaces.forEach((place) => {
+            place.highlightPlace(false);
+            place.enablePlaceChip(false);
+            place.showClearBetButton(false);
+        });
+
+        this.main.dealButton.getComponent(FadeEffectButton).setActive(false);
+        this.main.clearButton.getComponent(FadeEffectButton).setActive(false);
+        this.main.newBetButton.getComponent(FadeEffectButton).setActive(false);
+        this.main.rebetButton.getComponent(FadeEffectButton).setActive(false);
+    }
+
+    drawFirstPlayerCard(hands, actions: DrawCardAction[]) {
         hands.forEach((hand) => {
             const card = hand.cards[0];
             const pos = hand.pos - 1;
@@ -56,19 +95,25 @@ export default class DealHandler implements DataHandler {
                 this.main.chipContainers[pos].addChild(chipStack);
             }
         });
-        this.main.updateTotalBetLabel();
+    }
 
-        const firstDealerCard = dealerCards[0];
-        actions.push(() => {
-            this.main.drawingCardToDealer(firstDealerCard, false);
-        });
+    drawSecondPlayerCard(hands, actions: DrawCardAction[]) {
         hands.forEach((hand) => {
             const card = hand.cards[1];
             const pos = hand.pos - 1;
             const place = this.main.handPlaces[pos];
             actions.push(() => this.main.drawingCardToPlayer(card, pos, () => place.updateDisplayScore(true)));
         });
+    }
 
+    drawFirstDealerCard(dealerCards: CardModel[], actions: DrawCardAction[]) {
+        const firstDealerCard = dealerCards[0];
+        actions.push(() => {
+            this.main.drawingCardToDealer(firstDealerCard, false);
+        });
+    }
+
+    drawSecondDealerCard(dealerCards: CardModel[], actions: DrawCardAction[]) {
         const isBlackJack = dealerCards.length > 1;
         if (isBlackJack) {
             actions.push(() => {
@@ -82,35 +127,6 @@ export default class DealHandler implements DataHandler {
                 this.main.drawingCardToDealer(null, true, () => this.main.dealerHand.showScoreWithOutData(dealerCards, 1));
             });
         }
-
-        let count = 0;
-        cc.tween(this.main)
-            .repeat(
-                actions.length,
-                cc
-                    .tween()
-                    .call(() => {
-                        actions[count]();
-                        count++;
-                    })
-                    .delay(this.main.configDuration.drawingCardDelay)
-            )
-            .call(() => {
-                this.playAnimationDealerCheck(dealerCards, isBlackJack);
-            })
-            .start();
-
-        this.main.hideAllButtons();
-        this.main.handPlaces.forEach((place) => {
-            place.highlightPlace(false);
-            place.enablePlaceChip(false);
-            place.showClearBetButton(false);
-        });
-
-        this.main.dealButton.getComponent(FadeEffectButton).setActive(false);
-        this.main.clearButton.getComponent(FadeEffectButton).setActive(false);
-        this.main.newBetButton.getComponent(FadeEffectButton).setActive(false);
-        this.main.rebetButton.getComponent(FadeEffectButton).setActive(false);
     }
 
     playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {

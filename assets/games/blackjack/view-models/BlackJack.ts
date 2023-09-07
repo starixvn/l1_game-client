@@ -17,6 +17,7 @@ import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler"
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
+import GameBaseVoidTicketDataHandler from "../../_base/handlers/GameBaseVoidTicketHandler";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
@@ -27,7 +28,6 @@ import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
-import GameBaseVoidTicketDataHandler from "../../_base/handlers/GameBaseVoidTicketHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -193,10 +193,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.betHandler = new GameBaseBetHandler(this);
         this.voidTicketHandler = new GameBaseVoidTicketDataHandler(this);
 
-        this.dealHander = new DealHandler(this);
-        this.ingameActionHander = new IngameActionHandler(this);
-        this.finishHandler = new BlackJackFinishHandler(this);
-        this.ingameHander = new BlackJackIngameHandler(this);
+        this.setupSpecialHandler();
 
         this.addHandlers(
             this.umHandler,
@@ -210,6 +207,13 @@ export default class BlackJack extends SocketIOTableGameBase {
             this.ingameHander,
             this.voidTicketHandler
         );
+    }
+
+    setupSpecialHandler() {
+        this.dealHander = new DealHandler(this);
+        this.ingameActionHander = new IngameActionHandler(this);
+        this.finishHandler = new BlackJackFinishHandler(this);
+        this.ingameHander = new BlackJackIngameHandler(this);
     }
 
     getCurrentTotalAmount(): number {
@@ -384,8 +388,16 @@ export default class BlackJack extends SocketIOTableGameBase {
             .start();
     }
 
+    dealerOpenFirstCard(card: CardModel, duration: number) {
+        // override
+    }
+
     dealerOpenSecondCard(card: CardModel, duration: number) {
-        const cardNode = this.dealerHand.getCards()[1];
+        this.dealerOpenCard(card, duration, 1);
+    }
+
+    dealerOpenCard(card: CardModel, duration: number, order: number) {
+        const cardNode = this.dealerHand.getCards()[order];
         const cardComponent = cardNode.getComponent(NewCard);
         cardComponent.setCard(card);
         cardComponent.playAnimation(CardAnimation.DealerOpenCard, duration);
