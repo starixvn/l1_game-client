@@ -132,6 +132,12 @@ function updateFullScreen() {
     }
 }
 
+function triggerEventResize() {
+    setTimeout(function () {
+        window.dispatchEvent(new Event("resize"));
+    }, 100);
+}
+
 function handleFullScreen() {
     if (userAgent.match(/iPad|iPhone|iPod/i)) {
         showIntruction();
@@ -148,9 +154,8 @@ function handleFullScreen() {
         };
 
         window.addEventListener("orientationchange", function () {
-            const micrositeIframe = document.getElementById("microsite");
-            if (micrositeIframe) {
-                window.dispatchEvent(new Event("resize"));
+            if (document.getElementById("microsite")) {
+                triggerEventResize();
             } else {
                 setTimeout(function () {
                     updateFullScreen();
@@ -167,6 +172,9 @@ function handleFullScreen() {
             clearTimeout(timeoutScroll);
             timeoutScroll = setTimeout(function () {
                 updateFullScreen();
+                if (document.getElementById("microsite") && window.innerWidth > window.innerHeight) {
+                    triggerEventResize();
+                }
             }, 100);
         });
     }
