@@ -67,7 +67,7 @@ export default class HandPlace extends cc.Component {
         this.updateDisplay();
     }
 
-    private data: HandModel = null;
+    protected data: HandModel = null;
 
     get isStand() {
         return this.data.isStand;
@@ -248,13 +248,7 @@ export default class HandPlace extends cc.Component {
             if (this.data.isStand) {
                 const total = this.data.total[this.data.total.length - 1];
                 this.scoreValue.string = total;
-                if (total > 21) {
-                    this.burstNode.active = true;
-                    this.showScore(false);
-                } else if (total === 21 && this.data.cards.length === 2 && !this.isSplit) {
-                    this.blackJackNode.active = true;
-                    this.showScore(false);
-                }
+                this.showExtraInfoHandPlace(this.data.cards, total);
             } else {
                 this.scoreValue.string = this.data.total.join(" / ");
             }
@@ -265,21 +259,39 @@ export default class HandPlace extends cc.Component {
         }
     }
 
+    showExtraInfoHandPlace(cards: CardModel[], total: number) {
+        if (total > 21) {
+            this.burstNode.active = true;
+            this.showScore(false);
+        } else if (this.isBlackJackHandPlace(cards, total)) {
+            this.blackJackNode.active = true;
+            this.showScore(false);
+        }
+    }
+
+    isBlackJackHandPlace(cards: CardModel[], total: number): boolean {
+        return total === 21 && cards.length === 2 && !this.isSplit;
+    }
+
     showScoreWithOutData(cards: CardModel[], cardNum: number, final = false) {
         this.showScore(true);
         const values = BlackJackUtils.getTotal(cards, cardNum);
         if (final) {
             const total = values[values.length - 1];
             this.scoreValue.string = total.toString();
-            if (total > 21) {
-                this.burstNode.active = true;
-                this.showScore(false);
-            } else if (total === 21 && cards.length === 2) {
-                this.blackJackNode.active = true;
-                this.showScore(false);
-            }
+            this.showExtraInfoDealerPlace(cards, total);
         } else {
             this.scoreValue.string = values.join(" / ");
+        }
+    }
+
+    showExtraInfoDealerPlace(cards: CardModel[], total: number) {
+        if (total > 21) {
+            this.burstNode.active = true;
+            this.showScore(false);
+        } else if (total === 21 && cards.length === 2) {
+            this.blackJackNode.active = true;
+            this.showScore(false);
         }
     }
 

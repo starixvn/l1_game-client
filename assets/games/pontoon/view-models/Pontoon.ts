@@ -1,4 +1,5 @@
-import NewCard, { CardModel } from "../../../common/new-card/view-models/NewCard";
+import GameUtils from "../../../common/GameUtils";
+import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJack from "../../blackjack/view-models/BlackJack";
 import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
 import PontoonDealHandler from "./handlers/PontoonDealHandler";
@@ -25,5 +26,10 @@ export default class Pontoon extends BlackJack {
 
     dealerOpenFirstCard(card: CardModel, duration: number) {
         this.dealerOpenCard(card, duration, 0);
+    }
+
+    updateOdds() {
+        const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.pontoon - 1, 2)}`;
+        this.blackjackOddLabel.string = GameUtils.getText("pontoon.pontoon_pay", { odds });
     }
 }

@@ -714,6 +714,10 @@ export default class BlackJack extends SocketIOTableGameBase {
     updateDisplayForRemoteConfig() {
         super.updateDisplayForRemoteConfig();
         this.updateDisplayMinMaxBet();
+        this.updateOdds();
+    }
+
+    updateOdds() {
         const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.blackjack - 1, 2)}`;
         this.blackjackOddLabel.string = i18n.t("ui.blackjack_pay", { odds });
     }
