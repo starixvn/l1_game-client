@@ -18,6 +18,11 @@ export default class PontoonHandPlace extends HandPlace {
         return total > 8 && total < 12 && !this.isSplit;
     }
 
+    resetView() {
+        super.resetView();
+        this.fiveCardsNode.active = false;
+    }
+
     showExtraInfoHandPlace(cards: CardModel[], total: number) {
         if (total > 21) {
             this.burstNode.active = true;
@@ -35,7 +40,7 @@ export default class PontoonHandPlace extends HandPlace {
         return total <= 21 && cards.length === 5;
     }
 
-    isBlackJackHandPlace(total, cards): boolean {
+    isBlackJackHandPlace(cards: CardModel[], total: number): boolean {
         return total === 21 && cards.length === 2;
     }
 
