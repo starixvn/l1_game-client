@@ -1,3 +1,4 @@
+import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import GameUtils from "../../../common/GameUtils";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJack from "../../blackjack/view-models/BlackJack";
@@ -31,5 +32,10 @@ export default class Pontoon extends BlackJack {
     updateOdds() {
         const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.pontoon - 1, 2)}`;
         this.blackjackOddLabel.string = GameUtils.getText("pontoon.pontoon_pay", { odds });
+    }
+
+    onDoubleClick() {
+        super.onDoubleClick();
+        this.doubleButton.getComponent(FadeEffectButton).setActive(!this.activeHand.canDouble);
     }
 }

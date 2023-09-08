@@ -9,13 +9,13 @@ export default class PontoonHandPlace extends HandPlace {
     fiveCardsNode: cc.Node = null;
 
     get canDouble() {
-        const cards = this.data.cards;
-        if (cards.length !== 2) {
+        const { actions, total } = this.data;
+
+        if (actions.includes("double")) {
             return false;
         }
 
-        const total = this.data.total[0];
-        return total > 8 && total < 12 && !this.isSplit;
+        return total[0] < 21 && !this.isSplit;
     }
 
     resetView() {
