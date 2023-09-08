@@ -84,9 +84,6 @@
         "__id__": 14
       },
       {
-        "__id__": 172
-      },
-      {
         "__id__": 176
       },
       {
@@ -662,12 +659,15 @@
       },
       {
         "__id__": 126
+      },
+      {
+        "__id__": 171
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 171
+        "__id__": 175
       }
     ],
     "_prefab": null,
@@ -8238,34 +8238,23 @@
     "_id": "4aTRdxvqJMcYaVm2cfmNUP"
   },
   {
-    "__type__": "e6206lG649L0YwbLfXGvxbN",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 14
-    },
-    "_enabled": true,
-    "_policy": 2,
-    "_id": "82VFGx4EdGkroXHtKKw9xc"
-  },
-  {
     "__type__": "cc.Node",
     "_name": "jackpot-pool",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 2
+      "__id__": 14
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
+        "__id__": 172
+      },
+      {
         "__id__": 173
       },
       {
         "__id__": 174
-      },
-      {
-        "__id__": 175
       }
     ],
     "_prefab": null,
@@ -8321,7 +8310,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 172
+      "__id__": 171
     },
     "_enabled": true,
     "colliders": [],
@@ -8334,7 +8323,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 172
+      "__id__": 171
     },
     "_enabled": true,
     "_layoutSize": {
@@ -8366,12 +8355,12 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 172
+      "__id__": 171
     },
-    "_enabled": true,
+    "_enabled": false,
     "alignMode": 1,
     "_target": null,
-    "_alignFlags": 32,
+    "_alignFlags": 0,
     "_left": 0,
     "_right": 23,
     "_top": 123,
@@ -8387,6 +8376,17 @@
     "_originalWidth": 0,
     "_originalHeight": 0,
     "_id": "feyan+nJJI8pxkrZIjtAw/"
+  },
+  {
+    "__type__": "e6206lG649L0YwbLfXGvxbN",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 14
+    },
+    "_enabled": true,
+    "_policy": 2,
+    "_id": "82VFGx4EdGkroXHtKKw9xc"
   },
   {
     "__type__": "cc.Node",
@@ -9001,7 +9001,7 @@
     },
     "_gameId": 70,
     "jackpotPoolNode": {
-      "__id__": 172
+      "__id__": 171
     },
     "topWinnersButton": {
       "__id__": 150
