@@ -6,7 +6,8 @@ export const phrases = {
     },
     pontoon: {
         pontoon_pay: "Pontoon จ่าย %{odds} ถึง 1",
-        five_card: "ไพ่ 5 ใบ"
+        five_card: "ไพ่ 5 ใบ",
+        pontoon: "Pontoon"
     }
 };
 
