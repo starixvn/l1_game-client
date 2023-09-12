@@ -98,6 +98,7 @@ export default class BaseMicrositeGame extends cc.Component {
             window.location.replace(data.replaceUrl);
         }
         if (data.splashEnabled) {
+            this.handleUserGesturePage();
             const className = "microsite-iframe";
             !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
             return;
@@ -133,7 +134,6 @@ export default class BaseMicrositeGame extends cc.Component {
         }
 
         this.handleChangeAudio(data);
-        this.handleUserGesturePage();
     }
 
     protected getMicrositeGameQueryString() {
