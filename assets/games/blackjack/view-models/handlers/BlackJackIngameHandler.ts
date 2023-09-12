@@ -57,7 +57,7 @@ export default class BlackJackIngameHandler implements DataHandler {
             this.main.handPlaces.forEach((place) => place.enablePlaceChip(false));
             this.main.updateTotalBetLabel();
             this.main.switchToNextHand();
-            this.main.showActionsWithBehavior(BlackJackActionType.AFTER_DEAL);
+            this.main.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
             this.main.updateAvailableActions();
             this.main.slidingDownBetChip(true);
         }

@@ -58,7 +58,7 @@ export default class DealHandler implements DataHandler {
             })
             .start();
 
-        this.main.showActionsWithBehavior(BlackJackActionType.AFTER_DEAL);
+        this.main.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
 
         this.main.handPlaces.forEach((place) => {
             place.highlightPlace(false);

@@ -36,6 +36,6 @@ export default class Pontoon extends BlackJack {
 
     onDoubleClick() {
         super.onDoubleClick();
-        this.doubleButton.getComponent(FadeEffectButton).setActive(!this.activeHand.canDouble);
+        this.doubleButton.getComponent(FadeEffectButton).setDisabled(true);
     }
 }

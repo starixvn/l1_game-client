@@ -29,7 +29,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
     startNewRound() {
         this.main.gameAudios.playStartGameAudio();
-        this.main.showActionsWithBehavior(BlackJackActionType.STAND);
+        this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
         this.main.stopIntervalReminder();
     }
 

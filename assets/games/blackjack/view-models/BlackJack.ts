@@ -35,8 +35,8 @@ export const BlackJackId = 23;
 
 export enum BlackJackActionType {
     START_ROUND = 0,
-    AFTER_DEAL,
-    STAND,
+    IN_ROUND,
+    END_ROUND,
     ERROR
 }
 @ccclass
@@ -721,13 +721,13 @@ export default class BlackJack extends SocketIOTableGameBase {
                 this.inRoundActionVisibility(false);
                 this.finishActionVisibility(false);
                 break;
-            case BlackJackActionType.AFTER_DEAL:
+            case BlackJackActionType.IN_ROUND:
                 this.inRoundActionVisibility(true);
                 this.disabledInRoundAction(true);
                 this.startRoundActionVisibility(false);
                 this.finishActionVisibility(false);
                 break;
-            case BlackJackActionType.STAND:
+            case BlackJackActionType.END_ROUND:
                 this.finishActionVisibility(true);
                 this.inRoundActionVisibility(false);
                 this.startRoundActionVisibility(false);
