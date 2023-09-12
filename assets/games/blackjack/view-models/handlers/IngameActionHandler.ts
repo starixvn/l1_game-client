@@ -1,6 +1,6 @@
 import ChipStack from "../../../../common/chip-stack/views/ChipStack";
 import DataHandler from "../../../_base/handlers/DataHandler";
-import BlackJack from "../BlackJack";
+import BlackJack, { BlackJackActionType } from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
 export default class IngameActionHandler implements DataHandler {
@@ -10,7 +10,6 @@ export default class IngameActionHandler implements DataHandler {
         if (data.hit) {
             this.processHitAction(data.hit);
             this.main.showProcessingWarning(false);
-            this.main.updateAvailableActions();
         }
 
         if (data.stand) {
@@ -63,6 +62,7 @@ export default class IngameActionHandler implements DataHandler {
             .call(() => {
                 firstPlace.selected = !firstHand.isStand;
                 this.main.switchToNextHand();
+                this.main.showActionsWithBehavior(BlackJackActionType.AFTER_DEAL);
                 this.main.unlockBet();
             })
             .start();
@@ -92,7 +92,7 @@ export default class IngameActionHandler implements DataHandler {
         place.selected = false;
         place.updateDisplayScore(true);
 
-        this.main.updateAvailableActions();
+        // this.main.showActionsWithBehavior(BlackJackActionType.STAND);
         cc.tween(this.main)
             .delay(this.main.configDuration.delaySwitchHand)
             .call(() => this.main.switchToNextHand())
@@ -119,6 +119,7 @@ export default class IngameActionHandler implements DataHandler {
                 ? () => {
                       place.updateDisplayScore(true);
                       place.selected = false;
+                      this.main.showActionsWithBehavior(BlackJackActionType.AFTER_DEAL);
                       this.main.updateAvailableActions();
                       cc.tween(this.main)
                           .delay(this.main.configDuration.delaySwitchHand)

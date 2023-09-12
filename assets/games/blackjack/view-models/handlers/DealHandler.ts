@@ -1,12 +1,11 @@
 import { showMessageForExpiredToken } from "../../../../common/auth/AuthManager";
-import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import GameUtils from "../../../../common/GameUtils";
 import { isSessionTimeoutError } from "../../../../common/helpers/ErrorCodeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import NoticeUtil from "../../../../common/utils/NoticeUtil";
 import DataHandler from "../../../_base/handlers/DataHandler";
-import BlackJack from "../BlackJack";
+import BlackJack, { BlackJackActionType } from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
 export type DrawCardAction = () => void;
@@ -59,17 +58,13 @@ export default class DealHandler implements DataHandler {
             })
             .start();
 
-        this.main.hideAllButtons();
+        this.main.showActionsWithBehavior(BlackJackActionType.AFTER_DEAL);
+
         this.main.handPlaces.forEach((place) => {
             place.highlightPlace(false);
             place.enablePlaceChip(false);
             place.showClearBetButton(false);
         });
-
-        this.main.dealButton.getComponent(FadeEffectButton).setActive(false);
-        this.main.clearButton.getComponent(FadeEffectButton).setActive(false);
-        this.main.newBetButton.getComponent(FadeEffectButton).setActive(false);
-        this.main.rebetButton.getComponent(FadeEffectButton).setActive(false);
     }
 
     drawFirstPlayerCard(hands, actions: DrawCardAction[]) {
@@ -206,10 +201,7 @@ export default class DealHandler implements DataHandler {
             const place = this.main.handPlaces[position - 1];
             place.showErrorNotice();
 
-            this.main.dealButton.getComponent(FadeEffectButton).setActive(false);
-            this.main.clearButton.getComponent(FadeEffectButton).setActive(false);
-            this.main.rebetButton.getComponent(FadeEffectButton).setActive(false);
-            this.main.newBetButton.getComponent(FadeEffectButton).setActive(false);
+            this.main.showActionsWithBehavior(BlackJackActionType.ERROR);
             const chipContainer = this.main.chipContainers[position - 1];
             const chips = chipContainer.children[0];
             const placeNoticeDuration = 1.8;

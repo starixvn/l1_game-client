@@ -2,7 +2,7 @@ import * as _ from "lodash";
 
 import NewCard from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
-import BlackJack from "../BlackJack";
+import BlackJack, { BlackJackActionType } from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
 export default class BlackJackIngameHandler implements DataHandler {
@@ -57,6 +57,9 @@ export default class BlackJackIngameHandler implements DataHandler {
             this.main.handPlaces.forEach((place) => place.enablePlaceChip(false));
             this.main.updateTotalBetLabel();
             this.main.switchToNextHand();
+            this.main.showActionsWithBehavior(BlackJackActionType.AFTER_DEAL);
+            this.main.updateAvailableActions();
+            this.main.slidingDownBetChip(true);
         }
     }
 

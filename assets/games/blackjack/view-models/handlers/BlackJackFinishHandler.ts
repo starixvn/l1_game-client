@@ -1,10 +1,9 @@
 import ChipStack from "../../../../common/chip-stack/views/ChipStack";
-import FadeEffectButton from "../../../../common/custom-button/FadeEffectButton";
 import GameUtils from "../../../../common/GameUtils";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import { playWinningEffect } from "../../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
-import BlackJack from "../BlackJack";
+import BlackJack, { BlackJackActionType } from "../BlackJack";
 import BlackJackUtils from "../BlackJackUtils";
 
 export default class BlackJackFinishHandler extends GameBaseFinishHandler {
@@ -30,8 +29,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
     startNewRound() {
         this.main.gameAudios.playStartGameAudio();
-        this.main.rebetButton.getComponent(FadeEffectButton).setActive();
-        this.main.newBetButton.getComponent(FadeEffectButton).setActive();
+        this.main.showActionsWithBehavior(BlackJackActionType.STAND);
         this.main.stopIntervalReminder();
     }
 

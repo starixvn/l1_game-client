@@ -33,6 +33,12 @@ const { ccclass, property } = cc._decorator;
 
 export const BlackJackId = 23;
 
+export enum BlackJackActionType {
+    START_ROUND = 0,
+    AFTER_DEAL,
+    STAND,
+    ERROR
+}
 @ccclass
 export default class BlackJack extends SocketIOTableGameBase {
     @property({ type: cc.Node, visible: false, override: true })
@@ -75,10 +81,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     dealerChipTray: cc.Node = null;
 
     @property(cc.Node)
-    smallSplitButton: cc.Node = null;
-
-    @property(cc.Node)
-    bigSplitButton: cc.Node = null;
+    splitButton: cc.Node = null;
 
     @property(cc.Node)
     doubleButton: cc.Node = null;
@@ -128,6 +131,9 @@ export default class BlackJack extends SocketIOTableGameBase {
     @property(cc.AudioSource)
     singleChipAudio: cc.AudioSource = null;
 
+    @property(cc.Node)
+    bottomBetChipsPos: cc.Node = null;
+
     @lazyInject(BlackJackConfig)
     private readonly blackJackConfig: BlackJackConfig;
 
@@ -144,6 +150,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     };
     private readonly priorityHands = [];
     private roundFinished = false;
+    private betChipsPostion;
 
     constructor() {
         super();
@@ -152,11 +159,11 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     onLoad() {
         super.onLoad();
+        this.betChipsPostion = this.betChipsContainer.parent.position;
         this.initHandPlaces();
         this.hideAllButtons();
         this.totalBetLabel.string = "";
-        this.bigSplitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
-        this.smallSplitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
+        this.splitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
         this.doubleButton.getComponent(NewButton).callback.selected = () => this.onDoubleClick();
         this.standButton.getComponent(NewButton).callback.selected = () => this.onStandClick();
         this.hitButton.getComponent(NewButton).callback.selected = () => this.onHitClick();
@@ -433,6 +440,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         } else {
             this.switchToDealer();
         }
+
         this.updateAvailableActions();
     }
 
@@ -453,7 +461,6 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     onDealClick() {
         AudioManager.getInstance().playClick();
-
         if (!this.canSendRequest()) {
             return;
         }
@@ -473,6 +480,7 @@ export default class BlackJack extends SocketIOTableGameBase {
 
         this.lastHandBets = hands;
         this.rebet();
+        this.slidingDownBetChip(true);
     }
 
     socketSendData(key: string, data: any) {
@@ -560,6 +568,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     onNewBetClick() {
         AudioManager.getInstance().playClick();
         this.collectCardsOnTable();
+        this.slidingDownBetChip(false);
     }
 
     collectCardsOnTable(complete = () => {}) {
@@ -652,6 +661,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         }
         AudioManager.getInstance().playClick();
         this.handPlaces.forEach((place) => place.onClearBetClick());
+        this.slidingDownBetChip(false);
     }
 
     openHistory() {
@@ -662,8 +672,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     hideAllButtons() {
-        this.smallSplitButton.getComponent(FadeEffectButton).setActive(false);
-        this.bigSplitButton.getComponent(FadeEffectButton).setActive(false);
+        this.splitButton.getComponent(FadeEffectButton).setActive(false);
         this.doubleButton.getComponent(FadeEffectButton).setActive(false);
         this.standButton.getComponent(FadeEffectButton).setActive(false);
         this.hitButton.getComponent(FadeEffectButton).setActive(false);
@@ -691,24 +700,67 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     updateAvailableActions() {
-        this.hideAllButtons();
         if (!this.activeHand) {
             return;
         }
 
-        this.hitButton.getComponent(FadeEffectButton).setActive(!this.activeHand.isStand);
-        this.standButton.getComponent(FadeEffectButton).setActive(!this.activeHand.isStand);
-        this.doubleButton.getComponent(FadeEffectButton).setActive(this.activeHand.canDouble && !this.activeHand.isStand);
-        this.smallSplitButton
+        this.hitButton.getComponent(FadeEffectButton).setDisabled(this.activeHand.isStand);
+        this.standButton.getComponent(FadeEffectButton).setDisabled(this.activeHand.isStand);
+        this.doubleButton
             .getComponent(FadeEffectButton)
-            .setActive(!this.activeHand.isStand && this.activeHand.canSplit && this.doubleButton.active);
-        this.bigSplitButton
+            .setDisabled((!this.activeHand.canDouble && !this.activeHand.isStand) || this.activeHand.isStand);
+        this.splitButton
             .getComponent(FadeEffectButton)
-            .setActive(!this.activeHand.isStand && this.activeHand.canSplit && !this.doubleButton.active);
+            .setDisabled((!this.activeHand.isStand && !this.activeHand.canSplit) || this.activeHand.isStand);
+    }
 
-        if (this.doubleButton.active || this.bigSplitButton.active || this.smallSplitButton.active) {
-            this.inGameMenu && this.inGameMenu.collapseMenu(false);
+    showActionsWithBehavior(behavior: number) {
+        switch (behavior) {
+            case BlackJackActionType.START_ROUND:
+                this.startRoundActionVisibility(true);
+                this.inRoundActionVisibility(false);
+                this.finishActionVisibility(false);
+                break;
+            case BlackJackActionType.AFTER_DEAL:
+                this.inRoundActionVisibility(true);
+                this.disabledInRoundAction(true);
+                this.startRoundActionVisibility(false);
+                this.finishActionVisibility(false);
+                break;
+            case BlackJackActionType.STAND:
+                this.finishActionVisibility(true);
+                this.inRoundActionVisibility(false);
+                this.startRoundActionVisibility(false);
+                break;
+            case BlackJackActionType.ERROR:
+                this.startRoundActionVisibility(false);
+                this.finishActionVisibility(false);
+                break;
         }
+    }
+
+    startRoundActionVisibility(status: boolean) {
+        this.dealButton.getComponent(FadeEffectButton).setActive(status);
+        this.clearButton.getComponent(FadeEffectButton).setActive(status);
+    }
+
+    inRoundActionVisibility(status: boolean) {
+        this.hitButton.getComponent(FadeEffectButton).setActive(status);
+        this.standButton.getComponent(FadeEffectButton).setActive(status);
+        this.doubleButton.getComponent(FadeEffectButton).setActive(status);
+        this.splitButton.getComponent(FadeEffectButton).setActive(status);
+    }
+
+    disabledInRoundAction(status: boolean) {
+        this.hitButton.getComponent(FadeEffectButton).setDisabled(status);
+        this.standButton.getComponent(FadeEffectButton).setDisabled(status);
+        this.doubleButton.getComponent(FadeEffectButton).setDisabled(status);
+        this.splitButton.getComponent(FadeEffectButton).setDisabled(status);
+    }
+
+    finishActionVisibility(status: boolean) {
+        this.rebetButton.getComponent(FadeEffectButton).setActive(status);
+        this.newBetButton.getComponent(FadeEffectButton).setActive(status);
     }
 
     updateDisplayForRemoteConfig() {
@@ -753,5 +805,30 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     playSingleChipsSound() {
         AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
+    }
+
+    slidingDownBetChip(isMoveBottom: boolean) {
+        const movePosition = cc.v3(
+            this.betChipsContainer.parent.position.x,
+            this.bottomBetChipsPos.position.y,
+            this.betChipsContainer.parent.position.z
+        );
+
+        cc.tween(this.betChipsContainer.parent)
+            .to(
+                0.2,
+                {
+                    position: isMoveBottom ? movePosition : this.betChipsPostion
+                },
+                { easing: isMoveBottom ? "sineOut" : "sineIn" }
+            )
+            .to(
+                0.2,
+                {
+                    opacity: isMoveBottom ? 0 : 255
+                },
+                { easing: isMoveBottom ? "sineOut" : "sineIn" }
+            )
+            .start();
     }
 }
