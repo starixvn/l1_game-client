@@ -16,6 +16,7 @@ export default class DealHandler implements DataHandler {
     handle(data: any) {
         if (data.deal) {
             this.processDealSuccess(data.deal);
+            this.main.startRoundActionVisibility(false);
             this.main.showProcessingWarning(false);
         }
 
@@ -55,10 +56,9 @@ export default class DealHandler implements DataHandler {
             )
             .call(() => {
                 this.playAnimationDealerCheck(dealerCards, dealerCards.length > 1);
+                this.main.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
             })
             .start();
-
-        this.main.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
 
         this.main.handPlaces.forEach((place) => {
             place.highlightPlace(false);

@@ -723,7 +723,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                 break;
             case BlackJackActionType.IN_ROUND:
                 this.inRoundActionVisibility(true);
-                this.disabledInRoundAction(true);
+                // this.disabledInRoundAction(true);
                 this.startRoundActionVisibility(false);
                 this.finishActionVisibility(false);
                 break;
