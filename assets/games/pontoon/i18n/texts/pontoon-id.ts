@@ -5,8 +5,9 @@ export const phrases = {
         72: "Pontoon"
     },
     pontoon: {
-        pontoon_pay: "Pontoon Bayar %{odds} ke 1",
+        pontoon_pay: "Pontoon Membayar %{odds} banding 1",
         five_card: "Five-Card",
+        five_card_pay: "Five-Card Trick membayar %{odds} banding 1",
         pontoon: "Pontoon"
     }
 };

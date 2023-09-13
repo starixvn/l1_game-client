@@ -13,6 +13,9 @@ export const PontoonId = 72;
 
 @ccclass
 export default class Pontoon extends BlackJack {
+    @property(cc.Label)
+    fiveCardsOddsLabel: cc.Label = null;
+
     constructor() {
         super();
         this.gameId = PontoonId;
@@ -30,8 +33,11 @@ export default class Pontoon extends BlackJack {
     }
 
     updateOdds() {
-        const odds = `${GameUtils.roundFixed(+this.gameConfigs.odds.pontoon - 1, 2)}`;
-        this.blackjackOddLabel.string = GameUtils.getText("pontoon.pontoon_pay", { odds });
+        const pontoonOdds = `${GameUtils.roundFixed(+this.gameConfigs.odds.pontoon - 1, 2)}`;
+        this.blackjackOddLabel.string = GameUtils.getText("pontoon.pontoon_pay", { odds: pontoonOdds });
+
+        const fiveCardsOdds = `${GameUtils.roundFixed(+this.gameConfigs.odds.fiveCardTrick - 1, 2)}`;
+        this.fiveCardsOddsLabel.string = GameUtils.getText("pontoon.five_card_pay", { odds: fiveCardsOdds });
     }
 
     onDoubleClick() {

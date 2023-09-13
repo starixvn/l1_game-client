@@ -816,18 +816,11 @@ export default class BlackJack extends SocketIOTableGameBase {
 
         cc.tween(this.betChipsContainer.parent)
             .to(
-                0.2,
+                0.3,
                 {
                     position: isMoveBottom ? movePosition : this.betChipsPostion
                 },
-                { easing: isMoveBottom ? "sineOut" : "sineIn" }
-            )
-            .to(
-                0.2,
-                {
-                    opacity: isMoveBottom ? 0 : 255
-                },
-                { easing: isMoveBottom ? "sineOut" : "sineIn" }
+                { easing: isMoveBottom ? "easeOutCirc" : "easeInCirc" }
             )
             .start();
     }
