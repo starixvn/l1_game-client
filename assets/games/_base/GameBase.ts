@@ -483,7 +483,7 @@ export default class GameBase extends GameViewBase {
             item.clearBet();
             item.resetHighlight();
         });
-
+        this.setGameRound(0);
         this.showMainTime(false);
         this.showWaittingTime(false);
 
