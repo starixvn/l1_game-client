@@ -206,7 +206,7 @@ export default class StandardSlotGame extends SlotGameBase {
             [ClassicSlotSound.SPIN]: "spin-button",
             [ClassicSlotSound.WIN]: "win",
             [ClassicSlotSound.BIG_WIN]: "big-win",
-            [ClassicSlotSound.JACKPOT]: "jackpot",
+            [ClassicSlotSound.JACKPOT]: "jackpot-win",
             [ClassicSlotSound.FREESPIN]: "freespin",
             [ClassicSlotSound.BONUS]: "bonus",
             [ClassicSlotSound.SPINNING_NORMAL]: "spinning-normal",
@@ -219,8 +219,7 @@ export default class StandardSlotGame extends SlotGameBase {
             [ClassicSlotSound.BONUS_TOTAL]: "bonus-total",
 
             [ClassicSlotSound.TRANSITION]: "transition",
-            [ClassicSlotSound.SYMBOL_WIN]: "symbol-win",
-            [ClassicSlotSound.JACKPOT]: "jackpot-win"
+            [ClassicSlotSound.SYMBOL_WIN]: "symbol-win"
         };
 
         for (const key of Object.keys(dict)) {

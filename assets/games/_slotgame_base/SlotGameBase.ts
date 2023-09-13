@@ -610,7 +610,6 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     onSpinClick(hold: boolean) {
-        this.isFinishedRound = false;
         uiManager.emitter.emit(InternalEvents.CLICK_SPIN_BUTTON);
         AudioManager.getInstance().playClick();
         this.isHoldAction = hold;
@@ -668,7 +667,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             !this.isHoldAction && this.showProcessingWarning(true);
             return success;
         }
-
+        this.isFinishedRound = false;
         this.stopAllFinishTweens();
         this.hideStakeContrainer();
         this.hideWinningEffectOnItems();
