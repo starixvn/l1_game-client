@@ -253,8 +253,13 @@ export default class GameBase extends GameViewBase {
     }
 
     joinGame() {
+        this.clearRoundHistory();
         this.startGame();
         this.registerViewGame();
+    }
+
+    clearRoundHistory() {
+        this.currentDataLogs = [];
     }
 
     onEnable() {

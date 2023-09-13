@@ -169,8 +169,11 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.stopInternalTweens();
         this.gameState = GameState.Actived;
         this.clearData();
-        this.gameData.roundHistory.clearData();
         this.joinGame();
+    }
+
+    clearRoundHistory() {
+        this.gameData.roundHistory.clearData();
     }
 
     onDisconnected() {
