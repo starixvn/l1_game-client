@@ -19,9 +19,7 @@ export default class FadeEffectButton extends cc.Component {
         }
     }
 
-    async setDisabled(status) {
-        this.node.active = true;
-        this.node.getComponent(NewButton).collider.getComponent(cc.PolygonCollider).enabled = !status;
+    async setDisabled(status: boolean) {
         this.disabledLayer && (this.disabledLayer.active = status);
     }
 }
