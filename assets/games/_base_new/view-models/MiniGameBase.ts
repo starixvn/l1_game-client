@@ -121,6 +121,7 @@ export default class MiniGameBase extends NewMiniGameBase {
         if (!this.managedByContainer) {
             this.registerViewGame();
         }
+        this.gameData.updateUI();
     }
 
     override onDestroy() {
