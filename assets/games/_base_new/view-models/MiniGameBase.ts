@@ -118,10 +118,10 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.grantSocket();
         this.initSocketListener();
         this.startGame();
+        this.gameData.roundId = -1;
         if (!this.managedByContainer) {
             this.registerViewGame();
         }
-        this.gameData.updateUI();
     }
 
     override onDestroy() {
@@ -162,14 +162,12 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.stopInternalTweens();
         this.gameState = GameState.Inactived;
         this.gameData.durations.stop();
-        this.clearData();
-        this.gameData.roundHistory.clearData();
     }
 
     onGameShow() {
         this.stopInternalTweens();
         this.gameState = GameState.Actived;
-        this.clearData();
+        this.gameData.roundId = -1;
         this.joinGame();
     }
 
