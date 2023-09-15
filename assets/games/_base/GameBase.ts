@@ -800,7 +800,7 @@ export default class GameBase extends GameViewBase {
     }
 
     clearData() {
-        this.gameData.clearData();
+        this.gameData?.clearData();
     }
 
     cleanGame() {
