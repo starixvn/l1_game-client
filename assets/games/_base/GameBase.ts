@@ -798,11 +798,7 @@ export default class GameBase extends GameViewBase {
     }
 
     clearData() {
-        this.gameData.betModel.clearData();
-        this.gameData.totalBets.clearData();
-        this.gameData.settlement.clearSettlement();
-        this.gameData.settlement.clearStatus();
-        this.gameData.settlement.clearWinnersData();
+        this.gameData.clearData();
     }
 
     cleanGame() {

@@ -73,4 +73,12 @@ export class GameData extends EventEmitterBase {
     updateUserBalance(balance?: number) {
         this.userHandler?.updateBalance(balance);
     }
+
+    clearData() {
+        this.betModel.clearData();
+        this.totalBets.clearData();
+        this.settlement.clearSettlement();
+        this.settlement.clearStatus();
+        this.settlement.clearWinnersData();
+    }
 }

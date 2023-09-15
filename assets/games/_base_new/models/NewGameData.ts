@@ -115,4 +115,9 @@ export default class NewGameData extends GameData {
     changeStatusShowStatistic(status) {
         this.emit(NewGameData.Events.CHANGE_STATUS_SHOW_STATISTIC, status);
     }
+
+    clearData() {
+        super.clearData();
+        this.roundId = -1;
+    }
 }
