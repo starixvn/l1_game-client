@@ -91,7 +91,9 @@ export default class SkeletonIcon extends cc.Component {
     private async createRemoteIconNode(id: number) {
         const node = new cc.Node();
         try {
-            const configFile = uiManager.remoteIconCache[id]?.configFile;
+            const configFile = uiManager.remoteIconCache[id] ? 
+                uiManager.remoteIconCache[id].configFile : await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `icon/config.json`);
+            
             const iconConfig: RemoteIconConfig = configFile?.json;
 
             node.addComponent(sp.Skeleton);

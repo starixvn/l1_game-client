@@ -34,10 +34,30 @@ export default class RemoteSpine extends cc.Component {
     async loadResources() {
         if (uiManager.remoteIconCache[this.id]) {
             this.spine.skeletonData = uiManager.remoteIconCache[this.id].skeletonData;
-            this.spine.premultipliedAlpha = this.premultipliedAlpha;
-            this.spine.enableBatch = true;
-            this.spine.defaultAnimation = this.animationName;
-            this.spine.setAnimation(0, this.animationName, true);
         }
+        else{
+            const spineRes = [];
+            for (const ext of this.resourceExts) {
+                try {
+                    const resName = `${this.spineName}.${ext}`;
+                    const url = `${this.host}/${resName}`;
+                    const data = await GameUtils.loadRemote(url);
+                    if (data) {
+                        spineRes.push(data);
+                    }
+                } catch (error) {}
+            }
+            const skeletonData = new sp.SkeletonData();
+            skeletonData.skeletonJson = spineRes[SpineFile.Json].json;
+            skeletonData.atlasText = spineRes[SpineFile.Atlas].text;
+            skeletonData.textures = [spineRes[SpineFile.Texture]];
+            skeletonData["textureNames"] = [`${this.spineName}.${this.resourceExts[SpineFile.Texture]}`];
+            this.spine.skeletonData = skeletonData;            
+        }
+
+        this.spine.premultipliedAlpha = this.premultipliedAlpha;
+        this.spine.enableBatch = true;
+        this.spine.defaultAnimation = this.animationName;
+        this.spine.setAnimation(0, this.animationName, true);
     }
 }
