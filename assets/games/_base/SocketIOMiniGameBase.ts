@@ -46,8 +46,6 @@ export default class SocketIOMiniGameBase extends GameBase {
     }
 
     public registerViewGame() {
-        this.clearData();
-        this.clearRoundHistory();
         this.sendSocketData("inGame", null);
     }
 

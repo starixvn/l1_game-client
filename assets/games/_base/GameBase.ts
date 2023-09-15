@@ -262,6 +262,7 @@ export default class GameBase extends GameViewBase {
     }
 
     onEnable() {
+        this.clearRoundHistory();
         this.joinGame();
     }
 
@@ -500,6 +501,7 @@ export default class GameBase extends GameViewBase {
     }
 
     protected onGameShow() {
+        this.clearRoundHistory();
         this.joinGame();
     }
 
