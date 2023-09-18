@@ -34,10 +34,10 @@ export default class Pontoon extends BlackJack {
 
     updateOdds() {
         const pontoonOdds = `${GameUtils.roundFixed(+this.gameConfigs.odds.pontoon - 1, 2)}`;
-        this.blackjackOddLabel.string = GameUtils.getText("pontoon.pontoon_pay", { odds: pontoonOdds });
+        this.blackjackOddLabel.string = GameUtils.getText("pontoon.pontoon_pay", { odds: pontoonOdds }).toUpperCase();
 
         const fiveCardsOdds = `${GameUtils.roundFixed(+this.gameConfigs.odds.fiveCardTrick - 1, 2)}`;
-        this.fiveCardsOddsLabel.string = GameUtils.getText("pontoon.five_card_pay", { odds: fiveCardsOdds });
+        this.fiveCardsOddsLabel.string = GameUtils.getText("pontoon.five_card_pay", { odds: fiveCardsOdds }).toUpperCase();
     }
 
     onDoubleClick() {
