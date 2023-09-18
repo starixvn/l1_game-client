@@ -207,6 +207,7 @@ export default class MultiplayGame extends GameViewBase {
 
     initForSingle(gameId: number) {
         const multiplaySingle = this.grantSocketForSingle(gameId);
+        multiplaySingle.clearAllData();
         multiplaySingle.registerViewGame();
     }
 

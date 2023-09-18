@@ -262,7 +262,7 @@ export default class GameBase extends GameViewBase {
     }
 
     onEnable() {
-        this.clearRoundHistory();
+        this.clearAllData();
         this.joinGame();
     }
 
@@ -501,8 +501,12 @@ export default class GameBase extends GameViewBase {
     }
 
     protected onGameShow() {
-        this.clearRoundHistory();
+        this.clearAllData();
         this.joinGame();
+    }
+
+    public clearAllData() {
+        this.clearRoundHistory();
     }
 
     protected initBetChips() {

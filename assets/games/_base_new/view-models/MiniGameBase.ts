@@ -118,8 +118,9 @@ export default class MiniGameBase extends NewMiniGameBase {
         this.grantSocket();
         this.initSocketListener();
         this.startGame();
-        this.clearAllData();
+
         if (!this.managedByContainer) {
+            this.clearAllData();
             this.registerViewGame();
         }
     }
@@ -176,8 +177,8 @@ export default class MiniGameBase extends NewMiniGameBase {
     }
 
     clearAllData() {
+        super.clearAllData();
         this.clearData();
-        this.clearRoundHistory();
     }
 
     onDisconnected() {
