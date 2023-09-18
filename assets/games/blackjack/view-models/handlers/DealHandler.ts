@@ -118,10 +118,14 @@ export default class DealHandler implements DataHandler {
                 });
             });
         } else {
-            actions.push(() => {
-                this.main.drawingCardToDealer(null, true, () => this.main.dealerHand.showScoreWithOutData(dealerCards, 1));
-            });
+            this.drawSecondDealerCardWithNormalCase(dealerCards, actions);
         }
+    }
+
+    drawSecondDealerCardWithNormalCase(dealerCards: CardModel[], actions: DrawCardAction[]) {
+        actions.push(() => {
+            this.main.drawingCardToDealer(null, true, () => this.main.dealerHand.showScoreWithOutData(dealerCards, 1));
+        });
     }
 
     playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {

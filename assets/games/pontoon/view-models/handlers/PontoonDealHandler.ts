@@ -8,6 +8,12 @@ export default class PontoonDealHandler extends DealHandler {
         });
     }
 
+    drawSecondDealerCardWithNormalCase(dealerCards: CardModel[], actions: DrawCardAction[]) {
+        actions.push(() => {
+            this.main.drawingCardToDealer(null, true, () => {});
+        });
+    }
+
     playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {
         this.main.startRound();
     }
