@@ -141,6 +141,8 @@ export default class DealHandler implements DataHandler {
             delaytime += checkDuration;
         }
 
+        this.main.disabledInRoundAction(true);
+
         cc.tween(this.main)
             .delay(delaytime)
             .call(() => {
