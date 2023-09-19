@@ -1,12 +1,13 @@
 import { nFormatter } from "../../helpers/NumberHelper";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass, property, executeInEditMode } = cc._decorator;
 export enum ChipDisplayType {
     Normal = 0,
     VIP
 }
 
 @ccclass
+@executeInEditMode
 export default class ChipView extends cc.Component {
     @property(cc.Node)
     background: cc.Node = null;
@@ -41,7 +42,9 @@ export default class ChipView extends cc.Component {
     setType(type: ChipDisplayType) {
         this.type = type;
         this.center.spriteFrame = this.centerFrames[type];
-        this.border.spriteFrame = this.borderFrames[type];
+        if (!this.border) {
+            this.border.spriteFrame = this.borderFrames[type];
+        }
 
         this.typeNodes.forEach((node, index) => {
             node.active = index === type;

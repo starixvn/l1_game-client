@@ -3,12 +3,15 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { lazyInject } from "../../../Application";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../../common/audio/AudioManager";
+import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
+import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
+import ChipFlyConfig from "../../../common/bet-chips/view-models/ChipFlyConfig";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
+import NewCard, { CardAnimation } from "../../../common/new-card/view-models/NewCard";
 import { userManager } from "../../../common/user/UserManager";
 import { GameState } from "../../_base/GameState";
 import DataHandler from "../../_base/handlers/DataHandler";
@@ -143,6 +146,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     activeHand: HandPlace = null;
     lastHandBets: any[] = [];
     audioNotificationInterval: any;
+    betChips: BetChipsNew;
 
     public configDuration = {
         drawingCardDelay: 0.7,
@@ -153,6 +157,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     private roundFinished = false;
     private betChipsPostion;
     protected moveCardDuration = 0.45;
+    protected chipJumpHeight = 150;
 
     constructor() {
         super();
@@ -238,8 +243,16 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.totalBetLabel.string = numberWithCommas(total);
     }
 
+    public get chipFlyConfig() {
+        return ChipFlyConfig.getInstance();
+    }
+
+    public get chipConfig() {
+        return ChipConfig.getInstance();
+    }
+
     initHandPlaces() {
-        const chipFlyingDuration = 0.5;
+        const chipFlyingDuration = 0.7;
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 if (this.waitingProcessing) {
@@ -270,37 +283,9 @@ export default class BlackJack extends SocketIOTableGameBase {
                 this.dealButton.getComponent(FadeEffectButton).setActive();
                 this.clearButton.getComponent(FadeEffectButton).setActive();
                 handPlace.addBetAmount(this.currentBet);
-
-                const chipNode = this.betChips.createBigChip(this.currentBet);
                 const destNode = this.chipContainers[index];
                 const startNode = this.betChips.getChipNode(this.currentBet);
-                chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
-                destNode.addChild(chipNode);
-
-                let destPosition = cc.v2(0, 0);
-                destPosition = this.handleDestPosition(destNode, destPosition);
-
-                chipNode.runAction(
-                    cc.sequence(
-                        cc.jumpTo(chipFlyingDuration, destPosition, 150, 1),
-                        cc.callFunc(() => {
-                            handPlace.updateDisplayBetValue();
-
-                            this.gameStatus === BlackJackActionType.START_ROUND && (handPlace.clearBetButton.active = true);
-
-                            destNode.destroyAllChildren();
-                            const chipStack = BlackJackUtils.createChipStack(
-                                handPlace.getBetAmount(),
-                                this.betChips,
-                                this.shadowChip,
-                                destNode.skewX
-                            );
-                            chipStack.zIndex = -1;
-                            destNode.addChild(chipStack);
-                            this.updateTotalBetLabel();
-                        })
-                    )
-                );
+                this.throwChipAnim(destNode, startNode, handPlace);
             };
             handPlace.clearBetClickCallback = (checkExistChip) => {
                 handPlace.showBetText(true);
@@ -315,6 +300,35 @@ export default class BlackJack extends SocketIOTableGameBase {
         });
     }
 
+    throwChipAnim(destNode: cc.Node, startNode: cc.Node, handPlace: HandPlace) {
+        const chipFlyingDuration = 0.5;
+        const chipNode = this.betChips.createBigChip(this.currentBet);
+        chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
+        destNode.addChild(chipNode);
+
+        let destPosition = cc.v2(0, 0);
+        destPosition = this.handleDestPosition(destNode, destPosition);
+
+        chipNode.runAction(
+            cc.sequence(
+                cc.jumpTo(chipFlyingDuration, destPosition, this.chipJumpHeight, 1),
+                cc.callFunc(() => {
+                    handPlace.updateDisplayBetValue();
+                    this.gameStatus === BlackJackActionType.START_ROUND && (handPlace.clearBetButton.active = true);
+                    destNode.destroyAllChildren();
+                    const chipStack = BlackJackUtils.createChipStack(
+                        handPlace.getBetAmount(),
+                        this.betChips,
+                        this.shadowChip,
+                        destNode.skewX
+                    );
+                    chipStack.zIndex = -1;
+                    destNode.addChild(chipStack);
+                    this.updateTotalBetLabel();
+                })
+            )
+        );
+    }
     handleDestPosition(destNode: any, destPosition: any) {
         if (destNode.childrenCount > 0) {
             const stack = destNode.children[0].getComponent(ChipStack);

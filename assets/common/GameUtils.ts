@@ -19,8 +19,8 @@ import { numberWithCommas } from "./helpers/NumberHelper";
 import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import Loading from "./loading/view-models/Loading";
-import { userManager } from "./user/UserManager";
 import { sentryLogger } from "./logger";
+import { userManager } from "./user/UserManager";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
@@ -918,6 +918,17 @@ export default class GameUtils {
             }
         });
         return node;
+    }
+
+    public static isChipStack(bet: number, betChips: BetChips, destNode: cc.Node) {
+        const currNodeAmount = destNode.childrenCount;
+        const values = this.getChipQuantity(bet, betChips.chipValues);
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
+        let totalChip = 0;
+        keys.forEach((chip) => {
+            totalChip += values[chip];
+        });
+        return { isStack: totalChip < currNodeAmount, chipValues: values, chipTotal: totalChip };
     }
 
     public static setFontSizeLabelsInNode(node: cc.Node, isCustom = false, fontSize = 36) {
