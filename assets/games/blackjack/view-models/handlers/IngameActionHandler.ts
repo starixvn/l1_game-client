@@ -111,6 +111,7 @@ export default class IngameActionHandler implements DataHandler {
 
         this.main.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
         const isStand = data.isStand;
+        this.main.updateAvailableActions();
         this.main.drawingCardToPlayer(
             card,
             pos,
@@ -119,7 +120,6 @@ export default class IngameActionHandler implements DataHandler {
                       place.updateDisplayScore(true);
                       place.selected = false;
 
-                      this.main.updateAvailableActions();
                       cc.tween(this.main)
                           .delay(this.main.configDuration.delaySwitchHand)
                           .call(() => this.main.switchToNextHand())

@@ -631,6 +631,7 @@ export default class BlackJack extends SocketIOTableGameBase {
             this.lastHandBets.forEach((hand) => (total += hand.bet));
             if (total > userManager.balance) {
                 this.showMiniWarning(i18n.t("messages.notEnoughMoney"));
+                this.slidingDownBetChip(false);
                 this.showProcessingWarning(false);
 
                 return;
