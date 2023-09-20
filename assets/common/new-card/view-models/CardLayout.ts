@@ -109,6 +109,7 @@ export default class CardLayout extends cc.Component {
             if (selected) {
                 this.content.children.forEach((child, index) => {
                     child.is3DNode = true;
+                    child.stopAllActions();
                     cc.tween(child)
                         .delay(0.1 * (this.content.childrenCount - 1 - index))
                         .parallel(
@@ -131,6 +132,7 @@ export default class CardLayout extends cc.Component {
                 this.content.children.forEach((child, index) => {
                     child.is3DNode = true;
                     const isLastChild = index === this.content.childrenCount - 1;
+                    child.stopAllActions();
                     cc.tween(child)
                         .delay(0.1 * index)
                         .parallel(
