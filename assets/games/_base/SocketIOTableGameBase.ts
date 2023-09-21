@@ -1,5 +1,6 @@
 import { userManager } from "../../common/user/UserManager";
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
+import * as sessionManager from "../../common/auth/SessionManager";
 
 const { ccclass } = cc._decorator;
 
@@ -26,9 +27,12 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
             }
             this.onDataGameRoom(data);
         });
-        socket.on("disconnect", () => {
+        socket.on("disconnect", (reason: string) => {
             if (!this.isAlive()) {
                 return;
+            }
+            if (reason === "io server disconnect") {
+                sessionManager.removeInRoomGameId();
             }
             this.closeGame();
         });
