@@ -14,18 +14,20 @@ export default class PontoonDealHandler extends DealHandler {
         });
     }
 
+    drawSecondDealerCardWithBlackJack(dealerCards: CardModel[], actions: DrawCardAction[]) {
+        actions.push(() => {
+            this.main.drawingCardToDealer(null, true, () => {});
+        });
+    }
+
     playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {
         let delaytime = 1;
+        const checkDuration = 1.5;
+        this.main.dealerHand.cardLayout.content.children.forEach((child) => {
+            child.getComponent(NewCard).playAnimation(CardAnimation.DealerCheckBlackJackFail, checkDuration);
+        });
 
-        if (!isBlackJack) {
-            const checkDuration = 1.5;
-
-            this.main.dealerHand.cardLayout.content.children.forEach((child) => {
-                child.getComponent(NewCard).playAnimation(CardAnimation.DealerCheckBlackJackFail, checkDuration);
-            });
-
-            delaytime += checkDuration;
-        }
+        delaytime += checkDuration;
 
         this.main.disabledInRoundAction(true);
 
