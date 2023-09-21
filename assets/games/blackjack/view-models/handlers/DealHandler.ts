@@ -56,7 +56,6 @@ export default class DealHandler implements DataHandler {
             )
             .call(() => {
                 this.playAnimationDealerCheck(dealerCards, dealerCards.length > 1);
-                this.main.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
             })
             .start();
 

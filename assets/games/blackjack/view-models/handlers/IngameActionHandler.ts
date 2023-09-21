@@ -89,6 +89,7 @@ export default class IngameActionHandler implements DataHandler {
         const place = this.main.handPlaces[pos];
         place.setData(data);
         place.selected = false;
+        this.main.disabledInRoundAction(true);
         place.updateDisplayScore(true);
 
         cc.tween(this.main)
