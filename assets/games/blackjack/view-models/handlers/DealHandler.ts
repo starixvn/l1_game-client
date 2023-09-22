@@ -152,6 +152,7 @@ export default class DealHandler implements DataHandler {
                     this.main.dealerHand.showScoreWithOutData(dealerCards, 2);
                     this.main.switchToDealer();
                 } else {
+                    this.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
                     this.main.startRound();
                 }
             })

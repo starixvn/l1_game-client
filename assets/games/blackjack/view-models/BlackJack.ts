@@ -422,7 +422,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     startRound() {
-        this.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
         this.switchToNextHand();
     }
 
