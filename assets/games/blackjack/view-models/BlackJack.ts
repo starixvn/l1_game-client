@@ -148,6 +148,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         drawingCardDelay: 0.7,
         delaySwitchHand: 1
     };
+    public gameStatus: BlackJackActionType;
     private readonly priorityHands = [];
     private roundFinished = false;
     private betChipsPostion;
@@ -716,21 +717,25 @@ export default class BlackJack extends SocketIOTableGameBase {
     showActionsWithBehavior(behavior: number) {
         switch (behavior) {
             case BlackJackActionType.START_ROUND:
+                this.gameStatus = BlackJackActionType.START_ROUND;
                 this.startRoundActionVisibility(true);
                 this.inRoundActionVisibility(false);
                 this.finishActionVisibility(false);
                 break;
             case BlackJackActionType.IN_ROUND:
+                this.gameStatus = BlackJackActionType.IN_ROUND;
                 this.inRoundActionVisibility(true);
                 this.startRoundActionVisibility(false);
                 this.finishActionVisibility(false);
                 break;
             case BlackJackActionType.END_ROUND:
+                this.gameStatus = BlackJackActionType.END_ROUND;
                 this.finishActionVisibility(true);
                 this.inRoundActionVisibility(false);
                 this.startRoundActionVisibility(false);
                 break;
             case BlackJackActionType.ERROR:
+                this.gameStatus = BlackJackActionType.ERROR;
                 this.startRoundActionVisibility(false);
                 this.finishActionVisibility(false);
                 break;
