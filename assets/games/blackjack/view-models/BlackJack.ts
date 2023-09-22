@@ -514,8 +514,6 @@ export default class BlackJack extends SocketIOTableGameBase {
             return;
         }
 
-        this.playSingleChipsSound();
-
         const data = {
             split: {
                 id: this.activeHand.idValue
@@ -528,8 +526,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         if (!this.canSendRequest()) {
             return;
         }
-
-        this.playSingleChipsSound();
 
         const data = {
             double: {

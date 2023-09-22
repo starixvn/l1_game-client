@@ -133,6 +133,7 @@ export default class IngameActionHandler implements DataHandler {
     }
 
     placeChipsForSplitHand(index: number, amount: number) {
+        this.main.playSingleChipsSound();
         const destNode = this.main.chipContainers[index];
         destNode.destroyAllChildren();
         const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips, this.main.shadowChip, destNode.skewX);
@@ -147,6 +148,7 @@ export default class IngameActionHandler implements DataHandler {
     }
 
     placeChipsForDoubleHand(index: number, amount: number) {
+        this.main.playSingleChipsSound();
         const destNode = this.main.chipContainers[index];
         const chipStack = BlackJackUtils.createChipStack(amount / 2, this.main.betChips, this.main.shadowChip, destNode.skewX);
         chipStack.zIndex = -1;
