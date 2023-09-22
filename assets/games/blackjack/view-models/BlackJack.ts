@@ -12,7 +12,6 @@ import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view
 import { userManager } from "../../../common/user/UserManager";
 import { GameState } from "../../_base/GameState";
 import DataHandler from "../../_base/handlers/DataHandler";
-import GameBaseBetHandler from "../../_base/handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
@@ -23,6 +22,7 @@ import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
 import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
+import BlackJackBetHandler from "./handlers/BlackJackBetHandler";
 import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
 import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
 import DealHandler from "./handlers/DealHandler";
@@ -96,7 +96,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     newBetButton: cc.Node = null;
 
     @property(cc.Node)
-    rebetButton: cc.Node = null;
+    rebetAndDealButton: cc.Node = null;
 
     @property(cc.Node)
     clearButton: cc.Node = null;
@@ -168,7 +168,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.standButton.getComponent(NewButton).callback.selected = () => this.onStandClick();
         this.hitButton.getComponent(NewButton).callback.selected = () => this.onHitClick();
         this.newBetButton.getComponent(NewButton).callback.selected = () => this.onNewBetClick();
-        this.rebetButton.getComponent(NewButton).callback.selected = () => this.onRebetClick();
+        this.rebetAndDealButton.getComponent(NewButton).callback.selected = () => this.onRebetClick();
         this.clearButton.getComponent(NewButton).callback.selected = () => this.onClearClick();
         this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick();
     }
@@ -197,7 +197,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.noticeHandler = new GameBaseNoticeHandler(this);
         this.errorHandler = new GameBaseErrorHandler(this);
         this.configsHandler = new GameBaseConfigsHandler(this);
-        this.betHandler = new GameBaseBetHandler(this);
+        this.betHandler = new BlackJackBetHandler(this);
         this.voidTicketHandler = new GameBaseVoidTicketDataHandler(this);
 
         this.setupSpecialHandler();
@@ -676,7 +676,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.standButton.getComponent(FadeEffectButton).setActive(false);
         this.hitButton.getComponent(FadeEffectButton).setActive(false);
         this.newBetButton.getComponent(FadeEffectButton).setActive(false);
-        this.rebetButton.getComponent(FadeEffectButton).setActive(false);
+        this.rebetAndDealButton.getComponent(FadeEffectButton).setActive(false);
         this.clearButton.getComponent(FadeEffectButton).setActive(false);
         this.dealButton.getComponent(FadeEffectButton).setActive(false);
     }
@@ -757,7 +757,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     finishActionVisibility(status: boolean) {
-        this.rebetButton.getComponent(FadeEffectButton).setActive(status);
+        this.rebetAndDealButton.getComponent(FadeEffectButton).setActive(status);
         this.newBetButton.getComponent(FadeEffectButton).setActive(status);
     }
 
