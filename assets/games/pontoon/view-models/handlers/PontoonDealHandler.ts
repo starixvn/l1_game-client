@@ -2,6 +2,12 @@ import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/v
 import DealHandler, { DrawCardAction } from "../../../blackjack/view-models/handlers/DealHandler";
 
 export default class PontoonDealHandler extends DealHandler {
+    handle(data: any) {
+        super.handle(data);
+        if (data.pontoonNotice) {
+            this.processFailedDealHands(data.pontoonNotice);
+        }
+    }
     drawFirstDealerCard(dealerCards: CardModel[], actions: DrawCardAction[]) {
         actions.push(() => {
             this.main.drawingCardToDealer(null, true);
