@@ -18,7 +18,6 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     handle(data: any): boolean {
         if (data.finish) {
             this.finishDataCache = data.finish;
-            this.main.inRoundActionVisibility(false);
             this.main.finishRound();
         }
         return true;

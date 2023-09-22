@@ -1,5 +1,4 @@
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
-import { BlackJackActionType } from "../../../blackjack/view-models/BlackJack";
 import DealHandler, { DrawCardAction } from "../../../blackjack/view-models/handlers/DealHandler";
 
 export default class PontoonDealHandler extends DealHandler {
@@ -36,7 +35,6 @@ export default class PontoonDealHandler extends DealHandler {
             .delay(delaytime)
             .call(() => {
                 this.main.startRound();
-                !isBlackJack && this.main.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
             })
             .start();
     }
