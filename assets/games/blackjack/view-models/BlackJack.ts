@@ -152,6 +152,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     private readonly priorityHands = [];
     private roundFinished = false;
     private betChipsPostion;
+    protected moveCardDuration = 0.45;
 
     constructor() {
         super();
@@ -354,15 +355,14 @@ export default class BlackJack extends SocketIOTableGameBase {
         handPlace.addCard(cardNode);
 
         const pullDuration = 0.2;
-        const moveDuration = 0.45;
         cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
         cc.tween(cardNode)
             .delay(pullDuration)
             .call(() => {
                 this.playAudioCardSliding();
-                cardComponent.playAnimation(CardAnimation.DealerToHand, moveDuration);
+                cardComponent.playAnimation(CardAnimation.DealerToHand, this.moveCardDuration);
             })
-            .to(moveDuration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: "easeOut" })
+            .to(this.moveCardDuration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: "easeOut" })
             .call(() => {
                 handPlace.cardLayout.updateLayout();
                 onComplete();
@@ -381,15 +381,17 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.dealerHand.addCard(cardNode);
 
         const pullDuration = 0.2;
-        const moveDuration = 0.45;
         cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
         cc.tween(cardNode)
             .delay(pullDuration)
             .call(() => {
                 this.playAudioCardSliding();
-                cardComponent.playAnimation(faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand, moveDuration);
+                cardComponent.playAnimation(
+                    faceDown ? CardAnimation.DealerDrawingFaceDown : CardAnimation.DealerToHand,
+                    this.moveCardDuration
+                );
             })
-            .to(moveDuration, { position: nextPosition, rotationX: rotationX }, { easing: "easeOut" })
+            .to(this.moveCardDuration, { position: nextPosition, rotationX: rotationX }, { easing: "easeOut" })
             .call(() => {
                 onComplete();
             })

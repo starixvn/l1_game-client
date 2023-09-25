@@ -15,6 +15,8 @@ export default class Pontoon extends BlackJack {
     @property(cc.Label)
     fiveCardsOddsLabel: cc.Label = null;
 
+    protected moveCardDuration = 0.35;
+
     constructor() {
         super();
         this.gameId = PontoonId;
