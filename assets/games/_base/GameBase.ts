@@ -261,6 +261,11 @@ export default class GameBase extends GameViewBase {
         this.currentDataLogs = [];
     }
 
+    addRoundHistory(history, maxNumberOfHistory = 100) {
+        history?.roundId !== +this.currentDataLogs[0]?.roundId && this.currentDataLogs.unshift(history);
+        this.currentDataLogs.length > maxNumberOfHistory && this.currentDataLogs.pop();
+    }
+
     onEnable() {
         this.clearAllData();
         this.joinGame();

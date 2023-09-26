@@ -34,7 +34,7 @@ export class RoundHistory extends EventEmitterBase {
 
     add(roundHistory: any) {
         this.winningStreakTimeOut && clearTimeout(this.winningStreakTimeOut);
-        this.roundHistory.unshift(roundHistory);
+        +roundHistory?.roundId !== +this.roundHistory[0]?.roundId && this.roundHistory.unshift(roundHistory);
         if (this.roundHistory.length > this.historySize) {
             this.roundHistory.pop();
         }
@@ -79,7 +79,9 @@ export class RoundHistory extends EventEmitterBase {
     change(roundHistory: any) {
         const data = _.cloneDeep(roundHistory);
         data.unshift(...this.roundHistory);
-        this.roundHistory = data;
+        this.roundHistory = data.filter(
+            (round, index, histories) => histories?.findIndex((history) => +history.roundId === +round.roundId) === index
+        );
         this.initWinningStreakData();
         this.emit(RoundHistory.Events.FIRST_LOAD, this.roundHistory);
         this.emit(RoundHistory.Events.CHANGE, this.roundHistory);

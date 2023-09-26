@@ -8,8 +8,7 @@ export default class SedieFinishHandler extends GameBaseFinishHandler {
 
     handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {
         super.handleFinishData(dataFinish, onFinishHandlingData);
-        this.main.currentDataLogs.unshift(dataFinish);
-        this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+        this.main.addRoundHistory(dataFinish);
         this.main.showResult();
 
         if (!this.main.node.activeInHierarchy) {

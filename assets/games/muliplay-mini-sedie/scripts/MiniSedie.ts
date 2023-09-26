@@ -98,8 +98,7 @@ export default class MiniSedie extends MultiplayGameSingle {
         dataLog && this.highlightWonItems(dataLog.settlementResult, false);
     }
 
-    public setDots(result) {
-        const roundId = this.gameData.roundId !== undefined ? this.gameData.roundId : 1;
+    public setDots(result, roundId) {
         const randomOption = this.positionRandomDot.children[roundId % 5];
         Object.keys(result).forEach((key, index) => {
             this.dots[index].node.position = randomOption.children[index].position;
@@ -158,7 +157,7 @@ export default class MiniSedie extends MultiplayGameSingle {
     showSettlementResult(settlement: any) {
         this.gameAudios && this.gameAudios.playEndGameAudio();
         if (appManager.GAME_IS_SHOWED) {
-            this.setDots(settlement.result);
+            this.setDots(settlement.result, settlement.roundId);
             this.handleAnimResult();
         }
     }
@@ -219,7 +218,7 @@ export default class MiniSedie extends MultiplayGameSingle {
         this.gameData.roundHistory.update();
         this.updateRoundHistory();
         this.gameData.resultHash.updateUI();
-        this.setDots(settlement.result);
+        this.setDots(settlement.result, settlement.roundId);
     }
 
     highlightAndPayout(settlement: any) {

@@ -7,8 +7,7 @@ export default class VipSedieWarFinishHandler extends SedieFinishHandler {
     }
 
     handleFinishData(dataFinish, onFinishHandlingData: () => void = null) {
-        this.main.currentDataLogs.unshift(dataFinish);
-        this.main.currentDataLogs.length > 100 && this.main.currentDataLogs.pop();
+        this.main.addRoundHistory(dataFinish);
         this.main.setDotsResult();
         cc.tween(this.main)
             .call(() => this.main.openPlate(true))

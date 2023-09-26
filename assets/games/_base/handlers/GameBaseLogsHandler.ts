@@ -18,7 +18,9 @@ export default class GameBaseLogsHandler implements DataHandler {
 
             const dataLogs = _.cloneDeep(data.roundHistory);
             dataLogs.unshift(...this.main.currentDataLogs);
-            this.main.currentDataLogs = dataLogs;
+            this.main.currentDataLogs = dataLogs.filter(
+                (log, index, histories) => histories?.findIndex((history) => +history.roundId === +log.roundId) === index
+            );
 
             if (this.main.currentDataLogs.length > 0) {
                 this.buildLogs(this.main.currentDataLogs);
