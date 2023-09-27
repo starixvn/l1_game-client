@@ -485,7 +485,6 @@ export default class BlackJack extends SocketIOTableGameBase {
 
         this.lastHandBets = hands;
         this.rebet();
-        this.slidingDownBetChip(true);
     }
 
     socketSendData(key: string, data: any) {
@@ -812,21 +811,25 @@ export default class BlackJack extends SocketIOTableGameBase {
         AudioManager.getInstance().playSFX(this.singleChipAudio.clip);
     }
 
-    slidingDownBetChip(isMoveBottom: boolean) {
+    slidingDownBetChip(isMoveBottom: boolean, isAnimated = true) {
         const movePosition = cc.v3(
             this.betChipsContainer.parent.position.x,
             this.bottomBetChipsPos.position.y,
             this.betChipsContainer.parent.position.z
         );
 
-        cc.tween(this.betChipsContainer.parent)
-            .to(
-                0.3,
-                {
-                    position: isMoveBottom ? movePosition : this.betChipsPostion
-                },
-                { easing: isMoveBottom ? "easeOutCirc" : "easeInCirc" }
-            )
-            .start();
+        if (isAnimated) {
+            cc.tween(this.betChipsContainer.parent)
+                .to(
+                    0.3,
+                    {
+                        position: isMoveBottom ? movePosition : this.betChipsPostion
+                    },
+                    { easing: isMoveBottom ? "easeOutCirc" : "easeInCirc" }
+                )
+                .start();
+        } else {
+            this.betChipsContainer.parent.position = isMoveBottom ? movePosition : this.betChipsPostion;
+        }
     }
 }
