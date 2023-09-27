@@ -72,7 +72,7 @@ export default class JackpotManager {
     onReceivedJackpotPoolsData(data: any) {
         let pools = lodash.groupBy(data, "gameId");
         pools = this.filterOfferGames(pools);
-        pools = this.sortPoolsASC(pools);
+        pools = this.sortPoolStakeASC(pools);
         const poolsGroup = this.groupJackpotPoolsWithType(pools);
         uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS, poolsGroup);
         uiManager.emitter.emit(InternalEvents.RECEIVED_RAW_JACKPOT_POOLS, data);
@@ -88,9 +88,9 @@ export default class JackpotManager {
         return pools;
     }
 
-    sortPoolsASC(pools) {
+    sortPoolStakeASC(pools) {
         Object.values(pools).forEach((pool: any) => {
-            pool.sort((a, b) => a.amount - b.amount);
+            pool.sort((a, b) => a.pool - b.pool);
         });
 
         return pools;
