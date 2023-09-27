@@ -656,14 +656,8 @@ export default class BlackJack extends SocketIOTableGameBase {
             //restore chip value
             this.lastHandBets.forEach((hand) => {
                 this.playSingleChipsSound();
-
-                const chipStack = BlackJackUtils.createChipStack(
-                    hand.bet,
-                    this.betChips,
-                    this.shadowChip,
-                    this.chipContainers[hand.pos - 1].skewX
-                );
-                this.chipContainers[hand.pos - 1].addChild(chipStack);
+                this.chipContainers[hand.pos - 1].destroyAllChildren();
+                this.createChipStack(hand.bet, this.chipContainers[hand.pos - 1]);
                 const place = this.handPlaces[hand.pos - 1];
                 place.updateDisplayBetValue(hand.bet);
                 place.showBetText(false);
@@ -671,6 +665,12 @@ export default class BlackJack extends SocketIOTableGameBase {
             this.updateTotalBetLabel();
             this.rebet();
         });
+    }
+
+    createChipStack(betAmount: any, node: cc.Node) {
+        const chipStack = BlackJackUtils.createChipStack(betAmount, this.betChips, this.shadowChip, node.skewX);
+        node.addChild(chipStack);
+        return chipStack;
     }
 
     onClearClick() {

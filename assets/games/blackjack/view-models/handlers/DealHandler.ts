@@ -6,7 +6,6 @@ import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/v
 import NoticeUtil from "../../../../common/utils/NoticeUtil";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack, { BlackJackActionType } from "../BlackJack";
-import BlackJackUtils from "../BlackJackUtils";
 
 export type DrawCardAction = () => void;
 
@@ -81,13 +80,7 @@ export default class DealHandler implements DataHandler {
                 place.showBetText(false);
                 place.syncBetValue();
                 this.main.chipContainers[pos].destroyAllChildren();
-                const chipStack = BlackJackUtils.createChipStack(
-                    hand.bet,
-                    this.main.betChips,
-                    this.main.shadowChip,
-                    this.main.chipContainers[pos].skewX
-                );
-                this.main.chipContainers[pos].addChild(chipStack);
+                this.main.createChipStack(hand.bet, this.main.chipContainers[pos]);
             }
         });
     }

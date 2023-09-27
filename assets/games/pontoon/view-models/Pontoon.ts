@@ -72,13 +72,20 @@ export default class Pontoon extends BlackJack {
         const chipNode = this.betChips.createChipFly(this.currentBet);
         const propertiesChip = chipNode.getComponent(ChipViewNew);
         propertiesChip.initChipValue(chipFly.rotationComp1, 0.7, 0.7, 5);
+        let nodeTmp: cc.Node;
+        if (destNode.childrenCount === 0) {
+            nodeTmp = new cc.Node();
+            destNode.addChild(nodeTmp);
+        } else {
+            nodeTmp = destNode.children[0];
+        }
 
         chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
 
-        destNode.addChild(chipNode);
+        nodeTmp.addChild(chipNode);
         let destPosition = cc.v2(0, 0);
-        if (destNode.childrenCount > 1) {
-            destPosition = cc.v2(_.random(-2, 2), (destNode.childrenCount - 1) * 6);
+        if (nodeTmp.childrenCount > 1) {
+            destPosition = cc.v2(_.random(-2, 2), (nodeTmp.childrenCount - 1) * 6);
         }
 
         chipNode.runAction(
@@ -128,5 +135,11 @@ export default class Pontoon extends BlackJack {
             .to(0.05, { rotationNode: 5 })
 
             .start();
+    }
+
+    createChipStack(betAmount: any, node: cc.Node) {
+        const chipStack = GameUtils.createChipFlyStack(betAmount, this.betChips);
+        node.addChild(chipStack);
+        return chipStack;
     }
 }

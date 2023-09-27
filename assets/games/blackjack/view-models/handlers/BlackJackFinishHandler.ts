@@ -137,7 +137,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                         this.handleHandAction(hand, betAmount, index);
                     }
                 } else {
-                    const chip = this.main.chipContainers[index].children[0];
+                    const chip = this.getChipsHandPlace(index);
                     this.main.handPlaces[index].showBetValue(false);
                     const destPos = chip.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
                     chip.runAction(
@@ -160,11 +160,15 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         }
         this.main.updateUserBalance();
     }
+
+    getChipsHandPlace(index: number) {
+        return this.main.chipContainers[index].children[0];
+    }
+
     handleHandAction(hand: any, betAmount: any, index: number) {
         const winAmount = +hand.betwin - betAmount;
         const destNode = this.main.chipContainers[index];
-        const chipStack = BlackJackUtils.createChipStack(winAmount, this.main.betChips, this.main.shadowChip, destNode.skewX);
-        destNode.addChild(chipStack);
+        const chipStack = this.main.createChipStack(winAmount, destNode);
         const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
         chipStack.position = cc.v3(startPos);
 
@@ -182,15 +186,13 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                 cc.delayTime(0.1),
                 cc.callFunc(() => {
                     destNode.destroyAllChildren();
-                    const chipStack = BlackJackUtils.createChipStack(
-                        +hand.betwin,
-                        this.main.betChips,
-                        this.main.shadowChip,
-                        destNode.skewX
-                    );
-                    destNode.addChild(chipStack);
+                    this.main.createChipStack(+hand.betwin, destNode);
                 })
             )
         );
+    }
+
+    createChipStack(winAmount: any, destNode: cc.Node) {
+        return BlackJackUtils.createChipStack(winAmount, this.main.betChips, this.main.shadowChip, destNode.skewX);
     }
 }

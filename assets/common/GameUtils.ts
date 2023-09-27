@@ -2,6 +2,7 @@ import axios from "axios";
 import { Base64 } from "base64-string";
 import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import * as _ from "lodash";
 import SocketIOController from "../SocketIOController";
 import * as SessionManager from "../common/auth/SessionManager";
 import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
@@ -14,6 +15,8 @@ import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import { preloadAssets } from "./PreloadRemoteAsset";
 import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 import BetChips from "./bet-chips/view-models/BetChips";
+import BetChipsNew from "./bet-chips/view-models/BetChipsNew";
+import ChipViewNew from "./bet-chips/view-models/ChipViewNew";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
 import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
@@ -915,6 +918,28 @@ export default class GameUtils {
                     shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
                     chipNode.addChild(shadow);
                 }
+            }
+        });
+        return node;
+    }
+
+    public static createChipFlyStack(bet: number, betChips: BetChipsNew) {
+        const values = this.getChipQuantity(bet, betChips.chipValues);
+        const node = new cc.Node();
+        const keys = Object.keys(values).sort((a, b) => +b - +a);
+        keys.forEach((chip) => {
+            const count = values[chip];
+            for (let i = 0; i < count; i++) {
+                let chipNode: cc.Node;
+                if (+chip === 0) {
+                    chipNode = betChips.createLowValueChip();
+                } else {
+                    chipNode = betChips.createChipFly(+chip);
+                    const properties = chipNode.getComponent(ChipViewNew);
+                    properties.initChipValue(0, 0.7, 0.7, 5);
+                }
+                chipNode.position = cc.v3(_.random(-2, 2), node.childrenCount * 6, 0);
+                node.addChild(chipNode);
             }
         });
         return node;
