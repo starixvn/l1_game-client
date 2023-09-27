@@ -117,7 +117,8 @@ export default class JackpotManager {
     }
 
     onReceivedJackpotPoolsOnGameData(data: any) {
-        uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, lodash.groupBy(data, "gameId"));
+        const sortedPoolStakes = this.sortPoolStakeASC(lodash.groupBy(data, "gameId"));
+        uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, sortedPoolStakes);
     }
 
     onReceivedJackpotWinnerData(data: any) {
