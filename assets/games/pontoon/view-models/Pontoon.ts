@@ -65,7 +65,7 @@ export default class Pontoon extends BlackJack {
     }
 
     throwChipAnim(destNode: cc.Node, startNode: cc.Node, handPlace: HandPlace) {
-        const chipFlyingDuration = 0.7;
+        const chipFlyingDuration = 0.5;
         const randomValue = lodash.random(0, 0);
         const chipFly = this.chipFlyConfig.getChipFlyConfig(randomValue);
         const chipNode = this.betChips.createChipFly(this.currentBet);
@@ -89,7 +89,7 @@ export default class Pontoon extends BlackJack {
 
         chipNode.runAction(
             cc.sequence(
-                cc.jumpTo(chipFlyingDuration - 0.1, destPosition.x, destPosition.y, this.chipJumpHeight, 1),
+                cc.jumpTo(chipFlyingDuration, destPosition.x, destPosition.y, this.chipJumpHeight, 1),
 
                 cc.callFunc(() => {
                     handPlace.updateDisplayBetValue();
@@ -128,11 +128,12 @@ export default class Pontoon extends BlackJack {
                 scaleY: chipFly.scaleY1,
                 rotationNode: chipFly.rotationNode1
             })
-            .to(0.2, { rotationNode: chipFly.rotationNode2, scaleX: chipFly.scaleX2, scaleY: chipFly.scaleY2 })
-            .to(0.2, { rotationNode: chipFly.rotationNode3 })
-            .to(0.05, { rotationNode: -5 })
-            .to(0.05, { rotationNode: 5 })
+            .to(0.2, { rotationNode: chipFly.rotationNode3, scaleX: chipFly.scaleX2, scaleY: chipFly.scaleY2 })
+            //.to(0.1, { rotationNode: chipFly.rotationNode3 })
 
+            .to(0.05, { skewY: -5 })
+            .to(0.1, { skewY: 5 })
+            .to(0.05, { skewY: 0 })
             .start();
     }
 

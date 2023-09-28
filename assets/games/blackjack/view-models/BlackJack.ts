@@ -252,7 +252,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     initHandPlaces() {
-        const chipFlyingDuration = 0.7;
         this.handPlaces.forEach((handPlace, index) => {
             handPlace.betItemClickCallback = () => {
                 if (this.waitingProcessing) {
