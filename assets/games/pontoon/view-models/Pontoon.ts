@@ -87,6 +87,28 @@ export default class Pontoon extends BlackJack {
             destPosition = cc.v2(lodash.random(-2, 2), (nodeTmp.childrenCount - 1) * 6);
         }
 
+        this.moveAndMergeChip(chipNode, chipFlyingDuration, destPosition, handPlace, nodeTmp);
+        this.shakeChipAnim(propertiesChip, chipFly);
+    }
+
+    private shakeChipAnim(propertiesChip: ChipViewNew, chipFly: any) {
+        cc.tween(propertiesChip)
+            .to(0.2, {
+                rotation: chipFly.rotationComp2,
+                scaleX: chipFly.scaleX1,
+                scaleY: chipFly.scaleY1,
+                rotationNode: chipFly.rotationNode1
+            })
+            .to(0.2, { rotationNode: chipFly.rotationNode3, scaleX: chipFly.scaleX2, scaleY: chipFly.scaleY2 })
+            //.to(0.1, { rotationNode: chipFly.rotationNode3 })
+
+            .to(0.05, { skewY: -5 })
+            .to(0.1, { skewY: 5 })
+            .to(0.05, { skewY: 0 })
+            .start();
+    }
+
+    private moveAndMergeChip(chipNode: cc.Node, chipFlyingDuration: number, destPosition: any, handPlace: HandPlace, nodeTmp: cc.Node) {
         chipNode.runAction(
             cc.sequence(
                 cc.jumpTo(chipFlyingDuration, destPosition.x, destPosition.y, this.chipJumpHeight, 1),
@@ -121,20 +143,6 @@ export default class Pontoon extends BlackJack {
                 })
             )
         );
-        cc.tween(propertiesChip)
-            .to(0.2, {
-                rotation: chipFly.rotationComp2,
-                scaleX: chipFly.scaleX1,
-                scaleY: chipFly.scaleY1,
-                rotationNode: chipFly.rotationNode1
-            })
-            .to(0.2, { rotationNode: chipFly.rotationNode3, scaleX: chipFly.scaleX2, scaleY: chipFly.scaleY2 })
-            //.to(0.1, { rotationNode: chipFly.rotationNode3 })
-
-            .to(0.05, { skewY: -5 })
-            .to(0.1, { skewY: 5 })
-            .to(0.05, { skewY: 0 })
-            .start();
     }
 
     createChipStack(betAmount: any, node: cc.Node) {
