@@ -2,6 +2,7 @@ import axios from "axios";
 import { Base64 } from "base64-string";
 import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+import { lodash } from "../ClientModules";
 import SocketIOController from "../SocketIOController";
 import * as SessionManager from "../common/auth/SessionManager";
 import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
@@ -23,7 +24,6 @@ import { FormationHandler } from "./i18n/FormationHandler";
 import Loading from "./loading/view-models/Loading";
 import { sentryLogger } from "./logger";
 import { userManager } from "./user/UserManager";
-import _ = require("lodash");
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
@@ -938,7 +938,7 @@ export default class GameUtils {
                     const properties = chipNode.getComponent(ChipViewNew);
                     properties.initChipValue(0, 0.7, 0.7, 5);
                 }
-                chipNode.position = cc.v3(_.random(-2, 2), node.childrenCount * 6, 0);
+                chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * 6, 0);
                 node.addChild(chipNode);
             }
         });

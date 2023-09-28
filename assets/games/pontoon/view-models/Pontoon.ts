@@ -1,5 +1,4 @@
-import * as _ from "lodash";
-
+import { lodash } from "../../../ClientModules";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import ChipFlyConfig from "../../../common/bet-chips/view-models/ChipFlyConfig";
@@ -67,7 +66,7 @@ export default class Pontoon extends BlackJack {
 
     throwChipAnim(destNode: cc.Node, startNode: cc.Node, handPlace: HandPlace) {
         const chipFlyingDuration = 0.7;
-        const randomValue = _.random(0, 0);
+        const randomValue = lodash.random(0, 0);
         const chipFly = this.chipFlyConfig.getChipFlyConfig(randomValue);
         const chipNode = this.betChips.createChipFly(this.currentBet);
         const propertiesChip = chipNode.getComponent(ChipViewNew);
@@ -85,7 +84,7 @@ export default class Pontoon extends BlackJack {
         nodeTmp.addChild(chipNode);
         let destPosition = cc.v2(0, 0);
         if (nodeTmp.childrenCount > 1) {
-            destPosition = cc.v2(_.random(-2, 2), (nodeTmp.childrenCount - 1) * 6);
+            destPosition = cc.v2(lodash.random(-2, 2), (nodeTmp.childrenCount - 1) * 6);
         }
 
         chipNode.runAction(
