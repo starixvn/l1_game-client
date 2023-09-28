@@ -1,7 +1,6 @@
 import ChipStack from "../../../../common/chip-stack/views/ChipStack";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack, { BlackJackActionType } from "../BlackJack";
-import BlackJackUtils from "../BlackJackUtils";
 
 export default class IngameActionHandler implements DataHandler {
     constructor(private readonly main: BlackJack) {}
@@ -138,10 +137,8 @@ export default class IngameActionHandler implements DataHandler {
         this.main.playSingleChipsSound();
         const destNode = this.main.chipContainers[index];
         destNode.destroyAllChildren();
-        const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips, this.main.shadowChip, destNode.skewX);
+        const chipStack = this.main.createChipStack(amount, destNode);
         chipStack.zIndex = -1;
-        destNode.addChild(chipStack);
-
         const worldPositon = destNode.parent.convertToWorldSpaceAR(cc.v2(0, -300));
         const localPosition = destNode.convertToNodeSpaceAR(worldPositon);
         chipStack.position = cc.v3(localPosition);
@@ -152,9 +149,8 @@ export default class IngameActionHandler implements DataHandler {
     placeChipsForDoubleHand(index: number, amount: number) {
         this.main.playSingleChipsSound();
         const destNode = this.main.chipContainers[index];
-        const chipStack = BlackJackUtils.createChipStack(amount / 2, this.main.betChips, this.main.shadowChip, destNode.skewX);
+        const chipStack = this.main.createChipStack(amount / 2, destNode);
         chipStack.zIndex = -1;
-        destNode.addChild(chipStack);
 
         const worldPositon = destNode.parent.convertToWorldSpaceAR(cc.v2(0, -300));
         const localPosition = destNode.convertToNodeSpaceAR(worldPositon);
@@ -173,9 +169,8 @@ export default class IngameActionHandler implements DataHandler {
                 cc.jumpTo(0.5, destPosition, 250, 1),
                 cc.callFunc(() => {
                     destNode.destroyAllChildren();
-                    const chipStack = BlackJackUtils.createChipStack(amount, this.main.betChips, this.main.shadowChip, destNode.skewX);
+                    const chipStack = this.main.createChipStack(amount, destNode);
                     chipStack.zIndex = -1;
-                    destNode.addChild(chipStack);
                     this.main.handPlaces[index].updateDisplayBetValue(amount);
                     this.main.updateTotalBetLabel();
                 })

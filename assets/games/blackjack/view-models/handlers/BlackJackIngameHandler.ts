@@ -3,7 +3,6 @@ import * as _ from "lodash";
 import NewCard from "../../../../common/new-card/view-models/NewCard";
 import DataHandler from "../../../_base/handlers/DataHandler";
 import BlackJack, { BlackJackActionType } from "../BlackJack";
-import BlackJackUtils from "../BlackJackUtils";
 
 export default class BlackJackIngameHandler implements DataHandler {
     constructor(protected readonly main: BlackJack) {}
@@ -43,13 +42,8 @@ export default class BlackJackIngameHandler implements DataHandler {
                 });
 
                 this.main.chipContainers[pos].destroyAllChildren();
-                const chipStack = BlackJackUtils.createChipStack(
-                    hand.bet,
-                    this.main.betChips,
-                    this.main.shadowChip,
-                    this.main.chipContainers[pos].skewX
-                );
-                this.main.chipContainers[pos].addChild(chipStack);
+                this.main.createChipStack(hand.bet, this.main.chipContainers[pos]);
+
                 place.syncBetValue();
                 place.updateDisplayScore(true);
             });
