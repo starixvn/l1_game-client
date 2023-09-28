@@ -96,7 +96,7 @@ export default class Pontoon extends BlackJack {
                     handPlace.updateDisplayBetValue();
                     this.gameStatus === BlackJackActionType.START_ROUND && (handPlace.clearBetButton.active = true);
                     this.updateTotalBetLabel();
-                    const stackObj = GameUtils.isChipStack(handPlace.getBetAmount(), this.betChips, destNode);
+                    const stackObj = GameUtils.isChipStack(handPlace.getBetAmount(), this.betChips, nodeTmp);
                     if (stackObj.isStack) {
                         const chipTotal = stackObj.chipTotal;
                         const nodeArr = [];
@@ -108,8 +108,8 @@ export default class Pontoon extends BlackJack {
                                 nodeArr.push(chip);
                             }
                         });
-                        for (let i = 0; i < destNode.childrenCount; i++) {
-                            const chipCurr = destNode.children[i];
+                        for (let i = 0; i < nodeTmp.childrenCount; i++) {
+                            const chipCurr = nodeTmp.children[i];
                             if (i < chipTotal) {
                                 const chipView = chipCurr.getComponent(ChipView);
                                 chipView.setColor(this.chipConfig.getChipColor(nodeArr[i]));
