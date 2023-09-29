@@ -16,7 +16,7 @@ export default class ThreeCardsLogsHandler extends GameBaseLogsHandler {
         if (this.main.timeHandler.isInWaitTime) {
             if (this.main.currentTimeRemaining === this.main.config.fullTime) {
                 this.main.showResult(dataLogs[0]);
-            } else if (this.main.currentTimeRemaining <= this.main.config.fullTime - 2) {
+            } else {
                 this.main.updateAfterResult();
                 this.main.highlightWonItems(dataLogs[0].settlementResult);
             }
