@@ -47,6 +47,9 @@ export default class SkeletonIcon extends cc.Component {
     @lazyInject(SplashConfig)
     protected readonly splashConfig: SplashConfig;
 
+    private readonly transformersGameId = 70;
+    private readonly transformersLabelFontSize = 23;
+
     protected onLoad(): void {
         this.gameName.node.active = false;
     }
@@ -55,9 +58,9 @@ export default class SkeletonIcon extends cc.Component {
         this.gameName.node.active = true;
         this.gameName.string = text;
         const language = getLocale();
-        if (gameId === 70) {
+        if (gameId === this.transformersGameId) {
             if (language === "en-US" || language === "id-ID") {
-                this.gameName.fontSize -= 1;
+                this.gameName.fontSize = this.transformersLabelFontSize;
             }
         }
     }
