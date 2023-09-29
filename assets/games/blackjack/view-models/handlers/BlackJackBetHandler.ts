@@ -8,7 +8,7 @@ export default class BlackJackBetHandler extends GameBaseBetHandler {
 
     handleEndBet(data: any) {
         super.handleEndBet(data);
-        if (data.endBet == -1 && this.main.gameStatus != BlackJackActionType.IN_ROUND) {
+        if (data.endBet === -1 && this.main.gameStatus !== BlackJackActionType.IN_ROUND) {
             this.main.slidingDownBetChip(false);
             this.main.showActionsWithBehavior(BlackJackActionType.START_ROUND);
         }
