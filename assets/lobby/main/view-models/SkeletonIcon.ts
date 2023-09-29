@@ -47,20 +47,19 @@ export default class SkeletonIcon extends cc.Component {
     @lazyInject(SplashConfig)
     protected readonly splashConfig: SplashConfig;
 
-    private readonly transformersGameId = 70;
-    private readonly transformersLabelFontSize = 23;
-
     protected onLoad(): void {
         this.gameName.node.active = false;
     }
 
     setGameName(text: string, gameId: number) {
+        const transformersGameId = 70;
+        const transformersLabelFontSize = 23;
         this.gameName.node.active = true;
         this.gameName.string = text;
         const language = getLocale();
-        if (gameId === this.transformersGameId) {
+        if (gameId === transformersGameId) {
             if (language === "en-US" || language === "id-ID") {
-                this.gameName.fontSize = this.transformersLabelFontSize;
+                this.gameName.fontSize = transformersLabelFontSize;
             }
         }
     }
