@@ -940,7 +940,7 @@ export default class GameUtils {
                     const properties = chipNode.getComponent(ChipViewNew);
                     properties.initChipValue(ChipParams.rotation, ChipParams.scaleX, ChipParams.scaleY, ChipParams.offset);
                 }
-                chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * (ChipParams.offset + 1), 0);
+                chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * (ChipParams.offset + ChipParams.offsetStack), 0);
                 node.addChild(chipNode);
             }
         });

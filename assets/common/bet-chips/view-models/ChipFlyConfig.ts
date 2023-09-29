@@ -46,5 +46,5 @@ export const ChipParams = {
     scaleY: 0.55,
     offset: 5,
     rotation: 0,
-    offsetStack: 3
+    offsetStack: 1
 };

@@ -84,7 +84,8 @@ export default class Pontoon extends BlackJack {
         nodeTmp.addChild(chipNode);
         let destPosition = cc.v2(0, 0);
         if (nodeTmp.childrenCount > 1) {
-            destPosition = cc.v2(lodash.random(-2, 2), (nodeTmp.childrenCount - 1) * ChipParams.offset + ChipParams.offsetStack);
+            const destY = (nodeTmp.childrenCount - 1) * (ChipParams.offset + ChipParams.offsetStack);
+            destPosition = cc.v2(lodash.random(-2, 2), destY);
         }
 
         this.moveAndMergeChip(chipNode, chipFlyingDuration, destPosition, handPlace, nodeTmp);
