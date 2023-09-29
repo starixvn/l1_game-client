@@ -4,7 +4,6 @@ import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import ChipFlyConfig, { ChipParams } from "../../../common/bet-chips/view-models/ChipFlyConfig";
 import ChipView from "../../../common/bet-chips/view-models/ChipView";
 import ChipViewNew from "../../../common/bet-chips/view-models/ChipViewNew";
-import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import GameUtils from "../../../common/GameUtils";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJack, { BlackJackActionType } from "../../blackjack/view-models/BlackJack";
@@ -57,11 +56,6 @@ export default class Pontoon extends BlackJack {
 
         const fiveCardsOdds = `${GameUtils.roundFixed(+this.gameConfigs.odds.fiveCardTrick - 1, 2)}`;
         this.fiveCardsOddsLabel.string = GameUtils.getText("pontoon.five_card_pay", { odds: fiveCardsOdds }).toUpperCase();
-    }
-
-    onDoubleClick() {
-        super.onDoubleClick();
-        this.doubleButton.getComponent(FadeEffectButton).setDisabled(true);
     }
 
     throwChipAnim(destNode: cc.Node, startNode: cc.Node, handPlace: HandPlace) {
