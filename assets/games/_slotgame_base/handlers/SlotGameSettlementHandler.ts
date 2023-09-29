@@ -8,6 +8,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
     async handle(data: any) {
         if (data.apiError) {
             this.handleApiError(data);
+            this.main.isFinishedRound = true;
         }
 
         if (data.bonuses) {
@@ -20,8 +21,8 @@ export default class SlotGameSettlementHandler implements DataHandler {
 
         if (data.finish) {
             await this.handleFinish(data.finish);
+            this.main.isFinishedRound = true;
         }
-        this.main.isFinishedRound = true;
     }
 
     handleApiError(data: any) {
