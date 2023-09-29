@@ -129,7 +129,8 @@ export default class JackpotManager {
             this.requestAllJackpotPools();
         }
         const sortedPoolStakes = this.sortPoolStakeASC(lodash.groupBy(data, "gameId"));
-        jackpotManager.addRequestedDataGame(Object.keys(sortedPoolStakes)[0]);
+        const receivedGameId = Object.keys(sortedPoolStakes)[0];
+        jackpotManager.addRequestedDataGame(receivedGameId);
         uiManager.emitter.emit(InternalEvents.RECEIVED_JACKPOT_POOLS_ON_GAME, sortedPoolStakes);
     }
 
