@@ -15,7 +15,7 @@ export default class PontoonHandPlace extends HandPlace {
             return false;
         }
 
-        return total[0] < 21 && !this.isSplit;
+        return total[0] < 21;
     }
 
     resetView() {
