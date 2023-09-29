@@ -25,13 +25,13 @@ export default class ChipFlyConfig {
         {
             rotationComp1: 0,
             rotationComp2: 0,
-            scaleX1: 0.7,
-            scaleY1: 0.45,
+            scaleX1: ChipParams.scaleX,
+            scaleY1: 0.35,
 
-            scaleX2: 0.7,
-            scaleY2: 0.6,
+            scaleX2: ChipParams.scaleX,
+            scaleY2: ChipParams.scaleY - 0.05,
             rotationNode1: 24,
-            rotationNode2: -12,
+            rotationNode2: -10,
             rotationNode3: 0
         }
     ];
@@ -40,3 +40,11 @@ export default class ChipFlyConfig {
         return this.chipFly[value];
     }
 }
+
+export const ChipParams = {
+    scaleX: 0.55,
+    scaleY: 0.55,
+    offset: 5,
+    rotation: 0,
+    offsetStack: 3
+};

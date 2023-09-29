@@ -16,6 +16,7 @@ import { preloadAssets } from "./PreloadRemoteAsset";
 import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 import BetChips from "./bet-chips/view-models/BetChips";
 import BetChipsNew from "./bet-chips/view-models/BetChipsNew";
+import { ChipParams } from "./bet-chips/view-models/ChipFlyConfig";
 import ChipViewNew from "./bet-chips/view-models/ChipViewNew";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
@@ -933,13 +934,13 @@ export default class GameUtils {
                 let chipNode: cc.Node;
                 if (+chip === 0) {
                     chipNode = betChips.createLowValueChip();
-                    chipNode.scale = 0.7;
+                    chipNode.scale = ChipParams.scaleX;
                 } else {
                     chipNode = betChips.createChipFly(+chip);
                     const properties = chipNode.getComponent(ChipViewNew);
-                    properties.initChipValue(0, 0.7, 0.7, 5);
+                    properties.initChipValue(ChipParams.rotation, ChipParams.scaleX, ChipParams.scaleY, ChipParams.offset);
                 }
-                chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * 6, 0);
+                chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * (ChipParams.offset + 1), 0);
                 node.addChild(chipNode);
             }
         });

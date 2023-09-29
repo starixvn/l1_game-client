@@ -1,7 +1,7 @@
 import { lodash } from "../../../ClientModules";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
-import ChipFlyConfig from "../../../common/bet-chips/view-models/ChipFlyConfig";
+import ChipFlyConfig, { ChipParams } from "../../../common/bet-chips/view-models/ChipFlyConfig";
 import ChipView from "../../../common/bet-chips/view-models/ChipView";
 import ChipViewNew from "../../../common/bet-chips/view-models/ChipViewNew";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
@@ -70,7 +70,7 @@ export default class Pontoon extends BlackJack {
         const chipFly = this.chipFlyConfig.getChipFlyConfig(randomValue);
         const chipNode = this.betChips.createChipFly(this.currentBet);
         const propertiesChip = chipNode.getComponent(ChipViewNew);
-        propertiesChip.initChipValue(chipFly.rotationComp1, 0.7, 0.7, 6);
+        propertiesChip.initChipValue(chipFly.rotationComp1, ChipParams.scaleX, ChipParams.scaleY, ChipParams.offset);
         let nodeTmp: cc.Node;
         if (destNode.childrenCount === 0) {
             nodeTmp = new cc.Node();
@@ -84,7 +84,7 @@ export default class Pontoon extends BlackJack {
         nodeTmp.addChild(chipNode);
         let destPosition = cc.v2(0, 0);
         if (nodeTmp.childrenCount > 1) {
-            destPosition = cc.v2(lodash.random(-2, 2), (nodeTmp.childrenCount - 1) * 7);
+            destPosition = cc.v2(lodash.random(-2, 2), (nodeTmp.childrenCount - 1) * ChipParams.offset + ChipParams.offsetStack);
         }
 
         this.moveAndMergeChip(chipNode, chipFlyingDuration, destPosition, handPlace, nodeTmp);
@@ -112,7 +112,7 @@ export default class Pontoon extends BlackJack {
         chipNode.runAction(
             cc.sequence(
                 cc.jumpTo(chipFlyingDuration, destPosition.x, destPosition.y, this.chipJumpHeight, 1),
-
+                cc.delayTime(0.2),
                 cc.callFunc(() => {
                     handPlace.updateDisplayBetValue();
                     this.gameStatus === BlackJackActionType.START_ROUND && (handPlace.clearBetButton.active = true);
