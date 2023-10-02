@@ -40,8 +40,10 @@ export default class IngameActionHandler implements DataHandler {
         secondPlace.syncBetValue();
         this.placeChipsForSplitHand(firstHand.pos + 2, firstHand.bet);
         this.main.lockBet();
+
         cc.tween(this.main)
             .call(() => {
+                this.main.disabledInRoundAction(true);
                 this.moveCardForSplitting(firstHand.pos, 0.3);
                 firstPlace.updateDisplayScore(false);
                 secondPlace.updateDisplayScore(false);
