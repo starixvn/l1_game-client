@@ -169,6 +169,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.initHandPlaces();
         this.hideAllButtons();
         this.totalBetLabel.string = "";
+        this.gameStatus = BlackJackActionType.START_ROUND;
         this.splitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
         this.doubleButton.getComponent(NewButton).callback.selected = () => this.onDoubleClick();
         this.standButton.getComponent(NewButton).callback.selected = () => this.onStandClick();
@@ -630,6 +631,8 @@ export default class BlackJack extends SocketIOTableGameBase {
             .delay(1)
             .call(() => complete())
             .start();
+
+        this.gameStatus = BlackJackActionType.START_ROUND;
     }
 
     onRebetClick() {
