@@ -934,7 +934,8 @@ export default class GameUtils {
                 let chipNode: cc.Node;
                 if (+chip === 0) {
                     chipNode = betChips.createLowValueChip();
-                    chipNode.scale = ChipParams.scaleX;
+                    chipNode.scaleX = ChipParams.scaleX;
+                    chipNode.scaleY = ChipParams.scaleYEnd;
                 } else {
                     chipNode = betChips.createChipFly(+chip);
                     const properties = chipNode.getComponent(ChipViewNew);
