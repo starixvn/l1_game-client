@@ -18,6 +18,7 @@ export default class DealHandler implements DataHandler {
             this.main.startRoundActionVisibility(false);
             this.main.showProcessingWarning(false);
             this.main.slidingDownBetChip(true);
+            this.main.setGameRoundStatus(BlackJackActionType.IN_ROUND);
         }
 
         if (data.blackjackNotice) {
