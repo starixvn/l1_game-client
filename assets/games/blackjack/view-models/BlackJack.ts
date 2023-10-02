@@ -5,7 +5,6 @@ import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime
 import AudioManager from "../../../common/audio/AudioManager";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
-import ChipFlyConfig from "../../../common/bet-chips/view-models/ChipFlyConfig";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
@@ -241,10 +240,6 @@ export default class BlackJack extends SocketIOTableGameBase {
     updateTotalBetLabel() {
         const total = this.getCurrentTotalAmount();
         this.totalBetLabel.string = numberWithCommas(total);
-    }
-
-    public get chipFlyConfig() {
-        return ChipFlyConfig.getInstance();
     }
 
     public get chipConfig() {

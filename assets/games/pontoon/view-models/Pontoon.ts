@@ -1,7 +1,7 @@
 import { lodash } from "../../../ClientModules";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
-import ChipFlyConfig, { ChipParams } from "../../../common/bet-chips/view-models/ChipFlyConfig";
+import { ChipParams, chipFlyConfig } from "../../../common/bet-chips/view-models/ChipFlyConfig";
 import ChipView from "../../../common/bet-chips/view-models/ChipView";
 import ChipViewNew from "../../../common/bet-chips/view-models/ChipViewNew";
 import GameUtils from "../../../common/GameUtils";
@@ -31,10 +31,6 @@ export default class Pontoon extends BlackJack {
         this.gameId = PontoonId;
     }
 
-    public get chipFlyConfig() {
-        return ChipFlyConfig.getInstance();
-    }
-
     public get chipConfig() {
         return ChipConfig.getInstance();
     }
@@ -60,8 +56,7 @@ export default class Pontoon extends BlackJack {
 
     throwChipAnim(destNode: cc.Node, startNode: cc.Node, handPlace: HandPlace) {
         const chipFlyingDuration = 0.5;
-        const randomValue = lodash.random(0, 0);
-        const chipFly = this.chipFlyConfig.getChipFlyConfig(randomValue);
+        const chipFly = chipFlyConfig;
         const chipNode = this.betChips.createChipFly(this.currentBet);
         const propertiesChip = chipNode.getComponent(ChipViewNew);
         propertiesChip.initChipValue(chipFly.rotationComp1, ChipParams.scaleX, ChipParams.scaleY, ChipParams.offset);

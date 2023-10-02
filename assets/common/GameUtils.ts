@@ -938,7 +938,7 @@ export default class GameUtils {
                 } else {
                     chipNode = betChips.createChipFly(+chip);
                     const properties = chipNode.getComponent(ChipViewNew);
-                    properties.initChipValue(ChipParams.rotation, ChipParams.scaleX, ChipParams.scaleY, ChipParams.offset);
+                    properties.initChipValue(ChipParams.rotation, ChipParams.scaleX, ChipParams.scaleYEnd, ChipParams.offset);
                 }
                 chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * (ChipParams.offset + ChipParams.offsetStack), 0);
                 node.addChild(chipNode);
