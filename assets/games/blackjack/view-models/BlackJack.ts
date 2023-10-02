@@ -285,7 +285,9 @@ export default class BlackJack extends SocketIOTableGameBase {
                         cc.jumpTo(chipFlyingDuration, destPosition, 150, 1),
                         cc.callFunc(() => {
                             handPlace.updateDisplayBetValue();
-                            handPlace.clearBetButton.active = true;
+
+                            this.gameStatus === BlackJackActionType.START_ROUND && (handPlace.clearBetButton.active = true);
+
                             destNode.destroyAllChildren();
                             const chipStack = BlackJackUtils.createChipStack(
                                 handPlace.getBetAmount(),
@@ -469,6 +471,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         if (!this.canSendRequest()) {
             return;
         }
+        console.log("onDealClick");
 
         this.handPlaces.forEach((place) => {
             place.showClearBetButton(false);
