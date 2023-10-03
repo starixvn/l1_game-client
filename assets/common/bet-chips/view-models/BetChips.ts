@@ -2,13 +2,13 @@ import * as _ from "lodash";
 
 import BetItem from "../../../games/_base/view-models/BetItem";
 import { appManager } from "../../../managers/AppManager";
-import AudioManager from "../../audio/AudioManager";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
 import GameUtils from "../../GameUtils";
+import AudioManager from "../../audio/AudioManager";
 import ChipConfig from "./ChipConfig";
 import ChipView, { ChipDisplayType } from "./ChipView";
 import SnappedScrollView from "./SnappedScrollView";
-import { uiManager } from "../../../managers/GameUIManager";
-import { InternalEvents } from "../../../managers/InternalEvents";
 
 const { ccclass, property } = cc._decorator;
 type OnChangedBet = (bet: string) => void;
@@ -519,8 +519,13 @@ export default class BetChips extends cc.Component {
         sprite.sizeMode = cc.Sprite.SizeMode.RAW;
         sprite.trim = false;
         sprite.spriteFrame = this.lowValueChipSprite;
+        this.setSizeLowValueChip(node);
 
         return node;
+    }
+
+    protected setSizeLowValueChip(node: cc.Node) {
+        // set empty
     }
 
     public createBigChip(value: number): cc.Node {

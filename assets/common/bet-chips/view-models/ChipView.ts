@@ -1,13 +1,12 @@
 import { nFormatter } from "../../helpers/NumberHelper";
 
-const { ccclass, property, executeInEditMode } = cc._decorator;
+const { ccclass, property } = cc._decorator;
 export enum ChipDisplayType {
     Normal = 0,
     VIP
 }
 
 @ccclass
-@executeInEditMode
 export default class ChipView extends cc.Component {
     @property(cc.Node)
     background: cc.Node = null;

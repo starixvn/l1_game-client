@@ -82,7 +82,7 @@ export default class ChipViewNew extends ChipView {
     }
 
     setType(type: ChipDisplayType) {
-        //
+        this.type = type;
     }
 
     protected updateRotation(): void {
