@@ -12,6 +12,7 @@ export default class BetChipsNew extends BetChips {
     public createChipFly(value: number): cc.Node {
         const chip = cc.instantiate(this.chipFlyPrefab);
         const chipView = chip.getComponent(ChipViewNew);
+        chipView.initChipValue(ChipParams.rotation, ChipParams.scaleX, ChipParams.scaleY, ChipParams.offset);
         chipView.setColor(this.chipConfig.getChipColor(value));
         chipView.setValue(value);
         const index = this.chipValues.findIndex((chipValue) => chipValue === value);

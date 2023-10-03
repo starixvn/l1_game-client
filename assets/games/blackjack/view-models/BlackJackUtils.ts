@@ -33,7 +33,7 @@ export default class BlackJackUtils {
         return [total];
     }
 
-    public static createChipStack(bet: number, betChips: BetChips, shadowFrame: cc.SpriteFrame, skewX: number) {
-        return GameUtils.createChipStack(bet, betChips, shadowFrame, skewX);
+    public static createChipStack(bet: number, betChips: BetChips, shadowFrame: cc.SpriteFrame, skewX: number, isChip3D: boolean) {
+        return GameUtils.createChipStack(bet, betChips, { isChip3D: isChip3D, shadowFrame: shadowFrame, skewX: skewX });
     }
 }

@@ -1,14 +1,15 @@
 import { lodash } from "../../../ClientModules";
+import GameUtils from "../../../common/GameUtils";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import { ChipParams, chipFlyConfig } from "../../../common/bet-chips/view-models/ChipFlyConfig";
 import ChipView from "../../../common/bet-chips/view-models/ChipView";
 import ChipViewNew from "../../../common/bet-chips/view-models/ChipViewNew";
-import GameUtils from "../../../common/GameUtils";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJack, { BlackJackActionType } from "../../blackjack/view-models/BlackJack";
-import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
+import BlackJackUtils from "../../blackjack/view-models/BlackJackUtils";
 import HandPlace from "../../blackjack/view-models/HandPlace";
+import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
 import PontoonDealHandler from "./handlers/PontoonDealHandler";
 import PontoonFinishHandler from "./handlers/PontoonFinishHandler";
 import PontoonInGameHandler from "./handlers/PontoonInGameHandler";
@@ -59,7 +60,6 @@ export default class Pontoon extends BlackJack {
         const chipFly = chipFlyConfig;
         const chipNode = this.betChips.createChipFly(this.currentBet);
         const propertiesChip = chipNode.getComponent(ChipViewNew);
-        propertiesChip.initChipValue(chipFly.rotationComp1, ChipParams.scaleX, ChipParams.scaleY, ChipParams.offset);
         let nodeTmp: cc.Node;
         if (destNode.childrenCount === 0) {
             nodeTmp = new cc.Node();
@@ -136,7 +136,7 @@ export default class Pontoon extends BlackJack {
     }
 
     createChipStack(betAmount: any, node: cc.Node) {
-        const chipStack = GameUtils.createChipFlyStack(betAmount, this.betChips);
+        const chipStack = BlackJackUtils.createChipStack(betAmount, this.betChips, this.shadowChip, node.skewX, true);
         node.addChild(chipStack);
         return chipStack;
     }

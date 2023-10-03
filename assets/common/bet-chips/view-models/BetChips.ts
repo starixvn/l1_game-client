@@ -498,6 +498,10 @@ export default class BetChips extends cc.Component {
         return node;
     }
 
+    public createChipFly(value: number) {
+        return new cc.Node();
+    }
+
     public createSmallChip(bet: number, scale = 0.29, showValue = false): cc.Node {
         if (bet === 0) {
             const node = this.createLowValueChip();

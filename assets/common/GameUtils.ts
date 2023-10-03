@@ -14,9 +14,7 @@ import { StorageManager } from "../managers/StorageManager";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
 import SocketIOController from "../SocketIOController";
 import BetChips from "./bet-chips/view-models/BetChips";
-import BetChipsNew from "./bet-chips/view-models/BetChipsNew";
 import { ChipParams } from "./bet-chips/view-models/ChipFlyConfig";
-import ChipViewNew from "./bet-chips/view-models/ChipViewNew";
 import ChipStack from "./chip-stack/views/ChipStack";
 import { numberWithCommas } from "./helpers/NumberHelper";
 import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
@@ -893,13 +891,20 @@ export default class GameUtils {
         return srcBox.intersects(destBox);
     }
 
-    public static createChipStack(bet: number, betChips: BetChips, shadowFrame: cc.SpriteFrame, skewX: number) {
+    public static createChipStack(
+        bet: number,
+        betChips: BetChips,
+        option: { isChip3D: boolean; shadowFrame: cc.SpriteFrame; skewX: number }
+    ) {
         const values = this.getChipQuantity(bet, betChips.chipValues);
         const node = new cc.Node();
-        const chipStack = node.addComponent(ChipStack);
-        chipStack.chipSize = 26;
-        chipStack.thickness = 10;
-        chipStack.skewX = skewX;
+        let chipStack;
+        if (!option.isChip3D) {
+            chipStack = node.addComponent(ChipStack);
+            chipStack.chipSize = 26;
+            chipStack.thickness = 10;
+            chipStack.skewX = option.skewX;
+        }
 
         const keys = Object.keys(values).sort((a, b) => +b - +a);
         let firstChip = true;
@@ -910,41 +915,31 @@ export default class GameUtils {
                 if (+chip === 0) {
                     chipNode = betChips.createLowValueChip();
                 } else {
-                    chipNode = betChips.createBigChip(+chip);
+                    chipNode = option.isChip3D ? betChips.createChipFly(+chip) : betChips.createBigChip(+chip);
                 }
-                chipStack.addChip(chipNode);
 
-                if (firstChip && i === 0) {
-                    firstChip = false;
-                    const shadow = new cc.Node();
-                    shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
-                    chipNode.addChild(shadow);
+                if (!option.isChip3D) {
+                    chipStack.addChip(chipNode);
+                    const chipConfig = GameUtils.addShadowFrameStack(firstChip, option.shadowFrame, chipNode, i);
+                    firstChip = chipConfig.isFirstChip;
+                    chipNode = chipConfig.chip;
+                } else {
+                    chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * (ChipParams.offset + ChipParams.offsetStack), 0);
+                    node.addChild(chipNode);
                 }
             }
         });
         return node;
     }
 
-    public static createChipFlyStack(bet: number, betChips: BetChipsNew) {
-        const values = this.getChipQuantity(bet, betChips.chipValues);
-        const node = new cc.Node();
-        const keys = Object.keys(values).sort((a, b) => +b - +a);
-        keys.forEach((chip) => {
-            const count = values[chip];
-            for (let i = 0; i < count; i++) {
-                let chipNode: cc.Node;
-                if (+chip === 0) {
-                    chipNode = betChips.createLowValueChip();
-                } else {
-                    chipNode = betChips.createChipFly(+chip);
-                    const properties = chipNode.getComponent(ChipViewNew);
-                    properties.initChipValue(ChipParams.rotation, ChipParams.scaleX, ChipParams.scaleYEnd, ChipParams.offset);
-                }
-                chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * (ChipParams.offset + ChipParams.offsetStack), 0);
-                node.addChild(chipNode);
-            }
-        });
-        return node;
+    private static addShadowFrameStack(firstChip: boolean, shadowFrame: cc.SpriteFrame, chipNode: cc.Node, index: number) {
+        if (firstChip && index === 0) {
+            firstChip = false;
+            const shadow = new cc.Node();
+            shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
+            chipNode.addChild(shadow);
+        }
+        return { chip: chipNode, isFirstChip: firstChip };
     }
 
     public static isChipStack(bet: number, betChips: BetChips, destNode: cc.Node) {

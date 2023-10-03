@@ -191,8 +191,4 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
             )
         );
     }
-
-    createChipStack(winAmount: any, destNode: cc.Node) {
-        return BlackJackUtils.createChipStack(winAmount, this.main.betChips, this.main.shadowChip, destNode.skewX);
-    }
 }
