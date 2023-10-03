@@ -2,8 +2,8 @@ import axios from "axios";
 import { Base64 } from "base64-string";
 import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { lodash } from "../ClientModules";
-import SocketIOController from "../SocketIOController";
 import * as SessionManager from "../common/auth/SessionManager";
 import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
 import LobbyManager from "../lobby/main/view-models/LobbyManager";
@@ -12,8 +12,7 @@ import { uiManager } from "../managers/GameUIManager";
 import { InternalEvents } from "../managers/InternalEvents";
 import { StorageManager } from "../managers/StorageManager";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
-import { preloadAssets } from "./PreloadRemoteAsset";
-import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
+import SocketIOController from "../SocketIOController";
 import BetChips from "./bet-chips/view-models/BetChips";
 import BetChipsNew from "./bet-chips/view-models/BetChipsNew";
 import { ChipParams } from "./bet-chips/view-models/ChipFlyConfig";
@@ -24,6 +23,8 @@ import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import Loading from "./loading/view-models/Loading";
 import { sentryLogger } from "./logger";
+import { preloadAssets } from "./PreloadRemoteAsset";
+import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 import { userManager } from "./user/UserManager";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
@@ -151,7 +152,7 @@ export default class GameUtils {
 
         if (!!gameConfiguration?.remoteBundle) {
             const directory = systemPath === "" ? "icons" : `icons/${systemPath}`;
-            const path = `${gameConfiguration.isMicrosite ? gameId + "/" : ""}${directory}/${gameSetting?.bigSize ? "Big" : "Small"}`;
+            const path = `${gameConfiguration?.isMicrosite ? gameId + "/" : ""}${directory}/${gameSetting?.bigSize ? "Big" : "Small"}`;
             return BundleManager.getInstance().loadAsset<cc.Prefab>({
                 bundleId: gameId.toString(),
                 path: path,
