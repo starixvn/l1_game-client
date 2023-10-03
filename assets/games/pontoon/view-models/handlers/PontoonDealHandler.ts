@@ -15,15 +15,11 @@ export default class PontoonDealHandler extends DealHandler {
     }
 
     drawSecondDealerCardWithNormalCase(dealerCards: CardModel[], actions: DrawCardAction[]) {
-        actions.push(() => {
-            this.main.drawingCardToDealer(null, true, () => {});
-        });
+        this.drawFirstDealerCard(dealerCards, actions);
     }
 
     drawSecondDealerCardWithBlackJack(dealerCards: CardModel[], actions: DrawCardAction[]) {
-        actions.push(() => {
-            this.main.drawingCardToDealer(null, true, () => {});
-        });
+        this.drawFirstDealerCard(dealerCards, actions);
     }
 
     playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {
