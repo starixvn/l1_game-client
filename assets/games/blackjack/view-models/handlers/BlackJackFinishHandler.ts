@@ -29,7 +29,6 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
     startNewRound() {
         this.main.gameAudios.playStartGameAudio();
-        this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
         this.main.stopIntervalReminder();
     }
 
@@ -41,6 +40,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         }
         const totals = BlackJackUtils.getTotal(finish.result, 2);
         const isBlackJack = finish.result.length === 2 && totals[totals.length - 1] === 21;
+        this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
 
         if (isBlackJack) {
             this.finishBlackJackCase(finish);
