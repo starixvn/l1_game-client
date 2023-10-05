@@ -118,6 +118,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     }
 
     showWinningHands() {
+        this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
         const winningHands = this.finishDataCache.winningHands;
         let totalWin = 0;
         let totalBet = 0;
@@ -145,7 +146,6 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                             cc.delayTime(0.1),
                             cc.fadeOut(0.3),
                             cc.callFunc(() => {
-                                this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
                                 chip.destroy();
                             })
                         )
