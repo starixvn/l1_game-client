@@ -40,7 +40,6 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         }
         const totals = BlackJackUtils.getTotal(finish.result, 2);
         const isBlackJack = finish.result.length === 2 && totals[totals.length - 1] === 21;
-        this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
 
         if (isBlackJack) {
             this.finishBlackJackCase(finish);
@@ -146,6 +145,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                             cc.delayTime(0.1),
                             cc.fadeOut(0.3),
                             cc.callFunc(() => {
+                                this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
                                 chip.destroy();
                             })
                         )
