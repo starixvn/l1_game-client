@@ -45,11 +45,10 @@ const data = {
     messages: {
         accountNotExist: "Sebuah kesalahan telah terjadi. Silakan hubungi CSD untuk lebih lanjut, terima kasih. (%{errorCode})",
         ipRestricted: "Alamat IP Anda dibatasi. (%{errorCode})",
-        accountBlacklisted:
-            "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Akun telah ditutup. Silakan hubungi CSD untuk lebih lanjut. (%{errorCode})",
-        userNotFound: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Pengguna tidak ditemukan. (%{errorCode})",
-        sysMaintenance: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Permainan sedang dalam pemeliharaan.",
-        networkError: "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Kesalahan jaringan. (%{errorCode})",
+        accountBlacklisted: "Akun telah ditutup. Silakan hubungi CSD untuk lebih lanjut. (%{errorCode})",
+        userNotFound: "Pengguna tidak ditemukan. (%{errorCode})",
+        sysMaintenance: "Permainan sedang dalam pemeliharaan.",
+        networkError: "Kesalahan jaringan. (%{errorCode})",
         userInsufficientFund: "Akun Anda memiliki dana yang tidak mencukupi. (%{errorCode})",
         limitBetExceeded:
             "Permainan %{gameName} (#%{gameRoundId})\n\nGagal memasang taruhan! Taruhan Anda telah melampaui batas taruhan Anda, silakan coba lagi. (%{errorCode})",
