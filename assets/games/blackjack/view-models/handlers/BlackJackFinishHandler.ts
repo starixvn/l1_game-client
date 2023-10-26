@@ -13,7 +13,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
     finishDataCache: any = null;
     drawingCardDelay = 0.5;
-    openCardDuration = 0.7;
+    openCardDuration = 1.4;
 
     handle(data: any): boolean {
         if (data.finish) {

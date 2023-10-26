@@ -68,21 +68,39 @@ export default class IngameActionHandler implements DataHandler {
             .start();
     }
 
+    calculatePosition(originalPosition: cc.Vec3, offsetX: number = 0, offsetY: number = 0, offsetZ: number = 0) {
+        return cc.v3(originalPosition.x + offsetX, originalPosition.y + offsetY, originalPosition.z + offsetZ);
+    }
+
     moveCardForSplitting(handPos: number, duration: number) {
         const pos = handPos - 1;
         const destPos = pos + 3;
         const cardNodes = this.main.handPlaces[pos].getCards();
         const secondCard = cardNodes[1];
 
-        secondCard.removeFromParent();
-
         const cardLayout = this.main.handPlaces[destPos].cardLayout;
-        const nextPosition = cardLayout.getNextPosition();
+        const nextPosition = cardLayout.getFinalPosition();
+
+        const moveXPosition = this.calculatePosition(secondCard.position, 100);
+
         const rotationX = 0;
         const scaleY = 1;
-        this.main.handPlaces[destPos].addCard(secondCard);
 
-        cc.tween(secondCard).to(duration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: "easeOut" }).start();
+        cc.tween(secondCard)
+            .to(duration, { position: moveXPosition }, { easing: "easeOut" })
+
+            .call(() => {
+                const nextPositionConverted = cardLayout.content.convertToNodeSpaceAR(secondCard.convertToWorldSpaceAR(cc.v3(0, 0)));
+                secondCard.removeFromParent();
+                this.main.handPlaces[destPos].addCard(secondCard);
+                secondCard.position = nextPositionConverted;
+
+                cc.tween(secondCard)
+                    .to(duration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: "easeOut" })
+                    .start();
+            })
+
+            .start();
     }
 
     processStandAction(data: any) {

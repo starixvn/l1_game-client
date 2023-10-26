@@ -74,6 +74,8 @@ export default class CardLayout extends cc.Component {
             child.x = halfCardSize + this.ratio * index * this.spacingX;
             if (this._selected) {
                 child.x += this.movingOffsetX;
+                child.y = this.selectedPosY;
+                child.z = this.selectedPosZ;
             }
         });
 
@@ -85,8 +87,10 @@ export default class CardLayout extends cc.Component {
         }
     }
 
-    getNextPosition(): cc.Vec3 {
-        let x = this.cardSizeWidth / 2 + this.ratio * this.content.childrenCount * this.spacingX;
+    calculatePosition(offsetX) {
+        const halfCardSizeWidth = this.cardSizeWidth / 2;
+        const contentChildrenCount = this.content.childrenCount;
+        let x = halfCardSizeWidth + this.ratio * contentChildrenCount * this.spacingX + offsetX;
         let y = 0;
         let z = 0;
 
@@ -95,7 +99,16 @@ export default class CardLayout extends cc.Component {
             y = this.selectedPosY;
             z = this.selectedPosZ;
         }
+
         return cc.v3(x, y, z);
+    }
+
+    getNextPosition(): cc.Vec3 {
+        return this.calculatePosition(this.spacingX * 2);
+    }
+
+    getFinalPosition(): cc.Vec3 {
+        return this.calculatePosition(0);
     }
 
     changeCardView(selected: boolean): Promise<void> {
@@ -110,6 +123,7 @@ export default class CardLayout extends cc.Component {
                 this.content.children.forEach((child, index) => {
                     child.is3DNode = true;
                     child.stopAllActions();
+
                     cc.tween(child)
                         .delay(0.1 * (this.content.childrenCount - 1 - index))
                         .parallel(

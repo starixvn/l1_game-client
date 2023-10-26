@@ -362,16 +362,19 @@ export default class BlackJack extends SocketIOTableGameBase {
     drawingCardToPlayer(card: CardModel, pos: number, onComplete = () => {}) {
         const cardNode = this.createCard(card);
         const handPlace = this.handPlaces[pos];
+
         const cardComponent = cardNode.getComponent(NewCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = handPlace.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
         const nextPosition = handPlace.cardLayout.getNextPosition();
+        const finalPosition = handPlace.cardLayout.getFinalPosition();
         const rotationX = handPlace.selected ? this.dealerHand.cardLayout.selectedRotationX : 0;
         const scaleY = handPlace.selected ? 1.15 : 1;
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         handPlace.addCard(cardNode);
 
         const pullDuration = 0.2;
+        const slideDuration = 0.2;
         cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
         cc.tween(cardNode)
             .delay(pullDuration)
@@ -380,6 +383,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                 cardComponent.playAnimation(CardAnimation.DealerToHand, this.moveCardDuration);
             })
             .to(this.moveCardDuration, { position: nextPosition, rotationX: rotationX, scaleY: scaleY }, { easing: "easeOut" })
+            .to(slideDuration, { position: finalPosition, rotationX: rotationX, scaleY: scaleY }, { easing: "easeOut" })
             .call(() => {
                 handPlace.cardLayout.updateLayout();
                 onComplete();
@@ -392,12 +396,14 @@ export default class BlackJack extends SocketIOTableGameBase {
         const cardComponent = cardNode.getComponent(NewCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = this.dealerHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
-        const nextPosition = this.dealerHand.cardLayout.getNextPosition();
+        const finalPosition = this.dealerHand.cardLayout.getFinalPosition();
+
         const rotationX = 0;
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         this.dealerHand.addCard(cardNode);
 
         const pullDuration = 0.2;
+
         cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
         cc.tween(cardNode)
             .delay(pullDuration)
@@ -408,7 +414,8 @@ export default class BlackJack extends SocketIOTableGameBase {
                     this.moveCardDuration
                 );
             })
-            .to(this.moveCardDuration, { position: nextPosition, rotationX: rotationX }, { easing: "easeOut" })
+            .to(this.moveCardDuration, { position: finalPosition, rotationX: rotationX }, { easing: "easeOut" })
+
             .call(() => {
                 onComplete();
             })
@@ -589,22 +596,29 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.slidingDownBetChip(false);
     }
 
+    randomRotation(): number {
+        return Math.floor(Math.random() * 10);
+    }
+
     collectCardsOnTable(complete = () => {}) {
         this.newGame();
         const worldPositon = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
+        const collectDuration = 0.65;
 
         let count = 0;
         const dealerCardsNodes = this.dealerHand.getCards();
         const destPosition = dealerCardsNodes[0].parent.convertToNodeSpaceAR(worldPositon);
+
         dealerCardsNodes.forEach((cardNode) => {
+            cardNode.is3DNode = true;
             cc.tween(cardNode)
-                .to(0.3, { position: cc.v2(0, 0) })
+                .to(0.3, { position: cc.v3(0, 0, 0), eulerAngles: cc.v3(0, 0, this.randomRotation()) })
                 .delay(count * 0.05)
                 .call(() => {
                     const cardComponent = cardNode.getComponent(NewCard);
-                    cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
+                    cardComponent.playAnimation(CardAnimation.DropCard, 0.7);
                 })
-                .then(cc.jumpTo(0.5, destPosition, 250, 1))
+                .then(cc.jumpTo(0.7, destPosition, 250, 1))
                 .delay(0.2)
                 .call(() => cardNode.destroy())
                 .start();
@@ -619,15 +633,16 @@ export default class BlackJack extends SocketIOTableGameBase {
             count++;
             const destPos = cardNodes[0].parent.convertToNodeSpaceAR(worldPositon);
             cardNodes.forEach((cardNode) => {
+                cardNode.is3DNode = true;
                 cc.tween(cardNode)
-                    .to(0.3, { position: cc.v2(0, 0) })
+                    .to(0.3, { position: cc.v3(0, 0, 0), eulerAngles: cc.v3(0, 0, this.randomRotation()) })
                     .delay(count * 0.05)
                     .call(() => {
                         const cardComponent = cardNode.getComponent(NewCard);
-                        cardComponent.playAnimation(CardAnimation.DropCard, 0.7);
+                        cardComponent.playAnimation(CardAnimation.DropCard, collectDuration);
                     })
-                    .then(cc.jumpTo(0.7, destPos, 250, 1))
-                    .delay(0.2)
+                    .to(collectDuration, { position: destPos })
+                    .delay(collectDuration)
                     .call(() => cardNode.destroy())
                     .start();
             });
