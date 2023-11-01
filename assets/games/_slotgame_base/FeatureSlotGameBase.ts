@@ -324,22 +324,30 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     async showEffectBigWin(betWin: number) {
-        const effect = cc.instantiate(this.effectBigWin);
-        const callbackAnim = effect.getComponent(CallbackAnimation);
-        callbackAnim.setDuration(this.getCustomDuration("bigWin"));
-        const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        const floatNumberDuration = this.getCustomDuration("bigWinFloatNumber");
-        bigWinAnimation.setAmount({ amount: betWin, duration: floatNumberDuration });
-        await this.showEffect(effect);
+        try {
+            const effect = cc.instantiate(this.effectBigWin);
+            const callbackAnim = effect.getComponent(CallbackAnimation);
+            callbackAnim.setDuration(this.getCustomDuration("bigWin"));
+            const bigWinAnimation = effect.getComponent(BigWinAnimation);
+            const floatNumberDuration = this.getCustomDuration("bigWinFloatNumber");
+            bigWinAnimation.setAmount({ amount: betWin, duration: floatNumberDuration });
+            await this.showEffect(effect);
+        } catch (error) {
+            cc.error("An error occurred in showEffectBigWin:", error);
+        }
     }
 
     async showEffectFreeSpins(count: number) {
-        const effect = cc.instantiate(this.effectFreeSpin);
-        const callbackAnim = effect.getComponent(CallbackAnimation);
-        callbackAnim.setDuration(this.getCustomDuration("freeSpin"));
-        const bigWinAnimation = effect.getComponent(BigWinAnimation);
-        bigWinAnimation.setAmount({ amount: count, noZeroSuffix: true });
-        await this.showEffect(effect);
+        try {
+            const effect = cc.instantiate(this.effectFreeSpin);
+            const callbackAnim = effect.getComponent(CallbackAnimation);
+            callbackAnim.setDuration(this.getCustomDuration("freeSpin"));
+            const bigWinAnimation = effect.getComponent(BigWinAnimation);
+            bigWinAnimation.setAmount({ amount: count, noZeroSuffix: true });
+            await this.showEffect(effect);
+        } catch (error) {
+            cc.error("An error occurred in showEffectFreeSpins:", error);
+        }
     }
 
     showNoticeForCacheApiError() {

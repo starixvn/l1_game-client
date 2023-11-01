@@ -11,9 +11,9 @@ export interface EmitterStorageType {
 
 interface IconCache {
     [key: number]: {
-        skeletonData: sp.SkeletonData,
-        configFile: cc.JsonAsset
-    }
+        skeletonData: sp.SkeletonData;
+        configFile: cc.JsonAsset;
+    };
 }
 
 export default class GameUIManager {
@@ -65,6 +65,10 @@ export default class GameUIManager {
 
     getCurrentGameId(): number {
         return this.currentGameId;
+    }
+
+    resetCurrentGameId() {
+        this.currentGameId = 0;
     }
 
     emitterListener(eventName: string, callback: (param?) => void, target: any) {

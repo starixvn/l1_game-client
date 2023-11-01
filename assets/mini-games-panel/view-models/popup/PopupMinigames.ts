@@ -59,11 +59,15 @@ export default class PopupMinigames extends cc.Component {
     }
 
     async initDefaultGameRoundTimer() {
-        const prefab = await GameUtils.loadMiniPanelGameIcon(this.lobbyMenuConfig.roundTimerGame.main);
-        const node = cc.instantiate(prefab);
-        this.roundTimer.addChild(node);
-        node.getChildByName("icon-game").active = false;
-        roundTimerManager.requestRoundTimer();
+        try {
+            const prefab = await GameUtils.loadMiniPanelGameIcon(this.lobbyMenuConfig.roundTimerGame.main);
+            const node = cc.instantiate(prefab);
+            this.roundTimer?.addChild(node);
+            node.getChildByName("icon-game").active = false;
+            roundTimerManager.requestRoundTimer();
+        } catch (error) {
+            cc.log("An error occurred during initDefaultGameRoundTimer:", error);
+        }
     }
 
     onDestroy() {

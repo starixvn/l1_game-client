@@ -283,13 +283,17 @@ export default class StandardSlotGame extends SlotGameBase {
 
     async initSlotBoard() {
         await this.loadGameAtlas();
-        await this.loadSlotSymbols().then(() => {
-            super.initSlotBoard();
-            this.slotBoard.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
-            this.loadWinningSymbolAnimation().then(() => {
-                this.slotBoard.setItemWinningEffect();
+        try {
+            await this.loadSlotSymbols().then(() => {
+                super.initSlotBoard();
+                this.slotBoard.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
+                this.loadWinningSymbolAnimation().then(() => {
+                    this.slotBoard.setItemWinningEffect();
+                });
             });
-        });
+        } catch (error) {
+            cc.log("An error occurred during initSlotBoard:", error);
+        }
     }
 
     onSymbolPreview(symbol, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
@@ -317,17 +321,21 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     async loadSlotSymbols() {
-        const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
-        for (let index = 0; index < this.slotGameConfigs.itemTypeCount; index++) {
-            if (prefabCache[index]) {
-                continue;
+        try {
+            const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
+            for (let index = 0; index < this.slotGameConfigs.itemTypeCount; index++) {
+                if (prefabCache[index]) {
+                    continue;
+                }
+                const symbolInfo = {};
+                symbolInfo["symbol"] = await this.addSymbolCache(index);
+                symbolInfo["isJackpot"] = index === this.jackpotSymbolIndex && this.jackpotEnabled;
+                prefabCache[index] = symbolInfo;
             }
-            const symbolInfo = {};
-            symbolInfo["symbol"] = await this.addSymbolCache(index);
-            symbolInfo["isJackpot"] = index === this.jackpotSymbolIndex && this.jackpotEnabled;
-            prefabCache[index] = symbolInfo;
+            uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
+        } catch (error) {
+            cc.log("An error occurred during loadSlotSymbols:", error);
         }
-        uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
     }
 
     protected addSymbolCache(index: number) {
@@ -370,17 +378,21 @@ export default class StandardSlotGame extends SlotGameBase {
     async loadWinningSymbolAnimation() {
         const prefabCache = uiManager.prefabCache.slotWinningAnimation[this.gameId] || {};
 
-        if (prefabCache !== null) {
-            const path = `preload/symbol-spines/winning-animation`;
-            const devPath = `../games/*/${path}`;
-            const data = await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
-                bundleId: this.gameId.toString(),
-                path: path,
-                pathForDevMode: devPath,
-                type: sp.SkeletonData
-            });
+        try {
+            if (prefabCache !== null) {
+                const path = `preload/symbol-spines/winning-animation`;
+                const devPath = `../games/*/${path}`;
+                const data = await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
+                    bundleId: this.gameId.toString(),
+                    path: path,
+                    pathForDevMode: devPath,
+                    type: sp.SkeletonData
+                });
 
-            uiManager.prefabCache.slotWinningAnimation[this.gameId] = data;
+                uiManager.prefabCache.slotWinningAnimation[this.gameId] = data;
+            }
+        } catch (error) {
+            cc.log("An error occurred during loadWinningSymbolAnimation:", error);
         }
     }
 
@@ -486,27 +498,43 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     async showEffectFreeSpin() {
-        const transtition = await this.playEffectTransition();
-        await super.showEffectFreeSpin();
-        transtition?.destroy();
+        try {
+            const transtition = await this.playEffectTransition();
+            await super.showEffectFreeSpin();
+            transtition?.destroy();
+        } catch (error) {
+            cc.error("An error occurred in showEffectFreeSpin:", error);
+        }
     }
 
     async showEffectBigWin(betWin: number) {
-        const transtition = await this.playEffectTransition();
-        await super.showEffectBigWin(betWin);
-        transtition?.destroy();
+        try {
+            const transtition = await this.playEffectTransition();
+            await super.showEffectBigWin(betWin);
+            transtition?.destroy();
+        } catch (error) {
+            cc.error("An error occurred in showEffectBigWin:", error);
+        }
     }
 
     async showEffectBonus(bonus: number): Promise<void> {
-        const transtition = await this.playEffectTransition();
-        await super.showEffectBonus(bonus);
-        transtition?.destroy();
+        try {
+            const transtition = await this.playEffectTransition();
+            await super.showEffectBonus(bonus);
+            transtition?.destroy();
+        } catch (error) {
+            cc.error("An error occurred in showEffectBonus:", error);
+        }
     }
 
     async showEffectJackpot(amount: number) {
-        const transtition = await this.playEffectTransition();
-        await super.showEffectJackpot(amount);
-        transtition?.destroy();
+        try {
+            const transtition = await this.playEffectTransition();
+            await super.showEffectJackpot(amount);
+            transtition?.destroy();
+        } catch (error) {
+            cc.error("An error occurred in showEffectJackpot:", error);
+        }
     }
 
     setBonusCount(dialog: StandardSlotBonusDialog, bonus: number): BonusDialog {
@@ -541,5 +569,7 @@ export default class StandardSlotGame extends SlotGameBase {
         this.expandableMenu.collapseMenu();
     }
 
-    addSoundStopReel(turbo: boolean, spinDuration: number) {}
+    addSoundStopReel(turbo: boolean, spinDuration: number) {
+        // handle
+    }
 }

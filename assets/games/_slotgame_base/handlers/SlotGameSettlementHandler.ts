@@ -197,8 +197,12 @@ export default class SlotGameSettlementHandler implements DataHandler {
     }
 
     async handleBonus(bonus: number) {
-        if (bonus) {
-            await this.main.showEffectBonus(bonus);
+        try {
+            if (bonus) {
+                await this.main.showEffectBonus(bonus);
+            }
+        } catch (error) {
+            cc.error("An error occurred in showEffect:", error);
         }
     }
 }

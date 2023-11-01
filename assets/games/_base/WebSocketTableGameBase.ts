@@ -163,7 +163,7 @@ export default class WebSocketTableGameBase extends GameBase {
     async playInvidiualMusic() {
         await AudioManager.getInstance().awaitForReady();
         if (AudioManager.getInstance().musicEnabled) {
-            this.musicBg.play();
+            this.musicBg?.play();
         }
     }
 

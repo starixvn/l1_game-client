@@ -36,14 +36,18 @@ export default class Banner extends cc.Component {
     }
 
     private async init() {
-        const prefab = await GameUtils.loadResource(`lobby/banner/bannerContainer`);
-        const bannerPrefabNode = cc.instantiate(prefab);
-        this.bannerPrefabNode = bannerPrefabNode;
-        this.node.addChild(bannerPrefabNode);
-        const adsBannerContainerNode = bannerPrefabNode.getChildByName("adsBannerController");
-        this.adsBannerController = adsBannerContainerNode.getComponent(DynamicAdsBannerController);
-        this.adsBannerController.menuLoop = !this.showJackpotBanner;
-        !userManager.disableJackpotGames && jackpotManager.requestAllJackpotPools();
+        try {
+            const prefab = await GameUtils.loadResource(`lobby/banner/bannerContainer`);
+            const bannerPrefabNode = cc.instantiate(prefab);
+            this.bannerPrefabNode = bannerPrefabNode;
+            this.node?.addChild(bannerPrefabNode);
+            const adsBannerContainerNode = bannerPrefabNode.getChildByName("adsBannerController");
+            this.adsBannerController = adsBannerContainerNode.getComponent(DynamicAdsBannerController);
+            this.adsBannerController.menuLoop = !this.showJackpotBanner;
+            !userManager.disableJackpotGames && jackpotManager.requestAllJackpotPools();
+        } catch (error) {
+            cc.log("An error occurred during init banner:", error);
+        }
     }
 
     async handleJackpot(data) {
@@ -93,33 +97,41 @@ export default class Banner extends cc.Component {
     }
 
     private async setJackpotContainer() {
-        const pathPrefab = `lobby/banner/jackpotController`;
-        const prefab = await GameUtils.loadResource(pathPrefab);
-        const jackpotBannerNode = cc.instantiate(prefab);
-        this.jackpotContainer.addChild(jackpotBannerNode);
-        const jackpotNode = this.jackpotContainer?.children[0];
-        this.jackpotBannerContainer = jackpotNode;
-        jackpotBannerNode.active = false;
+        try {
+            const pathPrefab = `lobby/banner/jackpotController`;
+            const prefab = await GameUtils.loadResource(pathPrefab);
+            const jackpotBannerNode = cc.instantiate(prefab);
+            this.jackpotContainer?.addChild(jackpotBannerNode);
+            const jackpotNode = this.jackpotContainer?.children[0];
+            this.jackpotBannerContainer = jackpotNode;
+            jackpotBannerNode.active = false;
 
-        jackpotNode.getComponent(BannerController).onEndingRound = (rightDirection) => {
-            this.jackpotToggle.isChecked = false;
-            this.adsToggle.isChecked = true;
+            jackpotNode.getComponent(BannerController).onEndingRound = (rightDirection) => {
+                this.jackpotToggle.isChecked = false;
+                this.adsToggle.isChecked = true;
 
-            this.switchBanner(false, false, rightDirection);
-        };
+                this.switchBanner(false, false, rightDirection);
+            };
+        } catch (error) {
+            cc.log("An error occurred during setJackpotContainer:", error);
+        }
     }
 
     private async setJackpotNavigation() {
-        const pathPrefab = `lobby/banner/jackpotNavigation`;
-        const prefab = await GameUtils.loadResource(pathPrefab);
-        const gameNode = cc.instantiate(prefab);
-        this.jackpotNavigationContainer.addChild(gameNode);
+        try {
+            const pathPrefab = `lobby/banner/jackpotNavigation`;
+            const prefab = await GameUtils.loadResource(pathPrefab);
+            const gameNode = cc.instantiate(prefab);
+            this.jackpotNavigationContainer?.addChild(gameNode);
 
-        const navigationComponent = this.jackpotNavigationContainer?.children[0]?.getComponent(JackpotNavigation);
-        navigationComponent.onInit(this);
-        this.jackpotToggle = navigationComponent.jackpotToggle;
-        this.adsToggle = navigationComponent.adsToggle;
-        navigationComponent.node.active = true;
+            const navigationComponent = this.jackpotNavigationContainer?.children[0]?.getComponent(JackpotNavigation);
+            navigationComponent.onInit(this);
+            this.jackpotToggle = navigationComponent.jackpotToggle;
+            this.adsToggle = navigationComponent.adsToggle;
+            navigationComponent.node.active = true;
+        } catch (error) {
+            cc.log("An error occurred during setJackpotNavigation:", error);
+        }
     }
 
     private getGameIdOfferBanner(isLoadAllBanners: boolean) {
@@ -140,21 +152,25 @@ export default class Banner extends cc.Component {
     }
 
     switchBanner(showJackpot: boolean, reset = false, rightDirection = true) {
-        cc.tween(this.node)
-            .delay(0.1)
-            .call(() => {
-                this.adsBannerController.node.active = !showJackpot;
-                this.jackpotBannerContainer.active = showJackpot;
+        try {
+            cc.tween(this.node)
+                .delay(0.1)
+                .call(() => {
+                    this.adsBannerController.node.active = !showJackpot;
+                    this.jackpotBannerContainer.active = showJackpot;
 
-                const newContainer = !showJackpot ? this.adsBannerController : this.jackpotBannerContainer;
-                const newController = newContainer.getComponent(BannerController);
+                    const newContainer = !showJackpot ? this.adsBannerController : this.jackpotBannerContainer;
+                    const newController = newContainer.getComponent(BannerController);
 
-                if (rightDirection || reset) {
-                    newController.showFirstPage();
-                } else {
-                    newController.showLastPage();
-                }
-            })
-            .start();
+                    if (rightDirection || reset) {
+                        newController.showFirstPage();
+                    } else {
+                        newController.showLastPage();
+                    }
+                })
+                .start();
+        } catch (error) {
+            cc.log("An error occurred during switchBanner:", error);
+        }
     }
 }

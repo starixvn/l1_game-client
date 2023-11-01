@@ -116,7 +116,7 @@ export default class MiniPanel extends BaseComponent {
         const loadingNode = cc.instantiate(this.loadingPrefab);
         this.loading = loadingNode.getComponent("Loading") as Loading;
         loadingNode.active = false;
-        this.node.addChild(loadingNode);
+        this.node?.addChild(loadingNode);
         this.dataHandlers = new MiniPanelDataHandlers(this);
         this.gameMiniInitializers = new MiniPanelMiniGameInitializers(this);
         this.socketIOGameInitializers = new MiniPanelSocketIOGameInitializers(this);
@@ -142,14 +142,18 @@ export default class MiniPanel extends BaseComponent {
     }
 
     async loadPromotionPrefab() {
-        if (!uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"]) {
-            this.announcementPrefab = await GameUtils.loadResource("boosted-odds/PromotionAnnouncements");
-            uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"] = this.announcementPrefab;
-        } else {
-            this.announcementPrefab = uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"];
-        }
+        try {
+            if (!uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"]) {
+                this.announcementPrefab = await GameUtils.loadResource("boosted-odds/PromotionAnnouncements");
+                uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"] = this.announcementPrefab;
+            } else {
+                this.announcementPrefab = uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"];
+            }
 
-        uiManager.emitter.emit(InternalEvents.LOADED_PROMOTION_ANNOUNCEMENT);
+            uiManager.emitter.emit(InternalEvents.LOADED_PROMOTION_ANNOUNCEMENT);
+        } catch (error) {
+            cc.log("An error occurred during loadPromotionPrefab:", error);
+        }
     }
 
     onDestroy() {
@@ -177,7 +181,7 @@ export default class MiniPanel extends BaseComponent {
                 if (gameMenu) {
                     gameMenu.miniPanel = this;
                 }
-                this.miniMenu.addChild(popUpMiniGameNode);
+                this.miniMenu?.addChild(popUpMiniGameNode);
             })
             .catch((err) => cc.warn("Failed to init mini game icons - " + err));
     }
@@ -195,7 +199,7 @@ export default class MiniPanel extends BaseComponent {
             this.boostedOdds = boostedOddsNode.getComponent(BoostedOdds);
             boostedOddsNode.on(BoostedOddsEvent.SHOW_PROMOTION_ANNOUNCEMENT, this.showAnnouncement.bind(this));
             Promotions.getInstance().on(PromotionsEvent.SHOW_BOOSTED_ODDS, () => this.boostedOdds?.handleBoostedOdds());
-            this.promotionContainer.addChild(boostedOddsNode);
+            this.promotionContainer?.addChild(boostedOddsNode);
         } catch (error) {
             cc.warn("Failed to init boosted odds - " + error);
         }
@@ -328,36 +332,49 @@ export default class MiniPanel extends BaseComponent {
         if (isUsingRemoteBundle(gameId)) {
             const path = `i18n/images/${language}`;
             const preloadPath = `preload`;
-            BundleManager.getInstance()
-                .loadBundle(`${gameId}`)
-                .then((bundle: cc.AssetManager.Bundle) => {
-                    bundle.loadDir(
-                        preloadPath,
-                        (finish: number, total: number, item) => {
-                            loading.onProgressWithStartPercent(0, this.preloadFolderPercent, finish, total);
-                        },
-                        (errors, assets) => {
-                            bundle.loadDir(
-                                path,
-                                cc.SpriteFrame,
-                                (finish: number, total: number, item) => {
-                                    loading.onProgressWithStartPercent(this.preloadFolderPercent, this.preloadOthersPercent, finish, total);
-                                },
-                                onComplete
-                            );
-                        }
-                    );
-                })
-                .catch(onComplete);
+            try {
+                BundleManager.getInstance()
+                    .loadBundle(`${gameId}`)
+                    .then((bundle: cc.AssetManager.Bundle) => {
+                        bundle.loadDir(
+                            preloadPath,
+                            (finish: number, total: number, item) => {
+                                loading?.onProgressWithStartPercent(0, this.preloadFolderPercent, finish, total);
+                            },
+                            () => {
+                                bundle.loadDir(
+                                    path,
+                                    cc.SpriteFrame,
+                                    (finish: number, total: number, item) => {
+                                        loading?.onProgressWithStartPercent(
+                                            this.preloadFolderPercent,
+                                            this.preloadOthersPercent,
+                                            finish,
+                                            total
+                                        );
+                                    },
+                                    onComplete
+                                );
+                            }
+                        );
+                    })
+                    .catch(onComplete);
+            } catch (error) {
+                cc.log("An error occurred during loadGame with remote bundle:", error);
+            }
         } else {
-            cc.resources.loadDir(
-                `image/${language}/${gameId}`,
-                cc.SpriteFrame,
-                (finish: number, total: number, item) => {
-                    loading.onProgressWithStartPercent(0, this.preloadOthersPercent, finish, total);
-                },
-                onComplete
-            );
+            try {
+                cc.resources.loadDir(
+                    `image/${language}/${gameId}`,
+                    cc.SpriteFrame,
+                    (finish: number, total: number, item) => {
+                        loading?.onProgressWithStartPercent(0, this.preloadOthersPercent, finish, total);
+                    },
+                    onComplete
+                );
+            } catch (error) {
+                cc.log("An error occurred during loadGame:", error);
+            }
         }
     }
 
@@ -442,11 +459,11 @@ export default class MiniPanel extends BaseComponent {
     }
 
     addNotice(node: cc.Node) {
-        this.noticeContainer.addChild(node);
+        this.noticeContainer?.addChild(node);
     }
 
     showGuide(guide: cc.Node) {
-        this.guideContainer.addChild(guide);
+        this.guideContainer?.addChild(guide);
     }
 
     showNotice(noticeData: NoticeData, handleClickButton: () => void = null, handleClose: () => void = null) {
@@ -501,7 +518,7 @@ export default class MiniPanel extends BaseComponent {
     }
 
     addDialog(dialogNode: cc.Node) {
-        this.dialog.addChild(dialogNode);
+        this.dialog?.addChild(dialogNode);
     }
 
     setIconOverMiniGame(over: boolean) {

@@ -3,6 +3,7 @@ import AudioManager from "../../common/audio/AudioManager";
 import DraggableItem from "../../common/draggable-layout/view-models/DraggableItem";
 import { MINI_GAMES_SCALE_ON_DESKTOP } from "../../common/GameUtils";
 import { userManager } from "../../common/user/UserManager";
+import { uiManager } from "../../managers/GameUIManager";
 import SocketIOController from "../../SocketIOController";
 import GameBase from "./GameBase";
 
@@ -58,6 +59,7 @@ export default class SocketIOMiniGameBase extends GameBase {
         this.showProcessingWarning(false);
         super.closeGame();
         this.currentMiniPanel.onGamesLayerChanged();
+        uiManager.resetCurrentGameId();
     }
 
     onData(data) {

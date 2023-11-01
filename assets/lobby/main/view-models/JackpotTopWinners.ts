@@ -44,8 +44,12 @@ export default class JackpotTopWinners extends cc.Component {
     }
 
     onData(data: any) {
-        this.handleNoUser(data.length === 0);
-        this.setData(data);
+        try {
+            this.handleNoUser(data.length === 0);
+            this.setData(data);
+        } catch (error) {
+            cc.log("An error occurred during RECEIVED_JACKPOT_WINNERS:", error);
+        }
     }
 
     handleNoUser(status = true) {

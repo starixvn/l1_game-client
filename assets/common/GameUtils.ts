@@ -300,23 +300,31 @@ export default class GameUtils {
     }
 
     public static async tryOpenGameDirect(gameId: number, socketIOController: SocketIOController) {
-        await socketIOController.openGameSocket(gameId);
-        await this.preloadGameRoom(gameId);
+        try {
+            await socketIOController.openGameSocket(gameId);
+            await this.preloadGameRoom(gameId);
+        } catch (error) {
+            cc.error("An error occurred in tryOpenGameDirect:", error);
+        }
     }
 
     public static async openGameMicrosite(gameId: number, loading: Loading = null) {
-        const available = await this.healthCheckMicrositeGame(gameId);
-        if (available) {
-            SessionManager.storeMicrositeGameId(gameId);
-            const sceneName = "microsite-game";
-            await this.loadScene(gameId, sceneName);
-        } else {
-            loading?.setLoadingVisibility(false);
-            const data = {
-                text: i18n.t("messages.lostGameConnection", { gameName: await this.getDisplayGameName(gameId) }),
-                isInfo: false
-            };
-            uiManager.emitter.emit(InternalEvents.LOST_CONNECTION, data);
+        try {
+            const available = await this.healthCheckMicrositeGame(gameId);
+            if (available) {
+                SessionManager.storeMicrositeGameId(gameId);
+                const sceneName = "microsite-game";
+                await this.loadScene(gameId, sceneName);
+            } else {
+                loading?.setLoadingVisibility(false);
+                const data = {
+                    text: i18n.t("messages.lostGameConnection", { gameName: await this.getDisplayGameName(gameId) }),
+                    isInfo: false
+                };
+                uiManager.emitter.emit(InternalEvents.LOST_CONNECTION, data);
+            }
+        } catch (error) {
+            cc.error("An error occurred in openGameMicrosite:", error);
         }
     }
 
@@ -424,14 +432,18 @@ export default class GameUtils {
             return;
         }
 
-        onOpenMiniGame && onOpenMiniGame();
+        onOpenMiniGame?.();
         miniPanel.openNewSocketMiniGame(null, gameId);
     }
 
     private static async preloadGameAssets(gameConfiguration: GameConfiguration, miniPanel: MiniPanel, gameId: number) {
-        if (!!gameConfiguration.remoteBundle) {
-            await BundleManager.getInstance().loadBundle(gameId.toString());
-            await preloadAssets(gameId.toString());
+        try {
+            if (!!gameConfiguration.remoteBundle) {
+                await BundleManager.getInstance().loadBundle(gameId.toString());
+                await preloadAssets(gameId.toString());
+            }
+        } catch (error) {
+            cc.error("An error occurred in preloadGameAssets:", error);
         }
     }
 
@@ -570,16 +582,20 @@ export default class GameUtils {
     }
 
     public static async getRemoteDisplayGameName(gameId, breakline = false) {
-        await this.loadRemoteLocalization(gameId);
-        const list = ["generalGameNames", "gameNames"];
-        breakline && list.unshift("lobbyNames");
+        try {
+            await this.loadRemoteLocalization(gameId);
+            const list = ["generalGameNames", "gameNames"];
+            breakline && list.unshift("lobbyNames");
 
-        const currentLanguage = this.getCurrentLanguage();
-        const key = list.find((key) => this.getRemoteTranslation(gameId, key, currentLanguage));
-        if (!key) {
-            this.getRemoteTranslation(gameId, "gameNames", "en");
+            const currentLanguage = this.getCurrentLanguage();
+            const key = list.find((key) => this.getRemoteTranslation(gameId, key, currentLanguage));
+            if (!key) {
+                this.getRemoteTranslation(gameId, "gameNames", "en");
+            }
+            return this.getRemoteTranslation(gameId, key, currentLanguage);
+        } catch (error) {
+            cc.error("An error occurred in getRemoteDisplayGameName:", error);
         }
-        return this.getRemoteTranslation(gameId, key, currentLanguage);
     }
 
     private static getRemoteTranslation(gameId: number, key: string, language: string) {

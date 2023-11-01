@@ -1,4 +1,5 @@
 import SafeDraggableItem from "../../../common/draggable-layout/view-models/SafeDraggableItem";
+import { uiManager } from "../../../managers/GameUIManager";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { LuckyWheelId } from "./LuckyWheel";
 
@@ -10,6 +11,7 @@ export default class LuckyWheelIcon extends SafeDraggableItem {
     luckyWheelPrefab: cc.Prefab = null;
 
     private miniPanel: MiniPanel;
+    private gameId = -1;
 
     init(main: MiniPanel) {
         this.miniPanel = main;
@@ -29,6 +31,10 @@ export default class LuckyWheelIcon extends SafeDraggableItem {
     }
 
     openGame() {
+        if (uiManager.getCurrentGameId() === this.gameId) {
+            return;
+        }
+        uiManager.setCurrentGameId(this.gameId);
         this.miniPanel.openNewSocketMiniGame(null, LuckyWheelId);
     }
 }

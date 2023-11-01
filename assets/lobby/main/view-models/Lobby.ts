@@ -1,14 +1,17 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
-import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
 import { appContainer, lazyInject } from "../../../Application";
+import SocketIOController from "../../../SocketIOController";
+import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../../analytics/AnalyticsManager";
+import GameUtils from "../../../common/GameUtils";
 import AudioManager from "../../../common/audio/AudioManager";
 import MusicPlayer from "../../../common/audio/MusicPlayer";
-import GameUtils from "../../../common/GameUtils";
 import { truncateFixedDecimals } from "../../../common/helpers/NumberHelper";
 import logger from "../../../common/logger";
+import { SettingMenuEvents } from "../../../common/setting-menu/SettingMenu";
 import { userManager } from "../../../common/user/UserManager";
 import NoticeUtil from "../../../common/utils/NoticeUtil";
+import * as Configs from "../../../configs/Configs";
 import LuckyWheelIcon from "../../../games/lucky-wheel/view-models/LuckyWheelIcon";
 import LobbyMenuConfig from "../../../lobby/main/view-models/LobbyMenuConfig";
 import { appManager } from "../../../managers/AppManager";
@@ -16,21 +19,18 @@ import { uiManager } from "../../../managers/GameUIManager";
 import { InternalEvents } from "../../../managers/InternalEvents";
 import { StorageManager } from "../../../managers/StorageManager";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
-import SocketIOController from "../../../SocketIOController";
 import Category from "../../category/view-models/Category";
 import NewsContent from "../../news/NewsContent";
 import PromotionNotificationsHandler from "../../promotions/PromotionNotificationsHandler";
 import CommonDialog from "./../../../common/_base/view-models/CommonDialog";
 import * as authManager from "./../../../common/auth/AuthManager";
+import { AppTypes } from "./../../../common/auth/AuthManager";
 import * as sessionManager from "./../../../common/auth/SessionManager";
 import Banner from "./Banner";
 import CategoryItem from "./CategoryItem";
 import Header from "./Header";
 import LobbyManager from "./LobbyManager";
 import LobbyMenu from "./LobbyMenu";
-import { SettingMenuEvents } from "../../../common/setting-menu/SettingMenu";
-import * as Configs from "../../../configs/Configs";
-import { AppTypes } from "./../../../common/auth/AuthManager";
 
 const socketIOController = appContainer.get(SocketIOController);
 const sentryLogger = logger();
@@ -285,7 +285,7 @@ export default class Lobby extends cc.Component {
         const miniPanelNode = cc.instantiate(this.miniPanelPrefab);
         this.miniPanel = miniPanelNode.getComponent(MiniPanel);
         appManager.miniPanel = this.miniPanel;
-        this.redhat.insertChild(miniPanelNode, 1);
+        this.redhat?.insertChild(miniPanelNode, 1);
     }
 
     checkToShowSignName() {
@@ -517,7 +517,7 @@ export default class Lobby extends cc.Component {
                 GameUtils.loadResource(`games/lucky-wheel/LuckyWheelIcon`).then((prefab) => {
                     if (!this.luckyWheelIcon) {
                         const node = cc.instantiate(prefab);
-                        this.redhat.insertChild(node, 0);
+                        this.redhat?.insertChild(node, 0);
                         this.luckyWheelIcon = node.getComponent(LuckyWheelIcon);
                         this.luckyWheelIcon.init(this.miniPanel);
                     }
@@ -529,11 +529,16 @@ export default class Lobby extends cc.Component {
         });
     }
 
-    openLuckyWheel() {
+    async openLuckyWheel() {
         if (userManager.userName) {
-            this.renderLuckyWheelIcon().then(() => {
-                this.luckyWheelIcon && userManager.availSpins && this.luckyWheelIcon.openGame();
-            });
+            try {
+                await this.renderLuckyWheelIcon();
+                if (this.luckyWheelIcon && userManager.availSpins) {
+                    this.luckyWheelIcon.openGame();
+                }
+            } catch (error) {
+                cc.log("An error occurred during openLuckyWheel:", error);
+            }
         }
     }
 
