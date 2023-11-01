@@ -318,7 +318,6 @@ export default class BlackJack extends SocketIOTableGameBase {
                     const chipStack = BlackJackUtils.createChipStack(
                         handPlace.getBetAmount(),
                         this.betChips,
-
                         this.shadowChip,
                         destNode.skewX,
                         false
@@ -374,7 +373,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         handPlace.addCard(cardNode);
 
         const pullDuration = 0.2;
-        const slideDuration = 0.2;
+        const slideDuration = 0.1;
         cardComponent.playAnimation(CardAnimation.PullCard, pullDuration);
         cc.tween(cardNode)
             .delay(pullDuration)
@@ -456,13 +455,12 @@ export default class BlackJack extends SocketIOTableGameBase {
         const sortIndices = [0, 3, 1, 4, 2, 5];
         const places = sortIndices.map((i) => this.handPlaces[i]);
         const nextHand = places.find((hand) => hand.isActive && !hand.isStand);
+
         if (nextHand) {
             if (this.activeHand !== nextHand) {
-                if (this.activeHand) {
-                    this.activeHand.selected = false;
-                }
                 this.activeHand = nextHand;
             }
+
             nextHand.selected = true;
             this.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
         } else {

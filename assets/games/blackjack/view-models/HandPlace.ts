@@ -64,7 +64,7 @@ export default class HandPlace extends cc.Component {
 
     set selected(value) {
         this._selected = value;
-        this.updateDisplay();
+        this.updateDisplay(value);
     }
 
     protected data: HandModel = null;
@@ -148,11 +148,14 @@ export default class HandPlace extends cc.Component {
         this.scoreFrame = this.scoreValue.node.parent;
     }
 
-    updateDisplay() {
+    updateDisplay(selected: boolean) {
+        const moveDistance = 50;
+        const selectedColorToHEXValue = "a8ff7e";
+
         this.cardLayout.shadow.active = this.selected;
         this.cardLayout.changeCardView(this.selected);
 
-        if (this.selected) {
+        if (selected) {
             this.activeIcon.active = true;
 
             if (!this.activeIcon.getActionByTag(10)) {
@@ -166,6 +169,12 @@ export default class HandPlace extends cc.Component {
                 this.activeIcon.runAction(action).setTag(10);
             }
 
+            if (this.scoreFrame.color.toHEX("#rrggbb") != selectedColorToHEXValue) {
+                cc.tween(this.scoreFrame)
+                    .to(0.3, { position: cc.v2(this.scoreFrame.x, this.scoreFrame.y + moveDistance) })
+                    .start();
+            }
+
             this.scoreFrame.color = new cc.Color(168, 255, 126);
             this.scoreValue.node.color = new cc.Color(26, 255, 20);
         } else {
@@ -173,6 +182,9 @@ export default class HandPlace extends cc.Component {
             this.activeIcon.active = false;
             this.scoreFrame.color = cc.Color.BLACK;
             this.scoreValue.node.color = new cc.Color(192, 192, 192);
+            cc.tween(this.scoreFrame)
+                .to(0.3, { position: cc.v2(this.scoreFrame.x, this.scoreFrame.y - moveDistance) })
+                .start();
         }
     }
 

@@ -935,7 +935,14 @@ export default class GameUtils {
     ) {
         const values = this.getChipQuantity(bet, betChips.chipValues);
         const node = new cc.Node();
+        const shadow = new cc.Node();
+        shadow.scaleX = 0.52;
+        shadow.scaleY = 0.47;
+        shadow.opacity = 175;
+        shadow.addComponent(cc.Sprite).spriteFrame = option.shadowFrame;
+        node.addChild(shadow);
         let chipStack;
+
         if (!option.isChip3D) {
             chipStack = node.addComponent(ChipStack);
             chipStack.chipSize = 26;

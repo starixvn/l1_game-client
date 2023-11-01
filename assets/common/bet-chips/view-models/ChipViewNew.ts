@@ -16,6 +16,9 @@ export default class ChipViewNew extends ChipView {
     @property({ type: cc.Node, visible: false, override: true })
     typeNodes: cc.Node[] = [];
 
+    @property(cc.Node)
+    firstChipShadow: cc.Node = null;
+
     @property()
     private _rotation = 0;
 

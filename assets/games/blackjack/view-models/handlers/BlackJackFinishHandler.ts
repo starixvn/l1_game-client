@@ -142,7 +142,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                     const destPos = chip.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
                     chip.runAction(
                         cc.sequence(
-                            cc.spawn(cc.jumpTo(0.8, destPos, 100, 1), cc.scaleTo(0.8, 0.5)),
+                            cc.spawn(cc.jumpTo(0.8, destPos, 250, 1), cc.scaleTo(0.8, 0.5)),
                             cc.delayTime(0.1),
                             cc.fadeOut(0.3),
                             cc.callFunc(() => {
@@ -182,7 +182,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         chipStack.scale = 0.5;
         chipStack.runAction(
             cc.sequence(
-                cc.spawn(cc.jumpTo(0.8, destPosition, 100, 1), cc.scaleTo(0.8, 1)),
+                cc.spawn(cc.jumpTo(0.8, destPosition, 200, 1), cc.scaleTo(0.8, 1)),
                 cc.delayTime(0.1),
                 cc.callFunc(() => {
                     destNode.destroyAllChildren();
