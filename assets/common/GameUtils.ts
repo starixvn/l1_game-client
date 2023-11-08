@@ -5,7 +5,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lodash } from "../ClientModules";
 import * as SessionManager from "../common/auth/SessionManager";
-import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
+import { getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
 import LobbyManager from "../lobby/main/view-models/LobbyManager";
 import { appManager } from "../managers/AppManager";
 import { uiManager } from "../managers/GameUIManager";
@@ -210,6 +210,27 @@ export default class GameUtils {
                 });
             });
         }
+    }
+
+    public static async asyncExecute<T>(node: cc.Node, promiseValue: Promise<T>): Promise<T> {
+        return new Promise<T>((resolve, reject) => {
+            const errorMessage = "Node is not valid!.";
+            if (!node?.isValid) {
+                reject(new Error(errorMessage));
+            } else {
+                promiseValue
+                    .then((result) => {
+                        if (!node?.isValid) {
+                            reject(new Error(errorMessage));
+                        } else {
+                            resolve(result);
+                        }
+                    })
+                    .catch(() => {
+                        reject(new Error(errorMessage));
+                    });
+            }
+        });
     }
 
     public static getChipValues(bet: number, options: number[]): any {

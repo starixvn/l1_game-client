@@ -49,7 +49,7 @@ export default class PopupMinigames extends cc.Component {
         const jackpot = cc.instantiate(this.jackpotWinnerPrefab);
         const jackpotWinner = jackpot.getComponent(JackpotWinner);
         jackpotWinner.popupMiniGame = this;
-        this.jackPotContainer.addChild(jackpot);
+        this.jackPotContainer?.addChild(jackpot);
         this.jackPotContainer.active = false;
 
         roundTimerManager.initEvents();
@@ -59,15 +59,15 @@ export default class PopupMinigames extends cc.Component {
     }
 
     async initDefaultGameRoundTimer() {
-        try {
-            const prefab = await GameUtils.loadMiniPanelGameIcon(this.lobbyMenuConfig.roundTimerGame.main);
-            const node = cc.instantiate(prefab);
-            this.roundTimer?.addChild(node);
-            node.getChildByName("icon-game").active = false;
-            roundTimerManager.requestRoundTimer();
-        } catch (error) {
-            cc.log("An error occurred during initDefaultGameRoundTimer:", error);
-        }
+        const prefab = await GameUtils.asyncExecute<cc.Prefab>(
+            this.node,
+            GameUtils.loadMiniPanelGameIcon(this.lobbyMenuConfig.roundTimerGame.main)
+        );
+
+        const node = cc.instantiate(prefab);
+        this.roundTimer?.addChild(node);
+        node.getChildByName("icon-game").active = false;
+        roundTimerManager.requestRoundTimer();
     }
 
     onDestroy() {

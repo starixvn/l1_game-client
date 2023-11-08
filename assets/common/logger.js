@@ -13,6 +13,7 @@ export const sentryLogger = {
                 environment: configs.sentry.env,
                 maxValueLength: 5000,
                 ignoreErrors: [
+                    "Node is not valid!.",
                     "fullscreen error",
                     "exitFullscreen",
                     "start the audio device",

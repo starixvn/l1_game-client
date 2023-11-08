@@ -30,12 +30,8 @@ export default class LobbyMenu extends GameIconMenu {
     }
 
     async loadHiddenIcons() {
-        await GameUtils.delayTime(this.durationAutoHideSkeleton);
-        try {
-            this.handleLoadHiddenIcons();
-        } catch (e) {
-            console.warn("Catch error after await method", e.message);
-        }
+        await GameUtils.asyncExecute(this?.node, GameUtils.delayTime(this.durationAutoHideSkeleton));
+        this.handleLoadHiddenIcons();
     }
 
     private splitWhenever<T>(filter: (element: T) => boolean, list: T[]) {

@@ -142,18 +142,17 @@ export default class MiniPanel extends BaseComponent {
     }
 
     async loadPromotionPrefab() {
-        try {
-            if (!uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"]) {
-                this.announcementPrefab = await GameUtils.loadResource("boosted-odds/PromotionAnnouncements");
-                uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"] = this.announcementPrefab;
-            } else {
-                this.announcementPrefab = uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"];
-            }
-
-            uiManager.emitter.emit(InternalEvents.LOADED_PROMOTION_ANNOUNCEMENT);
-        } catch (error) {
-            cc.log("An error occurred during loadPromotionPrefab:", error);
+        if (!uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"]) {
+            this.announcementPrefab = await GameUtils.asyncExecute<cc.Prefab>(
+                this.node,
+                GameUtils.loadResource("boosted-odds/PromotionAnnouncements")
+            );
+            uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"] = this.announcementPrefab;
+        } else {
+            this.announcementPrefab = uiManager.prefabCache.miniPanelIcons["promotionAnnouncements"];
         }
+
+        uiManager.emitter.emit(InternalEvents.LOADED_PROMOTION_ANNOUNCEMENT);
     }
 
     onDestroy() {

@@ -53,7 +53,7 @@ export default class BannerJackpotPool extends JackpotPoolInfo {
         this.poolData[type].forEach((pool) => {
             const item = GameUtils.createNodeFromPrefab(this.gamePool);
             if (item) {
-                this.content.addChild(item);
+                this.content?.addChild(item);
                 const poolItemComp = item.getComponent(BannerJackpotPoolItem);
                 poolItemComp.setData(pool);
             }

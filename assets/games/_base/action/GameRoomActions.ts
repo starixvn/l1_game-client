@@ -20,11 +20,7 @@ export const handleMusicWhenJoinGame = (game: any) => async () => {
     const musicPlayer = MusicPlayer.getInstance();
     if (game.isOwnGameMusicBackground) {
         musicPlayer.isJoinRoomMusic = true;
-        try {
-            await musicPlayer.decreaseVolumeAndStopBackgroundMusic();
-        } catch (error) {
-            cc.error("An error occurred in decreaseVolumeAndStopBackgroundMusic:", error);
-        }
+        await GameUtils.asyncExecute(game?.node, musicPlayer.decreaseVolumeAndStopBackgroundMusic());
     } else {
         if (!musicPlayer.initialized) {
             musicPlayer.init();

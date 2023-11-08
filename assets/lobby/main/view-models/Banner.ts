@@ -152,25 +152,24 @@ export default class Banner extends cc.Component {
     }
 
     switchBanner(showJackpot: boolean, reset = false, rightDirection = true) {
-        try {
-            cc.tween(this.node)
-                .delay(0.1)
-                .call(() => {
-                    this.adsBannerController.node.active = !showJackpot;
-                    this.jackpotBannerContainer.active = showJackpot;
+        cc.tween(this.node)
+            .delay(0.1)
+            .call(() => {
+                if (!this.node.isValid) {
+                    return;
+                }
+                this.adsBannerController.node.active = !showJackpot;
+                this.jackpotBannerContainer.active = showJackpot;
 
-                    const newContainer = !showJackpot ? this.adsBannerController : this.jackpotBannerContainer;
-                    const newController = newContainer.getComponent(BannerController);
+                const newContainer = !showJackpot ? this.adsBannerController : this.jackpotBannerContainer;
+                const newController = newContainer.getComponent(BannerController);
 
-                    if (rightDirection || reset) {
-                        newController.showFirstPage();
-                    } else {
-                        newController.showLastPage();
-                    }
-                })
-                .start();
-        } catch (error) {
-            cc.log("An error occurred during switchBanner:", error);
-        }
+                if (rightDirection || reset) {
+                    newController.showFirstPage();
+                } else {
+                    newController.showLastPage();
+                }
+            })
+            .start();
     }
 }

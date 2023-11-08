@@ -68,10 +68,10 @@ export default class CircleMenu extends GameIconMenu {
             if (uiManager.prefabCache.miniPanelIcons[gameId]) {
                 prefab = uiManager.prefabCache.miniPanelIcons[gameId];
             } else {
-                prefab = await GameUtils.loadMiniPanelGameIcon(gameId);
+                prefab = await GameUtils.asyncExecute(this?.node, GameUtils.loadMiniPanelGameIcon(gameId));
                 uiManager.prefabCache.miniPanelIcons[gameId] = prefab;
             }
-            node.addChild(cc.instantiate(prefab));
+            node?.addChild(cc.instantiate(prefab));
             node.children[0].active = false;
         } catch (e) {
             console.warn(e);
@@ -84,7 +84,7 @@ export default class CircleMenu extends GameIconMenu {
         }
         const node = cc.instantiate(prefab);
         node.scale = 0.68;
-        this.content.addChild(node);
+        this.content?.addChild(node);
         this.updateGameName(id, node);
         this.loadGameIcon(id, node);
 

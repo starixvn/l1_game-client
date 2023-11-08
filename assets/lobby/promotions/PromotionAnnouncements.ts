@@ -77,7 +77,7 @@ export default class PromotionAnnouncements extends cc.Component {
             this.count.node.parent.active = true;
             promotion.forEach((detail) => {
                 const node = cc.instantiate(this.promoItemPrefab);
-                this.content.addChild(node);
+                this.content?.addChild(node);
                 const item = node.getComponent(PromotionAnnouncementItem);
                 if (item) {
                     item.miniPanel = this.miniPanel;

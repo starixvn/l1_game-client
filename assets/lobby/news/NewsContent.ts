@@ -90,7 +90,7 @@ export default class NewsContent extends BaseComponent {
         let lastItemX = this.content.width / 2;
         const lastNode = this.content.children[count - 1];
 
-        this.content.addChild(node);
+        this.content?.addChild(node);
         const spacing = 100;
         if (lastNode) {
             lastItemX = Math.max(lastNode.position.x + lastNode.width + spacing, lastItemX);

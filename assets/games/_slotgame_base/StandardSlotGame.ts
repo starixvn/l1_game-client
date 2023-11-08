@@ -1,8 +1,9 @@
 import { BundleManager } from "bundle-management";
 import * as _ from "lodash";
 
-import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
+import GameUtils from "../../common/GameUtils";
+import AudioManager from "../../common/audio/AudioManager";
 import LocalizedLoadSprite from "../../common/i18n/LocalizedLoadSprite";
 import JackpotPoolInfoBase from "../../lobby/main/view-models/JackpotPoolInfoBase";
 import { uiManager } from "../../managers/GameUIManager";
@@ -180,7 +181,7 @@ export default class StandardSlotGame extends SlotGameBase {
         const dict = this.getPrefabsList();
 
         for (const key of Object.keys(dict)) {
-            await this.loadPrefabWithBundle(key, dict[key]);
+            await GameUtils.asyncExecute(this?.node, this.loadPrefabWithBundle(key, dict[key]));
         }
     }
 
@@ -282,18 +283,13 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     async initSlotBoard() {
-        await this.loadGameAtlas();
-        try {
-            await this.loadSlotSymbols().then(() => {
-                super.initSlotBoard();
-                this.slotBoard.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
-                this.loadWinningSymbolAnimation().then(() => {
-                    this.slotBoard.setItemWinningEffect();
-                });
-            });
-        } catch (error) {
-            cc.log("An error occurred during initSlotBoard:", error);
-        }
+        await GameUtils.asyncExecute(this?.node, this.loadGameAtlas());
+        await GameUtils.asyncExecute(this?.node, this.loadSlotSymbols());
+        super.initSlotBoard();
+        this.slotBoard.previewPopup.onSymbolPreview = this.onSymbolPreview.bind(this);
+        this.loadWinningSymbolAnimation().then(() => {
+            this.slotBoard.setItemWinningEffect();
+        });
     }
 
     onSymbolPreview(symbol, worldPosition: cc.Vec3, isInfoOnLeft: boolean) {
@@ -321,21 +317,17 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     async loadSlotSymbols() {
-        try {
-            const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
-            for (let index = 0; index < this.slotGameConfigs.itemTypeCount; index++) {
-                if (prefabCache[index]) {
-                    continue;
-                }
-                const symbolInfo = {};
-                symbolInfo["symbol"] = await this.addSymbolCache(index);
-                symbolInfo["isJackpot"] = index === this.jackpotSymbolIndex && this.jackpotEnabled;
-                prefabCache[index] = symbolInfo;
+        const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
+        for (let index = 0; index < this.slotGameConfigs.itemTypeCount; index++) {
+            if (prefabCache[index]) {
+                continue;
             }
-            uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
-        } catch (error) {
-            cc.log("An error occurred during loadSlotSymbols:", error);
+            const symbolInfo = {};
+            symbolInfo["symbol"] = await GameUtils.asyncExecute(this?.node, this.addSymbolCache(index));
+            symbolInfo["isJackpot"] = index === this.jackpotSymbolIndex && this.jackpotEnabled;
+            prefabCache[index] = symbolInfo;
         }
+        uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
     }
 
     protected addSymbolCache(index: number) {
@@ -378,21 +370,20 @@ export default class StandardSlotGame extends SlotGameBase {
     async loadWinningSymbolAnimation() {
         const prefabCache = uiManager.prefabCache.slotWinningAnimation[this.gameId] || {};
 
-        try {
-            if (prefabCache !== null) {
-                const path = `preload/symbol-spines/winning-animation`;
-                const devPath = `../games/*/${path}`;
-                const data = await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
+        if (prefabCache !== null) {
+            const path = `preload/symbol-spines/winning-animation`;
+            const devPath = `../games/*/${path}`;
+            const data = await GameUtils.asyncExecute(
+                this?.node,
+                BundleManager.getInstance().loadAsset<sp.SkeletonData>({
                     bundleId: this.gameId.toString(),
                     path: path,
                     pathForDevMode: devPath,
                     type: sp.SkeletonData
-                });
+                })
+            );
 
-                uiManager.prefabCache.slotWinningAnimation[this.gameId] = data;
-            }
-        } catch (error) {
-            cc.log("An error occurred during loadWinningSymbolAnimation:", error);
+            uiManager.prefabCache.slotWinningAnimation[this.gameId] = data;
         }
     }
 
@@ -498,43 +489,27 @@ export default class StandardSlotGame extends SlotGameBase {
     }
 
     async showEffectFreeSpin() {
-        try {
-            const transtition = await this.playEffectTransition();
-            await super.showEffectFreeSpin();
-            transtition?.destroy();
-        } catch (error) {
-            cc.error("An error occurred in showEffectFreeSpin:", error);
-        }
+        const transtition = await GameUtils.asyncExecute(this?.node, this.playEffectTransition());
+        await GameUtils.asyncExecute(this?.node, super.showEffectFreeSpin());
+        transtition?.destroy();
     }
 
     async showEffectBigWin(betWin: number) {
-        try {
-            const transtition = await this.playEffectTransition();
-            await super.showEffectBigWin(betWin);
-            transtition?.destroy();
-        } catch (error) {
-            cc.error("An error occurred in showEffectBigWin:", error);
-        }
+        const transtition = await GameUtils.asyncExecute(this?.node, this.playEffectTransition());
+        await GameUtils.asyncExecute(this?.node, super.showEffectBigWin(betWin));
+        transtition?.destroy();
     }
 
     async showEffectBonus(bonus: number): Promise<void> {
-        try {
-            const transtition = await this.playEffectTransition();
-            await super.showEffectBonus(bonus);
-            transtition?.destroy();
-        } catch (error) {
-            cc.error("An error occurred in showEffectBonus:", error);
-        }
+        const transtition = await GameUtils.asyncExecute(this?.node, this.playEffectTransition());
+        await GameUtils.asyncExecute(this?.node, super.showEffectBonus(bonus));
+        transtition?.destroy();
     }
 
     async showEffectJackpot(amount: number) {
-        try {
-            const transtition = await this.playEffectTransition();
-            await super.showEffectJackpot(amount);
-            transtition?.destroy();
-        } catch (error) {
-            cc.error("An error occurred in showEffectJackpot:", error);
-        }
+        const transtition = await GameUtils.asyncExecute(this?.node, this.playEffectTransition());
+        await GameUtils.asyncExecute(this?.node, super.showEffectJackpot(amount));
+        transtition?.destroy();
     }
 
     setBonusCount(dialog: StandardSlotBonusDialog, bonus: number): BonusDialog {
@@ -551,7 +526,8 @@ export default class StandardSlotGame extends SlotGameBase {
         const animation = effect.getComponent(CallbackAnimation);
         animation.autoDestroyNode = false;
         this.playSound(ClassicSlotSound.TRANSITION);
-        await this.showEffect(effect);
+        await GameUtils.asyncExecute(this?.node, super.showEffect(effect));
+
         return effect;
     }
 

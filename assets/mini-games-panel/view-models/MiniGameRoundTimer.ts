@@ -42,18 +42,14 @@ export default class MiniGameRoundTimer extends cc.Component {
     }
 
     async initRoundTime() {
-        try {
-            const prefab = await GameUtils.loadResource(`minipanel/popup-mini-game/RoundTime`);
+        const prefab = await GameUtils.asyncExecute<cc.Prefab>(this.node, GameUtils.loadResource(`minipanel/popup-mini-game/RoundTime`));
 
-            const node = GameUtils.createNodeFromPrefab(prefab);
-            this.roundTime = node.getComponent(RoundTime);
-            this.time?.addChild(node);
-            this.hideRoundTimer();
-            roundTimerManager.roundData && this.onReceivedData(roundTimerManager.roundData);
-            this.registerEvents();
-        } catch (error) {
-            cc.log("An error occurred during initRoundTime:", error);
-        }
+        const node = GameUtils.createNodeFromPrefab(prefab);
+        this.roundTime = node.getComponent(RoundTime);
+        this.time?.addChild(node);
+        this.hideRoundTimer();
+        roundTimerManager.roundData && this.onReceivedData(roundTimerManager.roundData);
+        this.registerEvents();
     }
 
     private registerEvents() {

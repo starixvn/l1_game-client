@@ -232,7 +232,7 @@ export default class Lobby extends cc.Component {
             itemCategory.onCategoryChanged = (category) => {
                 this.onCategoryChanged(category);
             };
-            this.categoryContainer.addChild(categoryNode);
+            this.categoryContainer?.addChild(categoryNode);
         });
     }
 
@@ -531,13 +531,9 @@ export default class Lobby extends cc.Component {
 
     async openLuckyWheel() {
         if (userManager.userName) {
-            try {
-                await this.renderLuckyWheelIcon();
-                if (this.luckyWheelIcon && userManager.availSpins) {
-                    this.luckyWheelIcon.openGame();
-                }
-            } catch (error) {
-                cc.log("An error occurred during openLuckyWheel:", error);
+            await GameUtils.asyncExecute(this?.node, this.renderLuckyWheelIcon());
+            if (this.luckyWheelIcon && userManager.availSpins) {
+                this.luckyWheelIcon.openGame();
             }
         }
     }

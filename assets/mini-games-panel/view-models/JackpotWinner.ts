@@ -41,30 +41,29 @@ export default class JackpotWinner extends cc.Component {
 
     onData(data: any) {
         if (userManager.userName !== data.winnerName && !userManager.disableJackpotGames) {
-            try {
-                const jackPotContainer = this.popupMiniGame.jackPotContainer;
-                jackPotContainer.width = this.node.width;
-                jackPotContainer.height = this.node.height;
+            const jackPotContainer = this.popupMiniGame.jackPotContainer;
+            jackPotContainer.width = this.node.width;
+            jackPotContainer.height = this.node.height;
 
-                const menuIcon = this.popupMiniGame.menuIcon;
-                menuIcon.active = false;
+            const menuIcon = this.popupMiniGame.menuIcon;
+            menuIcon.active = false;
 
-                this.username.string = data.winnerName;
-                this.amount.string = numberWithCommas(GameUtils.getValueByCurrency(data.amount), 2);
-                this.gameName.string = GameUtils.getGameNameString(data.gameId);
+            this.username.string = data.winnerName;
+            this.amount.string = numberWithCommas(GameUtils.getValueByCurrency(data.amount), 2);
+            this.gameName.string = GameUtils.getGameNameString(data.gameId);
 
-                jackPotContainer.active = true;
+            jackPotContainer.active = true;
 
-                cc.tween(this)
-                    .delay(6)
-                    .call(() => {
-                        jackPotContainer.active = false;
-                        menuIcon.active = true;
-                    })
-                    .start();
-            } catch (error) {
-                cc.warn("An error occurred during RECEIVED_JACKPOT_WINNER:", error);
-            }
+            cc.tween(this)
+                .delay(6)
+                .call(() => {
+                    if (!this.node.isValid) {
+                        return;
+                    }
+                    jackPotContainer.active = false;
+                    menuIcon.active = true;
+                })
+                .start();
         }
     }
 }

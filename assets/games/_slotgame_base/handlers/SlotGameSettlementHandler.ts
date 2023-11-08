@@ -1,3 +1,4 @@
+import GameUtils from "../../../common/GameUtils";
 import DataHandler from "../../_base/handlers/DataHandler";
 import SlotGameBase, { LineData } from "../SlotGameBase";
 import { SlotNotification } from "../SlotGameBottomMessage";
@@ -72,7 +73,7 @@ export default class SlotGameSettlementHandler implements DataHandler {
             await this.main.setDataAndSpin(result);
         }
 
-        await this.handleJackpot(jackpot);
+        await GameUtils.asyncExecute(this.main?.node, this.handleJackpot(jackpot));
         this.main.showWinningItems(winningLines);
         if (bonus.count > 0) {
             this.main.showHighlightSpecialSymbols(+bonus.symbol);
@@ -197,12 +198,8 @@ export default class SlotGameSettlementHandler implements DataHandler {
     }
 
     async handleBonus(bonus: number) {
-        try {
-            if (bonus) {
-                await this.main.showEffectBonus(bonus);
-            }
-        } catch (error) {
-            cc.error("An error occurred in showEffect:", error);
+        if (bonus) {
+            await GameUtils.asyncExecute(this.main?.node, this.main.showEffectBonus(bonus));
         }
     }
 }

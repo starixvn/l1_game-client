@@ -627,21 +627,17 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     async setDataAndSpin(data: any) {
-        try {
-            this.playSound(ClassicSlotSound.SPIN);
-            this.winningBet.string = "0";
-            this.slotBoard.setBoardData(data);
-            this.spinButton.playAnimationSpin();
-            const turbo = this.isTurboMode();
-            this.playSound(turbo ? ClassicSlotSound.SPINNING_TURBO : ClassicSlotSound.SPINNING_NORMAL);
+        this.playSound(ClassicSlotSound.SPIN);
+        this.winningBet.string = "0";
+        this.slotBoard.setBoardData(data);
+        this.spinButton.playAnimationSpin();
+        const turbo = this.isTurboMode();
+        this.playSound(turbo ? ClassicSlotSound.SPINNING_TURBO : ClassicSlotSound.SPINNING_NORMAL);
 
-            const spinDuration = this.getCustomDuration("spin");
-            this.addSoundStopReel(turbo, spinDuration);
-            await this.slotBoard.spin(spinDuration, turbo);
-            this.spinButton.playAnimationIdle();
-        } catch (error) {
-            cc.error("An error occurred in setDataAndSpin:", error);
-        }
+        const spinDuration = this.getCustomDuration("spin");
+        this.addSoundStopReel(turbo, spinDuration);
+        await GameUtils.asyncExecute(this.slotBoard?.node, this.slotBoard.spin(spinDuration, turbo));
+        this.spinButton.playAnimationIdle();
     }
 
     addSoundStopReel(turbo: boolean, spinDuration: number) {
@@ -898,16 +894,12 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     async showEffectFreeSpin() {
-        try {
-            this.playSound(ClassicSlotSound.FREESPIN);
-            const effect = cc.instantiate(this.effectFreeSpin);
-            const animation = effect.getComponent(CallbackAnimation);
-            animation.setDuration(this.getCustomDuration("freespin"));
-            await this.showEffect(effect);
-            this.updateDisplaySpinButtons();
-        } catch (error) {
-            cc.error("An error occurred in showEffectFreeSpin:", error);
-        }
+        this.playSound(ClassicSlotSound.FREESPIN);
+        const effect = cc.instantiate(this.effectFreeSpin);
+        const animation = effect.getComponent(CallbackAnimation);
+        animation.setDuration(this.getCustomDuration("freespin"));
+        await GameUtils.asyncExecute(this?.node, this.showEffect(effect));
+        this.updateDisplaySpinButtons();
     }
 
     getCustomDuration(type: string): number {
@@ -939,27 +931,22 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     async showEffectBigWin(betWin: number) {
-        try {
-            this.playSound(ClassicSlotSound.BIG_WIN);
+        this.playSound(ClassicSlotSound.BIG_WIN);
 
-            const effect = cc.instantiate(this.effectBigWin);
-            const callbackAnim = effect.getComponent(CallbackAnimation);
-            callbackAnim.setDuration(this.getCustomDuration("bigwin"));
-            const bigWinAnimation = effect.getComponent(BigWinAnimation);
-            const showBigWinValueTime = this.getCustomDuration("showBigWinValue");
-            const delayShowBigWinValue = this.getCustomDuration("delayShowBigWinValue");
-            bigWinAnimation.setAmount({ amount: betWin, duration: showBigWinValueTime, delayTime: delayShowBigWinValue });
+        const effect = cc.instantiate(this.effectBigWin);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("bigwin"));
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        const showBigWinValueTime = this.getCustomDuration("showBigWinValue");
+        const delayShowBigWinValue = this.getCustomDuration("delayShowBigWinValue");
+        bigWinAnimation.setAmount({ amount: betWin, duration: showBigWinValueTime, delayTime: delayShowBigWinValue });
 
-            const delayWinningBetLabel = showBigWinValueTime + delayShowBigWinValue;
-            cc.tween(this)
-                .delay(delayWinningBetLabel)
-                .call(() => this.showWinningBet(betWin))
-                .start();
-
-            await this.showEffect(effect);
-        } catch (error) {
-            cc.error("An error occurred in showEffectBigWin:", error);
-        }
+        const delayWinningBetLabel = showBigWinValueTime + delayShowBigWinValue;
+        cc.tween(this)
+            .delay(delayWinningBetLabel)
+            .call(() => this.showWinningBet(betWin))
+            .start();
+        await GameUtils.asyncExecute(this?.node, this.showEffect(effect));
     }
 
     protected showBonusDialog(bonus: number, onBonusFinished) {
@@ -991,7 +978,7 @@ export default class SlotGameBase extends FeatureSlotGameBase {
             const effect = cc.instantiate(this.effectBonus);
             const animation = effect.getComponent(CallbackAnimation);
             animation.setDuration(this.getCustomDuration("bonus"));
-            await this.showEffect(effect);
+            await GameUtils.asyncExecute(this?.node, this.showEffect(effect));
             this.showBonusDialog(bonus, resolve);
         });
     }
@@ -1002,19 +989,15 @@ export default class SlotGameBase extends FeatureSlotGameBase {
     }
 
     async showEffectJackpot(amount: number) {
-        try {
-            this.playSound(ClassicSlotSound.JACKPOT);
+        this.playSound(ClassicSlotSound.JACKPOT);
 
-            const effect = cc.instantiate(this.effectJackpot);
-            const callbackAnim = effect.getComponent(CallbackAnimation);
-            const jackpotDuration = this.getCustomDuration("jackpot");
-            callbackAnim.setDuration(jackpotDuration);
-            const bigWinAnimation = effect.getComponent(BigWinAnimation);
-            bigWinAnimation.setAmount({ amount: amount, duration: jackpotDuration - 1 });
-            await this.showEffect(effect);
-        } catch (error) {
-            cc.error("An error occurred in showEffectJackpot:", error);
-        }
+        const effect = cc.instantiate(this.effectJackpot);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        const jackpotDuration = this.getCustomDuration("jackpot");
+        callbackAnim.setDuration(jackpotDuration);
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        bigWinAnimation.setAmount({ amount: amount, duration: jackpotDuration - 1 });
+        await GameUtils.asyncExecute(this?.node, this.showEffect(effect));
     }
 
     updatePoolData(data: any) {

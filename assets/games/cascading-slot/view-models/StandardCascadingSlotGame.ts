@@ -209,14 +209,14 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     async loadSlotSymbols() {
-        try {
-            const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
-            for (let index = 0; index < CascadingSlotConfig?.symbolCount; index++) {
-                if (prefabCache[index]) {
-                    continue;
-                }
-                const path = `preload/symbol-spines/symbol-${index}`;
-                const devPath = `../games/*/${path}`;
+        const prefabCache = uiManager.prefabCache.slotSymbols[this.gameId] || {};
+        for (let index = 0; index < CascadingSlotConfig?.symbolCount; index++) {
+            if (prefabCache[index]) {
+                continue;
+            }
+            const path = `preload/symbol-spines/symbol-${index}`;
+            const devPath = `../games/*/${path}`;
+            try {
                 const data = await BundleManager.getInstance().loadAsset<sp.SkeletonData>({
                     bundleId: this.gameId.toString(),
                     path: path,
@@ -225,12 +225,12 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
                 });
 
                 prefabCache[index] = data;
+            } catch (error) {
+                console.warn(`Missing SkeletonData for ${path} `, error);
             }
-
-            uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
-        } catch (error) {
-            cc.error("An error occurred in loadSlotSymbols:", error);
         }
+
+        uiManager.prefabCache.slotSymbols[this.gameId] = prefabCache;
     }
 
     loadAudios() {
@@ -463,19 +463,15 @@ export default class StandardCascadingSlotGame extends CascadingSlotBase {
     }
 
     protected async playEffectTransition() {
-        try {
-            if (!this.effectTransitionPrefab) {
-                return null;
-            }
-            const effect = cc.instantiate(this.effectTransitionPrefab);
-            const animation = effect.getComponent(CallbackAnimation);
-            animation.autoDestroyNode = false;
-            this.playSound(CascadingSlotGameSound.TRANSITION);
-            await this.showEffect(effect);
-            return effect;
-        } catch (error) {
-            cc.error("An error occurred in playEffectTransition:", error);
+        if (!this.effectTransitionPrefab) {
+            return null;
         }
+        const effect = cc.instantiate(this.effectTransitionPrefab);
+        const animation = effect.getComponent(CallbackAnimation);
+        animation.autoDestroyNode = false;
+        this.playSound(CascadingSlotGameSound.TRANSITION);
+        await this.showEffect(effect);
+        return effect;
     }
 
     async showEffectFreeSpins(count: number) {

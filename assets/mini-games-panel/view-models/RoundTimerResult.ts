@@ -33,7 +33,7 @@ export default class RoundTimerResult extends cc.Component {
             }
 
             this.customResultNode = GameUtils.createNodeFromPrefab(this.customResultPrefab);
-            this.node.addChild(this.customResultNode);
+            this.node?.addChild(this.customResultNode);
         } catch (e) {
             cc.log(e);
         }

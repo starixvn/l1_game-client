@@ -525,26 +525,22 @@ export default class CascadingSlotBase extends FeatureSlotGameBase {
     }
 
     override async showEffectBigWin(betWin: number) {
-        try {
-            this.soundForBigWin();
-            const effect = cc.instantiate(this.effectBigWin);
-            const callbackAnim = effect.getComponent(CallbackLoopAnimation);
-            callbackAnim.setDuration(this.getCustomDuration("bigWin"));
-            const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        this.soundForBigWin();
+        const effect = cc.instantiate(this.effectBigWin);
+        const callbackAnim = effect.getComponent(CallbackLoopAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("bigWin"));
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
 
-            if (this.isTurboMode()) {
-                this.bigWinForTurBoMode(betWin, bigWinAnimation);
-                callbackAnim.skipTouchToContinue();
-            } else {
-                this.bigWinForNormalMode(betWin, bigWinAnimation, callbackAnim);
-            }
-
-            callbackAnim.skipCallback = () => this.skipCallbackBigWin(betWin, bigWinAnimation);
-
-            await this.showEffect(effect);
-        } catch (error) {
-            cc.error("An error occurred in showEffectBigWin:", error);
+        if (this.isTurboMode()) {
+            this.bigWinForTurBoMode(betWin, bigWinAnimation);
+            callbackAnim.skipTouchToContinue();
+        } else {
+            this.bigWinForNormalMode(betWin, bigWinAnimation, callbackAnim);
         }
+
+        callbackAnim.skipCallback = () => this.skipCallbackBigWin(betWin, bigWinAnimation);
+
+        await this.showEffect(effect);
     }
 
     bigWinForTurBoMode(betWin: number, bigWinAnimation: BigWinAnimation) {

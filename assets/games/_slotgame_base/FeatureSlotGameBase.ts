@@ -1,8 +1,9 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../analytics/AnalyticsManager";
-import AudioManager from "../../common/audio/AudioManager";
 import CallbackAnimation from "../../common/CallbackAnimation";
+import GameUtils from "../../common/GameUtils";
+import AudioManager from "../../common/audio/AudioManager";
 import UserProfile from "../../common/user-profile/UserProfile";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
@@ -311,7 +312,7 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
 
     showEffect(effect: cc.Node): Promise<void> {
         return new Promise<void>((resolve) => {
-            this.effectContainer.addChild(effect);
+            this.effectContainer?.addChild(effect);
 
             const animation = effect.getComponent(CallbackAnimation);
             animation.onFinishedCallback = () => {
@@ -324,30 +325,22 @@ export default abstract class FeatureSlotGameBase extends NewGameRoomBase {
     }
 
     async showEffectBigWin(betWin: number) {
-        try {
-            const effect = cc.instantiate(this.effectBigWin);
-            const callbackAnim = effect.getComponent(CallbackAnimation);
-            callbackAnim.setDuration(this.getCustomDuration("bigWin"));
-            const bigWinAnimation = effect.getComponent(BigWinAnimation);
-            const floatNumberDuration = this.getCustomDuration("bigWinFloatNumber");
-            bigWinAnimation.setAmount({ amount: betWin, duration: floatNumberDuration });
-            await this.showEffect(effect);
-        } catch (error) {
-            cc.error("An error occurred in showEffectBigWin:", error);
-        }
+        const effect = cc.instantiate(this.effectBigWin);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("bigWin"));
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        const floatNumberDuration = this.getCustomDuration("bigWinFloatNumber");
+        bigWinAnimation.setAmount({ amount: betWin, duration: floatNumberDuration });
+        await GameUtils.asyncExecute(this?.node, this.showEffect(effect));
     }
 
     async showEffectFreeSpins(count: number) {
-        try {
-            const effect = cc.instantiate(this.effectFreeSpin);
-            const callbackAnim = effect.getComponent(CallbackAnimation);
-            callbackAnim.setDuration(this.getCustomDuration("freeSpin"));
-            const bigWinAnimation = effect.getComponent(BigWinAnimation);
-            bigWinAnimation.setAmount({ amount: count, noZeroSuffix: true });
-            await this.showEffect(effect);
-        } catch (error) {
-            cc.error("An error occurred in showEffectFreeSpins:", error);
-        }
+        const effect = cc.instantiate(this.effectFreeSpin);
+        const callbackAnim = effect.getComponent(CallbackAnimation);
+        callbackAnim.setDuration(this.getCustomDuration("freeSpin"));
+        const bigWinAnimation = effect.getComponent(BigWinAnimation);
+        bigWinAnimation.setAmount({ amount: count, noZeroSuffix: true });
+        await GameUtils.asyncExecute(this?.node, this.showEffect(effect));
     }
 
     showNoticeForCacheApiError() {

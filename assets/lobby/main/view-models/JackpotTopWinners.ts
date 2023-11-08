@@ -68,7 +68,7 @@ export default class JackpotTopWinners extends cc.Component {
 
         data.forEach((playerData) => {
             const winnerNode = cc.instantiate(this.winnerItem);
-            this.listUserNode.addChild(winnerNode);
+            this.listUserNode?.addChild(winnerNode);
             const player = winnerNode.getComponent(JackpotTopWinnersItem);
             player.setData(playerData);
         });

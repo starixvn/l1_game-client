@@ -55,7 +55,7 @@ export default class DynamicAdsBannerController extends BannerController {
 
     createBasicItem(id: number, spriteFrame: cc.SpriteFrame, item: cc.Node) {
         const sprite = item.getComponent(cc.Sprite);
-        this.node.addChild(item);
+        this.node?.addChild(item);
         sprite.spriteFrame = spriteFrame;
 
         const bannerItem = item.getComponent(BannerItem);
