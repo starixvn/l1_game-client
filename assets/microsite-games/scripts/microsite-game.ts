@@ -4,7 +4,9 @@ import AudioManager from "../../common/audio/AudioManager";
 import * as AuthManager from "../../common/auth/AuthManager";
 import NotificationService from "../../common/auth/NotificationService";
 import * as SessionManager from "../../common/auth/SessionManager";
+import { userManager } from "../../common/user/UserManager";
 import { appManager } from "../../managers/AppManager";
+import { jackpotManager } from "../../managers/JackpotManager";
 
 const { ccclass } = cc._decorator;
 
@@ -51,12 +53,9 @@ export default class MicrositeGame extends BaseMicrositeGame {
     }
 
     protected loadLobbyScene() {
-        cc.director.loadScene("Lobby", () => {
-            NotificationService.getInstance()
-                .forceConnect()
-                .then(() => {
-                    appManager.initPromotions();
-                });
+        cc.director.loadScene("Lobby", async () => {
+            await appManager.microSiteLaunchedInit();
+            !userManager.disableJackpotGames && jackpotManager.requestAllJackpotPools();
         });
     }
 }

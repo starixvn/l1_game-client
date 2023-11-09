@@ -14,9 +14,8 @@ import PromotionNotificationsHandler from "../lobby/promotions/PromotionNotifica
 import { Promotions } from "../lobby/promotions/Promotions";
 import { uiManager } from "./GameUIManager";
 import { InternalEvents } from "./InternalEvents";
-import { StorageManager } from "./StorageManager";
-import { UrlInfo } from "./UrlInfo";
 import { jackpotManager } from "./JackpotManager";
+import { UrlInfo } from "./UrlInfo";
 
 const sentryLogger = logger();
 class AppManager {
@@ -41,6 +40,13 @@ class AppManager {
     private init() {
         sentryLogger.start();
         this.initLanguage();
+    }
+
+    async microSiteLaunchedInit() {
+        appManager.initShowHideAppEvent();
+        jackpotManager.initEvents();
+        await NotificationService.getInstance().forceConnect();
+        appManager.initPromotions();
     }
 
     private async authorizedInit() {

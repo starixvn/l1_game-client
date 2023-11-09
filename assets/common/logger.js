@@ -13,7 +13,6 @@ export const sentryLogger = {
                 environment: configs.sentry.env,
                 maxValueLength: 5000,
                 ignoreErrors: [
-                    "Node is not valid!.",
                     "fullscreen error",
                     "exitFullscreen",
                     "start the audio device",
@@ -28,7 +27,8 @@ export const sentryLogger = {
                     "websocket error",
                     "undefined is not an object (evaluating 'cc.RedT.user')",
                     /^.*Cannot read properties.*(?:user|setAvatar|onSet|setLoadingVisibility).*$/gm,
-                    /^.*not an object.*(?:openGame|openNewSocket|gameName|language|this.percent|this.pagination|remoteBundle).*$/gm
+                    /^.*not an object.*(?:openGame|openNewSocket|gameName|language|this.percent|this.pagination|remoteBundle).*$/gm,
+                    /^.*Node is not valid!.*$/gm
                 ]
             });
             sentryLogger.loaded = true;
