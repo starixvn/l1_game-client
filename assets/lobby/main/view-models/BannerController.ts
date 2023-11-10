@@ -28,7 +28,7 @@ export default class BannerController extends cc.Component {
     private isScrollNestedScrollView = false;
     public menuLoop = false;
     public onEndingRound = (rightDirection: boolean) => {
-        // handle onEndingRound
+        // handle
     };
 
     onLoad() {
@@ -203,34 +203,37 @@ export default class BannerController extends cc.Component {
     }
 
     showPage(oldNode: cc.Node, index: number, pageDirection: PageDirection = PageDirection.Right) {
-        this.started = false;
+        try {
+            this.started = false;
+            const direction = pageDirection === PageDirection.Right ? 1 : -1;
+            const distance = this.node.width * 1.3;
 
-        const direction = pageDirection === PageDirection.Right ? 1 : -1;
-        const distance = this.node.width * 1.3;
+            if (oldNode) {
+                oldNode.stopAllActions();
+                cc.tween(oldNode)
+                    .to(0.3, { position: cc.v2(-direction * distance, 0) })
+                    .call(() => {
+                        oldNode.active = false;
+                    })
+                    .start();
+            }
 
-        if (oldNode) {
-            oldNode.stopAllActions();
-            cc.tween(oldNode)
-                .to(0.3, { position: cc.v2(-direction * distance, 0) })
-                .call(() => {
-                    oldNode.active = false;
-                })
-                .start();
-        }
+            const currentNode = this.content?.children[index];
+            if (currentNode) {
+                currentNode.active = true;
+                currentNode.position = cc.v3(direction * distance, currentNode.position.y);
 
-        const currentNode = this.content?.children[index];
-        if (currentNode) {
-            currentNode.active = true;
-            currentNode.position = cc.v3(direction * distance, currentNode.position.y);
+                this.intervalChangeImage = currentNode.getComponent(BannerItem).displayTime;
 
-            this.intervalChangeImage = currentNode.getComponent(BannerItem).displayTime;
-
-            this.moveToCenter(currentNode, 0.6);
+                this.moveToCenter(currentNode, 0.6);
+            }
+        } catch (error) {
+            cc.log("An error occurred in showPage for Banner");
         }
     }
 
     moveToCenter(node: cc.Node, duration: number) {
-        node.stopAllActions();
+        node?.stopAllActions();
         cc.tween(node)
             .to(duration, { position: cc.v2(0, 0) }, { easing: "cubicInOut" })
             .call(() => {
