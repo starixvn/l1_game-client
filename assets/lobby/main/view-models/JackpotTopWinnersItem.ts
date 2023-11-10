@@ -26,11 +26,13 @@ export default class JackpotTopWinnersItem extends BannerJackpot {
         this.setName(winnerName);
         this.setAmount(GameUtils.getValueByExchangeRateCode(amount, exchangeRateCode));
         this.setGameName(GameUtils.getGameNameString(gameId));
-        await this.setAvatar(avatarId);
+        await GameUtils.asyncExecute(this?.node, this.setAvatar(avatarId));
     }
 
     async setAvatar(id: number) {
-        this.image.spriteFrame = await GameUtils.getAvatarSprite(id);
+        if (this?.image) {
+            this.image.spriteFrame = await GameUtils.asyncExecute(this?.node, GameUtils.getAvatarSprite(id));
+        }
     }
 
     private setName(name: string) {

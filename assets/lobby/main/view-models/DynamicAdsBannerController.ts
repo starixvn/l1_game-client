@@ -18,7 +18,7 @@ export default class DynamicAdsBannerController extends BannerController {
 
     async setGameAds(games: number[]) {
         for (const gameId of games) {
-            await this.createAdsItem(gameId);
+            await GameUtils.asyncExecute(this?.node, this.createAdsItem(gameId));
         }
     }
 
@@ -31,7 +31,7 @@ export default class DynamicAdsBannerController extends BannerController {
     }
 
     async createAdsItem(id: number) {
-        const bannerSpriteFrame = await GameUtils.getBanner(id);
+        const bannerSpriteFrame = await GameUtils.asyncExecute(this?.node, GameUtils.getBanner(id));
         try {
             if (bannerSpriteFrame && this.adsItemPrefab) {
                 const item = cc.instantiate(this.adsItemPrefab);

@@ -27,7 +27,9 @@ export default class BannerController extends cc.Component {
     private started = false;
     private isScrollNestedScrollView = false;
     public menuLoop = false;
-    public onEndingRound = (rightDirection: boolean) => {};
+    public onEndingRound = (rightDirection: boolean) => {
+        // handle onEndingRound
+    };
 
     onLoad() {
         this.enableTouch();
@@ -58,14 +60,14 @@ export default class BannerController extends cc.Component {
     }
 
     showLastPage() {
-        this.animationMovePage(this.content.childrenCount - 1, PageDirection.Left);
+        this.animationMovePage(this.content?.childrenCount - 1, PageDirection.Left);
     }
 
     onDisable() {
         this.unschedule(this.autoChange);
 
         const distance = this.node.width * 1.3;
-        this.content.children.forEach((child) => {
+        this.content?.children?.forEach((child) => {
             child.active = false;
             child.position = cc.v3(distance, 0);
             child.stopAllActions();
@@ -142,7 +144,7 @@ export default class BannerController extends cc.Component {
     }
 
     getCurrentPage(): cc.Node {
-        return this.content.children[this.currentIndex];
+        return this.content?.children[this.currentIndex] || null;
     }
 
     autoChange() {
@@ -173,9 +175,9 @@ export default class BannerController extends cc.Component {
     }
 
     showPageRightDirection(currentPage: cc.Node) {
-        if (this.currentIndex >= this.content.childrenCount) {
+        if (this.currentIndex >= this.content?.childrenCount) {
             if (!this.menuLoop) {
-                this.currentIndex = this.content.childrenCount - 1;
+                this.currentIndex = this.content?.childrenCount - 1;
                 this.onEndingRound(true);
                 return;
             } else {
@@ -193,7 +195,7 @@ export default class BannerController extends cc.Component {
                 this.onEndingRound(false);
                 return;
             } else {
-                this.currentIndex = this.content.childrenCount - 1;
+                this.currentIndex = this.content?.childrenCount - 1;
             }
         }
 
@@ -216,7 +218,7 @@ export default class BannerController extends cc.Component {
                 .start();
         }
 
-        const currentNode = this.content.children[index];
+        const currentNode = this.content?.children[index];
         if (currentNode) {
             currentNode.active = true;
             currentNode.position = cc.v3(direction * distance, currentNode.position.y);

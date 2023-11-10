@@ -70,7 +70,7 @@ export default class JackpotTopWinners extends cc.Component {
             const winnerNode = cc.instantiate(this.winnerItem);
             this.listUserNode?.addChild(winnerNode);
             const player = winnerNode.getComponent(JackpotTopWinnersItem);
-            player.setData(playerData);
+            player?.setData(playerData);
         });
     }
 

@@ -15,6 +15,7 @@ describe("BannerJackpotPoolItem", () => {
         comp.gameName = new cc.Node().addComponent(cc.Label);
         comp.poolAmount = new cc.Node().addComponent(cc.Label);
         comp.gameIcon = new cc.Node().addComponent(cc.Sprite);
+        GameUtils.asyncExecute = jest.fn();
     });
     describe("setData", () => {
         const getGameIconSpy = jest.spyOn(BannerJackpotPoolItem.prototype, "getGameIcon").mockImplementation(() => {

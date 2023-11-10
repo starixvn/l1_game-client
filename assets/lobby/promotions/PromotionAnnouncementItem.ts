@@ -55,7 +55,7 @@ export default class PromotionAnnouncementItem extends cc.Component {
         const joinGameHelper = new JoinGameHelper();
         if (!GameUtils.isMiniGame(gameId.toString())) {
             PromotionNotificationsHandler.getInstance().setJoinGameId(gameId);
-            await joinGameHelper.joinGameIsNotMiniGame(gameId, this.socketIOControler);
+            await GameUtils.asyncExecute(this?.node, joinGameHelper.joinGameIsNotMiniGame(gameId, this.socketIOControler));
         } else {
             GameUtils.openGame(joinGameHelper.getGameId(gameId), this.miniPanel);
         }

@@ -1,4 +1,5 @@
 import BaseComponent from "../../../common/BaseComponent";
+import GameUtils from "../../../common/GameUtils";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
@@ -31,7 +32,7 @@ export default abstract class GameIconMenu extends BaseComponent {
         this.loadingGameIds = gameIds;
 
         for (const id of gameIds) {
-            const prefab = await this.loadPrefab(id);
+            const prefab = await GameUtils.asyncExecute(this?.node, this.loadPrefab(id));
             if (this.loadingGameIds !== gameIds) {
                 this.content && this.content.destroyAllChildren();
                 return;
@@ -54,5 +55,7 @@ export default abstract class GameIconMenu extends BaseComponent {
     abstract addItem(id: number, prefab: cc.Prefab): cc.Node;
     abstract itemPressed(id: number, node);
 
-    onInitialized() {}
+    onInitialized() {
+        // handle onInitialized
+    }
 }

@@ -226,8 +226,8 @@ export default class GameUtils {
                             resolve(result);
                         }
                     })
-                    .catch(() => {
-                        reject(new Error(errorMessage));
+                    .catch((err) => {
+                        cc.warn("----asyncExecute----:", err);
                     });
             }
         });

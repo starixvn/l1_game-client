@@ -1,11 +1,11 @@
 const defaultConfig = {
-    systemType: "SC2",
+    systemType: "SC1",
     ssl: true,
     serverDomainMapper: {
         localhost: "lumigame.com",
         "10.5.10.31": "lumigame.com"
     },
-    subDomain: "l2-proxy1",
+    subDomain: "l1-proxy1",
     env: "",
     sentry: {
         url: "",
