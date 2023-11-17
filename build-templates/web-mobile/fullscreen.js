@@ -135,7 +135,7 @@ function updateFullScreen() {
 function triggerEventResize() {
     setTimeout(function () {
         window.dispatchEvent(new Event("resize"));
-    }, 100);
+    }, 500);
 }
 
 function handleFullScreen() {
