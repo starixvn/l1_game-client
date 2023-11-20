@@ -1,5 +1,7 @@
-import ChipStack from "../../../../common/chip-stack/views/ChipStack";
+import { lodash } from "../../../../ClientModules";
 import GameUtils from "../../../../common/GameUtils";
+
+import { ChipParams } from "../../../../common/bet-chips/view-models/ChipFlyConfig";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import { playWinningEffect } from "../../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
@@ -166,29 +168,47 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     }
 
     handleHandAction(hand: any, betAmount: any, index: number) {
+        const timeMoving = 0.6;
         const winAmount = +hand.betwin - betAmount;
         const destNode = this.main.chipContainers[index];
         const chipStack = this.main.createChipStack(winAmount, destNode);
         const startPos = chipStack.parent.convertToNodeSpaceAR(this.main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+
+        let delayTime = 0;
+
         chipStack.position = cc.v3(startPos);
 
-        let destPosition = cc.v2(0, 0);
-        if (destNode.childrenCount > 0) {
-            const stack = destNode.children[0].getComponent(ChipStack);
-            if (stack) {
-                destPosition = cc.v2(0, stack.getCurrentHeight());
+        for (let i = 0; i < chipStack.children.length; i++) {
+            const offset = ChipParams.offset;
+            const offsetStack = ChipParams.offsetStack;
+            const childCount = chipStack.children.length;
+            const currentChipStackPosition = (childCount + i - 1) * (offset + offsetStack);
+            const desPost = chipStack.children[i].parent.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v2(0, 0)));
+            const desPostX = desPost.x + lodash.random(-2, 2);
+            const desPostY = desPost.y + currentChipStackPosition;
+
+            chipStack.children[i].scale = 0.5;
+            chipStack.children[i].opacity = 0;
+
+            if (i === 0) {
+                chipStack.children[i].active = false;
             }
+
+            delayTime = (i - 1) * 200;
+
+            setTimeout(() => {
+                chipStack?.children[i]?.runAction(
+                    cc.sequence(
+                        cc.spawn(cc.jumpTo(timeMoving, desPostX, desPostY, 200, 1), cc.scaleTo(timeMoving, 1), cc.fadeTo(0.1, 255)),
+                        cc.delayTime(1)
+                    )
+                );
+            }, delayTime);
         }
-        chipStack.scale = 0.5;
-        chipStack.runAction(
-            cc.sequence(
-                cc.spawn(cc.jumpTo(0.8, destPosition, 200, 1), cc.scaleTo(0.8, 1)),
-                cc.delayTime(0.1),
-                cc.callFunc(() => {
-                    destNode.destroyAllChildren();
-                    this.main.createChipStack(+hand.betwin, destNode);
-                })
-            )
-        );
+
+        setTimeout(() => {
+            destNode?.destroyAllChildren();
+            this.main?.createChipStack(+hand.betwin, destNode);
+        }, delayTime + timeMoving);
     }
 }
