@@ -30,6 +30,10 @@ import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
 import HandPlace from "./HandPlace";
+import { ChipParams, chipFlyConfig } from "../../../common/bet-chips/view-models/ChipFlyConfig";
+import ChipViewNew from "../../../common/bet-chips/view-models/ChipViewNew";
+import { lodash } from "../../../ClientModules";
+import ChipView from "../../../common/bet-chips/view-models/ChipView";
 
 const { ccclass, property } = cc._decorator;
 
@@ -299,36 +303,71 @@ export default class BlackJack extends SocketIOTableGameBase {
         });
     }
 
-    throwChipAnim(destNode: cc.Node, startNode: cc.Node, handPlace: HandPlace) {
-        const chipFlyingDuration = 0.5;
-        const chipNode = this.betChips.createBigChip(this.currentBet);
-        chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
-        destNode.addChild(chipNode);
-
-        let destPosition = cc.v2(0, 0);
-        destPosition = this.handleDestPosition(destNode, destPosition);
-
+    private moveAndMergeChip(chipNode: cc.Node, chipFlyingDuration: number, destPosition: any, handPlace: HandPlace, nodeTmp: cc.Node) {
         chipNode.runAction(
             cc.sequence(
-                cc.jumpTo(chipFlyingDuration, destPosition, this.chipJumpHeight, 1),
+                cc.jumpTo(chipFlyingDuration, destPosition.x, destPosition.y, this.chipJumpHeight, 1),
+                cc.delayTime(0.2),
                 cc.callFunc(() => {
                     handPlace.updateDisplayBetValue();
                     this.gameStatus === BlackJackActionType.START_ROUND && (handPlace.clearBetButton.active = true);
-                    destNode.destroyAllChildren();
-                    const chipStack = BlackJackUtils.createChipStack(
-                        handPlace.getBetAmount(),
-                        this.betChips,
-                        this.shadowChip,
-                        destNode.skewX,
-                        false
-                    );
-                    chipStack.zIndex = -1;
-                    destNode.addChild(chipStack);
                     this.updateTotalBetLabel();
+                    const stackObj = GameUtils.isChipStack(handPlace.getBetAmount(), this.betChips, nodeTmp);
+                    if (stackObj.isStack) {
+                        const chipTotal = stackObj.chipTotal;
+                        const nodeArr = [];
+                        const values = stackObj.chipValues;
+                        const keys = Object.keys(values).sort((a, b) => +b - +a);
+                        keys.forEach((chip) => {
+                            const count = values[chip];
+                            for (let i = 0; i < count; i++) {
+                                nodeArr.push(chip);
+                            }
+                        });
+                        for (let i = 0; i < nodeTmp.childrenCount; i++) {
+                            const chipCurr = nodeTmp.children[i];
+                            if (i < chipTotal) {
+                                const chipView = chipCurr.getComponent(ChipView);
+                                chipView.setColor(this.chipConfig.getChipColor(nodeArr[i]));
+                                chipView.setValue(nodeArr[i]);
+                            } else {
+                                chipCurr.destroy();
+                            }
+                        }
+                    }
                 })
             )
         );
     }
+
+    throwChipAnim(destNode: cc.Node, startNode: cc.Node, handPlace: HandPlace) {
+        const chipFlyingDuration = 0.5;
+        const chipFly = chipFlyConfig;
+        const chipNode = this.betChips.createChipFly(this.currentBet);
+        const propertiesChip = chipNode.getComponent(ChipViewNew);
+        let nodeTmp: cc.Node;
+        if (destNode.childrenCount === 0) {
+            nodeTmp = new cc.Node();
+            destNode.addChild(nodeTmp);
+        } else {
+            nodeTmp = destNode.children[0];
+        }
+
+        chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
+
+        nodeTmp.addChild(chipNode);
+        let destPosition = cc.v2(0, 0);
+        if (nodeTmp.childrenCount === 1) {
+            propertiesChip.firstChipShadow.active = true;
+        }
+        if (nodeTmp.childrenCount > 1) {
+            const destY = (nodeTmp.childrenCount - 1) * (ChipParams.offset + ChipParams.offsetStack);
+            destPosition = cc.v2(lodash.random(-2, 2), destY);
+        }
+        this.moveAndMergeChip(chipNode, chipFlyingDuration, destPosition, handPlace, nodeTmp);
+        BlackJackUtils.shakeChipAnim(propertiesChip, chipFly);
+    }
+
     handleDestPosition(destNode: any, destPosition: any) {
         if (destNode.childrenCount > 0) {
             const stack = destNode.children[0].getComponent(ChipStack);
@@ -684,7 +723,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     createChipStack(betAmount: any, node: cc.Node) {
-        const chipStack = BlackJackUtils.createChipStack(betAmount, this.betChips, this.shadowChip, node.skewX, false);
+        const chipStack = BlackJackUtils.createChipStack(betAmount, this.betChips, this.shadowChip, node.skewX, true);
         node.addChild(chipStack);
         return chipStack;
     }
