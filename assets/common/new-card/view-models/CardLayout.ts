@@ -87,9 +87,10 @@ export default class CardLayout extends cc.Component {
         }
     }
 
-    calculatePosition(offsetX) {
+    calculatePosition(offsetX, isDrawFirstCard = false) {
         const halfCardSizeWidth = this.cardSizeWidth / 2;
-        const contentChildrenCount = this.content.childrenCount;
+        const contentChildrenCount = isDrawFirstCard ? 0 : this.content.childrenCount;
+
         let x = halfCardSizeWidth + this.ratio * contentChildrenCount * this.spacingX + offsetX;
         let y = 0;
         let z = 0;
@@ -103,12 +104,12 @@ export default class CardLayout extends cc.Component {
         return cc.v3(x, y, z);
     }
 
-    getNextPosition(): cc.Vec3 {
-        return this.calculatePosition(this.spacingX * 2);
+    getNextPosition(isDrawFirstCard = false): cc.Vec3 {
+        return this.calculatePosition(this.spacingX * 2, isDrawFirstCard);
     }
 
-    getFinalPosition(): cc.Vec3 {
-        return this.calculatePosition(0);
+    getFinalPosition(isDrawFirstCard = false): cc.Vec3 {
+        return this.calculatePosition(0, isDrawFirstCard);
     }
 
     changeCardView(selected: boolean): Promise<void> {

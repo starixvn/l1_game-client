@@ -75,7 +75,7 @@ export default class DealHandler implements DataHandler {
             const place = this.main.handPlaces[pos];
             place.setData(hand);
 
-            actions.push(() => this.main.drawingCardToPlayer(card, pos, () => place.updateDisplayScore(false)));
+            actions.push(() => this.main.drawingCardToPlayer(card, pos, true, () => place.updateDisplayScore(false)));
 
             if (hand.bet !== place.getBetAmount()) {
                 place.showBetText(false);
@@ -91,7 +91,7 @@ export default class DealHandler implements DataHandler {
             const card = hand.cards[1];
             const pos = hand.pos - 1;
             const place = this.main.handPlaces[pos];
-            actions.push(() => this.main.drawingCardToPlayer(card, pos, () => place.updateDisplayScore(true)));
+            actions.push(() => this.main.drawingCardToPlayer(card, pos, false, () => place.updateDisplayScore(true)));
         });
     }
 

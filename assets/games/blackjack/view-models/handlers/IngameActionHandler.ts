@@ -49,13 +49,13 @@ export default class IngameActionHandler implements DataHandler {
             })
             .delay(0.5)
             .call(() =>
-                this.main.drawingCardToPlayer(firstHand.cards[1], firstHand.pos - 1, () => {
+                this.main.drawingCardToPlayer(firstHand.cards[1], firstHand.pos - 1, false, () => {
                     firstPlace.updateDisplayScore(true);
                 })
             )
             .delay(0.5)
             .call(() => {
-                this.main.drawingCardToPlayer(secondHand.cards[1], secondHand.pos - 1, () => {
+                this.main.drawingCardToPlayer(secondHand.cards[1], secondHand.pos - 1, false, () => {
                     secondPlace.updateDisplayScore(true);
                 });
             })
@@ -135,6 +135,7 @@ export default class IngameActionHandler implements DataHandler {
         this.main.drawingCardToPlayer(
             card,
             pos,
+            false,
             isStand
                 ? () => {
                       place.updateDisplayScore(true);

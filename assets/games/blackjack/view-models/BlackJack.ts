@@ -397,15 +397,15 @@ export default class BlackJack extends SocketIOTableGameBase {
         AudioManager.getInstance().playSFX(this.cardSlideAudioSource.clip);
     }
 
-    drawingCardToPlayer(card: CardModel, pos: number, onComplete = () => {}) {
+    drawingCardToPlayer(card: CardModel, pos: number, isDrawFirstCard = false, onComplete = () => {}) {
         const cardNode = this.createCard(card);
         const handPlace = this.handPlaces[pos];
 
         const cardComponent = cardNode.getComponent(NewCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = handPlace.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
-        const nextPosition = handPlace.cardLayout.getNextPosition();
-        const finalPosition = handPlace.cardLayout.getFinalPosition();
+        const nextPosition = handPlace.cardLayout.getNextPosition(isDrawFirstCard);
+        const finalPosition = handPlace.cardLayout.getFinalPosition(isDrawFirstCard);
         const rotationX = handPlace.selected ? this.dealerHand.cardLayout.selectedRotationX : 0;
         const scaleY = handPlace.selected ? 1.15 : 1;
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
