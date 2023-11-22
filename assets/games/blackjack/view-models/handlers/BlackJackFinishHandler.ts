@@ -168,7 +168,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     }
 
     handleHandAction(hand: any, betAmount: any, index: number) {
-        const timeMoving = 0.6;
+        const timeMoving = 600;
         const winAmount = +hand.betwin - betAmount;
         const destNode = this.main.chipContainers[index];
         const chipStack = this.main.createChipStack(winAmount, destNode);
@@ -199,11 +199,11 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
             setTimeout(() => {
                 chipStack?.children[i]?.runAction(
                     cc.sequence(
-                        cc.spawn(cc.jumpTo(timeMoving, desPostX, desPostY, 200, 1), cc.scaleTo(timeMoving, 1), cc.fadeTo(0.1, 255)),
+                        cc.spawn(cc.jumpTo(0.6, desPostX, desPostY, 200, 1), cc.scaleTo(0.6, 1), cc.fadeTo(0.1, 255)),
                         cc.delayTime(1)
                     )
                 );
-            }, delayTime);
+            }, (i - 1) * 200);
         }
 
         setTimeout(() => {
