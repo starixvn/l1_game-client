@@ -18,3 +18,8 @@ export const chipFlyConfig = {
     rotationNode2: -12,
     rotationNode3: 0
 };
+
+export const chipLowValueConfig = {
+    scaleX: 0.81,
+    scaleY: 0.81
+};

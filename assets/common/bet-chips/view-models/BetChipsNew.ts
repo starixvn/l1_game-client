@@ -1,5 +1,5 @@
 import BetChips from "./BetChips";
-import { ChipParams } from "./ChipFlyConfig";
+import { ChipParams, chipLowValueConfig } from "./ChipFlyConfig";
 import ChipViewNew from "./ChipViewNew";
 
 const { ccclass, property } = cc._decorator;
@@ -21,7 +21,7 @@ export default class BetChipsNew extends BetChips {
     }
 
     protected setSizeLowValueChip(node: cc.Node) {
-        node.scaleX = ChipParams.scaleX;
-        node.scaleY = ChipParams.scaleYEnd;
+        node.scaleX = chipLowValueConfig.scaleX;
+        node.scaleY = chipLowValueConfig.scaleY;
     }
 }

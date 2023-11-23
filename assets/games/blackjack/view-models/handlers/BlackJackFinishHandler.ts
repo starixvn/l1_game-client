@@ -197,6 +197,12 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
             delayTime = (i - 1) * 200;
 
             setTimeout(() => {
+                console.log(
+                    "chipStack.children[i].scale",
+                    chipStack.children[i].name,
+                    chipStack.children[i].width,
+                    chipStack.children[i].height
+                );
                 chipStack?.children[i]?.runAction(
                     cc.sequence(
                         cc.spawn(cc.jumpTo(0.6, desPostX, desPostY, 200, 1), cc.scaleTo(0.6, 1), cc.fadeTo(0.1, 255)),

@@ -135,6 +135,7 @@ export default class DealHandler implements DataHandler {
                 checkDuration
             );
             delaytime += checkDuration;
+            console.log("isBlackJack", isBlackJack ? CardAnimation.DealerCheckBlackJackSuccess : CardAnimation.DealerCheckBlackJackFail);
         }
 
         this.main.disabledInRoundAction(true);
