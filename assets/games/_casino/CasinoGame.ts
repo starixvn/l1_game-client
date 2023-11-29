@@ -13,6 +13,7 @@ import RoomPlayer from "../_base/view-models/RoomPlayer";
 import NewGameRoomBase from "../_new/_base/NewGameRoomBase";
 import { events } from "../_new/connection/SocketIOConnection";
 import CasinoMD5 from "./CasinoMD5";
+import BetChipsNew from "../../common/bet-chips/view-models/BetChipsNew";
 
 const { ccclass, property } = cc._decorator;
 @ccclass
@@ -85,6 +86,7 @@ export default class CasinoGame extends NewGameRoomBase {
     @property(cc.AudioSource)
     startNewRoundAudio: cc.AudioSource = null;
 
+    betChips: BetChipsNew;
     protected isSwapCard = true;
     protected statusShowSwapIcon = false;
 

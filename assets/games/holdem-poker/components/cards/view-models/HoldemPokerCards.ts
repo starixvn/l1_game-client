@@ -170,6 +170,10 @@ export default class HoldemPokerCards extends cc.Component {
         this.combineDealerCardResult.active = false;
     }
 
+    protected randomRotation(): number {
+        return Math.floor(Math.random() * 10);
+    }
+
     protected showIndicatorCard(
         combineCards: CardModel[],
         cardHands: { row: HandPlace; position: string; whose: string }[],
@@ -205,7 +209,7 @@ export default class HoldemPokerCards extends cc.Component {
         if (!selectedCard) {
             return null;
         }
-        const duration = 0.6;
+        const duration = 1;
         const cardComponent = selectedCard.getComponent(HoldemPokerCard);
 
         return new Promise((resolve) => {
@@ -232,16 +236,18 @@ export default class HoldemPokerCards extends cc.Component {
         cardComponent.setFaceUp(!faceDown);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = cardHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
-        const nextPosition = cardHand.cardLayout.getFinalPosition();
+        const finalPosition = cardHand.cardLayout.getFinalPosition();
         const rotationX = cc.v3(0);
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
+
+        console.log("dealCardWithoutAnimation");
 
         const moveDuration = 0;
         return new Promise((resolve) => {
             cc.tween(cardNode)
                 .to(moveDuration, {
-                    position: nextPosition,
+                    position: finalPosition,
                     eulerAngles: rotationX
                 })
                 .call(() => {
@@ -257,13 +263,16 @@ export default class HoldemPokerCards extends cc.Component {
         const cardComponent = cardNode.getComponent(HoldemPokerCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
         const startLocalPos = cardHand.cardLayout.content.convertToNodeSpaceAR(startWorldPos);
-        const nextPosition = cardHand.cardLayout.getFinalPosition();
+        const nextPosition = cardHand.cardLayout.getNextPosition();
+        const finalPosition = cardHand.cardLayout.getFinalPosition();
         const rotationX = cc.v3(0);
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
+        console.log("dealCard-----");
 
         const pullDuration = 0.2;
-        const moveDuration = 0.35;
+        const moveDuration = 0.4;
+        const slideDuration = 0.1;
         return new Promise((resolve) => {
             cc.tween(cardNode)
                 .call(() => {
@@ -278,6 +287,10 @@ export default class HoldemPokerCards extends cc.Component {
                     position: nextPosition,
                     eulerAngles: rotationX
                 })
+                .to(slideDuration, {
+                    position: finalPosition,
+                    eulerAngles: rotationX
+                })
                 .call(() => resolve())
                 .start();
         });
@@ -285,7 +298,7 @@ export default class HoldemPokerCards extends cc.Component {
 
     protected collectCards(containerCards: HandPlace) {
         return new Promise<void>((resolve) => {
-            const durationJumpToBoxCard = 0.5;
+            const durationJumpToBoxCard = 0.7;
 
             const worldPosition = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
             containerCards.cardLayout.shadow.active = false;
@@ -295,22 +308,27 @@ export default class HoldemPokerCards extends cc.Component {
                 resolve();
                 return;
             }
+            let count = 0;
             const destPosition = cardsNodes[0].parent.convertToNodeSpaceAR(worldPosition);
             cardsNodes.forEach((cardNode) => {
+                cardNode.is3DNode = true;
                 cc.tween(cardNode)
-                    .to(0.3, { position: cc.v2(0, 0) })
+                    .to(0.3, { position: cc.v3(0, 0, 0), eulerAngles: cc.v3(0, 0, this.randomRotation()) })
+                    .delay(count * 0.05)
                     .call(() => {
                         const cardComponent = cardNode.getComponent(HoldemPokerCard);
-                        cardComponent.playAnimation(CardAnimation.DropCard, 0.5);
+                        cardComponent.playAnimation(CardAnimation.DropCard, 0.7);
                     })
                     .then(cc.jumpTo(durationJumpToBoxCard, destPosition, 250, 1))
-                    .delay(0.2)
+                    .delay(1)
                     .call(() => {
                         cardNode.destroy();
                         resolve();
                     })
                     .start();
             });
+            count++;
+            console.log("collectCards", count);
         });
     }
 
