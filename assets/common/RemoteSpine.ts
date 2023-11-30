@@ -1,5 +1,5 @@
-import GameUtils from "./GameUtils";
 import { uiManager } from "../managers/GameUIManager";
+import GameUtils from "./GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -34,12 +34,12 @@ export default class RemoteSpine extends cc.Component {
     async loadResources() {
         if (uiManager.remoteIconCache[this.id]) {
             this.spine.skeletonData = uiManager.remoteIconCache[this.id].skeletonData;
-        }
-        else{
+        } else {
             const spineRes = [];
+            const versions = await GameUtils.getRemoteVersion(this.id);
             for (const ext of this.resourceExts) {
                 try {
-                    const resName = `${this.spineName}.${ext}`;
+                    const resName = `${this.spineName}.${ext}?v=${versions?.icon}`;
                     const url = `${this.host}/${resName}`;
                     const data = await GameUtils.loadRemote(url);
                     if (data) {
@@ -52,7 +52,7 @@ export default class RemoteSpine extends cc.Component {
             skeletonData.atlasText = spineRes[SpineFile.Atlas].text;
             skeletonData.textures = [spineRes[SpineFile.Texture]];
             skeletonData["textureNames"] = [`${this.spineName}.${this.resourceExts[SpineFile.Texture]}`];
-            this.spine.skeletonData = skeletonData;            
+            this.spine.skeletonData = skeletonData;
         }
 
         this.spine.premultipliedAlpha = this.premultipliedAlpha;
