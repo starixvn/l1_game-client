@@ -1,5 +1,9 @@
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
-import ChipStack from "../../../common/chip-stack/views/ChipStack";
+import { lodash } from "../../../ClientModules";
+import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
+import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
+import { chipFlyConfig, ChipParams } from "../../../common/bet-chips/view-models/ChipFlyConfig";
+import ChipView from "../../../common/bet-chips/view-models/ChipView";
+import ChipViewNew from "../../../common/bet-chips/view-models/ChipViewNew";
 import GameUtils from "../../../common/GameUtils";
 import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";
@@ -10,103 +14,136 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class HoldemPokerChips extends cc.Component {
-    private readonly chipScaleX = 0.5;
-    private readonly chipScaleY = 0.75 * this.chipScaleX;
     updateChipStackTween: cc.Tween;
     winningEffect: cc.Node;
     chipThick = 10;
 
-    public createChip(betChips: BetChips, amount: number): cc.Node {
-        return betChips.createSmallChip(amount, 1, true);
+    public createChip(betChips: BetChipsNew, amount: number): cc.Node {
+        return betChips.createChipFly(amount);
     }
 
-    public convertAndCreateChipStack(betAmount: number, betChips: BetChips, shadowFrame: cc.SpriteFrame) {
-        const values = this.convertChips(betAmount, betChips.chipValues);
-        return this.createChipStack(values, betChips, shadowFrame);
+    public get chipConfig() {
+        return ChipConfig.getInstance();
     }
 
     convertChips(betAmount, chipValues) {
         return GameUtils.getChipQuantity(betAmount, chipValues);
     }
 
-    createChipStack(chipQuantity, betChips: BetChips, shadowFrame: cc.SpriteFrame): cc.Node {
-        const node = new cc.Node();
-        node.scaleX = this.chipScaleX;
-        node.scaleY = this.chipScaleY;
-
-        const chipStack = node.addComponent(ChipStack);
-        chipStack.chipSize = 26;
-        chipStack.thickness = this.chipThick;
-
-        const keys = Object.keys(chipQuantity).sort((a, b) => +b - +a);
-        let firstChip = true;
-        keys.forEach((chip) => {
-            if (+chip > 0) {
-                const count = chipQuantity[chip];
-                for (let i = 0; i < count; i++) {
-                    const chipNode = this.createChip(betChips, +chip);
-                    chipStack.addChip(chipNode);
-
-                    if (firstChip && i === 0) {
-                        firstChip = false;
-                        const shadow = new cc.Node();
-                        shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
-                        chipNode.addChild(shadow);
-                    }
-                }
-            }
-        });
-
-        return node;
+    public static addShadowFrameStack(firstChip: boolean, shadowFrame: cc.SpriteFrame, chipNode: cc.Node, index: number) {
+        if (firstChip && index === 0) {
+            firstChip = false;
+            const shadow = new cc.Node();
+            shadow.addComponent(cc.Sprite).spriteFrame = shadowFrame;
+            chipNode.addChild(shadow);
+        }
+        return { chip: chipNode, isFirstChip: firstChip };
     }
 
-    public flyChipToBetPlace(betChips: BetChips, destNode: cc.Node, shadowChip: cc.SpriteFrame, betAmount: number, totalAmount: number) {
+    public static shakeChipAnim(propertiesChip: ChipViewNew, chipFly: any) {
+        cc.tween(propertiesChip)
+
+            .to(0.2, {
+                rotation: chipFly.rotationComp2,
+                scaleX: chipFly.scaleX1,
+                scaleY: chipFly.scaleY1,
+                rotationNode: chipFly.rotationNode1
+            })
+            .to(0.2, { rotationNode: chipFly.rotationNode3, scaleX: chipFly.scaleX2, scaleY: chipFly.scaleY2 })
+            //.to(0.1, { rotationNode: chipFly.rotationNode3 })
+
+            .to(0.05, { skewY: -5 })
+            .to(0.1, { skewY: 5 })
+            .to(0.05, { skewY: 0 })
+            .start();
+    }
+
+    public static createChipStackUtils(bet: number, betChips: BetChipsNew, shadowFrame: cc.SpriteFrame, skewX: number, isChip3D: boolean) {
+        return GameUtils.createChipStack(bet, betChips, { isChip3D: isChip3D, shadowFrame: shadowFrame, skewX: skewX });
+    }
+
+    createChipStack(betAmount: number, node: cc.Node, betChips: BetChipsNew, shadowFrame: cc.SpriteFrame) {
+        const chipStack = HoldemPokerChips.createChipStackUtils(betAmount, betChips, shadowFrame, node.skewX, true);
+        node.addChild(chipStack);
+        return chipStack;
+    }
+
+    public flyChipToBetPlace(betChips: BetChipsNew, destNode: cc.Node, betAmount: number, totalAmount: number) {
         if (!betAmount) {
             return;
         }
-        const chipNode = this.createChip(betChips, betAmount);
-        chipNode.scaleX = this.chipScaleX;
-        chipNode.scaleY = this.chipScaleY;
+        const chipFly = chipFlyConfig;
+
+        const chipNode = betChips.createChipFly(betAmount);
+        const propertiesChip = chipNode.getComponent(ChipViewNew);
+        let nodeTmp: cc.Node;
+
+        if (destNode.childrenCount === 0) {
+            nodeTmp = new cc.Node();
+            destNode.addChild(nodeTmp);
+        } else {
+            nodeTmp = destNode.children[0];
+        }
         const startNode = betChips.getChipNode(betAmount) || betChips.node;
-        chipNode.position = cc.v3(destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v2(0, 0))));
-        destNode.addChild(chipNode);
+        chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
+
+        nodeTmp.addChild(chipNode);
 
         let destPosition = cc.v2(0, 0);
-        const isHasAnyChip = destNode.childrenCount > 0;
-        if (isHasAnyChip) {
-            const stack = destNode.getComponentInChildren(ChipStack);
-            const stackCount = stack ? stack.getChipNumber() : 0;
-            const chipNumber = stack ? stackCount + destNode.childrenCount - 2 : destNode.childrenCount - 1;
-            destPosition = cc.v2(0, chipNumber * this.chipThick * this.chipScaleY);
+
+        if (nodeTmp.childrenCount === 1) {
+            propertiesChip.firstChipShadow.active = true;
         }
 
-        const jumpChipDuration = 0.3;
+        if (nodeTmp.childrenCount > 1) {
+            const destY = (nodeTmp.childrenCount - 1) * (ChipParams.offset + ChipParams.offsetStack);
+            destPosition = cc.v2(lodash.random(-2, 2), destY);
+        }
 
-        chipNode.runAction(cc.jumpTo(jumpChipDuration, destPosition, 50, 1));
-        this.updateChipStackTween && this.updateChipStackTween.stop();
+        const jumpChipDuration = 0.5;
+
+        chipNode.runAction(cc.jumpTo(jumpChipDuration, destPosition.x, destPosition.y, 150, 1));
+        this?.updateChipStackTween?.stop();
         this.updateChipStackTween = cc
             .tween(chipNode)
             .delay(jumpChipDuration)
             .call(() => {
-                const chipsQuantity = this.convertChips(totalAmount, betChips.chipValues);
-                this.updateChipStack(betChips, destNode, shadowChip, chipsQuantity);
+                const stackObj = GameUtils.isChipStack(totalAmount, betChips, nodeTmp);
+
+                if (stackObj.isStack) {
+                    const chipTotal = stackObj.chipTotal;
+                    const nodeArr = [];
+                    const values = stackObj.chipValues;
+                    const keys = Object.keys(values).sort((a, b) => +b - +a);
+                    keys.forEach((chip) => {
+                        const count = values[chip];
+                        for (let i = 0; i < count; i++) {
+                            nodeArr.push(chip);
+                        }
+                    });
+                    for (let i = 0; i < nodeTmp.childrenCount; i++) {
+                        const chipCurr = nodeTmp.children[i];
+                        if (i < chipTotal) {
+                            const chipView = chipCurr.getComponent(ChipView);
+                            chipView.setColor(this.chipConfig.getChipColor(nodeArr[i]));
+                            chipView.setValue(nodeArr[i]);
+                        } else {
+                            chipCurr.destroy();
+                        }
+                    }
+                }
             })
             .start();
-    }
-
-    public updateChipStack(betChips: BetChips, destNode: cc.Node, shadowChip: cc.SpriteFrame, chipsQuantity: []) {
-        destNode.destroyAllChildren();
-        const chipStack = this.createChipStack(chipsQuantity, betChips, shadowChip);
-        chipStack.zIndex = -1;
-        destNode.addChild(chipStack);
+        HoldemPokerChips.shakeChipAnim(propertiesChip, chipFly);
     }
 
     public showWinningOption(
         gameData: HoldemPokerGameData,
         bettingAreas: HoldemPokerBettingArea[],
-        betChips: BetChips,
+        betChips: BetChipsNew,
         main: HoldemPoker,
-        choicesConst: any
+        choicesConst: any,
+        shadowFrame: cc.SpriteFrame
     ) {
         const winningHands = gameData.finishModel.settlementResult;
         let totalWin = 0;
@@ -120,12 +157,11 @@ export default class HoldemPokerChips extends cc.Component {
             const delayBeforeFly = 0.1;
             if (value > 0) {
                 totalWin += +value;
+
                 if (+value > betAmount) {
                     const winAmount = value - betAmount;
                     const destNode = bettingArea.chipNode;
-                    const chipStack = this.convertAndCreateChipStack(winAmount, betChips, main.shadowChip);
-                    destNode.addChild(chipStack);
-                    this.handleChipStack(chipStack, main, destNode, betChips, value, jumpTime, delayBeforeFly);
+                    this.handleChipStack(main, destNode, betChips, winAmount, value, shadowFrame);
                     bettingArea.handleWinningAmount(value, true);
                     main.playStartGameAudio();
                 }
@@ -141,38 +177,53 @@ export default class HoldemPokerChips extends cc.Component {
     }
 
     private handleChipStack(
-        chipStack: cc.Node,
         main: HoldemPoker,
         destNode: cc.Node,
-        betChips: BetChips,
-        value: any,
-        jumpTime: number,
-        delayBeforeFly: number
+        betChips: BetChipsNew,
+        value: number,
+        winAmount: number,
+        shadowFrame: cc.SpriteFrame
     ) {
+        const timeMoving = 600;
+        const chipStack = this.createChipStack(value, destNode, betChips, shadowFrame);
         const startPos = chipStack.parent.convertToNodeSpaceAR(main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+
+        let delayTime = 0;
+
         chipStack.position = cc.v3(startPos.x, startPos.y, 0);
 
-        let destPosition = cc.v2(0, 0);
-        if (destNode.childrenCount > 0) {
-            const stack = destNode.children[0].getComponent(ChipStack);
-            if (stack) {
-                destPosition = cc.v2(0, stack.getCurrentHeight());
+        for (let i = 0; i < chipStack.children.length; i++) {
+            const offset = ChipParams.offset;
+            const offsetStack = ChipParams.offsetStack;
+            const childCount = chipStack.children.length;
+            const currentChipStackPosition = (childCount + i - 1) * (offset + offsetStack);
+            const desPost = chipStack.children[i].parent.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v2(0, 0)));
+            const desPostX = desPost.x + lodash.random(-2, 2);
+            const desPostY = desPost.y + currentChipStackPosition;
+
+            chipStack.children[i].scale = 0.5;
+            chipStack.children[i].opacity = 0;
+
+            if (i === 0) {
+                chipStack.children[i].active = false;
             }
+
+            delayTime = (i - 1) * 200;
+
+            setTimeout(() => {
+                chipStack?.children[i]?.runAction(
+                    cc.sequence(
+                        cc.spawn(cc.jumpTo(0.6, desPostX, desPostY, 200, 1), cc.scaleTo(0.6, 1), cc.fadeTo(0.1, 255)),
+                        cc.delayTime(1)
+                    )
+                );
+            }, (i - 1) * 200);
         }
-        chipStack.scale = this.chipScaleX;
 
-        chipStack.runAction(
-            cc.sequence(
-                cc.jumpTo(jumpTime, destPosition, 100, 1),
-                cc.delayTime(delayBeforeFly),
-                cc.callFunc(() => {
-                    destNode.children.length && destNode.destroyAllChildren();
-
-                    const chipStack = this.convertAndCreateChipStack(value, betChips, main.shadowChip);
-                    destNode.addChild(chipStack);
-                })
-            )
-        );
+        setTimeout(() => {
+            destNode?.destroyAllChildren();
+            this.createChipStack(winAmount, destNode, betChips, shadowFrame);
+        }, delayTime + timeMoving);
     }
     private playerWinningAffectAction(totalWin: number, totalBet: number, gameData: HoldemPokerGameData, main: HoldemPoker) {
         const isWin = totalWin > totalBet;

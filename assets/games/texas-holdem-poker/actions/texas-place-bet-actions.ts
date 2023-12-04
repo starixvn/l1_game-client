@@ -1,4 +1,5 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";
 import TexasGameDataModel from "../event-models/texas-game-data-model";
@@ -81,7 +82,7 @@ export const showHideButtons = (main: Texas) => (stateModel: TexasStateModel) =>
 
 export const showPlaceBetChips = (
     bettingAreas: TexasBettingArea[],
-    slidingChips: BetChips,
+    slidingChips: BetChipsNew,
     shadowChip: cc.SpriteFrame,
     texasChips: TexasChips,
     currentChoice: string,
@@ -90,7 +91,7 @@ export const showPlaceBetChips = (
 ) => {
     const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
     if (bettingArea && bettingArea.chipNode) {
-        texasChips.flyChipToBetPlace(slidingChips, bettingArea.chipNode, shadowChip, currentAmount, totalAmount);
+        texasChips.flyChipToBetPlace(slidingChips, bettingArea.chipNode, currentAmount, totalAmount);
     }
 };
 
@@ -113,7 +114,7 @@ export const clearAllBetChips = (bettingAreas: TexasBettingArea[]) => () => {
 };
 
 export const updateAllChips =
-    (bettingAreas: TexasBettingArea[], slidingChips: BetChips, shadowChip: cc.SpriteFrame, texasChips: TexasChips) =>
+    (bettingAreas: TexasBettingArea[], slidingChips: BetChipsNew, shadowChip: cc.SpriteFrame, texasChips: TexasChips) =>
     (placeBetModel: TexasPlaceBetModel) => {
         TexasChoices.forEach((choice: string) => {
             if (placeBetModel.choices[choice] !== 0 && !placeBetModel.isUsingHand) {

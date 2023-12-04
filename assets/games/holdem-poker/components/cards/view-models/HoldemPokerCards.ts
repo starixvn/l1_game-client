@@ -241,8 +241,6 @@ export default class HoldemPokerCards extends cc.Component {
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
 
-        console.log("dealCardWithoutAnimation");
-
         const moveDuration = 0;
         return new Promise((resolve) => {
             cc.tween(cardNode)
@@ -268,7 +266,6 @@ export default class HoldemPokerCards extends cc.Component {
         const rotationX = cc.v3(0);
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
-        console.log("dealCard-----");
 
         const pullDuration = 0.2;
         const moveDuration = 0.4;
@@ -328,7 +325,6 @@ export default class HoldemPokerCards extends cc.Component {
                     .start();
             });
             count++;
-            console.log("collectCards", count);
         });
     }
 

@@ -313,6 +313,7 @@ export default class BlackJack extends SocketIOTableGameBase {
                     this.gameStatus === BlackJackActionType.START_ROUND && (handPlace.clearBetButton.active = true);
                     this.updateTotalBetLabel();
                     const stackObj = GameUtils.isChipStack(handPlace.getBetAmount(), this.betChips, nodeTmp);
+
                     if (stackObj.isStack) {
                         const chipTotal = stackObj.chipTotal;
                         const nodeArr = [];
@@ -356,6 +357,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         chipNode.position = destNode.convertToNodeSpaceAR(startNode.convertToWorldSpaceAR(cc.v3(0, 0)));
 
         nodeTmp.addChild(chipNode);
+
         let destPosition = cc.v2(0, 0);
         if (nodeTmp.childrenCount === 1) {
             propertiesChip.firstChipShadow.active = true;

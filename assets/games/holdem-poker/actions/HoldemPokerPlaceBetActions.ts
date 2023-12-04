@@ -1,4 +1,5 @@
 import BetChips from "../../../common/bet-chips/view-models/BetChips";
+import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
@@ -154,7 +155,7 @@ export const clearUIData = (bettingAreas: HoldemPokerBettingArea[]) => () => {
 export const showPlaceBetChips =
     (
         bettingAreas: HoldemPokerBettingArea[],
-        betChips: BetChips,
+        betChips: BetChipsNew,
         shadowChip: cc.SpriteFrame,
         holdemPokerChips: HoldemPokerChips,
         gameData: HoldemPokerGameData,
@@ -164,7 +165,7 @@ export const showPlaceBetChips =
         const bettingArea = bettingAreas.filter((a) => a.betChoice === currentChoice)[0];
         if (bettingArea && bettingArea.chipNode) {
             mainGame.playSingleChipsSound();
-            holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, currentAmount, totalAmount);
+            holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, currentAmount, totalAmount);
         }
     };
 
@@ -186,7 +187,7 @@ export const clearAllBetChips = (bettingAreas: HoldemPokerBettingArea[]) => () =
 };
 
 export const updateChips =
-    (bettingAreas: HoldemPokerBettingArea[], betChips: BetChips, shadowChip: cc.SpriteFrame, holdemPokerChips: HoldemPokerChips) =>
+    (bettingAreas: HoldemPokerBettingArea[], betChips: BetChipsNew, shadowChip: cc.SpriteFrame, holdemPokerChips: HoldemPokerChips) =>
     ({ choice, totalAmount, currentAmount }) => {
         const bettingArea = bettingAreas.filter((a) => a.betChoice === choice)[0];
         if (bettingArea && bettingArea.chipNode) {
@@ -196,14 +197,14 @@ export const updateChips =
             keys.forEach((chipValue) => {
                 const count = values[chipValue];
                 for (let i = 0; i < count; i++) {
-                    holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, shadowChip, +chipValue, totalAmount);
+                    holdemPokerChips.flyChipToBetPlace(betChips, bettingArea.chipNode, +chipValue, totalAmount);
                 }
             });
         }
     };
 
 export const updateAllChips =
-    (bettingAreas: HoldemPokerBettingArea[], betChips: BetChips, shadowChip: cc.SpriteFrame, holdemPokerChips: HoldemPokerChips) =>
+    (bettingAreas: HoldemPokerBettingArea[], betChips: BetChipsNew, shadowChip: cc.SpriteFrame, holdemPokerChips: HoldemPokerChips) =>
     (placeBetModel: HoldemPokerPlaceBetModel) => {
         CasinoChoices.forEach((choice: string) => {
             if (placeBetModel.choices[choice] !== 0 && !placeBetModel.isUsingHand) {

@@ -990,6 +990,7 @@ export default class GameUtils {
         const currNodeAmount = destNode.childrenCount;
         const values = this.getChipQuantity(bet, betChips.chipValues);
         const keys = Object.keys(values).sort((a, b) => +b - +a);
+
         let totalChip = 0;
         keys.forEach((chip) => {
             totalChip += values[chip];
