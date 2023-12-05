@@ -125,8 +125,8 @@ export default class HoldemPokerChips extends cc.Component {
                         const chipCurr = nodeTmp.children[i];
                         if (i < chipTotal) {
                             const chipView = chipCurr.getComponent(ChipView);
-                            chipView.setColor(this.chipConfig.getChipColor(nodeArr[i]));
-                            chipView.setValue(nodeArr[i]);
+                            chipView?.setColor(this.chipConfig.getChipColor(nodeArr[i]));
+                            chipView?.setValue(nodeArr[i]);
                         } else {
                             chipCurr.destroy();
                         }
@@ -237,11 +237,12 @@ export default class HoldemPokerChips extends cc.Component {
     private flyChipToDealer(bettingArea: HoldemPokerBettingArea, dealerLocation: cc.Node, jumpTime: number, delayBeforeFly: number) {
         const clonedChip = cc.instantiate(bettingArea.chipNode);
         bettingArea.node.addChild(clonedChip);
+        clonedChip.position = cc.v3(0, 0, 0);
         bettingArea.chipNode.destroyAllChildren();
         const destPos = clonedChip.parent.convertToNodeSpaceAR(dealerLocation.convertToWorldSpaceAR(cc.v2(0, 0)));
         clonedChip.runAction(
             cc.sequence(
-                cc.spawn(cc.jumpTo(jumpTime, destPos, 100, 1), cc.scaleTo(0.8, 0.5)),
+                cc.spawn(cc.jumpTo(jumpTime, destPos, 150, 1), cc.scaleTo(0.8, 0.5)),
                 cc.delayTime(delayBeforeFly),
                 cc.fadeOut(0.3),
                 cc.callFunc(() => {
