@@ -161,7 +161,7 @@ export default class HoldemPokerChips extends cc.Component {
                 if (+value > betAmount) {
                     const winAmount = value - betAmount;
                     const destNode = bettingArea.chipNode;
-                    this.handleChipStack(main, destNode, betChips, winAmount, value, shadowFrame);
+                    this.handleChipStack(main, destNode, betChips, value, winAmount, shadowFrame);
                     bettingArea.handleWinningAmount(value, true);
                     main.playStartGameAudio();
                 }
@@ -185,8 +185,13 @@ export default class HoldemPokerChips extends cc.Component {
         shadowFrame: cc.SpriteFrame
     ) {
         const timeMoving = 600;
-        const chipStack = this.createChipStack(value, destNode, betChips, shadowFrame);
+        const chipStack = this.createChipStack(winAmount, destNode, betChips, shadowFrame);
+
         const startPos = chipStack.parent.convertToNodeSpaceAR(main.dealerChipTray.convertToWorldSpaceAR(cc.v2(0, 0)));
+        const betAmount = value - winAmount;
+        const betAmountChip = GameUtils.getChipQuantity(betAmount, betChips.chipValues);
+        const keys = Object.keys(betAmountChip).sort((a, b) => +b - +a);
+        const totalChipCount = keys.reduce((sum, chip) => sum + betAmountChip[chip], 0);
 
         let delayTime = 0;
 
@@ -195,8 +200,7 @@ export default class HoldemPokerChips extends cc.Component {
         for (let i = 0; i < chipStack.children.length; i++) {
             const offset = ChipParams.offset;
             const offsetStack = ChipParams.offsetStack;
-            const childCount = chipStack.children.length;
-            const currentChipStackPosition = (childCount + i - 1) * (offset + offsetStack);
+            const currentChipStackPosition = (totalChipCount + i) * (offset + offsetStack);
             const desPost = chipStack.children[i].parent.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v2(0, 0)));
             const desPostX = desPost.x + lodash.random(-2, 2);
             const desPostY = desPost.y + currentChipStackPosition;
@@ -222,7 +226,7 @@ export default class HoldemPokerChips extends cc.Component {
 
         setTimeout(() => {
             destNode?.destroyAllChildren();
-            this.createChipStack(winAmount, destNode, betChips, shadowFrame);
+            this.createChipStack(value, destNode, betChips, shadowFrame);
         }, delayTime + timeMoving);
     }
     private playerWinningAffectAction(totalWin: number, totalBet: number, gameData: HoldemPokerGameData, main: HoldemPoker) {
