@@ -63,15 +63,22 @@ export const onUserProfileInitialized = (game: any) => (node: cc.Node) => {
 
 export const outRoomGame = (game: any) => () => {
     return new Promise<void>((resolve) => {
-        game.node.stopAllActions();
-        game.node.runAction(
+        const tweenNodeName = "out-game-tween-node";
+        let outGameTweenNode = game.node.getChildByName(tweenNodeName);
+        if (!outGameTweenNode) {
+            outGameTweenNode = new cc.Node(tweenNodeName);
+            game.node.addChild(outGameTweenNode);
+        }
+        outGameTweenNode.stopAllActions();
+        function callback() {
+            game.socketIOController.closeMiniGameSockets();
+            game.stopGame();
+            resolve();
+        }
+        outGameTweenNode.runAction(
             cc.sequence(
                 cc.delayTime(1),
-                cc.callFunc(() => {
-                    game.socketIOController.closeMiniGameSockets();
-                    game.stopGame();
-                    resolve();
-                })
+                cc.callFunc(() => callback())
             )
         );
     });
