@@ -3,6 +3,7 @@ import axios from "axios";
 import { buildProxyUrl } from "../common/helpers/UrlHelper";
 import { uiManager } from "../managers/GameUIManager";
 import { InternalEvents } from "../managers/InternalEvents";
+import { delayTime } from "../utils";
 
 export interface GameConfiguration {
     id: number;
@@ -32,12 +33,6 @@ declare global {
     interface Window {
         gameConfigurations: GameConfiguration[];
     }
-}
-
-function delayTime(seconds: number) {
-    return new Promise<void>((resolve) => {
-        setTimeout(resolve, seconds * 1000);
-    });
 }
 
 export async function initialize() {

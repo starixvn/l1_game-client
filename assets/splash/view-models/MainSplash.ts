@@ -3,6 +3,7 @@ import { i18n } from "../../ClientModules";
 import SocketIOController from "../../SocketIOController";
 import GameUtils from "../../common/GameUtils";
 import * as sessionManager from "../../common/auth/SessionManager";
+import { sentryLogger } from "../../common/logger";
 import Notice from "../../common/notice/view-models/Notice";
 import NoticeUtil from "../../common/utils/NoticeUtil";
 import { getGameConfiguration } from "../../configs/GameConfigurations";
@@ -118,15 +119,19 @@ export default class MainSplash extends cc.Component {
     }
 
     async requestSSO() {
-        this.updateProgress(0);
-        if (!appManager.authorized) {
-            await appManager.ssoAndAuthorize();
-        }
+        try {
+            this.updateProgress(0);
+            if (!appManager.authorized) {
+                await appManager.ssoAndAuthorize();
+            }
 
-        if (appManager.isDirectMode) {
-            await this.loadGameDirectly();
-        } else {
-            this.preloadLobbyScene();
+            if (appManager.isDirectMode) {
+                await this.loadGameDirectly();
+            } else {
+                this.preloadLobbyScene();
+            }
+        } catch (error) {
+            sentryLogger.logError(error.message);
         }
     }
 

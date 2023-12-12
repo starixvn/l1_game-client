@@ -109,6 +109,19 @@ class AppManager {
     async ssoAndAuthorize() {
         this.init();
         await initGameConfiguration();
+        this.handleAppMode();
+        await this.requestSSO();
+        await getLobbyConfigs();
+        if (window.authData && this.isDirectMode) {
+            sessionManager.removeInRoomGameId();
+            this.saveDirectModeInfo();
+        }
+        this.loadDirectModeInfo();
+        this.authorized = await this.authorizeByUserService();
+        await this.authorizedInit();
+    }
+
+    private handleAppMode() {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has(UrlInfo.Ref) && urlParams.has("gameId") && urlParams.get("gameId") !== "0") {
             const gameId = urlParams.get("gameId");
@@ -131,16 +144,6 @@ class AppManager {
         if (urlParams.has(UrlInfo.Ref) && this.checkAppModeRefData(urlParams.get(UrlInfo.Ref))) {
             this._appMode = true;
         }
-
-        await this.requestSSO();
-        await getLobbyConfigs();
-        if (window.authData && this.isDirectMode) {
-            sessionManager.removeInRoomGameId();
-            this.saveDirectModeInfo();
-        }
-        this.loadDirectModeInfo();
-        this.authorized = await this.authorizeByUserService();
-        await this.authorizedInit();
     }
 
     private saveDirectModeInfo() {

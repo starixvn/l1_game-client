@@ -1,5 +1,8 @@
 import { getLocale, getSession } from "../../../common/auth/SessionManager";
 import UserService from "../../../common/auth/UserService";
+import { uiManager } from "../../../managers/GameUIManager";
+import { InternalEvents } from "../../../managers/InternalEvents";
+import { delayTime } from "../../../utils";
 
 export interface GameSetting {
     gameId: number;
@@ -49,12 +52,25 @@ export interface CategoryConfig {
 }
 
 export async function getLobbyConfigs() {
-    try {
-        const session = getSession();
-        const lobby = await UserService.getInstance().lobby.getLobbyConfigs(session.ss, session.username);
+    const session = getSession();
+    let retryCount = 0;
+    let lobby = await UserService.getInstance()
+        .lobby.getLobbyConfigs(session.ss, session.username)
+        .catch(() => null);
+    while (!lobby && retryCount < 3) {
+        await delayTime(3);
+        lobby = await UserService.getInstance()
+            .lobby.getLobbyConfigs(session.ss, session.username)
+            .catch(() => null);
+
+        retryCount++;
+    }
+
+    if (lobby?.lobbyConfigs) {
         LobbyManager.getInstance().storeLobby(lobby?.lobbyConfigs);
-    } catch (ex) {
-        console.log(JSON.stringify(ex));
+    } else {
+        uiManager.emitter.emit(InternalEvents.SSO_ERROR);
+        throw new Error("Can not get lobby configs");
     }
 }
 
