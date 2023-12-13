@@ -1,4 +1,5 @@
 import { SystemType } from "../../ISystem";
+import { sentryLogger } from "../logger";
 import AudioManager from "./AudioManager";
 import NameSongManager from "./NameSongManager";
 
@@ -69,26 +70,30 @@ export default class MusicPlayer {
         return {
             promise,
             cancel: () => {
-                reject && reject();
+                reject && reject(new Error(`${sentryLogger.ignoreErrorsPrefix} cancel load audio`));
             }
         };
     }
 
     private async loadResourceAudio(song: string) {
-        if (this.lastLoadSongTask) {
-            this.lastLoadSongTask.cancel();
-        }
-        this.lastLoadSongTask = this.loadAudio(song);
+        try {
+            if (this.lastLoadSongTask) {
+                this.lastLoadSongTask.cancel();
+            }
+            this.lastLoadSongTask = this.loadAudio(song);
 
-        const audioClip = await this.lastLoadSongTask.promise;
-        if (this.isPlayBgMusic) {
-            await AudioManager.getInstance().awaitForReady();
-            if (!this.isPlayBgMusic) {
-                return;
+            const audioClip = await this.lastLoadSongTask.promise;
+            if (this.isPlayBgMusic) {
+                await AudioManager.getInstance().awaitForReady();
+                if (!this.isPlayBgMusic) {
+                    return;
+                }
+                if (AudioManager.getInstance().musicEnabled) {
+                    this.playAudioClip(audioClip);
+                }
             }
-            if (AudioManager.getInstance().musicEnabled) {
-                this.playAudioClip(audioClip);
-            }
+        } catch (err) {
+            cc.warn(err.message);
         }
     }
 

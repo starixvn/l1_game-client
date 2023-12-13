@@ -21,17 +21,27 @@ export default class UserService {
                 request["gameId"] = gameId;
             }
 
-            axios.post(`${this.getUserServiceUrl()}/game-result/access-url`, request).then((response) => {
-                resolve(response.data.gameResult.redirectUrl);
-            });
+            axios
+                .post(`${this.getUserServiceUrl()}/game-result/access-url`, request)
+                .then((response) => {
+                    resolve(response.data.gameResult.redirectUrl);
+                })
+                .catch((error) => {
+                    cc.warn(error.message);
+                });
         });
     }
 
     public static getBalance() {
         const request = this.getRequestOptions();
-        axios.post(`${this.getUserServiceUrl()}/auth/balance`, request).then((response) => {
-            updateUserBalance(response.data);
-        });
+        axios
+            .post(`${this.getUserServiceUrl()}/auth/balance`, request)
+            .then((response) => {
+                updateUserBalance(response.data);
+            })
+            .catch((error) => {
+                cc.warn(error.message);
+            });
     }
 
     private static getUserServiceUrl(): string {

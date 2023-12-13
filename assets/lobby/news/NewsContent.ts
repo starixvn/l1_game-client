@@ -107,7 +107,7 @@ export default class NewsContent extends BaseComponent {
         return new Promise<cc.Font>((resolve, reject) => {
             cc.resources.load<cc.Font>(`fonts/${name}`, cc.Font, (err, font) => {
                 if (!this.isAlive() || err) {
-                    reject();
+                    reject(err ? err : new Error("Node is not valid!."));
                     return;
                 }
                 resolve(font);

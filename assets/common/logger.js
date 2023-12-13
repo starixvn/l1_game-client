@@ -3,6 +3,7 @@ import * as configs from "../configs/Configs";
 export const sentryLogger = {
     sentryUrl: null,
     loaded: false,
+    ignoreErrorsPrefix: "SENTRY IGNORE ERRORS:",
     isEnabled: () => {
         return sentryLogger.sentryUrl != null && document && document.head;
     },
@@ -28,7 +29,8 @@ export const sentryLogger = {
                     "undefined is not an object (evaluating 'cc.RedT.user')",
                     /^.*Cannot read properties.*(?:user|setAvatar|onSet|setLoadingVisibility).*$/gm,
                     /^.*not an object.*(?:openGame|openNewSocket|gameName|language|this.percent|this.pagination|remoteBundle).*$/gm,
-                    /^.*Node is not valid!.*$/gm
+                    /^.*Node is not valid!.*$/gm,
+                    /^.*SENTRY IGNORE ERRORS:*$/gm
                 ]
             });
             sentryLogger.loaded = true;

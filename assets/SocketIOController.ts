@@ -168,7 +168,7 @@ export default class SocketIOController {
                 await this.waitGameSignedIn(gameId);
             } catch (err) {
                 onGameConnectionError();
-                reject();
+                reject(err);
             }
 
             resolve();
