@@ -135,7 +135,6 @@ export const collectCards = async (pokerCardsNote: HoldemPokerCards, callBack?: 
 
 export const rawCardWhenRejoin = (pokerCardsNote: HoldemPokerCards, cardsData: any, callBack?: () => void) => {
     const { communityCards, hasSwappedOrHold } = cardsData;
-
     let playerCards = [];
     if (hasSwappedOrHold) {
         playerCards = cardsData.playerCards;
@@ -155,10 +154,12 @@ export const rawCardWhenRejoin = (pokerCardsNote: HoldemPokerCards, cardsData: a
     pokerCardsNote.hideAllIndicator();
 
     for (const card of playerCards) {
-        pokerCardsNote.drawingRejoinPlayerCards(card, hasSwappedOrHold ? false : true);
+        console.log("drawingRejoinPlayerCards", card, !hasSwappedOrHold);
+        pokerCardsNote.drawingRejoinPlayerCards(card, !hasSwappedOrHold);
     }
 
     for (const card of communityCards) {
+        console.log("drawingRejoinMiddleCards", card);
         pokerCardsNote.drawingRejoinMiddleCards(card, false);
     }
 

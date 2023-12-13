@@ -224,14 +224,8 @@ export default class HoldemPokerCards extends cc.Component {
         });
     }
 
-    protected dealCardWithoutAnimation(
-        cardInfo: CardModel,
-        cardHand: HandPlace,
-        faceDown: boolean,
-        forcePositionIndex?: number
-    ): Promise<void> {
+    protected dealCardWithoutAnimation(cardInfo: CardModel, cardHand: HandPlace, faceDown: boolean, forcePositionIndex?: number) {
         const cardNode = this.createCard(cardInfo, 1, 1);
-        cardNode.active = false;
         const cardComponent = cardNode.getComponent(HoldemPokerCard);
         cardComponent.setFaceUp(!faceDown);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
@@ -240,20 +234,9 @@ export default class HoldemPokerCards extends cc.Component {
         const rotationX = cc.v3(0);
         cardNode.position = cc.v3(startLocalPos.x, startLocalPos.y, 0);
         cardHand.addCard(cardNode);
-
-        const moveDuration = 0;
-        return new Promise((resolve) => {
-            cc.tween(cardNode)
-                .to(moveDuration, {
-                    position: finalPosition,
-                    eulerAngles: rotationX
-                })
-                .call(() => {
-                    cardNode.active = true;
-                })
-                .call(() => resolve())
-                .start();
-        });
+        cardNode.position = finalPosition;
+        cardNode.eulerAngles = rotationX;
+        cardNode.active = true;
     }
 
     protected dealCard(cardInfo: CardModel, cardHand: HandPlace, faceDown: boolean, forcePositionIndex?: number): Promise<void> {

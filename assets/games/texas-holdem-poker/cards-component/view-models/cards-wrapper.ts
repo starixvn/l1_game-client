@@ -165,7 +165,7 @@ export const rawCardWhenRejoin = (pokerCardsNote: PokerCards, cardsData: any) =>
     ];
 
     for (const card of playerCards) {
-        pokerCardsNote.drawingRejoinPlayerCards(card, hasSwappedOrHold ? false : true);
+        pokerCardsNote.drawingRejoinPlayerCards(card, !hasSwappedOrHold);
     }
 
     for (const card of communityCards) {

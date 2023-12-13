@@ -14,5 +14,6 @@ export const showRejoinTotalBet = (totalBetLabel: cc.Label) => (ownBets: HoldemP
 export const updatePreviousChoices = (placeBetModel: HoldemPokerPlaceBetModel) => (bets: any) => {
     const ante = bets?.ante;
     const aa = bets?.aa;
+
     placeBetModel.deal({ ante: ante, aa: aa });
 };
