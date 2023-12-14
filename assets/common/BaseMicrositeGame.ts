@@ -1,17 +1,18 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
+
 import { lazyInject } from "../Application";
-import SocketIOController from "../SocketIOController";
 import { initialize as initGameConfiguration } from "../configs/GameConfigurations";
 import { appManager } from "../managers/AppManager";
 import { StorageManager } from "../managers/StorageManager";
-import CustomWebView from "./CustomWebView";
-import GameUtils from "./GameUtils";
-import JoinGameHelper from "./JoinGameHelper";
+import SocketIOController from "../SocketIOController";
 import AudioManager from "./audio/AudioManager";
 import MusicPlayer from "./audio/MusicPlayer";
 import * as AuthManager from "./auth/AuthManager";
 import * as SessionManager from "./auth/SessionManager";
+import CustomWebView from "./CustomWebView";
+import GameUtils from "./GameUtils";
 import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
+import JoinGameHelper from "./JoinGameHelper";
 
 const { ccclass, property } = cc._decorator;
 
@@ -101,6 +102,7 @@ export default class BaseMicrositeGame extends cc.Component {
             this.handleUserGesturePage();
             const className = "microsite-iframe";
             !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
+            this.postMessageToMicrosite({ isClearUserSetting: true });
             return;
         }
         if (data.hasSSO) {
