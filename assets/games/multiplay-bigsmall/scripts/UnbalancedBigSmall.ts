@@ -109,7 +109,9 @@ export default class UnbalancedBigSmall extends MultiplayGameSingle {
             })
             .delay(this.showResultDuration)
             .call(() => {
-                this.gameData.settlement.finishShowResult(this.gameData.settlement.settlement, true);
+                if (this.gameData?.settlement?.settlement) {
+                    this.gameData.settlement.finishShowResult(this.gameData.settlement.settlement, true);
+                }
             })
             .start();
     }
