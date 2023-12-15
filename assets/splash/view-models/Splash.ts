@@ -1,13 +1,14 @@
-const { ccclass, property } = cc._decorator;
 import axios from "axios";
-import GameUtils from "../../common/GameUtils";
+
 import * as SessionManager from "../../common/auth/SessionManager";
+import GameUtils from "../../common/GameUtils";
 import { buildProxyUrl } from "../../common/helpers/UrlHelper";
 import { sentryLogger } from "../../common/logger";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
 import { AXIOS_FAILED_PREFIX } from "../../utils";
 
+const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Splash extends cc.Component {
     @property(cc.Node)
@@ -52,6 +53,7 @@ export default class Splash extends cc.Component {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("gameId")) {
             const gameId = +urlParams.get("gameId");
+            SessionManager.setClearUserSettingMicroSite(true);
             SessionManager.storeMicrositeGameId(gameId);
         }
         const iframe = cc.instantiate(this.prfMicrositeGame);

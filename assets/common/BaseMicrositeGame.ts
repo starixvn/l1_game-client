@@ -11,7 +11,6 @@ import * as AuthManager from "./auth/AuthManager";
 import * as SessionManager from "./auth/SessionManager";
 import CustomWebView from "./CustomWebView";
 import GameUtils from "./GameUtils";
-import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import JoinGameHelper from "./JoinGameHelper";
 
 const { ccclass, property } = cc._decorator;
@@ -102,7 +101,12 @@ export default class BaseMicrositeGame extends cc.Component {
             this.handleUserGesturePage();
             const className = "microsite-iframe";
             !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
-            this.postMessageToMicrosite({ isClearUserSetting: true });
+
+            if (SessionManager.getClearUserSettingMicroSite()) {
+                this.postMessageToMicrosite({ isClearUserSetting: SessionManager.getClearUserSettingMicroSite() });
+                SessionManager.setClearUserSettingMicroSite(false);
+            }
+
             return;
         }
         if (data.hasSSO) {

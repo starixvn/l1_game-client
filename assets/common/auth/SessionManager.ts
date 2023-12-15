@@ -21,6 +21,7 @@ export interface Session {
 
 const sessionIdStorageName = "scss";
 const micrositeGameIdKey = "microsite_game_id";
+const clearUserSettingMicrositeKey = "clear_user_setting_microsite";
 
 export function getSessionKey() {
     if (window.location && window.location.hostname) {
@@ -128,6 +129,14 @@ export function storeMicrositeGameId(gameId) {
 
 export function removeMicrositeGameId() {
     StorageManager.remove(micrositeGameIdKey);
+}
+
+export function getClearUserSettingMicroSite() {
+    return StorageManager.get(clearUserSettingMicrositeKey) ?? false;
+}
+
+export function setClearUserSettingMicroSite(isClear: boolean) {
+    StorageManager.set(clearUserSettingMicrositeKey, isClear);
 }
 
 declare global {

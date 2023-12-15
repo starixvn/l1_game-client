@@ -1,5 +1,6 @@
 import { lazyInject } from "../../../Application";
 import AudioManager from "../../../common/audio/AudioManager";
+import * as SessionManager from "../../../common/auth/SessionManager";
 import GameUtils from "../../../common/GameUtils";
 import { userManager } from "../../../common/user/UserManager";
 import { uiManager } from "../../../managers/GameUIManager";
@@ -256,6 +257,7 @@ export default class LobbyMenu extends GameIconMenu {
         GameUtils.clearGameSetting(id);
         GameUtils.unCacheAndHideGameLoading(uiManager.getCurrentGameId());
         uiManager.setCurrentGameId(id);
+        SessionManager.setClearUserSettingMicroSite(true);
         const skeletonComp = node.getComponent(SkeletonIcon);
         uiManager.cacheIconLoading(id, skeletonComp.gameLoading);
         GameUtils.openGame(id, this.miniPanel);
