@@ -11,6 +11,7 @@ import * as AuthManager from "./auth/AuthManager";
 import * as SessionManager from "./auth/SessionManager";
 import CustomWebView from "./CustomWebView";
 import GameUtils from "./GameUtils";
+import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import JoinGameHelper from "./JoinGameHelper";
 
 const { ccclass, property } = cc._decorator;
