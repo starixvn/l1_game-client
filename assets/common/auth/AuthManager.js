@@ -116,7 +116,7 @@ function checkHasToken(urlParams, onSuccessFunc) {
         })
         .catch((error) => {
             uiManager.emitter.emit(InternalEvents.SSO_ERROR);
-            sentryLogger.logError(error);
+            sentryLogger.logError("Auth SSO === " + error.message);
         });
 }
 
@@ -229,7 +229,7 @@ export function reCheckIn() {
                         signOut();
                     }
                 })
-                .catch((error) => sentryLogger.logError(error));
+                .catch((error) => sentryLogger.logError("Recheckin === " + error.message));
         }
     } catch (ex) {
         console.log(JSON.stringify(ex));

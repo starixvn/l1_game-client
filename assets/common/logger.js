@@ -17,7 +17,6 @@ export const sentryLogger = {
                     "fullscreen error",
                     "exitFullscreen",
                     "start the audio device",
-                    "Network Error",
                     "zaloJSV2",
                     "socket disconnect",
                     "UnhandledRejectionhttps",
