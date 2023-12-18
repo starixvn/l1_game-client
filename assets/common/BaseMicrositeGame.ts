@@ -99,13 +99,7 @@ export default class BaseMicrositeGame extends cc.Component {
             window.location.replace(data.replaceUrl);
         }
         if (data.splashEnabled) {
-            if (SessionManager.getClearUserSettingMicroSite()) {
-                console.log("postMessageToMicrosite");
-                const isClearUserSetting = SessionManager.getClearUserSettingMicroSite();
-                SessionManager.setClearUserSettingMicroSite(false);
-                this.postMessageToMicrosite({ isClearUserSetting });
-            }
-            this.handleUserGesturePage();
+            this.postDataWhenLoadedMicrositeSplash();
             const className = "microsite-iframe";
             !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
 
@@ -205,8 +199,15 @@ export default class BaseMicrositeGame extends cc.Component {
         }
     }
 
-    private async handleUserGesturePage() {
+    private async postDataWhenLoadedMicrositeSplash() {
         const isUserGesture = AudioManager.getInstance().isUserGesture;
-        this.postMessageToMicrosite({ isUserGesture });
+        let postedObject: any = { isUserGesture };
+        if (SessionManager.getClearUserSettingMicroSite()) {
+            const isClearUserSetting = SessionManager.getClearUserSettingMicroSite();
+            SessionManager.setClearUserSettingMicroSite(false);
+            console.log("setClearUserSettingMicroSite", isClearUserSetting);
+            postedObject = { ...postedObject, isClearUserSetting };
+        }
+        this.postMessageToMicrosite({ ...postedObject, isClearUserSetting: true });
     }
 }
