@@ -18,6 +18,12 @@ export default class HoldemPokerChips extends cc.Component {
     winningEffect: cc.Node;
     chipThick = 10;
     flyChipTimeout: any;
+    chipStackTimeout: any;
+
+    protected onDestroy(): void {
+        this.flyChipTimeout && clearTimeout(this.flyChipTimeout);
+        this.chipStackTimeout && clearTimeout(this.chipStackTimeout);
+    }
 
     public createChip(betChips: BetChipsNew, amount: number): cc.Node {
         return betChips.createChipFly(amount);
@@ -164,7 +170,6 @@ export default class HoldemPokerChips extends cc.Component {
                     const destNode = bettingArea.chipNode;
                     this.handleChipStack(main, destNode, betChips, value, winAmount, shadowFrame);
                     bettingArea.handleWinningAmount(value, true);
-                    this.flyChipTimeout && clearTimeout(this.flyChipTimeout);
                     main.playStartGameAudio();
                 }
             } else {
@@ -226,7 +231,7 @@ export default class HoldemPokerChips extends cc.Component {
             }, (i - 1) * 200);
         }
 
-        setTimeout(() => {
+        this.chipStackTimeout = setTimeout(() => {
             destNode?.destroyAllChildren();
             this.createChipStack(value, destNode, betChips, shadowFrame);
         }, delayTime + timeMoving);
