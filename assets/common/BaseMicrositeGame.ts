@@ -65,7 +65,7 @@ export default class BaseMicrositeGame extends cc.Component {
     protected onLoad(): void {
         this.stopMainAction();
         this.loadMicrositeGame();
-        window.addEventListener("message", this.handleEvent.bind(this));
+        window.addEventListener("message", this.handleEvent);
         this.webview?.node.on(
             WebviewEventType.LOADING,
             () => {
@@ -77,7 +77,7 @@ export default class BaseMicrositeGame extends cc.Component {
 
     protected onDestroy(): void {
         window.microsite = {};
-        window.removeEventListener("message", this.handleEvent.bind(this));
+        window.removeEventListener("message", this.handleEvent);
     }
 
     protected stopMainAction() {
@@ -94,12 +94,13 @@ export default class BaseMicrositeGame extends cc.Component {
         this.webview && (this.webview.url = `${this.micrositeUrl}/${queryString}`);
     }
 
-    protected async handleEvent({ data }: { data: MicrositeGameParams }) {
+    handleEvent = async ({ data }: { data: MicrositeGameParams }) => {
         if (data.replaceUrl) {
             window.location.replace(data.replaceUrl);
         }
         if (data.splashEnabled) {
-            this.postDataWhenLoadedMicrositeSplash();
+            this.handleUserGesturePage();
+            this.handleUserSetting();
             const className = "microsite-iframe";
             !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
 
@@ -136,7 +137,7 @@ export default class BaseMicrositeGame extends cc.Component {
         }
 
         this.handleChangeAudio(data);
-    }
+    };
 
     protected getMicrositeGameQueryString() {
         return "";
@@ -199,15 +200,16 @@ export default class BaseMicrositeGame extends cc.Component {
         }
     }
 
-    private async postDataWhenLoadedMicrositeSplash() {
-        const isUserGesture = AudioManager.getInstance().isUserGesture;
-        let postedObject: any = { isUserGesture };
-        if (SessionManager.getClearUserSettingMicroSite()) {
-            const isClearUserSetting = SessionManager.getClearUserSettingMicroSite();
+    private async handleUserSetting() {
+        const isClearUserSetting = SessionManager.getClearUserSettingMicroSite();
+        if (isClearUserSetting) {
             SessionManager.setClearUserSettingMicroSite(false);
-            console.log("setClearUserSettingMicroSite", isClearUserSetting);
-            postedObject = { ...postedObject, isClearUserSetting };
+            this.postMessageToMicrosite({ isClearUserSetting });
         }
-        this.postMessageToMicrosite({ ...postedObject, isClearUserSetting: true });
+    }
+
+    private async handleUserGesturePage() {
+        const isUserGesture = AudioManager.getInstance().isUserGesture;
+        this.postMessageToMicrosite({ isUserGesture });
     }
 }
