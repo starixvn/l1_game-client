@@ -99,15 +99,15 @@ export default class BaseMicrositeGame extends cc.Component {
             window.location.replace(data.replaceUrl);
         }
         if (data.splashEnabled) {
+            if (SessionManager.getClearUserSettingMicroSite()) {
+                console.log("postMessageToMicrosite");
+                const isClearUserSetting = SessionManager.getClearUserSettingMicroSite();
+                SessionManager.setClearUserSettingMicroSite(false);
+                this.postMessageToMicrosite({ isClearUserSetting });
+            }
             this.handleUserGesturePage();
             const className = "microsite-iframe";
             !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
-
-            if (SessionManager.getClearUserSettingMicroSite()) {
-                console.log("postMessageToMicrosite", SessionManager.getClearUserSettingMicroSite());
-                this.postMessageToMicrosite({ isClearUserSetting: SessionManager.getClearUserSettingMicroSite() });
-                SessionManager.setClearUserSettingMicroSite(false);
-            }
 
             return;
         }
