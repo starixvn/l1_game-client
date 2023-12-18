@@ -16,6 +16,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     finishDataCache: any = null;
     drawingCardDelay = 0.5;
     openCardDuration = 1.4;
+    flyChipTimeout: any;
 
     handle(data: any): boolean {
         if (data.finish) {
@@ -32,6 +33,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     startNewRound() {
         this.main.gameAudios.playStartGameAudio();
         this.main.stopIntervalReminder();
+        this.flyChipTimeout && clearTimeout(this.flyChipTimeout);
     }
 
     processFinish() {
@@ -197,7 +199,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
             delayTime = (i - 1) * 200;
 
-            setTimeout(() => {
+            this.flyChipTimeout = setTimeout(() => {
                 chipStack?.children[i]?.runAction(
                     cc.sequence(
                         cc.spawn(cc.jumpTo(0.6, desPostX, desPostY, 200, 1), cc.scaleTo(0.6, 1), cc.fadeTo(0.1, 255)),
