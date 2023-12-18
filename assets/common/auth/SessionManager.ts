@@ -131,7 +131,7 @@ export function removeMicrositeGameId() {
     StorageManager.remove(micrositeGameIdKey);
 }
 
-export function getClearUserSettingMicroSite() {
+export function getClearUserSettingMicroSite(): boolean {
     return StorageManager.get(clearUserSettingMicrositeKey) ?? false;
 }
 

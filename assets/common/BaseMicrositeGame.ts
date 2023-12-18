@@ -104,6 +104,7 @@ export default class BaseMicrositeGame extends cc.Component {
             !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
 
             if (SessionManager.getClearUserSettingMicroSite()) {
+                console.log("postMessageToMicrosite", SessionManager.getClearUserSettingMicroSite());
                 this.postMessageToMicrosite({ isClearUserSetting: SessionManager.getClearUserSettingMicroSite() });
                 SessionManager.setClearUserSettingMicroSite(false);
             }
