@@ -41,7 +41,7 @@ export async function initialize() {
     let retryCount = 0;
 
     while (retryCount < 3) {
-        cc.log("try load configuration ", retryCount);
+        cc.log("Try load configuration ", retryCount + 1);
         configurations = await axios
             .get(url)
             .then((response) => response.data)

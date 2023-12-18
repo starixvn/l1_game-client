@@ -12,6 +12,7 @@ import { initialize as initGameConfiguration } from "../configs/GameConfiguratio
 import { getLobbyConfigs } from "../lobby/main/view-models/LobbyManager";
 import PromotionNotificationsHandler from "../lobby/promotions/PromotionNotificationsHandler";
 import { Promotions } from "../lobby/promotions/Promotions";
+import { delayTime } from "../utils";
 import { uiManager } from "./GameUIManager";
 import { InternalEvents } from "./InternalEvents";
 import { jackpotManager } from "./JackpotManager";
@@ -185,7 +186,8 @@ class AppManager {
         return response.authorized;
     }
 
-    async authorizeByUserService(retryCount = 0) {
+    async authorizeByUserService(retryCount = 1) {
+        cc.log("Try authorizeByUserService ", retryCount);
         try {
             const { ss, username } = window.authData;
             const response: any = await UserService.getInstance().auth.authorize(ss, username);
@@ -200,10 +202,11 @@ class AppManager {
 
             return await this.handleAuthorizedResponse(response);
         } catch (error) {
-            if (retryCount > 3) {
+            if (retryCount === 3) {
                 uiManager.emitter.emit(InternalEvents.SSO_ERROR);
                 throw new Error("Can not authorize by UserService " + error.message);
             }
+            await delayTime(3);
             return this.authorizeByUserService(++retryCount);
         }
     }

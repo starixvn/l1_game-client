@@ -54,15 +54,14 @@ export interface CategoryConfig {
 export async function getLobbyConfigs() {
     const session = getSession();
     let retryCount = 0;
-    let lobby = await UserService.getInstance()
-        .lobby.getLobbyConfigs(session.ss, session.username)
-        .catch(() => null);
+    let lobby;
     while (!lobby && retryCount < 3) {
-        await delayTime(3);
+        cc.log("Try get lobby configs ", retryCount + 1);
         lobby = await UserService.getInstance()
             .lobby.getLobbyConfigs(session.ss, session.username)
             .catch(() => null);
 
+        await delayTime(3);
         retryCount++;
     }
 
