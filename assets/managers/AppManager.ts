@@ -3,7 +3,7 @@ import AudioManager from "../common/audio/AudioManager";
 import * as authManager from "../common/auth/AuthManager";
 import NotificationService from "../common/auth/NotificationService";
 import * as sessionManager from "../common/auth/SessionManager";
-import { getCacheLanguage, getLanguage, getSession, setLanguage } from "../common/auth/SessionManager";
+import { getCacheLanguage, getLanguage, setLanguage } from "../common/auth/SessionManager";
 import UserService from "../common/auth/UserService";
 import logger from "../common/logger";
 import NameGenerator from "../common/name-generator/NameGenerator";
@@ -185,7 +185,7 @@ class AppManager {
         return response.authorized;
     }
 
-    async authorizeByUserService() {
+    async authorizeByUserService(retryCount = 0) {
         try {
             const { ss, username } = window.authData;
             const response: any = await UserService.getInstance().auth.authorize(ss, username);
@@ -200,11 +200,11 @@ class AppManager {
 
             return await this.handleAuthorizedResponse(response);
         } catch (error) {
-            sentryLogger.logError(error);
-            const session = getSession();
-            const isSessionExpired = authManager.verifySession(session);
-
-            return !isSessionExpired;
+            if (retryCount > 3) {
+                uiManager.emitter.emit(InternalEvents.SSO_ERROR);
+                throw new Error("Can not authorize by UserService " + error.message);
+            }
+            return this.authorizeByUserService(++retryCount);
         }
     }
 
