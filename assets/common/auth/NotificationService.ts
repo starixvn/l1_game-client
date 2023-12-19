@@ -31,7 +31,7 @@ export default class NotificationService {
             await this.createSocket();
             this.initListeners();
         } catch (error) {
-            sentryLogger.logError("Notification Connect === " + error.message);
+            sentryLogger.logError(error);
             this.socket && this.socket.disconnect();
             this.reconnect();
         }
@@ -124,7 +124,7 @@ export default class NotificationService {
         try {
             this.socket.emit(eventName, data);
         } catch (error) {
-            sentryLogger.logError("Notification Emit === " + error.message);
+            sentryLogger.logError(error);
         }
     }
 
