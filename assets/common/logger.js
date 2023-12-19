@@ -73,16 +73,21 @@ export const sentryLogger = {
 
     setUser: (user) => {
         if (sentryLogger.isEnabled() && user) {
-            setTimeout(function () {
+            const setUserInfo = () => {
                 try {
-                    window.Sentry &&
+                    if (window.Sentry) {
                         window.Sentry.configureScope(function (scope) {
                             scope.setUser(user);
                         });
+                    } else {
+                        setTimeout(setUserInfo, 1000);
+                    }
                 } catch (ex) {
                     console.log(ex);
                 }
-            }, 5000);
+            };
+
+            setUserInfo();
         }
     },
 
