@@ -131,7 +131,7 @@ export default class MainSplash extends cc.Component {
                 this.preloadLobbyScene();
             }
         } catch (error) {
-            sentryLogger.logError("Splash SSO === " + error.message);
+            sentryLogger.logError(error);
         }
     }
 
