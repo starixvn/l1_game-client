@@ -16,8 +16,6 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     finishDataCache: any = null;
     drawingCardDelay = 0.5;
     openCardDuration = 1.4;
-    flyChipTimeout: any;
-    chipStackTimeout: any;
 
     handle(data: any): boolean {
         if (data.finish) {
@@ -29,11 +27,6 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
     clearCache() {
         this.finishDataCache = null;
-    }
-
-    onDestroy() {
-        this.flyChipTimeout && clearTimeout(this.flyChipTimeout);
-        this.chipStackTimeout && clearTimeout(this.chipStackTimeout);
     }
 
     startNewRound() {
@@ -174,6 +167,10 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         return this.main.chipContainers[index].children[0];
     }
 
+    convertMilisecondsToSeconds(milliseconds: number) {
+        return milliseconds / 1000;
+    }
+
     handleHandAction(hand: any, betAmount: any, index: number) {
         const timeMoving = 600;
         const winAmount = +hand.betwin - betAmount;
@@ -184,39 +181,40 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         const keys = Object.keys(betAmountChip).sort((a, b) => +b - +a);
         const totalChipCount = keys.reduce((sum, chip) => sum + betAmountChip[chip], 0);
         let delayTime = 0;
+        const chipStackChildren = chipStack.children;
+        const offset = ChipParams.offset;
+        const offsetStack = ChipParams.offsetStack;
 
         chipStack.position = cc.v3(startPos);
 
-        for (let i = 0; i < chipStack.children.length; i++) {
-            const offset = ChipParams.offset;
-            const offsetStack = ChipParams.offsetStack;
-            const currentChipStackPosition = (totalChipCount + i) * (offset + offsetStack);
-            const desPost = chipStack.children[i].parent.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v2(0, 0)));
+        chipStackChildren.forEach((chip, index) => {
+            const currentChipStackPosition = (totalChipCount + index) * (offset + offsetStack);
+            const desPost = chip.parent.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v2(0, 0)));
             const desPostX = desPost.x + lodash.random(-2, 2);
             const desPostY = desPost.y + currentChipStackPosition;
 
-            chipStack.children[i].scale = 0.5;
-            chipStack.children[i].opacity = 0;
+            chip.scale = 0.5;
+            chip.opacity = 0;
 
-            if (i === 0) {
-                chipStack.children[i].active = false;
+            if (index === 0) {
+                chip.active = false;
             }
 
-            delayTime = (i - 1) * 200;
+            delayTime = index * 200;
 
-            this.flyChipTimeout = setTimeout(() => {
-                chipStack?.children[i]?.runAction(
+            this.main.scheduleOnce(() => {
+                chip.runAction(
                     cc.sequence(
                         cc.spawn(cc.jumpTo(0.6, desPostX, desPostY, 200, 1), cc.scaleTo(0.6, 1), cc.fadeTo(0.1, 255)),
                         cc.delayTime(1)
                     )
                 );
-            }, (i - 1) * 200);
-        }
+            }, this.convertMilisecondsToSeconds(delayTime));
+        });
 
-        this.chipStackTimeout = setTimeout(() => {
+        this.main.scheduleOnce(() => {
             destNode?.destroyAllChildren();
-            this.main?.createChipStack(+hand.betwin, destNode);
-        }, delayTime + timeMoving);
+            this.main.createChipStack(+hand.betwin, destNode);
+        }, this.convertMilisecondsToSeconds(delayTime + timeMoving));
     }
 }

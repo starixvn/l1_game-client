@@ -17,13 +17,6 @@ export default class HoldemPokerChips extends cc.Component {
     updateChipStackTween: cc.Tween;
     winningEffect: cc.Node;
     chipThick = 10;
-    flyChipTimeout: any;
-    chipStackTimeout: any;
-
-    protected onDestroy(): void {
-        this.flyChipTimeout && clearTimeout(this.flyChipTimeout);
-        this.chipStackTimeout && clearTimeout(this.chipStackTimeout);
-    }
 
     public createChip(betChips: BetChipsNew, amount: number): cc.Node {
         return betChips.createChipFly(amount);
@@ -199,42 +192,43 @@ export default class HoldemPokerChips extends cc.Component {
         const betAmountChip = GameUtils.getChipQuantity(betAmount, betChips.chipValues);
         const keys = Object.keys(betAmountChip).sort((a, b) => +b - +a);
         const totalChipCount = keys.reduce((sum, chip) => sum + betAmountChip[chip], 0);
+        const offset = ChipParams.offset;
+        const offsetStack = ChipParams.offsetStack;
+        const chipStackChildren = chipStack.children;
 
         let delayTime = 0;
 
         chipStack.position = cc.v3(startPos.x, startPos.y, 0);
 
-        for (let i = 0; i < chipStack.children.length; i++) {
-            const offset = ChipParams.offset;
-            const offsetStack = ChipParams.offsetStack;
-            const currentChipStackPosition = (totalChipCount + i) * (offset + offsetStack);
-            const desPost = chipStack.children[i].parent.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v2(0, 0)));
+        chipStackChildren.forEach((chip, index) => {
+            const currentChipStackPosition = (totalChipCount + index) * (offset + offsetStack);
+            const desPost = chip.parent.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v2(0, 0)));
             const desPostX = desPost.x + lodash.random(-2, 2);
             const desPostY = desPost.y + currentChipStackPosition;
 
-            chipStack.children[i].scale = 0.5;
-            chipStack.children[i].opacity = 0;
+            chip.scale = 0.5;
+            chip.opacity = 0;
 
-            if (i === 0) {
-                chipStack.children[i].active = false;
+            if (index === 0) {
+                chip.active = false;
             }
 
-            delayTime = (i - 1) * 200;
+            delayTime = index * 200;
 
-            this.flyChipTimeout = setTimeout(() => {
-                chipStack?.children[i]?.runAction(
+            this.scheduleOnce(() => {
+                chip.runAction(
                     cc.sequence(
                         cc.spawn(cc.jumpTo(0.6, desPostX, desPostY, 200, 1), cc.scaleTo(0.6, 1), cc.fadeTo(0.1, 255)),
                         cc.delayTime(1)
                     )
                 );
-            }, (i - 1) * 200);
-        }
+            }, delayTime / 1000);
+        });
 
-        this.chipStackTimeout = setTimeout(() => {
+        this.scheduleOnce(() => {
             destNode?.destroyAllChildren();
             this.createChipStack(value, destNode, betChips, shadowFrame);
-        }, delayTime + timeMoving);
+        }, (delayTime + timeMoving) / 1000);
     }
     private playerWinningAffectAction(totalWin: number, totalBet: number, gameData: HoldemPokerGameData, main: HoldemPoker) {
         const isWin = totalWin > totalBet;
