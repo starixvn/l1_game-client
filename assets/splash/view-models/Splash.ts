@@ -3,8 +3,10 @@ import axios from "axios";
 import GameUtils from "../../common/GameUtils";
 import * as SessionManager from "../../common/auth/SessionManager";
 import { buildProxyUrl } from "../../common/helpers/UrlHelper";
+import { sentryLogger } from "../../common/logger";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import { AXIOS_FAILED_PREFIX } from "../../utils";
 
 @ccclass
 export default class Splash extends cc.Component {
@@ -85,7 +87,10 @@ export default class Splash extends cc.Component {
         const configuration = await axios
             .get(url)
             .then((response) => response.data)
-            .catch(() => ({}));
+            .catch(() => {
+                sentryLogger.log(`${AXIOS_FAILED_PREFIX} get ${url}`);
+                return {};
+            });
         return configuration.isMicrosite;
     }
 

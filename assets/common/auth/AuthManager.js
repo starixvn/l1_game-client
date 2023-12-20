@@ -4,6 +4,7 @@ import configs from "../../configs/Configs";
 import { appManager } from "../../managers/AppManager";
 import { uiManager } from "../../managers/GameUIManager";
 import { InternalEvents } from "../../managers/InternalEvents";
+import { AXIOS_FAILED_PREFIX } from "../../utils";
 import ChipConfig from "../bet-chips/view-models/ChipConfig";
 import { isSessionTimeoutError } from "../helpers/ErrorCodeHelper";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
@@ -31,11 +32,16 @@ export function getChipSetting() {
     };
     const path = configs.env === "" ? "/user" : `/${configs.env}/user`;
     const userServiceUrl = buildUrlWithPath(path);
-    axios.post(`${userServiceUrl}/settings`, request).then((response) => {
-        if (response.data.chips) {
-            ChipConfig.getInstance().setData(response.data.chips);
-        }
-    });
+    axios
+        .post(`${userServiceUrl}/settings`, request)
+        .then((response) => {
+            if (response.data.chips) {
+                ChipConfig.getInstance().setData(response.data.chips);
+            }
+        })
+        .catch((error) => {
+            throw new Error(`${AXIOS_FAILED_PREFIX} getChipSetting: ${error.message}`);
+        });
 }
 
 export function checkSSO(onSuccessFunc) {

@@ -4,6 +4,7 @@ import { BundleManager } from "bundle-management";
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lodash } from "../ClientModules";
+import SocketIOController from "../SocketIOController";
 import * as SessionManager from "../common/auth/SessionManager";
 import { getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
 import LobbyManager from "../lobby/main/view-models/LobbyManager";
@@ -12,7 +13,9 @@ import { uiManager } from "../managers/GameUIManager";
 import { InternalEvents } from "../managers/InternalEvents";
 import { StorageManager } from "../managers/StorageManager";
 import MiniPanel from "../mini-games-panel/view-models/MiniPanel";
-import SocketIOController from "../SocketIOController";
+import { AXIOS_FAILED_PREFIX } from "../utils";
+import { preloadAssets } from "./PreloadRemoteAsset";
+import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 import BetChips from "./bet-chips/view-models/BetChips";
 import { ChipParams } from "./bet-chips/view-models/ChipFlyConfig";
 import ChipStack from "./chip-stack/views/ChipStack";
@@ -21,8 +24,6 @@ import { buildMicrositeGameUrl } from "./helpers/UrlHelper";
 import { FormationHandler } from "./i18n/FormationHandler";
 import Loading from "./loading/view-models/Loading";
 import { sentryLogger } from "./logger";
-import { preloadAssets } from "./PreloadRemoteAsset";
-import SetStaticFontSizeLabel from "./SetStaticFontSizeLabel";
 import { userManager } from "./user/UserManager";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
@@ -360,6 +361,7 @@ export default class GameUtils {
                 return false;
             }
         } catch (error) {
+            sentryLogger.log(`${AXIOS_FAILED_PREFIX} healthcheck: ${url}`);
             return false;
         }
     }

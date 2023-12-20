@@ -3,7 +3,9 @@ import UserServiceClient from "sc-user-service-client";
 
 import * as sessionManager from "../../common/auth/SessionManager";
 import * as Configs from "../../configs/Configs";
+import { AXIOS_FAILED_PREFIX } from "../../utils";
 import { buildUrlWithPath } from "../helpers/UrlHelper";
+import { sentryLogger } from "../logger";
 import { updateUserBalance } from "./AuthManager";
 
 export default class UserService {
@@ -28,6 +30,7 @@ export default class UserService {
                 })
                 .catch((error) => {
                     cc.warn(error.message);
+                    sentryLogger.log(`${AXIOS_FAILED_PREFIX} getGameResultUrl ${gameId}: ${error.message}`);
                 });
         });
     }
@@ -41,6 +44,7 @@ export default class UserService {
             })
             .catch((error) => {
                 cc.warn(error.message);
+                sentryLogger.log(`${AXIOS_FAILED_PREFIX} getBalance: ${error.message}`);
             });
     }
 
