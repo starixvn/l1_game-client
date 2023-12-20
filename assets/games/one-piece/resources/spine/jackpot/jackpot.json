@@ -1,17 +1,17 @@
 {
-"skeleton": { "hash": "/QMjQncE6H+jsvLyWlkmSlPanX8", "spine": "3.8.99", "x": -119.99, "y": -49.29, "width": 243.03, "height": 127.5 },
+"skeleton": { "hash": "XMIYIxyLiqSvEvI4vJSSyxUVg9s", "spine": "3.8.99", "x": -119.99, "y": -49.29, "width": 242.4, "height": 95.06 },
 "bones": [
 	{ "name": "root", "x": 5.91, "y": -51.29 },
 	{ "name": "bone", "parent": "root", "x": -0.21, "y": -26.16 },
-	{ "name": "effect", "parent": "bone", "length": 26.27, "rotation": 84.14, "x": 2.01, "y": 99.83 },
-	{ "name": "anhsang3", "parent": "root", "x": -34.79, "y": 85.63 },
-	{ "name": "anhsang", "parent": "root", "x": 98.13, "y": 73.5 },
+	{ "name": "effect", "parent": "bone", "length": 26.27, "y": 103.18 },
+	{ "name": "anhsang3", "parent": "root", "x": -62.12, "y": 85.63 },
+	{ "name": "anhsang", "parent": "root", "x": 80.04, "y": 73.5 },
 	{ "name": "anhsang2", "parent": "root", "x": -106.9, "y": 49.76 },
-	{ "name": "effect2", "parent": "bone", "length": 26.27, "rotation": 90, "x": 2.01, "y": 99.83 }
+	{ "name": "effect2", "parent": "bone", "length": 26.27, "rotation": 90, "y": 81.62 }
 ],
 "slots": [
 	{ "name": "effect", "bone": "effect", "attachment": "effect" },
-	{ "name": "effect2", "bone": "effect2", "attachment": "effect3", "blend": "additive" },
+	{ "name": "effect2", "bone": "effect2", "attachment": "effect3" },
 	{ "name": "effect3", "bone": "effect2", "attachment": "effect3", "blend": "additive" },
 	{ "name": "board", "bone": "root", "attachment": "board" },
 	{ "name": "board2", "bone": "root", "attachment": "board", "blend": "additive" },
@@ -41,19 +41,19 @@
 				"anhsang3": { "x": 0.89, "y": -0.89, "width": 38, "height": 30 }
 			},
 			"board": {
-				"board": { "x": -4, "y": 45, "width": 224, "height": 86 }
+				"board": { "x": -4, "y": 45, "width": 241, "height": 86 }
 			},
 			"board2": {
-				"board": { "x": -4, "y": 45, "width": 224, "height": 86 }
+				"board": { "x": -4, "y": 45, "width": 241, "height": 86 }
 			},
 			"effect": {
-				"effect": { "x": 21.26, "y": 1.71, "rotation": -91.18, "width": 139, "height": 28 }
+				"effect": { "width": 139, "height": 28 }
 			},
 			"effect2": {
-				"effect3": { "x": 21.26, "y": 1.71, "rotation": -91.18, "width": 153, "height": 66 }
+				"effect3": { "rotation": -90, "width": 210, "height": 80 }
 			},
 			"effect3": {
-				"effect3": { "x": 21.26, "y": 1.71, "rotation": -91.18, "width": 153, "height": 66 }
+				"effect3": { "scaleX": 1.02, "scaleY": 1.04, "rotation": -90, "width": 210, "height": 80 }
 			}
 		}
 	}
@@ -167,18 +167,6 @@
 					{},
 					{ "time": 1.3333, "y": 5.19 },
 					{ "time": 2.6667 }
-				]
-			},
-			"effect2": {
-				"translate": [
-					{ "x": -2.98, "y": -29 },
-					{ "time": 1.3333, "x": -1.61, "y": -45.94 },
-					{ "time": 2.6667, "x": -2.98, "y": -29 }
-				],
-				"scale": [
-					{ "x": 1.8, "y": 1.8 },
-					{ "time": 1.3333, "x": 2.2, "y": 2 },
-					{ "time": 2.6667, "x": 1.8, "y": 1.8 }
 				]
 			}
 		}
