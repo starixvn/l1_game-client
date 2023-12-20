@@ -7,15 +7,16 @@ interface Storage {
 
 class LocalStorage implements Storage {
     remove(name: string) {
-        localStorage.removeItem(name);
+        localStorage?.removeItem(name);
     }
 
     get(name: string) {
-        const storage = localStorage.getItem(name);
-        if (storage === "") {
-            return null;
-        }
+        let storage;
         try {
+            storage = localStorage.getItem(name);
+            if (storage === "") {
+                return null;
+            }
             return storage ? JSON.parse(storage) : null;
         } catch (error) {
             console.warn(`LocalStorage ${name} can not parse`);
@@ -24,7 +25,7 @@ class LocalStorage implements Storage {
     }
 
     set(name: string, value: any) {
-        localStorage.setItem(name, JSON.stringify(value));
+        localStorage?.setItem(name, JSON.stringify(value));
     }
 
     isAvailable() {
