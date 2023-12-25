@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "9xAYHkdRI7VdLpWX0iELKqp+Vwo", "spine": "3.8.99", "x": -98, "y": -214.18, "width": 196.06, "height": 429.5 },
+"skeleton": { "hash": "kruIS1WMo1EP3qBH3R7vBfxUqi4", "spine": "3.8.99", "x": -98, "y": -214.18, "width": 196.06, "height": 429.5 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "icon-game", "parent": "root" },
@@ -451,6 +451,10 @@
 				]
 			},
 			"main2": {
+				"rotate": [
+					{ "time": 1.4667 },
+					{ "time": 3.3667, "angle": -5.78 }
+				],
 				"translate": [
 					{ "time": 1.8, "curve": 0.25, "c3": 0.75 },
 					{ "time": 2, "x": 7.43, "y": -22.29, "curve": 0.25, "c3": 0.75 },
