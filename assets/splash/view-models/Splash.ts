@@ -53,7 +53,7 @@ export default class Splash extends cc.Component {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("gameId")) {
             const gameId = +urlParams.get("gameId");
-            SessionManager.setClearUserSettingMicroSite(true);
+            SessionManager.clearStorageMicroSite(true);
             SessionManager.storeMicrositeGameId(gameId);
         }
         const iframe = cc.instantiate(this.prfMicrositeGame);

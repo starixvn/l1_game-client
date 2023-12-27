@@ -100,7 +100,7 @@ export default class BaseMicrositeGame extends cc.Component {
         }
         if (data.splashEnabled) {
             this.handleUserGesturePage();
-            this.handleUserSetting();
+            this.handleClearStorage();
             const className = "microsite-iframe";
             !this.webview?._impl?._iframe?.classList?.contains(className) && this.webview?._impl?._iframe?.classList?.add(className);
 
@@ -200,11 +200,11 @@ export default class BaseMicrositeGame extends cc.Component {
         }
     }
 
-    private async handleUserSetting() {
-        const isClearUserSetting = SessionManager.getClearUserSettingMicroSite();
-        if (isClearUserSetting) {
-            SessionManager.setClearUserSettingMicroSite(false);
-            this.postMessageToMicrosite({ isClearUserSetting });
+    private async handleClearStorage() {
+        const isClearStorage = SessionManager.getClearStorageMicroSite();
+        if (isClearStorage) {
+            SessionManager.clearStorageMicroSite(false);
+            this.postMessageToMicrosite({ isClearStorage });
         }
     }
 

@@ -257,7 +257,7 @@ export default class LobbyMenu extends GameIconMenu {
         GameUtils.clearGameSetting(id);
         GameUtils.unCacheAndHideGameLoading(uiManager.getCurrentGameId());
         uiManager.setCurrentGameId(id);
-        SessionManager.setClearUserSettingMicroSite(true);
+        SessionManager.clearStorageMicroSite(true);
         const skeletonComp = node.getComponent(SkeletonIcon);
         uiManager.cacheIconLoading(id, skeletonComp.gameLoading);
         GameUtils.openGame(id, this.miniPanel);
