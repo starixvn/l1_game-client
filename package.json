@@ -10,7 +10,8 @@
         "format": "prettier --write ./assets",
         "test-coverage": "jest --collect-coverage",
         "build": "javascript-obfuscator ./build --output ./build --exclude cocos2d-js-min",
-        "obfuscator-config-file": "node ./configs/config-obfuscator.js"
+        "obfuscator-config-file": "node ./configs/config-obfuscator.js",
+        "generate-tolgee-data": "ts-node ./tolgee-generator/index.ts"
     },
     "author": "",
     "license": "ISC",

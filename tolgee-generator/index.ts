@@ -1,6 +1,12 @@
 import { DevTools, Tolgee } from "@tolgee/web";
 import * as fs from "fs";
 
+const gameId = 75;
+interface Config {
+    namespaces: string[];
+    gameNameFolder: string;
+}
+
 function writeFile(fileName: string, content: string, extension = "ts") {
     fs.writeFileSync(`${fileName}.${extension}`, content, {
         encoding: "utf8",
@@ -8,9 +14,23 @@ function writeFile(fileName: string, content: string, extension = "ts") {
     });
 }
 
-const languageFolder = "./src/assets/resources/i18n/";
+const getConfig = (): Config => {
+    const content = fs.readFileSync("./tolgee-generator/games-translation.json", {
+        encoding: "utf8",
+        flag: "r"
+    });
+    const gamesTranslation = JSON.parse(content);
+    const config = gamesTranslation.Configs.find((element) => element.id == gameId);
+    return { gameNameFolder: config.gameNameFolder, namespaces: config.namespaces };
+};
+
+const configFromFile = getConfig();
+
+const gameNameFolder = configFromFile.gameNameFolder;
+const namespaces = ["Common", ...configFromFile.namespaces];
+const pathToGame = `./assets/games/${gameNameFolder}`;
+const languageFolder = `${pathToGame}/i18n/texts/${gameNameFolder}-`;
 const languageCodes = ["en", "id", "th", "vi", "zh_cn", "zh_tw"];
-const namespaces = ["Common", "DragonTigerFight"];
 const tg = Tolgee().use(DevTools()).init({
     defaultLanguage: "en",
     availableLanguages: languageCodes,
@@ -34,7 +54,7 @@ tg.on("initialLoad", async () => {
 
     const remoteNames: {
         [propertyName: string]: {
-            [languageId: string]: string;
+            [gameId: string]: string;
         };
     } = {
         lobbyNames: {},
@@ -54,40 +74,26 @@ tg.on("initialLoad", async () => {
                         languages[languageId][ns][key] = value as string;
 
                         if (key == "game_name") {
-                            remoteNames.gameNames[languageId] = value as string;
+                            remoteNames.gameNames[gameId] = value as string;
                         }
-
                         if (key == "game_icon_name") {
-                            remoteNames.lobbyNames[languageId] = value as string;
+                            remoteNames.lobbyNames[gameId] = value as string;
                         }
                     });
                 }
             });
         });
 
-        const languageScript = `const win = window as any;
-export const languages = {0};
+        languages[languageId] = { ...languages[languageId], ...remoteNames };
 
-if (!win.languages) {
-    win.languages = {};
-}
-                          
-win.languages.${languageId} = languages;`;
+        const languageScript = `import { reloadLanguageData } from "../../../../common/i18n/CustomLanguageData";
+
+export const phrases = {0};
+
+reloadLanguageData("${languageId}", phrases);`;
 
         writeFile(languageFolder + languageId, languageScript.replace("{0}", JSON.stringify(languages[languageId], null, 4)));
     }
-
-    writeFile(
-        languageFolder + "index",
-        `export * as en from "./en";
-    export * as id from "./id";
-    export * as th from "./th";
-    export * as vi from "./vi";
-    export * as zh_cn from "./zh_cn";
-    export * as zh_tw from "./zh_tw";`
-    );
-
-    writeFile("./src/remote/localization", JSON.stringify(remoteNames, null, 4), "json");
 
     console.log("Generated done!");
 });
