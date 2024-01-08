@@ -1,7 +1,7 @@
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DealHandler, { DrawCardAction } from "../../../blackjack/view-models/handlers/DealHandler";
 
-export default class PontoonDealHandler extends DealHandler {
+export default class ChineseBlackjackDealHandler extends DealHandler {
     handle(data: any) {
         super.handle(data);
         if (data.pontoonNotice) {

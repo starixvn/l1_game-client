@@ -3,9 +3,13 @@ import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJack from "../../blackjack/view-models/BlackJack";
+import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
+import ChineseBlackjackDealHandler from "./handlers/ChineseBlackjackDealHandler";
+import ChineseBlackjackFinishHandler from "./handlers/ChineseBlackjackFinishHandler";
+import ChineseBlackjackInGameHandler from "./handlers/ChineseBlackjackInGameHandler";
 const { ccclass, property } = cc._decorator;
 
-export const ChineseBlackjackId = 72;
+export const ChineseBlackjackId = 77;
 
 @ccclass
 export default class ChineseBlackjack extends BlackJack {
@@ -32,7 +36,10 @@ export default class ChineseBlackjack extends BlackJack {
     }
 
     dealerOpenFirstCard(card: CardModel, duration: number) {
-        this.dealerOpenCard(card, duration, 0);
+        this.dealHander = new ChineseBlackjackDealHandler(this);
+        this.ingameActionHander = new IngameActionHandler(this);
+        this.finishHandler = new ChineseBlackjackFinishHandler(this);
+        this.ingameHander = new ChineseBlackjackInGameHandler(this);
     }
 
     updateOdds() {

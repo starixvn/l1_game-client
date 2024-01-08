@@ -1,9 +1,9 @@
 import GameUtils from "../../../../common/GameUtils";
 import BlackJackFinishHandler from "../../../blackjack/view-models/handlers/BlackJackFinishHandler";
 
-export default class PontoonFinishHandler extends BlackJackFinishHandler {
+export default class ChineseBlackjackFinishHandler extends BlackJackFinishHandler {
     showLogNotReceiveData() {
-        console.error("Ponton data finish did not receive");
+        console.error("ChineseBlackjack data finish did not receive");
     }
 
     async finishBlackJackCase(finish) {
