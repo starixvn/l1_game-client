@@ -14,7 +14,7 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
     convertResult(resultLabel: cc.Label, result: number, array: any) {
         if (resultLabel) {
             if (result > 21) {
-                resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary`);
+                resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_bust`);
             } else if (result === 21 && array.length === 2) {
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_hand_ranking_ban-ban`);
             } else if (result <= 21 && array.length === 5) {

@@ -8,7 +8,7 @@ export const phrases = {
         "deal_button": "Chia Bài",
         "dealer_stand_at_17": "Nhà Cái Phải Dừng Rút Bài Từ 17 Điểm",
         "five-cards_pays": "NGŨ LINH 1 ĂN %{odds}",
-        "glossary": "Quắc",
+        "glossary_bust": "Quắc",
         "glossary_game_name": "Xì Dách",
         "glossary_hand_ranking_ban-ban": "Xì Bàng",
         "glossary_hand_ranking_ban-luck": "Xì Dách",

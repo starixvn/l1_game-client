@@ -27,7 +27,7 @@ const getConfig = (): Config => {
 const configFromFile = getConfig();
 
 const gameNameFolder = configFromFile.gameNameFolder;
-const namespaces = ["Common", ...configFromFile.namespaces];
+const namespaces = [...configFromFile.namespaces];
 const pathToGame = `./assets/games/${gameNameFolder}`;
 const languageFolder = `${pathToGame}/i18n/texts/${gameNameFolder}-`;
 const languageCodes = ["en", "id", "th", "vi", "zh_cn", "zh_tw"];

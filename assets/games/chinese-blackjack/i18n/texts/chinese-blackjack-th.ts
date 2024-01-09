@@ -8,7 +8,7 @@ export const phrases = {
         "deal_button": "ข้อเสนอ",
         "dealer_stand_at_17": "เจ้ามือต้องมีแต้ม 17 หรือเสมอที่ 16 แต้ม",
         "five-cards_pays": "ไพ่ 5 ใบ จ่าย %{odds} ถึง 1",
-        "glossary": "ระเบิด",
+        "glossary_bust": "ระเบิด",
         "glossary_game_name": "แบล็คแจ็คจีน",
         "glossary_hand_ranking_ban-ban": "Ban-ban",
         "glossary_hand_ranking_ban-luck": "Ban-luck",

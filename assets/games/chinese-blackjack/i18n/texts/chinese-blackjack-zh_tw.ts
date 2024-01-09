@@ -8,7 +8,7 @@ export const phrases = {
         "deal_button": "發牌",
         "dealer_stand_at_17": "莊家必須站在 17 點並抽牌到 16 點",
         "five-cards_pays": "五張牌 付%{odds} 到 1",
-        "glossary": "爆牌",
+        "glossary_bust": "爆牌",
         "glossary_game_name": "中國二十一點",
         "glossary_hand_ranking_ban-ban": "Ban-ban",
         "glossary_hand_ranking_ban-luck": "Ban-luck",
