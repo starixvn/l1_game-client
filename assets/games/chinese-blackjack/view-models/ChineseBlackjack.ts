@@ -2,7 +2,7 @@ import GameUtils from "../../../common/GameUtils";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
-import BlackJack from "../../blackjack/view-models/BlackJack";
+import BlackJack, { BlackJackActionType } from "../../blackjack/view-models/BlackJack";
 import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
 import ChineseBlackjackDealHandler from "./handlers/ChineseBlackjackDealHandler";
 import ChineseBlackjackFinishHandler from "./handlers/ChineseBlackjackFinishHandler";
@@ -35,15 +35,20 @@ export default class ChineseBlackjack extends BlackJack {
         return ChipConfig.getInstance();
     }
 
-    dealerOpenFirstCard(card: CardModel, duration: number) {
+    setupSpecialHandler() {
         this.dealHander = new ChineseBlackjackDealHandler(this);
         this.ingameActionHander = new IngameActionHandler(this);
         this.finishHandler = new ChineseBlackjackFinishHandler(this);
         this.ingameHander = new ChineseBlackjackInGameHandler(this);
     }
 
+    dealerOpenFirstCard(card: CardModel, duration: number) {
+        this.dealerOpenCard(card, duration, 0);
+    }
+
     updateOdds() {
-        const ChineseBlackjackOdds = `${GameUtils.roundFixed(+this.gameConfigs.odds.ChineseBlackjack - 1, 2)}`;
+        console.log("this.gameConfigs.odds", this.gameConfigs.odds["ban-ban"]);
+        const ChineseBlackjackOdds = `${GameUtils.roundFixed(+this.gameConfigs.odds.banBan - 1, 2)}`;
         this.blackjackOddLabel.string = GameUtils.getText("ChineseBlackjack.ban-ban_pays", {
             odds: ChineseBlackjackOdds
         }).toUpperCase();
@@ -52,5 +57,25 @@ export default class ChineseBlackjack extends BlackJack {
         this.fiveCardsOddsLabel.string = GameUtils.getText("ChineseBlackjack.five-cards_pays", {
             odds: fiveCardsOdds
         }).toUpperCase();
+    }
+
+    switchToNextHand() {
+        const sortIndices = [0, 1, 2];
+        const places = sortIndices.map((i) => this.handPlaces[i]);
+        const nextHand = places.find((hand) => hand.isActive && !hand.isStand);
+
+        if (nextHand) {
+            if (this.activeHand !== nextHand) {
+                this.activeHand = nextHand;
+            }
+
+            nextHand.selected = true;
+            this.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
+        } else {
+            this.switchToDealer();
+            this.inRoundActionVisibility(false);
+        }
+
+        this.updateAvailableActions();
     }
 }

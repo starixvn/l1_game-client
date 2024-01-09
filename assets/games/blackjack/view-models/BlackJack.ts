@@ -1,39 +1,39 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
 import { lazyInject } from "../../../Application";
+import { lodash } from "../../../ClientModules";
+import GameUtils from "../../../common/GameUtils";
 import AnimatedTime from "../../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../../common/audio/AudioManager";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
+import { ChipParams, chipFlyConfig } from "../../../common/bet-chips/view-models/ChipFlyConfig";
+import ChipView from "../../../common/bet-chips/view-models/ChipView";
+import ChipViewNew from "../../../common/bet-chips/view-models/ChipViewNew";
 import ChipStack from "../../../common/chip-stack/views/ChipStack";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
-import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
-import NewCard, { CardAnimation } from "../../../common/new-card/view-models/NewCard";
+import NewCard, { CardAnimation, CardModel } from "../../../common/new-card/view-models/NewCard";
 import { userManager } from "../../../common/user/UserManager";
 import { GameState } from "../../_base/GameState";
+import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import DataHandler from "../../_base/handlers/DataHandler";
 import GameBaseConfigsHandler from "../../_base/handlers/GameBaseConfigsHandler";
 import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
 import GameBaseVoidTicketDataHandler from "../../_base/handlers/GameBaseVoidTicketHandler";
-import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
 import BlackJackHistory from "./BlackJackHistory";
 import BlackJackUtils from "./BlackJackUtils";
+import HandPlace from "./HandPlace";
 import BlackJackBetHandler from "./handlers/BlackJackBetHandler";
 import BlackJackFinishHandler from "./handlers/BlackJackFinishHandler";
 import BlackJackIngameHandler from "./handlers/BlackJackIngameHandler";
 import DealHandler from "./handlers/DealHandler";
 import IngameActionHandler from "./handlers/IngameActionHandler";
-import HandPlace from "./HandPlace";
-import { ChipParams, chipFlyConfig } from "../../../common/bet-chips/view-models/ChipFlyConfig";
-import ChipViewNew from "../../../common/bet-chips/view-models/ChipViewNew";
-import { lodash } from "../../../ClientModules";
-import ChipView from "../../../common/bet-chips/view-models/ChipView";
 
 const { ccclass, property } = cc._decorator;
 
@@ -174,14 +174,18 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.hideAllButtons();
         this.totalBetLabel.string = "";
         this.setGameRoundStatus(BlackJackActionType.START_ROUND);
-        this.splitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick();
-        this.doubleButton.getComponent(NewButton).callback.selected = () => this.onDoubleClick();
-        this.standButton.getComponent(NewButton).callback.selected = () => this.onStandClick();
-        this.hitButton.getComponent(NewButton).callback.selected = () => this.onHitClick();
-        this.newBetButton.getComponent(NewButton).callback.selected = () => this.onNewBetClick();
-        this.rebetAndDealButton.getComponent(NewButton).callback.selected = () => this.onRebetClick();
-        this.clearButton.getComponent(NewButton).callback.selected = () => this.onClearClick();
-        this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick();
+        this.setupButtonCallbacks();
+    }
+
+    setupButtonCallbacks() {
+        this.splitButton && (this.splitButton.getComponent(NewButton).callback.selected = () => this.onSplitClick());
+        this.doubleButton && (this.doubleButton.getComponent(NewButton).callback.selected = () => this.onDoubleClick());
+        this.standButton && (this.standButton.getComponent(NewButton).callback.selected = () => this.onStandClick());
+        this.hitButton && (this.hitButton.getComponent(NewButton).callback.selected = () => this.onHitClick());
+        this.newBetButton && (this.newBetButton.getComponent(NewButton).callback.selected = () => this.onNewBetClick());
+        this.rebetAndDealButton && (this.rebetAndDealButton.getComponent(NewButton).callback.selected = () => this.onRebetClick());
+        this.clearButton && (this.clearButton.getComponent(NewButton).callback.selected = () => this.onClearClick());
+        this.dealButton && (this.dealButton.getComponent(NewButton).callback.selected = () => this.onDealClick());
     }
 
     onDestroy() {
@@ -283,8 +287,8 @@ export default class BlackJack extends SocketIOTableGameBase {
                 if (!this.priorityHands.includes(index)) {
                     this.priorityHands.push(index);
                 }
-                this.dealButton.getComponent(FadeEffectButton).setActive();
-                this.clearButton.getComponent(FadeEffectButton).setActive();
+                this.dealButton?.getComponent(FadeEffectButton).setActive();
+                this.clearButton?.getComponent(FadeEffectButton).setActive();
                 handPlace.addBetAmount(this.currentBet);
                 const destNode = this.chipContainers[index];
                 const startNode = this.betChips.getChipNode(this.currentBet);
@@ -383,8 +387,8 @@ export default class BlackJack extends SocketIOTableGameBase {
 
     checkExistChipOnTable() {
         const existChip = this.handPlaces.find((place) => place.getBetAmount() > 0) !== undefined;
-        this.dealButton.getComponent(FadeEffectButton).setActive(existChip);
-        this.clearButton.getComponent(FadeEffectButton).setActive(existChip);
+        this.dealButton?.getComponent(FadeEffectButton).setActive(existChip);
+        this.clearButton?.getComponent(FadeEffectButton).setActive(existChip);
         this.updateTotalBetLabel();
     }
 
@@ -747,14 +751,14 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     hideAllButtons() {
-        this.splitButton.getComponent(FadeEffectButton).setActive(false);
-        this.doubleButton.getComponent(FadeEffectButton).setActive(false);
-        this.standButton.getComponent(FadeEffectButton).setActive(false);
-        this.hitButton.getComponent(FadeEffectButton).setActive(false);
-        this.newBetButton.getComponent(FadeEffectButton).setActive(false);
-        this.rebetAndDealButton.getComponent(FadeEffectButton).setActive(false);
-        this.clearButton.getComponent(FadeEffectButton).setActive(false);
-        this.dealButton.getComponent(FadeEffectButton).setActive(false);
+        this.splitButton?.getComponent(FadeEffectButton).setActive(false);
+        this.doubleButton?.getComponent(FadeEffectButton).setActive(false);
+        this.standButton?.getComponent(FadeEffectButton).setActive(false);
+        this.hitButton?.getComponent(FadeEffectButton).setActive(false);
+        this.newBetButton?.getComponent(FadeEffectButton).setActive(false);
+        this.rebetAndDealButton?.getComponent(FadeEffectButton).setActive(false);
+        this.clearButton?.getComponent(FadeEffectButton).setActive(false);
+        this.dealButton?.getComponent(FadeEffectButton).setActive(false);
     }
 
     newGame() {
@@ -779,13 +783,13 @@ export default class BlackJack extends SocketIOTableGameBase {
             return;
         }
 
-        this.hitButton.getComponent(FadeEffectButton).setDisabled(this.activeHand.isStand);
-        this.standButton.getComponent(FadeEffectButton).setDisabled(this.activeHand.isStand);
+        this.hitButton?.getComponent(FadeEffectButton).setDisabled(this.activeHand.isStand);
+        this.standButton?.getComponent(FadeEffectButton).setDisabled(this.activeHand.isStand);
         this.doubleButton
-            .getComponent(FadeEffectButton)
+            ?.getComponent(FadeEffectButton)
             .setDisabled((!this.activeHand.canDouble && !this.activeHand.isStand) || this.activeHand.isStand);
         this.splitButton
-            .getComponent(FadeEffectButton)
+            ?.getComponent(FadeEffectButton)
             .setDisabled((!this.activeHand.isStand && !this.activeHand.canSplit) || this.activeHand.isStand);
     }
 
@@ -823,17 +827,17 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     inRoundActionVisibility(status: boolean) {
-        this.hitButton.getComponent(FadeEffectButton).setActive(status);
-        this.standButton.getComponent(FadeEffectButton).setActive(status);
-        this.doubleButton.getComponent(FadeEffectButton).setActive(status);
-        this.splitButton.getComponent(FadeEffectButton).setActive(status);
+        this.hitButton?.getComponent(FadeEffectButton).setActive(status);
+        this.standButton?.getComponent(FadeEffectButton).setActive(status);
+        this.doubleButton?.getComponent(FadeEffectButton).setActive(status);
+        this.splitButton?.getComponent(FadeEffectButton).setActive(status);
     }
 
     disabledInRoundAction(status: boolean) {
-        this.hitButton.getComponent(FadeEffectButton).setDisabled(status);
-        this.standButton.getComponent(FadeEffectButton).setDisabled(status);
-        this.doubleButton.getComponent(FadeEffectButton).setDisabled(status);
-        this.splitButton.getComponent(FadeEffectButton).setDisabled(status);
+        this.hitButton?.getComponent(FadeEffectButton).setDisabled(status);
+        this.standButton?.getComponent(FadeEffectButton).setDisabled(status);
+        this.doubleButton?.getComponent(FadeEffectButton).setDisabled(status);
+        this.splitButton?.getComponent(FadeEffectButton).setDisabled(status);
     }
 
     finishActionVisibility(status: boolean) {

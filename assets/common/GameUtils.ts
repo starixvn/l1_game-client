@@ -631,9 +631,9 @@ export default class GameUtils {
         if (gameConfiguration.isMicrosite) {
             return this.getRemoteDisplayGameName(gameId, breakline);
         }
-        const lobbyGameNameKey = `lobbyNames.${gameId}`;
-        const generalGameNameKey = `generalGameNames.${gameId}`;
-        const gameNameKey = `gameNames.${gameId}`;
+        const lobbyGameNameKey = `lobbyNames.${+gameId}`;
+        const generalGameNameKey = `generalGameNames.${+gameId}`;
+        const gameNameKey = `gameNames.${+gameId}`;
         const list = [generalGameNameKey, gameNameKey];
         if (breakline) {
             list.unshift(lobbyGameNameKey);
