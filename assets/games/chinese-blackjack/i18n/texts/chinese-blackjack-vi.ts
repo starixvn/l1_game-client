@@ -8,8 +8,9 @@ export const phrases = {
         "deal_button": "Chia Bài",
         "dealer_stand_at_17": "Nhà Cái Phải Dừng Rút Bài Từ 17 Điểm",
         "five-cards_pays": "NGŨ LINH 1 ĂN %{odds}",
+        "game_icon_name": "Xì Dách",
+        "game_name": "Xì Dách",
         "glossary_bust": "Quắc",
-        "glossary_game_name": "Xì Dách",
         "glossary_hand_ranking_ban-ban": "Xì Bàng",
         "glossary_hand_ranking_ban-luck": "Xì Dách",
         "hand_ranking_five-card_trick": "Ngũ Linh",
@@ -20,8 +21,12 @@ export const phrases = {
         "rebet_button": "Cược Lại",
         "stand_button": "Dừng"
     },
-    "lobbyNames": {},
-    "gameNames": {}
+    "lobbyNames": {
+        "77": "Xì Dách"
+    },
+    "gameNames": {
+        "77": "Xì Dách"
+    }
 };
 
 reloadLanguageData("vi", phrases);
