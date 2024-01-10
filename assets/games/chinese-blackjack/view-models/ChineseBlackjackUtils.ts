@@ -15,4 +15,8 @@ export default class ChineseBlackjackUtils {
     public static isBanBan(cards: CardModel[]): boolean {
         return cards.length === 2 && cards.every((card) => card.rank === "A");
     }
+
+    public static hasStandAction(actions: string[]) {
+        return actions.includes("stand");
+    }
 }

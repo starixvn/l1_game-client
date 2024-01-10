@@ -38,30 +38,30 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
             return;
         }
 
-        const { time, betwin, id, bet, cards, total, result, settlementResult } = log;
+        const { time, betwin, id, bet, cards, total, result, settlementResult, actions } = log;
         this.time.string = getStringDateByTime(time);
         this.time.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.handId.string = id.toString();
         this.handId.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.bet.string = numberWithCommas(bet);
         this.win.string = numberWithCommas(betwin, 2);
-        this.setUICardsDealer(result, settlementResult);
-        this.setUICardsPlayer(cards, total);
+        this.setUICardsDealer(result, settlementResult, actions);
+        this.setUICardsPlayer(cards, total, actions);
         this.playerResult.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.setBackground(index);
     }
 
-    setUICardsDealer(result: CardModel[], settlementResult: number) {
+    setUICardsDealer(result: CardModel[], settlementResult: number, actions: string[]) {
         this.initCards(result, this.dealerCards);
-        this.convertResult(this.dealerResult, settlementResult, result);
+        this.setResult(this.dealerResult, settlementResult, result, actions);
     }
 
-    setUICardsPlayer(cards: CardModel[], total: number) {
+    setUICardsPlayer(cards: CardModel[], total: number, actions: string[]) {
         this.initCards(cards, this.playerCards);
-        this.convertResult(this.playerResult, total, cards);
+        this.setResult(this.playerResult, total, cards, actions);
     }
 
-    convertResult(resultLabel: cc.Label, totalNumberCard: number, cards: CardModel[]) {
+    setResult(resultLabel: cc.Label, totalNumberCard: number, cards: CardModel[], actions: string[]) {
         if (!resultLabel) return;
 
         switch (true) {
@@ -77,7 +77,7 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
             case totalNumberCard <= 21 && cards.length === 5:
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.hand_ranking_five-card_trick`);
                 break;
-            case totalNumberCard < 16:
+            case totalNumberCard < 16 && ChineseBlackjackUtils.hasStandAction(actions):
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.unqualified`);
                 break;
             default:

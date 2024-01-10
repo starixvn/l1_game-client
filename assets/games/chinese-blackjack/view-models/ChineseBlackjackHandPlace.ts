@@ -34,7 +34,7 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
             if (this.data.isStand) {
                 const scoreValue = Math.max(...this.data.total);
                 this.scoreValue.string = scoreValue.toString();
-                this.showExtraInfoHandPlace(this.data.cards, scoreValue);
+                this.showExtraInfo(this.data.cards, scoreValue, this.data.actions);
             } else {
                 this.scoreValue.string = this.data.total.join(" / ");
             }
@@ -45,13 +45,13 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
         }
     }
 
-    showExtraInfoHandPlace(cards: CardModel[], total: number) {
+    showExtraInfo(cards: CardModel[], total: number, actions: string[]) {
         if (total > 21) {
             this.handleExtraInfoDisplay(this?.burstNode);
             return;
         }
 
-        if (total < 16) {
+        if (total < 16 && ChineseBlackjackUtils.hasStandAction(actions)) {
             this.handleExtraInfoDisplay(this?.unqualifiedNode);
             return;
         }
