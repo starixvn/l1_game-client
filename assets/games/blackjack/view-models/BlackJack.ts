@@ -822,8 +822,8 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     startRoundActionVisibility(status: boolean) {
-        this.dealButton.getComponent(FadeEffectButton).setActive(status);
-        this.clearButton.getComponent(FadeEffectButton).setActive(status);
+        this.dealButton?.getComponent(FadeEffectButton).setActive(status);
+        this.clearButton?.getComponent(FadeEffectButton).setActive(status);
     }
 
     inRoundActionVisibility(status: boolean) {
@@ -841,8 +841,8 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     finishActionVisibility(status: boolean) {
-        this.rebetAndDealButton.getComponent(FadeEffectButton).setActive(status);
-        this.newBetButton.getComponent(FadeEffectButton).setActive(status);
+        this.rebetAndDealButton?.getComponent(FadeEffectButton).setActive(status);
+        this.newBetButton?.getComponent(FadeEffectButton).setActive(status);
     }
 
     updateDisplayForRemoteConfig() {

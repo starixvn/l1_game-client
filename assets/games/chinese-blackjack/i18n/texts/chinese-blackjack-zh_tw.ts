@@ -19,7 +19,8 @@ export const phrases = {
         "new_bet_button": "新賭注",
         "place_bet_text": "下注",
         "rebet_button": "再投注",
-        "stand_button": "停牌"
+        "stand_button": "停牌",
+        "unqualified": "不合格"
     },
     "lobbyNames": {
         "77": "中國二十一點"

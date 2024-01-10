@@ -1,8 +1,30 @@
 import GameUtils from "../../../common/GameUtils";
+import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
+import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackHistoryItem from "../../blackjack/view-models/BlackJackHistoryItem";
+import ChineseBlackjackUtils from "./ChineseBlackjackUtils";
 
 const { ccclass, property } = cc._decorator;
 
+export interface IDataLog {
+    id: number;
+    pos: number;
+    actions: string[];
+    cards: CardModel[];
+    total: number;
+    softPoints: [];
+    bet: number;
+    betwin: number;
+    freeBet: boolean;
+    roundId: number;
+    name: string;
+    time: string;
+    rate: number;
+    result: CardModel[];
+    settlementResult: number;
+    ended: boolean;
+}
 @ccclass
 export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
     @property({ type: cc.Node, override: true, visible: false })
@@ -11,17 +33,56 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
     @property({ type: cc.Label, override: true, visible: false })
     round: cc.Label = null;
 
-    convertResult(resultLabel: cc.Label, result: number, array: any) {
-        if (resultLabel) {
-            if (result > 21) {
+    setData(log: IDataLog, index: number) {
+        if (!log) {
+            return;
+        }
+
+        const { time, betwin, id, bet, cards, total, result, settlementResult } = log;
+        this.time.string = getStringDateByTime(time);
+        this.time.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+        this.handId.string = id.toString();
+        this.handId.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+        this.bet.string = numberWithCommas(bet);
+        this.win.string = numberWithCommas(betwin, 2);
+        this.setUICardsDealer(result, settlementResult);
+        this.setUICardsPlayer(cards, total);
+        this.playerResult.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
+        this.setBackground(index);
+    }
+
+    setUICardsDealer(result: CardModel[], settlementResult: number) {
+        this.initCards(result, this.dealerCards);
+        this.convertResult(this.dealerResult, settlementResult, result);
+    }
+
+    setUICardsPlayer(cards: CardModel[], total: number) {
+        this.initCards(cards, this.playerCards);
+        this.convertResult(this.playerResult, total, cards);
+    }
+
+    convertResult(resultLabel: cc.Label, totalNumberCard: number, cards: CardModel[]) {
+        if (!resultLabel) return;
+
+        switch (true) {
+            case totalNumberCard > 21:
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_bust`);
-            } else if (result === 21 && array.length === 2) {
+                break;
+            case ChineseBlackjackUtils.isBanBan(cards):
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_hand_ranking_ban-ban`);
-            } else if (result <= 21 && array.length === 5) {
+                break;
+            case ChineseBlackjackUtils.isBanLuck(cards):
+                resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_hand_ranking_ban-luck`);
+                break;
+            case totalNumberCard <= 21 && cards.length === 5:
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.hand_ranking_five-card_trick`);
-            } else {
-                resultLabel.string = result.toString();
-            }
+                break;
+            case totalNumberCard < 16:
+                resultLabel.string = GameUtils.getText(`ChineseBlackjack.unqualified`);
+                break;
+            default:
+                resultLabel.string = totalNumberCard.toString();
+                break;
         }
     }
 }

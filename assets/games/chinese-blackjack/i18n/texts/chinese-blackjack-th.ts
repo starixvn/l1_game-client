@@ -19,7 +19,8 @@ export const phrases = {
         "new_bet_button": "เดิมพันใหม่",
         "place_bet_text": "วางเดิมพัน",
         "rebet_button": "เงินคืน",
-        "stand_button": "ยืน"
+        "stand_button": "ยืน",
+        "unqualified": "ไม่เข้าเงื่อนไข"
     },
     "lobbyNames": {
         "77": "แบล็คแจ็คจีน"

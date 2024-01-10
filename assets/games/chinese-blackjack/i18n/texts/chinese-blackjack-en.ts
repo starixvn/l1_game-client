@@ -19,7 +19,8 @@ export const phrases = {
         "new_bet_button": "NEW BET",
         "place_bet_text": "PLACE BET",
         "rebet_button": "Rebet",
-        "stand_button": "STAND"
+        "stand_button": "STAND",
+        "unqualified": "Unqualified"
     },
     "lobbyNames": {
         "77": "Chinese Blackjack"

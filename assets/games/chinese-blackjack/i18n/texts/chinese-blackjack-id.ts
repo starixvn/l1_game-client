@@ -19,7 +19,8 @@ export const phrases = {
         "new_bet_button": "Taruhan Baru",
         "place_bet_text": "Pasang Taruhan",
         "rebet_button": "Rebate",
-        "stand_button": "Tahan"
+        "stand_button": "Tahan",
+        "unqualified": "Tidak Layak"
     },
     "lobbyNames": {
         "77": "Chinese Blackjack"

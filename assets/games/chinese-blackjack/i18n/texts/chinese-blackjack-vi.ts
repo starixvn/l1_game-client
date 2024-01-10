@@ -19,7 +19,8 @@ export const phrases = {
         "new_bet_button": "Ván Mới",
         "place_bet_text": "ĐẶT CƯỢC",
         "rebet_button": "Cược Lại",
-        "stand_button": "Dừng"
+        "stand_button": "Dừng",
+        "unqualified": "Non"
     },
     "lobbyNames": {
         "77": "Xì Dách"
