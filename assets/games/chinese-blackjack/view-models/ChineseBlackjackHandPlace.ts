@@ -1,4 +1,5 @@
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
+import BlackJackUtils from "../../blackjack/view-models/BlackJackUtils";
 import HandPlace from "../../blackjack/view-models/HandPlace";
 import ChineseBlackjackUtils from "./ChineseBlackjackUtils";
 
@@ -12,29 +13,61 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
     @property(cc.Node)
     banBanNode: cc.Node = null;
 
+    @property(cc.Node)
+    unqualifiedNode: cc.Node = null;
+
     resetView() {
         super.resetView();
         this.fiveCardsNode.active = false;
+        this.banBanNode.active = false;
+        this.unqualifiedNode.active = false;
+    }
+
+    updateDisplayScore(final: boolean) {
+        if (!this.data) {
+            this.scoreValue.string = "";
+            this.showScore(false);
+            return;
+        }
+        this.showScore(true);
+        if (final) {
+            if (this.data.isStand) {
+                const scoreValue = Math.max(...this.data.total);
+                this.scoreValue.string = scoreValue.toString();
+                this.showExtraInfoHandPlace(this.data.cards, scoreValue);
+            } else {
+                this.scoreValue.string = this.data.total.join(" / ");
+            }
+        } else {
+            const card = this.data.cards[0];
+            const values = BlackJackUtils.getValues(card.rank);
+            this.scoreValue.string = values.join(" / ");
+        }
     }
 
     showExtraInfoHandPlace(cards: CardModel[], total: number) {
         if (total > 21) {
-            this.handleExtraInfoDisplay(this.burstNode);
+            this.handleExtraInfoDisplay(this?.burstNode);
+            return;
+        }
+
+        if (total < 16) {
+            this.handleExtraInfoDisplay(this?.unqualifiedNode);
             return;
         }
 
         if (ChineseBlackjackUtils.isBanLuck(cards)) {
-            this.handleExtraInfoDisplay(this.blackJackNode);
+            this.handleExtraInfoDisplay(this?.blackJackNode);
             return;
         }
 
         if (ChineseBlackjackUtils.isBanBan(cards)) {
-            this.handleExtraInfoDisplay(this.banBanNode);
+            this.handleExtraInfoDisplay(this?.banBanNode);
             return;
         }
 
         if (this.isFiveCards(cards, total)) {
-            this.handleExtraInfoDisplay(this.fiveCardsNode);
+            this.handleExtraInfoDisplay(this?.fiveCardsNode);
         }
     }
 

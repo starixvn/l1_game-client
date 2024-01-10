@@ -2,7 +2,7 @@ import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/v
 import DealHandler, { DrawCardAction } from "../../../blackjack/view-models/handlers/DealHandler";
 
 export default class ChineseBlackjackDealHandler extends DealHandler {
-    handle(data: any) {
+    handle(data) {
         super.handle(data);
         if (data.pontoonNotice) {
             this.processFailedDealHands(data.pontoonNotice);
@@ -23,18 +23,18 @@ export default class ChineseBlackjackDealHandler extends DealHandler {
     }
 
     playAnimationDealerCheck(dealerCards: CardModel[], isBlackJack: boolean) {
-        let delaytime = 1;
+        let delayTime = 1;
         const checkDuration = 1.5;
         this.main.dealerHand.cardLayout.content.children.forEach((child) => {
             child.getComponent(NewCard).playAnimation(CardAnimation.DealerCheckBlackJackFail, checkDuration);
         });
 
-        delaytime += checkDuration;
+        delayTime += checkDuration;
 
         isBlackJack ? this.main.inRoundActionVisibility(false) : this.main.disabledInRoundAction(true);
 
         cc.tween(this.main)
-            .delay(delaytime)
+            .delay(delayTime)
             .call(() => {
                 this.main.startRound();
             })

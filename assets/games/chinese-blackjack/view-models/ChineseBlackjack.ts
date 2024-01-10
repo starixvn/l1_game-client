@@ -47,7 +47,6 @@ export default class ChineseBlackjack extends BlackJack {
     }
 
     updateOdds() {
-        console.log("this.gameConfigs.odds", this.gameConfigs.odds["ban-ban"]);
         const ChineseBlackjackOdds = `${GameUtils.roundFixed(+this.gameConfigs.odds.banBan - 1, 2)}`;
         this.blackjackOddLabel.string = GameUtils.getText("ChineseBlackjack.ban-ban_pays", {
             odds: ChineseBlackjackOdds
