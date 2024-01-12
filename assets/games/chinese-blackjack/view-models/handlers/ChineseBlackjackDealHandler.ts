@@ -4,8 +4,8 @@ import DealHandler, { DrawCardAction } from "../../../blackjack/view-models/hand
 export default class ChineseBlackjackDealHandler extends DealHandler {
     handle(data) {
         super.handle(data);
-        if (data.pontoonNotice) {
-            this.processFailedDealHands(data.pontoonNotice);
+        if (data.chineseBlackjackNotice) {
+            this.processFailedDealHands(data.chineseBlackjackNotice);
         }
     }
     drawFirstDealerCard(dealerCards: CardModel[], actions: DrawCardAction[]) {
