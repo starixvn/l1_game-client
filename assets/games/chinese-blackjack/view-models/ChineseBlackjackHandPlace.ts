@@ -46,13 +46,13 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
     }
 
     showExtraInfo(cards: CardModel[], total: number, actions: string[]) {
-        if (total > 21) {
-            this.handleExtraInfoDisplay(this?.burstNode);
+        if (ChineseBlackjackUtils.isFiveCards(cards, total)) {
+            this.handleExtraInfoDisplay(this?.fiveCardsNode);
             return;
         }
 
-        if (total < 16 && ChineseBlackjackUtils.hasStandAction(actions)) {
-            this.handleExtraInfoDisplay(this?.unqualifiedNode);
+        if (total > 21) {
+            this.handleExtraInfoDisplay(this?.burstNode);
             return;
         }
 
@@ -66,8 +66,8 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
             return;
         }
 
-        if (this.isFiveCards(cards, total)) {
-            this.handleExtraInfoDisplay(this?.fiveCardsNode);
+        if (ChineseBlackjackUtils.isUnqualified(cards, total) && ChineseBlackjackUtils.hasStandAction(actions)) {
+            this.handleExtraInfoDisplay(this?.unqualifiedNode);
         }
     }
 
@@ -76,15 +76,23 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
         this.showScore(false);
     }
 
-    isFiveCards(cards: CardModel[], total: number) {
-        return total <= 21 && cards.length === 5;
-    }
-
     isBlackJackHandPlace(cards: CardModel[], total: number): boolean {
         return total === 21 && cards.length === 2;
     }
 
     showExtraInfoDealerPlace(cards: CardModel[], total: number) {
         this.showExtraInfoHandPlace(cards, total);
+    }
+
+    showScoreWithOutData(cards: CardModel[], cardNum: number, final = false) {
+        this.showScore(true);
+        const values = BlackJackUtils.getTotal(cards, cardNum);
+        if (final) {
+            const total = values[values.length - 1];
+            this.scoreValue.string = total.toString();
+            this.showExtraInfo(cards, total, []);
+        } else {
+            this.scoreValue.string = values.join(" / ");
+        }
     }
 }

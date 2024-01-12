@@ -8,11 +8,14 @@ export const phrases = {
         "deal_button": "發牌",
         "dealer_stand_at_17": "莊家必須站在 17 點並抽牌到 16 點",
         "five-cards_pays": "五張牌 付%{odds} 到 1",
+        "gameNames.77": "中國二十一點",
         "game_icon_name": "中國二十一點",
         "game_name": "中國二十一點",
         "glossary_bust": "爆牌",
+        "glossary_five-card": "五張牌",
         "glossary_hand_ranking_ban-ban": "Ban-ban",
         "glossary_hand_ranking_ban-luck": "Ban-luck",
+        "glossary_hand_ranking_five-card_trick": "五張牌",
         "hand_ranking_five-card_trick": "五張牌",
         "hit_button": "拿牌",
         "message_unqualified": "你的手牌不合格",
@@ -20,7 +23,8 @@ export const phrases = {
         "place_bet_text": "下注",
         "rebet_button": "再投注",
         "stand_button": "停牌",
-        "unqualified": "不合格"
+        "unqualified": "不合格",
+        "unsatisfied": "不滿意"
     },
     "lobbyNames": {
         "77": "中國二十一點"

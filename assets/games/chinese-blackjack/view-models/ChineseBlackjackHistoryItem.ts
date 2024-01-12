@@ -74,10 +74,10 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
             case ChineseBlackjackUtils.isBanLuck(cards):
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_hand_ranking_ban-luck`);
                 break;
-            case totalNumberCard <= 21 && cards.length === 5:
-                resultLabel.string = GameUtils.getText(`ChineseBlackjack.hand_ranking_five-card_trick`);
+            case ChineseBlackjackUtils.isFiveCards(cards, totalNumberCard):
+                resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_five-card`);
                 break;
-            case totalNumberCard < 16 && ChineseBlackjackUtils.hasStandAction(actions):
+            case ChineseBlackjackUtils.isUnqualified(cards, totalNumberCard) && ChineseBlackjackUtils.hasStandAction(actions):
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.unqualified`);
                 break;
             default:

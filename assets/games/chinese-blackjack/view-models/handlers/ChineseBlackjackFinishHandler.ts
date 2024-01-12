@@ -1,6 +1,7 @@
 import GameUtils from "../../../../common/GameUtils";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import BlackJackFinishHandler from "../../../blackjack/view-models/handlers/BlackJackFinishHandler";
+import ChineseBlackjackHandPlace from "../ChineseBlackjackHandPlace";
 import ChineseBlackjackUtils from "../ChineseBlackjackUtils";
 
 export interface IFinishData {
@@ -30,7 +31,11 @@ export default class ChineseBlackjackFinishHandler extends BlackJackFinishHandle
 
     async finishBlackJackCase(finish: IFinishData) {
         await this.openFaceDownDealerCards(finish);
-        super.finishBlackJackCase(finish);
+        const dealerHand = this.main.dealerHand as ChineseBlackjackHandPlace;
+        dealerHand.cardLayout.updateLayout();
+        dealerHand.showScoreWithOutData(finish.result, 2, true);
+        this.showWinningHands();
+        this.startNewRound();
     }
 
     async openFaceDownDealerCards(finish: IFinishData) {

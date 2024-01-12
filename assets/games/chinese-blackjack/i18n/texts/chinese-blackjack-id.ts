@@ -8,11 +8,14 @@ export const phrases = {
         "deal_button": "Deal",
         "dealer_stand_at_17": "Dealer harus Stand di 17 and menarik kartu ke 16",
         "five-cards_pays": "Five-Card trick Bayar %{odds} ke 1",
+        "gameNames.77": "Chinese Blackjack",
         "game_icon_name": "Chinese Blackjack",
         "game_name": "Chinese Blackjack",
         "glossary_bust": "Bust",
+        "glossary_five-card": "Five-Card",
         "glossary_hand_ranking_ban-ban": "Ban-ban",
         "glossary_hand_ranking_ban-luck": "Ban-luck",
+        "glossary_hand_ranking_five-card_trick": "5-Card trick",
         "hand_ranking_five-card_trick": "Five-Card trick",
         "hit_button": "DAPATKAN",
         "message_unqualified": "Tangan kartu Anda tidak memenuhi syarat",
@@ -20,7 +23,8 @@ export const phrases = {
         "place_bet_text": "Pasang Taruhan",
         "rebet_button": "Rebate",
         "stand_button": "Tahan",
-        "unqualified": "Tidak Layak"
+        "unqualified": "Tidak Layak",
+        "unsatisfied": "Tidak puas"
     },
     "lobbyNames": {
         "77": "Chinese Blackjack"

@@ -19,4 +19,12 @@ export default class ChineseBlackjackUtils {
     public static hasStandAction(actions: string[]) {
         return actions.includes("stand");
     }
+
+    public static isFiveCards(cards: CardModel[], total: number) {
+        return total <= 21 && cards.length === 5;
+    }
+
+    public static isUnqualified(cards: CardModel[], total: number) {
+        return total < 16 && cards.length !== 5;
+    }
 }

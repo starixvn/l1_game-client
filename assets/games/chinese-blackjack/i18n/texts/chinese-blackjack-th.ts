@@ -8,11 +8,14 @@ export const phrases = {
         "deal_button": "ข้อเสนอ",
         "dealer_stand_at_17": "เจ้ามือต้องมีแต้ม 17 หรือเสมอที่ 16 แต้ม",
         "five-cards_pays": "ไพ่ 5 ใบ จ่าย %{odds} ถึง 1",
+        "gameNames.77": "แบล็คแจ็คจีน",
         "game_icon_name": "แบล็คแจ็คจีน",
         "game_name": "แบล็คแจ็คจีน",
-        "glossary_bust": "ระเบิด",
+        "glossary_bust": "จั่วไพ่เกิน",
+        "glossary_five-card": "ไพ่ 5 ใบ",
         "glossary_hand_ranking_ban-ban": "Ban-ban",
         "glossary_hand_ranking_ban-luck": "Ban-luck",
+        "glossary_hand_ranking_five-card_trick": "ไพ่ 5 ใบ",
         "hand_ranking_five-card_trick": "ไพ่ 5 ใบ",
         "hit_button": "โจมตี",
         "message_unqualified": "มือของคุณไม่มีคุณสมบัติ",
@@ -20,7 +23,8 @@ export const phrases = {
         "place_bet_text": "วางเดิมพัน",
         "rebet_button": "เงินคืน",
         "stand_button": "ยืน",
-        "unqualified": "ไม่เข้าเงื่อนไข"
+        "unqualified": "ไม่เข้าเงื่อนไข",
+        "unsatisfied": "ไม่พอใจ"
     },
     "lobbyNames": {
         "77": "แบล็คแจ็คจีน"
