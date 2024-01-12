@@ -1,27 +1,146 @@
 
 icon-game.png
-size: 512,256
+size: 512,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 bg
   rotate: false
-  xy: 2, 2
+  xy: 2, 305
   size: 202, 202
   orig: 202, 202
   offset: 0, 0
   index: -1
-coin
+blink
+  rotate: false
+  xy: 202, 106
+  size: 139, 197
+  orig: 139, 197
+  offset: 0, 0
+  index: -1
+card
+  rotate: false
+  xy: 343, 116
+  size: 116, 89
+  orig: 116, 89
+  offset: 0, 0
+  index: -1
+chest
   rotate: true
-  xy: 206, 12
-  size: 192, 185
-  orig: 192, 185
+  xy: 148, 3
+  size: 100, 89
+  orig: 100, 89
+  offset: 0, 0
+  index: -1
+ear-L
+  rotate: false
+  xy: 495, 395
+  size: 13, 19
+  orig: 13, 19
+  offset: 0, 0
+  index: -1
+ear-R
+  rotate: true
+  xy: 473, 460
+  size: 16, 28
+  orig: 16, 28
+  offset: 0, 0
+  index: -1
+eye-L-close
+  rotate: true
+  xy: 496, 416
+  size: 21, 13
+  orig: 21, 13
+  offset: 0, 0
+  index: -1
+eye-L-close-1
+  rotate: false
+  xy: 473, 422
+  size: 21, 15
+  orig: 21, 15
+  offset: 0, 0
+  index: -1
+eye-R-close
+  rotate: false
+  xy: 473, 439
+  size: 25, 19
+  orig: 25, 19
+  offset: 0, 0
+  index: -1
+eye-R-close-1
+  rotate: false
+  xy: 473, 407
+  size: 20, 13
+  orig: 20, 13
+  offset: 0, 0
+  index: -1
+face
+  rotate: true
+  xy: 411, 50
+  size: 64, 69
+  orig: 64, 69
+  offset: 0, 0
+  index: -1
+girl-body
+  rotate: true
+  xy: 2, 2
+  size: 101, 144
+  orig: 101, 144
+  offset: 0, 0
+  index: -1
+hair-bg
+  rotate: true
+  xy: 239, 10
+  size: 94, 110
+  orig: 94, 110
+  offset: 0, 0
+  index: -1
+hair-flower
+  rotate: true
+  xy: 473, 478
+  size: 29, 32
+  orig: 29, 32
+  offset: 0, 0
+  index: -1
+hair-sub
+  rotate: false
+  xy: 461, 154
+  size: 43, 51
+  orig: 43, 51
+  offset: 0, 0
+  index: -1
+hair-top
+  rotate: false
+  xy: 285, 316
+  size: 186, 191
+  orig: 186, 191
+  offset: 0, 0
+  index: -1
+hand-L
+  rotate: false
+  xy: 351, 5
+  size: 58, 109
+  orig: 58, 109
+  offset: 0, 0
+  index: -1
+hand-R
+  rotate: false
+  xy: 351, 207
+  size: 119, 107
+  orig: 119, 107
   offset: 0, 0
   index: -1
 layer-3d
   rotate: true
-  xy: 393, 5
-  size: 199, 75
-  orig: 199, 75
+  xy: 206, 310
+  size: 197, 77
+  orig: 197, 77
+  offset: 0, 0
+  index: -1
+mask
+  rotate: false
+  xy: 2, 105
+  size: 198, 198
+  orig: 198, 198
   offset: 0, 0
   index: -1
