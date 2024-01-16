@@ -1,5 +1,5 @@
-import { showMessageForExpiredToken } from "../../../../common/auth/AuthManager";
 import GameUtils from "../../../../common/GameUtils";
+import { showMessageForExpiredToken } from "../../../../common/auth/AuthManager";
 import { isSessionTimeoutError } from "../../../../common/helpers/ErrorCodeHelper";
 import { numberWithCommas } from "../../../../common/helpers/NumberHelper";
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
@@ -37,10 +37,10 @@ export default class DealHandler implements DataHandler {
         const dealerCards = data.dealer;
 
         const actions = [];
-        this.drawFirstPlayerCard(hands, actions);
+        this.drawFirstPlayerCard(hands, actions, data?.dealer?.length > 0 || false);
         this.main.updateTotalBetLabel();
         this.drawFirstDealerCard(dealerCards, actions);
-        this.drawSecondPlayerCard(hands, actions);
+        this.drawSecondPlayerCard(hands, actions, data?.dealer?.length > 0 || false);
         this.drawSecondDealerCard(dealerCards, actions);
 
         let count = 0;
@@ -67,7 +67,7 @@ export default class DealHandler implements DataHandler {
         });
     }
 
-    drawFirstPlayerCard(hands, actions: DrawCardAction[]) {
+    drawFirstPlayerCard(hands, actions: DrawCardAction[], isBlackjack = false) {
         hands.forEach((hand) => {
             const card = hand.cards[0];
             const pos = hand.pos - 1;
@@ -75,7 +75,7 @@ export default class DealHandler implements DataHandler {
             const place = this.main.handPlaces[pos];
             place.setData(hand);
 
-            actions.push(() => this.main.drawingCardToPlayer(card, pos, true, () => place.updateDisplayScore(false)));
+            actions.push(() => this.main.drawingCardToPlayer(card, pos, true, () => place.updateDisplayScore(false, isBlackjack)));
 
             if (hand.bet !== place.getBetAmount()) {
                 place.showBetText(false);
@@ -86,12 +86,12 @@ export default class DealHandler implements DataHandler {
         });
     }
 
-    drawSecondPlayerCard(hands, actions: DrawCardAction[]) {
+    drawSecondPlayerCard(hands, actions: DrawCardAction[], isBlackjack = false) {
         hands.forEach((hand) => {
             const card = hand.cards[1];
             const pos = hand.pos - 1;
             const place = this.main.handPlaces[pos];
-            actions.push(() => this.main.drawingCardToPlayer(card, pos, false, () => place.updateDisplayScore(true)));
+            actions.push(() => this.main.drawingCardToPlayer(card, pos, false, () => place.updateDisplayScore(true, isBlackjack)));
         });
     }
 

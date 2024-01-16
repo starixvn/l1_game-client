@@ -1,9 +1,22 @@
 import NewCard, { CardAnimation, CardModel } from "../../../../common/new-card/view-models/NewCard";
 import DealHandler, { DrawCardAction } from "../../../blackjack/view-models/handlers/DealHandler";
+import { IHand } from "./ChineseBlackjackFinishHandler";
+
+export interface IDeal {
+    roundId: number;
+    totalAmount: number;
+    uid: string;
+    dealer?: CardModel[];
+    hands: IHand[];
+}
 
 export default class ChineseBlackjackDealHandler extends DealHandler {
+    deal: IDeal;
     handle(data) {
         super.handle(data);
+        if (data.deal) {
+            this.deal = data.deal;
+        }
         if (data.chineseBlackjackNotice) {
             this.processFailedDealHands(data.chineseBlackjackNotice);
         }

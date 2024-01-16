@@ -249,7 +249,7 @@ export default class HandPlace extends cc.Component {
         this.scoreValue.node.parent.active = show;
     }
 
-    updateDisplayScore(final: boolean) {
+    updateDisplayScore(final: boolean, isBlackjack = false) {
         if (!this.data) {
             this.scoreValue.string = "";
             this.showScore(false);

@@ -46,7 +46,7 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
         this.bet.string = numberWithCommas(bet);
         this.win.string = numberWithCommas(betwin, 2);
         this.setUICardsDealer(result, settlementResult, actions);
-        this.setUICardsPlayer(cards, total, actions);
+        this.setUICardsPlayer(cards, total, actions, result);
         this.playerResult.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.setBackground(index);
     }
@@ -56,12 +56,16 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
         this.setResult(this.dealerResult, settlementResult, result, actions);
     }
 
-    setUICardsPlayer(cards: CardModel[], total: number, actions: string[]) {
+    setUICardsPlayer(cards: CardModel[], total: number, actions: string[], result: CardModel[]) {
+        let isBlackjack = false;
+        if (ChineseBlackjackUtils.isBanBan(result) || ChineseBlackjackUtils.isBanLuck(result)) {
+            isBlackjack = true;
+        }
         this.initCards(cards, this.playerCards);
-        this.setResult(this.playerResult, total, cards, actions);
+        this.setResult(this.playerResult, total, cards, actions, isBlackjack);
     }
 
-    setResult(resultLabel: cc.Label, totalNumberCard: number, cards: CardModel[], actions: string[]) {
+    setResult(resultLabel: cc.Label, totalNumberCard: number, cards: CardModel[], actions: string[], isBlackjack = false) {
         if (!resultLabel) return;
 
         switch (true) {
@@ -77,7 +81,7 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
             case ChineseBlackjackUtils.isFiveCards(cards, totalNumberCard):
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_five-card`);
                 break;
-            case ChineseBlackjackUtils.isUnqualified(cards, totalNumberCard) && ChineseBlackjackUtils.hasStandAction(actions):
+            case ChineseBlackjackUtils.isUnqualified(cards, totalNumberCard) && !isBlackjack && !ChineseBlackjackUtils.isBanBan(cards):
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.unqualified`);
                 break;
             default:

@@ -2,6 +2,7 @@ import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackUtils from "../../blackjack/view-models/BlackJackUtils";
 import HandPlace from "../../blackjack/view-models/HandPlace";
 import ChineseBlackjackUtils from "./ChineseBlackjackUtils";
+import { IHand } from "./handlers/ChineseBlackjackFinishHandler";
 
 const { ccclass, property, executeInEditMode } = cc._decorator;
 @ccclass
@@ -23,7 +24,7 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
         this.unqualifiedNode.active = false;
     }
 
-    updateDisplayScore(final: boolean) {
+    updateDisplayScore(final: boolean, isBlackjack = false) {
         if (!this.data) {
             this.scoreValue.string = "";
             this.showScore(false);
@@ -34,7 +35,7 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
             if (this.data.isStand) {
                 const scoreValue = Math.max(...this.data.total);
                 this.scoreValue.string = scoreValue.toString();
-                this.showExtraInfo(this.data.cards, scoreValue, this.data.actions);
+                this.showExtraInfo(this.data.cards, scoreValue, isBlackjack);
             } else {
                 this.scoreValue.string = this.data.total.join(" / ");
             }
@@ -45,7 +46,7 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
         }
     }
 
-    showExtraInfo(cards: CardModel[], total: number, actions: string[]) {
+    showExtraInfo(cards: CardModel[], total: number, isBlackjack = false) {
         if (ChineseBlackjackUtils.isFiveCards(cards, total)) {
             this.handleExtraInfoDisplay(this?.fiveCardsNode);
             return;
@@ -63,10 +64,9 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
 
         if (ChineseBlackjackUtils.isBanBan(cards)) {
             this.handleExtraInfoDisplay(this?.banBanNode);
-            return;
         }
 
-        if (ChineseBlackjackUtils.isUnqualified(cards, total) && ChineseBlackjackUtils.hasStandAction(actions)) {
+        if (!isBlackjack && ChineseBlackjackUtils.isUnqualified(cards, total) && !ChineseBlackjackUtils.isBanBan(cards)) {
             this.handleExtraInfoDisplay(this?.unqualifiedNode);
         }
     }
@@ -90,9 +90,20 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
         if (final) {
             const total = values[values.length - 1];
             this.scoreValue.string = total.toString();
-            this.showExtraInfo(cards, total, []);
+            this.showExtraInfo(cards, total);
         } else {
             this.scoreValue.string = values.join(" / ");
+        }
+    }
+
+    showPlayerScoreWhenDealerHasBlackjack(hand: IHand) {
+        const maxScore = Math.max(...hand.total);
+        const isUnqualified = ChineseBlackjackUtils.isUnqualified(hand.cards, maxScore);
+        const isBanBan = ChineseBlackjackUtils.isBanBan(hand.cards);
+
+        if (isUnqualified && !isBanBan) {
+            this.showScore(true);
+            this.unqualifiedNode.active = false;
         }
     }
 }
