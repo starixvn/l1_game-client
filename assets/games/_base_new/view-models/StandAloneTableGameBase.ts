@@ -11,7 +11,7 @@ import {
     loadMiniPanel,
     loadUserData,
     onUserProfileInitialized,
-    outRoomGame,
+    outRoomGame
 } from "../../_base/action/GameRoomActions";
 import TableGameBase from "./TableGameBase";
 
@@ -51,7 +51,6 @@ export default class StandAloneTableGameBase extends TableGameBase {
     @property(cc.AudioSource)
     musicBg: cc.AudioSource = null;
 
-    closeGameByClick = false;
     openOtherScene = false;
     closingGameRoom = false;
 

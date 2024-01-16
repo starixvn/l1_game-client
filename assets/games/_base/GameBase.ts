@@ -204,6 +204,8 @@ export default class GameBase extends GameViewBase {
     internalTweenNodes: cc.Node[] = [];
     readonly internalTweenTag = 99;
     truthyRoundId: number;
+    closeGameByClick = false;
+
     maximizeCallback = (gameId: number) => {
         //callback
     };
@@ -413,6 +415,7 @@ export default class GameBase extends GameViewBase {
         noticeData.button = { text: "OK" };
         this.showNotice(noticeData, null, () => {
             this.isReceivedUMData = false;
+            this.closeGameByClick = true;
             this.onCloseGame();
         });
     }

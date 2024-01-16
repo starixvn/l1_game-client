@@ -70,7 +70,6 @@ export default class WebSocketTableGameBase extends GameBase {
         return !!this.musicBg;
     }
 
-    closeGameByClick = false;
     openOtherScene = false;
     closingGameRoom = false;
 

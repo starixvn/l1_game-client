@@ -327,6 +327,7 @@ export default class GameUtils {
             await this.preloadGameRoom(gameId);
         } catch (error) {
             cc.error("An error occurred in tryOpenGameDirect:", error);
+            throw error;
         }
     }
 

@@ -241,6 +241,7 @@ export default class MultiplayTableGame extends MultiplayGame {
 
         const notUmAll = this.gameIds.some((gameId) => !this.onUMGameIds.includes(gameId));
         if (!notUmAll) {
+            this.closeGameByClick = true;
             (this.games[this.gameId] as TableGameBase).showUmMessagePopup(data);
         }
     }

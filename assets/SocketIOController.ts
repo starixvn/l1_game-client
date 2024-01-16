@@ -19,7 +19,8 @@ enum SocketState {
     NOT_CONNECT = 0,
     CONNECTED,
     CONNECT_ERROR,
-    SIGNED_IN
+    SIGNED_IN,
+    DISABLED_GAME
 }
 
 @injectable()
@@ -167,7 +168,7 @@ export default class SocketIOController {
 
                 await this.waitGameSignedIn(gameId);
             } catch (err) {
-                onGameConnectionError();
+                this.socketsState[gameId] !== SocketState.DISABLED_GAME && onGameConnectionError();
                 reject(err);
             }
 
@@ -200,6 +201,7 @@ export default class SocketIOController {
         socket.on("message", (data) => {
             if (data.um) {
                 if (data.um_message) {
+                    this.socketsState[gameId] = SocketState.DISABLED_GAME;
                     uiManager.emitter.emit(InternalEvents.GAME_IS_UM, { umMessage: data.um_message, gameId });
                 }
             }

@@ -29,6 +29,7 @@ import MiniPanelDataHandlers from "./MiniPanelDataHandlers";
 import MiniPanelMiniGameInitializers from "./MiniPanelMiniGameInitializers";
 import MiniPanelSocketIOGameInitializers from "./MiniPanelSocketIOGameInitializers";
 import PopupMinigames from "./popup/PopupMinigames";
+import { UrlInfo } from "../../managers/UrlInfo";
 
 type NewLayerCallback = () => void;
 
@@ -273,9 +274,14 @@ export default class MiniPanel extends BaseComponent {
     }
 
     onForceReload(showNotice = true, message = i18n.t("messages.newUpdateAvailable")) {
-        const forceReload = () => {
+        let forceReload = () => {
             location.reload();
         };
+        if (appManager.isDirectMode && appManager.urlInfo[UrlInfo.ReturnUrl]) {
+            forceReload = () => {
+                appManager.backToOperatorLobby();
+            };
+        }
 
         if (showNotice) {
             const noticeData = {
