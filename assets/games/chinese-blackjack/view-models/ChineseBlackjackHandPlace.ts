@@ -18,9 +18,9 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
 
     resetView() {
         super.resetView();
-        this.fiveCardsNode.active = false;
-        this.banBanNode.active = false;
-        this.unqualifiedNode.active = false;
+        this.fiveCardsNode && (this.fiveCardsNode.active = false);
+        this.banBanNode && (this.banBanNode.active = false);
+        this.unqualifiedNode && (this.unqualifiedNode.active = false);
     }
 
     updateDisplayScore(final: boolean, isBlackjack = false) {
@@ -71,8 +71,10 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
     }
 
     private handleExtraInfoDisplay(node: cc.Node) {
-        node.active = true;
-        this.showScore(false);
+        if (node) {
+            node.active = true;
+            this.showScore(false);
+        }
     }
 
     isBlackJackHandPlace(cards: CardModel[], total: number): boolean {
