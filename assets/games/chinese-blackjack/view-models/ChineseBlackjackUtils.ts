@@ -58,14 +58,13 @@ export default class ChineseBlackjackUtils {
         }
 
         if (hasAce) {
-            const possibleTotals = [total, total + 10];
-
-            if (total + 9 === 21) {
-                possibleTotals.push(total + 9);
+            if (cardNum >= 4) {
+                return [total];
             }
 
-            if (cardNum >= 4) {
-                return [Math.max(...possibleTotals)];
+            const possibleTotals = [total, total + 10];
+            if (total + 9 === 21) {
+                possibleTotals.push(total + 9);
             }
 
             return possibleTotals.filter((value) => value <= 21);
