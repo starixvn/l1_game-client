@@ -3,7 +3,6 @@ import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import BlackJackFinishHandler from "../../../blackjack/view-models/handlers/BlackJackFinishHandler";
 import ChineseBlackjackHandPlace from "../ChineseBlackjackHandPlace";
 import ChineseBlackjackUtils from "../ChineseBlackjackUtils";
-import ChineseBlackjackDealHandler from "./ChineseBlackjackDealHandler";
 
 export interface IFinishData {
     result: CardModel[];
@@ -54,18 +53,5 @@ export default class ChineseBlackjackFinishHandler extends BlackJackFinishHandle
         this.main.dealerOpenFirstCard(finish.result[0], this.openCardDuration);
         await GameUtils.delayTime(this.openCardDuration);
         await super.openFaceDownDealerCards(finish);
-    }
-
-    updateDisplayScorePlayers() {
-        const playersHand = this.main.handPlaces as ChineseBlackjackHandPlace[];
-        const dealHandler = this.main.dealHander as ChineseBlackjackDealHandler;
-        const hands: IHand[] = dealHandler?.deal?.hands || [];
-        hands.length > 0 &&
-            playersHand.forEach((playerHand, index) => {
-                const foundValue = hands.find((hand) => hand.pos === index + 1);
-                if (foundValue) {
-                    playerHand.showPlayerScoreWhenDealerHasBlackjack(foundValue);
-                }
-            });
     }
 }

@@ -2,7 +2,6 @@ import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import BlackJackUtils from "../../blackjack/view-models/BlackJackUtils";
 import HandPlace from "../../blackjack/view-models/HandPlace";
 import ChineseBlackjackUtils from "./ChineseBlackjackUtils";
-import { IHand } from "./handlers/ChineseBlackjackFinishHandler";
 
 const { ccclass, property, executeInEditMode } = cc._decorator;
 @ccclass
@@ -86,24 +85,13 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
 
     showScoreWithOutData(cards: CardModel[], cardNum: number, final = false) {
         this.showScore(true);
-        const values = BlackJackUtils.getTotal(cards, cardNum);
+        const values = ChineseBlackjackUtils.getTotal(cards, cardNum);
         if (final) {
             const total = values[values.length - 1];
             this.scoreValue.string = total.toString();
             this.showExtraInfo(cards, total);
         } else {
             this.scoreValue.string = values.join(" / ");
-        }
-    }
-
-    showPlayerScoreWhenDealerHasBlackjack(hand: IHand) {
-        const maxScore = Math.max(...hand.total);
-        const isUnqualified = ChineseBlackjackUtils.isUnqualified(hand.cards, maxScore);
-        const isBanBan = ChineseBlackjackUtils.isBanBan(hand.cards);
-
-        if (isUnqualified && !isBanBan) {
-            this.showScore(true);
-            this.unqualifiedNode.active = false;
         }
     }
 }

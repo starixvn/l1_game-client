@@ -27,4 +27,50 @@ export default class ChineseBlackjackUtils {
     public static isUnqualified(cards: CardModel[], total: number) {
         return total < 16 && cards.length !== 5;
     }
+
+    public static getValues(rank: string): number[] {
+        switch (rank) {
+            case "A":
+                return [1, 10, 11];
+            case "J":
+            case "Q":
+            case "K":
+                return [10];
+            default:
+                return [+rank];
+        }
+    }
+
+    public static getTotal(cards: any[], cardNum: number): number[] {
+        let total = 0;
+        let hasAce = false;
+
+        for (let i = 0; i < cardNum && i < cards.length; i++) {
+            const card = cards[i];
+            const values = ChineseBlackjackUtils.getValues(card.rank);
+            const cardValue = values[0];
+
+            total += cardValue;
+
+            if (card.rank === "A") {
+                hasAce = true;
+            }
+        }
+
+        if (hasAce) {
+            const possibleTotals = [total, total + 10];
+
+            if (total + 9 === 21) {
+                possibleTotals.push(total + 9);
+            }
+
+            if (cardNum >= 4) {
+                return [Math.max(...possibleTotals)];
+            }
+
+            return possibleTotals.filter((value) => value <= 21);
+        }
+
+        return [total];
+    }
 }
