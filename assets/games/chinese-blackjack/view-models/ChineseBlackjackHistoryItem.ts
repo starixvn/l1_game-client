@@ -38,35 +38,43 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
             return;
         }
 
-        const { time, betwin, id, bet, cards, total, result, settlementResult, actions } = log;
+        const { time, betwin, id, bet, cards, total, result, settlementResult } = log;
         this.time.string = getStringDateByTime(time);
         this.time.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.handId.string = id.toString();
         this.handId.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.bet.string = numberWithCommas(bet);
         this.win.string = numberWithCommas(betwin, 2);
-        this.setUICardsDealer(result, settlementResult, actions);
-        this.setUICardsPlayer(cards, total, actions, result);
+        this.setUICardsDealer(result, settlementResult);
+        this.setUICardsPlayer(cards, total, result);
         this.playerResult.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
         this.setBackground(index);
     }
 
-    setUICardsDealer(result: CardModel[], settlementResult: number, actions: string[]) {
+    setUICardsDealer(result: CardModel[], settlementResult: number) {
         this.initCards(result, this.dealerCards);
-        this.setResult(this.dealerResult, settlementResult, result, actions);
+        this.setResult(this.dealerResult, settlementResult, result, false, false);
     }
 
-    setUICardsPlayer(cards: CardModel[], total: number, actions: string[], result: CardModel[]) {
-        let isBlackjack = false;
-        if (ChineseBlackjackUtils.isBanBan(result) || ChineseBlackjackUtils.isBanLuck(result)) {
-            isBlackjack = true;
-        }
+    setUICardsPlayer(cards: CardModel[], total: number, result: CardModel[]) {
+        const isBlackjack = ChineseBlackjackUtils.isBanBan(result) || ChineseBlackjackUtils.isBanLuck(result);
         this.initCards(cards, this.playerCards);
-        this.setResult(this.playerResult, total, cards, actions, isBlackjack);
+        this.setResult(this.playerResult, total, cards, isBlackjack, true);
     }
 
-    setResult(resultLabel: cc.Label, totalNumberCard: number, cards: CardModel[], actions: string[], isBlackjack = false) {
-        if (!resultLabel) return;
+    isUnqualifiedCondition(cards: CardModel[], totalNumberCard: number, isBlackjack: boolean, isPlayer: boolean): boolean {
+        return (
+            ChineseBlackjackUtils.isUnqualified(cards, totalNumberCard) &&
+            !isBlackjack &&
+            !ChineseBlackjackUtils.isBanBan(cards) &&
+            isPlayer
+        );
+    }
+
+    setResult(resultLabel: cc.Label, totalNumberCard: number, cards: CardModel[], isBlackjack = false, isPlayer = false) {
+        if (!resultLabel) {
+            return;
+        }
 
         switch (true) {
             case totalNumberCard > 21:
@@ -81,7 +89,7 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
             case ChineseBlackjackUtils.isFiveCards(cards, totalNumberCard):
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.glossary_five-card`);
                 break;
-            case ChineseBlackjackUtils.isUnqualified(cards, totalNumberCard) && !isBlackjack && !ChineseBlackjackUtils.isBanBan(cards):
+            case this.isUnqualifiedCondition(cards, totalNumberCard, isBlackjack, isPlayer):
                 resultLabel.string = GameUtils.getText(`ChineseBlackjack.unqualified`);
                 break;
             default:
