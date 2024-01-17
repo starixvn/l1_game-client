@@ -63,12 +63,7 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
     }
 
     isUnqualifiedCondition(cards: CardModel[], totalNumberCard: number, isBlackjack: boolean, isPlayer: boolean): boolean {
-        return (
-            ChineseBlackjackUtils.isUnqualified(cards, totalNumberCard) &&
-            !isBlackjack &&
-            !ChineseBlackjackUtils.isBanBan(cards) &&
-            isPlayer
-        );
+        return ChineseBlackjackUtils.isUnqualified(cards, totalNumberCard) && !isBlackjack && isPlayer;
     }
 
     setResult(resultLabel: cc.Label, totalNumberCard: number, cards: CardModel[], isBlackjack = false, isPlayer = false) {

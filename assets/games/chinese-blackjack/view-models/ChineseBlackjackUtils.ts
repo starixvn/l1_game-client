@@ -16,16 +16,12 @@ export default class ChineseBlackjackUtils {
         return cards.length === 2 && cards.every((card) => card.rank === "A");
     }
 
-    public static hasStandAction(actions: string[]) {
-        return actions.includes("stand");
-    }
-
     public static isFiveCards(cards: CardModel[], total: number) {
         return total <= 21 && cards.length === 5;
     }
 
     public static isUnqualified(cards: CardModel[], total: number) {
-        return total < 16 && cards.length !== 5;
+        return total < 16 && cards.length !== 5 && !this.isBanBan(cards) && !this.isBanLuck(cards);
     }
 
     public static getValues(rank: string): number[] {

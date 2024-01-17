@@ -88,7 +88,7 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
             this.handleExtraInfoDisplay(this?.banBanNode);
         }
 
-        if (!isBlackjack && ChineseBlackjackUtils.isUnqualified(cards, total) && !ChineseBlackjackUtils.isBanBan(cards)) {
+        if (!isBlackjack && ChineseBlackjackUtils.isUnqualified(cards, total)) {
             this.handleExtraInfoDisplay(this?.unqualifiedNode);
         }
     }
