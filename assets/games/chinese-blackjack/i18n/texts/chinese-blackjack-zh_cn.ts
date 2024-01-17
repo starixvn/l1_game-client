@@ -20,11 +20,14 @@ export const phrases = {
         "hit_button": "拿牌",
         "message_unqualified": "你的手牌不合格",
         "new_bet_button": "新赌注",
+        "no": "否",
         "place_bet_text": "下注",
         "rebet_button": "再投注",
         "stand_button": "停牌",
+        "stand_popup": "停牌?",
         "unqualified": "不合格",
-        "unsatisfied": "不满意"
+        "unsatisfied": "不满意",
+        "yes": "是"
     },
     "lobbyNames": {
         "77": "中国二十一点"

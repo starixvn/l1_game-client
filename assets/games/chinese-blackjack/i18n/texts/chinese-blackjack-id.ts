@@ -20,11 +20,14 @@ export const phrases = {
         "hit_button": "DAPATKAN",
         "message_unqualified": "Tangan kartu Anda tidak memenuhi syarat",
         "new_bet_button": "Taruhan Baru",
+        "no": "Tidak",
         "place_bet_text": "Pasang Taruhan",
         "rebet_button": "Rebate",
         "stand_button": "Tahan",
+        "stand_popup": "Tahan?",
         "unqualified": "Tidak Layak",
-        "unsatisfied": "Tidak puas"
+        "unsatisfied": "Tidak puas",
+        "yes": "Ya"
     },
     "lobbyNames": {
         "77": "Chinese Blackjack"

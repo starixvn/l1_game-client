@@ -20,11 +20,14 @@ export const phrases = {
         "hit_button": "RÚT BÀI",
         "message_unqualified": "Tụ bài chưa đủ điểm",
         "new_bet_button": "Ván Mới",
+        "no": "Không",
         "place_bet_text": "ĐẶT CƯỢC",
         "rebet_button": "Cược Lại",
         "stand_button": "Dừng",
+        "stand_popup": "Dừng?",
         "unqualified": "Non",
-        "unsatisfied": "Non"
+        "unsatisfied": "Non",
+        "yes": "Có"
     },
     "lobbyNames": {
         "77": "Xì Dách"

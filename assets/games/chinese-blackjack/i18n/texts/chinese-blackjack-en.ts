@@ -20,11 +20,14 @@ export const phrases = {
         "hit_button": "HIT",
         "message_unqualified": "Your hand is unqualified",
         "new_bet_button": "NEW BET",
+        "no": "No",
         "place_bet_text": "PLACE BET",
         "rebet_button": "Rebet",
         "stand_button": "STAND",
+        "stand_popup": "Stand?",
         "unqualified": "Unqualified",
-        "unsatisfied": "Unsatisfied"
+        "unsatisfied": "Unsatisfied",
+        "yes": "Yes"
     },
     "lobbyNames": {
         "77": "Chinese Blackjack"

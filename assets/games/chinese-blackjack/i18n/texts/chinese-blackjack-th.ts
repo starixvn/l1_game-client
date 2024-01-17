@@ -20,11 +20,14 @@ export const phrases = {
         "hit_button": "โจมตี",
         "message_unqualified": "มือของคุณไม่มีคุณสมบัติ",
         "new_bet_button": "เดิมพันใหม่",
+        "no": "เลขที่",
         "place_bet_text": "วางเดิมพัน",
         "rebet_button": "เงินคืน",
         "stand_button": "ยืน",
+        "stand_popup": "ยืน?",
         "unqualified": "ไม่เข้าเงื่อนไข",
-        "unsatisfied": "ไม่พอใจ"
+        "unsatisfied": "ไม่พอใจ",
+        "yes": "ใช่"
     },
     "lobbyNames": {
         "77": "แบล็คแจ็คจีน"
