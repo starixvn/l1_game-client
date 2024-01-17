@@ -1290,7 +1290,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": null,
+    "_spriteFrame": {
+      "__uuid__": "fb37cc74-0123-404c-b8c4-bc3cbb2901aa"
+    },
     "_type": 0,
     "_sizeMode": 2,
     "_fillType": 0,
@@ -1519,7 +1521,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 74.75,
+      "width": 43.37,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1571,8 +1573,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.min",
-    "_N$string": "Ui.min",
+    "_string": "Min",
+    "_N$string": "Min",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1647,7 +1649,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 79.73,
+      "width": 48.34,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1699,8 +1701,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.max",
-    "_N$string": "Ui.max",
+    "_string": "Max",
+    "_N$string": "Max",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -11181,7 +11183,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 112.11,
+      "width": 66.54,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -11246,8 +11248,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.stake2",
-    "_N$string": "Ui.stake2",
+    "_string": "Stake",
+    "_N$string": "Stake",
     "_fontSize": 26,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -23055,7 +23057,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 509.58,
+      "width": 111.9,
       "height": 70.56
     },
     "_anchorPoint": {
@@ -23107,8 +23109,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.STAND_POPUP",
-    "_N$string": "CHINESEBLACKJACK.STAND_POPUP",
+    "_string": "STAND?",
+    "_N$string": "STAND?",
     "_fontSize": 28,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -23196,8 +23198,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 482.7,
-      "height": 37.8
+      "width": 348.5,
+      "height": 95.9
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -23208,7 +23210,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
+        6.1,
         17,
         0,
         0,
@@ -23248,10 +23250,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ChineseBlackjack.message_unqualified",
-    "_N$string": "ChineseBlackjack.message_unqualified",
+    "_string": "Your hand is unqualified",
+    "_N$string": "Your hand is unqualified",
     "_fontSize": 26,
-    "_lineHeight": 30,
+    "_lineHeight": 35,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
@@ -23264,7 +23266,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "37i5ZYJtVMCJT54uRZeNMx"
   },
@@ -23476,7 +23478,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 280.64,
+      "width": 42.5,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -23528,8 +23530,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.YES",
-    "_N$string": "CHINESEBLACKJACK.YES",
+    "_string": "YES",
+    "_N$string": "YES",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": false,
@@ -23935,7 +23937,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 272.8,
+      "width": 34.65,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -23987,8 +23989,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.NO",
-    "_N$string": "CHINESEBLACKJACK.NO",
+    "_string": "NO",
+    "_N$string": "NO",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": false,
@@ -24385,7 +24387,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 192.15,
+      "width": 91.88,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -24450,8 +24452,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.place_bet_break",
-    "_N$string": "Ui.place_bet_break",
+    "_string": "Place Bet",
+    "_N$string": "Place Bet",
     "_fontSize": 20,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -34315,7 +34317,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 509.58,
+      "width": 111.9,
       "height": 70.56
     },
     "_anchorPoint": {
@@ -34367,8 +34369,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.STAND_POPUP",
-    "_N$string": "CHINESEBLACKJACK.STAND_POPUP",
+    "_string": "STAND?",
+    "_N$string": "STAND?",
     "_fontSize": 28,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -34456,8 +34458,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 482.7,
-      "height": 37.8
+      "width": 348.5,
+      "height": 95.9
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -34468,7 +34470,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
+        6.1,
         17,
         0,
         0,
@@ -34508,10 +34510,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ChineseBlackjack.message_unqualified",
-    "_N$string": "ChineseBlackjack.message_unqualified",
+    "_string": "Your hand is unqualified",
+    "_N$string": "Your hand is unqualified",
     "_fontSize": 26,
-    "_lineHeight": 30,
+    "_lineHeight": 35,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
@@ -34524,7 +34526,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "4aabZXYPlMj77OzXi6wF3G"
   },
@@ -34736,7 +34738,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 280.64,
+      "width": 42.5,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -34788,8 +34790,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.YES",
-    "_N$string": "CHINESEBLACKJACK.YES",
+    "_string": "YES",
+    "_N$string": "YES",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": false,
@@ -35195,7 +35197,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 272.8,
+      "width": 34.65,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -35247,8 +35249,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.NO",
-    "_N$string": "CHINESEBLACKJACK.NO",
+    "_string": "NO",
+    "_N$string": "NO",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": false,
@@ -35645,7 +35647,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 192.15,
+      "width": 91.88,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -35697,8 +35699,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.place_bet_break",
-    "_N$string": "Ui.place_bet_break",
+    "_string": "Place Bet",
+    "_N$string": "Place Bet",
     "_fontSize": 20,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -36184,7 +36186,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 192.15,
+      "width": 91.88,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -36249,8 +36251,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.place_bet_break",
-    "_N$string": "Ui.place_bet_break",
+    "_string": "Place Bet",
+    "_N$string": "Place Bet",
     "_fontSize": 20,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -44532,7 +44534,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 509.58,
+      "width": 111.9,
       "height": 70.56
     },
     "_anchorPoint": {
@@ -44584,8 +44586,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.STAND_POPUP",
-    "_N$string": "CHINESEBLACKJACK.STAND_POPUP",
+    "_string": "STAND?",
+    "_N$string": "STAND?",
     "_fontSize": 28,
     "_lineHeight": 56,
     "_enableWrapText": true,
@@ -44673,8 +44675,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 482.7,
-      "height": 37.8
+      "width": 348.5,
+      "height": 95.9
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -44685,7 +44687,7 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
+        6.1,
         17,
         0,
         0,
@@ -44725,10 +44727,10 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ChineseBlackjack.message_unqualified",
-    "_N$string": "ChineseBlackjack.message_unqualified",
+    "_string": "Your hand is unqualified",
+    "_N$string": "Your hand is unqualified",
     "_fontSize": 26,
-    "_lineHeight": 30,
+    "_lineHeight": 35,
     "_enableWrapText": true,
     "_N$file": {
       "__uuid__": "c0681aec-8139-4f26-b360-454265f3a4eb"
@@ -44741,7 +44743,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "9d3eIlkdxFZpdpVaC4poAA"
   },
@@ -44953,7 +44955,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 280.64,
+      "width": 42.5,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -45005,8 +45007,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.YES",
-    "_N$string": "CHINESEBLACKJACK.YES",
+    "_string": "YES",
+    "_N$string": "YES",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": false,
@@ -45412,7 +45414,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 272.8,
+      "width": 34.65,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -45464,8 +45466,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "CHINESEBLACKJACK.NO",
-    "_N$string": "CHINESEBLACKJACK.NO",
+    "_string": "NO",
+    "_N$string": "NO",
     "_fontSize": 22,
     "_lineHeight": 25,
     "_enableWrapText": false,
