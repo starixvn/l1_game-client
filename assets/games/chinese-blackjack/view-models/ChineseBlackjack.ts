@@ -1,6 +1,7 @@
 import GameUtils from "../../../common/GameUtils";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
+import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import { uiManager } from "../../../managers/GameUIManager";
@@ -13,7 +14,10 @@ import ChineseBlackjackInGameHandler from "./handlers/ChineseBlackjackInGameHand
 const { ccclass, property } = cc._decorator;
 
 export const ChineseBlackjackId = 77;
-export const CHINESE_BLACKJACK_STAND_CLICK = "CHINESE_BLACKJACK_STAND_CLICK";
+export const CHINESE_BLACKJACK_EMIT_EVENTS = {
+    STAND_CLICK: "CHINESE_BLACKJACK_STAND_CLICK",
+    STAND_CLICK_NO: "CHINESE_BLACKJACK_STAND_CLICK_NO"
+};
 
 @ccclass
 export default class ChineseBlackjack extends BlackJack {
@@ -36,6 +40,11 @@ export default class ChineseBlackjack extends BlackJack {
     constructor() {
         super();
         this.gameId = ChineseBlackjackId;
+    }
+
+    onLoad() {
+        uiManager.emitterListener(CHINESE_BLACKJACK_EMIT_EVENTS.STAND_CLICK_NO, () => this.onPopupConfirmWithoutStand(), this);
+        super.onLoad();
     }
 
     public get chipConfig() {
@@ -101,6 +110,11 @@ export default class ChineseBlackjack extends BlackJack {
     }
 
     onStandClickCustomize() {
-        uiManager.emitter.emit(CHINESE_BLACKJACK_STAND_CLICK, true);
+        uiManager.emitter.emit(CHINESE_BLACKJACK_EMIT_EVENTS.STAND_CLICK, true);
+        this.standButton?.getComponent(FadeEffectButton).setDisabled(true);
+    }
+
+    onPopupConfirmWithoutStand() {
+        this.standButton?.getComponent(FadeEffectButton).setDisabled(false);
     }
 }

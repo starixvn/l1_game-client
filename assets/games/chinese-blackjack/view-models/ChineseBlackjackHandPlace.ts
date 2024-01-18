@@ -3,7 +3,7 @@ import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import { uiManager } from "../../../managers/GameUIManager";
 import BlackJackUtils from "../../blackjack/view-models/BlackJackUtils";
 import HandPlace from "../../blackjack/view-models/HandPlace";
-import { CHINESE_BLACKJACK_STAND_CLICK } from "./ChineseBlackjack";
+import { CHINESE_BLACKJACK_EMIT_EVENTS } from "./ChineseBlackjack";
 import ChineseBlackjackUtils from "./ChineseBlackjackUtils";
 
 const { ccclass, property, executeInEditMode } = cc._decorator;
@@ -32,7 +32,7 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
     }
 
     registerEvents() {
-        uiManager.emitterListener(CHINESE_BLACKJACK_STAND_CLICK, () => this.handleReceiveEmitStand(), this);
+        uiManager.emitterListener(CHINESE_BLACKJACK_EMIT_EVENTS.STAND_CLICK, () => this.handleReceiveEmitStand(), this);
     }
 
     onDestroy() {
@@ -120,15 +120,6 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
         }
     }
 
-    handleStandClick() {
-        const scoreValue = Math.max(...this.data.total);
-        if (scoreValue < 16) {
-            this.popupStand.showDialog();
-        } else {
-            this.standClickCallback();
-        }
-    }
-
     onConfirmStand() {
         this.standClickCallback();
         this.popupStand.closeDialog();
@@ -138,5 +129,19 @@ export default class ChineseBlackjackHandPlace extends HandPlace {
         if (this.selected) {
             this.handleStandClick();
         }
+    }
+
+    handleStandClick() {
+        const scoreValue = Math.max(...this.data.total);
+        if (scoreValue < 16) {
+            this.popupStand.showDialog();
+        } else {
+            this.standClickCallback();
+        }
+    }
+
+    onConfirmWithoutStand() {
+        uiManager.emitter.emit(CHINESE_BLACKJACK_EMIT_EVENTS.STAND_CLICK_NO, true);
+        this.popupStand.closeDialog();
     }
 }
