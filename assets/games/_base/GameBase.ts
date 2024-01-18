@@ -386,7 +386,7 @@ export default class GameBase extends GameViewBase {
 
     lockBet() {
         this.waitingProcessing = true;
-        const intervalTime = 3; // 3 seconds
+        const intervalTime = 0.5; // 3 seconds
         this.schedule(this.sendRetryMessage, intervalTime, cc.macro.REPEAT_FOREVER, 0);
     }
 
