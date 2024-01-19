@@ -9,7 +9,7 @@ export interface EmitterStorageType {
     target: any;
 }
 
-interface IconCache {
+export interface SkeletonCache {
     [key: number]: {
         skeletonData: sp.SkeletonData;
         configFile: cc.JsonAsset;
@@ -34,6 +34,7 @@ export default class GameUIManager {
 
     public prefabCache = {
         lobbyIcons: {},
+        lobbyBanners: {},
         miniPanelIcons: {},
         slotSymbols: {},
         slotWinningAnimation: {},
@@ -41,7 +42,9 @@ export default class GameUIManager {
         multiplierPrefab: {}
     };
 
-    public remoteIconCache: IconCache = {};
+    public remoteIconCache: SkeletonCache = {};
+
+    public remoteBannerCache: SkeletonCache = {};
 
     initEmitter() {
         this.emitter = new EventEmitterBase();

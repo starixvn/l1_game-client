@@ -4,7 +4,7 @@ import RemoteSpine from "../../../common/RemoteSpine";
 import { getLocale } from "../../../common/auth/SessionManager";
 import Loading from "../../../common/loading/view-models/Loading";
 import { getGameConfiguration } from "../../../configs/GameConfigurations";
-import { uiManager } from "../../../managers/GameUIManager";
+import { SkeletonCache, uiManager } from "../../../managers/GameUIManager";
 import SplashConfig from "../../../splash/view-models/SplashConfig";
 import GameNotification from "./GameNotification";
 import LobbyMenuConfig from "./LobbyMenuConfig";
@@ -50,6 +50,8 @@ export default class SkeletonIcon extends cc.Component {
     protected onLoad(): void {
         this.gameName.node.active = false;
     }
+
+    private cache: SkeletonCache = uiManager.remoteIconCache;
 
     setGameName(text: string, gameId: number) {
         const transformersGameId = 70;
@@ -100,8 +102,8 @@ export default class SkeletonIcon extends cc.Component {
     private async createRemoteIconNode(id: number) {
         const node = new cc.Node();
         try {
-            const configFile = uiManager.remoteIconCache[id]
-                ? uiManager.remoteIconCache[id].configFile
+            const configFile = this.cache[id]
+                ? this.cache[id].configFile
                 : await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `icon/config.json`);
 
             const iconConfig: RemoteIconConfig = configFile?.json;
@@ -113,7 +115,7 @@ export default class SkeletonIcon extends cc.Component {
             remoteSpine.host = url;
             remoteSpine.spineName = "icon-game";
             remoteSpine.premultipliedAlpha = iconConfig ? iconConfig.premultipliedAlpha : false;
-            await remoteSpine.init();
+            await remoteSpine.init(this.cache);
             if (iconConfig?.gameNotification) {
                 this.addGameNotificationComponent(node, id, iconConfig?.gameNotification);
             }

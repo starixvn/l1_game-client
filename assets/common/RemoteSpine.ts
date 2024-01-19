@@ -1,4 +1,4 @@
-import { uiManager } from "../managers/GameUIManager";
+import { SkeletonCache } from "../managers/GameUIManager";
 import GameUtils from "./GameUtils";
 
 const { ccclass, property } = cc._decorator;
@@ -26,14 +26,17 @@ export default class RemoteSpine extends cc.Component {
 
     readonly resourceExts = ["atlas", "json", "png"];
 
-    async init() {
+    private cache: SkeletonCache;
+
+    async init(cache: SkeletonCache) {
+        this.cache = cache;
         this.spine = this.node.getComponent(sp.Skeleton);
         await this.loadResources();
     }
 
     async loadResources() {
-        if (uiManager.remoteIconCache[this.id]) {
-            this.spine.skeletonData = uiManager.remoteIconCache[this.id].skeletonData;
+        if (this.cache[this.id]) {
+            this.spine.skeletonData = this.cache[this.id].skeletonData;
         } else {
             const spineRes = [];
             const versions = await GameUtils.getRemoteVersion(this.id);

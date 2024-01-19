@@ -1,7 +1,7 @@
 import { appContainer, lazyInject } from "../../Application";
 import { i18n } from "../../ClientModules";
 import SocketIOController from "../../SocketIOController";
-import GameUtils from "../../common/GameUtils";
+import GameUtils, { BannerType } from "../../common/GameUtils";
 import * as sessionManager from "../../common/auth/SessionManager";
 import { sentryLogger } from "../../common/logger";
 import Notice from "../../common/notice/view-models/Notice";
@@ -203,11 +203,20 @@ export default class MainSplash extends cc.Component {
                 return;
             }
             const bannerId = this.lobbyMenuConfig.bannerAds[0];
-            const spriteAwaiters = GameUtils.getBanner(bannerId);
+
+            let bannerAwaiters;
+            const bannerType = GameUtils.GetBannerTypeByGameId(bannerId);
+            if (bannerType == BannerType.Animation) {
+                bannerAwaiters = GameUtils.getAnimationBanner(bannerId);
+            } else {
+                bannerAwaiters = GameUtils.getStaticBanner(bannerId);
+            }
+
             const bannerContainerAwaiters = new Promise((resolve) => {
                 cc.resources.load("lobby/banner/bannerContainer", resolve);
             });
-            await Promise.all([spriteAwaiters, bannerContainerAwaiters]);
+
+            await Promise.all([bannerAwaiters, bannerContainerAwaiters]);
         } catch (ex) {
             console.log(ex);
         }

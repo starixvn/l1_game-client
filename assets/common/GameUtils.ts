@@ -6,7 +6,7 @@ import * as i18n from "i18n/runtime-scripts/LanguageData";
 import { lodash } from "../ClientModules";
 import SocketIOController from "../SocketIOController";
 import * as SessionManager from "../common/auth/SessionManager";
-import { getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
+import { GameConfiguration, getGameConfiguration, isUsingRemoteBundle } from "../configs/GameConfigurations";
 import LobbyManager from "../lobby/main/view-models/LobbyManager";
 import { appManager } from "../managers/AppManager";
 import { uiManager } from "../managers/GameUIManager";
@@ -28,6 +28,10 @@ import { userManager } from "./user/UserManager";
 
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
+export enum BannerType {
+    Static = 0,
+    Animation = 1
+}
 
 declare global {
     interface Window {
@@ -865,7 +869,92 @@ export default class GameUtils {
         }
     }
 
-    public static async getBanner(id: number, systemPath = "") {
+    public static async getAnimationBanner(id: number, systemPath = "") {
+        const gameConfiguration = getGameConfiguration(id);
+        if (gameConfiguration.isMicrosite) {
+            return this.getSpineRemoteBanner(id);
+        }
+
+        return this.getBannerPrefab({
+            id,
+            remoteBundle: gameConfiguration.remoteBundle,
+            systemPath
+        });
+    }
+
+    public static async getSpineRemoteBanner(id: number) {
+        const spineAssets = [];
+
+        try {
+            uiManager.remoteBannerCache[id]
+                ? uiManager.remoteBannerCache[id].configFile
+                : await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `banner/en/config.json`);
+
+            const host = GameUtils.remoteGameResourceUrl(id, `banner/${this.getCurrentLanguage()}`);
+            const spineName = "banner-game";
+            const resourceExts = ["atlas", "json", "png"];
+            const versions = await GameUtils.getRemoteVersion(id);
+            for (const ext of resourceExts) {
+                try {
+                    const resName = `${spineName}.${ext}?v=${versions?.icon}`;
+                    const url = `${host}/${resName}`;
+                    const asset = await GameUtils.loadRemote<cc.Asset>(url);
+                    spineAssets.push(asset);
+                } catch (error) {}
+            }
+        } catch (error) {
+            cc.log("No banner for game " + id);
+        }
+        return spineAssets;
+    }
+
+    public static async getBannerPrefab(data: { id: number; remoteBundle; systemPath: string }) {
+        const { id, remoteBundle, systemPath } = data;
+        let banner: cc.Prefab;
+
+        if (!!remoteBundle && !MICRO_GAMES_NOT_OFFER_BANNER.includes(id)) {
+            const path =
+                systemPath === ""
+                    ? `banners/${id}/${this.getCurrentLanguage()}/banner`
+                    : `banners/${systemPath}/${id}/${this.getCurrentLanguage()}/banner`;
+            try {
+                banner = await BundleManager.getInstance().loadAsset<cc.Prefab>({
+                    bundleId: id.toString(),
+                    path: path,
+                    type: cc.Asset
+                });
+            } catch (error) {
+                banner = await this.getBannerPrefabFromResource(id);
+            }
+        } else {
+            banner = await this.getBannerPrefabFromResource(id);
+        }
+
+        return banner;
+    }
+
+    public static GetBannerType(banner: string) {
+        switch (banner) {
+            case "":
+            case undefined:
+                return BannerType.Static;
+            case "animation":
+                return BannerType.Animation;
+        }
+    }
+
+    public static GetBannerTypeByGameId(id: number | string) {
+        const gameConfiguration = getGameConfiguration(id);
+        switch (gameConfiguration.bannerType) {
+            case "":
+            case undefined:
+                return BannerType.Static;
+            case "animation":
+                return BannerType.Animation;
+        }
+    }
+
+    public static async getStaticBanner(id: number, systemPath = "") {
         const gameConfiguration = getGameConfiguration(id);
         if (gameConfiguration.isMicrosite) {
             return this.getRemoteBanner(id);
@@ -882,6 +971,14 @@ export default class GameUtils {
         return new Promise<cc.SpriteFrame>((resolve) => {
             cc.resources.load<cc.SpriteFrame>(`lobby/banner/textures/${gameId}/${imageName}`, cc.SpriteFrame, (err, spriteFrame) => {
                 resolve(spriteFrame);
+            });
+        });
+    }
+
+    public static getBannerPrefabFromResource(gameId: number): Promise<cc.Prefab> {
+        return new Promise<cc.Prefab>((resolve) => {
+            cc.resources.load<cc.Prefab>(`lobby/banner/spines/${gameId}/${this.getCurrentLanguage()}/banner`, cc.Prefab, (err, assets) => {
+                resolve(assets);
             });
         });
     }

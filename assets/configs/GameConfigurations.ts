@@ -7,13 +7,9 @@ import { delayTime } from "../utils";
 
 export interface GameConfiguration {
     id: number;
-    currencyGroupId?: string;
     name: string;
     key: string;
     route?: string;
-    tag?: string;
-    order?: number;
-    bigSize?: boolean;
     mini?: {
         miniPanel: boolean;
         multi?: string;
@@ -21,12 +17,8 @@ export interface GameConfiguration {
     remoteBundle?: {
         dependsOn: string[];
     };
-    banner?: {
-        displayTime: number;
-        order: number;
-    };
-    category?: string;
     isMicrosite?: boolean;
+    bannerType?: string;
 }
 
 declare global {
@@ -127,16 +119,6 @@ export function getAllGameConfigurations() {
     }
 
     return window.gameConfigurations;
-}
-
-export function getGameConfigurationsWithFilter(filter: (configuration: GameConfiguration) => unknown) {
-    const configurations = getAllGameConfigurations();
-
-    return configurations.filter(filter).sort((a, b) => a.order - b.order);
-}
-
-export function getGameIdsWithFilter(filter: (configuration: GameConfiguration) => unknown) {
-    return getGameConfigurationsWithFilter(filter).map((configuration) => configuration.id);
 }
 
 export function isUsingRemoteBundle(gameId: number) {
