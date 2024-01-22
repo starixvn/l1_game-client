@@ -7,14 +7,12 @@ export enum InGameMenuEvents {
     OPEN_GUIDE = "open_guide",
     OPEN_TICKET_DETAIL = "open_ticket_detail",
     OPEN_STATISTIC = "open_statistic",
-
     CLOSE_GAME = "close_game",
-
     GO_TO_LOBBY = "go_to_lobby",
-
     CHANGE_ORIENTATION = "change_orientation",
     CHANGE_SWAP_CARD = "change_swap_card",
-    CHANGE_WINNING_NOTIFICATION = "change_winning_notification"
+    CHANGE_WINNING_NOTIFICATION = "change_winning_notification",
+    OPEN_PROVABLY_FAIR = "open_provably_fair"
 }
 
 @ccclass
@@ -62,5 +60,10 @@ export default class InGameMenu extends cc.Component {
     onClickStatistics() {
         this.doCommons();
         this.node.emit(InGameMenuEvents.OPEN_STATISTIC);
+    }
+
+    onClickProvablyFair() {
+        this.doCommons();
+        this.node.emit(InGameMenuEvents.OPEN_PROVABLY_FAIR);
     }
 }
