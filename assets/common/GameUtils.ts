@@ -472,6 +472,7 @@ export default class GameUtils {
             }
         } catch (error) {
             cc.error("An error occurred in preloadGameAssets:", error);
+            miniPanel.unCacheAndHideGameLoading(miniPanel.getGameLoadingComp(gameId), gameId);
         }
     }
 
