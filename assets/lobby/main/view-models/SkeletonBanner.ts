@@ -59,6 +59,7 @@ export default class SkeletonBanner extends cc.Component {
             remoteSpine.spineName = this.spineName;
             remoteSpine.premultipliedAlpha = iconConfig ? iconConfig.premultipliedAlpha : false;
             await remoteSpine.init(this.cache);
+            node.active = false;
         } catch (error) {
             cc.log("No banner for game " + id);
             return null;
@@ -72,6 +73,7 @@ export default class SkeletonBanner extends cc.Component {
         const gameNode = gameConfig.isMicrosite ? await this.createRemoteIconNode(id) : await this.createIconNode(gameConfig);
         if (gameNode) {
             this.hideSkeleton();
+            this.gameContent?.childrenCount === 0 && (gameNode.active = true);
             this.gameContent?.addChild(gameNode);
         }
     }

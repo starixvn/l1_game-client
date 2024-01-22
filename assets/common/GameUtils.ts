@@ -915,8 +915,8 @@ export default class GameUtils {
         if (!!remoteBundle && !MICRO_GAMES_NOT_OFFER_BANNER.includes(id)) {
             const path =
                 systemPath === ""
-                    ? `banners/${id}/${this.getCurrentLanguage()}/banner`
-                    : `banners/${systemPath}/${id}/${this.getCurrentLanguage()}/banner`;
+                    ? `banners/${this.getCurrentLanguage()}/banner`
+                    : `banners/${systemPath}/${this.getCurrentLanguage()}/banner`;
             try {
                 banner = await BundleManager.getInstance().loadAsset<cc.Prefab>({
                     bundleId: id.toString(),
@@ -924,10 +924,10 @@ export default class GameUtils {
                     type: cc.Asset
                 });
             } catch (error) {
-                banner = await this.getBannerPrefabFromResource(id);
+                cc.log("No banner for game " + id);
             }
         } else {
-            banner = await this.getBannerPrefabFromResource(id);
+            cc.log("No banner for game " + id);
         }
 
         return banner;
@@ -971,14 +971,6 @@ export default class GameUtils {
         return new Promise<cc.SpriteFrame>((resolve) => {
             cc.resources.load<cc.SpriteFrame>(`lobby/banner/textures/${gameId}/${imageName}`, cc.SpriteFrame, (err, spriteFrame) => {
                 resolve(spriteFrame);
-            });
-        });
-    }
-
-    public static getBannerPrefabFromResource(gameId: number): Promise<cc.Prefab> {
-        return new Promise<cc.Prefab>((resolve) => {
-            cc.resources.load<cc.Prefab>(`lobby/banner/spines/${gameId}/${this.getCurrentLanguage()}/banner`, cc.Prefab, (err, assets) => {
-                resolve(assets);
             });
         });
     }
