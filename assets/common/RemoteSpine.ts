@@ -9,6 +9,12 @@ enum SpineFile {
     Texture = 2
 }
 
+export enum Type {
+    Icon = 0,
+    Banner = 1
+}
+
+const versionMapping = { [Type.Icon]: "icon", [Type.Banner]: "banner" };
 @ccclass
 export default class RemoteSpine extends cc.Component {
     @property
@@ -28,7 +34,7 @@ export default class RemoteSpine extends cc.Component {
 
     private cache: SkeletonCache;
 
-    public type = BannerType.Static;
+    public type = Type.Icon;
 
     async init(cache: SkeletonCache) {
         this.cache = cache;
@@ -42,7 +48,8 @@ export default class RemoteSpine extends cc.Component {
         } else {
             const spineRes = [];
             const versions = await GameUtils.getRemoteVersion(this.id);
-            const versionType = this.type == BannerType.Static ? versions?.icon : versions?.banner;
+            const versionType = versions?.[versionMapping[this.type]];
+
             for (const ext of this.resourceExts) {
                 try {
                     const resName = `${this.spineName}.${ext}?v=${versionType}`;
