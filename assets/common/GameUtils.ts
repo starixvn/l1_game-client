@@ -897,7 +897,7 @@ export default class GameUtils {
             const versions = await GameUtils.getRemoteVersion(id);
             for (const ext of resourceExts) {
                 try {
-                    const resName = `${spineName}.${ext}?v=${versions?.icon}`;
+                    const resName = `${spineName}.${ext}?v=${versions?.banner}`;
                     const url = `${host}/${resName}`;
                     const asset = await GameUtils.loadRemote<cc.Asset>(url);
                     spineAssets.push(asset);

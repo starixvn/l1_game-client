@@ -1,5 +1,5 @@
 import { SkeletonCache } from "../managers/GameUIManager";
-import GameUtils from "./GameUtils";
+import GameUtils, { BannerType } from "./GameUtils";
 
 const { ccclass, property } = cc._decorator;
 
@@ -28,6 +28,8 @@ export default class RemoteSpine extends cc.Component {
 
     private cache: SkeletonCache;
 
+    public type = BannerType.Static;
+
     async init(cache: SkeletonCache) {
         this.cache = cache;
         this.spine = this.node.getComponent(sp.Skeleton);
@@ -40,9 +42,10 @@ export default class RemoteSpine extends cc.Component {
         } else {
             const spineRes = [];
             const versions = await GameUtils.getRemoteVersion(this.id);
+            const versionType = this.type == BannerType.Static ? versions?.icon : versions?.banner;
             for (const ext of this.resourceExts) {
                 try {
-                    const resName = `${this.spineName}.${ext}?v=${versions?.icon}`;
+                    const resName = `${this.spineName}.${ext}?v=${versionType}`;
                     const url = `${this.host}/${resName}`;
                     const data = await GameUtils.loadRemote(url);
                     if (data) {

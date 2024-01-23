@@ -1,5 +1,5 @@
 import { lazyInject } from "../../../Application";
-import GameUtils from "../../../common/GameUtils";
+import GameUtils, { BannerType } from "../../../common/GameUtils";
 import RemoteSpine from "../../../common/RemoteSpine";
 import Loading from "../../../common/loading/view-models/Loading";
 import { GameConfiguration, getGameConfiguration } from "../../../configs/GameConfigurations";
@@ -58,6 +58,7 @@ export default class SkeletonBanner extends cc.Component {
             remoteSpine.host = url;
             remoteSpine.spineName = this.spineName;
             remoteSpine.premultipliedAlpha = iconConfig ? iconConfig.premultipliedAlpha : false;
+            remoteSpine.type = BannerType.Animation;
             await remoteSpine.init(this.cache);
             node.active = false;
         } catch (error) {
