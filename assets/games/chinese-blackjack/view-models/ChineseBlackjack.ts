@@ -1,10 +1,13 @@
 import GameUtils from "../../../common/GameUtils";
+import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { uiManager } from "../../../managers/GameUIManager";
+import ProvablyFair from "../../_casino/ProvablyFair";
 import BlackJack, { BlackJackActionType } from "../../blackjack/view-models/BlackJack";
 import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
 import ChineseBlackjackHandPlace from "./ChineseBlackjackHandPlace";
@@ -33,9 +36,16 @@ export default class ChineseBlackjack extends BlackJack {
     @property(cc.Label)
     fiveCardsOddsLabel: cc.Label = null;
 
+    @property(cc.Prefab)
+    provablyFairPrefab: cc.Prefab = null;
+
+    @property(cc.Prefab)
+    guideProvablyFairPrefab: cc.Prefab = null;
+
     protected moveCardDuration = 0.35;
     chipJumpHeight = 250;
     betChips: BetChipsNew;
+    provablyFair: ProvablyFair;
 
     constructor() {
         super();
@@ -44,7 +54,14 @@ export default class ChineseBlackjack extends BlackJack {
 
     onLoad() {
         uiManager.emitterListener(CHINESE_BLACKJACK_EMIT_EVENTS.STAND_CLICK_NO, () => this.onPopupConfirmWithoutStand(), this);
+        this.initProvablyFair();
         super.onLoad();
+    }
+
+    initProvablyFair() {
+        this.provablyFair.callBackOpenGuide = () => {
+            this.opeGuideProvablyFair();
+        };
     }
 
     public get chipConfig() {
@@ -116,5 +133,20 @@ export default class ChineseBlackjack extends BlackJack {
 
     onPopupConfirmWithoutStand() {
         this.standButton?.getComponent(FadeEffectButton).setDisabled(false);
+    }
+
+    openProvablyFair() {
+        const dialog = cc.instantiate(this.provablyFairPrefab);
+        this.currentMiniPanel.addDialog(dialog);
+    }
+
+    opeGuideProvablyFair() {
+        const dialog = cc.instantiate(this.guideProvablyFairPrefab);
+        const locale = getLocale();
+        const language = getLanguage(locale);
+        const guide = dialog.getComponent(WebViewGuide);
+        guide.setURL(`/${language}/?gameId=${this.gameId}&PF=1&t=blue&c=0&f=sc&v=${Date.now()}`);
+        this.currentMiniPanel.addDialog(dialog);
+        guide.loadWebView();
     }
 }

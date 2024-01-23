@@ -628,6 +628,10 @@ export default class GameBase extends GameViewBase {
         this.handleGameGuide(guide, language, minBet, maxBet, isInPromotionTime);
     }
 
+    openProvablyFair() {
+        // handle
+    }
+
     handleGameGuide(guide: WebViewGuide, language, minBet, maxBet, isInPromotionTime) {
         guide.initURL(
             this.gameId,
@@ -719,6 +723,7 @@ export default class GameBase extends GameViewBase {
         node.on(InGameMenuEvents.OPEN_HISTORY, this.openHistory, this);
         node.on(InGameMenuEvents.OPEN_GUIDE, this.openGuide, this);
         node.on(InGameMenuEvents.CLOSE_GAME, this.onCloseGame, this);
+        node.on(InGameMenuEvents.OPEN_PROVABLY_FAIR, this.openProvablyFair, this);
         return node;
     }
 

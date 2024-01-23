@@ -1,9 +1,6 @@
 import EffectAppearanceLabel from "../../common/EffectAppearanceLabel";
 import GameUtils from "../../common/GameUtils";
 import CommonDialog from "../../common/_base/view-models/CommonDialog";
-import { getLanguage, getLocale } from "../../common/auth/SessionManager";
-import WebViewGuide from "../../common/webview-guide/WebViewGuide";
-import MiniPanel from "../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -37,20 +34,12 @@ export default class ProvablyFair extends cc.Component {
     defaultLimit = 5;
     hashCopyString = "";
 
-    public currentMiniPanel: MiniPanel;
-    gameId: number;
-
     callbackHandle() {
         // handle
     }
 
     callBackOpenGuide() {
         // handle
-    }
-
-    initGameGuide(currentMiniPanel: MiniPanel, gameId: number) {
-        this.currentMiniPanel = currentMiniPanel;
-        this.gameId = gameId;
     }
 
     onLoad() {
@@ -141,12 +130,6 @@ export default class ProvablyFair extends cc.Component {
 
     onGuideClick() {
         // handle
-        const dialog = cc.instantiate(this.gamGuidePrefab);
-        const locale = getLocale();
-        const language = getLanguage(locale);
-        const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(`/${language}/?gameId=${this.gameId}&PF=1&t=blue&c=0&f=sc&v=${Date.now()}`);
-        this.currentMiniPanel.addDialog(dialog);
-        guide.loadWebView();
+        this.callBackOpenGuide();
     }
 }
