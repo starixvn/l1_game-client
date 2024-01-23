@@ -25,6 +25,7 @@ export default class BannerController extends cc.Component {
     public currentIndex = 0;
     private touchOffset = cc.v2(0, 0);
     private started = false;
+    private isFirstLoad = false;
     private isScrollNestedScrollView = false;
     public menuLoop = false;
     public onEndingRound = (rightDirection: boolean) => {
@@ -56,7 +57,10 @@ export default class BannerController extends cc.Component {
     }
 
     showFirstPage() {
-        this.animationMovePage(0, PageDirection.Right);
+        if (!this.isFirstLoad) {
+            this.animationMovePage(0, PageDirection.Right);
+            this.isFirstLoad = true;
+        }
     }
 
     showLastPage() {
