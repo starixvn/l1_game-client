@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "CLxrapWUvxXLkH3drcBuWGv0DZ4", "spine": "3.8.99", "x": -151.89, "y": -358.7, "width": 306, "height": 561.68 },
+"skeleton": { "hash": "ulaiVBD4ifUBVii6Yb9e3h5zGzE", "spine": "3.8.99", "x": -154.54, "y": -360.22, "width": 308.65, "height": 563.2 },
 "bones": [
 	{ "name": "root", "x": 5.91, "y": -51.29 },
 	{ "name": "all", "parent": "root", "scaleX": 1.2, "scaleY": 1.2 },
@@ -27,7 +27,11 @@
 	{ "name": "bone7", "parent": "bone6", "length": 17.91, "rotation": -4.61, "x": 25.06 },
 	{ "name": "bone8", "parent": "bone2", "length": 35.05, "rotation": 138.06, "x": 25.33, "y": 31.87 },
 	{ "name": "bone9", "parent": "bone8", "length": 31.68, "rotation": 133, "x": 35.05 },
-	{ "name": "bone10", "parent": "bone9", "length": 14.3, "rotation": 9.27, "x": 31.68 }
+	{ "name": "bone10", "parent": "bone9", "length": 14.3, "rotation": 9.27, "x": 31.68 },
+	{ "name": "ball-1", "parent": "all", "x": 44.13, "y": -238.44 },
+	{ "name": "ball-2", "parent": "all", "x": -70.45, "y": -226.83 },
+	{ "name": "ball-3", "parent": "all", "x": -94.45, "y": -150.19 },
+	{ "name": "ball-4", "parent": "all", "x": 89.03, "y": -184.25 }
 ],
 "slots": [
 	{ "name": "shape dragon", "bone": "dragon", "attachment": "shape dragon" },
@@ -49,7 +53,15 @@
 	{ "name": "anhsang2", "bone": "anhsang2", "attachment": "anhsang4", "blend": "additive" },
 	{ "name": "anhsang3", "bone": "anhsang3", "blend": "additive" },
 	{ "name": "name", "bone": "all" },
-	{ "name": "name2", "bone": "all", "blend": "additive" }
+	{ "name": "name2", "bone": "all", "blend": "additive" },
+	{ "name": "ball-1", "bone": "ball-1", "attachment": "ball-1" },
+	{ "name": "ball-5", "bone": "ball-1", "attachment": "ball-1", "blend": "additive" },
+	{ "name": "ball-2", "bone": "ball-2", "attachment": "ball-2" },
+	{ "name": "ball-6", "bone": "ball-2", "attachment": "ball-2", "blend": "additive" },
+	{ "name": "ball-3", "bone": "ball-3", "attachment": "ball-3" },
+	{ "name": "ball-7", "bone": "ball-3", "attachment": "ball-3", "blend": "additive" },
+	{ "name": "ball-4", "bone": "ball-4", "attachment": "ball-4" },
+	{ "name": "ball-8", "bone": "ball-4", "attachment": "ball-4", "blend": "additive" }
 ],
 "skins": [
 	{
@@ -71,6 +83,30 @@
 				"anhsang": { "x": 0.5, "y": 0.5, "width": 79, "height": 49 },
 				"anhsang2": { "y": 0.5, "width": 80, "height": 49 },
 				"anhsang3": { "x": 0.89, "y": -0.89, "width": 38, "height": 30 }
+			},
+			"ball-1": {
+				"ball-1": { "x": 0.5, "width": 37, "height": 38 }
+			},
+			"ball-2": {
+				"ball-2": { "x": 0.5, "width": 41, "height": 42 }
+			},
+			"ball-3": {
+				"ball-3": { "x": 0.5, "width": 34, "height": 35 }
+			},
+			"ball-4": {
+				"ball-4": { "x": 0.5, "width": 30, "height": 31 }
+			},
+			"ball-5": {
+				"ball-1": { "x": 0.5, "width": 37, "height": 38 }
+			},
+			"ball-6": {
+				"ball-2": { "x": 0.5, "width": 41, "height": 42 }
+			},
+			"ball-7": {
+				"ball-3": { "x": 0.5, "width": 34, "height": 35 }
+			},
+			"ball-8": {
+				"ball-4": { "x": 0.5, "width": 30, "height": 31 }
 			},
 			"board": {
 				"board": { "x": -4, "y": 45, "width": 255, "height": 130 }
@@ -231,6 +267,34 @@
 					{ "time": 0.8333, "name": null }
 				]
 			},
+			"ball-5": {
+				"color": [
+					{ "color": "ffffff00" },
+					{ "time": 1.6667, "color": "ffffffff" },
+					{ "time": 2.6667, "color": "ffffff00" }
+				]
+			},
+			"ball-6": {
+				"color": [
+					{ "color": "ffffff00" },
+					{ "time": 0.6667, "color": "ffffffff" },
+					{ "time": 2.6667, "color": "ffffff00" }
+				]
+			},
+			"ball-7": {
+				"color": [
+					{ "color": "ffffff00" },
+					{ "time": 1.1667, "color": "ffffffff" },
+					{ "time": 2.6667, "color": "ffffff00" }
+				]
+			},
+			"ball-8": {
+				"color": [
+					{ "color": "ffffff00" },
+					{ "time": 2.1667, "color": "ffffffff" },
+					{ "time": 2.6667, "color": "ffffff00" }
+				]
+			},
 			"board2": {
 				"color": [
 					{ "color": "ffffff00", "curve": "stepped" },
@@ -357,6 +421,54 @@
 				"rotate": [
 					{},
 					{ "time": 1.6667, "angle": -8.95 },
+					{ "time": 2.6667 }
+				]
+			},
+			"ball-4": {
+				"translate": [
+					{},
+					{ "time": 1, "y": 5.42 },
+					{ "time": 2.6667 }
+				],
+				"scale": [
+					{},
+					{ "time": 1.5, "x": 1.06, "y": 1.06 },
+					{ "time": 2.6667 }
+				]
+			},
+			"ball-3": {
+				"translate": [
+					{},
+					{ "time": 1, "y": 2.32 },
+					{ "time": 2.6667 }
+				],
+				"scale": [
+					{},
+					{ "time": 1, "x": 1.06, "y": 1.06 },
+					{ "time": 2.6667 }
+				]
+			},
+			"ball-2": {
+				"translate": [
+					{},
+					{ "time": 1, "x": -1.55, "y": 5.42 },
+					{ "time": 2.6667 }
+				],
+				"scale": [
+					{},
+					{ "time": 1.3333, "x": 1.02, "y": 1.02 },
+					{ "time": 2.6667 }
+				]
+			},
+			"ball-1": {
+				"translate": [
+					{},
+					{ "time": 1, "x": 1.55, "y": 4.64 },
+					{ "time": 2.6667 }
+				],
+				"scale": [
+					{},
+					{ "time": 2, "x": 1.02, "y": 1.02 },
 					{ "time": 2.6667 }
 				]
 			}
