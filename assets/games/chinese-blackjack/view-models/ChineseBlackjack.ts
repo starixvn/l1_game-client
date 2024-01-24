@@ -45,7 +45,7 @@ export default class ChineseBlackjack extends BlackJack {
     protected moveCardDuration = 0.35;
     chipJumpHeight = 250;
     betChips: BetChipsNew;
-    provablyFair: ProvablyFair;
+    provablyFair: ProvablyFair = null;
 
     constructor() {
         super();
@@ -54,14 +54,7 @@ export default class ChineseBlackjack extends BlackJack {
 
     onLoad() {
         uiManager.emitterListener(CHINESE_BLACKJACK_EMIT_EVENTS.STAND_CLICK_NO, () => this.onPopupConfirmWithoutStand(), this);
-        this.initProvablyFair();
         super.onLoad();
-    }
-
-    initProvablyFair() {
-        this.provablyFair.callBackOpenGuide = () => {
-            this.opeGuideProvablyFair();
-        };
     }
 
     public get chipConfig() {
@@ -131,16 +124,36 @@ export default class ChineseBlackjack extends BlackJack {
         this.standButton?.getComponent(FadeEffectButton).setDisabled(true);
     }
 
+    rebet() {
+        const data = {
+            deal: {
+                hands: this.lastHandBets,
+                clientSeed: this.provablyFair.clientSeed
+            }
+        };
+        this.socketSendData("bet", data);
+    }
+
     onPopupConfirmWithoutStand() {
         this.standButton?.getComponent(FadeEffectButton).setDisabled(false);
     }
 
     openProvablyFair() {
-        const dialog = cc.instantiate(this.provablyFairPrefab);
-        this.currentMiniPanel.addDialog(dialog);
+        this.provablyFair.statusNode(true);
+        this.provablyFair.commonDialog.showDialog();
     }
 
-    opeGuideProvablyFair() {
+    initProvablyFair(node: cc.Node) {
+        const provablyFair = node.getComponent(ProvablyFair);
+        provablyFair.commonDialog.node.active = false;
+        provablyFair.statusNode(false);
+        provablyFair.callBackOpenGuide = () => {
+            this.openGuideProvablyFair();
+        };
+        this.provablyFair = provablyFair;
+    }
+
+    openGuideProvablyFair() {
         const dialog = cc.instantiate(this.guideProvablyFairPrefab);
         const locale = getLocale();
         const language = getLanguage(locale);

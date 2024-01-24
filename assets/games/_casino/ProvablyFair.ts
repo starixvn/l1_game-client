@@ -21,16 +21,13 @@ export default class ProvablyFair extends cc.Component {
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
 
-    @property(cc.Prefab)
-    gamGuidePrefab: cc.Prefab = null;
-
     @property()
     clientSeedMin = 0;
 
     @property()
     clientSeedMax = 103;
 
-    clientSeed = 0;
+    clientSeed = 5;
     defaultLimit = 5;
     hashCopyString = "";
 
@@ -46,6 +43,14 @@ export default class ProvablyFair extends cc.Component {
         this.editBoxLimit.string = this.defaultLimit.toString();
         this.clientSeed = this.defaultLimit;
         this.setCopyString("test12312asasd");
+
+        this.commonDialog.addOnDidHide(() => {
+            this.statusNode(false);
+        });
+    }
+
+    statusNode(active: boolean) {
+        this.node.active = active;
     }
 
     onLimitPrevClick() {
@@ -125,11 +130,9 @@ export default class ProvablyFair extends cc.Component {
 
     onCloseClick() {
         this.commonDialog.closeDialog();
-        this.callbackHandle();
     }
 
     onGuideClick() {
-        // handle
         this.callBackOpenGuide();
     }
 }

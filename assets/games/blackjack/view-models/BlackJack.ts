@@ -536,7 +536,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         if (!this.canSendRequest()) {
             return;
         }
-        console.log("onDealClick");
 
         this.handPlaces.forEach((place) => {
             place.showClearBetButton(false);

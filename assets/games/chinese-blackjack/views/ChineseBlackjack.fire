@@ -87,31 +87,31 @@
         "__id__": 173
       },
       {
-        "__id__": 1131
-      },
-      {
         "__id__": 1135
-      },
-      {
-        "__id__": 1137
       },
       {
         "__id__": 1139
       },
       {
         "__id__": 1141
+      },
+      {
+        "__id__": 1143
+      },
+      {
+        "__id__": 1145
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1143
+        "__id__": 1147
       },
       {
-        "__id__": 1144
+        "__id__": 1148
       },
       {
-        "__id__": 1145
+        "__id__": 1149
       }
     ],
     "_prefab": null,
@@ -2359,13 +2359,13 @@
         "__id__": 320
       },
       {
-        "__id__": 1124
+        "__id__": 1128
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1130
+        "__id__": 1134
       }
     ],
     "_prefab": null,
@@ -2702,7 +2702,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 1123
+      "__id__": 1127
     },
     "_opacity": 255,
     "_color": {
@@ -6732,20 +6732,20 @@
     "resultValue": null,
     "handId": null,
     "blackJackNode": {
-      "__id__": 1097
+      "__id__": 1101
     },
     "burstNode": {
-      "__id__": 1113
+      "__id__": 1117
     },
     "errorNode": null,
     "betText": null,
     "activeIcon": null,
     "_selected": false,
     "fiveCardsNode": {
-      "__id__": 1104
+      "__id__": 1108
     },
     "banBanNode": {
-      "__id__": 1090
+      "__id__": 1094
     },
     "unqualifiedNode": null,
     "popupStand": null,
@@ -6863,10 +6863,10 @@
     "_active": false,
     "_components": [
       {
-        "__id__": 1121
+        "__id__": 1125
       },
       {
-        "__id__": 1122
+        "__id__": 1126
       }
     ],
     "_prefab": null,
@@ -6929,7 +6929,7 @@
         "__id__": 170
       },
       {
-        "__id__": 1088
+        "__id__": 1092
       }
     ],
     "_active": true,
@@ -7081,12 +7081,15 @@
       },
       {
         "__id__": 1086
+      },
+      {
+        "__id__": 1090
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1087
+        "__id__": 1091
       }
     ],
     "_prefab": null,
@@ -42951,6 +42954,126 @@
   },
   {
     "__type__": "cc.Node",
+    "_name": "container-PF",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 173
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 1087
+      },
+      {
+        "__id__": 1089
+      }
+    ],
+    "_prefab": null,
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 1398,
+      "height": 786
+    },
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 0,
+    "groupIndex": 0,
+    "_id": "22tVg3mq5M67lOJC9EhgEH"
+  },
+  {
+    "__type__": "2aa89SjKxZNhZGiq4fg66rF",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1086
+    },
+    "_enabled": true,
+    "prefab": {
+      "__uuid__": "d64111db-5411-47b7-a2f4-c82c3d74269d"
+    },
+    "initializationEventHandlers": [
+      {
+        "__id__": 1088
+      }
+    ],
+    "_id": "11779EOo1ML6qgcFR27q36"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "",
+    "_componentId": "14018eG8OtG3pLGIfdr+qW6",
+    "handler": "initProvablyFair",
+    "customEventData": ""
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1086
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 0,
+    "_id": "868NyfS8xN+YnIkFQXH3iw"
+  },
+  {
+    "__type__": "cc.Node",
     "_name": "notice",
     "_objFlags": 0,
     "_parent": {
@@ -43043,10 +43166,10 @@
     },
     "_children": [
       {
-        "__id__": 1089
+        "__id__": 1093
       },
       {
-        "__id__": 1112
+        "__id__": 1116
       }
     ],
     "_active": true,
@@ -43104,23 +43227,23 @@
     "_name": "top",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1088
+      "__id__": 1092
     },
     "_children": [
       {
-        "__id__": 1090
+        "__id__": 1094
       },
       {
-        "__id__": 1097
+        "__id__": 1101
       },
       {
-        "__id__": 1104
+        "__id__": 1108
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1111
+        "__id__": 1115
       }
     ],
     "_prefab": null,
@@ -43176,20 +43299,20 @@
     "_name": "banBan",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1089
+      "__id__": 1093
     },
     "_children": [
       {
-        "__id__": 1091
+        "__id__": 1095
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 1095
+        "__id__": 1099
       },
       {
-        "__id__": 1096
+        "__id__": 1100
       }
     ],
     "_prefab": null,
@@ -43245,19 +43368,19 @@
     "_name": "textBan",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1090
+      "__id__": 1094
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 1092
+        "__id__": 1096
       },
       {
-        "__id__": 1093
+        "__id__": 1097
       },
       {
-        "__id__": 1094
+        "__id__": 1098
       }
     ],
     "_prefab": null,
@@ -43313,7 +43436,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1091
+      "__id__": 1095
     },
     "_enabled": true,
     "_materials": [
@@ -43348,7 +43471,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1091
+      "__id__": 1095
     },
     "_enabled": true,
     "overrideFonts": [],
@@ -43360,7 +43483,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1091
+      "__id__": 1095
     },
     "_enabled": true,
     "_dataId": "ChineseBlackjack.glossary_hand_ranking_ban-ban",
@@ -43371,7 +43494,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1090
+      "__id__": 1094
     },
     "_enabled": true,
     "_materials": [
@@ -43405,7 +43528,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1090
+      "__id__": 1094
     },
     "_enabled": true,
     "_layoutSize": {
@@ -43437,20 +43560,20 @@
     "_name": "banLuck",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1089
+      "__id__": 1093
     },
     "_children": [
       {
-        "__id__": 1098
+        "__id__": 1102
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 1102
+        "__id__": 1106
       },
       {
-        "__id__": 1103
+        "__id__": 1107
       }
     ],
     "_prefab": null,
@@ -43506,19 +43629,19 @@
     "_name": "textLuck",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1097
+      "__id__": 1101
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 1099
+        "__id__": 1103
       },
       {
-        "__id__": 1100
+        "__id__": 1104
       },
       {
-        "__id__": 1101
+        "__id__": 1105
       }
     ],
     "_prefab": null,
@@ -43574,7 +43697,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1098
+      "__id__": 1102
     },
     "_enabled": true,
     "_materials": [
@@ -43609,7 +43732,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1098
+      "__id__": 1102
     },
     "_enabled": true,
     "overrideFonts": [],
@@ -43621,7 +43744,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1098
+      "__id__": 1102
     },
     "_enabled": true,
     "_dataId": "ChineseBlackjack.glossary_hand_ranking_ban-luck",
@@ -43632,7 +43755,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1097
+      "__id__": 1101
     },
     "_enabled": true,
     "_materials": [
@@ -43666,7 +43789,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1097
+      "__id__": 1101
     },
     "_enabled": true,
     "_layoutSize": {
@@ -43698,20 +43821,20 @@
     "_name": "fiveCards",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1089
+      "__id__": 1093
     },
     "_children": [
       {
-        "__id__": 1105
+        "__id__": 1109
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 1109
+        "__id__": 1113
       },
       {
-        "__id__": 1110
+        "__id__": 1114
       }
     ],
     "_prefab": null,
@@ -43767,19 +43890,19 @@
     "_name": "textFive",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1104
+      "__id__": 1108
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 1106
+        "__id__": 1110
       },
       {
-        "__id__": 1107
+        "__id__": 1111
       },
       {
-        "__id__": 1108
+        "__id__": 1112
       }
     ],
     "_prefab": null,
@@ -43835,7 +43958,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1105
+      "__id__": 1109
     },
     "_enabled": true,
     "_materials": [
@@ -43870,7 +43993,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1105
+      "__id__": 1109
     },
     "_enabled": true,
     "overrideFonts": [],
@@ -43882,7 +44005,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1105
+      "__id__": 1109
     },
     "_enabled": true,
     "_dataId": "ChineseBlackjack.glossary_five-card",
@@ -43893,7 +44016,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1104
+      "__id__": 1108
     },
     "_enabled": true,
     "_materials": [
@@ -43927,7 +44050,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1104
+      "__id__": 1108
     },
     "_enabled": true,
     "_layoutSize": {
@@ -43959,7 +44082,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1089
+      "__id__": 1093
     },
     "_enabled": true,
     "camera3D": {
@@ -43978,17 +44101,17 @@
     "_name": "bottom",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1088
+      "__id__": 1092
     },
     "_children": [
       {
-        "__id__": 1113
+        "__id__": 1117
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1120
+        "__id__": 1124
       }
     ],
     "_prefab": null,
@@ -44044,20 +44167,20 @@
     "_name": "burst",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1112
+      "__id__": 1116
     },
     "_children": [
       {
-        "__id__": 1114
+        "__id__": 1118
       }
     ],
     "_active": false,
     "_components": [
       {
-        "__id__": 1118
+        "__id__": 1122
       },
       {
-        "__id__": 1119
+        "__id__": 1123
       }
     ],
     "_prefab": null,
@@ -44113,19 +44236,19 @@
     "_name": "burstValue",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1113
+      "__id__": 1117
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 1115
+        "__id__": 1119
       },
       {
-        "__id__": 1116
+        "__id__": 1120
       },
       {
-        "__id__": 1117
+        "__id__": 1121
       }
     ],
     "_prefab": null,
@@ -44181,7 +44304,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1114
+      "__id__": 1118
     },
     "_enabled": true,
     "_materials": [
@@ -44216,7 +44339,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1114
+      "__id__": 1118
     },
     "_enabled": true,
     "_dataId": "ChineseBlackjack.glossary_bust",
@@ -44229,7 +44352,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1114
+      "__id__": 1118
     },
     "_enabled": true,
     "overrideFonts": [],
@@ -44241,7 +44364,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1113
+      "__id__": 1117
     },
     "_enabled": true,
     "_materials": [
@@ -44275,7 +44398,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1113
+      "__id__": 1117
     },
     "_enabled": true,
     "_layoutSize": {
@@ -44307,7 +44430,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1112
+      "__id__": 1116
     },
     "_enabled": true,
     "camera3D": {
@@ -44407,22 +44530,22 @@
     },
     "_children": [
       {
-        "__id__": 1125
+        "__id__": 1129
       },
       {
-        "__id__": 1126
+        "__id__": 1130
       },
       {
-        "__id__": 1127
+        "__id__": 1131
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1128
+        "__id__": 1132
       },
       {
-        "__id__": 1129
+        "__id__": 1133
       }
     ],
     "_prefab": null,
@@ -44478,7 +44601,7 @@
     "_name": "chip1",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1124
+      "__id__": 1128
     },
     "_children": [],
     "_active": true,
@@ -44536,7 +44659,7 @@
     "_name": "chip2",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1124
+      "__id__": 1128
     },
     "_children": [],
     "_active": true,
@@ -44594,7 +44717,7 @@
     "_name": "chip3",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1124
+      "__id__": 1128
     },
     "_children": [],
     "_active": true,
@@ -44652,7 +44775,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1124
+      "__id__": 1128
     },
     "_enabled": false,
     "_layoutSize": {
@@ -44684,7 +44807,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1124
+      "__id__": 1128
     },
     "_enabled": true,
     "alignMode": 1,
@@ -44744,10 +44867,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1132
+        "__id__": 1136
       },
       {
-        "__id__": 1133
+        "__id__": 1137
       }
     ],
     "_prefab": null,
@@ -44803,7 +44926,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1131
+      "__id__": 1135
     },
     "_enabled": true,
     "alignMode": 1,
@@ -44830,7 +44953,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1131
+      "__id__": 1135
     },
     "_enabled": true,
     "prefab": {
@@ -44838,7 +44961,7 @@
     },
     "initializationEventHandlers": [
       {
-        "__id__": 1134
+        "__id__": 1138
       }
     ],
     "mobilePrefab": {
@@ -44867,7 +44990,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1136
+        "__id__": 1140
       }
     ],
     "_prefab": null,
@@ -44923,7 +45046,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1135
+      "__id__": 1139
     },
     "_enabled": true,
     "alignMode": 1,
@@ -44952,7 +45075,7 @@
       "__id__": 2
     },
     "_prefab": {
-      "__id__": 1138
+      "__id__": 1142
     },
     "_name": "Loading",
     "_active": false,
@@ -44983,7 +45106,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 1137
+      "__id__": 1141
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -45002,7 +45125,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1140
+        "__id__": 1144
       }
     ],
     "_prefab": null,
@@ -45058,7 +45181,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1139
+      "__id__": 1143
     },
     "_enabled": true,
     "_clip": {
@@ -45083,7 +45206,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1142
+        "__id__": 1146
       }
     ],
     "_prefab": null,
@@ -45139,7 +45262,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1141
+      "__id__": 1145
     },
     "_enabled": true,
     "_clip": {
@@ -45213,7 +45336,7 @@
       "__uuid__": "33b0ebea-3392-4bf8-aa8c-7ea614252597"
     },
     "noticeNode": {
-      "__id__": 1086
+      "__id__": 1090
     },
     "umNotice": null,
     "timeWaitNode": null,
@@ -45242,13 +45365,13 @@
       "__uuid__": "e6b338af-a270-41e5-ae75-f1866ee0a0f7"
     },
     "miniPanelContainer": {
-      "__id__": 1135
+      "__id__": 1139
     },
     "noticePrefab": {
       "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
     },
     "loading": {
-      "__id__": 1137
+      "__id__": 1141
     },
     "winningPlayerEffectPrefab": {
       "__uuid__": "bb8ae1e3-8ee1-4bf5-b19d-3a000b02170e"
@@ -45270,13 +45393,13 @@
     },
     "chipContainers": [
       {
-        "__id__": 1125
+        "__id__": 1129
       },
       {
-        "__id__": 1126
+        "__id__": 1130
       },
       {
-        "__id__": 1127
+        "__id__": 1131
       }
     ],
     "cardPrefab": {
@@ -45330,10 +45453,10 @@
       "__uuid__": "ed6119ac-1876-44e0-b016-d12ee63135b4"
     },
     "cardSlideAudioSource": {
-      "__id__": 1140
+      "__id__": 1144
     },
     "gameNotificationsAudio": {
-      "__id__": 1142
+      "__id__": 1146
     },
     "singleChipAudio": {
       "__id__": 4
