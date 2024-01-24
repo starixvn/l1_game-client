@@ -1,14 +1,5 @@
 {
-"skeleton": {
-	"hash": "jqq7HTJfg/Xxd4vmBW45KR6pwg8",
-	"spine": "3.8.99",
-	"x": -699,
-	"y": -393,
-	"width": 1398,
-	"height": 786,
-	"images": "./images/",
-	"audio": "D:/L5/DJClub/Graphic/replace-assets/resources/spine/effect"
-},
+"skeleton": { "hash": "shtNhqKF9Co4DlV37SbQfOvd/zY", "spine": "3.8.99", "x": -699, "y": -393, "width": 1398, "height": 786 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "effect-big-win", "parent": "root" },
@@ -597,6 +588,11 @@
 					{ "name": null }
 				]
 			},
+			"fx_glow5": {
+				"attachment": [
+					{ "name": null }
+				]
+			},
 			"fx_glow6": {
 				"color": [
 					{ "color": "ffffff00", "curve": 0.25, "c3": 0.75 },
@@ -609,8 +605,7 @@
 					{ "color": "ffffff96", "curve": "stepped" },
 					{ "time": 0.5, "color": "ffffff96" },
 					{ "time": 0.8333, "color": "ffffffff" },
-					{ "time": 1.3333, "color": "ffffff36" },
-					{ "time": 2, "color": "ffffff96" }
+					{ "time": 1.3333, "color": "ffffff36" }
 				]
 			}
 		},
