@@ -1,11 +1,11 @@
-import EffectAppearanceLabel from "../../common/EffectAppearanceLabel";
-import GameUtils from "../../common/GameUtils";
-import CommonDialog from "../../common/_base/view-models/CommonDialog";
+import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
+import GameUtils from "../../../common/GameUtils";
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class ProvablyFair extends cc.Component {
+export default class ChineseBlackjackProvablyFair extends cc.Component {
     @property(cc.EditBox)
     editBoxLimit: cc.EditBox = null;
 
@@ -42,7 +42,7 @@ export default class ProvablyFair extends cc.Component {
     onLoad() {
         this.editBoxLimit.string = this.defaultLimit.toString();
         this.clientSeed = this.defaultLimit;
-        this.setCopyString("test12312asasd");
+        this.setCopyString("test123");
 
         this.commonDialog.addOnDidHide(() => {
             this.statusNode(false);

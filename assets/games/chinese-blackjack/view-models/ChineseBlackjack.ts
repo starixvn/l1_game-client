@@ -7,10 +7,10 @@ import NewButton from "../../../common/custom-button/NewButton";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
 import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { uiManager } from "../../../managers/GameUIManager";
-import ProvablyFair from "../../_casino/ProvablyFair";
 import BlackJack, { BlackJackActionType } from "../../blackjack/view-models/BlackJack";
 import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
 import ChineseBlackjackHandPlace from "./ChineseBlackjackHandPlace";
+import ChineseBlackjackProvablyFair from "./ChineseBlackjackProvablyFair";
 import ChineseBlackjackDealHandler from "./handlers/ChineseBlackjackDealHandler";
 import ChineseBlackjackFinishHandler from "./handlers/ChineseBlackjackFinishHandler";
 import ChineseBlackjackInGameHandler from "./handlers/ChineseBlackjackInGameHandler";
@@ -45,7 +45,7 @@ export default class ChineseBlackjack extends BlackJack {
     protected moveCardDuration = 0.35;
     chipJumpHeight = 250;
     betChips: BetChipsNew;
-    provablyFair: ProvablyFair = null;
+    provablyFair: ChineseBlackjackProvablyFair = null;
 
     constructor() {
         super();
@@ -146,7 +146,7 @@ export default class ChineseBlackjack extends BlackJack {
     }
 
     initProvablyFair(node: cc.Node) {
-        const provablyFair = node.getComponent(ProvablyFair);
+        const provablyFair = node.getComponent(ChineseBlackjackProvablyFair);
         provablyFair.commonDialog.node.active = false;
         provablyFair.statusNode(false);
         provablyFair.callBackOpenGuide = () => {
