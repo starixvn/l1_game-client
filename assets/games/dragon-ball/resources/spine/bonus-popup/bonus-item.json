@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "zlrOaP0qv4snXxkjcKEa6e81eZc", "spine": "3.8.99", "x": -98, "y": -86, "width": 196, "height": 203.49 },
+"skeleton": { "hash": "Zu23RPJxaXEN4BCcEgafIaUvHsg", "spine": "3.8.99", "x": -98, "y": -86, "width": 196, "height": 203.49 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "character", "parent": "root" },
@@ -18,7 +18,8 @@
 	{ "name": "money-4", "parent": "Money" },
 	{ "name": "money-5", "parent": "Money" },
 	{ "name": "money-6", "parent": "Money" },
-	{ "name": "money-0", "parent": "Money" }
+	{ "name": "money-0", "parent": "Money" },
+	{ "name": "value-background", "parent": "root" }
 ],
 "slots": [
 	{ "name": "smoke", "bone": "smoke", "blend": "additive" },
@@ -31,7 +32,8 @@
 	{ "name": "money-3", "bone": "money-3" },
 	{ "name": "money-4", "bone": "money-4" },
 	{ "name": "money-5", "bone": "money-5" },
-	{ "name": "money-6", "bone": "money-6" }
+	{ "name": "money-6", "bone": "money-6" },
+	{ "name": "value-background", "bone": "value-background" }
 ],
 "skins": [
 	{
@@ -77,6 +79,9 @@
 			},
 			"money-6": {
 				"money-6": { "y": 13.92, "width": 196, "height": 196 }
+			},
+			"value-background": {
+				"value-background": { "y": -37.93, "width": 202, "height": 50 }
 			}
 		}
 	}
@@ -221,6 +226,11 @@
 					{ "time": 0.5, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 2, "color": "ffffff00" }
 				]
+			},
+			"value-background": {
+				"attachment": [
+					{ "time": 1, "name": "value-background" }
+				]
 			}
 		},
 		"bones": {
@@ -312,6 +322,17 @@
 					{ "time": 0.8667 },
 					{ "time": 0.9333, "y": 2.94 },
 					{ "time": 1.0333, "x": 0.7, "y": -1.39 }
+				]
+			},
+			"value-background": {
+				"translate": [
+					{ "time": 1, "y": -19.14 },
+					{ "time": 1.2 }
+				],
+				"scale": [
+					{ "time": 1, "x": 0.2, "y": 0.2 },
+					{ "time": 1.2, "x": 1.1, "y": 1.1 },
+					{ "time": 1.2667 }
 				]
 			}
 		}
