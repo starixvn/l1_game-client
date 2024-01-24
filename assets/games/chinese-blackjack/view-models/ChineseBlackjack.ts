@@ -122,6 +122,7 @@ export default class ChineseBlackjack extends BlackJack {
     onStandClickCustomize() {
         uiManager.emitter.emit(CHINESE_BLACKJACK_EMIT_EVENTS.STAND_CLICK, true);
         this.standButton?.getComponent(FadeEffectButton).setDisabled(true);
+        this.hitButton?.getComponent(FadeEffectButton).setDisabled(true);
     }
 
     rebet() {
@@ -136,6 +137,7 @@ export default class ChineseBlackjack extends BlackJack {
 
     onPopupConfirmWithoutStand() {
         this.standButton?.getComponent(FadeEffectButton).setDisabled(false);
+        this.hitButton?.getComponent(FadeEffectButton).setDisabled(false);
     }
 
     openProvablyFair() {
