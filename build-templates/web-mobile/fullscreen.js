@@ -340,9 +340,11 @@ function updateLocalizedImages() {
 function updateSplashLogo() {
     const splash = document.getElementById("splash_logo");
     const splashText = document.getElementById("splash_text");
+    const splashContainer = document.getElementById("splash");
     const suffix = window.envConfig.systemType === "SC2" ? "_Vgaming" : "";
     splash.className = `splash${suffix}`;
     splashText.className = `splash_text${suffix}`;
+    splashContainer.className = `splash-container splash_${suffix}`;
 }
 
 updateSplashLogo();

@@ -5,11 +5,11 @@ const defaultConfig = {
         localhost: "lumigame.com",
         "10.5.10.31": "lumigame.com"
     },
-    subDomain: "l1-proxy1",
+    subDomain: "l1-proxy",
     env: "",
     sentry: {
         url: "",
-        env: "LOCAL2"
+        env: "LOCAL"
     },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
