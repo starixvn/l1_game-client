@@ -1,4 +1,3 @@
-import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
@@ -19,8 +18,8 @@ export default class ProvablyFairComponent extends cc.Component {
     @property(cc.Node)
     tooltip: cc.Node = null;
 
-    @property(EffectAppearanceLabel)
-    serverSeed: EffectAppearanceLabel = null;
+    @property(cc.RichText)
+    serverSeed: cc.RichText = null;
 
     @property(cc.Node)
     hintCopyNode: cc.Node = null;
@@ -45,12 +44,11 @@ export default class ProvablyFairComponent extends cc.Component {
 
     miniPanel: MiniPanel = null;
     gameId: number;
-
     clientSeed = 0;
-    serverSeedCopyString = "";
+
+    protected serverSeedCopyString = "";
     readonly delayShowHashValue: number = 1.35;
     protected timeout: NodeJS.Timeout;
-    maximumStringAllowed = 32;
 
     callbackHandle() {
         // handle
@@ -144,8 +142,7 @@ export default class ProvablyFairComponent extends cc.Component {
     }
 
     generateMD5Result(value: string) {
-        const formatValue = value.length > this.maximumStringAllowed ? value.slice(0, this.lengthOfPF) + "..." : value;
-        this.serverSeed.string = `${formatValue}`;
+        this.serverSeed.string = value;
     }
 
     resetProvablyFair() {
