@@ -1,11 +1,11 @@
 {
-"skeleton": { "hash": "6+rOqdjfeAfiaFDPhwjZAihkhLY", "spine": "3.8.99", "x": -559.2, "y": -314.4, "width": 1118.4, "height": 628.8 },
+"skeleton": { "hash": "aadDJNG4qzKFRjYk/NWne9mNqq8", "spine": "3.8.99", "x": -257.76, "y": -130.24, "width": 515.52, "height": 420.48 },
 "bones": [
 	{ "name": "root", "scaleX": 0.8, "scaleY": 0.8 },
 	{ "name": "bg", "parent": "root" },
 	{ "name": "bg-game", "parent": "bg" },
 	{ "name": "Rotate", "parent": "root", "y": 100 },
-	{ "name": "ball", "parent": "Rotate", "scaleX": 1.4, "scaleY": 1.4 },
+	{ "name": "ball", "parent": "Rotate", "scaleX": 2.8, "scaleY": 2.8 },
 	{ "name": "effect-ball", "parent": "root", "y": 100, "scaleX": 3.6, "scaleY": 3.6 },
 	{ "name": "text", "parent": "root", "y": -58.87, "scaleX": 1.2, "scaleY": 1.2 },
 	{ "name": "effect-ball2", "parent": "root", "y": 100, "scaleX": 3.6, "scaleY": 3.6 },
@@ -30,96 +30,52 @@
 		"name": "default",
 		"attachments": {
 			"ball 1": {
-				"ball 1": { "width": 366, "height": 366 }
+				"ball 1": { "width": 137, "height": 137 }
 			},
 			"ball 2": {
-				"ball 7": { "width": 366, "height": 366 }
-			},
-			"ball light bot": {
-				"ball light bot": { "x": 64.08, "y": 25.91, "width": 491, "height": 428 }
-			},
-			"ball light bot2": {
-				"ball light bot": { "x": -84.28, "y": -63.58, "width": 491, "height": 428 }
+				"ball 7": { "width": 137, "height": 137 }
 			},
 			"effect-ball": {
 				"ball intro/ball intro_1": { "width": 179, "height": 146 },
-				"ball intro/ball intro_2": { "width": 178, "height": 145 },
 				"ball intro/ball intro_3": { "width": 178, "height": 144 },
-				"ball intro/ball intro_4": { "width": 177, "height": 145 },
 				"ball intro/ball intro_5": { "width": 176, "height": 143 },
-				"ball intro/ball intro_6": { "width": 183, "height": 146 },
 				"ball intro/ball intro_7": { "width": 182, "height": 145 },
-				"ball intro/ball intro_8": { "width": 189, "height": 143 },
 				"ball intro/ball intro_9": { "width": 189, "height": 141 },
-				"ball intro/ball intro_10": { "width": 187, "height": 138 },
 				"ball intro/ball intro_11": { "width": 188, "height": 137 },
-				"ball intro/ball intro_12": { "width": 184, "height": 131 },
 				"ball intro/ball intro_13": { "width": 180, "height": 126 },
-				"ball intro/ball intro_14": { "width": 178, "height": 124 },
 				"ball intro/ball intro_15": { "width": 170, "height": 114 },
-				"ball intro/ball intro_16": { "width": 142, "height": 88 },
 				"ball intro/ball intro_17": { "width": 125, "height": 75 },
-				"ball intro/ball intro_18": { "width": 123, "height": 73 },
 				"ball intro/ball intro_19": { "width": 121, "height": 73 },
-				"ball intro/ball intro_20": { "width": 82, "height": 74 },
 				"ball intro/ball intro_21": { "width": 83, "height": 76 },
-				"ball intro/ball intro_22": { "width": 151, "height": 152 },
 				"ball intro/ball intro_23": { "width": 197, "height": 195 },
-				"ball intro/ball intro_24": { "width": 223, "height": 225 },
 				"ball intro/ball intro_25": { "width": 225, "height": 227 },
-				"ball intro/ball intro_26": { "width": 223, "height": 224 },
 				"ball intro/ball intro_27": { "width": 222, "height": 220 },
-				"ball intro/ball intro_28": { "width": 205, "height": 205 },
 				"ball intro/ball intro_29": { "width": 200, "height": 201 },
-				"ball intro/ball intro_30": { "width": 200, "height": 198 },
 				"ball intro/ball intro_31": { "width": 189, "height": 188 },
-				"ball intro/ball intro_32": { "width": 145, "height": 136 },
 				"ball intro/ball intro_33": { "width": 142, "height": 134 },
-				"ball intro/ball intro_34": { "width": 140, "height": 129 },
 				"ball intro/ball intro_35": { "width": 140, "height": 127 },
-				"ball intro/ball intro_36": { "width": 108, "height": 108 },
-				"ball intro/ball intro_37": { "width": 101, "height": 104 },
-				"ball intro/ball intro_38": { "width": 38, "height": 100 }
+				"ball intro/ball intro_37": { "width": 101, "height": 104 }
 			},
 			"effect-ball2": {
 				"ball intro/ball intro_1": { "width": 179, "height": 146 },
-				"ball intro/ball intro_2": { "width": 178, "height": 145 },
 				"ball intro/ball intro_3": { "width": 178, "height": 144 },
-				"ball intro/ball intro_4": { "width": 177, "height": 145 },
 				"ball intro/ball intro_5": { "width": 176, "height": 143 },
-				"ball intro/ball intro_6": { "width": 183, "height": 146 },
 				"ball intro/ball intro_7": { "width": 182, "height": 145 },
-				"ball intro/ball intro_8": { "width": 189, "height": 143 },
 				"ball intro/ball intro_9": { "width": 189, "height": 141 },
-				"ball intro/ball intro_10": { "width": 187, "height": 138 },
 				"ball intro/ball intro_11": { "width": 188, "height": 137 },
-				"ball intro/ball intro_12": { "width": 184, "height": 131 },
 				"ball intro/ball intro_13": { "width": 180, "height": 126 },
-				"ball intro/ball intro_14": { "width": 178, "height": 124 },
 				"ball intro/ball intro_15": { "width": 170, "height": 114 },
-				"ball intro/ball intro_16": { "width": 142, "height": 88 },
 				"ball intro/ball intro_17": { "width": 125, "height": 75 },
-				"ball intro/ball intro_18": { "width": 123, "height": 73 },
 				"ball intro/ball intro_19": { "width": 121, "height": 73 },
-				"ball intro/ball intro_20": { "width": 82, "height": 74 },
 				"ball intro/ball intro_21": { "width": 83, "height": 76 },
-				"ball intro/ball intro_22": { "width": 151, "height": 152 },
 				"ball intro/ball intro_23": { "width": 197, "height": 195 },
-				"ball intro/ball intro_24": { "width": 223, "height": 225 },
 				"ball intro/ball intro_25": { "width": 225, "height": 227 },
-				"ball intro/ball intro_26": { "width": 223, "height": 224 },
 				"ball intro/ball intro_27": { "width": 222, "height": 220 },
-				"ball intro/ball intro_28": { "width": 205, "height": 205 },
 				"ball intro/ball intro_29": { "width": 200, "height": 201 },
-				"ball intro/ball intro_30": { "width": 200, "height": 198 },
 				"ball intro/ball intro_31": { "width": 189, "height": 188 },
-				"ball intro/ball intro_32": { "width": 145, "height": 136 },
 				"ball intro/ball intro_33": { "width": 142, "height": 134 },
-				"ball intro/ball intro_34": { "width": 140, "height": 129 },
 				"ball intro/ball intro_35": { "width": 140, "height": 127 },
-				"ball intro/ball intro_36": { "width": 108, "height": 108 },
-				"ball intro/ball intro_37": { "width": 101, "height": 104 },
-				"ball intro/ball intro_38": { "width": 38, "height": 100 }
+				"ball intro/ball intro_37": { "width": 101, "height": 104 }
 			},
 			"freespin-title": {
 				"freespin-title": { "y": -121.96, "width": 362, "height": 269 }
@@ -156,18 +112,12 @@
 				"color": [
 					{ "time": 1.6333, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 1.8667, "color": "ffffff00" }
-				],
-				"attachment": [
-					{ "time": 1.1667, "name": "ball light bot" }
 				]
 			},
 			"ball light bot2": {
 				"color": [
 					{ "time": 1.6333, "color": "ffffffff", "curve": 0.25, "c3": 0.75 },
 					{ "time": 1.8667, "color": "ffffff00" }
-				],
-				"attachment": [
-					{ "time": 1.1667, "name": "ball light bot" }
 				]
 			},
 			"effect-ball": {
@@ -259,10 +209,10 @@
 			},
 			"ball": {
 				"scale": [
-					{ "time": 0.6667, "x": 0.1, "y": 0.1, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.0333, "x": 1.091, "y": 1.091, "curve": 0.25, "c3": 0.75 },
-					{ "time": 1.1, "x": 0.909, "y": 0.909, "curve": 0.25, "c3": 0.75 },
-					{ "time": 2, "x": 0.945, "y": 0.945 }
+					{ "time": 0.6667, "x": 0.143, "y": 0.143, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.0333, "x": 1.429, "y": 1.429, "curve": 0.25, "c3": 0.75 },
+					{ "time": 1.1, "x": 1.286, "y": 1.286, "curve": 0.25, "c3": 0.75 },
+					{ "time": 2, "x": 1.429, "y": 1.429 }
 				]
 			},
 			"effect-ball2": {

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "kbkv0AgUp6s3eG2QOWtE31coNqs", "spine": "3.8.99", "x": -699, "y": -393, "width": 1398, "height": 786 },
+"skeleton": { "hash": "3EDJhK48J+asOiJuUQoA4v1V94Y", "spine": "3.8.99", "x": -699, "y": -393, "width": 1398, "height": 786 },
 "bones": [
 	{ "name": "root" },
 	{ "name": "character", "parent": "root", "y": -224.92, "scaleX": 0.6, "scaleY": 0.6 },
@@ -72,7 +72,7 @@
 	{ "name": "effect b2", "parent": "effect" },
 	{ "name": "effect b3", "parent": "effect" },
 	{ "name": "effect a5", "parent": "effect" },
-	{ "name": "text", "parent": "root", "y": -204.69, "scaleX": 1.4, "scaleY": 1.4 }
+	{ "name": "text", "parent": "root", "y": -204.69, "scaleX": 0.5, "scaleY": 0.5 }
 ],
 "slots": [
 	{ "name": "BG", "bone": "root" },
@@ -257,10 +257,10 @@
 				}
 			},
 			"text_bonus": {
-				"text_bonus": { "width": 392, "height": 152 }
+				"text_bonus": { "width": 1121, "height": 328 }
 			},
 			"text_bonus2": {
-				"text_bonus": { "scaleX": 1.1, "scaleY": 1.1, "width": 392, "height": 152 }
+				"text_bonus": { "scaleX": 1.1, "scaleY": 1.1, "width": 1121, "height": 328 }
 			},
 			"vali": {
 				"vali": {
