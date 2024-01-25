@@ -1,8 +1,7 @@
 {
-"skeleton": { "hash": "C87LjGNT3V2Y+C8yRRqgzla4qJ4", "spine": "3.8.99", "x": -876.41, "y": -364.83, "width": 1036.5, "height": 603.83 },
+"skeleton": { "hash": "PbJuo3lErq6C/xoWIrVGClxI10s", "spine": "3.8.99", "x": -876.41, "y": -364.83, "width": 1310.76, "height": 812.16 },
 "bones": [
 	{ "name": "root" },
-	{ "name": "BG", "parent": "root", "x": -29.41, "y": -37.59 },
 	{ "name": "effect", "parent": "root", "x": -199.88, "y": -0.06 },
 	{ "name": "rock 1", "parent": "effect", "x": 87.52, "y": 67.69 },
 	{ "name": "rock 5", "parent": "effect", "x": 68.61, "y": 159.47, "scaleX": 2, "scaleY": 2 },
@@ -15,40 +14,40 @@
 	{ "name": "bone3", "parent": "rock 6" },
 	{ "name": "bone4", "parent": "rock 5" },
 	{ "name": "bone5", "parent": "rock 3" },
-	{ "name": "smoke BG", "parent": "effect", "x": 158.79, "y": 53.3 },
+	{ "name": "smoke BG", "parent": "effect", "x": -367.26, "y": -110.36 },
 	{ "name": "smoke BG2", "parent": "effect", "x": 158.79, "y": 53.3 },
 	{ "name": "smoke BG3", "parent": "effect", "x": 16.64, "y": -205.14 },
 	{ "name": "bone6", "parent": "rock 2" },
 	{ "name": "smoke BG4", "parent": "effect", "x": 158.79, "y": -120.22 },
-	{ "name": "smoke BG5", "parent": "effect", "x": 158.79, "y": -75.92 },
-	{ "name": "dust", "parent": "effect", "x": -143.4, "y": 52.56, "scaleX": 2, "scaleY": 2 },
-	{ "name": "dust2", "parent": "effect", "x": -143.4, "y": 52.56, "scaleX": 2, "scaleY": 2 }
+	{ "name": "smoke BG5", "parent": "effect", "x": -301.8, "y": -75.92 },
+	{ "name": "smoke BG6", "parent": "effect", "x": 7.94, "y": 219.82 },
+	{ "name": "smoke BG7", "parent": "effect", "x": -315.91, "y": 360.94 },
+	{ "name": "smoke BG8", "parent": "effect", "x": 433.05, "y": 215.97 }
 ],
 "slots": [
 	{ "name": "clipping", "bone": "root" },
 	{ "name": "mask", "bone": "root" },
-	{ "name": "BG", "bone": "BG" },
 	{ "name": "BG smoke", "bone": "smoke BG", "color": "cdab9034", "attachment": "BG smoke", "blend": "multiply" },
+	{ "name": "BG smoke6", "bone": "smoke BG6", "color": "cdab9034", "attachment": "BG smoke", "blend": "multiply" },
 	{ "name": "BG smoke2", "bone": "smoke BG2", "color": "cdab9034", "attachment": "BG smoke", "blend": "multiply" },
 	{ "name": "BG smoke3", "bone": "smoke BG3", "color": "cdab9034", "attachment": "BG smoke", "blend": "multiply" },
 	{ "name": "BG a", "bone": "root" },
 	{ "name": "rock 5", "bone": "bone4", "color": "ffffffad", "attachment": "rock 5" },
 	{ "name": "rock 3", "bone": "bone5", "attachment": "rock 3" },
 	{ "name": "rock 4", "bone": "bone", "attachment": "rock 4" },
-	{ "name": "BG front", "bone": "BG" },
 	{ "name": "rock 6", "bone": "bone3", "attachment": "rock 6" },
 	{ "name": "rock 2", "bone": "bone6", "attachment": "rock 2" },
 	{ "name": "rock 1", "bone": "bone2", "attachment": "rock 1" },
 	{ "name": "BG smoke4", "bone": "smoke BG4", "color": "cdab90ff", "attachment": "BG smoke", "blend": "screen" },
 	{ "name": "BG smoke5", "bone": "smoke BG5", "color": "cdab90ff", "attachment": "BG smoke", "blend": "screen" },
+	{ "name": "BG smoke7", "bone": "smoke BG7", "color": "cdab90ff", "attachment": "BG smoke", "blend": "screen" },
+	{ "name": "BG smoke8", "bone": "smoke BG8", "color": "cdab90ff", "attachment": "BG smoke", "blend": "screen" },
 	{ "name": "path 1", "bone": "root", "attachment": "path 1" },
 	{ "name": "path 2", "bone": "root", "attachment": "path 2" },
 	{ "name": "path 3", "bone": "root", "attachment": "path 3" },
 	{ "name": "path 4", "bone": "root", "attachment": "path 4" },
 	{ "name": "path 5", "bone": "root", "attachment": "path 5" },
-	{ "name": "path 6", "bone": "root", "attachment": "path 6" },
-	{ "name": "smoke 1/Smoke Explosion_01", "bone": "dust", "color": "ffd8acff", "blend": "screen" },
-	{ "name": "smoke 1/Smoke Explosion_1", "bone": "dust2", "color": "ffd8acff", "blend": "screen" }
+	{ "name": "path 6", "bone": "root", "attachment": "path 6" }
 ],
 "path": [
 	{
@@ -108,6 +107,15 @@
 			"BG smoke5": {
 				"BG smoke": { "x": 1.19, "y": -79.04, "width": 400, "height": 331 }
 			},
+			"BG smoke6": {
+				"BG smoke": { "x": 1.19, "y": 20.26, "width": 400, "height": 331 }
+			},
+			"BG smoke7": {
+				"BG smoke": { "x": 1.19, "y": -79.04, "width": 400, "height": 331 }
+			},
+			"BG smoke8": {
+				"BG smoke": { "x": 1.19, "y": -79.04, "width": 400, "height": 331 }
+			},
 			"clipping": {
 				"clipping": {
 					"type": "clipping",
@@ -119,7 +127,7 @@
 			"mask": {
 				"mask": {
 					"type": "clipping",
-					"end": "smoke 1/Smoke Explosion_1",
+					"end": "path 6",
 					"vertexCount": 4,
 					"vertices": [ -698.79, 393.24, 699.19, 393.23, 699.2, -392.81, -698.85, -392.75 ]
 				}
@@ -189,12 +197,6 @@
 			},
 			"rock 6": {
 				"rock 6": { "x": 0.16, "y": -0.06, "width": 14, "height": 12 }
-			},
-			"smoke 1/Smoke Explosion_01": {
-				"smoke 1/Smoke Explosion_18": { "x": -8.31, "y": 32.13, "width": 818, "height": 460 }
-			},
-			"smoke 1/Smoke Explosion_1": {
-				"smoke 1/Smoke Explosion_18": { "x": -8.31, "y": 32.13, "width": 818, "height": 460 }
 			}
 		}
 	}
@@ -205,10 +207,12 @@
 			"BG smoke": {
 				"color": [
 					{ "color": "cdab9034" },
-					{ "time": 0.8333, "color": "cdab9000", "curve": "stepped" },
-					{ "time": 0.8667, "color": "cdab9000" },
-					{ "time": 2, "color": "cdab9000" },
-					{ "time": 6, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 1.3333, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 1.4333, "color": "cdab9000" },
+					{ "time": 3.3333, "color": "cdab9034" },
+					{ "time": 4.6667, "color": "cdab9000" },
+					{ "time": 5.4667, "color": "cdab9034" },
+					{ "time": 6.8333, "color": "cdab9000", "curve": "stepped" },
 					{ "time": 6.8667, "color": "cdab9000" },
 					{ "time": 8, "color": "cdab9034" }
 				]
@@ -239,9 +243,9 @@
 				"color": [
 					{ "color": "cdab9000" },
 					{ "time": 0.9333, "color": "cdab90b2" },
-					{ "time": 1.9667, "color": "cdab9000" },
-					{ "time": 2, "color": "cdab9000", "curve": "stepped" },
-					{ "time": 6, "color": "cdab9000" },
+					{ "time": 3.3, "color": "cdab9000" },
+					{ "time": 3.3333, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 5, "color": "cdab9000" },
 					{ "time": 6.9333, "color": "cdab90b2" },
 					{ "time": 7.9667, "color": "cdab9000" },
 					{ "time": 8, "color": "cdab9000" }
@@ -249,97 +253,129 @@
 			},
 			"BG smoke5": {
 				"color": [
-					{ "time": 0.5, "color": "cdab90ff" },
-					{ "time": 0.9333, "color": "cdab9000", "curve": "stepped" },
-					{ "time": 1.1333, "color": "cdab9000" },
-					{ "time": 1.9, "color": "cdab90ff" },
-					{ "time": 2.5333, "color": "cdab9000", "curve": "stepped" },
+					{ "color": "cdab9000" },
+					{ "time": 1.0667, "color": "cdab90ff" },
+					{ "time": 2, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 2.3667, "color": "cdab9000" },
+					{ "time": 3.8, "color": "cdab90ff" },
+					{ "time": 4.9667, "color": "cdab9000", "curve": "stepped" },
 					{ "time": 6, "color": "cdab9000" },
 					{ "time": 6.8333, "color": "cdab90ff" },
 					{ "time": 8, "color": "cdab9000" }
 				]
 			},
+			"BG smoke6": {
+				"color": [
+					{ "color": "cdab9034" },
+					{ "time": 2.2333, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 2.3, "color": "cdab9000" },
+					{ "time": 5.3333, "color": "cdab9034", "curve": "stepped" },
+					{ "time": 6, "color": "cdab9034" },
+					{ "time": 6.8333, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 6.8667, "color": "cdab9000" },
+					{ "time": 8, "color": "cdab9034" }
+				]
+			},
+			"BG smoke7": {
+				"color": [
+					{ "color": "cdab9000" },
+					{ "time": 2.2667, "color": "cdab90ff" },
+					{ "time": 2.9, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 5.4667, "color": "cdab9000" },
+					{ "time": 6.8333, "color": "cdab90ff" },
+					{ "time": 8, "color": "cdab9000" }
+				]
+			},
+			"BG smoke8": {
+				"color": [
+					{ "color": "cdab9000" },
+					{ "time": 0.4667, "color": "cdab90ff" },
+					{ "time": 1.2333, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 1.5667, "color": "cdab9000" },
+					{ "time": 2.7333, "color": "cdab90ff" },
+					{ "time": 3.3333, "color": "cdab9000", "curve": "stepped" },
+					{ "time": 4.3333, "color": "cdab9000" },
+					{ "time": 6.8333, "color": "cdab90ff" },
+					{ "time": 8, "color": "cdab9000" }
+				]
+			},
 			"rock 1": {
-				"attachment": [
-					{ "name": null },
-					{ "time": 0.0667, "name": "rock 1" },
-					{ "time": 7.8667, "name": null }
+				"color": [
+					{ "color": "ffffff00" },
+					{ "time": 0.1333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.8333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00" }
 				]
 			},
 			"rock 2": {
 				"attachment": [
 					{ "name": null },
 					{ "time": 0.1, "name": "rock 2" },
-					{ "time": 7.9, "name": null }
+					{ "time": 2, "name": null }
 				]
 			},
 			"rock 3": {
 				"attachment": [
 					{ "time": 1.5667, "name": null },
-					{ "time": 1.8, "name": "rock 3" },
-					{ "time": 6.6, "name": null }
+					{ "time": 1.8, "name": "rock 3" }
 				]
 			},
 			"rock 4": {
-				"attachment": [
-					{ "time": 0.9333, "name": null },
-					{ "time": 1.1333, "name": "rock 4" },
-					{ "time": 3.8667, "name": null }
+				"color": [
+					{ "time": 0.8333, "color": "ffffff00" },
+					{ "time": 1.1, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 2.5333, "color": "ffffffff" },
+					{ "time": 2.8333, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 4.6667, "color": "ffffff00" },
+					{ "time": 4.9333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 6.3667, "color": "ffffffff" },
+					{ "time": 6.6667, "color": "ffffff00" }
 				]
 			},
 			"rock 5": {
-				"attachment": [
-					{ "time": 1.2, "name": null },
-					{ "time": 1.3333, "name": "rock 5" },
-					{ "time": 5.1, "name": null },
-					{ "time": 5.3333, "name": "rock 5" },
-					{ "time": 7.8667, "name": null }
+				"color": [
+					{ "color": "ffffff00" },
+					{ "time": 0.1667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.7333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 5.6667, "color": "ffffff00" },
+					{ "time": 5.8333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 7.4, "color": "ffffffff" },
+					{ "time": 7.6667, "color": "ffffff00" }
 				]
 			},
 			"rock 6": {
-				"attachment": [
-					{ "time": 0.3667, "name": null },
-					{ "time": 0.6667, "name": "rock 6" },
-					{ "time": 2.0333, "name": null },
-					{ "time": 2.4, "name": "rock 6" },
-					{ "time": 7.8667, "name": null }
-				]
-			},
-			"smoke 1/Smoke Explosion_01": {
 				"color": [
-					{ "color": "ffd8ac00" },
-					{ "time": 4.4333, "color": "ffd8acff", "curve": "stepped" },
-					{ "time": 6, "color": "ffd8acff" },
-					{ "time": 8, "color": "ffd8ac00" }
-				],
-				"attachment": [
-					{ "name": "smoke 1/Smoke Explosion_18" }
-				]
-			},
-			"smoke 1/Smoke Explosion_1": {
-				"color": [
-					{ "color": "ffd8ac00" },
-					{ "time": 1.6667, "color": "ffd8acff", "curve": "stepped" },
-					{ "time": 6, "color": "ffd8acff" },
-					{ "time": 8, "color": "ffd8ac00" }
-				],
-				"attachment": [
-					{ "name": "smoke 1/Smoke Explosion_18" }
+					{ "color": "ffffff00" },
+					{ "time": 0.2333, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 1.8333, "color": "ffffffff" },
+					{ "time": 2, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 3.3333, "color": "ffffff00" },
+					{ "time": 3.5667, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 5.1667, "color": "ffffffff" },
+					{ "time": 5.3333, "color": "ffffff00" }
 				]
 			}
 		},
 		"bones": {
 			"bone": {
 				"rotate": [
-					{},
-					{ "time": 1, "angle": 180 },
-					{ "time": 2 }
+					{ "time": 0.8333 },
+					{ "time": 1.8333, "angle": 180 },
+					{ "time": 2.8333, "curve": "stepped" },
+					{ "time": 4.6667 },
+					{ "time": 5.6667, "angle": 180 },
+					{ "time": 6.6667 }
 				],
 				"scale": [
-					{ "x": 0.8, "y": 0.8 },
-					{ "time": 0.9333, "x": 0.419, "y": 0.419 },
-					{ "time": 1.1333 },
-					{ "time": 2, "x": 0.8, "y": 0.8 }
+					{ "time": 0.8333, "x": 0.8, "y": 0.8 },
+					{ "time": 1.7667, "x": 0.419, "y": 0.419 },
+					{ "time": 1.9667 },
+					{ "time": 2.8333, "x": 0.8, "y": 0.8, "curve": "stepped" },
+					{ "time": 4.6667, "x": 0.8, "y": 0.8 },
+					{ "time": 5.6, "x": 0.419, "y": 0.419 },
+					{ "time": 5.8 },
+					{ "time": 6.6667, "x": 0.8, "y": 0.8 }
 				]
 			},
 			"bone2": {
@@ -358,13 +394,20 @@
 				"rotate": [
 					{},
 					{ "time": 1, "angle": 180 },
-					{ "time": 2 }
+					{ "time": 2, "curve": "stepped" },
+					{ "time": 3.3333 },
+					{ "time": 4.3333, "angle": 180 },
+					{ "time": 5.3333 }
 				],
 				"scale": [
 					{ "x": 0.8, "y": 0.8 },
 					{ "time": 0.3667, "x": 0.7, "y": 0.7 },
 					{ "time": 0.6667 },
-					{ "time": 2, "x": 0.8, "y": 0.8 }
+					{ "time": 2, "x": 0.8, "y": 0.8, "curve": "stepped" },
+					{ "time": 3.3333, "x": 0.8, "y": 0.8 },
+					{ "time": 3.7, "x": 0.7, "y": 0.7 },
+					{ "time": 4 },
+					{ "time": 5.3333, "x": 0.8, "y": 0.8 }
 				]
 			},
 			"bone4": {
@@ -372,13 +415,21 @@
 					{ "angle": -179.57 },
 					{ "time": 1.2, "angle": -158.89 },
 					{ "time": 1.3333 },
-					{ "time": 2, "angle": -179.57 }
+					{ "time": 2, "angle": -179.57, "curve": "stepped" },
+					{ "time": 5.6667, "angle": -179.57 },
+					{ "time": 6.8667, "angle": -158.89 },
+					{ "time": 7 },
+					{ "time": 7.6667, "angle": -179.57 }
 				],
 				"scale": [
 					{ "x": 0.6, "y": 0.6 },
 					{ "time": 1.2, "x": 0.4, "y": 0.4 },
 					{ "time": 1.3333 },
-					{ "time": 2, "x": 0.6, "y": 0.6 }
+					{ "time": 2, "x": 0.6, "y": 0.6, "curve": "stepped" },
+					{ "time": 5.6667, "x": 0.6, "y": 0.6 },
+					{ "time": 6.8667, "x": 0.4, "y": 0.4 },
+					{ "time": 7 },
+					{ "time": 7.6667, "x": 0.6, "y": 0.6 }
 				]
 			},
 			"bone5": {
@@ -396,10 +447,10 @@
 			"smoke BG": {
 				"translate": [
 					{ "x": -50.65 },
-					{ "time": 0.8333, "x": 0.01 },
-					{ "time": 0.8667, "x": -90.58 },
-					{ "time": 2, "x": -50.65, "curve": "stepped" },
-					{ "time": 6, "x": -50.65 },
+					{ "time": 1.3333, "x": 0.01 },
+					{ "time": 1.4333, "x": -90.58 },
+					{ "time": 3.3333, "x": -50.65, "curve": "stepped" },
+					{ "time": 5.4667, "x": -50.65 },
 					{ "time": 6.8333, "x": 0.01 },
 					{ "time": 6.8667, "x": -90.58 },
 					{ "time": 8, "x": -50.65 }
@@ -409,6 +460,7 @@
 				"translate": [
 					{ "x": -19.67, "y": -35.16 },
 					{ "time": 1.9667, "x": 138.28, "y": -35.16 },
+					{ "time": 2, "x": -19.67, "y": -35.16, "curve": "stepped" },
 					{ "time": 6, "x": -19.67, "y": -35.16 },
 					{ "time": 7.9667, "x": 138.28, "y": -35.16 },
 					{ "time": 8, "x": -19.67, "y": -35.16 }
@@ -427,13 +479,14 @@
 					{ "time": 8, "x": -38.14, "y": -14.9 }
 				],
 				"scale": [
-					{ "x": 0.921, "y": 0.921 }
+					{ "x": 0.921, "y": 0.921 },
+					{ "time": 6 }
 				]
 			},
 			"rock 2": {
 				"scale": [
 					{ "time": 0.1 },
-					{ "time": 2, "x": 0.6, "y": 0.6 }
+					{ "time": 2, "x": 1.6, "y": 1.6 }
 				]
 			},
 			"bone6": {
@@ -443,46 +496,100 @@
 				]
 			},
 			"smoke BG4": {
-				"translate": [
-					{ "x": -38.14, "y": -49.23 },
-					{ "time": 1.9667, "x": 245.67, "y": -14.69 },
-					{ "time": 2, "x": -38.14, "y": -49.23, "curve": "stepped" },
-					{ "time": 6, "x": -38.14, "y": -49.23 },
-					{ "time": 7.9667, "x": 245.67, "y": -14.69 },
-					{ "time": 8, "x": -38.14, "y": -49.23 }
-				],
-				"scale": [
-					{ "x": 0.921, "y": 0.921 }
-				]
-			},
-			"smoke BG5": {
 				"rotate": [
 					{ "angle": 180 }
 				],
 				"translate": [
+					{ "x": -38.14, "y": -49.23 },
+					{ "time": 3.3, "x": 245.67, "y": -14.69 },
+					{ "time": 3.3333, "x": -38.14, "y": -49.23 },
+					{ "time": 5, "x": -538.48, "y": -49.23 },
+					{ "time": 7.9667, "x": -228.94, "y": -14.69 },
+					{ "time": 8, "x": -38.14, "y": -49.23 }
+				],
+				"scale": [
+					{},
+					{ "time": 5, "x": 1.2, "y": 1.2 }
+				]
+			},
+			"smoke BG5": {
+				"translate": [
 					{ "x": -155.09, "y": -116.47 },
-					{ "time": 3.1667, "x": 275.79, "y": -78.55 },
+					{ "time": 2, "x": -62.44, "y": -114.06 },
+					{ "time": 2.1667, "x": -62.4, "y": -177.2 },
+					{ "time": 2.2, "x": -251.89, "y": -177.34 },
+					{ "time": 2.3667, "x": -251.94, "y": -119.67 },
+					{ "time": 5, "x": -155.09, "y": -116.47, "curve": "stepped" },
 					{ "time": 6, "x": -155.09, "y": -116.47 },
 					{ "time": 8, "x": -62.44, "y": -114.06 }
 				],
 				"scale": [
-					{ "x": 1.4, "y": 1.4 },
-					{ "time": 6, "x": 0.921, "y": 0.921 }
+					{ "x": 0.8, "y": 0.8 },
+					{ "time": 6 }
 				]
 			},
-			"dust2": {
+			"smoke BG6": {
 				"translate": [
-					{ "x": -482.58 },
-					{ "time": 8, "x": 1595.96 }
+					{ "x": -50.65 },
+					{ "time": 2.2333, "x": 0.01 },
+					{ "time": 2.3, "x": -90.58 },
+					{ "time": 5.3333, "x": -50.65, "curve": "stepped" },
+					{ "time": 6, "x": -50.65 },
+					{ "time": 6.8333, "x": 0.01 },
+					{ "time": 6.8667, "x": -90.58 },
+					{ "time": 8, "x": -50.65 }
 				]
 			},
-			"dust": {
-				"rotate": [
-					{ "angle": 90 }
+			"smoke BG7": {
+				"translate": [
+					{ "x": -155.09, "y": -116.47 },
+					{ "time": 2.9, "x": -62.44, "y": -114.06 },
+					{ "time": 2.9667, "x": -62.4, "y": -177.2 },
+					{ "time": 3.0333, "x": -251.89, "y": -177.34 },
+					{ "time": 3.1, "x": -251.94, "y": -119.67 },
+					{ "time": 4.6, "x": -155.09, "y": -116.47 },
+					{ "time": 5.4667, "x": 868.95, "y": -116.47 },
+					{ "time": 8, "x": 1066.81, "y": -114.06 }
 				],
+				"scale": [
+					{ "x": 0.8, "y": 0.8 },
+					{ "time": 5.4667 }
+				]
+			},
+			"smoke BG8": {
 				"translate": [
-					{ "x": -79.28, "y": -320.57 },
-					{ "time": 8, "x": 1568.39, "y": -320.57 }
+					{ "x": -155.09, "y": -116.47 },
+					{ "time": 1.2333, "x": -62.44, "y": -114.06 },
+					{ "time": 1.3667, "x": -62.4, "y": -177.2 },
+					{ "time": 1.4667, "x": -251.89, "y": -177.34 },
+					{ "time": 1.5667, "x": -251.94, "y": -119.67 },
+					{ "time": 3, "x": -155.09, "y": -116.47, "curve": "stepped" },
+					{ "time": 4.3333, "x": -155.09, "y": -116.47 },
+					{ "time": 8, "x": -62.44, "y": -114.06 }
+				],
+				"scale": [
+					{ "x": 0.8, "y": 0.8 },
+					{ "time": 4.3333 }
+				]
+			},
+			"rock 1": {
+				"scale": [
+					{ "x": 1.6, "y": 1.6 }
+				]
+			},
+			"rock 3": {
+				"scale": [
+					{ "x": 2, "y": 2 }
+				]
+			},
+			"rock 4": {
+				"scale": [
+					{ "x": 2, "y": 2 }
+				]
+			},
+			"rock 6": {
+				"scale": [
+					{ "x": 2, "y": 2 }
 				]
 			}
 		},
