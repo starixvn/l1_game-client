@@ -1,16 +1,13 @@
 import GameUtils from "../../../common/GameUtils";
-import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import ChipConfig from "../../../common/bet-chips/view-models/ChipConfig";
 import FadeEffectButton from "../../../common/custom-button/FadeEffectButton";
 import NewButton from "../../../common/custom-button/NewButton";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
-import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
 import { uiManager } from "../../../managers/GameUIManager";
 import BlackJack, { BlackJackActionType } from "../../blackjack/view-models/BlackJack";
 import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
 import ChineseBlackjackHandPlace from "./ChineseBlackjackHandPlace";
-import ChineseBlackjackProvablyFair from "./ChineseBlackjackProvablyFair";
 import ChineseBlackjackDealHandler from "./handlers/ChineseBlackjackDealHandler";
 import ChineseBlackjackFinishHandler from "./handlers/ChineseBlackjackFinishHandler";
 import ChineseBlackjackInGameHandler from "./handlers/ChineseBlackjackInGameHandler";
@@ -36,16 +33,9 @@ export default class ChineseBlackjack extends BlackJack {
     @property(cc.Label)
     fiveCardsOddsLabel: cc.Label = null;
 
-    @property(cc.Prefab)
-    provablyFairPrefab: cc.Prefab = null;
-
-    @property(cc.Prefab)
-    guideProvablyFairPrefab: cc.Prefab = null;
-
     protected moveCardDuration = 0.35;
     chipJumpHeight = 250;
     betChips: BetChipsNew;
-    provablyFair: ChineseBlackjackProvablyFair = null;
 
     constructor() {
         super();
@@ -129,7 +119,7 @@ export default class ChineseBlackjack extends BlackJack {
         const data = {
             deal: {
                 hands: this.lastHandBets,
-                clientSeed: this.provablyFair.clientSeed
+                clientSeed: this.provablyFairComponent.clientSeed
             }
         };
         this.socketSendData("bet", data);
@@ -141,27 +131,7 @@ export default class ChineseBlackjack extends BlackJack {
     }
 
     openProvablyFair() {
-        this.provablyFair.statusNode(true);
-        this.provablyFair.commonDialog.showDialog();
-    }
-
-    initProvablyFair(node: cc.Node) {
-        const provablyFair = node.getComponent(ChineseBlackjackProvablyFair);
-        provablyFair.commonDialog.node.active = false;
-        provablyFair.statusNode(false);
-        provablyFair.callBackOpenGuide = () => {
-            this.openGuideProvablyFair();
-        };
-        this.provablyFair = provablyFair;
-    }
-
-    openGuideProvablyFair() {
-        const dialog = cc.instantiate(this.guideProvablyFairPrefab);
-        const locale = getLocale();
-        const language = getLanguage(locale);
-        const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(`/${language}/?gameId=${this.gameId}&PF=1&t=blue&c=0&f=sc&v=${Date.now()}`);
-        this.currentMiniPanel.addDialog(dialog);
-        guide.loadWebView();
+        this.provablyFairComponent.onShow();
+        console.log(this.provablyFairComponent.serverSeed.string);
     }
 }

@@ -1290,6 +1290,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
+    "_spriteFrame": {
+      "__uuid__": "fb37cc74-0123-404c-b8c4-bc3cbb2901aa"
+    },
     "_type": 0,
     "_sizeMode": 2,
     "_fillType": 0,
@@ -1518,7 +1521,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 74.75,
+      "width": 43.37,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1570,8 +1573,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.min",
-    "_N$string": "Ui.min",
+    "_string": "Min",
+    "_N$string": "Min",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -1646,7 +1649,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 79.73,
+      "width": 48.34,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1698,8 +1701,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.max",
-    "_N$string": "Ui.max",
+    "_string": "Max",
+    "_N$string": "Max",
     "_fontSize": 22,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -11186,7 +11189,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 112.11,
+      "width": 66.54,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -11251,8 +11254,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.stake2",
-    "_N$string": "Ui.stake2",
+    "_string": "Stake",
+    "_N$string": "Stake",
     "_fontSize": 26,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -11971,7 +11974,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "popupStand",
+    "_name": "PopupStand",
     "_objFlags": 0,
     "_parent": {
       "__id__": 292
@@ -22641,7 +22644,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 192.15,
+      "width": 91.88,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -22706,8 +22709,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.place_bet_break",
-    "_N$string": "Ui.place_bet_break",
+    "_string": "Place Bet",
+    "_N$string": "Place Bet",
     "_fontSize": 20,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -32498,7 +32501,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 192.15,
+      "width": 91.88,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -32550,8 +32553,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.place_bet_break",
-    "_N$string": "Ui.place_bet_break",
+    "_string": "Place Bet",
+    "_N$string": "Place Bet",
     "_fontSize": 20,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -42319,7 +42322,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 192.15,
+      "width": 91.88,
       "height": 31.5
     },
     "_anchorPoint": {
@@ -42384,8 +42387,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "Ui.place_bet_break",
-    "_N$string": "Ui.place_bet_break",
+    "_string": "Place Bet",
+    "_N$string": "Place Bet",
     "_fontSize": 20,
     "_lineHeight": 25,
     "_enableWrapText": true,
@@ -45343,6 +45346,7 @@
     "timeWaitLabel": null,
     "animatedTime": null,
     "md5Component": null,
+    "provablyFairComponent": null,
     "gameRound": null,
     "enableChips": true,
     "betChipsContainer": {
@@ -45466,9 +45470,6 @@
     },
     "fiveCardsOddsLabel": {
       "__id__": 23
-    },
-    "provablyFairPrefab": {
-      "__uuid__": "d64111db-5411-47b7-a2f4-c82c3d74269d"
     },
     "guideProvablyFairPrefab": {
       "__uuid__": "174edd86-1db1-41bf-b6fb-636fa266c09d"

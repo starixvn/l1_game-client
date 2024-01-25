@@ -45,6 +45,7 @@ import GameBaseLogsHandler from "./handlers/GameBaseLogsHandler";
 import GameBaseMd5Handler from "./handlers/GameBaseMd5Handler";
 import GameBaseNoticeHandler from "./handlers/GameBaseNoticeHandler";
 import GameBaseOddsHandler from "./handlers/GameBaseOddsHandler";
+import GameBaseProvablyFairHandler from "./handlers/GameBaseProvablyFairHandler";
 import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
@@ -54,6 +55,7 @@ import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
+import ProvablyFairComponent from "./view-models/ProvablyFairComponent";
 import RebetButton from "./view-models/RebetButton";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
 
@@ -93,6 +95,9 @@ export default class GameBase extends GameViewBase {
 
     @property({ type: MD5Component })
     md5Component: MD5Component = null;
+
+    @property({ type: ProvablyFairComponent })
+    provablyFairComponent: ProvablyFairComponent = null;
 
     @property(cc.Label)
     gameRound: cc.Label = null;
@@ -176,6 +181,7 @@ export default class GameBase extends GameViewBase {
     public finishHandler: DataHandler;
     public configsHandler: DataHandler;
     public md5Handler: DataHandler;
+    public provablyFairHandler: DataHandler;
     public oddsHandler: DataHandler;
 
     public voidTicketHandler: DataHandler;
@@ -239,6 +245,7 @@ export default class GameBase extends GameViewBase {
     onDestroy() {
         super.onDestroy();
         this.md5Component = null;
+        this.provablyFairComponent = null;
     }
 
     setUpHandlers() {
@@ -254,6 +261,7 @@ export default class GameBase extends GameViewBase {
             this.errorHandler,
             this.finishHandler,
             this.md5Handler,
+            this.provablyFairHandler,
             this.oddsHandler,
             this.voidTicketHandler,
             this.winnersHandler
@@ -563,6 +571,7 @@ export default class GameBase extends GameViewBase {
         this.finishHandler = new GameBaseFinishHandler(this);
         this.configsHandler = new GameBaseConfigsHandler(this);
         this.md5Handler = new GameBaseMd5Handler(this);
+        this.provablyFairHandler = new GameBaseProvablyFairHandler(this);
         this.oddsHandler = new GameBaseOddsHandler(this);
         this.voidTicketHandler = new GameBaseVoidTicketDataHandler(this);
         this.winnersHandler = new GameBaseWinnersHandler(this);
@@ -984,5 +993,12 @@ export default class GameBase extends GameViewBase {
     initMD5String(node: cc.Node) {
         this.md5Component = node.getComponent(MD5Component);
         this.md5Component.gameId = this.gameId;
+    }
+
+    initProvablyFair(node: cc.Node) {
+        this.provablyFairComponent = node.getComponent(ProvablyFairComponent);
+        this.provablyFairComponent.onHide();
+        this.provablyFairComponent.gameId = this.gameId;
+        this.provablyFairComponent.miniPanel = this.currentMiniPanel;
     }
 }

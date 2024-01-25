@@ -1,11 +1,18 @@
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import { getLanguage, getLocale } from "../../../common/auth/SessionManager";
+import WebViewGuide from "../../../common/webview-guide/WebViewGuide";
+import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
 
+export type ProvablyFairType = {
+    hashValue: string;
+};
+
 @ccclass
-export default class ChineseBlackjackProvablyFair extends cc.Component {
+export default class ProvablyFairComponent extends cc.Component {
     @property(cc.EditBox)
     editBoxLimit: cc.EditBox = null;
 
@@ -13,7 +20,7 @@ export default class ChineseBlackjackProvablyFair extends cc.Component {
     tooltip: cc.Node = null;
 
     @property(EffectAppearanceLabel)
-    hashValue: EffectAppearanceLabel = null;
+    serverSeed: EffectAppearanceLabel = null;
 
     @property(cc.Node)
     hintCopyNode: cc.Node = null;
@@ -21,32 +28,50 @@ export default class ChineseBlackjackProvablyFair extends cc.Component {
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
 
+    @property(cc.Prefab)
+    guideProvablyFairPrefab: cc.Prefab = null;
+
     @property()
     clientSeedMin = 0;
 
     @property()
     clientSeedMax = 103;
 
-    clientSeed = 5;
-    defaultLimit = 5;
-    hashCopyString = "";
+    @property
+    lengthOfPF = 21;
+
+    @property(cc.RichText)
+    richText: cc.RichText = null;
+
+    miniPanel: MiniPanel = null;
+    gameId: number;
+
+    clientSeed = 0;
+    serverSeedCopyString = "";
+    readonly delayShowHashValue: number = 1.35;
+    protected timeout: NodeJS.Timeout;
+    maximumStringAllowed = 32;
 
     callbackHandle() {
         // handle
     }
 
-    callBackOpenGuide() {
-        // handle
-    }
-
     onLoad() {
-        this.editBoxLimit.string = this.defaultLimit.toString();
-        this.clientSeed = this.defaultLimit;
-        this.setCopyString("test123");
-
+        this.clientSeed = this.getRandomClientSeed();
+        this.editBoxLimit.string = this.clientSeed.toString();
         this.commonDialog.addOnDidHide(() => {
             this.statusNode(false);
         });
+    }
+
+    onShow() {
+        this.statusNode(true);
+        this.commonDialog.showDialog();
+    }
+
+    onHide() {
+        this.commonDialog.closeDialogWithoutAnim();
+        this.statusNode(false);
     }
 
     statusNode(active: boolean) {
@@ -93,16 +118,44 @@ export default class ChineseBlackjackProvablyFair extends cc.Component {
 
     onCopyHash() {
         this.showHintHash();
-        GameUtils.copyText(this.hashCopyString);
+        GameUtils.copyText(this.serverSeedCopyString);
     }
 
     showHintHash() {
         cc.tween(this.hintCopyNode).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }
 
+    updateProvablyFairString(data: ProvablyFairType) {
+        if (!this.node.activeInHierarchy) {
+            this.handleProvablyFairData(data);
+            return;
+        }
+
+        this.timeout = setTimeout(() => {
+            this.handleProvablyFairData(data);
+        }, this.delayShowHashValue * 1000);
+    }
+
+    handleProvablyFairData(data: ProvablyFairType) {
+        if (this.node?.isValid) {
+            this.generateMD5Result(data?.hashValue);
+            this.setCopyString(data?.hashValue);
+        }
+    }
+
+    generateMD5Result(value: string) {
+        const formatValue = value.length > this.maximumStringAllowed ? value.slice(0, this.lengthOfPF) + "..." : value;
+        this.serverSeed.string = `${formatValue}`;
+    }
+
+    resetProvablyFair() {
+        this.serverSeed.string = "";
+        this.setCopyString("");
+        this.timeout && clearTimeout(this.timeout);
+    }
+
     setCopyString(text: string) {
-        this.hashCopyString = text;
-        this.hashValue.string = text;
+        this.serverSeedCopyString = text;
     }
 
     onChangeInputLimit(value: string) {
@@ -133,6 +186,16 @@ export default class ChineseBlackjackProvablyFair extends cc.Component {
     }
 
     onGuideClick() {
-        this.callBackOpenGuide();
+        const dialog = cc.instantiate(this.guideProvablyFairPrefab);
+        const locale = getLocale();
+        const language = getLanguage(locale);
+        const guide = dialog.getComponent(WebViewGuide);
+        guide.setURL(`/${language}/?gameId=${this.gameId}&PF=1&t=blue&c=0&f=sc&v=${Date.now()}`);
+        this.miniPanel.addDialog(dialog);
+        guide.loadWebView();
+    }
+
+    getRandomClientSeed() {
+        return Math.floor(Math.random() * (this.clientSeedMax - this.clientSeedMin + 1)) + this.clientSeedMin;
     }
 }

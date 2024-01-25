@@ -30,6 +30,10 @@ export default class CommonDialog extends BounceInEffect {
         this.node.active = true;
     }
 
+    closeDialogWithoutAnim() {
+        this.node.active = false;
+    }
+
     addOnDidHide(action: () => void) {
         this.onDidHideActions.push(action);
     }
