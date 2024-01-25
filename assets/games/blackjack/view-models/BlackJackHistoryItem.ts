@@ -11,6 +11,9 @@ export default class BlackJackHistoryItem extends SocketIOHistoryItemBase {
     @property(cc.Label)
     handId: cc.Label = null;
 
+    @property({ type: cc.Label, override: true, visible: false })
+    round: cc.Label = null;
+
     @property(cc.Node)
     split: cc.Node = null;
 

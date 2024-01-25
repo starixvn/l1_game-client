@@ -57,6 +57,30 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         this.get_data();
     }
 
+    @property({ readonly: true })
+    enablePF: boolean;
+
+    @property({
+        type: cc.Label,
+        visible: function () {
+            return this.enablePF;
+        }
+    })
+    verify: cc.Label = null;
+
+    constructor() {
+        super();
+        this.enablePF = false;
+    }
+
+    @property({
+        type: cc.Prefab,
+        visible: function () {
+            return this.enablePF;
+        }
+    })
+    itemGroupPrefab: cc.Prefab = null;
+
     setGameName() {
         if (!this.gameName) {
             return;

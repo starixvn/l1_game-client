@@ -8,6 +8,7 @@ import { uiManager } from "../../../managers/GameUIManager";
 import BlackJack, { BlackJackActionType } from "../../blackjack/view-models/BlackJack";
 import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
 import ChineseBlackjackHandPlace from "./ChineseBlackjackHandPlace";
+import ChineseBlackjackHistory from "./ChineseBlackjackHistory";
 import ChineseBlackjackDealHandler from "./handlers/ChineseBlackjackDealHandler";
 import ChineseBlackjackFinishHandler from "./handlers/ChineseBlackjackFinishHandler";
 import ChineseBlackjackInGameHandler from "./handlers/ChineseBlackjackInGameHandler";
@@ -133,5 +134,12 @@ export default class ChineseBlackjack extends BlackJack {
     openProvablyFair() {
         this.provablyFairComponent.onShow();
         console.log(this.provablyFairComponent.serverSeed.string);
+    }
+
+    openHistory() {
+        const history = cc.instantiate(this.blackjackHistory);
+        this.historyComponent = history.getComponent(ChineseBlackjackHistory);
+        this.historyComponent.init(this.socket);
+        this.currentMiniPanel.node.addChild(history);
     }
 }

@@ -30,10 +30,7 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
     @property({ type: cc.Node, override: true, visible: false })
     split: cc.Node = null;
 
-    @property({ type: cc.Label, override: true, visible: false })
-    round: cc.Label = null;
-
-    setData(log: IDataLog, index: number) {
+    setData(log: IDataLog) {
         if (!log) {
             return;
         }
@@ -48,7 +45,6 @@ export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
         this.setUICardsDealer(result, settlementResult);
         this.setUICardsPlayer(cards, total, result);
         this.playerResult.node.color = betwin <= 0 ? cc.Color.WHITE : cc.Color.YELLOW;
-        this.setBackground(index);
     }
 
     setUICardsDealer(result: CardModel[], settlementResult: number) {
