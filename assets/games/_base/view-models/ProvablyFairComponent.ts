@@ -36,12 +36,6 @@ export default class ProvablyFairComponent extends cc.Component {
     @property()
     clientSeedMax = 103;
 
-    @property
-    lengthOfPF = 21;
-
-    @property(cc.RichText)
-    richText: cc.RichText = null;
-
     miniPanel: MiniPanel = null;
     gameId: number;
     clientSeed = 0;
