@@ -58,6 +58,7 @@ import MD5Component from "./view-models/MD5Component";
 import ProvablyFairComponent from "./view-models/ProvablyFairComponent";
 import RebetButton from "./view-models/RebetButton";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
+import ProvablyFairVerifyComponent, { OPEN_PROVABLY_FAIR_VERIFY } from "./view-models/ProvablyFairVerifyComponent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -96,8 +97,11 @@ export default class GameBase extends GameViewBase {
     @property({ type: MD5Component })
     md5Component: MD5Component = null;
 
-    @property({ type: ProvablyFairComponent })
+    @property({ type: ProvablyFairComponent, visible: false })
     provablyFairComponent: ProvablyFairComponent = null;
+
+    @property({ type: ProvablyFairVerifyComponent, visible: false })
+    provablyFairVerifyComponent: ProvablyFairVerifyComponent = null;
 
     @property(cc.Label)
     gameRound: cc.Label = null;
@@ -246,6 +250,7 @@ export default class GameBase extends GameViewBase {
         super.onDestroy();
         this.md5Component = null;
         this.provablyFairComponent = null;
+        this.provablyFairVerifyComponent = null;
     }
 
     setUpHandlers() {
@@ -641,6 +646,10 @@ export default class GameBase extends GameViewBase {
         // handle
     }
 
+    openProvablyFairVerify() {
+        // handle
+    }
+
     handleGameGuide(guide: WebViewGuide, language, minBet, maxBet, isInPromotionTime) {
         guide.initURL(
             this.gameId,
@@ -1000,5 +1009,12 @@ export default class GameBase extends GameViewBase {
         this.provablyFairComponent.onHide();
         this.provablyFairComponent.gameId = this.gameId;
         this.provablyFairComponent.miniPanel = this.currentMiniPanel;
+    }
+
+    initProvablyFairVerify(node: cc.Node) {
+        this.provablyFairVerifyComponent = node.getComponent(ProvablyFairVerifyComponent);
+        this.provablyFairVerifyComponent.onHide();
+        this.provablyFairVerifyComponent.miniPanel = this.currentMiniPanel;
+        node.on(OPEN_PROVABLY_FAIR_VERIFY, this.openProvablyFairVerify, this);
     }
 }
