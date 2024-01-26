@@ -178,7 +178,7 @@ class AppManager {
     }
 
     private async handleAuthorizedResponse(response) {
-        if (!response.authorized && (this.isDirectMode || this.isAppMode || this.isPFF)) {
+        if (!response.authorized && (this.isDirectMode || this.isAppMode || this.isPFF || response.autoGenerateNickname)) {
             return this.autoGenerateName();
         }
 
