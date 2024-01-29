@@ -56,9 +56,9 @@ import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
 import ProvablyFairComponent from "./view-models/ProvablyFairComponent";
+import { ProvablyFairVerifyType } from "./view-models/ProvablyFairVerifyComponent";
 import RebetButton from "./view-models/RebetButton";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
-import ProvablyFairVerifyComponent, { OPEN_PROVABLY_FAIR_VERIFY } from "./view-models/ProvablyFairVerifyComponent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -99,9 +99,6 @@ export default class GameBase extends GameViewBase {
 
     @property({ type: ProvablyFairComponent, visible: false })
     provablyFairComponent: ProvablyFairComponent = null;
-
-    @property({ type: ProvablyFairVerifyComponent, visible: false })
-    provablyFairVerifyComponent: ProvablyFairVerifyComponent = null;
 
     @property(cc.Label)
     gameRound: cc.Label = null;
@@ -250,7 +247,6 @@ export default class GameBase extends GameViewBase {
         super.onDestroy();
         this.md5Component = null;
         this.provablyFairComponent = null;
-        this.provablyFairVerifyComponent = null;
     }
 
     setUpHandlers() {
@@ -1011,10 +1007,7 @@ export default class GameBase extends GameViewBase {
         this.provablyFairComponent.miniPanel = this.currentMiniPanel;
     }
 
-    initProvablyFairVerify(node: cc.Node) {
-        this.provablyFairVerifyComponent = node.getComponent(ProvablyFairVerifyComponent);
-        this.provablyFairVerifyComponent.onHide();
-        this.provablyFairVerifyComponent.miniPanel = this.currentMiniPanel;
-        node.on(OPEN_PROVABLY_FAIR_VERIFY, this.openProvablyFairVerify, this);
+    handleProvablyFairVerifyData(provablyFair: ProvablyFairVerifyType) {
+        provablyFair && this.historyComponent.provablyFairVerifyComponent.updateProvablyFairVerify(provablyFair);
     }
 }

@@ -1,4 +1,6 @@
+import { BetHistoryModel } from "../../_base_new/types/bet-history/BetHistoryModel.";
 import BlackJackHistory from "../../blackjack/view-models/BlackJackHistory";
+import { IDataLog } from "./ChineseBlackjackHistoryItem";
 import ChineseBlackjackHistoryItemGroup from "./ChineseBlackjackHistoryItemGroup";
 
 const { ccclass } = cc._decorator;
@@ -10,20 +12,20 @@ export default class ChineseBlackjackHistory extends BlackJackHistory {
         this.enablePF = true;
     }
 
-    onData(data) {
+    onData(data: BetHistoryModel<IDataLog>) {
         const { page, pageSize, total, betLogs } = data;
         this.pagination.onSet(page, pageSize, total);
         this.content.destroyAllChildren();
-        this.scrollView && this.scrollView.scrollToTop(0.1);
+        this.scrollView?.scrollToTop(0.1);
 
-        if (!betLogs || !betLogs.length) {
+        if (!betLogs?.length) {
             return;
         }
 
         this.updateUI(betLogs);
     }
 
-    updateUI(betLogs) {
+    updateUI(betLogs: IDataLog[]) {
         let currentRoundId = 0;
         let currentItemGroupComponent: ChineseBlackjackHistoryItemGroup;
         let enableBg = true;

@@ -1,7 +1,6 @@
 import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
 import GameUtils from "../../../common/GameUtils";
 import CommonDialog from "../../../common/_base/view-models/CommonDialog";
-import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,6 +11,7 @@ export type ProvablyFairVerifyType = {
     finalResult: string;
     handIds: string;
 };
+
 export const OPEN_PROVABLY_FAIR_VERIFY = " open_provably_fair_verify";
 
 @ccclass
@@ -49,8 +49,6 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
 
-    miniPanel: MiniPanel = null;
-
     lengthOfPF = 21;
 
     serverSeedCopyString = "";
@@ -66,6 +64,7 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     onLoad() {
         this.commonDialog.addOnDidHide(() => {
             this.statusNode(false);
+            this.verifySuccess.active = false;
         });
     }
 
@@ -96,18 +95,7 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     }
 
     updateProvablyFairVerify(data: ProvablyFairVerifyType) {
-        if (!this.node.activeInHierarchy) {
-            this.handleProvablyFairVerifyData(data);
-            return;
-        }
-
-        this.timeout = setTimeout(() => {
-            this.handleProvablyFairVerifyData(data);
-        }, this.delayShowHashValue * 1000);
-    }
-
-    handleProvablyFairVerifyData(data: ProvablyFairVerifyType) {
-        if (this.node?.isValid) {
+        if (!this.node.activeInHierarchy && this.node?.isValid) {
             this.clientSeed.string = data.clientSeed.toString();
 
             this.serverSeed.string = this.generateShortString(data?.serverSeed, 10);

@@ -96,25 +96,22 @@
         "__id__": 1141
       },
       {
+        "__id__": 1143
+      },
+      {
         "__id__": 1145
-      },
-      {
-        "__id__": 1147
-      },
-      {
-        "__id__": 1149
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1151
+        "__id__": 1147
       },
       {
-        "__id__": 1152
+        "__id__": 1148
       },
       {
-        "__id__": 1153
+        "__id__": 1149
       }
     ],
     "_prefab": null,
@@ -45073,132 +45070,12 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "container-PF",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 1142
-      },
-      {
-        "__id__": 1144
-      }
-    ],
-    "_prefab": null,
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 1398,
-      "height": 786
-    },
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_trs": {
-      "__type__": "TypedArray",
-      "ctor": "Float64Array",
-      "array": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        1,
-        1,
-        1,
-        1
-      ]
-    },
-    "_eulerAngles": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_is3DNode": false,
-    "_groupIndex": 0,
-    "groupIndex": 0,
-    "_id": "a0JHnDjNJMEb6aatyuVN96"
-  },
-  {
-    "__type__": "2aa89SjKxZNhZGiq4fg66rF",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1141
-    },
-    "_enabled": true,
-    "prefab": {
-      "__uuid__": "d80d62e1-d358-4721-b68e-e7f6578270cc"
-    },
-    "initializationEventHandlers": [
-      {
-        "__id__": 1143
-      }
-    ],
-    "_id": "ccqFoZnbhCC4no25ZR+/N4"
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 2
-    },
-    "component": "",
-    "_componentId": "14018eG8OtG3pLGIfdr+qW6",
-    "handler": "initProvablyFairVerify",
-    "customEventData": ""
-  },
-  {
-    "__type__": "cc.Widget",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1141
-    },
-    "_enabled": true,
-    "alignMode": 1,
-    "_target": null,
-    "_alignFlags": 45,
-    "_left": 0,
-    "_right": 0,
-    "_top": 0,
-    "_bottom": 0,
-    "_verticalCenter": 0,
-    "_horizontalCenter": 0,
-    "_isAbsLeft": true,
-    "_isAbsRight": true,
-    "_isAbsTop": true,
-    "_isAbsBottom": true,
-    "_isAbsHorizontalCenter": true,
-    "_isAbsVerticalCenter": true,
-    "_originalWidth": 0,
-    "_originalHeight": 0,
-    "_id": "97T50fVe9C4aEs70j6MaiZ"
-  },
-  {
-    "__type__": "cc.Node",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
     },
     "_prefab": {
-      "__id__": 1146
+      "__id__": 1142
     },
     "_name": "Loading",
     "_active": false,
@@ -45229,7 +45106,7 @@
   {
     "__type__": "cc.PrefabInfo",
     "root": {
-      "__id__": 1145
+      "__id__": 1141
     },
     "asset": {
       "__uuid__": "3b363726-d7d5-449d-a4c5-0c15f31ae04e"
@@ -45248,7 +45125,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1148
+        "__id__": 1144
       }
     ],
     "_prefab": null,
@@ -45304,7 +45181,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1147
+      "__id__": 1143
     },
     "_enabled": true,
     "_clip": {
@@ -45329,7 +45206,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1150
+        "__id__": 1146
       }
     ],
     "_prefab": null,
@@ -45385,7 +45262,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1149
+      "__id__": 1145
     },
     "_enabled": true,
     "_clip": {
@@ -45467,7 +45344,6 @@
     "animatedTime": null,
     "md5Component": null,
     "provablyFairComponent": null,
-    "provablyFairVerifyComponent": null,
     "gameRound": null,
     "enableChips": true,
     "betChipsContainer": {
@@ -45496,7 +45372,7 @@
       "__uuid__": "783d3aa3-f636-4101-9128-02611882f625"
     },
     "loading": {
-      "__id__": 1145
+      "__id__": 1141
     },
     "winningPlayerEffectPrefab": {
       "__uuid__": "bb8ae1e3-8ee1-4bf5-b19d-3a000b02170e"
@@ -45578,10 +45454,10 @@
       "__uuid__": "ed6119ac-1876-44e0-b016-d12ee63135b4"
     },
     "cardSlideAudioSource": {
-      "__id__": 1148
+      "__id__": 1144
     },
     "gameNotificationsAudio": {
-      "__id__": 1150
+      "__id__": 1146
     },
     "singleChipAudio": {
       "__id__": 4

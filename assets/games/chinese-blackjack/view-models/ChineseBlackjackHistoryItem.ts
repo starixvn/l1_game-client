@@ -2,12 +2,13 @@ import GameUtils from "../../../common/GameUtils";
 import { getStringDateByTime } from "../../../common/helpers/DateTimeHelper";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { CardModel } from "../../../common/new-card/view-models/NewCard";
+import { BetHistoryLog } from "../../_base_new/types/bet-history/BetHistoryModel.";
 import BlackJackHistoryItem from "../../blackjack/view-models/BlackJackHistoryItem";
 import ChineseBlackjackUtils from "./ChineseBlackjackUtils";
 
 const { ccclass, property } = cc._decorator;
 
-export interface IDataLog {
+export interface IDataLog extends BetHistoryLog<CardModel[], number> {
     id: number;
     pos: number;
     actions: string[];
@@ -15,16 +16,12 @@ export interface IDataLog {
     total: number;
     softPoints: [];
     bet: number;
-    betwin: number;
     freeBet: boolean;
-    roundId: number;
     name: string;
-    time: string;
     rate: number;
-    result: CardModel[];
-    settlementResult: number;
     ended: boolean;
 }
+
 @ccclass
 export default class ChineseBlackjackHistoryItem extends BlackJackHistoryItem {
     @property({ type: cc.Node, override: true, visible: false })

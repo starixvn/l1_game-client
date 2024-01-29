@@ -1,6 +1,6 @@
+import * as sessionManager from "../../common/auth/SessionManager";
 import { userManager } from "../../common/user/UserManager";
 import WebSocketTableGameBase from "./WebSocketTableGameBase";
-import * as sessionManager from "../../common/auth/SessionManager";
 
 const { ccclass } = cc._decorator;
 

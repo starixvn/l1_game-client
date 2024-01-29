@@ -136,10 +136,6 @@ export default class ChineseBlackjack extends BlackJack {
         console.log(this.provablyFairComponent.serverSeed.string);
     }
 
-    openProvablyFairVerify() {
-        this.provablyFairVerifyComponent.onShow();
-    }
-
     openHistory() {
         const history = cc.instantiate(this.blackjackHistory);
         this.historyComponent = history.getComponent(ChineseBlackjackHistory);

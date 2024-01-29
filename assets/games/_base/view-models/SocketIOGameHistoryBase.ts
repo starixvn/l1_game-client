@@ -7,11 +7,15 @@ import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import HistoryFrame from "../../../common/new-history/HistoryFrame";
+import ProvablyFairVerifyComponent, { OPEN_PROVABLY_FAIR_VERIFY } from "./ProvablyFairVerifyComponent";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default abstract class SocketIOGameHistoryBase extends BaseComponent {
+    @property({ type: ProvablyFairVerifyComponent, visible: false })
+    provablyFairVerifyComponent: ProvablyFairVerifyComponent = null;
+
     @property(PaginationCommon)
     pagination: PaginationCommon = null;
 
@@ -107,21 +111,35 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     }
 
     get_data(page = 1) {
-        this.socket && this.socket.connected && this.socket.emit("getHistory", { page: page });
+        this.socket?.connected && this.socket.emit("getHistory", { page: page });
     }
 
     onData(data) {
         const { page, pageSize, total, betLogs } = data;
         this.pagination.onSet(page, pageSize, total);
         this.content.destroyAllChildren();
-        this.scrollView && this.scrollView.scrollToTop(0.1);
+        this.scrollView?.scrollToTop(0.1);
 
-        if (!betLogs || !betLogs.length) {
+        if (!betLogs?.length) {
             return;
         }
 
         betLogs.forEach((betLog, index) => this.bindItemRowData(betLog, index));
         this.onUpdatedData();
+    }
+
+    initProvablyFairVerify(node: cc.Node) {
+        this.provablyFairVerifyComponent = node.getComponent(ProvablyFairVerifyComponent);
+        this.provablyFairVerifyComponent.onHide();
+        node.on(OPEN_PROVABLY_FAIR_VERIFY, this.openProvablyFairVerify, this);
+    }
+
+    openProvablyFairVerify() {
+        this.provablyFairVerifyComponent?.onShow();
+    }
+
+    onDestroy() {
+        this.provablyFairVerifyComponent = null;
     }
 
     abstract bindItemRowData(betLog, index);

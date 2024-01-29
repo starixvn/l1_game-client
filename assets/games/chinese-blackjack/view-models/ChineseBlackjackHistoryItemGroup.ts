@@ -1,11 +1,11 @@
 import SocketIOGameHistoryItemGroupBase from "../../_base/view-models/SocketIOGameHistoryItemGroupBase";
-import ChineseBlackjackHistoryItem from "./ChineseBlackjackHistoryItem";
+import ChineseBlackjackHistoryItem, { IDataLog } from "./ChineseBlackjackHistoryItem";
 
-const { ccclass, property } = cc._decorator;
+const { ccclass } = cc._decorator;
 
 @ccclass
 export default class ChineseBlackjackHistoryItemGroup extends SocketIOGameHistoryItemGroupBase {
-    addItem(log) {
+    addItem(log: IDataLog) {
         const historyItemPrefab = cc.instantiate(this.itemPrefab);
         const item = historyItemPrefab.getComponent(ChineseBlackjackHistoryItem);
         this.bg.addChild(historyItemPrefab);
