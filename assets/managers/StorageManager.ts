@@ -5,6 +5,10 @@ interface Storage {
     isAvailable: () => boolean;
 }
 
+function isString(value: any): value is string {
+    return typeof value === "string";
+}
+
 class LocalStorage implements Storage {
     remove(name: string) {
         localStorage?.removeItem(name);
@@ -25,7 +29,8 @@ class LocalStorage implements Storage {
     }
 
     set(name: string, value: any) {
-        localStorage?.setItem(name, JSON.stringify(value));
+        const valueFormat: string = isString(value) ? value : JSON.stringify(value);
+        localStorage?.setItem(name, valueFormat);
     }
 
     isAvailable() {
