@@ -713,6 +713,7 @@ export default class GameUtils {
             }
             return true;
         } catch (e) {
+            cc.log(e);
             return false;
         }
     }
