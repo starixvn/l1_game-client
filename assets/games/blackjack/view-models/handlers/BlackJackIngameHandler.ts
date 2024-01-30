@@ -13,7 +13,7 @@ export default class BlackJackIngameHandler implements DataHandler {
         }
     }
 
-    processIngame(ownBets: any) {
+    processIngame(ownBets: any, callbackFunction?: () => void) {
         if (_.isEmpty(ownBets)) {
             this.main.newGame();
         } else {
@@ -54,6 +54,7 @@ export default class BlackJackIngameHandler implements DataHandler {
             this.main.showActionsWithBehavior(BlackJackActionType.IN_ROUND);
             this.main.updateAvailableActions();
             this.main.slidingDownBetChip(true, false);
+            callbackFunction?.();
         }
     }
 

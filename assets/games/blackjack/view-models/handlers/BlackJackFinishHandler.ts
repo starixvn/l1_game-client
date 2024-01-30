@@ -54,14 +54,14 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         console.error("BlackJack data finish did not receive");
     }
 
-    finishBlackJackCase(finish) {
+    finishBlackJackCase(finish, callbackFinish?: () => void) {
         this.main.dealerHand.cardLayout.updateLayout();
         this.main.dealerHand.showScoreWithOutData(finish.result, 2, true);
         this.showWinningHands();
         this.startNewRound();
     }
 
-    async finishNormalCase(finish) {
+    async finishNormalCase(finish, callbackFunction?: () => void) {
         await this.openFaceDownDealerCards(finish);
         cc.tween(this.main)
             .call(() => {
@@ -75,6 +75,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                             this.showWinningHands();
 
                             this.startNewRound();
+                            callbackFunction?.();
                         })
                         .start();
                 });

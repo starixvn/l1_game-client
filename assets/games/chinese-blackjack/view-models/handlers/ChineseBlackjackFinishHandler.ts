@@ -25,6 +25,7 @@ export default class ChineseBlackjackFinishHandler extends BlackJackFinishHandle
     get mainGame() {
         return this.main as ChineseBlackjack;
     }
+    
     showLogNotReceiveData() {
         console.error("ChineseBlackjack data finish did not receive");
     }
@@ -35,23 +36,27 @@ export default class ChineseBlackjackFinishHandler extends BlackJackFinishHandle
             this.showLogNotReceiveData();
             return;
         }
-        this.mainGame.provablyFairComponent.seBehaviorClientSeed(true);
-        this.mainGame.provablyFairComponent.setRandomClientSeed();
+        const callbackFinish = () => {
+            this.mainGame.provablyFairComponent.seBehaviorClientSeed(true);
+            this.mainGame.provablyFairComponent.setRandomClientSeed();
+        };
+
         const cards = finish?.result;
         if (ChineseBlackjackUtils.isBanBan(cards) || ChineseBlackjackUtils.isBanLuck(cards)) {
-            this.finishBlackJackCase(finish);
+            this.finishBlackJackCase(finish, callbackFinish);
         } else {
-            this.finishNormalCase(finish);
+            this.finishNormalCase(finish, callbackFinish);
         }
     }
 
-    async finishBlackJackCase(finish: IFinishData) {
+    async finishBlackJackCase(finish: IFinishData, callbackFinish: () => void) {
         await this.openFaceDownDealerCards(finish);
         const dealerHand = this.main.dealerHand as ChineseBlackjackHandPlace;
         dealerHand.cardLayout.updateLayout();
         dealerHand.showScoreWithOutData(finish.result, 2, true);
         this.showWinningHands();
         this.startNewRound();
+        callbackFinish && callbackFinish();
     }
 
     async openFaceDownDealerCards(finish: IFinishData) {

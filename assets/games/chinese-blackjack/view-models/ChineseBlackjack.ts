@@ -116,6 +116,11 @@ export default class ChineseBlackjack extends BlackJack {
         this.hitButton?.getComponent(FadeEffectButton).setDisabled(true);
     }
 
+    onRebetClick() {
+        this.provablyFairComponent.seBehaviorClientSeed(false);
+        super.onRebetClick();
+    }
+
     rebet() {
         const data = {
             deal: {
