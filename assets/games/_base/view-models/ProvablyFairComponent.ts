@@ -13,7 +13,7 @@ export type ProvablyFairType = {
 @ccclass
 export default class ProvablyFairComponent extends cc.Component {
     @property(cc.EditBox)
-    editBoxLimit: cc.EditBox = null;
+    editBoxClientSeed: cc.EditBox = null;
 
     @property(cc.Node)
     tooltip: cc.Node = null;
@@ -29,6 +29,12 @@ export default class ProvablyFairComponent extends cc.Component {
 
     @property(cc.Prefab)
     guideProvablyFairPrefab: cc.Prefab = null;
+
+    @property(cc.Button)
+    btnClientSeedNext: cc.Button = null;
+
+    @property(cc.Button)
+    btnClientSeedPrev: cc.Button = null;
 
     @property()
     clientSeedMin = 0;
@@ -49,8 +55,7 @@ export default class ProvablyFairComponent extends cc.Component {
     }
 
     onLoad() {
-        this.clientSeed = this.getRandomClientSeed();
-        this.editBoxLimit.string = this.clientSeed.toString();
+        this.setRandomClientSeed();
         this.commonDialog.addOnDidHide(() => {
             this.statusNode(false);
         });
@@ -163,7 +168,7 @@ export default class ProvablyFairComponent extends cc.Component {
     }
 
     setEditBoxLimit() {
-        this.editBoxLimit.string = this.clientSeed.toString();
+        this.editBoxClientSeed.string = this.clientSeed.toString();
     }
 
     onClickRandomClientSeed() {
@@ -188,5 +193,22 @@ export default class ProvablyFairComponent extends cc.Component {
 
     getRandomClientSeed() {
         return Math.floor(Math.random() * (this.clientSeedMax - this.clientSeedMin + 1)) + this.clientSeedMin;
+    }
+
+    seBehaviorClientSeed(isEnable: boolean) {
+        this.btnClientSeedNext.interactable = isEnable;
+        this.changeOpacity(this.btnClientSeedNext.node, isEnable);
+        this.btnClientSeedPrev.interactable = isEnable;
+        this.changeOpacity(this.btnClientSeedPrev.node, isEnable);
+        this.editBoxClientSeed.enabled = isEnable;
+    }
+
+    changeOpacity(node: cc.Node, isEnable: boolean) {
+        node.opacity = isEnable ? 255 : 100;
+    }
+
+    setRandomClientSeed() {
+        this.clientSeed = this.getRandomClientSeed();
+        this.editBoxClientSeed.string = this.clientSeed.toString();
     }
 }

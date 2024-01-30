@@ -126,6 +126,11 @@ export default class ChineseBlackjack extends BlackJack {
         this.socketSendData("bet", data);
     }
 
+    onDealClick(): void {
+        this.provablyFairComponent.seBehaviorClientSeed(false);
+        super.onDealClick();
+    }
+
     onPopupConfirmWithoutStand() {
         this.standButton?.getComponent(FadeEffectButton).setDisabled(false);
         this.hitButton?.getComponent(FadeEffectButton).setDisabled(false);

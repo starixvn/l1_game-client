@@ -1,6 +1,7 @@
 import GameUtils from "../../../../common/GameUtils";
 import { CardModel } from "../../../../common/new-card/view-models/NewCard";
 import BlackJackFinishHandler from "../../../blackjack/view-models/handlers/BlackJackFinishHandler";
+import ChineseBlackjack from "../ChineseBlackjack";
 import ChineseBlackjackHandPlace from "../ChineseBlackjackHandPlace";
 import ChineseBlackjackUtils from "../ChineseBlackjackUtils";
 
@@ -21,6 +22,9 @@ export interface IHand {
     isStand: boolean;
 }
 export default class ChineseBlackjackFinishHandler extends BlackJackFinishHandler {
+    get mainGame() {
+        return this.main as ChineseBlackjack;
+    }
     showLogNotReceiveData() {
         console.error("ChineseBlackjack data finish did not receive");
     }
@@ -31,7 +35,8 @@ export default class ChineseBlackjackFinishHandler extends BlackJackFinishHandle
             this.showLogNotReceiveData();
             return;
         }
-
+        this.mainGame.provablyFairComponent.seBehaviorClientSeed(true);
+        this.mainGame.provablyFairComponent.setRandomClientSeed();
         const cards = finish?.result;
         if (ChineseBlackjackUtils.isBanBan(cards) || ChineseBlackjackUtils.isBanLuck(cards)) {
             this.finishBlackJackCase(finish);
