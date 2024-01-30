@@ -24,6 +24,7 @@ export default class Splash extends cc.Component {
     prfMicrositeGame: cc.Prefab = null;
 
     protected onLoad(): void {
+        this.disableAllNodeSplash();
         this.initUIListeners();
         this.handleSplashScene();
     }
@@ -99,5 +100,10 @@ export default class Splash extends cc.Component {
     private openGameFromMicroGame(gameId: number) {
         SessionManager.storeInRoomGameId(gameId);
         this.enableMainSplashScreen();
+    }
+
+    private disableAllNodeSplash() {
+        this.nodeMainSplash.active = false;
+        this.nodeMicrositeGame.active = false;
     }
 }
