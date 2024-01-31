@@ -642,10 +642,6 @@ export default class GameBase extends GameViewBase {
         // handle
     }
 
-    openProvablyFairVerify() {
-        // handle
-    }
-
     handleGameGuide(guide: WebViewGuide, language, minBet, maxBet, isInPromotionTime) {
         guide.initURL(
             this.gameId,

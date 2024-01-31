@@ -8,12 +8,13 @@ const { ccclass, property } = cc._decorator;
 
 export type ProvablyFairType = {
     hashValue: string;
+    clientSeed?: number;
 };
 
 @ccclass
 export default class ProvablyFairComponent extends cc.Component {
     @property(cc.EditBox)
-    editBoxClientSeed: cc.EditBox = null;
+    clientSeed: cc.EditBox = null;
 
     @property(cc.Node)
     tooltip: cc.Node = null;
@@ -42,12 +43,14 @@ export default class ProvablyFairComponent extends cc.Component {
     @property()
     clientSeedMax = 103;
 
+    @property()
+    delayShowHashValue = 1.35;
+
     miniPanel: MiniPanel = null;
     gameId: number;
-    clientSeed = 0;
+    currentClientSeed = 0;
 
     protected serverSeedCopyString = "";
-    readonly delayShowHashValue: number = 1.35;
     protected timeout: NodeJS.Timeout;
 
     callbackHandle() {
@@ -75,21 +78,21 @@ export default class ProvablyFairComponent extends cc.Component {
         this.node.active = active;
     }
 
-    onLimitPrevClick() {
-        if (this.clientSeed === this.clientSeedMin) {
-            this.clientSeed = this.clientSeedMax;
+    onClickDecrementClientSeed() {
+        if (this.currentClientSeed === this.clientSeedMin) {
+            this.currentClientSeed = this.clientSeedMax;
         } else {
-            this.clientSeed = (this.clientSeed - 1 + this.clientSeedMax) % this.clientSeedMax;
+            this.currentClientSeed = (this.currentClientSeed - 1 + this.clientSeedMax) % this.clientSeedMax;
         }
 
         this.setEditBoxLimit();
     }
 
-    onLimitNextClick() {
-        if (this.clientSeed === this.clientSeedMax) {
-            this.clientSeed = this.clientSeedMin;
+    onClickIncreaseClientSeed() {
+        if (this.currentClientSeed === this.clientSeedMax) {
+            this.currentClientSeed = this.clientSeedMin;
         } else {
-            this.clientSeed = (this.clientSeed + 1) % this.clientSeedMax;
+            this.currentClientSeed = (this.currentClientSeed + 1) % this.clientSeedMax;
         }
         this.setEditBoxLimit();
     }
@@ -118,7 +121,7 @@ export default class ProvablyFairComponent extends cc.Component {
         GameUtils.copyText(this.serverSeedCopyString);
     }
 
-    showHintHash() {
+    protected showHintHash() {
         cc.tween(this.hintCopyNode).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }
 
@@ -133,24 +136,24 @@ export default class ProvablyFairComponent extends cc.Component {
         }, this.delayShowHashValue * 1000);
     }
 
-    handleProvablyFairData(data: ProvablyFairType) {
+    protected handleProvablyFairData(data: ProvablyFairType) {
         if (this.node?.isValid) {
-            this.generateMD5Result(data?.hashValue);
+            this.serverSeed.string = data?.hashValue;
             this.setCopyString(data?.hashValue);
         }
     }
 
-    generateMD5Result(value: string) {
-        this.serverSeed.string = value;
+    updateClientSeed(value: string) {
+        this.clientSeed.string = value;
     }
 
-    resetProvablyFair() {
+    protected resetProvablyFair() {
         this.serverSeed.string = "";
         this.setCopyString("");
         this.timeout && clearTimeout(this.timeout);
     }
 
-    setCopyString(text: string) {
+    protected setCopyString(text: string) {
         this.serverSeedCopyString = text;
     }
 
@@ -163,17 +166,17 @@ export default class ProvablyFairComponent extends cc.Component {
             currentValue = 0;
         }
 
-        this.clientSeed = currentValue;
+        this.currentClientSeed = currentValue;
         this.setEditBoxLimit();
     }
 
-    setEditBoxLimit() {
-        this.editBoxClientSeed.string = this.clientSeed.toString();
+    protected setEditBoxLimit() {
+        this.clientSeed.string = this.currentClientSeed.toString();
     }
 
     onClickRandomClientSeed() {
         const value = Math.floor(Math.random() * (this.clientSeedMax - this.clientSeedMin + 1)) + this.clientSeedMin;
-        this.clientSeed = value;
+        this.currentClientSeed = value;
         this.setEditBoxLimit();
     }
 
@@ -191,24 +194,24 @@ export default class ProvablyFairComponent extends cc.Component {
         guide.loadWebView();
     }
 
-    getRandomClientSeed() {
+    private getRandomClientSeed() {
         return Math.floor(Math.random() * (this.clientSeedMax - this.clientSeedMin + 1)) + this.clientSeedMin;
     }
 
-    seBehaviorClientSeed(isEnable: boolean) {
+    setClientSeedUIState(isEnable: boolean) {
         this.btnClientSeedNext.interactable = isEnable;
         this.changeOpacity(this.btnClientSeedNext.node, isEnable);
         this.btnClientSeedPrev.interactable = isEnable;
         this.changeOpacity(this.btnClientSeedPrev.node, isEnable);
-        this.editBoxClientSeed.enabled = isEnable;
+        this.clientSeed.enabled = isEnable;
     }
 
-    changeOpacity(node: cc.Node, isEnable: boolean) {
+    protected changeOpacity(node: cc.Node, isEnable: boolean) {
         node.opacity = isEnable ? 255 : 100;
     }
 
     setRandomClientSeed() {
-        this.clientSeed = this.getRandomClientSeed();
-        this.editBoxClientSeed.string = this.clientSeed.toString();
+        this.currentClientSeed = this.getRandomClientSeed();
+        this.clientSeed.string = this.currentClientSeed.toString();
     }
 }

@@ -9,7 +9,7 @@ export default class ChineseBlackjackInGameHandler extends BlackJackIngameHandle
     handle(data: any) {
         if (data.ownBets) {
             this.processIngame(data.ownBets, () => {
-                this.mainGame.provablyFairComponent.seBehaviorClientSeed(false);
+                this.mainGame.provablyFairComponent.setClientSeedUIState(false);
             });
         }
     }

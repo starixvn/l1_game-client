@@ -11,16 +11,13 @@ export interface IDeal {
 }
 
 export default class ChineseBlackjackDealHandler extends DealHandler {
-    deal: IDeal;
     handle(data) {
         super.handle(data);
-        if (data.deal) {
-            this.deal = data.deal;
-        }
         if (data.chineseBlackjackNotice) {
             this.processFailedDealHands(data.chineseBlackjackNotice);
         }
     }
+
     drawFirstDealerCard(dealerCards: CardModel[], actions: DrawCardAction[]) {
         actions.push(() => {
             this.main.drawingCardToDealer(null, true);

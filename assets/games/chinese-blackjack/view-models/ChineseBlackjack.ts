@@ -117,7 +117,7 @@ export default class ChineseBlackjack extends BlackJack {
     }
 
     onRebetClick() {
-        this.provablyFairComponent.seBehaviorClientSeed(false);
+        this.provablyFairComponent.setClientSeedUIState(false);
         super.onRebetClick();
     }
 
@@ -125,14 +125,14 @@ export default class ChineseBlackjack extends BlackJack {
         const data = {
             deal: {
                 hands: this.lastHandBets,
-                clientSeed: this.provablyFairComponent.clientSeed
+                clientSeed: this.provablyFairComponent.currentClientSeed
             }
         };
         this.socketSendData("bet", data);
     }
 
     onDealClick(): void {
-        this.provablyFairComponent.seBehaviorClientSeed(false);
+        this.provablyFairComponent.setClientSeedUIState(false);
         super.onDealClick();
     }
 
@@ -143,7 +143,6 @@ export default class ChineseBlackjack extends BlackJack {
 
     openProvablyFair() {
         this.provablyFairComponent.onShow();
-        console.log(this.provablyFairComponent.serverSeed.string);
     }
 
     openHistory() {

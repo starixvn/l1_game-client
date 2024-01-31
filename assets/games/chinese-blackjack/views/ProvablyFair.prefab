@@ -2900,7 +2900,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "btnPrev",
+    "_name": "btnDecrement",
     "_objFlags": 0,
     "_parent": {
       "__id__": 79
@@ -3310,7 +3310,7 @@
     },
     "component": "",
     "_componentId": "98f274NYY5DGLgwZ5V8i3M3",
-    "handler": "onLimitPrevClick",
+    "handler": "onClickDecrementClientSeed",
     "customEventData": ""
   },
   {
@@ -3326,7 +3326,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "editBoxClientSeed",
+    "_name": "clientSeed",
     "_objFlags": 0,
     "_parent": {
       "__id__": 79
@@ -3870,7 +3870,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "btnNext",
+    "_name": "btnIncrease",
     "_objFlags": 0,
     "_parent": {
       "__id__": 79
@@ -4280,7 +4280,7 @@
     },
     "component": "",
     "_componentId": "98f274NYY5DGLgwZ5V8i3M3",
-    "handler": "onLimitNextClick",
+    "handler": "onClickIncreaseClientSeed",
     "customEventData": ""
   },
   {
@@ -4307,7 +4307,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "hash-container",
+    "_name": "serverSeedContainer",
     "_objFlags": 0,
     "_parent": {
       "__id__": 50
@@ -4690,7 +4690,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "richText",
+    "_name": "serverSeed",
     "_objFlags": 0,
     "_parent": {
       "__id__": 125
@@ -6394,7 +6394,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "editBoxClientSeed": {
+    "clientSeed": {
       "__id__": 104
     },
     "tooltip": {
@@ -6420,6 +6420,8 @@
     },
     "clientSeedMin": 0,
     "clientSeedMax": 103,
+    "delayShowHashValue": 1.35,
+    "effectValue": null,
     "_id": ""
   },
   {

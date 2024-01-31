@@ -9,6 +9,10 @@ export default class GameBaseProvablyFairHandler implements DataHandler {
             this.main.provablyFairComponent?.updateProvablyFairString(data.resultHash);
         }
 
+        if (data.clientSeed) {
+            this.main.provablyFairComponent?.updateClientSeed(data?.clientSeed);
+        }
+
         if (data.provablyFair) {
             this.main.handleProvablyFairVerifyData(data.provablyFair);
         }
