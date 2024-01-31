@@ -144,6 +144,7 @@ export default class BlackJack extends SocketIOTableGameBase {
     @lazyInject(BlackJackConfig)
     private readonly blackJackConfig: BlackJackConfig;
 
+    finishHandler: BlackJackFinishHandler;
     dealHander: DataHandler;
     ingameActionHander: DataHandler;
     ingameHander: DataHandler;
@@ -194,7 +195,9 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.stopIntervalReminder();
     }
 
-    override stopGame() {}
+    override stopGame() {
+        // handle
+    }
 
     disableGame() {
         this.gameState = GameState.Disabled;
@@ -204,9 +207,13 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.gameStatus = status;
     }
 
-    protected onGameHide() {}
+    protected onGameHide() {
+        // handle
+    }
 
-    setGameRound(gameRoundId) {}
+    setGameRound(gameRoundId) {
+        // handle
+    }
 
     checkShowUmMessage(data: any) {
         return true;
@@ -406,7 +413,14 @@ export default class BlackJack extends SocketIOTableGameBase {
         AudioManager.getInstance().playSFX(this.cardSlideAudioSource.clip);
     }
 
-    drawingCardToPlayer(card: CardModel, pos: number, isDrawFirstCard = false, onComplete = () => {}) {
+    drawingCardToPlayer(
+        card: CardModel,
+        pos: number,
+        isDrawFirstCard = false,
+        onComplete = () => {
+            //handle
+        }
+    ) {
         const cardNode = this.createCard(card);
         const handPlace = this.handPlaces[pos];
 
@@ -433,12 +447,18 @@ export default class BlackJack extends SocketIOTableGameBase {
             .to(slideDuration, { position: finalPosition, rotationX: rotationX, scaleY: scaleY }, { easing: "easeOut" })
             .call(() => {
                 handPlace.cardLayout.updateLayout();
-                onComplete();
+                onComplete?.();
             })
             .start();
     }
 
-    drawingCardToDealer(card: CardModel, faceDown: boolean, onComplete = () => {}) {
+    drawingCardToDealer(
+        card: CardModel,
+        faceDown: boolean,
+        onComplete = () => {
+            //handle
+        }
+    ) {
         const cardNode = this.createCard(card);
         const cardComponent = cardNode.getComponent(NewCard);
         const startWorldPos = this.cardBox.convertToWorldSpaceAR(cc.v2(0, 0));
@@ -464,7 +484,7 @@ export default class BlackJack extends SocketIOTableGameBase {
             .to(this.moveCardDuration, { position: finalPosition, rotationX: rotationX }, { easing: "easeOut" })
 
             .call(() => {
-                onComplete();
+                onComplete?.();
             })
             .start();
     }
@@ -636,16 +656,26 @@ export default class BlackJack extends SocketIOTableGameBase {
     }
 
     onNewBetClick() {
+        this.finishHandler.stopAllAnimations();
+        this.finishHandler.removeAllSchedule();
+
         AudioManager.getInstance().playClick();
         this.collectCardsOnTable();
         this.slidingDownBetChip(false);
+        this.chipContainers?.forEach((chipContainer) => {
+            chipContainer?.destroyAllChildren();
+        });
     }
 
     randomRotation(): number {
         return Math.floor(Math.random() * 10);
     }
 
-    collectCardsOnTable(complete = () => {}) {
+    collectCardsOnTable(
+        complete = () => {
+            // handle
+        }
+    ) {
         this.newGame();
         const worldPositon = this.cardDropPlace.convertToWorldSpaceAR(cc.v2(0, 0));
         const collectDuration = 0.65;
@@ -705,6 +735,8 @@ export default class BlackJack extends SocketIOTableGameBase {
         if (!this.canSendRequest()) {
             return;
         }
+        this.finishHandler.stopAllAnimations();
+        this.finishHandler.removeAllSchedule();
 
         this.collectCardsOnTable(() => {
             let total = 0;

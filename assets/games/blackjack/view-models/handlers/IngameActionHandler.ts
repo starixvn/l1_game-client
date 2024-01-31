@@ -68,7 +68,7 @@ export default class IngameActionHandler implements DataHandler {
             .start();
     }
 
-    calculatePosition(originalPosition: cc.Vec3, offsetX: number = 0, offsetY: number = 0, offsetZ: number = 0) {
+    calculatePosition(originalPosition: cc.Vec3, offsetX = 0, offsetY = 0, offsetZ = 0) {
         return cc.v3(originalPosition.x + offsetX, originalPosition.y + offsetY, originalPosition.z + offsetZ);
     }
 

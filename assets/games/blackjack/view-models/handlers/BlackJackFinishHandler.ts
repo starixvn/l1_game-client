@@ -17,12 +17,40 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     drawingCardDelay = 0.5;
     openCardDuration = 1.4;
 
+    tweenFinishNormalCase: cc.Tween;
+    tweenDrawMoreCardForDealer: cc.Tween;
+    callbackScheduleAnimChipStack = [];
+
+    chipsStack: cc.Node[] = [];
+
     handle(data: any): boolean {
         if (data.finish) {
             this.finishDataCache = data.finish;
             this.main.finishRound();
         }
         return true;
+    }
+
+    stopAllAnimations() {
+        this.tweenFinishNormalCase?.stop();
+        this.tweenDrawMoreCardForDealer?.stop();
+        this.main.handPlaces.forEach((place, index) => {
+            const chip = this.getChipsHandPlace(index);
+            chip?.stopAllActions();
+            chip?.destroyAllChildren();
+        });
+        this.chipsStack.forEach((chipStack) => {
+            chipStack?.stopAllActions();
+            chipStack.destroyAllChildren();
+        });
+        this.chipsStack = [];
+    }
+
+    removeAllSchedule() {
+        this.callbackScheduleAnimChipStack.forEach((callbackSchedule) => {
+            this.main.unschedule(callbackSchedule);
+        });
+        this.callbackScheduleAnimChipStack = [];
     }
 
     clearCache() {
@@ -63,7 +91,8 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
 
     async finishNormalCase(finish, callbackFunction?: () => void) {
         await this.openFaceDownDealerCards(finish);
-        cc.tween(this.main)
+        this.tweenFinishNormalCase = cc
+            .tween(this.main)
             .call(() => {
                 this.main.dealerHand.showScoreWithOutData(finish.result, 2);
                 this.drawMoreCardForDealer(finish.result, () => {
@@ -88,9 +117,9 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         await GameUtils.delayTime(this.openCardDuration);
     }
 
-    drawMoreCardForDealer(cards: CardModel[], complete = () => {}) {
+    drawMoreCardForDealer(cards: CardModel[], complete: () => void) {
         if (cards.length === 2) {
-            complete();
+            complete?.();
             return;
         }
         const actions = [];
@@ -105,7 +134,8 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
             });
         }
         let count = 0;
-        cc.tween(this.main)
+        this.tweenDrawMoreCardForDealer = cc
+            .tween(this.main)
             .repeat(
                 actions.length,
                 cc
@@ -121,7 +151,6 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     }
 
     showWinningHands() {
-        this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
         const winningHands = this.finishDataCache.winningHands;
         let totalWin = 0;
         let totalBet = 0;
@@ -162,13 +191,14 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
             playWinningEffect(this.main, this.main.userProfile.node, 5);
         }
         this.main.updateUserBalance();
+        this.main.showActionsWithBehavior(BlackJackActionType.END_ROUND);
     }
 
     getChipsHandPlace(index: number) {
         return this.main.chipContainers[index].children[0];
     }
 
-    convertMilisecondsToSeconds(milliseconds: number) {
+    convertMillisecondsToSeconds(milliseconds: number) {
         return milliseconds / 1000;
     }
 
@@ -189,6 +219,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
         chipStack.position = cc.v3(startPos);
 
         chipStackChildren.forEach((chip, index) => {
+            this.chipsStack.push(chip);
             const currentChipStackPosition = (totalChipCount + index) * (offset + offsetStack);
             const desPost = chip.parent.convertToNodeSpaceAR(destNode.convertToWorldSpaceAR(cc.v2(0, 0)));
             const desPostX = desPost.x + lodash.random(-2, 2);
@@ -202,20 +233,25 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
             }
 
             delayTime = index * 200;
-
-            this.main.scheduleOnce(() => {
+            const callbackSchedule = () => {
                 chip.runAction(
                     cc.sequence(
                         cc.spawn(cc.jumpTo(0.6, desPostX, desPostY, 200, 1), cc.scaleTo(0.6, 1), cc.fadeTo(0.1, 255)),
                         cc.delayTime(1)
                     )
                 );
-            }, this.convertMilisecondsToSeconds(delayTime));
+            };
+            this.callbackScheduleAnimChipStack.push(callbackSchedule);
+
+            this.main.scheduleOnce(callbackSchedule, this.convertMillisecondsToSeconds(delayTime));
         });
 
-        this.main.scheduleOnce(() => {
+        const callbackScheduleCreateChipStack = () => {
             destNode?.destroyAllChildren();
             this.main.createChipStack(+hand.betwin, destNode);
-        }, this.convertMilisecondsToSeconds(delayTime + timeMoving));
+        };
+
+        this.callbackScheduleAnimChipStack.push(callbackScheduleCreateChipStack);
+        this.main.scheduleOnce(callbackScheduleCreateChipStack, this.convertMillisecondsToSeconds(delayTime + timeMoving));
     }
 }
