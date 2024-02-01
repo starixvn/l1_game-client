@@ -16,11 +16,9 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     finishDataCache: any = null;
     drawingCardDelay = 0.5;
     openCardDuration = 1.4;
-
     tweenFinishNormalCase: cc.Tween;
     tweenDrawMoreCardForDealer: cc.Tween;
-    callbackScheduleAnimChipStack = [];
-
+    callbackSchedulesAnimChipStack = [];
     chipsStack: cc.Node[] = [];
 
     handle(data: any): boolean {
@@ -47,10 +45,10 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     }
 
     removeAllSchedule() {
-        this.callbackScheduleAnimChipStack.forEach((callbackSchedule) => {
+        this.callbackSchedulesAnimChipStack.forEach((callbackSchedule) => {
             this.main.unschedule(callbackSchedule);
         });
-        this.callbackScheduleAnimChipStack = [];
+        this.callbackSchedulesAnimChipStack = [];
     }
 
     clearCache() {
@@ -241,7 +239,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
                     )
                 );
             };
-            this.callbackScheduleAnimChipStack.push(callbackSchedule);
+            this.callbackSchedulesAnimChipStack.push(callbackSchedule);
 
             this.main.scheduleOnce(callbackSchedule, this.convertMillisecondsToSeconds(delayTime));
         });
@@ -251,7 +249,7 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
             this.main.createChipStack(+hand.betwin, destNode);
         };
 
-        this.callbackScheduleAnimChipStack.push(callbackScheduleCreateChipStack);
+        this.callbackSchedulesAnimChipStack.push(callbackScheduleCreateChipStack);
         this.main.scheduleOnce(callbackScheduleCreateChipStack, this.convertMillisecondsToSeconds(delayTime + timeMoving));
     }
 }

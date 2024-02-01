@@ -39,6 +39,7 @@ export default class ChineseBlackjackFinishHandler extends BlackJackFinishHandle
         const callbackFinish = () => {
             this.mainGame.provablyFairComponent.setClientSeedUIState(true);
             this.mainGame.provablyFairComponent.setRandomClientSeed();
+            this.main.provablyFairComponent.handleServerSeed(this.main.provablyFairComponent.nextServerSeed);
         };
 
         const cards = finish?.result;

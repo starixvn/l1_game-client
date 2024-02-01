@@ -44,7 +44,7 @@ export default class ProvablyFairComponent extends cc.Component {
     clientSeedMax = 103;
 
     @property()
-    delayShowHashValue = 1.35;
+    delayShowServerSeed = 0;
 
     miniPanel: MiniPanel = null;
     gameId: number;
@@ -52,6 +52,8 @@ export default class ProvablyFairComponent extends cc.Component {
 
     protected serverSeedCopyString = "";
     protected timeout: NodeJS.Timeout;
+    protected currentServerSeed = "";
+    public nextServerSeed = "";
 
     callbackHandle() {
         // handle
@@ -125,21 +127,31 @@ export default class ProvablyFairComponent extends cc.Component {
         cc.tween(this.hintCopyNode).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
     }
 
-    updateProvablyFairString(data: ProvablyFairType) {
+    handleReceiveServerSeed(data: ProvablyFairType) {
+        if (!this.currentServerSeed.length) {
+            this.currentServerSeed = data?.hashValue;
+            this.handleServerSeed(data?.hashValue);
+            return;
+        }
+
+        this.nextServerSeed = data?.hashValue;
+    }
+
+    handleServerSeed(hashValue: string) {
         if (!this.node.activeInHierarchy) {
-            this.handleProvablyFairData(data);
+            this.handleProvablyFairData(hashValue);
             return;
         }
 
         this.timeout = setTimeout(() => {
-            this.handleProvablyFairData(data);
-        }, this.delayShowHashValue * 1000);
+            this.handleProvablyFairData(hashValue);
+        }, this.delayShowServerSeed * 1000);
     }
 
-    protected handleProvablyFairData(data: ProvablyFairType) {
+    protected handleProvablyFairData(hashValue: string) {
         if (this.node?.isValid) {
-            this.serverSeed.string = data?.hashValue;
-            this.setCopyString(data?.hashValue);
+            this.serverSeed.string = hashValue;
+            this.setCopyString(hashValue);
         }
     }
 
