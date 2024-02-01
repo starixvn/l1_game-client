@@ -32,20 +32,20 @@ export default class BlackJackFinishHandler extends GameBaseFinishHandler {
     stopAllAnimations() {
         this.tweenFinishNormalCase?.stop();
         this.tweenDrawMoreCardForDealer?.stop();
-        this.main.handPlaces.forEach((place, index) => {
+        this.main.handPlaces?.forEach((place, index) => {
             const chip = this.getChipsHandPlace(index);
             chip?.stopAllActions();
-            chip?.destroyAllChildren();
+            chip?.children?.length > 0 && chip?.destroyAllChildren();
         });
-        this.chipsStack.forEach((chipStack) => {
+        this.chipsStack?.forEach((chipStack) => {
             chipStack?.stopAllActions();
-            chipStack.destroyAllChildren();
+            chipStack?.children?.length > 0 && chipStack?.destroyAllChildren();
         });
         this.chipsStack = [];
     }
 
     removeAllSchedule() {
-        this.callbackSchedulesAnimChipStack.forEach((callbackSchedule) => {
+        this.callbackSchedulesAnimChipStack?.forEach((callbackSchedule) => {
             this.main.unschedule(callbackSchedule);
         });
         this.callbackSchedulesAnimChipStack = [];
