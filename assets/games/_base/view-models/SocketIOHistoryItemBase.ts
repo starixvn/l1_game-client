@@ -14,20 +14,9 @@ export default class SocketIOHistoryItemBase extends cc.Component {
     win: cc.Label = null;
 
     @property({
-        type: cc.Node,
-        visible: function () {
-            return !this.enablePF;
-        }
+        type: cc.Node
     })
     bg: cc.Node = null;
-
-    @property({ readonly: true })
-    enablePF: boolean;
-
-    constructor() {
-        super();
-        this.enablePF = false;
-    }
 
     start() {
         GameUtils.setFontSizeLabelsInNode(this.node);

@@ -33,23 +33,22 @@ export default class ChineseBlackjackHistory extends BlackJackHistory {
             const isFirstRow = index == 0;
             const isNewRound = currentRoundId != betLog.roundId;
 
-            function addNewGroupItem() {
+            const addNewGroupItem = () => {
                 const itemGroup = cc.instantiate(this.itemGroupPrefab);
                 currentItemGroupComponent = itemGroup.getComponent(ChineseBlackjackHistoryItemGroup);
                 this.content.addChild(itemGroup);
                 currentItemGroupComponent.init(this.socket);
-                currentItemGroupComponent.setBackground(enableBg);
-                currentItemGroupComponent.addItem(betLog);
+                currentItemGroupComponent.addItem(betLog, index);
                 currentItemGroupComponent.roundId = betLog.roundId;
-            }
+            };
 
             if (isFirstRow) {
-                addNewGroupItem.call(this);
+                addNewGroupItem();
             } else if (isNewRound) {
                 enableBg = !enableBg;
-                addNewGroupItem.call(this);
+                addNewGroupItem();
             } else {
-                currentItemGroupComponent.addItem(betLog);
+                currentItemGroupComponent.addItem(betLog, index);
             }
             currentRoundId = betLog.roundId;
         });
