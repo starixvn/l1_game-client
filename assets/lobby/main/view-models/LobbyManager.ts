@@ -147,7 +147,7 @@ export default class LobbyManager {
         lobbyConfigs?.categories?.forEach((category: { name: string; gameSettings: GameSetting[] }, index: number) => {
             const item: CategoryConfig = { index: 0, name: "", gameIds: [] };
             item.index = index;
-            item.name = category.name[getLocale()] === "" ? category.name["en-US"] : category.name[getLocale()];
+            item.name = category.name[getLocale()] ?? category.name["en-US"];
             item.gameIds = category.gameSettings.map((game: any) => game?.gameId);
             categoryConfigs.push(item);
         });
