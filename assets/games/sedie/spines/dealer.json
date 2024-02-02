@@ -1,17 +1,17 @@
 {
 "skeleton": {
-	"hash": "fkIOntbKoq40zRYFYrC2s3sz+Y8=",
+	"hash": "N1yQPq8wTkB8k7bTxelYlGdDXMM=",
 	"spine": "3.8.75",
-	"x": -77.1,
-	"y": -152.25,
-	"width": 152,
-	"height": 306,
+	"x": -84.33,
+	"y": -137.03,
+	"width": 169.2,
+	"height": 275.4,
 	"images": "./images/",
 	"audio": "D:/Pj/24 dealer/dealer 1"
 },
 "bones": [
 	{ "name": "root" },
-	{ "name": "character", "parent": "root" },
+	{ "name": "character", "parent": "root", "scaleX": 0.9, "scaleY": 0.9 },
 	{ "name": "body", "parent": "character", "x": 0.74, "y": -103.9, "color": "ff5252ff" },
 	{
 		"name": "body2",
@@ -47,6 +47,8 @@
 		"rotation": 1.82,
 		"x": 82.2,
 		"y": -0.07,
+		"scaleX": 0.9,
+		"scaleY": 0.9,
 		"transform": "noScale",
 		"color": "ff5252ff"
 	},
@@ -57,6 +59,8 @@
 		"rotation": 107.11,
 		"x": 77.97,
 		"y": 12.15,
+		"scaleX": 0.9,
+		"scaleY": 0.9,
 		"transform": "noScale",
 		"color": "ffbe3aff"
 	},
@@ -67,6 +71,8 @@
 		"rotation": -106.41,
 		"x": 78.81,
 		"y": -12.53,
+		"scaleX": 0.9,
+		"scaleY": 0.9,
 		"transform": "noScale",
 		"color": "3cff32ff"
 	},
@@ -661,6 +667,8 @@
 	}
 ],
 "slots": [
+	{ "name": "clipping2", "bone": "character", "attachment": "clipping" },
+	{ "name": "ghe", "bone": "character", "attachment": "ghe" },
 	{ "name": "arm L", "bone": "arm L", "attachment": "arm L" },
 	{ "name": "ribbon c", "bone": "ribbon c", "attachment": "ribbon c" },
 	{ "name": "ribbon b", "bone": "ribbon b", "attachment": "ribbon b" },
@@ -856,6 +864,9 @@
 					"height": 183
 				}
 			},
+			"ghe": {
+				"ghe": { "x": 0.3, "y": -90.26, "width": 188, "height": 284 }
+			},
 			"hair back": {
 				"hair back": { "x": -53.64, "y": 2.52, "rotation": -95.41, "width": 90, "height": 124 }
 			},
@@ -893,6 +904,15 @@
 					"edges": [ 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14, 16, 16, 18, 18, 20, 20, 22, 22, 24, 24, 26, 26, 28, 28, 30, 30, 32, 32, 34, 34, 36, 0, 36 ],
 					"width": 49,
 					"height": 63
+				}
+			},
+			"clipping2": {
+				"clipping": {
+					"type": "clipping",
+					"end": "ghe",
+					"vertexCount": 4,
+					"vertices": [ -100.35, -85.85, 100.41, -86.06, 100.2, 79.29, -100.35, 79.29 ],
+					"color": "ce3a3aff"
 				}
 			},
 			"top hair a 3": {
