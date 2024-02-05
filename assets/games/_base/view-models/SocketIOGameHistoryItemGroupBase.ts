@@ -13,7 +13,7 @@ export default abstract class SocketIOGameHistoryItemGroupBase extends BaseCompo
     }
 
     @property(cc.Node)
-    bg: cc.Node = null;
+    container: cc.Node = null;
 
     @property(cc.Button)
     verify: cc.Button = null;
@@ -21,13 +21,12 @@ export default abstract class SocketIOGameHistoryItemGroupBase extends BaseCompo
     @property(cc.Prefab)
     itemPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    line: cc.Node = null;
+
     public roundId = 0;
 
     abstract addItem(log);
-
-    setBackground(enabled: boolean) {
-        this.bg.getComponent(cc.Sprite).enabled = enabled;
-    }
 
     onClickVerify() {
         this.socket?.connected && this.socket.emit("getProvablyFair", { roundId: this.roundId });
@@ -37,5 +36,9 @@ export default abstract class SocketIOGameHistoryItemGroupBase extends BaseCompo
         if (data.provablyFair) {
             cc.log(data.provablyFair);
         }
+    }
+
+    hideLine() {
+        this.line.active = false;
     }
 }
