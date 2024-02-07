@@ -51,13 +51,15 @@ function toggleFullScreen() {
     reloadMicrositeWhenSSO();
 }
 
+let timeoutAddress;
 function showAddressBar() {
-    setTimeout(function () {
+    clearTimeout(timeoutAddress);
+    timeoutAddress = setTimeout(function () {
         window.scroll(0, -1);
         setTimeout(function () {
             window.scroll(0, 0);
         }, 50);
-    }, 0);
+    }, 100);
 }
 
 function showIntruction() {
@@ -72,11 +74,13 @@ function showIntruction() {
 
     const navBarHeight = getMiniNavigationBarHeight();
     const deltaHeight = window.outerHeight - window.innerHeight;
-    const show = deltaHeight > navBarHeight;
-    if (show && !window.skipFullscreen) {
-        showAddressBar();
+    const isShowAddressBar = deltaHeight > navBarHeight;
+    const isShowOnPrivateMode = window.outerHeight === window.innerHeight && window.scrollY <= 40; // safari IOS v17
+    if ((isShowAddressBar || isShowOnPrivateMode) && !window.skipFullscreen) {
         showInstructionAndScroll();
+        showAddressBar();
     } else {
+        clearTimeout(timeoutAddress);
         showInstructionAndScroll(false);
         updateViewport();
     }
