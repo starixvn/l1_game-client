@@ -1,16 +1,16 @@
-import EffectAppearanceLabel from "../../../common/EffectAppearanceLabel";
-import GameUtils from "../../../common/GameUtils";
-import CommonDialog from "../../../common/_base/view-models/CommonDialog";
+import EffectAppearanceLabel from "../../../../common/EffectAppearanceLabel";
+import GameUtils from "../../../../common/GameUtils";
+import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 
 const { ccclass, property } = cc._decorator;
 
-export type ProvablyFairVerifyType = {
+export interface IProvablyFairVerify {
     hash: string;
     clientSeed: number;
     serverSeed: string;
     finalResult: string;
     handIds: string;
-};
+}
 
 export const OPEN_PROVABLY_FAIR_VERIFY = " open_provably_fair_verify";
 
@@ -94,7 +94,7 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
         GameUtils.copyText(this.finalResultCopyString);
     }
 
-    updateProvablyFairVerify(data: ProvablyFairVerifyType) {
+    updateProvablyFairVerify(data: IProvablyFairVerify) {
         if (!this.node.activeInHierarchy && this.node?.isValid) {
             this.clientSeed.string = data.clientSeed.toString();
 

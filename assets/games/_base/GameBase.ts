@@ -55,10 +55,10 @@ import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
 import MD5Component from "./view-models/MD5Component";
-import ProvablyFairComponent from "./view-models/ProvablyFairComponent";
-import { ProvablyFairVerifyType } from "./view-models/ProvablyFairVerifyComponent";
 import RebetButton from "./view-models/RebetButton";
 import SocketIOGameHistoryBase from "./view-models/SocketIOGameHistoryBase";
+import ProvablyFairComponent from "./view-models/provably-fair/ProvablyFairComponent";
+import { IProvablyFairVerify } from "./view-models/provably-fair/ProvablyFairVerifyComponent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -1003,7 +1003,7 @@ export default class GameBase extends GameViewBase {
         this.provablyFairComponent.miniPanel = this.currentMiniPanel;
     }
 
-    handleProvablyFairVerifyData(provablyFair: ProvablyFairVerifyType) {
+    handleProvablyFairVerifyData(provablyFair: IProvablyFairVerify) {
         provablyFair && this.historyComponent.provablyFairVerifyComponent.updateProvablyFairVerify(provablyFair);
     }
 }

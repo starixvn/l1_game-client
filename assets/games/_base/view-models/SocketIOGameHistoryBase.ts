@@ -7,7 +7,7 @@ import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import HistoryFrame from "../../../common/new-history/HistoryFrame";
-import ProvablyFairVerifyComponent, { OPEN_PROVABLY_FAIR_VERIFY } from "./ProvablyFairVerifyComponent";
+import ProvablyFairVerifyComponent, { OPEN_PROVABLY_FAIR_VERIFY } from "./provably-fair/ProvablyFairVerifyComponent";
 
 const { ccclass, property } = cc._decorator;
 
@@ -47,7 +47,9 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
 
     protected socket: Socket;
 
-    onUpdatedData = () => {};
+    onUpdatedData = () => {
+        // handle
+    };
 
     AUTO_SCALE_NODE_WIDTH = 1398;
     HEIGHT_CONTENT = 520;

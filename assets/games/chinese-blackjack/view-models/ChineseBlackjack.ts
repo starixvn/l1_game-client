@@ -9,6 +9,7 @@ import BlackJack, { BlackJackActionType } from "../../blackjack/view-models/Blac
 import IngameActionHandler from "../../blackjack/view-models/handlers/IngameActionHandler";
 import ChineseBlackjackHandPlace from "./ChineseBlackjackHandPlace";
 import ChineseBlackjackHistory from "./ChineseBlackjackHistory";
+import ChineseBlackjackPFComponent from "./ChineseBlackjackPFComponent";
 import ChineseBlackjackDealHandler from "./handlers/ChineseBlackjackDealHandler";
 import ChineseBlackjackFinishHandler from "./handlers/ChineseBlackjackFinishHandler";
 import ChineseBlackjackInGameHandler from "./handlers/ChineseBlackjackInGameHandler";
@@ -33,6 +34,9 @@ export default class ChineseBlackjack extends BlackJack {
 
     @property(cc.Label)
     fiveCardsOddsLabel: cc.Label = null;
+
+    @property({ type: ChineseBlackjackPFComponent, visible: false, override: true })
+    provablyFairComponent: ChineseBlackjackPFComponent = null;
 
     protected moveCardDuration = 0.35;
     chipJumpHeight = 250;
