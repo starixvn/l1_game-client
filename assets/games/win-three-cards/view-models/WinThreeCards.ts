@@ -4,7 +4,6 @@ import WinThreeCardsLogsHandler from "./data-handlers/WinThreeCardsLogsHandler";
 import WinThreeCardsTimeDataHandler from "./data-handlers/WinThreeCardsTimeDataHandler";
 import WinThreeCardsItem from "./WinThreeCardsItem";
 import WinThreeCardsHistory from "./history/WinThreeCardsHistory";
-import BaccaratMd5Handler from "../../baccarat/view-models/data-handlers/BaccaratMd5Handler";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import WinThreeCardsBasicHistoryBoard from "../components/score-board/view-models/WinThreeCardsBasicHistoryBoard";
 import WinThreeCardsScoreBoard from "../components/score-board/view-models/WinThreeCardsScoreBoard";
@@ -92,7 +91,6 @@ export default class WinThreeCards extends NewGameRoomBase {
         this.finishHandler = new WinThreeCardsFinishHandler(this);
         this.logsHandler = new WinThreeCardsLogsHandler(this);
         this.betHandler = new GameRoomBaseBetHandler(this);
-        this.md5Handler = new BaccaratMd5Handler(this);
     }
 
     private initScoreBoard(node: cc.Node) {
