@@ -14,8 +14,11 @@ export default class ClientSeedManualPopup extends cc.Component {
     @property(cc.Label)
     lblClientSeedRange: cc.Label = null;
 
+    @property(cc.Button)
+    btnClear: cc.Button = null;
+
     @property(cc.Node)
-    nodeSaveDisabled: cc.Node = null;
+    nodeClearDisabled: cc.Node = null;
 
     @property()
     clientSeedMax = 103;
@@ -57,24 +60,25 @@ export default class ClientSeedManualPopup extends cc.Component {
     addValue(event, value) {
         const clientSeed = this.lblClientSeed.string;
         const clientSeedMax = parseInt(this.clientSeedMax.toString());
+        const maxCharacters = this.clientSeedMax.toString().length;
         const newValue = `${clientSeed}${parseInt(value)}`;
-        if (+newValue <= clientSeedMax) {
+        if (+newValue <= clientSeedMax && newValue.length <= maxCharacters) {
             this.lblClientSeed.string = newValue.toString();
         }
 
-        this.nodeSaveDisabled.active = this.lblClientSeed.string.trim() === "";
+        this.updateStateClearButton(this.lblClientSeed.string.trim() === "");
     }
 
     onClickClear() {
         this.lblClientSeed.string = "";
-        this.nodeSaveDisabled.active = true;
+        this.updateStateClearButton(true);
     }
 
     onClickRemoveLastLetter() {
         let multiplierString = this.lblClientSeed.string.slice(0, -1);
         if (!multiplierString) {
             multiplierString = "";
-            this.nodeSaveDisabled.active = true;
+            this.updateStateClearButton(true);
         }
 
         this.lblClientSeed.string = multiplierString;
@@ -91,5 +95,10 @@ export default class ClientSeedManualPopup extends cc.Component {
 
     onOpenGuide() {
         this.callbackOpenGuide && this.callbackOpenGuide();
+    }
+
+    updateStateClearButton(state: boolean) {
+        this.btnClear.interactable = !state;
+        this.nodeClearDisabled.active = state;
     }
 }

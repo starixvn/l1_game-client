@@ -14,10 +14,10 @@ export type ProvablyFairType = {
 @ccclass
 export default class ProvablyFairComponent extends cc.Component {
     @property(cc.Label)
-    clientSeed: cc.Label = null;
+    lblClientSeed: cc.Label = null;
 
     @property(cc.Label)
-    serverSeed: cc.Label = null;
+    lblServerSeed: cc.Label = null;
 
     @property(CommonDialog)
     commonDialog: CommonDialog = null;
@@ -87,19 +87,19 @@ export default class ProvablyFairComponent extends cc.Component {
 
     protected handleProvablyFairData(hashValue: string) {
         if (this.node?.isValid) {
-            this.serverSeed.string = hashValue;
+            this.lblServerSeed.string = hashValue;
             this.setCopyString(hashValue);
         }
     }
 
     updateClientSeed(value: string) {
         console.log("updateClientSeed---", value);
-        this.clientSeed.string = value.toString();
         this.currentClientSeed = +value;
+        this.setClientSeed();
     }
 
     protected resetProvablyFair() {
-        this.serverSeed.string = "";
+        this.lblServerSeed.string = "";
         this.setCopyString("");
         this.timeout && clearTimeout(this.timeout);
     }
@@ -108,8 +108,8 @@ export default class ProvablyFairComponent extends cc.Component {
         this.serverSeedCopyString = text;
     }
 
-    protected setEditBoxLimit() {
-        this.clientSeed.string = this.currentClientSeed.toString();
+    protected setClientSeed() {
+        this.lblClientSeed.string = this.currentClientSeed.toString();
     }
 
     onCloseClick() {

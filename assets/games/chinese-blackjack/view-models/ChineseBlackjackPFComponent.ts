@@ -11,6 +11,9 @@ export default class ChineseBlackjackPFComponent extends ProvablyFairComponent {
     @property(cc.Button)
     btnClientSeedDecrease: cc.Button = null;
 
+    @property(cc.Button)
+    btnClientSeed: cc.Button = null;
+
     @property()
     clientSeedMin = 0;
 
@@ -31,7 +34,7 @@ export default class ChineseBlackjackPFComponent extends ProvablyFairComponent {
             this.currentClientSeed = (this.currentClientSeed - 1 + this.clientSeedMax) % this.clientSeedMax;
         }
 
-        this.setEditBoxLimit();
+        this.setClientSeed();
     }
 
     onClickIncreaseClientSeed() {
@@ -40,7 +43,7 @@ export default class ChineseBlackjackPFComponent extends ProvablyFairComponent {
         } else {
             this.currentClientSeed = (this.currentClientSeed + 1) % this.clientSeedMax;
         }
-        this.setEditBoxLimit();
+        this.setClientSeed();
     }
 
     onChangeInputLimit(value: string) {
@@ -52,17 +55,7 @@ export default class ChineseBlackjackPFComponent extends ProvablyFairComponent {
         }
 
         this.currentClientSeed = currentValue;
-        this.setEditBoxLimit();
-    }
-
-    protected setEditBoxLimit() {
-        this.clientSeed.string = this.currentClientSeed.toString();
-    }
-
-    onClickRandomClientSeed() {
-        const value = Math.floor(Math.random() * (this.clientSeedMax - this.clientSeedMin + 1)) + this.clientSeedMin;
-        this.currentClientSeed = value;
-        this.setEditBoxLimit();
+        this.setClientSeed();
     }
 
     private getRandomClientSeed() {
@@ -74,12 +67,12 @@ export default class ChineseBlackjackPFComponent extends ProvablyFairComponent {
         this.changeOpacity(this.btnClientSeedIncrease.node, isEnable);
         this.btnClientSeedDecrease.interactable = isEnable;
         this.changeOpacity(this.btnClientSeedDecrease.node, isEnable);
-        this.clientSeed.enabled = isEnable;
+        this.btnClientSeed.interactable = isEnable;
     }
 
     setRandomClientSeed() {
         this.currentClientSeed = this.getRandomClientSeed();
-        this.clientSeed.string = this.currentClientSeed.toString();
+        this.lblClientSeed.string = this.currentClientSeed.toString();
     }
 
     onClientSeedClick() {
@@ -88,14 +81,13 @@ export default class ChineseBlackjackPFComponent extends ProvablyFairComponent {
         const clientSeedManualCpt = clientSeedManual.getComponent(ClientSeedManualPopup);
         clientSeedManualCpt.initClientSeedManualPopup({
             clientSeedRange: this.CLIENT_SEED_RANGE,
-            clientSeed: this.clientSeed.string || ""
+            clientSeed: this.lblClientSeed.string || ""
         });
         clientSeedManualCpt.provablyFairComponent = this;
         clientSeedManualCpt.callbackOpenGuide = () => {
             this.onGuideClick();
         };
         clientSeedManualCpt.callbackUpdateClientSeed = (value: string) => {
-            console.log("callbackUpdateClientSeed-----------", value);
             this.updateClientSeed(value);
         };
 
