@@ -1,6 +1,7 @@
 import BehaviorClickButton from "../../../../common/BehaviorClickButton";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
+import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,16 +39,25 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     @property(BehaviorClickButton)
     verifyBtn: BehaviorClickButton = null;
 
+    @property(cc.Prefab)
+    guideProvablyFairPrefab: cc.Prefab = null;
+
+    @property(cc.Node)
+    guideContainer: cc.Node = null;
+
     protected serverSeedCopyString = "";
     protected hashCopyString = "";
     protected finalResultCopyString = "";
     protected timeout: NodeJS.Timeout;
     readonly delayShowHashValue: number = 1.35;
 
+    gameId: number;
+
     onLoad() {
         this.commonDialog.addOnDidHide(() => {
             this.statusNode(false);
             this.verifySuccess.active = false;
+            this.guideContainer.destroyAllChildren();
         });
 
         this.verifySuccess.active = false;
@@ -89,6 +99,14 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
         this.setStatusVerifyButton(true);
     }
 
+    onOpenGuide() {
+        const dialog = cc.instantiate(this.guideProvablyFairPrefab);
+        const guide = dialog.getComponent(WebViewGuide);
+        guide.setURL(GameUtils.getUrlBFGuide(this.gameId));
+        this.guideContainer.addChild(dialog);
+        guide.loadWebView();
+    }
+
     truncateString(value: string) {
         return value?.substring(0, PF_MAX_CHARACTER_DISPLAY) || "";
     }
@@ -96,5 +114,9 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     setStatusVerifyButton(status: boolean) {
         this.verifySuccess.active = status;
         this.verifyBtn.updateState(status);
+    }
+
+    updateProvablyFairVerify(data: IProvablyFairVerify) {
+        // handle
     }
 }

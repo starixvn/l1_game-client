@@ -1,6 +1,5 @@
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
-import { getLanguage, getLocale } from "../../../../common/auth/SessionManager";
 import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
 import MiniPanel from "../../../../mini-games-panel/view-models/MiniPanel";
 
@@ -117,10 +116,8 @@ export default class ProvablyFairComponent extends cc.Component {
 
     onGuideClick() {
         const dialog = cc.instantiate(this.guideProvablyFairPrefab);
-        const locale = getLocale();
-        const language = getLanguage(locale);
         const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(`/${language}/?gameId=${this.gameId}&PF=1&t=blue&c=0&f=sc&v=${Date.now()}`);
+        guide.setURL(GameUtils.getUrlBFGuide(this.gameId));
         this.miniPanel.addDialog(dialog);
         guide.loadWebView();
     }

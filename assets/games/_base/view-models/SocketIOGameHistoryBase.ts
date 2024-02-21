@@ -1,9 +1,9 @@
 import { Socket } from "socket.io-client";
 
 import { i18n } from "../../../ClientModules";
-import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import BaseComponent from "../../../common/BaseComponent";
 import GameUtils from "../../../common/GameUtils";
+import CommonDialog from "../../../common/_base/view-models/CommonDialog";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import PaginationCommon from "../../../common/helpers/Pagination/PaginationCommon";
 import HistoryFrame from "../../../common/new-history/HistoryFrame";
@@ -133,10 +133,12 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     initProvablyFairVerify(node: cc.Node) {
         this.provablyFairVerifyComponent = node.getComponent(ProvablyFairVerifyComponent);
         this.provablyFairVerifyComponent.onHide();
+
         node.on(OPEN_PROVABLY_FAIR_VERIFY, this.openProvablyFairVerify, this);
     }
 
     openProvablyFairVerify() {
+        this.provablyFairVerifyComponent.gameId = this.gameId;
         this.provablyFairVerifyComponent?.onShow();
     }
 

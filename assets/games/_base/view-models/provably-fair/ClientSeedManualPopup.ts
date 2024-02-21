@@ -86,6 +86,7 @@ export default class ClientSeedManualPopup extends cc.Component {
         if (!multiplierString) {
             multiplierString = "";
             this.btnClear.updateState(true);
+            this.btnSave.updateState(true);
         }
 
         this.lblClientSeed.string = multiplierString;
