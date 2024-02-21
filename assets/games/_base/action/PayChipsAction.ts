@@ -178,9 +178,16 @@ export const payChipsToInGamePlayers = (info: PayChipInfo) => {
     const { mainRoomGame, winBetItems, payChipsDuration, winningDuration } = info;
     let winningPlayers = info.winningPlayers;
 
-    if (mainRoomGame?.gameData?.settlement?.winningPlayers) {
-        winningPlayers = mainRoomGame.gameData.settlement.winningPlayers;
-        mainRoomGame.gameData.settlement.clearWinnersData();
+    if (mainRoomGame.gameData) {
+        if (mainRoomGame.gameData.settlement?.winningPlayers) {
+            winningPlayers = mainRoomGame.gameData.settlement.winningPlayers;
+            mainRoomGame.gameData.settlement.clearWinnersData();
+        }
+    } else {
+        if (mainRoomGame.winnersData) {
+            winningPlayers = mainRoomGame.winnersData;
+            mainRoomGame.winnersData = null;
+        }
     }
 
     if (!winningPlayers) {

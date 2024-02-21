@@ -13,6 +13,7 @@ export default interface TableGameBaseInterface {
     userProfile: UserProfile;
     winningPlayerEffectPrefab: cc.Prefab;
 
+    winnersData: any;
     gameData?: GameData;
     WinningAnimationDuration?: number;
     getPlayerSlot(playerId);

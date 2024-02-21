@@ -3,13 +3,13 @@ import * as _ from "lodash";
 import { Socket } from "socket.io-client";
 
 import AnalyticsManager, { TrackingAction, TrackingEvent } from "../../analytics/AnalyticsManager";
+import GameUtils from "../../common/GameUtils";
 import AnimatedTime from "../../common/animated-time/view-models/AnimatedTime";
 import AudioManager from "../../common/audio/AudioManager";
 import { getLanguage, getLocale } from "../../common/auth/SessionManager";
 import UserService from "../../common/auth/UserService";
 import BetChips from "../../common/bet-chips/view-models/BetChips";
 import EventEmitterBase from "../../common/emitter/EventEmitterBase";
-import GameUtils from "../../common/GameUtils";
 import InGameMenu, { InGameMenuEvents } from "../../common/in-game-menu/InGameMenu";
 import { NoticeData } from "../../common/notice/view-models/Notice";
 import ProcessingWarning from "../../common/processing-warning/view-models/ProcessingWarning";
@@ -26,6 +26,9 @@ import { roundTimerManager } from "../../mini-games-panel/view-models/RoundTimer
 import GameDataManager from "../_base_new/models/GameDataManager";
 import TableGameBaseInterface from "../_base_new/view-models/TableGameBaseInterface";
 import { GameData } from "../_new/_base/game-data-management/models/game-data";
+import { GameState } from "./GameState";
+import GameViewBase from "./GameViewBase";
+import { Orientation } from "./Orientation";
 import {
     PayChipInfo,
     payChipsToInGamePlayers,
@@ -33,8 +36,6 @@ import {
     payChipsToOtherPlayers,
     showPayoutForLoginPlayer
 } from "./action/PayChipsAction";
-import { GameState } from "./GameState";
-import GameViewBase from "./GameViewBase";
 import DataHandler from "./handlers/DataHandler";
 import GameBaseBetHandler from "./handlers/GameBaseBetHandler";
 import GameBaseConfigsHandler from "./handlers/GameBaseConfigsHandler";
@@ -48,7 +49,7 @@ import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
 import GameBaseVoidTicketDataHandler from "./handlers/GameBaseVoidTicketHandler";
-import { Orientation } from "./Orientation";
+import GameBaseWinnersHandler from "./handlers/GameBaseWinnersHandler";
 import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
 import { GameConfigBase } from "./view-models/GameConfigBase";
@@ -178,6 +179,7 @@ export default class GameBase extends GameViewBase {
     public oddsHandler: DataHandler;
 
     public voidTicketHandler: DataHandler;
+    public winnersHandler: DataHandler;
 
     inGameMenu: InGameMenu;
     public betChips: BetChips;
@@ -196,6 +198,8 @@ export default class GameBase extends GameViewBase {
 
     // using multiplay game
     public gameData: GameData;
+
+    public winnersData: any;
     public onDisconnectCallback = () => {
         // handle
     };
@@ -250,7 +254,8 @@ export default class GameBase extends GameViewBase {
             this.finishHandler,
             this.md5Handler,
             this.oddsHandler,
-            this.voidTicketHandler
+            this.voidTicketHandler,
+            this.winnersHandler
         );
     }
 
@@ -559,6 +564,7 @@ export default class GameBase extends GameViewBase {
         this.md5Handler = new GameBaseMd5Handler(this);
         this.oddsHandler = new GameBaseOddsHandler(this);
         this.voidTicketHandler = new GameBaseVoidTicketDataHandler(this);
+        this.winnersHandler = new GameBaseWinnersHandler(this);
     }
 
     protected addHandlers(...handlers: DataHandler[]): void {
