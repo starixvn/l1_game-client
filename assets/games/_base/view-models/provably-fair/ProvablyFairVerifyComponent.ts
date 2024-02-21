@@ -1,3 +1,4 @@
+import BehaviorClickButton from "../../../../common/BehaviorClickButton";
 import GameUtils from "../../../../common/GameUtils";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 
@@ -28,20 +29,14 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     @property(cc.Label)
     finalResultLbl: cc.Label = null;
 
-    @property(cc.Label)
-    handIdsLbl: cc.Label = null;
+    @property(CommonDialog)
+    commonDialog: CommonDialog = null;
 
     @property(cc.Node)
     verifySuccess: cc.Node = null;
 
-    @property(cc.Button)
-    verifyBtn: cc.Button = null;
-
-    @property(cc.Node)
-    disableVerifyBtn: cc.Node = null;
-
-    @property(CommonDialog)
-    commonDialog: CommonDialog = null;
+    @property(BehaviorClickButton)
+    verifyBtn: BehaviorClickButton = null;
 
     protected serverSeedCopyString = "";
     protected hashCopyString = "";
@@ -54,8 +49,9 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
             this.statusNode(false);
             this.verifySuccess.active = false;
         });
-        this.disableVerifyBtn.active = false;
+
         this.verifySuccess.active = false;
+        this.verifyBtn.updateState(true);
     }
 
     onShow() {
@@ -85,27 +81,6 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
         GameUtils.copyText(this.finalResultCopyString);
     }
 
-    updateProvablyFairVerify(data: IProvablyFairVerify) {
-        if (!this.node.activeInHierarchy && this.node?.isValid) {
-            this.clientSeedLbl.string = this.formatValue(data?.clientSeed.toString());
-
-            this.serverSeedLbl.string = data?.serverSeed.toString();
-            this.serverSeedCopyString = data?.serverSeed;
-
-            this.serverSeedSHA256Lbl.string = data?.hash.toString();
-            this.hashCopyString = data?.hash;
-
-            this.finalResultLbl.string = this.formatValue(data?.finalResult.toString());
-            this.finalResultCopyString = data?.finalResult;
-
-            this.handIdsLbl.string = data?.handIds
-                ?.split(",")
-                .map((val) => val.trim())
-                .join(", ");
-            this.node.emit(OPEN_PROVABLY_FAIR_VERIFY);
-        }
-    }
-
     onCloseClick() {
         this.commonDialog.closeDialog();
     }
@@ -114,13 +89,12 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
         this.setStatusVerifyButton(true);
     }
 
-    setStatusVerifyButton(status: boolean) {
-        this.verifySuccess.active = status;
-        this.disableVerifyBtn.active = status;
-        this.verifyBtn.interactable = !status;
+    truncateString(value: string) {
+        return value?.substring(0, PF_MAX_CHARACTER_DISPLAY) || "";
     }
 
-    formatValue(value: string) {
-        return value?.substring(0, PF_MAX_CHARACTER_DISPLAY) || "";
+    setStatusVerifyButton(status: boolean) {
+        this.verifySuccess.active = status;
+        this.verifyBtn.updateState(status);
     }
 }

@@ -1,3 +1,4 @@
+import BehaviorClickButton from "../../../../common/BehaviorClickButton";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
 import ProvablyFairComponent from "./ProvablyFairComponent";
 
@@ -14,16 +15,15 @@ export default class ClientSeedManualPopup extends cc.Component {
     @property(cc.Label)
     lblClientSeedRange: cc.Label = null;
 
-    @property(cc.Button)
-    btnClear: cc.Button = null;
+    @property(BehaviorClickButton)
+    btnClear: BehaviorClickButton = null;
 
-    @property(cc.Node)
-    nodeClearDisabled: cc.Node = null;
+    @property(BehaviorClickButton)
+    btnSave: BehaviorClickButton = null;
 
     @property()
     clientSeedMax = 103;
 
-    private readonly CLIENT_SEED_CHAR = 4;
     public provablyFairComponent: ProvablyFairComponent = null;
 
     callbackOpenGuide = () => {
@@ -66,19 +66,26 @@ export default class ClientSeedManualPopup extends cc.Component {
             this.lblClientSeed.string = newValue.toString();
         }
 
-        this.updateStateClearButton(this.lblClientSeed.string.trim() === "");
+        let statusButton = false;
+        if (this.lblClientSeed.string.trim() === "") {
+            statusButton = true;
+        }
+
+        this.btnClear.updateState(statusButton);
+        this.btnSave.updateState(statusButton);
     }
 
     onClickClear() {
         this.lblClientSeed.string = "";
-        this.updateStateClearButton(true);
+        this.btnClear.updateState(true);
+        this.btnSave.updateState(true);
     }
 
     onClickRemoveLastLetter() {
         let multiplierString = this.lblClientSeed.string.slice(0, -1);
         if (!multiplierString) {
             multiplierString = "";
-            this.updateStateClearButton(true);
+            this.btnClear.updateState(true);
         }
 
         this.lblClientSeed.string = multiplierString;
@@ -95,10 +102,5 @@ export default class ClientSeedManualPopup extends cc.Component {
 
     onOpenGuide() {
         this.callbackOpenGuide && this.callbackOpenGuide();
-    }
-
-    updateStateClearButton(state: boolean) {
-        this.btnClear.interactable = !state;
-        this.nodeClearDisabled.active = state;
     }
 }

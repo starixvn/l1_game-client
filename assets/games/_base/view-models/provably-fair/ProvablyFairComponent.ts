@@ -93,7 +93,6 @@ export default class ProvablyFairComponent extends cc.Component {
     }
 
     updateClientSeed(value: string) {
-        console.log("updateClientSeed---", value);
         this.currentClientSeed = +value;
         this.setClientSeed();
     }

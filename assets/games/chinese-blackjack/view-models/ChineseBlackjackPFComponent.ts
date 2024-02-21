@@ -20,7 +20,7 @@ export default class ChineseBlackjackPFComponent extends ProvablyFairComponent {
     @property()
     clientSeedMax = 103;
 
-    private readonly CLIENT_SEED_RANGE = "0-103";
+    private readonly CLIENT_SEED_RANGE = "0 - 103";
 
     onLoad() {
         this.setRandomClientSeed();
