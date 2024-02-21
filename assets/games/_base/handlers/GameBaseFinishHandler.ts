@@ -15,6 +15,7 @@ export default class GameBaseFinishHandler implements DataHandler {
     handle(data: any) {
         if (data.finish) {
             this.main.finishShowResult = false;
+            this.main.winnersData = null;
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);
             const mainRoomGame = this.main as WebSocketTableGameBase;
