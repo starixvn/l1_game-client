@@ -1129,11 +1129,4 @@ export default class GameUtils {
         node.color = cc.Color.WHITE.fromHEX(color);
         node.opacity = cc.Color.WHITE.fromHEX(color).getA();
     }
-
-    public static getUrlBFGuide(gameId: number, themeName: string): string {
-        const locale = SessionManager.getLocale();
-        const language = SessionManager.getLanguage(locale);
-
-        return `/${language}/?gId=${gameId}&t=${themeName}&c=0&f=pf&v=${Date.now()}`;
-    }
 }

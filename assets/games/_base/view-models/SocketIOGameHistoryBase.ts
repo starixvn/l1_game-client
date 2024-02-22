@@ -38,6 +38,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     scrollView: cc.ScrollView = null;
 
     public gameId = 0;
+    public pfGameId = 0;
 
     public headerTitleColor = "#ffe800";
     fontsizeTitle = 18;
@@ -106,7 +107,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         if (this.gameId !== 0) {
             this.setGameName();
         }
-        
+
         if (!this.isSlotGame) {
             const header = this.wrapperContent.children[0];
             GameUtils.setFontSizeLabelsInNode(header, true);
@@ -139,7 +140,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     }
 
     openProvablyFairVerify() {
-        this.provablyFairVerifyComponent.updateGameId(this.gameId);
+        this.provablyFairVerifyComponent.updateGameId(this.pfGameId);
         this.provablyFairVerifyComponent?.onShow();
     }
 

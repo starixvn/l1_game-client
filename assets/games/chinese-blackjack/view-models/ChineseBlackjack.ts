@@ -154,7 +154,7 @@ export default class ChineseBlackjack extends BlackJack {
     openHistory() {
         const history = cc.instantiate(this.blackjackHistory);
         this.historyComponent = history.getComponent(ChineseBlackjackHistory);
-        this.historyComponent.gameId = this.gameId;
+        this.historyComponent.pfGameId = this.gameId;
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(history);
     }

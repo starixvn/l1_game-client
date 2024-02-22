@@ -1,5 +1,6 @@
-import GameUtils from "../../../../common/GameUtils";
+import * as i18n from "i18n/runtime-scripts/LanguageData";
 import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
+import { getLanguage, getLocale } from "../../../../common/auth/SessionManager";
 import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
 import MiniPanel from "../../../../mini-games-panel/view-models/MiniPanel";
 
@@ -62,7 +63,7 @@ export default class ProvablyFairComponentBase extends cc.Component {
     onGuideClick() {
         const dialog = cc.instantiate(this.guideProvablyFairPrefab);
         const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(GameUtils.getUrlBFGuide(this._gameId, this._themeGuide));
+        guide.setURL(this.getUrlGuide());
         guide.sendDataToIframe(this._gameConfigs);
         this.getContainerGuide().addChild(dialog);
 
@@ -71,5 +72,14 @@ export default class ProvablyFairComponentBase extends cc.Component {
 
     getContainerGuide() {
         return this.miniPanel?.dialog;
+    }
+
+    getUrlGuide(): string {
+        const locale = getLocale();
+        const language = getLanguage(locale);
+        const dataId = `gameNames.${this._gameId}`;
+        const gameName = `${i18n.t(dataId)}`;
+
+        return `/${language}/?gId=${this._gameId}&t=${this._themeGuide}&displayName=${gameName}&c=0&f=pf&v=${Date.now()}`;
     }
 }
