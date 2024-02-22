@@ -999,7 +999,6 @@ export default class GameBase extends GameViewBase {
     initProvablyFair(node: cc.Node) {
         this.provablyFairComponent = node.getComponent(ProvablyFairComponent);
         this.provablyFairComponent.onHide();
-        this.provablyFairComponent.gameId = this.gameId;
         this.provablyFairComponent.miniPanel = this.currentMiniPanel;
     }
 

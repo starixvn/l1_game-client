@@ -106,6 +106,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
         if (this.gameId !== 0) {
             this.setGameName();
         }
+        
         if (!this.isSlotGame) {
             const header = this.wrapperContent.children[0];
             GameUtils.setFontSizeLabelsInNode(header, true);
@@ -138,7 +139,7 @@ export default abstract class SocketIOGameHistoryBase extends BaseComponent {
     }
 
     openProvablyFairVerify() {
-        this.provablyFairVerifyComponent.gameId = this.gameId;
+        this.provablyFairVerifyComponent.updateGameId(this.gameId);
         this.provablyFairVerifyComponent?.onShow();
     }
 

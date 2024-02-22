@@ -1,7 +1,6 @@
 import BehaviorClickButton from "../../../../common/BehaviorClickButton";
 import GameUtils from "../../../../common/GameUtils";
-import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
-import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
+import ProvablyFairComponentBase from "./ProvablyFairComponentBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -17,7 +16,7 @@ export const OPEN_PROVABLY_FAIR_VERIFY = " open_provably_fair_verify";
 export const PF_MAX_CHARACTER_DISPLAY = 70;
 
 @ccclass
-export default class ProvablyFairVerifyComponent extends cc.Component {
+export default class ProvablyFairVerifyComponent extends ProvablyFairComponentBase {
     @property(cc.Label)
     serverSeedLbl: cc.Label = null;
 
@@ -30,17 +29,11 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     @property(cc.Label)
     finalResultLbl: cc.Label = null;
 
-    @property(CommonDialog)
-    commonDialog: CommonDialog = null;
-
     @property(cc.Node)
     verifySuccess: cc.Node = null;
 
     @property(BehaviorClickButton)
     verifyBtn: BehaviorClickButton = null;
-
-    @property(cc.Prefab)
-    guideProvablyFairPrefab: cc.Prefab = null;
 
     @property(cc.Node)
     guideContainer: cc.Node = null;
@@ -50,8 +43,6 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     protected finalResultCopyString = "";
     protected timeout: NodeJS.Timeout;
     readonly delayShowHashValue: number = 1.35;
-
-    gameId: number;
 
     onLoad() {
         this.commonDialog.addOnDidHide(() => {
@@ -65,18 +56,8 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
     }
 
     onShow() {
-        this.statusNode(true);
-        this.commonDialog.showDialog();
+        super.onShow();
         this.setStatusVerifyButton(false);
-    }
-
-    onHide() {
-        this.commonDialog.closeDialogWithoutAnim();
-        this.statusNode(false);
-    }
-
-    statusNode(active: boolean) {
-        this.node.active = active;
     }
 
     onCopyServerSeed() {
@@ -91,20 +72,12 @@ export default class ProvablyFairVerifyComponent extends cc.Component {
         GameUtils.copyText(this.finalResultCopyString);
     }
 
-    onCloseClick() {
-        this.commonDialog.closeDialog();
-    }
-
     onClickVerify() {
         this.setStatusVerifyButton(true);
     }
 
-    onOpenGuide() {
-        const dialog = cc.instantiate(this.guideProvablyFairPrefab);
-        const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(GameUtils.getUrlBFGuide(this.gameId));
-        this.guideContainer.addChild(dialog);
-        guide.loadWebView();
+    getContainerGuide() {
+        return this.guideContainer;
     }
 
     truncateString(value: string) {

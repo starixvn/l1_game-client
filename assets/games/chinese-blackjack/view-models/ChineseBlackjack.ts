@@ -147,11 +147,14 @@ export default class ChineseBlackjack extends BlackJack {
 
     openProvablyFair() {
         this.provablyFairComponent.onShow();
+        this.provablyFairComponent.updateGameConfigs(this.gameConfigs);
+        this.provablyFairComponent.updateGameId(this.gameId);
     }
 
     openHistory() {
         const history = cc.instantiate(this.blackjackHistory);
         this.historyComponent = history.getComponent(ChineseBlackjackHistory);
+        this.historyComponent.gameId = this.gameId;
         this.historyComponent.init(this.socket);
         this.currentMiniPanel.node.addChild(history);
     }

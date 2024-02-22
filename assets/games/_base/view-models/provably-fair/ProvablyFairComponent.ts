@@ -1,7 +1,5 @@
 import GameUtils from "../../../../common/GameUtils";
-import CommonDialog from "../../../../common/_base/view-models/CommonDialog";
-import WebViewGuide from "../../../../common/webview-guide/WebViewGuide";
-import MiniPanel from "../../../../mini-games-panel/view-models/MiniPanel";
+import ProvablyFairComponentBase from "./ProvablyFairComponentBase";
 
 const { ccclass, property } = cc._decorator;
 
@@ -11,18 +9,12 @@ export type ProvablyFairType = {
 };
 
 @ccclass
-export default class ProvablyFairComponent extends cc.Component {
+export default class ProvablyFairComponent extends ProvablyFairComponentBase {
     @property(cc.Label)
     lblClientSeed: cc.Label = null;
 
     @property(cc.Label)
     lblServerSeed: cc.Label = null;
-
-    @property(CommonDialog)
-    commonDialog: CommonDialog = null;
-
-    @property(cc.Prefab)
-    guideProvablyFairPrefab: cc.Prefab = null;
 
     @property(cc.Prefab)
     clientSeedManualPrefab: cc.Prefab = null;
@@ -30,38 +22,11 @@ export default class ProvablyFairComponent extends cc.Component {
     @property()
     delayShowServerSeed = 0;
 
-    miniPanel: MiniPanel = null;
-    gameId: number;
-    currentClientSeed = 0;
-
     protected serverSeedCopyString = "";
     protected timeout: NodeJS.Timeout;
     protected currentServerSeed = "";
     public nextServerSeed = "";
-
-    callbackHandle() {
-        // handle
-    }
-
-    onLoad() {
-        this.commonDialog.addOnDidHide(() => {
-            this.statusNode(false);
-        });
-    }
-
-    onShow() {
-        this.statusNode(true);
-        this.commonDialog.showDialog();
-    }
-
-    onHide() {
-        this.commonDialog.closeDialogWithoutAnim();
-        this.statusNode(false);
-    }
-
-    statusNode(active: boolean) {
-        this.node.active = active;
-    }
+    public currentClientSeed = 0;
 
     handleReceiveServerSeed(data: ProvablyFairType) {
         if (!this.currentServerSeed.length) {
@@ -108,18 +73,6 @@ export default class ProvablyFairComponent extends cc.Component {
 
     protected setClientSeed() {
         this.lblClientSeed.string = this.currentClientSeed.toString();
-    }
-
-    onCloseClick() {
-        this.commonDialog.closeDialog();
-    }
-
-    onGuideClick() {
-        const dialog = cc.instantiate(this.guideProvablyFairPrefab);
-        const guide = dialog.getComponent(WebViewGuide);
-        guide.setURL(GameUtils.getUrlBFGuide(this.gameId));
-        this.miniPanel.addDialog(dialog);
-        guide.loadWebView();
     }
 
     protected changeOpacity(node: cc.Node, isEnable: boolean) {
