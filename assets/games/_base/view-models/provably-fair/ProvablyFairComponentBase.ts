@@ -14,9 +14,14 @@ export default class ProvablyFairComponentBase extends cc.Component {
     @property(cc.Prefab)
     guideProvablyFairPrefab: cc.Prefab = null;
 
+    @property(cc.Node)
+    hintCopyNode: cc.Node = null;
+
     private _gameId = 0;
     private _themeGuide = "blue";
     private _gameConfigs = {};
+
+    protected hintLabel: cc.Label = null;
 
     public miniPanel: MiniPanel = null;
 
@@ -81,5 +86,13 @@ export default class ProvablyFairComponentBase extends cc.Component {
         const gameName = `${i18n.t(dataId)}`;
 
         return `/${language}/?gId=${this._gameId}&t=${this._themeGuide}&displayName=${gameName}&c=0&f=pf&v=${Date.now()}`;
+    }
+
+    showHint(node: cc.Node) {
+        cc.tween(node).to(0.2, { opacity: 255 }).delay(1).to(0.1, { opacity: 0 }).start();
+    }
+
+    getHintLabel(node: cc.Node) {
+        return node.getChildByName("content").getComponent(cc.Label);
     }
 }

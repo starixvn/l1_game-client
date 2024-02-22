@@ -41,7 +41,7 @@ export default class ChineseBlackjackPFComponent extends ProvablyFairComponent {
         if (this.currentClientSeed === this.clientSeedMax) {
             this.currentClientSeed = this.clientSeedMin;
         } else {
-            this.currentClientSeed = (this.currentClientSeed + 1) % this.clientSeedMax;
+            this.currentClientSeed = (this.currentClientSeed + 1) % (this.clientSeedMax + 1);
         }
         this.setClientSeed();
     }

@@ -38,6 +38,12 @@ export default class ProvablyFairVerifyComponent extends ProvablyFairComponentBa
     @property(cc.Node)
     guideContainer: cc.Node = null;
 
+    @property(cc.Node)
+    hintSHACopyNode: cc.Node = null;
+
+    @property(cc.Node)
+    hintResultCopyNode: cc.Node = null;
+
     protected serverSeedCopyString = "";
     protected hashCopyString = "";
     protected finalResultCopyString = "";
@@ -61,15 +67,19 @@ export default class ProvablyFairVerifyComponent extends ProvablyFairComponentBa
     }
 
     onCopyServerSeed() {
-        GameUtils.copyText(this.serverSeedCopyString);
+        GameUtils.copyToClipboard(this.serverSeedCopyString, this.getHintLabel(this.hintCopyNode), this.showHint(this.hintCopyNode));
     }
 
     onCopyHash() {
-        GameUtils.copyText(this.hashCopyString);
+        GameUtils.copyToClipboard(this.hashCopyString, this.getHintLabel(this.hintSHACopyNode), this.showHint(this.hintSHACopyNode));
     }
 
     onCopyFinalResult() {
-        GameUtils.copyText(this.finalResultCopyString);
+        GameUtils.copyToClipboard(
+            this.finalResultCopyString,
+            this.getHintLabel(this.hintResultCopyNode),
+            this.showHint(this.hintResultCopyNode)
+        );
     }
 
     onClickVerify() {

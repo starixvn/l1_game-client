@@ -84,6 +84,6 @@ export default class ProvablyFairComponent extends ProvablyFairComponentBase {
     }
 
     onCopyHash() {
-        GameUtils.copyText(this.serverSeedCopyString);
+        GameUtils.copyToClipboard(this.serverSeedCopyString, this.getHintLabel(this.hintCopyNode), this.showHint(this.hintCopyNode));
     }
 }
