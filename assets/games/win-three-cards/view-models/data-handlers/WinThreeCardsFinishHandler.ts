@@ -1,7 +1,4 @@
 import { i18n } from "../../../../ClientModules";
-import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
-import { payChips, payoutLoginPlayer, showWinningEffectForPlayers } from "../../../_base/action/PayChipsAction";
-import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import BaccaratFinishHandler from "../../../baccarat/view-models/data-handlers/BaccaratFinishHandler";
 import WinThreeCards from "../WinThreeCards";
 import { Choices } from "../WinThreeCardsConstant";
@@ -14,52 +11,14 @@ export const GapTime = {
 };
 
 export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
-    private winningPlayers = {};
-
-    protected clearWinningPlayers() {
-        this.winningPlayers = {};
-    }
-
     protected getOwnTimeHandle(): any {
         return this.getOwnMain().timeHandler;
     }
-    handle(data): boolean {
-        if (data.finish) {
-            this.main.finishShowResult = false;
-            this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
-            this.setNewGameRound(data);
-            const mainRoomGame = this.main as WebSocketTableGameBase;
-            if (mainRoomGame && mainRoomGame.playerHandler) {
-                updateOtherPlayerBalance(this.winningPlayers, this.main);
-            }
-            this.handleFinishData(data.finish, data.resultHash, () => {
-                payChips(this.main, data.finish.settlementResult, this.winningPlayers, this.payChipFlyTime, this.WinningAnimationDuration);
-                this.main.finishShowResult = true;
-                this.clearWinningPlayers();
-            });
-        }
-
-        if (data.winners) {
-            this.winningPlayers = data.winners?.winningPlayers;
-            if (this.getOwnTimeHandle().isInWaitTime && this.main.finishShowResult) {
-                showWinningEffectForPlayers(this.main, this.winningPlayers);
-                this.clearWinningPlayers();
-            }
-        }
-
-        if (data.status) {
-            if (this.getOwnTimeHandle().isInWaitTime && this.main.finishShowResult) {
-                payoutLoginPlayer(this.main, data.status);
-            }
-        }
-        return true;
-    }
-
     protected getOwnMain(): WinThreeCards {
         return this.main as WinThreeCards;
     }
 
-    protected showCards(data: any, dataResultHash: any, mainGame: WinThreeCards, onFinishHandlingData: () => void) {
+    protected showCards(data: any, mainGame: WinThreeCards, onFinishHandlingData: () => void) {
         mainGame.showScoreBoardNextDot = true;
 
         const { phoenix, dragon } = data.result;
@@ -80,13 +39,13 @@ export default class WinThreeCardsFinishHandler extends BaccaratFinishHandler {
             .delay(GapTime.thirdCard)
             .call(() => phoenixCards.setRank())
             .delay(GapTime.normal)
-            .call(() => this.showSettlementResult(data, dataResultHash, mainGame, onFinishHandlingData))
+            .call(() => this.showSettlementResult(data, mainGame, onFinishHandlingData))
             .start();
     }
 
-    showSettlementResult(data: any, dataResultHash: any, mainGame: WinThreeCards, onFinishHandlingData: () => void) {
+    showSettlementResult(data: any, mainGame: WinThreeCards, onFinishHandlingData: () => void) {
         mainGame.showScoreBoardNextDot = false;
-        this.main.md5Component?.updateMD5String(dataResultHash);
+        this.updateMD5ResultHash();
 
         const { settlementResult } = data;
         this.showResult(settlementResult);

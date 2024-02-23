@@ -4,54 +4,30 @@ import * as _ from "lodash";
 import { getLowercaseObjectKeys } from "../../../../common/helpers/ObjectHelper";
 import { appManager } from "../../../../managers/AppManager";
 import BaccaratBigRoad from "../../../_baccarat/view-models/BaccaratBigRoad";
-import { updateOtherPlayerBalance } from "../../../_base/action/OtherPlayerAction";
-import { payChips } from "../../../_base/action/PayChipsAction";
 import GameBaseFinishHandler from "../../../_base/handlers/GameBaseFinishHandler";
-import WebSocketTableGameBase from "../../../_base/WebSocketTableGameBase";
 import Baccarat from "../Baccarat";
 import BaccaratLogsHandler from "./BaccaratLogsHandler";
 
 export default class BaccaratFinishHandler extends GameBaseFinishHandler {
-    handle(data: any): boolean {
-        if (data.finish) {
-            this.main.finishShowResult = false;
-            this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
-            this.setNewGameRound(data);
-            const mainRoomGame = this.main as WebSocketTableGameBase;
-            if (mainRoomGame && mainRoomGame.playerHandler) {
-                updateOtherPlayerBalance(data.finish.winningPlayers, this.main);
-            }
-            this.handleFinishData(data.finish, data.resultHash, () => {
-                payChips(
-                    this.main,
-                    data.finish.settlementResult,
-                    data.finish.winningPlayers,
-                    this.payChipFlyTime,
-                    this.WinningAnimationDuration
-                );
-                this.main.finishShowResult = true;
-            });
-        }
-
-        return true;
-    }
-
-    handleFinishData(dataFinish: any, dataResultHash: any, onFinishHandlingData: () => void = null) {
-        super.handleFinishData(dataFinish, onFinishHandlingData);
-
+    handleFinishData(dataFinish: any, onFinishHandlingData: () => void = null) {
         const baccaratMain = this.getOwnMain();
         if (!dataFinish.result) {
             return;
         }
 
-        appManager.GAME_IS_SHOWED && this.showCards(dataFinish, dataResultHash, baccaratMain, onFinishHandlingData);
+        appManager.GAME_IS_SHOWED && this.showCards(dataFinish, baccaratMain, onFinishHandlingData);
     }
 
     protected getOwnMain(): any {
         return this.main as Baccarat;
     }
 
-    protected showCards(dataFinish: any, dataResultHash: any, baccaratMain: any, onFinishHandlingData: () => void) {
+    protected updateMD5ResultHash() {
+        console.log("############################### Need updateMD5String here");
+        // this.main.md5Component?.updateMD5String(dataResultHash);
+    }
+
+    protected showCards(dataFinish: any, baccaratMain: any, onFinishHandlingData: () => void) {
         baccaratMain.showScoreBoardNextDot = true;
         const result = dataFinish.result;
         const settlementResult = dataFinish.settlementResult;
@@ -59,7 +35,7 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         const bankerCards = this.getDataFollowTypePlayer(result, true);
         const showResultFunc = () => {
             baccaratMain.showScoreBoardNextDot = false;
-            this.main.md5Component?.updateMD5String(dataResultHash);
+            this.updateMD5ResultHash();
             this.showResult(settlementResult);
             this.showWinNotice(settlementResult);
             onFinishHandlingData && onFinishHandlingData();
