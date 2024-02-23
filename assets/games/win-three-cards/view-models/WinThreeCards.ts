@@ -1,19 +1,19 @@
+import { i18n } from "../../../ClientModules";
+import GameUtils from "../../../common/GameUtils";
 import AudioManager from "../../../common/audio/AudioManager";
-import WinThreeCardsFinishHandler from "./data-handlers/WinThreeCardsFinishHandler";
-import WinThreeCardsLogsHandler from "./data-handlers/WinThreeCardsLogsHandler";
-import WinThreeCardsTimeDataHandler from "./data-handlers/WinThreeCardsTimeDataHandler";
-import WinThreeCardsItem from "./WinThreeCardsItem";
-import WinThreeCardsHistory from "./history/WinThreeCardsHistory";
+import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
 import WinThreeCardsBasicHistoryBoard from "../components/score-board/view-models/WinThreeCardsBasicHistoryBoard";
 import WinThreeCardsScoreBoard from "../components/score-board/view-models/WinThreeCardsScoreBoard";
-import GameUtils from "../../../common/GameUtils";
-import { i18n } from "../../../ClientModules";
-import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
+import WinThreeCardBetItem from "./WinThreeCardBetItem";
 import { WinThreeCardsConfigs, hedgeBetChoices } from "./WinThreeCardsConstant";
 import { StringHelper } from "./WinThreeCardsHelper";
+import WinThreeCardsItem from "./WinThreeCardsItem";
 import WinThreeCardsBetPercentHandler from "./data-handlers/WinThreeCardsBetPercentHandler";
-import WinThreeCardBetItem from "./WinThreeCardBetItem";
+import WinThreeCardsFinishHandler from "./data-handlers/WinThreeCardsFinishHandler";
+import WinThreeCardsLogsHandler from "./data-handlers/WinThreeCardsLogsHandler";
+import WinThreeCardsTimeDataHandler from "./data-handlers/WinThreeCardsTimeDataHandler";
+import WinThreeCardsHistory from "./history/WinThreeCardsHistory";
 const { ccclass, property } = cc._decorator;
 
 export const WinThreeCardsId = 61;
@@ -58,6 +58,7 @@ export default class WinThreeCards extends NewGameRoomBase {
     public logsHandler: WinThreeCardsLogsHandler;
     public timeHandler: WinThreeCardsTimeDataHandler;
     public betPercentHandler: WinThreeCardsBetPercentHandler;
+    override syncShowingMD5WithResult = true;
 
     constructor() {
         super();
