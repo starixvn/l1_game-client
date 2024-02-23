@@ -1,17 +1,17 @@
-import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
+import AudioManager from "../../../common/audio/AudioManager";
+import BaccaratBigRoad from "../../_baccarat/view-models/BaccaratBigRoad";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BasicHistoryBoard from "../../_base/view-models/BasicHistoryBoard";
 import { BaccaratConfigs } from "../../baccarat/view-models/BaccaratConfigs";
 import TotalHistoryBoard from "../../baccarat/view-models/TotalHistoryBoard";
+import VipBaccaratCards from "./VipBaccaratCards";
+import VipBaccaratHistory from "./VipBaccaratHistory";
+import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
 import VipBaccaratBetHandler from "./data-handlers/VipBaccaratBetHandler";
 import VipBaccaratFinishHandler from "./data-handlers/VipBaccaratFinishHandler";
 import VipBaccaratLogsHandler from "./data-handlers/VipBaccaratLogsHandler";
 import VipBaccaratTimeDataHandler from "./data-handlers/VipBaccaratTimeDataHandler";
-import VipBaccaratCards from "./VipBaccaratCards";
-import VipBaccaratHistory from "./VipBaccaratHistory";
-import VipBaccaratMiniRoundHistory from "./VipBaccaratMiniRoundHistory";
-import BaccaratBigRoad from "../../_baccarat/view-models/BaccaratBigRoad";
 
 const { ccclass, property } = cc._decorator;
 
@@ -68,6 +68,7 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     bigRoad: BaccaratBigRoad;
     showScoreBoardNextDot = false;
     protected miniRoundHistory: VipBaccaratMiniRoundHistory;
+    override syncShowingMD5WithResult = true;
 
     constructor() {
         super();

@@ -209,6 +209,7 @@ export default class GameBase extends GameViewBase {
     readonly internalTweenTag = 99;
     truthyRoundId: number;
     closeGameByClick = false;
+    syncShowingMD5WithResult = false;
 
     maximizeCallback = (gameId: number) => {
         //callback

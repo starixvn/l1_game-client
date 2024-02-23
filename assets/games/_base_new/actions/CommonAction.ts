@@ -92,7 +92,7 @@ export const changeGameRound = (game: any) => (roundId) => {
     game.updateRebetButtonStatus();
 };
 export const updateMD5String = (game: any) => (data) => {
-    game.md5Component && game.md5Component.handleMD5Data(data);
+    game.md5Component && game.md5Component.updateMD5Data(data);
 };
 
 export const showHashAtPlacingBet = (game: any) => () => {

@@ -119,19 +119,19 @@ export default class MD5Component extends cc.Component {
         this.md5Tip.show(false);
     }
 
-    updateMD5String(data: MD5Type) {
+    updateMD5WithDelay(data: MD5Type) {
         if (!this.node.activeInHierarchy) {
-            this.handleMD5Data(data);
+            this.updateMD5Data(data);
             return;
         }
 
         const delayTime = !!data?.rawValue ? this.delayShowRawValue : this.delayShowHashValue;
         this.timeout = setTimeout(() => {
-            this.handleMD5Data(data);
+            this.updateMD5Data(data);
         }, delayTime * 1000);
     }
 
-    handleMD5Data(data: MD5Type) {
+    updateMD5Data(data: MD5Type) {
         this.setDataTip(data);
         if (this.node && this.node.isValid) {
             this.setCaptionAndHintForMD5(!!data?.rawValue);

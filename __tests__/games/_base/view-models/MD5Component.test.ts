@@ -79,7 +79,7 @@ describe("Test class MD5Component", () => {
             };
             jest.spyOn(global, "clearTimeout");
             jest.spyOn(md5Component.node, "activeInHierarchy", "get").mockImplementationOnce(() => true);
-            md5Component.updateMD5String(data);
+            md5Component.updateMD5WithDelay(data);
 
             // Act
             md5Component.resetMd5();
@@ -89,21 +89,21 @@ describe("Test class MD5Component", () => {
         });
     });
 
-    describe("Test method updateMD5String", () => {
+    describe("Test method updateMD5WithDelay", () => {
         it("Case 1: not call setTimeOut when have hashValue", () => {
             // Arrange
             const data = {
                 hashValue: "132354813esther147test"
             };
             jest.spyOn(global, "setTimeout");
-            jest.spyOn(md5Component, "handleMD5Data");
+            jest.spyOn(md5Component, "updateMD5Data");
             jest.spyOn(md5Component.node, "activeInHierarchy", "get").mockImplementationOnce(() => false);
 
             // Act
-            md5Comp.updateMD5String(data);
+            md5Comp.updateMD5WithDelay(data);
 
             // Assert
-            expect(md5Comp.handleMD5Data).toBeCalledTimes(1);
+            expect(md5Comp.updateMD5Data).toBeCalledTimes(1);
             expect(global.setTimeout).not.toBeCalledTimes(1);
         });
 
@@ -116,7 +116,7 @@ describe("Test class MD5Component", () => {
             jest.spyOn(md5Comp.node, "activeInHierarchy", "get").mockImplementationOnce(() => true);
 
             // Act
-            md5Comp.updateMD5String(data);
+            md5Comp.updateMD5WithDelay(data);
 
             // Assert
             expect(global.setTimeout).toBeCalledTimes(1);
@@ -173,8 +173,8 @@ describe("Test class MD5Component", () => {
         });
     });
 
-    describe("Test method handleMD5Data", () => {
-        it("Case 1: handleMD5Data ", () => {
+    describe("Test method updateMD5Data", () => {
+        it("Case 1: updateMD5Data ", () => {
             // Arrange
             const data = {
                 hashValue: "",
@@ -185,7 +185,7 @@ describe("Test class MD5Component", () => {
             jest.spyOn(md5Comp, "generateMD5Result");
             jest.spyOn(md5Comp, "setCopyString");
             // Act
-            md5Component.handleMD5Data(data);
+            md5Component.updateMD5Data(data);
 
             // Assert
             expect(md5Component.setCaptionAndHintForMD5).toHaveBeenCalledWith(!!data.rawValue);

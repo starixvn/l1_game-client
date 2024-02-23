@@ -3,6 +3,7 @@ import { payChips } from "../action/PayChipsAction";
 import GameBase from "../GameBase";
 import WebSocketTableGameBase from "../WebSocketTableGameBase";
 import DataHandler from "./DataHandler";
+import GameBaseMd5Handler from "./GameBaseMd5Handler";
 
 export default class GameBaseFinishHandler implements DataHandler {
     readonly payChipFlyTime = 1.2;
@@ -46,5 +47,12 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
         // handleFinishData
+    }
+
+    protected updateMD5ResultHash() {
+        const md5Handler = this.main.md5Handler as GameBaseMd5Handler;
+        if (md5Handler?.resultHash) {
+            this.main.md5Component?.updateMD5Data(md5Handler.resultHash);
+        }
     }
 }

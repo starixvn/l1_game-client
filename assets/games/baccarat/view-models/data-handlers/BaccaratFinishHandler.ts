@@ -22,11 +22,6 @@ export default class BaccaratFinishHandler extends GameBaseFinishHandler {
         return this.main as Baccarat;
     }
 
-    protected updateMD5ResultHash() {
-        console.log("############################### Need updateMD5String here");
-        // this.main.md5Component?.updateMD5String(dataResultHash);
-    }
-
     protected showCards(dataFinish: any, baccaratMain: any, onFinishHandlingData: () => void) {
         baccaratMain.showScoreBoardNextDot = true;
         const result = dataFinish.result;
