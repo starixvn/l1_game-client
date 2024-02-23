@@ -147,6 +147,7 @@ export const phrases = {
         "pf_client_seed_para_1": "(投注接受后不可更改种子)",
         "pf_client_seed_para_2": "每新一轮随机",
         "pf_client_seed_para_3": "手动输入",
+        "pf_client_seed_tooltip": "客户端种子是从玩家端生成的。\n合并本轮前五名下注玩家的客户端种子，按玩家 1 至玩家 5 的顺序排列",
         "pf_client_seed_tooltip_para_1": "客户端种子是从玩家端生成的。",
         "pf_client_seed_tooltip_para_2": "合并本轮前五名下注玩家的客户端种子，按玩家 1 至玩家 5 的顺序排列",
         "pf_combined_sha512_hash_tooltip_para_1": "最终结果由本轮前五名投注玩家的服务器种子和客户端种子的组合确定，随后转换为 SHA512 哈希。",

@@ -1,5 +1,6 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 
+import { getLanguage, getLocale } from "../auth/SessionManager";
 import { FormationHandler } from "./FormationHandler";
 
 const LocalizedLabel = require("LocalizedLabel");
@@ -36,6 +37,8 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
         }
     }
     handleFormat(value: string) {
+        const locale = getLocale();
+        const language = getLanguage(locale);
         const data = [
             {
                 condition: this.format === FormationHandler.LOWER,
@@ -51,7 +54,7 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
             }
         ];
         const handler = data.filter((passed) => passed.condition);
-        return handler.length ? handler[0].handle(value) : value;
+        return handler.length && this.languageValidHandler() ? handler[0].handle(value) : value;
     }
 
     titleCase(value: string) {
@@ -77,5 +80,12 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
 
     lowerCase(value: string) {
         return value.toLowerCase();
+    }
+
+    languageValidHandler(): boolean {
+        const locale = getLocale();
+        const language = getLanguage(locale);
+
+        return language !== "th";
     }
 }
