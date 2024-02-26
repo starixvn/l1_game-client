@@ -19,9 +19,7 @@ export default class ProvablyFairComponentBase extends cc.Component {
 
     private _gameId = 0;
     private _themeGuide = "blue";
-
     protected hintLabel: cc.Label = null;
-
     public miniPanel: MiniPanel = null;
 
     callbackHandle() {
