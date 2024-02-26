@@ -147,7 +147,6 @@ export default class ChineseBlackjack extends BlackJack {
 
     openProvablyFair() {
         this.provablyFairComponent.onShow();
-        this.provablyFairComponent.updateGameConfigs(this.gameConfigs);
         this.provablyFairComponent.updateGameId(this.gameId);
     }
 

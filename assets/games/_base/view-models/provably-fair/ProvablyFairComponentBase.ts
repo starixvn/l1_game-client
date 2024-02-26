@@ -19,7 +19,6 @@ export default class ProvablyFairComponentBase extends cc.Component {
 
     private _gameId = 0;
     private _themeGuide = "blue";
-    private _gameConfigs = {};
 
     protected hintLabel: cc.Label = null;
 
@@ -35,10 +34,6 @@ export default class ProvablyFairComponentBase extends cc.Component {
 
     updateThemeGuide(theme: string) {
         this._themeGuide = theme;
-    }
-
-    updateGameConfigs(gameConfigs: unknown) {
-        this._gameConfigs = gameConfigs;
     }
 
     onLoad() {
@@ -69,7 +64,6 @@ export default class ProvablyFairComponentBase extends cc.Component {
         const dialog = cc.instantiate(this.guideProvablyFairPrefab);
         const guide = dialog.getComponent(WebViewGuide);
         guide.setURL(this.getUrlGuide());
-        guide.sendDataToIframe(this._gameConfigs);
         this.getContainerGuide().addChild(dialog);
 
         guide.loadWebView();
