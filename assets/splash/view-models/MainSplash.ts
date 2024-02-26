@@ -186,7 +186,7 @@ export default class MainSplash extends cc.Component {
                 .filter((gameId) => this.lobbyMenuConfig.customGameIconBySystem.includes(gameId))
                 .map((gameId) => GameUtils.loadGameIcon(gameId, splashConfig.customPath));
 
-            const preloadRemoteGameIds = preLoadGameIds.filter((id) => getGameConfiguration(id)?.isMicrosite);
+            const preloadRemoteGameIds = preLoadGameIds.filter((id) => getGameConfiguration(id).isMicrosite);
             for (const gameId of preloadRemoteGameIds) {
                 await GameUtils.preloadRemoteIcon(gameId);
             }
