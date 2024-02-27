@@ -25,6 +25,7 @@ export default class ProvablyFairComponent extends ProvablyFairComponentBase {
     protected serverSeedCopyString = "";
     protected timeout: NodeJS.Timeout;
     protected currentServerSeed = "";
+
     public nextServerSeed = "";
     public currentClientSeed = 0;
 
