@@ -46,6 +46,7 @@ export default class WebViewGuide extends LoadWebView {
         if (this.url) {
             this.showLoading();
             this.hideWebView();
+            this.webView._impl.setVisible(true);
 
             this.webView.url = this.url;
         }

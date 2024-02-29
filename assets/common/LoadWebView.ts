@@ -41,10 +41,12 @@ export default class LoadWebView extends cc.Component {
 
     showWebView() {
         this.webView._impl.setVisible(true);
+        this.webView.setOpacity(255);
         this.onWebViewLoaded();
     }
 
     hideWebView() {
+        this.webView.setOpacity(0);
         this.webView._impl.setVisible(false);
     }
 
