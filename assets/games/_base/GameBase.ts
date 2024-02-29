@@ -49,7 +49,7 @@ import GameBaseProvablyFairHandler from "./handlers/GameBaseProvablyFairHandler"
 import { GameBaseStatusHandler } from "./handlers/GameBaseStatusHandler";
 import GameBaseTimeHandler from "./handlers/GameBaseTimeHandler";
 import GameBaseUmDataHandler from "./handlers/GameBaseUmDataHandler";
-import GameBaseVoidTicketDataHandler from "./handlers/GameBaseVoidTicketHandler";
+import GameBaseVoidTicketHandler from "./handlers/GameBaseVoidTicketHandler";
 import GameBaseWinnersHandler from "./handlers/GameBaseWinnersHandler";
 import BetItem from "./view-models/BetItem";
 import GameAudios from "./view-models/GameAudios";
@@ -574,7 +574,7 @@ export default class GameBase extends GameViewBase {
         this.md5Handler = new GameBaseMd5Handler(this);
         this.provablyFairHandler = new GameBaseProvablyFairHandler(this);
         this.oddsHandler = new GameBaseOddsHandler(this);
-        this.voidTicketHandler = new GameBaseVoidTicketDataHandler(this);
+        this.voidTicketHandler = new GameBaseVoidTicketHandler(this);
         this.winnersHandler = new GameBaseWinnersHandler(this);
     }
 

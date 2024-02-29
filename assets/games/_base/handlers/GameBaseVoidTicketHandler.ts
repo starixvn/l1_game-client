@@ -1,7 +1,7 @@
 import GameBase from "../GameBase";
 import DataHandler from "./DataHandler";
 
-export default class GameBaseVoidTicketDataHandler implements DataHandler {
+export default class GameBaseVoidTicketHandler implements DataHandler {
     constructor(protected readonly main: GameBase) {}
 
     handle(data: any) {

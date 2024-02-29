@@ -1,4 +1,3 @@
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import GameUtils from "../../../common/GameUtils";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";

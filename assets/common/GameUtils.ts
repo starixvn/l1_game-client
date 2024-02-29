@@ -186,7 +186,7 @@ export default class GameUtils {
                 cc.warn(`Missing prefab for ${path} `, e);
             }
         } else {
-            return await GameUtils.loadResource(`minipanel/games/${gameId}`);
+            return GameUtils.loadResource(`minipanel/games/${gameId}`);
         }
     }
 
@@ -624,6 +624,7 @@ export default class GameUtils {
             return this.getRemoteTranslation(gameId, key, currentLanguage);
         } catch (error) {
             cc.error("An error occurred in getRemoteDisplayGameName:", error);
+            return "";
         }
     }
 
@@ -761,6 +762,7 @@ export default class GameUtils {
                     return true;
                 }
             } catch (e) {
+                cc.error("Error occurred while evaluating condition:", e);
                 throw e;
             }
 
@@ -819,7 +821,7 @@ export default class GameUtils {
         if (remoteTexture) {
             return new cc.SpriteFrame(remoteTexture);
         }
-        cc.log("No banner for game " + gameId);
+        cc.log(this.getErrorMessageBanner(gameId));
         return null;
     }
 
@@ -857,17 +859,13 @@ export default class GameUtils {
             const name1 = `${currentLang}`;
             const defaultName = `en`;
 
-            const names = [name1, defaultName];
-
-            return names;
+            return [name1, defaultName];
         } else {
             const currentLang = this.getCurrentLanguage() !== "vi" ? `_${this.getCurrentLanguage()}` : "";
             const name1 = `${id}${currentLang}`;
             const name2 = `${id}`;
 
-            const names = [name1, name2];
-
-            return names;
+            return [name1, name2];
         }
     }
 
@@ -888,9 +886,8 @@ export default class GameUtils {
         const spineAssets = [];
 
         try {
-            uiManager.remoteBannerCache[id]
-                ? uiManager.remoteBannerCache[id].configFile
-                : await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `banner/en/config.json`);
+            uiManager.remoteBannerCache[id]?.configFile ||
+                (await GameUtils.loadRemoteGameResource<cc.JsonAsset>(id, `banner/en/config.json`));
 
             const host = GameUtils.remoteGameResourceUrl(id, `banner/${this.getCurrentLanguage()}`);
             const spineName = "banner-game";
@@ -905,7 +902,7 @@ export default class GameUtils {
                 } catch (error) {}
             }
         } catch (error) {
-            cc.log("No banner for game " + id);
+            cc.log(this.getErrorMessageBanner(id));
         }
         return spineAssets;
     }
@@ -926,34 +923,25 @@ export default class GameUtils {
                     type: cc.Asset
                 });
             } catch (error) {
-                cc.log("No banner for game " + id);
+                cc.log(this.getErrorMessageBanner(id));
             }
         } else {
-            cc.log("No banner for game " + id);
+            cc.log(this.getErrorMessageBanner(id));
         }
 
         return banner;
     }
-
-    public static GetBannerType(banner: string) {
-        switch (banner) {
-            case "":
-            case undefined:
-                return BannerType.Static;
-            case "animation":
-                return BannerType.Animation;
-        }
+    protected static getErrorMessageBanner(id: number) {
+        return `No banner for game ${id}`;
     }
 
-    public static GetBannerTypeByGameId(id: number | string) {
+    public static GetBannerType(banner: string): BannerType {
+        return banner === "animation" ? BannerType.Animation : BannerType.Static;
+    }
+
+    public static GetBannerTypeByGameId(id: number | string): BannerType {
         const gameConfiguration = getGameConfiguration(id);
-        switch (gameConfiguration.bannerType) {
-            case "":
-            case undefined:
-                return BannerType.Static;
-            case "animation":
-                return BannerType.Animation;
-        }
+        return gameConfiguration.bannerType === "animation" ? BannerType.Animation : BannerType.Static;
     }
 
     public static async getStaticBanner(id: number, systemPath = "") {
@@ -1060,7 +1048,7 @@ export default class GameUtils {
                     chipStack.addChip(chipNode);
                     const chipConfig = GameUtils.addShadowFrameStack(firstChip, option.shadowFrame, chipNode, i);
                     firstChip = chipConfig.isFirstChip;
-                    chipNode = chipConfig.chip;
+                    chipConfig.chip;
                 } else {
                     chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * (ChipParams.offset + ChipParams.offsetStack), 0);
                     node.addChild(chipNode);

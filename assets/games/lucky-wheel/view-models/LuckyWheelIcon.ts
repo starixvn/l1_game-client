@@ -11,7 +11,7 @@ export default class LuckyWheelIcon extends SafeDraggableItem {
     luckyWheelPrefab: cc.Prefab = null;
 
     private miniPanel: MiniPanel;
-    private gameId = -1;
+    private readonly gameId = -1;
 
     init(main: MiniPanel) {
         this.miniPanel = main;

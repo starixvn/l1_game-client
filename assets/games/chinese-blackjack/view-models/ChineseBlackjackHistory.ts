@@ -32,7 +32,7 @@ export default class ChineseBlackjackHistory extends BlackJackHistory {
         betLogs.forEach((betLog, index) => {
             const isFirstRow = index === 0;
             const isLastRow = index === betLogs.length - 1;
-            const isNewRound = currentRoundId != betLog.roundId;
+            const isNewRound = currentRoundId !== betLog.roundId;
 
             const addNewGroupItem = (isLastRow: boolean) => {
                 const itemGroup = cc.instantiate(this.itemGroupPrefab);

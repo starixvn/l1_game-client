@@ -1,4 +1,3 @@
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
 import { updateChips } from "../../holdem-poker/actions/HoldemPokerPlaceBetActions";

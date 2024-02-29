@@ -207,7 +207,8 @@ class AppManager {
                 throw new Error("Can not authorize by UserService " + error.message);
             }
             await delayTime(3);
-            return this.authorizeByUserService(++retryCount);
+            retryCount++;
+            return this.authorizeByUserService(retryCount);
         }
     }
 

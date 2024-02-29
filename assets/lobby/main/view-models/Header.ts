@@ -23,7 +23,7 @@ export default class Header extends cc.Component {
     @property(cc.Prefab)
     NoticePrefab: cc.Prefab = null;
 
-    private data = { name: "", avatar: null, balance: "" };
+    private readonly data = { name: "", avatar: null, balance: "" };
 
     onLoad() {
         this.clearUserInfo();

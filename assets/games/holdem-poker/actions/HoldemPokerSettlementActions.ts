@@ -1,4 +1,3 @@
-import BetChips from "../../../common/bet-chips/view-models/BetChips";
 import BetChipsNew from "../../../common/bet-chips/view-models/BetChipsNew";
 import { HoldemPokerChoicesConst } from "../event-models/HoldemPokerChoices";
 import { HoldemPokerGameData } from "../event-models/HoldemPokerGameData";

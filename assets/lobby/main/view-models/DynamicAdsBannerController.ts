@@ -37,19 +37,12 @@ export default class DynamicAdsBannerController extends BannerController {
     private async createAdsItem(id: number) {
         try {
             const bannerType = GameUtils.GetBannerTypeByGameId(id);
-            if (bannerType == BannerType.Animation) {
+            if (bannerType === BannerType.Animation) {
                 if (this.adsSpineItemPrefab) {
                     const item = cc.instantiate(this.adsSpineItemPrefab);
                     if (item) {
                         await this.createBannerWithAnimation(id, item);
-                        const button = item.getComponent(cc.Button);
-                        const event = new cc.Component.EventHandler();
-                        event.target = this.node;
-                        event.component = "BannerController";
-                        event.handler = "openGame";
-                        event.customEventData = id.toString();
-                        button.clickEvents.push(event);
-                        this.handleShowBanner();
+                        this.setupButtonAndHandleShowBanner(item, id);
                     }
                 }
             } else {
@@ -58,20 +51,25 @@ export default class DynamicAdsBannerController extends BannerController {
                     const item = cc.instantiate(this.adsItemPrefab);
                     if (item) {
                         this.createBanner(id, bannerSpriteFrame, item);
-                        const button = item.getComponent(cc.Button);
-                        const event = new cc.Component.EventHandler();
-                        event.target = this.node;
-                        event.component = "BannerController";
-                        event.handler = "openGame";
-                        event.customEventData = id.toString();
-                        button.clickEvents.push(event);
-                        this.handleShowBanner();
+                        this.setupButtonAndHandleShowBanner(item, id);
                     }
                 }
             }
         } catch (e) {
             console.warn("Catch error after await method", e.message);
         }
+    }
+
+    private setupButtonAndHandleShowBanner(item: cc.Node, id: number) {
+        const button = item.getComponent(cc.Button);
+        const event = new cc.Component.EventHandler();
+        event.target = this.node;
+        event.component = "BannerController";
+        event.handler = "openGame";
+        event.customEventData = id.toString();
+        button.clickEvents.push(event);
+
+        this.handleShowBanner();
     }
 
     private createBanner(id: number, spriteFrame: cc.SpriteFrame, item: cc.Node) {

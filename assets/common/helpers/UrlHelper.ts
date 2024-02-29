@@ -4,7 +4,7 @@ import { getGameConfiguration } from "../../configs/GameConfigurations";
 export function buildUrl(protocol = "http", path = "/", overrideSubDomain = "") {
     const ssl = configs.ssl;
     const domain = getRootDomain();
-    const subDomain = overrideSubDomain != "" ? overrideSubDomain : configs.subDomain;
+    const subDomain = overrideSubDomain !== "" ? overrideSubDomain : configs.subDomain;
     const subDomainText = `${subDomain}.`;
 
     return `${protocol}${ssl ? "s" : ""}://${subDomain === "" ? "" : subDomainText}${domain}${path}`;

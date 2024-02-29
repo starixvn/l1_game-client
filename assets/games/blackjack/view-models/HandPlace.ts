@@ -169,7 +169,7 @@ export default class HandPlace extends cc.Component {
                 this.activeIcon.runAction(action).setTag(10);
             }
 
-            if (this.scoreFrame.color.toHEX("#rrggbb") != selectedColorToHEXValue) {
+            if (this.scoreFrame.color.toHEX("#rrggbb") !== selectedColorToHEXValue) {
                 cc.tween(this.scoreFrame)
                     .to(0.3, { position: cc.v2(this.scoreFrame.x, this.scoreFrame.y + moveDistance) })
                     .start();

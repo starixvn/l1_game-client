@@ -24,7 +24,7 @@ import GameBaseErrorHandler from "../../_base/handlers/GameBaseErrorHandler";
 import GameBaseNoticeHandler from "../../_base/handlers/GameBaseNoticeHandler";
 import GameBaseProvablyFairHandler from "../../_base/handlers/GameBaseProvablyFairHandler";
 import GameBaseUmDataHandler from "../../_base/handlers/GameBaseUmDataHandler";
-import GameBaseVoidTicketDataHandler from "../../_base/handlers/GameBaseVoidTicketHandler";
+import GameBaseVoidTicketHandler from "../../_base/handlers/GameBaseVoidTicketHandler";
 import RoomPlayer from "../../_base/view-models/RoomPlayer";
 import BlackJackConfig from "./BlackJackConfig";
 import BlackJackHistory from "./BlackJackHistory";
@@ -211,10 +211,6 @@ export default class BlackJack extends SocketIOTableGameBase {
         // handle
     }
 
-    setGameRound(gameRoundId) {
-        // handle
-    }
-
     checkShowUmMessage(data: any) {
         return true;
     }
@@ -225,7 +221,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.errorHandler = new GameBaseErrorHandler(this);
         this.configsHandler = new GameBaseConfigsHandler(this);
         this.betHandler = new BlackJackBetHandler(this);
-        this.voidTicketHandler = new GameBaseVoidTicketDataHandler(this);
+        this.voidTicketHandler = new GameBaseVoidTicketHandler(this);
         this.provablyFairHandler = new GameBaseProvablyFairHandler(this);
 
         this.setupSpecialHandler();
@@ -508,7 +504,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         if (!this.roundFinished) {
             return;
         }
-        const finishHandler = this.finishHandler as BlackJackFinishHandler;
+        const finishHandler = this.finishHandler;
         if (!finishHandler.finishDataCache) {
             return;
         }
@@ -805,7 +801,7 @@ export default class BlackJack extends SocketIOTableGameBase {
         this.handPlaces[1].highlightPlace(true);
         this.dealerHand.resetView();
         this.roundFinished = false;
-        (this.finishHandler as BlackJackFinishHandler).clearCache();
+        this.finishHandler.clearCache();
         this.activeHand = null;
 
         this.clearWinningBet();

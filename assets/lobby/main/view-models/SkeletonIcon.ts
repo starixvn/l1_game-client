@@ -51,7 +51,7 @@ export default class SkeletonIcon extends cc.Component {
         this.gameName.node.active = false;
     }
 
-    private cache: SkeletonCache = uiManager.remoteIconCache;
+    private readonly cache: SkeletonCache = uiManager.remoteIconCache;
 
     setGameName(text: string, gameId: number) {
         const transformersGameId = 70;

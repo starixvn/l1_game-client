@@ -32,7 +32,7 @@ export default class SkeletonBanner extends cc.Component {
     @lazyInject(SplashConfig)
     protected readonly splashConfig: SplashConfig;
 
-    private cache: SkeletonCache = uiManager.remoteBannerCache;
+    private readonly cache: SkeletonCache = uiManager.remoteBannerCache;
 
     @property
     public spineName = "banner-game";

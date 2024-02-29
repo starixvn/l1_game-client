@@ -1,5 +1,5 @@
 import { SkeletonCache } from "../managers/GameUIManager";
-import GameUtils, { BannerType } from "./GameUtils";
+import GameUtils from "./GameUtils";
 
 const { ccclass, property } = cc._decorator;
 

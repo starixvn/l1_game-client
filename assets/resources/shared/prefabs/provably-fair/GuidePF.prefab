@@ -27,14 +27,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 40
+        "__id__": 41
       },
       {
-        "__id__": 41
+        "__id__": 42
       }
     ],
     "_prefab": {
-      "__id__": 42
+      "__id__": 43
     },
     "_opacity": 255,
     "_color": {
@@ -97,14 +97,14 @@
         "__id__": 3
       },
       {
-        "__id__": 37
+        "__id__": 38
       },
       {
-        "__id__": 38
+        "__id__": 39
       }
     ],
     "_prefab": {
-      "__id__": 39
+      "__id__": 40
     },
     "_opacity": 200,
     "_color": {
@@ -250,23 +250,23 @@
         "__id__": 22
       },
       {
-        "__id__": 25
+        "__id__": 26
       },
       {
-        "__id__": 29
+        "__id__": 30
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 34
+        "__id__": 35
       },
       {
-        "__id__": 35
+        "__id__": 36
       }
     ],
     "_prefab": {
-      "__id__": 36
+      "__id__": 37
     },
     "_opacity": 255,
     "_color": {
@@ -515,7 +515,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 654.66,
+      "width": 506.87,
       "height": 139.86
     },
     "_anchorPoint": {
@@ -567,8 +567,8 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "PROVABLY FAIR GUIDE",
-    "_N$string": "PROVABLY FAIR GUIDE",
+    "_string": "UI.TITLEGUIDEPF",
+    "_N$string": "UI.TITLEGUIDEPF",
     "_fontSize": 56,
     "_lineHeight": 111.9,
     "_enableWrapText": true,
@@ -810,10 +810,13 @@
     "_components": [
       {
         "__id__": 23
+      },
+      {
+        "__id__": 24
       }
     ],
     "_prefab": {
-      "__id__": 24
+      "__id__": 25
     },
     "_opacity": 255,
     "_color": {
@@ -838,7 +841,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -36,
+        -35,
         0,
         0,
         0,
@@ -863,6 +866,33 @@
     "_id": ""
   },
   {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 22
+    },
+    "_enabled": true,
+    "alignMode": 1,
+    "_target": null,
+    "_alignFlags": 45,
+    "_left": -23,
+    "_right": -23,
+    "_top": 100,
+    "_bottom": 30,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 1049,
+    "_originalHeight": 553,
+    "_id": ""
+  },
+  {
     "__type__": "8d7aa4MrZFCuqe+HASMyeZn",
     "_name": "",
     "_objFlags": 0,
@@ -882,7 +912,7 @@
     "asset": {
       "__uuid__": "174edd86-1db1-41bf-b6fb-636fa266c09d"
     },
-    "fileId": "3800U+QjtLOoycLah0aCs0",
+    "fileId": "a8zqfJw/9E8ZwbzQErBncj",
     "sync": false
   },
   {
@@ -896,14 +926,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 26
+        "__id__": 27
       },
       {
-        "__id__": 27
+        "__id__": 28
       }
     ],
     "_prefab": {
-      "__id__": 28
+      "__id__": 29
     },
     "_opacity": 255,
     "_color": {
@@ -957,7 +987,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "_materials": [
@@ -991,7 +1021,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "DegreePerSecond": 360,
@@ -1019,14 +1049,14 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 30
+        "__id__": 31
       },
       {
-        "__id__": 31
+        "__id__": 32
       }
     ],
     "_prefab": {
-      "__id__": 33
+      "__id__": 34
     },
     "_opacity": 255,
     "_color": {
@@ -1080,7 +1110,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 29
+      "__id__": 30
     },
     "_enabled": true,
     "_materials": [
@@ -1114,7 +1144,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 29
+      "__id__": 30
     },
     "_enabled": true,
     "_normalMaterial": null,
@@ -1123,7 +1153,7 @@
     "zoomScale": 1.1,
     "clickEvents": [
       {
-        "__id__": 32
+        "__id__": 33
       }
     ],
     "_N$interactable": true,
@@ -1342,15 +1372,15 @@
     },
     "_enabled": true,
     "webView": {
-      "__id__": 23
+      "__id__": 24
     },
     "loading": {
-      "__id__": 25
+      "__id__": 26
     },
     "commonDialog": {
-      "__id__": 34
+      "__id__": 35
     },
-    "themeName": "blue",
+    "themeName": "pf",
     "_id": ""
   },
   {
