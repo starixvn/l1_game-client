@@ -36,7 +36,7 @@ export default class DynamicAdsBannerController extends BannerController {
 
     private async createAdsItem(id: number) {
         try {
-            const bannerType = GameUtils.GetBannerTypeByGameId(id);
+            const bannerType = GameUtils.getBannerTypeByGameId(id);
             if (bannerType === BannerType.Animation) {
                 if (this.adsSpineItemPrefab) {
                     const item = cc.instantiate(this.adsSpineItemPrefab);

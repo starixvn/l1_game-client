@@ -935,11 +935,7 @@ export default class GameUtils {
         return `No banner for game ${id}`;
     }
 
-    public static GetBannerType(banner: string): BannerType {
-        return banner === "animation" ? BannerType.Animation : BannerType.Static;
-    }
-
-    public static GetBannerTypeByGameId(id: number | string): BannerType {
+    public static getBannerTypeByGameId(id: number | string): BannerType {
         const gameConfiguration = getGameConfiguration(id);
         return gameConfiguration.bannerType === "animation" ? BannerType.Animation : BannerType.Static;
     }
