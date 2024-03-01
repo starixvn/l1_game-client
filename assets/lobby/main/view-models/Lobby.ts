@@ -182,7 +182,7 @@ export default class Lobby extends cc.Component {
         }
         this.loadedOtherIconsAndBanners = true;
         this.lobbyMenu.loadHiddenIcons();
-        this.banner.reloadBanner(true);
+        this.banner.loadBanner(true);
     }
 
     initScrollListener() {
@@ -368,7 +368,7 @@ export default class Lobby extends cc.Component {
     }
 
     initBanners(isLoadAllBanner: boolean) {
-        this.banner.reloadBanner(isLoadAllBanner);
+        this.banner.loadBanner(isLoadAllBanner);
     }
 
     outRoomGame() {

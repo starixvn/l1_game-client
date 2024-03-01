@@ -72,7 +72,7 @@ export default class Banner extends cc.Component {
         }
     }
 
-    async reloadBanner(needLoadAllBanners: boolean) {
+    async loadBanner(needLoadAllBanners: boolean) {
         try {
             if (!this.adsBannerController) {
                 await this.init();

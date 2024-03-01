@@ -206,7 +206,7 @@ export default class MainSplash extends cc.Component {
 
             let bannerAwaiters: Promise<unknown>;
             const bannerType = GameUtils.getBannerTypeByGameId(bannerId);
-            if (bannerType === BannerType.Animation) {
+            if (bannerType === BannerType.Prefab) {
                 bannerAwaiters = GameUtils.getAnimationBanner(bannerId);
             } else {
                 bannerAwaiters = GameUtils.getStaticBanner(bannerId);

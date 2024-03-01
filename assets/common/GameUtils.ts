@@ -29,8 +29,8 @@ import { userManager } from "./user/UserManager";
 export const MINI_GAMES_SCALE_ON_DESKTOP = 0.8;
 export const MICRO_GAMES_NOT_OFFER_BANNER = [9, 48, 49, 50];
 export enum BannerType {
-    Static = 0,
-    Animation = 1
+    SingleImage = "singleImage",
+    Prefab = "prefab"
 }
 
 declare global {
@@ -935,9 +935,9 @@ export default class GameUtils {
         return `No banner for game ${id}`;
     }
 
-    public static getBannerTypeByGameId(id: number | string): BannerType {
+    public static getBannerTypeByGameId(id: number | string): string {
         const gameConfiguration = getGameConfiguration(id);
-        return gameConfiguration.bannerType === "animation" ? BannerType.Animation : BannerType.Static;
+        return gameConfiguration?.bannerType;
     }
 
     public static async getStaticBanner(id: number, systemPath = "") {
