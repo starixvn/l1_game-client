@@ -6,7 +6,6 @@ import { Orientation } from "../../_base/Orientation";
 import SedieBetHandler from "./handlers/SedieBetHandler";
 import SedieFinishHandler from "./handlers/SedieFinishHandler";
 import SedieLogsHandler from "./handlers/SedieLogsHandler";
-import SedieStatusHandler from "./handlers/SedieStatusHandler";
 import SedieTimeHandler from "./handlers/SedieTimeHandler";
 import { SedieConfigs } from "./SedieConfigs";
 import SedieHistory from "./SedieHistory";
@@ -143,7 +142,6 @@ export default class Sedie extends FreeBetGameBase {
         this.timeHandler = new SedieTimeHandler(this);
         this.finishHandler = new SedieFinishHandler(this);
         this.betHandler = new SedieBetHandler(this);
-        this.statusHandler = new SedieStatusHandler(this);
     }
 
     normalShowNextDotCondition() {

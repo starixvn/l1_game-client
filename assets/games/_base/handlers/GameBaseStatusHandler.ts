@@ -16,9 +16,20 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
     handle(data: any) {
         if (data.status) {
-            this.currentStatusData = data.status;
-            this.status(this.currentStatusData.win, this.currentStatusData.bet);
+            this.updateStatusData(data);
+            const mainRoomGame = this.main as WebSocketTableGameBase;
+            if (mainRoomGame && mainRoomGame.enablePlaceChips) {
+                if (this.main.shouldShowWinningEffect()) {
+                    this.main.showPayoutForLoginPlayer(mainRoomGame);
+                }
+            } else {
+                this.status(this.currentStatusData.win, this.currentStatusData.bet);
+            }
         }
+    }
+
+    updateStatusData(data: any) {
+        this.currentStatusData = data.status;
     }
 
     clearTimeout() {
@@ -26,11 +37,6 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     }
 
     status(win: boolean, bet: number, delayTime = 2e3): void {
-        const mainRoomGame = this.main as WebSocketTableGameBase;
-        if (mainRoomGame && mainRoomGame.enablePlaceChips) {
-            return;
-        }
-
         if (!appManager.GAME_IS_SHOWED) {
             return;
         }

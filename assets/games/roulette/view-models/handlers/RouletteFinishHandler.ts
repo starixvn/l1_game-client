@@ -17,6 +17,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
                 return false;
             }
             this.main.finishShowResult = false;
+            this.main.isDonePayingChip = false;
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);
             updateOtherPlayerBalance(data.finish.winningPlayers, this.main);
@@ -27,6 +28,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
                     this.main.winnersData = null;
                 }
                 this.main.finishShowResult = true;
+                this.main.isDonePayingChip = true;
             });
         }
 

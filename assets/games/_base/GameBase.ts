@@ -217,6 +217,7 @@ export default class GameBase extends GameViewBase {
     truthyRoundId: number;
     closeGameByClick = false;
     syncShowingMD5WithResult = false;
+    isDonePayingChip = false;
 
     maximizeCallback = (gameId: number) => {
         //callback
@@ -985,9 +986,10 @@ export default class GameBase extends GameViewBase {
 
         payChipsToInGamePlayers(info);
         this.inSettlementSequence = false;
+        this.isDonePayingChip = true;
     }
 
-    protected showPayoutForLoginPlayer(mainRoomGame: TableGameBaseInterface) {
+    showPayoutForLoginPlayer(mainRoomGame: TableGameBaseInterface) {
         showPayoutForLoginPlayer(mainRoomGame);
     }
 
@@ -1004,5 +1006,9 @@ export default class GameBase extends GameViewBase {
 
     handleProvablyFairVerifyData(provablyFair: IProvablyFairVerify) {
         provablyFair && this.historyComponent.provablyFairVerifyComponent.updateProvablyFairVerify(provablyFair);
+    }
+
+    shouldShowWinningEffect() {
+        return this.timeHandler.isInWaitTime && this.isDonePayingChip;
     }
 }

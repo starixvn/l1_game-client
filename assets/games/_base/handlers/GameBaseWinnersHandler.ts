@@ -8,7 +8,7 @@ export default class GameBaseWinnersHandler implements DataHandler {
     handle(data: any) {
         if (data.winners) {
             this.main.winnersData = data.winners.winningPlayers;
-            if (this.main.timeHandler.isInWaitTime && this.main.finishShowResult) {
+            if (this.main.shouldShowWinningEffect()) {
                 showWinningEffectForPlayers(this.main, this.main.winnersData);
                 this.main.winnersData = null;
             }
