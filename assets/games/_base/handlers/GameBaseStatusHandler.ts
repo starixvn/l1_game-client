@@ -18,7 +18,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
         if (data.status) {
             this.updateStatusData(data);
             const mainRoomGame = this.main as WebSocketTableGameBase;
-            if (mainRoomGame && mainRoomGame.enablePlaceChips) {
+            if (mainRoomGame?.userProfile) {
                 if (this.main.shouldShowWinningEffect()) {
                     this.main.showPayoutForLoginPlayer(mainRoomGame);
                 }
