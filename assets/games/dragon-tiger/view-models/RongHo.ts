@@ -103,6 +103,7 @@ export default class RongHo extends SocketIOMiniGameBase {
         this.cardBacks.forEach((back) => (back.node.scale = 1));
         this.scoreBoard.active = this.currentDataLogs.length > 0;
         this.resultAnimation.on("finished", () => {
+            this.finishShowResult = true;
             this.showResult(true);
         });
     }

@@ -14,6 +14,5 @@ export default class BigSmallFinishHandler extends GameBaseFinishHandler {
         this.main.showBalanceBetNotice();
         cc.tween(this.main.bgTimer).to(0.3, { opacity: 0 }).start();
         this.main.setDices(dataFinish.result);
-        this.main.finishShowResult = true;
     }
 }
