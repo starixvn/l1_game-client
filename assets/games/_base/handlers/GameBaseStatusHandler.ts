@@ -27,7 +27,14 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
                 if (this.main.shouldShowWinningEffect()) {
                     this.main.showPayoutForLoginPlayer(mainRoomGame);
                 }
+
+                return;
+            }
+
+            if (this.main.usingNewSettlement) {
+                this.main.finishShowResult && this.showStatus(this.currentStatusData.win, this.currentStatusData.bet);
             } else {
+                // old settlement status data go before "finish" data
                 // show status with delay time
                 this.status(this.currentStatusData.win, this.currentStatusData.bet);
             }

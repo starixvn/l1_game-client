@@ -10,6 +10,7 @@ export const TurboOddEvenId = 6;
 @ccclass
 export default class TurboOddEven extends BigSmall {
     readonly choices = ["odd", "even"];
+    override usingNewSettlement = false;
 
     initHandlers() {
         super.initHandlers();

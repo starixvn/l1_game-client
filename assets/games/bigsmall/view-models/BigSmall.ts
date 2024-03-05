@@ -105,6 +105,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     protected miniRoundHistory: BigSmallMiniRoundHistory;
     protected betHistory: BigSmallBetHistory;
     statistic: BigSmallDicesStatistic;
+    override usingNewSettlement = true;
     private showStatistic = true;
     public resultAnimating = false;
     private highlightOddsColor: ColorAssembler2D = null;

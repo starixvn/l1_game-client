@@ -58,9 +58,9 @@ export default class RongHo extends SocketIOMiniGameBase {
     audioDrawCard: cc.AudioSource = null;
 
     public resultCards = [];
-
-    public resultAnimating = false;
     private frontCards: NewCard[] = [];
+    public resultAnimating = false;
+    override usingNewSettlement = true;
 
     initMiniPanel(miniPanel: MiniPanel) {
         super.initMiniPanel(miniPanel);

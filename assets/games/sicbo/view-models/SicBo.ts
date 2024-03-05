@@ -94,6 +94,7 @@ export default class SicBo extends SocketIOTableGameBase {
     expandableMenu: ExpandableMenu = null;
 
     public finishShakeThePlate = false;
+    override usingNewSettlement = true;
 
     bigStatistic = 0;
     smallStatistic = 0;

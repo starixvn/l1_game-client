@@ -68,6 +68,7 @@ export default class Sedie extends FreeBetGameBase {
     private roundHistory: SedieRoundHistory;
     protected miniRoundHistory: MiniRoundHistory;
     openPlateDuration = 0.5;
+    override usingNewSettlement = true;
 
     constructor() {
         super();

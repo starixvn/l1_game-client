@@ -1,16 +1,13 @@
 import * as i18n from "i18n/runtime-scripts/LanguageData";
 import * as _ from "lodash";
 
-import AudioManager from "../../../common/audio/AudioManager";
 import GameUtils from "../../../common/GameUtils";
+import AudioManager from "../../../common/audio/AudioManager";
 import { numberWithCommas } from "../../../common/helpers/NumberHelper";
+import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
 import { userManager } from "../../../common/user/UserManager";
 import SocketIOTableGameBase from "../../_base/SocketIOTableGameBase";
 import BottomControls from "./BottomControls";
-import RouletteBetHandler from "./handlers/RouletteBetHandler";
-import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
-import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
-import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
 import LeftControls from "./LeftControls";
 import { RouletteConfigs } from "./RouletteConfigs";
 import RouletteHistory from "./RouletteHistory";
@@ -19,7 +16,10 @@ import RouletteMiniRoundResult from "./RouletteMiniRoundResult";
 import RouletteStatistic from "./RouletteStatistic";
 import RouletteUtils from "./RouletteUtils";
 import TopControls from "./TopControls";
-import { InGameMenuEvents } from "../../../common/in-game-menu/InGameMenu";
+import RouletteBetHandler from "./handlers/RouletteBetHandler";
+import RouletteFinishHandler from "./handlers/RouletteFinishHandler";
+import RouletteLogsHandler from "./handlers/RouletteLogsHandler";
+import RouletteTimeHandler from "./handlers/RouletteTimeHandler";
 
 const { ccclass, property } = cc._decorator;
 
@@ -80,6 +80,7 @@ export default class Roulette extends SocketIOTableGameBase {
     previousRoundBetChoices: any = {};
     betChoicesStack = [];
     isPlacingChip = false;
+    override usingNewSettlement = true;
     statisticComponent: RouletteStatistic;
     readonly chipOption: number[] = [];
 
