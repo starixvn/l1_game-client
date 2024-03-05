@@ -184,6 +184,7 @@ export default class GameUtils {
                 });
             } catch (e) {
                 cc.warn(`Missing prefab for ${path} `, e);
+                return null;
             }
         } else {
             return GameUtils.loadResource(`minipanel/games/${gameId}`);
@@ -1044,7 +1045,7 @@ export default class GameUtils {
                     chipStack.addChip(chipNode);
                     const chipConfig = GameUtils.addShadowFrameStack(firstChip, option.shadowFrame, chipNode, i);
                     firstChip = chipConfig.isFirstChip;
-                    chipConfig.chip;
+                    chipNode = chipConfig.chip;
                 } else {
                     chipNode.position = cc.v3(lodash.random(-2, 2), node.childrenCount * (ChipParams.offset + ChipParams.offsetStack), 0);
                     node.addChild(chipNode);
