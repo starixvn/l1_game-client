@@ -17,12 +17,18 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     handle(data: any) {
         if (data.status) {
             this.updateStatusData(data);
+
+            if (!this.main.timeHandler.isInWaitTime) {
+                return;
+            }
+
             const mainRoomGame = this.main as WebSocketTableGameBase;
             if (mainRoomGame?.userProfile) {
                 if (this.main.shouldShowWinningEffect()) {
                     this.main.showPayoutForLoginPlayer(mainRoomGame);
                 }
             } else {
+                // show status with delay time
                 this.status(this.currentStatusData.win, this.currentStatusData.bet);
             }
         }

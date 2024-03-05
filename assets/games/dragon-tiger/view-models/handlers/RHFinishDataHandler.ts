@@ -9,6 +9,7 @@ export default class RHFinishDataHandler extends GameBaseFinishHandler {
 
     handleFinishData(dataFinish, onFinishHanlingData: () => void = null) {
         super.handleFinishData(dataFinish, onFinishHanlingData);
+        this.main.finishShowResult = true;
         this.main.addRoundHistory(dataFinish);
 
         const result = dataFinish.result;
