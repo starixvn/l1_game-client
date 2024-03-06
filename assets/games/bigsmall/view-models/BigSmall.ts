@@ -234,8 +234,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     showWinningAnimation(data: any) {
-        const currentStatusData = this.statusHandler.currentStatusData;
-        currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet, 1e3);
+        this.statusHandler.showStatusIfExist();
         this.resultNode.active = true;
         cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
     }

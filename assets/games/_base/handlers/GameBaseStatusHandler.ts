@@ -41,6 +41,13 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
         }
     }
 
+    showStatusIfExist() {
+        if (this.currentStatusData) {
+            this.showStatus(this.currentStatusData.win, this.currentStatusData.bet);
+            this.currentStatusData = null;
+        }
+    }
+
     updateStatusData(data: any) {
         this.currentStatusData = data.status;
     }
