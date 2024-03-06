@@ -304,8 +304,11 @@ export default class Lobby extends cc.Component {
 
             this.renderLuckyWheelIcon();
         }
-
-        this.appDownload.active = Configs.AppDownloadSubDomain && window.authData?.system !== AppTypes.SabaApp;
+        if (GameUtils.isAndroid()) {
+            this.appDownload.active = Configs.AppDownloadSubDomain && window.authData?.system !== AppTypes.SabaApp;
+        } else {
+            this.appDownload.active = false;
+        }
     }
 
     onSignIn() {
