@@ -18,10 +18,6 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
         if (data.status) {
             this.updateStatusData(data);
 
-            if (!this.main.timeHandler.isInWaitTime) {
-                return;
-            }
-
             const mainRoomGame = this.main as WebSocketTableGameBase;
             if (mainRoomGame?.userProfile) {
                 if (this.main.shouldShowWinningEffect()) {
@@ -32,7 +28,9 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
             }
 
             if (this.main.usingNewSettlement) {
-                this.main.finishShowResult && this.showStatus(this.currentStatusData.win, this.currentStatusData.bet);
+                if (this.main.timeHandler.isInWaitTime) {
+                    this.main.finishShowResult && this.showStatus(this.currentStatusData.win, this.currentStatusData.bet);
+                }
             } else {
                 // old settlement status data go before "finish" data
                 // show status with delay time
@@ -44,12 +42,16 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     showStatusIfExist() {
         if (this.currentStatusData) {
             this.showStatus(this.currentStatusData.win, this.currentStatusData.bet);
-            this.currentStatusData = null;
+            this.clearStatusData();
         }
     }
 
     updateStatusData(data: any) {
         this.currentStatusData = data.status;
+    }
+
+    clearStatusData() {
+        this.updateStatusData(null);
     }
 
     clearTimeout() {

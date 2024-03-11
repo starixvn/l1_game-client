@@ -416,7 +416,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-        this.statusHandler.currentStatusData = null;
+        this.statusHandler.clearStatusData();
         this.betItems.forEach((betItem) => {
             betItem.ownBet.string = "0";
         });

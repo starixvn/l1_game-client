@@ -15,9 +15,7 @@ export default class GameBaseFinishHandler implements DataHandler {
 
     handle(data: any) {
         if (data.finish) {
-            this.main.finishShowResult = false;
-            this.main.isDonePayingChip = false;
-            this.main.winnersData = null;
+            this.clearDataBeforeHandleFinish();
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);
             const mainRoomGame = this.main as WebSocketTableGameBase;
@@ -34,6 +32,15 @@ export default class GameBaseFinishHandler implements DataHandler {
                 );
                 this.main.finishShowResult = true;
             });
+        }
+    }
+
+    protected clearDataBeforeHandleFinish() {
+        this.main.finishShowResult = false;
+        this.main.isDonePayingChip = false;
+        this.main.winnersData = null;
+        if (this.main.usingNewSettlement) {
+            this.main.statusHandler?.clearStatusData();
         }
     }
 

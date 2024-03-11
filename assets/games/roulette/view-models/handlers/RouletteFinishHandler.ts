@@ -16,8 +16,7 @@ export default class RouletteFinishHandler extends GameBaseFinishHandler {
             if (!appManager.GAME_IS_SHOWED) {
                 return false;
             }
-            this.main.finishShowResult = false;
-            this.main.isDonePayingChip = false;
+            this.clearDataBeforeHandleFinish();
             this.main.node.activeInHierarchy && this.main.gameAudios.playEndGameAudio();
             this.setNewGameRound(data);
             updateOtherPlayerBalance(data.finish.winningPlayers, this.main);

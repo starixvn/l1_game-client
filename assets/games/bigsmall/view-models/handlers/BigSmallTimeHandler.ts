@@ -47,7 +47,7 @@ export default class BigSmallTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.statusHandler.currentStatusData = null;
+        this.main.statusHandler.clearStatusData();
         appManager.GAME_IS_SHOWED && this.shakeThePlate();
     }
 

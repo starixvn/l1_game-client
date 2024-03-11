@@ -272,7 +272,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     resetDataAndUI() {
         super.resetDataAndUI();
         this.resetThePlatePosition();
-        this.statusHandler.currentStatusData = null;
+        this.statusHandler.clearStatusData();
     }
 
     resetThePlatePosition() {

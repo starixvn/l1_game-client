@@ -512,7 +512,7 @@ export default class GameBase extends GameViewBase {
         this.showWaittingTime(false);
 
         if (this.statusHandler) {
-            this.statusHandler.currentStatusData = null;
+            this.statusHandler.clearStatusData();
         }
     }
 

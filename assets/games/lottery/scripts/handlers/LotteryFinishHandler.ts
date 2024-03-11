@@ -29,7 +29,7 @@ export default class LotteryFinishHandler extends GameBaseFinishHandler {
                 this.main.showWinningBet(bet);
                 this.main.updateUserBalance();
             }
-            this.main.statusHandler.currentStatusData = null;
+            this.main.statusHandler.clearStatusData();
         }
     }
 }
