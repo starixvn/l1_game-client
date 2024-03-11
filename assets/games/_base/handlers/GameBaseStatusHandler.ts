@@ -16,7 +16,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
     handle(data: any) {
         if (data.status) {
-            this.updateStatusData(data);
+            this.updateStatusData(data.status);
 
             const mainRoomGame = this.main as WebSocketTableGameBase;
             if (mainRoomGame?.userProfile) {
@@ -47,7 +47,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
     }
 
     updateStatusData(data: any) {
-        this.currentStatusData = data.status;
+        this.currentStatusData = data;
     }
 
     clearStatusData() {
