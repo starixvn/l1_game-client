@@ -24,8 +24,7 @@ export default class MusicPlayer {
         if (!this.instanceMusic) {
             this.instanceMusic = new MusicPlayer();
             this.instanceMusic.nameSongManager = new NameSongManager({
-                [SystemType.SC1]: ["SC1/tet-1", "SC1/tet-2", "SC1/tet-3", "SC1/tet-4", "SC1/tet-5"],
-                [SystemType.SC2]: ["SC2/new-year-1", "SC2/new-year-2", "SC2/new-year-3", "SC2/new-year-4"]
+                [SystemType.SC1]: ["SC1/song1", "SC1/song2", "SC1/song3", "SC1/song4", "SC1/song5", "SC1/song6", "SC1/song7"]
             });
         }
 
