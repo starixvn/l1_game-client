@@ -2,6 +2,7 @@ const ErrorCodeDictionary = {
     "1000": "errorOccurred",
     "1001": "sessionTimeout",
     "1002": "sessionTimeout",
+    "7001": "sessionTimeout",
     "1007": "errorOccurred",
     "2001": "loginFailed",
     "2002": "accountClosed",

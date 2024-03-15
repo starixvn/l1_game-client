@@ -139,6 +139,19 @@ export function clearStorageMicroSite(isClear: boolean) {
     StorageManager.set(clearStorageMicroSiteKey, isClear);
 }
 
+export function getOperator() {
+    return StorageManager.get("operator");
+}
+
+export function storOperator(data) {
+    StorageManager.set("operator", data);
+}
+
+export function removeOperator() {
+    StorageManager.remove("operator");
+}
+
+
 declare global {
     export interface Window {
         authData: Session;
