@@ -35,6 +35,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
                 // old settlement status data go before "finish" data
                 // show status with delay time
                 this.status(this.currentStatusData.win, this.currentStatusData.bet);
+                this.clearStatusData();
             }
         }
     }
