@@ -156,6 +156,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
         this.finishHandler = new SpecialSeDieFinishHandler(this);
         this.betHandler = new SpecialSeDieBetHandler(this);
         this.statusHandler = new BalancedBettingPoolStatusHandler(this);
+        this.statusHandler.enableDelayShowStatus = false;
     }
 
     initRoundHistory() {
@@ -222,8 +223,7 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     }
 
     showWinningAnimation() {
-        const currentStatusData = this.statusHandler.currentStatusData;
-        currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
+        this.statusHandler.showStatusIfExist();
     }
 
     public highlightLastResult() {

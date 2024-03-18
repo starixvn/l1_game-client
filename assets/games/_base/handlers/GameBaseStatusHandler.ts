@@ -14,6 +14,8 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
     protected timeout: any;
 
+    public enableDelayShowStatus = true;
+
     handle(data: any) {
         if (data.status) {
             this.updateStatusData(data.status);
@@ -28,14 +30,25 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
             }
 
             if (this.main.usingNewSettlement) {
-                if (this.main.timeHandler.isInWaitTime) {
-                    this.main.finishShowResult && this.showStatus(this.currentStatusData.win, this.currentStatusData.bet);
-                }
+                this.handleShowStatusWhenDelayEndGame();
             } else {
-                // old settlement status data go before "finish" data
-                // show status with delay time
-                this.status(this.currentStatusData.win, this.currentStatusData.bet);
-                this.clearStatusData();
+                this.handleShowStatusOldSettlement();
+            }
+        }
+    }
+
+    private handleShowStatusOldSettlement() {
+        if (this.enableDelayShowStatus) {
+            // old settlement status data go before "finish" data
+            // show status with delay time
+            this.status(this.currentStatusData.win, this.currentStatusData.bet);
+        }
+    }
+
+    protected handleShowStatusWhenDelayEndGame() {
+        if (this.main.timeHandler.isInWaitTime) {
+            if (this.main.finishShowResult) {
+                this.showStatusIfExist();
             }
         }
     }

@@ -274,6 +274,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.finishHandler = new BitcoinMasterFinishHandler(this);
         this.betHandler = new BitCoinMasterBetHandler(this);
         this.statusHandler = new BalancedBettingPoolStatusHandler(this);
+        this.statusHandler.enableDelayShowStatus = false;
     }
 
     dragMiniGame() {
@@ -345,9 +346,7 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
             const { settlementResult } = this.currentDataLogs[0];
             this.result.playAnimation(animated);
             if (animated) {
-                const currentStatusData = this.statusHandler.currentStatusData;
-                currentStatusData && this.statusHandler.status(currentStatusData.win, currentStatusData.bet);
-
+                this.statusHandler.showStatusIfExist();
                 const finish = this.finishHandler as GameBaseFinishHandler;
                 payChips(this, settlementResult, null, finish.payChipFlyTime, finish.WinningAnimationDuration);
                 this.finishShowResult = true;
