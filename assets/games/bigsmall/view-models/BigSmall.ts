@@ -4,7 +4,6 @@ import { formatOdds } from "../../../common/helpers/NumberHelper";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
-import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BigSmallBetHistory from "./BigSmallBetHistory";
 import { BigSmallConfigs } from "./BigSmallConfigs";
@@ -155,7 +154,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         this.logsHandler = new BigSmallLogsHandler(this);
         this.finishHandler = new BigSmallFinishHandler(this);
         this.betHandler = new BigSmallBetHandler(this);
-        this.statusHandler = new BalancedBettingPoolStatusHandler(this);
     }
 
     setValueBetAmount() {
@@ -234,7 +232,7 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
     }
 
     showWinningAnimation(data: any) {
-        this.usingNewSettlement && this.statusHandler.showStatusIfExist();
+        this.statusHandler.showStatusIfExist();
         this.resultNode.active = true;
         cc.tween(this.resultNode).to(0.2, { scale: 1.2 }, { easing: "bounceOut" }).to(0.3, { scale: 1, opacity: 255 }).start();
     }
@@ -282,7 +280,6 @@ export default class BigSmall extends BalancedBettingPoolGameBase {
         super.resetDataAndUI();
         this.resetThePlate();
         this.disableResultNode();
-        this.statusHandler.clearStatusData();
         this.betItems.forEach((betItem) => {
             betItem.ownBet.string = "0";
         });

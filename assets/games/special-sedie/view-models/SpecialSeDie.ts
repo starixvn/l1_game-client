@@ -2,7 +2,6 @@ import SedieRoundHistory from "../../../common/round-history/sedie/SedieRoundHis
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
-import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import SpecialSeDieBetHandler from "./handlers/SpecialSeDieBetHandler";
 import SpecialSeDieFinishHandler from "./handlers/SpecialSeDieFinishHandler";
@@ -155,7 +154,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
         this.logsHandler = new SpecialSeDieLogsHandler(this);
         this.finishHandler = new SpecialSeDieFinishHandler(this);
         this.betHandler = new SpecialSeDieBetHandler(this);
-        this.statusHandler = new BalancedBettingPoolStatusHandler(this);
         this.statusHandler.enableDelayShowStatus = false;
     }
 
@@ -272,7 +270,6 @@ export default class SpecialSeDie extends BalancedBettingPoolGameBase {
     resetDataAndUI() {
         super.resetDataAndUI();
         this.resetThePlatePosition();
-        this.statusHandler.clearStatusData();
     }
 
     resetThePlatePosition() {

@@ -46,7 +46,6 @@ export default class SpecialSeDieTimeHandler extends GameBaseTimeHandler {
 
     handleStartingNewGameRound() {
         super.handleStartingNewGameRound();
-        this.main.statusHandler.clearStatusData();
         appManager.GAME_IS_SHOWED && this.shakeThePlate();
         this.main.highlightLastResult();
     }

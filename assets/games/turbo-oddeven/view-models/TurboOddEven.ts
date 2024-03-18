@@ -15,6 +15,7 @@ export default class TurboOddEven extends BigSmall {
     initHandlers() {
         super.initHandlers();
         this.timeHandler = new TurboBigSmallTimeHandler(this);
+        this.statusHandler.enableDelayShowStatus = false;
     }
 
     initMiniPanel(miniPanel: MiniPanel) {

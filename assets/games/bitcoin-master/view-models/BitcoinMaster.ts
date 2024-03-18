@@ -7,7 +7,6 @@ import { InternalEvents } from "../../../managers/InternalEvents";
 import MiniPanel from "../../../mini-games-panel/view-models/MiniPanel";
 import { payChips } from "../../_base/action/PayChipsAction";
 import BalancedBettingPoolGameBase from "../../_base/BalancedBettingPoolGameBase";
-import BalancedBettingPoolStatusHandler from "../../_base/handlers/BalancedBettingPoolStatusHandler";
 import GameBaseFinishHandler from "../../_base/handlers/GameBaseFinishHandler";
 import BalancedBettingPoolBetItem from "../../_base/view-models/BalancedBettingPoolBetItem";
 import BitcoinMasterBetHistory from "./BitcoinMasterBetHistory";
@@ -273,7 +272,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
         this.logsHandler = new BitcoinMasterLogsHandler(this);
         this.finishHandler = new BitcoinMasterFinishHandler(this);
         this.betHandler = new BitCoinMasterBetHandler(this);
-        this.statusHandler = new BalancedBettingPoolStatusHandler(this);
         this.statusHandler.enableDelayShowStatus = false;
     }
 
@@ -415,7 +413,6 @@ export default class BitcoinMaster extends BalancedBettingPoolGameBase {
 
     resetDataAndUI() {
         super.resetDataAndUI();
-        this.statusHandler.clearStatusData();
         this.betItems.forEach((betItem) => {
             betItem.ownBet.string = "0";
         });
