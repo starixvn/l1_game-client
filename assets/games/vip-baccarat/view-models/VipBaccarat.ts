@@ -69,6 +69,7 @@ export default class VipBaccarat extends SocketIOTableGameBase {
     showScoreBoardNextDot = false;
     protected miniRoundHistory: VipBaccaratMiniRoundHistory;
     override syncShowingMD5WithResult = true;
+    override usingNewSettlement = false;
 
     constructor() {
         super();

@@ -23,6 +23,8 @@ export default class Baccarat extends VipBaccarat {
     @property({ type: cc.Node, visible: false, override: true })
     miniRoundHistoryContainer: cc.Node = null;
 
+    override usingNewSettlement = true;
+
     protected internalInit() {
         super.internalInit();
         this.gameId = BaccaratId;
