@@ -22,9 +22,7 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
 
             const mainRoomGame = this.main as WebSocketTableGameBase;
             if (mainRoomGame?.userProfile) {
-                if (this.main.shouldShowWinningEffect()) {
-                    this.main.showPayoutForLoginPlayer(mainRoomGame);
-                }
+                this.handleStatusForRoomGame(mainRoomGame);
 
                 return;
             }
@@ -34,6 +32,12 @@ export class GameBaseStatusHandler implements IGameBaseStatusHandler {
             } else {
                 this.handleShowStatusOldSettlement();
             }
+        }
+    }
+
+    private handleStatusForRoomGame(mainRoomGame: WebSocketTableGameBase) {
+        if (this.main.usingNewSettlement && this.main.shouldShowWinningEffect()) {
+            this.main.showPayoutForLoginPlayer(mainRoomGame);
         }
     }
 
