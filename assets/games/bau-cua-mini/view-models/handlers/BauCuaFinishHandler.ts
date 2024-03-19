@@ -23,6 +23,7 @@ export default class BauCuaFinishHandler extends GameBaseFinishHandler {
                 .delay(1)
                 .call(() => {
                     onFinishHandlingData();
+                    this.main.statusHandler.showStatusIfExist();
                     this.main.highlightWinningBetItems(true);
                     this.main.addLogs();
                 })
