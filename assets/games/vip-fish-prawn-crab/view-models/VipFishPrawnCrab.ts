@@ -75,6 +75,7 @@ export default class VipFishPrawnCrab extends SocketIOTableGameBase {
 
     private statsComponent: VipFishPrawnCrabStats;
     public finishShakeThePlate = false;
+    override usingNewSettlement = true;
 
     constructor() {
         super();
