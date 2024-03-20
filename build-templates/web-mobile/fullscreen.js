@@ -318,23 +318,46 @@ function getCurrentLanguage() {
     return language;
 }
 
+function getOperator() {
+    let operator;
+    try {
+        if (localStorage.getItem("current_operator")) {
+            operator = localStorage.getItem("current_operator");
+        }
+    } catch (e) {}
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("op")) {
+        operator = urlParams.get("op");
+    }
+    return operator;
+}
+
 function updateLocalizedImages() {
     const splashText = document.getElementById("splash_text");
     const language = getCurrentLanguage();
+    const operator = getOperator();
+    console.log("operator", operator);
     let suffixSite;
     let rel = document.getElementById("favicon");
-    if (window.envConfig.systemType === "SC2") {
-        document.title = "Vgaming";
-        suffixSite = "_sc2";
-        rel.href = "favicon_vgaming.ico?v=3";
-    } else {
-        rel.href = "favicon.ico?v=3";
-        if (language === "vi") {
-            document.title = "Cổng Game SABA";
-        } else {
-            document.title = "SABA.games";
-        }
-        suffixSite = "_sc1";
+
+    switch (operator) {
+        case "SP":
+            document.title = "SabaPlay";
+            suffixSite = "_sc2";
+            rel.href = "favicon_sabaplay.ico?v=4";
+            break;
+        default:
+            if (window.envConfig.systemType === "SC2") {
+                document.title = "Vgaming";
+                suffixSite = "_sc2";
+                rel.href = "favicon_vgaming.ico?v=4";
+            } else {
+                rel.href = "favicon.ico?v=4";
+                const title = language === "vi" ? "Cổng Game SABA" : "SABA.games";
+                document.title = title;
+                suffixSite = "_sc1";
+            }
+            break;
     }
 
     const className = `splash_text${suffixSite}_${language}`;
@@ -344,9 +367,14 @@ function updateLocalizedImages() {
 function updateSplashLogo() {
     const splash = document.getElementById("splash_logo");
     const splashText = document.getElementById("splash_text");
-    const suffix = window.envConfig.systemType === "SC2" ? "_Vgaming" : "";
+    const suffix = window.envConfig.systemType === "SC2" ? getSuffixSC2() : "";
     splash.className = `splash${suffix}`;
     splashText.className = `splash_text${suffix}`;
+}
+
+function getSuffixSC2() {
+    const operator = getOperator();
+    return operator === "SP" ? "_sabaplay" : "_Vgaming";
 }
 
 updateSplashLogo();

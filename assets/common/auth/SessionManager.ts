@@ -140,15 +140,15 @@ export function clearStorageMicroSite(isClear: boolean) {
 }
 
 export function getOperator() {
-    return StorageManager.get("operator");
+    return StorageManager.get("current_operator");
 }
 
-export function storOperator(data) {
-    StorageManager.set("operator", data);
+export function storeOperator(data) {
+    StorageManager.set("current_operator", data);
 }
 
 export function removeOperator() {
-    StorageManager.remove("operator");
+    StorageManager.remove("current_operator");
 }
 
 

@@ -9,7 +9,7 @@ const defaultConfig = {
     env: "",
     sentry: {
         url: "",
-        env: "LOCAL1"
+        env: "LOCAL2"
     },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",
