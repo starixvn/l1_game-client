@@ -340,7 +340,7 @@ function updateLocalizedImages() {
     let suffixSite;
     let rel = document.getElementById("favicon");
 
-    switch (operator) {
+    switch (operator.toUpperCase()) {
         case "SP":
             document.title = "SabaPlay";
             suffixSite = "_sc2";
@@ -374,7 +374,7 @@ function updateSplashLogo() {
 
 function getSuffixSC2() {
     const operator = getOperator();
-    return operator === "SP" ? "_sabaplay" : "_Vgaming";
+    return operator.toUpperCase() === "SP" ? "_sabaplay" : "_Vgaming";
 }
 
 updateSplashLogo();
