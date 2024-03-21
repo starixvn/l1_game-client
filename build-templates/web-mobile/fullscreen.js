@@ -319,7 +319,7 @@ function getCurrentLanguage() {
 }
 
 function getOperator() {
-    let operator;
+    let operator = "";
     try {
         if (localStorage.getItem("current_operator")) {
             operator = localStorage.getItem("current_operator");
