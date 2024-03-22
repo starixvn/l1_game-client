@@ -23,8 +23,8 @@ export default class MicrositeGame extends BaseMicrositeGame {
         if (!auData.ss) {
             return "";
         }
-
         const directMode = SessionManager.getDirectMode();
+        const operator = SessionManager.getOperator();
         const audio = AudioManager.getInstance();
         const params = {
             ss: auData.ss,
@@ -36,7 +36,8 @@ export default class MicrositeGame extends BaseMicrositeGame {
             purl: GameUtils.base64Encode(window.location.href),
             musicEnable: audio.musicEnabled,
             sfxEnable: audio.sfxEnabled,
-            isUserGesture: audio.isUserGesture
+            isUserGesture: audio.isUserGesture,
+            op: operator
         };
 
         const searchParams = new URLSearchParams();

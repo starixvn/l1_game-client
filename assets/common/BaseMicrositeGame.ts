@@ -43,6 +43,7 @@ export type MicrositeGameParams = {
     clearQueryStringOnUrl?: boolean;
     splashEnabled?: boolean;
     isUserGesture?: boolean;
+    operator?: string;
 };
 
 const WebviewEventType = {
@@ -136,6 +137,8 @@ export default class BaseMicrositeGame extends cc.Component {
             window.isUserGesture = true;
         }
 
+        this.handleOperator();
+
         this.handleChangeAudio(data);
     };
 
@@ -166,6 +169,13 @@ export default class BaseMicrositeGame extends cc.Component {
     private handleChangeAudio(data: MicrositeGameParams) {
         data.musicEnable !== undefined && StorageManager.set(this.MusicStorageKey, data.musicEnable);
         data.sfxEnable !== undefined && StorageManager.set(this.SFXStorageKey, data.sfxEnable);
+    }
+
+    private handleOperator() {
+        const operator = SessionManager.getOperator();
+        if (operator) {
+            this.postMessageToMicrosite({ op: operator });
+        }
     }
 
     private handleSignOut() {
