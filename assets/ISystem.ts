@@ -3,7 +3,7 @@ export interface ISystem {
 }
 
 export function isSabaPlay(operator: string) {
-    return operator.toUpperCase() === SystemType.SP;
+    return operator?.toUpperCase() === SystemType.SP;
 }
 
 export enum SystemType {
