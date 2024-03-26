@@ -59,7 +59,7 @@ export default class MainSplash extends cc.Component {
         const operator = sessionManager.getOperator();
         this.sloganSC1.active = splashConfig.enabledSC1;
         this.sloganSC2.active = !splashConfig.enabledSC1 && !isSabaPlay(operator);
-        this.sloganSabaPlay.active = !splashConfig.enabledSC1 && isSabaPlay(operator);
+        this.sloganSabaPlay.active = isSabaPlay(operator);
     }
 
     private initUIListeners() {

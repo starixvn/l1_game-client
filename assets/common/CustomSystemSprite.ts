@@ -1,4 +1,4 @@
-import { SystemType, isSabaPlay } from "../ISystem";
+import { SystemType } from "../ISystem";
 import { ComponentSystem, ICashSystem, ICreditSystem } from "../System";
 import * as sessionManager from "../common/auth/SessionManager";
 
@@ -23,8 +23,8 @@ export default class CustomSystemSprite extends ComponentSystem implements ICred
 
     onLoad() {
         const operator = sessionManager.getOperator();
-        this.env = isSabaPlay(operator || "") ? SystemType.SP : this.env;
         const component = this.node.getComponent(cc.Sprite);
-        component.spriteFrame = this.atlas.getSpriteFrame(`${this.spriteName}-${this.env}`);
+        component.spriteFrame =
+            this.atlas.getSpriteFrame(`${this.spriteName}-${operator}`) ?? this.atlas.getSpriteFrame(`${this.spriteName}-${this.env}`);
     }
 }
