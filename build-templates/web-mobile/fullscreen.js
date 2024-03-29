@@ -333,32 +333,45 @@ function getOperator() {
 }
 
 function updateLocalizedImages() {
-    const splashText = document.getElementById("splash_text");
     const language = getCurrentLanguage();
     const operator = getOperator();
     console.log("operator", operator);
-    let suffixSite;
-    let rel = document.getElementById("favicon");
+
+    let title, favicon;
 
     switch (operator?.toUpperCase()) {
         case "SP":
-            document.title = "SabaPlay";
-            suffixSite = "_sc2";
-            rel.href = "favicon_sabaplay.ico?v=4";
+            title = "SabaPlay";
+            favicon = "favicon_sabaplay.ico?v=4";
             break;
         case "VG":
-            document.title = "Vgaming";
-            suffixSite = "_sc2";
-            rel.href = "favicon_vgaming.ico?v=4";
+            title = "Vgaming";
+            favicon = "favicon_vgaming.ico?v=4";
             break;
         case "SG":
-            rel.href = "favicon.ico?v=4";
-            const title = language === "vi" ? "Cổng Game SABA" : "SABA.games";
-            document.title = title;
-            suffixSite = "_sc1";
+            title = language === "vi" ? "Cổng Game SABA" : "SABA.games";
+            favicon = "favicon.ico?v=4";
+            break;
+        default:
+            title = "Default Title";
+            favicon = "default_favicon.ico";
             break;
     }
 
+    setTitleAndFavicon(title, favicon);
+    setSplashTextClass(language);
+}
+
+function setTitleAndFavicon(title, favicon) {
+    document.title = title;
+    const rel = document.getElementById("favicon");
+    rel.href = favicon;
+}
+
+function setSplashTextClass(language) {
+    const splashText = document.getElementById("splash_text");
+    const systemType = window.envConfig.systemType;
+    const suffixSite = systemType === "SC2" ? "_sc2" : "_sc1";
     const className = `splash_text${suffixSite}_${language}`;
     splashText.className += ` ${className}`;
 }
@@ -378,7 +391,7 @@ function getOperatorSuffix() {
         VG: "_Vgaming",
         SG: ""
     };
-    return operators.hasOwnProperty(operator) ? operators[operator] : undefined;
+    return operators.hasOwnProperty(operator) ? operators[operator] : "_other";
 }
 
 updateSplashLogo();

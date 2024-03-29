@@ -1,6 +1,6 @@
 import { appContainer, lazyInject } from "../../Application";
 import { i18n } from "../../ClientModules";
-import { isSGOperator, isSabaPlayOperator, isVGOperator } from "../../ISystem";
+import { isOtherOperator, isSGOperator, isSabaPlayOperator, isVGOperator } from "../../ISystem";
 import SocketIOController from "../../SocketIOController";
 import GameUtils, { BannerType } from "../../common/GameUtils";
 import * as sessionManager from "../../common/auth/SessionManager";
@@ -40,6 +40,9 @@ export default class MainSplash extends cc.Component {
     sloganSabaPlay: cc.Node = null;
 
     @property(cc.Node)
+    sloganOther: cc.Node = null;
+
+    @property(cc.Node)
     noticeContainer: cc.Node = null;
 
     @property(cc.Prefab)
@@ -60,6 +63,7 @@ export default class MainSplash extends cc.Component {
         this.sloganSC1.active = isSGOperator(operator);
         this.sloganSC2.active = isVGOperator(operator);
         this.sloganSabaPlay.active = isSabaPlayOperator(operator);
+        this.sloganOther.active = isOtherOperator(operator);
     }
 
     private initUIListeners() {
