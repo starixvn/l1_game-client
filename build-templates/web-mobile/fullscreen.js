@@ -340,23 +340,22 @@ function updateLocalizedImages() {
     let suffixSite;
     let rel = document.getElementById("favicon");
 
-    switch (operator.toUpperCase()) {
+    switch (operator?.toUpperCase()) {
         case "SP":
             document.title = "SabaPlay";
             suffixSite = "_sc2";
             rel.href = "favicon_sabaplay.ico?v=4";
             break;
-        default:
-            if (window.envConfig.systemType === "SC2") {
-                document.title = "Vgaming";
-                suffixSite = "_sc2";
-                rel.href = "favicon_vgaming.ico?v=4";
-            } else {
-                rel.href = "favicon.ico?v=4";
-                const title = language === "vi" ? "Cổng Game SABA" : "SABA.games";
-                document.title = title;
-                suffixSite = "_sc1";
-            }
+        case "VG":
+            document.title = "Vgaming";
+            suffixSite = "_sc2";
+            rel.href = "favicon_vgaming.ico?v=4";
+            break;
+        case "SG":
+            rel.href = "favicon.ico?v=4";
+            const title = language === "vi" ? "Cổng Game SABA" : "SABA.games";
+            document.title = title;
+            suffixSite = "_sc1";
             break;
     }
 
@@ -367,14 +366,19 @@ function updateLocalizedImages() {
 function updateSplashLogo() {
     const splash = document.getElementById("splash_logo");
     const splashText = document.getElementById("splash_text");
-    const suffix = window.envConfig.systemType === "SC2" ? getSuffixSC2() : "";
+    const suffix = getOperatorSuffix();
     splash.className = `splash${suffix}`;
     splashText.className = `splash_text${suffix}`;
 }
 
-function getSuffixSC2() {
-    const operator = getOperator();
-    return operator.toUpperCase() === "SP" ? "_sabaplay" : "_Vgaming";
+function getOperatorSuffix() {
+    const operator = getOperator()?.toUpperCase();
+    const operators = {
+        SP: "_sabaplay",
+        VG: "_Vgaming",
+        SG: ""
+    };
+    return operators.hasOwnProperty(operator) ? operators[operator] : undefined;
 }
 
 updateSplashLogo();
