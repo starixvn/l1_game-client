@@ -1,6 +1,6 @@
 import { appContainer, lazyInject } from "../../Application";
 import { i18n } from "../../ClientModules";
-import { isOtherOperator, isSGOperator, isSabaPlayOperator, isVGOperator } from "../../ISystem";
+import { OperatorAlias } from "../../ISystem";
 import SocketIOController from "../../SocketIOController";
 import GameUtils, { BannerType } from "../../common/GameUtils";
 import * as sessionManager from "../../common/auth/SessionManager";
@@ -59,11 +59,22 @@ export default class MainSplash extends cc.Component {
     protected onLoad(): void {
         this.initUIListeners();
         this.requestSSO();
-        const operator = sessionManager.getOperator();
-        this.sloganSC1.active = isSGOperator(operator);
-        this.sloganSC2.active = isVGOperator(operator);
-        this.sloganSabaPlay.active = isSabaPlayOperator(operator);
-        this.sloganOther.active = isOtherOperator(operator);
+        const operator = sessionManager.getOperator()?.toUpperCase();
+        this.sloganSC1.active = this.sloganSC2.active = this.sloganSabaPlay.active = this.sloganOther.active = false;
+        switch (operator) {
+            case OperatorAlias.SG:
+                this.sloganSC1.active = true;
+                break;
+            case OperatorAlias.VG:
+                this.sloganSC2.active = true;
+                break;
+            case OperatorAlias.SP:
+                this.sloganSabaPlay.active = true;
+                break;
+            default:
+                this.sloganOther.active = true;
+                break;
+        }
     }
 
     private initUIListeners() {

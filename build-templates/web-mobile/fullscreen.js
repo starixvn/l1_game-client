@@ -334,22 +334,26 @@ function getOperator() {
 
 function updateLocalizedImages() {
     const language = getCurrentLanguage();
-    const operator = getOperator();
+    const operator = getOperator().toUpperCase();
     console.log("operator", operator);
+    const OperatorAlias = {
+        SP: "SP",
+        VG: "VG",
+        SG: "SG",
+    };
 
     let title, favicon;
-
-    switch (operator?.toUpperCase()) {
-        case "SP":
+    switch (OperatorAlias[operator]) {
+        case OperatorAlias.SP:
             title = "SabaPlay";
             favicon = "favicon_sabaplay.ico?v=4";
             break;
-        case "VG":
+        case OperatorAlias.VG:
             title = "Vgaming";
             favicon = "favicon_vgaming.ico?v=4";
             break;
-        case "SG":
-            title = language === "vi" ? "Cổng Game SABA" : "SABA.games";
+        case OperatorAlias.SG:
+            title = (language === "vi") ? "Cổng Game SABA" : "SABA.games";
             favicon = "favicon.ico?v=4";
             break;
         default:
@@ -377,19 +381,19 @@ function setSplashTextClass(language) {
 }
 
 function updateSplashLogo() {
+    const operator = getOperator().toUpperCase();
     const splash = document.getElementById("splash_logo");
     const splashText = document.getElementById("splash_text");
-    const suffix = getOperatorSuffix();
+    const suffix = getCSSClassName(operator);
     splash.className = `splash${suffix}`;
     splashText.className = `splash_text${suffix}`;
 }
 
-function getOperatorSuffix() {
-    const operator = getOperator()?.toUpperCase();
+function getCSSClassName(operator) {  
     const operators = {
         SP: "_sabaplay",
         VG: "_Vgaming",
-        SG: ""
+        SG: "",
     };
     return operators.hasOwnProperty(operator) ? operators[operator] : "_other";
 }
