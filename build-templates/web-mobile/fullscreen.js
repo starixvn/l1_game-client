@@ -395,7 +395,11 @@ function getCSSClassName(operator) {
         VG: "_Vgaming",
         SG: "",
     };
-    return operators.hasOwnProperty(operator) ? operators[operator] : "_other";
+    if (operators.hasOwnProperty(operator)) {
+        return operators[operator];
+    } else {
+        return window.envConfig.systemType === "SC2" ? "_other_sc2" : "_other_sc1";
+    }
 }
 
 updateSplashLogo();
