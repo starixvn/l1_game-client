@@ -54,7 +54,6 @@ export default class Splash extends cc.Component {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("op")) {
             const operator = urlParams.get("op");
-            console.log("enableMicrositeGameIframe", operator);
             SessionManager.storeOperator(operator);
         }
         if (urlParams.has("gameId")) {
