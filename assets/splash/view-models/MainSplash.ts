@@ -40,7 +40,10 @@ export default class MainSplash extends cc.Component {
     sloganSabaPlay: cc.Node = null;
 
     @property(cc.Node)
-    sloganOther: cc.Node = null;
+    sloganOtherVG: cc.Node = null;
+
+    @property(cc.Node)
+    sloganOtherSG: cc.Node = null;
 
     @property(cc.Node)
     noticeContainer: cc.Node = null;
@@ -59,8 +62,8 @@ export default class MainSplash extends cc.Component {
     protected onLoad(): void {
         this.initUIListeners();
         this.requestSSO();
+        this.deactivateAllSlogans();
         const operator = sessionManager.getOperator()?.toUpperCase();
-        this.sloganSC1.active = this.sloganSC2.active = this.sloganSabaPlay.active = this.sloganOther.active = false;
         switch (operator) {
             case OperatorAlias.SG:
                 this.sloganSC1.active = true;
@@ -72,9 +75,22 @@ export default class MainSplash extends cc.Component {
                 this.sloganSabaPlay.active = true;
                 break;
             default:
-                this.sloganOther.active = true;
+                this.activateOtherSlogans();
                 break;
         }
+    }
+
+    private deactivateAllSlogans(): void {
+        this.sloganSC1.active = false;
+        this.sloganSC2.active = false;
+        this.sloganSabaPlay.active = false;
+        this.sloganOtherVG.active = false;
+        this.sloganOtherSG.active = false;
+    }
+
+    private activateOtherSlogans(): void {
+        this.sloganOtherVG.active = !splashConfig.enabledSC1;
+        this.sloganOtherSG.active = splashConfig.enabledSC1;
     }
 
     private initUIListeners() {

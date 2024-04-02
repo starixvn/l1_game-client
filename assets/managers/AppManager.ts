@@ -242,7 +242,6 @@ class AppManager {
             operator = urlParams.get("op");
         }
         sessionManager.storeOperator(operator);
-        console.log("initOperator", operator);
     }
 
     private initShowHideAppEvent() {

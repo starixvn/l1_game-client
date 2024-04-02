@@ -334,8 +334,8 @@ function getOperator() {
 
 function updateLocalizedImages() {
     const language = getCurrentLanguage();
-    const operator = getOperator().toUpperCase();
-    console.log("operator", operator);
+    const operator = getOperator()?.toUpperCase();
+
     const OperatorAlias = {
         SP: "SP",
         VG: "VG",
