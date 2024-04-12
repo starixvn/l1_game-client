@@ -2,23 +2,23 @@ import GameUtils from "../../../common/GameUtils";
 import { RoundHistory } from "../../_base_new/models/RoundHistory";
 import { Settlement } from "../../_base_new/models/Settlement";
 import NewGameRoomBase from "../../_new/_base/NewGameRoomBase";
-import FruitSlotAnimatedTimer from "../../fruit-slot/view-models/FruitSlotAnimatedTimer";
-import FruitSlotBetItem from "../../fruit-slot/view-models/FruitSlotBetItem";
-import FruitSlotSpinItem from "../../fruit-slot/view-models/FruitSlotSpinItem";
 import { CountdownAnimationType } from "../FootballSlotType";
 import { FootballSlotFinishModel, handleAfterSettlementResult, handleShowResult } from "../actions/FootballSlotFinishActions";
 import { FootballSlotBetHandler } from "../event-handlers/FootballSlotBetHandler";
 import FootballSlotTimeHandler from "../event-handlers/FootballSlotTimeHandler";
 import FootballSlotGameData from "../event-models/FootballGameData";
 import { FootballSlotRoundHistory } from "../event-models/FootballSlotRoundHistory";
+import FootballSlotAnimatedTimer from "./FootballSlotAnimatedTimer";
+import FootballSlotBetItem from "./FootballSlotBetItem";
 import FootballSlotBetOptionsUI from "./FootballSlotBetOptionsUI";
 import { FootballSlotConfig } from "./FootballSlotConfig";
 import FootballSlotMiniRoundHistory from "./FootballSlotMiniRoundHistory";
+import FootballSlotSpinItem from "./FootballSlotSpinItem";
 import FootballSlotStatistic from "./FootballSlotStatistic";
 
 
 const { ccclass, property } = cc._decorator;
-export const FruitSlotGameId = 59;
+export const FootballSlotGameId = 79;
 
 @ccclass
 export default class FootballSlot extends NewGameRoomBase {
@@ -41,10 +41,10 @@ export default class FootballSlot extends NewGameRoomBase {
     shadowChip: cc.SpriteFrame = null;
 
     @property({ type: [cc.Component] })
-    protected bettingAreas: FruitSlotBetItem[] = [];
+    protected bettingAreas: FootballSlotBetItem[] = [];
 
-    @property({ type: FruitSlotSpinItem })
-    spinItems: FruitSlotSpinItem[] = [];
+    @property({ type: FootballSlotSpinItem })
+    spinItems: FootballSlotSpinItem[] = [];
 
     @property(sp.Skeleton)
     animCountdownSkeleton: sp.Skeleton[] = [];
@@ -58,7 +58,7 @@ export default class FootballSlot extends NewGameRoomBase {
     public miniRoundHistory: FootballSlotMiniRoundHistory = null;
     public statistic: FootballSlotStatistic = null;
     public timeHandler: FootballSlotTimeHandler;
-    public animatedTime: FruitSlotAnimatedTimer = null;
+    public animatedTime: FootballSlotAnimatedTimer = null;
     public isShowAnimSettlement = false;
 
     currentBetChoices: any = {};
@@ -71,7 +71,7 @@ export default class FootballSlot extends NewGameRoomBase {
     previousRoundBetChoices: any = {};
     constructor() {
         super();
-        this.gameId = FruitSlotGameId;
+        this.gameId = FootballSlotGameId;
         this.setConfig(new FootballSlotConfig());
     }
 

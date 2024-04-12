@@ -4,6 +4,6 @@ export class FootballSlotConfig implements GameConfigBase {
     minBetTime = 1;
     fullTime = 42;
     betTime = 30;
-    stopBetTime = 5;
+    stopBetTime = 3;
     waitTime = 20;
 }

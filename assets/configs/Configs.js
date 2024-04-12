@@ -1,15 +1,15 @@
 const defaultConfig = {
-    systemType: "VG2",
+    systemType: "SC",
     ssl: true,
     serverDomainMapper: {
         localhost: "lumigame.com",
         "10.5.10.31": "lumigame.com"
     },
-    subDomain: "l2-proxy2",
+    subDomain: "l1-proxy3",
     env: "",
     sentry: {
         url: "",
-        env: "LOCAL2"
+        env: "LOCAL3"
     },
     gameAnalytics: {
         clientId: "093146669bf12df12eeedd2d57ddb469",

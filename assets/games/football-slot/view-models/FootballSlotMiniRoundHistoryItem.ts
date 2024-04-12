@@ -23,7 +23,7 @@ export default class FootballSlotMiniRoundHistoryItem extends cc.Component {
             return;
         }
         const { result, settlementResult } = data;
-        const symbol = result.symbols[0] === "bar" ? "bar100" : result.symbols[0];
+        const symbol = result.symbols[0] === "cup" ? "cup100" : result.symbols[0];
         this.symbol.spriteFrame = this.atlas.getSpriteFrame(`item_${result.isLucky ? "lucky" : symbol}`);
         const bigSmallColor = settlementResult.big ? "#fe3a0c" : "#00e5ff";
         this.bigSmall.active = true;

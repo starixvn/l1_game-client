@@ -1,9 +1,9 @@
 import { lodash } from "../../../ClientModules";
-import FruitSlotBetItem from "../../fruit-slot/view-models/FruitSlotBetItem";
 import FruitSlotLedLightItem from "../../fruit-slot/view-models/FruitSlotLedLightItem";
 import FootballSlotTimeHandler from "../event-handlers/FootballSlotTimeHandler";
 import { FootballSlotRoundHistory } from "../event-models/FootballSlotRoundHistory";
 import FootballSlot from "../view-models/FootballSlot";
+import FootballSlotBetItem from "../view-models/FootballSlotBetItem";
 import FootballSlotBetOptionsUI from "../view-models/FootballSlotBetOptionsUI";
 
 
@@ -102,7 +102,7 @@ export const highlightBigSmallWinning = (betOptionsUI: FootballSlotBetOptionsUI)
     const bigSmallWining = finish.result.bigSmall.choice;
     cc.tween(betOptionsUI?.betItems)
         .call(() => {
-            betOptionsUI?.betItems?.forEach((betItem: FruitSlotBetItem) => {
+            betOptionsUI?.betItems?.forEach((betItem: FootballSlotBetItem) => {
                 const nodeName = betItem.node.name;
                 if (nodeName === bigSmallWining) {
                     betItem.node.opacity = 255;
@@ -117,7 +117,7 @@ export const highlightWinningChoice = (betOptionsUI: FootballSlotBetOptionsUI) =
     const choiceWining = getWinningOption(finish.result.symbols[0]);
     cc.tween(betOptionsUI?.betItems)
         .call(() => {
-            betOptionsUI?.betItems?.forEach((betItem: FruitSlotBetItem) => {
+            betOptionsUI?.betItems?.forEach((betItem: FootballSlotBetItem) => {
                 const nodeName = betItem.node.name;
                 if (nodeName === choiceWining) {
                     betItem.node.opacity = 255;
@@ -131,7 +131,7 @@ export const highlightWinningChoice = (betOptionsUI: FootballSlotBetOptionsUI) =
 export const highlightWinningSymbol =
     (betOptionsUI: FootballSlotBetOptionsUI) =>
     (symbols: string, isAnimated = true) => {
-        betOptionsUI?.betItems?.forEach((betItem: FruitSlotBetItem) => {
+        betOptionsUI?.betItems?.forEach((betItem: FootballSlotBetItem) => {
             const nodeName = betItem.node.name;
             if (nodeName === symbols) {
                 betItem.node.opacity = 255;
@@ -181,7 +181,7 @@ export const spinItemAnimation = (game: FootballSlot) => async (finish: any, tim
     const firstSpinTimeDuration = 6.5;
 
     setBgVisibility(game.betOptionsUI.bgLockSpin, false);
-    game.betOptionsUI?.betItems?.forEach((betItem: FruitSlotBetItem) => {
+    game.betOptionsUI?.betItems?.forEach((betItem: FootballSlotBetItem) => {
         betItem.node.opacity = 150;
     });
 

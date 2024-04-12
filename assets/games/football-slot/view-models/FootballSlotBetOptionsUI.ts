@@ -1,19 +1,19 @@
 import AudioManager from "../../../common/audio/AudioManager";
-import FruitSlotBetItem from "../../fruit-slot/view-models/FruitSlotBetItem";
-import FruitSlotLedLightItem from "../../fruit-slot/view-models/FruitSlotLedLightItem";
-import FruitSlotSpinItem from "../../fruit-slot/view-models/FruitSlotSpinItem";
 import { setBgVisibility } from "../actions/FootballSlotWinningAction";
 import FootballSlot from "./FootballSlot";
+import FootballSlotBetItem from "./FootballSlotBetItem";
+import FootballSlotLedLightItem from "./FootballSlotLedLightItem";
+import FootballSlotSpinItem from "./FootballSlotSpinItem";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class FootballSlotBetOptionsUI extends cc.Component {
-    @property({ type: FruitSlotBetItem })
-    betItems: FruitSlotBetItem[] = [];
+    @property({ type: FootballSlotBetItem })
+    betItems: FootballSlotBetItem[] = [];
 
-    @property({ type: FruitSlotSpinItem })
-    spinItems: FruitSlotSpinItem[] = [];
+    @property({ type: FootballSlotSpinItem })
+    spinItems: FootballSlotSpinItem[] = [];
 
     @property(cc.Animation)
     bettingAnimation: cc.Animation = null;
@@ -31,7 +31,7 @@ export default class FootballSlotBetOptionsUI extends cc.Component {
     ledZone: cc.Node = null;
 
     main: FootballSlot;
-    ledSpin: FruitSlotLedLightItem = null;
+    ledSpin: FootballSlotLedLightItem = null;
 
     @property(cc.AudioSource)
     singleChipAudio: cc.AudioSource = null;
