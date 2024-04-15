@@ -1,10 +1,10 @@
 import { lodash } from "../../../ClientModules";
-import FruitSlotLedLightItem from "../../fruit-slot/view-models/FruitSlotLedLightItem";
 import FootballSlotTimeHandler from "../event-handlers/FootballSlotTimeHandler";
 import { FootballSlotRoundHistory } from "../event-models/FootballSlotRoundHistory";
 import FootballSlot from "../view-models/FootballSlot";
 import FootballSlotBetItem from "../view-models/FootballSlotBetItem";
 import FootballSlotBetOptionsUI from "../view-models/FootballSlotBetOptionsUI";
+import FootballSlotLedLightItem from "../view-models/FootballSlotLedLightItem";
 
 
 export const getWinningOption = (choice: string) => {
@@ -163,7 +163,7 @@ export const playLedLightAnimation = async (betOptionsUI: FootballSlotBetOptions
                         for (; index < nextIndex; index++) {
                             const position = index % numberOfSymbols;
                             if (betOptionsUI?.ledZone) {
-                                betOptionsUI?.ledZone.children[position].getComponent(FruitSlotLedLightItem)?.setHighlightItems();
+                                betOptionsUI?.ledZone.children[position].getComponent(FootballSlotLedLightItem)?.setHighlightItems();
                             }
                         }
                     }

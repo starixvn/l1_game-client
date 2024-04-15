@@ -6,9 +6,9 @@ import { userManager } from "../../../common/user/UserManager";
 import GameRoomBaseBetHandler from "../../_base/handlers/GameRoomBaseBetHandler";
 import WebSocketTableGameBase from "../../_base/WebSocketTableGameBase";
 import { updatePreviousBets } from "../../_base_new/actions/BetAction";
-import FruitSlotChipView from "../../fruit-slot/view-models/FruitSlotChipView";
 import { ChipType } from "../FootballSlotType";
 import FootballSlot from "../view-models/FootballSlot";
+import FootballSlotChipView from "../view-models/FootballSlotChipView";
 
 
 export class FootballSlotBetHandler extends GameRoomBaseBetHandler {
@@ -246,7 +246,7 @@ export class FootballSlotBetHandler extends GameRoomBaseBetHandler {
         chipStack.scaleY = this.chipScaleY;
 
         chipStack.children.forEach((child) => {
-            child.getComponent(FruitSlotChipView)?.applyForSmallChip();
+            child.getComponent(FootballSlotChipView)?.applyForSmallChip();
         });
         const oldChipStack = destNode.getChildByName(nameChipStack);
         oldChipStack && destNode.removeChild(oldChipStack);
