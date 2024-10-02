@@ -76,6 +76,10 @@ export default class BaseMicrositeGame extends cc.Component {
         );
     }
 
+    setCanvasVisibilty(active: boolean) {
+        GameUtils.setCanvasVisibilty(active);
+    }
+
     protected onDestroy(): void {
         window.microsite = {};
         window.removeEventListener("message", this.handleEvent);
@@ -100,6 +104,7 @@ export default class BaseMicrositeGame extends cc.Component {
             window.location.replace(data.replaceUrl);
         }
         if (data.splashEnabled) {
+            this.setCanvasVisibilty(false);
             this.handleUserGesturePage();
             this.handleClearStorage();
             const className = "microsite-iframe";
@@ -205,6 +210,7 @@ export default class BaseMicrositeGame extends cc.Component {
             await joinGameHelper.joinGameIsNotMiniGame(gameId, this.socketIOControler);
         } else {
             cc.director.loadScene("Lobby", () => {
+                this.setCanvasVisibilty(true);
                 GameUtils.openGame(joinGameHelper.getGameId(gameId), appManager.miniPanel);
             });
         }

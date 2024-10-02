@@ -96,7 +96,8 @@ export default class SocketIOTableGameBase extends WebSocketTableGameBase {
     createCommonBetData() {
         return {
             amount: this.currentBet,
-            username: userManager.userName
+            username: userManager.userName,
+            clientSentTime: new Date()
         };
     }
 

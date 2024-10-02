@@ -51,15 +51,11 @@ function toggleFullScreen() {
     reloadMicrositeWhenSSO();
 }
 
-let timeoutAddress;
 function showAddressBar() {
-    clearTimeout(timeoutAddress);
-    timeoutAddress = setTimeout(function () {
-        window.scroll(0, -1);
-        setTimeout(function () {
-            window.scroll(0, 0);
-        }, 50);
-    }, 100);
+    window.scroll({
+        top: 0,
+        behavior: "instant"
+    });
 }
 
 function showIntruction() {
@@ -80,16 +76,20 @@ function showIntruction() {
         showInstructionAndScroll();
         showAddressBar();
     } else {
-        clearTimeout(timeoutAddress);
         showInstructionAndScroll(false);
         updateViewport();
     }
 }
 
+var timeoutDelayEnableScroll;
+
 function showInstructionAndScroll(isShow = true) {
+    clearTimeout(timeoutDelayEnableScroll);
     if (isShow) {
         instruction.style.visibility = "visible";
-        document.body.style.overflowY = "scroll";
+        timeoutDelayEnableScroll = setTimeout(() => {
+            document.body.style.overflowY = "scroll";
+        }, 100);
         instruction.onclick = () => {};
     } else {
         instruction.style.visibility = "hidden";
@@ -136,18 +136,21 @@ function updateFullScreen() {
     }
 }
 
-function triggerEventResize() {
-    setTimeout(function () {
-        window.dispatchEvent(new Event("resize"));
-    }, 500);
-}
-
 function handleFullScreen() {
     if (userAgent.match(/iPad|iPhone|iPod/i)) {
         showIntruction();
         updateViewport();
         var timeoutScroll;
         var timeoutResize;
+        var timeoutOrientationChange;
+        var timeoutExtraResize;
+
+        function triggerEventResize() {
+            clearTimeout(timeoutExtraResize);
+            timeoutExtraResize = setTimeout(function () {
+                window.dispatchEvent(new Event("resize"));
+            }, 500);
+        }
 
         const canvas = document.getElementById("GameCanvas");
         canvas.onfocus = () => {
@@ -161,7 +164,8 @@ function handleFullScreen() {
             if (document.getElementById("microsite")) {
                 triggerEventResize();
             } else {
-                setTimeout(function () {
+                clearTimeout(timeoutOrientationChange);
+                timeoutOrientationChange = setTimeout(function () {
                     updateFullScreen();
                 }, 100);
             }
@@ -242,7 +246,6 @@ function initGA() {
 
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
         () => {
-            console.log("Init GA");
             window.dataLayer = window.dataLayer || [];
             function gtag() {
                 dataLayer.push(arguments);
@@ -263,7 +266,6 @@ function addGATrackingButton() {
     const gaCode = "G-W13X2FGNGN";
     loadScript(`https://www.googletagmanager.com/gtag/js?id=${gaCode}`).then(
         () => {
-            console.log("Init GA");
             window.dataLayer = window.dataLayer || [];
             function gtag() {
                 dataLayer.push(arguments);
@@ -340,6 +342,7 @@ function updateLocalizedImages() {
         SP: "SP",
         VG: "VG",
         SG: "SG",
+        TIP88: "TIP88"
     };
 
     let title, favicon;
@@ -353,8 +356,12 @@ function updateLocalizedImages() {
             favicon = "favicon_vgaming.ico?v=4";
             break;
         case OperatorAlias.SG:
-            title = (language === "vi") ? "Cổng Game SABA" : "SABA.games";
+            title = language === "vi" ? "Cổng Game SABA" : "SABA.games";
             favicon = "favicon.ico?v=4";
+            break;
+        case OperatorAlias.TIP88:
+            title = "Tip88";
+            favicon = "favicon_tip88.ico?v=4";
             break;
         default:
             title = "Default Title";
@@ -364,6 +371,7 @@ function updateLocalizedImages() {
 
     setTitleAndFavicon(title, favicon);
     setSplashTextClass(language);
+    setSplashPoweredByClass(language);
 }
 
 function setTitleAndFavicon(title, favicon) {
@@ -380,6 +388,14 @@ function setSplashTextClass(language) {
     splashText.className += ` ${className}`;
 }
 
+function setSplashPoweredByClass(language) {
+    const splashText = document.getElementById("splash_powered");
+    const operator = getOperator().toUpperCase();
+    const suffixSite = operator === "TIP88" ? "_sc2" : "_sc1";
+    const className = `splash_powered${suffixSite}_${language}`;
+    splashText.className += ` ${className}`;
+}
+
 function updateSplashLogo() {
     const operator = getOperator().toUpperCase();
     const splash = document.getElementById("splash_logo");
@@ -389,12 +405,14 @@ function updateSplashLogo() {
     splashText.className = `splash_text${suffix}`;
 }
 
-function getCSSClassName(operator) {  
+function getCSSClassName(operator) {
     const operators = {
+        TIP88: "_tip88",
         SP: "_sabaplay",
         VG: "_Vgaming",
-        SG: "",
+        SG: ""
     };
+
     if (operators.hasOwnProperty(operator)) {
         return operators[operator];
     } else {

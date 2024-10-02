@@ -858,7 +858,8 @@ export default class GameBase extends GameViewBase {
         const betData = {
             amount: bet,
             betChoice: choice,
-            username: userManager.userName
+            username: userManager.userName,
+            clientSentTime: new Date()
         };
 
         this.sendSocketData("bet", betData);

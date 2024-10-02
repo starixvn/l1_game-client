@@ -6,7 +6,6 @@ import FootballSlotBetItem from "../view-models/FootballSlotBetItem";
 import FootballSlotBetOptionsUI from "../view-models/FootballSlotBetOptionsUI";
 import FootballSlotLedLightItem from "../view-models/FootballSlotLedLightItem";
 
-
 export const getWinningOption = (choice: string) => {
     const tmp = {
         cup: ["cup", "cup50", "cup25"],
@@ -90,7 +89,7 @@ export const randomNumberAnimation = (betOptionsUI: FootballSlotBetOptionsUI) =>
                         currentIndex = node;
 
                         const numberText = formatBigSmallResult(arr[currentIndex]);
-                        betOptionsUI.bigSmallResult && (betOptionsUI.bigSmallResult.string = numberText);
+                        betOptionsUI.setBigSmallResult(numberText);
                     }
                 }
             }
@@ -194,7 +193,7 @@ export const spinItemAnimation = (game: FootballSlot) => async (finish: any, tim
         } else {
             await executeAnim(firstSpinTimeDuration, 0, steps, numberOfSymbols, game.betOptionsUI.spinItems);
             game.betOptionsUI?.spinItems?.[firstPosition].playSpineSymbolAnimation();
-            game.betOptionsUI?.playWinSound();
+            game.betOptionsUI?.playWinLuckySound();
 
             for (let i = 0; i < symbolPositions.length - 1; i++) {
                 const totalSteps = (symbolPositions[i + 1] - symbolPositions[i] + numberOfSymbols) % numberOfSymbols;

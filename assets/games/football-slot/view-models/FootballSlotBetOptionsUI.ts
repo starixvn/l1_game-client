@@ -19,10 +19,16 @@ export default class FootballSlotBetOptionsUI extends cc.Component {
     bettingAnimation: cc.Animation = null;
 
     @property(cc.Label)
-    bigSmallResult: cc.Label = null;
+    bigSmallResultFirst: cc.Label = null;
+
+    @property(cc.Label)
+    bigSmallResultSecond: cc.Label = null;
 
     @property(cc.Node)
     bigSmallResultBackground: cc.Node = null;
+
+    @property(cc.Label)
+    bigSmallBg: cc.Label = null;
 
     @property(cc.Node)
     bgLockSpin: cc.Node = null;
@@ -42,6 +48,9 @@ export default class FootballSlotBetOptionsUI extends cc.Component {
     @property(cc.AudioSource)
     winAudio: cc.AudioSource = null;
 
+    @property(cc.AudioSource)
+    winLuckyAudio: cc.AudioSource = null;
+
     initBetOptions(main: FootballSlot) {
         this.main = main;
         main.betItems = this.betItems;
@@ -60,10 +69,11 @@ export default class FootballSlotBetOptionsUI extends cc.Component {
 
     updateBigSmallResultBackground(opacity: number) {
         this.bigSmallResultBackground.opacity = opacity;
+        this.bigSmallBg.string = opacity === 0 ? "00" : "";
     }
 
     resetUIBettingZone() {
-        this.bigSmallResult.string = "";
+        this.setBigSmallResult("");
         this.updateBigSmallResultBackground(0);
         this.playBettingAnim(true);
         this.betItems?.forEach((item) => {
@@ -91,5 +101,18 @@ export default class FootballSlotBetOptionsUI extends cc.Component {
         if (this.winAudio) {
             AudioManager.getInstance().playSFX(this.winAudio.clip);
         }
-    }    
+    }
+
+    playWinLuckySound() {
+        if (this.winLuckyAudio) {
+            AudioManager.getInstance().playSFX(this.winLuckyAudio.clip);
+        }
+    }
+
+    setBigSmallResult(value: string) {
+        if (this.bigSmallResultFirst && this.bigSmallResultSecond) {
+            this.bigSmallResultFirst.string = value[0] || "";
+            this.bigSmallResultSecond.string = value[value.length - 1] || "";
+        }
+    }
 }

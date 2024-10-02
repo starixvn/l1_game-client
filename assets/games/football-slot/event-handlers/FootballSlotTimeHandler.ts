@@ -25,6 +25,7 @@ export default class FootballSlotTimeHandler extends GameBaseTimeHandler {
     handleWaitTime() {
         super.handleWaitTime();
         this.main.timeAnimShowResult(!this.main.finishShowResult);
+        this.main.betOptionsUI.updateBigSmallResultBackground(255);
         setBgVisibility(this.main.betOptionsUI.bgLockSpin, false);
         if (this.main.gameData.roundHistory.roundHistory?.length === 0) {
             return;
@@ -70,8 +71,7 @@ export default class FootballSlotTimeHandler extends GameBaseTimeHandler {
         const listSymbolWin = resultData.symbols;
         const bigSmallWin = resultData.number > 7 ? "big" : "small";
         highlightWinningSymbol(this.main.betOptionsUI)(bigSmallWin, isAnimated);
-        this.main.betOptionsUI.bigSmallResult.string = formatBigSmallResult(resultData.number);
-
+        this.main.betOptionsUI.setBigSmallResult(formatBigSmallResult(resultData.number))
         for (let i = 0; i <= listSymbolWin.length; i++) {
             const winSymbol = getWinningOption(listSymbolWin[i]);
             highlightWinningSymbol(this.main.betOptionsUI)(winSymbol, isAnimated);

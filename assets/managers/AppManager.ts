@@ -38,10 +38,12 @@ class AppManager {
 
     _PFF = false;
 
+    registeredShowHideAppEvent = false;
+
     private init() {
         sentryLogger.start();
         this.initLanguage();
-        this.initOperator();
+        this.storeOperator();
     }
 
     async microSiteLaunchedInit() {
@@ -60,7 +62,14 @@ class AppManager {
         this.initPromotions();
     }
 
+    clearPromotionObservers() {
+        Promotions.getInstance().removeDataObserver();
+        PromotionNotificationsHandler.getInstance().removeDataObserver();
+    }
+
     initPromotions() {
+        this.clearPromotionObservers();
+
         Promotions.getInstance().addDataObserver();
         PromotionNotificationsHandler.getInstance().addDataObserver();
         NotificationService.getInstance().emitEvent("promotionNotifications", {});
@@ -235,7 +244,7 @@ class AppManager {
         setLanguage(language);
     }
 
-    initOperator() {
+    storeOperator() {
         let operator = sessionManager.getOperator();
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("op")) {
@@ -245,6 +254,9 @@ class AppManager {
     }
 
     private initShowHideAppEvent() {
+        if (this.registeredShowHideAppEvent) {
+            return;
+        }
         const hiddenPropName = ["hidden", "mozHidden", "msHidden", "webkitHidden"].find((key) => typeof document[key] !== "undefined");
         this.GAME_IS_SHOWED = !document[hiddenPropName];
         cc.game.on(cc.game.EVENT_HIDE, () => {
@@ -255,6 +267,7 @@ class AppManager {
             this.GAME_IS_SHOWED = true;
             UserService.getBalance();
         });
+        this.registeredShowHideAppEvent = true;
     }
 }
 export const appManager = new AppManager();

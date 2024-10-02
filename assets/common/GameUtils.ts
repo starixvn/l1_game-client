@@ -606,7 +606,9 @@ export default class GameUtils {
 
     public static async loadRemoteLocalization(gameId: number) {
         if (!this.remoteLocalization[gameId]) {
-            const localization = await this.loadRemoteGameResource<cc.JsonAsset>(gameId, "localization.json");
+            const versions = await GameUtils.getRemoteVersion(gameId);
+            const localizationVersion = versions?.localization ?? 1;
+            const localization = await this.loadRemoteGameResource<cc.JsonAsset>(gameId, `localization.json?v=${localizationVersion}`);
             this.remoteLocalization[gameId] = localization.json;
         }
     }
@@ -1113,5 +1115,11 @@ export default class GameUtils {
     public static setColorAndOpacity(color: string, node: cc.Node) {
         node.color = cc.Color.WHITE.fromHEX(color);
         node.opacity = cc.Color.WHITE.fromHEX(color).getA();
+    }
+
+    public static setCanvasVisibilty(active: boolean) {
+        const gameContainer = document.getElementById("Cocos2dGameContainer");
+        const canvas = gameContainer.childNodes.item(0);
+        canvas.style.visibility = active ? "visible" : "hidden";
     }
 }
